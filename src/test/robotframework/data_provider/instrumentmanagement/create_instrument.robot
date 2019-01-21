@@ -12,7 +12,7 @@ Create Instrument by Dataprovider
     Fill up the description and title
     Choose Type
     Choose Survey
-    Fill up the annotations
+    Fill up the Annotations
     Save Changes
     Get back to german home page
     Click on instruments tab
@@ -45,7 +45,7 @@ Choose Survey
     Click Element Through Tooltips  xpath=//md-chips[@name="surveys"]//md-autocomplete
     Click Element Through Tooltips  xpath=//span[contains(.,'sur-robotproject4${BROWSER}')]
 
-Fill up the annotations
+Fill up the Annotations
     Pass Execution If    '${BROWSER}' == 'ie'    Instrument Creation not possible in IE
     Input Text  xpath=//textarea[contains(@name,'annotationsDe')]  This is Annotations in De
     Input Text  xpath=//textarea[contains(@name,'annotationsEn')]  This is Annotation in En

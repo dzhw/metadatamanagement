@@ -1,17 +1,18 @@
-/* global _ */
+/* global _, bowser */
 
 'use strict';
 
 /* The Controller for the search. It differs between tabs and a tab represent
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
-  function($scope, Principal, $location, $state,
+  function($scope, Principal, $location, $state, $q,
            SearchDao, VariableUploadService, ProjectUpdateAccessService,
            QuestionUploadService, RelatedPublicationUploadService,
            CleanJSObjectService, CurrentProjectService, $timeout,
            PageTitleService, ToolbarHeaderService, SearchHelperService,
            SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
-           $rootScope, ProjectStatusScoringService, $transitions) {
+           $rootScope, ProjectStatusScoringService, $transitions,
+           DeleteMetadataService, SimpleMessageToastService) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -26,8 +27,20 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if (identifier && identifier.match && identifier.match(/.*Create$/)) {
         var type = $scope.tabs[$scope.searchParams.selectedTabIndex]
           .elasticSearchType;
-        return ProjectUpdateAccessService
-          .isUpdateAllowed($scope.currentProject, type, true);
+        return $q.all([
+          ProjectUpdateAccessService.isPrerequisiteFulfilled(
+            $scope.currentProject,
+            $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType
+            ),
+          $q(function(resolve, reject) {
+            if (ProjectUpdateAccessService
+                .isUpdateAllowed($scope.currentProject, type, true)) {
+              resolve(true);
+            } else {
+              reject(false);
+            }
+          })
+        ]);
       } else {
         return true;
       }
@@ -500,8 +513,32 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.isUploadAllowed = function(type) {
+      if (bowser.msie) {
+        SimpleMessageToastService.openAlertMessageToast('global.error.' +
+          'browser-not-supported');
+        return false;
+      }
       return ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,
         type, true);
+    };
+    $scope.deleteAllStudies = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'studies');
+    };
+    $scope.deleteAllQuestions = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'questions');
+    };
+    $scope.deleteAllVariables = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'variables');
+    };
+    $scope.deleteAllInstruments = function() {
+      DeleteMetadataService.deleteAllOfType(
+        $scope.currentProject, 'instruments');
+    };
+    $scope.deleteAllSurveys = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'surveys');
+    };
+    $scope.deleteAllDataSets = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'data_sets');
     };
     init();
   });

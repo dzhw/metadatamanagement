@@ -102,7 +102,7 @@ public class SurveyService {
    * 
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
-  private void deleteAllSurveysByProjectId(String dataAcquisitionProjectId) {
+  public void deleteAllSurveysByProjectId(String dataAcquisitionProjectId) {
     try (Stream<Survey> surveys =
         surveyRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       surveys.forEach(survey -> {
@@ -147,11 +147,9 @@ public class SurveyService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onInstrumentChanged(Instrument instrument) {
-    List<String> surveyIds = instrumentChangesProvider.getAffectedSurveyIds(
-        instrument.getId());
+    List<String> surveyIds = instrumentChangesProvider.getAffectedSurveyIds(instrument.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> surveyRepository.streamIdsByIdIn(surveyIds),
-        ElasticsearchType.surveys);
+        () -> surveyRepository.streamIdsByIdIn(surveyIds), ElasticsearchType.surveys);
   }
 
   /**
@@ -182,8 +180,7 @@ public class SurveyService {
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> surveyRepository.streamIdsByStudyId(study.getId()),
-        ElasticsearchType.surveys);
+        () -> surveyRepository.streamIdsByStudyId(study.getId()), ElasticsearchType.surveys);
   }
 
   /**
@@ -195,11 +192,9 @@ public class SurveyService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onVariableChanged(Variable variable) {
-    List<String> surveyIds = variableChangesProvider.getAffectedSurveyIds(
-        variable.getId()); 
+    List<String> surveyIds = variableChangesProvider.getAffectedSurveyIds(variable.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> surveyRepository.streamIdsByIdIn(surveyIds),
-        ElasticsearchType.surveys);
+        () -> surveyRepository.streamIdsByIdIn(surveyIds), ElasticsearchType.surveys);
   }
 
   /**
@@ -211,10 +206,9 @@ public class SurveyService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onDataSetChanged(DataSet dataSet) {
-    List<String> surveyIds = dataSetChangesProvider.getAffectedSurveyIds(dataSet.getId()); 
+    List<String> surveyIds = dataSetChangesProvider.getAffectedSurveyIds(dataSet.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> surveyRepository.streamIdsByIdIn(surveyIds),
-        ElasticsearchType.surveys);
+        () -> surveyRepository.streamIdsByIdIn(surveyIds), ElasticsearchType.surveys);
   }
 
   /**
@@ -226,11 +220,10 @@ public class SurveyService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    List<String> surveyIds = relatedPublicationChangesProvider.getAffectedSurveyIds(
-        relatedPublication.getId()); 
+    List<String> surveyIds =
+        relatedPublicationChangesProvider.getAffectedSurveyIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> surveyRepository.streamIdsByIdIn(surveyIds),
-        ElasticsearchType.surveys);
+        () -> surveyRepository.streamIdsByIdIn(surveyIds), ElasticsearchType.surveys);
   }
 
   /**

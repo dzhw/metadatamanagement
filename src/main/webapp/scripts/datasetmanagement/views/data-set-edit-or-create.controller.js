@@ -75,6 +75,10 @@ angular.module('metadatamanagementApp')
         redirectToSearchView();
       };
 
+      var handlePrerequisitesMissing = function() {
+        redirectToSearchView();
+      };
+
       ctrl.initSurveyChips = function() {
         ctrl.surveyChips = [];
         ctrl.dataSet.surveyNumbers.forEach(
@@ -104,6 +108,10 @@ angular.module('metadatamanagementApp')
                   .isUpdateAllowed(project, 'data_sets')) {
                   handleUserNotInAssigneeGroup();
                 } else {
+                  ProjectUpdateAccessService.isPrerequisiteFulfilled(
+                    project, 'data_sets'
+                  ).catch(handlePrerequisitesMissing);
+
                   ctrl.dataSet = dataSet;
                   ctrl.initSurveyChips();
                   ctrl.loadAttachments();
@@ -115,6 +123,10 @@ angular.module('metadatamanagementApp')
           } else {
             if (CurrentProjectService.getCurrentProject() &&
             !CurrentProjectService.getCurrentProject().release) {
+              ProjectUpdateAccessService.isPrerequisiteFulfilled(
+                CurrentProjectService.getCurrentProject(), 'data_sets'
+              ).catch(handlePrerequisitesMissing);
+
               ctrl.createMode = true;
               AvailableDataSetNumbersResource.get({
                 id: CurrentProjectService.getCurrentProject().id
@@ -287,7 +299,12 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.updateElasticSearchIndex = function() {
-        return ElasticSearchAdminService.processUpdateQueue('data_sets');
+        return $q.all([
+          ElasticSearchAdminService.
+            processUpdateQueue('data_sets'),
+          ElasticSearchAdminService.
+            processUpdateQueue('studies'),
+        ]);
       };
 
       ctrl.onSavedSuccessfully = function() {

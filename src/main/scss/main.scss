@@ -1139,7 +1139,7 @@ project-cockpit-status {
     }
 }
 
-.fdz-project-cockpit-metadata-type-state-card {
+.fdz-metadata-type-state-card {
     display: block;
     min-width: 30%;
     @media screen and (max-width: 1600px) {
@@ -1176,7 +1176,7 @@ project-status-badge > span, release-status-badge > span {
         background: white;
     }
 }
-.fdz-project-userlist + md-list md-list-item {
+.fdz-project-user-list + md-list md-list-item {
     background: white;
     animation: fade-highlight 1s ease-out;
 }

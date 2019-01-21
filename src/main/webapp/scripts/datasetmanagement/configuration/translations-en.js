@@ -150,6 +150,7 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'files-in-template-zip-incomplete': 'The uploaded files for the data set report were not complete. The missing file is: {{invalidValue}}',
           'tex-template-error': 'The generation of the data set report failed. There was an error: {{invalidValue}}',
+          'io-error': 'A server error occured. The report could not be genereated.',
           'data-set': {
             'unique-data-set-number-in-project': 'The number of the Data Set is not unique within the study.',
             'id': {
@@ -326,7 +327,8 @@ angular.module('metadatamanagementApp').config(
                       'en': 'How should the subdataset be cited?'
                     }
                 }
-            }
+            },
+            'all-data-sets-deleted-toast': 'All data sets of the Data Acquisition Project "{{id}}" have been deleted.'
         }
       }
       //jscs:enable

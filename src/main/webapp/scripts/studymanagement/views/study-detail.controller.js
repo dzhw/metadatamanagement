@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
       $rootScope, DataAcquisitionProjectResource, ProductChooserDialogService,
-      ProjectUpdateAccessService, $scope, $transitions) {
+      ProjectUpdateAccessService, $scope, $transitions, $timeout) {
 
       SearchResultNavigatorService.registerCurrentSearchResult(
          $stateParams['search-result-index']);
@@ -62,6 +62,12 @@ angular.module('metadatamanagementApp')
 
         $scope.$on('$destroy', deregisterTransitionHook);
       };
+
+      $scope.$on('deletion-completed', function() {
+        //wait for 2 seconds until refresh
+        //in order to wait for elasticsearch reindex
+        $timeout($state.reload, 2000);
+      });
 
       entity.promise.then(function(result) {
         if (Principal

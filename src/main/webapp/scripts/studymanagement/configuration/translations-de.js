@@ -297,7 +297,8 @@ angular.module('metadatamanagementApp').config(
               'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen des Projektmitarbeiters ein.',
               'last-name': 'Geben Sie den Nachnamen des Projektmitarbeiters ein.'
             }
-          }
+          },
+          'all-studies-deleted-toast': 'Alle Studien des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
         }
       }
       //jscs:enable

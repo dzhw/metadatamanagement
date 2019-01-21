@@ -8,4 +8,13 @@
             });
         </script>
     </changeSet>
+    <changeSet changeId="ChangeSet-4" author="tgehrke">
+        <script>
+            db.counters.insert(
+            {
+                "_id" : "tasks",
+                "seq": NumberLong(0)
+            });
+        </script>
+    </changeSet>
 </mongoChangeLog>

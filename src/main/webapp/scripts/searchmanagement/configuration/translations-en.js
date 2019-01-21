@@ -26,10 +26,10 @@ angular.module('metadatamanagementApp').config(
         },
         'buttons': {
           'refresh-tooltip': 'Click to refresh the search results',
-          'upload-variables-tooltip': 'Click to upload variables for the selected data acquisition project',
-          'upload-surveys-tooltip': 'Click to upload surveys for the selected data acquisition project',
-          'upload-data-sets-tooltip': 'Click to upload data sets for the selected data acquisition project',
-          'upload-questions-tooltip': 'Click to upload questions for the selected data acquisition project',
+          'upload-variables-tooltip': 'Click to upload variables for the selected Data Acquisition Project',
+          'upload-surveys-tooltip': 'Click to upload surveys for the selected Data Acquisition Project',
+          'upload-data-sets-tooltip': 'Click to upload data sets for the selected Data Acquisition Project',
+          'upload-questions-tooltip': 'Click to upload questions for the selected Data Acquisition Project',
           'upload-studies-tooltip': 'Click to upload the study with attachments',
           'upload-or-create-studies-tooltip': 'Create the study',
           'upload-or-create-surveys-tooltip': 'Create one survey',
@@ -44,13 +44,22 @@ angular.module('metadatamanagementApp').config(
           'create-instrument-tooltip': 'Click to create a new instrument',
           'edit-instrument-tooltip': 'Click to edit the instrument',
           'delete-instrument-tooltip': 'Click to delete the instrument',
+          'delete-all-instruments-tooltip': 'Click, to delete all instruments of the Data Acquisition Project',
           'create-data-set-tooltip': 'Click to create a new data set',
           'edit-data-set-tooltip': 'Click to edit the data set',
           'delete-data-set-tooltip': 'Click to delete the data set',
           'upload-related-publications-tooltip': 'Click to upload publications',
-          'upload-instruments-tooltip': 'Click to upload instruments for the selected data acquisition project',
+          'upload-instruments-tooltip': 'Click to upload instruments for the selected Data Acquisition Project',
           'previous-search-result-tooltip': 'Click (or CTRL+"\u21E6") to show search result {{ index }} ({{ id }})',
-          'next-search-result-tooltip': 'Click (or CTRL+"\u21E8") to show search result {{ index }} ({{ id }})'
+          'next-search-result-tooltip': 'Click (or CTRL+"\u21E8") to show search result {{ index }} ({{ id }})',
+          'delete-all-studies-tooltip': 'Click, to delete all studies of the Data Acquisition Project',
+          'delete-all-questions-tooltip': 'Click, to delete all questions of the Data Acquisition Project',
+          'delete-all-variables-tooltip': 'Click, to delete all variables of the Data Acquisition Project',
+          'delete-all-surveys-tooltip': 'Click, to delete all surveys of the Data Acquisition Project',
+          'delete-all-data-sets-tooltip': 'Click, to delete all data sets of the Data Acquisition Project',
+          'edit-surveys-tooltip': 'Click to edit the existing surveys',
+          'edit-instruments-tooltip': 'Click to edit the existing instruments',
+          'edit-data-sets-tooltip': 'Click to edit the existing data sets'
         },
         'input-label': {
           'all': 'Search for Studies, Variables, Questions, Surveys, Data Sets, Instruments and Publications...',
@@ -70,7 +79,8 @@ angular.module('metadatamanagementApp').config(
           'data-sets': 'No Data Sets found for your search request.',
           'studies': 'No Studies found for your search request.',
           'related-publications': 'No Publications found for your search request.',
-          'instruments': 'No Instruments found for your search request.'
+          'instruments': 'No Instruments found for your search request.',
+          'sponsor': 'No Instruments found for your search request.'
         },
         'tabs': {
           'variables': 'Variables',
@@ -120,6 +130,12 @@ angular.module('metadatamanagementApp').config(
           'study-series': 'Study Series',
           'study-series-de': 'Study Series',
           'study-series-en': 'Study Series',
+          'institution-de': 'Institution',
+          'institution-en': 'Institution',
+          'sponsor-de': 'Sponsor',
+          'sponsor-en': 'Sponsor',
+          'survey-method-de': 'Survey Method',
+          'survey-method-en': 'Survey Method',
           'floating-label': {
             'survey': 'Which survey do you want to filter?',
             'instrument': 'Which instrument do you want to filter?',
@@ -132,6 +148,9 @@ angular.module('metadatamanagementApp').config(
             'variable': 'Which variable do you want to filter?',
             'question': 'Which question do you want to filter?',
             'study-series': 'Which study series do you want to filter?',
+            'institution': 'Which institute do you want to filter?',
+            'sponsor': 'Which sponsor do you want to filter?',
+            'survey-method': 'Which survey method do you want to filter?'
           },
           'input-label': {
             'studies': 'Select filters for Study Search...',
