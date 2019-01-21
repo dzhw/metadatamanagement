@@ -82,7 +82,7 @@ angular.module('metadatamanagementApp')
             break;
           case 'dataSets':
             this.icon = 'assets/images/icons/data-set.svg';
-            this.createState = 'studyCreate';
+            this.createState = 'dataSetCreate';
             this.searchState = this.type;
             this.tooltip = 'search-management.buttons.' +
               'create-data-set-tooltip';
