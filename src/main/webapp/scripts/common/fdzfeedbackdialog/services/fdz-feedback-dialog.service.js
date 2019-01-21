@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('FdzFeedbackDialogService',
-    function($mdDialog, localStorageService, $rootScope) {
+    function($mdDialog, $rootScope) {
       var showDialog = function() {
         $mdDialog.show({
           templateUrl: 'scripts/common/fdzfeedbackdialog/directives/' +
@@ -16,13 +16,7 @@ angular.module('metadatamanagementApp').service('FdzFeedbackDialogService',
         });
       };
 
-      var deleteOption = function() {
-        //delete unused option from all browsers...
-        localStorageService.remove();
-      };
-
       return {
-        showDialog: showDialog,
-        deleteOption: deleteOption
+        showDialog: showDialog
       };
     });

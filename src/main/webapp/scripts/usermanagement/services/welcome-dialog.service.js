@@ -28,6 +28,7 @@ angular.module('metadatamanagementApp').service('WelcomeDialogService',
         controller: createDialogController(),
         templateUrl: 'scripts/usermanagement/views/welcome-dialog.html.tmpl',
         parent: angular.element(document.body),
+        closeTo: '#fdz-welcome-dialog-item',
         clickOutsideToClose: false,
         fullscreen: true,
         locals: {
