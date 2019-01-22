@@ -1,12 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.rest;
 
-import java.net.URI;
-import java.time.ZoneId;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-
-import javax.validation.Valid;
-
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.service.OrderService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ResponseHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.CacheControl;
@@ -21,15 +23,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.service.OrderService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.ResponseHeader;
+import javax.validation.Valid;
+import java.net.URI;
+import java.time.ZoneId;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * REST controller for ordering data products.
@@ -47,7 +45,8 @@ public class OrderResource {
   @Value("${metadatamanagement.server.context-root}")
   private String baseUrl;
 
-  private String dlpUrl = "http://todo.todo";
+  @Value("${metadatamanagement.dlp.endpoint}")
+  private String dlpUrl;
 
   /**
    * Order data products.
@@ -56,24 +55,28 @@ public class OrderResource {
   @ApiOperation("The MDM creates orders and sends them to the DLP with this endpoint.")
   @ApiResponses(value = {@ApiResponse(code = 201,
       message = "Successfully created a new order."
-      + " Follow the returned Location header to proceed with the order process.",
+          + " Follow the returned Location header to proceed with the order process.",
       responseHeaders = {@ResponseHeader(name = "Location", response = URI.class,
           description = "URL to which the client should go now.")})})
   @ResponseStatus(value = HttpStatus.CREATED)
   public ResponseEntity<?> createOrder(@RequestBody @Valid Order order) {
-    orderService.create(order);
-    String destinationUrl =
-        baseUrl + "/#!/" + order.getLanguageKey() + "/shopping-cart/" + order.getId();
-    if (order.getClient().equals(OrderClient.MDM)) {
-      destinationUrl = dlpUrl;
+
+    if (order.getClient() != OrderClient.MDM) {
+      return ResponseEntity.badRequest().build();
     }
+
+    order = orderService.create(order);
+
+    String destinationUrl = UriComponentsBuilder.fromHttpUrl(dlpUrl)
+        .queryParam("mdm_order_id", order.getId())
+        .toUriString();
+
     return ResponseEntity
         .created(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri()).build();
   }
 
   /**
    * Override default get by id since it does not set cache headers correctly.
-   *
    * @param id a order id
    * @return the Order or not found
    */
@@ -102,7 +105,7 @@ public class OrderResource {
   @ApiOperation("The DLP and MDM use this endpoint to update an order in the MDM.")
   @ApiResponses(value = {@ApiResponse(code = 200,
       message = "Successfully updated the order."
-      + " Follow the returned Location header to proceed with the order process.",
+          + " Follow the returned Location header to proceed with the order process.",
       responseHeaders = @ResponseHeader(name = "Location", response = URI.class,
           description = "URL to which the client should go now."))})
   public ResponseEntity<?> updateOrder(@PathVariable String id, @RequestBody @Valid Order order) {

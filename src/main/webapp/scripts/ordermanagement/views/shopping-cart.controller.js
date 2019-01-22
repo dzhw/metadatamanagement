@@ -3,12 +3,14 @@
 
 angular.module('metadatamanagementApp').controller('ShoppingCartController',
   function(PageTitleService, $state, ToolbarHeaderService,
-    ShoppingCartService, $scope, StudyResource, DataSetSearchService,
-    VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
-    OrderResource, LanguageService, SimpleMessageToastService) {
+           ShoppingCartService, $scope, StudyResource, DataSetSearchService,
+           VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
+           OrderResource, LanguageService, SimpleMessageToastService, order) {
+
     PageTitleService.setPageTitle('shopping-cart.title');
-    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
-      name});
+    ToolbarHeaderService.updateToolbarHeader({
+      'stateName': $state.current.name
+    });
     var ctrl = this;
     ctrl.studies = {};
     ctrl.releases = {};
@@ -18,29 +20,33 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
 
     ctrl.init = function() {
       var promises = [];
+      ctrl.customer.name = _.get(order, 'customer.name');
+      ctrl.customer.email = _.get(order, 'customer.email');
       ctrl.products = ShoppingCartService.getProducts();
       ctrl.products.forEach(function(product) {
-        ctrl.studies[product.studyId] = {};
-        ctrl.releases[product.projectId] = {};
+        var studyId = product.study.id;
+
+        ctrl.studies[studyId] = {};
+        ctrl.releases[product.dataAcquisitionProjectId] = {};
         promises.push(DataSetSearchService.countByMultiple({
-          'studyId': product.studyId,
+          'studyId': studyId,
           'accessWays': product.accessWay
         }).then(function(result) {
-          ctrl.counts[product.studyId + product.accessWay + product.version] =
-            ctrl.counts[product.studyId + product.accessWay +
-              product.version] || {};
-          ctrl.counts[product.studyId + product.accessWay +
-            product.version].dataSets = result.count;
+          ctrl.counts[studyId + product.accessWay + product.version] =
+            ctrl.counts[studyId + product.accessWay +
+            product.version] || {};
+          ctrl.counts[studyId + product.accessWay +
+          product.version].dataSets = result.count;
         }));
         promises.push(VariableSearchService.countByMultiple({
-          'studyId': product.studyId,
+          'studyId': studyId,
           'accessWays': product.accessWay
         }).then(function(result) {
-          ctrl.counts[product.studyId + product.accessWay + product.version] =
-            ctrl.counts[product.studyId + product.accessWay +
-              product.version] || {};
-          ctrl.counts[product.studyId + product.accessWay +
-            product.version].variables = result.count;
+          ctrl.counts[studyId + product.accessWay + product.version] =
+            ctrl.counts[studyId + product.accessWay +
+            product.version] || {};
+          ctrl.counts[studyId + product.accessWay +
+          product.version].variables = result.count;
         }));
       });
       _.forEach(ctrl.studies, function(study, studyId) { // jshint ignore:line
@@ -51,19 +57,19 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       });
       _.forEach(ctrl.releases,
         function(release, projectId) { // jshint ignore:line
-        promises.push(DataAcquisitionProjectReleasesResource.get(
-          {id: projectId}).$promise.then(function(releases) {
-              if (releases.length > 0) {
-                ctrl.releases[projectId] = releases[0];
-              }
-            }));
-      });
+          promises.push(DataAcquisitionProjectReleasesResource.get(
+            {id: projectId}).$promise.then(function(releases) {
+            if (releases.length > 0) {
+              ctrl.releases[projectId] = releases[0];
+            }
+          }));
+        });
       $q.all(promises).then(function() {
         ctrl.initComplete = true;
         // remove all product which are not available anymore
         ctrl.products.forEach(function(product) {
-          if (ctrl.studies[product.studyId]
-              .dataAvailability.en === 'Available') {
+          if (ctrl.studies[product.study.studyId]
+            .dataAvailability.en === 'Available') {
             return;
           } else {
             ShoppingCartService.remove(product);
@@ -77,17 +83,18 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     });
 
     ctrl.getNumberOfVariables = function(product) {
-      return ctrl.counts[product.studyId + product.accessWay + product.version]
+      return ctrl.counts[product.study.id + product.accessWay + product.version]
         .variables;
     };
 
     ctrl.getNumberOfDataSets = function(product) {
-      return ctrl.counts[product.studyId + product.accessWay + product.version]
+      return ctrl.counts[product.study.id + product.accessWay + product.version]
         .dataSets;
     };
 
     ctrl.isCurrentVersion = function(product) {
-      return ctrl.releases[product.projectId].version === product.version;
+      return ctrl.releases[product.dataAcquisitionProjectId].version ===
+        product.version;
     };
 
     ctrl.deleteProduct = function(product) {
@@ -104,8 +111,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         };
         ctrl.products.forEach(function(product) {
           var completeProduct = {
-            dataAcquisitionProjectId: product.projectId,
-            study: ctrl.studies[product.studyId],
+            dataAcquisitionProjectId: product.dataAcquisitionProjectId,
+            study: ctrl.studies[product.study.id],
             accessWay: product.accessWay,
             version: product.version
           };
@@ -136,5 +143,13 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       ShoppingCartService.clear();
     };
 
-    ctrl.init();
+    if (order) {
+      order.$promise.then(function(order) {
+        ShoppingCartService
+          .initShoppingCartProducts(_.get(order, 'products', []));
+        ctrl.init();
+      });
+    } else {
+      ctrl.init();
+    }
   });

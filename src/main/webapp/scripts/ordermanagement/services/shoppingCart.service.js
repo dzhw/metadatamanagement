@@ -12,14 +12,14 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       if (existingIndex >= 0) {
         SimpleMessageToastService.openSimpleMessageToast(
           'shopping-cart.toasts.study-already-in-cart',
-          {id: product.studyId}
+          {id: product.study.id}
         );
       } else {
         products.push(product);
         localStorageService.set('shoppingCart', products);
         SimpleMessageToastService.openSimpleMessageToast(
           'shopping-cart.toasts.study-added',
-          {id: product.studyId});
+          {id: product.study.id});
         $rootScope.$broadcast('shopping-cart-changed', products.length);
       }
     };
@@ -61,6 +61,12 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         'shopping-cart.toasts.checkout-coming-soon');
     };
 
+    var initShoppingCartProducts = function(initProducts) {
+      var copy = _.cloneDeep(initProducts);
+      localStorageService.set('shoppingCart', copy);
+      products = copy;
+    };
+
     return {
       add: add,
       remove: remove,
@@ -68,6 +74,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       getProducts: getProducts,
       count: count,
       clear: clear,
-      checkout: checkout
+      checkout: checkout,
+      initShoppingCartProducts: initShoppingCartProducts
     };
   });

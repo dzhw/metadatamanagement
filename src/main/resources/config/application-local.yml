@@ -68,6 +68,8 @@ metadatamanagement:
     endpoint: ${DARA_ENDPOINT}
     username: ${DARA_USERNAME}
     password: ${DARA_PASSWORD}
+  dlp:
+    endpoint: http://fakedlpendpoint.de
   websockets:
     allowed-origins:
       - "*"
