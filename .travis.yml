@@ -23,9 +23,9 @@ stages:
     - name: build and deploy
       if: branch =~ /^(development|master)$/
     - name: e2e smoketests
-      if: branch = development || branch =~ /^saikotitis.*$/
+      if: branch = development || branch =~ /^saikotitis.*$/ || branch =~ /^rreitmann.*$/
     - name: nightly e2e tests
-      if: type = cron || branch =~ /^saikotitis.*$/
+      if: type = cron || branch =~ /^saikotitis.*$/ || branch =~ /^rreitmann.*$/
 jobs:
   include:
     - stage: build
@@ -86,25 +86,25 @@ jobs:
         - ./src/test/robotframework/setup.sh
       script:
         - export PYTHONWARNINGS="ignore"
-        - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --exclude smoketest --exclude firefoxonly ./src/test/robotframework
+        - travis_wait robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --exclude smoketest --exclude firefoxonly ./src/test/robotframework
     - name: "Nightly Firefox Tests"
       install:
         - ./src/test/robotframework/setup.sh
       script:
         - export PYTHONWARNINGS="ignore"
-        - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --exclude smoketest --exclude chromeonly ./src/test/robotframework
+        - travis_wait robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --exclude smoketest --exclude chromeonly ./src/test/robotframework
     - name: "Nightly IE11 Tests"
       install:
         - ./src/test/robotframework/setup.sh
       script:
         - export PYTHONWARNINGS="ignore"
-        - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --exclude smoketest --exclude firefoxonly --exclude chromeonly ./src/test/robotframework
+        - travis_wait robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --exclude smoketest --exclude firefoxonly --exclude chromeonly ./src/test/robotframework
     - name: "Nightly Edge Tests"
       install:
         - ./src/test/robotframework/setup.sh
       script:
         - export PYTHONWARNINGS="ignore"
-        - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --exclude smoketest --exclude firefoxonly --exclude chromeonly --exclude noslowpoke ./src/test/robotframework
+        - travis_wait robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --exclude smoketest --exclude firefoxonly --exclude chromeonly --exclude noslowpoke ./src/test/robotframework
 notifications:
   email:
     recipients:
