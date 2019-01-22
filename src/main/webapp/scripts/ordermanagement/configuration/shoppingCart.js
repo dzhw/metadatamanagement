@@ -38,7 +38,7 @@ angular.module('metadatamanagementApp').config(function($stateProvider) {
     resolve: {
       order: function($state, $stateParams, OrderResource) {
         var order = OrderResource.get({id: $stateParams.id});
-        order.$promise.then(null, function(error){
+        order.$promise.then(null, function(error) {
           if (error.status === 404) {
             $state.go('shoppingCart');
           }
