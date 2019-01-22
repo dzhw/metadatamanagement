@@ -12,7 +12,7 @@ import lombok.Data;
  * Partial {@link eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study} which is part of a
  * {@link Product}. It is a copy of the
  * {@link eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study} attributes which is made when
- * the {@link Customer} places the orders.
+ * the customer places the orders.
  */
 @Data
 @ApiModel(

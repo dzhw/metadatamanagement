@@ -44,13 +44,13 @@ public class Product {
   private OrderedStudy study;
 
   /**
-   * The access way to the {@link DataSet}s which the {@link Customer} wants to have.
+   * The access way to the {@link DataSet}s which the customer wants to have.
    */
   @NotEmpty
   private String accessWay;
 
   /**
-   * The version of the {@link DataSet}s which the {@link Customer} wants to have.
+   * The version of the {@link DataSet}s which the customer wants to have.
    */
   @NotEmpty
   private String version;

@@ -1,15 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.domain;
 
-import java.util.List;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Counter;
 import io.swagger.annotations.ApiModel;
@@ -19,9 +9,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
- * Order (DTO) containing all relevant information of a {@link Customer} and her {@link Product}s.
+ * Order (DTO) containing all relevant information for ordered {@link Product}s.
  */
 @Document(collection = "orders")
 @EqualsAndHashCode(callSuper = false, of = "id")
@@ -41,7 +39,7 @@ public class Order extends AbstractRdcDomainObject {
   private String id;
 
   /**
-   * The key of the preferred language (either "de" or "en") of the {@link Customer}.
+   * The key of the preferred language (either "de" or "en") of the customer.
    * 
    * Must not be empty.
    */
@@ -62,16 +60,7 @@ public class Order extends AbstractRdcDomainObject {
   private OrderClient client;
 
   /**
-   * The {@link Customer} who has placed this order.
-   * 
-   * Must not be null.
-   */
-  @Valid
-  @NotNull
-  private Customer customer;
-
-  /**
-   * List of data {@link Product}s the {@link Customer} want to order.
+   * List of data {@link Product}s the customer want to order.
    * 
    * Must not be empty.
    */

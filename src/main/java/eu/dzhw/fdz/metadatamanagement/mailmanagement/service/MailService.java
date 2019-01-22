@@ -150,20 +150,6 @@ public class MailService {
   }
 
   /**
-   * Synchronously send an email to the customer and dataservice.
-   */
-  public void sendOrderCreatedMail(Order order, String cc) {
-    log.debug("Sending notification email for order " + order.getId());
-    Locale locale = Locale.forLanguageTag(order.getLanguageKey());
-    Context context = new Context(locale);
-    context.setVariable("order", order);
-    context.setVariable("baseUrl", baseUrl);
-    String content = templateEngine.process("orderCreated", context);
-    String subject = messageSource.getMessage("email.order.created.title", null, locale);
-    sendEmail(cc, new String[]{order.getCustomer().getEmail()}, cc, subject, content, false, true);
-  }
-
-  /**
    * Send a mail to users who were added as publishers to a project.
    */
   @Async
