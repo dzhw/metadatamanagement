@@ -45,8 +45,9 @@ angular.module('metadatamanagementApp').config(
         'activate': {
           'title': 'Aktivierung',
           'messages': {
-            'success': '<strong>Ihr Benutzer wurde aktiviert.</strong> Bitte ',
-            'error': '<strong>Ihr Benutzer konnte nicht aktiviert werden.</strong> Bitte benutzen Sie die Registrierungsmaske, um sich zu registrieren.'
+            'success': '<strong>Ihr Benutzer wurde aktiviert.</strong>',
+            'error': '<strong>Ihr Benutzer konnte nicht aktiviert werden.</strong> Bitte benutzen Sie die Registrierungsmaske, um sich zu registrieren.',
+            'wait-for-role': 'Sie werden benachrichtigt sobald Sie einem Projekt zugewiesen wurden.'
           }
         },
         'login': {
@@ -171,7 +172,7 @@ angular.module('metadatamanagementApp').config(
         },
         'welcome-dialog': {
           'title': 'Herzlich Willkommen',
-          'text-body': '<p>Liebe(r) {{username}},<br>schön, dass Sie sich dazu entschieden haben, ihre Forschungsdaten anderen Forschern über unser FDZ zur Verfügung zu stellen.</p><p>Dieses System dient dazu, alle Informationen rund um Ihre Forschungsdaten (sogenannte Metadaten) zu erfassen und zu veröffentlichen. Eine ausführliche Benutzerdokumentation find Sie hier: <a href="https://metadatamanagement.readthedocs.io/de/stable/" target="_blank">ReadTheDocs</a>.</p><p>In dem Navigationsmenü auf der linken Seite finden Sie eine Liste aller Datenaufbereitungsprojekte denen Sie als Datengeber zugewiesen wurden:<img src="/assets/images/welcome-dialog-project-chooser-{{language}}.png" class="fdz-welcome-dialog-image"/>.Wählen Sie dort einfach das Projekt aus, für dass Sie jetzt Metadaten erfassen möchten und klicken Sie anschließend auf die orangene Schaltfläche <img src="/assets/images/welcome-dialog-project-cockpit-button.png"/> unter dem ausgewählten Projekt.</p>',
+          'text-body': '<p>Liebe(r) {{username}},</p><p>schön, dass Sie sich dazu entschieden haben, ihre Forschungsdaten anderen Forschern über unser FDZ zur Verfügung zu stellen.</p><p>Dieses System dient dazu, alle Informationen rund um Ihre Forschungsdaten (sogenannte Metadaten) von Ihnen als Datengeber zu erfassen und zu veröffentlichen. Eine ausführliche Benutzerdokumentation für Datengeber finden Sie hier: <a href="https://metadatamanagement.readthedocs.io/de/stable/metadatenabgabe.html" target="_blank">ReadTheDocs</a>.</p><p>In dem Navigationsmenü auf der linken Seite finden Sie eine Liste aller Datenaufbereitungsprojekte denen Sie als Datengeber zugewiesen wurden:</p><img src="/assets/images/welcome-dialog-project-chooser-{{language}}.png" class="fdz-welcome-dialog-image"/><p style="margin:10px 0px 0px 0px;">Wählen Sie dort einfach das Projekt aus, für dass Sie Metadaten erfassen möchten und klicken Sie anschließend auf die orangene Schaltfläche <img src="/assets/images/welcome-dialog-project-cockpit-button.png"/> unter dem ausgewählten Projekt.</p><p>Sobald das Projekt <img src="/assets/images/welcome-dialog-assigned-{{language}}.png" alt="Zugewiesen an Datengeber"/> ist, können Sie anfangen Metadaten zu erfassen.</p>',
           'close': 'Schließen',
           'do-not-show-again': 'Nicht mehr anzeigen'
         }

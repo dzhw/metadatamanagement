@@ -1172,6 +1172,7 @@ project-status-badge > span, release-status-badge > span {
 .fdz-welcome-dialog-image {
     display: block;
     margin: auto;
+    border: 2px solid $brand-primary;
 }
 
 @keyframes fade-highlight {

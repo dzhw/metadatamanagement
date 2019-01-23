@@ -100,7 +100,7 @@ angular.module('metadatamanagementApp').config(
           },
           'navbar-feedback': 'Klicken, um Feedback zu geben oder einen Fehler zu melden',
           'navbar-documentation': 'Klicken, um die Benutzerdokumentation zu öffnen',
-          'navbar-usage-info': 'Klicken, um Hinweise zur Benutzung dieser Seite zu erhalten'
+          'navbar-usage-info': 'Klicken, um Hinweise für Datengeber zu erhalten'
         },
         'feedback-dialog': {
           'toolbar-head': 'Feedback geben oder Fehler melden',
@@ -122,7 +122,7 @@ angular.module('metadatamanagementApp').config(
             'rdcProject': 'Datenaufbereitungsprojekte:',
             'current-project': 'Aktuelles Datenaufbereitungsprojekt',
             'select-project': 'Projekt auswählen',
-            'unknown-project': '{{projectId}} ist unbekannt.'
+            'unknown-project': 'Kein Projekt gefunden!'
           },
           'search': {
             'title': 'Metadatamanagement (MDM) - Datensuche für die Hochschul- und Wissenschaftsforschung'
@@ -150,7 +150,7 @@ angular.module('metadatamanagementApp').config(
           'disclosure': 'Impressum',
           'notepad': 'Merkzettel',
           'documentation': 'Dokumentation',
-          'usage-info': 'Hinweise zur Nutzung'
+          'usage-info': 'Hinweise für Datengeber'
         },
         'form': {
           'username': 'Benutzername',
