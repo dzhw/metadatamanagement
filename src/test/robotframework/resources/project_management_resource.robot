@@ -95,7 +95,6 @@ Ensure Dataset Creation is Possible
 Ensure Variable Upload is Possible
    Click Element Through Tooltips  xpath=//md-card[@type="variables"]//button[contains(.,"Hochladen")]
 
-
 Click Publisher Ready Checkbox for Studies
    Click Element Through Tooltips  xpath=//md-card[@type="studies"]//md-checkbox[contains(.,"Publisher Fertig")]
 
