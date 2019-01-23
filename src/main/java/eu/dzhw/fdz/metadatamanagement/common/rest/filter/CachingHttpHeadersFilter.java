@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -49,7 +50,7 @@ public class CachingHttpHeadersFilter implements Filter {
       HttpServletRequest httpRequest = (HttpServletRequest) request;
       HttpServletResponse httpResponse = (HttpServletResponse) response;
       String requestUri = httpRequest.getRequestURI();
-      if (env.acceptsProfiles(Constants.SPRING_PROFILE_LOCAL)) {
+      if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {
         httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
         httpResponse.setHeader(HttpHeaders.PRAGMA, "no-cache");
         httpResponse.setDateHeader(HttpHeaders.EXPIRES, LAST_MODIFIED);
