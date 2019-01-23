@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health.Builder;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
@@ -46,7 +47,7 @@ public class MessageBrokerHealthIndicator extends AbstractHealthIndicator {
   @Timed
   protected void doHealthCheck(Builder builder) throws Exception {
     try {
-      if (env.acceptsProfiles(Constants.SPRING_PROFILE_LOCAL)) {
+      if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {
         builder.withDetail("Message Broker", "Simple (local)");
       } else {
         builder.withDetail("Message Broker", "CloudAMQP (RabbitMQ)");
