@@ -1,31 +1,14 @@
 /* globals document */
 'use strict';
 angular.module('metadatamanagementApp').service('WelcomeDialogService',
-  function($mdDialog, LanguageService) {
-
-    var createDialogController = function() {
-      return function($scope, $mdDialog, locals) {
-        $scope.username = locals.username;
-        $scope.displayDeactivateDialogOption =
-          locals.displayDeactivateDialogOption;
-        $scope.language = locals.currentLanguage;
-        $scope.data = {
-          doNotShowAgain: false
-        };
-
-        $scope.closeDialog = function() {
-          $mdDialog.hide($scope.data.doNotShowAgain);
-        };
-      };
-    };
-
+  function($mdDialog, LanguageService, $rootScope) {
     var display = function(username, displayDeactivateDialogOption) {
       displayDeactivateDialogOption = angular
         .isDefined(displayDeactivateDialogOption) ?
         displayDeactivateDialogOption : true;
 
       return $mdDialog.show({
-        controller: createDialogController(),
+        controller: 'WelcomeDialogController',
         templateUrl: 'scripts/usermanagement/welcome/views/' +
           'welcome-dialog.html.tmpl',
         parent: angular.element(document.body),
@@ -35,7 +18,8 @@ angular.module('metadatamanagementApp').service('WelcomeDialogService',
         locals: {
           username: username ? username : '',
           displayDeactivateDialogOption: displayDeactivateDialogOption,
-          currentLanguage: LanguageService.getCurrentInstantly()
+          currentLanguage: LanguageService.getCurrentInstantly(),
+          bowser: $rootScope.bowser
         }
       });
     };
