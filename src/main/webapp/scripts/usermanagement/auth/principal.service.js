@@ -73,7 +73,7 @@ angular.module('metadatamanagementApp').factory(
                 .then(function(hideWelcomeDialog) {
                   if (hideWelcomeDialog) {
                     _identity.welcomeDialogDeactivated = true;
-                    AccountResource.save(_identity).finally(deferred.resolve);
+                    AccountResource.save(_identity);
                   }
                 });
             }
