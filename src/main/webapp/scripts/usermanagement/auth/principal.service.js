@@ -75,10 +75,9 @@ angular.module('metadatamanagementApp').factory(
                     _identity.welcomeDialogDeactivated = true;
                     AccountResource.save(_identity).finally(deferred.resolve);
                   }
-                }).finally(deferred.resolve);
-            } else {
-              deferred.resolve(_identity);
+                });
             }
+            return deferred.resolve(_identity);
           }).catch(function() {
             $rootScope.$broadcast('stop-ignoring-401');
             AuthServerProvider.deleteToken();
