@@ -1,4 +1,4 @@
-<form name="customerForm" flex>
+<form name="orderForm" flex>
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
         <h1 ng-if="!ctrl.orderSaved" class="md-headline" style="margin-left: 0px;">{{'shopping-cart.detail.table-title' | translate | fdzHyphenate }}</h1>
         <h1 ng-if="ctrl.orderSaved" class="md-headline" style="margin-left: 0px;">{{'shopping-cart.detail.thank-you' | translate | fdzHyphenate }}</h1>
@@ -71,27 +71,6 @@
         </md-card-header>
         <md-divider></md-divider>
         <md-card-content style="padding-top: 0px;">
-            <div flex layout-gt-sm="row" layout="column">
-                <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!customerForm.name.$valid && (customerForm.name.$dirty || customerForm.name.$touched)" style="margin-bottom: 0px;">
-                    <label class="fdz-input-required">{{'shopping-cart.detail.label.customer-name' | translate}}</label>
-                    <input ng-trim="true" md-maxlength="128" required ng-model="ctrl.customer.name" name="name" md-no-asterisk autocomplete="name">
-                    <div ng-if="customerForm.name.$valid || !customerForm.name.$touched" class="fdz-input-hint">{{'shopping-cart.detail.hints.name' | translate}}</div>
-                    <div ng-messages="customerForm.name.$error" multiple>
-                        <div ng-message="required">{{'shopping-cart.error.customer.name.empty' | translate}}</div>
-                        <div ng-message="md-maxlength">{{'shopping-cart.error.customer.name.string-size' | translate}}</div>
-                    </div>
-                </md-input-container>
-                <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!customerForm.email.$valid && (customerForm.email.$dirty || customerForm.email.$touched)" style="margin-bottom: 0px;">
-                    <label class="fdz-input-required">{{'shopping-cart.detail.label.customer-email' | translate}}</label>
-                    <input ng-trim="true" md-maxlength="128" required ng-model="ctrl.customer.email" name="email" type="email" md-no-asterisk autocomplete="email">
-                    <div ng-if="customerForm.email.$valid || !customerForm.email.$touched" class="fdz-input-hint">{{'shopping-cart.detail.hints.email' | translate}}</div>
-                    <div ng-messages="customerForm.email.$error" multiple>
-                        <div ng-message="required">{{'shopping-cart.error.customer.email.empty' | translate}}</div>
-                        <div ng-message="md-maxlength">{{'shopping-cart.error.customer.email.string-size' | translate}}</div>
-                        <div ng-message="email">{{'shopping-cart.error.customer.email.invalid' | translate}}</div>
-                    </div>
-                </md-input-container>
-            </div>
             <div data-vc-recaptcha data-key="'6LeEh3QUAAAAAIi38B2lNgKAxWagrZMeK3QQg8sN'" data-lang="currentLanguage" style="margin: 12px 0px;"></div>
             <div layout="row">
                 <md-button class="md-raised md-accent fdz-truncate-string" ng-click="ctrl.order()" style="margin-left: 0px; margin-top: 8px;">

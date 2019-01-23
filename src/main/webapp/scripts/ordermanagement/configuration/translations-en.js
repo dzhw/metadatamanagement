@@ -70,7 +70,6 @@ angular.module('metadatamanagementApp').config(
           'checkout-coming-soon': 'Checkout is coming soon...',
           'study-added': 'The data product was put into the shopping cart.',
           'study-already-in-cart': 'The data product is already in the shopping cart.',
-          'customer-has-validation-errors-toast': 'You have not yet provided all the necessary information about yourself.',
           'error-on-saving-order': 'An error occurred while sending your order.'
         },
         'buttons': {

@@ -1,17 +1,3 @@
-.. java:import:: java.util List
-
-.. java:import:: javax.validation Valid
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: org.springframework.data.mongodb.core.index Indexed
-
-.. java:import:: org.springframework.data.mongodb.core.mapping Document
-
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain Counter
@@ -30,6 +16,20 @@
 
 .. java:import:: lombok ToString
 
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: org.springframework.data.mongodb.core.index Indexed
+
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
+.. java:import:: javax.validation Valid
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: java.util List
+
 Order
 =====
 
@@ -38,7 +38,7 @@ Order
 
 .. java:type:: @Document @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel public class Order extends AbstractRdcDomainObject
 
-   Order (DTO) containing all relevant information of a \ :java:ref:`Customer`\  and her \ :java:ref:`Product`\ s.
+   Order (DTO) containing all relevant information for ordered \ :java:ref:`Product`\ s.
 
 Fields
 ------
@@ -49,14 +49,6 @@ client
    :outertype: Order
 
    The id of the client (one of @link \ :java:ref:`OrderClient`\ ) who has last modified this order.
-
-customer
-^^^^^^^^
-
-.. java:field:: @Valid @NotNull private Customer customer
-   :outertype: Order
-
-   The \ :java:ref:`Customer`\  who has placed this order. Must not be null.
 
 id
 ^^
@@ -72,7 +64,7 @@ languageKey
 .. java:field:: @NotEmpty private String languageKey
    :outertype: Order
 
-   The key of the preferred language (either "de" or "en") of the \ :java:ref:`Customer`\ . Must not be empty.
+   The key of the preferred language (either "de" or "en") of the customer. Must not be empty.
 
 products
 ^^^^^^^^
@@ -80,7 +72,7 @@ products
 .. java:field:: @Valid @NotEmpty private List<Product> products
    :outertype: Order
 
-   List of data \ :java:ref:`Product`\ s the \ :java:ref:`Customer`\  want to order. Must not be empty.
+   List of data \ :java:ref:`Product`\ s the customer want to order. Must not be empty.
 
 state
 ^^^^^

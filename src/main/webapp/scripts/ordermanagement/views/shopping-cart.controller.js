@@ -14,14 +14,11 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     var ctrl = this;
     ctrl.studies = {};
     ctrl.releases = {};
-    ctrl.customer = {};
     ctrl.counts = {};
     ctrl.initComplete = false;
 
     ctrl.init = function() {
       var promises = [];
-      ctrl.customer.name = _.get(order, 'customer.name');
-      ctrl.customer.email = _.get(order, 'customer.email');
       ctrl.products = ShoppingCartService.getProducts();
       ctrl.products.forEach(function(product) {
         var studyId = product.study.id;
@@ -102,41 +99,28 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     };
 
     ctrl.order = function() {
-      if ($scope.customerForm.$valid) {
-        var order = {
-          languageKey: LanguageService.getCurrentInstantly(),
-          customer: ctrl.customer,
-          client: 'MDM',
-          products: []
+      var order = {
+        languageKey: LanguageService.getCurrentInstantly(),
+        customer: ctrl.customer,
+        client: 'MDM',
+        products: []
+      };
+      ctrl.products.forEach(function(product) {
+        var completeProduct = {
+          dataAcquisitionProjectId: product.dataAcquisitionProjectId,
+          study: ctrl.studies[product.study.id],
+          accessWay: product.accessWay,
+          version: product.version
         };
-        ctrl.products.forEach(function(product) {
-          var completeProduct = {
-            dataAcquisitionProjectId: product.dataAcquisitionProjectId,
-            study: ctrl.studies[product.study.id],
-            accessWay: product.accessWay,
-            version: product.version
-          };
-          order.products.push(completeProduct);
-        });
-        OrderResource.save(order).$promise.then(function() {
-          ShoppingCartService.clear();
-          ctrl.orderSaved = true;
-        }).catch(function() {
-          SimpleMessageToastService.openAlertMessageToast(
-            'shopping-cart.toasts.error-on-saving-order');
-        });
-      } else {
-        // ensure that all validation errors are visible
-        angular.forEach($scope.customerForm.$error, function(field) {
-          angular.forEach(field, function(errorField) {
-            if (errorField) {
-              errorField.$setTouched();
-            }
-          });
-        });
+        order.products.push(completeProduct);
+      });
+      OrderResource.save(order).$promise.then(function() {
+        ShoppingCartService.clear();
+        ctrl.orderSaved = true;
+      }).catch(function() {
         SimpleMessageToastService.openAlertMessageToast(
-          'shopping-cart.toasts.customer-has-validation-errors-toast');
-      }
+          'shopping-cart.toasts.error-on-saving-order');
+      });
     };
 
     ctrl.clear = function() {

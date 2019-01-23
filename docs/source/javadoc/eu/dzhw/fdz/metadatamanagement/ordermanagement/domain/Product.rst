@@ -38,7 +38,7 @@ accessWay
 .. java:field:: @NotEmpty private String accessWay
    :outertype: Product
 
-   The access way to the \ :java:ref:`DataSet`\ s which the \ :java:ref:`Customer`\  wants to have.
+   The access way to the \ :java:ref:`DataSet`\ s which the customer wants to have.
 
 dataAcquisitionProjectId
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -62,5 +62,5 @@ version
 .. java:field:: @NotEmpty private String version
    :outertype: Product
 
-   The version of the \ :java:ref:`DataSet`\ s which the \ :java:ref:`Customer`\  wants to have.
+   The version of the \ :java:ref:`DataSet`\ s which the customer wants to have.
 
