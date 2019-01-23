@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -35,7 +36,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
   @Override
   public void configureMessageBroker(MessageBrokerRegistry config) {
-    if (env.acceptsProfiles(Constants.SPRING_PROFILE_LOCAL, Constants.SPRING_PROFILE_UNITTEST)) {
+    if (env.acceptsProfiles(
+        Profiles.of(Constants.SPRING_PROFILE_LOCAL, Constants.SPRING_PROFILE_UNITTEST))) {
       config.enableSimpleBroker("/topic", "/queue");
     } else {
       config.enableStompBrokerRelay("/topic", "/queue")
@@ -51,9 +53,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/websocket").setAllowedOrigins(
-        properties.getWebsockets().getAllowedOrigins().toArray(new String[0])).withSockJS()
-        .setSessionCookieNeeded(false)
+    registry.addEndpoint("/websocket")
+        .setAllowedOrigins(properties.getWebsockets().getAllowedOrigins().toArray(new String[0]))
+        .withSockJS().setSessionCookieNeeded(false)
         .setClientLibraryUrl("/bower_components/sockjs-client/dist/sockjs.min.js")
         .setInterceptors(websocketHandshakeInterceptor());
   }
@@ -62,7 +64,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
   public HandshakeInterceptor websocketHandshakeInterceptor() {
     return new WebsocketHandshakeInterceptor();
   }
-  
+
   /**
    * Add remote ip address to websocket session.
    */
@@ -79,7 +81,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response,
-        WebSocketHandler wsHandler, Exception exception) {
-    }
+        WebSocketHandler wsHandler, Exception exception) {}
   }
 }
