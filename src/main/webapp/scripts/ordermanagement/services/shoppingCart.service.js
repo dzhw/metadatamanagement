@@ -67,6 +67,28 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       products = copy;
     };
 
+    var migrateStoredData = function() {
+      var storedProducts = this.getProducts();
+      var migratedProducts = [];
+      storedProducts.forEach(function(product) {
+        if (_.has(product, 'projectId')) {
+          var newProduct = {
+            dataAcquisitionProjectId: product.projectId,
+            accessWay: product.accessWay,
+            version: product.version,
+            study: {
+              id: product.studyId
+            }
+          };
+          migratedProducts.push(newProduct);
+        } else {
+          migratedProducts.push(product);
+        }
+      });
+      localStorageService.set('shoppingCart', migratedProducts);
+      products = migratedProducts;
+    };
+
     return {
       add: add,
       remove: remove,
@@ -75,6 +97,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       count: count,
       clear: clear,
       checkout: checkout,
-      initShoppingCartProducts: initShoppingCartProducts
+      initShoppingCartProducts: initShoppingCartProducts,
+      migrateStoredData: migrateStoredData
     };
   });
