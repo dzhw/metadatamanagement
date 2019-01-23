@@ -41,14 +41,61 @@ Check Dataprovider Cannot Change Anything
    Switch To Settings Tab
    Ensure Expected Metadata Fields are Disabled
    Data Provider Logout
+
+Check Project is Assigned to Dataprovider But Can Not Change Anything When Publisher is Ready
+   Login as publisher
+   Select project by name  ${PROJECT_NAME}${BROWSER}
+   Click on Cockpit Button
+   Click Publisher Ready Checkbox for Surveys
+   Click Dataprovider Ready Checkbox for Surveys
+   Click Publisher Ready Checkbox for Instruments
+   Click Dataprovider Ready Checkbox for Instruments
+   Click Publisher Ready Checkbox for Questions
+   Click Dataprovider Ready Checkbox for Questions
+   Click Publisher Ready Checkbox for Datasets
+   Click Dataprovider Ready Checkbox for Datasets
+   Click Publisher Ready Checkbox for Variables
+   Click Dataprovider Ready Checkbox for Variables
+   Click Publisher Ready Checkbox for Studies
+   Click Dataprovider Ready Checkbox for Studies
+   Change Project Roles
+   Write Message and Assign
+   Sleep  1s  #to ensure that the next locator is visible
+   Assert Project is Assigned to Dataprovider
+   Save Changes
+   Publisher Logout
+   Login as dataprovider
+   Select project by name  ${PROJECT_NAME}${BROWSER}
+   Click on Cockpit Button
+   Ensure Study Create Button is Restricted
+   Ensure Survey Create Button is Restricted
+   Ensure Instrument Create Button is Restricted
+   Ensure Question Upload Button is Restricted
+   Ensure Dataset Create Button is Restricted
+   Ensure Variable Upload Button is Restricted
+   Data Provider Logout
    Login as publisher
    Delete project by name  ${PROJECT_NAME}${BROWSER}
 
 
 *** Keywords ***
+Assert Project is Assigned to Dataprovider
+    Element Should Contain  xpath=//project-status-badge//span[contains(.,"Zugewiesen an Datengeber")]  Zugewiesen an Datengeber
+
 Ensure Study Create Button is Restricted
     Click Element Through Tooltips  xpath=//md-card[@type="studies"]//button[contains(.,"Neu")]
     Close The Toast Message  ${TOAST_MSSG}
+
+Ensure Survey Create Button is Restricted
+    Click Element Through Tooltips  xpath=//md-card[@type="surveys"]//button[contains(.,"Neu")]
+    Close The Toast Message  ${TOAST_MSSG}
+
+Ensure Variable Upload Button is Restricted
+    Click Element Through Tooltips  xpath=//md-card[@type="variables"]//button[contains(.,"Hochladen")]
+    Run Keyword if  '${BROWSER}' == 'chrome'  Close The Toast Message  ${TOAST_MSSG}
+    Run Keyword if  '${BROWSER}' == 'firefox'  Close The Toast Message  ${TOAST_MSSG}
+    Run Keyword if  '${BROWSER}' == 'edge'  Close The Toast Message  ${TOAST_MSSG}
+    Run Keyword if  '${BROWSER}' == 'ie'  Close The Toast Message for Upload Button in IE
 
 Ensure Question Upload Button is Restricted
     Click Element Through Tooltips  xpath=//md-card[@type="questions"]//button[contains(.,"Hochladen")]

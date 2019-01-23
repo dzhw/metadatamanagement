@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 
 import io.swagger.annotations.Api;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
@@ -26,7 +27,7 @@ public class SwaggerConfiguration {
    */
   @Bean
   public Docket api(Environment env) {
-    if (env.acceptsProfiles(Constants.SPRING_PROFILE_LOCAL)) {
+    if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {
       return new Docket(DocumentationType.SWAGGER_2).useDefaultResponseMessages(false).select()
       .apis(RequestHandlerSelectors.any())
       .paths(PathSelectors.any()).build();

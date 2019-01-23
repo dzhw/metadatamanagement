@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.12
+ * v1.1.10
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -63,7 +63,6 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
   ctrl.isRequired = null;
   ctrl.isReadonly = null;
   ctrl.hasNotFound = false;
-  ctrl.selectedMessage = $scope.selectedMessage || 'selected';
 
   // Public Exported Methods
   ctrl.keydown                       = keydown;
@@ -115,20 +114,6 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
       // Forward all focus events to the input element when autofocus is enabled
       if ($scope.autofocus) {
         $element.on('focus', focusInputElement);
-      }
-      if ($scope.inputAriaDescribedBy) {
-        elements.input.setAttribute('aria-describedby', $scope.inputAriaDescribedBy);
-      }
-      if (!$scope.floatingLabel) {
-        if ($scope.inputAriaLabel) {
-          elements.input.setAttribute('aria-label', $scope.inputAriaLabel);
-        } else if ($scope.inputAriaLabelledBy) {
-          elements.input.setAttribute('aria-labelledby', $scope.inputAriaLabelledBy);
-        } else if ($scope.placeholder) {
-          // If no aria-label or aria-labelledby references are defined, then just label using the
-          // placeholder.
-          elements.input.setAttribute('aria-label', $scope.placeholder);
-        }
       }
     });
   }
@@ -359,8 +344,8 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
     if (!hidden && oldHidden) {
       positionDropdown();
 
-      // Report in polite mode, because the screen reader should finish the default description of
-      // the input element.
+      // Report in polite mode, because the screenreader should finish the default description of
+      // the input. element.
       reportMessages(true, ReportType.Count | ReportType.Selected);
 
       if (elements) {
@@ -444,17 +429,14 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
       });
     }
 
-    if (selectedItem !== previousSelectedItem) {
-      announceItemChange();
-    }
+    if (selectedItem !== previousSelectedItem) announceItemChange();
   }
 
   /**
    * Use the user-defined expression to announce changes each time a new item is selected
    */
   function announceItemChange () {
-    angular.isFunction($scope.itemChange) &&
-      $scope.itemChange(getItemAsNameVal($scope.selectedItem));
+    angular.isFunction($scope.itemChange) && $scope.itemChange(getItemAsNameVal($scope.selectedItem));
   }
 
   /**
@@ -471,9 +453,7 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
    * @param previousSelectedItem
    */
   function handleSelectedItemChange (selectedItem, previousSelectedItem) {
-    selectedItemWatchers.forEach(function (watcher) {
-      watcher(selectedItem, previousSelectedItem);
-    });
+    selectedItemWatchers.forEach(function (watcher) { watcher(selectedItem, previousSelectedItem); });
   }
 
   /**
@@ -481,7 +461,7 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
    * @param cb
    */
   function registerSelectedItemWatcher (cb) {
-    if (selectedItemWatchers.indexOf(cb) === -1) {
+    if (selectedItemWatchers.indexOf(cb) == -1) {
       selectedItemWatchers.push(cb);
     }
   }
@@ -492,7 +472,7 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
    */
   function unregisterSelectedItemWatcher (cb) {
     var i = selectedItemWatchers.indexOf(cb);
-    if (i !== -1) {
+    if (i != -1) {
       selectedItemWatchers.splice(i, 1);
     }
   }
@@ -515,17 +495,16 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
       if (searchText !== val) {
         $scope.selectedItem = null;
 
+
         // trigger change event if available
-        if (searchText !== previousSearchText) {
-          announceTextChange();
-        }
+        if (searchText !== previousSearchText) announceTextChange();
 
         // cancel results if search text is not long enough
         if (!isMinLengthMet()) {
           ctrl.matches = [];
 
           setLoading(false);
-          reportMessages(true, ReportType.Count);
+          reportMessages(false, ReportType.Count);
 
         } else {
           handleQuery();
@@ -581,7 +560,7 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
   function keydown (event) {
     switch (event.keyCode) {
       case $mdConstant.KEY_CODE.DOWN_ARROW:
-        if (ctrl.loading || hasSelection()) return;
+        if (ctrl.loading) return;
         event.stopPropagation();
         event.preventDefault();
         ctrl.index   = Math.min(ctrl.index + 1, ctrl.matches.length - 1);
@@ -589,7 +568,7 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
         reportMessages(false, ReportType.Selected);
         break;
       case $mdConstant.KEY_CODE.UP_ARROW:
-        if (ctrl.loading || hasSelection()) return;
+        if (ctrl.loading) return;
         event.stopPropagation();
         event.preventDefault();
         ctrl.index   = ctrl.index < 0 ? ctrl.matches.length - 1 : Math.max(0, ctrl.index - 1);
@@ -661,8 +640,6 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
     /**
      * Getter function to invoke user-defined expression (in the directive)
      * to convert your object to a single string.
-     * @param item
-     * @returns {string|null}
      */
     function getItemText (item) {
       return (item && $scope.itemText) ? $scope.itemText(getItemAsNameVal(item)) : null;
@@ -672,24 +649,20 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
   /**
    * Returns the locals object for compiling item templates.
    * @param item
-   * @returns {Object|undefined}
+   * @returns {{}}
    */
   function getItemAsNameVal (item) {
-    if (!item) {
-      return undefined;
-    }
+    if (!item) return undefined;
 
     var locals = {};
-    if (ctrl.itemName) {
-      locals[ ctrl.itemName ] = item;
-    }
+    if (ctrl.itemName) locals[ ctrl.itemName ] = item;
 
     return locals;
   }
 
   /**
    * Returns the default index based on whether or not autoselect is enabled.
-   * @returns {number} 0 if autoselect is enabled, -1 if not.
+   * @returns {number}
    */
   function getDefaultIndex () {
     return $scope.autoselect ? 0 : -1;
@@ -700,7 +673,7 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
    * @param value {boolean} Whether or not the component is currently loading.
    */
   function setLoading(value) {
-    if (ctrl.loading !== value) {
+    if (ctrl.loading != value) {
       ctrl.loading = value;
     }
 
@@ -736,16 +709,16 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
   }
 
   /**
-   * @returns {boolean} if the escape keydown should be processed, return true.
-   *  Otherwise return false.
+   * Determines if the escape keydown should be processed
+   * @returns {boolean}
    */
   function shouldProcessEscape() {
     return hasEscapeOption('blur') || !ctrl.hidden || ctrl.loading || hasEscapeOption('clear') && $scope.searchText;
   }
 
   /**
-   * @param {string} option check if this option is set
-   * @returns {boolean} if the specified escape option is set, return true. Return false otherwise.
+   * Determines if an escape option is set
+   * @returns {boolean}
    */
   function hasEscapeOption(option) {
     return !$scope.escapeOptions || $scope.escapeOptions.toLowerCase().indexOf(option) !== -1;
@@ -768,28 +741,32 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
   }
 
   /**
-   * @returns {boolean} true if the search text has matches.
+   * Returns true if the search text has matches.
+   * @returns {boolean}
    */
   function hasMatches() {
     return ctrl.matches.length ? true : false;
   }
 
   /**
-   * @returns {boolean} true if the autocomplete has a valid selection.
+   * Returns true if the autocomplete has a valid selection.
+   * @returns {boolean}
    */
   function hasSelection() {
     return ctrl.scope.selectedItem ? true : false;
   }
 
   /**
-   * @returns {boolean} true if the loading indicator is, or should be, visible.
+   * Returns true if the loading indicator is, or should be, visible.
+   * @returns {boolean}
    */
   function loadingIsVisible() {
     return ctrl.loading && !hasSelection();
   }
 
   /**
-   * @returns {*} the display value of the current item.
+   * Returns the display value of the current item.
+   * @returns {*}
    */
   function getCurrentDisplayValue () {
     return getDisplayValue(ctrl.matches[ ctrl.index ]);
@@ -797,7 +774,7 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
 
   /**
    * Determines if the minimum length is met by the search text.
-   * @returns {*} true if the minimum length is met by the search text
+   * @returns {*}
    */
   function isMinLengthMet () {
     return ($scope.searchText || '').length >= getMinLength();
@@ -807,9 +784,9 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
 
   /**
    * Defines a public property with a handler and a default value.
-   * @param {string} key
-   * @param {Function} handler function
-   * @param {*} value default value
+   * @param key
+   * @param handler
+   * @param value
    */
   function defineProperty (key, handler, value) {
     Object.defineProperty(ctrl, key, {
@@ -824,14 +801,13 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
 
   /**
    * Selects the item at the given index.
-   * @param {number} index to select
+   * @param index
    */
   function select (index) {
     //-- force form to update state for validation
     $mdUtil.nextTick(function () {
       getDisplayValue(ctrl.matches[ index ]).then(function (val) {
         var ngModel = elements.$.input.controller('ngModel');
-        $mdLiveAnnouncer.announce(val + ' ' + ctrl.selectedMessage, 'assertive');
         ngModel.$setViewValue(val);
         ngModel.$render();
       }).finally(function () {
@@ -931,11 +907,12 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
 
 
   /**
-   * Reports given message types to supported screen readers.
+   * Reports given message types to supported screenreaders.
    * @param {boolean} isPolite Whether the announcement should be polite.
-   * @param {!number} types Message flags to be reported to the screen reader.
+   * @param {!number} types Message flags to be reported to the screenreader.
    */
   function reportMessages(isPolite, types) {
+
     var politeness = isPolite ? 'polite' : 'assertive';
     var messages = [];
 
@@ -950,10 +927,12 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
     $q.all(messages).then(function(data) {
       $mdLiveAnnouncer.announce(data.join(' '), politeness);
     });
+
   }
 
   /**
-   * @returns {string} the ARIA message for how many results match the current query.
+   * Returns the ARIA message for how many results match the current query.
+   * @returns {*}
    */
   function getCountMessage () {
     switch (ctrl.matches.length) {
@@ -1044,14 +1023,12 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
         matches    = ctrl.matches,
         item       = matches[ 0 ];
     if (matches.length === 1) getDisplayValue(item).then(function (displayValue) {
-      var isMatching = searchText === displayValue;
+      var isMatching = searchText == displayValue;
       if ($scope.matchInsensitive && !isMatching) {
-        isMatching = searchText.toLowerCase() === displayValue.toLowerCase();
+        isMatching = searchText.toLowerCase() == displayValue.toLowerCase();
       }
 
-      if (isMatching) {
-        select(0);
-      }
+      if (isMatching) select(0);
     });
   }
 
@@ -1090,8 +1067,7 @@ MdAutocomplete['$inject'] = ["$$mdSvgRegistry"];angular
  *     no matches were found.  You can do this by wrapping your template in `md-item-template` and
  *     adding a tag for `md-not-found`.  An example of this is shown below.
  *
- * To reset the displayed value you must clear both values for `md-search-text` and
- * `md-selected-item`.
+ * To reset the displayed value you must clear both values for `md-search-text` and `md-selected-item`.
  *
  * ### Validation
  *
@@ -1168,14 +1144,11 @@ MdAutocomplete['$inject'] = ["$$mdSvgRegistry"];angular
  *     make suggestions.
  * @param {number=} md-delay Specifies the amount of time (in milliseconds) to wait before looking
  *     for results.
- * @param {boolean=} md-clear-button Whether the clear button for the autocomplete input should show
- *     up or not.
- * @param {boolean=} md-autofocus If true, the autocomplete will be automatically focused when a
- *     `$mdDialog`, `$mdBottomsheet` or `$mdSidenav`, which contains the autocomplete, is opening.
- *     <br/><br/>
+ * @param {boolean=} md-clear-button Whether the clear button for the autocomplete input should show up or not.
+ * @param {boolean=} md-autofocus If true, the autocomplete will be automatically focused when a `$mdDialog`,
+ *     `$mdBottomsheet` or `$mdSidenav`, which contains the autocomplete, is opening. <br/><br/>
  *     Also the autocomplete will immediately focus the input element.
- * @param {boolean=} md-no-asterisk When present, asterisk will not be appended to the floating
- *     label.
+ * @param {boolean=} md-no-asterisk When present, asterisk will not be appended to the floating label.
  * @param {boolean=} md-autoselect If set to true, the first item will be automatically selected
  *     in the dropdown upon open.
  * @param {string=} md-input-name The name attribute given to the input element to be used with
@@ -1186,7 +1159,7 @@ MdAutocomplete['$inject'] = ["$$mdSvgRegistry"];angular
  * @param {string=} md-input-class This will be applied to the input for styling. This attribute
  *     is only valid when a `md-floating-label` is defined.
  * @param {string=} md-floating-label This will add a floating label to autocomplete and wrap it in
- *     `md-input-container`.
+ *     `md-input-container`
  * @param {string=} md-select-on-focus When present the inputs text will be automatically selected
  *     on focus.
  * @param {string=} md-input-id An ID to be added to the input element.
@@ -1203,26 +1176,7 @@ MdAutocomplete['$inject'] = ["$$mdSvgRegistry"];angular
  *     the dropdown.<br/><br/>
  *     When the dropdown doesn't fit into the viewport, the dropdown will shrink
  *     as much as possible.
- * @param {string=} md-dropdown-position Overrides the default dropdown position. Options: `top`,
- *    `bottom`.
- * @param {string=} input-aria-describedby A space-separated list of element IDs. This should
- *     contain the IDs of any elements that describe this autocomplete. Screen readers will read the
- *     content of these elements at the end of announcing that the autocomplete has been selected
- *     and describing its current state. The descriptive elements do not need to be visible on the
- *     page.
- * @param {string=} input-aria-labelledby A space-separated list of element IDs. The ideal use case
- *     is that this would contain the ID of a `<label>` element that is associated with this
- *     autocomplete. This will only have affect when `md-floating-label` is not defined.<br><br>
- *     For `<label id="state">US State</label>`, you would set this to
- *     `input-aria-labelledby="state"`.
- * @param {string=} input-aria-label A label that will be applied to the autocomplete's input.
- *    This will be announced by screen readers before the placeholder.
- *    This will only have affect when `md-floating-label` is not defined. If you define both
- *    `input-aria-label` and `input-aria-labelledby`, then `input-aria-label` will take precedence.
- * @param {string=} md-selected-message Attribute to specify the text that the screen reader will
- *    announce after a value is selected. Default is: "selected". If `Alaska` is selected in the
- *    options panel, it will read "Alaska selected". You will want to override this when your app
- *    is running in a non-English locale.
+ * @param {string=} md-dropdown-position Overrides the default dropdown position. Options: `top`, `bottom`.
  * @param {boolean=} ng-trim If set to false, the search text will be not trimmed automatically.
  *     Defaults to true.
  * @param {string=} ng-pattern Adds the pattern validator to the ngModel of the search text.
@@ -1262,13 +1216,13 @@ MdAutocomplete['$inject'] = ["$$mdSvgRegistry"];angular
  *
  * ### Clear button for the input
  * By default, the clear button is displayed when there is input. This aligns with the spec's
- * [Search Pattern](https://material.io/archive/guidelines/patterns/search.html#search-in-app-search).
- * In floating label mode, when `md-floating-label="My Label"` is applied, the clear button is not
- * displayed by default (see the spec's
- * [Autocomplete Text Field](https://material.io/archive/guidelines/components/text-fields.html#text-fields-layout)).
+ * [Search Pattern](https://material.io/guidelines/patterns/search.html#search-in-app-search).
+ * In floating label mode, when `md-floating-label="My Label"` is applied, the clear button is not displayed
+ * by default (see the spec's
+ * [Autocomplete Text Field](https://material.io/guidelines/components/text-fields.html#text-fields-layout)).
  *
- * Nevertheless, developers are able to explicitly toggle the clear button for all autocomplete
- * components with `md-clear-button`.
+ * Nevertheless, developers are able to explicitly toggle the clear button for all autocomplete components
+ * with `md-clear-button`.
  *
  * <hljs lang="html">
  *   <md-autocomplete ... md-clear-button="true"></md-autocomplete>
@@ -1307,8 +1261,7 @@ MdAutocomplete['$inject'] = ["$$mdSvgRegistry"];angular
  *     input validation for the field.
  *
  * ### Asynchronous Results
- * The autocomplete items expression also supports promises, which will resolve with the query
- * results.
+ * The autocomplete items expression also supports promises, which will resolve with the query results.
  *
  * <hljs lang="js">
  *   function AppController($scope, $http) {
@@ -1349,9 +1302,6 @@ function MdAutocomplete ($$mdSvgRegistry) {
       itemsExpr:          '@mdItems',
       itemText:           '&mdItemText',
       placeholder:        '@placeholder',
-      inputAriaDescribedBy: '@?inputAriaDescribedby',
-      inputAriaLabelledBy: '@?inputAriaLabelledby',
-      inputAriaLabel:     '@?inputAriaLabel',
       noCache:            '=?mdNoCache',
       requireMatch:       '=?mdRequireMatch',
       selectOnMatch:      '=?mdSelectOnMatch',
@@ -1370,8 +1320,7 @@ function MdAutocomplete ($$mdSvgRegistry) {
       escapeOptions:      '@?mdEscapeOptions',
       dropdownItems:      '=?mdDropdownItems',
       dropdownPosition:   '@?mdDropdownPosition',
-      clearButton:        '=?mdClearButton',
-      selectedMessage:    '@?mdSelectedMessage'
+      clearButton:        '=?mdClearButton'
     },
     compile: function(tElement, tAttrs) {
       var attributes = ['md-select-on-focus', 'md-no-asterisk', 'ng-trim', 'ng-pattern'];
@@ -1390,8 +1339,8 @@ function MdAutocomplete ($$mdSvgRegistry) {
         // be added to the element in the template function.
         ctrl.hasNotFound = !!element.attr('md-has-not-found');
 
-        // By default the inset autocomplete should show the clear button when not explicitly
-        // overwritten or in floating label mode.
+        // By default the inset autocomplete should show the clear button when not explicitly overwritten
+        // or in floating label mode.
         if (!angular.isDefined(attrs.mdClearButton) && !scope.floatingLabel) {
           scope.clearButton = true;
         }
@@ -1436,16 +1385,10 @@ function MdAutocomplete ($$mdSvgRegistry) {
               role="presentation">\
             <ul class="md-autocomplete-suggestions"\
                 ng-class="::menuClass"\
-                id="ul-{{$mdAutocompleteCtrl.id}}"\
-                role="listbox">\
+                id="ul-{{$mdAutocompleteCtrl.id}}">\
               <li md-virtual-repeat="item in $mdAutocompleteCtrl.matches"\
                   ng-class="{ selected: $index === $mdAutocompleteCtrl.index }"\
-                  ng-attr-id="{{$index === $mdAutocompleteCtrl.index ? \'selected_option\' : undefined}}"\
                   ng-click="$mdAutocompleteCtrl.select($index)"\
-                  role="option"\
-                  aria-setsize="{{$mdAutocompleteCtrl.matches.length}}"\
-                  aria-posinset="{{$index+1}}"\
-                  aria-selected="{{$index === $mdAutocompleteCtrl.index ? true : false}}" \
                   md-extra-name="$mdAutocompleteCtrl.itemName">\
                   ' + itemTemplate + '\
                   </li>' + noItemsTemplate + '\
@@ -1457,8 +1400,7 @@ function MdAutocomplete ($$mdSvgRegistry) {
         var templateTag = element.find('md-item-template').detach(),
             html = templateTag.length ? templateTag.html() : element.html();
         if (!templateTag.length) element.empty();
-        return '<md-autocomplete-parent-scope md-autocomplete-replace>' + html +
-               '</md-autocomplete-parent-scope>';
+        return '<md-autocomplete-parent-scope md-autocomplete-replace>' + html + '</md-autocomplete-parent-scope>';
       }
 
       function getNoItemsTemplate() {
@@ -1477,56 +1419,56 @@ function MdAutocomplete ($$mdSvgRegistry) {
             <md-input-container ng-if="floatingLabel">\
               <label>{{floatingLabel}}</label>\
               <input type="search"\
-                ' + (tabindex != null ? 'tabindex="' + tabindex + '"' : '') + '\
-                id="{{ inputId || \'fl-input-\' + $mdAutocompleteCtrl.id }}"\
-                name="{{inputName}}"\
-                ng-class="::inputClass"\
-                autocomplete="off"\
-                ng-required="$mdAutocompleteCtrl.isRequired"\
-                ng-readonly="$mdAutocompleteCtrl.isReadonly"\
-                ng-minlength="inputMinlength"\
-                ng-maxlength="inputMaxlength"\
-                ng-disabled="$mdAutocompleteCtrl.isDisabled"\
-                ng-model="$mdAutocompleteCtrl.scope.searchText"\
-                ng-model-options="{ allowInvalid: true }"\
-                ng-keydown="$mdAutocompleteCtrl.keydown($event)"\
-                ng-blur="$mdAutocompleteCtrl.blur($event)"\
-                ng-focus="$mdAutocompleteCtrl.focus($event)"\
-                aria-label="{{floatingLabel}}"\
-                aria-autocomplete="list"\
-                role="combobox"\
-                aria-haspopup="true"\
-                aria-expanded="{{!$mdAutocompleteCtrl.hidden}}"\
-                aria-owns="ul-{{$mdAutocompleteCtrl.id}}"\
-                ng-attr-aria-activedescendant="{{$mdAutocompleteCtrl.index >= 0 ? \'selected_option\' : undefined}}">\
+                  ' + (tabindex != null ? 'tabindex="' + tabindex + '"' : '') + '\
+                  id="{{ inputId || \'fl-input-\' + $mdAutocompleteCtrl.id }}"\
+                  name="{{inputName}}"\
+                  ng-class="::inputClass"\
+                  autocomplete="off"\
+                  ng-required="$mdAutocompleteCtrl.isRequired"\
+                  ng-readonly="$mdAutocompleteCtrl.isReadonly"\
+                  ng-minlength="inputMinlength"\
+                  ng-maxlength="inputMaxlength"\
+                  ng-disabled="$mdAutocompleteCtrl.isDisabled"\
+                  ng-model="$mdAutocompleteCtrl.scope.searchText"\
+                  ng-model-options="{ allowInvalid: true }"\
+                  ng-keydown="$mdAutocompleteCtrl.keydown($event)"\
+                  ng-blur="$mdAutocompleteCtrl.blur($event)"\
+                  ng-focus="$mdAutocompleteCtrl.focus($event)"\
+                  aria-owns="ul-{{$mdAutocompleteCtrl.id}}"\
+                  aria-label="{{floatingLabel}}"\
+                  aria-autocomplete="list"\
+                  role="combobox"\
+                  aria-haspopup="true"\
+                  aria-activedescendant=""\
+                  aria-expanded="{{!$mdAutocompleteCtrl.hidden}}"/>\
               <div md-autocomplete-parent-scope md-autocomplete-replace>' + leftover + '</div>\
             </md-input-container>';
         } else {
           return '\
             <input type="search"\
-              ' + (tabindex != null ? 'tabindex="' + tabindex + '"' : '') + '\
-              id="{{ inputId || \'input-\' + $mdAutocompleteCtrl.id }}"\
-              name="{{inputName}}"\
-              ng-class="::inputClass"\
-              ng-if="!floatingLabel"\
-              autocomplete="off"\
-              ng-required="$mdAutocompleteCtrl.isRequired"\
-              ng-disabled="$mdAutocompleteCtrl.isDisabled"\
-              ng-readonly="$mdAutocompleteCtrl.isReadonly"\
-              ng-minlength="inputMinlength"\
-              ng-maxlength="inputMaxlength"\
-              ng-model="$mdAutocompleteCtrl.scope.searchText"\
-              ng-keydown="$mdAutocompleteCtrl.keydown($event)"\
-              ng-blur="$mdAutocompleteCtrl.blur($event)"\
-              ng-focus="$mdAutocompleteCtrl.focus($event)"\
-              placeholder="{{placeholder}}"\
-              aria-label="{{placeholder}}"\
-              aria-autocomplete="list"\
-              role="combobox"\
-              aria-haspopup="true"\
-              aria-expanded="{{!$mdAutocompleteCtrl.hidden}}"\
-              aria-owns="ul-{{$mdAutocompleteCtrl.id}}"\
-              ng-attr-aria-activedescendant="{{$mdAutocompleteCtrl.index >= 0 ? \'selected_option\' : undefined}}">';
+                ' + (tabindex != null ? 'tabindex="' + tabindex + '"' : '') + '\
+                id="{{ inputId || \'input-\' + $mdAutocompleteCtrl.id }}"\
+                name="{{inputName}}"\
+                ng-class="::inputClass"\
+                ng-if="!floatingLabel"\
+                autocomplete="off"\
+                ng-required="$mdAutocompleteCtrl.isRequired"\
+                ng-disabled="$mdAutocompleteCtrl.isDisabled"\
+                ng-readonly="$mdAutocompleteCtrl.isReadonly"\
+                ng-minlength="inputMinlength"\
+                ng-maxlength="inputMaxlength"\
+                ng-model="$mdAutocompleteCtrl.scope.searchText"\
+                ng-keydown="$mdAutocompleteCtrl.keydown($event)"\
+                ng-blur="$mdAutocompleteCtrl.blur($event)"\
+                ng-focus="$mdAutocompleteCtrl.focus($event)"\
+                placeholder="{{placeholder}}"\
+                aria-owns="ul-{{$mdAutocompleteCtrl.id}}"\
+                aria-label="{{placeholder}}"\
+                aria-autocomplete="list"\
+                role="combobox"\
+                aria-haspopup="true"\
+                aria-activedescendant=""\
+                aria-expanded="{{!$mdAutocompleteCtrl.hidden}}"/>';
         }
       }
 
@@ -1768,7 +1710,7 @@ MdHighlight['$inject'] = ["$interpolate", "$parse"];angular
  * <hljs lang="html">
  * <input placeholder="Enter a search term..." ng-model="searchTerm" type="text" />
  * <ul>
- *   <li ng-repeat="result in results" md-highlight-text="searchTerm" md-highlight-flags="i">
+ *   <li ng-repeat="result in results" md-highlight-text="searchTerm">
  *     {{result.text}}
  *   </li>
  * </ul>

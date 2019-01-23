@@ -15,6 +15,7 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.filter.CachingHttpHeadersFilter;
 import eu.dzhw.fdz.metadatamanagement.common.rest.filter.StaticResourcesProductionFilter;
@@ -38,7 +39,7 @@ public class WebConfigurer
     EnumSet<DispatcherType> disps =
         EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
     initCachingHttpHeadersFilter(servletContext, disps);
-    if (env.acceptsProfiles("!" + Constants.SPRING_PROFILE_LOCAL)) {
+    if (env.acceptsProfiles(Profiles.of("!" + Constants.SPRING_PROFILE_LOCAL))) {
       initStaticResourcesProductionFilter(servletContext, disps);
     }
     log.info("Web application fully configured");

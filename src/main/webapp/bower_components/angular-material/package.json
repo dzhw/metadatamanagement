@@ -1,6 +1,6 @@
 {
   "name": "angular-material",
-  "version": "1.1.12",
+  "version": "1.1.10",
   "main": "index",
   "format": "cjs",
   "registry": "github",
@@ -38,6 +38,7 @@
     }
   ],
   "keywords": [
+    "angular",
     "angularjs",
     "material",
     "browser",

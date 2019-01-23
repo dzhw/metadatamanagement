@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.12
+ * v1.1.10
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -2200,7 +2200,7 @@ angular.module('material.components.datepicker', [
   // TODO(jelbourn): something better for mobile (calendar panel takes up entire screen?)
   // TODO(jelbourn): input behavior (masking? auto-complete?)
 
-  DatePickerCtrl['$inject'] = ["$scope", "$element", "$attrs", "$window", "$mdConstant", "$mdTheming", "$mdUtil", "$mdDateLocale", "$$mdDateUtil", "$$rAF", "$filter", "$timeout"];
+  DatePickerCtrl['$inject'] = ["$scope", "$element", "$attrs", "$window", "$mdConstant", "$mdTheming", "$mdUtil", "$mdDateLocale", "$$mdDateUtil", "$$rAF", "$filter"];
   datePickerDirective['$inject'] = ["$$mdSvgRegistry", "$mdUtil", "$mdAria", "inputDirective"];
   angular.module('material.components.datepicker')
       .directive('mdDatepicker', datePickerDirective);
@@ -2449,8 +2449,8 @@ angular.module('material.components.datepicker', [
    *
    * ngInject @constructor
    */
-  function DatePickerCtrl($scope, $element, $attrs, $window, $mdConstant, $mdTheming, $mdUtil,
-                          $mdDateLocale, $$mdDateUtil, $$rAF, $filter, $timeout) {
+  function DatePickerCtrl($scope, $element, $attrs, $window, $mdConstant,
+    $mdTheming, $mdUtil, $mdDateLocale, $$mdDateUtil, $$rAF, $filter) {
 
     /** @final */
     this.$window = $window;
@@ -2461,7 +2461,7 @@ angular.module('material.components.datepicker', [
     /** @final */
     this.$mdConstant = $mdConstant;
 
-    /** @final */
+    /* @final */
     this.$mdUtil = $mdUtil;
 
     /** @final */
@@ -2469,9 +2469,6 @@ angular.module('material.components.datepicker', [
 
     /** @final */
     this.$mdDateLocale = $mdDateLocale;
-
-    /** @final */
-    this.$timeout = $timeout;
 
     /**
      * The root document element. This is used for attaching a top-level click handler to
@@ -3033,7 +3030,7 @@ angular.module('material.components.datepicker', [
         // in IE when md-open-on-focus is set. Also it needs to trigger
         // a digest, in order to prevent issues where the calendar wasn't
         // showing up on the next open.
-        self.$timeout(reset);
+        self.$mdUtil.nextTick(reset);
       } else {
         reset();
       }
