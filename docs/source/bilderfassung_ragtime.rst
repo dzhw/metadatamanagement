@@ -132,7 +132,7 @@ Beim Speichern müssen Sie folgende Details beachten:
   Dateinamen und der dazugehörigen Fragennummer (die in der Excel-Datei
   aufgeführt ist).
 - Stellen sie sicher, dass der Dateityp "PostScript-Illustraition (EPSF)
-  (*.eps)" ausgewählt ist.
+  (\*.eps)" ausgewählt ist.
 - Unter dem Punkt "Exportieren" muss zudem die Option "Auswahl" gewählt sein.
 
 

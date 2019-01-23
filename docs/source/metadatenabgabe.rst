@@ -238,11 +238,13 @@ Excel-Tabellen
 
 Für die weiteren Ebenen können Sie bereits vorbereitete Excel-Tabellen
 verwenden, in denen verschiedene Metadaten spaltenweise erfasst werden.
-Diese Excel-Tabellen finden Sie im Vorlage-Ordner der jeweiligen Ebene
+Diese Excel-Tabellen finden Sie im Vorlage-Ordner_ der jeweiligen Ebene
 (vgl. Kapitel 3.4). Welche Metadaten Sie an welcher Stelle in der
 Excel-Tabelle eintragen müssen, erkennen Sie an den bereits vorgegebenen
 Spaltenüberschriften in der ersten Zeile der Tabelle. Dort stehen die
 Bezeichnungen der jeweiligen Metadaten.
+
+.. _Vorlage-Ordner: https://github.com/dzhw/metadatamanagement-io/wiki/Vorlagen/Vorlagen_fuer_Datengeber.zip
 
 Die Suffixe „.de“ und „.en“ sind Teil vieler Spaltenüberschriften und
 weisen auf die Sprache des einzutragenden Metadatums hin.
@@ -272,7 +274,7 @@ müssen diese nur auswählen.
 
 Häufig ist es der Fall, dass aus dem kontrollierten Vokabular einer
 bestimmten Zelle automatisch der Inhalt der nächsten Zelle folgt. Für
-dieses Szenario sind die Excel-Vorlagen vorbereitet, d. h. in den
+dieses Szenario sind die Excel-Vorlagen_ vorbereitet, d. h. in den
 betreffenden Spalten sind über mehrere Zeilen bereits Formeln
 hinterlegt, die die nächste Zelle automatisch füllen und Ihnen viel
 Tipparbeit ersparen. Die Vorlagen sind für alle Fälle
@@ -282,6 +284,8 @@ einschließlich Zeile 20 der Excel-Vorlage für die Ebenen Instrumente
 sowie Datensätze, bis einschließlich Zeile 2000 der Excel-Vorlage für
 die Fragen- und Variablenebene). Zum leichteren Erkennen sind die
 betreffenden Zeilen in den Vorlagen bereits grau hinterlegt.
+
+.. _Excel-Vorlagen: https://github.com/dzhw/metadatamanagement-io/wiki/Vorlagen/Vorlagen_fuer_Datengeber.zip
 
 Da Formeln in solchen Zellen, die nicht mit Inhalt befüllt sind,
 einen fehlerhaften Upload der Excel-Tabelle hervorrufen,
@@ -324,10 +328,12 @@ Die korrekte Anordnung der Dateien im Ordner
 
 Für einen erfolgreichen Upload der Metadaten attachments müssen
 Sie sämtliche Dateien ihrer zugehörigen Ebene entsprechend in den vom
-FDZ vorbereiteten Vorlage-Ordner ablegen, welcher nach der jeweiligen
+FDZ vorbereiteten Vorlage-Ordner_ ablegen, welcher nach der jeweiligen
 Ebene benannt ist. Dieser Ordner sowie auch seine Unterordner sind mit
 englischen Begriffen betitelt. Der Unterordner, welche alle Anhänge enthält,
 heißt unabhängig von der Ebene immer „attachments“.
+
+.. _Vorlage-Ordner: https://github.com/dzhw/metadatamanagement-io/wiki/Vorlagen/Vorlagen_fuer_Datengeber.zip
 
 Die Abgabe von Metadaten für die einzelnen Ebenen
 -------------------------------------------------
@@ -972,6 +978,11 @@ Datensätze (dataSets)
 ~~~~~~~~~~~~~~~~~~~~~
 
 **Übersicht**
+Für die Dokumentation der Datensätze werden die "Master"(AIP)-Datensätze
+(siehe Zwiebelmodell) genutzt.Diese Datensätze sind die größte mögliche
+Vereinheitlichung eines Datensatzes, also keine Teilpopulation oder Teilmenge
+von Variablen eines Datensatz. Datensätze die sich als Teilmenge eines
+"Master"-Datensatzes abbilden lassen werden über die SubDataSets dokumentiert.
 
 Mit den Informationen über die Datensätze, welche Sie aus den Daten
 Ihrer Studie erstellt haben, wird für jeden dieser Datensätze folgende
@@ -990,7 +1001,7 @@ Datensätze lassen sich auch per Eingabemaske anlegen und editieren.
 Hierfür muss man auf den Reiter Datensätze klicken (:numref:`mdm-ebenen`),
 anschließend auf das Plussymbol (:numref:`neuerdatensatz`) in der unteren
 rechten Ecke klicken und dann auf das Stiftsymbol (:numref:`stiftdatensatz`)
-("Klicken um einen Datensatz manuell zu erstellen").
+("Klicken um einen Datensatz manuell zu erstellen".)
 
 .. figure:: ./_static/new_dataset_de.png
    :name: neuerdatensatz
@@ -1004,16 +1015,28 @@ rechten Ecke klicken und dann auf das Stiftsymbol (:numref:`stiftdatensatz`)
 
 Die mit * markierten Felder sind verpflichtend.
 Die verknüpften Erhebungen werden nach einem Klick in das Feld "Erhebungen"
-automatisch
-vorgeschlagen und können per Klick ausgewählt werden.
+automatisch vorgeschlagen und können per Klick ausgewählt werden.
 Im Anschluss werden die Subdatensätze per Eingabemaske auf der selben Seite
-eingegeben.
-Weitere Subdatensätze können per Klick auf das Plussymbol hinzugefügt werden.
-Nachdem gespeichert wurde, lassen sich weitere Materialien zum Datensatz
-hinzufügen.
+eingegeben. Weitere Subdatensätze können per Klick auf das Plussymbol
+hinzugefügt werden. Nachdem gespeichert wurde, lassen sich weitere Materialien
+zum Datensatz hinzufügen.
 
 Wenn Sie Materialien auf Ebene der Datensätze haben, können Sie diese
 auch hier wieder im Ordner *attachments* ablegen. [9]_
+
+Datensatzreport erzeugen
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Wenn ein Datensatz und die zugehörigen Variablen im MDM vorliegen, kann mit
+Hilfe des MDMs ein Datensatzreport erstellt werden.
+Hierzu wird das
+`Template
+<https://github.com/dzhw/metadatamanagement-io/tree/master/datasetreport/template/>`_
+auf den Datensatz im MDM gezogen. Nach einiger Zeit (je nach Anzahl an Variablen
+länger als eine Minute) erfolgt ein Download.
+Die resultierenden Dateien werden von FDZ-MitarbeiterInnen zu einem PDF
+kompiliert. Dokumentation zum Umgang mit dem dafür benötigten Docker-Image
+folgt.
 
 Variablen (variables) [10]_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1331,6 +1354,25 @@ Diese Dateien speichern Sie dann in dem Ordner, den das FDZ für Sie
 vorbereitet hat. Das FDZ greift daraufhin auf die Dateien zu,
 verarbeitet sie weiter und lädt die finalisierten Metadaten für die
 Variablenebene dann selbst ins MDM.
+
+Erstellung der Variable-JSON Dateien
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. figure:: ./uebersicht_dta_to_JSON.png
+   :name: dta_to_JSON
+
+
+Die Erstellung der Variablen JSONs erfolgt komplett im geschützten Bereich.
+Benötigt werden pro Datensatz ein zugehöriger Stata-Datensatz und eine
+Exceltabelle. Die Exceltabelle (vimport_dsNR.xlsx) enthält die beiden
+Tabellenblätter variables und relatedQuestions. Pflichtspalten und zugehörige
+Ausfüllanweisungen werden im folgenden Abschnitt beschrieben.
+
+Es ist erlaubt die Exceltabellen um weitere optionale Spalten zu erweitern, z.B.
+Varname_alt, Var_Erh, Var_Thema, Var_Nr, Var_Indiz, Var_g, Var_h, Var_x, Var_p,
+Var_v, Var_Zugang, Varlabel_alt, Varlabel_neu, On-Site, Remote-Desktop,
+Download-SUF, Download-CUF, AIP, SIP, delete, ...
+
 
 Publikationen (relatedPublications)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

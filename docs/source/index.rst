@@ -12,6 +12,8 @@ Metadatamanagement (MDM) Dokumentation
 
    user_roles
    metadatenabgabe
+   bilderfassung_pdf
+   bilderfassung_ragtime
    javadoc/packages
 
 
