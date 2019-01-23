@@ -312,11 +312,26 @@ angular.module('metadatamanagementApp').service('SearchDao',
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER',
             'ROLE_ADMIN'])) {
           query.body.query.bool.filter = [];
-          query.body.query.bool.filter.push({
-            'exists': {
-              'field': 'release'
-            }
-          });
+
+          /*
+           * ... but we want to see once released studies in case they are running
+           * through an update process
+           */
+          if (elasticsearchType === 'studies') {
+            query.body.query.bool.filter.push({
+              'regexp': {
+                'release.version': {
+                  'value': '[1-9]+\.[0-9]+\.[0-9]+'
+                }
+              }
+            });
+          } else {
+            query.body.query.bool.filter.push({
+              'exists': {
+                'field': 'release'
+              }
+            });
+          }
         }
 
         if (dataAcquisitionProjectId) {
