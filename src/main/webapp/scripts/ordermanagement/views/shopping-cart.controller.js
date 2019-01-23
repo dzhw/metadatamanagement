@@ -12,6 +12,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       'stateName': $state.current.name
     });
     var ctrl = this;
+    var existingOrderId;
+    var shoppingCartVersion;
     ctrl.studies = {};
     ctrl.releases = {};
     ctrl.customer = {};
@@ -20,6 +22,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
 
     ctrl.init = function() {
       var promises = [];
+      existingOrderId = ShoppingCartService.getOrderId();
+      shoppingCartVersion = ShoppingCartService.getShoppingCartVersion();
       ctrl.customer.name = _.get(order, 'customer.name');
       ctrl.customer.email = _.get(order, 'customer.email');
       ctrl.products = ShoppingCartService.getProducts();
@@ -118,7 +122,21 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
           };
           order.products.push(completeProduct);
         });
-        OrderResource.save(order).$promise.then(function() {
+
+        var orderFn;
+        var requestParams;
+
+        if (existingOrderId) {
+          order.version = shoppingCartVersion;
+          orderFn = OrderResource.update;
+          requestParams = {
+            id: existingOrderId
+          };
+        } else {
+          orderFn = OrderResource.save;
+        }
+
+        orderFn(requestParams, order).$promise.then(function() {
           ShoppingCartService.clear();
           ctrl.orderSaved = true;
         }).catch(function() {
@@ -146,7 +164,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     if (order) {
       order.$promise.then(function(order) {
         ShoppingCartService
-          .initShoppingCartProducts(_.get(order, 'products', []));
+          .initShoppingCartProducts(_.get(order, 'products', []), order.id,
+            order.version);
         ctrl.init();
       });
     } else {

@@ -4,6 +4,8 @@
 angular.module('metadatamanagementApp').service('ShoppingCartService',
   function(localStorageService, SimpleMessageToastService, $rootScope) {
     var products = localStorageService.get('shoppingCart') || [];
+    var orderId = localStorageService.get('shoppingCart.orderId');
+    var shoppingCartVersion = localStorageService.get('shoppingCart.version');
 
     var add = function(product) {
       var existingIndex = _.findIndex(products, function(item) {
@@ -29,6 +31,14 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         return angular.equals(item, product);
       });
       localStorageService.set('shoppingCart', products);
+      if (products.length === 0) {
+        orderId = '';
+        localStorageService.set('shoppingCart.orderId', orderId);
+        shoppingCartVersion = '';
+        localStorageService
+          .set('shoppingCart.version', shoppingCartVersion);
+
+      }
       $rootScope.$broadcast('shopping-cart-changed', products.length);
     };
 
@@ -44,7 +54,11 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
 
     var clear = function() {
       products = [];
+      orderId = '';
+      shoppingCartVersion = '';
       localStorageService.set('shoppingCart', products);
+      localStorageService.set('shoppingCart.orderId', orderId);
+      localStorageService.set('shoppingCart.version', shoppingCartVersion);
       $rootScope.$broadcast('shopping-cart-changed', products.length);
     };
 
@@ -61,9 +75,15 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         'shopping-cart.toasts.checkout-coming-soon');
     };
 
-    var initShoppingCartProducts = function(initProducts) {
+    var initShoppingCartProducts = function(initProducts, initOrderId,
+                                            orderVersion) {
+
       var copy = _.cloneDeep(initProducts);
       localStorageService.set('shoppingCart', copy);
+      localStorageService.set('shoppingCart.orderId', initOrderId);
+      localStorageService.set('shoppingCart.version', orderVersion);
+      shoppingCartVersion = orderVersion;
+      orderId = initOrderId;
       products = copy;
     };
 
@@ -89,6 +109,14 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       products = migratedProducts;
     };
 
+    var getOrderId = function() {
+      return orderId;
+    };
+
+    var getShoppingCartVersion = function() {
+      return shoppingCartVersion;
+    };
+
     return {
       add: add,
       remove: remove,
@@ -98,6 +126,8 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       clear: clear,
       checkout: checkout,
       initShoppingCartProducts: initShoppingCartProducts,
-      migrateStoredData: migrateStoredData
+      migrateStoredData: migrateStoredData,
+      getOrderId: getOrderId,
+      getShoppingCartVersion: getShoppingCartVersion
     };
   });

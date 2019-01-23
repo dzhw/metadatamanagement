@@ -67,12 +67,9 @@ public class OrderResource {
 
     order = orderService.create(order);
 
-    String destinationUrl = UriComponentsBuilder.fromHttpUrl(dlpUrl)
-        .queryParam("mdm_order_id", order.getId())
-        .toUriString();
-
     return ResponseEntity
-        .created(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri()).build();
+        .created(UriComponentsBuilder.fromUriString(getDlpUrl(order.getId())).build().toUri())
+        .build();
   }
 
   /**
@@ -115,12 +112,20 @@ public class OrderResource {
     }
     order.setId(id);
     orderRepository.save(order);
-    String destinationUrl =
-        baseUrl + "/#!/" + order.getLanguageKey() + "/shopping-cart/" + order.getId();
-    if (order.getClient().equals(OrderClient.MDM)) {
-      destinationUrl = dlpUrl;
-    }
+
     return ResponseEntity.status(HttpStatus.OK)
-        .location(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri()).build();
+        .location(UriComponentsBuilder.fromUriString(getDlpUrl(id)).build().toUri()).build();
+  }
+
+  /**
+   * Generate a DLP url for the given order id.
+   *
+   * @param orderId Order Id
+   * @return URL as string
+   */
+  private String getDlpUrl(String orderId) {
+    return UriComponentsBuilder.fromHttpUrl(dlpUrl)
+        .queryParam("mdm_order_id", orderId)
+        .toUriString();
   }
 }
