@@ -5,9 +5,10 @@
                 <h2>{{'user-management.welcome-dialog.title' | translate}}</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="closeDialog()">
-                    <md-icon aria-label="{{'user-management.welcome-dialog.close' | translate}}">
-                        close
-                    </md-icon>
+                  <md-icon md-font-set="material-icons">clear</md-icon>
+                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                      {{"global.dialog.tooltip.close" | translate}}
+                  </md-tooltip>
                 </md-button>
             </div>
         </md-toolbar>
@@ -27,8 +28,11 @@
                              class="fdz-no-margin-bottom">
                     {{'user-management.welcome-dialog.do-not-show-again' | translate}}
                 </md-checkbox>
-                <md-button ng-click="closeDialog()" class="md-primary md-raised">
-                    {{'user-management.welcome-dialog.close' | translate}}
+                <md-button class="md-primary md-raised" ng-click="closeDialog()">
+                    {{"global.buttons.close" | translate}}
+                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                        {{"global.dialog.tooltip.close" | translate}}
+                    </md-tooltip>
                 </md-button>
             </md-dialog-actions>
         </div>
