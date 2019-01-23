@@ -53,7 +53,7 @@
 				<span>{{'data-acquisition-project-management.project-cockpit.config.' + ctrl.getModifyButtonLabel(ctrl.type) | translate}}</span>
 				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100"> {{ctrl.getTooltip(ctrl.type) | translate}}</md-tooltip>
 			</md-button>
-			<md-button class="md-primary md-raised" ng-if="!!ctrl.uploadFunction" type="file" ngf-select="ctrl.uploadFunction($files)" directory webkitdirectory ngf-multiple="true" ngf-select-disabled="!ctrl.isCreationAllowed(ctrl.type)">
+			<md-button class="md-primary md-raised" ng-if="!!ctrl.uploadFunction" type="file" ngf-select="ctrl.uploadFunction($files)" directory webkitdirectory ngf-multiple="true" ngf-select-disabled="!ctrl.isUploadAllowed(ctrl.type)">
 				<span>{{'data-acquisition-project-management.project-cockpit.config.upload' | translate}}</span>
 				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{ctrl.getTooltip(ctrl.type) | translate}}</md-tooltip>
 			</md-button>

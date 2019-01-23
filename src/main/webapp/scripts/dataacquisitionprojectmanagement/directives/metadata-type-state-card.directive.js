@@ -1,11 +1,12 @@
-/* global _ */
+/* global _, bowser */
 
 'use strict';
 
 angular.module('metadatamanagementApp')
   .directive('metadataTypeStateCard',
   function($state, ProjectStatusScoringService, ProjectUpdateAccessService,
-      VariableUploadService, QuestionUploadService, DeleteMetadataService) {
+      VariableUploadService, QuestionUploadService, DeleteMetadataService,
+      SimpleMessageToastService) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
@@ -81,8 +82,8 @@ angular.module('metadatamanagementApp')
             break;
           case 'dataSets':
             this.icon = 'assets/images/icons/data-set.svg';
-            this.createState = 'studyCreate';
-            this.searchState = this.type;
+            this.createState = 'dataSetCreate';
+            this.searchState = 'data_sets';
             this.tooltip = 'search-management.buttons.' +
               'create-data-set-tooltip';
             this.deleteTooltip = 'search-management.buttons.' +
@@ -146,6 +147,15 @@ angular.module('metadatamanagementApp')
             type + 'Required');
         };
 
+        ctrl.isUploadAllowed = function(type) {
+          if (bowser.msie) {
+            SimpleMessageToastService.openAlertMessageToast('global.error.' +
+              'browser-not-supported');
+            return false;
+          }
+          return ctrl.isCreationAllowed(type);
+        };
+
         ctrl.isCreationAllowed = function(type) {
           return ProjectUpdateAccessService.isUpdateAllowed(
             ctrl.project, type, true);
@@ -161,7 +171,7 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.delete = function() {
-          DeleteMetadataService.deleteAllOfType($scope.project, ctrl.type);
+          DeleteMetadataService.deleteAllOfType(ctrl.project, ctrl.type);
         };
       }
     };

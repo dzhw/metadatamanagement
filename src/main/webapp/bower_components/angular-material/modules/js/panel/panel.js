@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.12
+ * v1.1.10
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -121,11 +121,9 @@ angular
  *   }
  *
  *   function PanelMenuCtrl(mdPanelRef) {
- *     // 'mdPanelRef' is injected in the controller.
+ *     // The controller is provided with an import named 'mdPanelRef'
  *     this.closeMenu = function() {
- *       if (mdPanelRef) {
- *         mdPanelRef.close();
- *       }
+ *       mdPanelRef && mdPanelRef.close();
  *     };
  *   }
  * })(angular);

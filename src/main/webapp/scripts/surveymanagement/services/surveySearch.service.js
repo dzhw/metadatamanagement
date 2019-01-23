@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('SurveySearchService',
   function(ElasticSearchClient, $q, LanguageService, SearchHelperService,
-    CleanJSObjectService) {
+           CleanJSObjectService, GenericFilterOptionsSearchService) {
       var createQueryObject = function(type) {
         type = type || 'surveys';
         return {
@@ -47,36 +47,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
           });
         return deferred;
       };
-      var findByProjectId = function(dataAcquisitionProjectId,
-        selectedAttributes, from, size, excludedSurveyId) {
-        var query = createQueryObject();
-        query.body = {};
-        query.body.from = from;
-        query.body.size = size;
-        query.body._source = selectedAttributes;
-        query.body.query = {
-          'bool': {
-            'must': [{
-              'match_all': {}
-            }],
-            'filter': [{
-              'term': {
-                'dataAcquisitionProjectId': dataAcquisitionProjectId
-              }
-            }]
-          }
-        };
-        if (excludedSurveyId) {
-          // jscs:disable
-          query.body.query.bool.must_not = {
-            'term': {
-              'id': excludedSurveyId
-            }
-          };
-          // jscs:enable
-        }
-        return ElasticSearchClient.search(query);
-      };
+
       var findByStudyId = function(studyId, selectedAttributes, from, size) {
         var query = createQueryObject();
         query.body = {};
@@ -98,27 +69,6 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         return ElasticSearchClient.search(query);
       };
 
-      var findByVariableId = function(variableId, selectedAttributes,
-        from, size) {
-        var query = createQueryObject();
-        query.body = {};
-        query.body.from = from;
-        query.body.size = size;
-        query.body._source = selectedAttributes;
-        query.body.query = {
-          'bool': {
-            'must': [{
-              'match_all': {}
-            }],
-            'filter': [{
-              'term': {
-                'variables.id': variableId
-              }
-            }]
-          }
-        };
-        return ElasticSearchClient.search(query);
-      };
       var findByDataSetId = function(dataSetId, selectedAttributes,
         from, size) {
         var query = createQueryObject();
@@ -334,14 +284,27 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         });
       };
 
+      var findSurveyMethodFilterOptions = function(searchText, filter, type,
+        queryTerm, dataAcquisitionProjectId) {
+
+        return GenericFilterOptionsSearchService.findFilterOptions({
+          searchText: searchText,
+          type: type,
+          filter: filter,
+          dataAcquisitionProjectId: dataAcquisitionProjectId,
+          filterAttribute: 'surveyMethod',
+          queryTerm: queryTerm,
+          prefix: type === 'surveys' ? '' : 'surveys'
+        });
+      };
+
       return {
         findOneById: findOneById,
-        findByProjectId: findByProjectId,
         findByStudyId: findByStudyId,
         findByDataSetId: findByDataSetId,
-        findByVariableId: findByVariableId,
         countBy: countBy,
         findSurveyMethods: findSurveyMethods,
-        findSurveyTitles: findSurveyTitles
+        findSurveyTitles: findSurveyTitles,
+        findSurveyMethodFilterOptions: findSurveyMethodFilterOptions
       };
     });

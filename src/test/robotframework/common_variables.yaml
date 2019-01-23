@@ -7,6 +7,8 @@ capabilities:
     version: latest
     screenResolution: 1920x1080
     maxDuration: 10800
+    commandTimeout: 600
+    idleTimeout: 600
   firefox:
     name: Win10/Firefox
     platform: Windows 10
@@ -14,6 +16,8 @@ capabilities:
     version: latest
     screenResolution: 1920x1080
     maxDuration: 10800
+    commandTimeout: 600
+    idleTimeout: 600
   edge:
     name: Win10/Edge
     platform: Windows 10
@@ -21,6 +25,8 @@ capabilities:
     version: latest
     screenResolution: 1920x1080
     maxDuration: 10800
+    commandTimeout: 600
+    idleTimeout: 600
   ie:
     name: Win10/IE11
     platform: Windows 10
@@ -39,3 +45,5 @@ capabilities:
     logLevel: 'TRACE'
     logFile: 'ie.log'
     maxDuration: 10800
+    commandTimeout: 600
+    idleTimeout: 600
