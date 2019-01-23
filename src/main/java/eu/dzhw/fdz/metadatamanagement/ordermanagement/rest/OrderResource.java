@@ -112,9 +112,16 @@ public class OrderResource {
     }
     order.setId(id);
     orderRepository.save(order);
+    String destinationUrl;
+    if (order.getClient().equals(OrderClient.MDM)) {
+      destinationUrl = getDlpUrl(id);
+    } else {
+      destinationUrl = baseUrl + "/#!/" + order.getLanguageKey() + "/shopping-cart/"
+          + order.getId();
+    }
 
     return ResponseEntity.status(HttpStatus.OK)
-        .location(UriComponentsBuilder.fromUriString(getDlpUrl(id)).build().toUri()).build();
+        .location(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri()).build();
   }
 
   /**
