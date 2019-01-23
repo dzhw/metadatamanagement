@@ -8,10 +8,16 @@ Variables         ../common_variables.yaml
 Change Project Roles
   Click Element Through Tooltips  xpath=//button//md-icon[contains(., "send")]
 
+Change Project Release Status
+  Click Element Through Tooltips  xpath=//button//md-icon[contains(., "screen_share")]
+
 Write Message and Assign
   Click Element Through Tooltips  xpath=//textarea[@name="assigneeMessage"]
   Input Text   xpath=//textarea[@name="assigneeMessage"]   This is a meesage by Robot for changing project roles!!
   Click Element Through Tooltips   xpath=//md-dialog-actions//button[contains(., "Zuweisen")]
+
+Click on OK Button
+   Click Element Through Tooltips  xpath=//md-dialog-actions//button[contains(.,'OK')]
 
 Discard Changes Yes
    Click Element Through Tooltips  xpath=//md-dialog-actions//button[contains(.,'Ja')]
@@ -125,14 +131,6 @@ Click Publisher Ready Checkbox for Variables
 
 Click Dataprovider Ready Checkbox for Variables
    Click Element Through Tooltips  xpath=//md-card[@type="variables"]//md-checkbox[contains(.,"Datengeber Fertig")]
-
-
-
-
-
-
-
-
 
 Close The Toast Message
     [Arguments]  ${TOAST_MSSG}
