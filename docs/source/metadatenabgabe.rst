@@ -1439,6 +1439,17 @@ http://github.com/dzhw/gra2005-metadata/ . Die Ordner werden anschließend auf
 Variablenebene ins MDM per Drag and Drop oder über den Plusbutton rechts unten
 hochgeladen.
 
+Variables (Zofar)
+~~~~~~~~~~~~~~~~~
+
+Bei Onlinebefragungen mit ZOFAR können fragenbezogene Metadaten auf
+Variablenebene automatisch extrahiert werden. Eine .csv Tabelle die den
+Variablennamen, die Instrumentnummer, die Fragenummer und den
+relatedQuestionString (Fragetext + zugehöriger Variablentext) enthält, wird
+geliefert.
+
+Der Prozess befindet sich im Aufbau...
+
 Publikationen (relatedPublications)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
