@@ -31,14 +31,6 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         return angular.equals(item, product);
       });
       localStorageService.set('shoppingCart', products);
-      if (products.length === 0) {
-        orderId = '';
-        localStorageService.set('shoppingCart.orderId', orderId);
-        shoppingCartVersion = '';
-        localStorageService
-          .set('shoppingCart.version', shoppingCartVersion);
-
-      }
       $rootScope.$broadcast('shopping-cart-changed', products.length);
     };
 
@@ -54,11 +46,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
 
     var clear = function() {
       products = [];
-      orderId = '';
-      shoppingCartVersion = '';
       localStorageService.set('shoppingCart', products);
-      localStorageService.set('shoppingCart.orderId', orderId);
-      localStorageService.set('shoppingCart.version', shoppingCartVersion);
       $rootScope.$broadcast('shopping-cart-changed', products.length);
     };
 
