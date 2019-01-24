@@ -52,8 +52,14 @@ describe('ProjectUpdateAccessService', function() {
     expect(ProjectUpdateAccessService.isUpdateAllowed(undefined,'')).toBe(false);
   });
 
-  it('should return true if an updateable project is selected', function() {
+  it('should return false since it is not the publishers turn', function() {
     spyOn(Principal, 'loginName').and.returnValue(publisherName);
+    spyOn(Principal, 'hasAuthority').and.returnValue(true);
+    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies')).toBe(false);
+  });
+
+  it('should return true since it is the data providers turn', function() {
+    spyOn(Principal, 'loginName').and.returnValue(dataProviderName);
     spyOn(Principal, 'hasAuthority').and.returnValue(true);
     expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies')).toBe(true);
   });
