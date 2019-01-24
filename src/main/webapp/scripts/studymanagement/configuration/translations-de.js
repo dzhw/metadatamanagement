@@ -94,6 +94,7 @@ angular.module('metadatamanagementApp').config(
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Studien.',
           'not-yet-released': 'Aktuell nicht freigegeben',
           'not-released-toast': 'Die Studie "{{ id }}" wird aktuell bearbeitet und ist daher nicht für alle Benutzer freigegeben!',
+          'is-currently-updated-toast': 'Die Studie "{{ id }}" wird zur Zeit aktualisiert. Inhalte dieser Studie können sich in der nächsten Version ändern.',
           'old-version': 'Ihr Link verweist auf eine ältere Version ({{versionFromUrl}}) dieser Studie. Hier wird die aktuelle Version ({{actualVersion}}) der Studie "{{title}}" dargestellt.',
           'beta-release-no-doi': 'Dies ist ein BETA Release und enthält noch keine DOI.',
           'publications-for-series': 'Publikationen zur Studienreihe "{{studySeries}}"',
@@ -105,7 +106,7 @@ angular.module('metadatamanagementApp').config(
             },
             'data-sets': {
               'one': 'Klicken, um den Datensatz dieser Studie anzuzeigen',
-              'many': 'Klicken, um alle Datensätze dieser Studie anzuzeigen',
+              'many': 'Klicken, um alle Datensätze dieser Studie anzuzeigen'
             },
             'series-publications': 'Klicken, um alle Publikationen zu dieser Studienreihe anzuzeigen',
             'publications': {
