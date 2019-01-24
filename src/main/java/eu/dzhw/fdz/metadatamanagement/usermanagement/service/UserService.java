@@ -123,13 +123,14 @@ public class UserService {
    * Update the user details.
    */
   public void updateUserInformation(String firstName, String lastName, String email,
-      String langKey) {
+      String langKey, boolean welcomeDialogDeactivated) {
     userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin())
         .ifPresent(u -> {
           u.setFirstName(firstName);
           u.setLastName(lastName);
           u.setEmail(email);
           u.setLangKey(langKey);
+          u.setWelcomeDialogDeactivated(welcomeDialogDeactivated);
           userRepository.save(u);
           log.debug("Changed Information for User: {}", u);
         });

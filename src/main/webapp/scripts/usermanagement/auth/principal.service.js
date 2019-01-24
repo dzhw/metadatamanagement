@@ -1,10 +1,17 @@
+/* globals _ */
 'use strict';
 
 angular.module('metadatamanagementApp').factory(
   'Principal',
-  function Principal($q, AccountResource, AuthServerProvider, $rootScope) {
+  function Principal($q, AccountResource, AuthServerProvider, $rootScope,
+                     WelcomeDialogService) {
     var _identity;
     var _authenticated = false;
+
+    var displayWelcomeDialog = function(identity) {
+      return _.indexOf(identity.authorities, 'ROLE_DATA_PROVIDER') !== -1 &&
+        !identity.welcomeDialogDeactivated;
+    };
 
     return {
       isIdentityResolved: function() {
@@ -61,7 +68,16 @@ angular.module('metadatamanagementApp').factory(
             $rootScope.$broadcast('stop-ignoring-401');
             _identity = account.data;
             _authenticated = true;
-            deferred.resolve(_identity);
+            if (displayWelcomeDialog(_identity)) {
+              WelcomeDialogService.display(_identity.login)
+                .then(function(hideWelcomeDialog) {
+                  if (hideWelcomeDialog) {
+                    _identity.welcomeDialogDeactivated = true;
+                    AccountResource.save(_identity);
+                  }
+                });
+            }
+            return deferred.resolve(_identity);
           }).catch(function() {
             $rootScope.$broadcast('stop-ignoring-401');
             AuthServerProvider.deleteToken();

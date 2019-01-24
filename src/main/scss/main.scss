@@ -1116,6 +1116,7 @@ md-toast.md-accent > .md-toast-content {
 .fdz-no-margin {
     margin: 0
 }
+
 .fdz-no-margin-bottom {
     margin-bottom: 0;
 }
@@ -1166,6 +1167,12 @@ project-status-badge > span, release-status-badge > span {
 
 .fdz-unreleased {
     background-color: $brand-danger;
+}
+
+.fdz-welcome-dialog-image {
+    display: block;
+    margin: auto;
+    border: 2px solid $brand-primary;
 }
 
 @keyframes fade-highlight {
