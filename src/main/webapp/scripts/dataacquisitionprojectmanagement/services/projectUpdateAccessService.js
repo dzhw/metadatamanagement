@@ -91,17 +91,20 @@ angular.module('metadatamanagementApp').service(
       }
       role = role || '';
       var userLogin = Principal.loginName();
+      var isAssigned = false;
       if (role === '' || role === 'publishers') {
         if (Principal.hasAuthority('ROLE_PUBLISHER')) {
-          return project.configuration.publishers.indexOf(userLogin) !== -1;
+          isAssigned = isAssigned ||
+            project.configuration.publishers.indexOf(userLogin) !== -1;
         }
       }
       if (role === '' || role === 'dataProviders') {
         if (Principal.hasAuthority('ROLE_DATA_PROVIDER')) {
-          return project.configuration.dataProviders.indexOf(userLogin) !== -1;
+          isAssigned = isAssigned ||
+            project.configuration.dataProviders.indexOf(userLogin) !== -1;
         }
       }
-      return false;
+      return isAssigned;
     };
 
     var isUpdateAllowed = function(project, type, notify) {
