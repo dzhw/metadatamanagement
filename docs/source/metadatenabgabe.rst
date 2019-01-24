@@ -1373,6 +1373,82 @@ Varname_alt, Var_Erh, Var_Thema, Var_Nr, Var_Indiz, Var_g, Var_h, Var_x, Var_p,
 Var_v, Var_Zugang, Varlabel_alt, Varlabel_neu, On-Site, Remote-Desktop,
 Download-SUF, Download-CUF, AIP, SIP, delete, ...
 
+Momentan liegen die Import Dateien der Projekte, sowie die Skripte zur Erzeugung
+der JSONs im geschützten Bereich unter Q:\Variablenexport\. Der Aufbau der Ordnerstruktur ist wie folgt:
+
+ |--Variablenexport
+    |--Projekte
+       |--gra2005
+          |--variablesToJsons.bat
+          |--output
+             |--ds1
+             |--ds2
+          |--data-raw
+             |--stata
+                |--ds1.dta
+                |--ds2.dta
+             |--excel
+                |--vimport_ds1.xlsx
+                |--vimport_ds2.xlsx
+                |--conditions.xlsx
+    |--variable-generation_productive
+       |--variablesToJsons.bat.tmpl
+::
+
+Um json Dateien für ein neues Projekt zu generieren, muss zunächst ein Ordner
+für das neue Projekt angelegt werden und die oben gezeigt Ordnerstruktur
+aufgebaut werden. Im Ordner stata befinden sich die jeweiligen Stata Datensätze
+(ds1, ds2, ds3, ...) und im Ordner excel die zugehörigen Exceltabellen mit den
+beiden Tabellenblättern variables und relatedQuestions (vimport_ds1.xlsx,
+vimport_ds2.xlsx, vimport_ds1.xlsx, ...), sowie die Datei mit den missing
+conditions (conditions.xlsx). Zum Generieren der json Dateien das R-Skript
+variablesToJsons.bat.tmpl in den Projektordner kopieren, das .tmpl entfernen,
+die Datei anpassen und danach ausführen.
+
+Es ist möglich die Missing Bedingungen für numerische und string Variablen in
+der datei conditions.xlsx anzupassen. Außerdem können in der batch-Datei
+Variablennamen angegeben werden, die im MDM keine Verteilung bekommen sollen.
+Dies sind z.B. id Variablen. Variablen mit accessway not-accessible müssen hier
+nicht eingetragen werden.
+
+**Missing Conditions**
+
+In der Exceltabelle conditions.xlsx können für numerische und string Variablen
+Missingbedingungen angegeben werden. Die Exceltabelle enthält die beiden
+Tabellenblättern missingConditionNumeric und missingConditionString. Es ist
+möglich für numerische und string Variablen jeweils mehrere Bedingungen
+anzugeben. Die Bedingungen werden mit ODER verknüpft. Das heißt, wenn eine der
+Bedingungen für einen Wert zutrifft, wird dieser Wert als Missing gewertet. Die
+verfügbaren Operatoren können in der Exceltabelle über ein Drop-Down Menü
+ausgewählt werden und sind im Tabellenblatt list of valid operators
+dokumentiert.
+
+Ein Fehler der auftreten kann ist, dass im Stata-Datensatz nicht die richtige
+Sprache gewählt wurde. Ist das der Fall können nicht die richtigen Wertelabel
+zugeordnet werden.
+
+**Transfer in den öffentlichen Bereich**
+Die Datensatzordner mit den json Dateien müssen noch in den öffentlichen Bereich
+transferiert werden. Da es nicht möglich ist, Ordner zu transferieren, werden
+die Ordner gezippt (7-Zip), transferiert und im öffentlichen Bereich wieder
+entpackt.
+
+Die Variable-JSON Dateien müssen anschließend bei Github in das Repository
+projectid-metadata in den variables Ordner hochgeladen werden. Siehe z.B.
+http://github.com/dzhw/gra2005-metadata/ . Die Ordner werden anschließend auf
+Variablenebene ins MDM per Drag and Drop oder über den Plusbutton rechts unten
+hochgeladen.
+
+Variables (Zofar)
+~~~~~~~~~~~~~~~~~
+
+Bei Onlinebefragungen mit ZOFAR können fragenbezogene Metadaten auf
+Variablenebene automatisch extrahiert werden. Eine .csv Tabelle die den
+Variablennamen, die Instrumentnummer, die Fragenummer und den
+relatedQuestionString (Fragetext + zugehöriger Variablentext) enthält, wird
+geliefert.
+
+Der Prozess befindet sich im Aufbau...
 
 Publikationen (relatedPublications)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1397,6 +1473,77 @@ FDZ per Mail die PDF-Datei Ihrer Publikation sowie den dazugehörigen
 Zitationshinweis zu. Die weitere Bearbeitung wie z. B. die Registrierung
 für das Erhalten einer DOI und den Upload ins MDM übernimmt das FDZ.
 
+**Arbeiten mit der Citavi-Datenbank**
+
+Für dieses Objekt wird eine Citavi-Datenabank angelegt. Diese liegt unter: `\\faust\Abt4\FDZ\Querschnittsaufgaben\Metadaten\Erzeugen\Literaturexport\relatedPublication`.
+
+Die Citavi-Einträge lassen sich exportieren, indem man einen Eintrag in der
+Literaturübersicht markiert (linke Seite) und Str+Alt+t drückt. Die
+Tabellenansicht öffnet sich und durch klicken auf Spalten (oben links) kann
+ausgewählt werden, welche Spalten exportiert werden sollen. Aus der
+Tabellenansicht kann die die Datei jetzt nach Excel als relatedPublications.xls
+exportiert werden (Datei > nach Microsoft Excel exportieren). Einige
+Spaltennamen müssen evtl. später noch manuell umbenannt werden (z.B. BibTeXKey
+wird zu id). Die Excel-Tabelle wird
+`hier<https://github.com/dzhw/metadatamanagement-io/tree/master/references/relatedPublications>`
+gepflegt.
+
++--------------+----------------------+-------------------------+
+| Eigenschaft  | Ausfüllanweisung     | muss ausgefüllt werden? |
++==============+======================+=========================+
+| id           | von Citavi           | ja                      |
+|              | erzeugter BibTex-Key |                         |
++--------------+----------------------+-------------------------+
+| source\      | Quellangabe der      | ja                      |
+| Reference    | Publikation          |                         |
+|              | (default)            |                         |
++--------------+----------------------+-------------------------+
+| publication\ | Zusammenfassung      | nein                    |
+| Abstract     |                      |                         |
++--------------+----------------------+-------------------------+
+| doi          | doi der Publikation  | nein                    |
++--------------+----------------------+-------------------------+
+| sourceLink   | valide URL           | nein                    |
++--------------+----------------------+-------------------------+
+| title        | Titel                | ja                      |
++--------------+----------------------+-------------------------+
+| authors      | Autoren (Nachname1,  | ja                      |
+|              | Vorname1; Nachname2, |                         |
+|              | Vorname2)            |                         |
++--------------+----------------------+-------------------------+
+| year         | Jahr der Veröffen\   | ja                      |
+|              | tlichung (muss klei\ |                         |
+|              | ner oder gleich dem  |                         |
+|              | aktuellen Jahr sein) |                         |
++--------------+----------------------+-------------------------+
+| abstract\    |??                    | nein                    |
+| Source.de/\  |                      |                         |
+| .en          |                      |                         |
++--------------+----------------------+-------------------------+
+| studyIds     | Studien-Ids, der zur | Wenn keine studySeries\ |
+|              | Publikation gehören\ | es vorhanden -> ja      |
+|              | den Studie           |                         |
++--------------+----------------------+-------------------------+
+| dataSetIds   |                      | nein                    |
++--------------+----------------------+-------------------------+
+| instrumentIds|                      | nein                    |
++--------------+----------------------+-------------------------+
+| surveyIds    |                      | nein                    |
++--------------+----------------------+-------------------------+
+| variableIds  |                      | nein                    |
++--------------+----------------------+-------------------------+
+| questionIds  |                      | nein                    |
++--------------+----------------------+-------------------------+
+| studySeries\ | mindestens eine      | Falls vorhanden ja      |
+| es.de        | studyId oder mindes\ |                         |
+|              | tens 1 studySeries   |                         |
++--------------+----------------------+-------------------------+
+| language     | Sprache der Publika\ | ja                      |
+|              | tion                 |                         |
+|              | (2-Buchstaben Code   |                         |
+|              | nach `ISO 639-1<https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`) |                         |
++--------------+----------------------+-------------------------+
+
 Die Freigabe eines neuen Projekts
 ---------------------------------
 
@@ -1404,7 +1551,10 @@ Wenn Sie alle Metadaten ausgefüllt bzw. ans FDZ gesendet haben, melden
 Sie sich beim FDZ mit dem Hinweis, dass Sie Ihre Daten nicht weiter
 editieren möchten. Das FDZ nimmt ihre Daten dann in die sogenannte
 Release-Pipeline auf. Die finale Freigabe erfolgt dann über einen dafür
-benannten Mitarbeiter des FDZ, den Release-Manager.
+benannten Mitarbeiter des FDZ, den Release-Manager. Bei Release wird eine
+Postvalidierung durchgeführt, näheres dazu findet sich `hier<https://github.com/dzhw/metadatamanagement/wiki/Domain-Model#dataacquisitionproject-post-validation>`.
+Ab Versionsnummer 1.0.0 wird das Projekt an da|ra weitergegeben und erhält eine
+doi.
 
 Anhang
 ------
