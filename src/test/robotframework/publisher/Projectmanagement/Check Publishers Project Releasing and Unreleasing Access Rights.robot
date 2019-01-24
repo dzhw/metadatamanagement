@@ -1,5 +1,6 @@
 *** Settings ***
-Documentation     Publisher Create a new Project and Assign role and check the project as dataprovider
+Documentation     Check Project Releasing and Unreleagsing Rights for Publisher
+Force Tags        noslowpoke
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
