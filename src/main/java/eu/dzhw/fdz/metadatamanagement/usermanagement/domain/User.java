@@ -87,4 +87,6 @@ public class User extends AbstractRdcDomainObject implements Serializable {
 
   @JsonIgnore
   private Set<Authority> authorities;
+
+  private boolean welcomeDialogDeactivated;
 }

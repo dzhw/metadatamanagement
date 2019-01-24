@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.stereotype.Component;
 
 import com.github.zafarkhaja.semver.Version;
@@ -31,7 +32,7 @@ public class DoiBuilder {
   public String buildStudyDoi(StudySubDocumentProjection study, Release release) {
     if (release != null && study != null
         && Version.valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))) {
-      if (environment.acceptsProfiles(Constants.SPRING_PROFILE_PROD)) {
+      if (environment.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_PROD))) {
         return "10.21249/DZHW:" + study.getDataAcquisitionProjectId() + ":"
             + release.getVersion();
       } else {

@@ -10,10 +10,12 @@ import javax.validation.constraints.Size;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import lombok.ToString;
 
 /**
  * A DTO representing a user, with his authorities.
  */
+@ToString
 public class UserDto {
 
   public static final int PASSWORD_MIN_LENGTH = 5;
@@ -45,6 +47,8 @@ public class UserDto {
 
   private Set<String> authorities;
 
+  private boolean welcomeDialogDeactivated;
+
   public UserDto() {}
 
   /**
@@ -55,14 +59,15 @@ public class UserDto {
         user.isActivated(), user.getLangKey(), user.getAuthorities()
           .stream()
           .map(Authority::getName)
-          .collect(Collectors.toSet()));
+          .collect(Collectors.toSet()), user.isWelcomeDialogDeactivated());
   }
 
   /**
    * Create the dto.
    */
   public UserDto(String login, String password, String firstName, String lastName, String email,
-      boolean activated, String langKey, Set<String> authorities) {
+      boolean activated, String langKey, Set<String> authorities,
+      boolean welcomeDialogDeactivated) {
 
     this.login = login;
     this.password = password;
@@ -72,6 +77,7 @@ public class UserDto {
     this.activated = activated;
     this.langKey = langKey;
     this.authorities = authorities;
+    this.welcomeDialogDeactivated = welcomeDialogDeactivated;
   }
 
   public String getPassword() {
@@ -106,11 +112,7 @@ public class UserDto {
     return authorities;
   }
 
-  @Override
-  public String toString() {
-    return "UserDTO{" + "login='" + login + '\'' + ", password='" + password + '\''
-        + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='"
-        + email + '\'' + ", activated=" + activated + ", langKey='" + langKey + '\''
-        + ", authorities=" + authorities + "}";
+  public boolean isWelcomeDialogDeactivated() {
+    return welcomeDialogDeactivated;
   }
 }
