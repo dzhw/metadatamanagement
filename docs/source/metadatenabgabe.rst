@@ -1376,24 +1376,25 @@ Download-SUF, Download-CUF, AIP, SIP, delete, ...
 Momentan liegen die Import Dateien der Projekte, sowie die Skripte zur Erzeugung
 der JSONs im geschützten Bereich unter Q:\Variablenexport\. Der Aufbau der Ordnerstruktur ist wie folgt:
 
- |--Variablenexport
-    |--Projekte
-       |--gra2005
-          |--variablesToJsons.bat
-          |--output
-             |--ds1
-             |--ds2
-          |--data-raw
-             |--stata
-                |--ds1.dta
-                |--ds2.dta
-             |--excel
-                |--vimport_ds1.xlsx
-                |--vimport_ds2.xlsx
-                |--conditions.xlsx
-    |--variable-generation_productive
-       |--variablesToJsons.bat.tmpl
 ::
+
+   |--Variablenexport
+      |--Projekte
+         |--gra2005
+            |--variablesToJsons.bat
+            |--output
+               |--ds1
+               |--ds2
+            |--data-raw
+               |--stata
+                  |--ds1.dta
+                  |--ds2.dta
+               |--excel
+                  |--vimport_ds1.xlsx
+                  |--vimport_ds2.xlsx
+                  |--conditions.xlsx
+      |--variable-generation_productive
+         |--variablesToJsons.bat.tmpl
 
 Um json Dateien für ein neues Projekt zu generieren, muss zunächst ein Ordner
 für das neue Projekt angelegt werden und die oben gezeigt Ordnerstruktur
@@ -1541,7 +1542,7 @@ gepflegt.
 | language     | Sprache der Publika\ | ja                      |
 |              | tion                 |                         |
 |              | (2-Buchstaben Code   |                         |
-|              | nach `ISO 639-1<https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`) |                         |
+|              | nach ISO 639-1_      |                         |
 +--------------+----------------------+-------------------------+
 
 Die Freigabe eines neuen Projekts
