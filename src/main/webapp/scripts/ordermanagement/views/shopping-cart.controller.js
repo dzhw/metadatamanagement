@@ -12,6 +12,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       'stateName': $state.current.name
     });
     var ctrl = this;
+    var existingOrderId;
+    var shoppingCartVersion;
     ctrl.studies = {};
     ctrl.releases = {};
     ctrl.counts = {};
@@ -19,6 +21,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
 
     ctrl.init = function() {
       var promises = [];
+      existingOrderId = ShoppingCartService.getOrderId();
+      shoppingCartVersion = ShoppingCartService.getShoppingCartVersion();
       ctrl.products = ShoppingCartService.getProducts();
       ctrl.products.forEach(function(product) {
         var studyId = product.study.id;
@@ -99,28 +103,54 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     };
 
     ctrl.order = function() {
-      var order = {
-        languageKey: LanguageService.getCurrentInstantly(),
-        customer: ctrl.customer,
-        client: 'MDM',
-        products: []
-      };
-      ctrl.products.forEach(function(product) {
-        var completeProduct = {
-          dataAcquisitionProjectId: product.dataAcquisitionProjectId,
-          study: ctrl.studies[product.study.id],
-          accessWay: product.accessWay,
-          version: product.version
+      if ($scope.orderForm.$valid) {
+        var order = {
+          languageKey: LanguageService.getCurrentInstantly(),
+          client: 'MDM',
+          products: []
         };
-        order.products.push(completeProduct);
-      });
-      OrderResource.save(order).$promise.then(function() {
-        ShoppingCartService.clear();
-        ctrl.orderSaved = true;
-      }).catch(function() {
+        ctrl.products.forEach(function(product) {
+          var completeProduct = {
+            dataAcquisitionProjectId: product.dataAcquisitionProjectId,
+            study: ctrl.studies[product.study.id],
+            accessWay: product.accessWay,
+            version: product.version
+          };
+          order.products.push(completeProduct);
+        });
+
+        var orderFn;
+        var requestParams;
+
+        if (existingOrderId) {
+          order.version = shoppingCartVersion;
+          orderFn = OrderResource.update;
+          requestParams = {
+            id: existingOrderId
+          };
+        } else {
+          orderFn = OrderResource.save;
+        }
+
+        orderFn(requestParams, order).$promise.then(function() {
+          ShoppingCartService.clear();
+          ctrl.orderSaved = true;
+        }).catch(function() {
+          SimpleMessageToastService.openAlertMessageToast(
+            'shopping-cart.toasts.error-on-saving-order');
+        });
+      } else {
+        // ensure that all validation errors are visible
+        angular.forEach($scope.orderForm.$error, function(field) {
+          angular.forEach(field, function(errorField) {
+            if (errorField) {
+              errorField.$setTouched();
+            }
+          });
+        });
         SimpleMessageToastService.openAlertMessageToast(
-          'shopping-cart.toasts.error-on-saving-order');
-      });
+          'shopping-cart.toasts.order-has-validation-errors-toast');
+      }
     };
 
     ctrl.clear = function() {
@@ -130,7 +160,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     if (order) {
       order.$promise.then(function(order) {
         ShoppingCartService
-          .initShoppingCartProducts(_.get(order, 'products', []));
+          .initShoppingCartProducts(_.get(order, 'products', []), order.id,
+            order.version);
         ctrl.init();
       });
     } else {

@@ -20,7 +20,7 @@ try {
   .run(
       function($rootScope, $location, $state, LanguageService, Auth, Principal,
         ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
-        WebSocketService, $urlRouter, $translate) {
+        WebSocketService, $urlRouter, $translate, MigrationService) {
         // sometimes urlRouter does not load the state automatically on startup
         $urlRouter.sync();
         WebSocketService.connect();
@@ -115,6 +115,8 @@ try {
               $rootScope.previousStateParams);
           }
         };
+
+        MigrationService.migrate();
       })
     .config(
       function($stateProvider, $urlRouterProvider,
