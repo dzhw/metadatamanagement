@@ -61,13 +61,9 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         $state.go('search');
       });
 
-    $scope.onSaveChanges = function(origin) {
+    $scope.onSaveChanges = function() {
       var project = ProjectSaveService.prepareProjectForSave($scope.project);
-      saveProject(project).then(function() {
-        if (origin !== 'requirements') {
-          $state.reload();
-        }
-      });
+      saveProject(project);
     };
 
     $scope.changed = false;
