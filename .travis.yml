@@ -26,6 +26,7 @@ stages:
       if: branch = development || branch =~ /^saikotitis.*$/
     - name: nightly e2e tests
       if: type = cron || branch =~ /^saikotitis.*$/
+jobs:
   include:
     - stage: build
       name: "Client & Server Build"
