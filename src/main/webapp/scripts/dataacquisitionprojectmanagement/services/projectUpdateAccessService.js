@@ -31,17 +31,6 @@ angular.module('metadatamanagementApp').service(
       return !project.release;
     };
 
-    var isMemberOfAssignedGroup = function(project) {
-      switch (project.assigneeGroup) {
-        case 'PUBLISHER':
-          return Principal.hasAuthority('ROLE_PUBLISHER');
-        case 'DATA_PROVIDER':
-          return Principal.hasAuthority('ROLE_DATA_PROVIDER');
-        default:
-          return false;
-      }
-    };
-
     var isTypeRequired = function(project, type) {
       if (type) {
         type = type === 'data_sets' ? 'dataSets' : type;
@@ -105,6 +94,17 @@ angular.module('metadatamanagementApp').service(
         }
       }
       return isAssigned;
+    };
+
+    var isMemberOfAssignedGroup = function(project) {
+      switch (project.assigneeGroup) {
+        case 'PUBLISHER':
+          return isAssignedToProject(project, 'publishers');
+        case 'DATA_PROVIDER':
+          return isAssignedToProject(project, 'dataProviders');
+        default:
+          return false;
+      }
     };
 
     var isUpdateAllowed = function(project, type, notify) {
