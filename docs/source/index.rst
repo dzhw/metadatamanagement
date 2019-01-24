@@ -14,6 +14,8 @@ Metadatamanagement (MDM) Dokumentation
    metadatenabgabe
    bilderfassung_pdf
    bilderfassung_ragtime
+   editing_macros_excel
+   jsons_pruefen
    javadoc/packages
 
 

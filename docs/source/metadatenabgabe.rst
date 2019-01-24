@@ -1358,7 +1358,7 @@ Variablenebene dann selbst ins MDM.
 Erstellung der Variable-JSON Dateien
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. figure:: ./uebersicht_dta_to_JSON.png
+.. figure:: ./_static/uebersicht_dta_to_json.png
    :name: dta_to_JSON
 
 
@@ -1545,20 +1545,67 @@ gepflegt.
 |              | nach ISO 639-1_      |                         |
 +--------------+----------------------+-------------------------+
 
-Die Freigabe eines neuen Projekts
----------------------------------
+Projekte releasen
+-----------------
 
 Wenn Sie alle Metadaten ausgefüllt bzw. ans FDZ gesendet haben, melden
 Sie sich beim FDZ mit dem Hinweis, dass Sie Ihre Daten nicht weiter
 editieren möchten. Das FDZ nimmt ihre Daten dann in die sogenannte
 Release-Pipeline auf. Die finale Freigabe erfolgt dann über einen dafür
-benannten Mitarbeiter des FDZ, den Release-Manager. Bei Release wird eine
+benannten Mitarbeiter des FDZ, den Release-Manager.
+
+User mit der Rolle Publisher können Projekte bei denen alle erwarteten Metadaten
+als fertig markiert wurden releasen. Dazu muss in der Navbar (Menü links) auf
+den Release Button geklickt werden. Bei Release wird eine
 Postvalidierung durchgeführt, näheres dazu findet sich `hier<https://github.com/dzhw/metadatamanagement/wiki/Domain-Model#dataacquisitionproject-post-validation>`.
 Ab Versionsnummer 1.0.0 wird das Projekt an da|ra weitergegeben und erhält eine
-doi.
+doi. Wenn der Release Button ein weiteres Mal geklickt wird, wird die Freigabe
+zurückgezogen und Metadaten können weiter editiert werden. Bei erneutem Klick
+kann das Projekt dann neu released werden. Gegebenenfalls wird eine neue
+Versionsnummer vergeben (Versionierungskonzept folgt).
 
 Anhang
 ------
+
+Templates
+~~~~~~~~~
+
+In dem `Template
+<https://github.com/dzhw/metadatamanagement-io/tree/master/datasetreport/template/>`_
+befinden sich die relevanten Exceldateien für DatengeberInnen.
+Dies ist nur noch relevant für questions/variables und für die related
+publications.
+
+Ausfüllhinweis: Die Excel-Interfaces enthalten teilweise Dropdownmenüs und
+Formeln als Hilfestellung. Alle Zeilen, die grau eingefärbt sind, enthalten
+diese Hilfestellungen. Der Datengeber kann einfach die Felder ausfüllen. Nach
+Fertigstellung der Dateien und vor Hochladen der Excel-Interfaces in das MDM
+müssen alle grauen Zeilen, die nicht genutzt werden gelöscht werden. Fertig!
+Vom FDZ-Team müssen im Anschluss noch folgende Punkte erledigt werden:
+
++--------------------------+---------------------------------------------------+
+| Felder                   | To Do                                             |
++==========================+===================================================+
+| Datenaufbereitungsfelder | bei Bedarf für externe Projekte löschen (z.B.     |
+|                          | varname_alt, Varlabel_alt)                        |
++--------------------------+---------------------------------------------------+
+| alle Felder              | nur einblenden, wenn Datengeber die Informationen |
+|                          | liefern (z.B. englische Felder,                   |
+|                          | GenerationDetails, …)                             |
++--------------------------+---------------------------------------------------+
+| Zugangswege              | - Spalte "accessWays" entfernen, diese wird im    |
+|                          |   Nachheinein vom FDZ auf Basis der               |
+|			   |   Zugangswegspalten ausgefüllt                    |
+|                          |                                                   |
+|			   | - entspr. Absprache zu Zugangswegen nur relevante |
+|			   |   Zugangsweg-Spalten drin lassen                  |
+|                          |                                                   |
+|			   | - wenn nur ein Zugangsweg -> alle                 |
+|            		   |   Zugangsweg-Spalten rauslassen                   |
++--------------------------+---------------------------------------------------+
+| accessWays               | raus                                              |
++--------------------------+---------------------------------------------------+
+
 
 Checkliste für Abgabe der Metadaten
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
