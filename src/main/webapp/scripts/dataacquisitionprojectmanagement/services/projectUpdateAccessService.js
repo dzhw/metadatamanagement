@@ -31,17 +31,6 @@ angular.module('metadatamanagementApp').service(
       return !project.release;
     };
 
-    var isMemberOfAssignedGroup = function(project) {
-      switch (project.assigneeGroup) {
-        case 'PUBLISHER':
-          return Principal.hasAuthority('ROLE_PUBLISHER');
-        case 'DATA_PROVIDER':
-          return Principal.hasAuthority('ROLE_DATA_PROVIDER');
-        default:
-          return false;
-      }
-    };
-
     var isTypeRequired = function(project, type) {
       if (type) {
         type = type === 'data_sets' ? 'dataSets' : type;
@@ -91,17 +80,31 @@ angular.module('metadatamanagementApp').service(
       }
       role = role || '';
       var userLogin = Principal.loginName();
+      var isAssigned = false;
       if (role === '' || role === 'publishers') {
         if (Principal.hasAuthority('ROLE_PUBLISHER')) {
-          return project.configuration.publishers.indexOf(userLogin) !== -1;
+          isAssigned = isAssigned ||
+            project.configuration.publishers.indexOf(userLogin) !== -1;
         }
       }
       if (role === '' || role === 'dataProviders') {
         if (Principal.hasAuthority('ROLE_DATA_PROVIDER')) {
-          return project.configuration.dataProviders.indexOf(userLogin) !== -1;
+          isAssigned = isAssigned ||
+            project.configuration.dataProviders.indexOf(userLogin) !== -1;
         }
       }
-      return false;
+      return isAssigned;
+    };
+
+    var isMemberOfAssignedGroup = function(project) {
+      switch (project.assigneeGroup) {
+        case 'PUBLISHER':
+          return isAssignedToProject(project, 'publishers');
+        case 'DATA_PROVIDER':
+          return isAssignedToProject(project, 'dataProviders');
+        default:
+          return false;
+      }
     };
 
     var isUpdateAllowed = function(project, type, notify) {
