@@ -14,7 +14,7 @@ ${TOAST_MSSG}  Die Aktion ist nicht möglich
 *** Test Cases ***
 Check Publisher Can Change Accordingly
    Create Project  ${PROJECT_NAME}${BROWSER}
-   Assign a dataprovider  dataprovider  1
+   Assign a dataprovider  dataprovider
    Select Survey Checkbox
    Select Instruments Checkbox
    Select Questions Checkbox

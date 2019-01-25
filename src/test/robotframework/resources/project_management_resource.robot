@@ -26,14 +26,14 @@ Discard Changes No
    Click Element Through Tooltips  xpath=//md-dialog-actions//button[contains(.,'Nein')]
 
 Assign a dataprovider
-   [Arguments]   ${dataprovidername}  ${dataprovidernameindex}
+   [Arguments]   ${dataprovidername}
    Input Text  xpath=//md-card[@group='dataProviders']//following::input[@type='search']  ${dataprovidername}
-   Click Element Through Tooltips  xpath=//span[@md-highlight-text='ctrl.searchText[ctrl.group]'][contains(.,'${dataprovidername}')][${dataprovidernameindex}]
+   Click Element Through Tooltips  xpath=//md-virtual-repeat-container//span[text()='${dataprovidername}']
 
 Assign a publisher
-   [Arguments]   ${publishername}  ${publishernameindex}
+   [Arguments]   ${publishername}
    Input Text  xpath=//md-card[@group='publishers']//following::input[@type='search']  ${publishername}
-   Click Element Through Tooltips  xpath=//span[@md-highlight-text='ctrl.searchText[ctrl.group]'][contains(.,'${publishername}')][${publishernameindex}]
+   Click Element Through Tooltips  xpath=//md-virtual-repeat-container//span[text()='${publishername}']
 
 Assign to publisher
    Click Element Through Tooltips   xpath=//project-status-badge[@assignee-group="DATA_PROVIDER"]//div//button[@type="button"]
@@ -136,4 +136,3 @@ Close The Toast Message
     Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]
     Element Should Contain  xpath=//md-toast//span[contains(.,"Die Aktion ist nicht möglich")]  ${TOAST_MSSG}
     Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
-
