@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Publisher Create a new Project and Assign role and check the project as dataprovider
+Documentation     Publisher Create a new Project and Studies, then checks the metadata deleting access rights
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot

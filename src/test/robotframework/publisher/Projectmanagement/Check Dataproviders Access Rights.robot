@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     Publisher Create a new Project and Assign role and check the project as dataprovider
+Force Tags        noslowpoke
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
@@ -95,7 +96,7 @@ Ensure Variable Upload Button is Restricted
     Run Keyword if  '${BROWSER}' == 'chrome'  Close The Toast Message  ${TOAST_MSSG}
     Run Keyword if  '${BROWSER}' == 'firefox'  Close The Toast Message  ${TOAST_MSSG}
     Run Keyword if  '${BROWSER}' == 'edge'  Close The Toast Message  ${TOAST_MSSG}
-    Run Keyword if  '${BROWSER}' == 'ie'  Close The Toast Message for Upload Button in IE
+    Run Keyword if  '${BROWSER}' == 'ie'  Close The Toast Message for Upload Button in IE   #in IE upload is not possible because of that toast mesaage is different
 
 Ensure Question Upload Button is Restricted
     Click Element Through Tooltips  xpath=//md-card[@type="questions"]//button[contains(.,"Hochladen")]
