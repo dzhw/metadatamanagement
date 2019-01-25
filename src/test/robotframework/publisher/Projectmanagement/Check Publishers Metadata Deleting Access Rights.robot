@@ -12,7 +12,7 @@ ${TOAST_MSSG}  Die Aktion ist nicht möglich
 *** Test Cases ***
 Publisher Create But Can Not Delete Study When Publisher is Ready
    Create Project  ${PROJECT_NAME}${BROWSER}
-   Assign a dataprovider  dataprovider  1
+   Assign a dataprovider  dataprovider
    Select Survey Checkbox
    Select Instruments Checkbox
    Select Questions Checkbox
@@ -74,6 +74,3 @@ Choose In Aufbereitung as Data Availibility
 
 Click on Delete Button for Meatdata
     Click Element Through Tooltips   xpath=//md-card-actions//span[contains(., "Löschen")]
-
-
-
