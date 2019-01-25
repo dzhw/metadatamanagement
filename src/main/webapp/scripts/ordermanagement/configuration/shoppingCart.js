@@ -28,8 +28,13 @@ angular.module('metadatamanagementApp').config(function($stateProvider) {
   $stateProvider.state('shoppingCart', _.extend({}, commonStateConfig, {
     url: '/shopping-cart',
     resolve: {
-      order: function() {
-        return null;
+      order: function(ShoppingCartService, OrderResource) {
+        var orderId = ShoppingCartService.getOrderId();
+        if (orderId) {
+          return OrderResource.get({id: orderId});
+        } else {
+          return null;
+        }
       }
     }
   }));
