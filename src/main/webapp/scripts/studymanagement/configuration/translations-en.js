@@ -129,7 +129,8 @@ angular.module('metadatamanagementApp').config(
               'study-series': 'Click to show all studies of the study series.'
             }
           },
-          'doi-tooltip': 'Click to open the DOI in a new Tab'
+          'doi-tooltip': 'Click to open the DOI in a new Tab',
+          'is-in-update-process': 'Is being updated and currently unavailable'
         },
         'log-messages': {
           'study': {

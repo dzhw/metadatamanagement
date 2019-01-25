@@ -80,7 +80,8 @@ angular.module('metadatamanagementApp')
             ctrl.assigneeGroup = project.assigneeGroup;
             setupTransitionHook(project);
           } else {
-            if (result.release && !project.release) {
+            ctrl.isStudyInUpdateProcess = result.release && !project.release;
+            if (ctrl.isStudyInUpdateProcess) {
               SimpleMessageToastService.openAlertMessageToast(
                 'study-management.detail.' +
                 'is-currently-updated-toast', {id: result.id});
