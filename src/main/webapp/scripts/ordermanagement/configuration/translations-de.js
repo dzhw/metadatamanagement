@@ -67,7 +67,6 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'toasts': {
-          'checkout-coming-soon': 'Der Bestellvorgang wird demnächst implementiert...',
           'study-added': 'Das Datenprodukt wurde in den Einkaufswagen gelegt.',
           'study-already-in-cart': 'Das Datenprodukt ist bereits im Einkaufswagen.',
           'order-has-validation-errors-toast': 'Sie haben noch nicht alle benötigten Angaben gemacht.',

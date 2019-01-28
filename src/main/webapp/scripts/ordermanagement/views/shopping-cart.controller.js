@@ -19,10 +19,21 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     ctrl.counts = {};
     ctrl.initComplete = false;
 
+    var initViewWithOrderResource = function(order) {
+      order.$promise.then(function(order) {
+        ShoppingCartService
+          .initShoppingCartProducts(_.get(order, 'products', []), order.id);
+        shoppingCartVersion = order.version;
+      }, function(error) {
+        if (error.status === 404) {
+          ShoppingCartService.clearLocalOrderId();
+        }
+      }).finally(ctrl.init);
+    };
+
     ctrl.init = function() {
       var promises = [];
       existingOrderId = ShoppingCartService.getOrderId();
-      shoppingCartVersion = ShoppingCartService.getShoppingCartVersion();
       ctrl.products = ShoppingCartService.getProducts();
       ctrl.products.forEach(function(product) {
         var studyId = product.study.id;
@@ -133,11 +144,15 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         }
 
         orderFn(requestParams, order).$promise.then(function() {
-          ShoppingCartService.clear();
+          ShoppingCartService.completeOrder();
           ctrl.orderSaved = true;
         }).catch(function() {
           SimpleMessageToastService.openAlertMessageToast(
             'shopping-cart.toasts.error-on-saving-order');
+          // Perhaps our order data went stale, attempt reload in this case
+          if (existingOrderId) {
+            initViewWithOrderResource(OrderResource.get({id: existingOrderId}));
+          }
         });
       } else {
         // ensure that all validation errors are visible
@@ -154,16 +169,11 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     };
 
     ctrl.clear = function() {
-      ShoppingCartService.clear();
+      ShoppingCartService.clearProducts();
     };
 
     if (order) {
-      order.$promise.then(function(order) {
-        ShoppingCartService
-          .initShoppingCartProducts(_.get(order, 'products', []), order.id,
-            order.version);
-        ctrl.init();
-      });
+      initViewWithOrderResource(order);
     } else {
       ctrl.init();
     }

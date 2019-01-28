@@ -65,6 +65,5 @@ public class Order extends AbstractRdcDomainObject {
    * Must not be empty.
    */
   @Valid
-  @NotEmpty
   private List<Product> products;
 }
