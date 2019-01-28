@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Publisher Create a new Project and Assign role and check the project as dataprovider
+Documentation     Publisher Create a new Project and Studies, then checks the metadata deleting access rights
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
@@ -12,7 +12,7 @@ ${TOAST_MSSG}  Die Aktion ist nicht möglich
 *** Test Cases ***
 Publisher Create But Can Not Delete Study When Publisher is Ready
    Create Project  ${PROJECT_NAME}${BROWSER}
-   Assign a dataprovider  dataprovider  1
+   Assign a dataprovider  dataprovider
    Select Survey Checkbox
    Select Instruments Checkbox
    Select Questions Checkbox
@@ -74,6 +74,3 @@ Choose In Aufbereitung as Data Availibility
 
 Click on Delete Button for Meatdata
     Click Element Through Tooltips   xpath=//md-card-actions//span[contains(., "Löschen")]
-
-
-
