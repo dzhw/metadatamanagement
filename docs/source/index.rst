@@ -12,10 +12,17 @@ Metadatamanagement (MDM) Dokumentation
 
    user_roles
    metadatenabgabe
+   id_vergabe
    bilderfassung_pdf
    bilderfassung_ragtime
+   excel_makros_verwenden
    editing_macros_excel
+   datensatz_report_lektorat
    jsons_pruefen
+   skalenniveau_pruefen
+   stata_skripte
+   issues_testen
+   datentypen
    javadoc/packages
 
 

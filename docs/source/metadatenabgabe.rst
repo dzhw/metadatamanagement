@@ -696,6 +696,10 @@ sowie Filterführungsdiagramme [4]_. Diese müssen als PDF-Dateien
 vorliegen. [5]_ Außerdem können an dieser Stelle Codierlisten, welche
 als Excel-Tabelle vorliegen müssen, erfasst werden.
 
+Sollte es Erhebungsinstrumente geben, welche in einer anderen Sprache als
+deutsch oder englisch existieren, werden diese nur als Attachment und nicht auf
+Variablenebene bereitgestellt.
+
 Fragen (questions) [6]_
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -722,6 +726,26 @@ müssen Daten aus allen anderweitig durchgeführten Befragungen – sowohl
 andere Onlinebefragungen als auch PAPI-Befragungen – manuell erfasst
 werden (siehe **Questions (manuell)**). Im Folgenden werden beide
 Vorgehensweisen schrittweise beschrieben.
+
+Fragestruktur
+~~~~~~~~~~~~~
+
+Fragen sind gekennzeichnet durch einen einleitenden/übergreifenden Fragetext,
+sowie eine "natürliche" sichtbare Abgrenzung gegenüber anderer Fragen und eine
+meist "erkennbare" Nummerierung. Es wird zwischen vier Fragetypen differenziert:
+
+- Single Choice: Auf die Frage kann nur mit einer Antwortmöglichkeit geantwortet
+  werden (z.B. Einfachauswahl aus mehren Antwortmöglichkeiten oder Angabe eines
+  numerischen Wertes).
+- Mehrfachnennung: Für die Frage gibt es eine Auswahl an Antwortmöglichkeiten
+  bei denen eine oder mehre ausgewählt werden können.
+- Itembatterie: Besitzt überleitenden Fragetext, welche jeweils weitere Items
+  mit den gleichen Antwortmöglichkeiten besitzen.
+- Matrix: Ist ein komplexer Fragetyp in dem viele Unterfragen geschachtelt
+  werden können und die nicht durch die anderen Fragetypen abgedeckt werden
+  (z.B. Tableaufragen des Absolventenpanels ).
+
+
 
 Questions (manuell)
 ~~~~~~~~~~~~~~~~~~~
