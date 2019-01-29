@@ -10,17 +10,13 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
-        searchResultIndex: '=',
-        isUpdateAllowed: '=?'
+        searchResultIndex: '='
       },
       controller: function($scope, CommonDialogsService, InstrumentResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
         DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
         $transitions) {
         $scope.projectIsCurrentlyReleased = true;
-        if (angular.isUndefined($scope.isUpdateAllowed)) {
-          $scope.isUpdateAllowed = true;
-        }
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({

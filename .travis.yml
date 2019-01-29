@@ -25,8 +25,8 @@ stages:
     - name: e2e smoketests
       if: branch = development || branch =~ /^saikotitis.*$/
     - name: nightly e2e tests
-      if: branch = development || branch =~ /^saikotitis.*$/
-jobs:
+      if: type = cron || branch =~ /^saikotitis.*$/
+
   include:
     - stage: build
       name: "Client & Server Build"

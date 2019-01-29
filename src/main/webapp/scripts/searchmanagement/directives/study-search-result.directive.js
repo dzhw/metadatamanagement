@@ -11,14 +11,10 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
         currentLanguage: '=',
         bowser: '=',
         searchResultIndex: '=',
-        isUpdateAllowed: '=?'
       },
       controller: function($scope, DataAcquisitionProjectResource,
         Principal, ProjectUpdateAccessService, $transitions) {
         $scope.projectIsCurrentlyReleased = true;
-        if (angular.isUndefined($scope.isUpdateAllowed)) {
-          $scope.isUpdateAllowed = true;
-        }
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
@@ -35,7 +31,7 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
               'studies',
               true
             )) {
-              return Promise.reject();
+              return false;
             }
           });
         $scope.$on('$destroy', unregisterTransitionHook);
