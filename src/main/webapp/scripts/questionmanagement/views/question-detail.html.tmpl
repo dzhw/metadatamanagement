@@ -38,7 +38,7 @@
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.question.type">
                         <span style="font-weight: bold;">{{'question-management.detail.label.type' | translate }}:</span>
-                        <span>{{ctrl.question.type | displayI18nString | fdzDisplayFormatter | fdzHyphenate}}</span>
+                        <span display-i18n-string="ctrl.question.type" fdz-hyphenate></span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.question.topic">
                         <span style="font-weight: bold;">{{'question-management.detail.label.topic' | translate }}:</span>
