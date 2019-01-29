@@ -66,9 +66,9 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
           product.version].variables = result.count;
         }));
         var project = DataAcquisitionProjectResource
-          .get({id: product.projectId});
+          .get({id: product.dataAcquisitionProjectId});
 
-        ctrl.dataAcquisitionProjects[product.projectId] = project;
+        ctrl.dataAcquisitionProjects[product.dataAcquisitionProjectId] = project;
         promises.push(project.$promise);
       });
       _.forEach(ctrl.studies, function(study, studyId) { // jshint ignore:line
