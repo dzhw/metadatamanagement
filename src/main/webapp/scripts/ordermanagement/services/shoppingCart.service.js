@@ -11,6 +11,10 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var products = localStorageService.get(SHOPPING_CART_KEY) || [];
     var orderId = localStorageService.get(ORDER_ID_KEY);
 
+    var _broadcastShoppingCartChanged = function() {
+      $rootScope.$broadcast('shopping-cart-changed', products.length);
+    };
+
     var _displayUpdateOrderError = function() {
       SimpleMessageToastService.openAlertMessageToast(
         'shopping-cart.toasts.error-on-saving-order');
@@ -25,7 +29,8 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
 
     var _isProductInShoppingCart = function(products, product) {
       return _.findIndex(products, function(item) {
-        return item.study.id === product.study.id;
+        return item.study.id === product.study.id &&
+          item.version === product.version;
       }) !== -1;
     };
 
@@ -38,7 +43,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         SimpleMessageToastService.openSimpleMessageToast(
           'shopping-cart.toasts.study-added',
           {id: product.study.id});
-        $rootScope.$broadcast('shopping-cart-changed', products.length);
+        _broadcastShoppingCartChanged();
       }
     };
 
@@ -47,13 +52,13 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         return angular.equals(item, product);
       });
       localStorageService.set(SHOPPING_CART_KEY, products);
-      $rootScope.$broadcast('shopping-cart-changed', products.length);
+      _broadcastShoppingCartChanged();
     };
 
     var _clearLocalShoppingCart = function() {
       products = [];
       localStorageService.set(SHOPPING_CART_KEY, products);
-      $rootScope.$broadcast('shopping-cart-changed', products.length);
+      _broadcastShoppingCartChanged();
     };
 
     var _addProductToExistingOrder = function(product) {
@@ -82,7 +87,8 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var _removeProductFromExistingOrder = function(product) {
       OrderResource.get({id: orderId}).$promise.then(function(order) {
         var removed = _.remove(order.products, function(productInOrder) {
-          return productInOrder.study.id === product.study.id;
+          return productInOrder.study.id === product.study.id &&
+            productInOrder.version === product.version;
         });
 
         if (removed.length > 0) {
@@ -139,6 +145,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       localStorageService.set(ORDER_ID_KEY, initOrderId);
       orderId = initOrderId;
       products = copy;
+      _broadcastShoppingCartChanged();
     };
 
     var migrateStoredData = function() {
