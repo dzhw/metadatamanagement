@@ -37,7 +37,8 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var _isProductInShoppingCart = function(products, product) {
       return _.findIndex(products, function(item) {
         return item.study.id === product.study.id &&
-          item.version === product.version;
+          item.version === product.version &&
+          item.accessWay === product.accessWay;
       }) !== -1;
     };
 
@@ -98,7 +99,8 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       OrderResource.get({id: orderId}).$promise.then(function(order) {
         var removed = _.remove(order.products, function(productInOrder) {
           return productInOrder.study.id === product.study.id &&
-            productInOrder.version === product.version;
+            productInOrder.version === product.version &&
+          productInOrder.accessWay === product.accessWay;
         });
 
         if (removed.length > 0) {
