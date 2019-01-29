@@ -130,7 +130,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',
-          'is-in-update-process': 'Wird aktualisiert und ist zur Zeit nicht verfügbar'
+          'is-in-update-process': 'Nicht verfügbar, da die Studie gerade aktualisiert wird.'
         },
         'log-messages': {
           'study': {
