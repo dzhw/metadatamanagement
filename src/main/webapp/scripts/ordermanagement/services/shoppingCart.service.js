@@ -7,9 +7,16 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
 
     var SHOPPING_CART_KEY = 'shoppingCart';
     var ORDER_ID_KEY = 'shoppingCart.orderId';
+    var VERSION_KEY = 'shoppingCart.version';
 
     var products = localStorageService.get(SHOPPING_CART_KEY) || [];
     var orderId = localStorageService.get(ORDER_ID_KEY);
+    var version = localStorageService.get(VERSION_KEY);
+
+    var _incrementOrderVersion = function() {
+      version = version + 1;
+      localStorageService.set(VERSION_KEY, version);
+    };
 
     var _broadcastShoppingCartChanged = function() {
       $rootScope.$broadcast('shopping-cart-changed', products.length);
@@ -77,7 +84,10 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
 
               order.products.push(newProduct);
               OrderResource.update(order).$promise
-                .then(_addProductToLocalShoppingCart.bind(null, product),
+                .then(function() {
+                    _incrementOrderVersion();
+                    _addProductToLocalShoppingCart(product);
+                  },
                   _displayUpdateOrderError);
             }, _displayUpdateOrderError);
         }
@@ -93,7 +103,10 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
 
         if (removed.length > 0) {
           OrderResource.update(order).$promise
-            .then(_removeProductFromLocalShoppingCart.bind(null, product),
+            .then(function() {
+                _incrementOrderVersion();
+                _removeProductFromLocalShoppingCart(product);
+              },
               _displayUpdateOrderError);
         }
       }, _displayUpdateOrderError);
@@ -103,7 +116,10 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       OrderResource.get({id: orderId}).$promise.then(function(order) {
         order.products = [];
         return OrderResource.update(order).$promise
-          .then(_clearLocalShoppingCart, _displayUpdateOrderError);
+          .then(function() {
+            _incrementOrderVersion();
+            _clearLocalShoppingCart();
+          }, _displayUpdateOrderError);
       }, _displayUpdateOrderError);
     };
 
@@ -139,12 +155,15 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       return products.length;
     };
 
-    var initShoppingCartProducts = function(initProducts, initOrderId) {
+    var initShoppingCartProducts = function(initProducts, initOrderId,
+                                            initVersion) {
       var copy = _.cloneDeep(initProducts);
       localStorageService.set(SHOPPING_CART_KEY, copy);
       localStorageService.set(ORDER_ID_KEY, initOrderId);
+      localStorageService.set(VERSION_KEY, initVersion);
       orderId = initOrderId;
       products = copy;
+      version = initVersion;
       _broadcastShoppingCartChanged();
     };
 
@@ -170,13 +189,15 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       products = migratedProducts;
     };
 
-    var clearOrderId = function() {
+    var clearOrderData = function() {
       orderId = '';
       localStorageService.set(ORDER_ID_KEY, orderId);
+      version = '';
+      localStorageService.set(VERSION_KEY, version);
     };
 
     var completeOrder = function() {
-      clearOrderId();
+      clearOrderData();
       _clearLocalShoppingCart();
     };
 
@@ -184,16 +205,21 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       return orderId;
     };
 
+    var getVersion = function() {
+      return version;
+    };
+
     return {
       add: add,
       remove: remove,
       getProducts: getProducts,
       count: count,
-      clearLocalOrderId: clearOrderId,
+      clearLocalOrderId: clearOrderData,
       clearProducts: clearProducts,
       completeOrder: completeOrder,
       initShoppingCartProducts: initShoppingCartProducts,
       migrateStoredData: migrateStoredData,
-      getOrderId: getOrderId
+      getOrderId: getOrderId,
+      getVersion: getVersion
     };
   });

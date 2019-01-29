@@ -14,7 +14,6 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     });
     var ctrl = this;
     var existingOrderId;
-    var shoppingCartVersion;
     ctrl.dataAcquisitionProjects = {};
     ctrl.studies = {};
     ctrl.releases = {};
@@ -25,8 +24,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     var initViewWithOrderResource = function(order) {
       order.$promise.then(function(order) {
         ShoppingCartService
-          .initShoppingCartProducts(_.get(order, 'products', []), order.id);
-        shoppingCartVersion = order.version;
+          .initShoppingCartProducts(_.get(order, 'products', []), order.id,
+            order.version);
       }, function(error) {
         if (error.status === 404) {
           ShoppingCartService.clearLocalOrderId();
@@ -146,7 +145,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         var requestParams;
 
         if (existingOrderId) {
-          order.version = shoppingCartVersion;
+          order.version = ShoppingCartService.getVersion();
           orderFn = OrderResource.update;
           requestParams = {
             id: existingOrderId
