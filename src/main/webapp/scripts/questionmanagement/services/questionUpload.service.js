@@ -386,15 +386,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           }
 
           if (CleanJSObjectService.isNullOrEmpty(questionImageMetadataList)) {
-            JobLoggingService.error({
-              message: 'question-management.log-messages.' +
-                'question-image-metadata.not-depending-image-metadata',
-              messageParams: {
-                questionNumber: question.number,
-                instrument: question.instrumentNumber
-              },
-              objectType: 'image'
-            });
             resolve();
           } else {
             deleteAllImages(question.id).finally(function() {
