@@ -69,7 +69,7 @@ languageKey
 products
 ^^^^^^^^
 
-.. java:field:: @Valid @NotEmpty private List<Product> products
+.. java:field:: @Valid private List<Product> products
    :outertype: Order
 
    List of data \ :java:ref:`Product`\ s the customer want to order. Must not be empty.
