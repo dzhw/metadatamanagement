@@ -5,11 +5,14 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
   function(PageTitleService, $state, ToolbarHeaderService,
     ShoppingCartService, $scope, StudyResource, DataSetSearchService,
     VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
-    OrderResource, LanguageService, SimpleMessageToastService) {
+    OrderResource, LanguageService, SimpleMessageToastService,
+    DataAcquisitionProjectResource) {
+
     PageTitleService.setPageTitle('shopping-cart.title');
     ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
       name});
     var ctrl = this;
+    ctrl.dataAcquisitionProjects = {};
     ctrl.studies = {};
     ctrl.releases = {};
     ctrl.customer = {};
@@ -42,6 +45,11 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
           ctrl.counts[product.studyId + product.accessWay +
             product.version].variables = result.count;
         }));
+        var project = DataAcquisitionProjectResource
+          .get({id: product.projectId});
+
+        ctrl.dataAcquisitionProjects[product.projectId] = project;
+        promises.push(project.$promise);
       });
       _.forEach(ctrl.studies, function(study, studyId) { // jshint ignore:line
         promises.push(StudyResource.get({id: studyId}).$promise.then(
