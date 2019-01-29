@@ -7,7 +7,7 @@ fi
 PROFILE="$1"
 TRAVIS_BRANCH="$4"
 COVERALLS_TOKEN="$5"
-if [ "${PROFILE}" = "unused"]; then
+if [ "${PROFILE}" = "unused" ]; then
   PROFILE="dev"
 fi
 if [ "${TRAVIS_BRANCH}" = "master" ]; then
