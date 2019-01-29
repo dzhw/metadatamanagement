@@ -16,7 +16,7 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
       controller: function($scope, CommonDialogsService, DataSetResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
         DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
-        $transitions, $q) {
+        $state, $q) {
         $scope.projectIsCurrentlyReleased = true;
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
@@ -43,7 +43,7 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
                 ElasticSearchAdminService.
                   processUpdateQueue('data_sets'),
                 ElasticSearchAdminService.
-                  processUpdateQueue('studies'),
+                  processUpdateQueue('studies')
               ]).promise;
             }).then(function() {
               $rootScope.$broadcast('deletion-completed');
@@ -54,18 +54,15 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
           }
         };
 
-        var unregisterTransitionHook = $transitions.onBefore(
-          {to: 'dataSetEdit'},
-          function() {
-            if (!ProjectUpdateAccessService.isUpdateAllowed(
-              $scope.project,
-              'data_sets',
-              true
-            )) {
-              return false;
-            }
-          });
-        $scope.$on('$destroy', unregisterTransitionHook);
+        $scope.dataSetEdit = function() {
+          if (ProjectUpdateAccessService.isUpdateAllowed(
+            $scope.project,
+            'data_sets',
+            true
+          )) {
+            $state.go('dataSetEdit', {id: $scope.searchResult.id});
+          }
+        };
       }
     };
   });

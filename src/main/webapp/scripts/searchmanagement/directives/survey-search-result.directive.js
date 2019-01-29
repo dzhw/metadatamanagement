@@ -16,7 +16,7 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
       controller: function($scope, CommonDialogsService, SurveyResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
         DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
-        $transitions, $q) {
+        $state, $q) {
         $scope.projectIsCurrentlyReleased = true;
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
@@ -44,7 +44,7 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
                 ElasticSearchAdminService.
                   processUpdateQueue('surveys'),
                 ElasticSearchAdminService.
-                  processUpdateQueue('studies'),
+                  processUpdateQueue('studies')
               ]).promise;
             }).then(function() {
               $rootScope.$broadcast('deletion-completed');
@@ -55,17 +55,15 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
           }
         };
 
-        var unregisterTransitionHook = $transitions.onBefore({to: 'surveyEdit'},
-          function() {
-            if (!ProjectUpdateAccessService.isUpdateAllowed(
-              $scope.project,
-              'surveys',
-              true
-            )) {
-              return false;
-            }
-          });
-        $scope.$on('$destroy', unregisterTransitionHook);
+        $scope.surveyEdit = function() {
+          if (ProjectUpdateAccessService.isUpdateAllowed(
+            $scope.project,
+            'surveys',
+            true
+          )) {
+            $state.go('surveyEdit', {id: $scope.searchResult.id});
+          }
+        };
       }
     };
   });

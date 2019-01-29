@@ -10,10 +10,10 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
-        searchResultIndex: '=',
+        searchResultIndex: '='
       },
       controller: function($scope, DataAcquisitionProjectResource,
-        Principal, ProjectUpdateAccessService, $transitions) {
+        Principal, ProjectUpdateAccessService, $state) {
         $scope.projectIsCurrentlyReleased = true;
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
@@ -24,17 +24,15 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
             $scope.projectIsCurrentlyReleased = (project.release != null);
           });
         }
-        var unregisterTransitionHook = $transitions.onBefore({to: 'studyEdit'},
-          function() {
-            if (!ProjectUpdateAccessService.isUpdateAllowed(
-              $scope.project,
-              'studies',
-              true
-            )) {
-              return false;
-            }
-          });
-        $scope.$on('$destroy', unregisterTransitionHook);
+        $scope.studyEdit = function() {
+          if (ProjectUpdateAccessService.isUpdateAllowed(
+            $scope.project,
+            'studies',
+            true
+          )) {
+            $state.go('studyEdit', {id: $scope.searchResult.id});
+          }
+        };
       }
     };
   });
