@@ -17,7 +17,8 @@ public class QuestionTypes {
       new I18nString("Mehrfachnennung", "Multiple Choice");
   public static final I18nString ITEM_SET = new I18nString("Itembatterie", "Item Set");
   public static final I18nString GRID = new I18nString("Matrix", "Grid");
+  public static final I18nString UNDOCUMENTED = new I18nString("Nicht erfasst", "Undocumented");
   public static final Set<I18nString> ALL =
       Collections.unmodifiableSet(new HashSet<>(Arrays.asList(OPEN, SINGLE_CHOICE, 
-          MULTIPLE_CHOICE, ITEM_SET, GRID)));
+          MULTIPLE_CHOICE, ITEM_SET, GRID, UNDOCUMENTED)));
 }
