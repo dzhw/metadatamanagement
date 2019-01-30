@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Check Project Releasing and Unreleagsing Rights for Publisher
+Documentation     Check Project Releasing and Unreleagsing Rights for Publisher #Prerequisite is to have atleast one study for the project
 Force Tags        noslowpoke
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
