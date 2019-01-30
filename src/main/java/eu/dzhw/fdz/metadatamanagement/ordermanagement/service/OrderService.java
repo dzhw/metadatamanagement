@@ -8,11 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -46,7 +44,7 @@ public class OrderService {
 
   /**
    * Update an existing order with the given order data.
-   * @param orderId Id of the order that should be updated
+   * @param orderId       Id of the order that should be updated
    * @param orderToUpdate order data to use in the update
    * @return Optional of the updated order, might contain nothing if order could not be found
    */

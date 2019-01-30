@@ -180,8 +180,7 @@ angular.module('metadatamanagementApp').config(
             'question-has-invalid-instrument-id': 'The Question {{id}} references an unknown Instrument ({{toBereferenzedId}}).',
             'question-has-invalid-successor': 'The Question {{id}} references an unknown successor ({{toBereferenzedId}}).',
             'question-has-invalid-survey-id': 'The Question {{id}} references an unknown Survey ({{toBereferenzedId}}).',
-            'non-unique-question-number-in-instrument': 'The Question {{id}} with the number {{number}} is not unique within the Insturment {{instrumentId}}.',
-            'question-has-no-image': 'No image was found for the question {{id}}.'
+            'non-unique-question-number-in-instrument': 'The Question {{id}} with the number {{number}} is not unique within the Insturment {{instrumentId}}.'
           }
         },
         'edit': {
