@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
            ShoppingCartService, $scope, StudyResource, DataSetSearchService,
            VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
            OrderResource, LanguageService, SimpleMessageToastService, order,
-           DataAcquisitionProjectResource) {
+           DataAcquisitionProjectResource, $window) {
 
     PageTitleService.setPageTitle('shopping-cart.title');
     ToolbarHeaderService.updateToolbarHeader({
@@ -150,17 +150,23 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
           orderFn = OrderResource.save;
         }
 
-        orderFn(requestParams, order).$promise.then(function() {
-          ShoppingCartService.completeOrder();
-          ctrl.orderSaved = true;
-        }).catch(function() {
-          SimpleMessageToastService.openAlertMessageToast(
-            'shopping-cart.toasts.error-on-saving-order');
-          // Perhaps our order data went stale, attempt reload in this case
-          if (existingOrderId) {
-            initViewWithOrderResource(OrderResource.get({id: existingOrderId}));
-          }
-        });
+        orderFn(requestParams, order,
+          function(responseData, headerGetter) { //jshint ignore: line
+            ShoppingCartService.completeOrder();
+            ctrl.orderSaved = true;
+            var location = headerGetter('Location');
+            if (location) {
+              $window.open(location, '_self');
+            }
+          }, function() {
+            SimpleMessageToastService.openAlertMessageToast(
+              'shopping-cart.toasts.error-on-saving-order');
+            // Perhaps our order data went stale, attempt reload in this case
+            if (existingOrderId) {
+              initViewWithOrderResource(OrderResource
+                .get({id: existingOrderId}));
+            }
+          });
       } else {
         // ensure that all validation errors are visible
         angular.forEach($scope.orderForm.$error, function(field) {
