@@ -4,30 +4,16 @@
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, LanguageService, CleanJSObjectService,
-      PageTitleService, $state, ToolbarHeaderService, SurveySearchService,
-      SurveyAttachmentResource, Principal, SimpleMessageToastService,
-      SearchResultNavigatorService, $stateParams,
-      SurveyResponseRateImageUploadService, DataAcquisitionProjectResource,
-      ProductChooserDialogService, ProjectUpdateAccessService, $transitions,
-      $scope) {
-
-      var setupTransitionHook = function(project) {
-        var deregisterTransitionHook = $transitions
-          .onBefore({state: 'surveyDetail'}, function(transition) {
-            var identifier = _.get(transition, '_targetState._identifier');
-            if (identifier === 'surveyEdit') {
-              return ProjectUpdateAccessService
-                .isUpdateAllowed(project, 'surveys', true);
-            } else {
-              return true;
-            }
-          });
-
-        $scope.$on('$destroy', deregisterTransitionHook);
-      };
+             PageTitleService, $state, ToolbarHeaderService,
+             SurveySearchService, SurveyAttachmentResource, Principal,
+             SimpleMessageToastService, SearchResultNavigatorService,
+             $stateParams, SurveyResponseRateImageUploadService,
+             DataAcquisitionProjectResource, ProductChooserDialogService,
+             ProjectUpdateAccessService) {
 
       SearchResultNavigatorService.registerCurrentSearchResult(
-          $stateParams['search-result-index']);
+        $stateParams['search-result-index']);
+      var activeProject;
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
@@ -35,7 +21,7 @@ angular.module('metadatamanagementApp')
       ctrl.counts = {};
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.enableJsonView = Principal
-        .hasAnyAuthority(['ROLE_PUBLISHER','ROLE_ADMIN']);
+        .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
 
       ctrl.jsonExcludes = [
         'nestedStudy',
@@ -48,20 +34,20 @@ angular.module('metadatamanagementApp')
 
       entity.promise.then(function(survey) {
         if (Principal
-            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
             id: survey.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
             ctrl.assigneeGroup = project.assigneeGroup;
-            setupTransitionHook(project);
+            activeProject = project;
           });
         }
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('survey-management.detail.title', {
           title: survey.title[currenLanguage] ? survey.title[currenLanguage]
-          : survey.title[secondLanguage],
+            : survey.title[secondLanguage],
           surveyId: survey.id
         });
         ToolbarHeaderService.updateToolbarHeader({
@@ -69,9 +55,9 @@ angular.module('metadatamanagementApp')
           'id': survey.id,
           'number': survey.number,
           'studyId': survey.studyId,
-          'studyIsPresent': CleanJSObjectService.
-          isNullOrEmpty(survey.study) ? false : true,
-          'projectId': survey.dataAcquisitionProjectId});
+          'studyIsPresent': CleanJSObjectService.isNullOrEmpty(survey.study) ? false : true,
+          'projectId': survey.dataAcquisitionProjectId
+        });
         if (survey.dataSets) {
           ctrl.accessWays = [];
           survey.dataSets.forEach(function(dataSet) {
@@ -79,7 +65,7 @@ angular.module('metadatamanagementApp')
           });
         }
         if (survey.release || Principal.hasAnyAuthority(['ROLE_PUBLISHER',
-            'ROLE_DATA_PROVIDER'])) {
+          'ROLE_DATA_PROVIDER'])) {
           ctrl.survey = survey;
           ctrl.study = survey.study;
           ctrl.counts.dataSetsCount = survey.dataSets.length;
@@ -87,10 +73,10 @@ angular.module('metadatamanagementApp')
             ctrl.dataSet = survey.dataSets[0];
           }
           SurveySearchService.countBy('dataAcquisitionProjectId',
-          ctrl.survey.dataAcquisitionProjectId)
-          .then(function(surveysCount) {
-            ctrl.counts.surveysCount = surveysCount.count;
-          });
+            ctrl.survey.dataAcquisitionProjectId)
+            .then(function(surveysCount) {
+              ctrl.counts.surveysCount = surveysCount.count;
+            });
           ctrl.counts.instrumentsCount = survey.instruments.length;
           if (ctrl.counts.instrumentsCount === 1) {
             ctrl.instrument = survey.instruments[0];
@@ -124,5 +110,12 @@ angular.module('metadatamanagementApp')
           ctrl.survey.dataAcquisitionProjectId, ctrl.accessWays,
           ctrl.survey.study,
           event);
+      };
+
+      ctrl.surveyEdit = function() {
+        if (ProjectUpdateAccessService
+          .isUpdateAllowed(activeProject, 'surveys', true)) {
+          $state.go('surveyEdit', {id: ctrl.survey.id});
+        }
       };
     });

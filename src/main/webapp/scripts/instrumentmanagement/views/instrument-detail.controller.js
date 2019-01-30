@@ -4,14 +4,15 @@
 angular.module('metadatamanagementApp')
   .controller('InstrumentDetailController',
     function(entity, InstrumentAttachmentResource,
-      PageTitleService, LanguageService, $state, CleanJSObjectService,
-      ToolbarHeaderService, Principal, SimpleMessageToastService,
-      SearchResultNavigatorService, $stateParams, ProductChooserDialogService,
-      DataAcquisitionProjectResource, ProjectUpdateAccessService, $scope,
-      $transitions) {
+             PageTitleService, LanguageService, $state, CleanJSObjectService,
+             ToolbarHeaderService, Principal, SimpleMessageToastService,
+             SearchResultNavigatorService, $stateParams,
+             ProductChooserDialogService, DataAcquisitionProjectResource,
+             ProjectUpdateAccessService) {
 
       SearchResultNavigatorService.registerCurrentSearchResult(
         $stateParams['search-result-index']);
+      var activeProject;
       //Controller Init
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
@@ -23,7 +24,7 @@ angular.module('metadatamanagementApp')
       ctrl.questionCount = null;
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.enableJsonView = Principal
-        .hasAnyAuthority(['ROLE_PUBLISHER','ROLE_ADMIN']);
+        .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
 
       ctrl.jsonExcludes = [
         'nestedStudy',
@@ -34,30 +35,16 @@ angular.module('metadatamanagementApp')
         'nestedRelatedPublications'
       ];
 
-      var setupTransitionHook = function(project) {
-        var deregisterTransitionHook = $transitions
-          .onBefore({state: 'instrumentDetail'}, function(transition) {
-            var identifier = _.get(transition, '_targetState._identifier');
-            if (identifier === 'instrumentEdit') {
-              return ProjectUpdateAccessService
-                .isUpdateAllowed(project, 'instruments', true);
-            } else {
-              return true;
-            }
-          });
-
-        $scope.$on('$destroy', deregisterTransitionHook);
-      };
       //Wait for instrument Promise
       entity.promise.then(function(result) {
         if (Principal
-            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
             ctrl.assigneeGroup = project.assigneeGroup;
-            setupTransitionHook(project);
+            activeProject = project;
           });
         }
         ToolbarHeaderService.updateToolbarHeader({
@@ -67,16 +54,16 @@ angular.module('metadatamanagementApp')
           'instrumentIsPresent': true,
           'surveys': result.surveys,
           'studyId': result.studyId,
-          'studyIsPresent': CleanJSObjectService.
-          isNullOrEmpty(result.study) ? false : true,
-          'projectId': result.dataAcquisitionProjectId});
+          'studyIsPresent': CleanJSObjectService.isNullOrEmpty(result.study) ? false : true,
+          'projectId': result.dataAcquisitionProjectId
+        });
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('instrument-management.' +
-        'detail.page-title', {
+          'detail.page-title', {
           description: result.description[currenLanguage] ?
-          result.description[currenLanguage] :
-          result.description[secondLanguage],
+            result.description[currenLanguage] :
+            result.description[secondLanguage],
           instrumentId: result.id
         });
         if (result.dataSets) {
@@ -86,7 +73,7 @@ angular.module('metadatamanagementApp')
           });
         }
         if (result.release || Principal
-            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.instrument = result;
           //load all related objects in parallel
           InstrumentAttachmentResource.findByInstrumentId({
@@ -116,7 +103,7 @@ angular.module('metadatamanagementApp')
           }
         } else {
           SimpleMessageToastService.openAlertMessageToast(
-          'instrument-management.detail.not-released-toast', {id: result.id}
+            'instrument-management.detail.not-released-toast', {id: result.id}
           );
         }
       });
@@ -126,5 +113,12 @@ angular.module('metadatamanagementApp')
           ctrl.instrument.dataAcquisitionProjectId, ctrl.accessWays,
           ctrl.instrument.study,
           event);
+      };
+
+      ctrl.instrumentEdit = function() {
+        if (ProjectUpdateAccessService
+          .isUpdateAllowed(activeProject, 'instruments', true)) {
+          $state.go('instrumentEdit', {id: ctrl.instrument.id});
+        }
       };
     });
