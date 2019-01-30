@@ -106,12 +106,10 @@ public class OrderResource {
       responseHeaders = @ResponseHeader(name = "Location", response = URI.class,
           description = "URL to which the client should go now."))})
   public ResponseEntity<?> updateOrder(@PathVariable String id, @RequestBody @Valid Order order) {
-    Optional<Order> optional = orderRepository.findById(id);
+    Optional<Order> optional = orderService.update(id, order);
     if (!optional.isPresent()) {
       return ResponseEntity.notFound().build();
     }
-    order.setId(id);
-    orderRepository.save(order);
     String destinationUrl;
     if (order.getClient().equals(OrderClient.MDM)) {
       destinationUrl = getDlpUrl(id);

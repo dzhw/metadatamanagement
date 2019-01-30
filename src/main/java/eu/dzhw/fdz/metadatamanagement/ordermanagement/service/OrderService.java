@@ -5,11 +5,15 @@ import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderState;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -38,6 +42,28 @@ public class OrderService {
   public Order create(Order order) {
     order.setState(OrderState.CREATED);
     return orderRepository.save(order);
+  }
+
+  /**
+   * Update an existing order with the given order data.
+   * @param orderId Id of the order that should be updated
+   * @param orderToUpdate order data to use in the update
+   * @return Optional of the updated order, might contain nothing if order could not be found
+   */
+  public Optional<Order> update(String orderId, Order orderToUpdate) {
+    Optional<Order> optional = orderRepository.findById(orderId);
+    if (optional.isPresent()) {
+      Order persistedOrder = optional.get();
+      if (persistedOrder.getState() == OrderState.ORDERED) {
+        throw new IllegalArgumentException("Order state is ORDERED and therefore cannot "
+            + "be updated.");
+      }
+      BeanUtils.copyProperties(orderToUpdate, persistedOrder, "id", "createdDate", "createdBy");
+      persistedOrder = orderRepository.save(persistedOrder);
+      return Optional.of(persistedOrder);
+    } else {
+      return Optional.empty();
+    }
   }
 
   /**
