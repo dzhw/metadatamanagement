@@ -5,7 +5,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
   function(PageTitleService, $state, ToolbarHeaderService,
            ShoppingCartService, $scope, StudyResource, DataSetSearchService,
            VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
-           OrderResource, LanguageService, SimpleMessageToastService, order) {
+           OrderResource, LanguageService, SimpleMessageToastService, order,
+           DataAcquisitionProjectResource) {
 
     PageTitleService.setPageTitle('shopping-cart.title');
     ToolbarHeaderService.updateToolbarHeader({
@@ -13,7 +14,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     });
     var ctrl = this;
     var existingOrderId;
-    var shoppingCartVersion;
+    ctrl.dataAcquisitionProjects = {};
     ctrl.studies = {};
     ctrl.releases = {};
     ctrl.counts = {};
@@ -22,8 +23,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     var initViewWithOrderResource = function(order) {
       order.$promise.then(function(order) {
         ShoppingCartService
-          .initShoppingCartProducts(_.get(order, 'products', []), order.id);
-        shoppingCartVersion = order.version;
+          .initShoppingCartProducts(_.get(order, 'products', []), order.id,
+            order.version);
       }, function(error) {
         if (error.status === 404) {
           ShoppingCartService.clearLocalOrderId();
@@ -60,6 +61,12 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
           ctrl.counts[studyId + product.accessWay +
           product.version].variables = result.count;
         }));
+        var project = DataAcquisitionProjectResource
+          .get({id: product.dataAcquisitionProjectId});
+
+        ctrl.dataAcquisitionProjects[product.dataAcquisitionProjectId] =
+          project;
+        promises.push(project.$promise);
       });
       _.forEach(ctrl.studies, function(study, studyId) { // jshint ignore:line
         promises.push(StudyResource.get({id: studyId}).$promise.then(
@@ -134,7 +141,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         var requestParams;
 
         if (existingOrderId) {
-          order.version = shoppingCartVersion;
+          order.version = ShoppingCartService.getVersion();
           orderFn = OrderResource.update;
           requestParams = {
             id: existingOrderId

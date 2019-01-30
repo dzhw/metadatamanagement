@@ -81,7 +81,9 @@ metadatamanagement:
     email: reitmann@dzhw.eu
   projectmanagement:
     email: reitmann@dzhw.eu
-     
+  dlp:
+    endpoint: http://fakedlpendpoint.de
+
 # ===================================================================
 # JHipster specific properties
 # ===================================================================

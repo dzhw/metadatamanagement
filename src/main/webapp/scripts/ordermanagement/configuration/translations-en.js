@@ -44,6 +44,7 @@ angular.module('metadatamanagementApp').config(
           'order-placed-text': 'We have sent you a confirmation email and will contact you shortly.',
           'empty-cart-text': 'Your shopping cart is currently empty. You can search for data products <a href="#!/en/search?type=studies"><strong>here</strong></a> and add those to your shopping cart.',
           'warn-not-current-versions': 'Since you have not decided on the current version of this data product, this system cannot display exact information about the number of variables and data sets in the product.',
+          'warn-is-in-update-process': 'This product is currently being updated. Please note that the scope of this product might change in the future.',
           'explain-data-product': 'A data product contains all data sets of a given study which have been prepared for the given access way (download, on-site, remote,...). You can request several data products as well as the same study several times with different access ways.',
           'no-final-release': 'The data products have not yet been created. As soon as they are ready, you can put them in the shopping cart at this point.',
           'variable-not-accessible': 'Although this variable was collected, it is not available in any data product for data protection reasons.',
