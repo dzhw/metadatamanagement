@@ -32,8 +32,7 @@ public class Application {
   private Environment env;
 
   /**
-   * Initializes metadatamanagement.
-   * Spring profiles can be configured with a program arguments
+   * Initializes metadatamanagement. Spring profiles can be configured with a program arguments
    * --spring.profiles.active=your-active-profile
    */
   @PostConstruct
@@ -43,7 +42,8 @@ public class Application {
     } else {
       log.info("Running with Spring profile(s) : {}", Arrays.toString(env.getActiveProfiles()));
       Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
-      if (activeProfiles.size() > 1) {
+      if (activeProfiles.size() > 1
+          && !activeProfiles.contains(Constants.SPRING_PROFILE_MINIFIED)) {
         log.error("You have misconfigured your application! "
             + "It should not run with more than one at the same time.");
       }
@@ -58,14 +58,11 @@ public class Application {
     SpringApplication app = new SpringApplication(Application.class);
     SimpleCommandLinePropertySource source = new SimpleCommandLinePropertySource(args);
     addDefaultProfile(app, source);
-    Environment env = app.run(args)
-        .getEnvironment();
-    log.info(
-        "Access URLs:\n----------------------------------------------------------\n\t"
-            + "Local: \t\thttp://127.0.0.1:{}\n\t"
-            + "External: \thttp://{}:{}\n----------------------------------------------------------",
-        env.getProperty("server.port"), InetAddress.getLocalHost()
-          .getHostAddress(),
+    Environment env = app.run(args).getEnvironment();
+    log.info("Access URLs:\n----------------------------------------------------------\n\t"
+        + "Local: \t\thttp://127.0.0.1:{}\n\t"
+        + "External: \thttp://{}:{}\n----------------------------------------------------------",
+        env.getProperty("server.port"), InetAddress.getLocalHost().getHostAddress(),
         env.getProperty("server.port"));
 
   }
@@ -75,8 +72,8 @@ public class Application {
    */
   private static void addDefaultProfile(SpringApplication app,
       SimpleCommandLinePropertySource source) {
-    if (!source.containsProperty("spring.profiles.active") && !System.getenv()
-        .containsKey("SPRING_PROFILES_ACTIVE")) {
+    if (!source.containsProperty("spring.profiles.active")
+        && !System.getenv().containsKey("SPRING_PROFILES_ACTIVE")) {
 
       app.setAdditionalProfiles(Constants.SPRING_PROFILE_LOCAL);
     }

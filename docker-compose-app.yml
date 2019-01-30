@@ -9,6 +9,7 @@ services:
   app:
     image: dzhw/metadatamanagement:latest
     environment:
+      - SPRING_PROFILES_ACTIVE=local,minified
       - SPRING_DATA_MONGODB_HOST=mongodb
       - METADATAMANAGEMENT_ELASTICSEARCH-CLIENT_URL=http://elasticsearch:9200
       - SPRING_MAIL_HOST=maildev
