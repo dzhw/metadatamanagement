@@ -4,14 +4,14 @@
         <h1 ng-if="ctrl.orderSaved" class="md-headline" style="margin-left: 0px;">{{'shopping-cart.detail.thank-you' | translate | fdzHyphenate }}</h1>
     </div>
     <div ng-if="ctrl.initComplete" ng-repeat="product in ctrl.products" class="fdz-fade-in">
-        <md-card>
+        <md-card style="position: relative;">
             <md-card-header class="fdz-card-header-border">
                 <md-card-avatar>
                     <md-icon md-svg-src="/assets/images/icons/product.svg" class="fdz-search-result-icon"></md-icon>
                 </md-card-avatar>
                 <md-card-header-text class="fdz-truncate-string">
-                    <div class="md-title fdz-truncate-string"><a ui-sref="studyDetail({id: product.studyId})">
-                            {{ctrl.studies[product.studyId].title | displayI18nString}}
+                    <div class="md-title fdz-truncate-string"><a ui-sref="studyDetail({id: product.study.id})">
+                            {{ctrl.studies[product.study.id].title | displayI18nString}}
                             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                                 {{'shopping-cart.detail.study-tooltip' | translate}}
                             </md-tooltip>
@@ -21,34 +21,34 @@
                           ng-if="ctrl.isCurrentVersion(product)">{{' (' + ('shopping-cart.detail.label.current' | translate) + ')'}}</span></div>
                 </md-card-header-text>
             </md-card-header>
-            <md-card-content ng-if="ctrl.dataAcquisitionProjects[product.projectId].release.version === product.version">
+            <md-card-content ng-if="ctrl.dataAcquisitionProjects[product.dataAcquisitionProjectId] && ctrl.dataAcquisitionProjects[product.dataAcquisitionProjectId].release.version">
                 <span>{{'shopping-cart.detail.label.this-data-product' | translate}}</span>
-                <a ui-sref="search({'type': 'studies', 'study-series-{{currentLanguage}}': ctrl.studies[product.studyId].studySeries[currentLanguage]})" ng-if="ctrl.studies[product.studyId].studySeries[currentLanguage]">{{'shopping-cart.detail.label.study-series' | translate:'{series:"'+ ctrl.studies[product.studyId].studySeries[currentLanguage] + '"}'}}
+                <a ui-sref="search({'type': 'studies', 'study-series-{{currentLanguage}}': ctrl.studies[product.study.id].studySeries[currentLanguage]})" ng-if="ctrl.studies[product.study.id].studySeries[currentLanguage]">{{'shopping-cart.detail.label.study-series' | translate:'{series:"'+ ctrl.studies[product.study.id].studySeries[currentLanguage] + '"}'}}
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                         {{'shopping-cart.detail.study-series-tooltip' | translate}}
                     </md-tooltip>
                 </a>
                 <span>{{'shopping-cart.detail.label.contains' | translate}}</span>
                 <strong ng-if="!ctrl.isCurrentVersion(product)">{{'shopping-cart.detail.label.about' | translate}}</strong>
-                <a ui-sref="search({'type': 'variables', 'study': product.studyId, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.variables' | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' + (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}
+                <a ui-sref="search({'type': 'variables', 'study': product.study.id, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.variables' | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' + (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                         {{'shopping-cart.detail.variables-tooltip' | translate}}
                     </md-tooltip>
                 </a>
                 <span>{{'shopping-cart.detail.label.in' | translate}}</span>
                 <strong ng-if="!ctrl.isCurrentVersion(product)">{{'shopping-cart.detail.label.about' | translate}}</strong>
-                <a ui-sref="search({'type': 'data_sets', 'study': product.studyId, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}
+                <a ui-sref="search({'type': 'data_sets', 'study': product.study.id, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                         {{'shopping-cart.detail.data-sets-tooltip' | translate}}
                     </md-tooltip>
                 </a>
                 <p ng-if="!ctrl.isCurrentVersion(product)" data-translate="shopping-cart.detail.warn-not-current-versions"></p>
-                <div ng-if="ctrl.studies[product.studyId].annotations">
+                <div ng-if="ctrl.studies[product.study.id].annotations">
                     <span style="font-weight: bold;">{{'shopping-cart.detail.label.annotations' | translate }}:&nbsp;</span>
-                    <span fdz-hyphenate class="fdz-text-block fdz-multiline-property" lang="{{currentLanguage}}">{{ctrl.studies[product.studyId].annotations | displayI18nString}}</span>
+                    <span fdz-hyphenate class="fdz-text-block fdz-multiline-property" lang="{{currentLanguage}}">{{ctrl.studies[product.study.id].annotations | displayI18nString}}</span>
                 </div>
             </md-card-content>
-            <md-card-content ng-if="ctrl.dataAcquisitionProjects[product.projectId] && !ctrl.dataAcquisitionProjects[product.projectId].release">
+            <md-card-content ng-if="ctrl.dataAcquisitionProjects[product.dataAcquisitionProjectId] && !ctrl.dataAcquisitionProjects[product.dataAcquisitionProjectId].release">
                 {{'shopping-cart.detail.warn-is-in-update-process' | translate}}
             </md-card-content>
             <div class="fdz-search-result-actions-container">

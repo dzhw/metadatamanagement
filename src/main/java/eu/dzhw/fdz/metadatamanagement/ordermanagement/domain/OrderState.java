@@ -6,5 +6,5 @@ package eu.dzhw.fdz.metadatamanagement.ordermanagement.domain;
  * @author René Reitmann
  */
 public enum OrderState {
-  CREATED, NOTIFIED
+  CREATED, NOTIFIED, ORDERED
 }
