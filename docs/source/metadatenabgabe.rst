@@ -1245,7 +1245,7 @@ nachvollziehbare Dokumentation dieser Verbindung ist die Erstellung
 eines Variablenfragebogens sehr hilfreich. Aus diesem kann die
 Verknüpfung aus Variable und Frage problemlos abgelesen werden.
 :numref:`ausschnitt_variablenfragebogen` zeigt beispielhaft, dass den Variablen
-	*astu08a* bis *astu08e* die Frage 1.8 zugeordnet ist.
+*astu08a* bis *astu08e* die Frage 1.8 zugeordnet ist.
 
 .. figure:: ./_static/36_de.png
    :name: ausschnitt_variablenfragebogen
