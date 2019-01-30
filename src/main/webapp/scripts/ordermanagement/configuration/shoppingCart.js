@@ -1,8 +1,7 @@
-/* globals _ */
 'use strict';
 
 angular.module('metadatamanagementApp').config(function($stateProvider) {
-  var commonStateConfig = {
+  $stateProvider.state('shoppingCart', {
     parent: 'site',
     reloadOnSearch: false,
     data: {
@@ -23,9 +22,7 @@ angular.module('metadatamanagementApp').config(function($stateProvider) {
           $document.find('md-content[du-scroll-container]'));
         scrollContainer.scrollToElementAnimated(top);
       });
-    }
-  };
-  $stateProvider.state('shoppingCart', _.extend({}, commonStateConfig, {
+    },
     url: '/shopping-cart',
     resolve: {
       order: function(ShoppingCartService, OrderResource) {
@@ -37,8 +34,29 @@ angular.module('metadatamanagementApp').config(function($stateProvider) {
         }
       }
     }
-  }));
-  $stateProvider.state('restoreShoppingCart', _.extend({}, commonStateConfig, {
+  });
+  $stateProvider.state('restoreShoppingCart', {
+    parent: 'site',
+    reloadOnSearch: false,
+    data: {
+      authorities: []
+    },
+    views: {
+      'content@': {
+        templateUrl: 'scripts/ordermanagement/views/' +
+          'shopping-cart.html.tmpl',
+        controller: 'ShoppingCartController',
+        controllerAs: 'ctrl'
+      }
+    },
+    onEnter: function($document, $timeout) {
+      $timeout(function() {
+        var top = angular.element($document.find('#top'));
+        var scrollContainer = angular.element(
+          $document.find('md-content[du-scroll-container]'));
+        scrollContainer.scrollToElementAnimated(top);
+      });
+    },
     url: '/shopping-cart/:id',
     resolve: {
       order: function($state, $stateParams, OrderResource) {
@@ -51,5 +69,5 @@ angular.module('metadatamanagementApp').config(function($stateProvider) {
         return order;
       }
     }
-  }));
+  });
 });
