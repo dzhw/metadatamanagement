@@ -166,7 +166,8 @@
             </md-card>
         </div>
     </div>
-    <div layout="column" layout-gt-sm="row">
+    <!-- images row -->
+    <div layout="column" layout-gt-sm="row" ng-if="ctrl.imageLanguages.length >= 1 && ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage].length >= 1">
         <div flex-gt-sm="50" layout="column">
             <md-card flex="auto" class="fdz-reset-top-margin">
                 <md-card-header>
