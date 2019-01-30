@@ -838,6 +838,16 @@ module.exports = function(grunt) {
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
+  grunt.registerTask('buildlocalminified', [
+    'createJavaSourceCodeFromTranslations',
+    'test', 'htmlangular:default',
+    'htmlangular:index', 'clean:dist',
+    'wiredep:app', 'ngconstant:local',
+    'useminPrepare', 'ngtemplates', 'svgmin',
+    'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
+    'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
+  ]);
+
   grunt.registerTask('buildlocal', ['createJavaSourceCodeFromTranslations',
     'test', 'clean:dist', 'copy:localfonts',
     'wiredep:app', 'ngconstant:local', 'ngAnnotate'
