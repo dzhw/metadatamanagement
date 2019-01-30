@@ -50,18 +50,18 @@ public class CachingHttpHeadersFilter implements Filter {
       HttpServletRequest httpRequest = (HttpServletRequest) request;
       HttpServletResponse httpResponse = (HttpServletResponse) response;
       String requestUri = httpRequest.getRequestURI();
-      if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {
+      if (env.acceptsProfiles(Profiles
+          .of(Constants.SPRING_PROFILE_LOCAL + " & !" + Constants.SPRING_PROFILE_MINIFIED))) {
         httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
         httpResponse.setHeader(HttpHeaders.PRAGMA, "no-cache");
         httpResponse.setDateHeader(HttpHeaders.EXPIRES, LAST_MODIFIED);
       } else {
-        if (requestUri.endsWith("index.html") || requestUri.contains("bower_components") 
+        if (requestUri.endsWith("index.html") || requestUri.contains("bower_components")
             || requestUri.endsWith("robots.txt") || requestUri.endsWith("manifest.json")) {
           // index.html can be cached but must be revalidated
           httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, "max-age=0, must-revalidate, public");
         } else {
-          httpResponse.setHeader(HttpHeaders.CACHE_CONTROL,
-              "max-age=2629000, immutable, public");
+          httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, "max-age=2629000, immutable, public");
         }
         httpResponse.setHeader(HttpHeaders.PRAGMA, "cache");
       }

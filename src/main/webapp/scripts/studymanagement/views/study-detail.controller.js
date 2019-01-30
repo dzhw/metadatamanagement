@@ -70,16 +70,24 @@ angular.module('metadatamanagementApp')
       });
 
       entity.promise.then(function(result) {
-        if (Principal
-            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
-          DataAcquisitionProjectResource.get({
-            id: result.dataAcquisitionProjectId
-          }).$promise.then(function(project) {
+
+        DataAcquisitionProjectResource.get({
+          id: result.dataAcquisitionProjectId
+        }).$promise.then(function(project) {
+          if (Principal.hasAnyAuthority(
+            ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
             ctrl.assigneeGroup = project.assigneeGroup;
             setupTransitionHook(project);
-          });
-        }
+          } else {
+            ctrl.isStudyInUpdateProcess = result.release && !project.release;
+            if (ctrl.isStudyInUpdateProcess) {
+              SimpleMessageToastService.openAlertMessageToast(
+                'study-management.detail.' +
+                'is-currently-updated-toast', {id: result.id});
+            }
+          }
+        });
 
         PageTitleService.setPageTitle('study-management.detail.title', {
           title: result.title[LanguageService.getCurrentInstantly()],
