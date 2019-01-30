@@ -136,13 +136,13 @@ Nach erfolgreicher Anmeldung erscheint in der Sidebar das folgende Feld:
 
    Bereich für Verwaltung von Projekten im MDM
 
-Über den Plus-Button können Sie ein neues Projekt anlegen (vgl.
-:numref:`neuesprojektanlegen`). Als Projektname müssen Sie eine bestimmte ID
+Über den Plus-Button können *Publisher* ein neues Projekt anlegen (vgl.
+:numref:`neuesprojektanlegen`). Als Projektname müssen diese eine bestimmte ID
 angeben, welche das FDZ zuvor speziell für Ihr Projekt vergeben hat und Ihnen
 mitteilen muss (z. B. „gra2005“ für das Absolventenpanel 2005). Das
 Projekt ist dadurch im MDM angelegt, aber noch nicht automatisch
 freigegeben. Solange das Projekt noch nicht freigegeben wurde, können
-Sie es jederzeit über den Mülleimer-Button ganz links (vgl.
+Nutzer der Gruppe *publisher* es jederzeit über den Mülleimer-Button ganz links (vgl.
 :numref:`neuesprojektanlegen`)
 wieder löschen.
 
@@ -150,6 +150,45 @@ wieder löschen.
    :name: neuesprojektanlegen
 
    Ein neues Projekt im MDM anlegen
+
+Im Anschluss an die Projekterstellung werden Sie als Nutzer mit der Rolle
+*Data-Provider* dem Projekt zugewiesen. Wenn Sie ins Projektcockpit gehen
+(vgl. :numref:`projectcockpit`), sehen Sie unter dem Punkt Einstellungen
+(vgl. :numref:`project_cockpit_settings`), welche Publisher und Data-Provider dem
+Projekt zugewiesen sind und welche Metadaten vom *Publisher* erwartet werden.
+
+.. figure:: ./_static/cockpit-button.png
+   :name: projectcockpit
+
+   Project-Cockpit Button.
+
+.. figure:: ./_static/project_cockpit_settings.png
+   :name: project_cockpit_settings
+
+   Project-Cockpit Einstellungen.
+
+Im Status-Menü (siehe :numref:`project_cockpit_status`) wird zum einen
+angezeigt, wie der Stand der Dinge auf den einzelnen Metadatenebenen ist.
+Um die Metadaten der einzelnen Ebenen anzulegen klicken Sie auf den Neu- bzw
+Hochladen-Button. Wenn Sie mit eingabe erwarteter Metadaten einer Ebene fertig
+sind, setzen Sie ein Häkchen und der Smiley ist nicht mehr traurig, sondern
+mittelgut gelaunt.
+Wenn Sie mit allen Schritten fertig sind
+weisen Sie das Projekt an die Nutzer der Gruppe Publisher zu. Dieser überprüft
+dann die Metadaten bzw gibt sein "OK".
+Wenn ein Publisher mit dem Status der Metadaten zufrieden ist
+und auch ein Häkchen setzt ist der Smiley glücklich. Wurde nichts erwartet ist
+der Smiley auch ohne Metadaten happy. Sind alle Smileys glücklich und ist die
+Postvalidierung der Metadaten erfolgreich, kann released
+werden.
+
+.. figure:: ./_static/project_cockpit_status.png
+   :name: project_cockpit_status
+
+   Project-Cockpit Status.
+
+
+
 
 Sie können nun beginnen, Ihr Projekt mit Metadaten zu füllen. Wie genau
 dies funktioniert, wird im Folgenden zunächst prinzipiell erläutert, ehe
