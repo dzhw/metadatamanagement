@@ -17,12 +17,15 @@ Metadatamanagement (MDM) Dokumentation
    bilderfassung_ragtime
    excel_makros_verwenden
    editing_macros_excel
+   latex_template_dsr_anpassen
    datensatz_report_lektorat
    jsons_pruefen
    skalenniveau_pruefen
    stata_skripte
    issues_testen
    datentypen
+   uebersicht_rscripte
+   verantwortlichkeiten
    javadoc/packages
 
 

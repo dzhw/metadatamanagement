@@ -1,3 +1,5 @@
+.. _Datensatzreport_lektorat-label:
+
 Datensatzreport (Lektorat)
 ==========================
 
@@ -12,7 +14,12 @@ den Stand der vorgenommenen Anpassungen.
 1 geplanter Aufbau des DSR
 --------------------------
 
-.. _1-titelei:
+Übersicht
+~~~~~~~~~
+Im folgenden wird der Aufbau des DSR skizziert. Aktuell wird auf den
+redaktionellen Teil und den Anhang verzichtet.
+
+
 
 Titelseite
 ^^^^^^^^^^

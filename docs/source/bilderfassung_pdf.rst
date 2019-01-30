@@ -1,4 +1,4 @@
-.. _bilderfassung_pdf_label:
+.. _bilderfassung_pdf-label:
 
 Bilderfassung aus PDF Dateien
 =============================

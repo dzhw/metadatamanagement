@@ -22,9 +22,7 @@ Makro-Übersicht
 panelIdentifier
 ^^^^^^^^^^^^^^^
 
-`panelIdentifier <https://github.com/dzhw/metadatamanagement-io/blob/master/generation/example/Hilfsskripte/panelIdentifier.txt>`__
-
-Wo wird es genutzt? panelIdentifier in vimport.xlsx
+Wo wird es genutzt? panelIdentifier_ in vimport.xlsx
 
 
  - generiert den panelIdentifier durch den Vergleich vom Variablenstamm
@@ -39,14 +37,12 @@ Wo wird es genutzt? panelIdentifier in vimport.xlsx
  - Beispiel: der panelIdentifier zu adem01_g1v1r und bdem01_g1v3r lautet
    z.B.-abs2005-ds1-dem01_g1
 
-
+.. _panelIdentifier: https://github.com/dzhw/metadatamanagement-io/blob/master/generation/example/Hilfsskripte/panelIdentifier.txt
 
 derivedVariablesIdentifier
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-`derivedVariablesIdientifier <https://github.com/dzhw/metadatamanagement-io/blob/master/generation/example/Hilfsskripte/derivedVariablesIdentifier.txt>`__
-
-Wo wird es genutzt? derivedVariablesIdentifier in vimport.xlsx
+Wo wird es genutzt? derivedVariablesIdentifier_ in vimport.xlsx
 
 - generiert den derivedVariablesIdentifier durch den Vergleich vom
   Variablenstamm (mit Präfix)
@@ -58,11 +54,12 @@ Wo wird es genutzt? derivedVariablesIdentifier in vimport.xlsx
 - Beispiel: der derivedVariablesIdentifier zu adem01 und adem01_g1r des
   Projektes gra2005-ds1 lautet z.B. gra2005-ds1-adem01
 
+ .. _derivedVariablesIdentifier: https://github.com/dzhw/metadatamanagement-io/blob/master/generation/example/Hilfsskripte/derivedVariablesIdentifier.txt
 
 accessWaysInOneColumn
 ^^^^^^^^^^^^^^^^^^^^^
 
-`accessWaysInOneColumn<https://github.com/dzhw/metadatamanagement-io/blob/master/generation/example/Hilfsskripte/accessWaysInOneColumn.txt>`__
+accessWaysInOneColumn-Skript_
 
 
 Wo wird es genutzt?  accessWays in vimport.xlsx - wenn die vier Spalten nicht
@@ -80,6 +77,7 @@ Remote-Desktop-SUF und nicht verfügbar im On-Site-SUF ausgefüllt wurden
 - Beispiel: wurden alle vier Spalten einer Variablen mit "x" ausgefüllt, wird
   der zugehörige Zugangsweg "not-accessible" ermittelt
 
+.. _accessWaysInOneColumn-Skript:  https://github.com/dzhw/metadatamanagement-io/blob/master/generation/example/Hilfsskripte/accessWaysInOneColumn.txt
 
 
 matchSurveyNumbers

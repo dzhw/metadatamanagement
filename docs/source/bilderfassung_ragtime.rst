@@ -100,7 +100,7 @@ bei dem Textfeldrahmen, ist es bei dem Spaltenblock möglich die Ränder durch d
 schwarzen Punkte zu verschieben.
 
 .. figure:: ./_static/ragtime_schritt3_4.png
-   :name: Anpassen des Spaltenblocks
+   :name: Anpassen des Spaltenblocks 1
 
    Anpassen des Spaltenblocks
 
@@ -155,7 +155,7 @@ konvertiert werden.)
   mit der linken Maustaste klicken.
 
 .. figure:: ./_static/ragtime_schritt6.png
-   :name: Anpassen des Spaltenblocks
+   :name: Anpassen des Spaltenblocks 2
 
    Anpassen des Spaltenblocks
 
