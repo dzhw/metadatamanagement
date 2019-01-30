@@ -2,50 +2,151 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('ShoppingCartService',
-  function(localStorageService, SimpleMessageToastService, $rootScope) {
-    var products = localStorageService.get('shoppingCart') || [];
+  function(OrderResource, StudyResource, localStorageService,
+           SimpleMessageToastService, $rootScope) {
 
-    var add = function(product) {
-      var existingIndex = _.findIndex(products, function(item) {
-        return angular.equals(item, product);
-      });
-      if (existingIndex >= 0) {
-        SimpleMessageToastService.openSimpleMessageToast(
-          'shopping-cart.toasts.study-already-in-cart',
-          {id: product.studyId}
-        );
+    var SHOPPING_CART_KEY = 'shoppingCart';
+    var ORDER_ID_KEY = 'shoppingCart.orderId';
+    var VERSION_KEY = 'shoppingCart.version';
+
+    var products = localStorageService.get(SHOPPING_CART_KEY) || [];
+    var orderId = localStorageService.get(ORDER_ID_KEY);
+    var version = localStorageService.get(VERSION_KEY);
+
+    var _incrementOrderVersion = function() {
+      version = version + 1;
+      localStorageService.set(VERSION_KEY, version);
+    };
+
+    var _broadcastShoppingCartChanged = function() {
+      $rootScope.$broadcast('shopping-cart-changed', products.length);
+    };
+
+    var _displayUpdateOrderError = function() {
+      SimpleMessageToastService.openAlertMessageToast(
+        'shopping-cart.toasts.error-on-saving-order');
+    };
+
+    var _displayProductAlreadyInShoppingCart = function(product) {
+      SimpleMessageToastService.openSimpleMessageToast(
+        'shopping-cart.toasts.study-already-in-cart',
+        {id: product.study.id}
+      );
+    };
+
+    var _isProductInShoppingCart = function(products, product) {
+      return _.findIndex(products, function(item) {
+        return item.study.id === product.study.id &&
+          item.version === product.version &&
+          item.accessWay === product.accessWay;
+      }) !== -1;
+    };
+
+    var _addProductToLocalShoppingCart = function(product) {
+      if (_isProductInShoppingCart(products, product)) {
+        _displayProductAlreadyInShoppingCart(product);
       } else {
         products.push(product);
-        localStorageService.set('shoppingCart', products);
+        localStorageService.set(SHOPPING_CART_KEY, products);
         SimpleMessageToastService.openSimpleMessageToast(
           'shopping-cart.toasts.study-added',
-          {id: product.studyId});
-        $rootScope.$broadcast('shopping-cart-changed', products.length);
+          {id: product.study.id});
+        _broadcastShoppingCartChanged();
+      }
+    };
+
+    var _removeProductFromLocalShoppingCart = function(product) {
+      _.remove(products, function(item) {
+        return angular.equals(item, product);
+      });
+      localStorageService.set(SHOPPING_CART_KEY, products);
+      _broadcastShoppingCartChanged();
+    };
+
+    var _clearLocalShoppingCart = function() {
+      products = [];
+      localStorageService.set(SHOPPING_CART_KEY, products);
+      _broadcastShoppingCartChanged();
+    };
+
+    var _addProductToExistingOrder = function(product) {
+      OrderResource.get({id: orderId}).$promise.then(function(order) {
+        if (_isProductInShoppingCart(products, product)) {
+          _displayProductAlreadyInShoppingCart(product);
+        } else {
+          StudyResource.get({id: product.study.id}).$promise
+            .then(function(study) {
+              var newProduct = {
+                dataAcquisitionProjectId: product.dataAcquisitionProjectId,
+                study: study,
+                accessWay: product.accessWay,
+                version: product.version
+              };
+
+              order.products.push(newProduct);
+              OrderResource.update(order).$promise
+                .then(function() {
+                    _incrementOrderVersion();
+                    _addProductToLocalShoppingCart(product);
+                  },
+                  _displayUpdateOrderError);
+            }, _displayUpdateOrderError);
+        }
+      }, _displayUpdateOrderError);
+    };
+
+    var _removeProductFromExistingOrder = function(product) {
+      OrderResource.get({id: orderId}).$promise.then(function(order) {
+        var removed = _.remove(order.products, function(productInOrder) {
+          return productInOrder.study.id === product.study.id &&
+            productInOrder.version === product.version &&
+          productInOrder.accessWay === product.accessWay;
+        });
+
+        if (removed.length > 0) {
+          OrderResource.update(order).$promise
+            .then(function() {
+                _incrementOrderVersion();
+                _removeProductFromLocalShoppingCart(product);
+              },
+              _displayUpdateOrderError);
+        }
+      }, _displayUpdateOrderError);
+    };
+
+    var _clearProductsFromExistingOrder = function() {
+      OrderResource.get({id: orderId}).$promise.then(function(order) {
+        order.products = [];
+        return OrderResource.update(order).$promise
+          .then(function() {
+            _incrementOrderVersion();
+            _clearLocalShoppingCart();
+          }, _displayUpdateOrderError);
+      }, _displayUpdateOrderError);
+    };
+
+    var add = function(product) {
+      if (orderId) {
+        _addProductToExistingOrder(product);
+      } else {
+        _addProductToLocalShoppingCart(product);
       }
     };
 
     var remove = function(product) {
-      _.remove(products, function(item) {
-        return angular.equals(item, product);
-      });
-      localStorageService.set('shoppingCart', products);
-      $rootScope.$broadcast('shopping-cart-changed', products.length);
+      if (orderId) {
+        _removeProductFromExistingOrder(product);
+      } else {
+        _removeProductFromLocalShoppingCart(product);
+      }
     };
 
-    var replace = function(oldProduct, newProduct) {
-      products = _.map(products, function(item) {
-        if (angular.equals(item, oldProduct)) {
-          return newProduct;
-        }
-        return item;
-      });
-      $rootScope.$broadcast('shopping-cart-changed', products.length);
-    };
-
-    var clear = function() {
-      products = [];
-      localStorageService.set('shoppingCart', products);
-      $rootScope.$broadcast('shopping-cart-changed', products.length);
+    var clearProducts = function() {
+      if (orderId) {
+        _clearProductsFromExistingOrder();
+      } else {
+        _clearLocalShoppingCart();
+      }
     };
 
     var getProducts = function() {
@@ -56,18 +157,71 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       return products.length;
     };
 
-    var checkout = function() {
-      SimpleMessageToastService.openAlertMessageToast(
-        'shopping-cart.toasts.checkout-coming-soon');
+    var initShoppingCartProducts = function(initProducts, initOrderId,
+                                            initVersion) {
+      var copy = _.cloneDeep(initProducts);
+      localStorageService.set(SHOPPING_CART_KEY, copy);
+      localStorageService.set(ORDER_ID_KEY, initOrderId);
+      localStorageService.set(VERSION_KEY, initVersion);
+      orderId = initOrderId;
+      products = copy;
+      version = initVersion;
+      _broadcastShoppingCartChanged();
+    };
+
+    var migrateStoredData = function() {
+      var storedProducts = this.getProducts();
+      var migratedProducts = [];
+      storedProducts.forEach(function(product) {
+        if (_.has(product, 'projectId')) {
+          var newProduct = {
+            dataAcquisitionProjectId: product.projectId,
+            accessWay: product.accessWay,
+            version: product.version,
+            study: {
+              id: product.studyId
+            }
+          };
+          migratedProducts.push(newProduct);
+        } else {
+          migratedProducts.push(product);
+        }
+      });
+      localStorageService.set(SHOPPING_CART_KEY, migratedProducts);
+      products = migratedProducts;
+    };
+
+    var clearOrderData = function() {
+      orderId = '';
+      localStorageService.set(ORDER_ID_KEY, orderId);
+      version = '';
+      localStorageService.set(VERSION_KEY, version);
+    };
+
+    var completeOrder = function() {
+      clearOrderData();
+      _clearLocalShoppingCart();
+    };
+
+    var getOrderId = function() {
+      return orderId;
+    };
+
+    var getVersion = function() {
+      return version;
     };
 
     return {
       add: add,
       remove: remove,
-      replace: replace,
       getProducts: getProducts,
       count: count,
-      clear: clear,
-      checkout: checkout
+      clearLocalOrderId: clearOrderData,
+      clearProducts: clearProducts,
+      completeOrder: completeOrder,
+      initShoppingCartProducts: initShoppingCartProducts,
+      migrateStoredData: migrateStoredData,
+      getOrderId: getOrderId,
+      getVersion: getVersion
     };
   });
