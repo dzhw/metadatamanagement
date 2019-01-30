@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.ordermanagement.service;
 
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderAlreadyCompletedException;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderState;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -53,8 +54,7 @@ public class OrderService {
     if (optional.isPresent()) {
       Order persistedOrder = optional.get();
       if (persistedOrder.getState() == OrderState.ORDERED) {
-        throw new IllegalArgumentException("Order state is ORDERED and therefore cannot "
-            + "be updated.");
+        throw new OrderAlreadyCompletedException();
       }
       BeanUtils.copyProperties(orderToUpdate, persistedOrder, "id", "createdDate", "createdBy");
       persistedOrder = orderRepository.save(persistedOrder);

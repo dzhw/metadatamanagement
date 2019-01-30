@@ -1,6 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.rest;
 
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderAlreadyCompletedException;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.service.OrderService;
@@ -14,11 +17,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -132,5 +137,16 @@ public class OrderResource {
     return UriComponentsBuilder.fromHttpUrl(dlpUrl)
         .queryParam("mdm_order_id", orderId)
         .toUriString();
+  }
+
+  @ExceptionHandler(OrderAlreadyCompletedException.class)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ErrorListDto handleOrderAlreadyCompletedException() {
+    ErrorDto errorDto = new ErrorDto(null, "order-management.error."
+        + "order-already-completed", null, null);
+    ErrorListDto errorListDto = new ErrorListDto();
+    errorListDto.add(errorDto);
+    return errorListDto;
   }
 }
