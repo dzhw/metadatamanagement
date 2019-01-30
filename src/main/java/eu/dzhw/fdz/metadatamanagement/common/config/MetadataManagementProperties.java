@@ -29,6 +29,8 @@ public class MetadataManagementProperties {
 
   private final Dara dara = new Dara();
 
+  private final Dlp dlp = new Dlp();
+
   private final Rabbitmq rabbitmq = new Rabbitmq();
 
   private final Websockets websockets = new Websockets();
@@ -53,6 +55,10 @@ public class MetadataManagementProperties {
 
   public Dara getDara() {
     return dara;
+  }
+
+  public Dlp getDlp() {
+    return dlp;
   }
 
   public Rabbitmq getRabbitmq() {
@@ -317,6 +323,21 @@ public class MetadataManagementProperties {
 
     public void setEmail(String email) {
       this.email = email;
+    }
+  }
+
+  /**
+   * DLP properties.
+   */
+  public static class Dlp {
+    private String endpoint;
+
+    public String getEndpoint() {
+      return endpoint;
+    }
+
+    public void setEndpoint(String endpoint) {
+      this.endpoint = endpoint;
     }
   }
 }

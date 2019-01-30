@@ -65,6 +65,8 @@ metadatamanagement:
     endpoint: http://fakedaraendpoint/
     username: dara_username
     password: dara_password
+  dlp:
+    endpoint: http://fakedlpendpoint/
 
 jhipster:
     security:

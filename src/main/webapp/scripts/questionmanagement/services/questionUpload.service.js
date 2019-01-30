@@ -386,7 +386,7 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
           }
 
           if (CleanJSObjectService.isNullOrEmpty(questionImageMetadataList)) {
-            resolve();
+            deleteAllImages(question.id).finally(resolve);
           } else {
             deleteAllImages(question.id).finally(function() {
               var imageUploads = [];

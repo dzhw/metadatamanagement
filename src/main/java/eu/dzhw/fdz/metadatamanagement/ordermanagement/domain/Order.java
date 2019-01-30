@@ -1,15 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.domain;
 
-import java.util.List;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Counter;
 import io.swagger.annotations.ApiModel;
@@ -19,6 +9,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Order (DTO) containing all relevant information of a {@link Customer} and her {@link Product}s.
@@ -72,10 +70,7 @@ public class Order extends AbstractRdcDomainObject {
 
   /**
    * List of data {@link Product}s the {@link Customer} want to order.
-   * 
-   * Must not be empty.
    */
   @Valid
-  @NotEmpty
   private List<Product> products;
 }
