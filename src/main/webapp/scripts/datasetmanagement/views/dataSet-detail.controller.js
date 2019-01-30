@@ -61,7 +61,8 @@ angular.module('metadatamanagementApp')
           'studyId': result.studyId,
           'surveys': result.surveys,
           'dataSetIsPresent': true,
-          'studyIsPresent': CleanJSObjectService.isNullOrEmpty(result.study) ? false : true,
+          'studyIsPresent': CleanJSObjectService.isNullOrEmpty(result.study) ?
+            false : true,
           'projectId': result.dataAcquisitionProjectId
         });
         if (result.release || Principal

@@ -54,7 +54,8 @@ angular.module('metadatamanagementApp')
           'instrumentIsPresent': true,
           'surveys': result.surveys,
           'studyId': result.studyId,
-          'studyIsPresent': CleanJSObjectService.isNullOrEmpty(result.study) ? false : true,
+          'studyIsPresent': CleanJSObjectService.isNullOrEmpty(result.study) ?
+            false : true,
           'projectId': result.dataAcquisitionProjectId
         });
         var currenLanguage = LanguageService.getCurrentInstantly();
