@@ -4,14 +4,16 @@
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
     function(entity, PageTitleService, LanguageService, DataSetSearchService,
-      $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-      StudyAttachmentResource, SearchResultNavigatorService, $stateParams,
-      $rootScope, DataAcquisitionProjectResource, ProductChooserDialogService,
-      ProjectUpdateAccessService, $scope, $transitions, $timeout) {
+             $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
+             StudyAttachmentResource, SearchResultNavigatorService,
+             $stateParams, $rootScope, DataAcquisitionProjectResource,
+             ProductChooserDialogService, ProjectUpdateAccessService, $scope,
+             $timeout) {
 
       SearchResultNavigatorService.registerCurrentSearchResult(
-         $stateParams['search-result-index']);
+        $stateParams['search-result-index']);
       var versionFromUrl = $stateParams.version;
+      var activeProject;
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
@@ -32,13 +34,13 @@ angular.module('metadatamanagementApp')
 
       ctrl.loadAttachments = function() {
         StudyAttachmentResource.findByStudyId({
-            studyId: ctrl.study.id
-          }).$promise.then(
-            function(attachments) {
-              if (attachments.length > 0) {
-                ctrl.attachments = attachments;
-              }
-            });
+          studyId: ctrl.study.id
+        }).$promise.then(
+          function(attachments) {
+            if (attachments.length > 0) {
+              ctrl.attachments = attachments;
+            }
+          });
       };
 
       ctrl.isBetaRelease = function(study) {
@@ -46,21 +48,6 @@ angular.module('metadatamanagementApp')
           return bowser.compareVersions(['1.0.0', study.release.version]) === 1;
         }
         return false;
-      };
-
-      var setupTransitionHook = function(project) {
-        var deregisterTransitionHook = $transitions
-          .onBefore({state: 'studyDetail'}, function(transition) {
-            var identifier = _.get(transition, '_targetState._identifier');
-            if (identifier === 'studyEdit') {
-              return ProjectUpdateAccessService
-                .isUpdateAllowed(project, 'studies', true);
-            } else {
-              return true;
-            }
-          });
-
-        $scope.$on('$destroy', deregisterTransitionHook);
       };
 
       $scope.$on('deletion-completed', function() {
@@ -78,7 +65,7 @@ angular.module('metadatamanagementApp')
             ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
             ctrl.assigneeGroup = project.assigneeGroup;
-            setupTransitionHook(project);
+            activeProject = project;
           } else {
             ctrl.isStudyInUpdateProcess = result.release && !project.release;
             if (ctrl.isStudyInUpdateProcess) {
@@ -97,7 +84,8 @@ angular.module('metadatamanagementApp')
           'stateName': $state.current.name,
           'id': result.id,
           'studyIsPresent': true,
-          'projectId': result.dataAcquisitionProjectId});
+          'projectId': result.dataAcquisitionProjectId
+        });
         if (result.dataSets) {
           ctrl.accessWays = [];
           result.dataSets.forEach(function(dataSet) {
@@ -105,7 +93,7 @@ angular.module('metadatamanagementApp')
           });
         }
         if (result.release || Principal
-            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.study = result;
           ctrl.counts.surveysCount = result.surveys.length;
           if (ctrl.counts.surveysCount === 1) {
@@ -157,7 +145,7 @@ angular.module('metadatamanagementApp')
           }
         } else {
           SimpleMessageToastService.openAlertMessageToast(
-          'study-management.detail.not-released-toast', {id: result.id}
+            'study-management.detail.not-released-toast', {id: result.id}
           );
         }
       });
@@ -166,5 +154,12 @@ angular.module('metadatamanagementApp')
         ProductChooserDialogService.showDialog(
           ctrl.study.dataAcquisitionProjectId, ctrl.accessWays, ctrl.study,
           event);
+      };
+
+      ctrl.studyEdit = function() {
+        if (ProjectUpdateAccessService
+          .isUpdateAllowed(activeProject, 'studies', true)) {
+          $state.go('studyEdit', {id: ctrl.study.id});
+        }
       };
     });
