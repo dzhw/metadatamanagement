@@ -19,7 +19,7 @@ angular.module('metadatamanagementApp')
       /* jshint -W098 */
       link: function($scope, elem, attrs, ctrl) {
 
-        var isNotAPublisher = function() {
+        var isNotAssignedPublisher = function() {
           var loginName = Principal.loginName();
           var publishers = _.get(ctrl.project, 'configuration.publishers', []);
           return publishers.indexOf(loginName) === -1;
@@ -30,7 +30,11 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.isProjectRequirementsDisabled = function() {
-          return isNotAPublisher() || isProjectReleased();
+          return isNotAssignedPublisher() || isProjectReleased();
+        };
+
+        ctrl.isUserPublisher = function() {
+          return Principal.hasAuthority('ROLE_PUBLISHER');
         };
       }
     };

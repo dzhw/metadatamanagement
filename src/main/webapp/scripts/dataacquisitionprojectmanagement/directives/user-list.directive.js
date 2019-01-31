@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
         'user-list.html.tmpl',
       scope: {
         group: '@',
-        advancedPrivileges: '@',
+        isPublisher: '=',
         project: '='
       },
       replace: true,
@@ -19,11 +19,11 @@ angular.module('metadatamanagementApp')
 
       controller: function($scope) {
         this.group = $scope.group;
-        this.advancedPrivileges = $scope.advancedPrivileges;
+        this.isPublisher = $scope.isPublisher;
         this.project = $scope.project;
       },
       link: function($scope, elem, attrs, ctrl) { // jshint ignore:line
-        ctrl.disabled = !ctrl.advancedPrivileges &&
+        ctrl.disabled = !ctrl.isPublisher &&
           ctrl.group === 'publishers';
 
         ctrl.searchText = '';
@@ -149,8 +149,8 @@ angular.module('metadatamanagementApp')
           if (user.restricted) {
             return false;
           }
-          // cannot remove publishers without advanced privilege
-          if (!ctrl.advancedPrivileges && ctrl.group === 'publishers') {
+          // publishers can only be removed by other publishers
+          if (!ctrl.isPublisher && ctrl.group === 'publishers') {
             return false;
           }
 
