@@ -72,12 +72,13 @@ products
 .. java:field:: @Valid private List<Product> products
    :outertype: Order
 
-   List of data \ :java:ref:`Product`\ s the \ :java:ref:`Customer`\  want to order.
+   List of data \ :java:ref:`Product`\ s the customer want to order. Must not be empty.
 
 state
 ^^^^^
 
-.. java:field:: @Indexed private OrderState state
+.. java:field:: @Indexed @NotNull private OrderState state
    :outertype: Order
 
    The current state of the order. One of \ :java:ref:`OrderState`\ .
+

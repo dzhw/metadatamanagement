@@ -50,6 +50,7 @@ public class Order extends AbstractRdcDomainObject {
    * The current state of the order. One of {@link OrderState}.
    */
   @Indexed
+  @NotNull
   private OrderState state;
 
   /**

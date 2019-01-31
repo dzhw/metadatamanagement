@@ -9,6 +9,7 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.ordermanag
    :maxdepth: 1
 
    Order
+   OrderAlreadyCompletedException
    OrderClient
    OrderState
    OrderedStudy

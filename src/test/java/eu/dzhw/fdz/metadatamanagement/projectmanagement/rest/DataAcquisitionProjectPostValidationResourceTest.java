@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
@@ -55,14 +55,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTest{
   private static final String PROJECT_NAME = "testproject";
   private static final String API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI = "/api/data-acquisition-projects/" + PROJECT_NAME + "/post-validate";
-  
-  
+
+
   @Autowired
   private WebApplicationContext wac;
 
   @Autowired
   private DataAcquisitionProjectRepository rdcProjectRepository;
-  
+
   @Autowired
   private VariableRepository variableRepository;
 
@@ -74,16 +74,16 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
 
   @Autowired
   private InstrumentRepository instrumentRepository;
-  
+
   @Autowired
   private QuestionRepository questionRepository;
-  
+
   @Autowired
   private StudyRepository studyRepository;
-  
-  @Autowired 
+
+  @Autowired
   private QuestionImageService questionImageService;
-  
+
   @Autowired
   private JaversService javersService;
 
@@ -107,7 +107,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.questionImageService.deleteAll();
     this.javersService.deleteAll();
   }
-  
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testSimpleProjectForPostValidation() throws IOException, Exception {
@@ -174,80 +174,18 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
 
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-  public void testPostValidationQuestionImageIsMissing() throws IOException, Exception {
-    
-    //Arrange
-    //Project
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    project.getConfiguration().setStudiesState(new ProjectState(true, true));
-    this.rdcProjectRepository.save(project);
-    
-    //Survey
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    this.surveyRepository.save(survey);
-    List<Integer> surveyNumbers = new ArrayList<>();
-    surveyNumbers.add(1);
-    List<String> listOfSurveyIds = new ArrayList<>();
-    listOfSurveyIds.add(survey.getId());
-    
-    //Variables
-    Variable variable1 =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name1", 1, surveyNumbers);
-    this.variableRepository.save(variable1);    
-    Variable variable2 =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
-    this.variableRepository.save(variable2);
-    Variable variable3 =
-        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name3", 3, surveyNumbers);
-    this.variableRepository.save(variable3);    
-    
-    //DataSet
-    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
-    this.dataSetRepository.save(dataSet);
-    
-    //Instrument
-    Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
-    instrument.setSurveyIds(listOfSurveyIds);
-    this.instrumentRepository.save(instrument);
-    
-    //Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
-        survey.getId());
-    this.questionRepository.save(question);
-    
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());    
-    List<String> surveyIds = new ArrayList<>();
-    surveyIds.add(survey.getId());
-    List<String> instrumentIds = new ArrayList<>();
-    instrumentIds.add(instrument.getId());
-    List<String> dataSetIds = new ArrayList<>();
-    dataSetIds.add(dataSet.getId());
-    this.studyRepository.save(study);
-    
-
-    // Act & Assert
-    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(1)))  
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("question-management.error.post-validation.question-has-no-image")));
-      
-  }
-  
-  
-  @Test
-  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testSimpleProjectForPostValidationWithWrongInformationForQuestion() throws IOException, Exception {
-    
+
     //Arrange
     //Project
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().setStudiesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
-    
+
     //Study (each project must have one)
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     this.studyRepository.save(study);
-    
+
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
@@ -255,58 +193,58 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     surveyNumbers.add(1);
     List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());
-    
+
     //Variables
     Variable variable1 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name1", 1, surveyNumbers);
-    this.variableRepository.save(variable1);    
+    this.variableRepository.save(variable1);
     Variable variable2 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
     this.variableRepository.save(variable2);
     Variable variable3 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name3", 3, surveyNumbers);
-    this.variableRepository.save(variable3);    
-    
+    this.variableRepository.save(variable3);
+
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
     this.dataSetRepository.save(dataSet);
-    
+
     //Instrument
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
     this.instrumentRepository.save(instrument);
-    
+
     //Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, "testProject-WrongQuestionname1", 
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, "testProject-WrongQuestionname1",
         survey.getId());
     question.getSuccessors().add("testProject-WrongQuestion");
     this.questionRepository.save(question);
-    QuestionImageMetadata questionImageMetadata = 
+    QuestionImageMetadata questionImageMetadata =
         UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata(project.getId(), question.getId());
     UnitTestImageHelper.saveQuestionImage(this.questionImageService, questionImageMetadata);
-    
+
 
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(2)))
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.question-has-invalid-instrument-id")))    
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.question-has-invalid-instrument-id")))
       .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.question-has-invalid-successor")));
   }
-    
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testSimpleProjectForPostValidationWithWrongInformationForDataSet() throws IOException, Exception {
-    
+
     //Arrange
     //Project
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().setStudiesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
-    
+
     //Study (each project must have one)
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     this.studyRepository.save(study);
-    
+
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
@@ -314,37 +252,37 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     surveyNumbers.add(1);
     List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());
-    
+
     //Variables
     Variable variable1 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name1", 1, surveyNumbers);
-    this.variableRepository.save(variable1);    
+    this.variableRepository.save(variable1);
     Variable variable2 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
     this.variableRepository.save(variable2);
     Variable variable3 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name3", 3, surveyNumbers);
-    this.variableRepository.save(variable3);    
-    
+    this.variableRepository.save(variable3);
+
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
     List<String> surveyIds = new ArrayList<>();
     surveyIds.add(project.getId() + "-WrongSurveyId");
     dataSet.setSurveyIds(surveyIds);
     this.dataSetRepository.save(dataSet);
-    
+
     //Instrument
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
     this.instrumentRepository.save(instrument);
-    
+
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
-        survey.getId());    
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(),
+        survey.getId());
     this.questionRepository.save(question);
-    QuestionImageMetadata questionImageMetadata = 
+    QuestionImageMetadata questionImageMetadata =
         UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata(project.getId(), question.getId());
     UnitTestImageHelper.saveQuestionImage(this.questionImageService, questionImageMetadata);
-    
+
 
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
@@ -353,22 +291,22 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
       .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.data-set-has-invalid-survey-id")))
       .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.variable-survey-ids-are-not-consistent-with-data-set")));
   }
-  
-  
+
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testSimpleProjectForPostValidationWithCorrectInformationForSurvey() throws IOException, Exception {
-    
+
     //Arrange
     //Project
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().setStudiesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
-    
+
     //Study (each project must have one)
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     this.studyRepository.save(study);
-    
+
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
@@ -376,50 +314,50 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     surveyNumbers.add(1);
     List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());
-    
+
     //Variables
     Variable variable1 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name1", 1, surveyNumbers);
-    this.variableRepository.save(variable1);    
+    this.variableRepository.save(variable1);
     Variable variable2 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
     this.variableRepository.save(variable2);
     Variable variable3 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name3", 3, surveyNumbers);
-    this.variableRepository.save(variable3);    
-    
+    this.variableRepository.save(variable3);
+
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
     this.dataSetRepository.save(dataSet);
-    
+
     //Instrument
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
     this.instrumentRepository.save(instrument);
-    
+
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
-        survey.getId());    
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(),
+        survey.getId());
     this.questionRepository.save(question);
-    QuestionImageMetadata questionImageMetadata = 
+    QuestionImageMetadata questionImageMetadata =
         UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata(project.getId(), question.getId());
     UnitTestImageHelper.saveQuestionImage(this.questionImageService, questionImageMetadata);
-    
+
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(0)));   
+      .andExpect(jsonPath("$.errors", hasSize(0)));
   }
-  
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testSimpleProjectForPostValidationWithWrongInformationForVariable() throws IOException, Exception {
-    
+
     //Arrange
     //Project
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.getConfiguration().setStudiesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
-    
+
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
@@ -429,11 +367,11 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     surveyIds.add(UnitTestCreateValidIds.buildSurveyId(project.getId(), 1));
     List<String> listOfSurveyIds = new ArrayList<>();
     listOfSurveyIds.add(survey.getId());
-    
+
     //Variables
     Variable variable1 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name1", 1, surveyNumbers);
-    this.variableRepository.save(variable1);    
+    this.variableRepository.save(variable1);
     Variable variable2 =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "name2", 2, surveyNumbers);
     this.variableRepository.save(variable2);
@@ -443,29 +381,29 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     surveyIds.add(UnitTestCreateValidIds.buildSurveyId(project.getId(), 4));
     variable3.setSurveyNumbers(surveyNumbers);
     variable3.setSurveyIds(surveyIds);
-    this.variableRepository.save(variable3);    
-    
+    this.variableRepository.save(variable3);
+
     //DataSet
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
     dataSet.setSurveyIds(surveyIds);
     this.dataSetRepository.save(dataSet);
-    
+
     //Instrument
     Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(project.getId());
     this.instrumentRepository.save(instrument);
-    
+
     //Atomic Question
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(), 
-        survey.getId());    
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, instrument.getId(),
+        survey.getId());
     this.questionRepository.save(question);
-    QuestionImageMetadata questionImageMetadata = 
+    QuestionImageMetadata questionImageMetadata =
         UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata(project.getId(), question.getId());
     UnitTestImageHelper.saveQuestionImage(this.questionImageService, questionImageMetadata);
-    
+
     // Act & Assert
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.errors", hasSize(3)))      
+      .andExpect(jsonPath("$.errors", hasSize(3)))
       .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.project-has-no-study")))
       .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.data-set-has-invalid-survey-id")))
       .andExpect(jsonPath("$.errors[2].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")));

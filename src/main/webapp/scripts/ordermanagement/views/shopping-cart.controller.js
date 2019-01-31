@@ -125,6 +125,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         var order = {
           languageKey: LanguageService.getCurrentInstantly(),
           client: 'MDM',
+          state: 'CREATED',
           products: []
         };
         ctrl.products.forEach(function(product) {

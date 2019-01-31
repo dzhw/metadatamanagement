@@ -3,12 +3,13 @@
 # mvn clean install
 # then run the following command to start the app with all
 # dependencies:
-# docker-compose -f docker-compose.yml -f docker-compose-app.yml start
+# docker-compose -f docker-compose.yml -f docker-compose-app.yml up -d --build
 version: "3.1"
 services:
   app:
     image: dzhw/metadatamanagement:latest
     environment:
+      - SPRING_PROFILES_ACTIVE=local,minified
       - SPRING_DATA_MONGODB_HOST=mongodb
       - METADATAMANAGEMENT_ELASTICSEARCH-CLIENT_URL=http://elasticsearch:9200
       - SPRING_MAIL_HOST=maildev

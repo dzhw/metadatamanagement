@@ -10,17 +10,13 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
-        searchResultIndex: '=',
-        isUpdateAllowed: '=?'
+        searchResultIndex: '='
       },
       controller: function($scope, CommonDialogsService, InstrumentResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
         DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
-        $transitions) {
+        $state) {
         $scope.projectIsCurrentlyReleased = true;
-        if (angular.isUndefined($scope.isUpdateAllowed)) {
-          $scope.isUpdateAllowed = true;
-        }
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
@@ -52,19 +48,15 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
             });
           }
         };
-
-        var unregisterTransitionHook = $transitions.onBefore(
-          {to: 'instrumentEdit'},
-          function() {
-            if (!ProjectUpdateAccessService.isUpdateAllowed(
-              $scope.project,
-              'instruments',
-              true
-            )) {
-              return false;
-            }
-          });
-        $scope.$on('$destroy', unregisterTransitionHook);
+        $scope.instrumentEdit = function() {
+          if (ProjectUpdateAccessService.isUpdateAllowed(
+            $scope.project,
+            'instruments',
+            true
+          )) {
+            $state.go('instrumentEdit', {id: $scope.searchResult.id});
+          }
+        };
       }
     };
   });

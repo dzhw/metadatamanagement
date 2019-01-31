@@ -17,7 +17,7 @@
         </md-tooltip>
     </a>
     <div class="fdz-search-result-actions-container" ng-if="!projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" >
-        <md-button class="md-icon-button md-primary" ui-sref="instrumentEdit({id: searchResult.id})" style="margin-right: 0px;" >
+        <md-button class="md-icon-button md-primary" ng-click="instrumentEdit()" style="margin-right: 0px;" >
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
                 {{'search-management.buttons.edit-instrument-tooltip' | translate}}
             </md-tooltip>

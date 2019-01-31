@@ -4,11 +4,11 @@
 
 angular.module('metadatamanagementApp')
   .directive('projectCockpitStatus', function(
-      SearchDao, ProjectUpdateAccessService,
-      SimpleMessageToastService, Principal, ProjectSaveService,
-      DataAcquisitionProjectPostValidationService,
-      $mdDialog, $translate, CurrentProjectService, $timeout,
-      ProjectReleaseService, $q) {
+    SearchDao, ProjectUpdateAccessService,
+    SimpleMessageToastService, Principal, ProjectSaveService,
+    DataAcquisitionProjectPostValidationService,
+    $mdDialog, $translate, CurrentProjectService, $timeout,
+    ProjectReleaseService, $q) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
@@ -17,7 +17,6 @@ angular.module('metadatamanagementApp')
         project: '='
       },
       replace: true,
-      transclude: true,
       controllerAs: 'ctrl',
       controller: function($scope) {
         this.project = $scope.project;
@@ -28,13 +27,11 @@ angular.module('metadatamanagementApp')
           this.isAssignedPublisher =
             ProjectUpdateAccessService.isAssignedToProject(
               this.project, 'publishers');
-          this.isAssignedToProject =
-            this.isAssignedPublisher || this.isAssignedDataProvider;
         }.bind(this);
         this.update();
       },
       /* jshint -W098 */
-      link: function($scope, elem, attrs, ctrl, $transclude) {
+      link: function($scope, elem, attrs, ctrl) {
         $scope.$on('current-project-changed', ctrl.update);
 
         ctrl.getNextAssigneeGroup = function(project) {
@@ -83,16 +80,16 @@ angular.module('metadatamanagementApp')
 
         ctrl.onSaveChangesAndTakeBack = function() {
           var confirm = $mdDialog.confirm()
-          .title($translate.instant('data-acquisition' +
-            '-project-management.project-cockpit.takeback-dialog.title')
-          ).textContent($translate.instant('data-acquisition' +
-          '-project-management.project-cockpit.takeback-dialog.text')
-          ).ok($translate.instant('global.common-dialogs.yes'))
-          .cancel($translate.instant('global.common-dialogs.no'));
+            .title($translate.instant('data-acquisition' +
+              '-project-management.project-cockpit.takeback-dialog.title')
+            ).textContent($translate.instant('data-acquisition' +
+              '-project-management.project-cockpit.takeback-dialog.text')
+            ).ok($translate.instant('global.common-dialogs.yes'))
+            .cancel($translate.instant('global.common-dialogs.no'));
           $mdDialog.show(confirm).then(function() {
             showAssigneeGroupMessageDialog('PUBLISHER').then(function(message) {
               var project = ProjectSaveService.prepareProjectForSave
-                (ctrl.project, message, 'PUBLISHER');
+              (ctrl.project, message, 'PUBLISHER');
               saveProject(project);
             });
           });
@@ -133,7 +130,7 @@ angular.module('metadatamanagementApp')
             .then(function(data) {
               ['variables', 'questions', 'data_sets', 'surveys', 'instruments',
                 'studies'].forEach(function(type) {
-                var bucket  = _.find(data.aggregations.countByType.buckets,
+                var bucket = _.find(data.aggregations.countByType.buckets,
                   {key: type});
                 ctrl.counts[type] = _.get(bucket, 'doc_count', 0);
               });
