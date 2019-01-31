@@ -20,7 +20,7 @@
 		</md-checkbox>
 		<md-checkbox
 			ng-model="ctrl.project.configuration[ctrl.type+'State'].dataProviderReady"
-			ng-disabled="!((ctrl.isRequired() && ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup === 'PUBLISHER') || (ctrl.isRequired() && ctrl.isAssignedDataProvider() && ctrl.project.assigneeGroup === 'DATA_PROVIDER'))"
+			ng-disabled="!((ctrl.isRequired() && ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup === 'PUBLISHER') || (ctrl.isRequired() && ctrl.isAssignedDataProvider() && ctrl.project.assigneeGroup === 'DATA_PROVIDER')) || ctrl.isProjectReleased()"
 		>
 			<md-tooltip ng-if="!ctrl.isAssignedPublisher() && !ctrl.isAssignedDataProvider()">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-ctrl.type' | translate}}</md-tooltip>
 			<md-tooltip ng-if="(!ctrl.isAssignedDataProvider() && ctrl.project.assigneeGroup === 'DATA_PROVIDER')">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>
@@ -30,7 +30,7 @@
 		</md-checkbox>
 		<md-checkbox
 			ng-model="ctrl.project.configuration[ctrl.type+'State'].publisherReady"
-			ng-disabled="!(ctrl.isRequired() && ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup === 'PUBLISHER')"
+			ng-disabled="!(ctrl.isRequired() && ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup === 'PUBLISHER') || ctrl.isProjectReleased()"
 		>
 			<md-tooltip ng-if="!ctrl.isAssignedPublisher()">{{'data-acquisition-project-management.project-cockpit.tooltip.not-in-ctrl.type' | translate}}</md-tooltip>
 			<md-tooltip ng-if="ctrl.project.assigneeGroup !== 'PUBLISHER'">{{'data-acquisition-project-management.project-cockpit.tooltip.not-assigned' | translate}}</md-tooltip>
@@ -41,19 +41,19 @@
 	</md-card-content>
 	<md-card-actions layout="row" layout-align="end center">
 		<div>
-			<md-button style="margin: 0 4px;" class="md-raised" ng-click="ctrl.delete()" ng-disabled="!(ctrl.counts[ctrl.type === 'dataSets' ? 'data_sets' : ctrl.type])">
+			<md-button style="margin: 0 4px;" class="md-raised" ng-click="ctrl.delete()" ng-disabled="!(ctrl.counts[ctrl.type === 'dataSets' ? 'data_sets' : ctrl.type]) || ctrl.isProjectReleased()">
 				<span>{{'data-acquisition-project-management.project-cockpit.config.delete' | translate}}</span>
 				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{ctrl.deleteTooltip | translate}}</md-tooltip>
 			</md-button>
-			<md-button style="margin: 0 4px;" class="md-raised" ui-sref="search({type: ctrl.searchState})" ng-disabled="!(ctrl.counts[ctrl.type === 'dataSets' ? 'data_sets' : ctrl.type])" ng-if="ctrl.type !== 'variables' && ctrl.type !== 'questions' && ctrl.type !== 'studies'">
+			<md-button style="margin: 0 4px;" class="md-raised" ui-sref="search({type: ctrl.searchState})" ng-disabled="!(ctrl.counts[ctrl.type === 'dataSets' ? 'data_sets' : ctrl.type]) || ctrl.isProjectReleased()" ng-if="ctrl.type !== 'variables' && ctrl.type !== 'questions' && ctrl.type !== 'studies'">
 				<span>{{'data-acquisition-project-management.project-cockpit.config.edit' | translate}}</span>
 				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{ctrl.editTooltip | translate}}</md-tooltip>
 			</md-button>
-			<md-button class="md-primary md-raised" ng-if="!!ctrl.createState" ng-click="ctrl.create()">
+			<md-button class="md-primary md-raised" ng-if="!!ctrl.createState" ng-click="ctrl.create()" ng-disabled="ctrl.isProjectReleased()">
 				<span>{{'data-acquisition-project-management.project-cockpit.config.' + ctrl.getModifyButtonLabel(ctrl.type) | translate}}</span>
 				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100"> {{ctrl.getTooltip(ctrl.type) | translate}}</md-tooltip>
 			</md-button>
-			<md-button class="md-primary md-raised" ng-if="!!ctrl.uploadFunction" type="file" ngf-select="ctrl.uploadFunction($files)" directory webkitdirectory ngf-multiple="true" ngf-select-disabled="!ctrl.isUploadAllowed(ctrl.type)">
+			<md-button class="md-primary md-raised" ng-if="!!ctrl.uploadFunction" type="file" ngf-select="ctrl.uploadFunction($files)" directory webkitdirectory ngf-multiple="true" ngf-select-disabled="!ctrl.isUploadAllowed(ctrl.type)" ng-disabled="ctrl.isProjectReleased()">
 				<span>{{'data-acquisition-project-management.project-cockpit.config.upload' | translate}}</span>
 				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{ctrl.getTooltip(ctrl.type) | translate}}</md-tooltip>
 			</md-button>

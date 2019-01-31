@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp')
       scope: {
         type: '@',
         counts: '=',
-        project: '=',
+        project: '='
       },
       replace: true,
       controllerAs: 'ctrl',
@@ -157,6 +157,10 @@ angular.module('metadatamanagementApp')
                 $state.go(ctrl.createState, {});
               });
           }
+        };
+
+        ctrl.isProjectReleased = function() {
+          return ctrl.project.release;
         };
 
         ctrl.delete = function() {
