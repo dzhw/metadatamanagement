@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
     SimpleMessageToastService, Principal, ProjectSaveService,
     DataAcquisitionProjectPostValidationService,
     $mdDialog, $translate, CurrentProjectService, $timeout,
-    ProjectReleaseService, $q) {
+    ProjectReleaseService, $q, $rootScope) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
@@ -75,7 +75,9 @@ angular.module('metadatamanagementApp')
         };
 
         var saveProject = function(project) {
-          return ProjectSaveService.saveProject(project);
+          return ProjectSaveService.saveProject(project).then(function() {
+            $rootScope.$broadcast('project-saved');
+          });
         };
 
         ctrl.onSaveChangesAndTakeBack = function() {
