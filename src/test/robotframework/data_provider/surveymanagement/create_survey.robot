@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Data driven test of survey creation.
+Documentation     Data driven test of survey creation. #Prerequisite to have robotproject
 Suite Setup       Go To Survey Create Page
 Suite Teardown    Close Survey Editor
 Force Tags        noslowpoke
@@ -7,6 +7,9 @@ Test Template     Survey Page With Empty Or Invalid Options Should Fail
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/login_resource.robot
+
+*** Variables ***
+${TOAST_MSSG}  Die Erhebung wurde nicht gespeichert
 
 *** Test Cases ***    GerTitle       EngTitle     Wave        FielPeriodStart    FieldPeriodEnd    GerSurvMeth    EngSurvMeth    GerPopTitle    EngPopTitle    GerPopDesc      EngPopDesc            GerSample    EngSample    NetSampleSize     ResponseRate
 Empty German Title    ${Empty}       Something    1           01.05.2018         31.05.2018        Versuch        Trial          Alle           All            Na eben alle    Of course everyone    Alle         All          1400              10
@@ -79,17 +82,17 @@ Survey Page With Empty Or Invalid Options Should Fail
     Input Text    name=responseRate    ${ResponseRate}
     Save Changes
     Page Should Contain    Die Erhebung wurde nicht gespeichert, weil es noch ungültige Felder gibt!
+    Close The Toast Message   ${TOAST_MSSG}
 
 Go To Survey Create Page
     Pass Execution If    '${BROWSER}' == 'ie'    Survey Creation not possible in IE
     Select project by name    robotproject
     Wait Until Angular Ready    6s
     Click on surveys tab
-    Click Element Through Tooltips    xpath=//ui-view/descendant::a[md-icon[text()='add']]
+    Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
 
 Close Survey Editor
     Pass Execution If    '${BROWSER}' == 'ie'    Survey Creation not possible in IE
-    Click Element Through Tooltips    xpath=//md-icon[text()='close']
     Get back to german home page
     Click Element Through Tooltips    xpath=//button[text()='Ja']
     #Probleme mit allen anderen Optionen, merkwürdiges Resultat wenn zuschnell ausgeloggt wird.
@@ -98,3 +101,9 @@ Close Survey Editor
 Choose Quantitative Daten As Data Type
     Click Element Through Tooltips    xpath=//md-select[@name = 'dataType']
     Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'Quantitative Daten')]
+
+Close The Toast Message
+    [Arguments]  ${TOAST_MSSG}
+    Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Erhebung wurde nicht gespeichert")]
+    Element Should Contain  xpath=//md-toast//span[contains(.,"Die Erhebung wurde nicht gespeichert")]  ${TOAST_MSSG}
+    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
