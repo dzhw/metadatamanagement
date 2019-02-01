@@ -1,6 +1,6 @@
     .. _metadatenabgabe-label:
 
-Metadatenabgabe (Data Provider)
+Metadatenabgabe (Datengeber)
 ===============================
 .. index:: data provider, Datenaufnahme
 
@@ -83,8 +83,8 @@ Tabelle 1: Vorgehen bei der Metadateneingabe pro Ebene
 |                 | (oder Zofar)    | (.png)          | Vorlage-Ordner  |
 |                 |                 |                 | speichern       |
 +-----------------+-----------------+-----------------+-----------------+
-| Datensätze      | Eingabemaske    | Anhänge (PDF)   | Ordner ins MDM  |
-|                 |                 |                 | laden           |
+| Datensätze      | Eingabemaske    | Anhänge (PDF)   | Eingabemaske    |
+|                 |                 |                 | ausfüllen       |
 +-----------------+-----------------+-----------------+-----------------+
 | Variablen       | mind. 1         | mind. 1         | Im              |
 |                 | Excel-Tabelle   | Datensatz       | Vorlage-Ordner  |
@@ -136,13 +136,58 @@ Nach erfolgreicher Anmeldung erscheint in der Sidebar das folgende Feld:
 
    Bereich für Verwaltung von Projekten im MDM
 
-Über den Plus-Button können Sie ein neues Projekt anlegen (vgl.
-:numref:`neuesprojektanlegen`). Als Projektname müssen Sie eine bestimmte ID
+Über den Plus-Button können *Publisher* ein neues Projekt anlegen (vgl.
+:numref:`neuesprojektanlegen`). Als Projektname müssen diese eine bestimmte ID
 angeben, welche das FDZ zuvor speziell für Ihr Projekt vergeben hat und Ihnen
-mitteilen muss (z. B. „gra2005“ für das Absolventenpanel 2005). Das
-Projekt ist dadurch im MDM angelegt, aber noch nicht automatisch
+mitteilen muss (z. B. „gra2005“ für das Absolventenpanel 2005).
+
+DataAcquisitionProject-ID
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- **drei Kleinbuchstaben**: Um die internationale Nutzbarkeit der Daten zu
+  erleichtern, ergeben sich die drei Kleinbuchstaben aus der englischsprachigen
+  Abkürzung des Projektes. Es kann Ausnahmen geben, wenn z.B. bestimmte Projekte
+  ein besonders griffiges Kürzel haben wie z.B. bei Libertas 2016 - lib2016.
+- **(zwei bis) vier Ziffern**: Die Ziffern sind in der Regel die vier Ziffern
+  des Jahres, das die Zugehörigkeit zur Stichprobe definiert, z. B. der
+  Abschluss des Studiums (z. B. im (Prüfungs-)Jahr 2005 oder der Erwerb der
+  Hochschulzugangsberechtigung im Jahr 2008). Davon kann in begründeten
+  Ausnahmefällen abgewichen werden.
+- Beispielsweise ist die Sozialerhebung deutlich stärker unter der
+  jeweiligen Nummer der Studie als unter dem Jahr, das die Zugehörigkeit
+  zur Stichprobe definiert, bekannt, so dass beispielsweise für die 19.
+  Sozialerhebung aus dem Jahr 2009 die Ziffern 19 (und nicht 2009) vergeben
+  werden.
+- Bei Befragungen, die sich auf mehrere Jahreszahlen beziehen, kann eine
+  andere eindeutige Jahreszahl verwendet werden. Beispielweise gehören in
+  der KomPaed-Befragung die zuletzt aktiven Panelteilnehmer mehrerer
+  Kohorten zur Stichprobe. Hier werden die vier Ziffern des Erhebungsjahres
+  (2014) genutzt.
+
+Für jedes weitere Objekt wird später ebenfalls eine ID generiert, die die DAP-id
+enthält und sich nach der folgenden Logik zusammensetzt:
+
++--------------------+-----------------------------------------------------------------------------------+
+| Metadaten          | Id-Generierung                                                                    |
++====================+===================================================================================+
+| Study              | "stu-" + DAP-id + "$"                                                             |
++--------------------+-----------------------------------------------------------------------------------+
+| Survey             | "sur-" + DAP-id + "-" + "sy" + survey.number + "$"                                |
++--------------------+-----------------------------------------------------------------------------------+
+| DataSet            | "dat-" + DAP-id + "-" + "ds" + dataSet.number + "$"                               |
++--------------------+-----------------------------------------------------------------------------------+
+| Variable           | "var-" + DAP-id + "-" + "ds" + variable.dataSetNumber + "-" + variable name + "$" |
++--------------------+-----------------------------------------------------------------------------------+
+| Instrument         | "ins-" + DAP-id + "-" + "ins" + number + "$"                                      |
++--------------------+-----------------------------------------------------------------------------------+
+| Question           | "que-" + DAP-id + "-ins" + instrumentNumber + "-" + number + "$"                  |
++--------------------+-----------------------------------------------------------------------------------+
+| relatedPublication | "pub-" + citaviId + "$"                                                           |
++--------------------+-----------------------------------------------------------------------------------+
+
+Das Projekt ist dadurch im MDM angelegt, aber noch nicht automatisch
 freigegeben. Solange das Projekt noch nicht freigegeben wurde, können
-Sie es jederzeit über den Mülleimer-Button ganz links (vgl.
+Nutzer der Gruppe *publisher* es jederzeit über den Mülleimer-Button ganz links (vgl.
 :numref:`neuesprojektanlegen`)
 wieder löschen.
 
@@ -150,6 +195,45 @@ wieder löschen.
    :name: neuesprojektanlegen
 
    Ein neues Projekt im MDM anlegen
+
+Im Anschluss an die Projekterstellung werden Sie als Nutzer mit der Rolle
+*Datengeber* dem Projekt zugewiesen. Wenn Sie ins Projektcockpit gehen
+(vgl. :numref:`projectcockpit`), sehen Sie unter dem Punkt Einstellungen
+(vgl. :numref:`project_cockpit_settings`), welche Publisher und Datengeber dem
+Projekt zugewiesen sind und welche Metadaten vom *Publisher* erwartet werden.
+
+.. figure:: ./_static/cockpit-button.png
+   :name: projectcockpit
+
+   Project-Cockpit Button.
+
+.. figure:: ./_static/project_cockpit_settings.png
+   :name: project_cockpit_settings
+
+   Project-Cockpit Einstellungen.
+
+Im Status-Menü (siehe :numref:`project_cockpit_status`) wird zum einen
+angezeigt, wie der Stand der Dinge auf den einzelnen Metadatenebenen ist.
+Um die Metadaten der einzelnen Ebenen anzulegen klicken Sie auf den Neu- bzw
+Hochladen-Button. Wenn Sie mit eingabe erwarteter Metadaten einer Ebene fertig
+sind, setzen Sie ein Häkchen und der Smiley ist nicht mehr traurig, sondern
+mittelgut gelaunt.
+Wenn Sie mit allen Schritten fertig sind
+weisen Sie das Projekt an die Nutzer der Gruppe Publisher zu. Dieser überprüft
+dann die Metadaten bzw gibt sein "OK".
+Wenn ein Publisher mit dem Status der Metadaten zufrieden ist
+und auch ein Häkchen setzt ist der Smiley glücklich. Wurde nichts erwartet ist
+der Smiley auch ohne Metadaten happy. Sind alle Smileys glücklich und ist die
+Postvalidierung der Metadaten erfolgreich, kann released
+werden.
+
+.. figure:: ./_static/project_cockpit_status.png
+   :name: project_cockpit_status
+
+   Project-Cockpit Status.
+
+
+
 
 Sie können nun beginnen, Ihr Projekt mit Metadaten zu füllen. Wie genau
 dies funktioniert, wird im Folgenden zunächst prinzipiell erläutert, ehe
@@ -165,6 +249,13 @@ Metadaten enthalten (Json Dateien im Fall von Fragen und Variablen, eine
 Exceltabelle bei Publikationen).
 Eingabemasken ermöglichen eine komfortable Abgabe der Metadaten direkt
 auf der Website.
+
+Domänenmodell
+~~~~~~~~~~~~~
+
+Im Domänenmodell_ werden alle Domänenobjekte, ihre Relationen zueinander
+und, ob diese verpflichtend auszufüllen sind, dokumentiert.
+.. _Domänenmodell: https://github.com/dzhw/metadatamanagement/wiki/Domain-Model
 
 Eingabemasken
 ~~~~~~~~~~~~~
@@ -185,11 +276,13 @@ Excel-Tabellen
 
 Für die weiteren Ebenen können Sie bereits vorbereitete Excel-Tabellen
 verwenden, in denen verschiedene Metadaten spaltenweise erfasst werden.
-Diese Excel-Tabellen finden Sie im Vorlage-Ordner der jeweiligen Ebene
+Diese Excel-Tabellen finden Sie im Vorlage-Ordner_ der jeweiligen Ebene
 (vgl. Kapitel 3.4). Welche Metadaten Sie an welcher Stelle in der
 Excel-Tabelle eintragen müssen, erkennen Sie an den bereits vorgegebenen
 Spaltenüberschriften in der ersten Zeile der Tabelle. Dort stehen die
 Bezeichnungen der jeweiligen Metadaten.
+
+.. _Vorlage-Ordner: https://github.com/dzhw/metadatamanagement-io/wiki/Vorlagen/Vorlagen_fuer_Datengeber.zip
 
 Die Suffixe „.de“ und „.en“ sind Teil vieler Spaltenüberschriften und
 weisen auf die Sprache des einzutragenden Metadatums hin.
@@ -219,7 +312,7 @@ müssen diese nur auswählen.
 
 Häufig ist es der Fall, dass aus dem kontrollierten Vokabular einer
 bestimmten Zelle automatisch der Inhalt der nächsten Zelle folgt. Für
-dieses Szenario sind die Excel-Vorlagen vorbereitet, d. h. in den
+dieses Szenario sind die Excel-Vorlagen_ vorbereitet, d. h. in den
 betreffenden Spalten sind über mehrere Zeilen bereits Formeln
 hinterlegt, die die nächste Zelle automatisch füllen und Ihnen viel
 Tipparbeit ersparen. Die Vorlagen sind für alle Fälle
@@ -229,6 +322,8 @@ einschließlich Zeile 20 der Excel-Vorlage für die Ebenen Instrumente
 sowie Datensätze, bis einschließlich Zeile 2000 der Excel-Vorlage für
 die Fragen- und Variablenebene). Zum leichteren Erkennen sind die
 betreffenden Zeilen in den Vorlagen bereits grau hinterlegt.
+
+.. _Excel-Vorlagen: https://github.com/dzhw/metadatamanagement-io/wiki/Vorlagen/Vorlagen_fuer_Datengeber.zip
 
 Da Formeln in solchen Zellen, die nicht mit Inhalt befüllt sind,
 einen fehlerhaften Upload der Excel-Tabelle hervorrufen,
@@ -271,20 +366,12 @@ Die korrekte Anordnung der Dateien im Ordner
 
 Für einen erfolgreichen Upload der Metadaten attachments müssen
 Sie sämtliche Dateien ihrer zugehörigen Ebene entsprechend in den vom
-FDZ vorbereiteten Vorlage-Ordner ablegen, welcher nach der jeweiligen
+FDZ vorbereiteten Vorlage-Ordner_ ablegen, welcher nach der jeweiligen
 Ebene benannt ist. Dieser Ordner sowie auch seine Unterordner sind mit
-englischen Begriffen betitelt. So heißt z. B. der Ordner der
-Instrumentenebene „instruments“ und der Ordner der Datensatzebene
-„dataSets“. Der Unterordner, welche alle Anhänge enthält, heißt
-unabhängig von der Ebene immer „attachments“. Mittlerweile werden, abweichend
-vom Screenshot, keine Exceldateien mehr benötigt. Die vorliegende Ordnerstruktur
-am Beispiel analog zur mittlerweile nicht mehr benötigten Instrumentenebene
-zeigt :numref:`ordnerstruktur_instruments`.
+englischen Begriffen betitelt. Der Unterordner, welche alle Anhänge enthält,
+heißt unabhängig von der Ebene immer „attachments“.
 
-.. figure:: ./_static/12_de.png
-   :name: ordnerstruktur_instruments
-
-   Ordnerstruktur am Beispiel der Instrumentenebene
+.. _Vorlage-Ordner: https://github.com/dzhw/metadatamanagement-io/wiki/Vorlagen/Vorlagen_fuer_Datengeber.zip
 
 Die Abgabe von Metadaten für die einzelnen Ebenen
 -------------------------------------------------
@@ -387,7 +474,11 @@ zur Studie ablegen. Dazu klicken Sie auf den blauen Plus-Button (s.
 in dem Sie eine Datei hochladen und diese näher beschreiben können.
 Die hier relevanten Materialien sind momentan der deutsch- und
 englischsprachige Daten- und Methodenbericht (DMB) sowie eine
-englischsprachige *study overview*. [1]_ Die Eingaben müssen Sie
+englischsprachige *study overview*. [1]_
+Die Sprache der Materialien muss nach ISO 639-1_ angegeben werden.
+Bei den Metadaten der Materialien ist darauf zu achten die Metadaten aus den
+Dokumenten zu entfernen (Autor und Titel).
+Die Eingaben müssen Sie
 anschließend über den orangefarbenen Save-Button abspeichern.
 Mit den Pfeil-Buttons können Sie dann ggf. die Reihenfolge bereits
 eingegebener Materialien verändern. Wenn Sie eine geänderte Reihenfolge
@@ -485,8 +576,8 @@ Länge in zwei Teilen – dargestellt:
 
 Beim Anlegen einer Erhebung wird automatisch die ID auf Basis des
 Projektnamens generiert (s. rotes Kästchen, :numref:`eingabemaske_erhebung_details_1`,
-hier als Beispiel der 21. Sozialerhebung). Neben den bereits aus der Studienebene
-bekannten Funktionen gibt es in dieser Eingabemaske zusätzlich eine
+hier als Beispiel der 21. Sozialerhebung). Neben den bereits aus der
+Studienebene bekannten Funktionen gibt es in dieser Eingabemaske zusätzlich eine
 Kalenderfunktion (s. blaue Kästchen, :numref:`eingabemaske_erhebung_details_1`),
 welche die Feldzeit des
 Projekts erfasst und in :numref:`kalender_erhebung` dargestellt ist:
@@ -499,9 +590,10 @@ Projekts erfasst und in :numref:`kalender_erhebung` dargestellt ist:
 
 Im zweiten Teil der Eingabemaske für die Erhebungsebene gibt es die
 Besonderheit, dass sich die Rücklaufquote automatisch ermitteln lässt
-(s. :numref:`eingabemaske_erhebungsebene_details_2`). Sie können den Rücklauf auch manuell eingeben. Hierbei ist
-zu jedoch beachten, dass sich bereits eingegebene Zahlen bei Brutto- und
-Netto-Stichprobe bei nicht automatisch anpassen.
+(s. :numref:`eingabemaske_erhebungsebene_details_2`). Sie können den Rücklauf
+auch manuell eingeben. Hierbei ist zu jedoch beachten, dass sich bereits
+eingegebene Zahlen bei Brutto- und Netto-Stichprobe bei nicht automatisch
+anpassen.
 
 .. figure:: ./_static/26_de.png
    :name: eingabemaske_erhebungsebene_details_2
@@ -572,8 +664,15 @@ nicht historisiert werden.
 
    Dialog zur Historisierung innerhalb einer Erhebung
 
+**Prüfschritte**
+
+Der Titel der Erhebung wird zukünftig bei da|ra vor einige Attribute (z.B.
+Referenzzeitraum) gehängt. Der Titel der Erhebung muss daher eindeutig sein und
+im Falle von Panelstudien die Welle enthalten.
+
 Erhebungsinstrumente (instruments)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Als Instrument wird das Erhebungsinstrument bezeichnet (z.B. Fragebogen).
 
 **Übersicht**
 
@@ -612,12 +711,16 @@ aus den Pflichtfeldern Beschreibung, Titel, Typ und Erhebung, sowie
 den nicht verpflichtenden Feldern Untertitel und Anmerkungen.
 
 Des weiteren können weitere Materialien zum Instrument
-hochgeladen werden. Um weitere Materialien hochzuladen muss zunächst das Instrument abgespeichert sein.
-Im Anschluss muss der Plusbutton gedrückt werden, woraufhin sich ein Dialog öffnet (s.
-:numref:`instruments_anhang_dialog`), in welchem der Anhang hochgeladen werden kann und Metadaten zur Datei
-eingegeben werden können. Um die Datei hochzuladen wird auf den Büroklammer-Button gedrückt und es öffnet sich ein
-weiterer Dialog. Alle Felder dieses Dialogs sind verpflichtend. Anschließend lässt sich der Anhang mit dem
-Speichern-Button (Diskettensymbol unten rechts) speichern.
+hochgeladen werden. Um weitere Materialien hochzuladen muss zunächst das
+Instrument abgespeichert sein.
+Im Anschluss muss der Plusbutton gedrückt werden, woraufhin sich ein Dialog
+öffnet (s. :numref:`instruments_anhang_dialog`), in welchem der Anhang
+hochgeladen werden kann und Metadaten zur Datei
+eingegeben werden können. Um die Datei hochzuladen wird auf den
+Büroklammer-Button gedrückt und es öffnet sich ein
+weiterer Dialog. Alle Felder dieses Dialogs sind verpflichtend. Anschließend
+lässt sich der Anhang mit dem Speichern-Button (Diskettensymbol unten rechts)
+speichern.
 
 
 .. figure:: ./_static/instruments_anhang_dialog.png
@@ -629,19 +732,11 @@ Speichern-Button (Diskettensymbol unten rechts) speichern.
 Zu den möglichen Anhängen zählen z. B. Fragebögen, Variablenfragebögen
 sowie Filterführungsdiagramme [4]_. Diese müssen als PDF-Dateien
 vorliegen. [5]_ Außerdem können an dieser Stelle Codierlisten, welche
-als Excel-Tabelle vorliegen müssen, erfasst werden. Alle Anhänge werden
-im Ordner *attachments* abgelegt.
+als Excel-Tabelle vorliegen müssen, erfasst werden.
 
-Für den Upload der Dateien ins MDM muss die Ordnerstruktur wie in
-:numref:`ordnerstruktur_instruments_2` vorliegen.
-
-.. figure:: ./_static/32_1_de.png
-   :name: ordnerstruktur_instruments_2
-
-   Ordnerstruktur: Inhalt des Ordners instruments
-
-Hochladen können Sie den Ordner im Reiter Instrumente entweder über den
-orangefarbenen Plus-Button (unten rechts) oder per Drag & Drop.
+Sollte es Erhebungsinstrumente geben, welche in einer anderen Sprache als
+deutsch oder englisch existieren, werden diese nur als Attachment und nicht auf
+Variablenebene bereitgestellt.
 
 Fragen (questions) [6]_
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -670,8 +765,40 @@ andere Onlinebefragungen als auch PAPI-Befragungen – manuell erfasst
 werden (siehe **Questions (manuell)**). Im Folgenden werden beide
 Vorgehensweisen schrittweise beschrieben.
 
+Fragestruktur
+~~~~~~~~~~~~~
+
+Fragen sind gekennzeichnet durch einen einleitenden/übergreifenden Fragetext,
+sowie eine "natürliche" sichtbare Abgrenzung gegenüber anderer Fragen und eine
+meist "erkennbare" Nummerierung. Es wird zwischen vier Fragetypen differenziert:
+
+- Single Choice: Auf die Frage kann nur mit einer Antwortmöglichkeit geantwortet
+  werden (z.B. Einfachauswahl aus mehren Antwortmöglichkeiten oder Angabe eines
+  numerischen Wertes).
+- Mehrfachnennung: Für die Frage gibt es eine Auswahl an Antwortmöglichkeiten
+  bei denen eine oder mehre ausgewählt werden können.
+- Itembatterie: Besitzt überleitenden Fragetext, welche jeweils weitere Items
+  mit den gleichen Antwortmöglichkeiten besitzen.
+- Matrix: Ist ein komplexer Fragetyp in dem viele Unterfragen geschachtelt
+  werden können und die nicht durch die anderen Fragetypen abgedeckt werden
+  (z.B. Tableaufragen des Absolventenpanels ).
+
+
+
 Questions (manuell)
 ~~~~~~~~~~~~~~~~~~~
+Um json Dateien zu erzeugen muss zuerst einmal eine Exceltabelle ausgefüllt
+werden. Die Exceltabelle hat die beiden Tabellenblätter questions und images.
+Spaltennamen und Ausfüllanweisungen sind im nächsten Abschnitt zu finden.
+
+Zusätzlich müssen zu jeder Frage ein oder mehrere Bilder vorhanden sein.
+Wie Fragebilder aus Ragtime-Dateien extrahiert werden können, wird
+erklärt: :ref:`bilderfassung_ragtime-label`
+Eine Anleitung zum Ausschneiden von Bildern aus pdf Dateien ist
+`hier <https://github.com/dzhw/metadatamanagement-io/wiki/Bilderfassung-aus-pdf>`_
+zu finden.
+
+
 
 **Excel-Tabelle**
 
@@ -683,161 +810,164 @@ erfassen:
 
 Tabelle 3: Ausfüllanweisungen für die Excel-Tabelle "questions"
 
-+-----------------------+-----------------------+-----------------------+
-| **Tabellenblatt 1:                                                    |
-| questions**                                                           |
-+=======================+=======================+=======================+
-| Es können mehrere                                                     |
-| Fragen eingetragen                                                    |
-| werden (= mehrere                                                     |
-| Zeilen möglich, eine                                                  |
-| Frage pro Zeile)                                                      |
-+-----------------------+-----------------------+-----------------------+
-| **Spaltenüberschrift**| **Muss ich das        | **Was muss ich        |
-|                       | ausfüllen?**          | eintragen?**          |
-+-----------------------+-----------------------+-----------------------+
-| indexInInstrument     | Ja                    | Nummer der Frage im   |
-|                       |                       | Fragebogen, nach der  |
-|                       |                       | die Reihenfolge       |
-|                       |                       | festgelegt wird       |
-|                       |                       | (ganzzahlig)          |
-+-----------------------+-----------------------+-----------------------+
-| questionNumber        | Ja                    | Fragenummer,          |
-|                       |                       | idealerweise          |
-|                       |                       | selbsterklärend aus   |
-|                       |                       | Instrument (z. B.     |
-|                       |                       | 1.1)                  |
-+-----------------------+-----------------------+-----------------------+
-| instrumentNumber      | Ja                    | Nummer des            |
-|                       |                       | Instruments           |
-+-----------------------+-----------------------+-----------------------+
-| questionsText.de/en   | Ja                    | „Übergreifender“      |
-|                       |                       | Fragetext, bei        |
-|                       |                       | Itembatterien oder    |
-|                       |                       | komplexen Fragen der  |
-|                       |                       | einleitende           |
-|                       |                       | Fragetext. Bei        |
-|                       |                       | „einfachen“           |
-|                       |                       | Fragetypen der        |
-|                       |                       | komplette Fragetext.  |
-+-----------------------+-----------------------+-----------------------+
-| instruction.de/en     | Nein                  | wenn vorhanden,       |
-|                       |                       | Anweisungstext der    |
-|                       |                       | Frage                 |
-+-----------------------+-----------------------+-----------------------+
-| introduction.de/en    | Nein                  | wenn vorhanden,       |
-|                       |                       | Einleitungstext der   |
-|                       |                       | Frage                 |
-+-----------------------+-----------------------+-----------------------+
-| type.de/en            | Ja                    | de: „Einfachnennung“, |
-|                       |                       | „Offen“,              |
-|                       |                       | „Mehrfachnennung“,    |
-|                       |                       | „Itembatterie“ oder   |
-|                       |                       | „Matrix“ (eine        |
-|                       |                       | Anleitung zur         |
-|                       |                       | Einteilung der        |
-|                       |                       | verschiedenen         |
-|                       |                       | Fragetypen kann unter |
-|                       |                       | https://github.com/dz |
-|                       |                       | hw/metadatamanagement |
-|                       |                       | /files/1421895/Anleit |
-|                       |                       | ung_Vergabe_Fragetype |
-|                       |                       | n.docx                |
-|                       |                       | gefunden werden)      |
-|                       |                       |                       |
-|                       |                       | en: „Single Choice“,  |
-|                       |                       | „Open“, „Multiple     |
-|                       |                       | Choice“, „Item Set“   |
-|                       |                       | or „Grid“.            |
-+-----------------------+-----------------------+-----------------------+
-| topic.de/en           | Nein                  | Themenblock, in dem   |
-|                       |                       | die Frage im          |
-|                       |                       | Instrument            |
-|                       |                       | eingeordnet ist       |
-|                       |                       | (idealerweise direkt  |
-|                       |                       | aus Instrument        |
-|                       |                       | entnehmbar)           |
-+-----------------------+-----------------------+-----------------------+
-| successorNumbers      | Nein                  | Fragenummern der      |
-|                       |                       | nachfolgenden         |
-|                       |                       | Frage(n) (Angabe in   |
-|                       |                       | einer Zeile durch     |
-|                       |                       | Komma getrennt)       |
-+-----------------------+-----------------------+-----------------------+
-| technicalRepresentati | x\*                   | Herkunft des          |
-| on.type               |                       | Codeschnipsels (z. B. |
-|                       |                       | „ZOFAR-Question       |
-|                       |                       | Markup Language“)     |
-+-----------------------+-----------------------+-----------------------+
-| technicalRepresentati | x\*                   | Technische Sprache    |
-| on.language           |                       | des Codeschnipsels    |
-|                       |                       | (z. B. XML)           |
-+-----------------------+-----------------------+-----------------------+
-| technicalRepresentati | x\*                   | Codeschnipsel, um     |
-| on.source             |                       | Frage technisch       |
-|                       |                       | abbilden zu können    |
-|                       |                       | (z. B. QML-Schnipsel) |
-+-----------------------+-----------------------+-----------------------+
-| additionalQuestionTex | Nein                  | Weitere Ausführungen  |
-| t.de/.en              |                       | der Frage, die nicht  |
-|                       |                       | im Fragetext stehen,  |
-|                       |                       | wie z. B. der         |
-|                       |                       | Itemtext (bei         |
-|                       |                       | Itembatterien) oder   |
-|                       |                       | Antworttext (bei      |
-|                       |                       | Mehrfachnennungen).   |
-|                       |                       | Aktuell ist diese     |
-|                       |                       | Information für den   |
-|                       |                       | Nutzenden des MDM     |
-|                       |                       | nicht sichtbar,       |
-|                       |                       | sondern wird nur bei  |
-|                       |                       | einer Volltextsuche   |
-|                       |                       | berücksichtigt.       |
-+-----------------------+-----------------------+-----------------------+
-| annotations.de/en     | Nein                  | Anmerkungen zur Frage |
-+-----------------------+-----------------------+-----------------------+
++------------------------+-----------------------+------------------------+
+| **Tabellenblatt 1:                                                      |
+| questions**                                                             |
++========================+=======================+========================+
+| Es können mehrere                                                       |
+| Fragen eingetragen                                                      |
+| werden (= mehrere                                                       |
+| Zeilen möglich, eine                                                    |
+| Frage pro Zeile)                                                        |
++------------------------+-----------------------+------------------------+
+| **Spaltenüberschrift** | **Muss ich das        | **Was muss ich         |
+|                        | ausfüllen?**          | eintragen?**           |
++------------------------+-----------------------+------------------------+
+| indexInInstrument      | Ja                    | Nummer der Frage im    |
+|                        |                       | Fragebogen, nach der   |
+|                        |                       | die Reihenfolge        |
+|                        |                       | festgelegt wird        |
+|                        |                       | (ganzzahlig)           |
++------------------------+-----------------------+------------------------+
+| questionNumber         | Ja                    | Fragenummer,           |
+|                        |                       | idealerweise           |
+|                        |                       | selbsterklärend aus    |
+|                        |                       | Instrument (z. B.      |
+|                        |                       | 1.1). Format: 0-9,     |
+|                        |                       | a-z, Umlaute, ß, ., -  |
++------------------------+-----------------------+------------------------+
+| instrumentNumber       | Ja                    | Nummer des             |
+|                        |                       | Instruments            |
++------------------------+-----------------------+------------------------+
+| questionsText.de/en    | Ja                    | „Übergreifender“       |
+|                        |                       | Fragetext, bei         |
+|                        |                       | Itembatterien oder     |
+|                        |                       | komplexen Fragen der   |
+|                        |                       | einleitende            |
+|                        |                       | Fragetext. Bei         |
+|                        |                       | „einfachen“            |
+|                        |                       | Fragetypen der         |
+|                        |                       | komplette Fragetext.   |
++------------------------+-----------------------+------------------------+
+| instruction.de/en      | Nein                  | wenn vorhanden,        |
+|                        |                       | Anweisungstext der     |
+|                        |                       | Frage                  |
++------------------------+-----------------------+------------------------+
+| introduction.de/en     | Nein                  | wenn vorhanden,        |
+|                        |                       | Einleitungstext der    |
+|                        |                       | Frage                  |
++------------------------+-----------------------+------------------------+
+| type.de/en             | Ja                    | de: „Einfachnennung“,  |
+|                        |                       | „Offen“,               |
+|                        |                       | „Mehrfachnennung“,     |
+|                        |                       | „Itembatterie“ oder    |
+|                        |                       | „Matrix“ (eine         |
+|                        |                       | Anleitung zur          |
+|                        |                       | Einteilung der         |
+|                        |                       | verschiedenen          |
+|                        |                       | Fragetypen kann unter  |
+|                        |                       | https://github.com/dz\ |
+|                        |                       | hw/metadatamanagement\ |
+|                        |                       | /files/1421895/Anleit\ |
+|                        |                       | ung_Vergabe_Fragetype\ |
+|                        |                       | n.docx                 |
+|                        |                       | gefunden werden)       |
+|                        |                       |                        |
+|                        |                       | en: „Single Choice“,   |
+|                        |                       | „Open“, „Multiple      |
+|                        |                       | Choice“, „Item Set“    |
+|                        |                       | or „Grid“.             |
++------------------------+-----------------------+------------------------+
+| topic.de/en            | Nein                  | Themenblock, in dem    |
+|                        |                       | die Frage im           |
+|                        |                       | Instrument             |
+|                        |                       | eingeordnet ist        |
+|                        |                       | (idealerweise direkt   |
+|                        |                       | aus Instrument         |
+|                        |                       | entnehmbar)            |
++------------------------+-----------------------+------------------------+
+| successorNumbers       | Nein                  | Fragenummern der       |
+|                        |                       | nachfolgenden          |
+|                        |                       | Frage(n) (Angabe in    |
+|                        |                       | einer Zeile durch      |
+|                        |                       | Komma getrennt)        |
++------------------------+-----------------------+------------------------+
+| technicalRepresentati\ | x\*                   | Herkunft des           |
+| on.type                |                       | Codeschnipsels (z. B.  |
+|                        |                       | „ZOFAR-Question        |
+|                        |                       | Markup Language“)      |
++------------------------+-----------------------+------------------------+
+| technicalRepresentati  | x\*                   | Technische Sprache     |
+| on.language            |                       | des Codeschnipsels     |
+|                        |                       | (z. B. XML)            |
++------------------------+-----------------------+------------------------+
+| technicalRepresentati\ | x\*                   | Codeschnipsel, um      |
+| on.source              |                       | Frage technisch        |
+|                        |                       | abbilden zu können     |
+|                        |                       | (z. B. QML-Schnipsel)  |
++------------------------+-----------------------+------------------------+
+| additionalQuestionTex\ | Nein                  | Weitere Ausführungen   |
+| t.de/.en               |                       | der Frage, die nicht   |
+|                        |                       | im Fragetext stehen,   |
+|                        |                       | wie z. B. der          |
+|                        |                       | Itemtext (bei          |
+|                        |                       | Itembatterien) oder    |
+|                        |                       | Antworttext (bei       |
+|                        |                       | Mehrfachnennungen).    |
+|                        |                       | Aktuell ist diese      |
+|                        |                       | Information für den    |
+|                        |                       | Nutzenden des MDM      |
+|                        |                       | nicht sichtbar,        |
+|                        |                       | sondern wird nur bei   |
+|                        |                       | einer Volltextsuche    |
+|                        |                       | berücksichtigt.        |
++------------------------+-----------------------+------------------------+
+| annotations.de/en      | Nein                  | Anmerkungen zur Frage  |
++------------------------+-----------------------+------------------------+
 
 x\* = nur, wenn technicalRepresentation vorhanden (wird dann automatisch
 von ZOFAR geliefert)
 
-+-----------------------+-----------------------+-----------------------+
++------------------------+----------------------+-----------------------+
 | **Tabellenblatt 2:                                                    |
 | images**                                                              |
-+=======================+=======================+=======================+
++========================+======================+=======================+
 | Es können mehrere                                                     |
 | Bilder eingetragen                                                    |
 | werden (= mehrere                                                     |
 | Zeilen möglich, ein                                                   |
 | Bild pro Zeile)                                                       |
-+-----------------------+-----------------------+-----------------------+
-| **Spaltenüberschrift**| **Muss ich das        | **Was muss ich        |
-|                       | ausfüllen?**          | eintragen?**          |
-+-----------------------+-----------------------+-----------------------+
-| fileName              | Ja                    | Dateiname des Bildes  |
-|                       |                       | (z.B. „1.1_1.png“)    |
-+-----------------------+-----------------------+-----------------------+
-| questionNumber        | Ja                    | Dem Bild zugeordnete  |
-|                       |                       | Fragenummer           |
-+-----------------------+-----------------------+-----------------------+
-| instrumentNumber      | Ja                    | Nummer des zum Bild   |
-|                       |                       | gehörenden            |
-|                       |                       | Instruments           |
-+-----------------------+-----------------------+-----------------------+
-| language              | Ja                    | Sprache des Bildes    |
-|                       |                       |                       |
-|                       |                       | *Bitte verwenden Sie  |
-|                       |                       | eine Abkürzung nach   |
-|                       |                       | ISO 639-1*:           |
-|                       |                       | z. B. „de“, „en“      |
-+-----------------------+-----------------------+-----------------------+
-| indexInQuestion       | Ja                    | Auf das wievielte     |
-|                       |                       | Bild der Frage        |
-|                       |                       | bezieht sich die      |
-|                       |                       | Zeile? (Liegt pro     |
-|                       |                       | Frage nur ein Bild    |
-|                       |                       | vor, steht hier immer |
-|                       |                       | 1)                    |
-+-----------------------+-----------------------+-----------------------+
++------------------------+----------------------+-----------------------+
+| **Spaltenüberschrift** | **Muss ich das\      | **Was muss ich\       |
+|                        | ausfüllen?**         | eintragen?**          |
++------------------------+----------------------+-----------------------+
+| fileName               | Ja                   | Dateiname des Bildes  |
+|                        |                      | (z.B. „1.1_1.png“)    |
++------------------------+----------------------+-----------------------+
+| questionNumber         | Ja                   | Dem Bild zugeordnete  |
+|                        |                      | Fragenummer           |
++------------------------+----------------------+-----------------------+
+| instrumentNumber       | Ja                   | Nummer des zum Bild   |
+|                        |                      | gehörenden            |
+|                        |                      | Instruments           |
++------------------------+----------------------+-----------------------+
+| language               | Ja                   | Sprache des Bildes    |
+|                        |                      |                       |
+|                        |                      | *Bitte verwenden Sie  |
+|                        |                      | eine Abkürzung nach   |
+|                        |                      | ISO 639-1_*:          |
+|                        |                      | z. B. „de“, „en“      |
++------------------------+----------------------+-----------------------+
+| indexInQuestion        | Ja                   | Auf das wievielte     |
+|                        |                      | Bild der Frage        |
+|                        |                      | bezieht sich die      |
+|                        |                      | Zeile? (Liegt pro     |
+|                        |                      | Frage nur ein Bild    |
+|                        |                      | vor, steht hier immer |
+|                        |                      | 1)                    |
++------------------------+----------------------+-----------------------+
+
+.. _639-1: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
 Mit dem zweiten Tabellenblatt *images* erfassen Sie Informationen zu den
 Fragebildern, welche Sie für jede Frage mit hochladen müssen. Zu jeder
@@ -855,6 +985,49 @@ speichern Sie dann in dem Ordner, den das FDZ für Sie vorbereitet hat.
 Das FDZ greift daraufhin auf die Dateien zu, verarbeitet sie weiter und
 lädt die Metadaten für die Fragenebene dann selbst ins MDM.
 
+Generierung der json Dateien mit R
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Doku befindet sich im Aufbau und ist nur für FDZ-MitarbeiterInnen relevant.
+
+Momentan liegen die Question-Exceldateien der Projekte, sowie die Skripte
+zur Erzeugung der json Dateien im Verzeichnis
+``\\faust\Abt4\FDZ\Querschnittsaufgaben\Metadaten\Erzeugen``.
+Der Aufbau ist wie folgt::
+
+   |-- Projekte
+      |-- projectName
+         |-- questions
+            |-- out
+            |-- projectName.xlsx
+   |-- Skripte
+      |-- question-generation.R
+      |-- sort-images.R
+      |-- R
+         |-- question-generation_main.R
+         |-- utils
+            |-- question-generation_functions.R
+
+
+Um json Dateien für ein neues Projekt zu erzeugen, muss zuerst ein
+Projektordner angelegt werden. Außerdem muss die Question-Exceltabelle des
+Projektes ausgefüllt werden (z.B. projectName.xlsx mit den beiden
+Tabellenblätter questions und images). Außerdem muss der Ordner out angelegt
+werden. Danach question-generation.R öffnen und bei project den Projektnamen
+anpassen, z.B. ``project <- "gra2005"``. Das Skript z.B. mit Strg+a ->
+Strg+Enter ausführen. Im Ordner out sind nun die json Dateien für den
+Import in der vorgegebenen Ordnerstruktur zu finden.
+
+**Einsortierung der Bilder in die Ordnerstruktur**
+
+Nun müssen die Bilder noch in die Ordnerstruktur eingepflegt werden.
+Dafür kann das R-Skript sort-images.R verwendet werden.
+Die pngs zu den Fragen (es können auch mehrere pngs zu einer Frage vorliegen)
+und das Tabellenblatt images der Exceltabelle werden dafür benötigt.
+Nähere Erklärungen zur Sortierung der Bilder sind im R-Skript selbst zu finden.
+
+Die fertigen jsons und Bilder können nun zu Github ins jeweilige
+``$projectname-metadata-repository`` kopiert werden.
+
 Questions (Zofar)
 ~~~~~~~~~~~~~~~~~
 
@@ -867,6 +1040,11 @@ Datensätze (dataSets)
 ~~~~~~~~~~~~~~~~~~~~~
 
 **Übersicht**
+Für die Dokumentation der Datensätze werden die "Master"(AIP)-Datensätze
+(siehe Zwiebelmodell) genutzt.Diese Datensätze sind die größte mögliche
+Vereinheitlichung eines Datensatzes, also keine Teilpopulation oder Teilmenge
+von Variablen eines Datensatz. Datensätze die sich als Teilmenge eines
+"Master"-Datensatzes abbilden lassen werden über die SubDataSets dokumentiert.
 
 Mit den Informationen über die Datensätze, welche Sie aus den Daten
 Ihrer Studie erstellt haben, wird für jeden dieser Datensätze folgende
@@ -876,14 +1054,16 @@ Ihrer Studie erstellt haben, wird für jeden dieser Datensätze folgende
 .. figure:: ./_static/34_0.png
    :name: datensatzübersicht
 
-   Datensatzübersicht im MDM am Beispiel des Personendatensatzes (Bachelor) im Absolventenpanel 2005
+   Datensatzübersicht im MDM am Beispiel des Personendatensatzes (Bachelor) im
+   Absolventenpanel 2005
 
 **Eingabemaske**
 
 Datensätze lassen sich auch per Eingabemaske anlegen und editieren.
 Hierfür muss man auf den Reiter Datensätze klicken (:numref:`mdm-ebenen`),
-anschließend auf das Plussymbol (:numref:`neuerdatensatz`) in der unteren rechten Ecke klicken und dann auf das Stiftsymbol (:numref:`stiftdatensatz`)
-("Klicken um einen Datensatz manuell zu erstellen").
+anschließend auf das Plussymbol (:numref:`neuerdatensatz`) in der unteren
+rechten Ecke klicken und dann auf das Stiftsymbol (:numref:`stiftdatensatz`)
+("Klicken um einen Datensatz manuell zu erstellen".)
 
 .. figure:: ./_static/new_dataset_de.png
    :name: neuerdatensatz
@@ -896,14 +1076,29 @@ anschließend auf das Plussymbol (:numref:`neuerdatensatz`) in der unteren recht
    Klicken um einen Datensatz manuell zu erstellen.
 
 Die mit * markierten Felder sind verpflichtend.
-Die verknüpften Erhebungen werden nach einem Klick in das Feld "Erhebungen" automatisch
-vorgeschlagen und können per Klick ausgewählt werden.
-Im Anschluss werden die Subdatensätze per Eingabemaske auf der selben Seite eingegeben.
-Weitere Subdatensätze können per Klick auf das Plussymbol hinzugefügt werden.
-Nachdem gespeichert wurde, lassen sich weitere Materialien zum Datensatz hinzufügen.
+Die verknüpften Erhebungen werden nach einem Klick in das Feld "Erhebungen"
+automatisch vorgeschlagen und können per Klick ausgewählt werden.
+Im Anschluss werden die Subdatensätze per Eingabemaske auf der selben Seite
+eingegeben. Weitere Subdatensätze können per Klick auf das Plussymbol
+hinzugefügt werden. Nachdem gespeichert wurde, lassen sich weitere Materialien
+zum Datensatz hinzufügen.
 
 Wenn Sie Materialien auf Ebene der Datensätze haben, können Sie diese
 auch hier wieder im Ordner *attachments* ablegen. [9]_
+
+Datensatzreport erzeugen
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Wenn ein Datensatz und die zugehörigen Variablen im MDM vorliegen, kann mit
+Hilfe des MDMs ein Datensatzreport erstellt werden.
+Hierzu wird das
+`Template
+<https://github.com/dzhw/metadatamanagement-io/tree/master/datasetreport/template/>`_
+auf den Datensatz im MDM gezogen. Nach einiger Zeit (je nach Anzahl an Variablen
+länger als eine Minute) erfolgt ein Download.
+Die resultierenden Dateien werden von FDZ-MitarbeiterInnen zu einem PDF
+kompiliert. Dokumentation zum Umgang mit dem dafür benötigten Docker-Image
+folgt.
 
 Variablen (variables) [10]_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -925,13 +1120,13 @@ Aufwand, da für jeden Datensatz eine eigene Excel-Tabelle mit
 Informationen zu allen Variablen geliefert werden muss. Viele
 Informationen müssen manuell eingetragen werden, einige können – sofern
 die Befragung über Zofar stattgefunden hat – auch direkt aus Zofar
-extrahiert werden oder sogar aus der Excel-Tabelle der Frageebene
-importiert werden.
+(das Onlinebefragungstool des DZHW) extrahiert werden oder sogar aus der
+Excel-Tabelle der Frageebene importiert werden.
 
 Die Variablenebene ist andererseits sehr wertvoll im Hinblick auf die
 Nachnutzbarkeit der Forschungsdaten. Wenn Metadaten auf dieser Ebene
 vorhanden sind, können die dazugehörigen Daten auch aus inhaltlicher
-Sicht umfassend durchsucht werden, sodass Analysepotential auch für sehr
+Sicht umfassend durchsucht werden, sodass das Analysepotential auch für sehr
 spezielle Fragestellungen direkt sichtbar wird.
 
 Für die Darstellung der Metadatenaufnahme auf Variablenebene gilt es
@@ -954,250 +1149,250 @@ Tabellenblätter *variables* und *relatedQuestions*.
 
 Tabelle 5: Ausfüllanweisungen für die Excel-Tabelle "vimport_ds*Nr*."
 
-+-----------------------+-----------------------+-----------------------+
-| **Tabellenblatt 1:                                                    |
-| variables**                                                           |
-+=======================+=======================+=======================+
-| Es können mehrere                                                     |
-| Variablen eingetragen                                                 |
-| werden (= mehrere                                                     |
-| Zeilen möglich, eine                                                  |
-| Variable pro Zeile)                                                   |
-+-----------------------+-----------------------+-----------------------+
-| **Spaltenüberschrift**| **Muss ich das        | **Was muss ich        |
-|                       | ausfüllen?**          | eintragen?**          |
-+-----------------------+-----------------------+-----------------------+
-| name                  | Ja                    | Variablenname         |
-+-----------------------+-----------------------+-----------------------+
-| surveyNumbers         | Ja\*                  | Angabe aller der      |
-|                       |                       | Variablen zugehörigen |
-|                       |                       | Erhebungsnummern (in  |
-|                       |                       | einer Zelle durch     |
-|                       |                       | Komma getrennt)       |
-+-----------------------+-----------------------+-----------------------+
-| scaleLevel.de/.en     | Ja                    | de: „nominal“,        |
-|                       |                       | „ordinal“,            |
-|                       |                       | „intervall“ oder      |
-|                       |                       | „verhältnis“          |
-|                       |                       | en: „nominal“,        |
-|                       |                       | „ordinal“,            |
-|                       |                       | „intervall“ or        |
-|                       |                       | „ratio“               |
-+-----------------------+-----------------------+-----------------------+
-| panelIdentifier       | Nein\*                | Identifier zur        |
-|                       |                       | eindeutigen Zuordnung |
-|                       |                       | von Panelvariablen.   |
-|                       |                       | Präfix muss aus der   |
-|                       |                       | Projekt-ID + Nummer   |
-|                       |                       | des Datensatzes       |
-|                       |                       | bestehen (Beispiel:   |
-|                       |                       | *gra2005-ds1*), der   |
-|                       |                       | hintere Teil des      |
-|                       |                       | Identifiers ist       |
-|                       |                       | beliebig wählbar,     |
-|                       |                       | muss aber eindeutig   |
-|                       |                       | sein.                 |
-|                       |                       | Beispiel: Sind die    |
-|                       |                       | Variablen *astu01a*   |
-|                       |                       | und *bstu01a* aus dem |
-|                       |                       | 1. Datensatz des      |
-|                       |                       | Projekts *gra2005*    |
-|                       |                       | Panelvariablen, so    |
-|                       |                       | könnte der Identifier |
-|                       |                       | *gra2005-ds1-stu01a*  |
-|                       |                       | lauten.               |
-+-----------------------+-----------------------+-----------------------+
-| annotations.de/en     | Nein                  | Anmerkungen zur       |
-|                       |                       | Variablen             |
-+-----------------------+-----------------------+-----------------------+
-| accessWays            | Ja\*                  | Mögliche Zugangswege: |
-|                       |                       | Download-CUF,         |
-|                       |                       | Download-SUF,         |
-|                       |                       | Remote-Desktop-SUF,   |
-|                       |                       | On-Site-SUF.          |
-|                       |                       | Bei mehreren          |
-|                       |                       | Zugangswegen sind den |
-|                       |                       | verschiedenen         |
-|                       |                       | Zugangswegen          |
-|                       |                       | entsprechend Spalten  |
-|                       |                       | vorhanden, die mit    |
-|                       |                       | „nicht verfügbar im … |
-|                       |                       | “ überschrieben sind. |
-|                       |                       | Für jede Variable     |
-|                       |                       | muss dann ein „x“     |
-|                       |                       | gesetzt werden, wenn  |
-|                       |                       | ´diese über den       |
-|                       |                       | jeweiligen Zugangsweg |
-|                       |                       | nicht vorhanden ist.  |
-+-----------------------+-----------------------+-----------------------+
-| filterDetails.descrip | Nein                  | Verbalisierte         |
-| tion.de/.en           |                       | Beschreibung des      |
-|                       |                       | Variablenfilters      |
-+-----------------------+-----------------------+-----------------------+
-| filterDetails.express | Ja, wenn Filter       | Regel, die in der     |
-| ion [11]_             | vorhanden             | angegebenen „Sprache“ |
-|                       |                       | (.expressionLanguage) |
-|                       |                       | beschreibt, welche    |
-|                       |                       | Teilpopulation zu     |
-|                       |                       | dieser Variable hin   |
-|                       |                       | gefiltert wurde (auch |
-|                       |                       | verschachtelte        |
-|                       |                       | Filterführung wird    |
-|                       |                       | beachtet (PAPI))      |
-+-----------------------+-----------------------+-----------------------+
-| filterDetails.express | Ja, wenn Filter       | Sprache des           |
-| ionLanguage [12]_     | vorhanden             | Filterausdrucks:      |
-|                       |                       | „Stata“               |
-+-----------------------+-----------------------+-----------------------+
-| generationDetails.des | Nein                  | Beschreibung, wie die |
-| cription.de/.en       |                       | Variable erzeugt      |
-|                       |                       | wurde, wenn sie nicht |
-|                       |                       | direkt aus dem        |
-|                       |                       | Fragebogen abgelesen  |
-|                       |                       | werden kann           |
-|                       |                       | (`Beispiel <https://m |
-|                       |                       | etadata.fdz.dzhw.eu/# |
-|                       |                       | !/de/variables/var-gr |
-|                       |                       | a2005-ds1-aocc221j_g1 |
-|                       |                       | r$?search-result-inde |
-|                       |                       | x=1>`__,              |
-|                       |                       | siehe Abschnitt       |
-|                       |                       | "Generierungsdetails")|
-+-----------------------+-----------------------+-----------------------+
-| generationDetails.rul | Ja, wenn Variable     | Regel, die in der     |
-| e                     | generiert             | angegebenen „Sprache“ |
-|                       |                       | (.ruleExpressionLangu |
-|                       |                       | age)                  |
-|                       |                       | beschreibt, wie die   |
-|                       |                       | Variable erzeugt      |
-|                       |                       | wurde                 |
-|                       |                       | (`Beispiel <https://m |
-|                       |                       | etadata.fdz.dzhw.eu/# |
-|                       |                       | !/de/variables/var-gr |
-|                       |                       | a2005-ds1-afec021k_g2 |
-|                       |                       | $?search-result-index |
-|                       |                       | =1>`__,               |
-|                       |                       | siehe Abschnitt       |
-|                       |                       | „Generierungsregel    |
-|                       |                       | (Stata)“)             |
-+-----------------------+-----------------------+-----------------------+
-| generationDetails.rul | Ja, wenn Variable     | Sprache der           |
-| eExpressionLanguage   | generiert             | Erzeugungsregel:      |
-|                       |                       | „Stata“ oder „R“      |
-+-----------------------+-----------------------+-----------------------+
-| derivedVariablesIdent | Nein\*                | Identifier zur        |
-| ifier                 |                       | eindeutigen Zuordnung |
-|                       |                       | von abgeleiteten      |
-|                       |                       | Variablen. Präfix     |
-|                       |                       | muss aus der          |
-|                       |                       | Projekt-ID + Nummer   |
-|                       |                       | des Datensatzes       |
-|                       |                       | bestehen (Beispiel:   |
-|                       |                       | *gra2005-ds1*), der   |
-|                       |                       | hintere Teil des      |
-|                       |                       | Identifiers ist frei  |
-|                       |                       | wählbar, muss aber    |
-|                       |                       | eindeutig sein.       |
-|                       |                       |                       |
-|                       |                       | Beispiel: Wurde die   |
-|                       |                       | Variable *astu01a_g1* |
-|                       |                       | aus *astu01a*         |
-|                       |                       | abgeleitet, so könnte |
-|                       |                       | der Identifier        |
-|                       |                       | *gra2005-ds1-astu*    |
-|                       |                       | lauten.               |
-|                       |                       |                       |
-|                       |                       | Wichtig: Alle         |
-|                       |                       | Variablen, aus denen  |
-|                       |                       | die abgeleitete       |
-|                       |                       | Variable entstanden   |
-|                       |                       | ist, müssen           |
-|                       |                       | berücksichtigt werden |
-|                       |                       | (sowohl aufwärts als  |
-|                       |                       | auch abwärts).        |
-|                       |                       |                       |
-|                       |                       | Beispiel: Von der     |
-|                       |                       | tatsächlichen         |
-|                       |                       | Hochschule wird       |
-|                       |                       | sowohl der            |
-|                       |                       | Hochschulort          |
-|                       |                       | (West-/Ostdeutschland |
-|                       |                       | )                     |
-|                       |                       | als auch der          |
-|                       |                       | Hochschulort nach     |
-|                       |                       | Bundesländern         |
-|                       |                       | abgeleitet.           |
-+-----------------------+-----------------------+-----------------------+
-| doNotDisplayThousands | Nein                  | Wenn bei der Anzeige  |
-| Seperator             |                       | der Werte einer       |
-|                       |                       | Variablen *keine*     |
-|                       |                       | Tausendertrennzeichen |
-|                       |                       | angezeigt werden      |
-|                       |                       | sollen, muss hier     |
-|                       |                       | "true" angezeigt      |
-|                       |                       | werden (z. B.         |
-|                       |                       | Jahreszahlen). Bleibt |
-|                       |                       | das Feld leer, wird   |
-|                       |                       | dies als "false"      |
-|                       |                       | interpretiert, d.h.   |
-|                       |                       | es werden             |
-|                       |                       | Tausendertrennzeichen |
-|                       |                       | angezeigt.            |
-+-----------------------+-----------------------+-----------------------+
++------------------------+-----------------------+------------------------+
+| **Tabellenblatt 1:                                                      |
+| variables**                                                             |
++========================+=======================+========================+
+| Es können mehrere                                                       |
+| Variablen eingetragen                                                   |
+| werden (= mehrere                                                       |
+| Zeilen möglich, eine                                                    |
+| Variable pro Zeile)                                                     |
++------------------------+-----------------------+------------------------+
+| **Spaltenüberschrift** | **Muss ich das        | **Was muss ich         |
+|                        | ausfüllen?**          | eintragen?**           |
++------------------------+-----------------------+------------------------+
+| name                   | Ja                    | Variablenname          |
++------------------------+-----------------------+------------------------+
+| surveyNumbers          | Ja\*                  | Angabe aller der       |
+|                        |                       | Variablen zugehörigen  |
+|                        |                       | Erhebungsnummern (in   |
+|                        |                       | einer Zelle durch      |
+|                        |                       | Komma getrennt)        |
++------------------------+-----------------------+------------------------+
+| scaleLevel.de/.en      | Ja                    | de: „nominal“,         |
+|                        |                       | „ordinal“,             |
+|                        |                       | „intervall“ oder       |
+|                        |                       | „verhältnis“           |
+|                        |                       | en: „nominal“,         |
+|                        |                       | „ordinal“,             |
+|                        |                       | „intervall“ or         |
+|                        |                       | „ratio“                |
++------------------------+-----------------------+------------------------+
+| panelIdentifier        | Nein\*                | Identifier zur         |
+|                        |                       | eindeutigen Zuordnung  |
+|                        |                       | von Panelvariablen.    |
+|                        |                       | Präfix muss aus der    |
+|                        |                       | Projekt-ID + Nummer    |
+|                        |                       | des Datensatzes        |
+|                        |                       | bestehen (Beispiel:    |
+|                        |                       | *gra2005-ds1*), der    |
+|                        |                       | hintere Teil des       |
+|                        |                       | Identifiers ist        |
+|                        |                       | beliebig wählbar,      |
+|                        |                       | muss aber eindeutig    |
+|                        |                       | sein.                  |
+|                        |                       | Beispiel: Sind die     |
+|                        |                       | Variablen *astu01a*    |
+|                        |                       | und *bstu01a* aus dem  |
+|                        |                       | 1. Datensatz des       |
+|                        |                       | Projekts *gra2005*     |
+|                        |                       | Panelvariablen, so     |
+|                        |                       | könnte der Identifier  |
+|                        |                       | *gra2005-ds1-stu01a*   |
+|                        |                       | lauten.                |
++------------------------+-----------------------+------------------------+
+| annotations.de/en      | Nein                  | Anmerkungen zur        |
+|                        |                       | Variablen              |
++------------------------+-----------------------+------------------------+
+| accessWays             | Ja\*                  | Mögliche Zugangswege:  |
+|                        |                       | Download-CUF,          |
+|                        |                       | Download-SUF,          |
+|                        |                       | Remote-Desktop-SUF,    |
+|                        |                       | On-Site-SUF.           |
+|                        |                       | Bei mehreren           |
+|                        |                       | Zugangswegen sind den  |
+|                        |                       | verschiedenen          |
+|                        |                       | Zugangswegen           |
+|                        |                       | entsprechend Spalten   |
+|                        |                       | vorhanden, die mit     |
+|                        |                       | „nicht verfügbar im …  |
+|                        |                       | “ überschrieben sind.  |
+|                        |                       | Für jede Variable      |
+|                        |                       | muss dann ein „x“      |
+|                        |                       | gesetzt werden, wenn   |
+|                        |                       | diese über den         |
+|                        |                       | jeweiligen Zugangsweg  |
+|                        |                       | nicht vorhanden ist.   |
++------------------------+-----------------------+------------------------+
+| filterDetails.descrip\ | Nein                  | Verbalisierte          |
+| tion.de/.en            |                       | Beschreibung des       |
+|                        |                       | Variablenfilters       |
++------------------------+-----------------------+------------------------+
+| filterDetails.express\ | Ja, wenn Filter       | Regel, die in der      |
+| ion [11]_              | vorhanden             | angegebenen „Sprache“  |
+|                        |                       | (.expressionLanguage)  |
+|                        |                       | beschreibt, welche     |
+|                        |                       | Teilpopulation zu      |
+|                        |                       | dieser Variable hin    |
+|                        |                       | gefiltert wurde (auch  |
+|                        |                       | verschachtelte         |
+|                        |                       | Filterführung wird     |
+|                        |                       | beachtet (PAPI))       |
++------------------------+-----------------------+------------------------+
+| filterDetails.express\ | Ja, wenn Filter       | Sprache des            |
+| ionLanguage [12]_      | vorhanden             | Filterausdrucks:       |
+|                        |                       | „Stata“                |
++------------------------+-----------------------+------------------------+
+| generationDetails.des\ | Nein                  | Beschreibung, wie die  |
+| cription.de/.en        |                       | Variable erzeugt       |
+|                        |                       | wurde, wenn sie nicht  |
+|                        |                       | direkt aus dem         |
+|                        |                       | Fragebogen abgelesen   |
+|                        |                       | werden kann            |
+|                        |                       | (`Beispiel <https://m\ |
+|                        |                       | etadata.fdz.dzhw.eu/#\ |
+|                        |                       | !/de/variables/var-gr\ |
+|                        |                       | a2005-ds1-aocc221j_g1\ |
+|                        |                       | r$?search-result-inde\ |
+|                        |                       | x=1>`__,               |
+|                        |                       | siehe Abschnitt        |
+|                        |                       | "Generierungsdetails") |
++------------------------+-----------------------+------------------------+
+| generationDetails.rul\ | Ja, wenn Variable     | Regel, die in der      |
+| e                      | generiert             | angegebenen „Sprache“  |
+|                        |                       | (.ruleExpressionLangu  |
+|                        |                       | age)                   |
+|                        |                       | beschreibt, wie die    |
+|                        |                       | Variable erzeugt       |
+|                        |                       | wurde                  |
+|                        |                       | (`Beispiel <https://m\ |
+|                        |                       | etadata.fdz.dzhw.eu/#\ |
+|                        |                       | !/de/variables/var-gr\ |
+|                        |                       | a2005-ds1-afec021k_g2\ |
+|                        |                       | $?search-result-index\ |
+|                        |                       | =1>`__,                |
+|                        |                       | siehe Abschnitt        |
+|                        |                       | „Generierungsregel     |
+|                        |                       | (Stata)“)              |
++------------------------+-----------------------+------------------------+
+| generationDetails.rul\ | Ja, wenn Variable     | Sprache der            |
+| eExpressionLanguage    | generiert             | Erzeugungsregel:       |
+|                        |                       | „Stata“ oder „R“       |
++------------------------+-----------------------+------------------------+
+| derivedVariablesIdent\ | Nein\*                | Identifier zur         |
+| ifier                  |                       | eindeutigen Zuordnung  |
+|                        |                       | von abgeleiteten       |
+|                        |                       | Variablen. Präfix      |
+|                        |                       | muss aus der           |
+|                        |                       | Projekt-ID + Nummer    |
+|                        |                       | des Datensatzes        |
+|                        |                       | bestehen (Beispiel:    |
+|                        |                       | *gra2005-ds1*), der    |
+|                        |                       | hintere Teil des       |
+|                        |                       | Identifiers ist frei   |
+|                        |                       | wählbar, muss aber     |
+|                        |                       | eindeutig sein.        |
+|                        |                       |                        |
+|                        |                       | Beispiel: Wurde die    |
+|                        |                       | Variable *astu01a_g1*  |
+|                        |                       | aus *astu01a*          |
+|                        |                       | abgeleitet, so könnte  |
+|                        |                       | der Identifier         |
+|                        |                       | *gra2005-ds1-astu*     |
+|                        |                       | lauten.                |
+|                        |                       |                        |
+|                        |                       | Wichtig: Alle          |
+|                        |                       | Variablen, aus denen   |
+|                        |                       | die abgeleitete        |
+|                        |                       | Variable entstanden    |
+|                        |                       | ist, müssen            |
+|                        |                       | berücksichtigt werden  |
+|                        |                       | (sowohl aufwärts als   |
+|                        |                       | auch abwärts).         |
+|                        |                       |                        |
+|                        |                       | Beispiel: Von der      |
+|                        |                       | tatsächlichen          |
+|                        |                       | Hochschule wird        |
+|                        |                       | sowohl der             |
+|                        |                       | Hochschulort           |
+|                        |                       | (West-/Ostdeutschland  |
+|                        |                       | )                      |
+|                        |                       | als auch der           |
+|                        |                       | Hochschulort nach      |
+|                        |                       | Bundesländern          |
+|                        |                       | abgeleitet.            |
++------------------------+-----------------------+------------------------+
+| doNotDisplayThousands\ | Nein                  | Wenn bei der Anzeige   |
+| Seperator              |                       | der Werte einer        |
+|                        |                       | Variablen *keine*      |
+|                        |                       | Tausendertrennzeichen  |
+|                        |                       | angezeigt werden       |
+|                        |                       | sollen, muss hier      |
+|                        |                       | "true" angezeigt       |
+|                        |                       | werden (z. B.          |
+|                        |                       | Jahreszahlen). Bleibt  |
+|                        |                       | das Feld leer, wird    |
+|                        |                       | dies als "false"       |
+|                        |                       | interpretiert, d.h.    |
+|                        |                       | es werden              |
+|                        |                       | Tausendertrennzeichen  |
+|                        |                       | angezeigt.             |
++------------------------+-----------------------+------------------------+
 
 \* Wenn eigene Konventionen verwendet werden, muss das Feld manuell
 ausgefüllt werden. Bei Verwendung von FDZ-eigenen Schemata kann dieses
 Feld auch leer gelassen werden.
 
-+-----------------------+-----------------------+-----------------------+
-| **Tabellenblatt 2:                                                    |
-| relatedQuestions**                                                    |
-+=======================+=======================+=======================+
-| **Variablen, die mit                                                  |
-| mehreren Fragen                                                       |
-| verbunden sind,                                                       |
-| können mehrfach                                                       |
-| aufgeführt werden.                                                    |
-| Variablen, die keiner                                                 |
-| Frage (oder keinem                                                    |
-| Instrument)                                                           |
-| zugeordnet sind,                                                      |
-| müssen nicht                                                          |
-| eingetragen werden.**                                                 |
-+-----------------------+-----------------------+-----------------------+
-| Es können mehrere                                                     |
-| verbundene Fragen                                                     |
-| eingetragen werden (=                                                 |
-| mehrere Zeilen, eine                                                  |
-| verbundene Frage pro                                                  |
-| Zeile)                                                                |
-+-----------------------+-----------------------+-----------------------+
-| **Spaltenüberschrift**| **Muss ich das        | **Was muss ich        |
-|                       | ausfüllen?**          | eintragen?**          |
-+-----------------------+-----------------------+-----------------------+
-| name                  | Ja                    | Variablenname         |
-+-----------------------+-----------------------+-----------------------+
-| relatedQuestionString | Nein                  | Text, der den         |
-| s.de/.en              |                       | Frageinhalt der       |
-|                       |                       | Variable darstellt.   |
-|                       |                       | Also Fragetext der    |
-|                       |                       | dazugehörigen Frage   |
-|                       |                       | plus evtl. weitere    |
-|                       |                       | Ausführungen wie      |
-|                       |                       | bspw. der Itemtext    |
-|                       |                       | (bei Itembatterien)   |
-|                       |                       | oder der Antworttext  |
-|                       |                       | (bei Einfach- oder    |
-|                       |                       | Mehrfachnennungen)    |
-+-----------------------+-----------------------+-----------------------+
-| questionNumber        | Ja                    | Nummer der zur        |
-|                       |                       | Variablen zugehörigen |
-|                       |                       | Frage im Fragebogen   |
-+-----------------------+-----------------------+-----------------------+
-| instrumentNumber      | Ja                    | Nummer des zur        |
-|                       |                       | Variablen zugehörigen |
-|                       |                       | Fragebogens           |
-+-----------------------+-----------------------+-----------------------+
++------------------------+-----------------------+-----------------------+
+| **Tabellenblatt 2:                                                     |
+| relatedQuestions**                                                     |
++========================+=======================+=======================+
+| **Variablen, die mit                                                   |
+| mehreren Fragen                                                        |
+| verbunden sind,                                                        |
+| können mehrfach                                                        |
+| aufgeführt werden.                                                     |
+| Variablen, die keiner                                                  |
+| Frage (oder keinem                                                     |
+| Instrument)                                                            |
+| zugeordnet sind,                                                       |
+| müssen nicht                                                           |
+| eingetragen werden.**                                                  |
++------------------------+-----------------------+-----------------------+
+| Es können mehrere                                                      |
+| verbundene Fragen                                                      |
+| eingetragen werden (=                                                  |
+| mehrere Zeilen, eine                                                   |
+| verbundene Frage pro                                                   |
+| Zeile)                                                                 |
++------------------------+-----------------------+-----------------------+
+| **Spaltenüberschrift** | **Muss ich das        | **Was muss ich        |
+|                        | ausfüllen?**          | eintragen?**          |
++------------------------+-----------------------+-----------------------+
+| name                   | Ja                    | Variablenname         |
++------------------------+-----------------------+-----------------------+
+| relatedQuestionString\ | Nein                  | Text, der den         |
+| s.de/.en               |                       | Frageinhalt der       |
+|                        |                       | Variable darstellt.   |
+|                        |                       | Also Fragetext der    |
+|                        |                       | dazugehörigen Frage   |
+|                        |                       | plus evtl. weitere    |
+|                        |                       | Ausführungen wie      |
+|                        |                       | bspw. der Itemtext    |
+|                        |                       | (bei Itembatterien)   |
+|                        |                       | oder der Antworttext  |
+|                        |                       | (bei Einfach- oder    |
+|                        |                       | Mehrfachnennungen)    |
++------------------------+-----------------------+-----------------------+
+| questionNumber         | Ja                    | Nummer der zur        |
+|                        |                       | Variablen zugehörigen |
+|                        |                       | Frage im Fragebogen   |
++------------------------+-----------------------+-----------------------+
+| instrumentNumber       | Ja                    | Nummer des zur        |
+|                        |                       | Variablen zugehörigen |
+|                        |                       | Fragebogens           |
++------------------------+-----------------------+-----------------------+
 
 Dem Namen entsprechend wird aus den Informationen des zweiten
 Tabellenblatts die Verknüpfung zwischen einer Variablen und der
@@ -1206,7 +1401,7 @@ nachvollziehbare Dokumentation dieser Verbindung ist die Erstellung
 eines Variablenfragebogens sehr hilfreich. Aus diesem kann die
 Verknüpfung aus Variable und Frage problemlos abgelesen werden.
 :numref:`ausschnitt_variablenfragebogen` zeigt beispielhaft, dass den Variablen
-	*astu08a* bis *astu08e* die Frage 1.8 zugeordnet ist.
+*astu08a* bis *astu08e* die Frage 1.8 zugeordnet ist.
 
 .. figure:: ./_static/36_de.png
    :name: ausschnitt_variablenfragebogen
@@ -1221,6 +1416,102 @@ Diese Dateien speichern Sie dann in dem Ordner, den das FDZ für Sie
 vorbereitet hat. Das FDZ greift daraufhin auf die Dateien zu,
 verarbeitet sie weiter und lädt die finalisierten Metadaten für die
 Variablenebene dann selbst ins MDM.
+
+Erstellung der Variable-JSON Dateien
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. figure:: ./_static/uebersicht_dta_to_json.png
+   :name: dta_to_JSON
+
+
+Die Erstellung der Variablen JSONs erfolgt komplett im geschützten Bereich.
+Benötigt werden pro Datensatz ein zugehöriger Stata-Datensatz und eine
+Exceltabelle. Die Exceltabelle (vimport_dsNR.xlsx) enthält die beiden
+Tabellenblätter variables und relatedQuestions. Pflichtspalten und zugehörige
+Ausfüllanweisungen werden im folgenden Abschnitt beschrieben.
+
+Es ist erlaubt die Exceltabellen um weitere optionale Spalten zu erweitern, z.B.
+Varname_alt, Var_Erh, Var_Thema, Var_Nr, Var_Indiz, Var_g, Var_h, Var_x, Var_p,
+Var_v, Var_Zugang, Varlabel_alt, Varlabel_neu, On-Site, Remote-Desktop,
+Download-SUF, Download-CUF, AIP, SIP, delete, ...
+
+Momentan liegen die Import Dateien der Projekte, sowie die Skripte zur Erzeugung
+der JSONs im geschützten Bereich unter Q:\Variablenexport\. Der Aufbau der Ordnerstruktur ist wie folgt:
+
+::
+
+   |--Variablenexport
+      |--Projekte
+         |--gra2005
+            |--variablesToJsons.bat
+            |--output
+               |--ds1
+               |--ds2
+            |--data-raw
+               |--stata
+                  |--ds1.dta
+                  |--ds2.dta
+               |--excel
+                  |--vimport_ds1.xlsx
+                  |--vimport_ds2.xlsx
+                  |--conditions.xlsx
+      |--variable-generation_productive
+         |--variablesToJsons.bat.tmpl
+
+Um json Dateien für ein neues Projekt zu generieren, muss zunächst ein Ordner
+für das neue Projekt angelegt werden und die oben gezeigt Ordnerstruktur
+aufgebaut werden. Im Ordner stata befinden sich die jeweiligen Stata Datensätze
+(ds1, ds2, ds3, ...) und im Ordner excel die zugehörigen Exceltabellen mit den
+beiden Tabellenblättern variables und relatedQuestions (vimport_ds1.xlsx,
+vimport_ds2.xlsx, vimport_ds1.xlsx, ...), sowie die Datei mit den missing
+conditions (conditions.xlsx). Zum Generieren der json Dateien das R-Skript
+variablesToJsons.bat.tmpl in den Projektordner kopieren, das .tmpl entfernen,
+die Datei anpassen und danach ausführen.
+
+Es ist möglich die Missing Bedingungen für numerische und string Variablen in
+der datei conditions.xlsx anzupassen. Außerdem können in der batch-Datei
+Variablennamen angegeben werden, die im MDM keine Verteilung bekommen sollen.
+Dies sind z.B. id Variablen. Variablen mit accessway not-accessible müssen hier
+nicht eingetragen werden.
+
+**Missing Conditions**
+
+In der Exceltabelle conditions.xlsx können für numerische und string Variablen
+Missingbedingungen angegeben werden. Die Exceltabelle enthält die beiden
+Tabellenblättern missingConditionNumeric und missingConditionString. Es ist
+möglich für numerische und string Variablen jeweils mehrere Bedingungen
+anzugeben. Die Bedingungen werden mit ODER verknüpft. Das heißt, wenn eine der
+Bedingungen für einen Wert zutrifft, wird dieser Wert als Missing gewertet. Die
+verfügbaren Operatoren können in der Exceltabelle über ein Drop-Down Menü
+ausgewählt werden und sind im Tabellenblatt list of valid operators
+dokumentiert.
+
+Ein Fehler der auftreten kann ist, dass im Stata-Datensatz nicht die richtige
+Sprache gewählt wurde. Ist das der Fall können nicht die richtigen Wertelabel
+zugeordnet werden.
+
+**Transfer in den öffentlichen Bereich**
+Die Datensatzordner mit den json Dateien müssen noch in den öffentlichen Bereich
+transferiert werden. Da es nicht möglich ist, Ordner zu transferieren, werden
+die Ordner gezippt (7-Zip), transferiert und im öffentlichen Bereich wieder
+entpackt.
+
+Die Variable-JSON Dateien müssen anschließend bei Github in das Repository
+projectid-metadata in den variables Ordner hochgeladen werden. Siehe z.B.
+http://github.com/dzhw/gra2005-metadata/ . Die Ordner werden anschließend auf
+Variablenebene ins MDM per Drag and Drop oder über den Plusbutton rechts unten
+hochgeladen.
+
+Variables (Zofar)
+~~~~~~~~~~~~~~~~~
+
+Bei Onlinebefragungen mit ZOFAR können fragenbezogene Metadaten auf
+Variablenebene automatisch extrahiert werden. Eine .csv Tabelle die den
+Variablennamen, die Instrumentnummer, die Fragenummer und den
+relatedQuestionString (Fragetext + zugehöriger Variablentext) enthält, wird
+geliefert.
+
+Der Prozess befindet sich im Aufbau...
 
 Publikationen (relatedPublications)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1245,8 +1536,79 @@ FDZ per Mail die PDF-Datei Ihrer Publikation sowie den dazugehörigen
 Zitationshinweis zu. Die weitere Bearbeitung wie z. B. die Registrierung
 für das Erhalten einer DOI und den Upload ins MDM übernimmt das FDZ.
 
-Die Freigabe eines neuen Projekts
----------------------------------
+**Arbeiten mit der Citavi-Datenbank**
+
+Für dieses Objekt wird eine Citavi-Datenabank angelegt. Diese liegt unter: `\\faust\Abt4\FDZ\Querschnittsaufgaben\Metadaten\Erzeugen\Literaturexport\relatedPublication`.
+
+Die Citavi-Einträge lassen sich exportieren, indem man einen Eintrag in der
+Literaturübersicht markiert (linke Seite) und Str+Alt+t drückt. Die
+Tabellenansicht öffnet sich und durch klicken auf Spalten (oben links) kann
+ausgewählt werden, welche Spalten exportiert werden sollen. Aus der
+Tabellenansicht kann die die Datei jetzt nach Excel als relatedPublications.xls
+exportiert werden (Datei > nach Microsoft Excel exportieren). Einige
+Spaltennamen müssen evtl. später noch manuell umbenannt werden (z.B. BibTeXKey
+wird zu id). Die Excel-Tabelle wird
+`hier<https://github.com/dzhw/metadatamanagement-io/tree/master/references/relatedPublications>`
+gepflegt.
+
++--------------+----------------------+-------------------------+
+| Eigenschaft  | Ausfüllanweisung     | muss ausgefüllt werden? |
++==============+======================+=========================+
+| id           | von Citavi           | ja                      |
+|              | erzeugter BibTex-Key |                         |
++--------------+----------------------+-------------------------+
+| source\      | Quellangabe der      | ja                      |
+| Reference    | Publikation          |                         |
+|              | (default)            |                         |
++--------------+----------------------+-------------------------+
+| publication\ | Zusammenfassung      | nein                    |
+| Abstract     |                      |                         |
++--------------+----------------------+-------------------------+
+| doi          | doi der Publikation  | nein                    |
++--------------+----------------------+-------------------------+
+| sourceLink   | valide URL           | nein                    |
++--------------+----------------------+-------------------------+
+| title        | Titel                | ja                      |
++--------------+----------------------+-------------------------+
+| authors      | Autoren (Nachname1,  | ja                      |
+|              | Vorname1; Nachname2, |                         |
+|              | Vorname2)            |                         |
++--------------+----------------------+-------------------------+
+| year         | Jahr der Veröffen\   | ja                      |
+|              | tlichung (muss klei\ |                         |
+|              | ner oder gleich dem  |                         |
+|              | aktuellen Jahr sein) |                         |
++--------------+----------------------+-------------------------+
+| abstract\    |??                    | nein                    |
+| Source.de/\  |                      |                         |
+| .en          |                      |                         |
++--------------+----------------------+-------------------------+
+| studyIds     | Studien-Ids, der zur | Wenn keine studySeries\ |
+|              | Publikation gehören\ | es vorhanden -> ja      |
+|              | den Studie           |                         |
++--------------+----------------------+-------------------------+
+| dataSetIds   |                      | nein                    |
++--------------+----------------------+-------------------------+
+| instrumentIds|                      | nein                    |
++--------------+----------------------+-------------------------+
+| surveyIds    |                      | nein                    |
++--------------+----------------------+-------------------------+
+| variableIds  |                      | nein                    |
++--------------+----------------------+-------------------------+
+| questionIds  |                      | nein                    |
++--------------+----------------------+-------------------------+
+| studySeries\ | mindestens eine      | Falls vorhanden ja      |
+| es.de        | studyId oder mindes\ |                         |
+|              | tens 1 studySeries   |                         |
++--------------+----------------------+-------------------------+
+| language     | Sprache der Publika\ | ja                      |
+|              | tion                 |                         |
+|              | (2-Buchstaben Code   |                         |
+|              | nach ISO 639-1_      |                         |
++--------------+----------------------+-------------------------+
+
+Projekte releasen
+-----------------
 
 Wenn Sie alle Metadaten ausgefüllt bzw. ans FDZ gesendet haben, melden
 Sie sich beim FDZ mit dem Hinweis, dass Sie Ihre Daten nicht weiter
@@ -1254,8 +1616,58 @@ editieren möchten. Das FDZ nimmt ihre Daten dann in die sogenannte
 Release-Pipeline auf. Die finale Freigabe erfolgt dann über einen dafür
 benannten Mitarbeiter des FDZ, den Release-Manager.
 
+User mit der Rolle Publisher können Projekte bei denen alle erwarteten Metadaten
+als fertig markiert wurden releasen. Dazu muss in der Navbar (Menü links) auf
+den Release Button geklickt werden. Bei Release wird eine
+Postvalidierung durchgeführt, näheres dazu findet sich `hier<https://github.com/dzhw/metadatamanagement/wiki/Domain-Model#dataacquisitionproject-post-validation>`.
+Ab Versionsnummer 1.0.0 wird das Projekt an da|ra weitergegeben und erhält eine
+doi. Wenn der Release Button ein weiteres Mal geklickt wird, wird die Freigabe
+zurückgezogen und Metadaten können weiter editiert werden. Bei erneutem Klick
+kann das Projekt dann neu released werden. Gegebenenfalls wird eine neue
+Versionsnummer vergeben (Versionierungskonzept folgt).
+
 Anhang
 ------
+
+Templates
+~~~~~~~~~
+
+In dem `Template
+<https://github.com/dzhw/metadatamanagement-io/tree/master/datasetreport/template/>`_
+befinden sich die relevanten Exceldateien für DatengeberInnen.
+Dies ist nur noch relevant für questions/variables und für die related
+publications.
+
+Ausfüllhinweis: Die Excel-Interfaces enthalten teilweise Dropdownmenüs und
+Formeln als Hilfestellung. Alle Zeilen, die grau eingefärbt sind, enthalten
+diese Hilfestellungen. Der Datengeber kann einfach die Felder ausfüllen. Nach
+Fertigstellung der Dateien und vor Hochladen der Excel-Interfaces in das MDM
+müssen alle grauen Zeilen, die nicht genutzt werden gelöscht werden. Fertig!
+Vom FDZ-Team müssen im Anschluss noch folgende Punkte erledigt werden:
+
++--------------------------+---------------------------------------------------+
+| Felder                   | To Do                                             |
++==========================+===================================================+
+| Datenaufbereitungsfelder | bei Bedarf für externe Projekte löschen (z.B.     |
+|                          | varname_alt, Varlabel_alt)                        |
++--------------------------+---------------------------------------------------+
+| alle Felder              | nur einblenden, wenn Datengeber die Informationen |
+|                          | liefern (z.B. englische Felder,                   |
+|                          | GenerationDetails, …)                             |
++--------------------------+---------------------------------------------------+
+| Zugangswege              | - Spalte "accessWays" entfernen, diese wird im    |
+|                          |   Nachheinein vom FDZ auf Basis der               |
+|			   |   Zugangswegspalten ausgefüllt                    |
+|                          |                                                   |
+|			   | - entspr. Absprache zu Zugangswegen nur relevante |
+|			   |   Zugangsweg-Spalten drin lassen                  |
+|                          |                                                   |
+|			   | - wenn nur ein Zugangsweg -> alle                 |
+|            		   |   Zugangsweg-Spalten rauslassen                   |
++--------------------------+---------------------------------------------------+
+| accessWays               | raus                                              |
++--------------------------+---------------------------------------------------+
+
 
 Checkliste für Abgabe der Metadaten
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
