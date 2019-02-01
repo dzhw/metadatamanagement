@@ -13,8 +13,8 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var orderId = localStorageService.get(ORDER_ID_KEY);
     var version = localStorageService.get(VERSION_KEY);
 
-    var _incrementOrderVersion = function() {
-      version = version + 1;
+    var _setOrderVersion = function(newVersion) {
+      version = newVersion;
       localStorageService.set(VERSION_KEY, version);
     };
 
@@ -85,8 +85,8 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
 
               order.products.push(newProduct);
               OrderResource.update(order).$promise
-                .then(function() {
-                    _incrementOrderVersion();
+                .then(function(response) {
+                    _setOrderVersion(response.version);
                     _addProductToLocalShoppingCart(product);
                   },
                   _displayUpdateOrderError);
@@ -105,8 +105,8 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
 
         if (removed.length > 0) {
           OrderResource.update(order).$promise
-            .then(function() {
-                _incrementOrderVersion();
+            .then(function(response) {
+                _setOrderVersion(response.version);
                 _removeProductFromLocalShoppingCart(product);
               },
               _displayUpdateOrderError);
@@ -118,8 +118,8 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       OrderResource.get({id: orderId}).$promise.then(function(order) {
         order.products = [];
         return OrderResource.update(order).$promise
-          .then(function() {
-            _incrementOrderVersion();
+          .then(function(response) {
+            _setOrderVersion(response.version);
             _clearLocalShoppingCart();
           }, _displayUpdateOrderError);
       }, _displayUpdateOrderError);

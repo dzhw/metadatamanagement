@@ -5,6 +5,7 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderAlreadyCompletedException;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.rest.dto.OrderIdAndVersionDto;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.service.OrderService;
 import io.swagger.annotations.Api;
@@ -64,7 +65,7 @@ public class OrderResource {
       responseHeaders = {@ResponseHeader(name = "Location", response = URI.class,
           description = "URL to which the client should go now.")})})
   @ResponseStatus(value = HttpStatus.CREATED)
-  public ResponseEntity<?> createOrder(@RequestBody @Valid Order order) {
+  public ResponseEntity<OrderIdAndVersionDto> createOrder(@RequestBody @Valid Order order) {
 
     if (order.getClient() != OrderClient.MDM) {
       return ResponseEntity.badRequest().build();
@@ -74,7 +75,7 @@ public class OrderResource {
 
     return ResponseEntity
         .created(UriComponentsBuilder.fromUriString(getDlpUrl(order.getId())).build().toUri())
-        .build();
+        .body(new OrderIdAndVersionDto(order.getId(), order.getVersion()));
   }
 
   /**
@@ -110,7 +111,8 @@ public class OrderResource {
           + " Follow the returned Location header to proceed with the order process.",
       responseHeaders = @ResponseHeader(name = "Location", response = URI.class,
           description = "URL to which the client should go now."))})
-  public ResponseEntity<?> updateOrder(@PathVariable String id, @RequestBody @Valid Order order) {
+  public ResponseEntity<OrderIdAndVersionDto> updateOrder(@PathVariable String id,
+                                                          @RequestBody @Valid Order order) {
     Optional<Order> optional = orderService.update(id, order);
     if (!optional.isPresent()) {
       return ResponseEntity.notFound().build();
@@ -123,13 +125,15 @@ public class OrderResource {
           + order.getId();
     }
 
+    Order persistedOrder = optional.get();
+
     return ResponseEntity.status(HttpStatus.OK)
-        .location(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri()).build();
+        .location(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri())
+        .body(new OrderIdAndVersionDto(persistedOrder.getId(), persistedOrder.getVersion()));
   }
 
   /**
    * Generate a DLP url for the given order id.
-   *
    * @param orderId Order Id
    * @return URL as string
    */

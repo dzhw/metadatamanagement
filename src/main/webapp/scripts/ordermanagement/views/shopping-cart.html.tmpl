@@ -95,8 +95,8 @@
     </md-card>
     <md-card ng-if="ctrl.initComplete && !(ctrl.products && ctrl.products.length > 0)" class="fdz-fade-in">
         <md-card-content layout-align="center center">
-            <p ng-if="ctrl.orderSaved" data-translate="shopping-cart.detail.dlp-redirect"></p>
-            <p data-translate="shopping-cart.detail.empty-cart-text"></p>
+            <p ng-if="ctrl.orderSaved" data-translate="shopping-cart.detail.dlp-redirect" data-translate-values="{seconds: ctrl.redirectCountDownSeconds}"></p>
+            <p ng-if="!ctrl.orderSaved" data-translate="shopping-cart.detail.empty-cart-text"></p>
             <p ng-if="!ctrl.orderSaved" data-translate="shopping-cart.detail.explain-data-product"></p>
         </md-card-content>
     </md-card>

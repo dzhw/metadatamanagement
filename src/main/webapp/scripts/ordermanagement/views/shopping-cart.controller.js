@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
            ShoppingCartService, $scope, StudyResource, DataSetSearchService,
            VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
            OrderResource, LanguageService, SimpleMessageToastService, order,
-           DataAcquisitionProjectResource, $window) {
+           DataAcquisitionProjectResource, $window, $interval, $location) {
 
     PageTitleService.setPageTitle('shopping-cart.title');
     ToolbarHeaderService.updateToolbarHeader({
@@ -14,11 +14,31 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     });
     var ctrl = this;
     var existingOrderId;
+    var intervalReference;
     ctrl.dataAcquisitionProjects = {};
     ctrl.studies = {};
     ctrl.releases = {};
     ctrl.counts = {};
     ctrl.initComplete = false;
+    ctrl.redirectCountDownSeconds = 5;
+
+    $scope.$on('$destroy', function() {
+      if (intervalReference) {
+        $interval.cancel(intervalReference);
+      }
+    });
+
+    var redirectAfterCountDown = function(interval, location, languageKey,
+                                          orderId) {
+      interval.then(function() {
+        $interval.cancel(interval);
+        $location.path('/' + languageKey + '/shopping-cart/' + orderId)
+          .replace();
+        if (location) {
+          $window.open(location, '_self');
+        }
+      });
+    };
 
     var initViewWithOrderResource = function(order) {
       order.$promise.then(function(order) {
@@ -152,13 +172,17 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         }
 
         orderFn(requestParams, order,
-          function(responseData, headerGetter) { //jshint ignore: line
+          function(responseData, headerGetter) {
             ShoppingCartService.completeOrder();
             ctrl.orderSaved = true;
-            var location = headerGetter('Location');
-            if (location) {
-              $window.open(location, '_self');
-            }
+            ctrl.redirectCountDownSeconds = 5;
+
+            intervalReference = $interval(function() {
+              ctrl.redirectCountDownSeconds = ctrl.redirectCountDownSeconds - 1;
+            }, 1000, ctrl.redirectCountDownSeconds);
+
+            redirectAfterCountDown(intervalReference, headerGetter('Location'),
+              order.languageKey, responseData.id);
           }, function() {
             SimpleMessageToastService.openAlertMessageToast(
               'shopping-cart.toasts.error-on-saving-order');

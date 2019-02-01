@@ -1,7 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.rest;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -58,7 +60,9 @@ public class OrderResourceTest extends AbstractTest {
     mockMvc.perform(put(UPDATE_ORDER_URL + order.getId()).contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(order)))
         .andExpect(status().isOk())
-        .andExpect(header().exists("Location"));
+        .andExpect(header().exists("Location"))
+        .andExpect(jsonPath("$.id", equalTo(order.getId())))
+        .andExpect(jsonPath("$.version", equalTo((int) (order.getVersion() + 1))));
   }
 
   @Test
