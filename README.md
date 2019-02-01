@@ -63,7 +63,7 @@ If you want to build a docker image for the metadatamanagement server app you ca
 
 This image can be run with all its dependent containers by
 
-    docker-compose -f docker-compose-app.yml -f docker-compose.yml start
+    docker-compose -f docker-compose.yml -f docker-compose-app.yml up -d --build
 
 ## Building for the dev environment
 

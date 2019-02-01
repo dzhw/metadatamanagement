@@ -85,7 +85,7 @@ products
 state
 ^^^^^
 
-.. java:field:: @Indexed private OrderState state
+.. java:field:: @Indexed @NotNull private OrderState state
    :outertype: Order
 
    The current state of the order. One of \ :java:ref:`OrderState`\ .

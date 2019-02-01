@@ -1,19 +1,19 @@
-/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('DataSetDetailController',
     function(entity, Principal,
-      VariableSearchService, ProjectUpdateAccessService,
-      DataSetSearchService, DataSetReportService, PageTitleService,
-      LanguageService, $state, ToolbarHeaderService, CleanJSObjectService,
-      SimpleMessageToastService, DataSetAttachmentResource,
-      DataSetCitateDialogService, SearchResultNavigatorService, $stateParams,
-      ProductChooserDialogService, DataAcquisitionProjectResource, $scope,
-      $transitions) {
+             VariableSearchService, ProjectUpdateAccessService,
+             DataSetSearchService, DataSetReportService, PageTitleService,
+             LanguageService, $state, ToolbarHeaderService,
+             CleanJSObjectService, SimpleMessageToastService,
+             DataSetAttachmentResource, DataSetCitateDialogService,
+             SearchResultNavigatorService, $stateParams,
+             ProductChooserDialogService, DataAcquisitionProjectResource) {
 
       SearchResultNavigatorService.registerCurrentSearchResult(
-          $stateParams['search-result-index']);
+        $stateParams['search-result-index']);
+      var activeProject;
       var ctrl = this;
       ctrl.searchResultIndex = $stateParams['search-result-index'];
       ctrl.isAuthenticated = Principal.isAuthenticated;
@@ -25,7 +25,7 @@ angular.module('metadatamanagementApp')
         DataSetCitateDialogService.showDialog(subDataSet.citationHint, event);
       };
       ctrl.enableJsonView = Principal
-        .hasAnyAuthority(['ROLE_ADMIN','ROLE_PUBLISHER']);
+        .hasAnyAuthority(['ROLE_ADMIN', 'ROLE_PUBLISHER']);
 
       ctrl.jsonExcludes = [
         'nestedStudy',
@@ -36,37 +36,22 @@ angular.module('metadatamanagementApp')
         'nestedSurveys'
       ];
 
-      var setupTransitionHook = function(project) {
-        var deregisterTransitionHook = $transitions
-          .onBefore({state: 'dataSetDetail'}, function(transition) {
-            var identifier = _.get(transition, '_targetState._identifier');
-            if (identifier === 'dataSetEdit') {
-              return ProjectUpdateAccessService
-                .isUpdateAllowed(project, 'data_sets', true);
-            } else {
-              return true;
-            }
-          });
-
-        $scope.$on('$destroy', deregisterTransitionHook);
-      };
-
       entity.promise.then(function(result) {
         if (Principal
-            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
             id: result.dataAcquisitionProjectId
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
             ctrl.assigneeGroup = project.assigneeGroup;
-            setupTransitionHook(project);
+            activeProject = project;
           });
         }
         var currentLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currentLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('data-set-management.detail.title', {
           description: result.description[currentLanguage] ? result
-          .description[currentLanguage] : result.description[secondLanguage],
+            .description[currentLanguage] : result.description[secondLanguage],
           dataSetId: result.id
         });
         ToolbarHeaderService.updateToolbarHeader({
@@ -76,11 +61,12 @@ angular.module('metadatamanagementApp')
           'studyId': result.studyId,
           'surveys': result.surveys,
           'dataSetIsPresent': true,
-          'studyIsPresent': CleanJSObjectService.
-          isNullOrEmpty(result.study) ? false : true,
-          'projectId': result.dataAcquisitionProjectId});
+          'studyIsPresent': CleanJSObjectService.isNullOrEmpty(result.study) ?
+            false : true,
+          'projectId': result.dataAcquisitionProjectId
+        });
         if (result.release || Principal
-            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.dataSet = result;
           ctrl.study = result.study;
           ctrl.counts.surveysCount = result.surveys.length;
@@ -96,16 +82,16 @@ angular.module('metadatamanagementApp')
             ctrl.relatedPublication = result.relatedPublications[0];
           }
           DataSetSearchService
-          .countBy('dataAcquisitionProjectId',
-          ctrl.dataSet.dataAcquisitionProjectId)
-          .then(function(dataSetsCount) {
-            ctrl.counts.dataSetsCount = dataSetsCount.count;
-          });
+            .countBy('dataAcquisitionProjectId',
+              ctrl.dataSet.dataAcquisitionProjectId)
+            .then(function(dataSetsCount) {
+              ctrl.counts.dataSetsCount = dataSetsCount.count;
+            });
           ctrl.accessWays = [];
           ctrl.dataSet.subDataSets.forEach(function(subDataSet) {
             ctrl.accessWays.push(subDataSet.accessWay);
             VariableSearchService.countBy('accessWays',
-            subDataSet.accessWay, ctrl.dataSet.id).then(function(counts) {
+              subDataSet.accessWay, ctrl.dataSet.id).then(function(counts) {
               ctrl.counts[subDataSet.name] = counts.count;
             });
           });
@@ -119,7 +105,7 @@ angular.module('metadatamanagementApp')
             });
         } else {
           SimpleMessageToastService.openAlertMessageToast(
-          'data-set-management.detail.not-released-toast', {id: result.id}
+            'data-set-management.detail.not-released-toast', {id: result.id}
           );
         }
       });
@@ -130,9 +116,16 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.addToShoppingCart = function(event) {
-          ProductChooserDialogService.showDialog(
-            ctrl.dataSet.dataAcquisitionProjectId, ctrl.dataSet.accessWays,
-            ctrl.dataSet.study,
-            event);
-        };
+        ProductChooserDialogService.showDialog(
+          ctrl.dataSet.dataAcquisitionProjectId, ctrl.dataSet.accessWays,
+          ctrl.dataSet.study,
+          event);
+      };
+
+      ctrl.dataSetEdit = function() {
+        if (ProjectUpdateAccessService
+          .isUpdateAllowed(activeProject, 'data_sets', true)) {
+          $state.go('dataSetEdit', {id: ctrl.dataSet.id});
+        }
+      };
     });

@@ -3,7 +3,7 @@
 # mvn clean install
 # then run the following command to start the app with all
 # dependencies:
-# docker-compose -f docker-compose.yml -f docker-compose-app.yml start
+# docker-compose -f docker-compose.yml -f docker-compose-app.yml up -d --build
 version: "3.1"
 services:
   app:
