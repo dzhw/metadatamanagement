@@ -115,7 +115,7 @@ angular.module('metadatamanagementApp').config(
             'placeholder': 'Search for users...',
             'header-data-provider': 'Data Providers of this project',
             'header-publisher': 'Publishers of this project',
-            'no-users-found': 'No users found'
+            'no-users-found': 'No user found!'
           },
           'tooltip': {
             'not-assigned': 'The project is currently assigned to the other user group.',

@@ -160,12 +160,6 @@ angular.module('metadatamanagementApp')
           if (ctrl.activeUsers.length <= 1) {
             return false;
           }
-          /*
-           * cannot remove a user if project was released
-           */
-          if (ctrl.project.release) {
-            return false;
-          }
 
           return true;
         };

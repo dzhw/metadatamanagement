@@ -51,6 +51,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         initializing = false;
       });
 
+    $scope.$on('project-saved', function() {
+      $scope.changed = false;
+    });
+
     $scope.$watch('project', function(newVal, oldVal) {
       if (oldVal !== undefined && newVal !== oldVal &&
           !ProjectSaveService.getSaving()) {
