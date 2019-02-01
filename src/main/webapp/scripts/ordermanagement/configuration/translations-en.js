@@ -41,7 +41,7 @@ angular.module('metadatamanagementApp').config(
             'version': 'Which version of the data sets do you need?'
           },
           'thank-you': 'Thank you for your interest in our data products!',
-          'order-placed-text': 'We have sent you a confirmation email and will contact you shortly.',
+          'dlp-redirect': 'You will be redirected to our service portal...',
           'empty-cart-text': 'Your shopping cart is currently empty. You can search for data products <a href="#!/en/search?type=studies"><strong>here</strong></a> and add those to your shopping cart.',
           'warn-not-current-versions': 'Since you have not decided on the current version of this data product, this system cannot display exact information about the number of variables and data sets in the product.',
           'warn-is-in-update-process': 'This product is currently being updated. Please note that the scope of this product might change in the future.',
