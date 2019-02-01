@@ -11,25 +11,30 @@ angular.module('metadatamanagementApp')
         'user-list.html.tmpl',
       scope: {
         group: '@',
-        advancedPrivileges: '@',
-        project: '=',
+        isPublisher: '=',
+        project: '='
       },
       replace: true,
-      transclude: true,
       controllerAs: 'ctrl',
 
       controller: function($scope) {
         this.group = $scope.group;
-        this.advancedPrivileges = $scope.advancedPrivileges;
+        this.isPublisher = $scope.isPublisher;
         this.project = $scope.project;
       },
       link: function($scope, elem, attrs, ctrl) { // jshint ignore:line
-        ctrl.disabled = !ctrl.advancedPrivileges &&
+        ctrl.disabled = !ctrl.isPublisher &&
           ctrl.group === 'publishers';
 
         ctrl.searchText = '';
         ctrl.selectedUser = null;
         ctrl.preventSearching = false;
+
+        var originalUserList = [];
+
+        var initializeOriginalUsersList = function() {
+          originalUserList = _.cloneDeep(ctrl.activeUsers);
+        };
 
         ctrl.updateProject = function() {
           if (!ctrl.project.configuration) {
@@ -71,7 +76,6 @@ angular.module('metadatamanagementApp')
             ctrl.preventSearching = true;
             ctrl.searchCache = {};
             $(':focus').blur();
-
             ctrl.updateProject();
           }
         };
@@ -131,18 +135,32 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.canDeleteUser = function(user) {
+          var isNewlyAddedUser = _.findIndex(originalUserList,
+            function(originalUser) {
+              return originalUser.login === user.login;
+            }) === -1;
+
+          // allow removal if user was added but project wasn't updated, yet.
+          if (isNewlyAddedUser && ctrl.activeUsers.length > 1) {
+            return true;
+          }
+
+          // cannot modify user whose details we can't read
           if (user.restricted) {
-            // cannot modify user whose details we can't read
             return false;
           }
-          if (!ctrl.advancedPrivileges && ctrl.group === 'publishers') {
-            // cannot remove publishers without advanced privilege
+          // publishers can only be removed by other publishers
+          if (!ctrl.isPublisher && ctrl.group === 'publishers') {
             return false;
           }
+
+          /*
+           * cannot remove the last user in this list
+           */
           if (ctrl.activeUsers.length <= 1) {
-            // cannot remove the last user in this list
             return false;
           }
+
           return true;
         };
 
@@ -150,7 +168,7 @@ angular.module('metadatamanagementApp')
           // get users of type {key} asynchronously
           // and return promise resolving when all are fetched
           if (ctrl.project.configuration[key]) {
-            return $q.all(
+            var allUserPromises = $q.all(
               ctrl.project.configuration[key].map(function(userLogin) {
                 return (
                   UserResource.getPublic({
@@ -165,6 +183,8 @@ angular.module('metadatamanagementApp')
                 );
               })
             );
+            allUserPromises.then(initializeOriginalUsersList);
+            return allUserPromises;
           } else {
             return $q.resolve([]);
           }
@@ -178,6 +198,7 @@ angular.module('metadatamanagementApp')
               });
         });
 
+        $scope.$on('project-saved', initializeOriginalUsersList);
       }
     };
   });
