@@ -33,6 +33,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     var saveProject = function(project) {
       return ProjectSaveService.saveProject(project).then(function() {
         $scope.changed = false;
+        $scope.$broadcast('project-saved');
       });
     };
 
@@ -49,6 +50,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         }
         initializing = false;
       });
+
+    $scope.$on('project-saved', function() {
+      $scope.changed = false;
+    });
 
     $scope.$watch('project', function(newVal, oldVal) {
       if (oldVal !== undefined && newVal !== oldVal &&
@@ -68,7 +73,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $scope.changed = false;
 
-    $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
+    $scope.isPublisher = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
       'ROLE_ADMIN']);
     $scope.isPublisher = Principal.hasAnyAuthority(['ROLE_PUBLISHER']);
     $scope.isDataProvider = Principal.hasAnyAuthority(['ROLE_DATA_PROVIDER']);

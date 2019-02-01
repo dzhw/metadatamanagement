@@ -18,7 +18,7 @@
 			<md-card layout-margin layout-column layout-align="center center" flex="1" style="flex-grow:0;min-width:200px;padding:8px;">
 				<project-status-badge assignee-group="{{ctrl.project.assigneeGroup}}"></project-status-badge>
 				<div class="layout-row">
-					<md-button ng-if="!(ctrl.isAssignedPublisher && ctrl.project.assigneeGroup !== 'PUBLISHER')" ng-disabled="!(ctrl.project.assigneeGroup === 'PUBLISHER' && ctrl.isAssignedPublisher || ctrl.project.assigneeGroup === 'DATA_PROVIDER' && ctrl.isAssignedDataProvider)" class="md-raised md-fab md-mini md-primary" ng-click="ctrl.onSaveChangesAndAssign()">
+					<md-button ng-if="!(ctrl.isAssignedPublisher && ctrl.project.assigneeGroup !== 'PUBLISHER')" ng-disabled="ctrl.project.release || !(ctrl.project.assigneeGroup === 'PUBLISHER' && ctrl.isAssignedPublisher || ctrl.project.assigneeGroup === 'DATA_PROVIDER' && ctrl.isAssignedDataProvider)" class="md-raised md-fab md-mini md-primary" ng-click="ctrl.onSaveChangesAndAssign()">
 						<md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
 							{{'data-acquisition-project-management.project-cockpit.button.save-assign' | translate}}
 						</md-tooltip>
