@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     var saveProject = function(project) {
       return ProjectSaveService.saveProject(project).then(function() {
-        $scope.changed = false;
+        $scope.$broadcast('project-saved');
       });
     };
 
@@ -50,10 +50,15 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         initializing = false;
       });
 
+    $scope.$on('project-saved', function() {
+      $scope.changed = false;
+    });
+
     $scope.$watch('project', function(newVal, oldVal) {
       if (oldVal !== undefined && newVal !== oldVal &&
           !ProjectSaveService.getSaving()) {
         $scope.changed = true;
+        $scope.$broadcast('project-changed');
       }
     }, true);
 
@@ -61,18 +66,14 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         $state.go('search');
       });
 
-    $scope.onSaveChanges = function(origin) {
+    $scope.onSaveChanges = function() {
       var project = ProjectSaveService.prepareProjectForSave($scope.project);
-      saveProject(project).then(function() {
-        if (origin !== 'requirements') {
-          $state.reload();
-        }
-      });
+      saveProject(project);
     };
 
     $scope.changed = false;
 
-    $scope.advancedPrivileges = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
+    $scope.isPublisher = Principal.hasAnyAuthority(['ROLE_PUBLISHER',
       'ROLE_ADMIN']);
     $scope.isPublisher = Principal.hasAnyAuthority(['ROLE_PUBLISHER']);
     $scope.isDataProvider = Principal.hasAnyAuthority(['ROLE_DATA_PROVIDER']);

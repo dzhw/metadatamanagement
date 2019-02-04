@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Test editing survey page and versioning
+Documentation     Test editing survey page and versioning #Prerequisite to have fileuploadproject
 Force Tags        chromeonly
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot

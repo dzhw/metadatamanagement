@@ -70,7 +70,7 @@ Click on publications tab
     Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Publications')]
 
 Click Survey Edit Button
-    Click Element Through Tooltips    xpath=//ui-view//a/md-icon[text()='mode_edit']
+    Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='mode_edit']
 
 Click on Cockpit Button
     Click Element Through Tooltips    xpath=//project-navbar-module//a[contains(@class, 'md-accent')]

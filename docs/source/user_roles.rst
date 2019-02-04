@@ -8,8 +8,8 @@ Public User
 -----------
 Student, Researcher
 
-Data Provider
--------------
+Datengeber (Data Provider)
+--------------------------
 DZHW interne/externe DatengeberIn, siehe :ref:`metadatenabgabe-label`.
 
 Publisher

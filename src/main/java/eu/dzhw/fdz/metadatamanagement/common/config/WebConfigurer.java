@@ -15,6 +15,7 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.filter.CachingHttpHeadersFilter;
 import eu.dzhw.fdz.metadatamanagement.common.rest.filter.StaticResourcesProductionFilter;
@@ -25,8 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Configuration
 @Slf4j
-public class WebConfigurer
-    implements ServletContextInitializer, 
+public class WebConfigurer implements ServletContextInitializer,
     WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
   @Autowired
   private Environment env;
@@ -38,7 +38,8 @@ public class WebConfigurer
     EnumSet<DispatcherType> disps =
         EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
     initCachingHttpHeadersFilter(servletContext, disps);
-    if (env.acceptsProfiles("!" + Constants.SPRING_PROFILE_LOCAL)) {
+    if (env.acceptsProfiles(Profiles.of("!" + Constants.SPRING_PROFILE_LOCAL + " | ("
+        + Constants.SPRING_PROFILE_LOCAL + " & " + Constants.SPRING_PROFILE_MINIFIED + ")"))) {
       initStaticResourcesProductionFilter(servletContext, disps);
     }
     log.info("Web application fully configured");
@@ -102,7 +103,7 @@ public class WebConfigurer
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/index.html");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/robots.txt");
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/manifest.json");  
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/manifest.json");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/bower_components/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/assets/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");

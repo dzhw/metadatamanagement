@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp')
       scope: {
         type: '@',
         counts: '=',
-        project: '=',
+        project: '='
       },
       replace: true,
       controllerAs: 'ctrl',
@@ -24,18 +24,12 @@ angular.module('metadatamanagementApp')
         this.counts = $scope.counts;
         this.project = $scope.project;
 
-        this.update = function(changedProject) {
-          if (!changedProject) {
-            return;
-          }
-          this.isAssignedDataProvider =
-            ProjectUpdateAccessService.isAssignedToProject(
-              changedProject, 'dataProviders');
-          this.isAssignedPublisher =
-            ProjectUpdateAccessService.isAssignedToProject(
-              changedProject, 'publishers');
-        }.bind(this);
-        this.update(this.project);
+        this.isAssignedDataProvider =
+          ProjectUpdateAccessService.isAssignedToProject.bind(null,
+            this.project, 'dataProviders');
+        this.isAssignedPublisher =
+          ProjectUpdateAccessService.isAssignedToProject.bind(null,
+            this.project, 'publishers');
 
         switch (this.type) {
           case 'studies':
@@ -111,11 +105,6 @@ angular.module('metadatamanagementApp')
 
       /* jshint -W098 */
       link: function($scope, elem, attrs, ctrl) {
-        $scope.$on('current-project-changed',
-          function(event, changedProject) { // jshint ignore:line
-            ctrl.update(changedProject);
-          });
-
         ctrl.getSentimentValue = function(tab) {
           return ProjectStatusScoringService
             .scoreProjectStatus(ctrl.project, tab);
@@ -170,8 +159,16 @@ angular.module('metadatamanagementApp')
           }
         };
 
+        ctrl.isProjectReleased = function() {
+          return ctrl.project.release;
+        };
+
         ctrl.delete = function() {
           DeleteMetadataService.deleteAllOfType(ctrl.project, ctrl.type);
+        };
+
+        ctrl.goToSearch = function(type) {
+          $state.go('search', {type: type});
         };
       }
     };

@@ -3,10 +3,10 @@
 		flex
 		autocomplete="off"
 		ng-disabled="ctrl.disabled"
-		md-search-text="ctrl.searchText[ctrl.group]"
-		md-selected-item="ctrl.selectedUser[ctrl.group]"
-		md-selected-item-change="ctrl.selectedUserChanged(ctrl.selectedUser[ctrl.group], ctrl.group)"
-		md-items="user in ctrl.searchUsers(ctrl.searchText[ctrl.group], ctrl.group)"
+		md-search-text="ctrl.searchText"
+		md-selected-item="ctrl.selectedUser"
+		md-selected-item-change="ctrl.selectedUserChanged(ctrl.selectedUser)"
+		md-items="user in ctrl.searchUsers(ctrl.searchText)"
 		md-item-text="user.login"
 		md-min-length="0"
 		md-delay="250"
@@ -18,24 +18,24 @@
 	>
 		<md-item-template>
 			<div layout="row">
-				<strong><span md-highlight-text="ctrl.searchText[ctrl.group]">{{user.login}}</span></strong>
+				<strong><span md-highlight-text="ctrl.searchText">{{user.login}}</span></strong>
 				&nbsp;
-				<span md-highlight-text="ctrl.searchText[ctrl.group]">({{user.email}})</span>
+				<span md-highlight-text="ctrl.searchText">({{user.email}})</span>
 			</div>
 		</md-item-template>
 		<md-not-found>
-			{{ctrl.searchText[ctrl.group]}} <span data-translate="global.menu.entities.unknown-project"></span>
+			<span data-translate="data-acquisition-project-management.project-cockpit.search.no-users-found"></span>
 		</md-not-found>
 	</md-autocomplete>
 
-	<md-list ng-if="ctrl.activeUsers[ctrl.group] && ctrl.activeUsers[ctrl.group].length" style="padding: 0px;">
-		<div ng-repeat="user in ctrl.activeUsers[ctrl.group]">
+	<md-list ng-if="ctrl.activeUsers && ctrl.activeUsers.length" style="padding: 0px;">
+		<div ng-repeat="user in ctrl.activeUsers">
 			<md-list-item layout="row" style="padding-right: 0px;">
 				<div class="md-list-item-text">
 					<strong>{{user.login}}</strong> (<a href="mailto:{{user.email}}">{{user.email}}</a>)
 				</div>
 				<span flex></span>
-				<md-button ng-disabled="ctrl.disabled || !ctrl.canDeleteUser(user, ctrl.group)" class="md-icon-button md-primary" ng-click="ctrl.removeUser(user, ctrl.group)" aria-label="remove user">
+				<md-button ng-disabled="ctrl.disabled || !ctrl.canDeleteUser(user)" class="md-icon-button md-primary" ng-click="ctrl.removeUser(user, ctrl.group)" aria-label="remove user">
 					<md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img" aria-hidden="true">delete_forever</md-icon>
 					<md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
 						{{'data-acquisition-project-management.project-cockpit.button.remove-user' | translate}}
@@ -45,7 +45,7 @@
 			<md-divider ng-if=!$last></md-divider>
 		</div>
 	</md-list>
-	<div style="padding: 14px;" ng-if="!ctrl.activeUsers[ctrl.group] || !ctrl.activeUsers[ctrl.group].length">
+	<div style="padding: 14px;" ng-if="!ctrl.activeUsers || !ctrl.activeUsers.length">
 		<i>{{'data-acquisition-project-management.project-cockpit.list.empty-data-provider' | translate}}</i>
 	</div>
 </md-card>

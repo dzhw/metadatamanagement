@@ -1,17 +1,18 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest.errors;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-
+import com.fasterxml.jackson.core.json.UTF8StreamJsonParser;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.databind.node.TreeTraversingParser;
+import com.mongodb.DuplicateKeyException;
+import freemarker.core.InvalidReferenceException;
+import freemarker.core.ParseException;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -25,18 +26,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartException;
 
-import com.fasterxml.jackson.core.json.UTF8StreamJsonParser;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.fasterxml.jackson.databind.node.TreeTraversingParser;
-import com.mongodb.DuplicateKeyException;
-
-import freemarker.core.InvalidReferenceException;
-import freemarker.core.ParseException;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Controller advice to translate the server side exceptions to client-friendly json structures.
- *
  * @author Daniel Katzberg
  */
 @ControllerAdvice
@@ -63,7 +60,7 @@ public class ExceptionTranslator {
   }
 
   private ErrorListDto processFieldErrors(List<ObjectError> globalErrors,
-      List<FieldError> fieldErrors) {
+                                          List<FieldError> fieldErrors) {
 
     ErrorListDto errorListDto = new ErrorListDto();
 
@@ -238,7 +235,6 @@ public class ExceptionTranslator {
    * Handles {@link RepositoryConstraintViolationException}s by returning {@code 400 Bad Request}.
    * Introduces a custom dto for validation errors of spring data rest repositories. This is
    * necessary due to issue #706.
-   * 
    * @param exception the exception to handle.
    * @return 400 bad request
    */
@@ -270,7 +266,6 @@ public class ExceptionTranslator {
    * Handles {@link ConstraintViolationException}s by returning {@code 400 Bad Request}. Introduces
    * a custom dto for validation errors of spring data rest repositories. This is necessary due to
    * issue #706.
-   * 
    * @param exception the exception to handle.
    * @return 400 bad request
    */
@@ -324,6 +319,21 @@ public class ExceptionTranslator {
     } else {
       throw exception;
     }
+    return errorListDto;
+  }
+
+  /**
+   * Handle {@link OptimisticLockingFailureException} thrown by attempts to
+   * save stale entities through a repository. Responds to client with status
+   * 400.
+   */
+  @ExceptionHandler(OptimisticLockingFailureException.class)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ErrorListDto handleOptimisticLockingFailureException() {
+    ErrorDto errorDto = new ErrorDto(null, "global.error.optimistic-locking-failure", null, null);
+    ErrorListDto errorListDto = new ErrorListDto();
+    errorListDto.add(errorDto);
     return errorListDto;
   }
 }

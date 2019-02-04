@@ -94,14 +94,15 @@ angular.module('metadatamanagementApp').config(
             'instrument': 'Klicken, um das Instrument {{param}} anzuzeigen',
             'publication': 'Klicken, um die Publikation {{param}} anzuzeigen'
           },
-          'welcome-dialog': {
+          'feedback-dialog': {
             'github': 'Klicken, um auf Github Feedback zu geben oder einen Fehler zu melden',
             'email': 'Klicken, um per E-Mail Feedback zu geben oder einen Fehler zu melden'
           },
           'navbar-feedback': 'Klicken, um Feedback zu geben oder einen Fehler zu melden',
-          'navbar-documentation': 'Klicken, um die Benutzerdokumentation zu öffnen'
+          'navbar-documentation': 'Klicken, um die Benutzerdokumentation zu öffnen',
+          'navbar-usage-info': 'Klicken, um Hinweise für Datengeber zu erhalten'
         },
-        'welcome-dialog': {
+        'feedback-dialog': {
           'toolbar-head': 'Feedback geben oder Fehler melden',
           'content-body-feedback': 'Sie können Feedback geben oder Fehler melden ...',
           'content-body-via': '... via',
@@ -121,7 +122,7 @@ angular.module('metadatamanagementApp').config(
             'rdcProject': 'Datenaufbereitungsprojekte:',
             'current-project': 'Aktuelles Datenaufbereitungsprojekt',
             'select-project': 'Projekt auswählen',
-            'unknown-project': '{{projectId}} ist unbekannt.'
+            'unknown-project': 'Kein Projekt gefunden!'
           },
           'search': {
             'title': 'Metadatamanagement (MDM) - Datensuche für die Hochschul- und Wissenschaftsforschung'
@@ -148,7 +149,8 @@ angular.module('metadatamanagementApp').config(
           'data-access': 'Datenzugang',
           'disclosure': 'Impressum',
           'notepad': 'Merkzettel',
-          'documentation': 'Dokumentation'
+          'documentation': 'Dokumentation',
+          'usage-info': 'Hinweise für Datengeber'
         },
         'form': {
           'username': 'Benutzername',

@@ -52,10 +52,12 @@ angular.module('metadatamanagementApp')
 
       ctrl.addToShoppingCart = function() {
         ShoppingCartService.add({
-          projectId: ctrl.projectId,
-          studyId: ctrl.study.id,
+          dataAcquisitionProjectId: ctrl.projectId,
           accessWay: ctrl.selectedAccessWay,
           version: ctrl.selectedVersion,
+          study: {
+            id: ctrl.study.id
+          }
         });
         $mdDialog.hide();
       };

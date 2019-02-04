@@ -4,11 +4,11 @@
 
 angular.module('metadatamanagementApp')
   .directive('projectCockpitStatus', function(
-      SearchDao, ProjectUpdateAccessService,
-      SimpleMessageToastService, Principal, ProjectSaveService,
-      DataAcquisitionProjectPostValidationService,
-      $mdDialog, $translate, CurrentProjectService, $timeout,
-      ProjectReleaseService, $q) {
+    SearchDao, ProjectUpdateAccessService,
+    SimpleMessageToastService, Principal, ProjectSaveService,
+    DataAcquisitionProjectPostValidationService,
+    $mdDialog, $translate, CurrentProjectService, $timeout,
+    ProjectReleaseService, $q, $rootScope) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/dataacquisitionprojectmanagement/directives/' +
@@ -17,25 +17,26 @@ angular.module('metadatamanagementApp')
         project: '='
       },
       replace: true,
-      transclude: true,
       controllerAs: 'ctrl',
       controller: function($scope) {
         this.project = $scope.project;
-        this.update = function() {
-          this.isAssignedDataProvider =
-            ProjectUpdateAccessService.isAssignedToProject(
-              this.project, 'dataProviders');
-          this.isAssignedPublisher =
-            ProjectUpdateAccessService.isAssignedToProject(
-              this.project, 'publishers');
-          this.isAssignedToProject =
-            this.isAssignedPublisher || this.isAssignedDataProvider;
-        }.bind(this);
-        this.update();
+        this.isAssignedDataProvider =
+          ProjectUpdateAccessService.isAssignedToProject.bind(null,
+            this.project, 'dataProviders');
+        this.isAssignedPublisher =
+          ProjectUpdateAccessService.isAssignedToProject.bind(null,
+            this.project, 'publishers');
+        this.changed = false;
       },
       /* jshint -W098 */
-      link: function($scope, elem, attrs, ctrl, $transclude) {
-        $scope.$on('current-project-changed', ctrl.update);
+      link: function($scope, elem, attrs, ctrl) {
+
+        $scope.$on('project-changed', function() {
+          ctrl.changed = true;
+        });
+        $scope.$on('project-saved', function() {
+          ctrl.changed = false;
+        });
 
         ctrl.getNextAssigneeGroup = function(project) {
           switch (_.get(project, 'assigneeGroup')) {
@@ -78,51 +79,63 @@ angular.module('metadatamanagementApp')
         };
 
         var saveProject = function(project) {
-          return ProjectSaveService.saveProject(project);
+          return ProjectSaveService.saveProject(project).then(function() {
+            $rootScope.$broadcast('project-saved');
+          });
         };
 
         ctrl.onSaveChangesAndTakeBack = function() {
-          var confirm = $mdDialog.confirm()
-          .title($translate.instant('data-acquisition' +
-            '-project-management.project-cockpit.takeback-dialog.title')
-          ).textContent($translate.instant('data-acquisition' +
-          '-project-management.project-cockpit.takeback-dialog.text')
-          ).ok($translate.instant('global.common-dialogs.yes'))
-          .cancel($translate.instant('global.common-dialogs.no'));
-          $mdDialog.show(confirm).then(function() {
-            showAssigneeGroupMessageDialog('PUBLISHER').then(function(message) {
-              var project = ProjectSaveService.prepareProjectForSave
+          var preAction = ctrl.changed ? saveProject(ctrl.project) :
+            $q.resolve();
+          preAction.then(function() {
+            var confirm = $mdDialog.confirm()
+              .title($translate.instant('data-acquisition' +
+                '-project-management.project-cockpit.takeback-dialog.title')
+              ).textContent($translate.instant('data-acquisition' +
+                '-project-management.project-cockpit.takeback-dialog.text')
+              ).ok($translate.instant('global.common-dialogs.yes'))
+              .cancel($translate.instant('global.common-dialogs.no'));
+            $mdDialog.show(confirm).then(function() {
+              showAssigneeGroupMessageDialog('PUBLISHER')
+              .then(function(message) {
+                var project = ProjectSaveService.prepareProjectForSave
                 (ctrl.project, message, 'PUBLISHER');
-              saveProject(project);
+                saveProject(project);
+              });
             });
           });
         };
 
         ctrl.onSaveChangesAndAssign = function() {
-          if (!_.get(ctrl.project, 'configuration.dataProviders.length')) {
-            SimpleMessageToastService.openAlertMessageToast('data-acquisition' +
-              '-project-management.project-cockpit.no-data-providers' +
-              '-dialog.text');
-            return;
-          }
+          var preAction = ctrl.changed ? saveProject(ctrl.project) :
+            $q.resolve();
+          preAction.then(function() {
+            if (!_.get(ctrl.project, 'configuration.dataProviders.length')) {
+              SimpleMessageToastService
+              .openAlertMessageToast('data-acquisition' +
+                '-project-management.project-cockpit.no-data-providers' +
+                '-dialog.text');
+              return;
+            }
 
-          var postValidationStep = $q.defer();
-          var newAssigneeGroup = ctrl.getNextAssigneeGroup(ctrl.project);
-          var isPublisher = Principal.hasAuthority('ROLE_PUBLISHER');
+            var postValidationStep = $q.defer();
+            var newAssigneeGroup = ctrl.getNextAssigneeGroup(ctrl.project);
+            var isPublisher = Principal.hasAuthority('ROLE_PUBLISHER');
 
-          if (newAssigneeGroup === 'PUBLISHER' && !isPublisher) {
-            DataAcquisitionProjectPostValidationService
-              .postValidate(ctrl.project.id)
-              .then(postValidationStep.resolve, postValidationStep.reject);
-          } else {
-            postValidationStep.resolve();
-          }
+            if (newAssigneeGroup === 'PUBLISHER' && !isPublisher) {
+              DataAcquisitionProjectPostValidationService
+                .postValidate(ctrl.project.id)
+                .then(postValidationStep.resolve, postValidationStep.reject);
+            } else {
+              postValidationStep.resolve();
+            }
 
-          postValidationStep.promise.then(function() {
-            showAssigneeGroupMessageDialog().then(function(message) {
-              var project = ProjectSaveService.prepareProjectForSave(
-                ctrl.project, message, newAssigneeGroup);
-              saveProject(project);
+            postValidationStep.promise.then(function() {
+              showAssigneeGroupMessageDialog().then(function(message) {
+                var project = ProjectSaveService.prepareProjectForSave(
+                  ctrl.project, message, newAssigneeGroup);
+                saveProject(project);
+              });
             });
           });
         };
@@ -133,7 +146,7 @@ angular.module('metadatamanagementApp')
             .then(function(data) {
               ['variables', 'questions', 'data_sets', 'surveys', 'instruments',
                 'studies'].forEach(function(type) {
-                var bucket  = _.find(data.aggregations.countByType.buckets,
+                var bucket = _.find(data.aggregations.countByType.buckets,
                   {key: type});
                 ctrl.counts[type] = _.get(bucket, 'doc_count', 0);
               });
