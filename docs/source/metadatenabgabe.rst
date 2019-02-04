@@ -1,6 +1,6 @@
     .. _metadatenabgabe-label:
 
-Metadatenabgabe (Data Provider)
+Metadatenabgabe (Datengeber)
 ===============================
 .. index:: data provider, Datenaufnahme
 
@@ -139,7 +139,7 @@ Nach erfolgreicher Anmeldung erscheint in der Sidebar das folgende Feld:
 Über den Plus-Button können *Publisher* ein neues Projekt anlegen (vgl.
 :numref:`neuesprojektanlegen`). Als Projektname müssen diese eine bestimmte ID
 angeben, welche das FDZ zuvor speziell für Ihr Projekt vergeben hat und Ihnen
-mitteilen muss (z. B. „gra2005“ für das Absolventenpanel 2005). 
+mitteilen muss (z. B. „gra2005“ für das Absolventenpanel 2005).
 
 DataAcquisitionProject-ID
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -197,9 +197,9 @@ wieder löschen.
    Ein neues Projekt im MDM anlegen
 
 Im Anschluss an die Projekterstellung werden Sie als Nutzer mit der Rolle
-*Data-Provider* dem Projekt zugewiesen. Wenn Sie ins Projektcockpit gehen
+*Datengeber* dem Projekt zugewiesen. Wenn Sie ins Projektcockpit gehen
 (vgl. :numref:`projectcockpit`), sehen Sie unter dem Punkt Einstellungen
-(vgl. :numref:`project_cockpit_settings`), welche Publisher und Data-Provider dem
+(vgl. :numref:`project_cockpit_settings`), welche Publisher und Datengeber dem
 Projekt zugewiesen sind und welche Metadaten vom *Publisher* erwartet werden.
 
 .. figure:: ./_static/cockpit-button.png
