@@ -20,19 +20,15 @@ angular.module('metadatamanagementApp')
       controllerAs: 'ctrl',
       controller: function($scope) {
         this.project = $scope.project;
-        this.update = function() {
-          this.isAssignedDataProvider =
-            ProjectUpdateAccessService.isAssignedToProject(
-              this.project, 'dataProviders');
-          this.isAssignedPublisher =
-            ProjectUpdateAccessService.isAssignedToProject(
-              this.project, 'publishers');
-        }.bind(this);
-        this.update();
+        this.isAssignedDataProvider =
+          ProjectUpdateAccessService.isAssignedToProject.bind(null,
+            this.project, 'dataProviders');
+        this.isAssignedPublisher =
+          ProjectUpdateAccessService.isAssignedToProject.bind(null,
+            this.project, 'publishers');
       },
       /* jshint -W098 */
       link: function($scope, elem, attrs, ctrl) {
-        $scope.$on('current-project-changed', ctrl.update);
 
         ctrl.getNextAssigneeGroup = function(project) {
           switch (_.get(project, 'assigneeGroup')) {
@@ -81,47 +77,53 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.onSaveChangesAndTakeBack = function() {
-          var confirm = $mdDialog.confirm()
-            .title($translate.instant('data-acquisition' +
-              '-project-management.project-cockpit.takeback-dialog.title')
-            ).textContent($translate.instant('data-acquisition' +
-              '-project-management.project-cockpit.takeback-dialog.text')
-            ).ok($translate.instant('global.common-dialogs.yes'))
-            .cancel($translate.instant('global.common-dialogs.no'));
-          $mdDialog.show(confirm).then(function() {
-            showAssigneeGroupMessageDialog('PUBLISHER').then(function(message) {
-              var project = ProjectSaveService.prepareProjectForSave
-              (ctrl.project, message, 'PUBLISHER');
-              saveProject(project);
+          saveProject(ctrl.project).then(function() {
+            var confirm = $mdDialog.confirm()
+              .title($translate.instant('data-acquisition' +
+                '-project-management.project-cockpit.takeback-dialog.title')
+              ).textContent($translate.instant('data-acquisition' +
+                '-project-management.project-cockpit.takeback-dialog.text')
+              ).ok($translate.instant('global.common-dialogs.yes'))
+              .cancel($translate.instant('global.common-dialogs.no'));
+            $mdDialog.show(confirm).then(function() {
+              showAssigneeGroupMessageDialog('PUBLISHER')
+              .then(function(message) {
+                var project = ProjectSaveService.prepareProjectForSave
+                (ctrl.project, message, 'PUBLISHER');
+                saveProject(project);
+              });
             });
           });
         };
 
         ctrl.onSaveChangesAndAssign = function() {
-          if (!_.get(ctrl.project, 'configuration.dataProviders.length')) {
-            SimpleMessageToastService.openAlertMessageToast('data-acquisition' +
-              '-project-management.project-cockpit.no-data-providers' +
-              '-dialog.text');
-            return;
-          }
+          saveProject(ctrl.project).then(function() {
+            if (!_.get(ctrl.project, 'configuration.dataProviders.length')) {
+              SimpleMessageToastService
+              .openAlertMessageToast('data-acquisition' +
+                '-project-management.project-cockpit.no-data-providers' +
+                '-dialog.text');
+              return;
+            }
 
-          var postValidationStep = $q.defer();
-          var newAssigneeGroup = ctrl.getNextAssigneeGroup(ctrl.project);
-          var isPublisher = Principal.hasAuthority('ROLE_PUBLISHER');
+            var postValidationStep = $q.defer();
+            var newAssigneeGroup = ctrl.getNextAssigneeGroup(ctrl.project);
+            var isPublisher = Principal.hasAuthority('ROLE_PUBLISHER');
 
-          if (newAssigneeGroup === 'PUBLISHER' && !isPublisher) {
-            DataAcquisitionProjectPostValidationService
-              .postValidate(ctrl.project.id)
-              .then(postValidationStep.resolve, postValidationStep.reject);
-          } else {
-            postValidationStep.resolve();
-          }
+            if (newAssigneeGroup === 'PUBLISHER' && !isPublisher) {
+              DataAcquisitionProjectPostValidationService
+                .postValidate(ctrl.project.id)
+                .then(postValidationStep.resolve, postValidationStep.reject);
+            } else {
+              postValidationStep.resolve();
+            }
 
-          postValidationStep.promise.then(function() {
-            showAssigneeGroupMessageDialog().then(function(message) {
-              var project = ProjectSaveService.prepareProjectForSave(
-                ctrl.project, message, newAssigneeGroup);
-              saveProject(project);
+            postValidationStep.promise.then(function() {
+              showAssigneeGroupMessageDialog().then(function(message) {
+                var project = ProjectSaveService.prepareProjectForSave(
+                  ctrl.project, message, newAssigneeGroup);
+                saveProject(project);
+              });
             });
           });
         };
