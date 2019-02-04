@@ -26,9 +26,17 @@ angular.module('metadatamanagementApp')
         this.isAssignedPublisher =
           ProjectUpdateAccessService.isAssignedToProject.bind(null,
             this.project, 'publishers');
+        this.changed = false;
       },
       /* jshint -W098 */
       link: function($scope, elem, attrs, ctrl) {
+
+        $scope.$on('project-changed', function() {
+          ctrl.changed = true;
+        });
+        $scope.$on('project-saved', function() {
+          ctrl.changed = false;
+        });
 
         ctrl.getNextAssigneeGroup = function(project) {
           switch (_.get(project, 'assigneeGroup')) {
@@ -77,7 +85,9 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.onSaveChangesAndTakeBack = function() {
-          saveProject(ctrl.project).then(function() {
+          var preAction = ctrl.changed ? saveProject(ctrl.project) :
+            $q.resolve();
+          preAction.then(function() {
             var confirm = $mdDialog.confirm()
               .title($translate.instant('data-acquisition' +
                 '-project-management.project-cockpit.takeback-dialog.title')
@@ -97,7 +107,9 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.onSaveChangesAndAssign = function() {
-          saveProject(ctrl.project).then(function() {
+          var preAction = ctrl.changed ? saveProject(ctrl.project) :
+            $q.resolve();
+          preAction.then(function() {
             if (!_.get(ctrl.project, 'configuration.dataProviders.length')) {
               SimpleMessageToastService
               .openAlertMessageToast('data-acquisition' +
