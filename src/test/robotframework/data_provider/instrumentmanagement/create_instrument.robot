@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Instrument Creation by Dataprovider
+Documentation     Instrument Creation by Dataprovider #Prerequisite to have robotproject4${BROWSER}
 Force Tags        noslowpoke
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
@@ -24,7 +24,7 @@ Go To Instrument Create Page
     Select project by name    robotproject4${BROWSER}
     Wait Until Angular Ready    6s
     Click on instruments tab
-    Click Element Through Tooltips    xpath=//ui-view/descendant::a[md-icon[text()='add']]
+    Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
 
 Fill up the description and title
     Pass Execution If    '${BROWSER}' == 'ie'    Instrument Creation not possible in IE

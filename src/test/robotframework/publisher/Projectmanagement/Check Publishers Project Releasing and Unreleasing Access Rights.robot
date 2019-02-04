@@ -50,10 +50,11 @@ Verify The Unreleased Project is Unavailable under The Study Tab
   Run Keyword If  '${BROWSER}' == 'firefox'  Select project by name  robotprojectrelease4firefox
   Run Keyword If  '${BROWSER}' == 'chrome'  Select project by name  robotprojectrelease4chrome
   Click on Cockpit Button
-  Click Publisher Ready Checkbox for Studies
-  Save Changes
   Change Project Release Status
   Click on OK Button
+  Sleep  3s  #to ensure enough time for the next checkbox to be ready  
+  Click Publisher Ready Checkbox for Studies   #deselect the check box here
+  Save Changes
   Sleep  60s   #We need explicit sleep for 60s to ensure the project is not available in the study tab
   Publisher Logout
   Click on study tab
@@ -69,6 +70,7 @@ Assert Project Release Action Has Error Message
   Element Should Contain   xpath=//md-dialog-content//div//p[@class="ng-binding"]   kann nicht freigegeben werden
 
 Write Version Name
+ # Click Element Through Tooltips  xpath=//input[@ng-model="release.version"]
   Input Text  xpath=//input[@ng-model="release.version"]  0.0.2
 
 Close The Toast Message for Project Release Validation
