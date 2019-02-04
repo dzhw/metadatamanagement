@@ -43,7 +43,7 @@ Create Study by Publisher
 
 *** Keywords ***
 Open Study Create Page
-    Click Element Through Tooltips    xpath=//ui-view/descendant::a[md-icon[text()='add']]
+    Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
 
 Choose Panel As Survey Design
     Click Element Through Tooltips    xpath=//md-select[@name = 'surveyDesign']

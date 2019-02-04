@@ -1,7 +1,8 @@
 /* global window */
 /* Author Daniel Katzberg */
 'use strict';
-angular.module('metadatamanagementApp').controller('FdzWelcomeDialogController',
+angular.module('metadatamanagementApp')
+  .controller('FdzFeedbackDialogController',
   function($scope, $mdDialog, bowser, $location,
       $translate) {
     $scope.bowser = bowser;

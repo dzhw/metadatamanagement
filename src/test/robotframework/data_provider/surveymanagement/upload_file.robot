@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Tests the upload on the survey edit site.
+Documentation     Tests the upload on the survey edit site. #File upload is not possible in Firefox
 Force Tags        chromeonly
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
@@ -30,7 +30,7 @@ Get back to home page and deselect project
     Click Element Through Tooltips    xpath=//md-sidenav//project-navbar-module//button[@aria-label='Clear Input']
 
 Click Survey Edit Button
-    Click Element Through Tooltips    xpath=//ui-view//a/md-icon[text()='mode_edit']
+    Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='mode_edit']
 
 Delete Response Rate Upload
     Click Element Through Tooltips    xpath=//md-card//button[contains(.,'delete_forever')]

@@ -56,3 +56,9 @@ SINGLE_CHOICE
 .. java:field:: public static final I18nString SINGLE_CHOICE
    :outertype: QuestionTypes
 
+UNDOCUMENTED
+^^^^^^^^^^^^
+
+.. java:field:: public static final I18nString UNDOCUMENTED
+   :outertype: QuestionTypes
+

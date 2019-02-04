@@ -24,3 +24,9 @@ NOTIFIED
 .. java:field:: public static final OrderState NOTIFIED
    :outertype: OrderState
 
+ORDERED
+^^^^^^^
+
+.. java:field:: public static final OrderState ORDERED
+   :outertype: OrderState
+

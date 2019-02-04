@@ -366,6 +366,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           $rootScope.toolbarHeaderItems.push(searchItem.get());
           break;
         case 'shoppingCart':
+        case 'restoreShoppingCart':
           var shoppingCartItem = {
             'state': 'shoppingCart',
             'type': translationStringsMap.shoppingCart.type

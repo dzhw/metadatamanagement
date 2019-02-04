@@ -5,14 +5,14 @@
 /* The Controller for the search. It differs between tabs and a tab represent
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
-  function($scope, Principal, $location, $state, $q,
-           SearchDao, VariableUploadService, ProjectUpdateAccessService,
+  function($scope, Principal, $location, $state, SearchDao,
+           VariableUploadService, ProjectUpdateAccessService,
            QuestionUploadService, RelatedPublicationUploadService,
            CleanJSObjectService, CurrentProjectService, $timeout,
            PageTitleService, ToolbarHeaderService, SearchHelperService,
            SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
-           $rootScope, ProjectStatusScoringService, $transitions,
-           DeleteMetadataService, SimpleMessageToastService) {
+           $rootScope, ProjectStatusScoringService, DeleteMetadataService,
+           SimpleMessageToastService) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -21,36 +21,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var selectedTabChangeIsBeingHandled = false;
     var queryChangeIsBeingHandled = false;
 
-    var deregisterTransitionHook = $transitions.onBefore({state: 'search'},
-      function(transition) {
-      var identifier = _.get(transition, '_targetState._identifier');
-      if (identifier && identifier.match && identifier.match(/.*Create$/)) {
-        var type = $scope.tabs[$scope.searchParams.selectedTabIndex]
-          .elasticSearchType;
-        return $q.all([
-          ProjectUpdateAccessService.isPrerequisiteFulfilled(
-            $scope.currentProject,
-            $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType
-            ),
-          $q(function(resolve, reject) {
-            if (ProjectUpdateAccessService
-                .isUpdateAllowed($scope.currentProject, type, true)) {
-              resolve(true);
-            } else {
-              reject(false);
-            }
-          })
-        ]);
-      } else {
-        return true;
-      }
-    });
-
-    $scope.$on('$destroy', function() {
-      if (deregisterTransitionHook) {
-        deregisterTransitionHook();
-      }
-    });
+    var getSelectedMetadataType = function() {
+      return $scope.tabs[$scope.searchParams.selectedTabIndex]
+        .elasticSearchType;
+    };
 
     $scope.isSearching = 0;
     $scope.isDropZoneDisabled = true;
@@ -134,7 +108,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
       $scope.searchResult = {};
       $scope.currentProject = CurrentProjectService.getCurrentProject();
-      $scope.isUpdateAllowed = ProjectUpdateAccessService.isUpdateAllowed();
       if (!$scope.currentProject) {
         $scope.currentProject = undefined;
       }
@@ -161,11 +134,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.setDropZoneDisabled();
       SearchResultNavigatorService.setCurrentSearchParams(
         $scope.searchParams, projectId,
-        $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
+        getSelectedMetadataType(),
         $scope.pageObject);
       SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
         projectId, $scope.searchParams.filter,
-        $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
+        getSelectedMetadataType(),
         $scope.pageObject.size, $scope.searchParams.sortBy)
         .then(function(data) {
           $scope.searchResult = data.hits.hits;
@@ -190,12 +163,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.tabs[$scope.searchParams.selectedTabIndex].count =
               data.hits.total;
           });
-          if ($scope.currentProject) {
-            var dataType = $scope.tabs[
-              $scope.searchParams.selectedTabIndex].elasticSearchType;
-            $scope.isUpdateAllowed = ProjectUpdateAccessService
-              .isUpdateAllowed($scope.currentProject, dataType);
-          }
           $scope.isSearching--;
         }, function() {
           $scope.pageObject.totalHits = 0;
@@ -237,15 +204,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
           if (!$state.is('search')) {
             return;
           }
-          var dataType = $scope.tabs[
-            $scope.searchParams.selectedTabIndex].elasticSearchType;
           if (currentProject) {
             $scope.currentProject = currentProject;
-            $scope.isUpdateAllowed = ProjectUpdateAccessService
-              .isUpdateAllowed(currentProject, dataType);
           } else {
             $scope.currentProject = undefined;
-            $scope.isUpdateAllowed = false;
           }
           $scope.pageObject.page = 1;
           writeSearchParamsToLocation();
@@ -486,8 +448,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         return;
       }
 
-      var type = $scope.tabs[$scope.searchParams.selectedTabIndex]
-        .elasticSearchType;
+      var type = getSelectedMetadataType();
 
       if (type !== 'related_publications') {
         if (!$scope.currentProject || $scope.currentProject.release ||
@@ -539,6 +500,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
     $scope.deleteAllDataSets = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject, 'data_sets');
+    };
+    $scope.navigateToCreateState = function(createState) {
+      if (ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,
+        getSelectedMetadataType(), true)) {
+        $state.go(createState);
+      }
     };
     init();
   });

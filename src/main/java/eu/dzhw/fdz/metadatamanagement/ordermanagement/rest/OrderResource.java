@@ -1,27 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.rest;
 
-import java.net.URI;
-import java.time.ZoneId;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.CacheControl;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
-
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderAlreadyCompletedException;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.service.OrderService;
@@ -30,6 +12,27 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ResponseHeader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.time.ZoneId;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * REST controller for ordering data products.
@@ -47,7 +50,8 @@ public class OrderResource {
   @Value("${metadatamanagement.server.context-root}")
   private String baseUrl;
 
-  private String dlpUrl = "http://todo.todo";
+  @Value("${metadatamanagement.dlp.endpoint}")
+  private String dlpUrl;
 
   /**
    * Order data products.
@@ -56,24 +60,25 @@ public class OrderResource {
   @ApiOperation("The MDM creates orders and sends them to the DLP with this endpoint.")
   @ApiResponses(value = {@ApiResponse(code = 201,
       message = "Successfully created a new order."
-      + " Follow the returned Location header to proceed with the order process.",
+          + " Follow the returned Location header to proceed with the order process.",
       responseHeaders = {@ResponseHeader(name = "Location", response = URI.class,
           description = "URL to which the client should go now.")})})
   @ResponseStatus(value = HttpStatus.CREATED)
   public ResponseEntity<?> createOrder(@RequestBody @Valid Order order) {
-    orderService.create(order);
-    String destinationUrl =
-        baseUrl + "/#!/" + order.getLanguageKey() + "/shopping-cart/" + order.getId();
-    if (order.getClient().equals(OrderClient.MDM)) {
-      destinationUrl = dlpUrl;
+
+    if (order.getClient() != OrderClient.MDM) {
+      return ResponseEntity.badRequest().build();
     }
+
+    order = orderService.create(order);
+
     return ResponseEntity
-        .created(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri()).build();
+        .created(UriComponentsBuilder.fromUriString(getDlpUrl(order.getId())).build().toUri())
+        .build();
   }
 
   /**
    * Override default get by id since it does not set cache headers correctly.
-   *
    * @param id a order id
    * @return the Order or not found
    */
@@ -102,22 +107,46 @@ public class OrderResource {
   @ApiOperation("The DLP and MDM use this endpoint to update an order in the MDM.")
   @ApiResponses(value = {@ApiResponse(code = 200,
       message = "Successfully updated the order."
-      + " Follow the returned Location header to proceed with the order process.",
+          + " Follow the returned Location header to proceed with the order process.",
       responseHeaders = @ResponseHeader(name = "Location", response = URI.class,
           description = "URL to which the client should go now."))})
   public ResponseEntity<?> updateOrder(@PathVariable String id, @RequestBody @Valid Order order) {
-    Optional<Order> optional = orderRepository.findById(id);
+    Optional<Order> optional = orderService.update(id, order);
     if (!optional.isPresent()) {
       return ResponseEntity.notFound().build();
     }
-    order.setId(id);
-    orderRepository.save(order);
-    String destinationUrl =
-        baseUrl + "/#!/" + order.getLanguageKey() + "/shopping-cart/" + order.getId();
+    String destinationUrl;
     if (order.getClient().equals(OrderClient.MDM)) {
-      destinationUrl = dlpUrl;
+      destinationUrl = getDlpUrl(id);
+    } else {
+      destinationUrl = baseUrl + "/#!/" + order.getLanguageKey() + "/shopping-cart/"
+          + order.getId();
     }
+
     return ResponseEntity.status(HttpStatus.OK)
         .location(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri()).build();
+  }
+
+  /**
+   * Generate a DLP url for the given order id.
+   *
+   * @param orderId Order Id
+   * @return URL as string
+   */
+  private String getDlpUrl(String orderId) {
+    return UriComponentsBuilder.fromHttpUrl(dlpUrl)
+        .queryParam("mdm_order_id", orderId)
+        .toUriString();
+  }
+
+  @ExceptionHandler(OrderAlreadyCompletedException.class)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ErrorListDto handleOrderAlreadyCompletedException() {
+    ErrorDto errorDto = new ErrorDto(null, "order-management.error."
+        + "order-already-completed", null, null);
+    ErrorListDto errorListDto = new ErrorListDto();
+    errorListDto.add(errorDto);
+    return errorListDto;
   }
 }

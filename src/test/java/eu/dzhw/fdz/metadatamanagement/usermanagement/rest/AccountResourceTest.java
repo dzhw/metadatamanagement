@@ -333,7 +333,8 @@ public class AccountResourceTest extends AbstractTest {
         "joe@example.com", // e-mail
         true, // activated
         "en", // langKey
-        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)));
+        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
+        false);
 
     restMvc.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
       .content(TestUtil.convertObjectToJsonBytes(u)))
@@ -354,7 +355,8 @@ public class AccountResourceTest extends AbstractTest {
         "funky@example.com", // e-mail
         true, // activated
         "en", // langKey
-        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)));
+        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
+        false);
 
     restUserMockMvc.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
       .content(TestUtil.convertObjectToJsonBytes(u)))
@@ -373,7 +375,8 @@ public class AccountResourceTest extends AbstractTest {
         "invalid", // e-mail <-- invalid
         true, // activated
         "en", // langKey
-        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)));
+        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
+        false);
 
     restUserMockMvc.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
       .content(TestUtil.convertObjectToJsonBytes(u)))
@@ -393,11 +396,12 @@ public class AccountResourceTest extends AbstractTest {
         "alice@example.com", // e-mail
         true, // activated
         "en", // langKey
-        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)));
+        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
+        false);
 
     // Duplicate login, different e-mail
     UserDto dup = new UserDto(u.getLogin(), u.getPassword(), u.getLogin(), u.getLastName(),
-        "alicejr@example.com", true, u.getLangKey(), u.getAuthorities());
+        "alicejr@example.com", true, u.getLangKey(), u.getAuthorities(), false);
 
     // Good user
     restMvc.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -425,11 +429,12 @@ public class AccountResourceTest extends AbstractTest {
         "john@example.com", // e-mail
         true, // activated
         "en", // langKey
-        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)));
+        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
+        false);
 
     // Duplicate e-mail, different login
     UserDto dup = new UserDto("johnjr", u.getPassword(), u.getLogin(), u.getLastName(),
-        u.getEmail(), true, u.getLangKey(), u.getAuthorities());
+        u.getEmail(), true, u.getLangKey(), u.getAuthorities(), false);
 
     // Good user
     restMvc.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -456,8 +461,8 @@ public class AccountResourceTest extends AbstractTest {
         "badguy@example.com", // e-mail
         true, // activated
         "en", // langKey
-        new HashSet<>(Arrays.asList(AuthoritiesConstants.ADMIN)) // <-- only admin should be able to
-                                                                 // do that
+        new HashSet<>(Arrays.asList(AuthoritiesConstants.ADMIN)), // <-- only admin should be able to
+        false                                                    // do that
     );
 
     restMvc.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)

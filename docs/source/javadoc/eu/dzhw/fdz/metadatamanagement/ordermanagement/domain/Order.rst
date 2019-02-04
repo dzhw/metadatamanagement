@@ -1,17 +1,3 @@
-.. java:import:: java.util List
-
-.. java:import:: javax.validation Valid
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: org.springframework.data.mongodb.core.index Indexed
-
-.. java:import:: org.springframework.data.mongodb.core.mapping Document
-
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain Counter
@@ -29,6 +15,20 @@
 .. java:import:: lombok NoArgsConstructor
 
 .. java:import:: lombok ToString
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: org.springframework.data.mongodb.core.index Indexed
+
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
+.. java:import:: javax.validation Valid
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: java.util List
 
 Order
 =====
@@ -77,15 +77,15 @@ languageKey
 products
 ^^^^^^^^
 
-.. java:field:: @Valid @NotEmpty private List<Product> products
+.. java:field:: @Valid private List<Product> products
    :outertype: Order
 
-   List of data \ :java:ref:`Product`\ s the \ :java:ref:`Customer`\  want to order. Must not be empty.
+   List of data \ :java:ref:`Product`\ s the \ :java:ref:`Customer`\  want to order.
 
 state
 ^^^^^
 
-.. java:field:: @Indexed private OrderState state
+.. java:field:: @Indexed @NotNull private OrderState state
    :outertype: Order
 
    The current state of the order. One of \ :java:ref:`OrderState`\ .

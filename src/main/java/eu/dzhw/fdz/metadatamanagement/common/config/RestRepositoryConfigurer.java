@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
@@ -15,7 +15,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  * @author René Reitmann
  */
 @Component
-public class RepositoryRestConfigurer extends RepositoryRestConfigurerAdapter {
+public class RestRepositoryConfigurer implements RepositoryRestConfigurer {
 
   @Autowired
   private LocalValidatorFactoryBean validator;

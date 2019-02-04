@@ -11,108 +11,94 @@ angular.module('metadatamanagementApp')
         'user-list.html.tmpl',
       scope: {
         group: '@',
-        advancedPrivileges: '@',
-        project: '=',
+        isPublisher: '=',
+        project: '='
       },
       replace: true,
-      transclude: true,
       controllerAs: 'ctrl',
 
       controller: function($scope) {
         this.group = $scope.group;
-        this.advancedPrivileges = $scope.advancedPrivileges;
+        this.isPublisher = $scope.isPublisher;
         this.project = $scope.project;
       },
       link: function($scope, elem, attrs, ctrl) { // jshint ignore:line
-        ctrl.disabled = !ctrl.advancedPrivileges &&
+        ctrl.disabled = !ctrl.isPublisher &&
           ctrl.group === 'publishers';
 
-        ctrl.searchText = {
-          publishers: '',
-          dataProviders: ''
-        };
+        ctrl.searchText = '';
+        ctrl.selectedUser = null;
+        ctrl.preventSearching = false;
 
-        ctrl.selectedUser = {
-          publishers: null,
-          dataProviders: null
-        };
+        var originalUserList = [];
 
-        ctrl.preventSearching = {
-          publishers: false,
-          dataProviders: false
+        var initializeOriginalUsersList = function() {
+          originalUserList = _.cloneDeep(ctrl.activeUsers);
         };
 
         ctrl.updateProject = function() {
           if (!ctrl.project.configuration) {
             ctrl.project.configuration = {};
           }
-          var configuredPublishers = ctrl.activeUsers.publishers
-            .map(function(identity) {
+          var configuredUsers = ctrl.activeUsers.map(function(identity) {
               return identity.login;
             });
-          var configuredDataProviders = ctrl.activeUsers.dataProviders
-            .map(function(identity) {
-              return identity.login;
-            });
-          if (ctrl.project.configuration.publishers) {
-            ctrl.project.configuration.publishers =
-              _.filter(_.union(ctrl.project.configuration.publishers,
-                configuredPublishers), function(val) {
-                return _.includes(configuredPublishers, val);
-              });
-          } else {
-            ctrl.project.configuration.publishers = configuredPublishers;
+          if (ctrl.group === 'publishers') {
+            if (ctrl.project.configuration.publishers) {
+              ctrl.project.configuration.publishers =
+                _.filter(_.union(ctrl.project.configuration.publishers,
+                  configuredUsers), function(val) {
+                  return _.includes(configuredUsers, val);
+                });
+            } else {
+              ctrl.project.configuration.publishers = configuredUsers;
+            }
           }
-          if (ctrl.project.configuration.dataProviders) {
-            ctrl.project.configuration.dataProviders =
-              _.filter(_.union(ctrl.project.configuration.dataProviders,
-                configuredDataProviders), function(val) {
-                return _.includes(configuredDataProviders, val);
-              });
-          } else {
-            ctrl.project.configuration.dataProviders = configuredDataProviders;
+          if (ctrl.group === 'dataProviders') {
+            if (ctrl.project.configuration.dataProviders) {
+              ctrl.project.configuration.dataProviders =
+                _.filter(_.union(ctrl.project.configuration.dataProviders,
+                  configuredUsers), function(val) {
+                  return _.includes(configuredUsers, val);
+                });
+            } else {
+              ctrl.project.configuration.dataProviders = configuredUsers;
+            }
           }
         };
 
-        ctrl.selectedUserChanged = function(user, role) {
+        ctrl.selectedUserChanged = function(user) {
           if (user) {
-            ctrl.activeUsers[role].push(user);
+            ctrl.activeUsers.push(user);
             ctrl.changed = true;
-            ctrl.searchText[role] = '';
-            ctrl.selectedUser[role] = null;
-            ctrl.preventSearching[role] = true;
-            ctrl.searchCache[role] = {};
+            ctrl.searchText = '';
+            ctrl.selectedUser = null;
+            ctrl.preventSearching = true;
+            ctrl.searchCache = {};
             $(':focus').blur();
-
             ctrl.updateProject();
           }
         };
 
-        ctrl.activeUsers = {
-          publishers: [],
-          dataProviders: []
-        };
+        ctrl.activeUsers = [];
 
         ctrl.currentPromise = null;
-        ctrl.searchCache = {
-          publishers: {},
-          dataProviders: {}
-        };
+        ctrl.searchCache = {};
         var internalRoles = {
           'publishers': 'ROLE_PUBLISHER',
           'dataProviders': 'ROLE_DATA_PROVIDER'
         };
 
-        ctrl.searchUsers = function(search, role) {
-          var roleInternal = internalRoles[role];
+        ctrl.searchUsers = function(search) {
+          var roleInternal = internalRoles[ctrl.group];
           var deferred = $q.defer();
-          if (ctrl.preventSearching[role]) {
-            ctrl.preventSearching[role] = false;
+          if (ctrl.preventSearching) {
+            ctrl.preventSearching = false;
             deferred.resolve([]);
             return deferred.promise;
           }
-          if (ctrl.searchCache[role]['text_' + search]) {
-            deferred.resolve(ctrl.searchCache[role]['text_' + search]);
+          if (ctrl.searchCache['text_' + search]) {
+            deferred.resolve(ctrl.searchCache['text_' + search]);
             return deferred.promise;
           }
           if (!ctrl.currentPromise) {
@@ -124,13 +110,13 @@ angular.module('metadatamanagementApp')
               ctrl.currentPromise = null;
               var results = result.filter(function(x) {
                 // filter out already added users
-                return ctrl.activeUsers[role].map(function(u) {
+                return ctrl.activeUsers.map(function(u) {
                   return u.login;
                 }).indexOf(x.login) < 0 &&
                   _.includes(x.authorities, roleInternal);
               });
-              ctrl.searchCache[role]['text_' + search] = results;
-              deferred.resolve(ctrl.searchCache[role]['text_' + search]);
+              ctrl.searchCache['text_' + search] = results;
+              deferred.resolve(ctrl.searchCache['text_' + search]);
             });
             return deferred.promise;
           } else {
@@ -138,29 +124,43 @@ angular.module('metadatamanagementApp')
           }
         };
 
-        ctrl.removeUser = function(user, role) {
+        ctrl.removeUser = function(user) {
           ctrl.changed = true;
-          ctrl.activeUsers[role] = ctrl.activeUsers[role]
+          ctrl.activeUsers = ctrl.activeUsers
             .filter(function(item) {
               return item.login !== user.login;
             });
-          ctrl.searchCache[role] = {};
+          ctrl.searchCache = {};
           ctrl.updateProject();
         };
 
-        ctrl.canDeleteUser = function(user, role) {
+        ctrl.canDeleteUser = function(user) {
+          var isNewlyAddedUser = _.findIndex(originalUserList,
+            function(originalUser) {
+              return originalUser.login === user.login;
+            }) === -1;
+
+          // allow removal if user was added but project wasn't updated, yet.
+          if (isNewlyAddedUser && ctrl.activeUsers.length > 1) {
+            return true;
+          }
+
+          // cannot modify user whose details we can't read
           if (user.restricted) {
-            // cannot modify user whose details we can't read
             return false;
           }
-          if (!ctrl.advancedPrivileges && role === 'publishers') {
-            // cannot remove publishers without advanced privilege
+          // publishers can only be removed by other publishers
+          if (!ctrl.isPublisher && ctrl.group === 'publishers') {
             return false;
           }
-          if (ctrl.activeUsers[role].length <= 1) {
-            // cannot remove the last user in this list
+
+          /*
+           * cannot remove the last user in this list
+           */
+          if (ctrl.activeUsers.length <= 1) {
             return false;
           }
+
           return true;
         };
 
@@ -168,32 +168,29 @@ angular.module('metadatamanagementApp')
           // get users of type {key} asynchronously
           // and return promise resolving when all are fetched
           if (ctrl.project.configuration[key]) {
-            return $q.all(
+            var allUserPromises = $q.all(
               ctrl.project.configuration[key].map(function(userLogin) {
                 return (
                   UserResource.getPublic({
                     login: userLogin
                   }).$promise.then(function(userResult) {
-                    if (!_.includes(ctrl.activeUsers[key].map(function(u) {
+                    if (!_.includes(ctrl.activeUsers.map(function(u) {
                       return u.login;
                     }), userResult.login)) {
-                      ctrl.activeUsers[key].push(userResult);
+                      ctrl.activeUsers.push(userResult);
                     }
                   })
                 );
               })
             );
+            allUserPromises.then(initializeOriginalUsersList);
+            return allUserPromises;
           } else {
             return $q.resolve([]);
           }
         }
 
-        $q.resolve($q.all([
-          getAndAddUsers('publishers'),
-          getAndAddUsers('dataProviders')
-        ])).then(function() {
-          // setAssignedToProject();
-        }).catch(function(error) {
+        $q.resolve(getAndAddUsers(ctrl.group)).catch(function(error) {
           SimpleMessageToastService
             .openAlertMessageToast(
               'global.error.server-error.internal-server-error', {
@@ -201,6 +198,7 @@ angular.module('metadatamanagementApp')
               });
         });
 
+        $scope.$on('project-saved', initializeOriginalUsersList);
       }
     };
   });
