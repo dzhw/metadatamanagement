@@ -32,7 +32,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     var saveProject = function(project) {
       return ProjectSaveService.saveProject(project).then(function() {
-        $scope.changed = false;
         $scope.$broadcast('project-saved');
       });
     };
