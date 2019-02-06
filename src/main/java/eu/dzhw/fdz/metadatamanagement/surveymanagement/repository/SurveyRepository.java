@@ -60,4 +60,13 @@ public interface SurveyRepository
   @RestResource(exported = false)
   List<IdAndNumberSurveyProjection> findSurveyNumbersByDataAcquisitionProjectId(
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
+
+  @RestResource(exported = false)
+  List<Survey> streamByDataAcquisitionProjectIdAndShadowIsFalse(
+      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
+
+  @RestResource(exported = false)
+  List<Survey> streamByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId
+  );
 }

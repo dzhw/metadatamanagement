@@ -16,13 +16,13 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyReposito
  */
 public class ValidUniqueSurveyNumberValidator
     implements ConstraintValidator<ValidUniqueSurveyNumber, Survey> {
-  
+
   @Autowired
   private SurveyRepository surveyRepository;
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
@@ -30,23 +30,37 @@ public class ValidUniqueSurveyNumberValidator
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
    * javax.validation.ConstraintValidatorContext)
    */
   @Override
   public boolean isValid(Survey survey, ConstraintValidatorContext context) {
     if (survey.getNumber() != null) {
-      List<IdAndVersionProjection> surveys = surveyRepository
-          .findIdsByNumberAndDataAcquisitionProjectId(survey
-              .getNumber(), survey.getDataAcquisitionProjectId());
-      if (surveys.size() > 1) {
-        return false;
-      }
-      if (surveys.size() == 1) {
-        return surveys.get(0).getId().equals(survey.getId());
+      if (survey.isShadow()) {
+        return containsValidShadowCopySurveyNumber(survey);
+      } else {
+        return isValidMasterSurveyNumber(survey);
       }
     }
     return true;
+  }
+
+  private boolean isValidMasterSurveyNumber(Survey survey) {
+    List<IdAndVersionProjection> surveys = surveyRepository
+        .findIdsByNumberAndDataAcquisitionProjectId(survey
+            .getNumber(), survey.getDataAcquisitionProjectId());
+    if (surveys.size() > 1) {
+      return false;
+    }
+    if (surveys.size() == 1) {
+      return surveys.get(0).getId().equals(survey.getId());
+    }
+    return true;
+  }
+
+  private static boolean containsValidShadowCopySurveyNumber(Survey survey) {
+    String numberWithVersionSuffix = ".*-sy" + survey.getNumber() + "\\$-[0-9]+\\.[0-9]+\\.[0-9]+$";
+    return survey.getId().matches(numberWithVersionSuffix);
   }
 }

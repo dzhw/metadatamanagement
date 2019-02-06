@@ -134,8 +134,10 @@ public class UnitTestCreateDomainObjectUtils {
             .build())
         .build();
 
-    return Survey.builder()
-      .id(UnitTestCreateValidIds.buildSurveyId(projectId, 1))
+    String surveyId = UnitTestCreateValidIds.buildSurveyId(projectId, 1);
+
+    Survey survey = Survey.builder()
+      .id(surveyId)
       .dataAcquisitionProjectId(projectId)
       .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
       .fieldPeriod(Period.builder().start(LocalDate.now())
@@ -161,6 +163,9 @@ public class UnitTestCreateDomainObjectUtils {
       .number(1)
       .wave(1)
       .build();
+
+    survey.setMasterId(surveyId);
+    return survey;
   }
 
   public static DataSet buildDataSet(String projectId, String surveyId, Integer surveyNumber) {

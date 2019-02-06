@@ -9,6 +9,7 @@ Common domain objects which can be used in all other subdomains of this applicat
    :maxdepth: 1
 
    AbstractRdcDomainObject
+   AbstractShadowableRdcDomainObject
    Counter
    I18nString
    Period

@@ -6,8 +6,10 @@ import javax.validation.ConstraintValidatorContext;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 
 /**
- * Validates the name of a id. The pattern is: DataAcquisitionProjectId-sy{Number}. This validator
- * validates the complete name.
+ * Validates the name of a id. The pattern is: sur-{DataAcquisitionProjectId}-sy{Number}.
+ * This validator validates the complete name.
+ *
+ * In case of a shadow copy the name must end with a version suffix (e. g. -1.0.0)
  * 
  * @author Daniel Katzberg
  *
@@ -36,8 +38,20 @@ public class ValidSurveyIdNameValidator implements ConstraintValidator<ValidSurv
       return false;
     }
 
-    return survey.getId().equals("sur-" + survey.getDataAcquisitionProjectId()
-        + "-sy" + survey.getNumber() + "$");
+    if (survey.isShadow()) {
+      return survey.getId().matches(createValidShadowCopyIdPattern(survey));
+    } else {
+      return survey.getId().equals(createValidIdValue(survey));
+    }
+  }
+
+  private static String createValidShadowCopyIdPattern(Survey survey) {
+    return "sur-" + survey.getDataAcquisitionProjectId() + "-sy" + survey.getNumber()
+        + "\\$-[0-9]+\\.[0-9]+\\.[0-9]+";
+  }
+
+  private static String createValidIdValue(Survey survey) {
+    return "sur-" + survey.getDataAcquisitionProjectId() + "-sy" + survey.getNumber() + "$";
   }
 
 }

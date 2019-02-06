@@ -1,20 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.javers.core.metamodel.annotation.Entity;
-import org.springframework.beans.BeanUtils;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -35,6 +21,19 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * A survey is conducted to examine a population on the basis of a sample. The resulting
@@ -51,7 +50,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-public class Survey extends AbstractRdcDomainObject {
+public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the survey which uniquely identifies the survey in this application.
@@ -204,6 +203,6 @@ public class Survey extends AbstractRdcDomainObject {
 
   public Survey(Survey survey) {
     super();
-    BeanUtils.copyProperties(survey, this);
+    BeanUtils.copyProperties(survey, this, "version");
   }
 }

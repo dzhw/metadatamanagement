@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
@@ -75,6 +76,12 @@ public class SurveyService {
   @Autowired
   private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
+  @Autowired
+  private ShadowCopyService shadowCopyService;
+
+  @Autowired
+  private SurveyShadowCopyDataProvider surveyShadowCopyDataProvider;
+
   /**
    * Listener, which will be activate by a deletion of a data acquisition project.
    * 
@@ -92,6 +99,8 @@ public class SurveyService {
    */
   @HandleAfterSave
   public void onDataAcquisitionProjectUpdated(DataAcquisitionProject dataAcquisitionProject) {
+    shadowCopyService.createShadowCopies(dataAcquisitionProject.getId(),
+        surveyShadowCopyDataProvider);
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> surveyRepository.streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
         ElasticsearchType.surveys);
@@ -120,6 +129,9 @@ public class SurveyService {
    */
   @HandleAfterDelete
   public void onSurveyDeleted(Survey survey) {
+    shadowCopyService.writeDeletedSuccessorIdToShadowCopiesWithoutSuccessorId(
+        survey.getDataAcquisitionProjectId(), surveyShadowCopyDataProvider);
+
     this.imageService.deleteAllSurveyImagesById(survey.getId());
     this.surveyAttachmentService.deleteAllBySurveyId(survey.getId());
     elasticsearchUpdateQueueService.enqueue(survey.getId(), ElasticsearchType.surveys,
