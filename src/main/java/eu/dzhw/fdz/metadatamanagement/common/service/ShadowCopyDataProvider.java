@@ -22,8 +22,8 @@ public interface ShadowCopyDataProvider {
    * @param shadowCopyId The id to use for the copied object
    * @return Copied object
    */
-  AbstractShadowableRdcDomainObject createCopy(AbstractShadowableRdcDomainObject source,
-                                               String shadowCopyId);
+  AbstractShadowableRdcDomainObject createShadowCopy(AbstractShadowableRdcDomainObject source,
+                                                     String shadowCopyId);
 
   /**
    * Returns a list of the latest existing shadow copies.

@@ -29,15 +29,17 @@ public class SurveyShadowCopyDataProvider implements ShadowCopyDataProvider {
   }
 
   @Override
-  public AbstractShadowableRdcDomainObject createCopy(AbstractShadowableRdcDomainObject source,
-                                                      String shadowCopyId) {
+  public AbstractShadowableRdcDomainObject createShadowCopy(
+      AbstractShadowableRdcDomainObject source, String version) {
     if (!(source instanceof Survey)) {
       throw new IllegalArgumentException(this.getClass().getSimpleName() + " only accepts "
           + Survey.class.getName());
     }
 
     Survey survey = new Survey((Survey) source);
-    survey.setId(shadowCopyId);
+    survey.setId(survey.getId() + "-" + version);
+    survey.setDataAcquisitionProjectId(survey.getDataAcquisitionProjectId() + "-" + version);
+    survey.setShadow(true);
     return survey;
   }
 

@@ -7,6 +7,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.github.zafarkhaja.semver.Version;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
@@ -36,6 +39,8 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationPro
 @Service
 @RepositoryEventHandler
 public class DataAcquisitionProjectService {
+
+  private static final Version PUBLIC_RELEASE_VERSION = Version.valueOf("1.0.0");
 
   private DataAcquisitionProjectRepository acquisitionProjectRepository;
 
@@ -161,6 +166,9 @@ public class DataAcquisitionProjectService {
     final String projectId = newDataAcquisitionProject.getId();
     sendPublishersDataProvidersChangedMails(projectId);
     sendAssigneeGroupChangedMails(newDataAcquisitionProject);
+    if (isPublicProjectRelease(newDataAcquisitionProject.getId())) {
+      this.eventPublisher.publishEvent(new ProjectReleasedEvent(this, newDataAcquisitionProject));
+    }
   }
 
   private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {
@@ -271,6 +279,28 @@ public class DataAcquisitionProjectService {
       this.removedPublisherUsers = removedPublisherUsers;
       this.addedDataProviderUsers = addedDataProviderUsers;
       this.removedDataProviderUsers = removedDataProviderUsers;
+    }
+  }
+
+  private boolean isPublicProjectRelease(String dataAcquisitionProjectId) {
+    DataAcquisitionProject oldProject = changesProvider
+        .getOldDataAcquisitionProject(dataAcquisitionProjectId);
+
+    DataAcquisitionProject newProject = changesProvider
+        .getNewDataAcquisitionProject(dataAcquisitionProjectId);
+
+    if (oldProject != null && newProject != null) {
+      Release oldRelease = oldProject.getRelease();
+      Release newRelease = newProject.getRelease();
+
+      if (oldRelease == null && newRelease != null) {
+        return Version.valueOf(newRelease.getVersion())
+            .greaterThanOrEqualTo(PUBLIC_RELEASE_VERSION);
+      } else {
+        return false;
+      }
+    } else {
+      return false;
     }
   }
 }

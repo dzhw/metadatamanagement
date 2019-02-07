@@ -1,10 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
-import com.github.zafarkhaja.semver.Version;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectChangesProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,38 +19,26 @@ public class ShadowCopyService {
   private static final Logger LOG = LoggerFactory.getLogger(ShadowCopyService.class);
 
   private static final String MASTER_DELETED_SUCCESSOR_ID = "DELETED";
-  private static final Version RELEASE_VERSION = Version.valueOf("1.0.0");
-
-  private DataAcquisitionProjectChangesProvider dataAcquisitionProjectChangesProvider;
-
-  public ShadowCopyService(DataAcquisitionProjectChangesProvider changesProvider) {
-    this.dataAcquisitionProjectChangesProvider = changesProvider;
-  }
 
   /**
    * Create shadow copies of the master domain objects of a project returned by
    * {@link ShadowCopyDataProvider}.
-   * @param dataAcquisitionProjectId Project id
+   * @param dataAcquisitionProjectId Id of released project
+   * @param releaseVersion Version of released project
    */
-  public void createShadowCopies(String dataAcquisitionProjectId,
+  public void createShadowCopies(String dataAcquisitionProjectId, String releaseVersion,
                                  ShadowCopyDataProvider shadowCopyDataProvider) {
 
-    if (projectHasBeenReleased(dataAcquisitionProjectId)) {
-      String version = dataAcquisitionProjectChangesProvider
-          .getNewDataAcquisitionProject(dataAcquisitionProjectId)
-          .getRelease().getVersion();
+    List<AbstractShadowableRdcDomainObject> shadowCopies =
+        createShadowCopiesOfCurrentMasters(dataAcquisitionProjectId, releaseVersion,
+            shadowCopyDataProvider);
 
-      List<AbstractShadowableRdcDomainObject> shadowCopies =
-          createShadowCopiesOfCurrentMasters(dataAcquisitionProjectId, version,
-              shadowCopyDataProvider);
+    List<AbstractShadowableRdcDomainObject> updatedPredecessors =
+        updateSuccessorsOfPredecessorShadowCopies(dataAcquisitionProjectId, shadowCopies,
+            shadowCopyDataProvider);
 
-      List<AbstractShadowableRdcDomainObject> updatedPredecessors =
-          updateSuccessorsOfPredecessorShadowCopies(dataAcquisitionProjectId, shadowCopies,
-              shadowCopyDataProvider);
-
-      shadowCopies.addAll(updatedPredecessors);
-      shadowCopyDataProvider.saveShadowCopies(shadowCopies);
-    }
+    shadowCopies.addAll(updatedPredecessors);
+    shadowCopyDataProvider.saveShadowCopies(shadowCopies);
   }
 
   /**
@@ -80,19 +64,14 @@ public class ShadowCopyService {
     List<? extends AbstractShadowableRdcDomainObject> masters = shadowCopyDataProvider
         .getMasters(dataAcquisitionProjectId);
 
-    return masters.stream().map(master -> {
-      String shadowId = master.getMasterId() + "-" + version;
-      AbstractShadowableRdcDomainObject shadowCopy = shadowCopyDataProvider
-          .createCopy(master, shadowId);
-      shadowCopy.setShadow(true);
-      return shadowCopy;
-    }).collect(Collectors.toList());
+    return masters.stream().map(master -> shadowCopyDataProvider.createShadowCopy(master, version))
+        .collect(Collectors.toList());
   }
 
   private List<AbstractShadowableRdcDomainObject> updateSuccessorsOfPredecessorShadowCopies(
-        String dataAcquisitionProjectId,
-        List<? extends AbstractShadowableRdcDomainObject> masterShadowCopies,
-        ShadowCopyDataProvider dataProvider) {
+      String dataAcquisitionProjectId,
+      List<? extends AbstractShadowableRdcDomainObject> masterShadowCopies,
+      ShadowCopyDataProvider dataProvider) {
 
     Map<String, ? extends AbstractShadowableRdcDomainObject> masterShadowCopiesMap =
         groupByMasterId(masterShadowCopies);
@@ -110,27 +89,6 @@ public class ShadowCopyService {
         predecessor.setSuccessorId(MASTER_DELETED_SUCCESSOR_ID);
       }
     }).collect(Collectors.toList());
-  }
-
-  private boolean projectHasBeenReleased(String dataAcquisitionProjectId) {
-    DataAcquisitionProject oldProject = dataAcquisitionProjectChangesProvider
-        .getOldDataAcquisitionProject(dataAcquisitionProjectId);
-
-    DataAcquisitionProject newProject = dataAcquisitionProjectChangesProvider
-        .getNewDataAcquisitionProject(dataAcquisitionProjectId);
-
-    if (oldProject != null && newProject != null) {
-      Release oldRelease = oldProject.getRelease();
-      Release newRelease = newProject.getRelease();
-
-      if (oldRelease == null && newRelease != null) {
-        return Version.valueOf(newRelease.getVersion()).greaterThanOrEqualTo(RELEASE_VERSION);
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
   }
 
   private static Map<String, AbstractShadowableRdcDomainObject> groupByMasterId(

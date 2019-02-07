@@ -7,8 +7,10 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -99,8 +101,6 @@ public class SurveyService {
    */
   @HandleAfterSave
   public void onDataAcquisitionProjectUpdated(DataAcquisitionProject dataAcquisitionProject) {
-    shadowCopyService.createShadowCopies(dataAcquisitionProject.getId(),
-        surveyShadowCopyDataProvider);
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> surveyRepository.streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
         ElasticsearchType.surveys);
@@ -236,6 +236,17 @@ public class SurveyService {
         relatedPublicationChangesProvider.getAffectedSurveyIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> surveyRepository.streamIdsByIdIn(surveyIds), ElasticsearchType.surveys);
+  }
+
+  /**
+   * Reacts to {@link ProjectReleasedEvent} by creating shadow copies of all {@link Survey}s
+   * of the associated project.
+   * @param projectReleasedEvent Event
+   */
+  @EventListener
+  public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProjectId(),
+        projectReleasedEvent.getReleaseVersion(), surveyShadowCopyDataProvider);
   }
 
   /**
