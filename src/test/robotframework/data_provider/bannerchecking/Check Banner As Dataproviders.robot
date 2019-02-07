@@ -5,8 +5,8 @@ Resource          ../../resources/click_element_resource.robot
 
 *** Test Cases ***
 Check for Pubslihers Banner Does not Appears
-   Data Provider Logout  # explicit logout to sync with the suite setup
-   Login as publisher   # publisher explicit login to sync with the suite teardown
+   Data Provider Logout
+   Login as publisher
    Assert No Welcome Text After Login
    Publisher Logout
 Check for Dataproviders Welcome Banner Appears
@@ -17,8 +17,11 @@ Check for Dataproviders Welcome Banner Appears
    Click Element Through Tooltips  xpath=//span[contains(.,'Hinweise für Datengeber')]
    Close The Banner
    Reload Page
+   Sleep  1s
    Assert Welcome Text After Login
    Close The Banner
+   Dataprovidertest Provider Logout
+   Login as dataprovider
 
 *** Keywords ***
 Assert No Welcome Text After Login
@@ -43,4 +46,7 @@ Close The Banner
    Click Element Through Tooltips  xpath=//button[contains(.,' Schließen')]
 
 
-
+Dataprovidertest Provider Logout
+    ${url} =    Get Location
+    Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'abmelden')]
+    Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'logout')]
