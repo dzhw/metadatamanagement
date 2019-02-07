@@ -1,20 +1,4 @@
-.. java:import:: javax.validation Valid
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: javax.validation.constraints Size
-
-.. java:import:: org.javers.core.metamodel.annotation Entity
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: org.springframework.data.mongodb.core.mapping Document
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
@@ -23,6 +7,8 @@
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain Instrument
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation SetHasBeenReleasedBeforeOnlyOnce
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation ValidDataAcquisitionProjectId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation ValidSemanticVersion
 
@@ -46,13 +32,27 @@
 
 .. java:import:: lombok ToString
 
+.. java:import:: org.javers.core.metamodel.annotation Entity
+
+.. java:import:: org.springframework.beans BeanUtils
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
+.. java:import:: javax.validation Valid
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Size
+
 DataAcquisitionProject
 ======================
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @SetHasBeenReleasedBeforeOnlyOnce @ValidSemanticVersion @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class DataAcquisitionProject extends AbstractRdcDomainObject
+.. java:type:: @Entity @Document @SetHasBeenReleasedBeforeOnlyOnce @ValidSemanticVersion @ValidDataAcquisitionProjectId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
 
    The data acquisition project collects the metadata for the data products which are published by our RDC. One project can contain one \ :java:ref:`Study`\ , many \ :java:ref:`Survey`\ s, many \ :java:ref:`Instrument`\ s and \ :java:ref:`Question`\ s, and many \ :java:ref:`DataSet`\ s and \ :java:ref:`Variable`\ s. A project can be currently released (visible to public users) or not. When a publisher releases a project and its version is greater than or equal to 1.0.0 then the metadata is published to \ `da|ra <https://www.da-ra.de/home/>`_\ .
 
@@ -85,7 +85,7 @@ hasBeenReleasedBefore
 id
 ^^
 
-.. java:field:: @Id @NotEmpty @Pattern @Size private String id
+.. java:field:: @Id @Size private String id
    :outertype: DataAcquisitionProject
 
    The id of this project. Must not be empty and must only contain lower cased (english) letters and numbers. Must not contain more than 32 characters.

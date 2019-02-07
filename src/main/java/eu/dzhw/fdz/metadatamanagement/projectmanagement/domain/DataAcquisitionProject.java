@@ -1,20 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.javers.core.metamodel.annotation.Entity;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.SetHasBeenReleasedBeforeOnlyOnce;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.ValidDataAcquisitionProjectId;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.ValidSemanticVersion;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
@@ -26,6 +17,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * The data acquisition project collects the metadata for the data products which are published by
@@ -43,13 +42,14 @@ import lombok.ToString;
 @ValidSemanticVersion(
     message = "data-acquisition-project-management.error.release."
         + "version.not-parsable-or-not-incremented")
+@ValidDataAcquisitionProjectId
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
 @Builder
-public class DataAcquisitionProject extends AbstractRdcDomainObject {
+public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of this project.
@@ -58,10 +58,6 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
    * contain more than 32 characters.
    */
   @Id
-  @NotEmpty(message = "data-acquisition-project-management.error."
-      + "data-acquisition-project.id.not-empty")
-  @Pattern(regexp = "^[a-z0-9]*$",
-      message = "data-acquisition-project-management.error.data-acquisition-project.id.pattern")
   @Size(max = StringLengths.SMALL,
       message = "data-acquisition-project-management.error.data-acquisition-project.id.size")
   private String id;
@@ -107,4 +103,8 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   @Size(max = StringLengths.LARGE, message = "data-acquisition-project-management.error."
       + "data-acquisition-project.last-assignee-group-message.size")
   private String lastAssigneeGroupMessage;
+
+  public DataAcquisitionProject(DataAcquisitionProject dataAcquisitionProject) {
+    BeanUtils.copyProperties(dataAcquisitionProject, this, "version");
+  }
 }

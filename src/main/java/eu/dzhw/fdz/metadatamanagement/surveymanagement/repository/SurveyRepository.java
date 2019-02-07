@@ -62,11 +62,11 @@ public interface SurveyRepository
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
-  List<Survey> streamByDataAcquisitionProjectIdAndShadowIsFalse(
+  Stream<Survey> streamByDataAcquisitionProjectIdAndShadowIsFalse(
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
-  List<Survey> streamByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+  Stream<Survey> streamByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId
   );
 }

@@ -338,6 +338,6 @@ public class Variable extends AbstractShadowableRdcDomainObject {
 
   public Variable(Variable variable) {
     super();
-    BeanUtils.copyProperties(variable, this);
+    BeanUtils.copyProperties(variable, this, "version");
   }
 }

@@ -1,68 +1,48 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataProvider;
+import eu.dzhw.fdz.metadatamanagement.common.service.AbstractShadowCopyDataProvider;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
- * Service for creating shadow copies of surveys.
+ * Provides data for creating shadow copies of {@link Survey}.
  */
 @Service
-public class SurveyShadowCopyDataProvider implements ShadowCopyDataProvider {
+public class SurveyShadowCopyDataProvider extends AbstractShadowCopyDataProvider<Survey> {
 
   private SurveyRepository surveyRepository;
 
   public SurveyShadowCopyDataProvider(SurveyRepository surveyRepository) {
+    super(Survey.class);
     this.surveyRepository = surveyRepository;
   }
 
   @Override
-  @SuppressWarnings("unchecked")
-  public List<AbstractShadowableRdcDomainObject> getMasters(String dataAcquisitionProjectId) {
-    return (List) surveyRepository
-        .streamByDataAcquisitionProjectIdAndShadowIsFalse(dataAcquisitionProjectId);
-  }
-
-  @Override
-  public AbstractShadowableRdcDomainObject createShadowCopy(
-      AbstractShadowableRdcDomainObject source, String version) {
-    if (!(source instanceof Survey)) {
-      throw new IllegalArgumentException(this.getClass().getSimpleName() + " only accepts "
-          + Survey.class.getName());
-    }
-
-    Survey survey = new Survey((Survey) source);
+  protected Survey internalCopy(Survey source, String version) {
+    Survey survey = new Survey(source);
     survey.setId(survey.getId() + "-" + version);
     survey.setDataAcquisitionProjectId(survey.getDataAcquisitionProjectId() + "-" + version);
-    survey.setShadow(true);
     return survey;
   }
 
   @Override
-  @SuppressWarnings("unchecked")
-  public List<AbstractShadowableRdcDomainObject> getLastShadowCopies(
-      String dataAcquisitionProjectId) {
-    return (List) surveyRepository
-        .streamByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
-            dataAcquisitionProjectId);
+  protected void internalSave(List<Survey> shadowCopies) {
+    surveyRepository.saveAll(shadowCopies);
   }
 
   @Override
-  public void saveShadowCopies(List<? extends AbstractShadowableRdcDomainObject> shadowCopies) {
-    List<Survey> surveyCopies = shadowCopies.stream().map(copy -> {
-      if (copy instanceof Survey) {
-        return (Survey) copy;
-      } else {
-        throw new IllegalArgumentException(this.getClass().getSimpleName()
-            + " cannot save object of type " + copy.getClass());
-      }
-    })
-        .collect(Collectors.toList());
-    surveyRepository.saveAll(surveyCopies);
+  protected Stream<Survey> internalGetMasters(String dataAcquisitionProjectId) {
+    return surveyRepository
+        .streamByDataAcquisitionProjectIdAndShadowIsFalse(dataAcquisitionProjectId);
+  }
+
+  @Override
+  protected Stream<Survey> internalGetLastShadowCopies(String dataAcquisitionProjectId) {
+    return surveyRepository.streamByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+        dataAcquisitionProjectId);
   }
 }

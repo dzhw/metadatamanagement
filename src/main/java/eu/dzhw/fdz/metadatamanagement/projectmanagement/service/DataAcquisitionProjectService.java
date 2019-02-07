@@ -8,9 +8,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.github.zafarkhaja.semver.Version;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
+import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
@@ -56,14 +59,23 @@ public class DataAcquisitionProjectService {
 
   private MetadataManagementProperties metadataManagementProperties;
 
+  private DataAcquisitionProjectShadowCopyDataProvider dataAcquisitionProjectShadowCopyDataProvider;
+
+  private ShadowCopyService shadowCopyService;
+
   /**
    * Creates a new {@link DataAcquisitionProjectService} instance.
    */
   public DataAcquisitionProjectService(DataAcquisitionProjectRepository dataAcquisitionProjectRepo,
-      ApplicationEventPublisher applicationEventPublisher,
-      UserInformationProvider userInformationProvider,
-      DataAcquisitionProjectChangesProvider changesProvider, UserRepository userRepository,
-      MailService mailService, MetadataManagementProperties metadataManagementProperties) {
+                                       ApplicationEventPublisher applicationEventPublisher,
+                                       UserInformationProvider userInformationProvider,
+                                       DataAcquisitionProjectChangesProvider changesProvider,
+                                       UserRepository userRepository,
+                                       MailService mailService,
+                                       MetadataManagementProperties metadataManagementProperties,
+                                       DataAcquisitionProjectShadowCopyDataProvider
+                                           dataAcquisitionProjectShadowCopyDataProvider,
+                                       ShadowCopyService shadowCopyService) {
     this.acquisitionProjectRepository = dataAcquisitionProjectRepo;
     this.eventPublisher = applicationEventPublisher;
     this.userInformationProvider = userInformationProvider;
@@ -71,6 +83,9 @@ public class DataAcquisitionProjectService {
     this.userRepository = userRepository;
     this.mailService = mailService;
     this.metadataManagementProperties = metadataManagementProperties;
+    this.dataAcquisitionProjectShadowCopyDataProvider =
+        dataAcquisitionProjectShadowCopyDataProvider;
+    this.shadowCopyService = shadowCopyService;
   }
 
   /**
@@ -169,6 +184,18 @@ public class DataAcquisitionProjectService {
     if (isPublicProjectRelease(newDataAcquisitionProject.getId())) {
       this.eventPublisher.publishEvent(new ProjectReleasedEvent(this, newDataAcquisitionProject));
     }
+  }
+
+  @HandleAfterDelete
+  void onHandleAfterDelete(DataAcquisitionProject dataAcquisitionProject) {
+    shadowCopyService.writeDeletedSuccessorIdToShadowCopiesWithoutSuccessorId(
+        dataAcquisitionProject.getId(), dataAcquisitionProjectShadowCopyDataProvider);
+  }
+
+  @EventListener
+  public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProjectId(),
+        projectReleasedEvent.getReleaseVersion(), dataAcquisitionProjectShadowCopyDataProvider);
   }
 
   private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {

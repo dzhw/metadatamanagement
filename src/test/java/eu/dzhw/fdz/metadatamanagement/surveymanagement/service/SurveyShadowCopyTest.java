@@ -127,7 +127,7 @@ public class SurveyShadowCopyTest extends AbstractTest {
     shadow.setId(shadowId);
     surveyRepository.save(shadow);
 
-    surveyShadowCopyService.createShadowCopies(PROJECT_ID, release.getVersion(),
+    surveyShadowCopyService.writeDeletedSuccessorIdToShadowCopiesWithoutSuccessorId(PROJECT_ID,
         surveyShadowCopyDataProvider);
 
     Optional<Survey> persistedShadow = surveyRepository.findById(shadowId);

@@ -3,8 +3,11 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.service;
 import java.util.List;
 import java.util.stream.Stream;
 
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -55,6 +58,12 @@ public class VariableService {
   @Autowired
   private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
+  @Autowired
+  private ShadowCopyService shadowCopyService;
+
+  @Autowired
+  private VariableShadowCopyDataProvider variableShadowCopyDataProvider;
+
   /**
    * Delete all variables when the dataAcquisitionProject was deleted.
    * 
@@ -76,6 +85,12 @@ public class VariableService {
         () -> variableRepository.streamIdsByDataAcquisitionProjectId(
             dataAcquisitionProject.getId()),
         ElasticsearchType.variables);
+  }
+
+  @EventListener
+  public void onProjectRelease(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProjectId(),
+        projectReleasedEvent.getReleaseVersion(), variableShadowCopyDataProvider);
   }
   
   /**
@@ -100,6 +115,9 @@ public class VariableService {
    */
   @HandleAfterDelete
   public void onVariableDeleted(Variable variable) {
+    shadowCopyService.writeDeletedSuccessorIdToShadowCopiesWithoutSuccessorId(
+        variable.getDataAcquisitionProjectId(), variableShadowCopyDataProvider);
+
     elasticsearchUpdateQueueService.enqueue(
         variable.getId(), 
         ElasticsearchType.variables, 

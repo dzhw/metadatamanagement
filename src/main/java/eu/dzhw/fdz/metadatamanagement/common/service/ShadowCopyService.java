@@ -5,10 +5,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Create shadow copies of domain objects provided by {@link ShadowCopyDataProvider}s.
@@ -24,21 +26,39 @@ public class ShadowCopyService {
    * Create shadow copies of the master domain objects of a project returned by
    * {@link ShadowCopyDataProvider}.
    * @param dataAcquisitionProjectId Id of released project
-   * @param releaseVersion Version of released project
+   * @param releaseVersion           Version of released project
    */
   public void createShadowCopies(String dataAcquisitionProjectId, String releaseVersion,
                                  ShadowCopyDataProvider shadowCopyDataProvider) {
 
-    List<AbstractShadowableRdcDomainObject> shadowCopies =
-        createShadowCopiesOfCurrentMasters(dataAcquisitionProjectId, releaseVersion,
-            shadowCopyDataProvider);
+    List<AbstractShadowableRdcDomainObject> cache = new ArrayList<>();
 
-    List<AbstractShadowableRdcDomainObject> updatedPredecessors =
-        updateSuccessorsOfPredecessorShadowCopies(dataAcquisitionProjectId, shadowCopies,
-            shadowCopyDataProvider);
+    try (Stream<AbstractShadowableRdcDomainObject> masters = shadowCopyDataProvider
+        .getMasters(dataAcquisitionProjectId)) {
 
-    shadowCopies.addAll(updatedPredecessors);
-    shadowCopyDataProvider.saveShadowCopies(shadowCopies);
+      masters.map(master -> shadowCopyDataProvider.createShadowCopy(master, releaseVersion))
+          .forEach(shadowCopy -> {
+            cache.add(shadowCopy);
+            if (cache.size() >= 100) {
+              List<AbstractShadowableRdcDomainObject> updatedSuccessors =
+                  updateSuccessorIdsOfPredecessorShadowCopies(dataAcquisitionProjectId, cache,
+                      shadowCopyDataProvider);
+
+              cache.addAll(updatedSuccessors);
+              shadowCopyDataProvider.saveShadowCopies(new ArrayList<>(cache));
+              cache.clear();
+            }
+          });
+
+      if (!cache.isEmpty()) {
+        List<AbstractShadowableRdcDomainObject> updatedSuccessors =
+            updateSuccessorIdsOfPredecessorShadowCopies(dataAcquisitionProjectId, cache,
+                shadowCopyDataProvider);
+
+        cache.addAll(updatedSuccessors);
+        shadowCopyDataProvider.saveShadowCopies(new ArrayList<>(cache));
+      }
+    }
   }
 
   /**
@@ -50,45 +70,49 @@ public class ShadowCopyService {
       String dataAcquisitionProjectId,
       ShadowCopyDataProvider shadowCopyDataProvider) {
 
-    List<? extends AbstractShadowableRdcDomainObject> shadows = shadowCopyDataProvider
-        .getLastShadowCopies(dataAcquisitionProjectId);
+    List<AbstractShadowableRdcDomainObject> cache = new ArrayList<>();
 
-    shadows.forEach(shadow -> shadow.setSuccessorId(MASTER_DELETED_SUCCESSOR_ID));
-    shadowCopyDataProvider.saveShadowCopies(shadows);
+    try (Stream<AbstractShadowableRdcDomainObject> shadowCopiesStream =
+             shadowCopyDataProvider.getLastShadowCopies(dataAcquisitionProjectId)) {
+
+      shadowCopiesStream.forEach(shadow -> {
+        shadow.setSuccessorId(MASTER_DELETED_SUCCESSOR_ID);
+        cache.add(shadow);
+        if (cache.size() >= 100) {
+          shadowCopyDataProvider.saveShadowCopies(new ArrayList<>(cache));
+          cache.clear();
+        }
+      });
+
+      if (!cache.isEmpty()) {
+        shadowCopyDataProvider.saveShadowCopies(new ArrayList<>(cache));
+      }
+    }
   }
 
-  private List<AbstractShadowableRdcDomainObject> createShadowCopiesOfCurrentMasters(
-      String dataAcquisitionProjectId, String version,
-      ShadowCopyDataProvider shadowCopyDataProvider) {
-
-    List<? extends AbstractShadowableRdcDomainObject> masters = shadowCopyDataProvider
-        .getMasters(dataAcquisitionProjectId);
-
-    return masters.stream().map(master -> shadowCopyDataProvider.createShadowCopy(master, version))
-        .collect(Collectors.toList());
-  }
-
-  private List<AbstractShadowableRdcDomainObject> updateSuccessorsOfPredecessorShadowCopies(
+  private List<AbstractShadowableRdcDomainObject> updateSuccessorIdsOfPredecessorShadowCopies(
       String dataAcquisitionProjectId,
       List<? extends AbstractShadowableRdcDomainObject> masterShadowCopies,
       ShadowCopyDataProvider dataProvider) {
 
     Map<String, ? extends AbstractShadowableRdcDomainObject> masterShadowCopiesMap =
         groupByMasterId(masterShadowCopies);
-    List<? extends AbstractShadowableRdcDomainObject> predecessors = dataProvider
-        .getLastShadowCopies(dataAcquisitionProjectId);
 
-    return predecessors.stream().peek(predecessor -> {
-      AbstractShadowableRdcDomainObject latestShadowCopy = masterShadowCopiesMap
-          .get(predecessor.getMasterId());
+    try (Stream<AbstractShadowableRdcDomainObject> predecessors = dataProvider
+        .getLastShadowCopies(dataAcquisitionProjectId)) {
 
-      if (latestShadowCopy != null) {
-        predecessor.setSuccessorId(latestShadowCopy.getId());
-      } else {
-        warnAboutMissingMaster(predecessor.getId(), predecessor.getMasterId());
-        predecessor.setSuccessorId(MASTER_DELETED_SUCCESSOR_ID);
-      }
-    }).collect(Collectors.toList());
+      return predecessors.peek(predecessor -> {
+        AbstractShadowableRdcDomainObject latestShadowCopy = masterShadowCopiesMap
+            .get(predecessor.getMasterId());
+
+        if (latestShadowCopy != null) {
+          predecessor.setSuccessorId(latestShadowCopy.getId());
+        } else {
+          warnAboutMissingMaster(predecessor.getId(), predecessor.getMasterId());
+          predecessor.setSuccessorId(MASTER_DELETED_SUCCESSOR_ID);
+        }
+      }).collect(Collectors.toList());
+    }
   }
 
   private static Map<String, AbstractShadowableRdcDomainObject> groupByMasterId(
