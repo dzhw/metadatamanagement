@@ -25,11 +25,11 @@ stages:
     - name: e2e smoketests
       if: branch = development || branch =~ /^saikotitis.*$/
     - name: nightly e2e tests publicuser
-      if: type = development || branch =~ /^saikotitis.*$/
+      if: branch = development || branch =~ /^saikotitis.*$/
     - name: nightly e2e tests dataprovider
-      if: type = development || branch =~ /^saikotitis.*$/
+      if: branch = development || branch =~ /^saikotitis.*$/
     - name: nightly e2e tests publisher
-      if: type = development || branch =~ /^saikotitis.*$/
+      if: branch = development || branch =~ /^saikotitis.*$/
 jobs:
   include:
     - stage: build
