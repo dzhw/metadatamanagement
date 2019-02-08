@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     Instrument Creation by Dataprovider #Prerequisite to have robotproject4${BROWSER}
-Force Tags        noslowpoke
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/click_element_resource.robot
