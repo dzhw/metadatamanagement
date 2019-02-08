@@ -7,10 +7,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.github.zafarkhaja.semver.Version;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
@@ -23,10 +19,15 @@ import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeSaveEvent;
 import org.springframework.stereotype.Service;
 
+import com.github.zafarkhaja.semver.Version;
+
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
@@ -61,21 +62,18 @@ public class DataAcquisitionProjectService {
 
   private DataAcquisitionProjectShadowCopyDataProvider dataAcquisitionProjectShadowCopyDataProvider;
 
-  private ShadowCopyService shadowCopyService;
+  private ShadowCopyService<DataAcquisitionProject> shadowCopyService;
 
   /**
    * Creates a new {@link DataAcquisitionProjectService} instance.
    */
   public DataAcquisitionProjectService(DataAcquisitionProjectRepository dataAcquisitionProjectRepo,
-                                       ApplicationEventPublisher applicationEventPublisher,
-                                       UserInformationProvider userInformationProvider,
-                                       DataAcquisitionProjectChangesProvider changesProvider,
-                                       UserRepository userRepository,
-                                       MailService mailService,
-                                       MetadataManagementProperties metadataManagementProperties,
-                                       DataAcquisitionProjectShadowCopyDataProvider
-                                           dataAcquisitionProjectShadowCopyDataProvider,
-                                       ShadowCopyService shadowCopyService) {
+      ApplicationEventPublisher applicationEventPublisher,
+      UserInformationProvider userInformationProvider,
+      DataAcquisitionProjectChangesProvider changesProvider, UserRepository userRepository,
+      MailService mailService, MetadataManagementProperties metadataManagementProperties,
+      DataAcquisitionProjectShadowCopyDataProvider dataAcquisitionProjectShadowCopyDataProvider,
+      ShadowCopyService<DataAcquisitionProject> shadowCopyService) {
     this.acquisitionProjectRepository = dataAcquisitionProjectRepo;
     this.eventPublisher = applicationEventPublisher;
     this.userInformationProvider = userInformationProvider;
@@ -310,11 +308,11 @@ public class DataAcquisitionProjectService {
   }
 
   private boolean isPublicProjectRelease(String dataAcquisitionProjectId) {
-    DataAcquisitionProject oldProject = changesProvider
-        .getOldDataAcquisitionProject(dataAcquisitionProjectId);
+    DataAcquisitionProject oldProject =
+        changesProvider.getOldDataAcquisitionProject(dataAcquisitionProjectId);
 
-    DataAcquisitionProject newProject = changesProvider
-        .getNewDataAcquisitionProject(dataAcquisitionProjectId);
+    DataAcquisitionProject newProject =
+        changesProvider.getNewDataAcquisitionProject(dataAcquisitionProjectId);
 
     if (oldProject != null && newProject != null) {
       Release oldRelease = oldProject.getRelease();
