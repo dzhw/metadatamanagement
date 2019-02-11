@@ -1,4 +1,4 @@
-    .. _metadatenabgabe-label:
+.. _metadatenabgabe-label:
 
 Metadatenabgabe (Datengeber)
 ===============================
@@ -112,128 +112,82 @@ der Website erledigen:
 
    Registrierung im MDM
 
-Da das FDZ Ihre Registrierungsanfrage zunächst bestätigen muss, kann es
-etwas dauern, bis Sie freigeschaltet sind. Sie bekommen dann eine
-Bestätigung per Email.
+Im Anschluss erhalten Sie eine Bestätigungsmail. In dieser müssen Sie auf den
+Aktivierungslink klicken, welcher nach drei Tagen automatisch abläuft. Im
+Anschluss werden Sie von uns dem Projekt in der Rolle Datengeber/in hinzugefügt.
 
-Neues Projekt anlegen
-~~~~~~~~~~~~~~~~~~~~~
-.. index:: data provider, Datenaufnahme, Projekt anlegen
+Verwaltung des Projektes im Project Cockpit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Nach erfolgreicher Registrierung können Sie ihr Projekt im MDM anlegen,
-indem Sie sich in der Sidebar links anmelden:
-
-
-.. figure:: ./_static/03_de.png
-   :name: anmelden
-
-   Anmeldung im MDM
-
-Nach erfolgreicher Anmeldung erscheint in der Sidebar das folgende Feld:
-
-.. figure:: ./_static/04_de.png
-   :name: projektverwaltung
-
-   Bereich für Verwaltung von Projekten im MDM
-
-Über den Plus-Button können *Publisher* ein neues Projekt anlegen (vgl.
-:numref:`neuesprojektanlegen`). Als Projektname müssen diese eine bestimmte ID
-angeben, welche das FDZ zuvor speziell für Ihr Projekt vergeben hat und Ihnen
-mitteilen muss (z. B. „gra2005“ für das Absolventenpanel 2005).
-
-DataAcquisitionProject-ID
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-- **drei Kleinbuchstaben**: Um die internationale Nutzbarkeit der Daten zu
-  erleichtern, ergeben sich die drei Kleinbuchstaben aus der englischsprachigen
-  Abkürzung des Projektes. Es kann Ausnahmen geben, wenn z.B. bestimmte Projekte
-  ein besonders griffiges Kürzel haben wie z.B. bei Libertas 2016 - lib2016.
-- **(zwei bis) vier Ziffern**: Die Ziffern sind in der Regel die vier Ziffern
-  des Jahres, das die Zugehörigkeit zur Stichprobe definiert, z. B. der
-  Abschluss des Studiums (z. B. im (Prüfungs-)Jahr 2005 oder der Erwerb der
-  Hochschulzugangsberechtigung im Jahr 2008). Davon kann in begründeten
-  Ausnahmefällen abgewichen werden.
-- Beispielsweise ist die Sozialerhebung deutlich stärker unter der
-  jeweiligen Nummer der Studie als unter dem Jahr, das die Zugehörigkeit
-  zur Stichprobe definiert, bekannt, so dass beispielsweise für die 19.
-  Sozialerhebung aus dem Jahr 2009 die Ziffern 19 (und nicht 2009) vergeben
-  werden.
-- Bei Befragungen, die sich auf mehrere Jahreszahlen beziehen, kann eine
-  andere eindeutige Jahreszahl verwendet werden. Beispielweise gehören in
-  der KomPaed-Befragung die zuletzt aktiven Panelteilnehmer mehrerer
-  Kohorten zur Stichprobe. Hier werden die vier Ziffern des Erhebungsjahres
-  (2014) genutzt.
-
-Für jedes weitere Objekt wird später ebenfalls eine ID generiert, die die DAP-id
-enthält und sich nach der folgenden Logik zusammensetzt:
-
-+--------------------+-----------------------------------------------------------------------------------+
-| Metadaten          | Id-Generierung                                                                    |
-+====================+===================================================================================+
-| Study              | "stu-" + DAP-id + "$"                                                             |
-+--------------------+-----------------------------------------------------------------------------------+
-| Survey             | "sur-" + DAP-id + "-" + "sy" + survey.number + "$"                                |
-+--------------------+-----------------------------------------------------------------------------------+
-| DataSet            | "dat-" + DAP-id + "-" + "ds" + dataSet.number + "$"                               |
-+--------------------+-----------------------------------------------------------------------------------+
-| Variable           | "var-" + DAP-id + "-" + "ds" + variable.dataSetNumber + "-" + variable name + "$" |
-+--------------------+-----------------------------------------------------------------------------------+
-| Instrument         | "ins-" + DAP-id + "-" + "ins" + number + "$"                                      |
-+--------------------+-----------------------------------------------------------------------------------+
-| Question           | "que-" + DAP-id + "-ins" + instrumentNumber + "-" + number + "$"                  |
-+--------------------+-----------------------------------------------------------------------------------+
-| relatedPublication | "pub-" + citaviId + "$"                                                           |
-+--------------------+-----------------------------------------------------------------------------------+
-
-Das Projekt ist dadurch im MDM angelegt, aber noch nicht automatisch
-freigegeben. Solange das Projekt noch nicht freigegeben wurde, können
-Nutzer der Gruppe *publisher* es jederzeit über den Mülleimer-Button ganz links (vgl.
-:numref:`neuesprojektanlegen`)
-wieder löschen.
-
-.. figure:: ./_static/05_de.png
-   :name: neuesprojektanlegen
-
-   Ein neues Projekt im MDM anlegen
-
-Im Anschluss an die Projekterstellung werden Sie als Nutzer mit der Rolle
-*Datengeber* dem Projekt zugewiesen. Wenn Sie ins Projektcockpit gehen
-(vgl. :numref:`projectcockpit`), sehen Sie unter dem Punkt Einstellungen
+Das Project Cockpit dient der Zusammenarbeit zwischen FDZ-MitarbeiterInnen und
+den DatengeberInnen (das sind Sie und Ihre KollegInnen).
+In der Navigationsleiste links, welche je nach Fenstergröße des Browsers
+aufgeklappt werden muss, finden Sie den Zugang zum Project Cockpit
+(vgl. :numref:`projectcockpit`).
+Wenn Sie ins Projektcockpit gehen, sehen Sie unter dem Punkt Einstellungen
 (vgl. :numref:`project_cockpit_settings`), welche Publisher und Datengeber dem
-Projekt zugewiesen sind und welche Metadaten vom *Publisher* erwartet werden.
+Projekt zugewiesen sind und welche Metadaten erwartet werden.
 
 .. figure:: ./_static/cockpit-button.png
    :name: projectcockpit
 
    Project-Cockpit Button.
 
-.. figure:: ./_static/project_cockpit_settings.png
+.. figure:: ./_static/projectcockpit_settings_dataprovider.png
    :name: project_cockpit_settings
 
    Project-Cockpit Einstellungen.
 
-Im Status-Menü (siehe :numref:`project_cockpit_status`) wird zum einen
-angezeigt, wie der Stand der Dinge auf den einzelnen Metadatenebenen ist.
-Um die Metadaten der einzelnen Ebenen anzulegen klicken Sie auf den Neu- bzw
-Hochladen-Button. Wenn Sie mit eingabe erwarteter Metadaten einer Ebene fertig
-sind, setzen Sie ein Häkchen und der Smiley ist nicht mehr traurig, sondern
-mittelgut gelaunt.
-Wenn Sie mit allen Schritten fertig sind
-weisen Sie das Projekt an die Nutzer der Gruppe Publisher zu. Dieser überprüft
-dann die Metadaten bzw gibt sein "OK".
-Wenn ein Publisher mit dem Status der Metadaten zufrieden ist
-und auch ein Häkchen setzt ist der Smiley glücklich. Wurde nichts erwartet ist
-der Smiley auch ohne Metadaten happy. Sind alle Smileys glücklich und ist die
-Postvalidierung der Metadaten erfolgreich, kann released
-werden.
+Das Status-Menü (siehe :numref:`projectcockpit_status_empty`) hat einerseits
+Funktionen zum Projektmanagement und andererseits Funktionen um Metadaten
+anzulegen:
 
-.. figure:: ./_static/project_cockpit_status.png
-   :name: project_cockpit_status
+.. figure:: ./_static/projectcockpit_dataprovider_status_empty.png
+   :name: projectcockpit_status_empty
 
    Project-Cockpit Status.
 
 
+Es wird angezeigt, ob das Projekt freigegeben ist. Daneben wird angezeigt,
+ob das Projekt gerade bei den Publishern liegt, oder bei den DatengeberInnen
+zur Bearbeitung liegt. Zuerst liegt es bei den Publishern und Sie werden per
+Mail benachrichtigt, wenn es Ihnen zugewiesen wird. Um das Projekt wieder den
+Publishern zuzuweisen, klicken Sie den "Papierflieger"-Button (siehe
+:numref:`papierflieger`) über dem "Zugewiesen an Datengeber" steht.
 
+.. figure:: ./_static/projectcockpit_papierflieger.png
+   :name: papierflieger
+
+Die Vorraussetzung, dass Sie den Ball zurückspielen können ist, dass Sie die
+erwarteten Metadaten eingeben mittels des "Neu" bzw. "Hochladen" Buttons und als
+"fertig" markiert haben (siehe :numref:`projectcockpit_dataprovider_ready`).
+Wenn Sie auf den Neu-Button klicken, gelangen Sie zur Eingabemaske der
+jeweiligen Ebene und mit Klick auf den Hochladen Button erscheint ein
+File-Explorer Fenster. Details zur Abgabe der Metadaten bei den einzelnen Ebenen
+wird im jeweiligen Kapitel erklärt. Hierfür setzen Sie ein Häkchen und speichern
+ab (Disketten-button rechts unten).
+
+.. figure:: ./_static/projectcockpit_dataprovider_ready.png
+   :name: projectcockpit_dataprovider_ready
+
+Sie sehen, dass sich der Statussmiley von traurig hin zu neutral ändert, nachdem
+Sie "fertig" angeklickt haben.
+Nachdem der Papierflieger-Button geklickt wurde, erscheint der
+"Nachricht an Publisher" Dialog (siehe :numref:`nachricht_an_publisher`).
+
+.. figure:: ./_static/nachricht_an_publisher.png
+   :name: nachricht_an_publisher
+
+Falls die Publisher denken, dass noch irgend etwas vergessen wurde oder anders
+eingegeben werden sollte, erhalten Sie eine Email und der Ball wird Ihnen
+zurückgespielt. Sollte das nicht der Fall sein, markiert der Publisher die Ebene
+auch als "fertig", was durch einen glücklichen Smiley signalisiert wird (siehe :numref:`studie_ready`).
+Sind alle Smileys glücklich und ist die
+Postvalidierung der Metadaten erfolgreich, können die Publisher das Projekt
+releasen.
+
+.. figure:: ./_static/studie_ready.png
+   :name: studie_ready
 
 Sie können nun beginnen, Ihr Projekt mit Metadaten zu füllen. Wie genau
 dies funktioniert, wird im Folgenden zunächst prinzipiell erläutert, ehe
@@ -250,12 +204,6 @@ Exceltabelle bei Publikationen).
 Eingabemasken ermöglichen eine komfortable Abgabe der Metadaten direkt
 auf der Website.
 
-Domänenmodell
-~~~~~~~~~~~~~
-
-Im Domänenmodell_ werden alle Domänenobjekte, ihre Relationen zueinander
-und, ob diese verpflichtend auszufüllen sind, dokumentiert.
-.. _Domänenmodell: https://github.com/dzhw/metadatamanagement/wiki/Domain-Model
 
 Eingabemasken
 ~~~~~~~~~~~~~
@@ -1616,15 +1564,6 @@ editieren möchten. Das FDZ nimmt ihre Daten dann in die sogenannte
 Release-Pipeline auf. Die finale Freigabe erfolgt dann über einen dafür
 benannten Mitarbeiter des FDZ, den Release-Manager.
 
-User mit der Rolle Publisher können Projekte bei denen alle erwarteten Metadaten
-als fertig markiert wurden releasen. Dazu muss in der Navbar (Menü links) auf
-den Release Button geklickt werden. Bei Release wird eine
-Postvalidierung durchgeführt, näheres dazu findet sich `hier<https://github.com/dzhw/metadatamanagement/wiki/Domain-Model#dataacquisitionproject-post-validation>`.
-Ab Versionsnummer 1.0.0 wird das Projekt an da|ra weitergegeben und erhält eine
-doi. Wenn der Release Button ein weiteres Mal geklickt wird, wird die Freigabe
-zurückgezogen und Metadaten können weiter editiert werden. Bei erneutem Klick
-kann das Projekt dann neu released werden. Gegebenenfalls wird eine neue
-Versionsnummer vergeben (Versionierungskonzept folgt).
 
 Anhang
 ------

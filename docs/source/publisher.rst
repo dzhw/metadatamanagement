@@ -5,6 +5,7 @@ FDZ-MitarbeiterIn (Publisher, Developer)
    :maxdepth: 1
 
    id_vergabe
+   projekt_anlegen
    bilderfassung_pdf
    bilderfassung_ragtime
    excel_makros_verwenden
@@ -18,4 +19,6 @@ FDZ-MitarbeiterIn (Publisher, Developer)
    datentypen
    uebersicht_rscripte
    verantwortlichkeiten
+   projekt_release
+   domainmodel
    javadoc/packages

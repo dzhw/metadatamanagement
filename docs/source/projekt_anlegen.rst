@@ -24,8 +24,14 @@ Nach erfolgreicher Anmeldung erscheint in der Sidebar das folgende Feld:
 
    Bereich für Verwaltung von Projekten im MDM
 
-Über den Plus-Button können *Publisher* ein neues Projekt anlegen (vgl.
-:numref:`neuesprojektanlegen`). Als Projektname müssen diese eine bestimmte ID
+.. figure:: ./_static/05_de.png
+   :name: neuesprojektanlegen
+
+   Ein neues Projekt im MDM anlegen
+
+
+Über den Plus-Button können *Publisher* ein neues Projekt anlegen (vgl. :numref:`neuesprojektanlegen`).
+Als Projektname müssen diese eine bestimmte ID
 angeben, welche das FDZ zuvor speziell für Ihr Projekt vergeben hat und Ihnen
 mitteilen muss (z. B. „gra2005“ für das Absolventenpanel 2005).
 
@@ -78,8 +84,3 @@ freigegeben. Solange das Projekt noch nicht freigegeben wurde, können
 Nutzer der Gruppe *publisher* es jederzeit über den Mülleimer-Button ganz links (vgl.
 :numref:`neuesprojektanlegen`)
 wieder löschen.
-
-.. figure:: ./_static/05_de.png
-   :name: neuesprojektanlegen
-
-   Ein neues Projekt im MDM anlegen
