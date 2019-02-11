@@ -84,8 +84,10 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'project-has-no-study': 'Das Projekt mit der FDZID {{ id }} enthält keine Studie.',
-            'requirements-not-met': 'Es gibt noch Metadaten die nicht von den Publishern als "fertig" markiert wurden.'
+            'project-has-no-study': 'Das Projekt mit der FDZ-ID {{ id }} enthält keine Studie.',
+            'requirements-not-met': 'Es gibt noch Metadaten die nicht von den Publishern als "fertig" markiert wurden.',
+            'project-has-no-survey': 'Das Projekt mit der FDZ-ID {{ id }} muss mindestens eine Erhebung enthalten.',
+            'project-has-no-data-set': 'Das Projekt mit der FDZ-ID {{ id }} muss mindestens einen Datensatz enthalten.'
           },
           'project-update-access': {
             'project-selected': 'Für das Anlegen neuer Daten muss ein Projekt ausgewählt sein.',

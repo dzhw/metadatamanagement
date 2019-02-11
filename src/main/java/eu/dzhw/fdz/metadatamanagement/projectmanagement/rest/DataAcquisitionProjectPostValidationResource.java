@@ -8,6 +8,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationErrorsDto;
@@ -37,11 +38,11 @@ public class DataAcquisitionProjectPostValidationResource {
   @RequestMapping(value = "/data-acquisition-projects/{id}/post-validate",
       method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
-  public ResponseEntity<PostValidationErrorsDto> postValidate(@PathVariable String id) {
+  public ResponseEntity<PostValidationErrorsDto> postValidate(@PathVariable String id,
+      @RequestParam(required = false) String version) {
     log.debug("REST request for post validation : {}", id);
     return new ResponseEntity<>(
-          new PostValidationErrorsDto(
-            this.postValidationService.postValidate(id)),
+        new PostValidationErrorsDto(this.postValidationService.postValidate(id, version)),
         HttpStatus.OK);
   }
 }
