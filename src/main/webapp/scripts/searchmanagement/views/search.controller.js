@@ -504,7 +504,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.navigateToCreateState = function(createState) {
       if (ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,
         getSelectedMetadataType(), true)) {
-        $state.go(createState);
+        ProjectUpdateAccessService.isPrerequisiteFulfilled(
+          $scope.currentProject, getSelectedMetadataType()).then(function() {
+            $state.go(createState);
+          });
       }
     };
     init();

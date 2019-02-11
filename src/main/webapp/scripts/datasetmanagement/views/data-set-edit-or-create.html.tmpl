@@ -176,7 +176,7 @@
                     </div>
                     <div layout-gt-sm="row" layout="column" style="padding-right: 16px;" ng-style="{'margin-left': ctrl.dataSet.subDataSets.length === 1?'16px':'40px'}">
                       <md-input-container flex="50" style="-ms-flex:auto" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!dataSetForm['subDataSetsCitationHintDe_' + $index].$valid && (dataSetForm['subDataSetsCitationHintDe_' + $index].$dirty || dataSetForm['subDataSetsCitationHintDe_' + $index].$touched)">
-                          <label>{{'data-set-management.edit.label.sub-data-set.citation-hint' | translate}} ({{'global.in-german' | translate}})</label>
+                          <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.citation-hint' | translate}} ({{'global.in-german' | translate}})</label>
                           <textarea fdz-required="!subDataSet.citationHint.en" md-maxlength="2048" rows="4" ng-model="subDataSet.citationHint.de" name="subDataSetsCitationHintDe_{{$index}}" lang="de" md-no-asterisk ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)"></textarea>
                           <div ng-if="!dataSetForm['subDataSetsCitationHintDe_' + $index].$dirty && !dataSetForm['subDataSetsCitationHintDe_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.citation-hint.de' | translate}}</div>
                           <div ng-messages="dataSetForm['subDataSetsCitationHintDe_' + $index].$error" multiple>
@@ -185,7 +185,7 @@
                           </div>
                       </md-input-container>
                       <md-input-container flex="50" style="-ms-flex:auto" md-is-error="!dataSetForm['subDataSetsCitationHintEn_' + $index].$valid && (dataSetForm['subDataSetsCitationHintEn_' + $index].$dirty || dataSetForm['subDataSetsCitationHintEn_' + $index].$touched)">
-                          <label>{{'data-set-management.edit.label.sub-data-set.citation-hint' | translate}} ({{'global.in-english' | translate}})</label>
+                          <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.citation-hint' | translate}} ({{'global.in-english' | translate}})</label>
                           <textarea fdz-required="!subDataSet.citationHint.de" md-maxlength="2048" rows="4" ng-model="subDataSet.citationHint.en" name="subDataSetsCitationHintEn_{{$index}}" lang="en" md-no-asterisk ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)"></textarea>
                           <div ng-if="!dataSetForm['subDataSetsCitationHintEn_' + $index].$dirty && !dataSetForm['subDataSetsCitationHintEn_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.citation-hint.en' | translate}}</div>
                           <div ng-messages="dataSetForm['subDataSetsCitationHintEn_' + $index].$error" multiple>
