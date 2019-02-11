@@ -6,7 +6,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
            ShoppingCartService, $scope, StudyResource, DataSetSearchService,
            VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
            OrderResource, LanguageService, SimpleMessageToastService, order,
-           DataAcquisitionProjectResource, $window, $interval, $location) {
+           DataAcquisitionProjectResource, $window, $interval, $location,
+           $transitions) {
 
     PageTitleService.setPageTitle('shopping-cart.title');
     ToolbarHeaderService.updateToolbarHeader({
@@ -32,6 +33,11 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
                                           orderId) {
       interval.then(function() {
         $interval.cancel(interval);
+        $transitions.onBefore({}, function(transition) {
+          if (transition.$to().name === 'restoreShoppingCart') {
+            return false;
+          }
+        });
         $location.path('/' + languageKey + '/shopping-cart/' + orderId)
           .replace();
         if (location) {
