@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
-    <!-- kann hardcoded hierrein -->
     <resourceType>${resourceType}</resourceType>
-    <!-- Wie dynamisch ist das? Wollen wir das gleich auf Deutsch und Englisch
-    Berechnen: Quanti (studie)= Umfrage- und Aggregatdaten, Quali = Qualitatives nicht oder gering standardisiertes Datenmaterial, Mixed = Umfrage- und Aggregatdaten; Qualitatives nicht oder gering standardisiertes Datenmaterial
-    <resourceTypesFree>
-      <resourceTypeFree>
-        <language>de</language>
-        <typeName>??? z.B.: Umfrage- und Aggregatdaten; Kompetenz- und Leistungsdaten</typeName>
-      </resourceTypeFree>
-    </resourceTypesFree>
-    -->
     <resourceIdentifier>
         <identifier>dzhw:${study.dataAcquisitionProjectId}:1.0.0</identifier>
         <currentVersion>${dataAcquisitionProject.release.version}</currentVersion>
@@ -47,16 +37,6 @@
             </institution>
         </creator>
     </creators>
-    <!--Welchen institutionName?
-    <contributors>
-        <contributor>
-          <institution>
-            <institutionName>FDZ des DZHW</institutionName>
-            <contributorType>4</contributorType>
-          </institution>
-        </contributor>
-    </contributors>
-   -->
     <dataURLs>
         <dataURL>
             https://metadata.fdz.dzhw.eu/#!/de/studies/${study.id}?version=${dataAcquisitionProject.release.version}
@@ -66,22 +46,10 @@
     <publicationDate>
         <date>${releaseDate}</date>
     </publicationDate>
-
-    <!--Aktuell: Delivery oder NotAvailable je nach study.dataAvailability -->
     <availability>
         <availabilityType>${availabilityControlled}</availabilityType>
-        <!--Brauchen wir auch availabilityFree? Wenn ja, was schreiben wir in den beiden Fällen?
-        <availabilityFree>
-          <language>de</language>
-          <freetext>Beantragung notwendig unter (link auf study detail)</freetext>
-        </availabilityFree>
-        <availabilityFree>
-          <language>en</language>
-          <freetext>Beantragung notwendig unter (link auf study detail)</freetext>
-        </availabilityFree>
-        -->
     </availability>
-    <#if study.description??><!-- ist damit jetzt pflicht in beiden Sprachen -->
+    <#if study.description??>
     <descriptions>
         <#if study.description.de??>
         <description>
@@ -99,25 +67,10 @@
         </#if>
     </descriptions>
     </#if>
-    <!-- neues Pflichtfeld in survey, mehrere country codes vermutlich nach ISO 3166-1 alpha-2,
-    wollen wir geographicCoverageFree?
-    <#list surveys as survey>
-    <geographicCoverages>
-      <geographicCoverage>
-        <geographicCoverageControlled>DE</geographicCoverageControlled>
-        <geographicCoveragesFree>
-          <geographicCoverageFree>
-            <language>de</language>
-            <freetext>de</freetext>
-          <geographicCoverageFree>
-        </geographicCoveragesFree>
-      </geographicCoverage>
-    </geographicCoverages>
-    </#list>
-    -->
+    <#if surveys?? && surveys?size gt 0>
     <temporalCoverages>
         <#list surveys as survey>
-        <#if survey.fieldPeriod.start??><!-- must not be empty anymore -->
+        <#if survey.fieldPeriod.start??>
         <temporalCoverage>
             <temporalCoverageFormal>
 	            <startDate>
@@ -143,14 +96,8 @@
         </#if>
         </#list>
     </temporalCoverages>
-    <!-- controlled vocabulary of dara (not VFDB!) e.g. 'Longitudinal.Panel' or 'CrossSection'
-    Brauchen wir jetzt alle, oder nur die beiden?
-    <timeDimensions>
-      <timeDimension>
-        <timeDimensionType>${study.surveyDesign}</timeDimensionType>
-      </timeDimension>
-    </timeDimensions>
-    -->
+    </#if>
+    <#if study.sponsor??>
     <fundingReferences>
         <fundingReference>
             <institution>
@@ -162,6 +109,7 @@
             </institution>
         </fundingReference>
     </fundingReferences>
+    </#if>
     <#if surveys?? && surveys?size gt 0>
     <collectionModes>
         <#list surveys as survey>
@@ -181,43 +129,10 @@
                 </collectionModeFree>
                 </#if>
             </collectionModesFree>
-            <!-- controlled vocabulary of dara
-            Haben wir momentan gar nicht, berechnen aus instrument.type wenn nur eins da?
-            <collectionModeType>Interview.Email</collectionModeType>
-            -->
          </collectionMode>
          </#if>
         </#list>
     </collectionModes>
-
-    <!--survey.population.description? damit muss survey.population.description oder description
-      in beiden Sprachen angegeben werden. Population.title steht in Frage....
-    <universes>
-      <#list surveys as survey>
-      <universe>
-        <language>de<language>
-        <sampled>${survey.population.description.de}</sampled>
-        <language>en<language>
-        <sampled>${survey.population.description.en}</sampled>
-      </universe>
-      </#list>
-    </universes>
-   -->
-    <!-- controlled vocabulary https://mdr.iqb.hu-berlin.de/#/catalog/1d791cc7-6d8d-dd35-b1ef-0eec9c31bbb5
-     wäre dann in Deutsch und Englisch Pflicht und als Dropdown in der GUI
-    <samplings>
-      <#list surveys as survey>
-      <sampling>
-        <language>de<language>
-        <method>${survey.sample.de}</method>
-      </sampling>
-      <sampling>
-        <language>en<language>
-        <method>${survey.sample.en}</method>
-      </sampling>
-      </#list>
-    </samplings>
-    -->
     </#if>
     <#if dataSets?? && dataSets?size gt 0>
     <dataSets>
@@ -261,43 +176,4 @@
         </#list>
     </publications>
     </#if>
-    <!-- hardcoded classifier for VFDB
-    <classifications>
-      <classification>
-        <classificationExternal>
-          <language>de</language>
-          <classificationSchema>VerbundFDB</classificationSchema>
-          <terms>
-            <term>VerbundFDB</term>
-          </terms>
-        </classificationExternal>
-      </classification>
-    </classifications>
-    -->
-    <!-- Schlagwörter für VFDB (de,en?) dynamisch?
-    <freeKeywords>
-      <freeKeyword>
-        <language>de</language>
-        <keywords>
-          <keyword>Hochschulforschung</keyword>
-          <keyword> Hochschulabsolventen</keyword>
-          <keyword> Mobilität</keyword>
-          <keyword> Promotion</keyword>
-        </keywords>
-      </freeKeyword>
-    </freeKeywords>
-    -->
-    <!-- Hinter Untersuchungseinheit, kontrolliertes Vokabular aus https://mdr.iqb.hu-berlin.de/#/catalog/94d1ae4f-a441-c728-4a03-adb0eb4604af (semikolonsepariert)
-    add survey.population.unit and merge here from all surveys.
-    <notes>
-      <note>
-        <language>de</language>
-        <text>Untersuchungseinheit: </text>
-      </note>
-      <note>
-        <language>de</language>
-        <text>Anmerkungen zur Studie: study.annotations.de </text>
-      </note>
-    </notes>
-    -->
 </resource>
