@@ -10,6 +10,10 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidDerivedId
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain Instrument
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain OrderedStudy
@@ -68,7 +72,7 @@ Question
 .. java:package:: eu.dzhw.fdz.metadatamanagement.questionmanagement.domain
    :noindex:
 
-.. java:type:: @Document @CompoundIndex @ValidUniqueQuestionNumber @ValidQuestionIdName @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Question extends AbstractShadowableRdcDomainObject
+.. java:type:: @Document @CompoundIndex @ValidUniqueQuestionNumber @ValidQuestionIdName @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidMasterId @ValidDerivedId public class Question extends AbstractShadowableRdcDomainObject
 
    A question is part of an \ :java:ref:`Instrument`\  which has been used in at least one \ :java:ref:`Survey`\ s. The responses to a question are stored in \ :java:ref:`Variable`\ s.
 
@@ -101,7 +105,7 @@ dataAcquisitionProjectId
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Pattern @Size private String id
+.. java:field:: @Id @JestId @NotEmpty @Size private String id
    :outertype: Question
 
    The id of the question which uniquely identifies the question in this application. The id must not be empty and must be of the form que-{{dataAcquisitionProjectId}}-ins{{instrumentNumber}}-{{number}}$. The id must not contain more than 512 characters.

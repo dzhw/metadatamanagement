@@ -62,7 +62,7 @@ public class VariableService {
   private ShadowCopyService<Variable> shadowCopyService;
 
   @Autowired
-  private VariableShadowCopyDataProvider variableShadowCopyDataProvider;
+  private VariableShadowCopyDataSource variableShadowCopyDataProvider;
 
   /**
    * Delete all variables when the dataAcquisitionProject was deleted.
@@ -87,10 +87,14 @@ public class VariableService {
         ElasticsearchType.variables);
   }
 
+  /**
+   * Create shadow variables for instruments on project release.
+   * @param projectReleasedEvent Released project event
+   */
   @EventListener
   public void onProjectRelease(ProjectReleasedEvent projectReleasedEvent) {
-    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProjectId(),
-        projectReleasedEvent.getReleaseVersion(), variableShadowCopyDataProvider);
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        variableShadowCopyDataProvider);
   }
   
   /**
@@ -115,9 +119,6 @@ public class VariableService {
    */
   @HandleAfterDelete
   public void onVariableDeleted(Variable variable) {
-    shadowCopyService.writeDeletedSuccessorIdToShadowCopiesWithoutSuccessorId(
-        variable.getDataAcquisitionProjectId(), variableShadowCopyDataProvider);
-
     elasticsearchUpdateQueueService.enqueue(
         variable.getId(), 
         ElasticsearchType.variables, 

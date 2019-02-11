@@ -1,19 +1,18 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.javers.spring.annotation.JaversSpringDataAuditable;
-import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.annotation.RestResource;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.IdAndNumberInstrumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
+import org.javers.spring.annotation.JaversSpringDataAuditable;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * The Repository for the Instruments.
@@ -70,4 +69,13 @@ public interface InstrumentRepository
   @RestResource(exported = false)
   List<IdAndNumberInstrumentProjection> findInstrumentNumbersByDataAcquisitionProjectId(
       String dataAcquisitionProjectId);
+
+  @RestResource(exported = false)
+  Stream<Instrument> streamByDataAcquisitionProjectIdAndShadowIsFalse(
+      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
+
+  @RestResource(exported = false)
+  Stream<Instrument> streamByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId
+  );
 }

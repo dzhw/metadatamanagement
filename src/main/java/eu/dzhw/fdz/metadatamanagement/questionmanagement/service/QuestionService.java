@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -59,6 +62,12 @@ public class QuestionService {
 
   @Autowired
   private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
+
+  @Autowired
+  private ShadowCopyService<Question> shadowCopyService;
+
+  @Autowired
+  private QuestionShadowCopyDataSource questionShadowCopyDataSource;
 
   /**
    * Delete all questions when the dataAcquisitionProject was deleted.
@@ -199,5 +208,15 @@ public class QuestionService {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> questionRepository.streamIdsByIdIn(questionIds),
         ElasticsearchType.questions);
+  }
+
+  /**
+   * Create shadow copies for questions on project release.
+   * @param projectReleasedEvent Released project event
+   */
+  @EventListener
+  public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        questionShadowCopyDataSource);
   }
 }

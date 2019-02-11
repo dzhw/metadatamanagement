@@ -6,6 +6,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidDerivedId;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedStudy;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -50,6 +52,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @Builder
+@ValidMasterId(pattern = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
+    message = "question-management.error.question.master-id.pattern")
+@ValidDerivedId(message = "question-management.error.question.id.pattern")
 public class Question extends AbstractShadowableRdcDomainObject {
 
   /**
@@ -62,9 +67,6 @@ public class Question extends AbstractShadowableRdcDomainObject {
   @Id
   @JestId
   @NotEmpty(message = "question-management.error.question.id.not-empty")
-  @Pattern(
-      regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
-      message = "question-management.error.question.id.pattern")
   @Size(max = StringLengths.MEDIUM, message = "question-management.error.question.id.size")
   private String id;
 

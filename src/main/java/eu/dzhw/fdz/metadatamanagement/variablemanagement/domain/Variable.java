@@ -6,6 +6,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidDerivedId;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
@@ -63,6 +65,9 @@ import java.util.List;
     @CompoundIndex(def = "{name: 1, dataSetId: 1}", unique = true),
     @CompoundIndex(def = "{indexInDataSet: 1, dataSetId: 1}", unique = false)
     })
+@ValidMasterId(pattern = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
+    message = "variable-management.error.variable.master-id.pattern")
+@ValidDerivedId(message = "variable-management.error.variable.id.pattern")
 @ValidVariableIdName(message = "variable-management.error.variable.valid-variable-name")
 @ValidPanelIdentifier(message = "variable-management.error.variable.valid-panel-identifier")
 @ValidDerivedVariablesIdentifier(message =
@@ -125,8 +130,6 @@ public class Variable extends AbstractShadowableRdcDomainObject {
   @NotEmpty(message = "variable-management.error.variable.id.not-empty")
   @Size(max = StringLengths.MEDIUM,
       message = "variable-management.error.variable.id.size")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
-      message = "variable-management.error.variable.id.pattern")
   private String id;
 
 
@@ -338,6 +341,6 @@ public class Variable extends AbstractShadowableRdcDomainObject {
 
   public Variable(Variable variable) {
     super();
-    BeanUtils.copyProperties(variable, this, "version");
+    BeanUtils.copyProperties(variable, this);
   }
 }

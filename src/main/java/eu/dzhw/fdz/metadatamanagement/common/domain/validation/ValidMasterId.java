@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.common.domain.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,26 +9,32 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Validates a project update follows business and authorization constraints.
+ * Verifies that master id matches the given pattern.
  */
 @Documented
-@Constraint(validatedBy = ValidDataAcquisitionProjectIdValidator.class)
+@Constraint(validatedBy = ValidMasterIdValidator.class)
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidDataAcquisitionProjectId {
+public @interface ValidMasterId {
+
+  /**
+   * Pattern to apply to the domain object's id.
+   * @return Regular expression pattern
+   */
+  String pattern();
+
   /**
    * Defines the default error message.
    */
-  String message() default "{data-acquisition-project-management.error.data-acquisition-project"
-      + ".id.pattern}";
+  String message() default "{common.domain.validation.valid-master-id.error.pattern}";
 
   /**
-   * This contains groups.
+   * Groups parameter.
    */
   Class<?>[] groups() default {};
 
   /**
-   * This method contains the payload.
+   * Payload parameter.
    */
   Class<? extends Payload>[] payload() default {};
 }

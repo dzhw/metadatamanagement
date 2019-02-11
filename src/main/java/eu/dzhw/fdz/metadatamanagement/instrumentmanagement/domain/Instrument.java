@@ -6,6 +6,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidDerivedId;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentIdPattern;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentType;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidUniqueInstrumentNumber;
@@ -28,7 +30,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -48,6 +49,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @Builder
+@ValidMasterId(pattern = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
+    message = "instrument-management.error.instrument.id.pattern")
+@ValidDerivedId(message = "instrument-management.error.instrument.derived-id.pattern")
 public class Instrument extends AbstractShadowableRdcDomainObject {
 
   /**
@@ -60,8 +64,6 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
   @Id
   @JestId
   @NotEmpty(message = "instrument-management.error.instrument.id.not-empty")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
-      message = "instrument-management.error.instrument.id.pattern")
   @Size(max = StringLengths.MEDIUM, message = "instrument-management.error.instrument.id.size")
   private String id;
 

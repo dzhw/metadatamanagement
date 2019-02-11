@@ -1,22 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
-import org.springframework.data.rest.core.annotation.HandleAfterCreate;
-import org.springframework.data.rest.core.annotation.HandleAfterDelete;
-import org.springframework.data.rest.core.annotation.HandleAfterSave;
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.data.rest.core.event.AfterDeleteEvent;
-import org.springframework.data.rest.core.event.BeforeDeleteEvent;
-import org.springframework.stereotype.Service;
-
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetChangesProvider;
@@ -38,6 +21,22 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.IdAndN
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableChangesProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
+import org.springframework.data.rest.core.annotation.HandleAfterDelete;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.event.AfterDeleteEvent;
+import org.springframework.data.rest.core.event.BeforeDeleteEvent;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Service which deletes surveys when the corresponding dataAcquisitionProject has been deleted.
@@ -82,7 +81,7 @@ public class SurveyService {
   private ShadowCopyService<Survey> shadowCopyService;
 
   @Autowired
-  private SurveyShadowCopyDataProvider surveyShadowCopyDataProvider;
+  private SurveyShadowCopyDataSource surveyShadowCopyDataSource;
 
   /**
    * Listener, which will be activate by a deletion of a data acquisition project.
@@ -129,9 +128,6 @@ public class SurveyService {
    */
   @HandleAfterDelete
   public void onSurveyDeleted(Survey survey) {
-    shadowCopyService.writeDeletedSuccessorIdToShadowCopiesWithoutSuccessorId(
-        survey.getDataAcquisitionProjectId(), surveyShadowCopyDataProvider);
-
     this.imageService.deleteAllSurveyImagesById(survey.getId());
     this.surveyAttachmentService.deleteAllBySurveyId(survey.getId());
     elasticsearchUpdateQueueService.enqueue(survey.getId(), ElasticsearchType.surveys,
@@ -239,14 +235,13 @@ public class SurveyService {
   }
 
   /**
-   * Reacts to {@link ProjectReleasedEvent} by creating shadow copies of all {@link Survey}s
-   * of the associated project.
-   * @param projectReleasedEvent Event
+   * Create shadow copies for surveys on project release.
+   * @param projectReleasedEvent Released project event
    */
   @EventListener
   public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
-    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProjectId(),
-        projectReleasedEvent.getReleaseVersion(), surveyShadowCopyDataProvider);
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        surveyShadowCopyDataSource);
   }
 
   /**

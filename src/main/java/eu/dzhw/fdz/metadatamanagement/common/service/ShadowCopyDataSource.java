@@ -10,7 +10,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainO
  * 
  * @param <T> The domain object to be copied.
  */
-public interface ShadowCopyDataProvider<T extends AbstractShadowableRdcDomainObject> {
+public interface ShadowCopyDataSource<T extends AbstractShadowableRdcDomainObject> {
 
   /**
    * Returns the master objects which are used to derive shadow copies from. Consumers are expected
@@ -40,6 +40,7 @@ public interface ShadowCopyDataProvider<T extends AbstractShadowableRdcDomainObj
   /**
    * Save the given shadow copies.
    * @param shadowCopies Shadow copies to save
+   * @return List of saved shadow copies
    */
-  void saveShadowCopies(List<T> shadowCopies);
+  List<T> saveShadowCopies(List<T> shadowCopies);
 }

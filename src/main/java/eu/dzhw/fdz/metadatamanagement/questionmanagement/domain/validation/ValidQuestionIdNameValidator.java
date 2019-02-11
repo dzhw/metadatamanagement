@@ -28,12 +28,16 @@ public class ValidQuestionIdNameValidator
   @Override
   public boolean isValid(Question question, ConstraintValidatorContext context) {
 
-    // check precondition
-    if (question.getInstrumentId() == null || question.getNumber() == null) {
-      return false;
+    if (question.isShadow()) {
+      return true;
+    } else {
+      // check precondition
+      if (question.getInstrumentId() == null || question.getNumber() == null) {
+        return false;
+      }
+
+      return question.getId().equals("que-" + question.getDataAcquisitionProjectId() + "-ins"
+          + question.getInstrumentNumber() + "-" + question.getNumber() + "$");
     }
-    
-    return question.getId().equals("que-" + question.getDataAcquisitionProjectId() + "-ins" 
-            + question.getInstrumentNumber() + "-" + question.getNumber() + "$");
   }
 }

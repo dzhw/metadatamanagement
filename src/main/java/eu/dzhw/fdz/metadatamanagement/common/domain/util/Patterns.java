@@ -7,6 +7,7 @@ package eu.dzhw.fdz.metadatamanagement.common.domain.util;
  * @author Daniel Katzberg
  */
 public interface Patterns {
+  String ALPHANUMERIC = "^[a-zA-Z0-9]+$";
   String ALPHANUMERIC_WITH_UNDERSCORE_NO_NUMBER_AS_FIRST_SIGN = "^[_a-zA-Z][_a-zA-Z0-9]*$";
   String GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS = "^[_A-Za-z0-9äöüÄÖÜß\\-]*$";
   String GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR  = 

@@ -1,14 +1,18 @@
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.util Patterns
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidDerivedId
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain DataSet
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain Instrument
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation SetHasBeenReleasedBeforeOnlyOnce
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation ValidDataAcquisitionProjectId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation ValidSemanticVersion
 
@@ -42,9 +46,13 @@
 
 .. java:import:: javax.validation Valid
 
+.. java:import:: javax.validation.constraints NotEmpty
+
 .. java:import:: javax.validation.constraints NotNull
 
 .. java:import:: javax.validation.constraints Size
+
+.. java:import:: java.io Serializable
 
 DataAcquisitionProject
 ======================
@@ -52,7 +60,7 @@ DataAcquisitionProject
 .. java:package:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @SetHasBeenReleasedBeforeOnlyOnce @ValidSemanticVersion @ValidDataAcquisitionProjectId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
+.. java:type:: @Entity @Document @SetHasBeenReleasedBeforeOnlyOnce @ValidSemanticVersion @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidMasterId @ValidDerivedId public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject implements Serializable
 
    The data acquisition project collects the metadata for the data products which are published by our RDC. One project can contain one \ :java:ref:`Study`\ , many \ :java:ref:`Survey`\ s, many \ :java:ref:`Instrument`\ s and \ :java:ref:`Question`\ s, and many \ :java:ref:`DataSet`\ s and \ :java:ref:`Variable`\ s. A project can be currently released (visible to public users) or not. When a publisher releases a project and its version is greater than or equal to 1.0.0 then the metadata is published to \ `da|ra <https://www.da-ra.de/home/>`_\ .
 
@@ -85,7 +93,7 @@ hasBeenReleasedBefore
 id
 ^^
 
-.. java:field:: @Id @Size private String id
+.. java:field:: @Id @NotEmpty @Size private String id
    :outertype: DataAcquisitionProject
 
    The id of this project. Must not be empty and must only contain lower cased (english) letters and numbers. Must not contain more than 32 characters.
@@ -105,4 +113,10 @@ release
    :outertype: DataAcquisitionProject
 
    A valid \ :java:ref:`Release`\  object. Null if the project is currently not released. The version of a \ :java:ref:`Release`\  must be a syntactically correct according to semver (major.minor.patch) and must not be decreased.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: DataAcquisitionProject
 

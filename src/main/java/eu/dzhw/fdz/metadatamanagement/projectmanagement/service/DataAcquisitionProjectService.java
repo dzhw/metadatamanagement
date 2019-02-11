@@ -1,26 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
-import org.springframework.data.rest.core.annotation.HandleAfterDelete;
-import org.springframework.data.rest.core.annotation.HandleAfterSave;
-import org.springframework.data.rest.core.annotation.HandleBeforeSave;
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.data.rest.core.event.AfterDeleteEvent;
-import org.springframework.data.rest.core.event.AfterSaveEvent;
-import org.springframework.data.rest.core.event.BeforeDeleteEvent;
-import org.springframework.data.rest.core.event.BeforeSaveEvent;
-import org.springframework.stereotype.Service;
-
 import com.github.zafarkhaja.semver.Version;
-
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
@@ -34,6 +14,23 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.HandleBeforeSave;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.event.AfterDeleteEvent;
+import org.springframework.data.rest.core.event.AfterSaveEvent;
+import org.springframework.data.rest.core.event.BeforeDeleteEvent;
+import org.springframework.data.rest.core.event.BeforeSaveEvent;
+import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Service class for the Data Acquisition Project. Handles calls to the mongo db.
@@ -60,7 +57,7 @@ public class DataAcquisitionProjectService {
 
   private MetadataManagementProperties metadataManagementProperties;
 
-  private DataAcquisitionProjectShadowCopyDataProvider dataAcquisitionProjectShadowCopyDataProvider;
+  private DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource;
 
   private ShadowCopyService<DataAcquisitionProject> shadowCopyService;
 
@@ -72,7 +69,7 @@ public class DataAcquisitionProjectService {
       UserInformationProvider userInformationProvider,
       DataAcquisitionProjectChangesProvider changesProvider, UserRepository userRepository,
       MailService mailService, MetadataManagementProperties metadataManagementProperties,
-      DataAcquisitionProjectShadowCopyDataProvider dataAcquisitionProjectShadowCopyDataProvider,
+      DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource,
       ShadowCopyService<DataAcquisitionProject> shadowCopyService) {
     this.acquisitionProjectRepository = dataAcquisitionProjectRepo;
     this.eventPublisher = applicationEventPublisher;
@@ -81,8 +78,8 @@ public class DataAcquisitionProjectService {
     this.userRepository = userRepository;
     this.mailService = mailService;
     this.metadataManagementProperties = metadataManagementProperties;
-    this.dataAcquisitionProjectShadowCopyDataProvider =
-        dataAcquisitionProjectShadowCopyDataProvider;
+    this.dataAcquisitionProjectShadowCopyDataSource =
+        dataAcquisitionProjectShadowCopyDataSource;
     this.shadowCopyService = shadowCopyService;
   }
 
@@ -184,16 +181,10 @@ public class DataAcquisitionProjectService {
     }
   }
 
-  @HandleAfterDelete
-  void onHandleAfterDelete(DataAcquisitionProject dataAcquisitionProject) {
-    shadowCopyService.writeDeletedSuccessorIdToShadowCopiesWithoutSuccessorId(
-        dataAcquisitionProject.getId(), dataAcquisitionProjectShadowCopyDataProvider);
-  }
-
   @EventListener
   public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
-    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProjectId(),
-        projectReleasedEvent.getReleaseVersion(), dataAcquisitionProjectShadowCopyDataProvider);
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        dataAcquisitionProjectShadowCopyDataSource);
   }
 
   private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {

@@ -10,11 +10,9 @@ import org.springframework.context.ApplicationEvent;
 @Getter
 public class ProjectReleasedEvent extends ApplicationEvent {
 
-  private static final long serialVersionUID = 1549537610524235041L;
+  private static final long serialVersionUID = 1549537610524235042L;
 
-  private String dataAcquisitionProjectId;
-
-  private String releaseVersion;
+  private DataAcquisitionProject dataAcquisitionProject;
 
   /**
    * Create a new event instance.
@@ -23,7 +21,6 @@ public class ProjectReleasedEvent extends ApplicationEvent {
    */
   public ProjectReleasedEvent(Object source, DataAcquisitionProject dataAcquisitionProject) {
     super(source);
-    this.dataAcquisitionProjectId = dataAcquisitionProject.getId();
-    this.releaseVersion = dataAcquisitionProject.getRelease().getVersion();
+    this.dataAcquisitionProject = dataAcquisitionProject;
   }
 }

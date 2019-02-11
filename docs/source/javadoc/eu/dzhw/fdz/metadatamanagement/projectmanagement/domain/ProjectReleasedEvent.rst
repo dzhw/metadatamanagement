@@ -14,16 +14,10 @@ ProjectReleasedEvent
 
 Fields
 ------
-dataAcquisitionProjectId
-^^^^^^^^^^^^^^^^^^^^^^^^
+dataAcquisitionProject
+^^^^^^^^^^^^^^^^^^^^^^
 
-.. java:field:: private String dataAcquisitionProjectId
-   :outertype: ProjectReleasedEvent
-
-releaseVersion
-^^^^^^^^^^^^^^
-
-.. java:field:: private String releaseVersion
+.. java:field:: private DataAcquisitionProject dataAcquisitionProject
    :outertype: ProjectReleasedEvent
 
 serialVersionUID

@@ -1,11 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidDerivedId;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.SetHasBeenReleasedBeforeOnlyOnce;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.ValidDataAcquisitionProjectId;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.ValidSemanticVersion;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
@@ -23,8 +25,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * The data acquisition project collects the metadata for the data products which are published by
@@ -42,14 +46,20 @@ import javax.validation.constraints.Size;
 @ValidSemanticVersion(
     message = "data-acquisition-project-management.error.release."
         + "version.not-parsable-or-not-incremented")
-@ValidDataAcquisitionProjectId
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
 @Builder
-public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject {
+@ValidMasterId(pattern = Patterns.ALPHANUMERIC, message = "data-acquisition-project-management."
+    + "error.data-acquisition-project.master-id.pattern")
+@ValidDerivedId(message = "data-acquisition-project-management.error.data-acquisition-project."
+    + "id.pattern")
+public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
+    implements Serializable {
+
+  private static final long serialVersionUID = 1549622375585915772L;
 
   /**
    * The id of this project.
@@ -58,6 +68,8 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject {
    * contain more than 32 characters.
    */
   @Id
+  @NotEmpty(message = "data-acquisition-project-management.error."
+      + "data-acquisition-project.id.not-empty")
   @Size(max = StringLengths.SMALL,
       message = "data-acquisition-project-management.error.data-acquisition-project.id.size")
   private String id;
@@ -105,6 +117,6 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject {
   private String lastAssigneeGroupMessage;
 
   public DataAcquisitionProject(DataAcquisitionProject dataAcquisitionProject) {
-    BeanUtils.copyProperties(dataAcquisitionProject, this, "version");
+    BeanUtils.copyProperties(dataAcquisitionProject, this);
   }
 }

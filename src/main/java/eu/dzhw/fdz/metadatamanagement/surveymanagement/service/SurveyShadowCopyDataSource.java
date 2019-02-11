@@ -1,23 +1,23 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.springframework.stereotype.Service;
-
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataProvider;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Provides data for creating shadow copies of {@link Survey}.
  */
 @Service
-public class SurveyShadowCopyDataProvider implements ShadowCopyDataProvider<Survey> {
+public class SurveyShadowCopyDataSource implements ShadowCopyDataSource<Survey> {
 
   private SurveyRepository surveyRepository;
 
-  public SurveyShadowCopyDataProvider(SurveyRepository surveyRepository) {
+  public SurveyShadowCopyDataSource(SurveyRepository surveyRepository) {
     this.surveyRepository = surveyRepository;
   }
 
@@ -29,10 +29,13 @@ public class SurveyShadowCopyDataProvider implements ShadowCopyDataProvider<Surv
 
   @Override
   public Survey createShadowCopy(Survey source, String version) {
-    Survey survey = new Survey(source);
-    survey.setId(survey.getId() + "-" + version);
-    survey.setDataAcquisitionProjectId(survey.getDataAcquisitionProjectId() + "-" + version);
-    return survey;
+    String derivedId = source.getId() + "-" + version;
+    Survey copy = surveyRepository.findById(derivedId).orElseGet(Survey::new);
+    BeanUtils.copyProperties(source, copy, "version");
+    copy.setId(derivedId);
+    copy.setDataAcquisitionProjectId(copy.getDataAcquisitionProjectId() + "-" + version);
+    copy.setShadow(true);
+    return copy;
   }
 
   @Override
@@ -42,7 +45,7 @@ public class SurveyShadowCopyDataProvider implements ShadowCopyDataProvider<Surv
   }
 
   @Override
-  public void saveShadowCopies(List<Survey> shadowCopies) {
-    surveyRepository.saveAll(shadowCopies);
+  public List<Survey> saveShadowCopies(List<Survey> shadowCopies) {
+    return surveyRepository.saveAll(shadowCopies);
   }
 }

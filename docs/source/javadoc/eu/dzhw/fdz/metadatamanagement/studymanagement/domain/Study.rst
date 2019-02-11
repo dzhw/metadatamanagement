@@ -18,6 +18,10 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidDerivedId
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection StudySubDocumentProjection
@@ -60,8 +64,6 @@
 
 .. java:import:: javax.validation.constraints NotNull
 
-.. java:import:: javax.validation.constraints Pattern
-
 .. java:import:: javax.validation.constraints Size
 
 .. java:import:: java.util List
@@ -72,7 +74,7 @@ Study
 .. java:package:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @ValidStudyId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel public class Study extends AbstractShadowableRdcDomainObject implements StudySubDocumentProjection
+.. java:type:: @Entity @Document @ValidStudyId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel @ValidMasterId @ValidDerivedId public class Study extends AbstractShadowableRdcDomainObject implements StudySubDocumentProjection
 
    A study contains all metadata of a \ :java:ref:`DataAcquisitionProject`\ . It will get a DOI (Digital Object Identifier) when the \ :java:ref:`DataAcquisitionProject`\  is released.
 
@@ -121,7 +123,7 @@ description
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Size @Pattern private String id
+.. java:field:: @Id @JestId @NotEmpty @Size private String id
    :outertype: Study
 
    The id of the study which uniquely identifies the study in this application. The id must not be empty and must be of the form stu-{{dataAcquisitionProjectId}}$. The id must not contain more than 512 characters.

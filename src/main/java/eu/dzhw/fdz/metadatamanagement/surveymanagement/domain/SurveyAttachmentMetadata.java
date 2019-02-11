@@ -1,13 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.springframework.data.annotation.Id;
-
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
@@ -21,6 +14,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * Metadata which will be stored with each attachment of a {@link Survey}.
@@ -31,7 +30,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-public class SurveyAttachmentMetadata extends AbstractRdcDomainObject {
+public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject {
   /**
    * The id of the attachment. Holds the complete path which can be used to download the file.
    */

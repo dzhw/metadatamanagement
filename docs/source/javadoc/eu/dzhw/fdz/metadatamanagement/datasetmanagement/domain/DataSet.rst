@@ -10,6 +10,10 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidDerivedId
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation UniqueDatasetNumberInProject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation UniqueSubDatasetAccessWayInDataSet
@@ -62,8 +66,6 @@
 
 .. java:import:: javax.validation.constraints NotNull
 
-.. java:import:: javax.validation.constraints Pattern
-
 .. java:import:: javax.validation.constraints Size
 
 .. java:import:: java.util List
@@ -74,7 +76,7 @@ DataSet
 .. java:package:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @ValidDataSetIdName @UniqueDatasetNumberInProject @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class DataSet extends AbstractShadowableRdcDomainObject
+.. java:type:: @Entity @Document @ValidDataSetIdName @UniqueDatasetNumberInProject @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidMasterId @ValidDerivedId public class DataSet extends AbstractShadowableRdcDomainObject
 
    A dataset contains \ :java:ref:`Variable`\ s. It results from at least one \ :java:ref:`Survey`\ .
 
@@ -115,7 +117,7 @@ format
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Size @Pattern private String id
+.. java:field:: @Id @JestId @NotEmpty @Size private String id
    :outertype: DataSet
 
    The id of the dataset which uniquely identifies the dataset in this application. The id must not be empty and must be of the form dat-{{dataAcquisitionProjectId}}-ds{{number}}$. The id must not contain more than 512 characters.

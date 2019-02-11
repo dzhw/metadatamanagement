@@ -6,8 +6,11 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -60,6 +63,12 @@ public class DataSetService {
   
   @Autowired 
   private DataSetAttachmentService dataSetAttachmentService;
+
+  @Autowired
+  private ShadowCopyService<DataSet> shadowCopyService;
+
+  @Autowired
+  private DataSetShadowCopyDataSource dataSetShadowCopyDataSource;
 
   /**
    * Delete all data sets when the dataAcquisitionProject was deleted.
@@ -206,6 +215,16 @@ public class DataSetService {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> dataSetRepository.streamIdsByIdIn(dataSetIds),
         ElasticsearchType.data_sets);
+  }
+
+  /**
+   * Create shadow copies for instruments on project release.
+   * @param projectReleasedEvent Released project event
+   */
+  @EventListener
+  public void onProjectRelease(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        dataSetShadowCopyDataSource);
   }
 
   /**

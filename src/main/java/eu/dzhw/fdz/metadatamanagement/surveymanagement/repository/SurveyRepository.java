@@ -1,19 +1,18 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.repository;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.javers.spring.annotation.JaversSpringDataAuditable;
-import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.annotation.RestResource;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.IdAndNumberSurveyProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
+import org.javers.spring.annotation.JaversSpringDataAuditable;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Spring Data MongoDB repository for the Survey entity.

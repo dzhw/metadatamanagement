@@ -1,14 +1,4 @@
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: javax.validation.constraints Size
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
@@ -36,13 +26,23 @@
 
 .. java:import:: lombok ToString
 
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
+
+.. java:import:: javax.validation.constraints Size
+
 SurveyAttachmentMetadata
 ========================
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain
    :noindex:
 
-.. java:type:: @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class SurveyAttachmentMetadata extends AbstractRdcDomainObject
+.. java:type:: @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject
 
    Metadata which will be stored with each attachment of a \ :java:ref:`Survey`\ .
 

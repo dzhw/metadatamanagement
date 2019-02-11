@@ -16,13 +16,15 @@
 
 .. java:import:: lombok Setter
 
+.. java:import:: java.io Serializable
+
 Requirements
 ============
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain
    :noindex:
 
-.. java:type:: @Data @NoArgsConstructor @AllArgsConstructor @ValueObject @EqualsAndHashCode @Builder public class Requirements
+.. java:type:: @Data @NoArgsConstructor @AllArgsConstructor @ValueObject @EqualsAndHashCode @Builder public class Requirements implements Serializable
 
    This configuration defines which object types have to be delivered before a project can be released.
 
@@ -75,4 +77,10 @@ isVariablesRequired
    :outertype: Requirements
 
    Defines if variable data is required for a release.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Requirements
 

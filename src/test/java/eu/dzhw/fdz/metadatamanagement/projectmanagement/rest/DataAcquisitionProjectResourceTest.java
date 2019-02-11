@@ -213,7 +213,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().isBadRequest()).andExpect(
         jsonPath("$.errors[0].message", containsString("data-acquisition-project-management"
-            + ".error.data-acquisition-project.id.pattern")));
+            + ".error.data-acquisition-project.id.not-empty")));
   }
 
   @Test

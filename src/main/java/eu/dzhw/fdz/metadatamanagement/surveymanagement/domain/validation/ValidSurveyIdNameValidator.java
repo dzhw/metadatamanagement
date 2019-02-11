@@ -31,16 +31,20 @@ public class ValidSurveyIdNameValidator implements ConstraintValidator<ValidSurv
    */
   @Override
   public boolean isValid(Survey survey, ConstraintValidatorContext context) {
-    // check for set project id
-    if (survey.getId() == null || survey.getDataAcquisitionProjectId() == null
-        || survey.getNumber() == null) {
-      return false;
-    }
-
     if (survey.isShadow()) {
-      return survey.getId().matches(createValidShadowCopyIdPattern(survey));
+      return true;
     } else {
-      return survey.getId().equals(createValidIdValue(survey));
+      // check for set project id
+      if (survey.getId() == null || survey.getDataAcquisitionProjectId() == null
+          || survey.getNumber() == null) {
+        return false;
+      }
+
+      if (survey.isShadow()) {
+        return survey.getId().matches(createValidShadowCopyIdPattern(survey));
+      } else {
+        return survey.getId().equals(createValidIdValue(survey));
+      }
     }
   }
 

@@ -10,6 +10,10 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidDerivedId
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation ValidInstrumentIdPattern
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation ValidInstrumentType
@@ -52,8 +56,6 @@
 
 .. java:import:: javax.validation.constraints NotNull
 
-.. java:import:: javax.validation.constraints Pattern
-
 .. java:import:: javax.validation.constraints Size
 
 .. java:import:: java.util List
@@ -64,7 +66,7 @@ Instrument
 .. java:package:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @ValidInstrumentIdPattern @ValidUniqueInstrumentNumber @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Instrument extends AbstractShadowableRdcDomainObject
+.. java:type:: @Entity @Document @ValidInstrumentIdPattern @ValidUniqueInstrumentNumber @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidMasterId @ValidDerivedId public class Instrument extends AbstractShadowableRdcDomainObject
 
    An instrument (e.g. a questionnaire) which was used in at least one \ :java:ref:`Survey`\ .
 
@@ -97,7 +99,7 @@ description
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Pattern @Size private String id
+.. java:field:: @Id @JestId @NotEmpty @Size private String id
    :outertype: Instrument
 
    The id of the instrument which uniquely identifies the instrument in this application. The id must not be empty and must be of the form ins-{{dataAcquisitionProjectId}}-ins{{number}}$. The id must not contain more than 512 characters.

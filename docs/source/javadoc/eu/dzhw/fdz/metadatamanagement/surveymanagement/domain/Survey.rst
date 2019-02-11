@@ -14,6 +14,10 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidDerivedId
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain DataSet
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
@@ -60,8 +64,6 @@
 
 .. java:import:: javax.validation.constraints NotNull
 
-.. java:import:: javax.validation.constraints Pattern
-
 .. java:import:: javax.validation.constraints Size
 
 Survey
@@ -70,7 +72,7 @@ Survey
 .. java:package:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @ValidSurveyIdName @ValidUniqueSurveyNumber @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Survey extends AbstractShadowableRdcDomainObject
+.. java:type:: @Entity @Document @ValidSurveyIdName @ValidUniqueSurveyNumber @ValidMasterId @ValidDerivedId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Survey extends AbstractShadowableRdcDomainObject
 
    A survey is conducted to examine a population on the basis of a sample. The resulting \ :java:ref:`DataSet`\ s can be used to make statements about the population.
 
@@ -119,7 +121,7 @@ grossSampleSize
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Size @Pattern private String id
+.. java:field:: @Id @JestId @NotEmpty @Size private String id
    :outertype: Survey
 
    The id of the survey which uniquely identifies the survey in this application. The id must not be empty and must be of the form sur-{{dataAcquisitionProjectId}}-sy{{number}}$. The id must not contain more than 512 characters.
