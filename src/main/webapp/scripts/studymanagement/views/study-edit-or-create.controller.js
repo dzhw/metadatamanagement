@@ -65,6 +65,7 @@ angular.module('metadatamanagementApp')
 
       var initEditMode = function(study) {
         ctrl.createMode = false;
+        ctrl.isInitializingStudySeries = true;
         DataAcquisitionProjectResource.get({
           id: study.dataAcquisitionProjectId
         }).$promise.then(function(project) {
@@ -78,7 +79,6 @@ angular.module('metadatamanagementApp')
             ctrl.currentStudySeries = study.studySeries;
             ctrl.currentInstitution = study.institution;
             ctrl.currentSponsor = study.sponsor;
-            ctrl.isInitializingStudySeries = true;
             ctrl.loadAttachments();
             updateToolbarHeaderAndPageTitle();
             $scope.registerConfirmOnDirtyHook();
@@ -102,6 +102,7 @@ angular.module('metadatamanagementApp')
               }).$promise.then(function(study) {
                 initEditMode(study);
               }).catch(function() {
+                ctrl.isInitializingStudySeries = true;
                 ctrl.createMode = true;
                 ctrl.study = new StudyResource({
                   id: StudyIdBuilderService.buildStudyId(
@@ -508,4 +509,3 @@ angular.module('metadatamanagementApp')
 
       init();
     });
-
