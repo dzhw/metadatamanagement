@@ -67,12 +67,6 @@ angular.module('metadatamanagementApp')
         redirectToSearchView();
       };
 
-      var handleUserNotInAssigneeGroup = function() {
-        SimpleMessageToastService.openAlertMessageToast(
-          'global.error.client-error.not-in-assignee-group');
-        redirectToSearchView();
-      };
-
       var init = function() {
         if (Principal.hasAnyAuthority(['ROLE_PUBLISHER',
             'ROLE_DATA_PROVIDER'])) {
@@ -85,8 +79,8 @@ angular.module('metadatamanagementApp')
                 if (project.release != null) {
                   handleReleasedProject();
                 } else if (!ProjectUpdateAccessService
-                  .isUpdateAllowed(project, 'surveys')) {
-                  handleUserNotInAssigneeGroup();
+                  .isUpdateAllowed(project, 'surveys', true)) {
+                  redirectToSearchView();
                 } else {
                   ctrl.survey = survey;
                   ctrl.currentSurveyMethod = survey.surveyMethod;
@@ -110,10 +104,15 @@ angular.module('metadatamanagementApp')
           } else {
             if (CurrentProjectService.getCurrentProject() &&
             !CurrentProjectService.getCurrentProject().release) {
-              ctrl.createMode = true;
-              AvailableSurveyNumbersResource.get({
-                id: CurrentProjectService.getCurrentProject().id
-              }).$promise.then(
+              if (!ProjectUpdateAccessService
+                .isUpdateAllowed(CurrentProjectService.getCurrentProject(),
+                   'surveys', true)) {
+                redirectToSearchView();
+              } else {
+                ctrl.createMode = true;
+                AvailableSurveyNumbersResource.get({
+                  id: CurrentProjectService.getCurrentProject().id
+                }).$promise.then(
                   function(surveyNumbers) {
                     if (surveyNumbers.length === 1) {
                       ctrl.survey = new SurveyResource({
@@ -134,35 +133,36 @@ angular.module('metadatamanagementApp')
                       $scope.registerConfirmOnDirtyHook();
                     } else {
                       $mdDialog.show({
-                          controller: 'ChooseSurveyNumberController',
-                          templateUrl: 'scripts/surveymanagement/' +
-                            'views/choose-survey-number.html.tmpl',
-                          clickOutsideToClose: false,
-                          fullscreen: true,
-                          locals: {
-                            availableSurveyNumbers: surveyNumbers
-                          }
-                        })
-                        .then(function(response) {
-                          ctrl.survey = new SurveyResource({
-                            id: SurveyIdBuilderService.buildSurveyId(
-                              CurrentProjectService.getCurrentProject().id,
-                              response.surveyNumber
-                            ),
-                            number: response.surveyNumber,
-                            dataAcquisitionProjectId:
+                        controller: 'ChooseSurveyNumberController',
+                        templateUrl: 'scripts/surveymanagement/' +
+                        'views/choose-survey-number.html.tmpl',
+                        clickOutsideToClose: false,
+                        fullscreen: true,
+                        locals: {
+                          availableSurveyNumbers: surveyNumbers
+                        }
+                      })
+                      .then(function(response) {
+                        ctrl.survey = new SurveyResource({
+                          id: SurveyIdBuilderService.buildSurveyId(
                             CurrentProjectService.getCurrentProject().id,
-                            studyId: StudyIdBuilderService.buildStudyId(
-                              CurrentProjectService.getCurrentProject().id
-                            ),
-                            wave: 1
-                          });
-                          $scope.responseRateInitializing = true;
-                          updateToolbarHeaderAndPageTitle();
-                          $scope.registerConfirmOnDirtyHook();
+                            response.surveyNumber
+                          ),
+                          number: response.surveyNumber,
+                          dataAcquisitionProjectId:
+                          CurrentProjectService.getCurrentProject().id,
+                          studyId: StudyIdBuilderService.buildStudyId(
+                            CurrentProjectService.getCurrentProject().id
+                          ),
+                          wave: 1
                         });
+                        $scope.responseRateInitializing = true;
+                        updateToolbarHeaderAndPageTitle();
+                        $scope.registerConfirmOnDirtyHook();
+                      });
                     }
                   });
+              }
             } else {
               handleReleasedProject();
             }

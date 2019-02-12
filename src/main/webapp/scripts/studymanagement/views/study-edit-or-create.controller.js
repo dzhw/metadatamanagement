@@ -57,12 +57,6 @@ angular.module('metadatamanagementApp')
         redirectToSearchView();
       };
 
-      var handleUserNotInAssigneeGroup = function() {
-        SimpleMessageToastService.openAlertMessageToast(
-          'global.error.client-error.not-in-assignee-group');
-        redirectToSearchView();
-      };
-
       var initEditMode = function(study) {
         ctrl.createMode = false;
         ctrl.isInitializingStudySeries = true;
@@ -72,8 +66,8 @@ angular.module('metadatamanagementApp')
           if (project.release != null) {
             handleReleasedProject();
           } else if (!ProjectUpdateAccessService
-              .isUpdateAllowed(project, 'studies')) {
-            handleUserNotInAssigneeGroup();
+              .isUpdateAllowed(project, 'studies', true)) {
+            redirectToSearchView();
           } else {
             ctrl.study = study;
             ctrl.currentStudySeries = study.studySeries;
@@ -96,28 +90,34 @@ angular.module('metadatamanagementApp')
           } else {
             if (CurrentProjectService.getCurrentProject() &&
               !CurrentProjectService.getCurrentProject().release) {
-              StudyResource.get({
-                id: StudyIdBuilderService.buildStudyId(
-                  CurrentProjectService.getCurrentProject().id)
-              }).$promise.then(function(study) {
-                initEditMode(study);
-              }).catch(function() {
-                ctrl.isInitializingStudySeries = true;
-                ctrl.createMode = true;
-                ctrl.study = new StudyResource({
+              if (!ProjectUpdateAccessService
+                   .isUpdateAllowed(CurrentProjectService.getCurrentProject(),
+                    'studies', true)) {
+                redirectToSearchView();
+              } else {
+                StudyResource.get({
                   id: StudyIdBuilderService.buildStudyId(
-                    CurrentProjectService.getCurrentProject().id),
-                  dataAcquisitionProjectId: CurrentProjectService
-                    .getCurrentProject()
-                    .id,
-                  authors: [{
-                    firstName: '',
-                    lastName: ''
-                  }]
-                });
-                updateToolbarHeaderAndPageTitle();
-                $scope.registerConfirmOnDirtyHook();
-              });
+                    CurrentProjectService.getCurrentProject().id)
+                }).$promise.then(function(study) {
+                  initEditMode(study);
+                }).catch(function() {
+                    ctrl.isInitializingStudySeries = true;
+                    ctrl.createMode = true;
+                    ctrl.study = new StudyResource({
+                      id: StudyIdBuilderService.buildStudyId(
+                        CurrentProjectService.getCurrentProject().id),
+                      dataAcquisitionProjectId: CurrentProjectService
+                      .getCurrentProject()
+                      .id,
+                      authors: [{
+                        firstName: '',
+                        lastName: ''
+                      }]
+                    });
+                    updateToolbarHeaderAndPageTitle();
+                    $scope.registerConfirmOnDirtyHook();
+                  });
+              }
             } else {
               handleReleasedProject();
             }
