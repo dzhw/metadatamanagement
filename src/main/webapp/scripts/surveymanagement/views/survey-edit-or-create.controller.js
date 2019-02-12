@@ -381,15 +381,15 @@ angular.module('metadatamanagementApp')
       ];
 
       ctrl.validatePeriod = function() {
-        if (!moment(ctrl.survey.fieldPeriod.start).isSameOrBefore(
-          moment(ctrl.survey.fieldPeriod.end)
-        )) {
-          $scope.surveyForm.fieldPeriodEnd.$setValidity('mindate', false);
-          $scope.surveyForm.fieldPeriodEnd.$setTouched();
-        } else {
-          $scope.surveyForm.fieldPeriodEnd.$setValidity('mindate', true);
-          $scope.surveyForm.fieldPeriodEnd.$setTouched();
-        }
+        $timeout(function() {
+          if (!moment(ctrl.survey.fieldPeriod.start).isSameOrBefore(
+            moment(ctrl.survey.fieldPeriod.end))) {
+            $scope.surveyForm.fieldPeriodEnd.$setValidity('mindate', false);
+            $scope.surveyForm.fieldPeriodEnd.$setTouched();
+          } else {
+            $scope.surveyForm.fieldPeriodEnd.$setValidity('mindate', true);
+            $scope.surveyForm.fieldPeriodEnd.$setTouched();
+          }});
       };
 
       ctrl.saveResponseRateImageDe = function(file) {
