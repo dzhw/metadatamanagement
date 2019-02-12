@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2018, Plotly, Inc.
+* Copyright 2012-2019, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -36,7 +36,9 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     var sampleLetter = orientation === 'v' ? 'x' : 'y';
     var aggLetter = orientation === 'v' ? 'y' : 'x';
 
-    var len = (x && y) ? Math.min(x.length && y.length) : (traceOut[sampleLetter] || []).length;
+    var len = (x && y) ?
+        Math.min(Lib.minRowLength(x) && Lib.minRowLength(y)) :
+        Lib.minRowLength(traceOut[sampleLetter] || []);
 
     if(!len) {
         traceOut.visible = false;
@@ -56,12 +58,16 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     // autobin(x|y) are only included here to appease Plotly.validate
     coerce('autobin' + sampleLetter);
 
+    coerce('hovertemplate');
+
     handleStyleDefaults(traceIn, traceOut, coerce, defaultColor, layout);
+
+    Lib.coerceSelectionMarkerOpacity(traceOut, coerce);
+
+    var lineColor = (traceOut.marker.line || {}).color;
 
     // override defaultColor for error bars with defaultLine
     var errorBarsSupplyDefaults = Registry.getComponentMethod('errorbars', 'supplyDefaults');
-    errorBarsSupplyDefaults(traceIn, traceOut, Color.defaultLine, {axis: 'y'});
-    errorBarsSupplyDefaults(traceIn, traceOut, Color.defaultLine, {axis: 'x', inherit: 'y'});
-
-    Lib.coerceSelectionMarkerOpacity(traceOut, coerce);
+    errorBarsSupplyDefaults(traceIn, traceOut, lineColor || Color.defaultLine, {axis: 'y'});
+    errorBarsSupplyDefaults(traceIn, traceOut, lineColor || Color.defaultLine, {axis: 'x', inherit: 'y'});
 };

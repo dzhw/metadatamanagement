@@ -37,6 +37,6 @@
     "commit": "b41c6336e7ce7ed54d1077640e74c74b8f3f6181"
   },
   "_source": "https://github.com/lancedikson/bowser.git",
-  "_target": "^1.9.4",
+  "_target": "1.9.4",
   "_originalSource": "bowser"
 }
