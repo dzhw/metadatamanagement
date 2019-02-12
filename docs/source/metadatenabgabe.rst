@@ -11,7 +11,7 @@ Der Datenaufnahmeprozess im FDZ des DZHW
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Das FDZ des DZHW stellt Daten quantitativer und qualitativer Erhebungen
-aus dem Feld der Hoch-schul- und Wissenschaftsforschung zur Verfügung.
+aus dem Feld der Hochschul- und Wissenschaftsforschung zur Verfügung.
 Ein fester Bestandteil dieser Arbeit ist zunächst der Prozess der
 Datenaufnahme, welcher im FDZ des DZHW durch ein selbst entwickeltes
 System, das Metadatenmanagementsystem (MDM) unterstützt wird. Das
@@ -55,9 +55,10 @@ einzelnen Metadaten gewährleistet werden kann.
 Aktuell können einige Metadaten bereits über eine Eingabemaske im MDM
 direkt eingetragen werden. Für die übrigen Ebenen müssen Json Dateien
 hochgeladen werden, bzw eine Exceldatei ans FDZ übergeben werden bzw.
-hochgeladen werden.
+hochgeladen werden. In dieser Doku wird lediglich auf den Standardfall
+eingegangen, bei dem die Metadaten per Eingabemaske eingetragen werden.
 Zusätzlich ist auf manchen Ebenen das Erstellen von
-weiteren Anhängen (vgl. Kapitel 2.5) vorgesehen. Die Excel-Tabellen und
+weiteren Anhängen (vgl. :ref:`Anhänge`) vorgesehen. Die Excel-Tabellen und
 eventuelle Anhänge müssen für jede Ebene dann entweder ins MDM hochgeladen
 werden oder zunächst dem
 FDZ zur weiteren Bearbeitung geschickt werden. Tabelle 1 zeigt eine
@@ -191,7 +192,7 @@ releasen.
 
 Sie können nun beginnen, Ihr Projekt mit Metadaten zu füllen. Wie genau
 dies funktioniert, wird im Folgenden zunächst prinzipiell erläutert, ehe
-die konkret geforderten Metadaten in den einzelnen Ebenen in Kapitel 4
+die konkret geforderten Metadaten in den einzelnen Ebenen in  :ref:`Abgabe_von_Metadaten_für_die_einzelnen_Ebenen`
 detailliert beschrieben werden.
 
 Notwendige Schnittstellen und Dateien
@@ -200,7 +201,7 @@ Notwendige Schnittstellen und Dateien
 Grundsätzlich gibt es zwei verschiedene Möglichkeiten Metadaten
 einzutragen bzw. hochzuladen: Eingabemasken und der Upload von Dateien welche
 Metadaten enthalten (Json Dateien im Fall von Fragen und Variablen, eine
-Exceltabelle bei Publikationen).
+Exceltabelle bei Publikationen -- wenden Sie sich hierfür bitte ans FDZ).
 Eingabemasken ermöglichen eine komfortable Abgabe der Metadaten direkt
 auf der Website.
 
@@ -217,109 +218,27 @@ darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben
 dürfen. Die Bedienung der Eingabemasken ist weitgehend intuitiv und an
 vielen Stellen selbsterklärend. Im Rahmen der relevanten Ebenen Studie,
 Erhebungen und Instrumente wird die Handhabung der jeweiligen Eingabemasken dann
-konkret gezeigt (s. Kapitel 4.1 und 4.2).
+konkret gezeigt (s. :ref:`Erhebungen` :ref:`Instrumente`).
 
-Excel-Tabellen
-~~~~~~~~~~~~~~
-
-Für die weiteren Ebenen können Sie bereits vorbereitete Excel-Tabellen
-verwenden, in denen verschiedene Metadaten spaltenweise erfasst werden.
-Diese Excel-Tabellen finden Sie im Vorlage-Ordner_ der jeweiligen Ebene
-(vgl. Kapitel 3.4). Welche Metadaten Sie an welcher Stelle in der
-Excel-Tabelle eintragen müssen, erkennen Sie an den bereits vorgegebenen
-Spaltenüberschriften in der ersten Zeile der Tabelle. Dort stehen die
-Bezeichnungen der jeweiligen Metadaten.
-
-.. _Vorlage-Ordner: https://github.com/dzhw/metadatamanagement-io/wiki/Vorlagen/Vorlagen_fuer_Datengeber.zip
-
-Die Suffixe „.de“ und „.en“ sind Teil vieler Spaltenüberschriften und
-weisen auf die Sprache des einzutragenden Metadatums hin.
-Ab der zweiten Zeile sind die Tabellenvorlagen leer. Dort können Sie Ihre
-Inhalte entsprechend der Spaltenüberschriften eintragen. Inhaltliche
-Hilfen hierfür finden Sie in den Erklärungen zu den einzelnen Ebenen.
-
-Bitte beachten Sie außerdem:
-
--  Die Excel-Tabellen enthalten je nach Ebene unterschiedlich viele
-   Tabellenblätter, die Sie bearbeiten müssen.
-
--  Die Anzahl der Spalten pro Tabellenblatt variiert, sodass ein
-   seitliches Scrollen oftmals notwendig ist.
-
--  Es gibt Metadaten, die Sie ausfüllen *müssen*, und solche, die Sie
-   ausfüllen *können*. Die konkreten Ausfüllanweisungen finden Sie in
-   Kapitel 4.
-
-   **Kontrolliertes Vokabular**
-
-Für einige Metadaten gibt es ein sogenanntes „kontrolliertes Vokabular“,
-d.h. dort können nur bestimmte Inhalte in die Spalten eingetragen
-werden. In diesen Spalten wird Ihnen in jeder Zelle eine Auswahl der
-möglichen Antworten anhand eines Drop-Down-Menüs angeboten und Sie
-müssen diese nur auswählen.
-
-Häufig ist es der Fall, dass aus dem kontrollierten Vokabular einer
-bestimmten Zelle automatisch der Inhalt der nächsten Zelle folgt. Für
-dieses Szenario sind die Excel-Vorlagen_ vorbereitet, d. h. in den
-betreffenden Spalten sind über mehrere Zeilen bereits Formeln
-hinterlegt, die die nächste Zelle automatisch füllen und Ihnen viel
-Tipparbeit ersparen. Die Vorlagen sind für alle Fälle
-vorbereitet, so dass die Formeln auch in höher nummerierten Zeilen
-stehen werden, die Sie voraussichtlich nicht mehr benötigen (bis
-einschließlich Zeile 20 der Excel-Vorlage für die Ebenen Instrumente
-sowie Datensätze, bis einschließlich Zeile 2000 der Excel-Vorlage für
-die Fragen- und Variablenebene). Zum leichteren Erkennen sind die
-betreffenden Zeilen in den Vorlagen bereits grau hinterlegt.
-
-.. _Excel-Vorlagen: https://github.com/dzhw/metadatamanagement-io/wiki/Vorlagen/Vorlagen_fuer_Datengeber.zip
-
-Da Formeln in solchen Zellen, die nicht mit Inhalt befüllt sind,
-einen fehlerhaften Upload der Excel-Tabelle hervorrufen,
-müssen die überflüssigen Formeln aus den nicht benötigten Zeilen
-herausgelöscht werden. Dies können Sie erledigen, indem Sie die nicht
-benötigten der grau eingefärbten Zeilen bis einschließlich der Zeile 2000
-(für Fragen- und Variablenebene) markieren und über das Menü per
-„Blattzeilen löschen“ komplett entfernen (vgl. dazu analog zur ehemaligen
-Exceltabelle für die Datensatzebene -- mittlerweile gibt es dort nur noch
-Eingabemasken :numref:`nicht_benötigte_formel`).
-
-.. figure:: ./_static/11_de.png
-   :name: nicht_benötigte_formel
-
-   Beispiel für das Löschen nicht benötigter Formeln aus der Excel-Vorlage für
-   die Ebene *Datensätze*
+.. _Anhänge:
 
 Anhänge
 ~~~~~~~
 
-Für einige Ebenen können verschiedene Anhänge entweder direkt über die
-Eingabemasken oder innerhalb der festgelegten Ordnerstruktur (vgl.
-Kapitel 3.4) im MDM hochgeladen werden. Zu den Anhängen zählen z. B. der
+Anhänge werden über die Eingabemasken im MDM hochgeladen. Zu den Anhängen zählen
+z.B. der
 Daten- und Methodenbericht auf der Studienebene sowie Fragebögen oder
 Codierlisten auf Instrumentenebene. Diese Dokumente müssen als Dateien
-im PDF- oder Excel-Format vorliegen (Details dazu finden Sie innerhalb
-der einzelnen Ebenen in Kapitel 4) und zudem nach bestimmten Richtlinien
-benannt werden. Für die Anhänge im PDF-Format gilt es darüber hinaus zu
-beachten, dass dokumenteigene Metadaten wie Autor und Titel aus der
+im PDF- oder Excel-Format vorliegen (Details dazu finden Sie in den jeweils
+relevanten Kapiteln zu den einzelnen Ebenen) und zudem nach bestimmten
+Richtlinien benannt werden. Für die Anhänge im PDF-Format gilt es darüber hinaus
+zu beachten, dass dokumenteigene Metadaten wie Autor und Titel aus der
 PDF-Datei gelöscht werden. Dies können Sie im PDF-Dokument über „Datei“
 -> „Eigenschaften…“ erledigen.
 
-Für das Hochladen der Metadaten über Excel-Tabellen gilt, dass die
-Anhänge im MDM in der Reihenfolge dargestellt werden, in der sie in der
-Excel-Tabelle eingetragen wurden. Genaue Informationen dazu finden Sie
-in den Erläuterungen für die einzelnen Ebenen.
 
-Die korrekte Anordnung der Dateien im Ordner
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _Abgabe_von_Metadaten_für_die_einzelnen_Ebenen:
 
-Für einen erfolgreichen Upload der Metadaten attachments müssen
-Sie sämtliche Dateien ihrer zugehörigen Ebene entsprechend in den vom
-FDZ vorbereiteten Vorlage-Ordner_ ablegen, welcher nach der jeweiligen
-Ebene benannt ist. Dieser Ordner sowie auch seine Unterordner sind mit
-englischen Begriffen betitelt. Der Unterordner, welche alle Anhänge enthält,
-heißt unabhängig von der Ebene immer „attachments“.
-
-.. _Vorlage-Ordner: https://github.com/dzhw/metadatamanagement-io/wiki/Vorlagen/Vorlagen_fuer_Datengeber.zip
 
 Die Abgabe von Metadaten für die einzelnen Ebenen
 -------------------------------------------------
@@ -451,6 +370,9 @@ Mit den Pfeil-Buttons können Sie dann ggf. die Reihenfolge bereits
 eingegebener Materialien verändern. Wenn Sie eine geänderte Reihenfolge
 beibehalten möchten, müssen Sie erneut speichern.
 
+.. _639-1: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+
+
 .. figure:: ./_static/18_de.png
    :name: eingabemaske_studie_materialien
 
@@ -496,6 +418,8 @@ historisiert werden.
 
    Dialog zur Historisierung innerhalb einer Studie
 
+.. _Erhebungen:
+
 Erhebungen (surveys)
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -516,19 +440,13 @@ erstellt:
 Wenn Sie eine Studie angelegt haben (vgl. Kapitel 4.1), können Sie über
 den Reiter „Erhebungen“ eine neue Erhebung innerhalb Ihrer Studie
 erstellen. Hierzu finden Sie unten rechts auf der Seite – ebenso wie bei
-der Studie – einen orangefarbenen Plus-Button
-(vgl. :numref:`optionen_studie_anlegen`). Wenn
+der Studie – einen orangefarbenen Plus-Button. Wenn
 Sie mit dem Mauszeiger darüberfahren, erscheinen die beiden weißen
 Buttons, von denen Sie den Plus-Button anklicken, um die Eingabemaske zu
 öffnen. Bitte beachten Sie, dass Sie mehrere Erhebungen über die
 Eingabemaske in der richtigen Reihenfolge eingeben müssen, da die IDs
 beim Anlegen einer neuen Erhebung automatisch generiert werden und sich
 später nicht mehr verändern lassen.
-
-.. figure:: ./_static/23_de.png
-   :name: optionen_studie_anlegen
-
-   Optionen für das Anlegen einer Erhebung
 
 **Eingabemaske**
 
@@ -638,6 +556,8 @@ Der Titel der Erhebung wird zukünftig bei da|ra vor einige Attribute (z.B.
 Referenzzeitraum) gehängt. Der Titel der Erhebung muss daher eindeutig sein und
 im Falle von Panelstudien die Welle enthalten.
 
+.. _Instrumente:
+
 Erhebungsinstrumente (instruments)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Als Instrument wird das Erhebungsinstrument bezeichnet (z.B. Fragebogen).
@@ -656,22 +576,16 @@ folgende Übersicht im MDM erstellt:
 
 Erhebungsinstrumente lassen sich per Eingabemaske erfassen und editieren.
 Dafür darf die Studie aktuell nicht released sein.
-Um ein Erhebungsinstrument mittels Eingabemaske anzulegen muss man sich im Datenaufbereitungsprojekt im
-Instrumentereiter befinden. Anschließend wird der Plusbutton gedrückt und es öffnet sich
-der Dialog um ein neues Instrument anzulegen.
+Um ein Erhebungsinstrument mittels Eingabemaske anzulegen, wird im
+Projektcockpit unter Instrumente auf den Neu-Button oder geht über die Suche in
+die Instrumentenebene und klickt auf den Plus-Button. Es öffnet sich bei beiden
+Herangehensweisen die Eingabemaske um ein neues Instrument anzulegen.
 
 .. figure:: ./_static/add_instrument_de.png
    :scale: 50 %
    :name: instruments_plusbutton
 
    Plusbutton
-
-
-.. figure:: ./_static/add_instrument_manually_de.png
-   :scale: 50 %
-   :name: instruments_manuell_anlegen
-
-   Manuelles Anlegen des Instruments.
 
 
 Die Eingabemaske besteht
@@ -706,22 +620,31 @@ Sollte es Erhebungsinstrumente geben, welche in einer anderen Sprache als
 deutsch oder englisch existieren, werden diese nur als Attachment und nicht auf
 Variablenebene bereitgestellt.
 
-Questions
-~~~~~~~~~
+Fragen
+~~~~~~
 
-Metadaten für Questions müssen als JSON und png Dateien vorliegen.
+Sollten Sie mit uns die Eingabe von Frage-Metadaten vereinbart haben, sprechen
+Sie uns bitte darauf an. Wir erläutern Ihnen dann den Prozess.
+Metadaten für Fragen müssen als JSON und png Dateien vorliegen.
 Sollte eine Umfrage mit Zofar durchgeführt worden sein, bitten wir Sie uns die
 Metadaten zukommen zu lassen. Die Fragen-Metadaten werden von uns hochgeladen.
+
+.. _Datensätze:
 
 Datensätze (dataSets)
 ~~~~~~~~~~~~~~~~~~~~~
 
 **Übersicht**
 Für die Dokumentation der Datensätze werden die "Master"(AIP)-Datensätze
-(siehe Zwiebelmodell) genutzt.Diese Datensätze sind die größte mögliche
+(siehe Zwiebelmodell) genutzt. Diese Datensätze sind die größte mögliche
 Vereinheitlichung eines Datensatzes, also keine Teilpopulation oder Teilmenge
 von Variablen eines Datensatz. Datensätze die sich als Teilmenge eines
-"Master"-Datensatzes abbilden lassen werden über die SubDataSets dokumentiert.
+"Master"-Datensatzes abbilden lassen werden über die Subdatensätzen (SubDataSets)
+dokumentiert. Mit Subdatensätzen sind solche gemeint,
+die Sie nach einer Anonymisierung Ihrer Daten erhalten. Sie können mehrere
+Stufen der Anonymisierung verwenden, wobei jede Stufe einen eigenen Zugangsweg
+zu den anonymisierten Daten mit sich bringt. Für jeden Zugangsweg
+wird dann ein eigener Subdatensatz erstellt.
 
 Mit den Informationen über die Datensätze, welche Sie aus den Daten
 Ihrer Studie erstellt haben, wird für jeden dieser Datensätze folgende
@@ -739,18 +662,12 @@ Ihrer Studie erstellt haben, wird für jeden dieser Datensätze folgende
 Datensätze lassen sich auch per Eingabemaske anlegen und editieren.
 Hierfür muss man auf den Reiter Datensätze klicken (:numref:`mdm-ebenen`),
 anschließend auf das Plussymbol (:numref:`neuerdatensatz`) in der unteren
-rechten Ecke klicken und dann auf das Stiftsymbol (:numref:`stiftdatensatz`)
-("Klicken um einen Datensatz manuell zu erstellen".)
+rechten Ecke klicken. Anschließend öffnet sich die Eingabemaske (siehe :numref:`dateset_eingabemaske`).
 
 .. figure:: ./_static/new_dataset_de.png
    :name: neuerdatensatz
 
    Neuen Datensatz hinzufügen.
-
-.. figure:: ./_static/new_dataset_step2_de.png
-   :name: stiftdatensatz
-
-   Klicken um einen Datensatz manuell zu erstellen.
 
 Die mit * markierten Felder sind verpflichtend.
 Die verknüpften Erhebungen werden nach einem Klick in das Feld "Erhebungen"
@@ -760,435 +677,29 @@ eingegeben. Weitere Subdatensätze können per Klick auf das Plussymbol
 hinzugefügt werden. Nachdem gespeichert wurde, lassen sich weitere Materialien
 zum Datensatz hinzufügen.
 
-Wenn Sie Materialien auf Ebene der Datensätze haben, können Sie diese
-auch hier wieder im Ordner *attachments* ablegen. [9]_
+.. figure:: ./_static/datensatz_eingabemaske.png
+   :name: dataset_eingabemaske
 
-Datensatzreport erzeugen
-~~~~~~~~~~~~~~~~~~~~~~~~
+   Eingabemaske der Datensatzebene.
 
-Wenn ein Datensatz und die zugehörigen Variablen im MDM vorliegen, kann mit
-Hilfe des MDMs ein Datensatzreport erstellt werden.
-Hierzu wird das
-`Template
-<https://github.com/dzhw/metadatamanagement-io/tree/master/datasetreport/template/>`_
-auf den Datensatz im MDM gezogen. Nach einiger Zeit (je nach Anzahl an Variablen
-länger als eine Minute) erfolgt ein Download.
-Die resultierenden Dateien werden von FDZ-MitarbeiterInnen zu einem PDF
-kompiliert. Dokumentation zum Umgang mit dem dafür benötigten Docker-Image
-folgt.
+Wenn Sie zusätzliche Materialien (z.B. Variablen-Dokumentation) auf Ebene der
+Datensätze haben, können Sie diese hinzufügen. Hierfür muss zunächst der
+Datensatz angelegt sein. Anschließend wird in der unteren linken Ecke auf den
+blauen Plus-Button geklickt. [6]_
 
-Variablen (variables) [10]_
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. figure:: ./_static/datensatz_attachments.png
+   :name: dataset_attachments
 
-**Übersicht**
+   Datensatz Anhänge
 
-Anhand der Informationen, die Sie auf Ebene der Variablen abgeben, wird
-für jede Variable eine Übersichtsseite im MDM erstellt:
+Es öffnet sich ein Fenster (siehe :numref:`dataset_attachments`) in dem Sie eine
+Datei hochladen können und Metadaten zur Datei angeben müssen.
 
+Variablen
+~~~~~~~~~
 
-.. figure:: ./_static/35_de.png
-   :name: variablenübersicht
-
-   Variablenübersicht im MDM am Beispiel der Variable "1. Studium: Beginn
-   (Semester)" im Absolventenpanel 2005, erste Welle (BA)
-
-Die Erstellung der Variablenebene beinhaltet einerseits recht viel
-Aufwand, da für jeden Datensatz eine eigene Excel-Tabelle mit
-Informationen zu allen Variablen geliefert werden muss. Viele
-Informationen müssen manuell eingetragen werden, einige können – sofern
-die Befragung über Zofar stattgefunden hat – auch direkt aus Zofar
-(das Onlinebefragungstool des DZHW) extrahiert werden oder sogar aus der
-Excel-Tabelle der Frageebene importiert werden.
-
-Die Variablenebene ist andererseits sehr wertvoll im Hinblick auf die
-Nachnutzbarkeit der Forschungsdaten. Wenn Metadaten auf dieser Ebene
-vorhanden sind, können die dazugehörigen Daten auch aus inhaltlicher
-Sicht umfassend durchsucht werden, sodass das Analysepotential auch für sehr
-spezielle Fragestellungen direkt sichtbar wird.
-
-Für die Darstellung der Metadatenaufnahme auf Variablenebene gilt es
-noch folgende Dinge zu beachten:
-
--  Wenn Sie mehrere Datensätze liefern: Es darf kein Variablenname
-   doppelt vorkommen.
-
--  Missings müssen global definiert sein, d. h. sie müssen für alle
-   Variablen eines Datensatzes gelten.
-
-**Excel-Tabelle**
-
-Ausfüllen müssen Sie je nach Anzahl der Datensätze mindestens eine
-Excel-Datei mit dem Namen *vimport_ds\ *\ **Nr.**\ *.xlsx*, wobei die
-**„\ Nr.\ “** im Dateinamen der Nummer des dazugehörigen Datensatzes
-entsprechen muss, d. h. die Variablen des Datensatzes mit der Nummer 1
-muss *vimport_ds1.xlsx* heißen usw. Die Datei enthält die beiden
-Tabellenblätter *variables* und *relatedQuestions*.
-
-Tabelle 5: Ausfüllanweisungen für die Excel-Tabelle "vimport_ds*Nr*."
-
-+------------------------+-----------------------+------------------------+
-| **Tabellenblatt 1:                                                      |
-| variables**                                                             |
-+========================+=======================+========================+
-| Es können mehrere                                                       |
-| Variablen eingetragen                                                   |
-| werden (= mehrere                                                       |
-| Zeilen möglich, eine                                                    |
-| Variable pro Zeile)                                                     |
-+------------------------+-----------------------+------------------------+
-| **Spaltenüberschrift** | **Muss ich das        | **Was muss ich         |
-|                        | ausfüllen?**          | eintragen?**           |
-+------------------------+-----------------------+------------------------+
-| name                   | Ja                    | Variablenname          |
-+------------------------+-----------------------+------------------------+
-| surveyNumbers          | Ja\*                  | Angabe aller der       |
-|                        |                       | Variablen zugehörigen  |
-|                        |                       | Erhebungsnummern (in   |
-|                        |                       | einer Zelle durch      |
-|                        |                       | Komma getrennt)        |
-+------------------------+-----------------------+------------------------+
-| scaleLevel.de/.en      | Ja                    | de: „nominal“,         |
-|                        |                       | „ordinal“,             |
-|                        |                       | „intervall“ oder       |
-|                        |                       | „verhältnis“           |
-|                        |                       | en: „nominal“,         |
-|                        |                       | „ordinal“,             |
-|                        |                       | „intervall“ or         |
-|                        |                       | „ratio“                |
-+------------------------+-----------------------+------------------------+
-| panelIdentifier        | Nein\*                | Identifier zur         |
-|                        |                       | eindeutigen Zuordnung  |
-|                        |                       | von Panelvariablen.    |
-|                        |                       | Präfix muss aus der    |
-|                        |                       | Projekt-ID + Nummer    |
-|                        |                       | des Datensatzes        |
-|                        |                       | bestehen (Beispiel:    |
-|                        |                       | *gra2005-ds1*), der    |
-|                        |                       | hintere Teil des       |
-|                        |                       | Identifiers ist        |
-|                        |                       | beliebig wählbar,      |
-|                        |                       | muss aber eindeutig    |
-|                        |                       | sein.                  |
-|                        |                       | Beispiel: Sind die     |
-|                        |                       | Variablen *astu01a*    |
-|                        |                       | und *bstu01a* aus dem  |
-|                        |                       | 1. Datensatz des       |
-|                        |                       | Projekts *gra2005*     |
-|                        |                       | Panelvariablen, so     |
-|                        |                       | könnte der Identifier  |
-|                        |                       | *gra2005-ds1-stu01a*   |
-|                        |                       | lauten.                |
-+------------------------+-----------------------+------------------------+
-| annotations.de/en      | Nein                  | Anmerkungen zur        |
-|                        |                       | Variablen              |
-+------------------------+-----------------------+------------------------+
-| accessWays             | Ja\*                  | Mögliche Zugangswege:  |
-|                        |                       | Download-CUF,          |
-|                        |                       | Download-SUF,          |
-|                        |                       | Remote-Desktop-SUF,    |
-|                        |                       | On-Site-SUF.           |
-|                        |                       | Bei mehreren           |
-|                        |                       | Zugangswegen sind den  |
-|                        |                       | verschiedenen          |
-|                        |                       | Zugangswegen           |
-|                        |                       | entsprechend Spalten   |
-|                        |                       | vorhanden, die mit     |
-|                        |                       | „nicht verfügbar im …  |
-|                        |                       | “ überschrieben sind.  |
-|                        |                       | Für jede Variable      |
-|                        |                       | muss dann ein „x“      |
-|                        |                       | gesetzt werden, wenn   |
-|                        |                       | diese über den         |
-|                        |                       | jeweiligen Zugangsweg  |
-|                        |                       | nicht vorhanden ist.   |
-+------------------------+-----------------------+------------------------+
-| filterDetails.descrip\ | Nein                  | Verbalisierte          |
-| tion.de/.en            |                       | Beschreibung des       |
-|                        |                       | Variablenfilters       |
-+------------------------+-----------------------+------------------------+
-| filterDetails.express\ | Ja, wenn Filter       | Regel, die in der      |
-| ion [11]_              | vorhanden             | angegebenen „Sprache“  |
-|                        |                       | (.expressionLanguage)  |
-|                        |                       | beschreibt, welche     |
-|                        |                       | Teilpopulation zu      |
-|                        |                       | dieser Variable hin    |
-|                        |                       | gefiltert wurde (auch  |
-|                        |                       | verschachtelte         |
-|                        |                       | Filterführung wird     |
-|                        |                       | beachtet (PAPI))       |
-+------------------------+-----------------------+------------------------+
-| filterDetails.express\ | Ja, wenn Filter       | Sprache des            |
-| ionLanguage [12]_      | vorhanden             | Filterausdrucks:       |
-|                        |                       | „Stata“                |
-+------------------------+-----------------------+------------------------+
-| generationDetails.des\ | Nein                  | Beschreibung, wie die  |
-| cription.de/.en        |                       | Variable erzeugt       |
-|                        |                       | wurde, wenn sie nicht  |
-|                        |                       | direkt aus dem         |
-|                        |                       | Fragebogen abgelesen   |
-|                        |                       | werden kann            |
-|                        |                       | (`Beispiel <https://m\ |
-|                        |                       | etadata.fdz.dzhw.eu/#\ |
-|                        |                       | !/de/variables/var-gr\ |
-|                        |                       | a2005-ds1-aocc221j_g1\ |
-|                        |                       | r$?search-result-inde\ |
-|                        |                       | x=1>`__,               |
-|                        |                       | siehe Abschnitt        |
-|                        |                       | "Generierungsdetails") |
-+------------------------+-----------------------+------------------------+
-| generationDetails.rul\ | Ja, wenn Variable     | Regel, die in der      |
-| e                      | generiert             | angegebenen „Sprache“  |
-|                        |                       | (.ruleExpressionLangu  |
-|                        |                       | age)                   |
-|                        |                       | beschreibt, wie die    |
-|                        |                       | Variable erzeugt       |
-|                        |                       | wurde                  |
-|                        |                       | (`Beispiel <https://m\ |
-|                        |                       | etadata.fdz.dzhw.eu/#\ |
-|                        |                       | !/de/variables/var-gr\ |
-|                        |                       | a2005-ds1-afec021k_g2\ |
-|                        |                       | $?search-result-index\ |
-|                        |                       | =1>`__,                |
-|                        |                       | siehe Abschnitt        |
-|                        |                       | „Generierungsregel     |
-|                        |                       | (Stata)“)              |
-+------------------------+-----------------------+------------------------+
-| generationDetails.rul\ | Ja, wenn Variable     | Sprache der            |
-| eExpressionLanguage    | generiert             | Erzeugungsregel:       |
-|                        |                       | „Stata“ oder „R“       |
-+------------------------+-----------------------+------------------------+
-| derivedVariablesIdent\ | Nein\*                | Identifier zur         |
-| ifier                  |                       | eindeutigen Zuordnung  |
-|                        |                       | von abgeleiteten       |
-|                        |                       | Variablen. Präfix      |
-|                        |                       | muss aus der           |
-|                        |                       | Projekt-ID + Nummer    |
-|                        |                       | des Datensatzes        |
-|                        |                       | bestehen (Beispiel:    |
-|                        |                       | *gra2005-ds1*), der    |
-|                        |                       | hintere Teil des       |
-|                        |                       | Identifiers ist frei   |
-|                        |                       | wählbar, muss aber     |
-|                        |                       | eindeutig sein.        |
-|                        |                       |                        |
-|                        |                       | Beispiel: Wurde die    |
-|                        |                       | Variable *astu01a_g1*  |
-|                        |                       | aus *astu01a*          |
-|                        |                       | abgeleitet, so könnte  |
-|                        |                       | der Identifier         |
-|                        |                       | *gra2005-ds1-astu*     |
-|                        |                       | lauten.                |
-|                        |                       |                        |
-|                        |                       | Wichtig: Alle          |
-|                        |                       | Variablen, aus denen   |
-|                        |                       | die abgeleitete        |
-|                        |                       | Variable entstanden    |
-|                        |                       | ist, müssen            |
-|                        |                       | berücksichtigt werden  |
-|                        |                       | (sowohl aufwärts als   |
-|                        |                       | auch abwärts).         |
-|                        |                       |                        |
-|                        |                       | Beispiel: Von der      |
-|                        |                       | tatsächlichen          |
-|                        |                       | Hochschule wird        |
-|                        |                       | sowohl der             |
-|                        |                       | Hochschulort           |
-|                        |                       | (West-/Ostdeutschland  |
-|                        |                       | )                      |
-|                        |                       | als auch der           |
-|                        |                       | Hochschulort nach      |
-|                        |                       | Bundesländern          |
-|                        |                       | abgeleitet.            |
-+------------------------+-----------------------+------------------------+
-| doNotDisplayThousands\ | Nein                  | Wenn bei der Anzeige   |
-| Seperator              |                       | der Werte einer        |
-|                        |                       | Variablen *keine*      |
-|                        |                       | Tausendertrennzeichen  |
-|                        |                       | angezeigt werden       |
-|                        |                       | sollen, muss hier      |
-|                        |                       | "true" angezeigt       |
-|                        |                       | werden (z. B.          |
-|                        |                       | Jahreszahlen). Bleibt  |
-|                        |                       | das Feld leer, wird    |
-|                        |                       | dies als "false"       |
-|                        |                       | interpretiert, d.h.    |
-|                        |                       | es werden              |
-|                        |                       | Tausendertrennzeichen  |
-|                        |                       | angezeigt.             |
-+------------------------+-----------------------+------------------------+
-
-\* Wenn eigene Konventionen verwendet werden, muss das Feld manuell
-ausgefüllt werden. Bei Verwendung von FDZ-eigenen Schemata kann dieses
-Feld auch leer gelassen werden.
-
-+------------------------+-----------------------+-----------------------+
-| **Tabellenblatt 2:                                                     |
-| relatedQuestions**                                                     |
-+========================+=======================+=======================+
-| **Variablen, die mit                                                   |
-| mehreren Fragen                                                        |
-| verbunden sind,                                                        |
-| können mehrfach                                                        |
-| aufgeführt werden.                                                     |
-| Variablen, die keiner                                                  |
-| Frage (oder keinem                                                     |
-| Instrument)                                                            |
-| zugeordnet sind,                                                       |
-| müssen nicht                                                           |
-| eingetragen werden.**                                                  |
-+------------------------+-----------------------+-----------------------+
-| Es können mehrere                                                      |
-| verbundene Fragen                                                      |
-| eingetragen werden (=                                                  |
-| mehrere Zeilen, eine                                                   |
-| verbundene Frage pro                                                   |
-| Zeile)                                                                 |
-+------------------------+-----------------------+-----------------------+
-| **Spaltenüberschrift** | **Muss ich das        | **Was muss ich        |
-|                        | ausfüllen?**          | eintragen?**          |
-+------------------------+-----------------------+-----------------------+
-| name                   | Ja                    | Variablenname         |
-+------------------------+-----------------------+-----------------------+
-| relatedQuestionString\ | Nein                  | Text, der den         |
-| s.de/.en               |                       | Frageinhalt der       |
-|                        |                       | Variable darstellt.   |
-|                        |                       | Also Fragetext der    |
-|                        |                       | dazugehörigen Frage   |
-|                        |                       | plus evtl. weitere    |
-|                        |                       | Ausführungen wie      |
-|                        |                       | bspw. der Itemtext    |
-|                        |                       | (bei Itembatterien)   |
-|                        |                       | oder der Antworttext  |
-|                        |                       | (bei Einfach- oder    |
-|                        |                       | Mehrfachnennungen)    |
-+------------------------+-----------------------+-----------------------+
-| questionNumber         | Ja                    | Nummer der zur        |
-|                        |                       | Variablen zugehörigen |
-|                        |                       | Frage im Fragebogen   |
-+------------------------+-----------------------+-----------------------+
-| instrumentNumber       | Ja                    | Nummer des zur        |
-|                        |                       | Variablen zugehörigen |
-|                        |                       | Fragebogens           |
-+------------------------+-----------------------+-----------------------+
-
-Dem Namen entsprechend wird aus den Informationen des zweiten
-Tabellenblatts die Verknüpfung zwischen einer Variablen und der
-dazugehörigen Frage aus dem Erhebungsinstrument erstellt. Für eine
-nachvollziehbare Dokumentation dieser Verbindung ist die Erstellung
-eines Variablenfragebogens sehr hilfreich. Aus diesem kann die
-Verknüpfung aus Variable und Frage problemlos abgelesen werden.
-:numref:`ausschnitt_variablenfragebogen` zeigt beispielhaft, dass den Variablen
-*astu08a* bis *astu08e* die Frage 1.8 zugeordnet ist.
-
-.. figure:: ./_static/36_de.png
-   :name: ausschnitt_variablenfragebogen
-
-   Ausschnitt aus dem Variablenfragebogen des Absolventenpanels 2005, erste
-   Welle, Frage 1.8
-
-
-Außer der/den Excel-Tabelle/n müssen Sie für jede Tabelle noch den
-zugehörigen Stata-Datensatz liefern, aus dem die Variablen stammen.
-Diese Dateien speichern Sie dann in dem Ordner, den das FDZ für Sie
-vorbereitet hat. Das FDZ greift daraufhin auf die Dateien zu,
-verarbeitet sie weiter und lädt die finalisierten Metadaten für die
-Variablenebene dann selbst ins MDM.
-
-Erstellung der Variable-JSON Dateien
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. figure:: ./_static/uebersicht_dta_to_json.png
-   :name: dta_to_JSON
-
-
-Die Erstellung der Variablen JSONs erfolgt komplett im geschützten Bereich.
-Benötigt werden pro Datensatz ein zugehöriger Stata-Datensatz und eine
-Exceltabelle. Die Exceltabelle (vimport_dsNR.xlsx) enthält die beiden
-Tabellenblätter variables und relatedQuestions. Pflichtspalten und zugehörige
-Ausfüllanweisungen werden im folgenden Abschnitt beschrieben.
-
-Es ist erlaubt die Exceltabellen um weitere optionale Spalten zu erweitern, z.B.
-Varname_alt, Var_Erh, Var_Thema, Var_Nr, Var_Indiz, Var_g, Var_h, Var_x, Var_p,
-Var_v, Var_Zugang, Varlabel_alt, Varlabel_neu, On-Site, Remote-Desktop,
-Download-SUF, Download-CUF, AIP, SIP, delete, ...
-
-Momentan liegen die Import Dateien der Projekte, sowie die Skripte zur Erzeugung
-der JSONs im geschützten Bereich unter Q:\Variablenexport\. Der Aufbau der Ordnerstruktur ist wie folgt:
-
-::
-
-   |--Variablenexport
-      |--Projekte
-         |--gra2005
-            |--variablesToJsons.bat
-            |--output
-               |--ds1
-               |--ds2
-            |--data-raw
-               |--stata
-                  |--ds1.dta
-                  |--ds2.dta
-               |--excel
-                  |--vimport_ds1.xlsx
-                  |--vimport_ds2.xlsx
-                  |--conditions.xlsx
-      |--variable-generation_productive
-         |--variablesToJsons.bat.tmpl
-
-Um json Dateien für ein neues Projekt zu generieren, muss zunächst ein Ordner
-für das neue Projekt angelegt werden und die oben gezeigt Ordnerstruktur
-aufgebaut werden. Im Ordner stata befinden sich die jeweiligen Stata Datensätze
-(ds1, ds2, ds3, ...) und im Ordner excel die zugehörigen Exceltabellen mit den
-beiden Tabellenblättern variables und relatedQuestions (vimport_ds1.xlsx,
-vimport_ds2.xlsx, vimport_ds1.xlsx, ...), sowie die Datei mit den missing
-conditions (conditions.xlsx). Zum Generieren der json Dateien das R-Skript
-variablesToJsons.bat.tmpl in den Projektordner kopieren, das .tmpl entfernen,
-die Datei anpassen und danach ausführen.
-
-Es ist möglich die Missing Bedingungen für numerische und string Variablen in
-der datei conditions.xlsx anzupassen. Außerdem können in der batch-Datei
-Variablennamen angegeben werden, die im MDM keine Verteilung bekommen sollen.
-Dies sind z.B. id Variablen. Variablen mit accessway not-accessible müssen hier
-nicht eingetragen werden.
-
-**Missing Conditions**
-
-In der Exceltabelle conditions.xlsx können für numerische und string Variablen
-Missingbedingungen angegeben werden. Die Exceltabelle enthält die beiden
-Tabellenblättern missingConditionNumeric und missingConditionString. Es ist
-möglich für numerische und string Variablen jeweils mehrere Bedingungen
-anzugeben. Die Bedingungen werden mit ODER verknüpft. Das heißt, wenn eine der
-Bedingungen für einen Wert zutrifft, wird dieser Wert als Missing gewertet. Die
-verfügbaren Operatoren können in der Exceltabelle über ein Drop-Down Menü
-ausgewählt werden und sind im Tabellenblatt list of valid operators
-dokumentiert.
-
-Ein Fehler der auftreten kann ist, dass im Stata-Datensatz nicht die richtige
-Sprache gewählt wurde. Ist das der Fall können nicht die richtigen Wertelabel
-zugeordnet werden.
-
-**Transfer in den öffentlichen Bereich**
-Die Datensatzordner mit den json Dateien müssen noch in den öffentlichen Bereich
-transferiert werden. Da es nicht möglich ist, Ordner zu transferieren, werden
-die Ordner gezippt (7-Zip), transferiert und im öffentlichen Bereich wieder
-entpackt.
-
-Die Variable-JSON Dateien müssen anschließend bei Github in das Repository
-projectid-metadata in den variables Ordner hochgeladen werden. Siehe z.B.
-http://github.com/dzhw/gra2005-metadata/ . Die Ordner werden anschließend auf
-Variablenebene ins MDM per Drag and Drop oder über den Plusbutton rechts unten
-hochgeladen.
-
-Variables (Zofar)
-~~~~~~~~~~~~~~~~~
-
-Bei Onlinebefragungen mit ZOFAR können fragenbezogene Metadaten auf
-Variablenebene automatisch extrahiert werden. Eine .csv Tabelle die den
-Variablennamen, die Instrumentnummer, die Fragenummer und den
-relatedQuestionString (Fragetext + zugehöriger Variablentext) enthält, wird
-geliefert.
-
-Der Prozess befindet sich im Aufbau...
+Sollten Sie die Bereitstellung von Variablenmetadaten mit uns vereinbart haben,
+sprechen Sie uns bitte an. Wir erläutern Ihnen dann die notwendigen Schritte.
 
 Publikationen (relatedPublications)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1210,79 +721,8 @@ wie folgt dargestellt:
 
 Wenn Sie Publikationen zu Ihren Daten abgeben möchten, senden Sie dem
 FDZ per Mail die PDF-Datei Ihrer Publikation sowie den dazugehörigen
-Zitationshinweis zu. Die weitere Bearbeitung wie z. B. die Registrierung
-für das Erhalten einer DOI und den Upload ins MDM übernimmt das FDZ.
+Zitationshinweis zu.
 
-**Arbeiten mit der Citavi-Datenbank**
-
-Für dieses Objekt wird eine Citavi-Datenabank angelegt. Diese liegt unter: `\\faust\Abt4\FDZ\Querschnittsaufgaben\Metadaten\Erzeugen\Literaturexport\relatedPublication`.
-
-Die Citavi-Einträge lassen sich exportieren, indem man einen Eintrag in der
-Literaturübersicht markiert (linke Seite) und Str+Alt+t drückt. Die
-Tabellenansicht öffnet sich und durch klicken auf Spalten (oben links) kann
-ausgewählt werden, welche Spalten exportiert werden sollen. Aus der
-Tabellenansicht kann die die Datei jetzt nach Excel als relatedPublications.xls
-exportiert werden (Datei > nach Microsoft Excel exportieren). Einige
-Spaltennamen müssen evtl. später noch manuell umbenannt werden (z.B. BibTeXKey
-wird zu id). Die Excel-Tabelle wird
-`hier<https://github.com/dzhw/metadatamanagement-io/tree/master/references/relatedPublications>`
-gepflegt.
-
-+--------------+----------------------+-------------------------+
-| Eigenschaft  | Ausfüllanweisung     | muss ausgefüllt werden? |
-+==============+======================+=========================+
-| id           | von Citavi           | ja                      |
-|              | erzeugter BibTex-Key |                         |
-+--------------+----------------------+-------------------------+
-| source\      | Quellangabe der      | ja                      |
-| Reference    | Publikation          |                         |
-|              | (default)            |                         |
-+--------------+----------------------+-------------------------+
-| publication\ | Zusammenfassung      | nein                    |
-| Abstract     |                      |                         |
-+--------------+----------------------+-------------------------+
-| doi          | doi der Publikation  | nein                    |
-+--------------+----------------------+-------------------------+
-| sourceLink   | valide URL           | nein                    |
-+--------------+----------------------+-------------------------+
-| title        | Titel                | ja                      |
-+--------------+----------------------+-------------------------+
-| authors      | Autoren (Nachname1,  | ja                      |
-|              | Vorname1; Nachname2, |                         |
-|              | Vorname2)            |                         |
-+--------------+----------------------+-------------------------+
-| year         | Jahr der Veröffen\   | ja                      |
-|              | tlichung (muss klei\ |                         |
-|              | ner oder gleich dem  |                         |
-|              | aktuellen Jahr sein) |                         |
-+--------------+----------------------+-------------------------+
-| abstract\    |??                    | nein                    |
-| Source.de/\  |                      |                         |
-| .en          |                      |                         |
-+--------------+----------------------+-------------------------+
-| studyIds     | Studien-Ids, der zur | Wenn keine studySeries\ |
-|              | Publikation gehören\ | es vorhanden -> ja      |
-|              | den Studie           |                         |
-+--------------+----------------------+-------------------------+
-| dataSetIds   |                      | nein                    |
-+--------------+----------------------+-------------------------+
-| instrumentIds|                      | nein                    |
-+--------------+----------------------+-------------------------+
-| surveyIds    |                      | nein                    |
-+--------------+----------------------+-------------------------+
-| variableIds  |                      | nein                    |
-+--------------+----------------------+-------------------------+
-| questionIds  |                      | nein                    |
-+--------------+----------------------+-------------------------+
-| studySeries\ | mindestens eine      | Falls vorhanden ja      |
-| es.de        | studyId oder mindes\ |                         |
-|              | tens 1 studySeries   |                         |
-+--------------+----------------------+-------------------------+
-| language     | Sprache der Publika\ | ja                      |
-|              | tion                 |                         |
-|              | (2-Buchstaben Code   |                         |
-|              | nach ISO 639-1_      |                         |
-+--------------+----------------------+-------------------------+
 
 Projekte releasen
 -----------------
@@ -1294,48 +734,6 @@ Release-Pipeline auf. Die finale Freigabe erfolgt dann über einen dafür
 benannten Mitarbeiter des FDZ, den Release-Manager.
 
 
-Anhang
-------
-
-Templates
-~~~~~~~~~
-
-In dem `Template
-<https://github.com/dzhw/metadatamanagement-io/tree/master/datasetreport/template/>`_
-befinden sich die relevanten Exceldateien für DatengeberInnen.
-Dies ist nur noch relevant für questions/variables und für die related
-publications.
-
-Ausfüllhinweis: Die Excel-Interfaces enthalten teilweise Dropdownmenüs und
-Formeln als Hilfestellung. Alle Zeilen, die grau eingefärbt sind, enthalten
-diese Hilfestellungen. Der Datengeber kann einfach die Felder ausfüllen. Nach
-Fertigstellung der Dateien und vor Hochladen der Excel-Interfaces in das MDM
-müssen alle grauen Zeilen, die nicht genutzt werden gelöscht werden. Fertig!
-Vom FDZ-Team müssen im Anschluss noch folgende Punkte erledigt werden:
-
-+--------------------------+---------------------------------------------------+
-| Felder                   | To Do                                             |
-+==========================+===================================================+
-| Datenaufbereitungsfelder | bei Bedarf für externe Projekte löschen (z.B.     |
-|                          | varname_alt, Varlabel_alt)                        |
-+--------------------------+---------------------------------------------------+
-| alle Felder              | nur einblenden, wenn Datengeber die Informationen |
-|                          | liefern (z.B. englische Felder,                   |
-|                          | GenerationDetails, …)                             |
-+--------------------------+---------------------------------------------------+
-| Zugangswege              | - Spalte "accessWays" entfernen, diese wird im    |
-|                          |   Nachheinein vom FDZ auf Basis der               |
-|			   |   Zugangswegspalten ausgefüllt                    |
-|                          |                                                   |
-|			   | - entspr. Absprache zu Zugangswegen nur relevante |
-|			   |   Zugangsweg-Spalten drin lassen                  |
-|                          |                                                   |
-|			   | - wenn nur ein Zugangsweg -> alle                 |
-|            		   |   Zugangsweg-Spalten rauslassen                   |
-+--------------------------+---------------------------------------------------+
-| accessWays               | raus                                              |
-+--------------------------+---------------------------------------------------+
-
 
 Checkliste für Abgabe der Metadaten
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1345,17 +743,17 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
 
 ☐ Ordnerstruktur und Dateinamen sind unverändert
 
-☐ Excel-Dateien sind richtig und vollständig ausgefüllt
+☐ Falls nötig: Excel-Dateien sind richtig und vollständig ausgefüllt
 
--  verpflichtende Felder sind ausgefüllt (vgl. Kapitel 4)
+-  verpflichtende Felder sind ausgefüllt
 
 -  es sind keine Fehlermeldungen vorhanden
 
 -  die Daten wurden auf Richtigkeit überprüft
 
-☐ Metadaten sind aus PDF-Dokumenten entfernt (vgl. Kapitel 3.3)
+☐ Metadaten sind aus PDF-Dokumenten entfernt (vgl. :ref:`Anhänge`)
 
-☐ Nicht benötigte Zeilen entfernt (vgl. Kapitel 3.2)
+☐ Nicht benötigte Zeilen entfernt (falls Fragen oder Variablen abgegeben werden)
 
 -  questions.xlsx: löschen bis Zeile 2000
 
@@ -1377,7 +775,7 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
 
 .. [1]
    Bitte beachten Sie, die dokumenteigenen Metadaten der PDF-Dateien
-   vorab zu löschen (vgl. Kapitel 3.3).
+   vorab zu löschen (vgl. :ref:`Anhänge`).
 
 .. [2]
    Rücklaufgrafiken sind nur im Dokumentationsstandard der Stufe 3
@@ -1388,7 +786,7 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
 
 .. [3]
    Bitte beachten Sie, die dokumenteigenen Metadaten bei PDF-Dateien
-   vorab zu löschen (vgl. Kapitel 3.3).
+   vorab zu löschen (vgl.  :ref:`Anhänge`).
 
 .. [4]
    Filterführungsdiagramme sind erst ab der 2. Dokumentationsstufe
@@ -1399,46 +797,9 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
 
 .. [5]
    Bitte beachten Sie, die dokumenteigenen Metadaten der PDF-Dateien
-   vorab zu löschen (vgl. Kapitel 3.3).
+   vorab zu löschen (vgl. :ref:`Anhänge`).
+
 
 .. [6]
-   Metadaten auf Fragenebene sind erst ab der 2. Dokumentationsstufe
-   gefordert. Die Erläuterungen zu den drei verschiedenen
-   Dokumentationsstandards finden Sie in den Dokumenten `„Anforderungen
-   an Daten und Dokumentation im FDZ des
-   DZHW“ <file:///\\faust\Abtuebergreifend\Projekte\FDZ\Allgemeine%20Materialien\Dokumentation>`__.
-
-.. [7]
-   Bitte beachten Sie, die dokumenteigenen Metadaten der PDF-Dateien
-   vorab zu löschen (vgl. Kapitel 3.3).
-
-.. [8]
-   Mit Subdatensätzen sind solche gemeint, die Sie nach einer
-   Anonymisierung Ihrer Daten erhalten. Sie können mehrere Stufen der
-   Anonymisierung verwenden, wobei jede Stufe einen eigenen Zugangsweg
-   zu den anonymisierten Daten mit sich bringt. Für jeden Zugangsweg
-   wird dann ein eigener Subdatensatz erstellt (vgl. hierzu „accessWay“
-   im Tabellenblatt „subDataSets“).
-
-.. [9]
    Bitte beachten Sie, die dokumenteigenen Metadaten bei PDF-Dateien
-   vorab zu löschen (vgl. Kapitel 3.3).
-
-.. [10]
-   Metadaten auf Variablenebene sind erst ab der 2. Dokumentationsstufe
-   gefordert. Die Erläuterungen zu den drei verschiedenen
-   Dokumentationsstandards finden Sie in den Dokumenten `„Anforderungen
-   an Daten und Dokumentation im FDZ des
-   DZHW“ <file:///\\faust\Abtuebergreifend\Projekte\FDZ\Allgemeine%20Materialien\Dokumentation>`__.
-
-.. [11]
-   Nur in der Dokumentationsstufe 3 gefordert. Die Erläuterungen zu den
-   drei verschiedenen Dokumentationsstandards finden Sie in den
-   Dokumenten `„Anforderungen an Daten und Dokumentation im FDZ des
-   DZHW“ <file:///\\faust\Abtuebergreifend\Projekte\FDZ\Allgemeine%20Materialien\Dokumentation>`__.
-
-.. [12]
-   Nur in der Dokumentationsstufe 3 gefordert. Die Erläuterungen zu den
-   drei verschiedenen Dokumentationsstandards finden Sie in den
-   Dokumenten `„Anforderungen an Daten und Dokumentation im FDZ des
-   DZHW“ <file:///\\faust\Abtuebergreifend\Projekte\FDZ\Allgemeine%20Materialien\Dokumentation>`__.
+   vorab zu löschen (vgl.  :ref:`Anhänge`).

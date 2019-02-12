@@ -1,6 +1,6 @@
 .. _questions:
 
-Fragen (questions) [6]_
+Fragen (questions) [1]_
 =======================
 
 **Übersicht**
@@ -58,8 +58,8 @@ Zusätzlich müssen zu jeder Frage ein oder mehrere Bilder vorhanden sein.
 Wie Fragebilder aus Ragtime-Dateien extrahiert werden können, wird
 erklärt: :ref:`bilderfassung_ragtime-label`
 Eine Anleitung zum Ausschneiden von Bildern aus pdf Dateien ist
-`hier <https://github.com/dzhw/metadatamanagement-io/wiki/Bilderfassung-aus-pdf>`_
-zu finden.
+hier
+zu finden :ref:`bilderfassung_pdf-label`.
 
 
 
@@ -238,10 +238,8 @@ Frage muss mindestens ein Bild (es können auch mehrere sein) im
 png-Format vorhanden sein. Die Fragebilder können z. B. mit Ragtime
 extrahiert werden, sofern der Fragebogen auch mit Ragtime erstellt
 wurde. Ansonsten lassen sich die Fragebilder auch aus einer PDF-Datei
-erstellen. [7]_ Anleitung für beiden Varianten finden Sie unter
-https://github.com/dzhw/metadatamanagement-io/wiki/Bilderfassung-aus-RagTime
-und
-https://github.com/dzhw/metadatamanagement-io/wiki/Bilderfassung-aus-pdf.
+erstellen. [2]_ Anleitung für beiden Varianten finden Sie unter
+:ref:`bilderfassung_ragtime-label` und :ref:`bilderfassung_pdf-label`.
 
 Die fertig ausgefüllte Excel-Datei sowie die Bilder zu den Fragen
 speichern Sie dann in dem Ordner, den das FDZ für Sie vorbereitet hat.
@@ -298,3 +296,14 @@ Bei Onlinebefragungen mit Zofar können die Metadaten für Fragen
 automatisch extrahiert werden (.jsons + .pngs).
 
 Der Prozess befindet sich gerade im Aufbau...
+
+
+.. [1]
+   Metadaten auf Fragenebene sind erst ab der 2. Dokumentationsstufe
+   gefordert. Die Erläuterungen zu den drei verschiedenen
+   Dokumentationsstandards finden Sie in den Dokumenten `„Anforderungen
+   an Daten und Dokumentation im FDZ des
+   DZHW“ <file:///\\faust\Abtuebergreifend\Projekte\FDZ\Allgemeine%20Materialien\Dokumentation>`__.
+.. [2]
+   Bitte beachten Sie, die dokumenteigenen Metadaten der PDF-Dateien
+   vorab zu löschen (vgl.  :ref:`Anhänge`).
