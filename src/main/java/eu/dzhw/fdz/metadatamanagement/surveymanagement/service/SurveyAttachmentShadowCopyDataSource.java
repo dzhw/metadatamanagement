@@ -16,6 +16,8 @@ import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -27,9 +29,6 @@ import java.util.stream.StreamSupport;
 @Service
 public class SurveyAttachmentShadowCopyDataSource
     implements ShadowCopyDataSource<SurveyAttachmentMetadata> {
-
-  private static final String TARGET_CLASS = "eu.dzhw.fdz.metadatamanagement.studymanagement."
-      + "domain.StudyAttachmentMetadata";
 
   private GridFsOperations gridFsOperations;
 
@@ -52,8 +51,10 @@ public class SurveyAttachmentShadowCopyDataSource
   public Stream<SurveyAttachmentMetadata> getMasters(String dataAcquisitionProjectId) {
     Query query = new Query(GridFsCriteria.whereMetaData("dataAcquisitionProjectId")
         .is(dataAcquisitionProjectId)
-        .andOperator(GridFsCriteria.whereMetaData("_class").is(TARGET_CLASS))
-        .andOperator(GridFsCriteria.whereMetaData("shadow").is(false)));
+        .andOperator(GridFsCriteria.whereMetaData("_class")
+            .is(SurveyAttachmentMetadata.class.getName())
+            .andOperator(GridFsCriteria.whereMetaData("shadow")
+                .is(false))));
 
     Iterable<GridFSFile> files = this.gridFsOperations.find(query);
     MongoConverter converter = mongoTemplate.getConverter();
@@ -88,15 +89,18 @@ public class SurveyAttachmentShadowCopyDataSource
   }
 
   private String deriveId(SurveyAttachmentMetadata source, String version) {
-    SurveyAttachmentMetadata stub = new SurveyAttachmentMetadata();
-    stub.setSurveyId(source.getSurveyId() + "-" + version);
-    stub.generateId();
-    return stub.getId();
+    return String.format("/public/files/surveys/%s-%s/attachments/%s", source.getSurveyId(),
+        version, source.getFileName());
   }
 
   @Override
   public Stream<SurveyAttachmentMetadata> getLastShadowCopies(String dataAcquisitionProjectId) {
-    Query query = buildLatestShadowCopySearchQuery(dataAcquisitionProjectId);
+    Query query = new Query(GridFsCriteria.whereMetaData("shadow")
+        .is(true)
+        .andOperator(GridFsCriteria.whereMetaData("_class")
+            .is(SurveyAttachmentMetadata.class.getName())
+        .andOperator(GridFsCriteria.whereMetaData("successorId")
+            .is(null))));
     GridFSFindIterable gridFsFiles = this.gridFsOperations.find(query);
     MongoConverter converter = mongoTemplate.getConverter();
     return StreamSupport.stream(gridFsFiles.spliterator(), false)
@@ -135,14 +139,11 @@ public class SurveyAttachmentShadowCopyDataSource
     BasicDBObject metadata = new BasicDBObject((Document)mongoTemplate.getConverter()
         .convertToMongoType(copy));
     String filename = SurveyAttachmentFilenameBuilder.buildFileName(copy);
-    gridFsOperations.store(file.getInputStream(), filename,file.getContentType(), metadata);
-  }
 
-  private Query buildLatestShadowCopySearchQuery(String dataAcuqisitionProjectId) {
-    return new Query(GridFsCriteria.whereMetaData("dataAcquisitionProjectId")
-        .is(dataAcuqisitionProjectId)
-        .andOperator(GridFsCriteria.whereMetaData("_class").is(TARGET_CLASS))
-        .andOperator(GridFsCriteria.whereMetaData("shadow").is(true))
-        .andOperator(GridFsCriteria.whereMetaData("successorId")).is(null));
+    try (InputStream fIn = file.getInputStream()) {
+      gridFsOperations.store(fIn, filename, file.getContentType(), metadata);
+    } catch (IOException e) {
+      throw new RuntimeException("IO error during shadow copy creation of " + copy.getId(), e);
+    }
   }
 }

@@ -567,7 +567,7 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static SurveyAttachmentMetadata buildSurveyAttachmentMetadata(String projectId, Integer surveyNumber) {
-    return SurveyAttachmentMetadata.builder()
+    SurveyAttachmentMetadata surveyAttachmentMetadata = SurveyAttachmentMetadata.builder()
           .dataAcquisitionProjectId(projectId)
           .surveyId(UnitTestCreateValidIds.buildSurveyId(projectId, surveyNumber))
           .surveyNumber(surveyNumber)
@@ -577,6 +577,10 @@ public class UnitTestCreateDomainObjectUtils {
           .language("de")
           .indexInSurvey(1)
           .build();
+
+    surveyAttachmentMetadata.generateId();
+    surveyAttachmentMetadata.setMasterId(surveyAttachmentMetadata.getId());
+    return surveyAttachmentMetadata;
   }
 
   public static DataSetAttachmentMetadata buildDataSetAttachmentMetadata(String projectId, Integer dataSetNumber) {
