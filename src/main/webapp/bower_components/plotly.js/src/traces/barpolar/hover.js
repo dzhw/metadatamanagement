@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2018, Plotly, Inc.
+* Copyright 2012-2019, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -61,6 +61,7 @@ module.exports = function hoverPoints(pointData, xval, yval) {
     var _cdi = Lib.extendFlat({}, cdi, {r: cdi.s, theta: cdi.p});
     fillHoverText(cdi, trace, pointData);
     makeHoverPointText(_cdi, trace, subplot, pointData);
+    pointData.hovertemplate = trace.hovertemplate;
     pointData.color = getTraceColor(trace, cdi);
     pointData.xLabelVal = pointData.yLabelVal = undefined;
 

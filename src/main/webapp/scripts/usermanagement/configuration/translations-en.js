@@ -39,7 +39,10 @@ angular.module('metadatamanagementApp').config(
             },
             'password': {
               'not-null': 'The Password must not be empty!'
-            }
+            },
+            'must-not-be-deactivated': 'The user must not be deactivated, because he is assigned to the following projects: {{ projectIds }}',
+            'must-not-loose-publisher-role': 'The user must not loose the role "Publisher", because he is assigned to the following projects as publisher: {{ projectIds }}',
+            'must-not-loose-data-provider-role': 'The user must not loose the role "Data Provider", because he is assigned to the following projects as data provider: {{ projectIds }}'
           }
         },
         'activate': {
