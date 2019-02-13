@@ -64,7 +64,9 @@ public class DeleteAllQuestionsResourceControllerTest extends AbstractTest {
     Survey testSurvey0 = UnitTestCreateDomainObjectUtils.buildSurvey(projectId);
     Survey testSurvey1 = UnitTestCreateDomainObjectUtils.buildSurvey(projectId);
     testSurvey0.setId(UnitTestCreateValidIds.buildSurveyId(projectId, 1));
+    testSurvey0.setMasterId(testSurvey0.getId());
     testSurvey1.setId(UnitTestCreateValidIds.buildSurveyId(projectId, 2));
+    testSurvey1.setMasterId(testSurvey1.getId());
     testSurvey0.setNumber(1);
     testSurvey1.setNumber(2);
     surveyRepo.insert(testSurvey0);

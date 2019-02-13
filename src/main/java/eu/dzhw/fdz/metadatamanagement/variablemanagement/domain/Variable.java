@@ -35,11 +35,13 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.Valid
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidStorageType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidVariableIdName;
 import io.searchbox.annotations.JestId;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
@@ -130,6 +132,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
   @NotEmpty(message = "variable-management.error.variable.id.not-empty")
   @Size(max = StringLengths.MEDIUM,
       message = "variable-management.error.variable.id.size")
+  @Setter(AccessLevel.NONE)
   private String id;
 
 
@@ -342,5 +345,10 @@ public class Variable extends AbstractShadowableRdcDomainObject {
   public Variable(Variable variable) {
     super();
     BeanUtils.copyProperties(variable, this);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

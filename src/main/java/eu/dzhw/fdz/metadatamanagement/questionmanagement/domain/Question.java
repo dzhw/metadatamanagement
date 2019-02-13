@@ -17,11 +17,13 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.Valid
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import io.searchbox.annotations.JestId;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
@@ -68,6 +70,7 @@ public class Question extends AbstractShadowableRdcDomainObject {
   @JestId
   @NotEmpty(message = "question-management.error.question.id.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "question-management.error.question.id.size")
+  @Setter(AccessLevel.NONE)
   private String id;
 
   /**
@@ -214,5 +217,10 @@ public class Question extends AbstractShadowableRdcDomainObject {
   public Question(Question question) {
     super();
     BeanUtils.copyProperties(question, this);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

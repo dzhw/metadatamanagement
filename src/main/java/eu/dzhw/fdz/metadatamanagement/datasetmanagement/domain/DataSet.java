@@ -19,11 +19,13 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import io.searchbox.annotations.JestId;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.javers.core.metamodel.annotation.Entity;
 import org.springframework.beans.BeanUtils;
@@ -69,6 +71,7 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
   @JestId
   @NotEmpty(message = "data-set-management.error.data-set.id.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "data-set-management.error.data-set.id.size")
+  @Setter(AccessLevel.NONE)
   private String id;
 
   /**
@@ -170,5 +173,10 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
   public DataSet(DataSet dataSet) {
     super();
     BeanUtils.copyProperties(dataSet, this);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

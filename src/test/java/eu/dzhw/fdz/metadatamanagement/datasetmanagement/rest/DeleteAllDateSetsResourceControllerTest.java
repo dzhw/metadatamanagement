@@ -72,7 +72,9 @@ public class DeleteAllDateSetsResourceControllerTest extends AbstractTest {
     DataSet testDataSet1 =
         UnitTestCreateDomainObjectUtils.buildDataSet(projectId, surveyId1, surveyNumber1);
     testDataSet0.setId(UnitTestCreateValidIds.buildDataSetId(projectId, 1));
+    testDataSet0.setMasterId(testDataSet0.getId());
     testDataSet1.setId(UnitTestCreateValidIds.buildDataSetId(projectId, 2));
+    testDataSet1.setMasterId(testDataSet1.getId());
     testDataSet0.setNumber(1);
     testDataSet1.setNumber(2);
     dataSetRepo.insert(testDataSet0);

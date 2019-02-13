@@ -24,6 +24,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain Variable
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -33,6 +35,8 @@
 .. java:import:: lombok EqualsAndHashCode
 
 .. java:import:: lombok NoArgsConstructor
+
+.. java:import:: lombok Setter
 
 .. java:import:: lombok ToString
 
@@ -93,7 +97,7 @@ hasBeenReleasedBefore
 id
 ^^
 
-.. java:field:: @Id @NotEmpty @Size private String id
+.. java:field:: @Id @NotEmpty @Size @Setter private String id
    :outertype: DataAcquisitionProject
 
    The id of this project. Must not be empty and must only contain lower cased (english) letters and numbers. Must not contain more than 32 characters.

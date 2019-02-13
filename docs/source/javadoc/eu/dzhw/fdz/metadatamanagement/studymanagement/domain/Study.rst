@@ -36,6 +36,8 @@
 
 .. java:import:: io.swagger.annotations ApiModel
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -45,6 +47,8 @@
 .. java:import:: lombok EqualsAndHashCode
 
 .. java:import:: lombok NoArgsConstructor
+
+.. java:import:: lombok Setter
 
 .. java:import:: lombok ToString
 
@@ -123,7 +127,7 @@ description
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Size private String id
+.. java:field:: @Id @JestId @Setter @NotEmpty @Size private String id
    :outertype: Study
 
    The id of the study which uniquely identifies the study in this application. The id must not be empty and must be of the form stu-{{dataAcquisitionProjectId}}$. The id must not contain more than 512 characters.

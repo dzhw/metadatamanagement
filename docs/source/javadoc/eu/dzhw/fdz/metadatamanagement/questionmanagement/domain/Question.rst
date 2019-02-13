@@ -32,6 +32,8 @@
 
 .. java:import:: io.searchbox.annotations JestId
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -41,6 +43,8 @@
 .. java:import:: lombok EqualsAndHashCode
 
 .. java:import:: lombok NoArgsConstructor
+
+.. java:import:: lombok Setter
 
 .. java:import:: lombok ToString
 
@@ -105,7 +109,7 @@ dataAcquisitionProjectId
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Size private String id
+.. java:field:: @Id @JestId @NotEmpty @Size @Setter private String id
    :outertype: Question
 
    The id of the question which uniquely identifies the question in this application. The id must not be empty and must be of the form que-{{dataAcquisitionProjectId}}-ins{{instrumentNumber}}-{{number}}$. The id must not contain more than 512 characters.

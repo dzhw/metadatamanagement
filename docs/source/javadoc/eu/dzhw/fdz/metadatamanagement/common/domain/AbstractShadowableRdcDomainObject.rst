@@ -1,5 +1,7 @@
 .. java:import:: lombok Data
 
+.. java:import:: java.util Objects
+
 AbstractShadowableRdcDomainObject
 =================================
 

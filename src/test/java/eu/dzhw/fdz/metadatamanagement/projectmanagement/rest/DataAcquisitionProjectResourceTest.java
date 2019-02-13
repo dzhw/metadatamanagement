@@ -94,10 +94,11 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testCreateDataAcquisitionProjectWithTooLongId() throws IOException, Exception {
+  public void testCreateDataAcquisitionProjectWithTooLongId() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // Collections.emptyList()));
     project.setId("thisidistoolongandshouldproduceanerror");
+    project.setMasterId("thisidistoolongandshouldproduceanerror");
     // create the project with the given id
     mockMvc
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -203,9 +204,10 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testIdIsMandatory() throws IOException, Exception {
+  public void testIdIsMandatory() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setId(null);
+    project.setMasterId(null);
 
     // create the project without id
     mockMvc
@@ -213,7 +215,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().isBadRequest()).andExpect(
         jsonPath("$.errors[0].message", containsString("data-acquisition-project-management"
-            + ".error.data-acquisition-project.id.not-empty")));
+            + ".error.data-acquisition-project.master-id.pattern")));
   }
 
   @Test
@@ -226,6 +228,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     DataAcquisitionProject shouldBeFound =
         UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     shouldBeFound.setId("testid");
+    shouldBeFound.setMasterId("testid");
     shouldBeFound.setConfiguration(shouldBeFoundConfiguration);
 
     Configuration shouldNotBeFoundConfiguration = UnitTestCreateDomainObjectUtils
@@ -235,6 +238,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     DataAcquisitionProject shouldNotBeFound =
         UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     shouldNotBeFound.setId("shouldnotbefoundid");
+    shouldNotBeFound.setMasterId("shouldnotbefoundid");
     shouldNotBeFound.setConfiguration(shouldNotBeFoundConfiguration);
 
     rdcProjectRepository.saveAll(Arrays.asList(shouldBeFound, shouldNotBeFound));
@@ -255,6 +259,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
             Collections.singletonList(PUBLISHER_USERNAME));
     DataAcquisitionProject projectA = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     projectA.setId("a");
+    projectA.setMasterId("a");
     projectA.setConfiguration(configurationA);
 
     Configuration configurationB =
@@ -263,6 +268,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
             Collections.singletonList("someDataProvider"));
     DataAcquisitionProject projectB = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     projectB.setId("b");
+    projectB.setMasterId("b");
     projectB.setConfiguration(configurationB);
 
     rdcProjectRepository.saveAll(Arrays.asList(projectA, projectB));

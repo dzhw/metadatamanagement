@@ -13,11 +13,13 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.javers.core.metamodel.annotation.Entity;
 import org.springframework.beans.BeanUtils;
@@ -72,6 +74,7 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
       + "data-acquisition-project.id.not-empty")
   @Size(max = StringLengths.SMALL,
       message = "data-acquisition-project-management.error.data-acquisition-project.id.size")
+  @Setter(AccessLevel.NONE)
   private String id;
 
   /**
@@ -118,5 +121,10 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
 
   public DataAcquisitionProject(DataAcquisitionProject dataAcquisitionProject) {
     BeanUtils.copyProperties(dataAcquisitionProject, this);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

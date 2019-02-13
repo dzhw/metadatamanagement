@@ -14,6 +14,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -23,6 +25,8 @@
 .. java:import:: lombok EqualsAndHashCode
 
 .. java:import:: lombok NoArgsConstructor
+
+.. java:import:: lombok Setter
 
 .. java:import:: lombok ToString
 
@@ -75,7 +79,7 @@ fileName
 id
 ^^
 
-.. java:field:: @Id private String id
+.. java:field:: @Id @Setter private String id
    :outertype: SurveyAttachmentMetadata
 
    The id of the attachment. Holds the complete path which can be used to download the file.

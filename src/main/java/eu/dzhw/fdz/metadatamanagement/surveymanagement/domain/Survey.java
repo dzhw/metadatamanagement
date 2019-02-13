@@ -17,11 +17,13 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidDa
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSurveyIdName;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidUniqueSurveyNumber;
 import io.searchbox.annotations.JestId;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.javers.core.metamodel.annotation.Entity;
 import org.springframework.beans.BeanUtils;
@@ -66,6 +68,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
    */
   @Id
   @JestId
+  @Setter(AccessLevel.NONE)
   @NotEmpty(message = "survey-management.error.survey.id.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "survey-management.error.survey.id.size")
   private String id;
@@ -206,5 +209,10 @@ public class Survey extends AbstractShadowableRdcDomainObject {
   public Survey(Survey survey) {
     super();
     BeanUtils.copyProperties(survey, this);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

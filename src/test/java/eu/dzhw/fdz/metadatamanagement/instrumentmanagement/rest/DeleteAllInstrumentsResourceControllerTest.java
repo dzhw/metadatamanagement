@@ -72,7 +72,9 @@ public class DeleteAllInstrumentsResourceControllerTest extends AbstractTest {
     Instrument testInstr1 = UnitTestCreateDomainObjectUtils.buildInstrument(projectId,
         UnitTestCreateValidIds.buildSurveyId(projectId, 2));
     testInstr0.setId(UnitTestCreateValidIds.buildInstrumentId(projectId, 1));
+    testInstr0.setMasterId(testInstr0.getId());
     testInstr1.setId(UnitTestCreateValidIds.buildInstrumentId(projectId, 2));
+    testInstr1.setMasterId(testInstr1.getId());
     testInstr0.setNumber(1);
     testInstr1.setNumber(2);
     instrumentRepo.insert(testInstr0);

@@ -36,6 +36,8 @@
 
 .. java:import:: io.searchbox.annotations JestId
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -45,6 +47,8 @@
 .. java:import:: lombok EqualsAndHashCode
 
 .. java:import:: lombok NoArgsConstructor
+
+.. java:import:: lombok Setter
 
 .. java:import:: lombok ToString
 
@@ -117,7 +121,7 @@ format
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Size private String id
+.. java:field:: @Id @JestId @NotEmpty @Size @Setter private String id
    :outertype: DataSet
 
    The id of the dataset which uniquely identifies the dataset in this application. The id must not be empty and must be of the form dat-{{dataAcquisitionProjectId}}-ds{{number}}$. The id must not contain more than 512 characters.

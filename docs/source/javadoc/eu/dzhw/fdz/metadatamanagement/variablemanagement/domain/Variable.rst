@@ -68,6 +68,8 @@
 
 .. java:import:: io.searchbox.annotations JestId
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -77,6 +79,8 @@
 .. java:import:: lombok EqualsAndHashCode
 
 .. java:import:: lombok NoArgsConstructor
+
+.. java:import:: lombok Setter
 
 .. java:import:: lombok ToString
 
@@ -207,7 +211,7 @@ generationDetails
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Size private String id
+.. java:field:: @Id @JestId @NotEmpty @Size @Setter private String id
    :outertype: Variable
 
    The id of the variable which uniquely identifies the variable in this application. The id must not be empty and must be of the form var-{{dataAcquisitionProjectId}}-ds{{dataSetNumber}}-{{name}}$. The id must not contain more than 512 characters.

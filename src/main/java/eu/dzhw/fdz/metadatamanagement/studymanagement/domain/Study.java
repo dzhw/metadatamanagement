@@ -19,11 +19,13 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidStu
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidSurveyDesign;
 import io.searchbox.annotations.JestId;
 import io.swagger.annotations.ApiModel;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.javers.core.metamodel.annotation.Entity;
 import org.springframework.beans.BeanUtils;
@@ -66,6 +68,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
    */
   @Id
   @JestId
+  @Setter(AccessLevel.NONE)
   @NotEmpty(message = "study-management.error.study.id.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "study-management.error.study.id.size")
   private String id;
@@ -181,5 +184,10 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
   public Study(Study study) {
     super();
     BeanUtils.copyProperties(study, this);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

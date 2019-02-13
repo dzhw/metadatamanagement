@@ -8,11 +8,13 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 
@@ -35,6 +37,7 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
    * The id of the attachment. Holds the complete path which can be used to download the file.
    */
   @Id
+  @Setter(AccessLevel.NONE)
   private String id;
 
   /**
@@ -129,5 +132,10 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
   public void generateId() {
     // hack to satisfy javers
     this.id = "/public/files/surveys/" + surveyId + "/attachments/" + fileName;
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

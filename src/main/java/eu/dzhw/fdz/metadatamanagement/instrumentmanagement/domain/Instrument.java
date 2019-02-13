@@ -15,11 +15,13 @@ import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedStudy;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import io.searchbox.annotations.JestId;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.javers.core.metamodel.annotation.Entity;
 import org.springframework.beans.BeanUtils;
@@ -65,6 +67,7 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
   @JestId
   @NotEmpty(message = "instrument-management.error.instrument.id.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "instrument-management.error.instrument.id.size")
+  @Setter(AccessLevel.NONE)
   private String id;
 
 
@@ -169,5 +172,10 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
   public Instrument(Instrument instrument) {
     super();
     BeanUtils.copyProperties(instrument, this);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

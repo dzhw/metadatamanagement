@@ -28,6 +28,8 @@
 
 .. java:import:: io.searchbox.annotations JestId
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -37,6 +39,8 @@
 .. java:import:: lombok EqualsAndHashCode
 
 .. java:import:: lombok NoArgsConstructor
+
+.. java:import:: lombok Setter
 
 .. java:import:: lombok ToString
 
@@ -99,7 +103,7 @@ description
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Size private String id
+.. java:field:: @Id @JestId @NotEmpty @Size @Setter private String id
    :outertype: Instrument
 
    The id of the instrument which uniquely identifies the instrument in this application. The id must not be empty and must be of the form ins-{{dataAcquisitionProjectId}}-ins{{number}}$. The id must not contain more than 512 characters.

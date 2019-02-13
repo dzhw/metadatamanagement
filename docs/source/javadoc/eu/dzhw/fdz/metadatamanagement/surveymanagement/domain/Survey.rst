@@ -32,6 +32,8 @@
 
 .. java:import:: io.searchbox.annotations JestId
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -41,6 +43,8 @@
 .. java:import:: lombok EqualsAndHashCode
 
 .. java:import:: lombok NoArgsConstructor
+
+.. java:import:: lombok Setter
 
 .. java:import:: lombok ToString
 
@@ -121,7 +125,7 @@ grossSampleSize
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Size private String id
+.. java:field:: @Id @JestId @Setter @NotEmpty @Size private String id
    :outertype: Survey
 
    The id of the survey which uniquely identifies the survey in this application. The id must not be empty and must be of the form sur-{{dataAcquisitionProjectId}}-sy{{number}}$. The id must not contain more than 512 characters.

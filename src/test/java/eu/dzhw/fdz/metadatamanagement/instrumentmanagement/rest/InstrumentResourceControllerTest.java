@@ -195,6 +195,7 @@ public class InstrumentResourceControllerTest extends AbstractTest {
     // Act and Assert
     // set inconsistent id
     instrument.setId("hurz");
+    instrument.setMasterId("hurz");
 
     // create the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
