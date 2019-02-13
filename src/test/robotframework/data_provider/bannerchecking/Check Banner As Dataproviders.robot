@@ -33,7 +33,6 @@ Assert Welcome Text After Login
 Assert Checkbox Dont Show Again is Available
    Page Should Contain Element   xpath=//md-checkbox//div[contains(. , ' Nicht mehr anzeigen')]
 
-
 Login as dataprovidertest
    ${visible}=  Run Keyword And Return Status    Element Should Be Visible   xpath=//*[@id = 'login']
    Run Keyword If    not ${visible}    Click Element Through Tooltips    xpath=//*[@id = 'account-menu-toggle']
@@ -44,7 +43,6 @@ Login as dataprovidertest
 
 Close The Banner
    Click Element Through Tooltips  xpath=//button[contains(.,' Schließen')]
-
 
 Dataprovidertest Provider Logout
     ${url} =    Get Location

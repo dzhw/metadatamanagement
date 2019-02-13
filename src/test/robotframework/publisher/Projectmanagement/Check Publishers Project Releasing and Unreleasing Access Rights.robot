@@ -6,8 +6,10 @@ Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/project_management_resource.robot
 
+
 *** Variables ***
 @{MD_BROWSERS}    Create List   edge   ie   firefox   chrome
+
 
 *** Test Cases ***
 Check The Publisher Ready Checkbox is Not Marked and Release is Not Possible
@@ -39,6 +41,7 @@ Check The Publisher Ready Checkbox is Marked and When Saved Then Release is Poss
 Verification of Project Release and Unrelase Status
   Verify The Released Project is Available under The Study Tab
   Verify The Unreleased Project is Unavailable under The Study Tab
+
 
 *** Keywords ***
 Assert Project Release Action Has Error Message
