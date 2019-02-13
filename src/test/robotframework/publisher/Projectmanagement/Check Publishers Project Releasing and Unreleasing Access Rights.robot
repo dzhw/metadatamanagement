@@ -14,6 +14,7 @@ Check The Publisher Ready Checkbox is Not Marked and Release is Not Possible
   Run Keyword If  '${BROWSER}' == 'chrome'  Select project by name  robotprojectrelease4chrome
   Click on Cockpit Button
   Change Project Release Status
+  Click on OK Button
   Write Version Name
   Click on OK Button
   Sleep  1s  # to avoid failing in Firefox
@@ -24,6 +25,7 @@ Check The Publisher Ready Checkbox is Not Marked and Release is Not Possible
 Check The Publisher Ready Checkbox is Marked but Release Without Saving is Not Possible
   Click Publisher Ready Checkbox for Studies
   Change Project Release Status
+  Click on OK Button
   Write Version Name
   Click on OK Button
   Sleep  1s  # to avoid failing in Firefox
@@ -31,9 +33,10 @@ Check The Publisher Ready Checkbox is Marked but Release Without Saving is Not P
   Close The Toast Message for Project Release Validation
   Click on OK Button
 
-Check The Publisher Ready Checkbox is Marked and When Saved Then Release is Possible
+Check The Publisher Ready Checkbox is Marked and When Saved Then Release is Possiblegitgit
   Save Changes
   Change Project Release Status
+  Click on OK Button
   Write Version Name
   Click on OK Button
 
