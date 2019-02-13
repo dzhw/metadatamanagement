@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
@@ -28,6 +31,12 @@ public class SurveyResponseRateImageService {
   
   @Autowired
   private MimeTypeDetector mimeTypeDetector;
+
+  @Autowired
+  private SurveyResponseRateImageMetadataShadowCopyDataSource shadowCopyDataSource;
+
+  @Autowired
+  private ShadowCopyService<SurveyResponseRateImageMetadata> shadowCopyService;
 
   /**
    * This method save an image into GridFS/MongoDB based on a byteArrayOutputStream.
@@ -86,6 +95,16 @@ public class SurveyResponseRateImageService {
     Query queryEn = new Query(GridFsCriteria.whereFilename()
         .is("/surveys/" + surveyId + "/" + this.getResponseRateFileNameEnglish(surveyId)));
     this.operations.delete(queryEn);
+  }
+
+  /**
+   * Create shadow copies for {@link SurveyResponseRateImageMetadata} on project release.
+   * @param projectReleasedEvent Released project event
+   */
+  @EventListener
+  public void onProjectReleasedEvent(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        shadowCopyDataSource);
   }
   
   /**

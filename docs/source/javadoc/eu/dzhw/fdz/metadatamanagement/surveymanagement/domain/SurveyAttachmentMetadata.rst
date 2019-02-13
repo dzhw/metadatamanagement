@@ -1,3 +1,13 @@
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
+
+.. java:import:: javax.validation.constraints Size
+
+.. java:import:: org.springframework.data.annotation Id
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
@@ -29,16 +39,6 @@
 .. java:import:: lombok Setter
 
 .. java:import:: lombok ToString
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: javax.validation.constraints Size
 
 SurveyAttachmentMetadata
 ========================

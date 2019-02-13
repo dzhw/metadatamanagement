@@ -47,7 +47,7 @@ public class SurveyAttachmentShadowCopyTest extends AbstractTest {
   private MongoTemplate mongoTemplate;
 
   @Autowired
-  private SurveyAttachmentShadowCopyDataSource surveyAttachmentShadowCopyDataSource;
+  private SurveyAttachmentMetadataShadowCopyDataSource surveyAttachmentMetadataShadowCopyDataSource;
 
   @Autowired
   private ShadowCopyService<SurveyAttachmentMetadata> shadowCopyService;
@@ -78,7 +78,7 @@ public class SurveyAttachmentShadowCopyTest extends AbstractTest {
     createTestFileForAttachment(master);
 
     shadowCopyService.createShadowCopies(dataAcquisitionProject,
-        surveyAttachmentShadowCopyDataSource);
+        surveyAttachmentMetadataShadowCopyDataSource);
 
     GridFSFile gridFsFile = gridFsOperations.findOne(new Query(GridFsCriteria
         .whereMetaData("dataAcquisitionProjectId").is(PROJECT_ID + "-1.0.0")
@@ -116,7 +116,7 @@ public class SurveyAttachmentShadowCopyTest extends AbstractTest {
     createTestFileForAttachment(shadow);
     release.setVersion("1.0.1");
 
-    shadowCopyService.createShadowCopies(dataAcquisitionProject, surveyAttachmentShadowCopyDataSource);
+    shadowCopyService.createShadowCopies(dataAcquisitionProject, surveyAttachmentMetadataShadowCopyDataSource);
 
     GridFSFile gridFsFile = gridFsOperations.findOne(new Query(GridFsCriteria
         .whereMetaData("dataAcquisitionProjectId").is(PROJECT_ID + "-1.0.0")

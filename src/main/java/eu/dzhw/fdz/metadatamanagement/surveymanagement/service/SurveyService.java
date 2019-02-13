@@ -235,7 +235,7 @@ public class SurveyService {
   }
 
   /**
-   * Create shadow copies for surveys on project release.
+   * Create shadow copies for {@link Survey} on project release.
    * @param projectReleasedEvent Released project event
    */
   @EventListener
