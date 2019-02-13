@@ -1,12 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.gridfs.GridFSFindIterable;
-import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 import org.bson.Document;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -16,12 +16,14 @@ import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.gridfs.GridFSFindIterable;
+import com.mongodb.client.gridfs.model.GridFSFile;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
+
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 
 /**
  * Provides data for creating shadow copies of {@link SurveyAttachmentMetadata}.
@@ -81,7 +83,6 @@ public class SurveyAttachmentShadowCopyDataSource
     }
 
     BeanUtils.copyProperties(source, copy, "version");
-    copy.setShadow(true);
     copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
     copy.setSurveyId(source.getSurveyId() + "-" + version);
     copy.generateId();

@@ -1,5 +1,22 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.test.context.support.WithMockUser;
+
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
@@ -9,24 +26,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.rest.core.event.AfterSaveEvent;
-import org.springframework.security.test.context.support.WithMockUser;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.ArgumentMatchers.any;
 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class SurveyShadowCopyTest extends AbstractTest {
@@ -101,7 +100,6 @@ public class SurveyShadowCopyTest extends AbstractTest {
     String shadowId = createSurveyId(master.getNumber(), release.getVersion());
 
     Survey shadow = UnitTestCreateDomainObjectUtils.buildSurvey(PROJECT_ID);
-    shadow.setShadow(true);
     shadow.setId(shadowId);
 
     release.setVersion("1.0.1");

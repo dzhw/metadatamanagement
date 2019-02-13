@@ -1,13 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Stream;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 
 /**
  * Provides data for creating shadow copies of {@link Survey}.
@@ -34,7 +35,6 @@ public class SurveyShadowCopyDataSource implements ShadowCopyDataSource<Survey> 
     BeanUtils.copyProperties(source, copy, "version");
     copy.setId(derivedId);
     copy.setDataAcquisitionProjectId(copy.getDataAcquisitionProjectId() + "-" + version);
-    copy.setShadow(true);
     return copy;
   }
 

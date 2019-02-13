@@ -1,13 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Stream;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 
 /**
  * Provides data for creating shadow copies of {@link Study}.
@@ -33,7 +34,6 @@ public class StudyShadowCopyDataSource implements ShadowCopyDataSource<Study> {
     Study copy = studyRepository.findById(derivedId).orElseGet(Study::new);
     BeanUtils.copyProperties(source, copy, "version");
     copy.setId(derivedId);
-    copy.setShadow(true);
     copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
     return copy;
   }

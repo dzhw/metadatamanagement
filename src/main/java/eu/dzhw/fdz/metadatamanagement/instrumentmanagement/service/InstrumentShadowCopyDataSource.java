@@ -1,14 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 
 /**
  * Provides data for creating shadow copies of {@link Instrument}.
@@ -35,7 +36,6 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
     BeanUtils.copyProperties(source, copy, "version");
     copy.setId(derivedId);
     copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
-    copy.setShadow(true);
     copy.setStudyId(source.getStudyId() + "-" + version);
     copy.setSurveyIds(createDerivedSurveyIds(source.getSurveyIds(), version));
     return copy;

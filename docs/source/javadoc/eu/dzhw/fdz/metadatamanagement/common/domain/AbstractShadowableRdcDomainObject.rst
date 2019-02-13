@@ -1,6 +1,10 @@
+.. java:import:: java.util Objects
+
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok Data
 
-.. java:import:: java.util Objects
+.. java:import:: lombok Setter
 
 AbstractShadowableRdcDomainObject
 =================================
@@ -23,7 +27,7 @@ masterId
 shadow
 ^^^^^^
 
-.. java:field:: private boolean shadow
+.. java:field:: @Setter private boolean shadow
    :outertype: AbstractShadowableRdcDomainObject
 
 successorId

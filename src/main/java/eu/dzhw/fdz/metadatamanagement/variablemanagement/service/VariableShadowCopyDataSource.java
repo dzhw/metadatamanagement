@@ -1,14 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
 /**
  * Provides data for creating shadow copies of {@link Variable}.
@@ -38,7 +39,6 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
     copy.setDataSetId(source.getDataSetId() + "-" + version);
     copy.setStudyId(source.getStudyId() + "-" + version);
     copy.setSurveyIds(createDerivedSurveyIds(source.getSurveyIds(), version));
-    copy.setShadow(true);
     return copy;
   }
 

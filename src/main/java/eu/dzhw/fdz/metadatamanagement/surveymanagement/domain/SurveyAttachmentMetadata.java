@@ -1,5 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.springframework.data.annotation.Id;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -16,12 +23,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.Id;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 /**
  * Metadata which will be stored with each attachment of a {@link Survey}.
@@ -131,7 +132,7 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
    */
   public void generateId() {
     // hack to satisfy javers
-    this.id = "/public/files/surveys/" + surveyId + "/attachments/" + fileName;
+    this.setId("/public/files/surveys/" + surveyId + "/attachments/" + fileName);
   }
 
   @Override

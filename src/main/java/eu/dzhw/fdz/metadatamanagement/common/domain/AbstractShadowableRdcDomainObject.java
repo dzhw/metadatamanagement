@@ -1,8 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.common.domain;
 
-import lombok.Data;
-
 import java.util.Objects;
+
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
 
 /**
  * Base class for all rdc domain objects which can exist as multiple versions.
@@ -12,6 +14,7 @@ public abstract class AbstractShadowableRdcDomainObject extends AbstractRdcDomai
 
   private String masterId;
   private String successorId;
+  @Setter(AccessLevel.NONE)
   private boolean shadow;
 
   public final void setMasterId(String masterId) {
