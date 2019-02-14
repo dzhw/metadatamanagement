@@ -2,29 +2,31 @@
 Documentation     As a public user checking the shopping cart funtionalisties
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
+Resource          ../../resources/home_page_resource.robot
 
 *** Variables ***
 @{MD_ACCESSWAYNAMES}   Create List    download-suf  remote-desktop-suf   onsite-suf   download-cuf
 @{MD_VERSIONNAMES}   Create List    1.0.0  1.0.1
 @{MD_DATAPRODUCTS}   Create List   stu-gra2005$  stu-scs2016$
 
+
 *** Test Cases ***
 Check Shooping Cart as a Public User
    Click on search result by id    @{MD_DATAPRODUCTS}[1]
    Click On Add Shopping Cart Icon
    Assert Study Input is Disabled
-   Select Access Way for the Datasets from The List   @{MD_ACCESSWAYNAMES}[3]
+   Select Access Way for the Datasets from The List   @{MD_ACCESSWAYNAMES}[2]
    Select Version the Datasets from The List   @{MD_VERSIONNAMES}[2]
    Check The Close Button is Available
    Put in Shopping Cart
    Check Shopping Cart
    Confirm Order
    Close The Toast Message
-   Check The Dataproducts Link
-   Check The Variables Link
-   Check The Datasets Link
+   Check The Links
    Check Delete Button is Available
    Empty The Shopping Cart
+   Get back to german home page   # to sync with next test flow
+
 
 
 *** Keywords ***
@@ -46,7 +48,6 @@ Select Version the Datasets from The List
 
 Put in Shopping Cart
    Click Element Through Tooltips    xpath=//span[contains(., 'In den Einkaufswagen')]
-   #Sleep  2s
 
 Check Shopping Cart
    Click Element Through Tooltips    xpath=//a//md-icon[contains(., 'shopping_cart')]
@@ -65,19 +66,15 @@ Close The Toast Message
    Element Should Contain  xpath=//md-toast//span[contains(.,'Sie haben noch nicht alle benötigten')]  Sie haben noch nicht alle benötigten
    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
 
-Check The Dataproducts Link
-   Click Element Through Tooltips   xpath=//a[contains(., 'aus der Studienreihe')]
-   Go Back
-
-Check The Variables Link
-   Click Element Through Tooltips   xpath=//a[contains(., 'Variablen')]
-   Go Back
-
-Check The Datasets Link
-   Click Element Through Tooltips   xpath=//a[contains(., 'Datens')]
-   Go Back
+Check The Links
+    @{MD_DATALINKS}   Create List    Studienreihe   Variablen   Datens
+    :FOR   ${MD_LK}   IN  @{MD_DATALINKS}
+    \   Click Element Through Tooltips   xpath=//a[contains(., '${MD_LK}')]
+    \   Go Back
 
 Empty The Shopping Cart
    Click Element Through Tooltips   xpath=//span[contains(., 'Einkaufswagen leeren')]
+
+
 
 
