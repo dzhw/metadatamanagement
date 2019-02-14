@@ -1,15 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Provides data for creating shadow copies of {@link DataSet}.
@@ -42,14 +42,27 @@ public class DataSetShadowCopyDataSource implements ShadowCopyDataSource<DataSet
   }
 
   @Override
-  public Stream<DataSet> getLastShadowCopies(String dataAcquisitionProjectId) {
-    return dataSetRepository.streamByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
-        dataAcquisitionProjectId);
+  public Optional<DataSet> findPredecessorOfShadowCopy(String masterId) {
+    return dataSetRepository.findByMasterIdAndShadowIsTrueAndSuccessorIdIsNull(masterId);
   }
 
   @Override
-  public List<DataSet> saveShadowCopies(List<DataSet> shadowCopies) {
-    return dataSetRepository.saveAll(shadowCopies);
+  public void updatePredecessor(DataSet predecessor) {
+    dataSetRepository.save(predecessor);
+  }
+
+  @Override
+  public void saveShadowCopy(DataSet shadowCopy) {
+    dataSetRepository.save(shadowCopy);
+  }
+
+  @Override
+  public Stream<DataSet> findShadowCopiesWithDeletedMasters(String projectId,
+                                                            String previousVersion) {
+
+    String previousProjectId = projectId + "-" + previousVersion;
+    return dataSetRepository
+        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNull(previousProjectId);
   }
 
   private static List<String> createDerivedSurveyIds(List<String> surveyIds, String version) {

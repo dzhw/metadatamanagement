@@ -12,6 +12,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -72,10 +73,12 @@ public interface InstrumentRepository
 
   @RestResource(exported = false)
   Stream<Instrument> streamByDataAcquisitionProjectIdAndShadowIsFalse(
-      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
+      String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
-  Stream<Instrument> streamByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
-      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId
-  );
+  Optional<Instrument> findByMasterIdAndSuccessorIdIsNullAndShadowIsTrue(String masterId);
+
+  @RestResource(exported = false)
+  Stream<Instrument> streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(
+      String oldProjectId);
 }

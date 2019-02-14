@@ -12,6 +12,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -74,11 +75,11 @@ public interface DataSetRepository
       String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
-  Stream<DataSet> streamByDataAcquisitionProjectIdAndShadowIsFalse(
-      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
+  Stream<DataSet> streamByDataAcquisitionProjectIdAndShadowIsFalse(String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
-  Stream<DataSet> streamByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
-      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId
-  );
+  Optional<DataSet> findByMasterIdAndShadowIsTrueAndSuccessorIdIsNull(String masterId);
+
+  @RestResource(exported = false)
+  Stream<DataSet> streamByDataAcquisitionProjectIdAndSuccessorIdIsNull(String previousProjectId);
 }

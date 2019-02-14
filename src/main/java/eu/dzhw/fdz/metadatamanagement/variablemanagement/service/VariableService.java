@@ -94,7 +94,7 @@ public class VariableService {
   @EventListener
   public void onProjectRelease(ProjectReleasedEvent projectReleasedEvent) {
     shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        variableShadowCopyDataProvider);
+        projectReleasedEvent.getPreviousReleaseVersion(), variableShadowCopyDataProvider);
   }
   
   /**

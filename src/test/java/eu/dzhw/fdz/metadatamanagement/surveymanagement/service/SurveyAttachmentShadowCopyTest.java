@@ -78,7 +78,7 @@ public class SurveyAttachmentShadowCopyTest extends AbstractTest {
     createTestFileForAttachment(master);
 
     shadowCopyService.createShadowCopies(dataAcquisitionProject,
-        surveyAttachmentMetadataShadowCopyDataSource);
+        null, surveyAttachmentMetadataShadowCopyDataSource);
 
     GridFSFile gridFsFile = gridFsOperations.findOne(new Query(GridFsCriteria
         .whereMetaData("dataAcquisitionProjectId").is(PROJECT_ID + "-1.0.0")
@@ -102,7 +102,7 @@ public class SurveyAttachmentShadowCopyTest extends AbstractTest {
   }
 
   @Test
-  public void createShadowCopy_link_predecessor_to_successor() throws Exception {
+  public void createShadowCopyLinkPredecessorToSuccessor() throws Exception {
     SurveyAttachmentMetadata master = UnitTestCreateDomainObjectUtils
         .buildSurveyAttachmentMetadata(PROJECT_ID, 1);
     createTestFileForAttachment(master);
@@ -116,7 +116,7 @@ public class SurveyAttachmentShadowCopyTest extends AbstractTest {
     createTestFileForAttachment(shadow);
     release.setVersion("1.0.1");
 
-    shadowCopyService.createShadowCopies(dataAcquisitionProject, surveyAttachmentMetadataShadowCopyDataSource);
+    shadowCopyService.createShadowCopies(dataAcquisitionProject, "1.0.0", surveyAttachmentMetadataShadowCopyDataSource);
 
     GridFSFile gridFsFile = gridFsOperations.findOne(new Query(GridFsCriteria
         .whereMetaData("dataAcquisitionProjectId").is(PROJECT_ID + "-1.0.0")

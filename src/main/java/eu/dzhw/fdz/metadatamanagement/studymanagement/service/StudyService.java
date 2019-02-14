@@ -241,6 +241,6 @@ public class StudyService {
   @EventListener
   public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
     shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        studyShadowCopyDataSource);
+        projectReleasedEvent.getPreviousReleaseVersion(), studyShadowCopyDataSource);
   }
 }

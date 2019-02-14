@@ -1,11 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.time.LocalDateTime;
-
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRateImageMetadata;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.mongodb.core.query.Query;
@@ -14,9 +13,9 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRateImageMetadata;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDateTime;
 
 /**
  * Service for creating and updating survey images. Used for updating images in mongo
@@ -104,7 +103,7 @@ public class SurveyResponseRateImageService {
   @EventListener
   public void onProjectReleasedEvent(ProjectReleasedEvent projectReleasedEvent) {
     shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        shadowCopyDataSource);
+        projectReleasedEvent.getPreviousReleaseVersion(), shadowCopyDataSource);
   }
   
   /**

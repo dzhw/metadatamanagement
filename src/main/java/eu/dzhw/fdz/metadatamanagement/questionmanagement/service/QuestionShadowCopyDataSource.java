@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,15 +44,26 @@ public class QuestionShadowCopyDataSource implements ShadowCopyDataSource<Questi
   }
 
   @Override
-  public Stream<Question> getLastShadowCopies(String dataAcquisitionProjectId) {
-    return questionRepository
-        .streamByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
-            dataAcquisitionProjectId);
+  public Optional<Question> findPredecessorOfShadowCopy(String masterId) {
+    return questionRepository.findByMasterIdAndShadowIsTrueAndSuccessorIdIsNull(masterId);
   }
 
   @Override
-  public List<Question> saveShadowCopies(List<Question> shadowCopies) {
-    return questionRepository.saveAll(shadowCopies);
+  public void updatePredecessor(Question predecessor) {
+    questionRepository.save(predecessor);
+  }
+
+  @Override
+  public void saveShadowCopy(Question shadowCopy) {
+    questionRepository.save(shadowCopy);
+  }
+
+  @Override
+  public Stream<Question> findShadowCopiesWithDeletedMasters(String projectId,
+      String previousVersion) {
+    String oldProjectId = projectId + "-" + previousVersion;
+    return questionRepository
+        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId);
   }
 
   private List<String> createDerivedSuccessorIds(List<String> successorIds, String version) {

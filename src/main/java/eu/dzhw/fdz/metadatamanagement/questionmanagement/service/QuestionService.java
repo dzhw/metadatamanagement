@@ -217,6 +217,6 @@ public class QuestionService {
   @EventListener
   public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
     shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        questionShadowCopyDataSource);
+        projectReleasedEvent.getPreviousReleaseVersion(), questionShadowCopyDataSource);
   }
 }

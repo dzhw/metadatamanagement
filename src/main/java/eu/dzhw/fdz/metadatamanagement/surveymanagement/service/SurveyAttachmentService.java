@@ -182,6 +182,6 @@ public class SurveyAttachmentService {
   @EventListener
   public void onProjectReleasedEvent(ProjectReleasedEvent projectReleasedEvent) {
     shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        shadowCopyDatasource);
+        projectReleasedEvent.getPreviousReleaseVersion(), shadowCopyDatasource);
   }
 }

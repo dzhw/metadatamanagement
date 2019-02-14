@@ -1,14 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Provides data for creating shadow copies of {@link Survey}.
@@ -39,13 +38,26 @@ public class SurveyShadowCopyDataSource implements ShadowCopyDataSource<Survey> 
   }
 
   @Override
-  public Stream<Survey> getLastShadowCopies(String dataAcquisitionProjectId) {
-    return surveyRepository.streamByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
-        dataAcquisitionProjectId);
+  public Optional<Survey> findPredecessorOfShadowCopy(String masterId) {
+    return surveyRepository.findByMasterIdAndSuccessorIdIsNullAndShadowIsTrue(masterId);
   }
 
   @Override
-  public List<Survey> saveShadowCopies(List<Survey> shadowCopies) {
-    return surveyRepository.saveAll(shadowCopies);
+  public void updatePredecessor(Survey predecessor) {
+    surveyRepository.save(predecessor);
   }
+
+  @Override
+  public void saveShadowCopy(Survey shadowCopy) {
+    surveyRepository.save(shadowCopy);
+  }
+
+  @Override
+  public Stream<Survey> findShadowCopiesWithDeletedMasters(String projectId,
+      String previousVersion) {
+    String oldProjectId = projectId + "-" + previousVersion;
+    return surveyRepository
+        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId);
+  }
+
 }

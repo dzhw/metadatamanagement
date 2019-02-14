@@ -1,14 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Provides data for creating shadow copies of {@link Study}.
@@ -39,13 +38,25 @@ public class StudyShadowCopyDataSource implements ShadowCopyDataSource<Study> {
   }
 
   @Override
-  public Stream<Study> getLastShadowCopies(String dataAcquisitionProjectId) {
-    return studyRepository.streamByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
-        dataAcquisitionProjectId);
+  public Optional<Study> findPredecessorOfShadowCopy(String masterId) {
+    return studyRepository.findByMasterIdAndSuccessorIdIsNullAndShadowIsTrue(masterId);
   }
 
   @Override
-  public List<Study> saveShadowCopies(List<Study> shadowCopies) {
-    return studyRepository.saveAll(shadowCopies);
+  public void updatePredecessor(Study predecessor) {
+    studyRepository.save(predecessor);
+  }
+
+  @Override
+  public void saveShadowCopy(Study shadowCopy) {
+    studyRepository.save(shadowCopy);
+  }
+
+  @Override
+  public Stream<Study> findShadowCopiesWithDeletedMasters(String projectId,
+      String previousVersion) {
+    String oldProjectId = projectId + "-" + previousVersion;
+    return studyRepository
+        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId);
   }
 }

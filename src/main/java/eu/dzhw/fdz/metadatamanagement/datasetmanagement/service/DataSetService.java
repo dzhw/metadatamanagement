@@ -218,13 +218,13 @@ public class DataSetService {
   }
 
   /**
-   * Create shadow copies for instruments on project release.
+   * Create shadow copies for {@link DataSet} on project release.
    * @param projectReleasedEvent Released project event
    */
   @EventListener
   public void onProjectRelease(ProjectReleasedEvent projectReleasedEvent) {
     shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        dataSetShadowCopyDataSource);
+        projectReleasedEvent.getPreviousReleaseVersion(), dataSetShadowCopyDataSource);
   }
 
   /**

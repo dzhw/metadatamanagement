@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import org.bson.Document;
 import org.javers.core.Javers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -49,6 +52,12 @@ public class InstrumentAttachmentService {
   
   @Autowired
   private Javers javers;
+
+  @Autowired
+  private InstrumentAttachmentMetadataShadowCopyDataSource shadowCopyDataSource;
+
+  @Autowired
+  private ShadowCopyService<InstrumentAttachmentMetadata> shadowCopyService;
 
   /**
    * Save the attachment for an instrument. 
@@ -165,5 +174,11 @@ public class InstrumentAttachmentService {
     String currentUser = SecurityUtils.getCurrentUserLogin();
     this.operations.delete(fileQuery);
     javers.commitShallowDelete(currentUser, metadata);
+  }
+
+  @EventListener
+  public void onProjectReleasedEvent(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        projectReleasedEvent.getPreviousReleaseVersion(), shadowCopyDataSource);
   }
 }

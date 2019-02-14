@@ -20,6 +20,12 @@ dataAcquisitionProject
 .. java:field:: private DataAcquisitionProject dataAcquisitionProject
    :outertype: ProjectReleasedEvent
 
+previousReleaseVersion
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. java:field:: private String previousReleaseVersion
+   :outertype: ProjectReleasedEvent
+
 serialVersionUID
 ^^^^^^^^^^^^^^^^
 

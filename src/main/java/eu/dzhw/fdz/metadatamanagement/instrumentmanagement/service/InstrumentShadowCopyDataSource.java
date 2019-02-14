@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -42,15 +43,26 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
   }
 
   @Override
-  public Stream<Instrument> getLastShadowCopies(String dataAcquisitionProjectId) {
-    return instrumentRepository
-        .streamByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
-            dataAcquisitionProjectId);
+  public Optional<Instrument> findPredecessorOfShadowCopy(String masterId) {
+    return instrumentRepository.findByMasterIdAndSuccessorIdIsNullAndShadowIsTrue(masterId);
   }
 
   @Override
-  public List<Instrument> saveShadowCopies(List<Instrument> shadowCopies) {
-    return instrumentRepository.saveAll(shadowCopies);
+  public void updatePredecessor(Instrument predecessor) {
+    instrumentRepository.save(predecessor);
+  }
+
+  @Override
+  public void saveShadowCopy(Instrument shadowCopy) {
+    instrumentRepository.save(shadowCopy);
+  }
+
+  @Override
+  public Stream<Instrument> findShadowCopiesWithDeletedMasters(String projectId,
+      String previousVersion) {
+    String oldProjectId = projectId + "-" + previousVersion;
+    return instrumentRepository
+        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId);
   }
 
   private static List<String> createDerivedSurveyIds(List<String> surveyIds, String version) {

@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
@@ -29,18 +29,32 @@ public interface ShadowCopyDataSource<T extends AbstractShadowableRdcDomainObjec
   T createShadowCopy(T source, String version);
 
   /**
-   * Returns a list of the latest existing shadow copies. Consumers are expected to close the
-   * stream.
-   * @param dataAcquisitionProjectId Project id used to retrieve shadow copies
-   * @return List of existing shadow copies which don't have a successor
+   * Find the predecessor of the given shadow copy.
+   * @param masterId Master id of the domain object
+   * @return Predecessor of the given shadow copy if existing
    */
-  Stream<T> getLastShadowCopies(
-      String dataAcquisitionProjectId);
+  Optional<T> findPredecessorOfShadowCopy(String masterId);
 
   /**
-   * Save the given shadow copies.
-   * @param shadowCopies Shadow copies to save
-   * @return List of saved shadow copies
+   * Update an existing predecessor shadow copy.
+   * @param predecessor predecessor
+   * @return Persisted predecessor
    */
-  List<T> saveShadowCopies(List<T> shadowCopies);
+  void updatePredecessor(T predecessor);
+
+  /**
+   * Save the (new) shadow copy.
+   * @param shadowCopy New shadow copy to save
+   * @return Persisted shadow copy
+   */
+  void saveShadowCopy(T shadowCopy);
+
+  /**
+   * Find shadow copies where the master has been deleted between the last and the current project
+   * release.
+   * @param projectId Project id
+   * @param previousVersion Version of the previous project release
+   * @return Stream of shadow copies with deleted masters
+   */
+  Stream<T> findShadowCopiesWithDeletedMasters(String projectId, String previousVersion);
 }

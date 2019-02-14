@@ -229,13 +229,13 @@ public class InstrumentService {
   }
 
   /**
-   * Create shadow copies for instruments on project release.
+   * Create shadow copies for {@link Instrument} on project release.
    * @param projectReleasedEvent Released project event
    */
   @EventListener
   public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
     shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        instrumentShadowCopyDataSource);
+        projectReleasedEvent.getPreviousReleaseVersion(), instrumentShadowCopyDataSource);
   }
 
   /**

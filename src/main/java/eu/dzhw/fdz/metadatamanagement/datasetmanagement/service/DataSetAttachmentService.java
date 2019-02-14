@@ -1,15 +1,18 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.gridfs.model.GridFSFile;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import org.bson.Document;
 import org.javers.core.Javers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -18,14 +21,12 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
-
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Service for managing attachments for data sets.
@@ -48,6 +49,12 @@ public class DataSetAttachmentService {
   
   @Autowired
   private Javers javers;
+
+  @Autowired
+  private DataSetAttachmentShadowCopyDataSource dataSetAttachmentShadowCopyDataSource;
+
+  @Autowired
+  private ShadowCopyService<DataSetAttachmentMetadata> shadowCopyService;
 
   /**
    * Save the attachment for a data set. 
@@ -165,5 +172,15 @@ public class DataSetAttachmentService {
     String currentUser = SecurityUtils.getCurrentUserLogin();
     this.operations.delete(fileQuery);
     javers.commitShallowDelete(currentUser, metadata);
+  }
+
+  /**
+   * Create shadow copies for {@link DataSetAttachmentMetadata} on project release.
+   * @param projectReleasedEvent Released project event
+   */
+  @EventListener
+  public void onProjectReleasedEvent(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        projectReleasedEvent.getPreviousReleaseVersion(), dataSetAttachmentShadowCopyDataSource);
   }
 }

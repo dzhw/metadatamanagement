@@ -75,7 +75,7 @@ public class SurveyShadowCopyTest extends AbstractTest {
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(PROJECT_ID);
     surveyRepository.save(survey);
 
-    surveyShadowCopyService.createShadowCopies(project, surveyShadowCopyDataProvider);
+    surveyShadowCopyService.createShadowCopies(project, null, surveyShadowCopyDataProvider);
 
     List<Survey> result = surveyRepository.findAll();
 
@@ -105,7 +105,7 @@ public class SurveyShadowCopyTest extends AbstractTest {
     release.setVersion("1.0.1");
     surveyRepository.saveAll(Arrays.asList(master, shadow));
 
-    surveyShadowCopyService.createShadowCopies(project, surveyShadowCopyDataProvider);
+    surveyShadowCopyService.createShadowCopies(project, "1.0.0", surveyShadowCopyDataProvider);
 
     List<Survey> result = surveyRepository.findAll().stream().filter(Survey::isShadow)
         .collect(Collectors.toList());

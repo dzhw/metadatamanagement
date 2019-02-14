@@ -14,13 +14,21 @@ public class ProjectReleasedEvent extends ApplicationEvent {
 
   private DataAcquisitionProject dataAcquisitionProject;
 
+  private String previousReleaseVersion;
+
   /**
    * Create a new event instance.
    * @param source Event emitter reference
    * @param dataAcquisitionProject Released project
    */
-  public ProjectReleasedEvent(Object source, DataAcquisitionProject dataAcquisitionProject) {
+  public ProjectReleasedEvent(Object source, DataAcquisitionProject dataAcquisitionProject,
+                              String previousReleaseVersion) {
     super(source);
     this.dataAcquisitionProject = dataAcquisitionProject;
+    this.previousReleaseVersion = previousReleaseVersion;
+  }
+
+  public String getPreviousReleaseVersion() {
+    return previousReleaseVersion;
   }
 }

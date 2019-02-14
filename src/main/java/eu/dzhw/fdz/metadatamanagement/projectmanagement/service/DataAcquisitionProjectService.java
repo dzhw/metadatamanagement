@@ -61,6 +61,8 @@ public class DataAcquisitionProjectService {
 
   private ShadowCopyService<DataAcquisitionProject> shadowCopyService;
 
+  private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
+
   /**
    * Creates a new {@link DataAcquisitionProjectService} instance.
    */
@@ -70,7 +72,8 @@ public class DataAcquisitionProjectService {
       DataAcquisitionProjectChangesProvider changesProvider, UserRepository userRepository,
       MailService mailService, MetadataManagementProperties metadataManagementProperties,
       DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource,
-      ShadowCopyService<DataAcquisitionProject> shadowCopyService) {
+      ShadowCopyService<DataAcquisitionProject> shadowCopyService,
+      DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService) {
     this.acquisitionProjectRepository = dataAcquisitionProjectRepo;
     this.eventPublisher = applicationEventPublisher;
     this.userInformationProvider = userInformationProvider;
@@ -81,6 +84,7 @@ public class DataAcquisitionProjectService {
     this.dataAcquisitionProjectShadowCopyDataSource =
         dataAcquisitionProjectShadowCopyDataSource;
     this.shadowCopyService = shadowCopyService;
+    this.dataAcquisitionProjectVersionsService = dataAcquisitionProjectVersionsService;
   }
 
   /**
@@ -176,15 +180,28 @@ public class DataAcquisitionProjectService {
     final String projectId = newDataAcquisitionProject.getId();
     sendPublishersDataProvidersChangedMails(projectId);
     sendAssigneeGroupChangedMails(newDataAcquisitionProject);
+
     if (isPublicProjectRelease(newDataAcquisitionProject.getId())) {
-      this.eventPublisher.publishEvent(new ProjectReleasedEvent(this, newDataAcquisitionProject));
+      Release previousRelease = dataAcquisitionProjectVersionsService
+          .findPreviousRelease(newDataAcquisitionProject.getId(),
+              newDataAcquisitionProject.getRelease());
+      String previousVersion;
+
+      if (previousRelease != null) {
+        previousVersion = previousRelease.getVersion();
+      } else {
+        previousVersion = null;
+      }
+      this.eventPublisher.publishEvent(new ProjectReleasedEvent(this, newDataAcquisitionProject,
+          previousVersion));
     }
   }
 
   @EventListener
-  public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
+  void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
     shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        dataAcquisitionProjectShadowCopyDataSource);
+        projectReleasedEvent
+            .getPreviousReleaseVersion(), dataAcquisitionProjectShadowCopyDataSource);
   }
 
   private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {

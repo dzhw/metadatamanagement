@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -38,6 +41,12 @@ public class QuestionImageService {
   
   @Autowired
   private MimeTypeDetector mimeTypeDetector;
+
+  @Autowired
+  private ShadowCopyService<QuestionImageMetadata> shadowCopyService;
+
+  @Autowired
+  private QuestionImageMetadataShadowCopyDataSource shadowCopyDataSource;
 
   /**
    * This method save an image into GridFS/MongoDB based on a byteArrayOutputStream.
@@ -102,5 +111,11 @@ public class QuestionImageService {
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^" + Pattern.quote("/questions/") + ".*" + Pattern.quote("/images/")));
     this.operations.delete(query);
+  }
+
+  @EventListener
+  public void onProjectReleasedEvent(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        projectReleasedEvent.getPreviousReleaseVersion(), shadowCopyDataSource);
   }
 }

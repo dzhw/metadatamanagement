@@ -15,11 +15,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -29,6 +29,8 @@ import java.util.stream.StreamSupport;
 @Service
 public class SurveyResponseRateImageMetadataShadowCopyDataSource
     implements ShadowCopyDataSource<SurveyResponseRateImageMetadata> {
+
+  private static final String RATE_IMAGE_PATTERN = "/surveys/.+/.+_responserate_*";
 
   private GridFsOperations gridFsOperations;
 
@@ -51,8 +53,8 @@ public class SurveyResponseRateImageMetadataShadowCopyDataSource
   public Stream<SurveyResponseRateImageMetadata> getMasters(String dataAcquisitionProjectId) {
     Query query = new Query(GridFsCriteria.whereMetaData("dataAcquisitionProjectId")
         .is(dataAcquisitionProjectId)
-        .andOperator(GridFsCriteria.whereMetaData("_class")
-            .is(SurveyResponseRateImageMetadata.class.getName())
+        .andOperator(GridFsCriteria.whereFilename()
+            .regex(RATE_IMAGE_PATTERN)
             .andOperator(GridFsCriteria.whereMetaData("shadow")
                 .is(false))));
 
@@ -89,63 +91,87 @@ public class SurveyResponseRateImageMetadataShadowCopyDataSource
   }
 
   @Override
-  public Stream<SurveyResponseRateImageMetadata> getLastShadowCopies(
-      String dataAcquisitionProjectId) {
+  public Optional<SurveyResponseRateImageMetadata> findPredecessorOfShadowCopy(String masterId) {
+    Query query = new Query(GridFsCriteria.whereMetaData("masterId")
+        .is(masterId)
+        .andOperator(GridFsCriteria.whereFilename()
+            .regex(RATE_IMAGE_PATTERN)
+            .andOperator(GridFsCriteria.whereMetaData("shadow")
+                .is(false)
+                .andOperator(GridFsCriteria.whereMetaData("successorId")
+                    .is(null)))));
 
-    Query query = new Query(GridFsCriteria.whereMetaData("shadow")
-        .is(true)
-        .andOperator(GridFsCriteria.whereMetaData("_class")
-            .is(SurveyResponseRateImageMetadata.class.getName())
-            .andOperator(GridFsCriteria.whereMetaData("successorId")
-                .is(null))));
-    GridFSFindIterable gridFsFiles = this.gridFsOperations.find(query);
-    MongoConverter converter = mongoTemplate.getConverter();
-    return StreamSupport.stream(gridFsFiles.spliterator(), false)
-        .map(file -> converter.read(SurveyResponseRateImageMetadata.class, file.getMetadata()));
+    GridFSFile file = gridFsOperations.findOne(query);
+
+    if (file == null) {
+      return Optional.empty();
+    } else {
+      return Optional.of(mongoTemplate.getConverter().read(SurveyResponseRateImageMetadata.class,
+          file.getMetadata()));
+    }
   }
 
   @Override
-  public List<SurveyResponseRateImageMetadata> saveShadowCopies(
-      List<SurveyResponseRateImageMetadata> shadowCopies) {
-
-    return shadowCopies.stream().peek(copy -> {
-      /*
-       * List contains updated shadows as well. We must check if we find those to avoid creating
-       * another file blob copy.
-       */
-      String fileName = String.format("/surveys/%s/%s", copy.getSurveyId(), copy.getFileName());
-
-      GridFSDBFile file = gridFs.findOne(fileName);
-
-      if (file != null) {
-        updateMetadataOnly(copy, file);
-      } else {
-        createCopyWithFileBlob(copy);
-      }
-    }).collect(Collectors.toList());
-  }
-
-  private void updateMetadataOnly(SurveyResponseRateImageMetadata copy, GridFSDBFile file) {
+  public void updatePredecessor(SurveyResponseRateImageMetadata predecessor) {
+    String fileName = String.format("/surveys/%s/%s", predecessor.getSurveyId(),
+        predecessor.getFileName());
+    GridFSDBFile file = gridFs.findOne(fileName);
     BasicDBObject dbObject = new BasicDBObject((Document) mongoTemplate.getConverter()
-        .convertToMongoType(copy));
+        .convertToMongoType(predecessor));
     file.setMetaData(dbObject);
     file.save();
   }
 
-  private void createCopyWithFileBlob(SurveyResponseRateImageMetadata copy) {
-    String originalFilePath = copy.getMasterId().replaceFirst("/public/files","");
+  @Override
+  public void saveShadowCopy(SurveyResponseRateImageMetadata shadowCopy) {
+    String originalFilePath = shadowCopy.getMasterId().replaceFirst("/public/files", "");
     GridFSDBFile file = gridFs.findOne(originalFilePath);
-    String filename = String.format("/surveys/%s/%s", copy.getSurveyId(), copy.getFileName());
+    String filename = String.format("/surveys/%s/%s", shadowCopy.getSurveyId(),
+        shadowCopy.getFileName());
 
     try (InputStream fIn = file.getInputStream()) {
-      gridFsOperations.store(fIn, filename, file.getContentType(), copy);
+      gridFsOperations.store(fIn, filename, getContentType(file), shadowCopy);
     } catch (IOException e) {
-      throw new RuntimeException("IO error during shadow copy creation of " + copy.getId(), e);
+      throw new RuntimeException("IO error during shadow copy creation of " + shadowCopy.getId(),
+          e);
     }
+  }
+
+  @Override
+  public Stream<SurveyResponseRateImageMetadata> findShadowCopiesWithDeletedMasters(
+      String projectId, String previousVersion) {
+    String oldProjectId = projectId + "-" + previousVersion;
+    Query query = new Query(GridFsCriteria.whereMetaData("dataAcquisitionProjectId")
+        .is(oldProjectId)
+        .andOperator(GridFsCriteria.whereFilename()
+            .regex(RATE_IMAGE_PATTERN)
+            .andOperator(GridFsCriteria.whereMetaData("shadow")
+                .is(true)
+                .andOperator(GridFsCriteria.whereMetaData("successorId")
+                    .is(null)))));
+
+    GridFSFindIterable gridFsFiles = gridFsOperations.find(query);
+    return convertIterableToStream(gridFsFiles);
   }
 
   private String deriveId(SurveyResponseRateImageMetadata source, String version) {
     return String.format("/surveys/%s-%s/%s", source.getSurveyId(),
         version, source.getFileName());
+  }
+
+  private String getContentType(GridFSDBFile gridFsDbFile) {
+    String contentType = gridFsDbFile.getContentType();
+    if (StringUtils.hasText(contentType)) {
+      return contentType;
+    } else {
+      return (String) gridFsDbFile.getMetaData().get("_contentType");
+    }
+  }
+
+  private Stream<SurveyResponseRateImageMetadata> convertIterableToStream(
+      GridFSFindIterable gridFsFiles) {
+    MongoConverter converter = mongoTemplate.getConverter();
+    return StreamSupport.stream(gridFsFiles.spliterator(), false)
+        .map(file -> converter.read(SurveyResponseRateImageMetadata.class, file.getMetadata()));
   }
 }

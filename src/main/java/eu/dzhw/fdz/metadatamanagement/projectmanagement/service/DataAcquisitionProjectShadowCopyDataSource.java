@@ -1,14 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Provides data for creating shadow copies of {@link DataAcquisitionProject}.
@@ -40,13 +39,26 @@ public class DataAcquisitionProjectShadowCopyDataSource
   }
 
   @Override
-  public Stream<DataAcquisitionProject> getLastShadowCopies(String dataAcquisitionProjectId) {
-    return dataAcquisitionProjectRepository
-        .streamByIdAndShadowIsTrueAndSuccessorIdIsNull(dataAcquisitionProjectId);
+  public Optional<DataAcquisitionProject> findPredecessorOfShadowCopy(String masterId) {
+    return dataAcquisitionProjectRepository.findByMasterIdAndSuccessorIdIsNullAndShadowIsTrue(
+        masterId);
   }
 
   @Override
-  public List<DataAcquisitionProject> saveShadowCopies(List<DataAcquisitionProject> shadowCopies) {
-    return dataAcquisitionProjectRepository.saveAll(shadowCopies);
+  public void updatePredecessor(DataAcquisitionProject predecessor) {
+    dataAcquisitionProjectRepository.save(predecessor);
+  }
+
+  @Override
+  public void saveShadowCopy(DataAcquisitionProject shadowCopy) {
+    dataAcquisitionProjectRepository.save(shadowCopy);
+  }
+
+  @Override
+  public Stream<DataAcquisitionProject> findShadowCopiesWithDeletedMasters(String projectId,
+      String previousVersion) {
+    String previousProjectId = projectId + "-" + previousVersion;
+    return dataAcquisitionProjectRepository
+        .streamByIdAndShadowIsTrueAndSuccessorIdIsNull(previousProjectId);
   }
 }
