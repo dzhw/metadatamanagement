@@ -12,7 +12,6 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -63,9 +62,6 @@ public interface SurveyRepository
 
   @RestResource(exported = false)
   Stream<Survey> streamByDataAcquisitionProjectIdAndShadowIsFalse(String dataAcquisitionProjectId);
-
-  @RestResource(exported = false)
-  Optional<Survey> findByMasterIdAndSuccessorIdIsNullAndShadowIsTrue(String masterId);
 
   @RestResource(exported = false)
   Stream<Survey> streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(

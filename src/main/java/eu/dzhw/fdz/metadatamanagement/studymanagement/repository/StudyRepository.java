@@ -11,7 +11,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -58,9 +57,6 @@ public interface StudyRepository
   @RestResource(exported = false)
   Stream<Study> streamByDataAcquisitionProjectIdAndShadowIsFalse(
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
-
-  @RestResource(exported = false)
-  Optional<Study> findByMasterIdAndSuccessorIdIsNullAndShadowIsTrue(String masterId);
 
   @RestResource(exported = false)
   Stream<Study> streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(

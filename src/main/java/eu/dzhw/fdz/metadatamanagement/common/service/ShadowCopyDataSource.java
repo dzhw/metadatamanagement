@@ -30,10 +30,11 @@ public interface ShadowCopyDataSource<T extends AbstractShadowableRdcDomainObjec
 
   /**
    * Find the predecessor of the given shadow copy.
-   * @param masterId Master id of the domain object
+   * @param shadowCopy Shadow copy for which the predecessor should be found
+   * @param previousVersion The previous version of the project
    * @return Predecessor of the given shadow copy if existing
    */
-  Optional<T> findPredecessorOfShadowCopy(String masterId);
+  Optional<T> findPredecessorOfShadowCopy(T shadowCopy, String previousVersion);
 
   /**
    * Update an existing predecessor shadow copy.
@@ -53,8 +54,8 @@ public interface ShadowCopyDataSource<T extends AbstractShadowableRdcDomainObjec
    * Find shadow copies where the master has been deleted between the last and the current project
    * release.
    * @param projectId Project id
-   * @param previousVersion Version of the previous project release
+   * @param lastVersion Version of the last project release
    * @return Stream of shadow copies with deleted masters
    */
-  Stream<T> findShadowCopiesWithDeletedMasters(String projectId, String previousVersion);
+  Stream<T> findShadowCopiesWithDeletedMasters(String projectId, String lastVersion);
 }

@@ -33,13 +33,15 @@ public class SurveyShadowCopyDataSource implements ShadowCopyDataSource<Survey> 
     Survey copy = surveyRepository.findById(derivedId).orElseGet(Survey::new);
     BeanUtils.copyProperties(source, copy, "version");
     copy.setId(derivedId);
-    copy.setDataAcquisitionProjectId(copy.getDataAcquisitionProjectId() + "-" + version);
+    copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
+    copy.setStudyId(source.getStudyId() + "-" + version);
     return copy;
   }
 
   @Override
-  public Optional<Survey> findPredecessorOfShadowCopy(String masterId) {
-    return surveyRepository.findByMasterIdAndSuccessorIdIsNullAndShadowIsTrue(masterId);
+  public Optional<Survey> findPredecessorOfShadowCopy(Survey shadowCopy, String previousVersion) {
+    String shadowCopyId = shadowCopy + "-" + previousVersion;
+    return surveyRepository.findById(shadowCopyId);
   }
 
   @Override
@@ -54,10 +56,11 @@ public class SurveyShadowCopyDataSource implements ShadowCopyDataSource<Survey> 
 
   @Override
   public Stream<Survey> findShadowCopiesWithDeletedMasters(String projectId,
-      String previousVersion) {
-    String oldProjectId = projectId + "-" + previousVersion;
+      String lastVersion) {
+    String oldProjectId = projectId + "-" + lastVersion;
     return surveyRepository
-        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId);
+        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId)
+        .filter(shadowCopy -> !surveyRepository.existsById(shadowCopy.getMasterId()));
   }
 
 }

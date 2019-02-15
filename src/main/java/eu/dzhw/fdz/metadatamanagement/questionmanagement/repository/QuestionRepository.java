@@ -10,7 +10,6 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -62,9 +61,6 @@ public interface QuestionRepository
   @RestResource(exported = false)
   Stream<Question> streamByDataAcquisitionProjectIdAndShadowIsFalse(
       String dataAcquisitionProjectId);
-
-  @RestResource(exported = false)
-  Optional<Question> findByMasterIdAndShadowIsTrueAndSuccessorIdIsNull(String masterId);
 
   @RestResource(exported = false)
   Stream<Question> streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(

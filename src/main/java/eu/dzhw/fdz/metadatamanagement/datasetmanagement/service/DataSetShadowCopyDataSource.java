@@ -42,8 +42,9 @@ public class DataSetShadowCopyDataSource implements ShadowCopyDataSource<DataSet
   }
 
   @Override
-  public Optional<DataSet> findPredecessorOfShadowCopy(String masterId) {
-    return dataSetRepository.findByMasterIdAndShadowIsTrueAndSuccessorIdIsNull(masterId);
+  public Optional<DataSet> findPredecessorOfShadowCopy(DataSet shadowCopy, String previousVersion) {
+    String shadowCopyId = shadowCopy + "-" + previousVersion;
+    return dataSetRepository.findById(shadowCopyId);
   }
 
   @Override
@@ -58,11 +59,11 @@ public class DataSetShadowCopyDataSource implements ShadowCopyDataSource<DataSet
 
   @Override
   public Stream<DataSet> findShadowCopiesWithDeletedMasters(String projectId,
-                                                            String previousVersion) {
-
-    String previousProjectId = projectId + "-" + previousVersion;
+                                                            String lastVersion) {
+    String previousProjectId = projectId + "-" + lastVersion;
     return dataSetRepository
-        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNull(previousProjectId);
+        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(previousProjectId)
+        .filter(shadowCopy -> !dataSetRepository.existsById(shadowCopy.getMasterId()));
   }
 
   private static List<String> createDerivedSurveyIds(List<String> surveyIds, String version) {

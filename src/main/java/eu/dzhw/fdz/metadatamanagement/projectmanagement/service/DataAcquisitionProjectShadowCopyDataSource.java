@@ -39,9 +39,10 @@ public class DataAcquisitionProjectShadowCopyDataSource
   }
 
   @Override
-  public Optional<DataAcquisitionProject> findPredecessorOfShadowCopy(String masterId) {
-    return dataAcquisitionProjectRepository.findByMasterIdAndSuccessorIdIsNullAndShadowIsTrue(
-        masterId);
+  public Optional<DataAcquisitionProject> findPredecessorOfShadowCopy(DataAcquisitionProject shadowCopy,
+                                                                      String previousVersion) {
+    String shadowCopyId = shadowCopy + "-" + previousVersion;
+    return dataAcquisitionProjectRepository.findById(shadowCopyId);
   }
 
   @Override
@@ -56,9 +57,11 @@ public class DataAcquisitionProjectShadowCopyDataSource
 
   @Override
   public Stream<DataAcquisitionProject> findShadowCopiesWithDeletedMasters(String projectId,
-      String previousVersion) {
-    String previousProjectId = projectId + "-" + previousVersion;
+      String lastVersion) {
+    String previousProjectId = projectId + "-" + lastVersion;
     return dataAcquisitionProjectRepository
-        .streamByIdAndShadowIsTrueAndSuccessorIdIsNull(previousProjectId);
+        .streamByIdAndShadowIsTrueAndSuccessorIdIsNull(previousProjectId)
+        .filter(shadowCopy -> !dataAcquisitionProjectRepository
+            .existsById(shadowCopy.getMasterId()));
   }
 }

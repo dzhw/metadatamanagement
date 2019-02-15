@@ -44,8 +44,9 @@ public class QuestionShadowCopyDataSource implements ShadowCopyDataSource<Questi
   }
 
   @Override
-  public Optional<Question> findPredecessorOfShadowCopy(String masterId) {
-    return questionRepository.findByMasterIdAndShadowIsTrueAndSuccessorIdIsNull(masterId);
+  public Optional<Question> findPredecessorOfShadowCopy(Question shadowCopy, String previousVersion) {
+    String shadowCopyId = shadowCopy + "-" + previousVersion;
+    return questionRepository.findById(shadowCopyId);
   }
 
   @Override
@@ -60,10 +61,11 @@ public class QuestionShadowCopyDataSource implements ShadowCopyDataSource<Questi
 
   @Override
   public Stream<Question> findShadowCopiesWithDeletedMasters(String projectId,
-      String previousVersion) {
-    String oldProjectId = projectId + "-" + previousVersion;
+      String lastVersion) {
+    String oldProjectId = projectId + "-" + lastVersion;
     return questionRepository
-        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId);
+        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId)
+        .filter(shadowCopy -> !questionRepository.existsById(shadowCopy.getMasterId()));
   }
 
   private List<String> createDerivedSuccessorIds(List<String> successorIds, String version) {

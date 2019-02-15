@@ -12,7 +12,6 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -65,9 +64,6 @@ public interface DataSetRepository
   DataSetSubDocumentProjection findOneSubDocumentById(String dataSetId);
 
   @RestResource(exported = false)
-  List<DataSet> findByStudyId(String id);
-
-  @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String projectId);  
 
   @RestResource(exported = false)
@@ -78,8 +74,6 @@ public interface DataSetRepository
   Stream<DataSet> streamByDataAcquisitionProjectIdAndShadowIsFalse(String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
-  Optional<DataSet> findByMasterIdAndShadowIsTrueAndSuccessorIdIsNull(String masterId);
-
-  @RestResource(exported = false)
-  Stream<DataSet> streamByDataAcquisitionProjectIdAndSuccessorIdIsNull(String previousProjectId);
+  Stream<DataSet> streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(
+      String previousProjectId);
 }

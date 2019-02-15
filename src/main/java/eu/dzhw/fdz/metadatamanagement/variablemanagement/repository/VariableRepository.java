@@ -10,7 +10,6 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -87,9 +86,6 @@ public interface VariableRepository
   @RestResource(exported = false)
   Stream<Variable> streamByDataAcquisitionProjectIdAndShadowIsFalse(
       String dataAcquisitionProjectId);
-
-  @RestResource(exported = false)
-  Optional<Variable> findByMasterIdAndSuccessorIdIsNullAndShadowIsTrue(String masterId);
 
   @RestResource(exported = false)
   Stream<Variable> findByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(

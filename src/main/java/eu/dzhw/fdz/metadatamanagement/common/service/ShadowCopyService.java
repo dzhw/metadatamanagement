@@ -3,7 +3,9 @@ package eu.dzhw.fdz.metadatamanagement.common.service;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.rest.core.event.AfterCreateEvent;
 import org.springframework.data.rest.core.event.AfterSaveEvent;
+import org.springframework.data.rest.core.event.BeforeCreateEvent;
 import org.springframework.data.rest.core.event.BeforeSaveEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -45,7 +47,7 @@ public class ShadowCopyService<T extends AbstractShadowableRdcDomainObject> {
           .forEach(shadowCopy -> {
             if (hasPreviousVersion) {
               Optional<T> opt = shadowCopyDataSource
-                  .findPredecessorOfShadowCopy(shadowCopy.getMasterId());
+                  .findPredecessorOfShadowCopy(shadowCopy, previousVersion);
               if (opt.isPresent()) {
                 T predecessor = opt.get();
                 predecessor.setSuccessorId(shadowCopy.getId());
@@ -55,23 +57,27 @@ public class ShadowCopyService<T extends AbstractShadowableRdcDomainObject> {
               }
             }
 
-            applicationEventPublisher.publishEvent(new BeforeSaveEvent(shadowCopy));
-            shadowCopyDataSource.saveShadowCopy(shadowCopy);
-            applicationEventPublisher.publishEvent(new AfterSaveEvent(shadowCopy));
+            if (shadowCopy.getVersion() == null) {
+              applicationEventPublisher.publishEvent(new BeforeCreateEvent(shadowCopy));
+              shadowCopyDataSource.saveShadowCopy(shadowCopy);
+              applicationEventPublisher.publishEvent(new AfterCreateEvent(shadowCopy));
+            } else {
+              applicationEventPublisher.publishEvent(new BeforeSaveEvent(shadowCopy));
+              shadowCopyDataSource.saveShadowCopy(shadowCopy);
+              applicationEventPublisher.publishEvent(new AfterSaveEvent(shadowCopy));
+            }
           });
     }
 
-    if (hasPreviousVersion) {
-      try (Stream<T> shadowCopies = shadowCopyDataSource
-          .findShadowCopiesWithDeletedMasters(projectId, previousVersion)) {
+    try (Stream<T> shadowCopies = shadowCopyDataSource
+        .findShadowCopiesWithDeletedMasters(projectId, previousVersion)) {
 
-        shadowCopies.forEach(shadowCopy -> {
-          shadowCopy.setSuccessorId(MASTER_DELETED_SUCCESSOR_ID);
-          applicationEventPublisher.publishEvent(new BeforeSaveEvent(shadowCopy));
-          shadowCopyDataSource.updatePredecessor(shadowCopy);
-          applicationEventPublisher.publishEvent(new AfterSaveEvent(shadowCopy));
-        });
-      }
+      shadowCopies.forEach(shadowCopy -> {
+        shadowCopy.setSuccessorId(MASTER_DELETED_SUCCESSOR_ID);
+        applicationEventPublisher.publishEvent(new BeforeSaveEvent(shadowCopy));
+        shadowCopyDataSource.updatePredecessor(shadowCopy);
+        applicationEventPublisher.publishEvent(new AfterSaveEvent(shadowCopy));
+      });
     }
   }
 }

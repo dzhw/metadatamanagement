@@ -1,6 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.service;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import org.springframework.beans.BeanUtils;
@@ -33,18 +34,47 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
   public Variable createShadowCopy(Variable source, String version) {
     String derivedId = source.getId() + "-" + version;
     Variable copy = variableRepository.findById(derivedId).orElseGet(Variable::new);
-    BeanUtils.copyProperties(source, copy, "version");
+    BeanUtils.copyProperties(source, copy, "version", "surveyIds",
+        "relatedQuestions", "relatedVariables");
     copy.setId(derivedId);
     copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
     copy.setDataSetId(source.getDataSetId() + "-" + version);
     copy.setStudyId(source.getStudyId() + "-" + version);
     copy.setSurveyIds(createDerivedSurveyIds(source.getSurveyIds(), version));
+    copy.setRelatedQuestions(createDerivedRelatedQuestions(source.getRelatedQuestions(), version));
+    copy.setRelatedVariables(createDerivedRelatedVariables(source.getRelatedVariables(), version));
     return copy;
   }
 
+  private List<String> createDerivedRelatedVariables(List<String> relatedVariables,
+      String version) {
+    if (relatedVariables != null) {
+      return relatedVariables.stream().map(relatedVariable -> relatedVariable + "-" + version)
+          .collect(Collectors.toList());
+    } else {
+      return null;
+    }
+  }
+
+  private List<RelatedQuestion> createDerivedRelatedQuestions(
+      List<RelatedQuestion> relatedQuestions, String version) {
+    if (relatedQuestions != null) {
+      return relatedQuestions.stream().map(relatedQuestion -> {
+        RelatedQuestion copy = new RelatedQuestion();
+        BeanUtils.copyProperties(relatedQuestion, copy, "instrumentId", "questionId");
+        copy.setInstrumentId(relatedQuestion.getInstrumentId() + "-" + version);
+        copy.setQuestionId(relatedQuestion.getQuestionId() + "-" + version);
+        return copy;
+      }).collect(Collectors.toList());
+    } else {
+      return null;
+    }
+  }
+
   @Override
-  public Optional<Variable> findPredecessorOfShadowCopy(String masterId) {
-    return variableRepository.findByMasterIdAndSuccessorIdIsNullAndShadowIsTrue(masterId);
+  public Optional<Variable> findPredecessorOfShadowCopy(Variable shadowCopy, String previousVersion) {
+    String shadowCopyId = shadowCopy + "-" + previousVersion;
+    return variableRepository.findById(shadowCopyId);
   }
 
   @Override
@@ -59,10 +89,11 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
 
   @Override
   public Stream<Variable> findShadowCopiesWithDeletedMasters(String projectId,
-      String previousVersion) {
-    String oldProjectId = projectId + "-" + previousVersion;
+      String lastVersion) {
+    String oldProjectId = projectId + "-" + lastVersion;
     return variableRepository
-        .findByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId);
+        .findByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId)
+        .filter(shadowCopy -> !variableRepository.existsById(shadowCopy.getMasterId()));
   }
 
   private static List<String> createDerivedSurveyIds(List<String> surveyIds, String version) {
