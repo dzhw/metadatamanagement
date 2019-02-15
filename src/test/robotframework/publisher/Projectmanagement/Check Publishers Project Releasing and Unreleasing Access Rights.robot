@@ -7,6 +7,14 @@ Resource          ../../resources/search_resource.robot
 Resource          ../../resources/project_management_resource.robot
 
 *** Test Cases ***
+Check Publishers Project Releasing and Unreleasing Access Rights Funtionalities
+  Check The Publisher Ready Checkbox is Not Marked and Release is Not Possible
+  Check The Publisher Ready Checkbox is Marked but Release Without Saving is Not Possible
+  Check The Publisher Ready Checkbox is Marked and When Saved Then Release is Possible
+  Verify The Released Project is Available under The Study Tab
+  Verify The Unreleased Project is Unavailable under The Study Tab
+
+*** Keywords ***
 Check The Publisher Ready Checkbox is Not Marked and Release is Not Possible
   Select project by name  robotprojectrelease4${BROWSER}
   Click on Cockpit Button
@@ -36,7 +44,6 @@ Verification of Project Release and Unrelase Status
   Verify The Released Project is Available under The Study Tab
   Verify The Unreleased Project is Unavailable under The Study Tab
 
-*** Keywords ***
 Assert Project Release Action Has Error Message
   Element Should Contain   xpath=//md-dialog-content//h2   kann nicht freigegeben werden
 
@@ -49,7 +56,7 @@ Close The Toast Message for Project Release Validation
   Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
 
 Verify The Released Project is Available under The Study Tab
-  Sleep   60s  #We need explicit sleep for 60s to ensure the project is available in the study tab
+  Sleep   60s  #We need explicit sleep for 60s to ensure the project is available under the study tab
   Publisher Logout   #explicit logout
   Click on study tab
   Element Should Contain  xpath=//md-card-header-text//span[contains(.,"stu-robotprojectrelease4${BROWSER}$")]  stu-robotprojectrelease4${BROWSER}$
@@ -63,7 +70,7 @@ Verify The Unreleased Project is Unavailable under The Study Tab
   Sleep  3s  #to ensure enough time for the next checkbox to be ready
   Click Publisher Ready Checkbox for Studies   #deselect the check box here
   Save Changes
-  Sleep  60s   #We need explicit sleep for 60s to ensure the project is not available in the study tab
+  Sleep  60s   #We need explicit sleep for 60s to ensure the project is not available under the study tab
   Publisher Logout
   Click on study tab
   Page Should Not Contain  stu-robotprojectrelease4${BROWSER}$
