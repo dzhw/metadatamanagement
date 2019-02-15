@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: UTF-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
 #
@@ -20,13 +20,13 @@ numfig = True
 # -- Project information -----------------------------------------------------
 
 project = 'Metadatamanagement (MDM)'
-copyright = '2018, Robert Birkelbach, Anne Gärtner, René Reitmann'
-author = 'Robert Birkelbach, Anne Gärtner, René Reitmann'
+copyright = u'2019, Robert Birkelbach, Anne Gärtner, René Reitmann'
+author = u'Robert Birkelbach, Anne Gärtner, René Reitmann'
 
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '1.0.75'
+release = '1.0.79'
 
 
 # -- General configuration ---------------------------------------------------
@@ -151,7 +151,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'MetaDataManagement.tex', 'MetaDataManagement Documentation',
-     'Robert Birkelbach, Anne Gärtner, René Reitmann', 'manual'),
+     u'Robert Birkelbach, Anne Gärtner, René Reitmann', 'manual'),
 ]
 
 
