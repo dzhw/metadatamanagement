@@ -11,7 +11,7 @@ Resource          ../../resources/home_page_resource.robot
 
 
 *** Test Cases ***
-Check Shooping Cart as a Public User
+Check Shopping Cart as a Public User
    Click on search result by id    @{MD_DATAPRODUCTS}[1]
    Click On Add Shopping Cart Icon
    Assert Study Input is Disabled
@@ -26,7 +26,6 @@ Check Shooping Cart as a Public User
    Check Delete Button is Available
    Empty The Shopping Cart
    Get back to german home page   # to sync with next test flow
-
 
 
 *** Keywords ***

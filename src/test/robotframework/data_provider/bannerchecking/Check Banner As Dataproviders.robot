@@ -9,6 +9,7 @@ Check for Pubslihers Banner Does not Appears
    Login as publisher
    Assert No Welcome Text After Login
    Publisher Logout
+   
 Check for Dataproviders Welcome Banner Appears
    Login as dataprovidertest
    Assert Welcome Text After Login
