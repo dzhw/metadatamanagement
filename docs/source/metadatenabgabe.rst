@@ -1,7 +1,7 @@
 .. _metadatenabgabe-label:
 
-Metadatenabgabe (Datengeber)
-===============================
+Metadatenabgabe (DatengeberInnen)
+=================================
 .. index:: data provider, Datenaufnahme
 
 Allgemeines
@@ -46,19 +46,18 @@ eigenständig in das MDM hochladen.
 
 Die Abgabe der Metadaten ist innerhalb der einzelnen Ebenen
 unterschiedlich komplex, sodass die Daten für jede der sieben Ebenen
-separat erfasst und hochgeladen werden müssen. Hierfür hat das FDZ des
+separat erfasst werden müssen. Hierfür hat das FDZ des
 DZHW feste Strukturen entwickelt, die im weiteren Verlauf dieser
 Anleitung für jede Ebene detailliert erläutert werden. Diesen Vorgaben
-ist unbedingt Folge zu leisten, damit ein erfolgreicher Upload der
+ist unbedingt Folge zu leisten, damit eine erfolgreiche Erfassung der
 einzelnen Metadaten gewährleistet werden kann.
 
-Aktuell können einige Metadaten bereits über eine Eingabemaske im MDM
-direkt eingetragen werden. Für die übrigen Ebenen müssen Json Dateien
-hochgeladen werden, bzw eine Exceldatei ans FDZ übergeben werden bzw.
-hochgeladen werden. In dieser Doku wird lediglich auf den Standardfall
-eingegangen, bei dem die Metadaten per Eingabemaske eingetragen werden.
-Zusätzlich ist auf manchen Ebenen das Erstellen von
-weiteren Anhängen (vgl. :ref:`Anhänge`) vorgesehen. Die Excel-Tabellen und
+Aktuell können einige Metadaten über eine Eingabemaske im MDM direkt eingetragen
+werden. Für die übrigen Ebenen müssen Json Dateien hochgeladen werden, bzw eine
+Exceldatei ans FDZ übergeben werden bzw. hochgeladen werden. In dieser Doku wird
+lediglich auf den Standardfall eingegangen, bei dem die Metadaten per
+Eingabemaske eingetragen werden. Zusätzlich ist auf manchen Ebenen das Erstellen
+von weiteren Anhängen (vgl. :ref:`Anhänge`) vorgesehen. Die Excel-Tabellen und
 eventuelle Anhänge müssen für jede Ebene dann entweder ins MDM hochgeladen
 werden oder zunächst dem
 FDZ zur weiteren Bearbeitung geschickt werden. Tabelle 1 zeigt eine
@@ -103,9 +102,8 @@ Registrierung
 ~~~~~~~~~~~~~
 
 Sie müssen sich zunächst auf https://metadata.fdz.dzhw.eu registrieren,
-um die Berechtigung für das Anlegen eines Projektes sowie das Hochladen
-von Metadaten zu erhalten. Dies können Sie über die Sidebar links auf
-der Website erledigen:
+um die Berechtigung für das Erfassen von Metadaten zu erhalten. Dies können Sie
+über die Sidebar links auf der Website erledigen:
 
 
 .. figure:: ./_static/02_de.png
@@ -116,28 +114,32 @@ der Website erledigen:
 Im Anschluss erhalten Sie eine Bestätigungsmail. In dieser müssen Sie auf den
 Aktivierungslink klicken, welcher nach drei Tagen automatisch abläuft. Im
 Anschluss werden Sie von uns dem Projekt in der Rolle Datengeber/in hinzugefügt.
+Sie erhalten jeweils eine E-Mail wenn Sie Ihrem Datenaufbereitungsprojekt
+hinzugefügt wurden und wenn das Projekt Ihnen von einer FDZ-Mitarbeiterin zur
+Bearbeitung freigegeben wurde.
 
-Verwaltung des Projektes im Project Cockpit
+Verwaltung des Projektes im Projekt-Cockpit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Das Project Cockpit dient der Zusammenarbeit zwischen FDZ-MitarbeiterInnen und
+Das Projekt-Cockpit dient der Zusammenarbeit zwischen FDZ-MitarbeiterInnen und
 den DatengeberInnen (das sind Sie und Ihre KollegInnen).
 In der Navigationsleiste links, welche je nach Fenstergröße des Browsers
-aufgeklappt werden muss, finden Sie den Zugang zum Project Cockpit
+aufgeklappt werden muss, finden Sie den Zugang zum Projekt-Cockpit
 (vgl. :numref:`projectcockpit`).
-Wenn Sie ins Projektcockpit gehen, sehen Sie unter dem Punkt Einstellungen
-(vgl. :numref:`project_cockpit_settings`), welche Publisher und Datengeber dem
-Projekt zugewiesen sind und welche Metadaten erwartet werden.
+Wenn Sie ins Projekt-Cockpit gehen, sehen Sie unter dem Punkt Einstellungen
+(vgl. :numref:`project_cockpit_settings`), welche Publisher (
+FDZ-MitarbeiterInnen) und Datengeber dem Projekt zugewiesen sind und welche
+Metadaten erwartet werden.
 
 .. figure:: ./_static/cockpit-button.png
    :name: projectcockpit
 
-   Project-Cockpit Button.
+   Projekt-Cockpit Button.
 
 .. figure:: ./_static/projectcockpit_settings_dataprovider.png
    :name: project_cockpit_settings
 
-   Project-Cockpit Einstellungen.
+   Projekt-Cockpit Einstellungen.
 
 Das Status-Menü (siehe :numref:`projectcockpit_status_empty`) hat einerseits
 Funktionen zum Projektmanagement und andererseits Funktionen um Metadaten
@@ -146,27 +148,29 @@ anzulegen:
 .. figure:: ./_static/projectcockpit_dataprovider_status_empty.png
    :name: projectcockpit_status_empty
 
-   Project-Cockpit Status.
+   Projekt-Cockpit Status.
 
-
-Es wird angezeigt, ob das Projekt freigegeben ist. Daneben wird angezeigt,
-ob das Projekt gerade bei den Publishern liegt, oder bei den DatengeberInnen
-zur Bearbeitung liegt. Zuerst liegt es bei den Publishern und Sie werden per
-Mail benachrichtigt, wenn es Ihnen zugewiesen wird. Um das Projekt wieder den
+Es wird angezeigt, ob das Projekt freigegeben ist. Freigegeben bedeutet, dass die
+eingegebenen Metadaten für alle öffentlichen Nutzer des Systems sichtbar sind.
+Daneben wird angezeigt, ob das Projekt gerade bei den Publishern liegt,
+oder bei den DatengeberInnen zur Bearbeitung liegt. Zuerst liegt es bei den
+Publishern und Sie werden per Mail benachrichtigt, wenn es Ihnen zugewiesen
+wird. Um das Projekt wieder den
 Publishern zuzuweisen, klicken Sie den "Papierflieger"-Button (siehe
 :numref:`papierflieger`) über dem "Zugewiesen an Datengeber" steht.
 
 .. figure:: ./_static/projectcockpit_papierflieger.png
    :name: papierflieger
 
-Die Vorraussetzung, dass Sie den Ball zurückspielen können ist, dass Sie die
+Die Vorraussetzung, dass Sie das Projekt zurückgeben können ist, dass Sie die
 erwarteten Metadaten eingeben mittels des "Neu" bzw. "Hochladen" Buttons und als
 "fertig" markiert haben (siehe :numref:`projectcockpit_dataprovider_ready`).
 Wenn Sie auf den Neu-Button klicken, gelangen Sie zur Eingabemaske der
 jeweiligen Ebene und mit Klick auf den Hochladen Button erscheint ein
 File-Explorer Fenster. Details zur Abgabe der Metadaten bei den einzelnen Ebenen
-wird im jeweiligen Kapitel erklärt. Hierfür setzen Sie ein Häkchen und speichern
-ab (Disketten-button rechts unten).
+wird im jeweiligen Kapitel erklärt. Wenn Sie fertig mit der Eingabe der
+Metadaten einer Ebene sind setzen Sie bitte das entsprechende Häkchen und
+speichern dies ab (Disketten-Button rechts unten).
 
 .. figure:: ./_static/projectcockpit_dataprovider_ready.png
    :name: projectcockpit_dataprovider_ready
@@ -180,12 +184,12 @@ Nachdem der Papierflieger-Button geklickt wurde, erscheint der
    :name: nachricht_an_publisher
 
 Falls die Publisher denken, dass noch irgend etwas vergessen wurde oder anders
-eingegeben werden sollte, erhalten Sie eine Email und der Ball wird Ihnen
-zurückgespielt. Sollte das nicht der Fall sein, markiert der Publisher die Ebene
-auch als "fertig", was durch einen glücklichen Smiley signalisiert wird (siehe :numref:`studie_ready`).
-Sind alle Smileys glücklich und ist die
-Postvalidierung der Metadaten erfolgreich, können die Publisher das Projekt
-releasen.
+eingegeben werden sollte, erhalten Sie eine Email und das Projekt wird Ihnen
+zurückgegeben. Sollte das nicht der Fall sein, markiert der Publisher die Ebene
+auch als "fertig", was durch einen glücklichen Smiley signalisiert wird
+(siehe :numref:`studie_ready`). Sind alle Smileys glücklich, können
+die Publisher das Projekt freigeben, das heißt die Metadaten und damit letztlich
+die Datenprodukte allen öffentlichen Nutzern des Systems zur Verfügung stellen.
 
 .. figure:: ./_static/studie_ready.png
    :name: studie_ready
@@ -198,27 +202,27 @@ detailliert beschrieben werden.
 Notwendige Schnittstellen und Dateien
 -------------------------------------
 
-Grundsätzlich gibt es zwei verschiedene Möglichkeiten Metadaten
-einzutragen bzw. hochzuladen: Eingabemasken und der Upload von Dateien welche
-Metadaten enthalten (Json Dateien im Fall von Fragen und Variablen, eine
-Exceltabelle bei Publikationen -- wenden Sie sich hierfür bitte ans FDZ).
-Eingabemasken ermöglichen eine komfortable Abgabe der Metadaten direkt
+Grundsätzlich gibt es je Ebene verschiedene Möglichkeiten Metadaten zu erfassen:
+Eingabemasken und der Upload von Dateien welche Metadaten enthalten.
+Die Eingabemasken ermöglichen eine komfortable Abgabe der Metadaten direkt
 auf der Website.
-
 
 Eingabemasken
 ~~~~~~~~~~~~~
 
-Für die Ebenenen Studie, Erhebungen und Instrumente steht bereits die Nutzung
-von Eingabemasken im MDM zur Verfügung. Jede Maske umfasst verschiedene
+Für die Ebenenen Studie, Erhebungen, Datensätze und Instrumente steht die
+Nutzung von Eingabemasken im MDM zur Verfügung. Jede Maske umfasst verschiedene
 Felder, welche mit den einzutragenden Informationen beschriftet sind.
 Einige Felder sind verpflichtend auszufüllen und deshalb mit einem
 Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch
 darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben
 dürfen. Die Bedienung der Eingabemasken ist weitgehend intuitiv und an
 vielen Stellen selbsterklärend. Im Rahmen der relevanten Ebenen Studie,
-Erhebungen und Instrumente wird die Handhabung der jeweiligen Eingabemasken dann
-konkret gezeigt (s. :ref:`Erhebungen` :ref:`Instrumente`).
+Erhebungen, Datensätze und Instrumente wird die Handhabung der jeweiligen
+Eingabemasken dann konkret gezeigt (s. :ref:`Erhebungen` :ref:`Instrumente`).
+
+Für die Ebenen Fragen, Variablen und Publikationen müssen Dateien hochgeladen
+werden -- wenden Sie sich hierfür bitte ans FDZ.
 
 .. _Anhänge:
 
@@ -248,7 +252,7 @@ Studie (study)
 
 **Übersicht**
 
-Anhand der Informationen, die Sie bzgl. Ihrer Studie an das MDM liefern,
+Anhand der Informationen, die Sie bzgl. Ihrer Studie im MDM erfassen,
 wird dort später eine Übersichtsseite erstellt, die im Folgenden am
 Beispiel des Absolventenpanels 2005 dargestellt wird:
 
@@ -262,11 +266,11 @@ Beispiel des Absolventenpanels 2005 dargestellt wird:
 
 Nachdem ein neues Projekt erstellt wurde, können
 Sie nun innerhalb des Projektes eine Studie anlegen.
-Der primäre Weg hierfür ist das Projektcockpit.
+Der primäre Weg hierfür ist das Projekt-Cockpit.
 
-**Studie anlegen über das Projektcockpit**
+**Studie anlegen über das Projekt-Cockpit**
 
-Im Projektcockpit sehen Sie im Status-Bereich die Felder zu den einzelnen
+Im Projekt-Cockpit sehen Sie im Status-Bereich die Felder zu den einzelnen
 Metadatenebenen. Wenn Sie unter dem Punkt Studie auf den "Neu"-Button klicken,
 gelangen Sie zur Eingabemaske. Machen Sie beim übernächsten Punkt Eingabemaske_
 weiter.
@@ -275,7 +279,6 @@ weiter.
    :name: studie_leer
 
    Studie per Cockpit anlegen
-
 
 **Studie anlegen über die Suche**
 
@@ -662,7 +665,7 @@ Ihrer Studie erstellt haben, wird für jeden dieser Datensätze folgende
 Datensätze lassen sich auch per Eingabemaske anlegen und editieren.
 Hierfür muss man auf den Reiter Datensätze klicken (:numref:`mdm-ebenen`),
 anschließend auf das Plussymbol (:numref:`neuerdatensatz`) in der unteren
-rechten Ecke klicken. Anschließend öffnet sich die Eingabemaske (siehe :numref:`dateset_eingabemaske`).
+rechten Ecke klicken. Anschließend öffnet sich die Eingabemaske (siehe :numref:`dataset_eingabemaske`).
 
 .. figure:: ./_static/new_dataset_de.png
    :name: neuerdatensatz
@@ -723,17 +726,16 @@ Wenn Sie Publikationen zu Ihren Daten abgeben möchten, senden Sie dem
 FDZ per Mail die PDF-Datei Ihrer Publikation sowie den dazugehörigen
 Zitationshinweis zu.
 
-
-Projekte releasen
------------------
+Projekte freigeben
+------------------
 
 Wenn Sie alle Metadaten ausgefüllt bzw. ans FDZ gesendet haben, melden
 Sie sich beim FDZ mit dem Hinweis, dass Sie Ihre Daten nicht weiter
 editieren möchten. Das FDZ nimmt ihre Daten dann in die sogenannte
 Release-Pipeline auf. Die finale Freigabe erfolgt dann über einen dafür
-benannten Mitarbeiter des FDZ, den Release-Manager.
-
-
+benannten Mitarbeiter des FDZ, den Release-Manager. Mit der Freigabe sind Ihre
+Metadaten und damit auch Ihre Datenprodukte für alle öffentlichen Nutzer des
+Systems verfügbar.
 
 Checkliste für Abgabe der Metadaten
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
