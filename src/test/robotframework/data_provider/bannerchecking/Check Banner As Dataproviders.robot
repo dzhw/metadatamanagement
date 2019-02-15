@@ -1,33 +1,23 @@
 *** Settings ***
-Documentation     Check for Publishers no Welcome Banner but for Dataproviders appears and assert the Welcome text and dont show again checkbox
+Documentation     Banner appears for Dataproviders and assert the welcome text and dont show again checkbox
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 
 *** Test Cases ***
-Check for Pubslihers Banner Does not Appears
-   Data Provider Logout
-   Login as publisher
-   Assert No Welcome Text After Login
-   Publisher Logout
-   
 Check for Dataproviders Welcome Banner Appears
+   Data Provider Logout   # explicit logout to sync with suite setup
    Login as dataprovidertest
    Assert Welcome Text After Login
-   Assert Checkbox Dont Show Again is Available  #prerequisite to maintain the test, never mark the checkbox for dataprovidertest
+   Assert Checkbox Dont Show Again is Available  # prerequisite to maintain the test, never mark the checkbox for dataprovidertest
    Close The Banner
-   Click Element Through Tooltips  xpath=//span[contains(.,'Hinweise für Datengeber')]
+   Click on Information for Data Providers Link
    Close The Banner
-   Reload Page
+   Reload Page   # cross check the banner after reload also
    Sleep  1s
    Assert Welcome Text After Login
    Close The Banner
-   Dataprovidertest Provider Logout
-   Login as dataprovider
 
 *** Keywords ***
-Assert No Welcome Text After Login
-   Page Should Not Contain Element   xpath=//md-dialog[@arial-label='Herzlich Willkommen']
-
 Assert Welcome Text After Login
    Page Should Contain Element   xpath=//h2[contains(., 'Herzlich Willkommen')]
 
@@ -45,7 +35,5 @@ Login as dataprovidertest
 Close The Banner
    Click Element Through Tooltips  xpath=//button[contains(.,' Schließen')]
 
-Dataprovidertest Provider Logout
-    ${url} =    Get Location
-    Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'abmelden')]
-    Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'logout')]
+Click on Information for Data Providers Link
+    Click Element Through Tooltips  xpath=//span[contains(.,'Hinweise für Datengeber')]
