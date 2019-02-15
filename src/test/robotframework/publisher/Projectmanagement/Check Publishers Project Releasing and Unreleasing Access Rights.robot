@@ -7,15 +7,7 @@ Resource          ../../resources/search_resource.robot
 Resource          ../../resources/project_management_resource.robot
 
 *** Test Cases ***
-Check Publishers Project Releasing and Unreleasing Access Rights Funtionalities
-  Check The Publisher Ready Checkbox is Not Marked and Release is Not Possible
-  Check The Publisher Ready Checkbox is Marked but Release Without Saving is Not Possible
-  Check The Publisher Ready Checkbox is Marked and When Saved Then Release is Possible
-  Verify The Released Project is Available under The Study Tab
-  Verify The Unreleased Project is Unavailable under The Study Tab
-
-*** Keywords ***
-Check The Publisher Ready Checkbox is Not Marked and Release is Not Possible
+Check Publishers Project Releasing and Unreleasing Funtionalities
   Select project by name  robotprojectrelease4${BROWSER}
   Click on Cockpit Button
   Change Project Release Status
@@ -24,8 +16,6 @@ Check The Publisher Ready Checkbox is Not Marked and Release is Not Possible
   Assert Project Release Action Has Error Message
   Close The Toast Message for Project Release Validation
   Click on OK Button
-
-Check The Publisher Ready Checkbox is Marked but Release Without Saving is Not Possible
   Click Publisher Ready Checkbox for Studies
   Change Project Release Status
   Click on OK Button
@@ -33,17 +23,14 @@ Check The Publisher Ready Checkbox is Marked but Release Without Saving is Not P
   Assert Project Release Action Has Error Message
   Close The Toast Message for Project Release Validation
   Click on OK Button
-
-Check The Publisher Ready Checkbox is Marked and When Saved Then Release is Possible
   Save Changes
   Change Project Release Status
   Write Version Name
   Click on OK Button
-
-Verification of Project Release and Unrelase Status
   Verify The Released Project is Available under The Study Tab
   Verify The Unreleased Project is Unavailable under The Study Tab
 
+*** Keywords ***
 Assert Project Release Action Has Error Message
   Element Should Contain   xpath=//md-dialog-content//h2   kann nicht freigegeben werden
 
