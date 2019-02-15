@@ -16,6 +16,8 @@ Check for Dataproviders Welcome Banner Appears
    Sleep  1s
    Assert Welcome Text After Login
    Close The Banner
+   Dataprovidertest Provider Logout
+   Login as dataprovider
 
 *** Keywords ***
 Assert Welcome Text After Login
@@ -37,3 +39,8 @@ Close The Banner
 
 Click on Information for Data Providers Link
     Click Element Through Tooltips  xpath=//span[contains(.,'Hinweise für Datengeber')]
+
+Dataprovidertest Provider Logout
+    ${url} =    Get Location
+    Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'abmelden')]
+    Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'logout')]

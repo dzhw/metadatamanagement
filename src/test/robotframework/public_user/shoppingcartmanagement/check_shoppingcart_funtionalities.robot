@@ -4,21 +4,11 @@ Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
 
-*** Variables ***
-@{MD_ACCESSWAYNAMES}   Create List    download-suf  remote-desktop-suf   onsite-suf   download-cuf
-@{MD_VERSIONNAMES}   Create List    1.0.0  1.0.1
-@{MD_DATAPRODUCTS}   Create List   stu-gra2005$  stu-scs2016$
-
 
 *** Test Cases ***
 Check Shopping Cart as a Public User
-   Click on search result by id    @{MD_DATAPRODUCTS}[1]
-   Click On Add Shopping Cart Icon
-   Assert Study Input is Disabled
-   Select Access Way for the Datasets from The List   @{MD_ACCESSWAYNAMES}[2]
-   Select Version the Datasets from The List   @{MD_VERSIONNAMES}[2]
-   Check The Close Button is Available
-   Put in Shopping Cart
+   Click on search result by id    stu-gra2005$
+   Select Item and Put in The Cart
    Check Shopping Cart
    Confirm Order
    Close The Toast Message
@@ -29,6 +19,21 @@ Check Shopping Cart as a Public User
 
 
 *** Keywords ***
+Select Item and Put in The Cart
+   @{MD_ACCESSWAYNAMES}   Create List    download-suf  remote-desktop-suf   onsite-suf   download-cuf
+   :FOR  ${MD_ACC}  IN  @{MD_ACCESSWAYNAMES}
+   \  Click On Add Shopping Cart Icon
+   \  Assert Study Input is Disabled
+   \  Select Access Way for the Datasets from The List   ${MD_ACC}
+   \  Select Version the Datasets from The List   1.0.1
+   \  Check The Close Button is Available
+   \  Put in Shopping Cart
+
+Assert Item Number
+   @{MD_ITEMSITERATION}   Create List   1   2   3   4
+   :FOR  ${MD_IT}  IN  @{MD_ITEMSITERATION}
+   \  Page Should Contain Element   xpath=//span[@ng-if='productsCount'][contains(., '${MD_IT}')]
+
 Click On Add Shopping Cart Icon
    Click Element Through Tooltips   xpath=//md-icon[contains(., 'add_shopping_cart')]
 
@@ -73,6 +78,8 @@ Check The Links
 
 Empty The Shopping Cart
    Click Element Through Tooltips   xpath=//span[contains(., 'Einkaufswagen leeren')]
+
+
 
 
 
