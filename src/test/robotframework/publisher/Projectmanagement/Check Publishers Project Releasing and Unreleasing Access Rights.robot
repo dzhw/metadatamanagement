@@ -1,18 +1,14 @@
 *** Settings ***
-Documentation     Check Project Releasing and Unreleagsing Rights for Publisher #Prerequisite is to have atleast one study for the project
+Documentation     Check Project Releasing and Unreleasing Rights for Publisher #Prerequisite is to have atleast one study for the project
 Force Tags        noslowpoke
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/project_management_resource.robot
 
-*** Variables ***
-@{MD_BROWSERS}    Create List   edge   ie   firefox   chrome
-
 *** Test Cases ***
 Check The Publisher Ready Checkbox is Not Marked and Release is Not Possible
-  :FOR   ${MD_BR}   IN  @{MD_BROWSERS}
-  \  Run Keyword If  '${BROWSER}' == '${MD_BR}'  Select project by name  robotprojectrelease4${BROWSER}
+  Select project by name  robotprojectrelease4${BROWSER}
   Click on Cockpit Button
   Change Project Release Status
   Click on OK Button
@@ -45,7 +41,6 @@ Assert Project Release Action Has Error Message
   Element Should Contain   xpath=//md-dialog-content//h2   kann nicht freigegeben werden
 
 Write Version Name
- # Click Element Through Tooltips  xpath=//input[@ng-model="release.version"]
   Input Text  xpath=//input[@name="version"]   0.0.2
 
 Close The Toast Message for Project Release Validation
@@ -57,13 +52,11 @@ Verify The Released Project is Available under The Study Tab
   Sleep   60s  #We need explicit sleep for 60s to ensure the project is available in the study tab
   Publisher Logout   #explicit logout
   Click on study tab
-  :FOR   ${MD_BR}   IN  @{MD_BROWSERS}
-  \  Run Keyword If  '${BROWSER}' == '${MD_BR}'   Element Should Contain  xpath=//md-card-header-text//span[contains(.,"stu-robotprojectrelease4${BROWSER}$")]  stu-robotprojectrelease4${BROWSER}$
+  Element Should Contain  xpath=//md-card-header-text//span[contains(.,"stu-robotprojectrelease4${BROWSER}$")]  stu-robotprojectrelease4${BROWSER}$
 
 Verify The Unreleased Project is Unavailable under The Study Tab
   Login as publisher
-  :FOR   ${MD_BR}   IN  @{MD_BROWSERS}
-  \  Run Keyword If  '${BROWSER}' == '${MD_BR}'  Select project by name  robotprojectrelease4${BROWSER}
+  Select project by name  robotprojectrelease4${BROWSER}
   Click on Cockpit Button
   Change Project Release Status
   Click on OK Button
@@ -73,6 +66,5 @@ Verify The Unreleased Project is Unavailable under The Study Tab
   Sleep  60s   #We need explicit sleep for 60s to ensure the project is not available in the study tab
   Publisher Logout
   Click on study tab
-  :FOR   ${MD_BR}   IN  @{MD_BROWSERS}
-  \  Run Keyword If  '${BROWSER}' == '${MD_BR}'   Page Should Not Contain  stu-robotprojectrelease4${BROWSER}$
+  Page Should Not Contain  stu-robotprojectrelease4${BROWSER}$
   Login as publisher  #we need explicit login to be synced with suite teardown
