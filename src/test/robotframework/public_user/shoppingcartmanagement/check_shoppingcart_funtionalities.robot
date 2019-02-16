@@ -29,7 +29,7 @@ Select Item and Put in The Cart
    \  Check The Close Button is Available
    \  Put in Shopping Cart
 
-Assert Item Number
+Assert Item Numbers
    @{MD_ITEMSITERATION}   Create List   1   2   3   4
    :FOR  ${MD_IT}  IN  @{MD_ITEMSITERATION}
    \  Page Should Contain Element   xpath=//span[@ng-if='productsCount'][contains(., '${MD_IT}')]
