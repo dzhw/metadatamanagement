@@ -49,7 +49,7 @@ angular.module('metadatamanagementApp').directive('createVariableLinks',
                   '/variables/var-' + currentVariable.dataAcquisitionProjectId +
                   '-ds' + currentVariable.dataSetNumber +
                   '-$1\$"><md-tooltip md-autohide="true" ' +
-                  'md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">' +
+                  'md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">' +
                   linkTooltip[currentLanguage] + '</md-tooltip>$1</a>';
               $timeout(function() {
                   $timeout(function() {

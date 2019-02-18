@@ -259,20 +259,20 @@
             </md-card-content>
             <md-card-actions ng-if="!ctrl.createMode" style="margin-top: 12px; margin-bottom: 12px;" layout="row" layout-align="begin center">
                 <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ngf-select="ctrl.saveResponseRateImageDe($file)">
-                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'survey-management.edit.response-rate-image.add-german-image-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon ng-if="!ctrl.responseRateImageDe" md-font-set="material-icons">add</md-icon>
                     <md-icon ng-if="ctrl.responseRateImageDe" md-font-set="material-icons">edit</md-icon>
                 </md-button>
                 <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ng-click="ctrl.deleteResponseRateImageDe()" ng-disabled="!ctrl.responseRateImageDe">
-                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'survey-management.edit.response-rate-image.delete-german-image-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">delete_forever</md-icon>
                 </md-button>
                 <md-button class="md-raised md-accent md-icon-button" ng-click="ctrl.uploadOrDeleteResponseRateImageDe()" ng-disabled="!ctrl.responseRateImageDeDirty">
-                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'survey-management.edit.response-rate-image.upload-or-delete-german-image-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">save</md-icon>
@@ -299,20 +299,20 @@
             </md-card-content>
             <md-card-actions ng-if="!ctrl.createMode" style="margin-top: 12px; margin-bottom: 12px;" layout="row" layout-align="begin center">
                 <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ngf-select="ctrl.saveResponseRateImageEn($file)">
-                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'survey-management.edit.response-rate-image.add-english-image-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon ng-if="!ctrl.responseRateImageEn" md-font-set="material-icons">add</md-icon>
                     <md-icon ng-if="ctrl.responseRateImageEn" md-font-set="material-icons">edit</md-icon>
                 </md-button>
                 <md-button class="md-primary md-raised md-icon-button" style="margin-left: 6px;" ng-click="ctrl.deleteResponseRateImageEn()" ng-disabled="!ctrl.responseRateImageEn">
-                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'survey-management.edit.response-rate-image.delete-english-image-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">delete_forever</md-icon>
                 </md-button>
                 <md-button class="md-raised md-accent md-icon-button" ng-click="ctrl.uploadOrDeleteResponseRateImageEn()" ng-disabled="!ctrl.responseRateImageEnDirty">
-                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'survey-management.edit.response-rate-image.upload-or-delete-english-image-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">save</md-icon>
@@ -366,7 +366,7 @@
                 <td class="fdz-table-nowrap" style="padding-right: 0px;">
                     <md-radio-group ng-model="ctrl.currentAttachmentIndex" class="md-primary">
                         <md-radio-button ng-value="$index" style="margin-bottom: 0px;">
-                            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                 {{'survey-management.detail.attachments.select-attachment-tooltip' | translate:translationParams }}
                             </md-tooltip>
                         </md-radio-button>
@@ -374,7 +374,7 @@
                 </td>
                 <td class="fdz-table-nowrap" style="padding: 0px;">
                     <md-button class="md-primary md-icon-button" ng-click="ctrl.editAttachment(row, $event)" style="margin: 0px;">
-                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                             {{'survey-management.detail.attachments.edit-attachment-tooltip' | translate:translationParams }}
                         </md-tooltip>
                         <md-icon md-font-set="material-icons">mode_edit</md-icon>
@@ -382,7 +382,7 @@
                 </td>
                 <td class="fdz-table-nowrap" style="padding: 0px;">
                     <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteAttachment(row, $index)" style="margin: 0px;">
-                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                             {{'survey-management.detail.attachments.delete-attachment-tooltip' | translate:translationParams }}
                         </md-tooltip>
                         <md-icon md-font-set="material-icons">delete_forever</md-icon>
@@ -391,7 +391,7 @@
                 <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
                 <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                 <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
-                <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'global.tooltips.files.download' | translate: {filename: row.fileName} }}</md-tooltip></a>&nbsp;</td>
+                <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">{{'global.tooltips.files.download' | translate: {filename: row.fileName} }}</md-tooltip></a>&nbsp;</td>
             </tr>
         </tbody>
     </table>
@@ -401,25 +401,25 @@
     </md-card-content>
     <md-card-actions ng-if="!ctrl.createMode" style="margin-top: 12px; margin-bottom: 12px;" layout="row" layout-align="begin center">
         <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAttachment($event)" style="margin-left: 6px;">
-            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'survey-management.detail.attachments.add-attachment-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
         <md-button ng-disabled="ctrl.currentAttachmentIndex == null || ctrl.currentAttachmentIndex === 0" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveAttachmentUp()">
-            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'survey-management.detail.attachments.move-attachment-up-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
         </md-button>
         <md-button ng-disabled="ctrl.currentAttachmentIndex == null || ctrl.currentAttachmentIndex === ctrl.attachments.length - 1" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveAttachmentDown()">
-            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'survey-management.detail.attachments.move-attachment-down-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
         </md-button>
         <md-button ng-disabled="!ctrl.attachmentOrderIsDirty" class="md-accent md-raised md-icon-button" ng-click="ctrl.saveAttachmentOrder()">
-            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'survey-management.detail.attachments.save-attachment-order-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">save</md-icon>
@@ -428,13 +428,13 @@
 </md-card>
 <div ng-if="ctrl.survey.id" class="fdz-fab-button-container" layout="column">
     <md-button class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog($event)" ng-disabled="ctrl.createMode">
-        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'survey-management.edit.open-choose-previous-version-tooltip' | translate}}
         </md-tooltip>
         <md-icon md-font-set="material-icons">undo</md-icon>
     </md-button>
     <md-button class="md-fab md-raised md-accent" type="submit" ng-click="ctrl.saveSurvey()" ng-disabled="!surveyForm.$dirty">
-        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'survey-management.edit.save-tooltip' | translate}}
         </md-tooltip>
         <md-icon md-font-set="material-icons">save</md-icon>
