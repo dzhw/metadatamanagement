@@ -54,7 +54,9 @@ Um json Dateien zu erzeugen muss zuerst einmal eine Exceltabelle ausgefüllt
 werden. Die Exceltabelle hat die beiden Tabellenblätter questions und images.
 Spaltennamen und Ausfüllanweisungen sind im nächsten Abschnitt zu finden.
 
-Zusätzlich müssen zu jeder Frage ein oder mehrere Bilder vorhanden sein.
+Zusätzlich können zu jeder Frage ein oder mehrere Bilder vorhanden sein (im
+Gegensatz zu früher nicht mehr verpflichtend). Es ist aber zu beachten, dass
+im Moment die R-Skripte noch nicht dahingehend aktualisiert wurden.
 Wie Fragebilder aus Ragtime-Dateien extrahiert werden können, wird
 erklärt: :ref:`bilderfassung_ragtime-label`
 Eine Anleitung zum Ausschneiden von Bildern aus pdf Dateien ist
@@ -191,6 +193,8 @@ Tabelle 3: Ausfüllanweisungen für die Excel-Tabelle "questions"
 x\* = nur, wenn technicalRepresentation vorhanden (wird dann automatisch
 von ZOFAR geliefert)
 
+Tabellenblatt 2 ist nur auszufüllen falls es Bilder zu den Fragen gibt.
+
 +------------------------+----------------------+-----------------------+
 | **Tabellenblatt 2:                                                    |
 | images**                                                              |
@@ -233,15 +237,15 @@ von ZOFAR geliefert)
 .. _639-1: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
 Mit dem zweiten Tabellenblatt *images* erfassen Sie Informationen zu den
-Fragebildern, welche Sie für jede Frage mit hochladen müssen. Zu jeder
-Frage muss mindestens ein Bild (es können auch mehrere sein) im
-png-Format vorhanden sein. Die Fragebilder können z. B. mit Ragtime
+Fragebildern, welche Sie für jede Frage mit hochladen können. Falls Bilder
+vorhanden sind, müssen diese im Png Format vorliegen. Die Fragebilder können
+z.B. mit Ragtime
 extrahiert werden, sofern der Fragebogen auch mit Ragtime erstellt
 wurde. Ansonsten lassen sich die Fragebilder auch aus einer PDF-Datei
 erstellen. [2]_ Anleitung für beiden Varianten finden Sie unter
 :ref:`bilderfassung_ragtime-label` und :ref:`bilderfassung_pdf-label`.
 
-Die fertig ausgefüllte Excel-Datei sowie die Bilder zu den Fragen
+Die fertig ausgefüllte Excel-Datei sowie ggfs. die Bilder zu den Fragen
 speichern Sie dann in dem Ordner, den das FDZ für Sie vorbereitet hat.
 Das FDZ greift daraufhin auf die Dateien zu, verarbeitet sie weiter und
 lädt die Metadaten für die Fragenebene dann selbst ins MDM.
