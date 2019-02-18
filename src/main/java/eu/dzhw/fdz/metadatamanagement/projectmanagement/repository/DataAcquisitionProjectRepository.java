@@ -19,8 +19,17 @@ import java.util.stream.Stream;
 public interface DataAcquisitionProjectRepository
     extends BaseRepository<DataAcquisitionProject, String>, DataAcquisitionProjectRepositoryCustom {
 
-  @RestResource(exported = false)
   List<DataAcquisitionProject> findByIdLikeOrderByIdAsc(@Param("id") String id);
+
+  List<DataAcquisitionProject>
+      findAllByConfigurationPublishersContainsOrConfigurationDataProvidersContains(
+      @Param("login") String publishers, @Param("login") String dataProviders);
+
+  List<DataAcquisitionProject> findAllByConfigurationPublishersContains(
+      @Param("login") String publishers);
+
+  List<DataAcquisitionProject> findAllByConfigurationDataProvidersContains(
+      @Param("login") String dataProviders);
 
   @RestResource(exported = false)
   Stream<DataAcquisitionProject> streamByIdAndShadowIsFalse(@Param("id") String id);

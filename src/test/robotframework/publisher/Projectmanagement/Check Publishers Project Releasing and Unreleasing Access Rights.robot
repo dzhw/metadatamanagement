@@ -14,6 +14,8 @@ Check The Publisher Ready Checkbox is Not Marked and Release is Not Possible
   Run Keyword If  '${BROWSER}' == 'chrome'  Select project by name  robotprojectrelease4chrome
   Click on Cockpit Button
   Change Project Release Status
+  Write Version Name
+  Click on OK Button
   Sleep  1s  # to avoid failing in Firefox
   Assert Project Release Action Has Error Message
   Close The Toast Message for Project Release Validation
@@ -22,6 +24,8 @@ Check The Publisher Ready Checkbox is Not Marked and Release is Not Possible
 Check The Publisher Ready Checkbox is Marked but Release Without Saving is Not Possible
   Click Publisher Ready Checkbox for Studies
   Change Project Release Status
+  Write Version Name
+  Click on OK Button
   Sleep  1s  # to avoid failing in Firefox
   Assert Project Release Action Has Error Message
   Close The Toast Message for Project Release Validation
@@ -30,7 +34,6 @@ Check The Publisher Ready Checkbox is Marked but Release Without Saving is Not P
 Check The Publisher Ready Checkbox is Marked and When Saved Then Release is Possible
   Save Changes
   Change Project Release Status
-  Close The Toast Message for Project Release Validation
   Write Version Name
   Click on OK Button
 
@@ -52,7 +55,7 @@ Verify The Unreleased Project is Unavailable under The Study Tab
   Click on Cockpit Button
   Change Project Release Status
   Click on OK Button
-  Sleep  3s  #to ensure enough time for the next checkbox to be ready  
+  Sleep  3s  #to ensure enough time for the next checkbox to be ready
   Click Publisher Ready Checkbox for Studies   #deselect the check box here
   Save Changes
   Sleep  60s   #We need explicit sleep for 60s to ensure the project is not available in the study tab

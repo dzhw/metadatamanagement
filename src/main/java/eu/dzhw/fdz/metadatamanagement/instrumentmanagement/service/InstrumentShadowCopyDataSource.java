@@ -43,8 +43,9 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
   }
 
   @Override
-  public Optional<Instrument> findPredecessorOfShadowCopy(Instrument shadowCopy, String previousVersion) {
-    String shadowCopyId = shadowCopy + "-" + previousVersion;
+  public Optional<Instrument> findPredecessorOfShadowCopy(Instrument shadowCopy,
+      String previousVersion) {
+    String shadowCopyId = shadowCopy.getMasterId() + "-" + previousVersion;
     return instrumentRepository.findById(shadowCopyId);
   }
 
@@ -60,8 +61,8 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
 
   @Override
   public Stream<Instrument> findShadowCopiesWithDeletedMasters(String projectId,
-      String lastVersion) {
-    String oldProjectId = projectId + "-" + lastVersion;
+      String previousVersion) {
+    String oldProjectId = projectId + "-" + previousVersion;
     return instrumentRepository
         .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId)
         .filter(shadowCopy -> !instrumentRepository.existsById(shadowCopy.getMasterId()));

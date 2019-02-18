@@ -40,8 +40,12 @@ public class SurveyShadowCopyDataSource implements ShadowCopyDataSource<Survey> 
 
   @Override
   public Optional<Survey> findPredecessorOfShadowCopy(Survey shadowCopy, String previousVersion) {
-    String shadowCopyId = shadowCopy + "-" + previousVersion;
-    return surveyRepository.findById(shadowCopyId);
+    String shadowCopyId = shadowCopy.getMasterId() + "-" + previousVersion;
+    if (shadowCopy.getId().equals(shadowCopyId)) {
+      return Optional.empty();
+    } else {
+      return surveyRepository.findById(shadowCopyId);
+    }
   }
 
   @Override
@@ -56,8 +60,8 @@ public class SurveyShadowCopyDataSource implements ShadowCopyDataSource<Survey> 
 
   @Override
   public Stream<Survey> findShadowCopiesWithDeletedMasters(String projectId,
-      String lastVersion) {
-    String oldProjectId = projectId + "-" + lastVersion;
+      String previousVersion) {
+    String oldProjectId = projectId + "-" + previousVersion;
     return surveyRepository
         .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId)
         .filter(shadowCopy -> !surveyRepository.existsById(shadowCopy.getMasterId()));

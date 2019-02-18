@@ -1,16 +1,15 @@
 /**
-* Copyright 2012-2018, Plotly, Inc.
+* Copyright 2012-2019, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
 * LICENSE file in the root directory of this source tree.
 */
 
-
 'use strict';
 
-var convertHTMLToUnicode = require('../../../lib/html2unicode');
 var str2RgbaArray = require('../../../lib/str2rgbarray');
+var Lib = require('../../../lib');
 
 var AXES_NAMES = ['xaxis', 'yaxis', 'zaxis'];
 
@@ -67,7 +66,7 @@ function AxesOptions() {
 
 var proto = AxesOptions.prototype;
 
-proto.merge = function(sceneLayout) {
+proto.merge = function(fullLayout, sceneLayout) {
     var opts = this;
     for(var i = 0; i < 3; ++i) {
         var axes = sceneLayout[AXES_NAMES[i]];
@@ -84,11 +83,14 @@ proto.merge = function(sceneLayout) {
         }
 
         // Axes labels
-        opts.labels[i] = convertHTMLToUnicode(axes.title);
-        if('titlefont' in axes) {
-            if(axes.titlefont.color) opts.labelColor[i] = str2RgbaArray(axes.titlefont.color);
-            if(axes.titlefont.family) opts.labelFont[i] = axes.titlefont.family;
-            if(axes.titlefont.size) opts.labelSize[i] = axes.titlefont.size;
+        opts.labels[i] = fullLayout.meta ?
+            Lib.templateString(axes.title.text, {meta: fullLayout.meta}) :
+            axes.title.text;
+
+        if('font' in axes.title) {
+            if(axes.title.font.color) opts.labelColor[i] = str2RgbaArray(axes.title.font.color);
+            if(axes.title.font.family) opts.labelFont[i] = axes.title.font.family;
+            if(axes.title.font.size) opts.labelSize[i] = axes.title.font.size;
         }
 
         // Lines
@@ -152,9 +154,9 @@ proto.merge = function(sceneLayout) {
 };
 
 
-function createAxesOptions(plotlyOptions) {
+function createAxesOptions(fullLayout, sceneLayout) {
     var result = new AxesOptions();
-    result.merge(plotlyOptions);
+    result.merge(fullLayout, sceneLayout);
     return result;
 }
 

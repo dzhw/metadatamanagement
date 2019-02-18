@@ -69,12 +69,6 @@ angular.module('metadatamanagementApp')
         redirectToSearchView();
       };
 
-      var handleUserNotInAssigneeGroup = function() {
-        SimpleMessageToastService.openAlertMessageToast(
-          'global.error.client-error.not-in-assignee-group');
-        redirectToSearchView();
-      };
-
       var handlePrerequisitesMissing = function() {
         redirectToSearchView();
       };
@@ -105,8 +99,8 @@ angular.module('metadatamanagementApp')
                 if (project.release != null) {
                   handleReleasedProject();
                 } else if (!ProjectUpdateAccessService
-                  .isUpdateAllowed(project, 'data_sets')) {
-                  handleUserNotInAssigneeGroup();
+                  .isUpdateAllowed(project, 'data_sets', true)) {
+                  redirectToSearchView();
                 } else {
                   ProjectUpdateAccessService.isPrerequisiteFulfilled(
                     project, 'data_sets'
@@ -123,14 +117,19 @@ angular.module('metadatamanagementApp')
           } else {
             if (CurrentProjectService.getCurrentProject() &&
             !CurrentProjectService.getCurrentProject().release) {
-              ProjectUpdateAccessService.isPrerequisiteFulfilled(
-                CurrentProjectService.getCurrentProject(), 'data_sets'
-              ).catch(handlePrerequisitesMissing);
+              if (!ProjectUpdateAccessService
+                .isUpdateAllowed(CurrentProjectService.getCurrentProject(),
+                 'data_sets', true)) {
+                redirectToSearchView();
+              } else {
+                ProjectUpdateAccessService.isPrerequisiteFulfilled(
+                  CurrentProjectService.getCurrentProject(), 'data_sets'
+                ).catch(handlePrerequisitesMissing);
 
-              ctrl.createMode = true;
-              AvailableDataSetNumbersResource.get({
-                id: CurrentProjectService.getCurrentProject().id
-              }).$promise.then(
+                ctrl.createMode = true;
+                AvailableDataSetNumbersResource.get({
+                  id: CurrentProjectService.getCurrentProject().id
+                }).$promise.then(
                   function(dataSetNumbers) {
                     if (dataSetNumbers.length === 1) {
                       ctrl.dataSet = new DataSetResource({
@@ -152,37 +151,38 @@ angular.module('metadatamanagementApp')
                       $scope.registerConfirmOnDirtyHook();
                     } else {
                       $mdDialog.show({
-                          controller: 'ChooseDataSetNumberController',
-                          templateUrl: 'scripts/datasetmanagement/' +
-                            'views/choose-data-set-number.html.tmpl',
-                          clickOutsideToClose: false,
-                          fullscreen: true,
-                          locals: {
-                            availableDataSetNumbers: dataSetNumbers
-                          }
-                        })
-                        .then(function(response) {
-                          ctrl.dataSet = new DataSetResource({
-                            id: DataSetIdBuilderService.buildDataSetId(
-                              CurrentProjectService.getCurrentProject().id,
-                              response.dataSetNumber
-                            ),
-                            number: response.dataSetNumber,
-                            dataAcquisitionProjectId:
+                        controller: 'ChooseDataSetNumberController',
+                        templateUrl: 'scripts/datasetmanagement/' +
+                        'views/choose-data-set-number.html.tmpl',
+                        clickOutsideToClose: false,
+                        fullscreen: true,
+                        locals: {
+                          availableDataSetNumbers: dataSetNumbers
+                        }
+                      })
+                      .then(function(response) {
+                        ctrl.dataSet = new DataSetResource({
+                          id: DataSetIdBuilderService.buildDataSetId(
                             CurrentProjectService.getCurrentProject().id,
-                            studyId: StudyIdBuilderService.buildStudyId(
-                              CurrentProjectService.getCurrentProject().id
-                            ),
-                            subDataSets: [{
-                              name: ''
-                            }]
-                          });
-                          $scope.responseRateInitializing = true;
-                          updateToolbarHeaderAndPageTitle();
-                          $scope.registerConfirmOnDirtyHook();
+                            response.dataSetNumber
+                          ),
+                          number: response.dataSetNumber,
+                          dataAcquisitionProjectId:
+                          CurrentProjectService.getCurrentProject().id,
+                          studyId: StudyIdBuilderService.buildStudyId(
+                            CurrentProjectService.getCurrentProject().id
+                          ),
+                          subDataSets: [{
+                            name: ''
+                          }]
                         });
+                        $scope.responseRateInitializing = true;
+                        updateToolbarHeaderAndPageTitle();
+                        $scope.registerConfirmOnDirtyHook();
+                      });
                     }
                   });
+              }
             } else {
               handleReleasedProject();
             }

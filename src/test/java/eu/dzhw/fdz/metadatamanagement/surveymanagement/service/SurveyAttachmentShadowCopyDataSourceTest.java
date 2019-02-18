@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -33,7 +34,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 
-public class SurveyAttachmentShadowCopyTest extends AbstractTest {
+public class SurveyAttachmentShadowCopyDataSourceTest extends AbstractTest {
 
   private static final String PROJECT_ID = "the-dataacquisition-project-id";
 
@@ -102,37 +103,93 @@ public class SurveyAttachmentShadowCopyTest extends AbstractTest {
   }
 
   @Test
+  public void createShadowCopyWithSameReleaseVersion() throws Exception {
+    SurveyAttachmentMetadata master = UnitTestCreateDomainObjectUtils
+        .buildSurveyAttachmentMetadata(PROJECT_ID, 1);
+    createTestFileForAttachment(master);
+    SurveyAttachmentMetadata shadow = createShadow(master, release.getVersion());
+    createTestFileForAttachment(shadow);
+
+    shadowCopyService.createShadowCopies(dataAcquisitionProject, "1.0.0",
+        surveyAttachmentMetadataShadowCopyDataSource);
+
+    List<DBObject> files = new ArrayList<>();
+    gridFs.getFileList().iterator().forEachRemaining(files::add);
+
+    assertThat(files.size(), equalTo(2));
+
+    Query shadowQuery = new Query(GridFsCriteria.whereFilename().is("/surveys/sur-the-dataacquisition-project-id-sy1$-1.0.0/attachments/filename.txt"));
+    GridFSFile shadowFile = gridFsOperations.findOne(shadowQuery);
+
+    assertThat(shadowFile, notNullValue());
+
+    SurveyAttachmentMetadata metadata = mongoTemplate.getConverter()
+        .read(SurveyAttachmentMetadata.class, shadowFile.getMetadata());
+
+    assertThat(metadata.getSuccessorId(), nullValue());
+  }
+
+  @Test
   public void createShadowCopyLinkPredecessorToSuccessor() throws Exception {
     SurveyAttachmentMetadata master = UnitTestCreateDomainObjectUtils
         .buildSurveyAttachmentMetadata(PROJECT_ID, 1);
     createTestFileForAttachment(master);
 
-    SurveyAttachmentMetadata shadow = UnitTestCreateDomainObjectUtils
-        .buildSurveyAttachmentMetadata(PROJECT_ID, 1);
-    shadow.setMasterId(master.getId());
-    shadow.setSurveyId(shadow.getSurveyId() + "-1.0.0");
-    shadow.setDataAcquisitionProjectId(shadow.getDataAcquisitionProjectId() + "-1.0.0");
-    shadow.generateId();
+    SurveyAttachmentMetadata shadow = createShadow(master, "1.0.0");
     createTestFileForAttachment(shadow);
     release.setVersion("1.0.1");
 
-    shadowCopyService.createShadowCopies(dataAcquisitionProject, "1.0.0", surveyAttachmentMetadataShadowCopyDataSource);
+    shadowCopyService.createShadowCopies(dataAcquisitionProject, "1.0.0",
+        surveyAttachmentMetadataShadowCopyDataSource);
 
     GridFSFile gridFsFile = gridFsOperations.findOne(new Query(GridFsCriteria
         .whereMetaData("dataAcquisitionProjectId").is(PROJECT_ID + "-1.0.0")
         .andOperator(GridFsCriteria.whereMetaData("shadow").is(true))));
 
-    SurveyAttachmentMetadata metaData = mongoTemplate.getConverter()
+    SurveyAttachmentMetadata metadata = mongoTemplate.getConverter()
         .read(SurveyAttachmentMetadata.class, gridFsFile.getMetadata());
 
-    assertThat(metaData, notNullValue());
-    assertThat(metaData.getSuccessorId(), equalTo("/public/files/surveys/sur-the-dataacquisition-project-id-sy1$-1.0.1/attachments/filename.txt"));
+    assertThat(metadata, notNullValue());
+    assertThat(metadata.getSuccessorId(), equalTo("/public/files/surveys/sur-the-dataacquisition-project-id-sy1$-1.0.1/attachments/filename.txt"));
 
     List<String> expectedFiles = new ArrayList<>();
     expectedFiles.add("/surveys/" + master.getSurveyId() + "/attachments/filename.txt");
     expectedFiles.add("/surveys/" + master.getSurveyId() + "-1.0.0/attachments/filename.txt");
     expectedFiles.add("/surveys/" + master.getSurveyId() + "-1.0.1/attachments/filename.txt");
     assertExpectedFilesExistence(expectedFiles);
+  }
+
+  @Test
+  public void createShadowCopyWithDeletedMaster() throws Exception {
+    SurveyAttachmentMetadata master = UnitTestCreateDomainObjectUtils
+        .buildSurveyAttachmentMetadata(PROJECT_ID, 1);
+
+    SurveyAttachmentMetadata shadow = createShadow(master, "1.0.0");
+    createTestFileForAttachment(shadow);
+    release.setVersion("1.0.1");
+
+    shadowCopyService.createShadowCopies(dataAcquisitionProject, "1.0.0",
+        surveyAttachmentMetadataShadowCopyDataSource);
+
+    Query shadowQuery = new Query(GridFsCriteria.whereFilename().is("/surveys/sur-the-dataacquisition-project-id-sy1$-1.0.0/attachments/filename.txt"));
+    GridFSFile shadowFile = gridFsOperations.findOne(shadowQuery);
+
+    assertThat(shadowFile, notNullValue());
+
+    SurveyAttachmentMetadata metadata = mongoTemplate.getConverter()
+        .read(SurveyAttachmentMetadata.class, shadowFile.getMetadata());
+
+    assertThat(metadata.getSuccessorId(), equalTo("DELETED"));
+  }
+
+  private SurveyAttachmentMetadata createShadow(SurveyAttachmentMetadata master, String version) {
+    SurveyAttachmentMetadata shadow = UnitTestCreateDomainObjectUtils
+        .buildSurveyAttachmentMetadata(PROJECT_ID, 1);
+    shadow.setMasterId(master.getId());
+    shadow.setSurveyId(shadow.getSurveyId() + "-" + version);
+    shadow.setDataAcquisitionProjectId(shadow.getDataAcquisitionProjectId() + "-" + version);
+    shadow.generateId();
+    return shadow;
   }
 
   private void createTestFileForAttachment(SurveyAttachmentMetadata metadata)

@@ -54,8 +54,8 @@ public interface ShadowCopyDataSource<T extends AbstractShadowableRdcDomainObjec
    * Find shadow copies where the master has been deleted between the last and the current project
    * release.
    * @param projectId Project id
-   * @param lastVersion Version of the last project release
+   * @param previousVersion Previous project release version
    * @return Stream of shadow copies with deleted masters
    */
-  Stream<T> findShadowCopiesWithDeletedMasters(String projectId, String lastVersion);
+  Stream<T> findShadowCopiesWithDeletedMasters(String projectId, String previousVersion);
 }

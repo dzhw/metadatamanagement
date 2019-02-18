@@ -358,8 +358,8 @@ angular.module('metadatamanagementApp').config(
             'content': 'Wollen Sie wirklich alle Fragen des Datenaufbereitungsprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-studies': {
-            'title': 'Alle Studien des Projekts "{{ id }}" löschen?',
-            'content': 'Wollen Sie wirklich alle Studien des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+            'title': 'Studie des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich die Studie des Datenaufbereitungsprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-variables': {
             'title': 'Alle Variablen des Projekts "{{ id }}" löschen?',

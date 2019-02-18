@@ -1,8 +1,10 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp').controller('UserManagementController',
   function($scope, UserResource, ParseLinks, $state,
-    PageTitleService, ToolbarHeaderService, $mdDialog, $uibModal) {
+    PageTitleService, ToolbarHeaderService, $mdDialog, $uibModal,
+    DataAcquisitionProjectRepositoryClient, SimpleMessageToastService) {
     PageTitleService.setPageTitle('user-management.home.title');
     $scope.users = [];
     $scope.page = 0;
@@ -24,11 +26,39 @@ angular.module('metadatamanagementApp').controller('UserManagementController',
     };
     $scope.loadAll();
 
+    var joinProjectIds = function(projects) {
+      return _.join(_.map(projects, function(project) {
+        return project.id;
+      }), ', ');
+    };
+
     $scope.setActive = function(user, isActivated) {
+      var userHasBeenActivated = user.activated;
       user.activated = isActivated;
-      UserResource.update(user, function() {
-        $scope.loadAll();
-      });
+
+      if (userHasBeenActivated && !user.activated) {
+        DataAcquisitionProjectRepositoryClient.findAssignedProjects(
+            user.login).then(function(response) {
+                var projects = response.data;
+                if (projects.length === 0) {
+                  UserResource.update(user, function() {
+                    $scope.loadAll();
+                  });
+                } else {
+                  var projectIds = joinProjectIds(projects);
+                  SimpleMessageToastService.openAlertMessageToast(
+                    'user-management.error.user.must-not-be-deactivated', {
+                      projectIds: projectIds});
+                  user.activated = true;
+                }
+              }).catch(function() {
+                user.activated = true;
+              });
+      } else {
+        UserResource.update(user, function() {
+          $scope.loadAll();
+        });
+      }
     };
 
     $scope.showUpdate = function(login) {

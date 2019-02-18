@@ -300,7 +300,7 @@ angular.module('metadatamanagementApp').config(
               'last-name': 'Geben Sie den Nachnamen des Projektmitarbeiters ein.'
             }
           },
-          'all-studies-deleted-toast': 'Alle Studien des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
+          'all-studies-deleted-toast': 'Die Studie des Datenaufbereitungsprojekts "{{id}}" wurde gelöscht.'
         }
       }
       //jscs:enable

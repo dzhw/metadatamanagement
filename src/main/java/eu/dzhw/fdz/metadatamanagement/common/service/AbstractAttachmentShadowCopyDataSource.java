@@ -102,8 +102,8 @@ public abstract class AbstractAttachmentShadowCopyDataSource
 
   @Override
   public Stream<T> findShadowCopiesWithDeletedMasters(String projectId,
-      String lastVersion) {
-    String oldProjectVersion = projectId + "-" + lastVersion;
+      String previousVersion) {
+    String oldProjectVersion = projectId + "-" + previousVersion;
     Query query = new Query(GridFsCriteria.whereMetaData("dataAcquisitionProjectId")
         .is(oldProjectVersion)
         .andOperator(GridFsCriteria.whereFilename()

@@ -59,7 +59,7 @@
                         </md-input-container>
                         <md-input-container flex="50" style="-ms-flex:auto">
                             <label>{{'survey-management.edit.label.field-period-end' | translate}}</label>
-                            <md-datepicker md-hide-icons="calendar" ng-required="true" ng-model="ctrl.survey.fieldPeriod.end" name="fieldPeriodEnd" md-min-date="ctrl.survey.fieldPeriod.start"></md-datepicker>
+                            <md-datepicker ng-change="ctrl.validatePeriod()" md-hide-icons="calendar" ng-required="true" ng-model="ctrl.survey.fieldPeriod.end" name="fieldPeriodEnd" md-min-date="ctrl.survey.fieldPeriod.start"></md-datepicker>
                             <div ng-if="!surveyForm.fieldPeriodEnd.$dirty && !surveyForm.fieldPeriodEnd.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.field-period-end' | translate}}</div>
                             <div ng-messages="surveyForm.fieldPeriodEnd.$error">
                                 <div ng-message="valid">{{'global.error.period.valid-period' | translate}}</div>

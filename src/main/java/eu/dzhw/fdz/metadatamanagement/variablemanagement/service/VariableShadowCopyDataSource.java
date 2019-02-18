@@ -72,8 +72,9 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
   }
 
   @Override
-  public Optional<Variable> findPredecessorOfShadowCopy(Variable shadowCopy, String previousVersion) {
-    String shadowCopyId = shadowCopy + "-" + previousVersion;
+  public Optional<Variable> findPredecessorOfShadowCopy(Variable shadowCopy,
+      String previousVersion) {
+    String shadowCopyId = shadowCopy.getMasterId() + "-" + previousVersion;
     return variableRepository.findById(shadowCopyId);
   }
 
@@ -89,8 +90,8 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
 
   @Override
   public Stream<Variable> findShadowCopiesWithDeletedMasters(String projectId,
-      String lastVersion) {
-    String oldProjectId = projectId + "-" + lastVersion;
+      String previousVersion) {
+    String oldProjectId = projectId + "-" + previousVersion;
     return variableRepository
         .findByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId)
         .filter(shadowCopy -> !variableRepository.existsById(shadowCopy.getMasterId()));

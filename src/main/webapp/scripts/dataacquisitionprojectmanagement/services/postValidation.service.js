@@ -24,11 +24,12 @@ angular.module('metadatamanagementApp').service(
       return objectElement;
     };
 
-    var postValidate = function(id) {
+    var postValidate = function(id, version) {
       var deferred = $q.defer();
       JobLoggingService.start('postValidation');
       DataAcquisitionProjectPostValidationResource.postValidate({
-        id: id
+        id: id,
+        version: version
       }, function(result) {
         // got errors by post validation
         if (result.errors.length > 0) {
