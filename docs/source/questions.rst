@@ -237,7 +237,7 @@ Tabellenblatt 2 ist nur auszufüllen falls es Bilder zu den Fragen gibt.
 .. _639-1: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
 Mit dem zweiten Tabellenblatt *images* erfassen Sie Informationen zu den
-Fragebildern, welche Sie für jede Frage mit hochladen müssen. Falls Bilder
+Fragebildern, welche Sie für jede Frage mit hochladen können. Falls Bilder
 vorhanden sind, müssen diese im Png Format vorliegen. Die Fragebilder können
 z.B. mit Ragtime
 extrahiert werden, sofern der Fragebogen auch mit Ragtime erstellt
