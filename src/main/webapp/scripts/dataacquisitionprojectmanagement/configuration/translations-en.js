@@ -85,7 +85,9 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'project-has-no-study': 'The Project with the RDC-ID {{ id }} has no study.',
-            'requirements-not-met': 'There are still metadata that have not been marked as "ready" by the publishers.'
+            'requirements-not-met': 'There are still metadata that have not been marked as "ready" by the publishers.',
+            'project-has-no-survey': 'The Project with the RDC-ID {{ id }} must contain at least one survey.',
+            'project-has-no-data-set': 'The Project with the RDC-ID {{ id }} must contain at least one data set.'
           },
           'project-update-access': {
             'project-selected': 'A project has to be selected before data can be added.',

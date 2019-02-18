@@ -3,7 +3,6 @@
 angular.module('metadatamanagementApp').service(
   'ProjectReleaseService',
   function(
-    DataAcquisitionProjectPostValidationService,
     SimpleMessageToastService,
     DataAcquisitionProjectResource,
     CurrentProjectService,
@@ -13,7 +12,7 @@ angular.module('metadatamanagementApp').service(
   ) {
     var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
         'data-acquisition-project.';
-    var doRelease = function(project) {
+    var releaseProject = function(project) {
       $mdDialog.show({
         controller: 'ReleaseProjectDialogController',
         templateUrl: 'scripts/dataacquisitionprojectmanagement/' +
@@ -25,29 +24,6 @@ angular.module('metadatamanagementApp').service(
         }
       }).catch(function() {
         // user cancelled
-      });
-    };
-
-    var releaseProject = function(project) {
-      DataAcquisitionProjectPostValidationService
-      .postValidate(project.id)
-      .then(function() {
-        doRelease(project);
-      }, function() {
-        $mdDialog.show($mdDialog.alert()
-        .title($translate.instant(
-          i18nPrefix + 'release-not-possible-title', {
-            id: project.id
-          }))
-        .textContent($translate.instant(
-          i18nPrefix + 'release-not-possible', {
-            id: project.id
-          }))
-        .ariaLabel($translate.instant(
-          i18nPrefix + 'release-not-possible-title', {
-            id: project.id
-          }))
-        .ok($translate.instant('global.buttons.ok')));
       });
     };
 

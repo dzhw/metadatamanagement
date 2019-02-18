@@ -29,19 +29,19 @@
                 </div>
             </div>
         </md-card-content>
-        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'search-management.cards.survey-tooltip' | translate: {id:searchResult.id} }}
         </md-tooltip>
     </a>
     <div class="fdz-search-result-actions-container" ng-if="!projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER">
         <md-button class="md-icon-button md-primary" ng-click="surveyEdit()" style="margin-right: 0px;" >
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.edit-survey-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">mode_edit</md-icon>
         </md-button>
         <md-button class="md-icon-button md-primary" ng-click="deleteSurvey(searchResult.id)" style="margin-left: 0px;" >
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.delete-survey-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete_forever</md-icon>

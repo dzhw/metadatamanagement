@@ -12,7 +12,7 @@
                 <md-card-header-text class="fdz-truncate-string">
                     <div class="md-title fdz-truncate-string"><a ui-sref="studyDetail({id: product.study.id})">
                             {{ctrl.studies[product.study.id].title | displayI18nString}}
-                            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                 {{'shopping-cart.detail.study-tooltip' | translate}}
                             </md-tooltip>
                         </a>
@@ -24,21 +24,21 @@
             <md-card-content ng-if="ctrl.dataAcquisitionProjects[product.dataAcquisitionProjectId] && ctrl.dataAcquisitionProjects[product.dataAcquisitionProjectId].release.version">
                 <span>{{'shopping-cart.detail.label.this-data-product' | translate}}</span>
                 <a ui-sref="search({'type': 'studies', 'study-series-{{currentLanguage}}': ctrl.studies[product.study.id].studySeries[currentLanguage]})" ng-if="ctrl.studies[product.study.id].studySeries[currentLanguage]">{{'shopping-cart.detail.label.study-series' | translate:'{series:"'+ ctrl.studies[product.study.id].studySeries[currentLanguage] + '"}'}}
-                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'shopping-cart.detail.study-series-tooltip' | translate}}
                     </md-tooltip>
                 </a>
                 <span>{{'shopping-cart.detail.label.contains' | translate}}</span>
                 <strong ng-if="!ctrl.isCurrentVersion(product)">{{'shopping-cart.detail.label.about' | translate}}</strong>
                 <a ui-sref="search({'type': 'variables', 'study': product.study.id, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.variables' | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' + (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}
-                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'shopping-cart.detail.variables-tooltip' | translate}}
                     </md-tooltip>
                 </a>
                 <span>{{'shopping-cart.detail.label.in' | translate}}</span>
                 <strong ng-if="!ctrl.isCurrentVersion(product)">{{'shopping-cart.detail.label.about' | translate}}</strong>
                 <a ui-sref="search({'type': 'data_sets', 'study': product.study.id, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}
-                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'shopping-cart.detail.data-sets-tooltip' | translate}}
                     </md-tooltip>
                 </a>
@@ -53,7 +53,7 @@
             </md-card-content>
             <div class="fdz-search-result-actions-container">
                 <md-button class="md-icon-button md-primary" ng-click="ctrl.deleteProduct(product)" style="margin-left: 0px;">
-                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'shopping-cart.buttons.delete-product-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">delete_forever</md-icon>
@@ -98,14 +98,14 @@
             <div data-vc-recaptcha data-key="'6LeEh3QUAAAAAIi38B2lNgKAxWagrZMeK3QQg8sN'" data-lang="currentLanguage" style="margin: 12px 0px;"></div>
             <div layout="row">
                 <md-button class="md-raised md-accent fdz-truncate-string" ng-click="ctrl.order()" style="margin-left: 0px; margin-top: 8px;">
-                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'shopping-cart.buttons.checkout-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">thumb_up</md-icon>
                     <span>{{'shopping-cart.buttons.checkout' | translate}}</span>
                 </md-button>
                 <md-button class="md-raised md-primary fdz-truncate-string" ng-click="ctrl.clear()">
-                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'shopping-cart.buttons.remove-all-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">remove_shopping_cart</md-icon>

@@ -114,7 +114,7 @@
                 <div layout="column" ng-repeat="subDataSet in ctrl.dataSet.subDataSets track by $index">
                     <div layout="row" style="padding-right: 16px;">
                       <md-button ng-if="ctrl.dataSet.subDataSets.length > 1" class="md-primary md-icon-button" ng-click="ctrl.deleteSubDataSet($index)" style="margin-top: 18px; margin-left: 0px; margin-right: 0px;">
-                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                           {{'data-set-management.edit.delete-sub-data-set-tooltip' | translate}}
                         </md-tooltip>
                         <md-icon md-font-set="material-icons">delete_forever</md-icon>
@@ -176,7 +176,7 @@
                     </div>
                     <div layout-gt-sm="row" layout="column" style="padding-right: 16px;" ng-style="{'margin-left': ctrl.dataSet.subDataSets.length === 1?'16px':'40px'}">
                       <md-input-container flex="50" style="-ms-flex:auto" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!dataSetForm['subDataSetsCitationHintDe_' + $index].$valid && (dataSetForm['subDataSetsCitationHintDe_' + $index].$dirty || dataSetForm['subDataSetsCitationHintDe_' + $index].$touched)">
-                          <label>{{'data-set-management.edit.label.sub-data-set.citation-hint' | translate}} ({{'global.in-german' | translate}})</label>
+                          <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.citation-hint' | translate}} ({{'global.in-german' | translate}})</label>
                           <textarea fdz-required="!subDataSet.citationHint.en" md-maxlength="2048" rows="4" ng-model="subDataSet.citationHint.de" name="subDataSetsCitationHintDe_{{$index}}" lang="de" md-no-asterisk ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)"></textarea>
                           <div ng-if="!dataSetForm['subDataSetsCitationHintDe_' + $index].$dirty && !dataSetForm['subDataSetsCitationHintDe_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.citation-hint.de' | translate}}</div>
                           <div ng-messages="dataSetForm['subDataSetsCitationHintDe_' + $index].$error" multiple>
@@ -185,7 +185,7 @@
                           </div>
                       </md-input-container>
                       <md-input-container flex="50" style="-ms-flex:auto" md-is-error="!dataSetForm['subDataSetsCitationHintEn_' + $index].$valid && (dataSetForm['subDataSetsCitationHintEn_' + $index].$dirty || dataSetForm['subDataSetsCitationHintEn_' + $index].$touched)">
-                          <label>{{'data-set-management.edit.label.sub-data-set.citation-hint' | translate}} ({{'global.in-english' | translate}})</label>
+                          <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.citation-hint' | translate}} ({{'global.in-english' | translate}})</label>
                           <textarea fdz-required="!subDataSet.citationHint.de" md-maxlength="2048" rows="4" ng-model="subDataSet.citationHint.en" name="subDataSetsCitationHintEn_{{$index}}" lang="en" md-no-asterisk ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)"></textarea>
                           <div ng-if="!dataSetForm['subDataSetsCitationHintEn_' + $index].$dirty && !dataSetForm['subDataSetsCitationHintEn_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.citation-hint.en' | translate}}</div>
                           <div ng-messages="dataSetForm['subDataSetsCitationHintEn_' + $index].$error" multiple>
@@ -199,19 +199,19 @@
             </md-card-content>
             <md-card-actions style="margin-top: 12px; margin-bottom: 12px;" layout="row" layout-align="begin center">
                 <md-button class="md-primary md-raised md-icon-button" ng-disabled="ctrl.dataSet.subDataSets.length === ctrl.allAccessWays.length" ng-click="ctrl.addSubDataSet()" style="margin-left: 6px;">
-                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'data-set-management.edit.add-sub-data-set-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">add</md-icon>
                 </md-button>
                 <md-button id="move-sub-data-set-up-button" ng-disabled="ctrl.currentSubDataSetIndex == null || ctrl.currentSubDataSetIndex === 0" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveCurrentSubDataSetUp()">
-                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'data-set-management.edit.move-sub-data-set-up-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
                 </md-button>
                 <md-button id="move-sub-data-set-down-button" ng-disabled="ctrl.currentSubDataSetIndex == null || ctrl.currentSubDataSetIndex === ctrl.dataSet.subDataSets.length - 1" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveCurrentSubDataSetDown()">
-                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'data-set-management.edit.move-sub-data-set-down-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
@@ -265,7 +265,7 @@
                 <td class="fdz-table-nowrap" style="padding-right: 0px;">
                     <md-radio-group ng-model="ctrl.currentAttachmentIndex" class="md-primary">
                         <md-radio-button ng-value="$index" style="margin-bottom: 0px;">
-                            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                 {{'data-set-management.detail.attachments.select-attachment-tooltip' | translate:translationParams }}
                             </md-tooltip>
                         </md-radio-button>
@@ -273,7 +273,7 @@
                 </td>
                 <td class="fdz-table-nowrap" style="padding: 0px;">
                     <md-button class="md-primary md-icon-button" ng-click="ctrl.editAttachment(row, $event)" style="margin: 0px;">
-                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                             {{'data-set-management.detail.attachments.edit-attachment-tooltip' | translate:translationParams }}
                         </md-tooltip>
                         <md-icon md-font-set="material-icons">mode_edit</md-icon>
@@ -281,7 +281,7 @@
                 </td>
                 <td class="fdz-table-nowrap" style="padding: 0px;">
                     <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteAttachment(row, $index)" style="margin: 0px;">
-                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                             {{'data-set-management.detail.attachments.delete-attachment-tooltip' | translate:translationParams }}
                         </md-tooltip>
                         <md-icon md-font-set="material-icons">delete_forever</md-icon>
@@ -291,7 +291,7 @@
                 <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                 <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                 <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
-                        <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'global.tooltips.files.download' | translate: {filename: row.fileName} }}</md-tooltip>
+                        <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">{{'global.tooltips.files.download' | translate: {filename: row.fileName} }}</md-tooltip>
                     </a>&nbsp;</td>
             </tr>
         </tbody>
@@ -302,25 +302,25 @@
     </md-card-content>
     <md-card-actions ng-if="!ctrl.createMode" style="margin-top: 12px; margin-bottom: 12px;" layout="row" layout-align="begin center">
         <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAttachment($event)" style="margin-left: 6px;">
-            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'data-set-management.detail.attachments.add-attachment-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
         <md-button ng-disabled="ctrl.currentAttachmentIndex == null || ctrl.currentAttachmentIndex === 0" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveAttachmentUp()">
-            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'data-set-management.detail.attachments.move-attachment-up-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
         </md-button>
         <md-button ng-disabled="ctrl.currentAttachmentIndex == null || ctrl.currentAttachmentIndex === ctrl.attachments.length - 1" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveAttachmentDown()">
-            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'data-set-management.detail.attachments.move-attachment-down-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
         </md-button>
         <md-button ng-disabled="!ctrl.attachmentOrderIsDirty" class="md-accent md-raised md-icon-button" ng-click="ctrl.saveAttachmentOrder()">
-            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'data-set-management.detail.attachments.save-attachment-order-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">save</md-icon>
@@ -329,13 +329,13 @@
 </md-card>
 <div ng-if="ctrl.dataSet.id" class="fdz-fab-button-container" layout="column">
     <md-button class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog($event)" ng-disabled="ctrl.createMode">
-        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'data-set-management.edit.open-choose-previous-version-tooltip' | translate}}
         </md-tooltip>
         <md-icon md-font-set="material-icons">undo</md-icon>
     </md-button>
     <md-button class="md-fab md-raised md-accent" type="submit" ng-click="ctrl.saveDataSet()" ng-disabled="!dataSetForm.$dirty">
-        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'data-set-management.edit.save-tooltip' | translate}}
         </md-tooltip>
         <md-icon md-font-set="material-icons">save</md-icon>

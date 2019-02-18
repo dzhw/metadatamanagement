@@ -52,7 +52,7 @@ angular.module('metadatamanagementApp').config(
           'upload-instruments-tooltip': 'Click to upload instruments for the selected Data Acquisition Project',
           'previous-search-result-tooltip': 'Click (or CTRL+"\u21E6") to show search result {{ index }} ({{ id }})',
           'next-search-result-tooltip': 'Click (or CTRL+"\u21E8") to show search result {{ index }} ({{ id }})',
-          'delete-all-studies-tooltip': 'Click, to delete all studies of the Data Acquisition Project',
+          'delete-all-studies-tooltip': 'Click, to delete the study of the Data Acquisition Project',
           'delete-all-questions-tooltip': 'Click, to delete all questions of the Data Acquisition Project',
           'delete-all-variables-tooltip': 'Click, to delete all variables of the Data Acquisition Project',
           'delete-all-surveys-tooltip': 'Click, to delete all surveys of the Data Acquisition Project',

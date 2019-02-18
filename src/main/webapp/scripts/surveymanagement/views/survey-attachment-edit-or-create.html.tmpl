@@ -37,7 +37,7 @@
                         </md-input-container>
                         <div layout="column" layout-align="center end">
                             <md-button class="md-primary md-raised md-icon-button" type="file" ngf-select="ctrl.upload($file)" style="margin: 8px;">
-                                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'survey-management.detail.attachments.change-file-tooltip' | translate}}
                                 </md-tooltip>
                                 <md-icon md-font-set="material-icons">attach_file</md-icon>
@@ -108,13 +108,13 @@
         </md-content>
         <div class="fdz-fab-button-container" layout="column">
             <md-button ng-if="!ctrl.isCreateMode" class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog($event)" ng-disabled="ctrl.createMode">
-                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                     {{'survey-management.detail.attachments.open-choose-previous-version-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">undo</md-icon>
             </md-button>
             <md-button class="md-fab md-raised md-accent" type="submit" ng-click="ctrl.saveAttachment()" ng-disabled="!surveyAttachmentForm.$dirty">
-                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                     {{'survey-management.detail.attachments.save-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">save</md-icon>

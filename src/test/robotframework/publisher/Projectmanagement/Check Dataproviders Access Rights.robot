@@ -6,11 +6,9 @@ Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/project_management_resource.robot
 
-
 *** Variables ***
 ${PROJECT_NAME}  hossainrobot
 ${TOAST_MSSG}  Die Aktion ist nicht möglich
-
 
 *** Test Cases ***
 Check Publisher Can Change Accordingly
@@ -73,10 +71,10 @@ Ensure Create Button is Restricted
 Ensure Upload Button is Restricted
     [Arguments]  ${metadataname}
     Click Element Through Tooltips  xpath=//md-card[@type="${metadataname}"]//button[contains(.,"Hochladen")]
-    Run Keyword if  '${BROWSER}' == 'chrome'  Close The Toast Message  ${TOAST_MSSG}
-    Run Keyword if  '${BROWSER}' == 'firefox'  Close The Toast Message  ${TOAST_MSSG}
-    Run Keyword if  '${BROWSER}' == 'edge'  Close The Toast Message  ${TOAST_MSSG}
-    Run Keyword if  '${BROWSER}' == 'ie'  Close The Toast Message for Upload Button in IE   #in IE upload is not possible because of that toast mesaage is different
+    @{MD_BROWSERS}    Create List   edge  firefox   chrome
+    :FOR   ${MD_BR}   IN  @{MD_BROWSERS}
+    \  Run Keyword If  '${BROWSER}' == '${MD_BR}'  Close The Toast Message  ${TOAST_MSSG}
+    Run Keyword if  '${BROWSER}' == 'ie'  Close The Toast Message for Upload Button in IE   #in IE toast mesaage is different
 
 Ensure Create Button is Restricted From The List
     @{MD_ITEMS}    Create List    studies   surveys   instruments   dataSets
@@ -91,7 +89,7 @@ Ensure Upload Button is Restricted From The List
     \   Run Keyword if  '${BROWSER}' == 'chrome'  Close The Toast Message  ${TOAST_MSSG}
     \   Run Keyword if  '${BROWSER}' == 'firefox'  Close The Toast Message  ${TOAST_MSSG}
     \   Run Keyword if  '${BROWSER}' == 'edge'  Close The Toast Message  ${TOAST_MSSG}
-    \   Run Keyword if  '${BROWSER}' == 'ie'  Close The Toast Message for Upload Button in IE   #in IE upload is not possible because of that toast mesaage is different
+    \   Run Keyword if  '${BROWSER}' == 'ie'  Close The Toast Message for Upload Button in IE   #in IE toast mesaage is different
 
 Ensure Expected Metadata Fields are Disabled From The List
     @{MD_ITEMS}    Create List    survey   instruments   questions   dataSet    variables

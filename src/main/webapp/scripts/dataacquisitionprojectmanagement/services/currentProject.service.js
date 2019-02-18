@@ -1,7 +1,8 @@
 /* Author: Daniel Katzberg */
 'use strict';
 angular.module('metadatamanagementApp').service('CurrentProjectService',
-  function($rootScope, $location, localStorageService) {
+  function($rootScope, $location, localStorageService,
+    DataAcquisitionProjectResource) {
 
     //Define current Project field with get and set methods
 
@@ -25,6 +26,22 @@ angular.module('metadatamanagementApp').service('CurrentProjectService',
     // see: ProjectCockpitController
     if (!/\/projects\/[a-zA-Z0-9]+/.test($location.path())) {
       currentProject = localStorageService.get('currentProject');
+      if (currentProject) {
+        DataAcquisitionProjectResource.get({
+          id: currentProject.id
+        }).$promise.then(
+          function(project) {
+            if (project) {
+              setCurrentProject(project);
+            } else {
+              setCurrentProject(undefined);
+            }
+          }).catch(function() {
+            setCurrentProject(undefined);
+          });
+      } else {
+        setCurrentProject(undefined);
+      }
     } else {
       setCurrentProject(undefined);
     }

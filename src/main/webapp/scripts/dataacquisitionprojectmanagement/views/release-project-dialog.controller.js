@@ -4,7 +4,8 @@ angular.module('metadatamanagementApp')
   .controller('ReleaseProjectDialogController', function($scope, $mdDialog,
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
     DaraReleaseResource, $rootScope, CurrentProjectService,
-    DataAcquisitionProjectLastReleaseResource, $state) {
+    DataAcquisitionProjectLastReleaseResource, $state, $translate,
+    DataAcquisitionProjectPostValidationService) {
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
 
@@ -24,51 +25,69 @@ angular.module('metadatamanagementApp')
     });
 
     $scope.ok = function(release) {
-      var compareForBeta = $scope.bowser
-        .compareVersions(['1.0.0', release.version]);
-      release.date = new Date().toISOString();
-      project.release = release;
-      project.hasBeenReleasedBefore = true;
+      DataAcquisitionProjectPostValidationService
+        .postValidate(project.id, release.version).then(function() {
+          var compareForBeta = $scope.bowser
+          .compareVersions(['1.0.0', release.version]);
+          release.date = new Date().toISOString();
+          project.release = release;
+          project.hasBeenReleasedBefore = true;
 
-      if (compareForBeta === 1) {
-        //BETA RELEASE
-        DataAcquisitionProjectResource.save(project).$promise
-        .then(function() {
-            SimpleMessageToastService.openSimpleMessageToast(
-              i18nPrefix + 'released-beta-successfully', {
-                id: project.id
-              });
-            CurrentProjectService.setCurrentProject(project);
-            $mdDialog.hide();
-            $state.forceReload();
-          }).catch(function() {
-          delete project.release;
-          SimpleMessageToastService.openAlertMessageToast(
-            i18nPrefix + 'dara-released-not-successfully', {
-              id: project.id
-            });
-        });
-      } else {
-        //REGULAR RELEASE
-        DaraReleaseResource.release(project)
-          .$promise.then(function() {
+          if (compareForBeta === 1) {
+            //BETA RELEASE
             DataAcquisitionProjectResource.save(project).$promise
             .then(function() {
                 SimpleMessageToastService.openSimpleMessageToast(
-                  i18nPrefix + 'released-successfully', {
+                  i18nPrefix + 'released-beta-successfully', {
                     id: project.id
                   });
                 CurrentProjectService.setCurrentProject(project);
                 $mdDialog.hide();
                 $state.forceReload();
-              });
-          }).catch(function() {
-          delete project.release;
-          SimpleMessageToastService.openAlertMessageToast(
-            i18nPrefix + 'dara-released-not-successfully', {
+              }).catch(function() {
+                  delete project.release;
+                  SimpleMessageToastService.openAlertMessageToast(
+                    i18nPrefix + 'dara-released-not-successfully', {
+                      id: project.id
+                    });
+                });
+          } else {
+            //REGULAR RELEASE
+            DaraReleaseResource.release(project)
+            .$promise.then(function() {
+                DataAcquisitionProjectResource.save(project).$promise
+                .then(function() {
+                    SimpleMessageToastService.openSimpleMessageToast(
+                      i18nPrefix + 'released-successfully', {
+                        id: project.id
+                      });
+                    CurrentProjectService.setCurrentProject(project);
+                    $mdDialog.hide();
+                    $state.forceReload();
+                  });
+              }).catch(function() {
+                  delete project.release;
+                  SimpleMessageToastService.openAlertMessageToast(
+                    i18nPrefix + 'dara-released-not-successfully', {
+                      id: project.id
+                    });
+                });
+          }
+        }).catch(function() {
+          $mdDialog.show($mdDialog.alert()
+          .title($translate.instant(
+            i18nPrefix + 'release-not-possible-title', {
               id: project.id
-            });
+            }))
+          .textContent($translate.instant(
+            i18nPrefix + 'release-not-possible', {
+              id: project.id
+            }))
+          .ariaLabel($translate.instant(
+            i18nPrefix + 'release-not-possible-title', {
+              id: project.id
+            }))
+          .ok($translate.instant('global.buttons.ok')));
         });
-      }
     };
   });
