@@ -2,13 +2,13 @@
     <md-toolbar style="background-color: white;">
         <md-button ng-if="$mdMedia('gt-md')" class="md-accent md-raised fdz-skip-navigation" ng-click="focusContent()">
             {{'global.menu.skip-navigation'|translate}}
-            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'global.menu.skip-navigation-tooltip'|translate}}
             </md-tooltip>
         </md-button>
         <md-button style="margin: 0px; overflow: visible; height: 86px; padding: 0px;" ui-sref="search" ng-click="close()">
             <img src="assets/images/FDZ_Logo_With_Mag.svg" style="width: 100%; height: 150px; position: absolute; top: -6px; left: 0; pointer-events: none; padding: 0px;" alt="{{'global.rdc-alt-text'|translate}}">
-            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'global.menu.back-to-search'|translate}}
             </md-tooltip>
         </md-button>
@@ -18,14 +18,14 @@
         <ul style="padding: 0px; margin: 0px;">
             <li class="fdz-navbar-menu">
                 <md-button ng-disabled="changeLanguageButtonDisabled" lang="en" id="changeLanguageToEn" ng-click="changeLanguage('en')" ng-if="currentLanguage!='en'" class="fdz-navbar-button">
-                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'global.toolbar.buttons.change-language' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">language</md-icon>
                     <span style="white-space: pre;">{{'global.menu.show-english-pages' | translate}}</span>
                 </md-button>
                 <md-button ng-disabled="changeLanguageButtonDisabled" lang="de" id="changeLanguageToDe" ng-click="changeLanguage('de')" ng-if="currentLanguage!='de'" class="fdz-navbar-button">
-                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'global.toolbar.buttons.change-language' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">language</md-icon>
@@ -35,7 +35,7 @@
             </li>
             <li ng-switch-when="true" class="fdz-navbar-menu">
                 <md-button ng-disabled="logoutButtonDisabled" id="logout" ng-click="logout()" class="fdz-navbar-button">
-                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'global.toolbar.buttons.logout-tooltip' | translate : '{username:"' + identity.login + '"}'}}
                     </md-tooltip>
                     <md-icon md-svg-src="/assets/images/icons/logout.svg"></md-icon>
@@ -47,7 +47,7 @@
               <md-button id="feedBackButton" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="openDialog()" target="_blank">
                 <md-icon md-font-set="material-icons">email</md-icon>
                 <span data-translate="global.navbar-feedback.title">Feedback</span>
-                <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                   {{'global.tooltips.navbar-feedback'|translate}}
                 </md-tooltip>
               </md-button>
@@ -61,7 +61,7 @@
               <md-button class="fdz-navbar-button" ng-click="displayWelcomeDialog()">
                 <md-icon md-font-set="material-icons">help_outline</md-icon>
                 <span data-translate="global.menu.usage-info">Hinweise zur Nutzung</span>
-                <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                   {{'global.tooltips.navbar-usage-info' | translate}}
                 </md-tooltip>
               </md-button>
@@ -71,7 +71,7 @@
                <md-button class="fdz-navbar-button" href="https://metadatamanagement.readthedocs.io/de/stable/" target="_blank">
                    <md-icon md-font-set="material-icons">library_books</md-icon>
                    <span data-translate="global.menu.documentation">Documentation</span>
-                   <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                   <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                        {{'global.tooltips.navbar-documentation' | translate}}
                    </md-tooltip>
                </md-button>
@@ -83,14 +83,14 @@
                     <span data-translate="global.menu.account.main"></span>
                     <md-icon ng-if="!isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
                     <md-icon ng-if="isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
-                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'global.toolbar.buttons.fdz-staff-area-tooltip.' + isAccountMenuOpen |translate}}
                     </md-tooltip>
                 </md-button>
                 <ul class="fdz-navbar-menu-items" ng-show="isAccountMenuOpen">
                     <li ng-switch-when="false">
                         <md-button id="login" ng-click="close()" ui-sref-active="fdz-navbar-button-active" ui-sref="login({lang:currentLanguage})" class="fdz-navbar-button">
-                            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                 {{'global.toolbar.buttons.login-tooltip' | translate}}
                             </md-tooltip>
                             <md-icon md-svg-src="/assets/images/icons/login.svg"></md-icon>
@@ -99,7 +99,7 @@
                     </li>
                     <li ng-switch-when="false">
                         <md-button id="register" ng-click="close()" ui-sref-active="fdz-navbar-button-active" ui-sref="register({lang:currentLanguage})" class="fdz-navbar-button">
-                            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                 {{'global.toolbar.buttons.register-tooltip' | translate}}
                             </md-tooltip>
                             <md-icon md-svg-src="/assets/images/icons/account-plus.svg"></md-icon>
@@ -108,7 +108,7 @@
                     </li>
                     <li ng-switch-when="true">
                         <md-button ui-sref="settings" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                               {{'global.toolbar.buttons.settings-tooltip' | translate}}
                           </md-tooltip>
                           <span data-translate="global.menu.account.settings">Settings</span>
@@ -116,7 +116,7 @@
                     </li>
                     <li ng-switch-when="true">
                         <md-button ui-sref="password" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                               {{'global.toolbar.buttons.password-tooltip' | translate}}
                           </md-tooltip>
                           <span data-translate="global.menu.account.password">Password</span>
@@ -127,7 +127,7 @@
             </li>
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_ADMIN">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAdminMenu()">
-                  <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                  <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                       {{'global.toolbar.buttons.administration-tooltip.' + isAdminMenuOpen | translate}}
                   </md-tooltip>
                   <md-icon md-font-set="material-icons">vpn_key</md-icon>
@@ -138,7 +138,7 @@
                 <ul class="fdz-navbar-menu-items" ng-show="isAdminMenuOpen">
                     <li>
                         <md-button ui-sref="user-management" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                               {{'global.toolbar.buttons.user-management-tooltip' | translate}}
                           </md-tooltip>
                           <span data-translate="global.menu.admin.user-management">User management</span>
@@ -146,7 +146,7 @@
                     </li>
                     <li>
                         <md-button ui-sref="health" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                               {{'global.toolbar.buttons.health-tooltip' | translate}}
                           </md-tooltip>
                           <span data-translate="global.menu.admin.health">Health</span>
@@ -154,7 +154,7 @@
                     </li>
                     <li>
                         <md-button ui-sref="configuration" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                               {{'global.toolbar.buttons.configuration-tooltip' | translate}}
                           </md-tooltip>
                           <span data-translate="global.menu.admin.configuration">Configuration</span>
@@ -162,7 +162,7 @@
                     </li>
                     <li>
                         <md-button ui-sref="logs" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                               {{'global.toolbar.buttons.logs-tooltip' | translate}}
                           </md-tooltip>
                           <span data-translate="global.menu.admin.logs">Logs</span>
@@ -175,7 +175,7 @@
                 <md-button class="fdz-navbar-button" href="{{currentLanguage === 'de' ? 'https://fdz.dzhw.eu/datennutzung/index_html' : 'https://fdz.dzhw.eu/en/datennutzung/index_html'}}" target="_blank">
                     <md-icon md-font-set="material-icons">get_app</md-icon>
                     <span data-translate="global.menu.data-access">Data Accessx</span>
-                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'data-set-management.detail.tooltips.get-data-set-tooltip' | translate}}
                     </md-tooltip>
                 </md-button>
@@ -185,7 +185,7 @@
                 <md-button ui-sref="disclosure" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
                     <md-icon md-font-set="material-icons">mail_outline</md-icon>
                     <span data-translate="global.menu.disclosure">Disclosure</span>
-                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'global.toolbar.buttons.disclosure-tooltip'|translate}}
                     </md-tooltip>
                 </md-button>
@@ -196,20 +196,20 @@
           <a id="dzhw-link" ng-href="{{currentLanguage==='de'?'https://www.dzhw.eu/':'http://www.dzhw.eu/en/index_html'}}" target="_blank">
             <img ng-if="currentLanguage == 'de'" alt="{{'global.logos.dzhw-alt-text'|translate}}" src="./assets/images/DZHW_Logo_de.svg" class="dzhw_logo"/>
             <img ng-if="currentLanguage == 'en'" alt="{{'global.logos.dzhw-alt-text'|translate}}" src="./assets/images/DZHW_Logo_en.svg" class="dzhw_logo"/>
-            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'global.logos.dzhw-tooltip'|translate}}
             </md-tooltip>
          </a>
          <a id="bmbf-link" ng-href="{{currentLanguage==='de'?'https://www.bmbf.de/':'https://www.bmbf.de/en/index.html'}}" target="_blank">
            <img ng-if="currentLanguage == 'de'" alt="{{'global.logos.bmbf-alt-text'|translate}}" src="./assets/images/logo-bmbf-de.svg" class="bmbf_logo"/>
            <img ng-if="currentLanguage == 'en'" alt="{{'global.logos.bmbf-alt-text'|translate}}" src="./assets/images/logo-bmbf-en.svg" class="bmbf_logo"/>
-           <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+           <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'global.logos.bmbf-tooltip'|translate}}
            </md-tooltip>
         </a>
         <a ng-if="ENV === 'dev' || ENV === 'local'" href="https://saucelabs.com/u/rreitmann" target="_blank">
           <img alt="Testing Powered by Sauce Labs" src="./assets/images/sauce_labs.svg" class="saucelabs_logo"/>
-          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
              Testing powered by Sauce Labs
           </md-tooltip>
         </a>

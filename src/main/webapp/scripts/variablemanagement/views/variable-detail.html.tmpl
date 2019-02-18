@@ -50,14 +50,14 @@
                             <div class="fdz-overlay-inner-box-top">
                                 <md-button ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.filter-details-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{variable.filterDetails.expression}}">
                                     <md-icon md-font-library="material-icons">content_copy</md-icon>
-                                    <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                                    <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                         {{'variable-management.detail.copy-complete-input-filter-tooltip' | translate}}
                                     </md-tooltip>
                                 </md-button>
                                 <md-button class="md-icon-button md-primary" ng-click="toggleFilterDetailsCode()">
                                     <md-icon ng-if="filterDetailsCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
                                     <md-icon ng-if="!filterDetailsCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
-                                    <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                                    <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                         {{'variable-management.detail.show-complete-input-filter-tooltip.' + filterDetailsCodeToggleFlag | translate }}
                                     </md-tooltip>
                                 </md-button>
@@ -85,7 +85,7 @@
                             <a ui-sref="studyDetail({id: study.id})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.label.study' | translate }}: <span display-i18n-string="study.title"></span>
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'variable-management.detail.tooltips.studies.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -100,7 +100,7 @@
                         <a ui-sref="surveyDetail({'id': survey.id})">
                           <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                           {{'survey-management.detail.label.survey' | translate }}: <span display-i18n-string="survey.title"></span>
-                          <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                          <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                             {{'variable-management.detail.tooltips.surveys.one' | translate}}
                           </md-tooltip>
                         </a>
@@ -109,7 +109,7 @@
                         <a ui-sref="search({'type': 'surveys', 'variable':variable.id, 'study': variable.studyId, 'data-set': variable.dataSetId})">
                           <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                           {{'survey-management.detail.label.surveys' | translate }}: ({{counts.surveysCount}})
-                          <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                          <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                             {{'variable-management.detail.tooltips.surveys.many' | translate}}
                           </md-tooltip>
                         </a>
@@ -124,7 +124,7 @@
                             <a ui-sref="dataSetDetail({id: dataSet.id})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.label.data-set' | translate }}: <span display-i18n-string="dataSet.description"></span>
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'variable-management.detail.tooltips.data-sets.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -139,7 +139,7 @@
                             <a ui-sref="questionDetail({'id': question.id})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.label.question' | translate }}: <span display-i18n-string="question.questionText"></span>
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'variable-management.detail.tooltips.questions.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -148,7 +148,7 @@
                             <a ui-sref="search({'type': 'questions', 'variable':variable.id, 'study': variable.studyId, 'data-set': variable.dataSetId})">
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.label.questions' | translate }}: ({{counts.questionsCount}})
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'variable-management.detail.tooltips.questions.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -163,7 +163,7 @@
                             <a ui-sref="search({'type': 'variables', 'panel-identifier':variable.panelIdentifier, 'study': variable.studyId, 'data-set': variable.dataSetId})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.label.variables-in-panel' | translate }}: ({{counts.variablesInPanel}})
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'variable-management.detail.tooltips.variables.same-in-panel' | translate}}
                                 </md-tooltip>
                             </a>
@@ -178,7 +178,7 @@
                             <a ui-sref="search({'type': 'variables', 'derived-variables-identifier': variable.derivedVariablesIdentifier, 'study': variable.studyId, 'data-set': variable.dataSetId})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.label.derived-variables' | translate }}: ({{counts.derivedVariables}})
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'variable-management.detail.tooltips.variables.derived-variables' | translate}}
                                 </md-tooltip>
                             </a>
@@ -193,7 +193,7 @@
                             <a ui-sref="relatedPublicationDetail({'id': relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.label.publication' | translate }}: {{relatedPublication.title}}
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'variable-management.detail.tooltips.publications.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -202,7 +202,7 @@
                             <a ui-sref="search({'type': 'related_publications', 'variable':variable.id, 'study': variable.studyId, 'data-set': variable.dataSetId})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.label.publications' | translate }}: ({{counts.publicationsCount}})
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'variable-management.detail.tooltips.publications.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -283,7 +283,7 @@
                     <h2 class="md-title">{{'variable-management.detail.frequencies' | translate | fdzHyphenate }}</h2>
                 </md-card-header-text>
                 <md-button ng-disabled="!variable.distribution.validResponses || variable.distribution.validResponses.length <= 10" class="md-fab md-mini md-primary" ng-click="toggleAllRowsVisible()">
-                    <md-tooltip ng-hide="!variable.distribution.validResponses || variable.distribution.validResponses.length <= 10" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                    <md-tooltip ng-hide="!variable.distribution.validResponses || variable.distribution.validResponses.length <= 10" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'variable-management.detail.show-complete-distribution-tooltip.' + notAllRowsVisible | translate }}
                     </md-tooltip>
                     <md-icon ng-if="notAllRowsVisible" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
@@ -394,14 +394,14 @@
                         <div class="fdz-overlay-inner-box-top">
                             <md-button ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.generation-details-rule-success-copy-to-clipboard')" class="md-icon-button md-primary" ngclipboard data-clipboard-text="{{variable.generationDetails.rule}}">
                                 <md-icon md-font-library="material-icons">content_copy</md-icon>
-                                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                                <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'variable-management.detail.copy-complete-rule-tooltip' | translate}}
                                 </md-tooltip>
                                 </md-button>
                                 <md-button class="md-icon-button md-primary" ng-click="toggleGenerationCode()">
                                     <md-icon ng-if="generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
                                     <md-icon ng-if="!generationCodeToggleFlag" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
-                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 20">
+                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                         {{'variable-management.detail.show-complete-rule-tooltip.' + generationCodeToggleFlag | translate }}
                                     </md-tooltip>
                                 </md-button>
@@ -451,7 +451,7 @@
     </div>
     <div class="fdz-fab-button-container" layout="column">
       <md-button ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')" class="md-fab md-raised md-accent" ng-click="addToShoppingCart($event)">
-          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'shopping-cart.buttons.add-study-tooltip' | translate}}
           </md-tooltip>
           <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>

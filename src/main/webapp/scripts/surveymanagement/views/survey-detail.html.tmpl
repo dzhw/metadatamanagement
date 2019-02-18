@@ -76,7 +76,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.label.study' | translate }}:
                                 <span display-i18n-string="ctrl.study.title"></span>
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'survey-management.detail.tooltips.studies.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -92,7 +92,7 @@
                               <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                               {{'instrument-management.detail.label.instrument' | translate }}:
                               <span display-i18n-string="ctrl.instrument.description"></span>
-                              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                   {{'survey-management.detail.tooltips.instruments.one' | translate}}
                               </md-tooltip>
                           </a>
@@ -101,7 +101,7 @@
                             <a ui-sref="search({'type': 'instruments', 'survey':ctrl.survey.id, 'study': ctrl.survey.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                                 {{'instrument-management.detail.label.instruments' | translate }}: ({{ctrl.counts.instrumentsCount}})
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'survey-management.detail.tooltips.instruments.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -117,7 +117,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.label.data-set' | translate }}:
                                 <span display-i18n-string="ctrl.dataSet.description"></span>
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'survey-management.detail.tooltips.data-sets.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -126,7 +126,7 @@
                             <a ui-sref="search({'type': 'data_sets', 'survey':ctrl.survey.id, 'study': ctrl.survey.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.label.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'survey-management.detail.tooltips.data-sets.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -141,7 +141,7 @@
                             <a ui-sref="search({'type': 'surveys', 'study':ctrl.survey.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.label.surveys-same-study' | translate }}: ({{ctrl.counts.surveysCount}})
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'survey-management.detail.tooltips.surveys.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -156,7 +156,7 @@
                             <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.label.publication' | translate }}: {{ctrl.relatedPublication.title}}
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'survey-management.detail.tooltips.publications.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -165,7 +165,7 @@
                             <a ui-sref="search({'type': 'related_publications', 'survey': ctrl.survey.id, 'study': ctrl.survey.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.label.publications' | translate }}: ({{ctrl.counts.publicationsCount}})
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'survey-management.detail.tooltips.publications.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -212,7 +212,7 @@
                         <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
                         <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
-                        <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                             {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
                         </md-tooltip></a>&nbsp;</td>
                     </tr>
@@ -231,7 +231,7 @@
                 <md-divider></md-divider>
                 <a ng-href="{{'/public/files/surveys/' + ctrl.survey.id + '/' + ctrl.survey.number + '_responserate_' + currentLanguage}}" target="_blank">
                     <img src="" ngf-src="ctrl.responseRateImage" alt="{{'survey-management.detail.response-rate-information-alt-text' | translate}}" style="width:100%;top:0;left:0;bottom:0;right:0;"/>
-                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'global.tooltips.images' | translate}}
                     </md-tooltip>
                 </a>
@@ -243,13 +243,13 @@
     </div>
     <div class="fdz-fab-button-container" layout="column">
       <md-button ng-if="!ctrl.projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ng-click="ctrl.surveyEdit()">
-          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'search-management.buttons.edit-survey-tooltip' | translate}}
           </md-tooltip>
           <md-icon md-font-set="material-icons">mode_edit</md-icon>
       </md-button>
       <md-button ng-if="!ctrl.isAuthenticated() || ctrl.hasAuthority('ROLE_USER')" class="md-fab md-raised md-accent" ng-click="ctrl.addToShoppingCart($event)">
-          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'shopping-cart.buttons.add-study-tooltip' | translate}}
           </md-tooltip>
           <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
