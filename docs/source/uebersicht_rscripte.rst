@@ -32,7 +32,8 @@
 |                  |                          |                 | Projektnames im                    |
 |                  |                          |                 | Skript                             |
 |                  |                          |                 | Ausführen (Strg                    |
-|                  |                          |                 | + r)                               |
+|                  |                          |                 | + r). Bilder sind nicht mehr       |
+|                  |                          |                 | verpflichtend.                     |
 +------------------+--------------------------+-----------------+------------------------------------+
 | responserateSVG_ | Erstellt für             | Responserate    | für eine                           |
 |                  | alle csv                 | Diagramme für   | Survey muss                        |
