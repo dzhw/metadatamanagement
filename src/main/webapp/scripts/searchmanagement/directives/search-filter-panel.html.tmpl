@@ -21,14 +21,14 @@
     </md-input-container>
     <div flex-gt-sm></div>
     <md-button ng-class="{'md-primary': filtersCollapsed}" ng-show="selectedFilters && selectedFilters.length !== 0" class="md-icon-button" ng-click="filtersCollapsed = !filtersCollapsed" style="margin-right: 0px; margin-top: 16px;">
-      <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+      <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.filter.uncollapse-filters-tooltip.' +  filtersCollapsed | translate}}
       </md-tooltip>
       <md-icon ng-if="filtersCollapsed" md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
       <md-icon ng-if="!filtersCollapsed" md-svg-src="/assets/images/icons/arrow-compress.svg"></md-icon>
     </md-button>
     <md-button ng-show="selectedFilters && selectedFilters.length !== 0" class="md-icon-button" ng-click="selectedFilters = []" style="margin-right: 16px; margin-top: 16px;">
-        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'search-management.filter.clear-filters-tooltip' | translate}}
         </md-tooltip>
         <md-icon md-svg-src="/assets/images/icons/filter-remove.svg"></md-icon>

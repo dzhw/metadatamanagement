@@ -16,7 +16,7 @@
                                 <md-icon>sentiment_very_satisfied</md-icon>
                             </span>
                         </span>
-                    <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.msie || bowser.msedge || bowser.mobile || bowser.tablet ? -100 : 100">{{tab.title+'-tooltip'|translate}}</md-tooltip>
+                    <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.msie || bowser.msedge || bowser.mobile || bowser.tablet ? -100 : 100001">{{tab.title+'-tooltip'|translate}}</md-tooltip>
                 </md-tab-label>
             </md-tab>
         </md-tabs>
@@ -58,57 +58,57 @@
     <div ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="fdz-fab-button-container" layout="column">
         <div layout="row" layout-align="end center">
             <md-button class="md-primary md-fab" ng-click="refresh()">
-                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                     {{'search-management.buttons.refresh-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">refresh</md-icon>
             </md-button>
         </div>
         <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllStudies()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies' && currentProject">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.delete-all-studies-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete_sweep</md-icon>
         </md-button>
         <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllQuestions()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='questions' && currentProject">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.delete-all-questions-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete_sweep</md-icon>
         </md-button>
         <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllVariables()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='variables' && currentProject">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.delete-all-variables-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete_sweep</md-icon>
         </md-button>
         <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllInstruments()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='instruments' && currentProject">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.delete-all-instruments-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete_sweep</md-icon>
         </md-button>
         <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllSurveys()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='surveys' && currentProject">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.delete-all-surveys-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete_sweep</md-icon>
         </md-button>
         <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllDataSets()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_sets' && currentProject">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.delete-all-data-sets-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete_sweep</md-icon>
         </md-button>
         <div ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies'">
             <md-button ng-if="!currentStudy" class="md-fab md-raised md-accent" ng-click="navigateToCreateState('studyCreate')">
-                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                     {{'search-management.buttons.create-study-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">add</md-icon>
             </md-button>
             <md-button ng-if="currentStudy" class="md-fab md-raised md-accent" ui-sref="studyEdit({id: currentStudy.id})">
-                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                     {{'search-management.buttons.edit-study-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">mode_edit</md-icon>
@@ -117,7 +117,7 @@
         <!-- Index 2 = Questions Tab -->
         <md-button aria-label="{{'search-management.buttons.upload-questions' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='questions'" type="file" ngf-select="uploadQuestions($files)" ngf-multiple="true" ngf-select-disabled="!isUploadAllowed('questions')" class="md-accent md-fab fdz-fade-in"
           directory webkitdirectory>
-            <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.upload-questions-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
@@ -125,35 +125,35 @@
 
         <md-button aria-label="{{'search-management.buttons.upload-variables' | translate}}" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='variables'" type="file" ngf-select="uploadVariables($files)" ngf-select-disabled="!isUploadAllowed('variables')" class="md-accent md-fab fdz-fade-in" ngf-multiple="true"
           directory webkitdirectory>
-            <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip ng-hide="!currentProject || currentProject.release" md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.upload-variables-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
         <md-button class="md-fab md-raised md-accent" ng-click="navigateToCreateState('surveyCreate')" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='surveys'">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.create-survey-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
         <md-button class="md-fab md-raised md-accent" ng-click="navigateToCreateState('dataSetCreate')" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_sets'">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.create-data-set-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
         <md-button class="md-fab md-raised md-accent" ng-click="navigateToCreateState('instrumentCreate')" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='instruments'">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.create-instrument-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
         <md-button data-has-authority="ROLE_PUBLISHER" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications'" type="file" ngf-select="uploadRelatedPublications($file)" accept=".xls" class="md-accent md-fab fdz-fade-in">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.upload-related-publications-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>

@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2018, Plotly, Inc.
+* Copyright 2012-2019, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -19,6 +19,7 @@ var svgTextUtils = require('../../lib/svg_text_utils');
 var Color = require('../../components/color');
 var Drawing = require('../../components/drawing');
 var Fx = require('../../components/fx');
+var Axes = require('./axes');
 var setCursor = require('../../lib/setcursor');
 var dragElement = require('../../components/dragelement');
 var FROM_TL = require('../../constants/alignment').FROM_TL;
@@ -27,7 +28,6 @@ var redrawReglTraces = require('../../plot_api/subroutines').redrawReglTraces;
 
 var Plots = require('../plots');
 
-var doTicksSingle = require('./axes').doTicksSingle;
 var getFromId = require('./axis_ids').getFromId;
 var prepSelect = require('./select').prepSelect;
 var clearSelect = require('./select').clearSelect;
@@ -242,12 +242,12 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
             }
         }
         else if(numClicks === 1 && singleEnd) {
-            var ax = ns ? ya0 : xa0,
-                end = (ns === 's' || ew === 'w') ? 0 : 1,
-                attrStr = ax._name + '.range[' + end + ']',
-                initialText = getEndText(ax, end),
-                hAlign = 'left',
-                vAlign = 'middle';
+            var ax = ns ? ya0 : xa0;
+            var end = (ns === 's' || ew === 'w') ? 0 : 1;
+            var attrStr = ax._name + '.range[' + end + ']';
+            var initialText = getEndText(ax, end);
+            var hAlign = 'left';
+            var vAlign = 'middle';
 
             if(ax.fixedrange) return;
 
@@ -271,7 +271,7 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
                     .on('edit', function(text) {
                         var v = ax.d2r(text);
                         if(v !== undefined) {
-                            Registry.call('relayout', gd, attrStr, v);
+                            Registry.call('_guiRelayout', gd, attrStr, v);
                         }
                     });
             }
@@ -316,10 +316,10 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
             return false;
         }
 
-        var x1 = Math.max(0, Math.min(pw, dx0 + x0)),
-            y1 = Math.max(0, Math.min(ph, dy0 + y0)),
-            dx = Math.abs(x1 - x0),
-            dy = Math.abs(y1 - y0);
+        var x1 = Math.max(0, Math.min(pw, dx0 + x0));
+        var y1 = Math.max(0, Math.min(ph, dy0 + y0));
+        var dx = Math.abs(x1 - x0);
+        var dy = Math.abs(y1 - y0);
 
         box.l = Math.min(x0, x1);
         box.r = Math.max(x0, x1);
@@ -417,7 +417,7 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
         // deactivate mousewheel scrolling on embedded graphs
         // devs can override this with layout._enablescrollzoom,
         // but _ ensures this setting won't leave their page
-        if(!gd._context.scrollZoom && !gd._fullLayout._enablescrollzoom) {
+        if(!gd._context._scrollZoom.cartesian && !gd._fullLayout._enablescrollzoom) {
             return;
         }
 
@@ -430,16 +430,7 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
             return;
         }
 
-        var pc = gd.querySelector('.plotly');
-
         recomputeAxisLists();
-
-        // if the plot has scrollbars (more than a tiny excess)
-        // disable scrollzoom too.
-        if(pc.scrollHeight - pc.clientHeight > 10 ||
-                pc.scrollWidth - pc.clientWidth > 10) {
-            return;
-        }
 
         clearTimeout(redrawTimer);
 
@@ -450,18 +441,17 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
             return;
         }
 
-        var zoom = Math.exp(-Math.min(Math.max(wheelDelta, -20), 20) / 200),
-            gbb = mainplot.draglayer.select('.nsewdrag')
-                .node().getBoundingClientRect(),
-            xfrac = (e.clientX - gbb.left) / gbb.width,
-            yfrac = (gbb.bottom - e.clientY) / gbb.height,
-            i;
+        var zoom = Math.exp(-Math.min(Math.max(wheelDelta, -20), 20) / 200);
+        var gbb = mainplot.draglayer.select('.nsewdrag').node().getBoundingClientRect();
+        var xfrac = (e.clientX - gbb.left) / gbb.width;
+        var yfrac = (gbb.bottom - e.clientY) / gbb.height;
+        var i;
 
         function zoomWheelOneAxis(ax, centerFraction, zoom) {
             if(ax.fixedrange) return;
 
-            var axRange = Lib.simpleMap(ax.range, ax.r2l),
-                v0 = axRange[0] + (axRange[1] - axRange[0]) * centerFraction;
+            var axRange = Lib.simpleMap(ax.range, ax.r2l);
+            var v0 = axRange[0] + (axRange[1] - axRange[0]) * centerFraction;
             function doZoom(v) { return ax.l2r(v0 + (v - v0) * zoom); }
             ax.range = axRange.map(doZoom);
         }
@@ -491,7 +481,7 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
 
         // viewbox redraw at first
         updateSubplots(scrollViewBox);
-        ticksAndAnnotations(ns, ew);
+        ticksAndAnnotations();
 
         // then replot after a delay to make sure
         // no more scrolling is coming
@@ -516,11 +506,14 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
             return;
         }
 
+        // prevent axis drawing from monkeying with margins until we're done
+        gd._fullLayout._replotting = true;
+
         if(xActive === 'ew' || yActive === 'ns') {
             if(xActive) dragAxList(xaxes, dx);
             if(yActive) dragAxList(yaxes, dy);
             updateSubplots([xActive ? -dx : 0, yActive ? -dy : 0, pw, ph]);
-            ticksAndAnnotations(yActive, xActive);
+            ticksAndAnnotations();
             return;
         }
 
@@ -530,9 +523,9 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
         // TODO: this makes (generally non-fatal) errors when you get
         // near floating point limits
         function dz(axArray, end, d) {
-            var otherEnd = 1 - end,
-                movedAx,
-                newLinearizedEnd;
+            var otherEnd = 1 - end;
+            var movedAx;
+            var newLinearizedEnd;
             for(var i = 0; i < axArray.length; i++) {
                 var axi = axArray[i];
                 if(axi.fixedrange) continue;
@@ -592,14 +585,14 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
         }
 
         updateSubplots([x0, y0, pw - dx, ph - dy]);
-        ticksAndAnnotations(yActive, xActive);
+        ticksAndAnnotations();
     }
 
     // Draw ticks and annotations (and other components) when ranges change.
     // Also records the ranges that have changed for use by update at the end.
-    function ticksAndAnnotations(ns, ew) {
-        var activeAxIds = [],
-            i;
+    function ticksAndAnnotations() {
+        var activeAxIds = [];
+        var i;
 
         function pushActiveAxIds(axList) {
             for(i = 0; i < axList.length; i++) {
@@ -619,39 +612,21 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
         updates = {};
         for(i = 0; i < activeAxIds.length; i++) {
             var axId = activeAxIds[i];
-            doTicksSingle(gd, axId, true);
             var ax = getFromId(gd, axId);
+            Axes.drawOne(gd, ax, {skipTitle: true});
             updates[ax._name + '.range[0]'] = ax.range[0];
             updates[ax._name + '.range[1]'] = ax.range[1];
         }
 
-        function redrawObjs(objArray, method, shortCircuit) {
-            for(i = 0; i < objArray.length; i++) {
-                var obji = objArray[i];
-
-                if((ew && activeAxIds.indexOf(obji.xref) !== -1) ||
-                    (ns && activeAxIds.indexOf(obji.yref) !== -1)) {
-                    method(gd, i);
-                    // once is enough for images (which doesn't use the `i` arg anyway)
-                    if(shortCircuit) return;
-                }
-            }
-        }
-
-        // annotations and shapes 'draw' method is slow,
-        // use the finer-grained 'drawOne' method instead
-
-        redrawObjs(gd._fullLayout.annotations || [], Registry.getComponentMethod('annotations', 'drawOne'));
-        redrawObjs(gd._fullLayout.shapes || [], Registry.getComponentMethod('shapes', 'drawOne'));
-        redrawObjs(gd._fullLayout.images || [], Registry.getComponentMethod('images', 'draw'), true);
+        Axes.redrawComponents(gd, activeAxIds);
     }
 
     function doubleClick() {
         if(gd._transitioningWithDuration) return;
 
-        var doubleClickConfig = gd._context.doubleClick,
-            axList = (xActive ? xaxes : []).concat(yActive ? yaxes : []),
-            attrs = {};
+        var doubleClickConfig = gd._context.doubleClick;
+        var axList = (xActive ? xaxes : []).concat(yActive ? yaxes : []);
+        var attrs = {};
 
         var ax, i, rangeInitial;
 
@@ -700,19 +675,20 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
             for(i = 0; i < axList.length; i++) {
                 ax = axList[i];
 
-                if(!ax._rangeInitial) {
-                    attrs[ax._name + '.autorange'] = true;
-                }
-                else {
-                    rangeInitial = ax._rangeInitial;
-                    attrs[ax._name + '.range[0]'] = rangeInitial[0];
-                    attrs[ax._name + '.range[1]'] = rangeInitial[1];
+                if(!ax.fixedrange) {
+                    if(!ax._rangeInitial) {
+                        attrs[ax._name + '.autorange'] = true;
+                    } else {
+                        rangeInitial = ax._rangeInitial;
+                        attrs[ax._name + '.range[0]'] = rangeInitial[0];
+                        attrs[ax._name + '.range[1]'] = rangeInitial[1];
+                    }
                 }
             }
         }
 
         gd.emit('plotly_doubleclick', null);
-        Registry.call('relayout', gd, attrs);
+        Registry.call('_guiRelayout', gd, attrs);
     }
 
     // dragTail - finish a drag event with a redraw
@@ -726,7 +702,10 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
         // accumulated MathJax promises - wait for them before we relayout.
         Lib.syncOrAsync([
             Plots.previousPromises,
-            function() { Registry.call('relayout', gd, updates); }
+            function() {
+                gd._fullLayout._replotting = false;
+                Registry.call('_guiRelayout', gd, updates);
+            }
         ], gd);
     }
 
@@ -897,9 +876,9 @@ function isDirectionActive(axList, activeVal) {
 }
 
 function getEndText(ax, end) {
-    var initialVal = ax.range[end],
-        diff = Math.abs(initialVal - ax.range[1 - end]),
-        dig;
+    var initialVal = ax.range[end];
+    var diff = Math.abs(initialVal - ax.range[1 - end]);
+    var dig;
 
     // TODO: this should basically be ax.r2d but we're doing extra
     // rounding here... can we clean up at all?

@@ -214,7 +214,7 @@
             <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
                 <div id="move-container" layout="row" ng-repeat="person in ctrl.study.authors track by $index">
                     <md-button ng-if="ctrl.study.authors.length > 1" class="md-primary md-icon-button" ng-click="ctrl.deleteAuthor($index)" style="margin-top: 18px; margin-left: 0px; margin-right: 0px;">
-                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                             {{'study-management.edit.delete-author-tooltip' | translate}}
                         </md-tooltip>
                         <md-icon md-font-set="material-icons">delete_forever</md-icon>
@@ -247,19 +247,19 @@
             </md-card-content>
             <md-card-actions style="margin-top: 0px; margin-bottom: 12px;" layout="row" layout-align="begin center">
                 <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAuthor()" style="margin-left: 6px;">
-                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'study-management.edit.add-author-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">add</md-icon>
                 </md-button>
                 <md-button id="move-author-up-button" ng-disabled="ctrl.currentAuthorIndex == null || ctrl.currentAuthorIndex === 0" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveCurrentAuthorUp()">
-                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'study-management.edit.move-author-up-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
                 </md-button>
                 <md-button id="move-author-down-button" ng-disabled="ctrl.currentAuthorIndex == null || ctrl.currentAuthorIndex === ctrl.study.authors.length - 1" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveCurrentAuthorDown()">
-                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'study-management.edit.move-author-down-tooltip' | translate}}
                     </md-tooltip>
                     <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
@@ -318,7 +318,7 @@
                 <td class="fdz-table-nowrap" style="padding-right: 0px;">
                     <md-radio-group ng-model="ctrl.currentAttachmentIndex" class="md-primary">
                         <md-radio-button ng-value="$index" style="margin-bottom: 0px;">
-                            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                 {{'study-management.detail.attachments.select-attachment-tooltip' | translate:translationParams }}
                             </md-tooltip>
                         </md-radio-button>
@@ -326,7 +326,7 @@
                 </td>
                 <td class="fdz-table-nowrap" style="padding: 0px;">
                     <md-button class="md-primary md-icon-button" ng-click="ctrl.editAttachment(row, $event)" style="margin: 0px;">
-                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                             {{'study-management.detail.attachments.edit-attachment-tooltip' | translate:translationParams }}
                         </md-tooltip>
                         <md-icon md-font-set="material-icons">mode_edit</md-icon>
@@ -334,7 +334,7 @@
                 </td>
                 <td class="fdz-table-nowrap" style="padding: 0px;">
                     <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteAttachment(row, $index)" style="margin: 0px;">
-                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                             {{'study-management.detail.attachments.delete-attachment-tooltip' | translate:translationParams }}
                         </md-tooltip>
                         <md-icon md-font-set="material-icons">delete_forever</md-icon>
@@ -344,7 +344,7 @@
                 <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                 <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
                 <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
-                <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">{{'global.tooltips.files.download' | translate: {filename: row.fileName} }}</md-tooltip></a>&nbsp;</td>
+                <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">{{'global.tooltips.files.download' | translate: {filename: row.fileName} }}</md-tooltip></a>&nbsp;</td>
             </tr>
         </tbody>
     </table>
@@ -354,25 +354,25 @@
     </md-card-content>
     <md-card-actions ng-if="!ctrl.createMode" style="margin-top: 12px; margin-bottom: 12px;" layout="row" layout-align="begin center">
         <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAttachment($event)" style="margin-left: 6px;">
-            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'study-management.detail.attachments.add-attachment-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
         <md-button ng-disabled="ctrl.currentAttachmentIndex == null || ctrl.currentAttachmentIndex === 0" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveAttachmentUp()">
-            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'study-management.detail.attachments.move-attachment-up-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
         </md-button>
         <md-button ng-disabled="ctrl.currentAttachmentIndex == null || ctrl.currentAttachmentIndex === ctrl.attachments.length - 1" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveAttachmentDown()">
-            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'study-management.detail.attachments.move-attachment-down-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
         </md-button>
         <md-button ng-disabled="!ctrl.attachmentOrderIsDirty" class="md-accent md-raised md-icon-button" ng-click="ctrl.saveAttachmentOrder()">
-            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'study-management.detail.attachments.save-attachment-order-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">save</md-icon>
@@ -381,13 +381,13 @@
 </md-card>
 <div ng-if="ctrl.study.id" class="fdz-fab-button-container" layout="column">
     <md-button class="md-fab md-raised md-primary" ng-click="ctrl.openRestorePreviousVersionDialog($event)" ng-disabled="ctrl.createMode">
-        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'study-management.edit.open-choose-previous-version-tooltip' | translate}}
         </md-tooltip>
         <md-icon md-font-set="material-icons">undo</md-icon>
     </md-button>
     <md-button class="md-fab md-raised md-accent" type="submit" ng-click="ctrl.saveStudy()" ng-disabled="!studyForm.$dirty">
-        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'study-management.edit.save-tooltip' | translate}}
         </md-tooltip>
         <md-icon md-font-set="material-icons">save</md-icon>

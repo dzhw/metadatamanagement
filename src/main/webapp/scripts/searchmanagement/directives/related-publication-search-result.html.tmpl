@@ -19,7 +19,7 @@
         <md-card-content>
             <div lang="{{searchResult.language}}" class="fdz-text-block" fdz-hyphenate>{{searchResult.sourceReference | limitTo: 256}}{{searchResult.sourceReference.length > 256 ? '...' : ''}}</div>
         </md-card-content>
-        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'search-management.cards.publication-tooltip' | translate: {id:searchResult.id} }}
         </md-tooltip>
     </a>

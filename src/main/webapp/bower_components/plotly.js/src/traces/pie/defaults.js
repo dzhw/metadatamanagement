@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2018, Plotly, Inc.
+* Copyright 2012-2019, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -51,12 +51,13 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     var textData = coerce('text');
     var textInfo = coerce('textinfo', Array.isArray(textData) ? 'text+percent' : 'percent');
     coerce('hovertext');
+    coerce('hovertemplate');
 
     if(textInfo && textInfo !== 'none') {
-        var textPosition = coerce('textposition'),
-            hasBoth = Array.isArray(textPosition) || textPosition === 'auto',
-            hasInside = hasBoth || textPosition === 'inside',
-            hasOutside = hasBoth || textPosition === 'outside';
+        var textPosition = coerce('textposition');
+        var hasBoth = Array.isArray(textPosition) || textPosition === 'auto';
+        var hasInside = hasBoth || textPosition === 'inside';
+        var hasOutside = hasBoth || textPosition === 'outside';
 
         if(hasInside || hasOutside) {
             var dfltFont = coerceFont(coerce, 'textfont', layout.font);
@@ -76,11 +77,11 @@ module.exports = function supplyDefaults(traceIn, traceOut, defaultColor, layout
     handleDomainDefaults(traceOut, layout, coerce);
 
     var hole = coerce('hole');
-    var title = coerce('title');
+    var title = coerce('title.text');
     if(title) {
-        var titlePosition = coerce('titleposition', hole ? 'middle center' : 'top center');
-        if(!hole && titlePosition === 'middle center') traceOut.titleposition = 'top center';
-        coerceFont(coerce, 'titlefont', layout.font);
+        var titlePosition = coerce('title.position', hole ? 'middle center' : 'top center');
+        if(!hole && titlePosition === 'middle center') traceOut.title.position = 'top center';
+        coerceFont(coerce, 'title.font', layout.font);
     }
 
     coerce('sort');

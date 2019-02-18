@@ -10,6 +10,173 @@ https://github.com/plotly/plotly.js/compare/vX.Y.Z...master
 where X.Y.Z is the semver of most recent plotly.js release.
 
 
+## [1.44.3] -- 2019-02-06
+
+### Fixed
+- Fix axis `automargin` push offset which resulted in clipped
+  tick labels in some scenarios [#3510]
+- Fix handling of alpha channel in marker, line and error bar `rgba`
+  coloring in `scatter3d` traces [#3496]
+- Fix subplots with multiple `carpet` traces each with a `scattercarpet`
+  trace on top of them [#3512]
+- Fix MathJax placement in ternary `aaxis` titles [#3513]
+
+
+## [1.44.2] -- 2019-02-04
+
+### Fixed
+- Fix vertical modebars in IE11 [@3491]
+- Fix `hovertemplate` for traces with blank `name` [#3480]
+- Fix 3D grid lines and tick labels colored by rgba color
+  with full transparency [#3494]
+- Fix white highlights rendering problems for `mesh3d` trace on
+  some devices (bug introduced in 1.44.0) [#3483]
+- Fix `fill.color` description for `table` traces [#3481]
+
+
+## [1.44.1] -- 2019-01-24
+
+### Fixed
+- Fix `mesh3d` rendering on (some) mobile devices (bug introduced in 1.44.0) [#3463]
+- Fix scene camera update when changing to `turntable` mode when `up.z` is zero
+  (bug introduced in 1.43.0) [#3465, #3475]
+- Fix `react` when cartesian axis `scaleanchor` patterns change [#3461]
+- Fix "days" entries in polish (`pl`) locales [#3464]
+- Remove inner function declarations in our `vectorize-text` that caused
+  bundling errors for some (bug introduced in 1.43.0) [#3474]
+
+
+## [1.44.0] -- 2019-01-22
+
+### Added
+- Add `isosurface` gl3d trace type [#3438]
+- Add support for transitions from `Plotly.react` via new layout
+ `transition` attribute [#3217]
+- Add `meta` layout attribute, intended for making references
+  to strings in text templates [#3439]
+- Add support for `line.color` colorbars for `scatter3d` traces [#3384]
+- Add support for `hovertemplate` on `scatterpolar`, `scatterpolargl`,
+  `scatterternary`, `barpolar`, `choropleth`, `scattergeo` and
+  `scattermapbox` trace [#3398, #3436]
+- Add `width` attribute to `box` and `violin` traces [#3234]
+- Add support for `<sup>`, `<sup>`, `<b>`, `<i>` and `<em>` pseudo-html
+  tags in extra (aka trace "name") hover labels [#3443]
+- Add support for div id as 1st arg to `Plotly.makeTemplate` [#3375]
+- Add `config` option in plot-schema JSON output [#3376]
+
+### Changed
+- Config option `scrollZoom` is now a flaglist (instead of a boolean),
+  each flag corresponding to subplot types where scroll is to be enabled [#3422]
+- Use `glslify@7.0.0` across all our dependencies [#3421]
+
+### Fixed
+- Fix `error_(x|y|z)` color attribute inheritance [#3408]
+- Fix `scrollZoom: false` config behavior for `geo`, `gl3d` and `mapbox` subplots [#3422]
+- Fix cartesian scroll zoom when `responsive` config option is turned on [#3424]
+- Fix cartesian scroll zoom when the page where the graph is embedded is scrollable [#3424]
+- Fix `box` / `violin` autorange edge cases [#3234]
+- Fix `box` / `violin` points hover labels on numeric positions [#3441, #3458]
+- Fix `box` / `violin` grouping algorithm for subplots with as many distinct positions
+  as the number of traces [#3445]
+- Fix bar autorange calculations for trace with `base` above zero [#3452]
+- Fix bar + errorbar autorange calculations [#3452]
+- Fix `lightposition` behavior for `mesh3d` traces [#3415]
+- Fix legend `valign` behavior for `pie` traces [#3435]
+- Fix wrapped horizontal legends height edge cases [#3446]
+- Fix hover label alignment for hover labels with multi-line extra (aka trace "name") labels [#3443]
+- Fix cartesian axis domain lower limit [#3404]
+- Fix dynamic imports of `lib/` trace modules [#3448]
+- Fix `scl` and `reversescl` backward-compatible logic [#3423]
+- Fix range slider `borderwidth` attribute description [#3453]
+
+
+## [1.43.2] -- 2019-01-08
+
+First 2019 release.
+
+### Fixed
+- Fix `uirevision` behavior for `gl3d`, `geo` and `mapbox` subplots [#3394]
+- Fix `reversescale` behavior for `surface`, `mesh3d` and `streamtube`
+  traces (bug introduced in 1.43.0) [#3418]
+- Fix modebar hover styling (bug introduced in 1.43.0) [#3397]
+- Fix horizontal `box` / `violin` hover label misalignment under
+  `hovermode:'closest'` [#3401]
+- Fix `ohlc` and `candlestick` hover for traces with empty items [#3366]
+- Fix `surface` trace `visible` logic [#3365]
+- Fix `mesh3d` trace `visible` logic [#3369]
+
+
+## [1.43.1] -- 2018-12-21
+
+### Fixed
+- Fix z-axis auto-type for cartesian + gl3d graphs (bug introduced in 1.43.0) [#3360]
+- Fix `multicategory` axis coordinate sorting [#3362]
+- Fix `multicategory` y-axes clearance [#3354]
+- Fix contour label clipPath segments for reversed axes [#3352]
+- Fix axis autorange on double-click on graph `fixedrange:true` [#3351]
+
+
+## [1.43.0] -- 2018-12-19
+
+### Added
+- Add `hovertemplate` attribute to `scatter`, `scattergl`, `bar`, `histogram`,
+  `pie` and `sankey` traces [#3126, #3265, #3284]
+- Add `layout.title` placement attributes `x`, `y`, `xref`, `yref`,
+  `xanchor`, `yanchor` and `pad` [#3276]
+- Add support for `<br>`, `<sup>`, and `<sub>` pseudo-html in `scatter3d` and `gl3d`
+  scene text [#3207]
+- Add `multicategory` axis type, allowing for "multi-level" categorical axis labels
+  and category dividers with axis attributes: `showdividers`,
+  `dividercolor` and `diverwidth` [#3254, #3300, #3326]
+- Add cartesian axis attribute `tickson` with value '`boundaries`' to
+  place categorical ticks on the category boundaries [#3254, #3275]
+- Add `uirevision` attributes to control the persistence of user-driven changes
+  on the graph [#3236]
+- Add `legend.valign` to set the vertical alignment of the legend symbols
+  with respect to their associated text labels [#3263]
+- Implement `arrayOk` `textposition` for `scatter3d` traces [#3200]
+- Add layout attributes `colorscale.sequential`, `colorscale.sequentialminus` and
+ `colorscale.diverging` to set graph-wide colorscale defaults [#3274]
+- Add `dragmode: false` to disable all drag interactions on cartesian subplots [#3170]
+- Add `plotly.js-locales` npm packages that includes all official locales modules [#3223]
+- Add `watermark` config option to permanently show Plotly's logo
+  in the mode bar (set to false by default) [#3280]
+- Add Finnish locale (`fi`) [#3325]
+
+### Changed
+- Remove "Edit in Chart Studio" button by default [#3307]
+- `title` attributes linked to strings are now deprecated. Please use
+  `title.text` instead to fill in your title text [#3276]
+- `title*` attributes are new deprecated. They moved to `title.*`. For
+  example, `colorbar.titleside` is now `colorbar.title.side` [#3276]
+- No longer mutate `colorscale` values into user data [#3341]
+- No longer mutate `zmin`/`zmax`, `cmin`/`cmax` values into user data [#3341]
+
+### Fixed
+- Fix `react` when updates trigger a new set of auto-margins [#3323]
+- Fix `scattergl` coloring when more than 255 marker colors are present [#3328, #3334]
+- More `scattergl` IE11 fixes [#3333, #3335]
+- Multiple `surface` rendering fixes [#3281]
+- Correctly default `scene.dragmode` to `'orbit'` when camera up vector is
+  tilted [#3256]
+- Fix hover on `scatter3d` traces with `opacity: 1` on Ubuntu [#3301]
+- Fix console error _Uncaught ax.dtick error: NaN_ in gl3d subplots [#3233]
+- Fix histogram hover event triggers when hovering from bar to bar [#3345]
+- Fix graphs with empty and non-empty histogram traces [#3343]
+- Fix contour labels on reversed axes [#3279]
+- Fix `autocolorscale` toggling [#3341]
+- Fix template support for `marker.colorscale` [#3341]
+- Fix `scatter3D` trace with `mode: 'lines+markers'` with line color array error [#3341]
+- Do not add `<base>` href to SVG clip paths during toImage [#3272]
+- Fix table scrolling that leaked into window scope [#3327]
+- Fix fills on segment-less marker-less traces [#3282]
+- Fix rangesliders on reversed-range axes [#3304]
+- Fix rangesliders on `side: 'top'`x-axes [#3329]
+- Fix typed array support for `ohlc` and `candlestick` traces [#3342]
+- Fix `restyle` with `impliedEdits` on trace with `groupby` transforms [#3236]
+- Fix `editable: true` drag on `marker` colorbars [#3236]
+
+
 ## [1.42.5] -- 2018-11-08
 
 ### Fixed

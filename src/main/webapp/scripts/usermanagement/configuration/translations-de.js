@@ -39,7 +39,10 @@ angular.module('metadatamanagementApp').config(
             },
             'password': {
               'not-null': 'Der Passwort darf nicht leer sein!'
-            }
+            },
+            'must-not-be-deactivated': 'Der Benutzer kann nicht deaktivert werden, weil er noch folgenden Projekten zugewiesen ist: {{ projectIds }}',
+            'must-not-loose-publisher-role': 'Dem Benutzer kann die Rolle "Publisher" nicht entzogen werden, weil er noch folgenden Projekten als Publisher zugewiesen ist: {{ projectIds }}',
+            'must-not-loose-data-provider-role': 'Dem Benutzer kann die Rolle "Datengeber" nicht entzogen werden, weil er noch folgenden Projekten als Datengeber zugewiesen ist: {{ projectIds }}'
           }
         },
         'activate': {

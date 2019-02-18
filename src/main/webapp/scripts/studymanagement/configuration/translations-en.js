@@ -300,7 +300,7 @@ angular.module('metadatamanagementApp').config(
               'last-name': 'Enter the last name of this project member.'
             }
           },
-          'all-studies-deleted-toast': 'All Studies of the Data Acquisition Project "{{id}}" have been deleted.'
+          'all-studies-deleted-toast': 'The study of Data Acquisition Project "{{id}}" has been deleted.'
         }
       }
       //jscs:enable

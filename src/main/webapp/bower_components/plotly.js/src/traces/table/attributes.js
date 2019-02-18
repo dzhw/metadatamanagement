@@ -1,5 +1,5 @@
 /**
-* Copyright 2012-2018, Plotly, Inc.
+* Copyright 2012-2019, Plotly, Inc.
 * All rights reserved.
 *
 * This source code is licensed under the MIT license found in the
@@ -110,7 +110,7 @@ var attrs = module.exports = overrideAll({
                 role: 'style',
                 description: [
                     'Sets the cell fill color. It accepts either a specific color',
-                    ' or an array of colors.'
+                    ' or an array of colors or a 2D array of colors.'
                 ].join('')
             }
         },
@@ -190,7 +190,7 @@ var attrs = module.exports = overrideAll({
                 dflt: 'white',
                 description: [
                     'Sets the cell fill color. It accepts either a specific color',
-                    ' or an array of colors.'
+                    ' or an array of colors or a 2D array of colors.'
                 ].join('')
             }
         },

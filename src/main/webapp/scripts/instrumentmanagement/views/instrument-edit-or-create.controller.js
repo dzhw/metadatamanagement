@@ -69,16 +69,6 @@ angular.module('metadatamanagementApp')
         redirectToSearchView();
       };
 
-      var handleUserNotInAssigneeGroup = function() {
-        SimpleMessageToastService.openAlertMessageToast(
-          'global.error.client-error.not-in-assignee-group');
-        redirectToSearchView();
-      };
-
-      var handlePrerequisitesMissing = function() {
-        redirectToSearchView();
-      };
-
       ctrl.initSurveyChips = function() {
         ctrl.surveyChips = [];
         ctrl.instrument.surveyNumbers.forEach(
@@ -105,12 +95,12 @@ angular.module('metadatamanagementApp')
                 if (project.release != null) {
                   handleReleasedProject();
                 } else if (!ProjectUpdateAccessService
-                  .isUpdateAllowed(project, 'instruments')) {
-                  handleUserNotInAssigneeGroup();
+                  .isUpdateAllowed(project, 'instruments', true)) {
+                  redirectToSearchView();
                 } else {
                   ProjectUpdateAccessService.isPrerequisiteFulfilled(
                     project, 'instruments'
-                  ).catch(handlePrerequisitesMissing);
+                  ).catch(redirectToSearchView);
 
                   ctrl.instrument = instrument;
                   ctrl.initSurveyChips();
@@ -123,14 +113,19 @@ angular.module('metadatamanagementApp')
           } else {
             if (CurrentProjectService.getCurrentProject() &&
             !CurrentProjectService.getCurrentProject().release) {
-              ProjectUpdateAccessService.isPrerequisiteFulfilled(
-                CurrentProjectService.getCurrentProject(), 'instruments'
-              ).catch(handlePrerequisitesMissing);
+              if (!ProjectUpdateAccessService
+                .isUpdateAllowed(CurrentProjectService.getCurrentProject(),
+                  'instruments', true)) {
+                redirectToSearchView();
+              } else {
+                ProjectUpdateAccessService.isPrerequisiteFulfilled(
+                  CurrentProjectService.getCurrentProject(), 'instruments'
+                ).catch(redirectToSearchView);
 
-              ctrl.createMode = true;
-              AvailableInstrumentNumbersResource.get({
-                id: CurrentProjectService.getCurrentProject().id
-              }).$promise.then(
+                ctrl.createMode = true;
+                AvailableInstrumentNumbersResource.get({
+                  id: CurrentProjectService.getCurrentProject().id
+                }).$promise.then(
                   function(instrumentNumbers) {
                     if (instrumentNumbers.length === 1) {
                       ctrl.instrument = new InstrumentResource({
@@ -149,34 +144,35 @@ angular.module('metadatamanagementApp')
                       $scope.registerConfirmOnDirtyHook();
                     } else {
                       $mdDialog.show({
-                          controller: 'ChooseInstrumentNumberController',
-                          templateUrl: 'scripts/instrumentmanagement/' +
-                            'views/choose-instrument-number.html.tmpl',
-                          clickOutsideToClose: false,
-                          fullscreen: true,
-                          locals: {
-                            availableInstrumentNumbers: instrumentNumbers
-                          }
-                        })
-                        .then(function(response) {
-                          ctrl.instrument = new InstrumentResource({
-                            id: InstrumentIdBuilderService.buildInstrumentId(
-                              CurrentProjectService.getCurrentProject().id,
-                              response.instrumentNumber
-                            ),
-                            number: response.instrumentNumber,
-                            dataAcquisitionProjectId:
+                        controller: 'ChooseInstrumentNumberController',
+                        templateUrl: 'scripts/instrumentmanagement/' +
+                        'views/choose-instrument-number.html.tmpl',
+                        clickOutsideToClose: false,
+                        fullscreen: true,
+                        locals: {
+                          availableInstrumentNumbers: instrumentNumbers
+                        }
+                      })
+                      .then(function(response) {
+                        ctrl.instrument = new InstrumentResource({
+                          id: InstrumentIdBuilderService.buildInstrumentId(
                             CurrentProjectService.getCurrentProject().id,
-                            studyId: StudyIdBuilderService.buildStudyId(
-                              CurrentProjectService.getCurrentProject().id
-                            )
-                          });
-                          $scope.responseRateInitializing = true;
-                          updateToolbarHeaderAndPageTitle();
-                          $scope.registerConfirmOnDirtyHook();
+                            response.instrumentNumber
+                          ),
+                          number: response.instrumentNumber,
+                          dataAcquisitionProjectId:
+                          CurrentProjectService.getCurrentProject().id,
+                          studyId: StudyIdBuilderService.buildStudyId(
+                            CurrentProjectService.getCurrentProject().id
+                          )
                         });
+                        $scope.responseRateInitializing = true;
+                        updateToolbarHeaderAndPageTitle();
+                        $scope.registerConfirmOnDirtyHook();
+                      });
                     }
                   });
+              }
             } else {
               handleReleasedProject();
             }

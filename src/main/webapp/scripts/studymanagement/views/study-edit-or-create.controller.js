@@ -57,28 +57,22 @@ angular.module('metadatamanagementApp')
         redirectToSearchView();
       };
 
-      var handleUserNotInAssigneeGroup = function() {
-        SimpleMessageToastService.openAlertMessageToast(
-          'global.error.client-error.not-in-assignee-group');
-        redirectToSearchView();
-      };
-
       var initEditMode = function(study) {
         ctrl.createMode = false;
+        ctrl.isInitializingStudySeries = true;
         DataAcquisitionProjectResource.get({
           id: study.dataAcquisitionProjectId
         }).$promise.then(function(project) {
           if (project.release != null) {
             handleReleasedProject();
           } else if (!ProjectUpdateAccessService
-              .isUpdateAllowed(project, 'studies')) {
-            handleUserNotInAssigneeGroup();
+              .isUpdateAllowed(project, 'studies', true)) {
+            redirectToSearchView();
           } else {
             ctrl.study = study;
             ctrl.currentStudySeries = study.studySeries;
             ctrl.currentInstitution = study.institution;
             ctrl.currentSponsor = study.sponsor;
-            ctrl.isInitializingStudySeries = true;
             ctrl.loadAttachments();
             updateToolbarHeaderAndPageTitle();
             $scope.registerConfirmOnDirtyHook();
@@ -96,27 +90,34 @@ angular.module('metadatamanagementApp')
           } else {
             if (CurrentProjectService.getCurrentProject() &&
               !CurrentProjectService.getCurrentProject().release) {
-              StudyResource.get({
-                id: StudyIdBuilderService.buildStudyId(
-                  CurrentProjectService.getCurrentProject().id)
-              }).$promise.then(function(study) {
-                initEditMode(study);
-              }).catch(function() {
-                ctrl.createMode = true;
-                ctrl.study = new StudyResource({
+              if (!ProjectUpdateAccessService
+                   .isUpdateAllowed(CurrentProjectService.getCurrentProject(),
+                    'studies', true)) {
+                redirectToSearchView();
+              } else {
+                StudyResource.get({
                   id: StudyIdBuilderService.buildStudyId(
-                    CurrentProjectService.getCurrentProject().id),
-                  dataAcquisitionProjectId: CurrentProjectService
-                    .getCurrentProject()
-                    .id,
-                  authors: [{
-                    firstName: '',
-                    lastName: ''
-                  }]
-                });
-                updateToolbarHeaderAndPageTitle();
-                $scope.registerConfirmOnDirtyHook();
-              });
+                    CurrentProjectService.getCurrentProject().id)
+                }).$promise.then(function(study) {
+                  initEditMode(study);
+                }).catch(function() {
+                    ctrl.isInitializingStudySeries = true;
+                    ctrl.createMode = true;
+                    ctrl.study = new StudyResource({
+                      id: StudyIdBuilderService.buildStudyId(
+                        CurrentProjectService.getCurrentProject().id),
+                      dataAcquisitionProjectId: CurrentProjectService
+                      .getCurrentProject()
+                      .id,
+                      authors: [{
+                        firstName: '',
+                        lastName: ''
+                      }]
+                    });
+                    updateToolbarHeaderAndPageTitle();
+                    $scope.registerConfirmOnDirtyHook();
+                  });
+              }
             } else {
               handleReleasedProject();
             }
@@ -508,4 +509,3 @@ angular.module('metadatamanagementApp')
 
       init();
     });
-

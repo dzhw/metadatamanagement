@@ -52,7 +52,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.label.study' | translate }}:
                                 <span display-i18n-string="ctrl.study.title"></span>
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'data-set-management.detail.tooltips.studies.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -68,7 +68,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.label.survey' | translate }}:
                                 <span display-i18n-string="ctrl.survey.title"></span>
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'data-set-management.detail.tooltips.surveys.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -77,7 +77,7 @@
                             <a ui-sref="search({'type': 'surveys', 'data-set': ctrl.dataSet.id, 'study': ctrl.dataSet.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.label.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'data-set-management.detail.tooltips.surveys.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -93,7 +93,7 @@
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.label.variable' | translate }}:
                                 <span display-i18n-string="ctrl.variable.label"></span>
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'data-set-management.detail.tooltips.variables.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -102,7 +102,7 @@
                             <a ui-sref="search({'type': 'variables', 'data-set': ctrl.dataSet.id, 'study': ctrl.dataSet.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.label.variables' | translate }}: ({{ctrl.counts.variablesCount| number: 0}})
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'data-set-management.detail.tooltips.variables.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -117,7 +117,7 @@
                             <a ui-sref="search({'type': 'data_sets', 'study':ctrl.dataSet.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.label.data-set-same-study' | translate }}: ({{ctrl.counts.dataSetsCount}})
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'data-set-management.detail.tooltips.data-sets.same-data-sets' | translate}}
                                 </md-tooltip>
                             </a>
@@ -132,7 +132,7 @@
                             <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.label.publication' | translate }}: {{ctrl.relatedPublication.title}}
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'data-set-management.detail.tooltips.publications.one' | translate}}
                                 </md-tooltip>
                             </a>
@@ -141,7 +141,7 @@
                             <a ui-sref="search({'type': 'related_publications', 'data-set':ctrl.dataSet.id, 'study': ctrl.dataSet.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                                 {{'related-publication-management.detail.label.publications' | translate }}: ({{ctrl.counts.publicationsCount}})
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'data-set-management.detail.tooltips.publications.many' | translate}}
                                 </md-tooltip>
                             </a>
@@ -212,7 +212,7 @@
                             <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable">
                                 <a ui-sref="variableDetail({'id': ctrl.variable.id})">
                                     {{ctrl.counts.variablesCount}}
-                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                         {{'data-set-management.detail.tooltips.variables.one' | translate}}
                                     </md-tooltip>
                                 </a>
@@ -220,7 +220,7 @@
                             <div ng-if="ctrl.counts.variablesCount > 1">
                                 <a ui-sref="search({'type': 'variables', 'data-set': ctrl.dataSet.id, 'study': ctrl.dataSet.studyId})">
                                     {{ctrl.counts.variablesCount| number: 0}}
-                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                         {{'data-set-management.detail.tooltips.variables.many' | translate}}
                                     </md-tooltip>
                                 </a>
@@ -228,7 +228,7 @@
                         </td>
                         <td ng-class="{'fdz-table-number' : ctrl.counts[row.name] > 0}"><span ng-if="ctrl.counts[row.name] == 0">{{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}</span>
                             <a ng-if="ctrl.counts[row.name] > 0" ui-sref="search({'type': 'variables', 'data-set':ctrl.dataSet.id, 'study': ctrl.dataSet.studyId, 'access-way': row.accessWay})">
-                                {{ctrl.counts[row.name] | number: 0}}&nbsp;<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                {{ctrl.counts[row.name] | number: 0}}&nbsp;<md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'data-set-management.detail.label.sub-data-sets.numberOfAnalyzedVariables-tooltip' | translate}}
                                 </md-tooltip></a>
                         </td>
@@ -236,7 +236,7 @@
                         <td style="padding-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
                             <md-button class="md-icon-button md-primary" ng-click="ctrl.openDialog(row, $event)" ng-disabled="!row.citationHint">
                                 <md-icon md-svg-icon="assets/images/icons/citate.svg"></md-icon>
-                                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'data-set-management.detail.label.sub-data-sets.citate-tooltipp'|translate}}
                                 </md-tooltip>
                             </md-button>
@@ -285,7 +285,7 @@
                         <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
                         <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
-                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'global.tooltips.files.download' | translate:{filename: row.fileName} }}
                                 </md-tooltip>
                             </a>&nbsp;</td>
@@ -296,19 +296,19 @@
     </div>
     <div class="fdz-fab-button-container" layout="column">
         <md-button ng-if="ctrl.isAuthenticated() && ctrl.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])" type="file" ngf-select="ctrl.uploadTexTemplate($files)" ngf-multiple="true" directory webkitdirectory class="md-accent md-fab">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'data-set-management.detail.generate-variable-report-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">note_add</md-icon>
         </md-button>
         <md-button ng-if="!ctrl.projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-fab md-raised md-accent" ng-click="ctrl.dataSetEdit()">
-          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'search-management.buttons.edit-data-set-tooltip' | translate}}
           </md-tooltip>
           <md-icon md-font-set="material-icons">mode_edit</md-icon>
         </md-button>
         <md-button ng-if="!ctrl.isAuthenticated() || ctrl.hasAuthority('ROLE_USER')" class="md-fab md-raised md-accent" ng-click="ctrl.addToShoppingCart($event)">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'shopping-cart.buttons.add-study-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
