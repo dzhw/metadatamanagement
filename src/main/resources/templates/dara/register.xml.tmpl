@@ -1,179 +1,187 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
-    <resourceType>${resourceType}</resourceType>
-    <resourceIdentifier>
-        <identifier>dzhw:${study.dataAcquisitionProjectId}:1.0.0</identifier>
-        <currentVersion>${dataAcquisitionProject.release.version}</currentVersion>
-    </resourceIdentifier>
-    <titles>
-        <title>
-            <language>de</language>
-            <titleName>${study.title.de}</titleName>
-        </title>
-        <title>
-            <language>en</language>
-            <titleName>${study.title.en}</titleName>
-        </title>
-    </titles>
-    <creators>
-        <#list study.authors as author>
-        <creator>
-            <person>
-                <firstName>${author.firstName}</firstName>
-                <#if author.middleName??>
-                    <middleName>${author.middleName}</middleName>
-                </#if>
-                <lastName>${author.lastName}</lastName>
-            </person>
-        </creator>
-        </#list>
-        <creator>
-            <institution>
-                <#if study.institution.de??>
-                <institutionName>${study.institution.de}</institutionName>
-                <#else>
-                <institutionName>${study.institution.en}</institutionName>
-                </#if>
-            </institution>
-        </creator>
-    </creators>
-    <dataURLs>
-        <dataURL>
-            https://metadata.fdz.dzhw.eu/#!/de/studies/${study.id}?version=${dataAcquisitionProject.release.version}
-        </dataURL>
-    </dataURLs>
-    <doiProposal>${doi}</doiProposal>
-    <publicationDate>
-        <date>${releaseDate}</date>
-    </publicationDate>
-    <availability>
-        <availabilityType>${availabilityControlled}</availabilityType>
-    </availability>
-    <#if study.description??>
+  <resourceType>${resourceType}</resourceType>
+  <resourceIdentifier>
+    <identifier>dzhw:${study.dataAcquisitionProjectId}:1.0.0</identifier>
+    <currentVersion>${dataAcquisitionProject.release.version}</currentVersion>
+  </resourceIdentifier>
+  <titles>
+    <title>
+      <language>de</language>
+      <titleName>${study.title.de}</titleName>
+    </title>
+    <title>
+      <language>en</language>
+      <titleName>${study.title.en}</titleName>
+    </title>
+  </titles>
+  <creators>
+    <#list study.authors as author>
+      <creator>
+        <person>
+          <firstName>${author.firstName}</firstName>
+          <#if author.middleName??>
+            <middleName>${author.middleName}</middleName>
+          </#if>
+          <lastName>${author.lastName}</lastName>
+        </person>
+      </creator>
+    </#list>
+    <creator>
+      <institution>
+        <#if study.institution.de??>
+          <institutionName>${study.institution.de}</institutionName>
+          <#else>
+            <institutionName>${study.institution.en}</institutionName>
+        </#if>
+      </institution>
+    </creator>
+  </creators>
+  <dataURLs>
+    <dataURL>
+      https://metadata.fdz.dzhw.eu/#!/de/studies/${study.id}?version=${dataAcquisitionProject.release.version}
+    </dataURL>
+  </dataURLs>
+  <doiProposal>${doi}</doiProposal>
+  <publicationDate>
+    <date>${releaseDate}</date>
+  </publicationDate>
+  <availability>
+    <availabilityType>${availabilityControlled}</availabilityType>
+  </availability>
+  <#if study.description??>
     <descriptions>
-        <#if study.description.de??>
+      <#if study.description.de??>
         <description>
-            <language>de</language>
-            <freetext>${study.description.de}</freetext>
-            <descriptionType>Abstract</descriptionType>
+          <language>de</language>
+          <freetext>${study.description.de}</freetext>
+          <descriptionType>Abstract</descriptionType>
         </description>
-        </#if>
-        <#if study.description.en??>
+      </#if>
+      <#if study.description.en??>
         <description>
-            <language>en</language>
-            <freetext>${study.description.en}</freetext>
-            <descriptionType>Abstract</descriptionType>
+          <language>en</language>
+          <freetext>${study.description.en}</freetext>
+          <descriptionType>Abstract</descriptionType>
         </description>
-        </#if>
+      </#if>
     </descriptions>
-    </#if>
-    <#if surveys?? && surveys?size gt 0>
+  </#if>
+  <#if surveys?? && surveys?size gt 0>
     <temporalCoverages>
-        <#list surveys as survey>
+      <#list surveys as survey>
         <#if survey.fieldPeriod.start??>
-        <temporalCoverage>
+          <temporalCoverage>
             <temporalCoverageFormal>
-	            <startDate>
-	               <date>${survey.fieldPeriod.start}</date>
-	            </startDate>
-	            <#if survey.fieldPeriod.end??>
-	             <endDate>
-	               <date>${survey.fieldPeriod.end}</date>
-	             </endDate>
-	            </#if>
+              <startDate>
+                <date>${survey.fieldPeriod.start}</date>
+              </startDate>
+              <#if survey.fieldPeriod.end??>
+                <endDate>
+                  <date>${survey.fieldPeriod.end}</date>
+                </endDate>
+              </#if>
             </temporalCoverageFormal>
             <temporalCoveragesFree>
-                <temporalCoverageFree>
-                    <language>de</language>
-                    <freetext>${survey.title.de}</freetext>
-                </temporalCoverageFree>
-                <temporalCoverageFree>
-                    <language>en</language>
-                    <freetext>${survey.title.en}</freetext>
-                </temporalCoverageFree>
+              <temporalCoverageFree>
+                <language>de</language>
+                <freetext>${survey.title.de}</freetext>
+              </temporalCoverageFree>
+              <temporalCoverageFree>
+                <language>en</language>
+                <freetext>${survey.title.en}</freetext>
+              </temporalCoverageFree>
             </temporalCoveragesFree>
-        </temporalCoverage>
+          </temporalCoverage>
         </#if>
-        </#list>
+      </#list>
     </temporalCoverages>
-    </#if>
-    <#if study.sponsor??>
+  </#if>
+  <contributors>
+    <contributor>
+      <institution>
+        <institutionName>FDZ des DZHW</institutionName>
+        <contributorType>Distributor</contributorType>
+      </institution>
+    </contributor>
+  </contributors>
+  <#if study.sponsor??>
     <fundingReferences>
-        <fundingReference>
-            <institution>
-                <#if study.sponsor.de??>
-                    <institutionName>${study.sponsor.de}</institutionName>
-                <#else>
-                    <institutionName>${study.sponsor.en}</institutionName>
-                </#if>
-            </institution>
-        </fundingReference>
+      <fundingReference>
+        <institution>
+          <#if study.sponsor.de??>
+            <institutionName>${study.sponsor.de}</institutionName>
+            <#else>
+              <institutionName>${study.sponsor.en}</institutionName>
+          </#if>
+        </institution>
+      </fundingReference>
     </fundingReferences>
-    </#if>
-    <#if surveys?? && surveys?size gt 0>
+  </#if>
+  <#if surveys?? && surveys?size gt 0>
     <collectionModes>
-        <#list surveys as survey>
+      <#list surveys as survey>
         <#if survey.surveyMethod??>
-         <collectionMode>
+          <collectionMode>
             <collectionModesFree>
-                <#if survey.surveyMethod.de??>
+              <#if survey.surveyMethod.de??>
                 <collectionModeFree>
-                    <language>de</language>
-                    <freetext>${survey.title.de}: ${survey.surveyMethod.de}</freetext>
+                  <language>de</language>
+                  <freetext>${survey.title.de}: ${survey.surveyMethod.de}</freetext>
                 </collectionModeFree>
-                </#if>
-                <#if survey.surveyMethod.en??>
+              </#if>
+              <#if survey.surveyMethod.en??>
                 <collectionModeFree>
-                    <language>en</language>
-                    <freetext>${survey.title.en}: ${survey.surveyMethod.en}</freetext>
+                  <language>en</language>
+                  <freetext>${survey.title.en}: ${survey.surveyMethod.en}</freetext>
                 </collectionModeFree>
-                </#if>
+              </#if>
             </collectionModesFree>
-         </collectionMode>
-         </#if>
-        </#list>
+          </collectionMode>
+        </#if>
+      </#list>
     </collectionModes>
-    </#if>
-    <#if dataSets?? && dataSets?size gt 0>
+  </#if>
+  <#if dataSets?? && dataSets?size gt 0>
     <dataSets>
-        <#list dataSets as dataSet>
+      <#list dataSets as dataSet>
         <#list dataSet.subDataSets as subDataSet>
-        <#if subDataSet.numberOfObservations?? && numberOfVariablesMap[dataSet.id]?? && subDataSet.name??>
-        <dataSet>
-            <unitType>Individual</unitType>
-            <numberUnits>${subDataSet.numberOfObservations}</numberUnits>
-            <numberVariables>${numberOfVariablesMap[dataSet.id]}</numberVariables>
-            <files>
+          <#if subDataSet.numberOfObservations?? && numberOfVariablesMap[dataSet.id]?? && subDataSet.name??>
+            <dataSet>
+              <unitType>Individual</unitType>
+              <numberUnits>${subDataSet.numberOfObservations}</numberUnits>
+              <numberVariables>${numberOfVariablesMap[dataSet.id]}</numberVariables>
+              <files>
                 <file>
-                    <name>${subDataSet.name}</name>
+                  <name>${subDataSet.name}</name>
                 </file>
-            </files>
-        </dataSet>
-        </#if>
+              </files>
+            </dataSet>
+          </#if>
         </#list>
-        </#list>
+      </#list>
     </dataSets>
-    </#if>
-    <#if previousDoi??>
+  </#if>
+  <#if previousDoi??>
     <relations>
-    	<relation>
-    		<identifier>${previousDoi}</identifier>
-    		<identifierType>DOI</identifierType>
-    		<relationType>IsNewVersionOf</relationType>
-    	</relation>
+      <relation>
+        <identifier>${previousDoi}</identifier>
+        <identifierType>DOI</identifierType>
+        <relationType>IsNewVersionOf</relationType>
+      </relation>
     </relations>
-    </#if>
-    <#if relatedPublications?? && relatedPublications?size gt 0>
+  </#if>
+  <#if relatedPublications?? && relatedPublications?size gt 0>
     <publications>
-        <#list relatedPublications as publication>
+      <#list relatedPublications as publication>
         <#if publication.sourceReference??>
-        <publication>
+          <publication>
             <unstructuredPublication>
-                <freetext>${publication.sourceReference}</freetext>
+              <freetext>${publication.sourceReference}</freetext>
             </unstructuredPublication>
-        </publication>
+          </publication>
         </#if>
-        </#list>
+      </#list>
     </publications>
-    </#if>
+  </#if>
 </resource>
