@@ -57,24 +57,18 @@
       <freetext>Application necessary under https://metadata.fdz.dzhw.eu/#!/en/studies/${study.id}?version=${dataAcquisitionProject.release.version}</freetext>
     </availabilityFree>
   </availability>
-  <#if study.description??>
-    <descriptions>
-      <#if study.description.de??>
-        <description>
-          <language>de</language>
-          <freetext>${study.description.de}</freetext>
-          <descriptionType>Abstract</descriptionType>
-        </description>
-      </#if>
-      <#if study.description.en??>
-        <description>
-          <language>en</language>
-          <freetext>${study.description.en}</freetext>
-          <descriptionType>Abstract</descriptionType>
-        </description>
-      </#if>
-    </descriptions>
-  </#if>
+  <descriptions>
+    <description>
+      <language>de</language>
+      <freetext>${study.description.de}</freetext>
+      <descriptionType>Abstract</descriptionType>
+    </description>
+    <description>
+      <language>en</language>
+      <freetext>${study.description.en}</freetext>
+      <descriptionType>Abstract</descriptionType>
+    </description>
+  </descriptions>
   <#if surveys?? && surveys?size gt 0>
     <temporalCoverages>
       <#list surveys as survey>
