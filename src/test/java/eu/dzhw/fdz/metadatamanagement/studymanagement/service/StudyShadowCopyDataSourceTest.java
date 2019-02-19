@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
+package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
@@ -6,8 +6,8 @@ import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import org.junit.After;
 import org.junit.Before;
@@ -28,20 +28,20 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.nullValue;
 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-public class SurveyShadowCopyDataSourceTest extends AbstractTest {
+public class StudyShadowCopyDataSourceTest extends AbstractTest {
 
   private static final String PROJECT_ID = "issue1991";
 
   @Autowired
-  private SurveyRepository surveyRepository;
+  private StudyRepository studyRepository;
 
   @Autowired
   private JaversService javersService;
 
-  private ShadowCopyService<Survey> shadowCopyService;
+  private ShadowCopyService<Study> shadowCopyService;
 
   @Autowired
-  private SurveyShadowCopyDataSource surveyShadowCopyDataProvider;
+  private StudyShadowCopyDataSource shadowCopyDataSource;
 
   @Mock
   private ApplicationEventPublisher applicationEventPublisher;
@@ -54,9 +54,6 @@ public class SurveyShadowCopyDataSourceTest extends AbstractTest {
   public void setUp() {
     release = new Release("1.0.0", LocalDateTime.now());
     shadowCopyService = new ShadowCopyService<>(applicationEventPublisher);
-    DataAcquisitionProject unreleasedProject = UnitTestCreateDomainObjectUtils
-        .buildDataAcquisitionProject();
-    unreleasedProject.setRelease(null);
     DataAcquisitionProject releasedProject = UnitTestCreateDomainObjectUtils
         .buildDataAcquisitionProject();
     releasedProject.setRelease(release);
@@ -67,72 +64,71 @@ public class SurveyShadowCopyDataSourceTest extends AbstractTest {
 
   @After
   public void tearDown() {
-    surveyRepository.deleteAll();
+    studyRepository.deleteAll();
     javersService.deleteAll();
   }
 
   @Test
   public void createShadowCopy() {
-    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(PROJECT_ID);
-    surveyRepository.save(survey);
+    Study master = UnitTestCreateDomainObjectUtils.buildStudy(PROJECT_ID);
+    studyRepository.save(master);
 
-    shadowCopyService.createShadowCopies(project, null, surveyShadowCopyDataProvider);
+    shadowCopyService.createShadowCopies(project, null, shadowCopyDataSource);
 
-    List<Survey> result = surveyRepository.findAll();
+    List<Study> result = studyRepository.findAll();
 
     assertThat(result.size(), equalTo(2));
 
-    Optional<Survey> shadowCopyOpt = result.stream().filter(Survey::isShadow).findFirst();
+    Optional<Study> shadowCopyOpt = result.stream().filter(Study::isShadow).findFirst();
     assertThat(shadowCopyOpt.isPresent(), equalTo(true));
 
-    Survey shadowCopy = shadowCopyOpt.get();
+    Study shadowCopy = shadowCopyOpt.get();
 
-    assertThat(shadowCopy.getId(), equalTo(createSurveyId(survey.getNumber(), release
-        .getVersion())));
+    assertThat(shadowCopy.getId(), equalTo(master.getId() + "-" + release.getVersion()));
     assertThat(shadowCopy.isShadow(), equalTo(true));
     assertThat(shadowCopy.getSuccessorId(), equalTo(null));
-    assertThat(shadowCopy.getMasterId(), equalTo(survey.getId()));
+    assertThat(shadowCopy.getMasterId(), equalTo(master.getId()));
   }
 
   @Test
   public void createShadowCopyWithSameReleaseVersion() {
-    Survey master = UnitTestCreateDomainObjectUtils.buildSurvey(PROJECT_ID);
-    Survey shadow = createShadow(master, release.getVersion());
-    surveyRepository.saveAll(Arrays.asList(master, shadow));
+    Study master = UnitTestCreateDomainObjectUtils.buildStudy(PROJECT_ID);
+    Study shadow = createShadow(master, release.getVersion());
+    studyRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(project, "1.0.0", surveyShadowCopyDataProvider);
+    shadowCopyService.createShadowCopies(project, "1.0.0", shadowCopyDataSource);
 
-    long count = surveyRepository.count();
+    long count = studyRepository.count();
     assertThat(count, equalTo(2L));
 
-    Optional<Survey> persistedShadow = surveyRepository.findById(shadow.getId());
+    Optional<Study> persistedShadow = studyRepository.findById(shadow.getId());
     assertThat(persistedShadow.isPresent(), equalTo(true));
     assertThat(persistedShadow.get().getSuccessorId(), nullValue());
   }
 
   @Test
   public void createShadowCopyLinkPredecessorToSuccessor() {
-    Survey master = UnitTestCreateDomainObjectUtils.buildSurvey(PROJECT_ID);
-    Survey shadow = createShadow(master, release.getVersion());
+    Study master = UnitTestCreateDomainObjectUtils.buildStudy(PROJECT_ID);
+    Study shadow = createShadow(master, release.getVersion());
     release.setVersion("1.0.1");
 
-    surveyRepository.saveAll(Arrays.asList(master, shadow));
+    studyRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(project, "1.0.0", surveyShadowCopyDataProvider);
+    shadowCopyService.createShadowCopies(project, "1.0.0", shadowCopyDataSource);
 
-    List<Survey> result = surveyRepository.findAll().stream().filter(Survey::isShadow)
+    List<Study> result = studyRepository.findAll().stream().filter(Study::isShadow)
         .collect(Collectors.toList());
 
     assertThat(result.size(), equalTo(2));
 
-    String successorId = createSurveyId(master.getNumber(), release.getVersion());
+    String successorId = master.getId() + "-" + release.getVersion();
 
-    Optional<Survey> successor = result.stream().filter(s -> s.getId().equals(successorId))
+    Optional<Study> successor = result.stream().filter(s -> s.getId().equals(successorId))
         .findFirst();
     assertThat(successor.isPresent(), equalTo(true));
     assertThat(successor.get().getSuccessorId(), equalTo(null));
 
-    Optional<Survey> predecessor = result.stream().filter(s -> s.getId().equals(shadow.getId()))
+    Optional<Study> predecessor = result.stream().filter(s -> s.getId().equals(shadow.getId()))
         .findFirst();
     assertThat(predecessor.isPresent(), equalTo(true));
     assertThat(predecessor.get().getSuccessorId(), equalTo(successorId));
@@ -140,30 +136,23 @@ public class SurveyShadowCopyDataSourceTest extends AbstractTest {
 
   @Test
   public void createShadowCopyWithDeletedMaster() {
-    Survey master = UnitTestCreateDomainObjectUtils.buildSurvey(PROJECT_ID);
-    Survey shadow = createShadow(master, release.getVersion());
-    shadow = surveyRepository.save(shadow);
+    Study master = UnitTestCreateDomainObjectUtils.buildStudy(PROJECT_ID);
+    Study shadow = createShadow(master, release.getVersion());
+    shadow = studyRepository.save(shadow);
     release.setVersion("1.0.1");
 
-    shadowCopyService.createShadowCopies(project, "1.0.0", surveyShadowCopyDataProvider);
+    shadowCopyService.createShadowCopies(project, "1.0.0", shadowCopyDataSource);
 
-    Optional<Survey> persistedShadow = surveyRepository.findById(shadow.getId());
+    Optional<Study> persistedShadow = studyRepository.findById(shadow.getId());
 
     assertThat(persistedShadow.isPresent(), equalTo(true));
     assertThat(persistedShadow.get().getSuccessorId(), equalTo("DELETED"));
   }
 
-  private static String createSurveyId(Integer number, String version) {
-    String versionSuffix = version != null && !version.isEmpty() ? "-" + version : "";
-    return String.format("sur-%s-sy%d$%s", PROJECT_ID, number, versionSuffix);
-  }
-
-  private Survey createShadow(Survey master, String version) {
-    Survey shadow = new Survey(master);
+  private Study createShadow(Study master, String version) {
+    Study shadow = new Study(master);
     shadow.setId(master.getId() + "-" + version);
-    shadow.setStudyId(master.getStudyId() + "-" + version);
     shadow.setDataAcquisitionProjectId(master.getDataAcquisitionProjectId() + "-" + version);
     return shadow;
   }
-
 }

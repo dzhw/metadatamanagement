@@ -342,7 +342,7 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static QuestionImageMetadata buildQuestionImageMetadata(String projectId, String questionId) {
 
-    return QuestionImageMetadata.builder()
+    QuestionImageMetadata questionImageMetadata = QuestionImageMetadata.builder()
         .fileName("TestFileName.PNG")
         .language("de")
         .resolution(Resolution.builder()
@@ -353,7 +353,12 @@ public class UnitTestCreateDomainObjectUtils {
         .containsAnnotations(false)
         .dataAcquisitionProjectId(projectId)
         .questionId(questionId)
+        .indexInQuestion(1)
         .build();
+
+    questionImageMetadata.generateId();
+    questionImageMetadata.setMasterId(questionImageMetadata.getId());
+    return questionImageMetadata;
   }
 
   public static Instrument buildInstrument(String projectId) {
@@ -554,7 +559,7 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static InstrumentAttachmentMetadata buildInstrumentAttachmentMetadata(String projectId, Integer instrumentNumber) {
-    return InstrumentAttachmentMetadata.builder()
+    InstrumentAttachmentMetadata instrumentAttachmentMetadata = InstrumentAttachmentMetadata.builder()
           .dataAcquisitionProjectId(projectId)
           .instrumentId(UnitTestCreateValidIds.buildInstrumentId(projectId, instrumentNumber))
           .instrumentNumber(instrumentNumber)
@@ -564,6 +569,10 @@ public class UnitTestCreateDomainObjectUtils {
           .type(InstrumentAttachmentTypes.QUESTION_FLOW)
           .indexInInstrument(1)
           .build();
+
+    instrumentAttachmentMetadata.generateId();
+    instrumentAttachmentMetadata.setMasterId(instrumentAttachmentMetadata.getId());
+    return instrumentAttachmentMetadata;
   }
 
   public static SurveyAttachmentMetadata buildSurveyAttachmentMetadata(String projectId, Integer surveyNumber) {
@@ -584,7 +593,7 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static DataSetAttachmentMetadata buildDataSetAttachmentMetadata(String projectId, Integer dataSetNumber) {
-    return DataSetAttachmentMetadata.builder()
+    DataSetAttachmentMetadata dataSetAttachmentMetadata = DataSetAttachmentMetadata.builder()
           .dataAcquisitionProjectId(projectId)
           .dataSetId(UnitTestCreateValidIds.buildDataSetId(projectId, dataSetNumber))
           .dataSetNumber(dataSetNumber)
@@ -594,10 +603,14 @@ public class UnitTestCreateDomainObjectUtils {
           .language("de")
           .indexInDataSet(1)
           .build();
+
+    dataSetAttachmentMetadata.generateId();
+    dataSetAttachmentMetadata.setMasterId(dataSetAttachmentMetadata.getId());
+    return dataSetAttachmentMetadata;
   }
 
   public static StudyAttachmentMetadata buildStudyAttachmentMetadata(String projectId) {
-    return StudyAttachmentMetadata.builder()
+    StudyAttachmentMetadata studyAttachmentMetadata = StudyAttachmentMetadata.builder()
           .dataAcquisitionProjectId(projectId)
           .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
           .fileName("filename.txt")
@@ -607,6 +620,10 @@ public class UnitTestCreateDomainObjectUtils {
           .type(StudyAttachmentTypes.METHOD_REPORT)
           .indexInStudy(1)
           .build();
+
+    studyAttachmentMetadata.generateId();
+    studyAttachmentMetadata.setMasterId(studyAttachmentMetadata.getId());
+    return studyAttachmentMetadata;
   }
 
   public static RelatedQuestion buildRelatedQuestion(String projectId, String questionNumber, String instrumentNumber) {

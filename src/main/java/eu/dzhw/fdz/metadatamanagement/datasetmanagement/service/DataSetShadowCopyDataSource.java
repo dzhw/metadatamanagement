@@ -44,7 +44,11 @@ public class DataSetShadowCopyDataSource implements ShadowCopyDataSource<DataSet
   @Override
   public Optional<DataSet> findPredecessorOfShadowCopy(DataSet shadowCopy, String previousVersion) {
     String shadowCopyId = shadowCopy.getMasterId() + "-" + previousVersion;
-    return dataSetRepository.findById(shadowCopyId);
+    if (shadowCopy.getId().equals(shadowCopyId)) {
+      return Optional.empty();
+    } else {
+      return dataSetRepository.findById(shadowCopyId);
+    }
   }
 
   @Override

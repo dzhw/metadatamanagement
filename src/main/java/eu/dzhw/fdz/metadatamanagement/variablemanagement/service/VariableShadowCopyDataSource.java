@@ -75,7 +75,11 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
   public Optional<Variable> findPredecessorOfShadowCopy(Variable shadowCopy,
       String previousVersion) {
     String shadowCopyId = shadowCopy.getMasterId() + "-" + previousVersion;
-    return variableRepository.findById(shadowCopyId);
+    if (shadowCopy.getId().equals(shadowCopyId)) {
+      return Optional.empty();
+    } else {
+      return variableRepository.findById(shadowCopyId);
+    }
   }
 
   @Override

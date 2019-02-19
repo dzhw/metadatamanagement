@@ -40,7 +40,11 @@ public class StudyShadowCopyDataSource implements ShadowCopyDataSource<Study> {
   @Override
   public Optional<Study> findPredecessorOfShadowCopy(Study shadowCopy, String previousVersion) {
     String shadowCopyId = shadowCopy.getMasterId() + "-" + previousVersion;
-    return studyRepository.findById(shadowCopyId);
+    if (shadowCopy.getId().equals(shadowCopyId)) {
+      return Optional.empty();
+    } else {
+      return studyRepository.findById(shadowCopyId);
+    }
   }
 
   @Override

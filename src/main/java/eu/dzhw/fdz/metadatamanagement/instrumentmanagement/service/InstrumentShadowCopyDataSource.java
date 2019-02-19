@@ -46,7 +46,11 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
   public Optional<Instrument> findPredecessorOfShadowCopy(Instrument shadowCopy,
       String previousVersion) {
     String shadowCopyId = shadowCopy.getMasterId() + "-" + previousVersion;
-    return instrumentRepository.findById(shadowCopyId);
+    if (shadowCopy.getId().equals(shadowCopyId)) {
+      return Optional.empty();
+    } else {
+      return instrumentRepository.findById(shadowCopyId);
+    }
   }
 
   @Override

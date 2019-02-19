@@ -16,15 +16,15 @@ import org.springframework.stereotype.Service;
  * Provides data for creating shadow copies of {@link DataSetAttachmentMetadata}.
  */
 @Service
-public class DataSetAttachmentShadowCopyDataSource
+public class DataSetAttachmentMetadataShadowCopyDataSource
     extends AbstractAttachmentShadowCopyDataSource<DataSetAttachmentMetadata> {
 
   /**
    * Create a new instance.
    */
-  public DataSetAttachmentShadowCopyDataSource(GridFsOperations gridFsOperations,
-                                                      GridFS gridFs,
-                                                      MongoTemplate mongoTemplate) {
+  public DataSetAttachmentMetadataShadowCopyDataSource(GridFsOperations gridFsOperations,
+                                                       GridFS gridFs,
+                                                       MongoTemplate mongoTemplate) {
     super(gridFsOperations,gridFs, mongoTemplate, DataSetAttachmentMetadata.class);
   }
 

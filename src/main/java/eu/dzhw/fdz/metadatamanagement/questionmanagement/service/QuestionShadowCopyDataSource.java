@@ -47,7 +47,11 @@ public class QuestionShadowCopyDataSource implements ShadowCopyDataSource<Questi
   public Optional<Question> findPredecessorOfShadowCopy(Question shadowCopy,
       String previousVersion) {
     String shadowCopyId = shadowCopy.getMasterId() + "-" + previousVersion;
-    return questionRepository.findById(shadowCopyId);
+    if (shadowCopy.getId().equals(shadowCopyId)) {
+      return Optional.empty();
+    } else {
+      return questionRepository.findById(shadowCopyId);
+    }
   }
 
   @Override

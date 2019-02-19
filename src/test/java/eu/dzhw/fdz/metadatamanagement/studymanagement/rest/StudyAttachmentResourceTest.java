@@ -97,7 +97,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     StudyAttachmentMetadata studyAttachmentMetadata = UnitTestCreateDomainObjectUtils
       .buildStudyAttachmentMetadata("projectid");
-    studyAttachmentMetadata.getType().setDe("hurz");
+    studyAttachmentMetadata.setType(new I18nString("hurz", studyAttachmentMetadata.getType().getEn()));
     MockMultipartFile metadata = new MockMultipartFile("studyAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(studyAttachmentMetadata));
 

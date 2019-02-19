@@ -51,7 +51,7 @@ public class DataSetAttachmentService {
   private Javers javers;
 
   @Autowired
-  private DataSetAttachmentShadowCopyDataSource dataSetAttachmentShadowCopyDataSource;
+  private DataSetAttachmentMetadataShadowCopyDataSource shadowCopyDataSource;
 
   @Autowired
   private ShadowCopyService<DataSetAttachmentMetadata> shadowCopyService;
@@ -181,6 +181,6 @@ public class DataSetAttachmentService {
   @EventListener
   public void onProjectReleasedEvent(ProjectReleasedEvent projectReleasedEvent) {
     shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        projectReleasedEvent.getPreviousReleaseVersion(), dataSetAttachmentShadowCopyDataSource);
+        projectReleasedEvent.getPreviousReleaseVersion(), shadowCopyDataSource);
   }
 }
