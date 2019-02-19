@@ -185,7 +185,7 @@
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" style="-ms-flex:auto" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!studyForm.descriptionDe.$valid && (studyForm.descriptionDe.$dirty || studyForm.descriptionDe.$touched)">
                         <label class="fdz-input-required">{{'study-management.detail.description' | translate}} ({{'global.in-german' | translate}})</label>
-                        <textarea rows="4" md-maxlength="2048" fdz-required="!ctrl.study.description.en" ng-model="ctrl.study.description.de" name="descriptionDe" lang="de" md-no-asterisk></textarea>
+                        <textarea rows="4" md-maxlength="2048" fdz-required ng-model="ctrl.study.description.de" name="descriptionDe" lang="de" md-no-asterisk></textarea>
                         <div ng-if="!studyForm.descriptionDe.$dirty && !studyForm.descriptionDe.$touched" class="fdz-input-hint">{{'study-management.edit.hints.description.de' | translate}}</div>
                         <div ng-messages="studyForm.descriptionDe.$error" multiple>
                             <div ng-message="fdz-required">{{'study-management.error.study.description.i18n-string-not-empty' | translate}}</div>
@@ -194,7 +194,7 @@
                     </md-input-container>
                     <md-input-container flex="50" style="-ms-flex:auto" md-is-error="!studyForm.descriptionEn.$valid && (studyForm.descriptionEn.$dirty || studyForm.descriptionEn.$touched)">
                         <label class="fdz-input-required">{{'study-management.detail.description' | translate}} ({{'global.in-english' | translate}})</label>
-                        <textarea rows="4" md-maxlength="2048" fdz-required="!ctrl.study.description.de" ng-model="ctrl.study.description.en" name="descriptionEn" lang="en" md-no-asterisk></textarea>
+                        <textarea rows="4" md-maxlength="2048" fdz-required ng-model="ctrl.study.description.en" name="descriptionEn" lang="en" md-no-asterisk></textarea>
                         <div ng-if="!studyForm.descriptionEn.$dirty && !studyForm.descriptionEn.$touched" class="fdz-input-hint">{{'study-management.edit.hints.description.en' | translate}}</div>
                         <div ng-messages="studyForm.descriptionEn.$error" multiple>
                             <div ng-message="fdz-required">{{'study-management.error.study.description.i18n-string-not-empty' | translate}}</div>

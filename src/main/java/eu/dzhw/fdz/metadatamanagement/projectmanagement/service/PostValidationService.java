@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,47 +97,31 @@ public class PostValidationService {
       }
     }
 
-    // Check Study
-    Study study = this.studyRepository.findOneByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidateStudies(study, errors, dataAcquisitionProjectId);
+    errors = this.postValidateStudies(errors, dataAcquisitionProjectId);
 
-    List<Survey> surveys =
-        this.surveyRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidateSurveys(surveys, errors, dataAcquisitionProjectId,
-        activateFullReleaseChecks);
+    errors = this.postValidateSurveys(errors, dataAcquisitionProjectId, activateFullReleaseChecks);
 
-    // Check questions
-    List<Question> questions =
-        this.questionRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidateQuestions(questions, errors);
+    errors = this.postValidateQuestions(errors, dataAcquisitionProjectId);
 
-    // check data sets
-    List<DataSet> dataSets =
-        this.dataSetRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidateDataSets(dataSets, errors, dataAcquisitionProjectId,
-        activateFullReleaseChecks);
+    errors = this.postValidateDataSets(errors, dataAcquisitionProjectId, activateFullReleaseChecks);
+    
+    errors = this.postValidateVariables(errors, dataAcquisitionProjectId);
 
-    // check variables
-    List<Variable> variables =
-        this.variableRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidateVariables(variables, errors);
-
-    // check instruments
-    List<Instrument> instruments =
-        this.instrumentRepository.findByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    errors = this.postValidateInstruments(instruments, errors);
+    errors = this.postValidateInstruments(errors, dataAcquisitionProjectId);
 
     return errors;
   }
 
-  private List<PostValidationMessageDto> postValidateSurveys(List<Survey> surveys,
-      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId,
-      boolean activateFullReleaseChecks) {
-    if (activateFullReleaseChecks && surveys.isEmpty()) {
-      String[] information = {dataAcquisitionProjectId, dataAcquisitionProjectId};
-      errors.add(new PostValidationMessageDto(
-          "data-acquisition-project-management.error." + "post-validation.project-has-no-survey",
-          Arrays.asList(information)));
+  private List<PostValidationMessageDto> postValidateSurveys(List<PostValidationMessageDto> errors,
+      String dataAcquisitionProjectId, boolean activateFullReleaseChecks) {
+    try (Stream<Survey> surveys =
+        this.surveyRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+      if (activateFullReleaseChecks && !surveys.findFirst().isPresent()) {
+        String[] information = {dataAcquisitionProjectId, dataAcquisitionProjectId};
+        errors.add(new PostValidationMessageDto(
+            "data-acquisition-project-management.error." + "post-validation.project-has-no-survey",
+            Arrays.asList(information)));
+      }
     }
     return errors;
   }
@@ -192,15 +178,13 @@ public class PostValidationService {
   /**
    * This method checks all potential issues for study by post-validation.
    * 
-   * @param study A study of a project.
    * @param errors The list of known errors.
    * @param dataAcquisitionProjectId The project id.
    * @return The updated list of errors.
    */
-  private List<PostValidationMessageDto> postValidateStudies(Study study,
-      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId) {
-
-
+  private List<PostValidationMessageDto> postValidateStudies(List<PostValidationMessageDto> errors,
+      String dataAcquisitionProjectId) {
+    Study study = this.studyRepository.findOneByDataAcquisitionProjectId(dataAcquisitionProjectId);
     // check that there is a study for the project (all other domain objects might link to it)
     if (study == null) {
       String[] information = {dataAcquisitionProjectId, dataAcquisitionProjectId};
@@ -219,32 +203,33 @@ public class PostValidationService {
    *
    * @return a list of errors of the post validation of questions.
    */
-  private List<PostValidationMessageDto> postValidateQuestions(List<Question> questions,
-      List<PostValidationMessageDto> errors) {
+  private List<PostValidationMessageDto> postValidateQuestions(
+      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId) {
 
-    for (Question question : questions) {
+    try (Stream<Question> questions =
+        this.questionRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+      questions.forEach(question -> {
+        // question.instrumentId: there must be a instrument with that id
+        if (!this.instrumentRepository.findById(question.getInstrumentId()).isPresent()) {
+          String[] information = {question.getId(), question.getInstrumentId()};
+          errors.add(new PostValidationMessageDto(
+              "question-management.error." + "post-validation.question-has-invalid-instrument-id",
+              Arrays.asList(information)));
+        }
 
-      // question.instrumentId: there must be a instrument with that id
-      if (!this.instrumentRepository.findById(question.getInstrumentId()).isPresent()) {
-        String[] information = {question.getId(), question.getInstrumentId()};
-        errors.add(new PostValidationMessageDto(
-            "question-management.error." + "post-validation.question-has-invalid-instrument-id",
-            Arrays.asList(information)));
-      }
-
-      // question.successors: there must be a question with that id
-      if (question.getSuccessors() != null && !question.getSuccessors().isEmpty()) {
-        for (String successor : question.getSuccessors()) {
-          if (!questionRepository.findById(successor).isPresent()) {
-            String[] information = {question.getId(), successor};
-            errors.add(new PostValidationMessageDto(
-                "question-management.error." + "post-validation.question-has-invalid-successor",
-                Arrays.asList(information)));
+        // question.successors: there must be a question with that id
+        if (question.getSuccessors() != null && !question.getSuccessors().isEmpty()) {
+          for (String successor : question.getSuccessors()) {
+            if (!questionRepository.findById(successor).isPresent()) {
+              String[] information = {question.getId(), successor};
+              errors.add(new PostValidationMessageDto(
+                  "question-management.error." + "post-validation.question-has-invalid-successor",
+                  Arrays.asList(information)));
+            }
           }
         }
-      }
+      });
     }
-
     return errors;
   }
 
@@ -253,26 +238,30 @@ public class PostValidationService {
    *
    * @return a list of errors of the post validation of data sets.
    */
-  private List<PostValidationMessageDto> postValidateDataSets(List<DataSet> dataSets,
-      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId,
-      boolean activateFullReleaseChecks) {
-    if (activateFullReleaseChecks && dataSets.isEmpty()) {
+  private List<PostValidationMessageDto> postValidateDataSets(List<PostValidationMessageDto> errors,
+      String dataAcquisitionProjectId, boolean activateFullReleaseChecks) {
+    AtomicReference<Boolean> noDataSets = new AtomicReference<Boolean>(true);
+    try (Stream<DataSet> dataSets =
+        this.dataSetRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+      dataSets.forEach(dataSet -> {
+        noDataSets.set(false);
+        // dataSet.SurveyIds: there must be a survey with that id
+        for (String surveyId : dataSet.getSurveyIds()) {
+          if (!this.surveyRepository.findById(surveyId).isPresent()) {
+            String[] information = {dataSet.getId(), surveyId};
+            errors.add(new PostValidationMessageDto(
+                "data-set-management.error." + "post-validation.data-set-has-invalid-survey-id",
+                Arrays.asList(information)));
+          }
+        }
+      });
+    }
+
+    if (activateFullReleaseChecks && noDataSets.get()) {
       String[] information = {dataAcquisitionProjectId, dataAcquisitionProjectId};
       errors.add(new PostValidationMessageDto(
           "data-acquisition-project-management.error." + "post-validation.project-has-no-data-set",
           Arrays.asList(information)));
-    }
-    for (DataSet dataSet : dataSets) {
-
-      // dataSet.SurveyIds: there must be a survey with that id
-      for (String surveyId : dataSet.getSurveyIds()) {
-        if (!this.surveyRepository.findById(surveyId).isPresent()) {
-          String[] information = {dataSet.getId(), surveyId};
-          errors.add(new PostValidationMessageDto(
-              "data-set-management.error." + "post-validation.data-set-has-invalid-survey-id",
-              Arrays.asList(information)));
-        }
-      }
     }
 
     return errors;
@@ -283,20 +272,21 @@ public class PostValidationService {
    *
    * @return a list of errors of the post validation of instruments.
    */
-  private List<PostValidationMessageDto> postValidateInstruments(List<Instrument> instruments,
-      List<PostValidationMessageDto> errors) {
-
-    for (Instrument instrument : instruments) {
-
-      for (String surveyId : instrument.getSurveyIds()) {
-        // surveyId: there must be a survey with that id
-        if (!this.surveyRepository.findById(surveyId).isPresent()) {
-          String[] information = {instrument.getId(), surveyId};
-          errors.add(new PostValidationMessageDto(
-              "instrument-management.error." + "post-validation.instrument-has-invalid-survey-id",
-              Arrays.asList(information)));
+  private List<PostValidationMessageDto> postValidateInstruments(
+      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId) {
+    try (Stream<Instrument> instruments =
+        this.instrumentRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+      instruments.forEach(instrument -> {
+        for (String surveyId : instrument.getSurveyIds()) {
+          // surveyId: there must be a survey with that id
+          if (!this.surveyRepository.findById(surveyId).isPresent()) {
+            String[] information = {instrument.getId(), surveyId};
+            errors.add(new PostValidationMessageDto(
+                "instrument-management.error." + "post-validation.instrument-has-invalid-survey-id",
+                Arrays.asList(information)));
+          }
         }
-      }
+      });
     }
 
     return errors;
@@ -307,69 +297,71 @@ public class PostValidationService {
    *
    * @return a list of errors of the post validation of variables.
    */
-  private List<PostValidationMessageDto> postValidateVariables(List<Variable> variables,
-      List<PostValidationMessageDto> errors) {
+  private List<PostValidationMessageDto> postValidateVariables(
+      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId) {
 
-    for (Variable variable : variables) {
-
-      // variable.SurveyId: there must be a survey with that id
-      for (String surveyId : variable.getSurveyIds()) {
-        if (!this.surveyRepository.findById(surveyId).isPresent()) {
-          String[] information = {variable.getId(), surveyId};
-          errors.add(new PostValidationMessageDto(
-              "variable-management.error." + "post-validation.variable-has-invalid-survey-id",
-              Arrays.asList(information)));
-        }
-      }
-
-      // variable.relatedQuestions.questionId:
-      // If there is no genereationDetail every variable needs a
-      // questionId (and vice versa)
-      if (variable.getRelatedQuestions() != null) {
-        for (RelatedQuestion relatedQuestion : variable.getRelatedQuestions()) {
-          if (relatedQuestion.getQuestionId() != null
-              && !this.questionRepository.findById(relatedQuestion.getQuestionId()).isPresent()) {
-            String[] information = {variable.getId(), relatedQuestion.getQuestionId()};
+    try (Stream<Variable> variables =
+        this.variableRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+      variables.forEach(variable -> {
+        // variable.SurveyId: there must be a survey with that id
+        for (String surveyId : variable.getSurveyIds()) {
+          if (!this.surveyRepository.findById(surveyId).isPresent()) {
+            String[] information = {variable.getId(), surveyId};
             errors.add(new PostValidationMessageDto(
-                "variable-management.error." + "post-validation.variable-has-invalid-question-id",
+                "variable-management.error." + "post-validation.variable-has-invalid-survey-id",
                 Arrays.asList(information)));
           }
         }
-      }
 
-      // variable.dataSetId: Check for for the data set id
-      if (variable.getDataSetId() != null) {
-        DataSet dataSet = this.dataSetRepository.findById(variable.getDataSetId()).orElse(null);
-        if (dataSet == null) {
-          String[] information = {variable.getId(), variable.getDataSetId()};
-          errors.add(new PostValidationMessageDto(
-              "variable-management.error." + "post-validation.variable-has-invalid-data-set-id",
-              Arrays.asList(information)));
-        } else {
-          // check that variable.surveyIds is a subset of dataSet.surveyIds
-          if (!dataSet.getSurveyIds().containsAll(variable.getSurveyIds())) {
+        // variable.relatedQuestions.questionId:
+        // If there is no genereationDetail every variable needs a
+        // questionId (and vice versa)
+        if (variable.getRelatedQuestions() != null) {
+          for (RelatedQuestion relatedQuestion : variable.getRelatedQuestions()) {
+            if (relatedQuestion.getQuestionId() != null
+                && !this.questionRepository.findById(relatedQuestion.getQuestionId()).isPresent()) {
+              String[] information = {variable.getId(), relatedQuestion.getQuestionId()};
+              errors.add(new PostValidationMessageDto(
+                  "variable-management.error." + "post-validation.variable-has-invalid-question-id",
+                  Arrays.asList(information)));
+            }
+          }
+        }
+
+        // variable.dataSetId: Check for for the data set id
+        if (variable.getDataSetId() != null) {
+          DataSet dataSet = this.dataSetRepository.findById(variable.getDataSetId()).orElse(null);
+          if (dataSet == null) {
             String[] information = {variable.getId(), variable.getDataSetId()};
             errors.add(new PostValidationMessageDto(
-                "variable-management.error."
-                    + "post-validation.variable-survey-ids-are-not-consistent-with-data-set",
+                "variable-management.error." + "post-validation.variable-has-invalid-data-set-id",
                 Arrays.asList(information)));
+          } else {
+            // check that variable.surveyIds is a subset of dataSet.surveyIds
+            if (!dataSet.getSurveyIds().containsAll(variable.getSurveyIds())) {
+              String[] information = {variable.getId(), variable.getDataSetId()};
+              errors.add(new PostValidationMessageDto(
+                  "variable-management.error."
+                      + "post-validation.variable-survey-ids-are-not-consistent-with-data-set",
+                  Arrays.asList(information)));
+            }
           }
         }
-      }
 
-      // variable.relatedVariables: Check for variable ids
-      if (variable.getRelatedVariables() != null) {
-        for (String variableId : variable.getRelatedVariables()) {
-          if (!this.variableRepository.findById(variableId).isPresent()) {
-            String[] information = {variable.getId(), variableId};
-            errors.add(new PostValidationMessageDto(
-                "variable-management.error."
-                    + "post-validation.variable-id-is-not-valid-in-related-variables",
-                Arrays.asList(information)));
+        // variable.relatedVariables: Check for variable ids
+        if (variable.getRelatedVariables() != null) {
+          for (String variableId : variable.getRelatedVariables()) {
+            if (!this.variableRepository.findById(variableId).isPresent()) {
+              String[] information = {variable.getId(), variableId};
+              errors.add(new PostValidationMessageDto(
+                  "variable-management.error."
+                      + "post-validation.variable-id-is-not-valid-in-related-variables",
+                  Arrays.asList(information)));
+            }
           }
         }
-      }
 
+      });
     }
 
     return errors;

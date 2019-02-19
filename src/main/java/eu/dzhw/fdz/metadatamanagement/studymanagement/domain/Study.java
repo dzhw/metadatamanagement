@@ -7,7 +7,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmptyOptional;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringMustNotContainComma;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidDerivedId;
@@ -62,7 +61,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
 
   /**
    * The id of the study which uniquely identifies the study in this application.
-   * 
+   *
    * The id must not be empty and must be of the form stu-{{dataAcquisitionProjectId}}$. The id must
    * not contain more than 512 characters.
    */
@@ -75,7 +74,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
 
   /**
    * The id of the {@link DataAcquisitionProject} to which this study belongs.
-   * 
+   *
    * The dataAcquisitionProjectId must not be empty.
    */
   @Indexed
@@ -84,7 +83,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
 
   /**
    * The title of the study.
-   * 
+   *
    * It must be specified in German and English and it must not contain more than 2048 characters.
    */
   @NotNull(message = "study-management.error.study.title.not-null")
@@ -96,19 +95,20 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
 
   /**
    * A description of the study.
-   * 
-   * It must be specified in at least one language and it must not contain more than 2048
+   *
+   * It must be specified in German and English and it must not contain more than 2048
    * characters.
    */
   @NotNull(message = "study-management.error.study.description.not-null")
   @I18nStringSize(max = StringLengths.LARGE,
       message = "study-management.error.study.description.i18n-string-size")
-  @I18nStringNotEmpty(message = "study-management.error.study.description.i18n-string-not-empty")
+  @I18nStringEntireNotEmpty(
+      message = "study-management.error.study.description.i18n-string-not-empty")
   private I18nString description;
 
   /**
    * The name of the institution which has performed this study.
-   * 
+   *
    * It must be specified in German and English and it must not contain more than 512 characters.
    */
   @NotNull(message = "study-management.error.study.institution.not-null")
@@ -120,7 +120,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
 
   /**
    * The name of the series of studies to which this study belongs..
-   * 
+   *
    * If specified it must be specified in German and English. It must not contain more than 512
    * characters and must not contain ",".
    */
@@ -134,7 +134,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
 
   /**
    * The name of the sponsor who which has sponsored this study.
-   * 
+   *
    * It must be specified in German and English and it must not contain more than 512 characters.
    */
   @NotNull(message = "study-management.error.study.sponsor.not-null")
@@ -146,7 +146,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
 
   /**
    * List of {@link Person}s which have performed this study.
-   * 
+   *
    * Must not be empty.
    */
   @Valid
@@ -155,7 +155,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
 
   /**
    * The current state of the data's availability.
-   * 
+   *
    * Must be one of {@link DataAvailabilities} and must not be empty.
    */
   @NotNull(message = "study-management.error.study.data-availability.not-null")
@@ -165,7 +165,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
 
   /**
    * The survey design of this {@link Study}.
-   * 
+   *
    * Must be one of {@link SurveyDesigns} and must not be empty.
    */
   @NotNull(message = "study-management.error.study.survey-design.not-null")
@@ -174,7 +174,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
 
   /**
    * Arbitrary additional text for this instrument.
-   * 
+   *
    * Must not contain more than 2048 characters.
    */
   @I18nStringSize(max = StringLengths.LARGE,
