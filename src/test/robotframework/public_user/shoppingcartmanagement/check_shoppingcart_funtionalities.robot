@@ -4,12 +4,13 @@ Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
 
-
 *** Test Cases ***
 Check Shopping Cart as a Public User
    Click on search result by id    stu-gra2005$
    Select Item and Put in The Cart
    Check Shopping Cart
+   Delete an Item   # we have 4 items in the cart and we delete one item
+   Assert Item Count  3  # it checks the item count is 3
    Confirm Order
    Close The Toast Message
    Check The Links
@@ -21,18 +22,24 @@ Check Shopping Cart as a Public User
 *** Keywords ***
 Select Item and Put in The Cart
    @{MD_ACCESSWAYNAMES}   Create List    download-suf  remote-desktop-suf   onsite-suf   download-cuf
-   :FOR  ${MD_ACC}  IN  @{MD_ACCESSWAYNAMES}
+   :FOR  ${INDEX}  IN RANGE  0   4
    \  Click On Add Shopping Cart Icon
    \  Assert Study Input is Disabled
-   \  Select Access Way for the Datasets from The List   ${MD_ACC}
-   \  Select Version the Datasets from The List   1.0.1
+   \  Select Access Way for the Datasets from The List   @{MD_ACCESSWAYNAMES}[${INDEX}]
+   \  Select Version of the Datasets from The List   1.0.1
    \  Check The Close Button is Available
    \  Put in Shopping Cart
+   \  ${staticone} =    set variable    ${1}
+   \  ${staticindex} =    set variable    ${INDEX}
+   \  ${summedindex} =    Evaluate    ${staticone}+${staticindex}
+   \  Assert Item Count   ${summedindex}
 
-Assert Item Numbers
-   @{MD_ITEMSITERATION}   Create List   1   2   3   4
-   :FOR  ${MD_IT}  IN  @{MD_ITEMSITERATION}
-   \  Page Should Contain Element   xpath=//span[@ng-if='productsCount'][contains(., '${MD_IT}')]
+Assert Item Count
+   [Arguments]   ${index}
+   Page Should Contain Element   xpath=//span[@ng-if='productsCount'][contains(., '${index}')]
+
+Delete an Item
+   Click Element Through Tooltips   xpath=//div//following::button//md-icon[contains(., 'delete_forever')]
 
 Click On Add Shopping Cart Icon
    Click Element Through Tooltips   xpath=//md-icon[contains(., 'add_shopping_cart')]
@@ -45,7 +52,7 @@ Select Access Way for the Datasets from The List
    Click Element Through Tooltips    xpath=//md-select[@name='accessWay']
    Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., '${accesswayname}')]
 
-Select Version the Datasets from The List
+Select Version of the Datasets from The List
    [Arguments]   ${versionname}
    Click Element Through Tooltips    xpath=//md-select[@name='version']
    Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., '${versionname}')]
