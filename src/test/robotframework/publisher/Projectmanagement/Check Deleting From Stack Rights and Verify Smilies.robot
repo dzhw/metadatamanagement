@@ -27,11 +27,9 @@ Check The Sentiments of Metadata
    Select Questions Checkbox
    Select Datasets Checkbox
    Select Variable Checkbox
-   Save Changes
    Click on Cockpit Button
    Switch To Status Tab
-   Verify The Sentiments From The List of Meatadata
-   Save Changes
+   Verify The Sentiments From The List of Metadata
    Delete project by name  ${PROJECT_NAME}${BROWSER}
 
 *** Keywords ***
@@ -45,7 +43,7 @@ Assign Publisher From List
     :FOR    ${PL}    IN    @{PL_ITEMS}
     \    Assign a publisher  ${PL}
 
-Verify The Sentiments From The List of Meatadata
+Verify The Sentiments From The List of Metadata
     @{MD_ITEMS}    Create List    studies   surveys   instruments   questions   dataSets    variables
     @{SN_ITEMS}    Create List    sentiment_very_dissatisfied   sentiment_satisfied   sentiment_very_satisfied
     :FOR   ${MD_DT}   IN  @{MD_ITEMS}
@@ -56,7 +54,3 @@ Verify The Sentiments From The List of Meatadata
     \   Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Publisher Fertig")]
     \   Sleep  1s   # to avoid failing in edge
     \   Run Keyword If    '@{SN_ITEMS}[2]' == 'sentiment_very_satisfied'    Page Should Contain Element    xpath=//md-card[@type="${MD_DT}"]//following::md-icon[contains(., "@{SN_ITEMS}[2]")]
-
-
-
-

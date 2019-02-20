@@ -18,7 +18,6 @@ Publisher Create But Can Not Delete Study When Publisher is Ready
    Select Questions Checkbox
    Select Datasets Checkbox
    Select Variable Checkbox
-   Save Changes
    Switch To Status Tab
    Ensure Study Creation is Possible
    Input Text    name=titleDe    Test Studie
@@ -43,24 +42,23 @@ Publisher Create But Can Not Delete Study When Publisher is Ready
    Save Changes
    Click on Cockpit Button
    Click Publisher Ready Checkbox for Studies
-   Click on Delete Button for Meatdata
+   Click on Delete Button for Metadata
    Close The Toast Message  ${TOAST_MSSG}
 
 Publisher Create and Can Delete Study When Both are Ready
    Click Dataprovider Ready Checkbox for Studies
-   Click on Delete Button for Meatdata
+   Click on Delete Button for Metadata
    Close The Toast Message  ${TOAST_MSSG}
 
 Publisher Create and Can Delete Study When Dataprovider is Ready
    Click Publisher Ready Checkbox for Studies    #deselect the checkbox this time
-   Click on Delete Button for Meatdata
+   Click on Delete Button for Metadata
    Discard Changes No
 
 Publisher Create and Can Delete Study When Both are Not Ready
     Click Dataprovider Ready Checkbox for Studies   #deselect the checkbox this time
-    Click on Delete Button for Meatdata
+    Click on Delete Button for Metadata
     Discard Changes Yes
-    Save Changes
     Delete project by name  ${PROJECT_NAME}${BROWSER}
 
 *** Keywords ***
@@ -72,5 +70,5 @@ Choose In Aufbereitung as Data Availibility
     Click Element Through Tooltips    xpath=//md-select[@name = 'dataAvailability']
     Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'In Aufbereitung')]
 
-Click on Delete Button for Meatdata
+Click on Delete Button for Metadata
     Click Element Through Tooltips   xpath=//md-card-actions//span[contains(., "Löschen")]
