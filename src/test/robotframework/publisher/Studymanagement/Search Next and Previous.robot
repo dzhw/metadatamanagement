@@ -5,7 +5,6 @@ Resource          ../../resources/click_element_resource.robot
 
 *** Test Cases ***
 Logged in Publisher Click On First Search Result
-    [Documentation]    Publisher should login and click on the Study Tab.Then click on the first content of the Study Tab. Afterwards click next and previous content.
     Click on study tab
     Click on First Search Result
     Click on Next Content
