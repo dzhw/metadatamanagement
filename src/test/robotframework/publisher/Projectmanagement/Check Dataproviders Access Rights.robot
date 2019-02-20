@@ -15,7 +15,6 @@ Check Publisher Can Change Accordingly
    Create Project  ${PROJECT_NAME}${BROWSER}
    Assign a dataprovider  dataprovider
    Select Metadata Checkbox From The List
-   Save Changes
    Switch To Status Tab
    Ensure Survey Creation is Possible
    Go Back
@@ -47,7 +46,6 @@ Check Project is Assigned to Dataprovider But Can Not Change Anything When Publi
    Write Message and Assign
    Sleep  1s  #to ensure that the next locator is visible
    Assert Project is Assigned to Dataprovider
-   Save Changes
    Publisher Logout
    Login as dataprovider
    Select project by name  ${PROJECT_NAME}${BROWSER}
