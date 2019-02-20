@@ -163,7 +163,7 @@ angular.module('metadatamanagementApp').config(
             'description': {
               'not-null': 'Die Beschreibung einer Studie darf nicht leer sein!',
               'i18n-string-size': 'Die Maximallänge der Beschreibung einer Studie ist 2048 Zeichen.',
-              'i18n-string-not-empty': 'Die Beschreibung einer Studie muss in mindestens einer Sprache vorhanden sein.'
+              'i18n-string-not-empty': 'Die Beschreibung einer Studie muss in beiden Sprachen vorhanden sein.'
             },
             'institution': {
               'not-null': 'Die Institution einer Studie darf nicht leer sein!',

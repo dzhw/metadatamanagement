@@ -51,8 +51,8 @@ public class MailService {
   @Value("${metadatamanagement.server.context-root}")
   private String baseUrl;
 
-  private Future<Void> sendEmail(String from, String[] to, String cc, String subject,
-                                 String content, boolean isMultipart, boolean isHtml) {
+  private Future<Void> sendEmail(String from, String[] to, String cc, String bcc, String subject,
+      String content, boolean isMultipart, boolean isHtml) {
     log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
         isMultipart, isHtml, to, subject, content);
 
@@ -64,6 +64,9 @@ public class MailService {
       message.setTo(to);
       if (StringUtils.hasText(cc)) {
         message.setCc(cc);
+      }
+      if (StringUtils.hasText(bcc)) {
+        message.setBcc(bcc);
       }
       if (StringUtils.hasText(from)) {
         message.setFrom(from);
@@ -95,7 +98,8 @@ public class MailService {
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("activationEmail", context);
     String subject = messageSource.getMessage("email.activation.title", null, locale);
-    return sendEmail(null, new String[]{user.getEmail()}, null, subject, content, false, true);
+    return sendEmail(null, new String[] {user.getEmail()}, null, null, subject, content, false,
+        true);
   }
 
   /**
@@ -110,7 +114,8 @@ public class MailService {
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("passwordResetEmail", context);
     String subject = messageSource.getMessage("email.reset.title", null, locale);
-    return sendEmail(null, new String[]{user.getEmail()}, null, subject, content, false, true);
+    return sendEmail(null, new String[] {user.getEmail()}, null, null, subject, content, false,
+        true);
   }
 
   /**
@@ -127,8 +132,8 @@ public class MailService {
     String subject = "New account " + newUser.getLogin() + " activated ("
         + StringUtils.arrayToCommaDelimitedString(env.getActiveProfiles()) + ")";
     List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
-    return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, subject,
-        content, false, true);
+    return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null,
+        subject, content, false, true);
   }
 
   /**
@@ -142,8 +147,8 @@ public class MailService {
     String content = templateEngine.process("automaticDaraUpdateFailed", context);
     String subject = "Automatic Update to da|ra was not successful";
     List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
-    return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, subject,
-        content, false, true);
+    return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null,
+        subject, content, false, true);
   }
 
   /**
@@ -164,7 +169,7 @@ public class MailService {
    */
   @Async
   public void sendPublisherRemovedMail(List<User> removedPublisherUsers, String projectId,
-                                       String sender) {
+      String sender) {
     if (!removedPublisherUsers.isEmpty()) {
       log.debug("Sending 'publishers removed' mail");
       sendChangedProjectConfigurationMail("removedFromProjectConfiguration",
@@ -178,13 +183,12 @@ public class MailService {
    */
   @Async
   public void sendDataProviderAddedMail(List<User> addedDataProviders, String projectId,
-                                        String sender) {
+      String sender) {
     if (!addedDataProviders.isEmpty()) {
       log.debug("Sending 'data providers added' mail");
       sendChangedProjectConfigurationMail("addedToProjectConfiguration",
           "email.project-configuration-added.title",
-          "email.project-configuration.data-provider-role", addedDataProviders, projectId,
-          sender);
+          "email.project-configuration.data-provider-role", addedDataProviders, projectId, sender);
     }
   }
 
@@ -193,7 +197,7 @@ public class MailService {
    */
   @Async
   public void sendDataProviderRemovedMail(List<User> removedDataProviders, String projectId,
-                                          String sender) {
+      String sender) {
     if (!removedDataProviders.isEmpty()) {
       log.debug("Sending 'data providers removed' mail");
       sendChangedProjectConfigurationMail("removedFromProjectConfiguration",
@@ -205,8 +209,7 @@ public class MailService {
 
   @Async
   private void sendChangedProjectConfigurationMail(String template, String subjectKey,
-                                                   String roleKey, List<User> users,
-                                                   String projectId, String sender) {
+      String roleKey, List<User> users, String projectId, String sender) {
     users.parallelStream().forEach(user -> {
       Locale locale = Locale.forLanguageTag(user.getLangKey());
       Context context = new Context(locale);
@@ -216,8 +219,8 @@ public class MailService {
       context.setVariable("locale", locale);
       context.setVariable("role", messageSource.getMessage(roleKey, null, locale));
       String content = templateEngine.process(template, context);
-      String subject = messageSource.getMessage(subjectKey, new Object[]{projectId}, locale);
-      sendEmail(sender, new String[]{user.getEmail()}, null, subject, content, false, true);
+      String subject = messageSource.getMessage(subjectKey, new Object[] {projectId}, locale);
+      sendEmail(sender, new String[] {user.getEmail()}, null, null, subject, content, false, true);
     });
   }
 
@@ -226,7 +229,7 @@ public class MailService {
    */
   @Async
   public void sendAssigneeGroupChangedMail(List<User> users, String projectId, String message,
-      String sender) {
+      String sender, User currentUser) {
 
     if (!users.isEmpty()) {
       log.debug("Sending 'assignee group changed mail'");
@@ -242,18 +245,19 @@ public class MailService {
       context.setVariable("messageToGroup", StringUtils.trimWhitespace(message));
       String content = templateEngine.process("assigneeGroupChanged", context);
       String subject = messageSource.getMessage("email.assignee-group-changed.title",
-          new Object[]{projectId}, locale);
-      sendEmail(sender, new String[]{user.getEmail()}, null, subject, content, false, true);
+          new Object[] {projectId}, locale);
+      sendEmail(sender, new String[] {user.getEmail()}, null,
+          currentUser != null ? currentUser.getEmail() : null, subject, content, false, true);
     });
   }
 
   /**
-   * Send a mail to data providers informing them that they've been removed as the assignee group
-   * by a publisher.
+   * Send a mail to data providers informing them that they've been removed as the assignee group by
+   * a publisher.
    */
   @Async
-  public void sendDataProviderAccessRevokedMail(List<User> users, String projectId,
-                                                String message, String sender) {
+  public void sendDataProviderAccessRevokedMail(List<User> users, String projectId, String message,
+      String sender, User currentUser) {
 
     if (!users.isEmpty()) {
       log.debug("Sending 'data provider access revoked mail'");
@@ -269,8 +273,9 @@ public class MailService {
       context.setVariable("messageToGroup", StringUtils.trimWhitespace(message));
       String content = templateEngine.process("dataProviderAccessRevoked", context);
       String subject = messageSource.getMessage("email.data-provider-access-revoked.title",
-          new Object[]{projectId}, locale);
-      sendEmail(sender, new String[]{user.getEmail()}, null, subject, content, false, true);
+          new Object[] {projectId}, locale);
+      sendEmail(sender, new String[] {user.getEmail()}, null,
+          currentUser != null ? currentUser.getEmail() : null, subject, content, false, true);
     });
   }
 }

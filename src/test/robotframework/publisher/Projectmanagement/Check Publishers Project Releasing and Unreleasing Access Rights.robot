@@ -18,13 +18,6 @@ Check Publishers Project Releasing and Unreleasing Funtionalities
   Click on OK Button
   Click Publisher Ready Checkbox for Studies
   Change Project Release Status
-  Click on OK Button
-  Sleep  1s  # to avoid failing in Firefox
-  Assert Project Release Action Has Error Message
-  Close The Toast Message for Project Release Validation
-  Click on OK Button
-  Save Changes
-  Change Project Release Status
   Write Version Name
   Click on OK Button
   Verify The Released Project is Available under The Study Tab
@@ -56,7 +49,6 @@ Verify The Unreleased Project is Unavailable under The Study Tab
   Click on OK Button
   Sleep  3s  #to ensure enough time for the next checkbox to be ready
   Click Publisher Ready Checkbox for Studies   #deselect the check box here
-  Save Changes
   Sleep  60s   #We need explicit sleep for 60s to ensure the project is not available under the study tab
   Publisher Logout
   Click on study tab
