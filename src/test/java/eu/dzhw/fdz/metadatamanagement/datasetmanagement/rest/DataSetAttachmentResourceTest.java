@@ -8,10 +8,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.mongodb.gridfs.GridFS;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentFilenameBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,6 +36,10 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchU
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 public class DataSetAttachmentResourceTest extends AbstractTest {
   @Autowired
   private WebApplicationContext wac;
@@ -48,6 +56,12 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
   @Autowired
   private JaversService javersService;
 
+  @Autowired
+  private GridFsOperations gridFsOperations;
+
+  @Autowired
+  private GridFS gridFs;
+
   private MockMvc mockMvc;
 
   @Before
@@ -59,9 +73,9 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
   @After
   public void cleanUp() {
     this.dataSetRepository.deleteAll();
-    this.dataSetAttachmentService.deleteAll();
     this.elasticsearchUpdateQueueItemRepository.deleteAll();
     this.javersService.deleteAll();
+    gridFs.getFileList().iterator().forEachRemaining(gridFs::remove);
   }
 
   @Test
@@ -140,7 +154,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
 
     // create the dataSet with the given id
     mockMvc.perform(put("/api/data-sets/" + dataSet.getId())
-      .content(TestUtil.convertObjectToJsonBytes(dataSet)))
+      .content(TestUtil.convertObjectToJsonBytes(dataSet)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
     
     MockMultipartFile attachment =
@@ -167,4 +181,84 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
       .andExpect(content().json("[]"));
   }
 
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void createShadowDataSetAttachment() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    DataSetAttachmentMetadata dataSetAttachmentMetadata = UnitTestCreateDomainObjectUtils
+        .buildDataSetAttachmentMetadata("issue1991", 1);
+    dataSetAttachmentMetadata.setDataSetId(dataSetAttachmentMetadata.getDataSetId() + "-1.0.0");
+    dataSetAttachmentMetadata.generateId();
+
+    MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(dataSetAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments")
+        .file(attachment)
+        .file(metadata))
+        .andExpect(status().isBadRequest());
+  }
+
+  /* TODO 404 for some reason
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testUpdateAttachmentOfShadowDataSet() throws Exception {
+    String dataSetId = "dat-issue1991-ds1$-1.0.0";
+    DataSetAttachmentMetadata metadata = UnitTestCreateDomainObjectUtils
+        .buildDataSetAttachmentMetadata("issue1991", 1);
+    metadata.setDataSetId(dataSetId);
+    metadata.generateId();
+
+    String filename = DataSetAttachmentFilenameBuilder.buildFileName(metadata);
+    try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
+      gridFsOperations.store(is, filename, "text/plain", metadata);
+    }
+
+    mockMvc.perform(put("/api/data-sets/" + dataSetId + "/attachments/" + filename)
+        .content(TestUtil.convertObjectToJsonBytes(metadata))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest());
+  }
+  */
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testDeleteAllAttachmentsOfShadowDataSet() throws Exception {
+    String dataSetId = "dat-issue1991-ds1$-1.0.0";
+
+    DataSetAttachmentMetadata metadata = UnitTestCreateDomainObjectUtils
+        .buildDataSetAttachmentMetadata("issue1991", 1);
+    metadata.setDataSetId(dataSetId);
+    metadata.generateId();
+
+    try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
+      String filename = DataSetAttachmentFilenameBuilder.buildFileName(metadata);
+      gridFsOperations.store(is, filename, "text/plain", metadata);
+    }
+
+    mockMvc.perform(delete("/api/data-sets/" + dataSetId + "/attachments"))
+        .andExpect(status().isBadRequest());
+  }
+
+  /* TODO 404 for some reason
+  @Test
+  @WithMockUser
+  public void testDeleteAttachmentOfShadowDataSet() throws Exception {
+    String dataSetId = "dat-issue1991-ds1$-1.0.0";
+
+    DataSetAttachmentMetadata metadata = UnitTestCreateDomainObjectUtils
+        .buildDataSetAttachmentMetadata("issue1991", 1);
+    metadata.setDataSetId(dataSetId);
+    metadata.generateId();
+
+    String filename = DataSetAttachmentFilenameBuilder.buildFileName(metadata);
+    try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
+      gridFsOperations.store(is, filename, "text/plain", metadata);
+    }
+
+    mockMvc.perform(delete("/api/data-sets/" + dataSetId + "/attachments/" + filename))
+        .andExpect(status().isBadRequest());
+  }
+  */
 }

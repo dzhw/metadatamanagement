@@ -1,9 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowUpdateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
@@ -64,6 +68,11 @@ public class DataSetAttachmentService {
    */
   public String createDataSetAttachment(MultipartFile multipartFile,
       DataSetAttachmentMetadata metadata) throws IOException {
+
+    if (metadata.isShadow()) {
+      throw new ShadowCreateNotAllowedException();
+    }
+
     try (InputStream in = multipartFile.getInputStream()) {
       String currentUser = SecurityUtils.getCurrentUserLogin();
       metadata.setVersion(0L);
@@ -92,6 +101,10 @@ public class DataSetAttachmentService {
     metadata.setLastModifiedDate(LocalDateTime.now());
     GridFSDBFile file = gridFs.findOne(DataSetAttachmentFilenameBuilder
         .buildFileName(metadata.getDataSetId(), metadata.getFileName()));
+    DBObject metaData = file.getMetaData();
+    if (Boolean.TRUE.equals(metaData.get("shadow"))) {
+      throw new ShadowUpdateNotAllowedException();
+    }
     BasicDBObject dbObject =
         new BasicDBObject((Document) mongoTemplate.getConverter().convertToMongoType(metadata));
     file.setMetaData(dbObject);
@@ -113,6 +126,9 @@ public class DataSetAttachmentService {
     files.forEach(file -> {
       DataSetAttachmentMetadata metadata =
           mongoTemplate.getConverter().read(DataSetAttachmentMetadata.class, file.getMetadata());
+      if (metadata.isShadow()) {
+        throw new ShadowDeleteNotAllowedException();
+      }
       javers.commitShallowDelete(currentUser, metadata);
     });
     this.operations.delete(query);
@@ -149,6 +165,9 @@ public class DataSetAttachmentService {
     files.forEach(file -> {
       DataSetAttachmentMetadata metadata =
           mongoTemplate.getConverter().read(DataSetAttachmentMetadata.class, file.getMetadata());
+      if (metadata.isShadow()) {
+        throw new ShadowDeleteNotAllowedException();
+      }
       javers.commitShallowDelete(currentUser, metadata);
     });
     this.operations.delete(query);
@@ -169,6 +188,9 @@ public class DataSetAttachmentService {
     }
     DataSetAttachmentMetadata metadata =
         mongoTemplate.getConverter().read(DataSetAttachmentMetadata.class, file.getMetadata());
+    if (metadata.isShadow()) {
+      throw new ShadowDeleteNotAllowedException();
+    }
     String currentUser = SecurityUtils.getCurrentUserLogin();
     this.operations.delete(fileQuery);
     javers.commitShallowDelete(currentUser, metadata);
