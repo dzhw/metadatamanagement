@@ -169,8 +169,8 @@ Wenn Sie auf den Neu-Button klicken, gelangen Sie zur Eingabemaske der
 jeweiligen Ebene und mit Klick auf den Hochladen Button erscheint ein
 File-Explorer Fenster. Details zur Abgabe der Metadaten bei den einzelnen Ebenen
 wird im jeweiligen Kapitel erklärt. Wenn Sie fertig mit der Eingabe der
-Metadaten einer Ebene sind setzen Sie bitte das entsprechende Häkchen und
-speichern dies ab (Disketten-Button rechts unten).
+Metadaten einer Ebene sind setzen Sie bitte das entsprechende Häkchen.
+Es wird automatisch abgespeichert.
 
 .. figure:: ./_static/projectcockpit_dataprovider_ready.png
    :name: projectcockpit_dataprovider_ready
