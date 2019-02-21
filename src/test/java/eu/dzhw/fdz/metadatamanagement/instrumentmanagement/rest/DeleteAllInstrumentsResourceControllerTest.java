@@ -1,7 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.rest;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -61,7 +63,7 @@ public class DeleteAllInstrumentsResourceControllerTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
-  public void testDeleteAllQuestionsOfProject() throws Exception {
+  public void testDeleteAllInstrumentsOfProject() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
     String projectId = project.getId();
@@ -83,6 +85,21 @@ public class DeleteAllInstrumentsResourceControllerTest extends AbstractTest {
     mockMvc.perform(delete(API_DELETE_ALL_QUESTIONS_URI + "/" + projectId + "/" + "instruments"))
         .andExpect(status().isNoContent());
     assertEquals(0, instrumentRepo.findByDataAcquisitionProjectId(projectId).size());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
+  public void testDeleteAllInstrumentsOfShadowCopyProject() throws Exception {
+    String masterProjectId = "issue1991";
+    String shadowProjectId = masterProjectId + "-1.0.0";
+    Instrument instrument = UnitTestCreateDomainObjectUtils.buildInstrument(masterProjectId, "surveyId");
+    instrument.setId(instrument.getId() + "-1.0.0");
+    instrument.setDataAcquisitionProjectId(shadowProjectId);
+    instrumentRepo.save(instrument);
+
+    mockMvc.perform(delete(API_DELETE_ALL_QUESTIONS_URI + "/" + shadowProjectId + "/" + "instruments"))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
   }
 
 }

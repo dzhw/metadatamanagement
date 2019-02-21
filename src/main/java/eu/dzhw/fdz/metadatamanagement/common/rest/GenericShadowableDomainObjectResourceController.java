@@ -1,9 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCreateNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowUpdateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.event.AfterCreateEvent;
@@ -40,13 +40,13 @@ public abstract class GenericShadowableDomainObjectResourceController
     if (opt.isPresent()) {
       T persistedDomainObject = opt.get();
       if (persistedDomainObject.isShadow()) {
-        throw new ShadowUpdateNotAllowedException();
+        throw new ShadowCopyUpdateNotAllowedException();
       } else {
         saveDomainObject(domainObject);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
       }
     } else if (domainObject.isShadow()) {
-      throw new ShadowCreateNotAllowedException();
+      throw new ShadowCopyCreateNotAllowedException();
     } else {
       T persistedDomainObject = createDomainObject(domainObject);
       return ResponseEntity.created(buildLocationHeaderUri(persistedDomainObject)).build();
@@ -55,7 +55,7 @@ public abstract class GenericShadowableDomainObjectResourceController
 
   protected ResponseEntity<T> postDomainObject(T domainObject) {
     if (domainObject.isShadow()) {
-      throw new ShadowCreateNotAllowedException();
+      throw new ShadowCopyCreateNotAllowedException();
     } else {
       T persisted = createDomainObject(domainObject);
       return ResponseEntity.created(buildLocationHeaderUri(persisted)).build();
@@ -68,7 +68,7 @@ public abstract class GenericShadowableDomainObjectResourceController
     if (opt.isPresent()) {
       T domainObject = opt.get();
       if (domainObject.isShadow()) {
-        throw new ShadowDeleteNotAllowedException();
+        throw new ShadowCopyDeleteNotAllowedException();
       } else {
         applicationEventPublisher.publishEvent(new BeforeDeleteEvent(domainObject));
         repository.delete(domainObject);

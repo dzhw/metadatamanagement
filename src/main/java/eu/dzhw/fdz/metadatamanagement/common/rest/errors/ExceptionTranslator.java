@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 import com.mongodb.DuplicateKeyException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCreateNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowUpdateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
 import freemarker.core.InvalidReferenceException;
 import freemarker.core.ParseException;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
@@ -341,10 +341,10 @@ public class ExceptionTranslator {
   }
 
   /**
-   * Handle {@link ShadowUpdateNotAllowedException} thrown by attempts to
+   * Handle {@link ShadowCopyUpdateNotAllowedException} thrown by attempts to
    * update a shadowed domain object.
    */
-  @ExceptionHandler(ShadowUpdateNotAllowedException.class)
+  @ExceptionHandler(ShadowCopyUpdateNotAllowedException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ErrorListDto handleShadowUpdateNotAllowedException() {
@@ -355,10 +355,10 @@ public class ExceptionTranslator {
   }
 
   /**
-   * Handle {@link ShadowCreateNotAllowedException} thrown by attempts to
+   * Handle {@link ShadowCopyCreateNotAllowedException} thrown by attempts to
    * create a shadowed domain object.
    */
-  @ExceptionHandler(ShadowCreateNotAllowedException.class)
+  @ExceptionHandler(ShadowCopyCreateNotAllowedException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ErrorListDto handleShadowCreateNotAllowedException() {
@@ -369,10 +369,10 @@ public class ExceptionTranslator {
   }
 
   /**
-   * Handle {@link ShadowDeleteNotAllowedException} thrown by attempts to
+   * Handle {@link ShadowCopyDeleteNotAllowedException} thrown by attempts to
    * delete a shadowed domain object.
    */
-  @ExceptionHandler(ShadowDeleteNotAllowedException.class)
+  @ExceptionHandler(ShadowCopyDeleteNotAllowedException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ErrorListDto handleShadowDeleteNotAllowedException() {

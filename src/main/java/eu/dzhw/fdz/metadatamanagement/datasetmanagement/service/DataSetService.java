@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,9 +102,13 @@ public class DataSetService {
     try (Stream<DataSet> dataSets = dataSetRepository
         .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       dataSets.forEach(dataSet -> {
-        eventPublisher.publishEvent(new BeforeDeleteEvent(dataSet));
-        dataSetRepository.delete(dataSet);
-        eventPublisher.publishEvent(new AfterDeleteEvent(dataSet));              
+        if (dataSet.isShadow()) {
+          throw new ShadowCopyDeleteNotAllowedException();
+        } else {
+          eventPublisher.publishEvent(new BeforeDeleteEvent(dataSet));
+          dataSetRepository.delete(dataSet);
+          eventPublisher.publishEvent(new AfterDeleteEvent(dataSet));
+        }
       });
     }
   }

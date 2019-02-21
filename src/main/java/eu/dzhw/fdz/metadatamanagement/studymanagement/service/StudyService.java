@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
@@ -117,6 +118,9 @@ public class StudyService {
     try (Stream<Study> studies =
         studyRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       studies.forEach(study -> {
+        if (study.isShadow()) {
+          throw new ShadowCopyDeleteNotAllowedException();
+        }
         eventPublisher.publishEvent(new BeforeDeleteEvent(study));
         studyRepository.delete(study);
         eventPublisher.publishEvent(new AfterDeleteEvent(study));

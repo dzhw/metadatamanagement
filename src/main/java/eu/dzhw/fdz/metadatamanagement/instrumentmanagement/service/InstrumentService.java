@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.IdAndNumberInstrumentProjection;
@@ -105,6 +106,9 @@ public class InstrumentService {
     try (Stream<Instrument> instruments =
         instrumentRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       instruments.forEach(instrument -> {
+        if (instrument.isShadow()) {
+          throw new ShadowCopyDeleteNotAllowedException();
+        }
         eventPublisher.publishEvent(new BeforeDeleteEvent(instrument));
         instrumentRepository.delete(instrument);
         eventPublisher.publishEvent(new AfterDeleteEvent(instrument));

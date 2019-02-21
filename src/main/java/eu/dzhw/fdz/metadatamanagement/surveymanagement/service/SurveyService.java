@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetChangesProvider;
@@ -114,6 +115,9 @@ public class SurveyService {
     try (Stream<Survey> surveys =
         surveyRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       surveys.forEach(survey -> {
+        if (survey.isShadow()) {
+          throw new ShadowCopyDeleteNotAllowedException();
+        }
         eventPublisher.publishEvent(new BeforeDeleteEvent(survey));
         surveyRepository.delete(survey);
         eventPublisher.publishEvent(new AfterDeleteEvent(survey));

@@ -1,12 +1,12 @@
-package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
+package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import org.junit.After;
 import org.junit.Before;
@@ -18,14 +18,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class DeleteAllQuestionsResourceControllerTest extends AbstractTest {
+public class DeleteAllStudiesResourceControllerTest extends AbstractTest {
 
-  private static final String API_PROJECT_URI = "/api/data-acquisition-projects";
+  private static final String API_DELETE_ALL_STUDIES_URI = "/api/data-acquisition-projects";
+
   @Autowired
   private WebApplicationContext wac;
 
@@ -35,7 +35,7 @@ public class DeleteAllQuestionsResourceControllerTest extends AbstractTest {
   private MockMvc mockMvc;
 
   @Autowired
-  private QuestionRepository questionRepo;
+  private StudyRepository studyRepository;
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
@@ -51,36 +51,23 @@ public class DeleteAllQuestionsResourceControllerTest extends AbstractTest {
   @After
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
-    questionRepo.deleteAll();
+    studyRepository.deleteAll();
     javersService.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
   }
 
   @Test
-  @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
-  public void testDeleteAllQuestionsOfProject() throws Exception {
-    String projectId = "theproject";
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(projectId, 1, "instrumentid");
-    questionRepo.save(question);
-
-    assertEquals(1, questionRepo.findByDataAcquisitionProjectId(projectId).size());
-    mockMvc.perform(delete(API_PROJECT_URI + "/" + projectId + "/questions")).andExpect(status().isNoContent());
-    assertEquals(0, questionRepo.findByDataAcquisitionProjectId(projectId).size());
-  }
-
-  @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testDeleteAllShadowCopyQuestionsOfProject() throws Exception {
+  public void testDeleteAllStudiesOfShadowCopyProject() throws Exception {
     String masterProjectId = "issue1991";
-    String shadowCopyProjectId = masterProjectId + "-1.0.0";
-    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(masterProjectId,1,"instrumentid");
-    question.setId(question.getId() + "-1.0.0");
-    question.setDataAcquisitionProjectId(shadowCopyProjectId);
-    questionRepo.save(question);
+    String shadowProjectId = masterProjectId + "-1.0.0";
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(masterProjectId);
+    study.setId(study.getId() + "-1.0.0");
+    study.setDataAcquisitionProjectId(shadowProjectId);
+    studyRepository.save(study);
 
-    mockMvc.perform(delete(API_PROJECT_URI + "/" + shadowCopyProjectId + "/questions"))
+    mockMvc.perform(delete(API_DELETE_ALL_STUDIES_URI + "/" + shadowProjectId + "/studies"))
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
   }
-
 }

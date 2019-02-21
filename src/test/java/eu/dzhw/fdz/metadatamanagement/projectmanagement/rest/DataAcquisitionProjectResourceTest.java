@@ -450,4 +450,43 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest());
   }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
+  public void testCreateShadowCopyProject() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setId(project.getId() + "-1.0.0");
+
+    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_URI)
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
+  public void testUpdateShadowCopyProject() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setId(project.getId() + "-1.0.0");
+    project = rdcProjectRepository.save(project);
+
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
+  public void testDeleteShadowCopyProject() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setId(project.getId() + "-1.0.0");
+    project = rdcProjectRepository.save(project);
+
+    mockMvc.perform(delete(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
+  }
 }

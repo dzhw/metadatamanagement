@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
@@ -289,19 +290,20 @@ public class DataSetResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-  public void testCreateShadowDataSet() throws Exception {
+  public void testCreateShadowCopyDataSet() throws Exception {
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet("issue1991", "test", 1);
     dataSet.setId(dataSet.getId() + "-1.0.0");
 
     mockMvc.perform(post(API_DATASETS_URI)
         .content(TestUtil.convertObjectToJsonBytes(dataSet))
         .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
   }
 
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-  public void testUpdateShadowDataSet() throws Exception {
+  public void testUpdateShadowCopyDataSet() throws Exception {
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet("issue1991", "test", 1);
     dataSet.setId(dataSet.getId() + "-1.0.0");
 
@@ -310,19 +312,21 @@ public class DataSetResourceTest extends AbstractTest {
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
         .content(TestUtil.convertObjectToJsonBytes(dataSet))
         .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
   }
 
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-  public void testDeleteShadowDataSet() throws Exception {
+  public void testDeleteShadowCopyDataSet() throws Exception {
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet("issue1991", "test", 1);
     dataSet.setId(dataSet.getId() + "-1.0.0");
 
     dataSetRepository.save(dataSet);
 
     mockMvc.perform(delete(API_DATASETS_URI + "/" + dataSet.getId()))
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
   }
 
   @Test

@@ -15,9 +15,9 @@ Common domain objects which can be used in all other subdomains of this applicat
    Period
    Person
    Resolution
-   ShadowCreateNotAllowedException
-   ShadowDeleteNotAllowedException
-   ShadowUpdateNotAllowedException
+   ShadowCopyCreateNotAllowedException
+   ShadowCopyDeleteNotAllowedException
+   ShadowCopyUpdateNotAllowedException
    Task
    Task-TaskState
    Task-TaskType

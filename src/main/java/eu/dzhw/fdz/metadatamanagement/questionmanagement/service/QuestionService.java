@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +102,9 @@ public class QuestionService {
     try (Stream<Question> questions =
         questionRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       questions.forEach(question -> {
+        if (question.isShadow()) {
+          throw new ShadowCopyDeleteNotAllowedException();
+        }
         eventPublisher.publishEvent(new BeforeDeleteEvent(question));
         questionRepository.delete(question);
         eventPublisher.publishEvent(new AfterDeleteEvent(question));

@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import org.bson.Document;
@@ -67,6 +70,10 @@ public class InstrumentAttachmentService {
    */
   public String createInstrumentAttachment(MultipartFile multipartFile, 
       InstrumentAttachmentMetadata metadata) throws IOException {
+    if (metadata.isShadow()) {
+      throw new ShadowCopyCreateNotAllowedException();
+    }
+
     try (InputStream in = multipartFile.getInputStream()) {
       String currentUser = SecurityUtils.getCurrentUserLogin();
       metadata.setVersion(0L);
@@ -95,6 +102,9 @@ public class InstrumentAttachmentService {
     metadata.setLastModifiedDate(LocalDateTime.now());
     GridFSDBFile file = gridFs.findOne(InstrumentAttachmentFilenameBuilder
         .buildFileName(metadata.getInstrumentId(), metadata.getFileName()));
+    if (Boolean.TRUE.equals(file.getMetaData().get("shadow"))) {
+      throw new ShadowCopyUpdateNotAllowedException();
+    }
     BasicDBObject dbObject =
         new BasicDBObject((Document) mongoTemplate.getConverter().convertToMongoType(metadata));
     file.setMetaData(dbObject);
@@ -116,6 +126,9 @@ public class InstrumentAttachmentService {
     files.forEach(file -> {
       InstrumentAttachmentMetadata metadata =
           mongoTemplate.getConverter().read(InstrumentAttachmentMetadata.class, file.getMetadata());
+      if (metadata.isShadow()) {
+        throw new ShadowCopyDeleteNotAllowedException();
+      }
       javers.commitShallowDelete(currentUser, metadata);
     });
     this.operations.delete(query);
@@ -151,6 +164,9 @@ public class InstrumentAttachmentService {
     files.forEach(file -> {
       InstrumentAttachmentMetadata metadata =
           mongoTemplate.getConverter().read(InstrumentAttachmentMetadata.class, file.getMetadata());
+      if (metadata.isShadow()) {
+        throw new ShadowCopyDeleteNotAllowedException();
+      }
       javers.commitShallowDelete(currentUser, metadata);
     });
     this.operations.delete(query);
@@ -171,6 +187,9 @@ public class InstrumentAttachmentService {
     }
     InstrumentAttachmentMetadata metadata =
         mongoTemplate.getConverter().read(InstrumentAttachmentMetadata.class, file.getMetadata());
+    if (metadata.isShadow()) {
+      throw new ShadowCopyDeleteNotAllowedException();
+    }
     String currentUser = SecurityUtils.getCurrentUserLogin();
     this.operations.delete(fileQuery);
     javers.commitShallowDelete(currentUser, metadata);

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,11 @@ public class QuestionImageService {
    */
   public String saveQuestionImage(MultipartFile multipartFile,
       QuestionImageMetadata questionImageMetadata) throws IOException {
+
+    if (questionImageMetadata.isShadow()) {
+      throw new ShadowCopyCreateNotAllowedException();
+    }
+
     try (InputStream in = multipartFile.getInputStream()) {
       String currentUser = SecurityUtils.getCurrentUserLogin();
       questionImageMetadata.setVersion(0L);
@@ -100,10 +106,11 @@ public class QuestionImageService {
    * @param questionId the id of the question to which the image belongs
    */
   public void deleteQuestionImages(String questionId) {
-    Query query = new Query(new GridFsCriteria("metadata.questionId").is(questionId));
+    Query query = new Query(GridFsCriteria.whereMetaData("questionId").is(questionId)
+        .andOperator(GridFsCriteria.whereMetaData("shadow").is(false)));
     this.operations.delete(query);
   }
-  
+
   /**
    * Delete all question images.
    */

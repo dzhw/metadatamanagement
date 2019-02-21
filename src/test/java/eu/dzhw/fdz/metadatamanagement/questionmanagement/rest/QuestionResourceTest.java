@@ -3,6 +3,7 @@
  */
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
@@ -10,6 +11,7 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,6 +20,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -93,7 +96,7 @@ public class QuestionResourceTest extends AbstractTest {
     // Act and Assert
     // create the Question with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
-      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     elasticsearchUpdateQueueService.processAllQueueItems();
@@ -125,16 +128,17 @@ public class QuestionResourceTest extends AbstractTest {
     // Act and Assert
     // create the variable with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
-      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
     
       question.setQuestionText(I18nString.builder().de("Angepasst")
           .en("Different Value")
           .build());
-      
+
+    question.setVersion(0L);
     // update the Question with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
-      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().is2xxSuccessful());
 
     // read the updated Question and check the version
@@ -165,7 +169,7 @@ public class QuestionResourceTest extends AbstractTest {
     // Act and Assert
     // create the question with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
-      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     // set inconsistent type
@@ -191,7 +195,7 @@ public class QuestionResourceTest extends AbstractTest {
     // Act and Assert
     // create the question with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
-      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     // set inconsistent type
@@ -216,7 +220,7 @@ public class QuestionResourceTest extends AbstractTest {
     // Act and Assert
     // create the variable with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
-      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
   
@@ -233,7 +237,7 @@ public class QuestionResourceTest extends AbstractTest {
     // Act and Assert
     // create the variable with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
-      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -250,7 +254,7 @@ public class QuestionResourceTest extends AbstractTest {
     // Act and Assert
     // create the variable with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
-      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -267,7 +271,7 @@ public class QuestionResourceTest extends AbstractTest {
     // Act and Assert
     // create the Question with the given id
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
-      .content(TestUtil.convertObjectToJsonBytes(question)))
+      .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     mockMvc.perform(delete("/api/data-acquisition-projects/" + project.getId()))
@@ -280,5 +284,45 @@ public class QuestionResourceTest extends AbstractTest {
     // check that there are no question documents anymore
     elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
-  }  
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testCreateShadowCopyQuestion() throws Exception {
+    Question question = UnitTestCreateDomainObjectUtils
+        .buildQuestion("issue1991", 123, "instrument-Id");
+    question.setId(question.getId() + "-1.0.0");
+
+    mockMvc.perform(post(API_QUESTIONS_URI)
+        .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testUpdateShadowCopyQuestion() throws Exception {
+    Question question = UnitTestCreateDomainObjectUtils
+        .buildQuestion("issue1991", 123, "instrument-Id");
+    question.setId(question.getId() + "-1.0.0");
+    questionRepository.save(question);
+
+    mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
+        .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testDeleteShadowCopyQuestion() throws Exception {
+    Question question = UnitTestCreateDomainObjectUtils
+        .buildQuestion("issue1991", 123, "instrument-Id");
+    question.setId(question.getId() + "-1.0.0");
+    questionRepository.save(question);
+
+    mockMvc.perform(delete(API_QUESTIONS_URI + "/" + question.getId()))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
+  }
 }

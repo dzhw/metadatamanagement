@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -46,10 +47,10 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
 
   @Autowired
   private DataSetAttachmentService dataSetAttachmentService;
-  
+
   @Autowired
   private DataSetRepository dataSetRepository;
-  
+
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
@@ -91,7 +92,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
 
     mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments")
       .file(attachment)
-      .file(metadata))    
+      .file(metadata))
       .andExpect(status().isCreated());
 
     // read the created attachment and check the version
@@ -123,7 +124,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.errors[0].message",
           is("data-set-management.error.data-set-attachment-metadata.language.not-supported")));
   }
-  
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testUploadAttachmentWithMissingDescription() throws Exception {
@@ -144,7 +145,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.errors[0].message",
           is("data-set-management.error.data-set-attachment-metadata.description.i18n-string-not-empty")));
   }
-  
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testAttachmentIsDeletedWithDataSet() throws Exception {
@@ -156,7 +157,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
     mockMvc.perform(put("/api/data-sets/" + dataSet.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataSet)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
-    
+
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     DataSetAttachmentMetadata dataSetAttachmentMetadata = UnitTestCreateDomainObjectUtils
@@ -169,11 +170,11 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
       .file(attachment)
       .file(metadata))
       .andExpect(status().isCreated());
-    
+
     // delete the dataSet with the given id
     mockMvc.perform(delete("/api/data-sets/" + dataSet.getId()))
       .andExpect(status().isNoContent());
-    
+
     // check if attachment has been deleted as well
     mockMvc.perform(
         get("/api/data-sets/" + dataSetAttachmentMetadata.getDataSetId() + "/attachments"))
@@ -183,7 +184,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void createShadowDataSetAttachment() throws Exception {
+  public void createShadowCopyDataSetAttachment() throws Exception {
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     DataSetAttachmentMetadata dataSetAttachmentMetadata = UnitTestCreateDomainObjectUtils
@@ -197,10 +198,10 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
     mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments")
         .file(attachment)
         .file(metadata))
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
   }
 
-  /* TODO 404 for some reason
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testUpdateAttachmentOfShadowDataSet() throws Exception {
@@ -209,22 +210,23 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
         .buildDataSetAttachmentMetadata("issue1991", 1);
     metadata.setDataSetId(dataSetId);
     metadata.generateId();
+    metadata.setVersion(0L);
 
     String filename = DataSetAttachmentFilenameBuilder.buildFileName(metadata);
     try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
       gridFsOperations.store(is, filename, "text/plain", metadata);
     }
 
-    mockMvc.perform(put("/api/data-sets/" + dataSetId + "/attachments/" + filename)
+    mockMvc.perform(put("/api/data-sets/" + dataSetId + "/attachments/" + metadata.getFileName())
         .content(TestUtil.convertObjectToJsonBytes(metadata))
         .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
   }
-  */
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testDeleteAllAttachmentsOfShadowDataSet() throws Exception {
+  public void testDeleteAllAttachmentsOfShadowCopyDataSet() throws Exception {
     String dataSetId = "dat-issue1991-ds1$-1.0.0";
 
     DataSetAttachmentMetadata metadata = UnitTestCreateDomainObjectUtils
@@ -238,12 +240,12 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
     }
 
     mockMvc.perform(delete("/api/data-sets/" + dataSetId + "/attachments"))
-        .andExpect(status().isBadRequest());
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
   }
 
-  /* TODO 404 for some reason
   @Test
-  @WithMockUser
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testDeleteAttachmentOfShadowDataSet() throws Exception {
     String dataSetId = "dat-issue1991-ds1$-1.0.0";
 
@@ -257,8 +259,8 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
       gridFsOperations.store(is, filename, "text/plain", metadata);
     }
 
-    mockMvc.perform(delete("/api/data-sets/" + dataSetId + "/attachments/" + filename))
-        .andExpect(status().isBadRequest());
+    mockMvc.perform(delete("/api/data-sets/" + dataSetId + "/attachments/" + metadata.getFileName()))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
   }
-  */
 }

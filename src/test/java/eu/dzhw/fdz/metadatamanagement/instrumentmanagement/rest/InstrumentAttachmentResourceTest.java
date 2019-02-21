@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.rest;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -8,10 +9,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.mongodb.gridfs.GridFS;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentFilenameBuilder;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentAttachmentFilenameBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,13 +38,14 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentAtt
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 public class InstrumentAttachmentResourceTest extends AbstractTest {
   @Autowired
   private WebApplicationContext wac;
 
-  @Autowired
-  private InstrumentAttachmentService instrumentAttachmentService;
-  
   @Autowired
   private InstrumentRepository instrumentRepository;
   
@@ -46,6 +54,12 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
   
   @Autowired
   private JaversService javersService;
+
+  @Autowired
+  private GridFsOperations gridFsOperations;
+
+  @Autowired
+  private GridFS gridFs;
 
   private MockMvc mockMvc;
 
@@ -58,9 +72,9 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
   @After
   public void cleanUp() {
     this.instrumentRepository.deleteAll();
-    this.instrumentAttachmentService.deleteAll();
     this.elasticsearchUpdateQueueItemRepository.deleteAll();
     this.javersService.deleteAll();
+    this.gridFs.getFileList().iterator().forEachRemaining(gridFs::remove);
   }
 
   @Test
@@ -138,7 +152,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
 
     // create the instrument with the given id
     mockMvc.perform(put("/api/instruments/" + instrument.getId())
-      .content(TestUtil.convertObjectToJsonBytes(instrument)))
+      .content(TestUtil.convertObjectToJsonBytes(instrument)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
     
     MockMultipartFile attachment =
@@ -165,4 +179,84 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
       .andExpect(content().json("[]"));
   }
 
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testCreateShadowCopyInstrumentAttachment() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    InstrumentAttachmentMetadata instrumentAttachmentMetadata = UnitTestCreateDomainObjectUtils
+        .buildInstrumentAttachmentMetadata("projectid", 1);
+    instrumentAttachmentMetadata.setInstrumentId(instrumentAttachmentMetadata.getInstrumentId() + "-1.0.0");
+    instrumentAttachmentMetadata.generateId();
+    MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/instruments/attachments")
+        .file(attachment)
+        .file(metadata))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testUpdateAttachmentOfShadowCopyInstrument() throws Exception {
+    String instrumentId = "ins-issue1991-ins1$-1.0.0";
+    InstrumentAttachmentMetadata metadata = UnitTestCreateDomainObjectUtils
+        .buildInstrumentAttachmentMetadata("issue1991", 1);
+    metadata.setInstrumentId(instrumentId);
+    metadata.generateId();
+    metadata.setVersion(0L);
+
+    String filename = InstrumentAttachmentFilenameBuilder.buildFileName(metadata);
+    try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
+      gridFsOperations.store(is, filename, "text/plain", metadata);
+    }
+
+    mockMvc.perform(put("/api/instruments/" + instrumentId + "/attachments/" + metadata.getFileName())
+        .content(TestUtil.convertObjectToJsonBytes(metadata))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testDeleteAllAttachmentsOfShadowCopyInstrument() throws Exception {
+    String instrumentId = "ins-issue1991-ins1$-1.0.0";
+
+    InstrumentAttachmentMetadata metadata = UnitTestCreateDomainObjectUtils
+        .buildInstrumentAttachmentMetadata("issue1991", 1);
+    metadata.setInstrumentId(instrumentId);
+    metadata.generateId();
+
+    try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
+      String filename = InstrumentAttachmentFilenameBuilder.buildFileName(metadata);
+      gridFsOperations.store(is, filename, "text/plain", metadata);
+    }
+
+    mockMvc.perform(delete("/api/instruments/" + instrumentId + "/attachments"))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testDeleteAttachmentOfShadowCopyInstrument() throws Exception {
+    String instrumentId = "ins-issue1991-ins1$-1.0.0";
+
+    InstrumentAttachmentMetadata metadata = UnitTestCreateDomainObjectUtils
+        .buildInstrumentAttachmentMetadata("issue1991", 1);
+    metadata.setInstrumentId(instrumentId);
+    metadata.generateId();
+
+    String filename = InstrumentAttachmentFilenameBuilder.buildFileName(metadata);
+    try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
+      gridFsOperations.store(is, filename, "text/plain", metadata);
+    }
+
+    mockMvc.perform(delete("/api/instruments/" + instrumentId + "/attachments/" + metadata.getFileName()))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
+  }
 }
