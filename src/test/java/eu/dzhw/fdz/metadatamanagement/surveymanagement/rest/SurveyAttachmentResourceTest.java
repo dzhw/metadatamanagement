@@ -89,6 +89,8 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
       .file(metadata))
       .andExpect(status().isCreated());
 
+    surveyAttachmentMetadata.generateId();
+
     // read the created attachment and check the version
     mockMvc.perform(
         get("/api/surveys/" + surveyAttachmentMetadata.getSurveyId() + "/attachments"))
@@ -96,7 +98,8 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.[0].surveyId", is(surveyAttachmentMetadata.getSurveyId())))
       .andExpect(jsonPath("$.[0].version", is(0)))
       .andExpect(jsonPath("$.[0].createdBy", is("test")))
-      .andExpect(jsonPath("$.[0].lastModifiedBy", is("test")));
+      .andExpect(jsonPath("$.[0].lastModifiedBy", is("test")))
+      .andExpect(jsonPath("$.[0].masterId", is(surveyAttachmentMetadata.getId())));
   }
 
   @Test

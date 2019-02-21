@@ -2,8 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
-import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRateImageMetadata;
@@ -18,8 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -34,9 +32,6 @@ public class SurveyResponseRateImageService {
   private GridFsOperations operations;
   
   @Autowired
-  private MimeTypeDetector mimeTypeDetector;
-
-  @Autowired
   private SurveyResponseRateImageMetadataShadowCopyDataSource shadowCopyDataSource;
 
   @Autowired
@@ -44,6 +39,9 @@ public class SurveyResponseRateImageService {
 
   @Autowired
   private SurveyRepository surveyRepository;
+
+  @Autowired
+  private AttachmentMetadataHelper<SurveyResponseRateImageMetadata> attachmentMetadataHelper;
 
   /**
    * This method save an image into GridFS/MongoDB based on a byteArrayOutputStream.
@@ -59,21 +57,16 @@ public class SurveyResponseRateImageService {
       throw new ShadowCopyCreateNotAllowedException();
     }
 
-    try (InputStream in = multipartFile.getInputStream()) {
-      String currentUser = SecurityUtils.getCurrentUserLogin();
-      metadata.setVersion(0L);
-      metadata.setCreatedDate(LocalDateTime.now());
-      metadata.setCreatedBy(currentUser);
-      metadata.setLastModifiedBy(currentUser);
-      metadata.setLastModifiedDate(LocalDateTime.now());
-      metadata.generateId();
-      // ensure there is no existing image
-      deleteSurveyImage(metadata.getSurveyId(), fileName);
-      String relativePathWithName = buildFilename(metadata.getSurveyId(), fileName);
-      String contentType = mimeTypeDetector.detect(multipartFile);
-      this.operations.store(in, relativePathWithName, contentType, metadata);   
-      return relativePathWithName;      
-    }
+    String currentUser = SecurityUtils.getCurrentUserLogin();
+    attachmentMetadataHelper.initAttachmentMetadata(metadata, currentUser);
+    metadata.generateId();
+    metadata.setMasterId(metadata.getId());
+    // ensure there is no existing image
+    deleteSurveyImage(metadata.getSurveyId(), fileName);
+    String relativePathWithName = buildFilename(metadata.getSurveyId(), fileName);
+    attachmentMetadataHelper.writeAttachmentMetadata(multipartFile, relativePathWithName, metadata,
+        currentUser);
+    return relativePathWithName;
   }
   
   /**

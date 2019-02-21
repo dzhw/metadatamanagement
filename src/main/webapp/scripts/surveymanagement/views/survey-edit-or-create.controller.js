@@ -175,6 +175,9 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveSurvey = function() {
         if ($scope.surveyForm.$valid) {
+          if (angular.isUndefined(ctrl.survey.masterId)) {
+            ctrl.survey.masterId = ctrl.survey.id;
+          }
           ctrl.survey.$save()
           .then(ctrl.updateElasticSearchIndex)
           .then(ctrl.onSavedSuccessfully)
