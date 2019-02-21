@@ -6,7 +6,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
@@ -112,7 +111,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     StudyAttachmentMetadata studyAttachmentMetadata = UnitTestCreateDomainObjectUtils
       .buildStudyAttachmentMetadata("projectid");
-    studyAttachmentMetadata.setType(new I18nString("hurz", studyAttachmentMetadata.getType().getEn()));
+    studyAttachmentMetadata.setType(new I18nString("hurz","hurz"));
     MockMultipartFile metadata = new MockMultipartFile("studyAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(studyAttachmentMetadata));
 

@@ -3,7 +3,7 @@ Documentation     Check for Publishers no welcome banner appears
 Library           ExtendedSelenium2Library
 
 *** Test Cases ***
-Check for Pubslihers Banner Does not Appears
+Check for Publisher Banner Does not Appear
    Assert No Welcome Text After Login
 
 *** Keywords ***

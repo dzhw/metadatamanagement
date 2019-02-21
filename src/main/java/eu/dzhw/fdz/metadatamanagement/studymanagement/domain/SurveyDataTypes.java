@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.cglib.beans.ImmutableBean;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -16,7 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 public class SurveyDataTypes extends DataTypes {
 
   public static final I18nString MIXED_METHODS = 
-      new I18nString("Mixed Methods", "Mixed Methods");
+      (I18nString) ImmutableBean.create(new I18nString("Mixed Methods", "Mixed Methods"));
   
   public static final Set<I18nString> ALL =
       Collections.unmodifiableSet(new HashSet<>(

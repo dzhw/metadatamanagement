@@ -6,6 +6,8 @@
 
 .. java:import:: java.util Set
 
+.. java:import:: org.springframework.cglib.beans ImmutableBean
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
 SurveyDesigns
