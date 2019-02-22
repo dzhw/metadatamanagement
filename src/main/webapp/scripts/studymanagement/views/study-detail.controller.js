@@ -58,23 +58,15 @@ angular.module('metadatamanagementApp')
 
       entity.promise.then(function(result) {
 
-        DataAcquisitionProjectResource.get({
-          id: result.dataAcquisitionProjectId
-        }).$promise.then(function(project) {
-          if (Principal.hasAnyAuthority(
-            ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+        if (Principal
+          .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          DataAcquisitionProjectResource.get({
+            id: result.dataAcquisitionProjectId
+          }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
             ctrl.assigneeGroup = project.assigneeGroup;
-            activeProject = project;
-          } else {
-            ctrl.isStudyInUpdateProcess = result.release && !project.release;
-            if (ctrl.isStudyInUpdateProcess) {
-              SimpleMessageToastService.openAlertMessageToast(
-                'study-management.detail.' +
-                'is-currently-updated-toast', {id: result.id});
-            }
-          }
-        });
+          });
+        }
 
         PageTitleService.setPageTitle('study-management.detail.title', {
           title: result.title[LanguageService.getCurrentInstantly()],

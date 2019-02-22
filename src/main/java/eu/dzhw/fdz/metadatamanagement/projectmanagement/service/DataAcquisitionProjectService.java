@@ -137,9 +137,8 @@ public class DataAcquisitionProjectService {
   /**
    * Searches for a {@link DataAcquisitionProject} with the given id. The result depends on the
    * user's role. Publishers and administrators find everything (provided the project with the given
-   * id exists). Data Providers only find those projects where they are added as a data provider.
-   * Anonymous users may access all projects.
-   * 
+   * id exists). In all other cases the user must be a data provider for the requested project.
+   *
    * @param projectId Project id
    * @return Optional of {@link DataAcquisitionProject}, might contain {@code null} if the project
    *         doesn't exist or if the user has insufficient access rights.
@@ -149,10 +148,8 @@ public class DataAcquisitionProjectService {
 
     if (isAdmin() || isPublisher()) {
       return acquisitionProjectRepository.findById(projectId);
-    } else if (isDataProvider()) {
-      return acquisitionProjectRepository.findByProjectIdAndDataProviderId(projectId, loginName);
     } else {
-      return acquisitionProjectRepository.findById(projectId);
+      return acquisitionProjectRepository.findByProjectIdAndDataProviderId(projectId, loginName);
     }
   }
 
@@ -162,10 +159,6 @@ public class DataAcquisitionProjectService {
 
   private boolean isPublisher() {
     return userInformationProvider.isUserInRole(AuthoritiesConstants.PUBLISHER);
-  }
-
-  private boolean isDataProvider() {
-    return userInformationProvider.isUserInRole(AuthoritiesConstants.DATA_PROVIDER);
   }
 
   @HandleBeforeSave

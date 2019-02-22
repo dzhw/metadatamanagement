@@ -94,7 +94,6 @@ angular.module('metadatamanagementApp').config(
           'not-found-references': 'The id {{id}} has no References to Studies.',
           'not-yet-released': 'Currently not released',
           'not-released-toast': 'Study "{{ id }}" is being worked on. Therefore it is not visible to all users at the moment!',
-          'is-currently-updated-toast': 'Study "{{ id }}" is currently being updated. Contents of this study might change in the next version.',
           'old-version': 'Your link refers to a former version ({{versionFromUrl}}) of this study. This page displays the current version ({{actualVersion}}) of the study "{{title}}".',
           'beta-release-no-doi': 'This is a BETA release and has no DOI at the moment.',
           'publications-for-series': 'Publications related to Series "{{studySeries}}"',
@@ -129,8 +128,7 @@ angular.module('metadatamanagementApp').config(
               'study-series': 'Click to show all studies of the study series.'
             }
           },
-          'doi-tooltip': 'Click to open the DOI in a new Tab',
-          'is-in-update-process': 'Unavailable, since this study is currently being updated.'
+          'doi-tooltip': 'Click to open the DOI in a new Tab'
         },
         'log-messages': {
           'study': {
