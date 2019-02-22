@@ -1,3 +1,7 @@
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
+
+.. java:import:: org.springframework.cglib.beans ImmutableBean
+
 .. java:import:: java.util Arrays
 
 .. java:import:: java.util Collections
@@ -5,10 +9,6 @@
 .. java:import:: java.util HashSet
 
 .. java:import:: java.util Set
-
-.. java:import:: org.springframework.cglib.beans ImmutableBean
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
 InstrumentAttachmentTypes
 =========================
