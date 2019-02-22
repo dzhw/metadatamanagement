@@ -214,6 +214,44 @@ angular.module('metadatamanagementApp').service('SearchDao',
       });
     };
 
+    var applyFetchOnlyMasterDataFilter = function(query) {
+      var masterFilterCriteria = {
+        'bool': {
+          'must': [{
+            'term': {'shadow': false}
+          }]
+        }
+      };
+      var masterFilter = _.get(query, 'body.query.bool.filter');
+      if (_.isArray(masterFilter)) {
+        query.body.query.bool.filter.push(masterFilterCriteria);
+      } else {
+        _.set(query, 'body.query.bool.filter[0]', masterFilterCriteria);
+      }
+    };
+
+    var applyFetchDataWhereUserIsDataProviderFilter = function(query) {
+      var loginName = Principal.loginName();
+
+      if (loginName) {
+        var filterCriteria = {
+          'bool': {
+            'must': [{
+              'term': {'configuration.dataProviders': loginName}
+            }]
+          }
+        };
+
+        var filterArray = _.get(query, 'body.query.bool.filter');
+
+        if (_.isArray(filterArray)) {
+          query.body.query.bool.filter.push(filterCriteria);
+        } else {
+          _.set(query, 'body.query.bool.filter[0]', filterCriteria);
+        }
+      }
+    };
+
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
                        filter, elasticsearchType, pageSize, idsToExclude) {
@@ -355,27 +393,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
 
         if (Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
+          applyFetchOnlyMasterDataFilter(query);
           return ElasticSearchClient.search(query);
         } else {
-          var loginName = Principal.loginName();
-
-          if (loginName) {
-            var filterCriteria = {
-              'bool': {
-                'must': [{
-                  'term': {'configuration.dataProviders': loginName}
-                }]
-              }
-            };
-
-            var filterArray = _.get(query, 'body.query.bool.filter');
-
-            if (_.isArray(filterArray)) {
-              query.body.query.bool.filter.push(filterCriteria);
-            } else {
-              _.set(query, 'body.query.bool.filter[0]', filterCriteria);
-            }
-          }
+          applyFetchDataWhereUserIsDataProviderFilter(query);
           return ElasticSearchClient.search(query);
         }
       }

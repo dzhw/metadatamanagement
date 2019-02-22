@@ -272,9 +272,30 @@ angular.module('metadatamanagementApp').factory(
       }
     };
 
+    var addOnlyMasterDataFilter = function(query) {
+      if (Principal.loginName()) {
+        var filterCriteria = {
+          'bool': {
+            'must': [{
+              'term': {'shadow': false}
+            }]
+          }
+        };
+
+        var filterArray = _.get(query, 'body.query.bool.filter');
+
+        if (_.isArray(filterArray)) {
+          filterArray.push(filterCriteria);
+        } else {
+          _.set(query, 'body.query.bool.filter', filterCriteria);
+        }
+      }
+    };
+
     var addFilter = function(query) {
       addReleaseFilter(query);
       addDataProviderFilter(query);
+      addOnlyMasterDataFilter(query);
     };
 
     var addQuery = function(query, queryterm) {

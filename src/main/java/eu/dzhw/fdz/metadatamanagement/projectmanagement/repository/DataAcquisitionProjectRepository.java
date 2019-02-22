@@ -21,6 +21,8 @@ public interface DataAcquisitionProjectRepository
 
   List<DataAcquisitionProject> findByIdLikeOrderByIdAsc(@Param("id") String id);
 
+  List<DataAcquisitionProject> findByIdLikeAndShadowIsFalseAndSuccessorIdIsNull(String id);
+
   List<DataAcquisitionProject>
       findAllByConfigurationPublishersContainsOrConfigurationDataProvidersContains(
       @Param("login") String publishers, @Param("login") String dataProviders);

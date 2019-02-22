@@ -124,11 +124,11 @@ public class DataAcquisitionProjectService {
    * @return A list of {@link DataAcquisitionProject}
    */
   public List<DataAcquisitionProject> findByIdLikeOrderByIdAsc(String projectId) {
-    String loginName = userInformationProvider.getUserLogin();
-
     if (isAdmin() || isPublisher()) {
-      return acquisitionProjectRepository.findByIdLikeOrderByIdAsc(projectId);
+      return acquisitionProjectRepository
+          .findByIdLikeAndShadowIsFalseAndSuccessorIdIsNull(projectId);
     } else {
+      String loginName = userInformationProvider.getUserLogin();
       return acquisitionProjectRepository.findAllByIdLikeAndPublisherIdOrderByIdAsc(projectId,
           loginName);
     }
