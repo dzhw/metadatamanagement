@@ -11,6 +11,7 @@ Common domain objects which can be used in all other subdomains of this applicat
    AbstractRdcDomainObject
    Counter
    I18nString
+   ImmutableI18nString
    Period
    Person
    Resolution
