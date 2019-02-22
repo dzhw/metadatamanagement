@@ -231,7 +231,7 @@ angular.module('metadatamanagementApp').factory(
       return _.keys(hiddenFiltersKeyMapping[elasticsearchType]);
     };
 
-    var addReleaseFilter = function(query) {
+    var applyReleaseFilter = function(query) {
       //only publisher and data provider see unreleased projects
       if (!Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER',
@@ -247,7 +247,7 @@ angular.module('metadatamanagementApp').factory(
       }
     };
 
-    var addDataProviderFilter = function(query) {
+    var applyDataProviderFilter = function(query) {
       //we must hide some filter options if user is only data provider
       if (Principal.hasAuthority('ROLE_DATA_PROVIDER') &&
         !Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
@@ -272,7 +272,7 @@ angular.module('metadatamanagementApp').factory(
       }
     };
 
-    var addOnlyMasterDataFilter = function(query) {
+    var applyOnlyMasterDataFilter = function(query) {
       if (Principal.loginName()) {
         var filterCriteria = {
           'bool': {
@@ -292,10 +292,36 @@ angular.module('metadatamanagementApp').factory(
       }
     };
 
+    var applyOnlyLatestShadowCopiesFilter = function(query) {
+      if (!Principal.loginName()) {
+        var filterCriteria = {
+          'bool': {
+            'must': [{
+              'term': {'shadow': true}
+            }],
+            'must_not': {
+              'exists': {
+                'field': 'successorId'
+              }
+            }
+          }
+        };
+
+        var filterArray = _.get(query, 'body.query.bool.filter');
+
+        if (_.isArray(filterArray)) {
+          filterArray.push(filterCriteria);
+        } else {
+          _.set(query, 'body.query.bool.filter', filterCriteria);
+        }
+      }
+    };
+
     var addFilter = function(query) {
-      addReleaseFilter(query);
-      addDataProviderFilter(query);
-      addOnlyMasterDataFilter(query);
+      applyReleaseFilter(query);
+      applyDataProviderFilter(query);
+      applyOnlyMasterDataFilter(query);
+      applyOnlyLatestShadowCopiesFilter(query);
     };
 
     var addQuery = function(query, queryterm) {
