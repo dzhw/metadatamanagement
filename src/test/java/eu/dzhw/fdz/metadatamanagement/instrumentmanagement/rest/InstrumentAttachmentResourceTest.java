@@ -26,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentTypes;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
@@ -86,7 +87,8 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.[0].instrumentId", is(instrumentAttachmentMetadata.getInstrumentId())))
       .andExpect(jsonPath("$.[0].version", is(0)))
       .andExpect(jsonPath("$.[0].createdBy", is("test")))
-      .andExpect(jsonPath("$.[0].lastModifiedBy", is("test")));
+      .andExpect(jsonPath("$.[0].lastModifiedBy", is("test")))
+      .andExpect(jsonPath("$.[0].type.en", is(InstrumentAttachmentTypes.QUESTION_FLOW.getEn())));
   }
 
   @Test
@@ -164,5 +166,10 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
       .andExpect(status().isOk())
       .andExpect(content().json("[]"));
   }
-
+  
+  @Test(expected = IllegalAccessError.class)
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testChangingImmutableI18nString() {
+    InstrumentAttachmentTypes.QUESTION_FLOW.setDe("hurz");
+  }
 }

@@ -5,20 +5,18 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.cglib.beans.ImmutableBean;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ImmutableI18nString;
 
 
 /**
  * All possible types of a {@link DataSet}.
  */
 public class DataSetTypes {
-
   public static final I18nString PERSONAL_RECORD =
-      (I18nString) ImmutableBean.create(new I18nString("Personendatensatz", "Individual Data"));
+      new ImmutableI18nString("Personendatensatz", "Individual Data");
   public static final I18nString EPISODE_RECORD =
-      (I18nString) ImmutableBean.create(new I18nString("Episodendatensatz", "Spell Data"));
+      new ImmutableI18nString("Episodendatensatz", "Spell Data");
   public static final Set<I18nString> ALL =
       Collections.unmodifiableSet(new HashSet<>(Arrays.asList(PERSONAL_RECORD, EPISODE_RECORD)));
 }

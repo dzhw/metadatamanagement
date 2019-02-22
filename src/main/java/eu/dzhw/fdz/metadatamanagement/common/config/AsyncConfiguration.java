@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.security.concurrent.DelegatingSecurityContextExecutor;
 
 /**
  * Configuration for {@link Async} and {@link Scheduled} tasks. *
@@ -29,7 +30,7 @@ public class AsyncConfiguration implements AsyncConfigurer {
     executor.setMaxPoolSize(50);
     executor.setThreadNamePrefix("AsyncExecuter-");
     executor.initialize();
-    return executor;
+    return new DelegatingSecurityContextExecutor(executor);
   }
 
   @Override

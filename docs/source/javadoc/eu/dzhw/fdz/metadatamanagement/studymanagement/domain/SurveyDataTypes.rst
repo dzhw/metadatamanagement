@@ -6,9 +6,9 @@
 
 .. java:import:: java.util Set
 
-.. java:import:: org.springframework.cglib.beans ImmutableBean
-
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain ImmutableI18nString
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain DataTypes
 
