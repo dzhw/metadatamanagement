@@ -3,6 +3,14 @@
 
 angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
   function($rootScope) {
+    var stripVersionSuffix = function(id) {
+      var match = id.match(/-[0-9]+\.[0-9]+\.[0-9]+$/);
+      if (match !== null) {
+        return id.substr(0, match.index);
+      } else {
+        return id;
+      }
+    };
     var translationStringsMap = {
       'questionDetail': {
         'type': 'question-management.detail.label.question',
@@ -155,7 +163,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       if (item.studyIsPresent) {
         studyItem.state = 'studyDetail({"id":"' + item.studyId + '"})';
         studyItem.tooltip = translationStringsMap.studyDetail.translateString;
-        studyItem.projectId = item.projectId;
+        studyItem.projectId = stripVersionSuffix(item.projectId);
         studyItem.enableLastItem = item.enableLastItem;
       } else {
         studyItem.notFound = '?';

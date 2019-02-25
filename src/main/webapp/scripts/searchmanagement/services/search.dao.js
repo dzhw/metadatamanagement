@@ -305,7 +305,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
           'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
           'population', 'release',
           'instrumentNumber', 'instrument.description', 'surveys.title',
-          'language', 'subDataSets', 'accessWays', 'maxNumberOfObservations'
+          'language', 'subDataSets', 'accessWays', 'maxNumberOfObservations',
+          'masterId'
         ];
 
         query.body.sort = SearchHelperService

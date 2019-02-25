@@ -4,7 +4,7 @@
         <md-item-template>
           <span class="item-title fdz-truncate-string">
             <strong md-highlight-text="searchText" md-highlight-flags="ig">{{(item.description | displayI18nString)}}</strong>
-            <span class="label label-as-badge label-default" md-highlight-text="searchText" md-highlight-flags="ig">{{item.id}}</span>
+            <span class="label label-as-badge label-default" md-highlight-text="searchText" md-highlight-flags="ig">{{item.masterId}}</span>
           </span>
           <span class="item-metadata fdz-truncate-string">{{'search-management.tabs.' + type + '-found' | translate:'{number:' + item.count + '}':'messageformat'}}</span>
         </md-item-template>

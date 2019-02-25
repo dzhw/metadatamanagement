@@ -227,6 +227,12 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
                   'size': 100
                 },
                 'aggs': {
+                  'masterId': {
+                    'terms': {
+                      'field': prefix + 'masterId',
+                      'size': 100
+                    }
+                  },
                   'descriptionDe': {
                     'terms': {
                       'field': prefix + 'description.de',
@@ -303,6 +309,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
               en: bucket.descriptionDe.buckets[0].descriptionEn.buckets[0].key
             },
             id: bucket.key,
+            masterId: bucket.masterId.buckets[0].key,
             count: bucket.doc_count
           };
           descriptions.push(descriptionElement);

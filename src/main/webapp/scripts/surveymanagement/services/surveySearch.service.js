@@ -204,6 +204,12 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
                       'size': 100
                     },
                     'aggs': {
+                      'masterId': {
+                        'terms': {
+                          'field': prefix + 'masterId',
+                          'size': 100
+                        }
+                      },
                       'titleDe': {
                         'terms': {
                           'field': prefix + 'title.de',
@@ -276,6 +282,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
                   en: bucket.titleDe.buckets[0].titleEn.buckets[0].key
                 },
                 id: bucket.key,
+                masterId: bucket.masterId.buckets[0].key,
                 count: bucket.doc_count
               };
               titles.push(titleElement);

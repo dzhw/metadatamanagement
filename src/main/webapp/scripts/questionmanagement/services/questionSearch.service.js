@@ -203,6 +203,12 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
                     'size': 100
                   },
                   'aggs': {
+                    'masterId': {
+                      'terms': {
+                        'field': prefix + 'masterId',
+                        'size': 100
+                      }
+                    },
                     'number': {
                       'terms': {
                         'field': prefix + 'number',
@@ -289,6 +295,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
               },
               number: numberBucket.key,
               id: bucket.key,
+              masterId: bucket.masterId.buckets[0].key,
               count: bucket.doc_count
             };
             titles.push(titleElement);

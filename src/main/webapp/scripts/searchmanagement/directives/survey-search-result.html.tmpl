@@ -5,7 +5,7 @@
                 <md-icon md-svg-src="/assets/images/icons/survey.svg" class="fdz-search-result-icon"></md-icon>
             </md-card-avatar>
             <md-card-header-text class="fdz-truncate-string">
-                <div class="md-title fdz-truncate-string"><span display-i18n-string="searchResult.title"></span> <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
+                <div class="md-title fdz-truncate-string"><span display-i18n-string="searchResult.title"></span> <span class="label label-as-badge label-default">{{searchResult.masterId}}</span></div>
                 <div class="md-subhead fdz-truncate-string">{{searchResult.dataType[currentLanguage]}}, <span display-i18n-string="searchResult.surveyMethod"></span></div>
             </md-card-header-text>
         </md-card-header>
@@ -30,7 +30,7 @@
             </div>
         </md-card-content>
         <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-            {{'search-management.cards.survey-tooltip' | translate: {id:searchResult.id} }}
+            {{'search-management.cards.survey-tooltip' | translate: {id: searchResult.masterId} }}
         </md-tooltip>
     </a>
     <div class="fdz-search-result-actions-container" ng-if="!projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER">

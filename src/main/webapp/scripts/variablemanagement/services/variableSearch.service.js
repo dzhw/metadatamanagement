@@ -302,6 +302,12 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
                       'size': 100
                     },
                     'aggs': {
+                      'masterId': {
+                        'terms': {
+                          'field': prefix + 'masterId',
+                          'size': 100
+                        }
+                      },
                       'labelDe': {
                         'terms': {
                           'field': prefix + 'label.de',
@@ -378,6 +384,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
                     bucket.labelEn.buckets[0].key : ''
                 },
                 id: bucket.key,
+                masterId: bucket.masterId.buckets[0].key,
                 count: bucket.doc_count
               };
               labels.push(labelElement);

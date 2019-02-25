@@ -30,4 +30,6 @@ public interface DataSetSubDocumentProjection
   String getStudyId();
 
   List<String> getSurveyIds();
+
+  String getMasterId();
 }
