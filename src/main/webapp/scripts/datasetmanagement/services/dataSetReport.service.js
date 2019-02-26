@@ -5,10 +5,10 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
   function(Upload, FileResource, JobLoggingService, ZipWriterService,
     $timeout, $http, $log) {
     var uploadTexTemplate = function(files, dataAcquisitionProjectId) {
+      JobLoggingService.start('dataSetReport');
       ZipWriterService.createZipFileAsync(files, true).then(function(file) {
         if (file !== null) {
           file.name = file.name || 'report.zip';
-          JobLoggingService.start('dataSetReport');
           Upload.upload({
             url: 'api/data-sets/report',
             fields: {
@@ -75,11 +75,17 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
               tick();
             }).error(function(error) {
             $log.error('Template Upload failed', error);
+            JobLoggingService.cancel(
+              'data-set-management.log-messages.tex.cancelled', {}
+            );
           });
         } else {
           JobLoggingService.cancel(
             'data-set-management.log-messages.tex.cancelled', {});
         }
+      }).catch(function() {
+        JobLoggingService.cancel(
+          'data-set-management.log-messages.tex.cancelled', {});
       });
     };
     return {
