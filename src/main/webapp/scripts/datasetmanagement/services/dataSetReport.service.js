@@ -15,8 +15,9 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
               'id': dataAcquisitionProjectId
             },
             file: file
+            // jshint -W098
           }).success(function(data, status, headers) {
-            if (data.state === 'RUNNING' && status === 202) {
+              // jshint +W098
               var pollUri = headers('location');
               var tick = function() {
                 $http.get(pollUri).then(function(task) {
@@ -72,8 +73,7 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
                 });
               };
               tick();
-            }
-          }).error(function(error) {
+            }).error(function(error) {
             $log.error('Template Upload failed', error);
           });
         } else {
