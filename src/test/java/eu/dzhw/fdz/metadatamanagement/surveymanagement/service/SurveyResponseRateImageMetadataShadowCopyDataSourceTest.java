@@ -90,6 +90,7 @@ public class SurveyResponseRateImageMetadataShadowCopyDataSourceTest extends Abs
     assertThat(metadata.getSurveyId(), equalTo(master.getSurveyId() + "-" + release.getVersion()));
     assertThat(metadata.getDataAcquisitionProjectId(), equalTo(master.getDataAcquisitionProjectId() + "-" + release.getVersion()));
     assertThat(metadata.isShadow(), equalTo(true));
+    assertThat(shadow.getMetadata().get("_contentType"), equalTo("image/png"));
   }
 
   private SurveyResponseRateImageMetadata convertGridFsFileToSurveyResponseRateImageMetadata(GridFSFile shadow) {
@@ -113,6 +114,7 @@ public class SurveyResponseRateImageMetadataShadowCopyDataSourceTest extends Abs
     Query predecessorQuery = new Query(GridFsCriteria.whereFilename().is(createFileName("1.0.0")));
     GridFSFile predecessorFile = gridFsOperations.findOne(predecessorQuery);
     assertThat(predecessorFile, notNullValue());
+    assertThat(predecessorFile.getMetadata().get("_contentType"), equalTo("image/png"));
     SurveyResponseRateImageMetadata predecessorMetadata =
         convertGridFsFileToSurveyResponseRateImageMetadata(predecessorFile);
 
@@ -171,6 +173,7 @@ public class SurveyResponseRateImageMetadataShadowCopyDataSourceTest extends Abs
 
     gridFs.getFileList().iterator().forEachRemaining(files::add);
     assertThat(files.size(), equalTo(2));
+    assertThat(shadowFile.getMetadata().get("_contentType"), equalTo("image/png"));
   }
 
   private String createFileName(String version) {
@@ -214,10 +217,10 @@ public class SurveyResponseRateImageMetadataShadowCopyDataSourceTest extends Abs
   private void createTestFileForSurveyRateImage(SurveyResponseRateImageMetadata metadata)
       throws Exception {
 
-    try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
+    try (InputStream is = new ByteArrayInputStream("fakeimage".getBytes(StandardCharsets.UTF_8))) {
       String filename = String.format("/surveys/%s/%s", metadata.getSurveyId(),
           metadata.getFileName());
-      gridFsOperations.store(is, filename, "text/plain", metadata);
+      gridFsOperations.store(is, filename, "image/png", metadata);
     }
   }
 }

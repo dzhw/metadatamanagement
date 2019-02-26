@@ -252,7 +252,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
       }
     };
 
-    var applyFetchLatestShadowCopyFilter = function(query) {
+    var applyFetchLatestShadowCopyFilter = function(query,
+        searchLatestShadowCopy) {
       var loginName = Principal.loginName();
 
       if (!loginName) {
@@ -260,16 +261,13 @@ angular.module('metadatamanagementApp').service('SearchDao',
           'bool': {
             'must': [{
               'term': {'shadow': true}
-            }],
-            'must_not': [
-              {
-                'exists': {
-                  'field': 'successorId'
-                }
-              }
-            ]
+            }]
           }
         };
+
+        if (searchLatestShadowCopy) {
+          _.set(filterCriteria, 'bool.must_not[0].exists.field', 'successorId');
+        }
 
         var filterArray = _.get(query, 'body.query.bool.filter');
 
@@ -427,7 +425,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           return ElasticSearchClient.search(query);
         } else {
           applyFetchDataWhereUserIsDataProviderFilter(query);
-          applyFetchLatestShadowCopyFilter(query);
+          applyFetchLatestShadowCopyFilter(query, _.isEmpty(filter));
           return ElasticSearchClient.search(query);
         }
       }

@@ -80,6 +80,8 @@ public abstract class AbstractAttachmentShadowCopyDataSource
     GridFSDBFile file = gridFs.findOne(getPredecessorFileName(predecessor));
     BasicDBObject dbObject = new BasicDBObject((Document) mongoTemplate.getConverter()
         .convertToMongoType(predecessor));
+    // _contentType gets lost after metadata conversion, so we have to set it again explicitly.
+    dbObject.append("_contentType", getContentType(file));
     file.setMetaData(dbObject);
     file.save();
   }

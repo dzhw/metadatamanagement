@@ -272,56 +272,56 @@ angular.module('metadatamanagementApp').factory(
       }
     };
 
-    var applyOnlyMasterDataFilter = function(query) {
-      if (Principal.loginName()) {
-        var filterCriteria = {
-          'bool': {
-            'must': [{
-              'term': {'shadow': false}
-            }]
-          }
-        };
-
-        var filterArray = _.get(query, 'body.query.bool.filter');
-
-        if (_.isArray(filterArray)) {
-          filterArray.push(filterCriteria);
-        } else {
-          _.set(query, 'body.query.bool.filter', filterCriteria);
-        }
+    var pushToFilterArray = function(query, filterEntry) {
+      var filter = _.get(query, 'body.query.bool.filter');
+      if (_.isArray(filter)) {
+        filter.push(filterEntry);
+      } else if (_.isEmpty(filter)) {
+        _.set(query, 'body.query.bool.filter[0]', filterEntry);
+      } else {
+        _.set(query, 'body.query.bool.filter[0]', filter);
+        _.set(query, 'body.query.bool.filter[1]', filterEntry);
       }
     };
 
-    var applyOnlyLatestShadowCopiesFilter = function(query) {
-      if (!Principal.loginName()) {
-        var filterCriteria = {
-          'bool': {
-            'must': [{
-              'term': {'shadow': true}
-            }],
-            'must_not': {
-              'exists': {
-                'field': 'successorId'
-              }
-            }
-          }
-        };
-
-        var filterArray = _.get(query, 'body.query.bool.filter');
-
-        if (_.isArray(filterArray)) {
-          filterArray.push(filterCriteria);
-        } else {
-          _.set(query, 'body.query.bool.filter', filterCriteria);
+    var applyOnlyMasterDataFilter = function(query) {
+      var masterFilter = {
+        'bool': {
+          'must': [{
+            'term': {'shadow': false}
+          }]
         }
+      };
+      pushToFilterArray(query, masterFilter);
+    };
+
+    var applyShadowCopyFilter = function(query, filterLatestShadowCopy) {
+      var shadowCopyFilter = {
+        'bool': {
+          'must': [{
+            'term': {'shadow': true}
+          }]
+        }
+      };
+
+      if (filterLatestShadowCopy) {
+        _.set(shadowCopyFilter, 'bool.must_not[0].exists.field',
+          'successorId');
+      }
+      pushToFilterArray(query, shadowCopyFilter);
+    };
+
+    var addShadowCopyFilter = function(query, filterLatestShadowCopy) {
+      if (Principal.loginName()) {
+        applyOnlyMasterDataFilter(query);
+      } else {
+        applyShadowCopyFilter(query, filterLatestShadowCopy);
       }
     };
 
     var addFilter = function(query) {
       applyReleaseFilter(query);
       applyDataProviderFilter(query);
-      applyOnlyMasterDataFilter(query);
-      applyOnlyLatestShadowCopiesFilter(query);
     };
 
     var addQuery = function(query, queryterm) {
@@ -347,13 +347,56 @@ angular.module('metadatamanagementApp').factory(
       }
     };
 
+    var createShadowByIdAndVersionQuery = function(id, version) {
+      var query = {
+        'body': {
+          'query': {
+            'constant_score': {
+              'filter':
+                {
+                  'bool': {
+                    'must': [
+                      {
+                        'term': {
+                          'masterId': id
+                        }
+                      },
+                      {
+                        'term': {
+                          'shadow': true
+                        }
+                      }
+                    ]
+                  }
+                }
+            }
+          }
+        }
+      };
+
+      if (version) {
+        query.body.query.constant_score.filter.bool.must.push({
+          'term': {
+            'release.version': version
+          }
+        });
+      } else {
+        _.set(query, 'body.query.constant_score.filter.bool.must_not.exists' +
+          '.field', 'successorId');
+      }
+
+      return query;
+    };
+
     return {
       createTermFilters: createTermFilters,
       removeIrrelevantFilters: removeIrrelevantFilters,
       getAvailableFilters: getAvailableFilters,
       getHiddenFilters: getHiddenFilters,
       createSortByCriteria: createSortByCriteria,
+      createShadowByIdAndVersionQuery: createShadowByIdAndVersionQuery,
       addFilter: addFilter,
+      addShadowCopyFilter: addShadowCopyFilter,
       addQuery: addQuery
     };
   }

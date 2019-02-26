@@ -48,6 +48,21 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         return deferred;
       };
 
+      var findShadowByIdAndVersion = function(id, version) {
+        var query = {};
+        _.extend(query, createQueryObject(),
+          SearchHelperService.createShadowByIdAndVersionQuery(id, version));
+        var deferred = $q.defer();
+        ElasticSearchClient.search(query).then(function(result) {
+          if (result.hits.total === 1) {
+            deferred.resolve(result.hits.hits[0]._source);
+          } else {
+            return deferred.resolve(null);
+          }
+        }, deferred.reject);
+        return deferred;
+      };
+
       var findByStudyId = function(studyId, selectedAttributes, from, size) {
         var query = createQueryObject();
         query.body = {};
@@ -263,8 +278,8 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         }
 
         SearchHelperService.addQuery(query, queryterm);
-
         SearchHelperService.addFilter(query);
+        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
 
         return ElasticSearchClient.search(query).then(function(result) {
           var titles = [];
@@ -307,6 +322,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
 
       return {
         findOneById: findOneById,
+        findShadowByIdAndVersion: findShadowByIdAndVersion,
         findByStudyId: findByStudyId,
         findByDataSetId: findByDataSetId,
         countBy: countBy,

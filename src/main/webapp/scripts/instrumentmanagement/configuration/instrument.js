@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('instrumentDetail', {
         parent: 'site',
-        url: '/instruments/{id}?{search-result-index}',
+        url: '/instruments/{id}?{search-result-index},{version}',
         reloadOnSearch: false,
         data: {
           authorities: []
@@ -21,12 +21,17 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'InstrumentSearchService',
-            function($stateParams, InstrumentSearchService) {
-              return InstrumentSearchService.findOneById($stateParams.id);
+          entity: ['$stateParams', 'InstrumentSearchService', 'Principal',
+            function($stateParams, InstrumentSearchService, Principal) {
+              if (Principal.loginName()) {
+                return InstrumentSearchService.findOneById($stateParams.id);
+              } else {
+                return InstrumentSearchService.findShadowByIdAndVersion(
+                  $stateParams.id, $stateParams.version);
+              }
             }
           ]
-        },
+        }
       });
 
     $stateProvider
@@ -62,7 +67,7 @@ angular.module('metadatamanagementApp')
               });
             }
           ]
-        },
+        }
       });
 
     $stateProvider
@@ -96,6 +101,6 @@ angular.module('metadatamanagementApp')
           entity: function() {
             return null;
           }
-        },
+        }
       });
   });

@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('surveyDetail', {
         parent: 'site',
-        url: '/surveys/{id}?{search-result-index}',
+        url: '/surveys/{id}?{search-result-index},{version}',
         reloadOnSearch: false,
         data: {
           authorities: []
@@ -21,12 +21,17 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'SurveySearchService',
-            function($stateParams, SurveySearchService) {
-              return SurveySearchService.findOneById($stateParams.id);
+          entity: ['$stateParams', 'SurveySearchService', 'Principal',
+            function($stateParams, SurveySearchService, Principal) {
+              if (Principal.loginName()) {
+                return SurveySearchService.findOneById($stateParams.id);
+              } else {
+                return SurveySearchService.findShadowByIdAndVersion(
+                  $stateParams.id, $stateParams.version);
+              }
             }
           ]
-        },
+        }
       });
 
     $stateProvider

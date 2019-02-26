@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -101,6 +102,9 @@ public class InstrumentAttachmentMetadataShadowCopyDataSourceTest extends Abstra
     expectedFiles.add("/instruments/ins-" + PROJECT_ID + "-ins1$/attachments/filename.txt");
     expectedFiles.add("/instruments/ins-" + PROJECT_ID + "-ins1$-1.0.0/attachments/filename.txt");
     assertExpectedFilesExistence(expectedFiles);
+
+    GridFSDBFile shadowCopy = gridFs.findOne("/instruments/ins-" + PROJECT_ID + "-ins1$-1.0.0/attachments/filename.txt");
+    assertThat(shadowCopy.getMetaData().get("_contentType"), equalTo("text/plain"));
   }
 
   @Test
@@ -128,6 +132,9 @@ public class InstrumentAttachmentMetadataShadowCopyDataSourceTest extends Abstra
         .read(InstrumentAttachmentMetadata.class, shadowFile.getMetadata());
 
     assertThat(metadata.getSuccessorId(), nullValue());
+
+    GridFSDBFile shadowCopy = gridFs.findOne("/instruments/ins-" + PROJECT_ID + "-ins1$-1.0.0/attachments/filename.txt");
+    assertThat(shadowCopy.getMetaData().get("_contentType"), equalTo("text/plain"));
   }
 
   @Test
@@ -158,6 +165,9 @@ public class InstrumentAttachmentMetadataShadowCopyDataSourceTest extends Abstra
     expectedFiles.add("/instruments/ins-" + PROJECT_ID + "-ins1$-1.0.0/attachments/filename.txt");
     expectedFiles.add("/instruments/ins-" + PROJECT_ID + "-ins1$-1.0.1/attachments/filename.txt");
     assertExpectedFilesExistence(expectedFiles);
+
+    GridFSDBFile predecessor = gridFs.findOne("/instruments/ins-" + PROJECT_ID + "-ins1$-1.0.0/attachments/filename.txt");
+    assertThat(predecessor.getMetaData().get("_contentType"), equalTo("text/plain"));
   }
 
   @Test

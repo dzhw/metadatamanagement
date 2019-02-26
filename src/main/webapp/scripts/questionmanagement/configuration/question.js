@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('questionDetail', {
         parent: 'site',
-        url: '/questions/{id}?{search-result-index}',
+        url: '/questions/{id}?{search-result-index},{version}',
         reloadOnSearch: false,
         data: {
           authorities: []
@@ -21,9 +21,14 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'QuestionSearchService',
-          function($stateParams, QuestionSearchService) {
-              return QuestionSearchService.findOneById($stateParams.id);
+          entity: ['$stateParams', 'QuestionSearchService', 'Principal',
+          function($stateParams, QuestionSearchService, Principal) {
+              if (Principal.loginName()) {
+                return QuestionSearchService.findOneById($stateParams.id);
+              } else {
+                return QuestionSearchService.findShadowByIdAndVersion(
+                  $stateParams.id, $stateParams.version);
+              }
             }
           ]
         }

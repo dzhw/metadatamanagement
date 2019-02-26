@@ -677,6 +677,14 @@
 						}
 					}
 				}
+			},
+			"release": {
+				"type": "object",
+				"properties": {
+					"version": {
+						"type": "keyword"
+					}
+				}
 			}
 		}
 	}

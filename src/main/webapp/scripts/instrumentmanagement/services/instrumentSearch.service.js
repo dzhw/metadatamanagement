@@ -144,8 +144,8 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
       }
 
       SearchHelperService.addQuery(query, queryterm);
-
       SearchHelperService.addFilter(query);
+      SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
 
       return ElasticSearchClient.search(query).then(function(result) {
         var descriptions = [];
@@ -183,6 +183,21 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
             deferred.resolve(response);
           }
         });
+      return deferred;
+    };
+
+    var findShadowByIdAndVersion = function(id, version) {
+      var query = {};
+      _.extend(query, createQueryObject(),
+        SearchHelperService.createShadowByIdAndVersionQuery(id, version));
+      var deferred = $q.defer();
+      ElasticSearchClient.search(query).then(function(result) {
+        if (result.hits.total === 1) {
+          deferred.resolve(result.hits.hits[0]._source);
+        } else {
+          return deferred.resolve(null);
+        }
+      }, deferred.reject);
       return deferred;
     };
 
@@ -251,6 +266,7 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
       findOneById: findOneById,
       findBySurveyId: findBySurveyId,
       findByProjectId: findByProjectId,
+      findShadowByIdAndVersion: findShadowByIdAndVersion,
       countBy: countBy,
       findInstrumentDescriptions: findInstrumentDescriptions
     };

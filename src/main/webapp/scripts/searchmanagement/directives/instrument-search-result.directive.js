@@ -57,6 +57,7 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
             $state.go('instrumentEdit', {id: $scope.searchResult.id});
           }
         };
+        $scope.isLoggedIn = Principal.loginName();
       }
     };
   });

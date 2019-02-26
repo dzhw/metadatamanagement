@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.service;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -103,6 +104,9 @@ public class QuestionImageMetadataShadowCopyDataSourceTest extends AbstractTest 
     expectedFiles.add("/questions/que-" + PROJECT_ID + "-ins1-1.1$/images/TestFileName.PNG");
     expectedFiles.add("/questions/que-" + PROJECT_ID + "-ins1-1.1$-1.0.0/images/TestFileName.PNG");
     assertExpectedFilesExistence(expectedFiles);
+
+    GridFSDBFile shadowCopy = gridFs.findOne("/questions/que-" + PROJECT_ID + "-ins1-1.1$-1.0.0/images/TestFileName.PNG");
+    assertThat(shadowCopy.getMetaData().get("_contentType"), equalTo("image/png"));
   }
 
   @Test
@@ -130,6 +134,7 @@ public class QuestionImageMetadataShadowCopyDataSourceTest extends AbstractTest 
         .read(QuestionImageMetadata.class, shadowFile.getMetadata());
 
     assertThat(metadata.getSuccessorId(), nullValue());
+    assertThat(shadowFile.getMetadata().get("_contentType"), equalTo("image/png"));
   }
 
   @Test
@@ -160,6 +165,9 @@ public class QuestionImageMetadataShadowCopyDataSourceTest extends AbstractTest 
     expectedFiles.add("/questions/que-" + PROJECT_ID + "-ins1-1.1$-1.0.0/images/TestFileName.PNG");
     expectedFiles.add("/questions/que-" + PROJECT_ID + "-ins1-1.1$-1.0.1/images/TestFileName.PNG");
     assertExpectedFilesExistence(expectedFiles);
+
+    GridFSDBFile predecessor = gridFs.findOne("/questions/que-" + PROJECT_ID + "-ins1-1.1$-1.0.0/images/TestFileName.PNG");
+    assertThat(predecessor.getMetaData().get("_contentType"), equalTo("image/png"));
   }
 
   @Test

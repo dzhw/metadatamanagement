@@ -64,6 +64,21 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       return deferred;
     };
 
+    var findShadowByIdAndVersion = function(id, version) {
+      var query = {};
+      _.extend(query, createQueryObject(),
+        SearchHelperService.createShadowByIdAndVersionQuery(id, version));
+      var deferred = $q.defer();
+      ElasticSearchClient.search(query).then(function(result) {
+        if (result.hits.total === 1) {
+          deferred.resolve(result.hits.hits[0]._source);
+        } else {
+          return deferred.resolve(null);
+        }
+      }, deferred.reject);
+      return deferred;
+    };
+
     var findAllSuccessors = function(questionIds, selectedAttributes, from,
       size) {
       var ids = _.split(questionIds, ',');
@@ -272,8 +287,8 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       }
 
       SearchHelperService.addQuery(query, queryterm);
-
       SearchHelperService.addFilter(query);
+      SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
 
       return ElasticSearchClient.search(query).then(function(result) {
         var titles = [];
@@ -310,6 +325,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       findByProjectId: findByProjectId,
       findByStudyId: findByProjectId,
       findByVariableId: findByVariableId,
+      findShadowByIdAndVersion: findShadowByIdAndVersion,
       countBy: countBy,
       findQuestionTitles: findQuestionTitles
     };

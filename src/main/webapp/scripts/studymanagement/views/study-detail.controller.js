@@ -113,12 +113,17 @@ angular.module('metadatamanagementApp')
           if (ctrl.counts.instrumentsCount === 1) {
             ctrl.instrument = result.instruments[0];
           }
+          if (result.release.version) {
+            ctrl.study.surveys.map(function(survey) {
+              _.set(survey, 'release.version', result.release.version);
+            });
+          }
           /* We need to load search the dataSets cause the contain needed
              survey titles */
           DataSetSearchService.findByStudyId(result.id,
             ['id', 'number', 'description', 'type', 'surveys',
               'maxNumberOfObservations', 'accessWays',
-              'dataAcquisitionProjectId', 'masterId'])
+              'dataAcquisitionProjectId', 'masterId', 'release.version'])
             .then(function(dataSets) {
               ctrl.dataSets = dataSets.hits.hits;
             });

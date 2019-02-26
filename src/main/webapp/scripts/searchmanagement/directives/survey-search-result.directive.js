@@ -64,6 +64,7 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
             $state.go('surveyEdit', {id: $scope.searchResult.id});
           }
         };
+        $scope.isLoggedIn = Principal.loginName();
       }
     };
   });

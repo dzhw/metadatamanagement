@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mongodb.gridfs.GridFSDBFile;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -100,6 +101,9 @@ public class SurveyAttachmentShadowCopyDataSourceTest extends AbstractTest {
     expectedFiles.add("/surveys/" + master.getSurveyId() + "/attachments/filename.txt");
     expectedFiles.add("/surveys/" + master.getSurveyId() + "-1.0.0/attachments/filename.txt");
     assertExpectedFilesExistence(expectedFiles);
+
+    GridFSDBFile shadowCopy = gridFs.findOne("/surveys/" + master.getSurveyId() + "-1.0.0/attachments/filename.txt");
+    assertThat(shadowCopy.getMetaData().get("_contentType"), equalTo("text/plain"));
   }
 
   @Test
@@ -127,6 +131,7 @@ public class SurveyAttachmentShadowCopyDataSourceTest extends AbstractTest {
         .read(SurveyAttachmentMetadata.class, shadowFile.getMetadata());
 
     assertThat(metadata.getSuccessorId(), nullValue());
+    assertThat(shadowFile.getMetadata().get("_contentType"), equalTo("text/plain"));
   }
 
   @Test
@@ -157,6 +162,9 @@ public class SurveyAttachmentShadowCopyDataSourceTest extends AbstractTest {
     expectedFiles.add("/surveys/" + master.getSurveyId() + "-1.0.0/attachments/filename.txt");
     expectedFiles.add("/surveys/" + master.getSurveyId() + "-1.0.1/attachments/filename.txt");
     assertExpectedFilesExistence(expectedFiles);
+
+    GridFSDBFile predecessor = gridFs.findOne("/surveys/" + master.getSurveyId() + "-1.0.0/attachments/filename.txt");
+    assertThat(predecessor.getMetaData().get("_contentType"), equalTo("text/plain"));
   }
 
   @Test

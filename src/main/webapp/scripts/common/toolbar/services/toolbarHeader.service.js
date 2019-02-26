@@ -4,6 +4,9 @@
 angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
   function($rootScope) {
     var stripVersionSuffix = function(id) {
+      if (!id) {
+        return id;
+      }
       var match = id.match(/-[0-9]+\.[0-9]+\.[0-9]+$/);
       if (match !== null) {
         return id.substr(0, match.index);
@@ -161,7 +164,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         'icon': translationStringsMap.studyDetail.icon
       };
       if (item.studyIsPresent) {
-        studyItem.state = 'studyDetail({"id":"' + item.studyId + '"})';
+        studyItem.state = 'studyDetail({"id":"' +
+          stripVersionSuffix(item.studyId) + '"})';
         studyItem.tooltip = translationStringsMap.studyDetail.translateString;
         studyItem.projectId = stripVersionSuffix(item.projectId);
         studyItem.enableLastItem = item.enableLastItem;

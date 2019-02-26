@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('dataSetDetail', {
         parent: 'site',
-        url: '/data-sets/{id}?{search-result-index}',
+        url: '/data-sets/{id}?{search-result-index},{version}',
         reloadOnSearch: false,
         data: {
           authorities: []
@@ -21,12 +21,17 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'DataSetSearchService',
-            function($stateParams, DataSetSearchService) {
-              return DataSetSearchService.findOneById($stateParams.id);
+          entity: ['$stateParams', 'DataSetSearchService', 'Principal',
+            function($stateParams, DataSetSearchService, Principal) {
+              if (Principal.loginName()) {
+                return DataSetSearchService.findOneById($stateParams.id);
+              } else {
+                return DataSetSearchService.findShadowByIdAndVersion(
+                  $stateParams.id, $stateParams.version);
+              }
             }
           ]
-        },
+        }
       });
 
     $stateProvider
@@ -62,7 +67,7 @@ angular.module('metadatamanagementApp')
               });
             }
           ]
-        },
+        }
       });
 
     $stateProvider
@@ -96,6 +101,6 @@ angular.module('metadatamanagementApp')
           entity: function() {
             return null;
           }
-        },
+        }
       });
   });
