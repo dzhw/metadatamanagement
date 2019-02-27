@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
            ShoppingCartService, $scope, StudyResource, DataSetSearchService,
            VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
            OrderResource, LanguageService, SimpleMessageToastService, order,
-           ProjectReleaseService) {
+           ProjectReleaseService, $rootScope) {
 
     PageTitleService.setPageTitle('shopping-cart.title');
     ToolbarHeaderService.updateToolbarHeader({
@@ -20,6 +20,15 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     ctrl.counts = {};
     ctrl.initComplete = false;
 
+    var appendVersionSuffix = function(product) {
+      var suffixedProduct = _.cloneDeep(product);
+      suffixedProduct.dataAcquisitionProjectId =
+        product.dataAcquisitionProjectId + '-' + product.version;
+
+      suffixedProduct.study.id = product.study.id + '-' + product.version;
+      return suffixedProduct;
+    };
+
     var initViewWithOrderResource = function(order) {
       order.$promise.then(function(order) {
         ShoppingCartService
@@ -32,6 +41,63 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       }).finally(ctrl.init);
     };
 
+    var loadDataSetCountForProduct = function(product, studyId) {
+      return DataSetSearchService.countByMultiple({
+        'studyId': studyId,
+        'accessWays': product.accessWay
+      }).then(function(result) {
+        ctrl.counts[studyId + product.accessWay + product.version] =
+          ctrl.counts[studyId + product.accessWay +
+          product.version] || {};
+        ctrl.counts[studyId + product.accessWay +
+        product.version].dataSets = result.count;
+      });
+    };
+
+    var loadVariablesCountForProduct = function(product, studyId) {
+      return VariableSearchService.countByMultiple({
+        'studyId': studyId,
+        'accessWays': product.accessWay
+      }).then(function(result) {
+        ctrl.counts[studyId + product.accessWay + product.version] =
+          ctrl.counts[studyId + product.accessWay +
+          product.version] || {};
+        ctrl.counts[studyId + product.accessWay +
+        product.version].variables = result.count;
+      });
+    };
+
+    var loadStudyAsMasterFallback = function(studyId) {
+      var masterId = ProjectReleaseService.stripVersionSuffix(studyId);
+      return StudyResource.get({id: masterId}).$promise.then(function(study) {
+        ctrl.studies[studyId] = study;
+      }, function(error) {
+        return $q.reject(error);
+      });
+    };
+
+    var loadStudy = function(studyId) {
+      return StudyResource.get({id: studyId}).$promise.then(
+        function(study) {
+          ctrl.studies[studyId] = study;
+        }, function(error) {
+          if (error.status === 404) {
+            return loadStudyAsMasterFallback(studyId);
+          } else {
+            return $q.reject(error);
+          }
+        });
+    };
+
+    var loadProjectReleases = function(projectId) {
+      return DataAcquisitionProjectReleasesResource.get(
+        {id: projectId}).$promise.then(function(releases) {
+        if (releases.length > 0) {
+          ctrl.releases[projectId] = releases[0];
+        }
+      });
+    };
+
     ctrl.init = function() {
       var promises = [];
       existingOrderId = ShoppingCartService.getOrderId();
@@ -39,45 +105,23 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       ctrl.customer.email = _.get(order, 'customer.email');
       ctrl.products = ShoppingCartService.getProducts();
       ctrl.products.forEach(function(product) {
-        var studyId = product.study.id;
+        var studyId = product.study.id + '-' + product.version;
+        var dataAcquisitionProjectId = product.dataAcquisitionProjectId + '-' +
+          product.version;
 
         ctrl.studies[studyId] = {};
-        ctrl.releases[product.dataAcquisitionProjectId] = {};
-        promises.push(DataSetSearchService.countByMultiple({
-          'studyId': studyId,
-          'accessWays': product.accessWay
-        }).then(function(result) {
-          ctrl.counts[studyId + product.accessWay + product.version] =
-            ctrl.counts[studyId + product.accessWay +
-            product.version] || {};
-          ctrl.counts[studyId + product.accessWay +
-          product.version].dataSets = result.count;
-        }));
-        promises.push(VariableSearchService.countByMultiple({
-          'studyId': studyId,
-          'accessWays': product.accessWay
-        }).then(function(result) {
-          ctrl.counts[studyId + product.accessWay + product.version] =
-            ctrl.counts[studyId + product.accessWay +
-            product.version] || {};
-          ctrl.counts[studyId + product.accessWay +
-          product.version].variables = result.count;
-        }));
+        ctrl.releases[dataAcquisitionProjectId] = {};
+        promises.push(loadDataSetCountForProduct(product, studyId));
+        promises.push(loadVariablesCountForProduct(product, studyId));
       });
+
+      $rootScope.$broadcast('start-ignoring-404');
       _.forEach(ctrl.studies, function(study, studyId) { // jshint ignore:line
-        promises.push(StudyResource.get({id: studyId}).$promise.then(
-          function(study) {
-            ctrl.studies[studyId] = study;
-          }));
+        promises.push(loadStudy(studyId));
       });
       _.forEach(ctrl.releases,
         function(release, projectId) { // jshint ignore:line
-          promises.push(DataAcquisitionProjectReleasesResource.get(
-            {id: projectId}).$promise.then(function(releases) {
-            if (releases.length > 0) {
-              ctrl.releases[projectId] = releases[0];
-            }
-          }));
+          promises.push(loadProjectReleases(projectId));
         });
       $q.all(promises).then(function() {
         ctrl.initComplete = true;
@@ -90,6 +134,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
             ShoppingCartService.remove(product);
           }
         });
+      }).finally(function() {
+        $rootScope.$broadcast('stop-ignoring-404');
       });
     };
 
@@ -98,18 +144,21 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     });
 
     ctrl.getNumberOfVariables = function(product) {
-      return ctrl.counts[product.study.id + product.accessWay + product.version]
-        .variables;
+      var suffixedProduct = appendVersionSuffix(product);
+      return ctrl.counts[suffixedProduct.study.id + suffixedProduct.accessWay +
+      suffixedProduct.version].variables;
     };
 
     ctrl.getNumberOfDataSets = function(product) {
-      return ctrl.counts[product.study.id + product.accessWay + product.version]
-        .dataSets;
+      var suffixedProduct = appendVersionSuffix(product);
+      return ctrl.counts[suffixedProduct.study.id + suffixedProduct.accessWay +
+      suffixedProduct.version].dataSets;
     };
 
     ctrl.isCurrentVersion = function(product) {
-      return ctrl.releases[product.dataAcquisitionProjectId].version ===
-        product.version;
+      var suffixedProduct = appendVersionSuffix(product);
+      return ctrl.releases[suffixedProduct.dataAcquisitionProjectId].version ===
+        suffixedProduct.version;
     };
 
     ctrl.deleteProduct = function(product) {
@@ -128,18 +177,13 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         ctrl.products.forEach(function(product) {
           var completeProduct = {
             dataAcquisitionProjectId: product.dataAcquisitionProjectId,
-            study: ctrl.studies[product.study.id],
+            study: ctrl.studies[product.study.id + '-' + product.version],
             accessWay: product.accessWay,
             version: product.version
           };
+          completeProduct.study.id = ProjectReleaseService
+            .stripVersionSuffix(completeProduct.study.id);
           order.products.push(completeProduct);
-        });
-
-        order.products.forEach(function(product) {
-          product.dataAcquisitionProjectId = ProjectReleaseService
-            .stripVersionSuffix(product.dataAcquisitionProjectId);
-          product.study.id = ProjectReleaseService
-            .stripVersionSuffix(product.study.id);
         });
 
         var orderFn;

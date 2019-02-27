@@ -136,17 +136,6 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       return normalizedProduct;
     };
 
-    var _appendVersionSuffix = function(product) {
-      var suffixedProduct = _.cloneDeep(product);
-      suffixedProduct.dataAcquisitionProjectId = suffixedProduct
-          .dataAcquisitionProjectId + '-' + suffixedProduct.version;
-
-      suffixedProduct.study.id = suffixedProduct.study.id  + '-' +
-        suffixedProduct.version;
-
-      return suffixedProduct;
-    };
-
     var add = function(product) {
       var normalizedProduct = _stripVersionSuffix(product);
       if (orderId) {
@@ -174,7 +163,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     };
 
     var getProducts = function() {
-      return products.map(_appendVersionSuffix);
+      return _.cloneDeep(products);
     };
 
     var count = function() {
