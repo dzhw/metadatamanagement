@@ -6,7 +6,7 @@ Resource          ../../resources/search_resource.robot
 Resource          ../../resources/project_management_resource.robot
 
 *** Variables ***
-${PROJECT_NAME}  smileyproject
+${PROJECT_NAME}   smileyproject
 
 *** Test Cases ***
 Check Deleting The Last Dataprovider and Publisher From Stack is Not Possible
