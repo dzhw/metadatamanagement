@@ -29,14 +29,12 @@ Select Item and Put in The Cart
    \  Select Version of the Datasets from The List   1.0.1
    \  Check The Close Button is Available
    \  Put in Shopping Cart
-   \  ${staticone} =    set variable    ${1}
-   \  ${staticindex} =    set variable    ${INDEX}
-   \  ${summedindex} =    Evaluate    ${staticone}+${staticindex}
-   \  Assert Item Count   ${summedindex}
+   \  ${count} =    Evaluate    ${1}+${INDEX}
+   \  Assert Item Count   ${count}
 
 Assert Item Count
-   [Arguments]   ${index}
-   Page Should Contain Element   xpath=//span[@ng-if='productsCount'][contains(., '${index}')]
+   [Arguments]   ${count}
+   Page Should Contain Element   xpath=//span[@ng-if='productsCount'][contains(., '${count}')]
 
 Delete an Item
    Click Element Through Tooltips   xpath=//div//following::button//md-icon[contains(., 'delete_forever')]
@@ -85,9 +83,3 @@ Check The Links
 
 Empty The Shopping Cart
    Click Element Through Tooltips   xpath=//span[contains(., 'Einkaufswagen leeren')]
-
-
-
-
-
-
