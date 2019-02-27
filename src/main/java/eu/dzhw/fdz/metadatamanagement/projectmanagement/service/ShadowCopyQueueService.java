@@ -9,7 +9,11 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQue
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.rest.core.event.AfterSaveEvent;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,7 +54,7 @@ public class ShadowCopyQueueService {
   /**
    * Create a new shadow copy queue item.
    * @param dataAcquisitionProjectId Id of project for which a shadow copy should be created
-   * @param shadowCopyVersion The shadow copy version
+   * @param shadowCopyVersion        The shadow copy version
    */
   public void createShadowCopyTask(String dataAcquisitionProjectId, String shadowCopyVersion) {
     ShadowCopyQueueItem queueItem = new ShadowCopyQueueItem();
@@ -74,19 +78,51 @@ public class ShadowCopyQueueService {
   public void createShadowCopies() {
     List<ShadowCopyQueueItem> tasks = shadowCopyQueueRepository.findAll(CREATED_DATE_ASC);
     log.debug("Creating shadow copies for {} queued items.", tasks.size());
-    tasks.forEach(task -> {
-      String dataAcquisitionProjectId = task.getDataAcquisitionProjectId();
-      Optional<DataAcquisitionProject> dataAcquisitionProjectOpt = dataAcquisitionProjectRepository
-          .findById(dataAcquisitionProjectId);
-      if (dataAcquisitionProjectOpt.isPresent()) {
-        emitProjectReleasedEvent(dataAcquisitionProjectOpt.get());
-      } else {
-        log.warn("A shadow copy task was scheduled for project {}, but it could not be found!",
-            dataAcquisitionProjectId);
-      }
-      shadowCopyQueueRepository.delete(task);
-    });
-    log.debug("Finished creating shadow copies.");
+    try {
+      setupSecurityContext();
+      tasks.forEach(task -> {
+        String dataAcquisitionProjectId = task.getDataAcquisitionProjectId();
+        Optional<DataAcquisitionProject> dataAcquisitionProjectOpt =
+            dataAcquisitionProjectRepository.findById(dataAcquisitionProjectId);
+        if (dataAcquisitionProjectOpt.isPresent()) {
+          emitProjectReleasedEvent(dataAcquisitionProjectOpt.get());
+          emitProjectSavedEvent(dataAcquisitionProjectId, task.getShadowCopyVersion());
+        } else {
+          log.warn("A shadow copy task was scheduled for project {}, but it could not be found!",
+              dataAcquisitionProjectId);
+        }
+        shadowCopyQueueRepository.delete(task);
+      });
+      log.debug("Finished creating shadow copies.");
+    } finally {
+      clearSecurityContext();
+    }
+  }
+
+  private void setupSecurityContext() {
+    SecurityContext context = SecurityContextHolder.getContext();
+    context.setAuthentication(new UsernamePasswordAuthenticationToken(getClass().getSimpleName(),
+        ""));
+  }
+
+  private void clearSecurityContext() {
+    SecurityContextHolder.getContext().setAuthentication(null);
+  }
+
+  // Trigger update methods in domain services so they queue document updates for ElasticSearch
+  private void emitProjectSavedEvent(String dataAcquisitionProjectId, String shadowCopyVersion) {
+    String shadowCopyId = dataAcquisitionProjectId + "-" + shadowCopyVersion;
+    Optional<DataAcquisitionProject> shadowCopyOpt = dataAcquisitionProjectRepository
+        .findById(shadowCopyId);
+
+    if (shadowCopyOpt.isPresent()) {
+      AfterSaveEvent saveEvent = new AfterSaveEvent(shadowCopyOpt.get());
+      applicationEventPublisher.publishEvent(saveEvent);
+    } else {
+      log.warn("{} created a shadow copy for project with id {}, but it's shadow copy version "
+              + "with id {} could not be found!", getClass().getSimpleName(),
+          dataAcquisitionProjectId, shadowCopyId);
+    }
   }
 
   private void emitProjectReleasedEvent(DataAcquisitionProject dataAcquisitionProject) {

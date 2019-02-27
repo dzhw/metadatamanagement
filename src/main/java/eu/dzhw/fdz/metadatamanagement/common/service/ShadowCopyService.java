@@ -2,11 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.common.service;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.rest.core.event.AfterCreateEvent;
-import org.springframework.data.rest.core.event.AfterSaveEvent;
-import org.springframework.data.rest.core.event.BeforeCreateEvent;
-import org.springframework.data.rest.core.event.BeforeSaveEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,12 +16,6 @@ import java.util.stream.Stream;
 public class ShadowCopyService<T extends AbstractShadowableRdcDomainObject> {
 
   private static final String MASTER_DELETED_SUCCESSOR_ID = "DELETED";
-
-  private ApplicationEventPublisher applicationEventPublisher;
-
-  public ShadowCopyService(ApplicationEventPublisher applicationEventPublisher) {
-    this.applicationEventPublisher = applicationEventPublisher;
-  }
 
   /**
    * Create shadow copies of the master domain objects of a project returned by
@@ -51,20 +40,14 @@ public class ShadowCopyService<T extends AbstractShadowableRdcDomainObject> {
               if (opt.isPresent()) {
                 T predecessor = opt.get();
                 predecessor.setSuccessorId(shadowCopy.getId());
-                applicationEventPublisher.publishEvent(new BeforeSaveEvent(predecessor));
                 shadowCopyDataSource.updatePredecessor(predecessor);
-                applicationEventPublisher.publishEvent(new AfterSaveEvent(predecessor));
               }
             }
 
             if (shadowCopy.getVersion() == null) {
-              applicationEventPublisher.publishEvent(new BeforeCreateEvent(shadowCopy));
               shadowCopyDataSource.saveShadowCopy(shadowCopy);
-              applicationEventPublisher.publishEvent(new AfterCreateEvent(shadowCopy));
             } else {
-              applicationEventPublisher.publishEvent(new BeforeSaveEvent(shadowCopy));
               shadowCopyDataSource.saveShadowCopy(shadowCopy);
-              applicationEventPublisher.publishEvent(new AfterSaveEvent(shadowCopy));
             }
           });
     }
@@ -74,9 +57,7 @@ public class ShadowCopyService<T extends AbstractShadowableRdcDomainObject> {
 
       shadowCopies.forEach(shadowCopy -> {
         shadowCopy.setSuccessorId(MASTER_DELETED_SUCCESSOR_ID);
-        applicationEventPublisher.publishEvent(new BeforeSaveEvent(shadowCopy));
         shadowCopyDataSource.updatePredecessor(shadowCopy);
-        applicationEventPublisher.publishEvent(new AfterSaveEvent(shadowCopy));
       });
     }
   }

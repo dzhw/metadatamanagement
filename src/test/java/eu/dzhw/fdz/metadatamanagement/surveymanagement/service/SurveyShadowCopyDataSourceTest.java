@@ -53,7 +53,7 @@ public class SurveyShadowCopyDataSourceTest extends AbstractTest {
   @Before
   public void setUp() {
     release = new Release("1.0.0", LocalDateTime.now());
-    shadowCopyService = new ShadowCopyService<>(applicationEventPublisher);
+    shadowCopyService = new ShadowCopyService<>();
     DataAcquisitionProject unreleasedProject = UnitTestCreateDomainObjectUtils
         .buildDataAcquisitionProject();
     unreleasedProject.setRelease(null);

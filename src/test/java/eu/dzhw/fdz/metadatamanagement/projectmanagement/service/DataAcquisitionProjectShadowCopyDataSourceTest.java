@@ -48,7 +48,7 @@ public class DataAcquisitionProjectShadowCopyDataSourceTest extends AbstractTest
   @Before
   public void setUp() {
     release = new Release("1.0.0", LocalDateTime.now());
-    shadowCopyService = new ShadowCopyService<>(applicationEventPublisher);
+    shadowCopyService = new ShadowCopyService<>();
     DataAcquisitionProject releasedProject = UnitTestCreateDomainObjectUtils
         .buildDataAcquisitionProject();
     releasedProject.setRelease(release);
