@@ -61,19 +61,19 @@ public class DataAcquisitionProjectService {
 
   private ShadowCopyService<DataAcquisitionProject> shadowCopyService;
 
-  private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
+  private ShadowCopyQueueService shadowCopyQueueService;
 
   /**
    * Creates a new {@link DataAcquisitionProjectService} instance.
    */
   public DataAcquisitionProjectService(DataAcquisitionProjectRepository dataAcquisitionProjectRepo,
-      ApplicationEventPublisher applicationEventPublisher,
-      UserInformationProvider userInformationProvider,
-      DataAcquisitionProjectChangesProvider changesProvider, UserRepository userRepository,
-      MailService mailService, MetadataManagementProperties metadataManagementProperties,
-      DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource,
-      ShadowCopyService<DataAcquisitionProject> shadowCopyService,
-      DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService) {
+       ApplicationEventPublisher applicationEventPublisher,
+       UserInformationProvider userInformationProvider,
+       DataAcquisitionProjectChangesProvider changesProvider, UserRepository userRepository,
+       MailService mailService, MetadataManagementProperties metadataManagementProperties,
+       DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource,
+       ShadowCopyService<DataAcquisitionProject> shadowCopyService,
+       ShadowCopyQueueService shadowCopyQueueService) {
     this.acquisitionProjectRepository = dataAcquisitionProjectRepo;
     this.eventPublisher = applicationEventPublisher;
     this.userInformationProvider = userInformationProvider;
@@ -84,7 +84,7 @@ public class DataAcquisitionProjectService {
     this.dataAcquisitionProjectShadowCopyDataSource =
         dataAcquisitionProjectShadowCopyDataSource;
     this.shadowCopyService = shadowCopyService;
-    this.dataAcquisitionProjectVersionsService = dataAcquisitionProjectVersionsService;
+    this.shadowCopyQueueService = shadowCopyQueueService;
   }
 
   /**
@@ -174,19 +174,9 @@ public class DataAcquisitionProjectService {
     sendPublishersDataProvidersChangedMails(projectId);
     sendAssigneeGroupChangedMails(newDataAcquisitionProject);
 
-    if (isPublicProjectRelease(newDataAcquisitionProject.getId())) {
-      Release previousRelease = dataAcquisitionProjectVersionsService
-          .findPreviousRelease(newDataAcquisitionProject.getId(),
-              newDataAcquisitionProject.getRelease());
-      String previousVersion;
-
-      if (previousRelease != null) {
-        previousVersion = previousRelease.getVersion();
-      } else {
-        previousVersion = null;
-      }
-      this.eventPublisher.publishEvent(new ProjectReleasedEvent(this, newDataAcquisitionProject,
-          previousVersion));
+    if (isPublicProjectRelease(projectId)) {
+      shadowCopyQueueService.createShadowCopyTask(projectId, newDataAcquisitionProject.getRelease()
+          .getVersion());
     }
   }
 
