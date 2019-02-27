@@ -94,7 +94,7 @@ public class DaraUpdateQueueService {
    * 
    * @param projectId The id of the data acquisition project to be updated.
    */
-  public void enqueue(String projectId) {
+  private void enqueue(String projectId) {
     try {      
       DaraUpdateQueueItem existingItem = queueItemRepository.findOneByProjectId(projectId);
       if (existingItem != null) {
