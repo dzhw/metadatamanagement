@@ -5,7 +5,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
   function(PageTitleService, $state, ToolbarHeaderService,
            ShoppingCartService, $scope, StudyResource, DataSetSearchService,
            VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
-           OrderResource, LanguageService, SimpleMessageToastService, order) {
+           OrderResource, LanguageService, SimpleMessageToastService, order,
+           ProjectReleaseService) {
 
     PageTitleService.setPageTitle('shopping-cart.title');
     ToolbarHeaderService.updateToolbarHeader({
@@ -132,6 +133,13 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
             version: product.version
           };
           order.products.push(completeProduct);
+        });
+
+        order.products.forEach(function(product) {
+          product.dataAcquisitionProjectId = ProjectReleaseService
+            .stripVersionSuffix(product.dataAcquisitionProjectId);
+          product.study.id = ProjectReleaseService
+            .stripVersionSuffix(product.study.id);
         });
 
         var orderFn;
