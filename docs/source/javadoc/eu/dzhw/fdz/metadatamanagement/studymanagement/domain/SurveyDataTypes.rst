@@ -8,6 +8,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain ImmutableI18nString
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain DataTypes
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain Survey

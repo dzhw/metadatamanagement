@@ -49,7 +49,7 @@ to start all services the metadatamanagement depends on. Mongodb and Elasticsear
 
 In order to have all java dependencies for the server and  all bower dependencies for the client and in order to build everything, simply run (and lean back for a while):
 
-    mvn clean package
+    mvn clean install
 
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
@@ -59,7 +59,7 @@ auto-refreshes when files change on your hard drive.
 
 If you want to build a docker image for the metadatamanagement server app you can run
 
-    mvn install
+    mvn deploy
 
 This image can be run with all its dependent containers by
 
