@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Assign dataproviders and publishers from the list and check deleting the last element from the stack in not possible. Verify the smilies of metadata.
+Documentation     Assign dataproviders and publishers from the list and check deleting the last element from the stack in not possible. Verify the check icons of metadata.
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
