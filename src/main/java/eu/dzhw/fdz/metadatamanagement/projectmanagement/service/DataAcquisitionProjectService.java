@@ -170,13 +170,16 @@ public class DataAcquisitionProjectService {
 
   @HandleAfterSave
   void onHandleAfterSave(DataAcquisitionProject newDataAcquisitionProject) {
-    final String projectId = newDataAcquisitionProject.getId();
-    sendPublishersDataProvidersChangedMails(projectId);
-    sendAssigneeGroupChangedMails(newDataAcquisitionProject);
+    if (!newDataAcquisitionProject.isShadow()) {
+      final String projectId = newDataAcquisitionProject.getId();
 
-    if (isPublicProjectRelease(projectId)) {
-      shadowCopyQueueService.createShadowCopyTask(projectId, newDataAcquisitionProject.getRelease()
-          .getVersion());
+      if (isPublicProjectRelease(projectId)) {
+        shadowCopyQueueService.createShadowCopyTask(projectId, newDataAcquisitionProject
+            .getRelease().getVersion());
+      }
+
+      sendPublishersDataProvidersChangedMails(projectId);
+      sendAssigneeGroupChangedMails(newDataAcquisitionProject);
     }
   }
 

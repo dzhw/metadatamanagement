@@ -23,6 +23,10 @@ public class ShadowCopyQueueItem {
   private String dataAcquisitionProjectId;
   @NotNull
   private String shadowCopyVersion;
+  @NotNull
+  private String username;
   @CreatedDate
   private LocalDateTime createdDate;
+
+  private LocalDateTime updateStartedAt;
 }

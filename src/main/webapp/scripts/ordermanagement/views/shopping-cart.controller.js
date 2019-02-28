@@ -106,11 +106,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       ctrl.products = ShoppingCartService.getProducts();
       ctrl.products.forEach(function(product) {
         var studyId = product.study.id + '-' + product.version;
-        var dataAcquisitionProjectId = product.dataAcquisitionProjectId + '-' +
-          product.version;
-
         ctrl.studies[studyId] = {};
-        ctrl.releases[dataAcquisitionProjectId] = {};
+        ctrl.releases[product.dataAcquisitionProjectId] = {};
         promises.push(loadDataSetCountForProduct(product, studyId));
         promises.push(loadVariablesCountForProduct(product, studyId));
       });
@@ -156,9 +153,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     };
 
     ctrl.isCurrentVersion = function(product) {
-      var suffixedProduct = appendVersionSuffix(product);
-      return ctrl.releases[suffixedProduct.dataAcquisitionProjectId].version ===
-        suffixedProduct.version;
+      return ctrl.releases[product.dataAcquisitionProjectId].version ===
+        product.version;
     };
 
     ctrl.deleteProduct = function(product) {

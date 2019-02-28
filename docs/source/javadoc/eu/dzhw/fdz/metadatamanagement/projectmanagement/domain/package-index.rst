@@ -16,5 +16,6 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.projectman
    ProjectState
    Release
    Requirements
+   ShadowCopyQueueItem
    ShadowCopyReleaseToDaraNotAllowed
 

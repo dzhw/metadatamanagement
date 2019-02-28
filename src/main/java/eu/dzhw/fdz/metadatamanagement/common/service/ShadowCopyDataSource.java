@@ -38,15 +38,12 @@ public interface ShadowCopyDataSource<T extends AbstractShadowableRdcDomainObjec
 
   /**
    * Update an existing predecessor shadow copy.
-   * @param predecessor predecessor
-   * @return Persisted predecessor
    */
   void updatePredecessor(T predecessor);
 
   /**
    * Save the (new) shadow copy.
    * @param shadowCopy New shadow copy to save
-   * @return Persisted shadow copy
    */
   void saveShadowCopy(T shadowCopy);
 

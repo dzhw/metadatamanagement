@@ -6,16 +6,20 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueItem;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.core.event.AfterSaveEvent;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.lang.management.ManagementFactory;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +32,7 @@ import java.util.Optional;
 @Slf4j
 public class ShadowCopyQueueService {
 
-  private static final Sort CREATED_DATE_ASC = Sort.by("createdDate").ascending();
+  private String jvmId = ManagementFactory.getRuntimeMXBean().getName();
 
   private ApplicationEventPublisher applicationEventPublisher;
 
@@ -38,17 +42,21 @@ public class ShadowCopyQueueService {
 
   private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
 
+  private UserDetailsService userDetailsService;
+
   /**
    * Create a new instance.
    */
   public ShadowCopyQueueService(ApplicationEventPublisher applicationEventPublisher,
       DataAcquisitionProjectRepository dataAcquisitionProjectRepository,
       ShadowCopyQueueRepository shadowCopyQueueRepository,
-      DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService) {
+      DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService,
+      UserDetailsService userDetailsService) {
     this.applicationEventPublisher = applicationEventPublisher;
     this.dataAcquisitionProjectRepository = dataAcquisitionProjectRepository;
     this.shadowCopyQueueRepository = shadowCopyQueueRepository;
     this.dataAcquisitionProjectVersionsService = dataAcquisitionProjectVersionsService;
+    this.userDetailsService = userDetailsService;
   }
 
   /**
@@ -68,6 +76,7 @@ public class ShadowCopyQueueService {
 
     queueItem.setDataAcquisitionProjectId(dataAcquisitionProjectId);
     queueItem.setShadowCopyVersion(shadowCopyVersion);
+    queueItem.setUsername(SecurityUtils.getCurrentUserLogin());
     shadowCopyQueueRepository.save(queueItem);
   }
 
@@ -76,33 +85,62 @@ public class ShadowCopyQueueService {
    */
   @Scheduled(fixedRate = 1000 * 60, initialDelay = 1000 * 60)
   public void createShadowCopies() {
-    List<ShadowCopyQueueItem> tasks = shadowCopyQueueRepository.findAll(CREATED_DATE_ASC);
+    LocalDateTime updateStartTime = LocalDateTime.now();
+    shadowCopyQueueRepository.lockAllUnlockedOrExpiredItems(updateStartTime, jvmId);
+    List<ShadowCopyQueueItem> tasks = shadowCopyQueueRepository
+        .findOldestLockedItems(updateStartTime, jvmId);
     log.debug("Creating shadow copies for {} queued items.", tasks.size());
-    try {
-      setupSecurityContext();
-      tasks.forEach(task -> {
+    tasks.forEach(task -> {
+      try {
+        setupSecurityContext(task);
         String dataAcquisitionProjectId = task.getDataAcquisitionProjectId();
+        String shadowCopyVersion = task.getShadowCopyVersion();
         Optional<DataAcquisitionProject> dataAcquisitionProjectOpt =
             dataAcquisitionProjectRepository.findById(dataAcquisitionProjectId);
         if (dataAcquisitionProjectOpt.isPresent()) {
-          emitProjectReleasedEvent(dataAcquisitionProjectOpt.get());
-          emitProjectSavedEvent(dataAcquisitionProjectId, task.getShadowCopyVersion());
+          DataAcquisitionProject dataAcquisitionProject = dataAcquisitionProjectOpt.get();
+          emitProjectReleasedEvent(dataAcquisitionProject);
+          emitProjectSavedEvent(dataAcquisitionProjectId, shadowCopyVersion);
+          updateShadowCopyPredecessor(dataAcquisitionProject, shadowCopyVersion);
         } else {
           log.warn("A shadow copy task was scheduled for project {}, but it could not be found!",
               dataAcquisitionProjectId);
         }
         shadowCopyQueueRepository.delete(task);
-      });
-      log.debug("Finished creating shadow copies.");
-    } finally {
-      clearSecurityContext();
+      } finally {
+        clearSecurityContext();
+      }
+    });
+    log.debug("Finished creating shadow copies.");
+  }
+
+  private void updateShadowCopyPredecessor(DataAcquisitionProject dataAcquisitionProject,
+                                           String shadowCopyVersion) {
+    Release previousRelease = dataAcquisitionProjectVersionsService
+        .findPreviousRelease(dataAcquisitionProject.getId(), dataAcquisitionProject.getRelease());
+    if (previousRelease != null) {
+      String lastVersion = previousRelease.getVersion();
+      if (!shadowCopyVersion.equals(lastVersion)) {
+        Optional<DataAcquisitionProject> projectOpt = dataAcquisitionProjectRepository
+            .findById(dataAcquisitionProject.getId() + "-" + lastVersion);
+        projectOpt.ifPresent(project -> applicationEventPublisher
+            .publishEvent(new AfterSaveEvent(project)));
+      }
     }
   }
 
-  private void setupSecurityContext() {
-    SecurityContext context = SecurityContextHolder.getContext();
-    context.setAuthentication(new UsernamePasswordAuthenticationToken(getClass().getSimpleName(),
-        ""));
+  private void setupSecurityContext(ShadowCopyQueueItem shadowCopyQueueItem) {
+    String username = shadowCopyQueueItem.getUsername();
+    try {
+      UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+      UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+          userDetails.getUsername(), userDetails.getPassword(),userDetails.getAuthorities());
+      SecurityContextHolder.getContext().setAuthentication(token);
+    } catch (UsernameNotFoundException e) {
+      throw new IllegalStateException("User " + username + " created a shadow copy task for "
+          + "project " + shadowCopyQueueItem.getDataAcquisitionProjectId() + ", but this user "
+          + "could not be found!", e);
+    }
   }
 
   private void clearSecurityContext() {
