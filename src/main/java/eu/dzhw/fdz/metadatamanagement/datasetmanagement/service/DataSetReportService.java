@@ -277,7 +277,7 @@ public class DataSetReportService {
 
     // Read Template and escape elements
     Template texTemplate = new Template(templateName,
-        (ESCAPE_PREFIX + templateContent + ESCAPE_SUFFIX), templateConfiguration);
+        ESCAPE_PREFIX + templateContent + ESCAPE_SUFFIX, templateConfiguration);
 
     try (Writer stringWriter = new StringWriter()) {
       texTemplate.process(dataForTemplate, stringWriter);

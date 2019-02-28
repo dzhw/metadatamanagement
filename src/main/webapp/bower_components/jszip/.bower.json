@@ -19,14 +19,14 @@
     "test",
     "tests"
   ],
-  "version": "3.1.5",
-  "_release": "3.1.5",
+  "version": "3.2.0",
+  "_release": "3.2.0",
   "_resolution": {
     "type": "version",
-    "tag": "v3.1.5",
-    "commit": "a4138a23cb9b8eb773c19af7d36d5ce2bcf4bfda"
+    "tag": "v3.2.0",
+    "commit": "3e6c86642724d1b0fcc55704b614c8d8e4af2cd5"
   },
   "_source": "https://github.com/Stuk/jszip.git",
-  "_target": "3.1.5",
+  "_target": "3.2.0",
   "_originalSource": "jszip"
 }
