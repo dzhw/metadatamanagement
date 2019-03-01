@@ -47,7 +47,10 @@ public class StudyListService {
     SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 
     sourceBuilder.fetchSource(studyFields, null);
-    sourceBuilder.query(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("release")))
+    sourceBuilder.query(QueryBuilders.boolQuery()
+        .filter(QueryBuilders.existsQuery("release"))
+        .filter(QueryBuilders.termQuery("shadow", true))
+        .mustNot(QueryBuilders.existsQuery("successorId")))
         .from(page * size).size(size).sort("title.de", SortOrder.ASC);
     Search search = new Search.Builder(sourceBuilder.toString()).addIndex("studies").build();
     JestResult searchResult = jestClient.execute(search);
