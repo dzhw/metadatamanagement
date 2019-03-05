@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('ZipWriterService',
-function(FileReaderService, $q) {
+function(FileReaderService, $q, $log) {
   var rootFolderNames;
   var allFiles;
   var createFilesObject = function(file) {
@@ -37,9 +37,20 @@ function(FileReaderService, $q) {
         function() {
           return createFilesObject(file);
         }
-      );
+      ).catch(function(error) {
+        var filename;
+        if (file.path) {
+          filename = file.path;
+        } else {
+          if (file.webkitRelativePath) {
+            filename = file.webkitRelativePath;
+          }
+        }
+        $log.error('Error reading file \'' + filename + '\'');
+        return $q.reject(error);
+      });
     });
-    chainedFilesReader.finally(function() {
+    chainedFilesReader.then(function() {
       var pathPosition = 0;
       if (rootFolderShouldBeRemoved) {
         if (rootFolderNames.length === 1) {
@@ -68,9 +79,12 @@ function(FileReaderService, $q) {
         }
         deferred.resolve(blob);
       }).catch(function(error) {
-        console.log('Error while writing zip file:' + error);
+        $log.error('Error while creating zip file:', error);
         deferred.reject(error);
       });
+    }).catch(function(error) {
+      $log.error('Error while creating zip file:', error);
+      deferred.reject(error);
     });
     return deferred.promise;
   };

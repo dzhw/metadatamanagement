@@ -71,6 +71,10 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       saveProject(project);
     };
 
+    $scope.$on('project-changed', function() {
+        $scope.onSaveChanges();
+      });
+
     $scope.changed = false;
 
     $scope.isPublisher = Principal.hasAnyAuthority(['ROLE_PUBLISHER',

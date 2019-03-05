@@ -34,8 +34,6 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringMustNotContainComma
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringNotEmpty
-
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringSize
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
@@ -113,10 +111,10 @@ dataAvailability
 description
 ^^^^^^^^^^^
 
-.. java:field:: @NotNull @I18nStringSize @I18nStringNotEmpty private I18nString description
+.. java:field:: @NotNull @I18nStringSize @I18nStringEntireNotEmpty private I18nString description
    :outertype: Study
 
-   A description of the study. It must be specified in at least one language and it must not contain more than 2048 characters.
+   A description of the study. It must be specified in German and English and it must not contain more than 2048 characters.
 
 id
 ^^

@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -277,7 +278,7 @@ public class DataSetReportService {
 
     // Read Template and escape elements
     Template texTemplate = new Template(templateName,
-        (ESCAPE_PREFIX + templateContent + ESCAPE_SUFFIX), templateConfiguration);
+        ESCAPE_PREFIX + templateContent + ESCAPE_SUFFIX, templateConfiguration);
 
     try (Writer stringWriter = new StringWriter()) {
       texTemplate.process(dataForTemplate, stringWriter);
@@ -333,10 +334,17 @@ public class DataSetReportService {
   private Map<String, Object> addStudyAndDataSetAndLastRelease(Map<String, Object> dataForTemplate,
       String dataSetId) {
     // Get DataSet and check the valid result
-    DataSet dataSet = this.dataSetRepository.findById(dataSetId).get();
-    Study study = this.studyRepository.findById(dataSet.getStudyId()).get();
-    Release lastRelease =
-        projectVersionsService.findLastRelease(dataSet.getDataAcquisitionProjectId());
+    DataSet dataSet = this.dataSetRepository.findById(dataSetId).orElse(null);
+    Study study;
+    Release lastRelease;
+
+    if (dataSet != null) {
+      study = this.studyRepository.findById(dataSet.getStudyId()).orElse(null);
+      lastRelease = projectVersionsService.findLastRelease(dataSet.getDataAcquisitionProjectId());
+    } else {
+      study = null;
+      lastRelease = null;
+    }
 
     dataForTemplate.put("study", study);
     dataForTemplate.put("dataSet", dataSet);
@@ -359,9 +367,14 @@ public class DataSetReportService {
    */
   private Map<String, Object> createVariableDependingMaps(Map<String, Object> dataForTemplate) {
     // Create a Map of Variables
-    String dataSetId = ((DataSet) dataForTemplate.get("dataSet")).getId();
-    List<Variable> variables =
-        this.variableRepository.findByDataSetIdOrderByIndexInDataSetAsc(dataSetId);
+    DataSet dataSet = (DataSet) dataForTemplate.get("dataSet");
+    String dataSetId = dataSet != null ? dataSet.getId() : null;
+    List<Variable> variables;
+    if (dataSetId != null) {
+      variables = this.variableRepository.findByDataSetIdOrderByIndexInDataSetAsc(dataSetId);
+    } else {
+      variables = Collections.emptyList();
+    }
     Map<String, Variable> variablesMap = Maps.uniqueIndex(variables, new VariableFunction());
     dataForTemplate.put("variables", variablesMap);
 
