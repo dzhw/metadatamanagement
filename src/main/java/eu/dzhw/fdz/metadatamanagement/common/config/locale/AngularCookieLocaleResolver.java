@@ -47,8 +47,8 @@ public class AngularCookieLocaleResolver extends CookieLocaleResolver {
       if (cookie != null) {
         String localePart = cookie.getValue();
                 
-        locale = (!"-".equals(localePart)
-            ? StringUtils.parseLocaleString(localePart.replace('-', '_')) : null);
+        locale = !"-".equals(localePart)
+            ? StringUtils.parseLocaleString(localePart.replace('-', '_')) : null;
                 
         if (logger.isTraceEnabled()) {
           logger.trace("Parsed cookie value [" + cookie.getValue() + "] into locale '" + locale
@@ -56,7 +56,7 @@ public class AngularCookieLocaleResolver extends CookieLocaleResolver {
         }
       }
       request.setAttribute(LOCALE_REQUEST_ATTRIBUTE_NAME,
-          (locale != null ? locale : determineDefaultLocale(request)));
+          locale != null ? locale : determineDefaultLocale(request));
     }
   }
 }

@@ -171,8 +171,10 @@ public class DataAcquisitionProjectService {
         List<String> dataProviders = changesProvider.getOldDataAcquisitionProject(projectId)
             .getConfiguration().getDataProviders();
         List<User> users = userRepository.findAllByLoginIn(new HashSet<>(dataProviders));
+        User currentUser =
+            userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
         mailService.sendDataProviderAccessRevokedMail(users, projectId,
-            newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender);
+            newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender, currentUser);
       } else {
         AssigneeGroup assigneeGroup = changesProvider.getNewAssigneeGroup(projectId);
         Set<String> userNames;
@@ -193,8 +195,10 @@ public class DataAcquisitionProjectService {
 
         if (!userNames.isEmpty()) {
           List<User> users = userRepository.findAllByLoginIn(userNames);
+          User currentUser =
+              userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
           mailService.sendAssigneeGroupChangedMail(users, projectId,
-              newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender);
+              newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender, currentUser);
         }
       }
     }
