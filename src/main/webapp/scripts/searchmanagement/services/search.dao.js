@@ -214,19 +214,21 @@ angular.module('metadatamanagementApp').service('SearchDao',
       });
     };
 
-    var applyFetchOnlyMasterDataFilter = function(query) {
-      var masterFilterCriteria = {
-        'bool': {
-          'must': [{
-            'term': {'shadow': false}
-          }]
+    var applyFetchOnlyMasterDataFilter = function(query, elasticSearchType) {
+      if (elasticSearchType !== 'related_publications') {
+        var masterFilterCriteria = {
+          'bool': {
+            'must': [{
+              'term': {'shadow': false}
+            }]
+          }
+        };
+        var masterFilter = _.get(query, 'body.query.bool.filter');
+        if (_.isArray(masterFilter)) {
+          query.body.query.bool.filter.push(masterFilterCriteria);
+        } else {
+          _.set(query, 'body.query.bool.filter[0]', masterFilterCriteria);
         }
-      };
-      var masterFilter = _.get(query, 'body.query.bool.filter');
-      if (_.isArray(masterFilter)) {
-        query.body.query.bool.filter.push(masterFilterCriteria);
-      } else {
-        _.set(query, 'body.query.bool.filter[0]', masterFilterCriteria);
       }
     };
 
@@ -253,10 +255,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
     };
 
     var applyFetchLatestShadowCopyFilter = function(query,
-        searchLatestShadowCopy) {
+        searchLatestShadowCopy, elasticSearchType) {
       var loginName = Principal.loginName();
 
-      if (!loginName) {
+      if (!loginName && elasticSearchType !== 'related_publications') {
         var filterCriteria = {
           'bool': {
             'must': [{
@@ -421,11 +423,12 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
 
         if (Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
-          applyFetchOnlyMasterDataFilter(query);
+          applyFetchOnlyMasterDataFilter(query, elasticsearchType);
           return ElasticSearchClient.search(query);
         } else {
           applyFetchDataWhereUserIsDataProviderFilter(query);
-          applyFetchLatestShadowCopyFilter(query, _.isEmpty(filter));
+          applyFetchLatestShadowCopyFilter(query, _.isEmpty(filter),
+            elasticsearchType);
           return ElasticSearchClient.search(query);
         }
       }
