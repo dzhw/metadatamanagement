@@ -379,7 +379,9 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
 
         SearchHelperService.addQuery(query, queryterm);
         SearchHelperService.addFilter(query);
-        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
+        if (type !== 'related_publications') {
+          SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
+        }
 
         return ElasticSearchClient.search(query).then(function(result) {
           var labels = [];
