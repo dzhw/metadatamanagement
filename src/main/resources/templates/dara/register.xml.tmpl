@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
-  <resourceType>${resourceType}</resourceType>
+  <resourceType>Dataset</resourceType>
+  <resourceTypesFree>
+  	<resourceTypeFree>
+      <language>de</language>
+      <typeName>${resourceTypeFree.de}</typeName>
+    </resourceTypeFree>
+    <resourceTypeFree>
+      <language>en</language>
+      <typeName>${resourceTypeFree.en}</typeName>
+    </resourceTypeFree>
+  </resourceTypesFree>
   <resourceIdentifier>
     <identifier>dzhw:${study.dataAcquisitionProjectId}:1.0.0</identifier>
     <currentVersion>${dataAcquisitionProject.release.version}</currentVersion>

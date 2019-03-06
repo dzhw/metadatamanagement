@@ -34,6 +34,8 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
@@ -51,6 +53,9 @@ public class DaraServiceTest extends AbstractTest {
 
   @Autowired
   private StudyRepository studyRepository;
+  
+  @Autowired
+  private SurveyRepository surveyRepository;
 
   @Autowired
   private JaversService javersService;
@@ -70,6 +75,7 @@ public class DaraServiceTest extends AbstractTest {
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
     studyRepository.deleteAll();
+    surveyRepository.deleteAll();
     javersService.deleteAll();
   }
 
@@ -107,6 +113,9 @@ public class DaraServiceTest extends AbstractTest {
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     this.studyRepository.save(study);
 
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+    this.surveyRepository.save(survey);
+    
     mockMvc.perform(post("/api/data-acquisition-projects/" + project.getId() + "/release")
         .content(TestUtil.convertObjectToJsonBytes(project))
         .contentType(MediaType.APPLICATION_JSON_UTF8))
