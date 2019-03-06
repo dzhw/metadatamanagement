@@ -112,10 +112,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'population.description.en.ngrams',
               queryTerm, englishMinorBoost));
             boolQuery.should.push(createConstantScoreQuery(
-              'population.title.de.ngrams', queryTerm, germanMinorBoost));
-            boolQuery.should.push(createConstantScoreQuery(
-              'population.title.en.ngrams', queryTerm, englishMinorBoost));
-            boolQuery.should.push(createConstantScoreQuery(
               'sample.de.ngrams', queryTerm, germanMinorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'sample.en.ngrams', queryTerm, englishMinorBoost));

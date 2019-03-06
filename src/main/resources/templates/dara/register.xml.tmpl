@@ -2,7 +2,7 @@
 <resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
   <resourceType>Dataset</resourceType>
   <resourceTypesFree>
-  	<resourceTypeFree>
+    <resourceTypeFree>
       <language>de</language>
       <typeName>${resourceTypeFree.de}</typeName>
     </resourceTypeFree>
@@ -79,6 +79,32 @@
       <descriptionType>Abstract</descriptionType>
     </description>
   </descriptions>
+  <universes>
+    <universe>
+      <language>de</language>
+      <sampled>
+      	<ul>
+        <#list surveys as survey>
+          <li><strong>${survey.title.de}:</strong>
+          ${survey.population.description.de}
+          </li>
+        </#list>
+        </ul>
+      </sampled>
+    </universe>
+    <universe>
+      <language>en</language>
+      <sampled>
+        <ul>
+        <#list surveys as survey>
+          <li><strong>${survey.title.en}:</strong> 
+          ${survey.population.description.en}
+          </li>
+        </#list>
+        </ul>
+      </sampled>
+    </universe>
+  </universes>
   <#if surveys?? && surveys?size gt 0>
     <temporalCoverages>
       <#list surveys as survey>
@@ -110,7 +136,7 @@
     </temporalCoverages>
   </#if>
   <timeDimensions>
-  	<timeDimension>
+    <timeDimension>
       <timeDimensionType>${timeDimension}</timeDimensionType>
     </timeDimension>
   </timeDimensions>
@@ -180,20 +206,20 @@
     </dataSets>
   </#if>
   <#if study.annotations?? && (study.annotations.de?? || study.annotations.en??)>
-  <notes>
-  	<#if study.annotations.de??>
-  	<note>
-  	  <language>de</language>
-      <text>Anmerkungen zur Studie: ${study.annotations.de}</text>
-    </note>
-    </#if>
-    <#if study.annotations.en??>
-    <note>
-  	  <language>en</language>
-      <text>Comments on the study: ${study.annotations.en}</text>
-    </note>
-    </#if>
-  </notes>
+    <notes>
+      <#if study.annotations.de??>
+        <note>
+          <language>de</language>
+          <text>Anmerkungen zur Studie: ${study.annotations.de}</text>
+        </note>
+      </#if>
+      <#if study.annotations.en??>
+        <note>
+          <language>en</language>
+          <text>Comments on the study: ${study.annotations.en}</text>
+        </note>
+      </#if>
+    </notes>
   </#if>
   <#if previousDoi??>
     <relations>
