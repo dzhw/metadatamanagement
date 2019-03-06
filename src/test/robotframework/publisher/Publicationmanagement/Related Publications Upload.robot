@@ -5,6 +5,7 @@ Resource          ../../resources/project_management_resource.robot
 
 *** Test Cases ***
 Upload excel file for related publications
+   [Tags]   chromeonly
    Click on publications tab
    Upload Excel file
    Click on OK Button
