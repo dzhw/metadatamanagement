@@ -77,4 +77,8 @@ public interface InstrumentRepository
   @RestResource(exported = false)
   Stream<Instrument> streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(
       String oldProjectId);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
+      Collection<String> instrumentIds);
 }

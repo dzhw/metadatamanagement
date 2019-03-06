@@ -236,6 +236,10 @@ public class SurveyService {
         relatedPublicationChangesProvider.getAffectedSurveyIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> surveyRepository.streamIdsByIdIn(surveyIds), ElasticsearchType.surveys);
+
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> surveyRepository.streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(surveyIds),
+        ElasticsearchType.surveys);
   }
 
   /**

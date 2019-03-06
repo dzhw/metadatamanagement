@@ -201,7 +201,12 @@ public class VariableService {
         .getAffectedVariableIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> variableRepository.streamIdsByIdIn(variableIds),
-        ElasticsearchType.variables); 
+        ElasticsearchType.variables);
+
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> variableRepository
+            .streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(variableIds),
+        ElasticsearchType.variables);
   }
   
   /**

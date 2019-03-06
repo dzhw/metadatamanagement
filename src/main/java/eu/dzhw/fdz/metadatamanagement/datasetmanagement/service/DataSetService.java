@@ -220,6 +220,10 @@ public class DataSetService {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> dataSetRepository.streamIdsByIdIn(dataSetIds),
         ElasticsearchType.data_sets);
+
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> dataSetRepository.streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
+            dataSetIds), ElasticsearchType.data_sets);
   }
 
   /**

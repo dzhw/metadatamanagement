@@ -90,4 +90,8 @@ public interface VariableRepository
   @RestResource(exported = false)
   Stream<Variable> findByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(
       String oldProjectId);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
+      Collection<String> variableIds);
 }

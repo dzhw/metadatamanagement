@@ -194,6 +194,10 @@ public class StudyService {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> studyRepository.streamIdsByIdIn(studyIds),
         ElasticsearchType.studies);
+
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> studyRepository.streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(studyIds),
+        ElasticsearchType.studies);
   }
 
   /**

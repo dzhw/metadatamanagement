@@ -212,6 +212,10 @@ public class QuestionService {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> questionRepository.streamIdsByIdIn(questionIds),
         ElasticsearchType.questions);
+
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> questionRepository.streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
+            questionIds), ElasticsearchType.questions);
   }
 
   /**

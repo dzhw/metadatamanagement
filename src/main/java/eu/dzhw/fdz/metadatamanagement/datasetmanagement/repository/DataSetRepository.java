@@ -76,4 +76,8 @@ public interface DataSetRepository
   @RestResource(exported = false)
   Stream<DataSet> streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(
       String previousProjectId);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
+      Collection<String> dataSetIds);
 }

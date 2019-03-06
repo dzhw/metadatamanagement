@@ -65,4 +65,8 @@ public interface QuestionRepository
   @RestResource(exported = false)
   Stream<Question> streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(
       String oldProjectId);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
+      Collection<String> questionIds);
 }

@@ -230,6 +230,10 @@ public class InstrumentService {
         relatedPublicationChangesProvider.getAffectedInstrumentIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> instrumentRepository.streamIdsByIdIn(instrumentIds), ElasticsearchType.instruments);
+
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> instrumentRepository.streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
+            instrumentIds), ElasticsearchType.instruments);
   }
 
   /**

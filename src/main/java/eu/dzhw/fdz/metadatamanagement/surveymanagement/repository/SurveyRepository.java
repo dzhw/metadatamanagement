@@ -66,4 +66,8 @@ public interface SurveyRepository
   @RestResource(exported = false)
   Stream<Survey> streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(
       String oldProjectId);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
+      Collection<String> surveyIds);
 }
