@@ -279,7 +279,7 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsByIdIn(dataSetIds);
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository.findSubDocumentsByInstrumentIdsContaining(
-              instrument.getId());
+              instrument.getMasterId());
       DataAcquisitionProject project = projectRepository.findById(
           instrument.getDataAcquisitionProjectId()).orElse(null);
       Release release = null;
@@ -387,7 +387,7 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsByIdIn(questionIds);
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
-            .findSubDocumentsByDataSetIdsContaining(dataSet.getId());
+            .findSubDocumentsByDataSetIdsContaining(dataSet.getMasterId());
       List<SurveySubDocumentProjection> surveys = new ArrayList<SurveySubDocumentProjection>();
       if (dataSet.getSurveyIds() != null) {        
         surveys = surveyRepository.findSubDocumentByIdIn(dataSet.getSurveyIds());
@@ -428,7 +428,7 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsBySurveyIdsContaining(survey.getId());
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
-            .findSubDocumentsBySurveyIdsContaining(survey.getId());
+            .findSubDocumentsBySurveyIdsContaining(survey.getMasterId());
       Map<String, InstrumentSubDocumentProjection> instruments = instrumentRepository
           .findSubDocumentsBySurveyIdsContaining(survey.getId()).stream()
           .collect(Collectors.toMap(InstrumentSubDocumentProjection::getId, Function.identity()));
@@ -473,7 +473,7 @@ public class ElasticsearchUpdateQueueService {
           .findOneSubDocumentById(variable.getDataSetId());
       final List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
-            .findSubDocumentsByVariableIdsContaining(variable.getId());
+            .findSubDocumentsByVariableIdsContaining(variable.getMasterId());
       List<SurveySubDocumentProjection> surveys = new ArrayList<SurveySubDocumentProjection>();
       if (variable.getSurveyIds() != null) {
         surveys = surveyRepository.findSubDocumentByIdIn(variable.getSurveyIds());        
@@ -537,7 +537,7 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsByIdIn(dataSetIds);
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
-            .findSubDocumentsByQuestionIdsContaining(question.getId());
+            .findSubDocumentsByQuestionIdsContaining(question.getMasterId());
       DataAcquisitionProject project = projectRepository.findById(
           question.getDataAcquisitionProjectId()).orElse(null);
       Release release = null;
@@ -576,7 +576,7 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsByStudyId(study.getId());
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
-            .findSubDocumentsByStudyIdsContaining(study.getId());
+            .findSubDocumentsByStudyIdsContaining(study.getMasterId());
       List<SurveySubDocumentProjection> surveys = surveyRepository
           .findSubDocumentByStudyId(study.getId());
       List<QuestionSubDocumentProjection> questions = questionRepository
