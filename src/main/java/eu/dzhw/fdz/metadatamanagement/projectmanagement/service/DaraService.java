@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
@@ -42,6 +43,8 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.DataAvailabilities;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.TimeMethods;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -292,7 +295,22 @@ public class DaraService {
     // Add Resource Type
     dataForTemplate.put("resourceTypeFree", computeResourceTypeFree(surveys));
 
+    // Add Time Dimension
+    dataForTemplate.put("timeDimension", computeTimeDimension(study));
+
     return dataForTemplate;
+  }
+
+  private String computeTimeDimension(Study study) {
+    if (study.getSurveyDesign().equals(SurveyDesigns.CROSS_SECTION)) {
+      return TimeMethods.CROSSSECTION;
+    }
+    if (study.getSurveyDesign().equals(SurveyDesigns.PANEL)) {
+      return TimeMethods.LONGITUDINAL_PANEL;
+    }
+    throw new NotImplementedException(
+        "There is no mapping to DARAs timeDimension for the survey design "
+            + study.getSurveyDesign());
   }
 
   private I18nString computeResourceTypeFree(List<Survey> surveys) {

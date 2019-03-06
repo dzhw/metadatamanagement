@@ -14,4 +14,5 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanag
    StudyAttachmentTypes
    SurveyDataTypes
    SurveyDesigns
+   TimeMethods
 
