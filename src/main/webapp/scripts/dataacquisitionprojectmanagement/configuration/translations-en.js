@@ -183,6 +183,22 @@ angular.module('metadatamanagementApp').config(
             'title': 'Take back project',
             'text': 'Do you really want to withdraw this project from the data provider group?'
           }
+        },
+        'project-status-overview': {
+          'header': 'Project Status Overview',
+          'table': {
+            'project-name': 'Project',
+            'release-version': 'Version',
+            'assigned-group': 'Assigned Group',
+            'study-status': 'Study',
+            'surveys-status': 'Surveys',
+            'instruments-status': 'Instruments',
+            'data-sets-status': 'Data Sets',
+            'questions-status': 'Questions',
+            'variables-status': 'Variables',
+            'publisher': 'Publisher',
+            'data-provider': 'Data Provider'
+          }
         }
       }
       //jscs:enable

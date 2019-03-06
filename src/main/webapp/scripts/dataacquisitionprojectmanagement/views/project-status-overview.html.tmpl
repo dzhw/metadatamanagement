@@ -1,0 +1,82 @@
+<md-content layout="column" layout-align="start stretch">
+    <md-card>
+        <md-card-header>
+            <md-card-header-text>
+                <h1 id="top" class="md-headline fdz-truncate-string">
+                    {{'data-acquisition-project-management.project-status-overview.header' | translate}}
+                </h1>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+            <table fdz-table class="table-striped table-hover">
+                <thead class="">
+                <tr>
+                    <th>{{'data-acquisition-project-management.project-status-overview.table.project-name' | translate}}</th>
+                    <th>{{'data-acquisition-project-management.project-status-overview.table.release-version' | translate}}</th>
+                    <th>{{'data-acquisition-project-management.project-status-overview.table.assigned-group' | translate}}</th>
+                    <th class="fdz-project-status-overview-metadata-status-table-cell">
+                        {{'data-acquisition-project-management.project-status-overview.table.study-status' | translate}}&nbsp;
+                    </th>
+                    <th class="fdz-project-status-overview-metadata-status-table-cell">
+                        {{'data-acquisition-project-management.project-status-overview.table.surveys-status' | translate}}&nbsp;
+                    </th>
+                    <th class="fdz-project-status-overview-metadata-status-table-cell">
+                        {{'data-acquisition-project-management.project-status-overview.table.instruments-status' | translate}}&nbsp;
+                    </th>
+                    <th class="fdz-project-status-overview-metadata-status-table-cell">
+                        {{'data-acquisition-project-management.project-status-overview.table.data-sets-status' | translate}}&nbsp;
+                    </th>
+                    <th class="fdz-project-status-overview-metadata-status-table-cell">
+                        {{'data-acquisition-project-management.project-status-overview.table.questions-status' | translate}}&nbsp;
+                    </th>
+                    <th class="fdz-project-status-overview-metadata-status-table-cell">
+                        {{'data-acquisition-project-management.project-status-overview.table.variables-status' | translate}}&nbsp;
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="dataAcquisitionProject in ctrl.overview.data" ng-click="ctrl.openProjectCockpit(dataAcquisitionProject.id)">
+                    <td>{{::dataAcquisitionProject.id}}</td>
+                    <td>{{::dataAcquisitionProject.release.version}}&nbsp;</td>
+                    <td ng-switch="dataAcquisitionProject.assigneeGroup">
+                        <span ng-switch-when="PUBLISHER">{{'data-acquisition-project-management.project-status-overview.table.publisher' | translate}}</span>
+                        <span ng-switch-when="DATA_PROVIDER">{{'data-acquisition-project-management.project-status-overview.table.data-provider' | translate}}</span>
+                        <span ng-switch-default>&nbsp;</span>
+                    </td>
+                    <td>
+                        <metadata-status project="dataAcquisitionProject" type="'studies'"/>
+                    </td>
+                    <td>
+                        <metadata-status project="dataAcquisitionProject" type="'surveys'"/>
+                    </td>
+                    <td>
+                        <metadata-status project="dataAcquisitionProject" type="'instruments'"/>
+                    </td>
+                    <td>
+                        <metadata-status project="dataAcquisitionProject" type="'dataSets'"/>
+                    </td>
+                    <td>
+                        <metadata-status project="dataAcquisitionProject" type="'questions'"/>
+                    </td>
+                    <td>
+                        <metadata-status project="dataAcquisitionProject" type="'variables'"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </md-card-content>
+    </md-card>
+    <div layout="column" layout-align="start center">
+        <ul uib-pagination
+            template-url="scripts/common/pagination/custom-uib-pagination.html.tmpl"
+            boundary-link-numbers="true"
+            next-text="{{'global.pagination.next'|translate}}"
+            previous-text="{{'global.pagination.previous'|translate}}"
+            total-items="ctrl.pagination.totalItems"
+            ng-model="ctrl.pagination.selectedPageNumber"
+            ng-change="ctrl.onPageChange()"
+            items-per-page="ctrl.pagination.itemsPerPage"
+            class="pagination-sm">
+        </ul>
+    </div>
+</md-content>

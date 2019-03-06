@@ -150,7 +150,8 @@ angular.module('metadatamanagementApp').config(
           'disclosure': 'Impressum',
           'notepad': 'Merkzettel',
           'documentation': 'Dokumentation',
-          'usage-info': 'Hinweise für Datengeber'
+          'usage-info': 'Hinweise für Datengeber',
+          'project-status-overview': 'Projektstatusübersicht'
         },
         'form': {
           'username': 'Benutzername',
