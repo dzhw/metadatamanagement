@@ -8,6 +8,8 @@
 
 .. java:import:: org.springframework.data.annotation Id
 
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
 .. java:import:: javax.validation.constraints NotNull
 
 .. java:import:: java.time LocalDateTime
@@ -18,7 +20,7 @@ ShadowCopyQueueItem
 .. java:package:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain
    :noindex:
 
-.. java:type:: @AllArgsConstructor @NoArgsConstructor @Data public class ShadowCopyQueueItem
+.. java:type:: @Document @AllArgsConstructor @NoArgsConstructor @Data public class ShadowCopyQueueItem
 
    Represents a queued shadow copy task of a project.
 

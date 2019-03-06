@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resource xmlns="http://da-ra.de/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd">
-  <resourceType>${resourceType}</resourceType>
+  <resourceType>Dataset</resourceType>
+  <resourceTypesFree>
+  	<resourceTypeFree>
+      <language>de</language>
+      <typeName>${resourceTypeFree.de}</typeName>
+    </resourceTypeFree>
+    <resourceTypeFree>
+      <language>en</language>
+      <typeName>${resourceTypeFree.en}</typeName>
+    </resourceTypeFree>
+  </resourceTypesFree>
   <resourceIdentifier>
     <identifier>dzhw:${study.dataAcquisitionProjectId}:1.0.0</identifier>
     <currentVersion>${dataAcquisitionProject.release.version}</currentVersion>
@@ -99,6 +109,11 @@
       </#list>
     </temporalCoverages>
   </#if>
+  <timeDimensions>
+  	<timeDimension>
+      <timeDimensionType>${timeDimension}</timeDimensionType>
+    </timeDimension>
+  </timeDimensions>
   <contributors>
     <contributor>
       <institution>
@@ -163,6 +178,22 @@
         </#list>
       </#list>
     </dataSets>
+  </#if>
+  <#if study.annotations?? && (study.annotations.de?? || study.annotations.en??)>
+  <notes>
+  	<#if study.annotations.de??>
+  	<note>
+  	  <language>de</language>
+      <text>Anmerkungen zur Studie: ${study.annotations.de}</text>
+    </note>
+    </#if>
+    <#if study.annotations.en??>
+    <note>
+  	  <language>en</language>
+      <text>Comments on the study: ${study.annotations.en}</text>
+    </note>
+    </#if>
+  </notes>
   </#if>
   <#if previousDoi??>
     <relations>
