@@ -124,10 +124,6 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static Survey buildSurvey(String projectId) {
     Population population = Population.builder()
-        .title(I18nString.builder()
-            .de("Population Titel")
-            .en("popultion title")
-            .build())
         .description(I18nString.builder()
             .de("Population Beschreibung")
             .en("Population Description")

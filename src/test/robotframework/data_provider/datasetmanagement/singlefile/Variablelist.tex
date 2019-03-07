@@ -1,0 +1,8 @@
+<#list variables as variableId, variable>
+	<#noescape>
+		\input{variables/${variable.name}}
+		\clearpage
+	</#noescape>
+<#else>
+	Keine Variablen!
+</#list>
