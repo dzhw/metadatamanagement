@@ -1,0 +1,319 @@
+%EVERY VARIABLE HAS IT'S OWN PAGE
+	<#if variable.distribution?? && variable.distribution.validResponses??>
+		<#assign validResponseSize = variable.distribution.validResponses?size>
+	<#else>
+		<#assign validResponseSize = 0>
+	</#if>
+
+    \setcounter{footnote}{0}
+
+    %omit vertical space
+    \vspace*{-1.8cm}
+	\section{${variable.name}<#if variable.label??> (${variable.label.de})</#if>}
+	<#noescape>\label{section:${variable.name}}</#noescape>
+
+
+
+	% TABLE FOR VARIABLE DETAILS
+  % '#' has to be escaped
+    \vspace*{0.5cm}
+    \noindent\textbf{Eigenschaften\footnote{Detailliertere Informationen zur Variable finden sich unter
+		\url{<#noescape>https://metadata.fdz.dzhw.eu/\#!/de/variables/${variable.id}</#noescape>}}}\\
+	\begin{tabularx}{\hsize}{@{}lX}
+	Datentyp: & <#if variable.dataType??>${variable.dataType.de!"-"}<#else>-</#if> \\
+	Skalenniveau: & <#if variable.scaleLevel??>${variable.scaleLevel.de!"-"}<#else>-</#if> \\
+	Zugangswege: &
+	<#list variable.accessWays as accessWay>
+	  ${accessWay}<#sep>, </#sep>
+	<#else>
+	Keine Zugangswege!
+	</#list> \\
+    \end{tabularx}
+
+
+
+    %TABLE FOR QUESTION DETAILS
+    %This has to be tested and has to be improved
+    %rausfinden, ob einer Variable mehrere Fragen zugeordnet werden
+    %dann evtl. nur die erste verwenden oder etwas anderes tun (Hinweis mehrere Fragen, auflisten mit Link)
+	<#if variable.relatedQuestions?has_content>
+		<#list variable.relatedQuestions as relatedQuestion>
+			<#assign questionId = relatedQuestion.questionId>
+			<#if questions[questionId]??>
+				%TABLE FOR QUESTION DETAILS
+				<#assign question = questions[questionId]>
+				\vspace*{0.5cm}
+                \noindent\textbf{Frage\footnote{Detailliertere Informationen zur Frage finden sich unter
+		              \url{<#noescape>https://metadata.fdz.dzhw.eu/\#!/de/questions/${questionId}</#noescape>}}}\\
+				\begin{tabularx}{\hsize}{@{}lX}
+					Fragenummer: &
+					<#if instruments[question.instrumentId]??>
+					  ${instruments[question.instrumentId].description.de!"-"}:
+					  ${question.number!"-"}
+					<#else>
+					  -
+					</#if> \\
+					%--
+					Fragetext: & <#if relatedQuestion.relatedQuestionStrings??>${relatedQuestion.relatedQuestionStrings.de!"-"}<#else>-</#if> \\
+				\end{tabularx}
+			</#if>
+		</#list>
+	<#else>
+		\vspace*{0.5cm}
+		\noindent\textbf{Frage}\\
+		Dieser Variable ist keine Frage zugeordnet.
+	</#if>
+
+
+
+
+	<#if variable.distribution?? && (variable.distribution.validResponses?? || variable.distribution.missings??)>
+		<#if variable.scaleLevel??>
+
+				%TABLE FOR THE NOMINAL / ORDINAL VALUES
+        		\vspace*{0.5cm}
+                \noindent\textbf{Häufigkeiten}
+
+                \vspace*{-\baselineskip}
+				<#if variable.dataType.de == "string">
+					%STRING ELEMENTS NEEDS A HUGH FIRST COLOUMN AND A SMALL SECOND ONE
+					<#noescape>\begin{filecontents}{\jobname-${variable.name!"-"}}</#noescape>
+					\begin{longtable}{Xlrrr}
+					\toprule
+					\textbf{Wert} & \textbf{Label} & \textbf{Häufigkeit} & \textbf{Prozent (gültig)} & \textbf{Prozent} \\
+					\endhead
+					\midrule
+					\multicolumn{5}{l}{\textbf{Gültige Werte}}\\
+					<#if variable.distribution.validResponses??>
+						%DIFFERENT OBSERVATIONS <=20
+						<#if validResponseSize <= 20>
+							<#list variable.distribution.validResponses as validResponse>
+
+					\multicolumn{1}{X}{${validResponse.value!"-"}} &
+					${(validResponse.label.de)!"-"} &
+					${validResponse.absoluteFrequency!"-"} &
+					${validResponse.validRelativeFrequency!"-"} &
+					${validResponse.relativeFrequency!"-"} \\
+					<#else>-\\
+
+					</#list>
+						%DIFFERENT OBSERVATIONS >20
+						<#else>
+							<#list firstTenValidResponses[variable.id] as validResponse>
+								\multicolumn{1}{X}{${validResponse.value!"-"}} & ${(validResponse.label.de)!"-"} & ${validResponse.absoluteFrequency!"-"} & ${validResponse.validRelativeFrequency!"-"} & ${validResponse.relativeFrequency!"-"} \\
+							</#list>
+							... & ... & ... & ... & ... \\
+							<#list lastTenValidResponses[variable.id] as validResponse>
+								\multicolumn{1}{X}{${validResponse.value!"-"}} & ${(validResponse.label.de)!"-"} & ${validResponse.absoluteFrequency!"-"} & ${validResponse.validRelativeFrequency!"-"} & ${validResponse.relativeFrequency!"-"} \\
+							</#list>
+						</#if>
+					<#else>
+						& & 0 & 0 & 0 \\
+					</#if>
+					\midrule
+					<#if variable.distribution.validResponses??>
+						\multicolumn{2}{l}{Summe (gültig)} & ${variable.distribution.totalValidAbsoluteFrequency!"-"} &
+						\textbf{\normaltext{\num{100}}} &
+					    ${variable.distribution.totalValidRelativeFrequency!"-"} \\
+					</#if>
+					\multicolumn{5}{l}{\textbf{Fehlende Werte}}\\
+					<#if variable.distribution.missings??>
+						<#list variable.distribution.missings as missing>
+							${missing.code!"-"} & ${missing.label.de!"-"} & ${missing.absoluteFrequency!"-"} & - & ${missing.relativeFrequency!"-"} \\
+
+						</#list>
+					<#else>
+						& & 0 & 0 & 0 \\
+					</#if>
+					\midrule
+					\multicolumn{2}{l}{\textbf{Summe (gesamt)}} & \textbf{${variable.distribution.totalAbsoluteFrequency!"-"}} & \textbf{-} & \textbf{\num{100}} \\
+					\bottomrule
+					\caption{Werte der Variable ${variable.name}}
+					\end{longtable}
+					\end{filecontents}
+					<#noescape>\LTXtable{\textwidth}{\jobname-${variable.name!"-"}}</#noescape>
+
+				<#else>
+					%NUMERIC ELEMENTS NEED A HUGH SECOND COLOUMN AND A SMALL FIRST ONE
+					<#noescape>\begin{filecontents}{\jobname-${variable.name!"-"}}</#noescape>
+					\begin{longtable}{lXrrr}
+					\toprule
+					\textbf{Wert} & \textbf{Label} & \textbf{Häufigkeit} & \textbf{Prozent(gültig)} & \textbf{Prozent} \\
+					\endhead
+					\midrule
+					\multicolumn{5}{l}{\textbf{Gültige Werte}}\\
+					<#if variable.distribution.validResponses??>
+						%DIFFERENT OBSERVATIONS <=20
+						<#if validResponseSize <= 20>
+							<#list variable.distribution.validResponses as validResponse>
+
+					${validResponse.value!"-"} &
+				% TODO try size/length gt 0; take over for other passages
+					\multicolumn{1}{X}{<#if validResponse.label.de?? && validResponse.label.de != ""> ${validResponse.label.de!"-"}  <#else> - </#if> } &
+
+
+					%${validResponse.absoluteFrequency!"-"} &
+					<#if validResponse.absoluteFrequency??>
+					  \num{${validResponse.absoluteFrequency}} &
+					<#else>
+					  - &
+					</#if>
+					%--
+					<#if validResponse.validRelativeFrequency??>
+					  \num[round-mode=places,round-precision=2]{${validResponse.validRelativeFrequency}} &
+					<#else>
+					  - &
+					</#if>
+					<#if validResponse.relativeFrequency??>
+					    \num[round-mode=places,round-precision=2]{${validResponse.relativeFrequency}} \\
+					<#else>
+					    -\\
+					</#if>
+							%????
+							<#else>
+								- \\
+							</#list>
+						%DIFFERENT OBSERVATIONS >20
+						<#else>
+							<#list firstTenValidResponses[variable.id] as validResponse>
+								${validResponse.value!"-"} & \multicolumn{1}{X}{${(validResponse.label.de)!"-"}} & %${validResponse.absoluteFrequency!"-"} &
+								<#if validResponse.absoluteFrequency??>
+								  \num{${validResponse.absoluteFrequency}} &
+								<#else>
+								  - &
+								</#if>
+								%--
+								<#if validResponse.validRelativeFrequency??>
+								  \num[round-mode=places,round-precision=2]{${validResponse.validRelativeFrequency}} &
+								<#else>
+								  - &
+								</#if>
+								<#if validResponse.relativeFrequency??>
+								  \num[round-mode=places,round-precision=2]{${validResponse.relativeFrequency}} \\
+								<#else>
+								  -\\
+								</#if>
+							</#list>
+							... & ... & ... & ... & ... \\
+							<#list lastTenValidResponses[variable.id] as validResponse>
+								${validResponse.value!"-"} & \multicolumn{1}{X}{${(validResponse.label.de)!"-"}} & %${validResponse.absoluteFrequency!"-"} &
+								<#if validResponse.absoluteFrequency??>
+								  \num{${validResponse.absoluteFrequency}} &
+								<#else>
+								  - &
+								</#if>
+								%--
+								<#if validResponse.validRelativeFrequency??>
+								  \num[round-mode=places,round-precision=2]{${validResponse.validRelativeFrequency}} &
+								<#else>
+								  - &
+								</#if>
+								<#if validResponse.relativeFrequency??>
+								  \num[round-mode=places,round-precision=2]{${validResponse.relativeFrequency}} \\
+								<#else>
+								  -\\
+								</#if>
+
+							</#list>
+						</#if>
+					<#else>
+						& & 0 & 0 & 0 \\
+					</#if>
+					\midrule
+					<#if variable.distribution.validResponses??>
+					\multicolumn{2}{l}{Summe (gültig)} &
+					<#if variable.distribution.totalValidAbsoluteFrequency??>
+					  \textbf{\num{${variable.distribution.totalValidAbsoluteFrequency}}} &
+					<#else>
+					  - &
+					</#if>
+					\textbf{\num{100}} &
+					<#if variable.distribution.totalValidRelativeFrequency??>
+					  \textbf{\num[round-mode=places,round-precision=2]{${variable.distribution.totalValidRelativeFrequency}}} \\
+					<#else>
+					  -\\
+					</#if>
+					%--
+					</#if>
+					\multicolumn{5}{l}{\textbf{Fehlende Werte}}\\
+					<#if variable.distribution.missings??>
+						<#list variable.distribution.missings as missing>
+							${missing.code!"-"} &
+							${missing.label.de!"-"} &
+							<#if missing.absoluteFrequency??>
+							  \num{${missing.absoluteFrequency}} &
+							<#else>
+							  - &
+							</#if>
+							 - &
+							<#if missing.relativeFrequency??>
+							  \num[round-mode=places,round-precision=2]{${missing.relativeFrequency}} \\
+							<#else>
+							  -\\
+							</#if>
+						</#list>
+					<#else>
+						& & 0 & 0 & 0 \\
+					</#if>
+					\midrule
+					\multicolumn{2}{l}{\textbf{Summe (gesamt)}} &
+					<#if variable.distribution.totalAbsoluteFrequency??>
+				      \textbf{\num{${variable.distribution.totalAbsoluteFrequency}}} &
+				    <#else>
+				      \textbf{-} &
+				    </#if>
+				    \textbf{-} &
+				    \textbf{\num{100}} \\
+					\bottomrule
+					\end{longtable}
+					\end{filecontents}
+					<#noescape>\LTXtable{\textwidth}{\jobname-${variable.name!"-"}}</#noescape>
+				<#noescape>\label{tableValues:${variable.name}}</#noescape>
+				\vspace*{-\baselineskip}
+                <#if variable.distribution.validResponses??>
+                    <#assign measures = []/>
+                    <#if variable.distribution.statistics.minimum??>
+                      <#assign measures = measures + [{"name":"Minimum ($min$)",
+                      	 "value":"${variable.distribution.statistics.minimum}"}] />
+                    </#if>
+                   	<#if variable.distribution.statistics.maximum??>
+                   	  <#assign measures = measures + [{"name":"Maximum ($max$)",
+                   	  	 "value":"${variable.distribution.statistics.maximum}"}] />
+                   	</#if>
+                   	<#if variable.distribution.statistics.meanValue??>
+                      <#assign measures = measures + [{"name":"arithmetisches Mittel ($\\bar{x}$)",
+                      	"value":"\\num[round-mode=places,round-precision=2]{${variable.distribution.statistics.meanValue}}"}] />
+                   	</#if>
+                   	<#if variable.distribution.statistics.median??>
+                      <#assign measures = measures + [{"name":"Median ($\\tilde{x}$)",
+                      	"value":"${variable.distribution.statistics.median}"}] />
+                   	</#if>
+                   	<#if variable.distribution.statistics.mode??>
+                      <#assign measures = measures + [{"name":"Modus ($h$)",
+                      	"value":"${variable.distribution.statistics.mode}"}] />
+                   	</#if>
+                   	<#if variable.distribution.statistics.standardDeviation??>
+                      <#assign measures = measures + [{"name":"Standardabweichung ($s$)",
+                      	"value":"\\num[round-mode=places,round-precision=2]{${variable.distribution.statistics.standardDeviation}}"}] />
+                   	</#if>
+                   	<#if variable.distribution.statistics.skewness??>
+                      <#assign measures = measures + [{"name":"Schiefe ($v$)",
+                      	"value":"\\num[round-mode=places,round-precision=2]{${variable.distribution.statistics.skewness}}"}] />
+                   	</#if>
+                   	<#if variable.distribution.statistics.kurtosis??>
+                       <#assign measures = measures + [{"name":"Wölbung ($w$)",
+                       	"value":"\\num[round-mode=places,round-precision=2]{${variable.distribution.statistics.kurtosis}}"}] />
+                   	</#if>
+                    \begin{noten}
+                	    \note{} Deskriptive Maßzahlen:
+                	    Anzahl unterschiedlicher Beobachtungen: ${validResponseSize}%
+                	    <#if (measures?size>0)>; </#if>
+                	    <#list measures as item>
+                	      <#noescape>${item.name}: ${item.value}<#sep>; </#sep></#noescape>
+                	    </#list>
+                     \end{noten}
+
+                </#if>
+			</#if>
+		</#if>
+	</#if>

@@ -283,7 +283,10 @@ module.exports = function(grunt) {
               ' element “a”: Illegal character in scheme data: “{” is not' +
               ' allowed.',
               'Attribute “layout-wrap” not allowed on element' +
-              ' “div” at this point.'
+              ' “div” at this point.',
+              'Possible misuse of “aria-label”. (If you disagree with this ' +
+              'warning, file an issue report or send e-mail to ' +
+              'www-validator@w3.org.)'
             ],
             customattrs: [
               'show-validation',
