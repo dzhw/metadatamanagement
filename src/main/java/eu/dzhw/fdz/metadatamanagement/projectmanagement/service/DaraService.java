@@ -7,6 +7,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,10 @@ import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.CollectionModes;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentTypes;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.FreeResourceTypes;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
@@ -87,6 +92,9 @@ public class DaraService {
 
   @Autowired
   private VariableRepository variableRepository;
+
+  @Autowired
+  private InstrumentRepository instrumentRepository;
 
   @Autowired
   private RelatedPublicationRepository relatedPublicationRepository;
@@ -298,7 +306,36 @@ public class DaraService {
     // Add Time Dimension
     dataForTemplate.put("timeDimension", computeTimeDimension(study));
 
+    // Add data for collection mode
+    dataForTemplate.put("surveyToCollectionModesMap", computeSurveyToCollectionModesMap(surveys));
+
     return dataForTemplate;
+  }
+
+  private Map<String, List<String>> computeSurveyToCollectionModesMap(List<Survey> surveys) {
+    Map<String, List<String>> surveyToCollectionModesMap = new HashMap<>();
+    for (Survey survey : surveys) {
+      List<InstrumentSubDocumentProjection> instruments =
+          instrumentRepository.findSubDocumentsBySurveyIdsContaining(survey.getId());
+      List<String> collectionModes = new ArrayList<String>(instruments.size());
+      for (InstrumentSubDocumentProjection instrument : instruments) {
+        if (instrument.getType().equals(InstrumentTypes.CAPI)) {
+          collectionModes.add(CollectionModes.INTERVIEW_FACETOFACE_CAPICAMI);
+        } else if (instrument.getType().equals(InstrumentTypes.CATI)) {
+          collectionModes.add(CollectionModes.INTERVIEW_TELEPHONE_CATI);
+        } else if (instrument.getType().equals(InstrumentTypes.CAWI)) {
+          collectionModes.add(CollectionModes.SELFADMINISTEREDQUESTIONNAIRE_WEBBASED);
+        } else if (instrument.getType().equals(InstrumentTypes.PAPI)) {
+          collectionModes.add(CollectionModes.SELFADMINISTEREDQUESTIONNAIRE_PAPER);
+        } else {
+          throw new NotImplementedException(
+              "There is no mapping to DARAs collectionMode for the instrument type "
+                  + instrument.getType());
+        }
+      }
+      surveyToCollectionModesMap.put(survey.getId(), collectionModes);
+    }
+    return surveyToCollectionModesMap;
   }
 
   private String computeTimeDimension(Study study) {

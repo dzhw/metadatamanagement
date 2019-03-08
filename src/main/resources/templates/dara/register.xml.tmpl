@@ -161,11 +161,12 @@
       </fundingReference>
     </fundingReferences>
   </#if>
-  <#if surveys?? && surveys?size gt 0>
+  
     <collectionModes>
       <#list surveys as survey>
-        <#if survey.surveyMethod??>
+        <#list surveyToCollectionModesMap[survey.getId()] as collectionMode>
           <collectionMode>
+          	<collectionModeType>${collectionMode}</collectionModeType>
             <collectionModesFree>
               <#if survey.surveyMethod.de??>
                 <collectionModeFree>
@@ -181,10 +182,10 @@
               </#if>
             </collectionModesFree>
           </collectionMode>
-        </#if>
+        </#list>
       </#list>
     </collectionModes>
-  </#if>
+  
   <#if dataSets?? && dataSets?size gt 0>
     <dataSets>
       <#list dataSets as dataSet>
