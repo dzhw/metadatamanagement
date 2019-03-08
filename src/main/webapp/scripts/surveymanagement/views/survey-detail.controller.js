@@ -94,6 +94,10 @@ angular.module('metadatamanagementApp')
           if (ctrl.counts.publicationsCount === 1) {
             ctrl.relatedPublication = survey.relatedPublications[0];
           }
+          ctrl.counts.questionsCount = survey.questions.length;
+          if (ctrl.counts.questionsCount === 1) {
+            ctrl.question = survey.questions[0];
+          }
           SurveyResponseRateImageUploadService.getImage(
             ctrl.survey.id, ctrl.survey.number, currenLanguage)
             .then(function(image) {
