@@ -178,8 +178,7 @@ angular.module('metadatamanagementApp')
           ctrl.survey.$save()
           .then(ctrl.updateElasticSearchIndex)
           .then(ctrl.onSavedSuccessfully)
-          .catch(function(error) {
-              console.log(error);
+          .catch(function() {
               SimpleMessageToastService.openAlertMessageToast(
                 'survey-management.edit.error-on-save-toast',
                 {surveyId: ctrl.survey.id});
@@ -188,7 +187,12 @@ angular.module('metadatamanagementApp')
           // ensure that all validation errors are visible
           angular.forEach($scope.surveyForm.$error, function(field) {
             angular.forEach(field, function(errorField) {
-              errorField.$setTouched();
+              if (errorField.$setTouched) {
+                errorField.$setTouched();
+              } else if (errorField.$setDirty) {
+                // could be a ngForm which doesn't have $setTouched
+                errorField.$setDirty();
+              }
             });
           });
           SimpleMessageToastService.openAlertMessageToast(
@@ -202,7 +206,7 @@ angular.module('metadatamanagementApp')
           ElasticSearchAdminService.
             processUpdateQueue('surveys'),
           ElasticSearchAdminService.
-            processUpdateQueue('studies'),
+            processUpdateQueue('studies')
         ]);
       };
 

@@ -1,0 +1,32 @@
+<md-card>
+    <md-card-header>
+        <md-card-header-text>
+            <h2 class="md-title">{{'survey-management.detail.label.geographic-coverage' | translate}}</h2>
+        </md-card-header-text>
+    </md-card-header>
+    <md-divider></md-divider>
+    <md-card-content>
+        <ul ng-if="geographicCoverages.length > 0">
+            <li ng-repeat="geographicCoverage in geographicCoverages track by $index">
+                <geographic-coverage geographic-coverage="geographicCoverage"
+                                     on-delete="deleteGeographicCoverage(geographicCoverage)">
+                </geographic-coverage>
+            </li>
+        </ul>
+        <p ng-if="ngModelCtrl.$untouched && (!geographicCoverages || geographicCoverages.length === 0)">
+            {{'survey-management.geographic-coverage-list.hint.empty-list' | translate}}
+        </p>
+        <div ng-if="ngModelCtrl.$touched" ng-messages="ngModelCtrl.$error" class="fdz-error">
+            <div ng-message="not-empty">{{'survey-management.geographic-coverage-list.errors.empty' | translate}}</div>
+        </div>
+    </md-card-content>
+    <md-card-actions layout-align="begin center" style="margin: 12px 8px">
+        <md-button class="md-primary md-raised md-icon-button" ng-click="onAddGeographicCoverage()" style="margin: 0 6px">
+            <md-tooltip md-direction="bottom" md-autohide="true"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'survey-management.geographic-coverage-list.tooltip.add-geographic-coverage' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">add</md-icon>
+        </md-button>
+    </md-card-actions>
+</md-card>

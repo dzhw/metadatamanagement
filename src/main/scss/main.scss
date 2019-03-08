@@ -1191,3 +1191,28 @@ project-status-badge > span, release-status-badge > span {
     background: white;
     animation: fade-highlight 1s ease-out;
 }
+
+geographic-coverage-list {
+    display: block;
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    li:not(:last-child) {
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: #000000;
+        margin-bottom: 8px;
+    }
+}
+
+geographic-coverage {
+    display: block;
+}
+
+.fdz-error {
+    color: $brand-danger;
+}

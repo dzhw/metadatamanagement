@@ -94,6 +94,7 @@ public class Survey extends AbstractRdcDomainObject {
    * 
    * Must not be empty.
    */
+  @Valid
   @NotNull(message = "survey-management.error.survey.population.not-null")
   private Population population;
 

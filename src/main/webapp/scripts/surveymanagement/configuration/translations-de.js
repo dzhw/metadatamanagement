@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp').config(
             'surveys-same-study': 'Alle Erhebungen der Studie',
             'field-period': 'Feldzeit',
             'population': 'Grundgesamtheit',
+            'geographic-coverage': 'Geographic coverage',
             'data-type': 'Erhebungsdatentyp',
             'survey-method': 'Erhebungsmethode',
             'sample': 'Stichprobenverfahren',
@@ -309,7 +310,7 @@ angular.module('metadatamanagementApp').config(
             'responseRate': 'Geben Sie die Rücklaufquote in Prozent an.',
             'annotations': {
               'de': 'Geben Sie zusätzliche Anmerkungen zu der Erhebung hier auf Deutsch an.',
-              'en': 'Geben Sie zusätzliche Anmerkungen zu der Erhebung hier auf Englisch an.',
+              'en': 'Geben Sie zusätzliche Anmerkungen zu der Erhebung hier auf Englisch an.'
             },
             'response-rate-image': {
               'available-after-save': 'Grafische Darstellungen des Verlaufs des Rücklaufs können nach dem Speichern der Erhebung hinzugefügt werden.',
@@ -319,6 +320,39 @@ angular.module('metadatamanagementApp').config(
             'survey-number': 'Wählen Sie eine freie Nummer für die neue Erhebung aus.'
           },
           'all-surveys-deleted-toast': 'Alle Erhebungen des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
+        },
+        'geographic-coverage-list': {
+          'tooltip': {
+            'add-geographic-coverage': 'Klicken, um ein neues Untersuchungsgebiet hinzuzufügen'
+          },
+          'hint': {
+            'empty-list': 'Es sind keine Untersuchungsumgebungen angegeben. Klicken Sie auf den Button unten links, um eine neue Untersuchungsumgebung anzulegen.'
+          },
+          'errors': {
+            'empty': 'Es muss mindestens eine Untersuchungsumgebung angegeben werden!'
+          }
+        },
+        'geographic-coverage': {
+          'tooltip': {
+            'delete': 'Klicken, um dieses Untersuchungsgebiet zu entfernen'
+          },
+          'label': {
+            'country': 'Land',
+            'country-not-found': 'Zu Ihrer Suche wurde kein Land gefunden',
+            'description': {
+              'de': 'Optionale Angaben zum Untersuchungsgebiet (in Deutsch)',
+              'en': 'Optionale Angaben zum Untersuchungsgebiet (in Englisch)'
+            }
+          },
+          'hints': {
+            'country': 'Wählen Sie das Land aus, in dem Daten zu die Erhebung gesammelt wurden.',
+            'description': 'Sie können hier zusätzliche Angaben zum Untersuchungsgebiet machen.'
+          },
+          'errors': {
+            'required': 'Bitte wählen Sie ein Land aus!',
+            'no-match': 'Das ist keine gültige Auswahl!',
+            'maxlength': 'The description exceeds the maximum character count!'
+          }
         }
       }
       //jscs:enable
