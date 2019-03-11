@@ -116,6 +116,10 @@ angular.module('metadatamanagementApp').config(
             },
             'studies': {
               'one': 'Click to show the study of this survey'
+            },
+            'questions': {
+              'one': 'Click to show the question of this survey',
+              'many': 'Click to show all questions of this survey'
             }
           }
         },
