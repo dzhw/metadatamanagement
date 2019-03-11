@@ -56,7 +56,7 @@
                         <span style="font-weight: bold;">{{'study-management.detail.label.surveyDesign' | translate }}:</span>
                         <span display-i18n-string="ctrl.study.surveyDesign" fdz-hyphenate></span>
                     </div>
-                    <div ng-if="ctrl.study.surveyDesign.en==='Panel'" class="fdz-add-bottom-margin">
+                    <div ng-if="ctrl.study.surveyDesign.en==='Panel' && ctrl.study.numberOfWaves > 0" class="fdz-add-bottom-margin">
                         <span style="font-weight: bold;">{{'study-management.detail.label.wave' | translate }}:</span>
                         <span>{{ctrl.study.numberOfWaves}}</span>
                     </div>

@@ -16,7 +16,7 @@ angular.module('metadatamanagementApp').config(
             'version': 'Version',
             'surveyDesign': 'Erhebungsdesign',
             'annotations': 'Anmerkungen',
-            'wave': 'Verfügbare Wellen',
+            'wave': 'Wellen',
             'survey-data-type': 'Erhebungsdatentyp',
             'title': 'Titel',
             'dataAvailability': 'Datenverfügbarkeit',
@@ -95,7 +95,7 @@ angular.module('metadatamanagementApp').config(
           'not-yet-released': 'Aktuell nicht freigegeben',
           'not-released-toast': 'Die Studie "{{ id }}" wird aktuell bearbeitet und ist daher nicht für alle Benutzer freigegeben!',
           'old-version': 'Ihr Link verweist auf eine ältere Version ({{versionFromUrl}}) dieser Studie. Hier wird die aktuelle Version ({{actualVersion}}) der Studie "{{title}}" dargestellt.',
-          'beta-release-no-doi': 'Dies ist ein BETA Release und enthält noch keine DOI.',
+          'beta-release-no-doi': 'Die Studie ist noch nicht veröffentlicht und hat daher noch keine DOI',
           'publications-for-series': 'Publikationen zur Studienreihe "{{studySeries}}"',
           'publications-for-study': 'Publikationen zu dieser Studie',
           'tooltips': {

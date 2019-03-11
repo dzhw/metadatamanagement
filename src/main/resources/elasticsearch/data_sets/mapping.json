@@ -382,19 +382,6 @@
 							"all"
 						]
 					},
-					"population": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"index": false
-							},
-							"en": {
-								"type": "text",
-								"index": false
-							}
-						}
-					},
 					"title": {
 						"type": "object",
 						"properties": {

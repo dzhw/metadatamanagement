@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp').config(
             'sponsors': 'Sponsored by',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
-            'wave': 'Available Waves',
+            'wave': 'Waves',
             'survey-data-type': 'Survey Data Type',
             'version': 'Version',
             'title': 'Title',
@@ -95,7 +95,7 @@ angular.module('metadatamanagementApp').config(
           'not-yet-released': 'Currently not released',
           'not-released-toast': 'Study "{{ id }}" is being worked on. Therefore it is not visible to all users at the moment!',
           'old-version': 'Your link refers to a former version ({{versionFromUrl}}) of this study. This page displays the current version ({{actualVersion}}) of the study "{{title}}".',
-          'beta-release-no-doi': 'This is a BETA release and has no DOI at the moment.',
+          'beta-release-no-doi': 'The study has not yet been published and therefore has no DOI.',
           'publications-for-series': 'Publications related to Series "{{studySeries}}"',
           'publications-for-study': 'Publications related to this Study',
           'tooltips': {
