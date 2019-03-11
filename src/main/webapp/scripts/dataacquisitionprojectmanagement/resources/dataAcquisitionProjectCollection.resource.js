@@ -6,6 +6,7 @@ angular.module('metadatamanagementApp')
       page: 0,
       sort: 'id',
       dir: 'asc',
+      shadow: false,
       projection: 'dataAcquisitionProjectStateSummary'
     }, {
       'get': {
