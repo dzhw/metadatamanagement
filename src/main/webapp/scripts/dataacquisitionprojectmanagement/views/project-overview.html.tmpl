@@ -3,7 +3,7 @@
         <md-card-header>
             <md-card-header-text>
                 <h1 id="top" class="md-headline fdz-truncate-string">
-                    {{'data-acquisition-project-management.project-status-overview.header' | translate}}
+                    {{'data-acquisition-project-management.project-overview.header' | translate}}
                 </h1>
             </md-card-header-text>
         </md-card-header>
@@ -11,36 +11,36 @@
             <table fdz-table class="table-striped table-hover">
                 <thead class="">
                 <tr>
-                    <th>{{'data-acquisition-project-management.project-status-overview.table.project-name' | translate}}</th>
-                    <th>{{'data-acquisition-project-management.project-status-overview.table.release-version' | translate}}</th>
-                    <th>{{'data-acquisition-project-management.project-status-overview.table.assigned-group' | translate}}</th>
+                    <th>{{'data-acquisition-project-management.project-overview.table.project-name' | translate}}</th>
+                    <th>{{'data-acquisition-project-management.project-overview.table.release-version' | translate}}</th>
+                    <th>{{'data-acquisition-project-management.project-overview.table.assigned-group' | translate}}</th>
                     <th class="fdz-project-status-overview-metadata-status-table-cell">
-                        {{'data-acquisition-project-management.project-status-overview.table.study-status' | translate}}&nbsp;
+                        {{'data-acquisition-project-management.project-overview.table.study-status' | translate}}&nbsp;
                     </th>
                     <th class="fdz-project-status-overview-metadata-status-table-cell">
-                        {{'data-acquisition-project-management.project-status-overview.table.surveys-status' | translate}}&nbsp;
+                        {{'data-acquisition-project-management.project-overview.table.surveys-status' | translate}}&nbsp;
                     </th>
                     <th class="fdz-project-status-overview-metadata-status-table-cell">
-                        {{'data-acquisition-project-management.project-status-overview.table.instruments-status' | translate}}&nbsp;
+                        {{'data-acquisition-project-management.project-overview.table.instruments-status' | translate}}&nbsp;
                     </th>
                     <th class="fdz-project-status-overview-metadata-status-table-cell">
-                        {{'data-acquisition-project-management.project-status-overview.table.data-sets-status' | translate}}&nbsp;
+                        {{'data-acquisition-project-management.project-overview.table.data-sets-status' | translate}}&nbsp;
                     </th>
                     <th class="fdz-project-status-overview-metadata-status-table-cell">
-                        {{'data-acquisition-project-management.project-status-overview.table.questions-status' | translate}}&nbsp;
+                        {{'data-acquisition-project-management.project-overview.table.questions-status' | translate}}&nbsp;
                     </th>
                     <th class="fdz-project-status-overview-metadata-status-table-cell">
-                        {{'data-acquisition-project-management.project-status-overview.table.variables-status' | translate}}&nbsp;
+                        {{'data-acquisition-project-management.project-overview.table.variables-status' | translate}}&nbsp;
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="dataAcquisitionProject in ctrl.overview.data" ng-click="ctrl.openProjectCockpit(dataAcquisitionProject.id)">
                     <td>{{::dataAcquisitionProject.id}}</td>
-                    <td>{{::dataAcquisitionProject.release.version}}&nbsp;</td>
+                    <td>{{::dataAcquisitionProject.release.version ? dataAcquisitionProject.release.version : ('data-acquisition-project-management.project-overview.table.unreleased' | translate)}}&nbsp;</td>
                     <td ng-switch="dataAcquisitionProject.assigneeGroup">
-                        <span ng-switch-when="PUBLISHER">{{'data-acquisition-project-management.project-status-overview.table.publisher' | translate}}</span>
-                        <span ng-switch-when="DATA_PROVIDER">{{'data-acquisition-project-management.project-status-overview.table.data-provider' | translate}}</span>
+                        <span ng-switch-when="PUBLISHER">{{'data-acquisition-project-management.project-overview.table.publisher' | translate}}</span>
+                        <span ng-switch-when="DATA_PROVIDER">{{'data-acquisition-project-management.project-overview.table.data-provider' | translate}}</span>
                         <span ng-switch-default>&nbsp;</span>
                     </td>
                     <td>

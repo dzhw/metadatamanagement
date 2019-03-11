@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('ProjectStatusOverviewController', function($stateParams, $state,
-      DataAcquisitionProjectResource) {
+  .controller('ProjectOverviewController', function($stateParams, $state,
+      DataAcquisitionProjectCollectionResource) {
     var ctrl = this;
     var sort = $stateParams.sort ? $stateParams.sort : 'id';
     var dir = $stateParams.dir ? $stateParams.dir : 'asc';
@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp')
     };
 
     var fetchData = function(page) {
-      ctrl.overview = DataAcquisitionProjectResource.statusOverview({
+      ctrl.overview = DataAcquisitionProjectCollectionResource.get({
         page: page,
         sort: sort,
         dir: dir,

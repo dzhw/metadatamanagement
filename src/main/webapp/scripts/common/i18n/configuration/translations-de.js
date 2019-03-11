@@ -151,7 +151,7 @@ angular.module('metadatamanagementApp').config(
           'notepad': 'Merkzettel',
           'documentation': 'Dokumentation',
           'usage-info': 'Hinweise für Datengeber',
-          'project-status-overview': 'Projektstatusübersicht'
+          'project-overview': 'Projektübersicht'
         },
         'form': {
           'username': 'Benutzername',

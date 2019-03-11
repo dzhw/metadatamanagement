@@ -184,11 +184,11 @@ angular.module('metadatamanagementApp').config(
             'text': 'Do you really want to withdraw this project from the data provider group?'
           }
         },
-        'project-status-overview': {
+        'project-overview': {
           'header': 'Project Status Overview',
           'table': {
             'project-name': 'Project',
-            'release-version': 'Version',
+            'release-version': 'Current Version',
             'assigned-group': 'Assigned Group',
             'study-status': 'Study',
             'surveys-status': 'Surveys',
@@ -197,7 +197,8 @@ angular.module('metadatamanagementApp').config(
             'questions-status': 'Questions',
             'variables-status': 'Variables',
             'publisher': 'Publisher',
-            'data-provider': 'Data Provider'
+            'data-provider': 'Data Provider',
+            'unreleased': 'unreleased'
           }
         }
       }

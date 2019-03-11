@@ -67,6 +67,13 @@
               </md-button>
               <md-divider></md-divider>
             </li>
+            <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_ADMIN">
+                <md-button class="fdz-navbar-button" ui-sref="project-overview" aria-label="{{global.menu.project-overview | translate}}">
+                    <md-icon md-svg-src="assets/images/icons/format-list-checks.svg"></md-icon>
+                    <span data-translate="global.menu.project-overview"></span>
+                </md-button>
+                <md-divider></md-divider>
+            </li>
             <li class="fdz-navbar-menu">
                <md-button class="fdz-navbar-button" href="https://metadatamanagement.readthedocs.io/de/stable/" target="_blank">
                    <md-icon md-font-set="material-icons">library_books</md-icon>
@@ -77,13 +84,6 @@
                </md-button>
                <md-divider></md-divider>
            </li>
-            <li class="fdz-navbar-menu">
-                <md-button class="fdz-navbar-button" ui-sref="project-status-overview">
-                    <md-icon md-font-set="material-icons">search</md-icon>
-                    <span data-translate="global.menu.project-status-overview"></span>
-                </md-button>
-                <md-divider></md-divider>
-            </li>
             <li class="fdz-navbar-menu">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" id="account-menu-toggle">
                     <md-icon md-font-set="material-icons">supervisor_account</md-icon>

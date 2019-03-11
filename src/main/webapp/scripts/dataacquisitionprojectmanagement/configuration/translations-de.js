@@ -183,11 +183,11 @@ angular.module('metadatamanagementApp').config(
             'text': 'Möchten Sie das Projekt wirklich von der Gruppe Datengeber zurückziehen?'
           }
         },
-        'project-status-overview': {
+        'project-overview': {
           'header': 'Projektstatusübersicht',
           'table': {
             'project-name': 'Projekt',
-            'release-version': 'Version',
+            'release-version': 'Aktuelle Version',
             'assigned-group': 'Zugewiesene Gruppe',
             'study-status': 'Studie',
             'surveys-status': 'Erhebungen',
@@ -196,7 +196,8 @@ angular.module('metadatamanagementApp').config(
             'questions-status': 'Fragen',
             'variables-status': 'Variablen',
             'publisher': 'Publisher',
-            'data-provider': 'Datengeber'
+            'data-provider': 'Datengeber',
+            'unreleased': 'unveröffentlicht'
           }
         }
       }

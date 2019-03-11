@@ -5,7 +5,7 @@ angular
   .config(
     function($stateProvider) {
       $stateProvider
-        .state('project-status-overview', {
+        .state('project-overview', {
           parent: 'site',
           url: '/projects/overview?limit&page&sort&dir',
           data: {
@@ -14,8 +14,8 @@ angular
           views: {
             'content@': {
               templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
-                'project-status-overview.html.tmpl',
-              controller: 'ProjectStatusOverviewController',
+                'project-overview.html.tmpl',
+              controller: 'ProjectOverviewController',
               controllerAs: 'ctrl'
             }
           }
