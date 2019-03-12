@@ -1,9 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,18 +18,29 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ShadowCopyQueueItem {
+@EqualsAndHashCode(callSuper = false, of = "id")
+public class ShadowCopyQueueItem extends AbstractRdcDomainObject {
 
+  /**
+   * Queue item id.
+   */
   @Id
   private String id;
+
+  /**
+   * Project id for which a shadow copy should be created.
+   */
   @NotNull
   private String dataAcquisitionProjectId;
+
+  /**
+   * The version that should be created.
+   */
   @NotNull
   private String shadowCopyVersion;
-  @NotNull
-  private String username;
-  @CreatedDate
-  private LocalDateTime createdDate;
 
+  /**
+   * Start time of the copy process.
+   */
   private LocalDateTime updateStartedAt;
 }

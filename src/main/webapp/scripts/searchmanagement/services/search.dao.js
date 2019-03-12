@@ -277,6 +277,19 @@ angular.module('metadatamanagementApp').service('SearchDao',
       }
     };
 
+    var stripVersionSuffixFromFilters = function(filter) {
+      var strippedFilter = {};
+      _.forEach(_.keys(filter), function(index) {
+        var match = filter[index].match(/-[0-9]+\.[0-9]+\.[0-9]+$/);
+        if (match !== null) {
+          strippedFilter[index] = filter[index].substr(0, match.index);
+        } else {
+          strippedFilter[index] = filter[index];
+        }
+      });
+      return strippedFilter;
+    };
+
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
                        filter, elasticsearchType, pageSize, idsToExclude) {
@@ -407,14 +420,22 @@ angular.module('metadatamanagementApp').service('SearchDao',
           query.body.query.bool.filter.push(boolFilter);
         }
 
-        if (!CleanJSObjectService.isNullOrEmpty(filter)) {
+        var filterToUse;
+
+        if (elasticsearchType === 'related_publications') {
+          filterToUse = stripVersionSuffixFromFilters(filter);
+        } else {
+          filterToUse = filter;
+        }
+
+        if (!CleanJSObjectService.isNullOrEmpty(filterToUse)) {
           if (!query.body.query.bool.filter) {
             query.body.query.bool.filter = SearchHelperService
-              .createTermFilters(elasticsearchType, filter);
+              .createTermFilters(elasticsearchType, filterToUse);
           } else {
             query.body.query.bool.filter = _.concat(
               query.body.query.bool.filter, SearchHelperService
-                .createTermFilters(elasticsearchType, filter));
+                .createTermFilters(elasticsearchType, filterToUse));
           }
         }
 
@@ -423,7 +444,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           return ElasticSearchClient.search(query);
         } else {
           applyFetchDataWhereUserIsDataProviderFilter(query);
-          applyFetchLatestShadowCopyFilter(query, _.isEmpty(filter),
+          applyFetchLatestShadowCopyFilter(query, _.isEmpty(filterToUse),
             elasticsearchType);
           return ElasticSearchClient.search(query);
         }

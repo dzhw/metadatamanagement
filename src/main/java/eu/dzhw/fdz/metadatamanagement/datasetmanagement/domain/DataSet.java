@@ -6,7 +6,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidDerivedId;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.UniqueDatasetNumberInProject;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.UniqueSubDatasetAccessWayInDataSet;
@@ -57,7 +57,7 @@ import java.util.List;
 @Builder
 @ValidMasterId(pattern = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
     message = "data-set-management.error.data-set.master-id.pattern")
-@ValidDerivedId(message = "data-set-management.error.data-set.id.pattern")
+@ValidShadowId(message = "data-set-management.error.data-set.id.pattern")
 public class DataSet extends AbstractShadowableRdcDomainObject {
 
   /**

@@ -9,7 +9,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireN
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringMustNotContainComma;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidDerivedId;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
@@ -56,7 +56,7 @@ import java.util.List;
     + "fdz/metadatamanagement/studymanagement/domain/Study.html'>here</a> for further details.")
 @ValidMasterId(pattern = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
     message = "study-management.error.study.master-id.pattern")
-@ValidDerivedId(message = "study-management.error.study.id.pattern")
+@ValidShadowId(message = "study-management.error.study.id.pattern")
 public class Study extends AbstractShadowableRdcDomainObject implements StudySubDocumentProjection {
 
   /**

@@ -61,7 +61,7 @@ public class DataAcquisitionProjectService {
 
   private ShadowCopyService<DataAcquisitionProject> shadowCopyService;
 
-  private ShadowCopyQueueService shadowCopyQueueService;
+  private ShadowCopyQueueItemService shadowCopyQueueItemService;
 
   /**
    * Creates a new {@link DataAcquisitionProjectService} instance.
@@ -73,7 +73,7 @@ public class DataAcquisitionProjectService {
        MailService mailService, MetadataManagementProperties metadataManagementProperties,
        DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource,
        ShadowCopyService<DataAcquisitionProject> shadowCopyService,
-       ShadowCopyQueueService shadowCopyQueueService) {
+       ShadowCopyQueueItemService shadowCopyQueueItemService) {
     this.acquisitionProjectRepository = dataAcquisitionProjectRepo;
     this.eventPublisher = applicationEventPublisher;
     this.userInformationProvider = userInformationProvider;
@@ -84,7 +84,7 @@ public class DataAcquisitionProjectService {
     this.dataAcquisitionProjectShadowCopyDataSource =
         dataAcquisitionProjectShadowCopyDataSource;
     this.shadowCopyService = shadowCopyService;
-    this.shadowCopyQueueService = shadowCopyQueueService;
+    this.shadowCopyQueueItemService = shadowCopyQueueItemService;
   }
 
   /**
@@ -174,7 +174,7 @@ public class DataAcquisitionProjectService {
       final String projectId = newDataAcquisitionProject.getId();
 
       if (isPublicProjectRelease(projectId)) {
-        shadowCopyQueueService.createShadowCopyTask(projectId, newDataAcquisitionProject
+        shadowCopyQueueItemService.createShadowCopyTask(projectId, newDataAcquisitionProject
             .getRelease().getVersion());
       }
 

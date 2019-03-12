@@ -10,7 +10,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidDerivedId
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
 
@@ -114,7 +114,7 @@ Variable
 .. java:package:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain
    :noindex:
 
-.. java:type:: @Document @CompoundIndexes @ValidMasterId @ValidDerivedId @ValidVariableIdName @ValidPanelIdentifier @ValidDerivedVariablesIdentifier @UniqueVariableNameInDataSet @OnlyOrdinalScaleLevelForDateDataType @ValidResponseValueMustBeAnIsoDateOnDateDataType @StatisticsMinimumMustBeAnIsoDateOnDateDataType @StatisticsMaximumMustBeAnIsoDateOnDateDataType @StatisticsMedianMustBeAnIsoDateOnDateDataType @StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType @StatisticsThirdQuartileMustBeAnIsoDateOnDateDataType @ValidResponseValueMustBeANumberOnNumericDataType @StatisticsMinimumMustBeANumberOnNumericDataType @StatisticsMaximumMustBeANumberOnNumericDataType @StatisticsMedianMustBeANumberOnNumericDataType @StatisticsFirstQuartileMustBeANumberOnNumericDataType @StatisticsThirdQuartileMustBeANumberOnNumericDataType @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Variable extends AbstractShadowableRdcDomainObject
+.. java:type:: @Document @CompoundIndexes @ValidMasterId @ValidShadowId @ValidVariableIdName @ValidPanelIdentifier @ValidDerivedVariablesIdentifier @UniqueVariableNameInDataSet @OnlyOrdinalScaleLevelForDateDataType @ValidResponseValueMustBeAnIsoDateOnDateDataType @StatisticsMinimumMustBeAnIsoDateOnDateDataType @StatisticsMaximumMustBeAnIsoDateOnDateDataType @StatisticsMedianMustBeAnIsoDateOnDateDataType @StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType @StatisticsThirdQuartileMustBeAnIsoDateOnDateDataType @ValidResponseValueMustBeANumberOnNumericDataType @StatisticsMinimumMustBeANumberOnNumericDataType @StatisticsMaximumMustBeANumberOnNumericDataType @StatisticsMedianMustBeANumberOnNumericDataType @StatisticsFirstQuartileMustBeANumberOnNumericDataType @StatisticsThirdQuartileMustBeANumberOnNumericDataType @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Variable extends AbstractShadowableRdcDomainObject
 
    A variable contains the results from at least one \ :java:ref:`Survey`\ . These results can be the responses from participants of an online survey, hence a variable can result from \ :java:ref:`RelatedQuestion`\ s. A variable is part of exactly one \ :java:ref:`DataSet`\ .
 

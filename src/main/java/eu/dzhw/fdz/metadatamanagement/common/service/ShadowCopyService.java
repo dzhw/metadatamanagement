@@ -43,12 +43,7 @@ public class ShadowCopyService<T extends AbstractShadowableRdcDomainObject> {
                 shadowCopyDataSource.updatePredecessor(predecessor);
               }
             }
-
-            if (shadowCopy.getVersion() == null) {
-              shadowCopyDataSource.saveShadowCopy(shadowCopy);
-            } else {
-              shadowCopyDataSource.saveShadowCopy(shadowCopy);
-            }
+            shadowCopyDataSource.saveShadowCopy(shadowCopy);
           });
     }
 

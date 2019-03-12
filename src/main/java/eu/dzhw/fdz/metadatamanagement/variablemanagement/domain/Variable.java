@@ -6,7 +6,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidDerivedId;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -69,7 +69,7 @@ import java.util.List;
     })
 @ValidMasterId(pattern = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
     message = "variable-management.error.variable.master-id.pattern")
-@ValidDerivedId(message = "variable-management.error.variable.id.pattern")
+@ValidShadowId(message = "variable-management.error.variable.id.pattern")
 @ValidVariableIdName(message = "variable-management.error.variable.valid-variable-name")
 @ValidPanelIdentifier(message = "variable-management.error.variable.valid-panel-identifier")
 @ValidDerivedVariablesIdentifier(message =

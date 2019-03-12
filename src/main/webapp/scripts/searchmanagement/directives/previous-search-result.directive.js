@@ -18,7 +18,9 @@ angular.module('metadatamanagementApp').directive('previousSearchResult',
                 .getDetailStateUrl(data.hits.hits[0]._type,
                 {
                   lang: LanguageService.getCurrentInstantly(),
-                  id: scope.previousSearchResult.id,
+                  id: scope.previousSearchResult.masterId ?
+                    scope.previousSearchResult.masterId :
+                    scope.previousSearchResult.id,
                   'search-result-index': scope.previousSearchResultIndex
                 });
             }

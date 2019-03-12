@@ -10,7 +10,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidDerivedId
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
 
@@ -76,7 +76,7 @@ Question
 .. java:package:: eu.dzhw.fdz.metadatamanagement.questionmanagement.domain
    :noindex:
 
-.. java:type:: @Document @CompoundIndex @ValidUniqueQuestionNumber @ValidQuestionIdName @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidMasterId @ValidDerivedId public class Question extends AbstractShadowableRdcDomainObject
+.. java:type:: @Document @CompoundIndex @ValidUniqueQuestionNumber @ValidQuestionIdName @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidMasterId @ValidShadowId public class Question extends AbstractShadowableRdcDomainObject
 
    A question is part of an \ :java:ref:`Instrument`\  which has been used in at least one \ :java:ref:`Survey`\ s. The responses to a question are stored in \ :java:ref:`Variable`\ s.
 

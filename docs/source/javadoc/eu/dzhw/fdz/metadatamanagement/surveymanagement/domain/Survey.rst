@@ -14,7 +14,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidDerivedId
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
 
@@ -76,7 +76,7 @@ Survey
 .. java:package:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @ValidSurveyIdName @ValidUniqueSurveyNumber @ValidMasterId @ValidDerivedId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Survey extends AbstractShadowableRdcDomainObject
+.. java:type:: @Entity @Document @ValidSurveyIdName @ValidUniqueSurveyNumber @ValidMasterId @ValidShadowId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Survey extends AbstractShadowableRdcDomainObject
 
    A survey is conducted to examine a population on the basis of a sample. The resulting \ :java:ref:`DataSet`\ s can be used to make statements about the population.
 

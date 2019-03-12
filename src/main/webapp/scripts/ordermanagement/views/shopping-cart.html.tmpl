@@ -11,7 +11,7 @@
                 </md-card-avatar>
                 <md-card-header-text class="fdz-truncate-string">
                     <div class="md-title fdz-truncate-string"><a ui-sref="studyDetail({id: product.study.id})">
-                            {{ctrl.studies[product.study.id].title | displayI18nString}}
+                            {{ctrl.studies[product.study.id + '-' + product.version].title | displayI18nString}}
                             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                 {{'shopping-cart.detail.study-tooltip' | translate}}
                             </md-tooltip>

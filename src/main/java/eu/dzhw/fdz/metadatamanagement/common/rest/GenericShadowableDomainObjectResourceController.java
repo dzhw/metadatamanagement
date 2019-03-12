@@ -15,6 +15,7 @@ import org.springframework.data.rest.core.event.BeforeSaveEvent;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
 
@@ -35,7 +36,7 @@ public abstract class GenericShadowableDomainObjectResourceController
     this.applicationEventPublisher = applicationEventPublisher;
   }
 
-  protected ResponseEntity<?> putDomainObject(String id, T domainObject) {
+  protected ResponseEntity<?> putDomainObject(String id, @Valid T domainObject) {
     Optional<T> opt = repository.findById(id);
     if (opt.isPresent()) {
       T persistedDomainObject = opt.get();
@@ -53,7 +54,7 @@ public abstract class GenericShadowableDomainObjectResourceController
     }
   }
 
-  protected ResponseEntity<T> postDomainObject(T domainObject) {
+  protected ResponseEntity<T> postDomainObject(@Valid T domainObject) {
     if (domainObject.isShadow()) {
       throw new ShadowCopyCreateNotAllowedException();
     } else {

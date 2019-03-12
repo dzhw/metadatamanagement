@@ -7,10 +7,10 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * Default validator implementation for {@link ValidDerivedId} validation.
+ * Default validator implementation for {@link ValidShadowId} validation.
  */
-public class ValidDerivedIdValidator
-    implements ConstraintValidator<ValidDerivedId, AbstractShadowableRdcDomainObject> {
+public class ValidShadowIdValidator
+    implements ConstraintValidator<ValidShadowId, AbstractShadowableRdcDomainObject> {
 
   @Override
   public boolean isValid(AbstractShadowableRdcDomainObject abstractShadowableRdcDomainObject,

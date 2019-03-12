@@ -17,15 +17,15 @@ import java.lang.annotation.Target;
  * will always be {@code true}.
  */
 @Documented
-@Constraint(validatedBy = ValidDerivedIdValidator.class)
+@Constraint(validatedBy = ValidShadowIdValidator.class)
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidDerivedId {
+public @interface ValidShadowId {
 
   /**
    * Defines the default error message.
    */
-  String message() default "{common.domain.validation.valid-derived-id.error.no-match}";
+  String message() default "{common.domain.validation.valid-shadow-id.error.no-match}";
 
   /**
    * Groups parameter.

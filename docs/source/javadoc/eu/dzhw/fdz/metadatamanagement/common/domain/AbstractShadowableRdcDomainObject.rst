@@ -24,15 +24,21 @@ masterId
 .. java:field:: private String masterId
    :outertype: AbstractShadowableRdcDomainObject
 
+   The id shared between all shadow copies of a domain object. It points to the most recent version of the domain object.
+
 shadow
 ^^^^^^
 
 .. java:field:: @Setter private boolean shadow
    :outertype: AbstractShadowableRdcDomainObject
 
+   Determines whether this document is a shadow copy.
+
 successorId
 ^^^^^^^^^^^
 
 .. java:field:: private String successorId
    :outertype: AbstractShadowableRdcDomainObject
+
+   The document id which is the successor to this shadow copy.
 

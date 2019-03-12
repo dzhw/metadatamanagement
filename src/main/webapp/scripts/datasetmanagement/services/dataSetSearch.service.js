@@ -309,6 +309,8 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       SearchHelperService.addFilter(query);
       if (type !== 'related_publications') {
         SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
+      } else {
+
       }
 
       return ElasticSearchClient.search(query).then(function(result) {

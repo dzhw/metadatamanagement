@@ -10,7 +10,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidDerivedId
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
 
@@ -80,7 +80,7 @@ DataSet
 .. java:package:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @ValidDataSetIdName @UniqueDatasetNumberInProject @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidMasterId @ValidDerivedId public class DataSet extends AbstractShadowableRdcDomainObject
+.. java:type:: @Entity @Document @ValidDataSetIdName @UniqueDatasetNumberInProject @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidMasterId @ValidShadowId public class DataSet extends AbstractShadowableRdcDomainObject
 
    A dataset contains \ :java:ref:`Variable`\ s. It results from at least one \ :java:ref:`Survey`\ .
 

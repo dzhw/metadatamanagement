@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidDerivedId;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
@@ -56,7 +56,7 @@ import java.io.Serializable;
 @Builder
 @ValidMasterId(pattern = Patterns.ALPHANUMERIC, message = "data-acquisition-project-management."
     + "error.data-acquisition-project.master-id.pattern")
-@ValidDerivedId(message = "data-acquisition-project-management.error.data-acquisition-project."
+@ValidShadowId(message = "data-acquisition-project-management.error.data-acquisition-project."
     + "id.pattern")
 public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
     implements Serializable {

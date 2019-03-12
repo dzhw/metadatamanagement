@@ -10,7 +10,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidDerivedId
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
 
@@ -70,7 +70,7 @@ Instrument
 .. java:package:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @ValidInstrumentIdPattern @ValidUniqueInstrumentNumber @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidMasterId @ValidDerivedId public class Instrument extends AbstractShadowableRdcDomainObject
+.. java:type:: @Entity @Document @ValidInstrumentIdPattern @ValidUniqueInstrumentNumber @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidMasterId @ValidShadowId public class Instrument extends AbstractShadowableRdcDomainObject
 
    An instrument (e.g. a questionnaire) which was used in at least one \ :java:ref:`Survey`\ .
 

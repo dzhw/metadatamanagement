@@ -10,7 +10,7 @@ import java.util.Optional;
  * Spring Data MongoDB repository for {@link ShadowCopyQueueItem}.
  */
 @Repository
-public interface ShadowCopyQueueRepository extends MongoRepository<ShadowCopyQueueItem, String>,
+public interface ShadowCopyQueueItemRepository extends MongoRepository<ShadowCopyQueueItem, String>,
     ShadowCopyQueueRepositoryCustom {
 
   Optional<ShadowCopyQueueItem> findByDataAcquisitionProjectIdAndShadowCopyVersion(

@@ -5,7 +5,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEv
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueItem;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -30,7 +30,7 @@ import java.util.Optional;
  */
 @Service
 @Slf4j
-public class ShadowCopyQueueService {
+public class ShadowCopyQueueItemService {
 
   private String jvmId = ManagementFactory.getRuntimeMXBean().getName();
 
@@ -38,7 +38,7 @@ public class ShadowCopyQueueService {
 
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
 
-  private ShadowCopyQueueRepository shadowCopyQueueRepository;
+  private ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
 
   private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
 
@@ -47,14 +47,14 @@ public class ShadowCopyQueueService {
   /**
    * Create a new instance.
    */
-  public ShadowCopyQueueService(ApplicationEventPublisher applicationEventPublisher,
+  public ShadowCopyQueueItemService(ApplicationEventPublisher applicationEventPublisher,
       DataAcquisitionProjectRepository dataAcquisitionProjectRepository,
-      ShadowCopyQueueRepository shadowCopyQueueRepository,
+      ShadowCopyQueueItemRepository shadowCopyQueueItemRepository,
       DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService,
       UserDetailsService userDetailsService) {
     this.applicationEventPublisher = applicationEventPublisher;
     this.dataAcquisitionProjectRepository = dataAcquisitionProjectRepository;
-    this.shadowCopyQueueRepository = shadowCopyQueueRepository;
+    this.shadowCopyQueueItemRepository = shadowCopyQueueItemRepository;
     this.dataAcquisitionProjectVersionsService = dataAcquisitionProjectVersionsService;
     this.userDetailsService = userDetailsService;
   }
@@ -67,17 +67,17 @@ public class ShadowCopyQueueService {
   public void createShadowCopyTask(String dataAcquisitionProjectId, String shadowCopyVersion) {
     ShadowCopyQueueItem queueItem = new ShadowCopyQueueItem();
 
-    Optional<ShadowCopyQueueItem> taskItem = shadowCopyQueueRepository
+    Optional<ShadowCopyQueueItem> taskItem = shadowCopyQueueItemRepository
         .findByDataAcquisitionProjectIdAndShadowCopyVersion(dataAcquisitionProjectId,
             shadowCopyVersion);
 
-    taskItem.ifPresent(shadowCopyQueueItem -> shadowCopyQueueRepository
+    taskItem.ifPresent(shadowCopyQueueItem -> shadowCopyQueueItemRepository
         .delete(shadowCopyQueueItem));
 
     queueItem.setDataAcquisitionProjectId(dataAcquisitionProjectId);
     queueItem.setShadowCopyVersion(shadowCopyVersion);
-    queueItem.setUsername(SecurityUtils.getCurrentUserLogin());
-    shadowCopyQueueRepository.save(queueItem);
+    queueItem.setCreatedBy(SecurityUtils.getCurrentUserLogin());
+    shadowCopyQueueItemRepository.save(queueItem);
   }
 
   /**
@@ -86,8 +86,8 @@ public class ShadowCopyQueueService {
   @Scheduled(fixedRate = 1000 * 60, initialDelay = 1000 * 60)
   public void createShadowCopies() {
     LocalDateTime updateStartTime = LocalDateTime.now();
-    shadowCopyQueueRepository.lockAllUnlockedOrExpiredItems(updateStartTime, jvmId);
-    List<ShadowCopyQueueItem> tasks = shadowCopyQueueRepository
+    shadowCopyQueueItemRepository.lockAllUnlockedOrExpiredItems(updateStartTime, jvmId);
+    List<ShadowCopyQueueItem> tasks = shadowCopyQueueItemRepository
         .findOldestLockedItems(updateStartTime, jvmId);
     log.debug("Creating shadow copies for {} queued items.", tasks.size());
     tasks.forEach(task -> {
@@ -106,7 +106,7 @@ public class ShadowCopyQueueService {
           log.warn("A shadow copy task was scheduled for project {}, but it could not be found!",
               dataAcquisitionProjectId);
         }
-        shadowCopyQueueRepository.delete(task);
+        shadowCopyQueueItemRepository.delete(task);
       } finally {
         clearSecurityContext();
       }
@@ -130,7 +130,7 @@ public class ShadowCopyQueueService {
   }
 
   private void setupSecurityContext(ShadowCopyQueueItem shadowCopyQueueItem) {
-    String username = shadowCopyQueueItem.getUsername();
+    String username = shadowCopyQueueItem.getCreatedBy();
     try {
       UserDetails userDetails = userDetailsService.loadUserByUsername(username);
       UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
