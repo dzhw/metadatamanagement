@@ -71,6 +71,9 @@
                 <md-button class="fdz-navbar-button" ui-sref="project-overview" aria-label="{{global.menu.project-overview | translate}}">
                     <md-icon md-svg-src="assets/images/icons/format-list-checks.svg"></md-icon>
                     <span data-translate="global.menu.project-overview"></span>
+                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                        {{'global.tooltips.navbar-project-overview' | translate}}
+                    </md-tooltip>
                 </md-button>
                 <md-divider></md-divider>
             </li>

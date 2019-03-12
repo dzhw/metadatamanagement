@@ -7,7 +7,7 @@ angular
       $stateProvider
         .state('project-overview', {
           parent: 'site',
-          url: '/projects/overview?limit&page&sort&dir',
+          url: '/projects/overview?limit&page&sort',
           data: {
             authorities: ['ROLE_PUBLISHER', 'ROLE_ADMIN']
           },

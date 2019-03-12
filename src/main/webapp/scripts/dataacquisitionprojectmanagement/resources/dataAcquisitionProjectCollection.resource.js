@@ -4,8 +4,7 @@ angular.module('metadatamanagementApp')
   .factory('DataAcquisitionProjectCollectionResource', function($resource) {
     return $resource('/api/data-acquisition-projects', {
       page: 0,
-      sort: 'id',
-      dir: 'asc',
+      sort: 'id,asc',
       shadow: false,
       projection: 'dataAcquisitionProjectStateSummary'
     }, {

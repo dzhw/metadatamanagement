@@ -184,7 +184,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'project-overview': {
-          'header': 'Projektstatusübersicht',
+          'header': 'Projektübersicht',
           'table': {
             'project-name': 'Projekt',
             'release-version': 'Aktuelle Version',
@@ -197,7 +197,13 @@ angular.module('metadatamanagementApp').config(
             'variables-status': 'Variablen',
             'publisher': 'Publisher',
             'data-provider': 'Datengeber',
-            'unreleased': 'unveröffentlicht'
+            'unreleased': 'nicht freigegeben',
+            'tooltip': 'Klicken, um dieses Projekt im Projekt-Cockpit zu öffnen'
+          },
+          'pagination': {
+            'previous': 'Klicken, um die vorherigen Projekte anzuzeigen',
+            'next': 'Klicken, um die nächsten Projekte anzuzeigen',
+            'current': 'Klicken, um die Projekte auf Seite {{number}} anzuzeigen'
           }
         }
       }

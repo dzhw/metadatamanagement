@@ -36,29 +36,34 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="dataAcquisitionProject in ctrl.overview.data" ng-click="ctrl.openProjectCockpit(dataAcquisitionProject.id)">
-                    <td>{{::dataAcquisitionProject.id}}</td>
-                    <td>{{::dataAcquisitionProject.release.version ? dataAcquisitionProject.release.version : ('data-acquisition-project-management.project-overview.table.unreleased' | translate)}}&nbsp;</td>
-                    <td ng-switch="dataAcquisitionProject.assigneeGroup">
+                    <td class="fdz-table-data-vertical-middle">
+                        {{::dataAcquisitionProject.id}}
+                        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                            {{'data-acquisition-project-management.project-overview.table.tooltip'| translate}}
+                        </md-tooltip>
+                    </td>
+                    <td class="fdz-table-data-vertical-middle">{{::dataAcquisitionProject.release.version ? dataAcquisitionProject.release.version : ('data-acquisition-project-management.project-overview.table.unreleased' | translate)}}&nbsp;</td>
+                    <td class="fdz-table-data-vertical-middle" ng-switch="dataAcquisitionProject.assigneeGroup">
                         <span ng-switch-when="PUBLISHER">{{'data-acquisition-project-management.project-overview.table.publisher' | translate}}</span>
                         <span ng-switch-when="DATA_PROVIDER">{{'data-acquisition-project-management.project-overview.table.data-provider' | translate}}</span>
                         <span ng-switch-default>&nbsp;</span>
                     </td>
-                    <td>
+                    <td class="fdz-table-data-vertical-middle">
                         <metadata-status project="dataAcquisitionProject" type="'studies'"></metadata-status>
                     </td>
-                    <td>
+                    <td class="fdz-table-data-vertical-middle">
                         <metadata-status project="dataAcquisitionProject" type="'surveys'"></metadata-status>
                     </td>
-                    <td>
+                    <td class="fdz-table-data-vertical-middle">
                         <metadata-status project="dataAcquisitionProject" type="'instruments'"></metadata-status>
                     </td>
-                    <td>
+                    <td class="fdz-table-data-vertical-middle">
                         <metadata-status project="dataAcquisitionProject" type="'dataSets'"></metadata-status>
                     </td>
-                    <td>
+                    <td class="fdz-table-data-vertical-middle">
                         <metadata-status project="dataAcquisitionProject" type="'questions'"></metadata-status>
                     </td>
-                    <td>
+                    <td class="fdz-table-data-vertical-middle">
                         <metadata-status project="dataAcquisitionProject" type="'variables'"></metadata-status>
                     </td>
                 </tr>

@@ -100,7 +100,8 @@ angular.module('metadatamanagementApp').config(
           },
           'navbar-feedback': 'Click to give feedback or report a Bug',
           'navbar-documentation': 'Click to show the user documentation',
-          'navbar-usage-info': 'Click to show usage information for data providers'
+          'navbar-usage-info': 'Click to show usage information for data providers',
+          'navbar-project-overview': 'Click to show the project overview'
         },
         'feedback-dialog': {
           'toolbar-head': 'Give Feedback or report Bugs',

@@ -1,4 +1,4 @@
-<div ng-switch="ctrl.score">
+<div ng-if="ctrl.displayStatus" ng-switch="ctrl.score">
     <md-icon style="min-height: 28px; min-width: 28px;" ng-switch-when="0" md-svg-src="assets/images/icons/clipboard.svg" class="md-primary"></md-icon>
     <md-icon style="min-height: 28px; min-width: 28px;" ng-switch-when="1" md-svg-src="assets/images/icons/clipboard-check.svg" class="md-primary"></md-icon>
     <md-icon style="min-height: 28px; min-width: 28px;" ng-switch-when="2" md-svg-src="assets/images/icons/clipboard-double-check.svg" class="md-primary"></md-icon>

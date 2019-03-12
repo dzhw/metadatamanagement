@@ -28,6 +28,7 @@ try {
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
         $rootScope.$mdMedia = $mdMedia;
+        $rootScope.$state = $state;
         $rootScope.currentDate = new Date();
         //prevent default browser actions for drag and drop
         $window.addEventListener('dragover', function(e) {

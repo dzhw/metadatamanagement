@@ -2,10 +2,10 @@
 
 angular.module('metadatamanagementApp')
   .controller('ProjectOverviewController', function($stateParams, $state,
-      DataAcquisitionProjectCollectionResource) {
+      DataAcquisitionProjectCollectionResource, ToolbarHeaderService,
+      PageTitleService) {
     var ctrl = this;
-    var sort = $stateParams.sort ? $stateParams.sort : 'id';
-    var dir = $stateParams.dir ? $stateParams.dir : 'asc';
+    var sort = $stateParams.sort ? $stateParams.sort : 'id,asc';
     var limit = $stateParams.limit ? $stateParams.limit : 20;
 
     ctrl.pagination = {
@@ -18,7 +18,6 @@ angular.module('metadatamanagementApp')
       ctrl.overview = DataAcquisitionProjectCollectionResource.get({
         page: page,
         sort: sort,
-        dir: dir,
         limit: limit
       });
 
@@ -31,6 +30,10 @@ angular.module('metadatamanagementApp')
     };
 
     var init = function() {
+      PageTitleService.setPageTitle('data-acquisition-project-' +
+        'management.project-overview.header');
+      ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+          name});
       var page = $stateParams.page ? $stateParams.page - 1 : 0;
       fetchData(page);
     };

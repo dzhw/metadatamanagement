@@ -1,3 +1,4 @@
+/* globals _ */
 'use strict';
 
 angular.module('metadatamanagementApp').directive('metadataStatus',
@@ -14,8 +15,14 @@ angular.module('metadatamanagementApp').directive('metadataStatus',
       bindToController: true,
       controller: function(ProjectStatusScoringService) {
         this.$onInit = function() {
-          this.score = ProjectStatusScoringService
-            .scoreProjectStatus(this.project, this.type);
+          var requirements = _.get(this.project, 'configuration.requirements');
+          this.displayStatus =  requirements &&
+            requirements[this.type + 'Required'];
+
+          if (this.displayStatus) {
+            this.score = ProjectStatusScoringService
+              .scoreProjectStatus(this.project, this.type);
+          }
         };
       }
     };
