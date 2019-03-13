@@ -156,7 +156,12 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
             'must': [{
                 'match': {
                 }
-              }]
+              }],
+            'filter': {
+              'term': {
+                'shadow': false
+              }
+            }
           }
         };
 

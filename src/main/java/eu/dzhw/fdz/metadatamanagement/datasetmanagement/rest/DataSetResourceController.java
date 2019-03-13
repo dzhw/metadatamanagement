@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 /**
@@ -46,7 +47,7 @@ public class DataSetResourceController
    * @param id Data set id
    */
   @RequestMapping(method = RequestMethod.PUT, value = "/data-sets/{id:.+}")
-  public ResponseEntity<?> update(@PathVariable String id, @RequestBody DataSet dataSet) {
+  public ResponseEntity<?> update(@PathVariable String id, @Valid @RequestBody DataSet dataSet) {
     return super.putDomainObject(id, dataSet);
   }
 
@@ -55,7 +56,7 @@ public class DataSetResourceController
    * @param dataSet DataSet to create
    */
   @RequestMapping(method = RequestMethod.POST, value = "/data-sets")
-  public ResponseEntity<DataSet> create(@RequestBody DataSet dataSet) {
+  public ResponseEntity<DataSet> create(@Valid @RequestBody DataSet dataSet) {
     return super.postDomainObject(dataSet);
   }
 

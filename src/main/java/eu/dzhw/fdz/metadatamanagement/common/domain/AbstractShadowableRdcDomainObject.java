@@ -4,12 +4,14 @@ import java.util.Objects;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Setter;
 
 /**
  * Base class for all rdc domain objects which can exist as multiple versions.
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public abstract class AbstractShadowableRdcDomainObject extends AbstractRdcDomainObject {
 
   /**

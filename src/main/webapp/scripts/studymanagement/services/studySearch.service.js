@@ -101,7 +101,12 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         'bool': {
           'must': [{
             'match': {}
-          }]
+          }],
+          'filter': {
+            'term': {
+              'shadow': false
+            }
+          }
         }
       };
 
@@ -353,7 +358,12 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         'bool': {
           'must': [{
             'match': {}
-          }]
+          }],
+          'filter': {
+            'term': {
+              'shadow': false
+            }
+          }
         }
       };
 

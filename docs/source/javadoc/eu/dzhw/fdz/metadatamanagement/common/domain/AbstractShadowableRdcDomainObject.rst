@@ -4,6 +4,8 @@
 
 .. java:import:: lombok Data
 
+.. java:import:: lombok EqualsAndHashCode
+
 .. java:import:: lombok Setter
 
 AbstractShadowableRdcDomainObject
@@ -12,7 +14,7 @@ AbstractShadowableRdcDomainObject
 .. java:package:: eu.dzhw.fdz.metadatamanagement.common.domain
    :noindex:
 
-.. java:type:: @Data public abstract class AbstractShadowableRdcDomainObject extends AbstractRdcDomainObject
+.. java:type:: @Data @EqualsAndHashCode public abstract class AbstractShadowableRdcDomainObject extends AbstractRdcDomainObject
 
    Base class for all rdc domain objects which can exist as multiple versions.
 

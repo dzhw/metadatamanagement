@@ -93,7 +93,7 @@ public class DataAcquisitionProjectResource extends
   @RequestMapping(method = RequestMethod.POST, value = "/data-acquisition-projects")
   @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER,
       AuthoritiesConstants.ADMIN})
-  public ResponseEntity<?> postDataAcquisitionProject(@RequestBody DataAcquisitionProject
+  public ResponseEntity<?> postDataAcquisitionProject(@Valid @RequestBody DataAcquisitionProject
                                                           dataAcquisitionProject) {
     if (dataAcquisitionProject.isShadow()) {
       throw new ShadowCopyCreateNotAllowedException();

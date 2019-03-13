@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 /**
@@ -46,7 +47,7 @@ public class SurveyResourceController
    * @param survey Survey
    */
   @RequestMapping(method = RequestMethod.POST, value = "/surveys")
-  public ResponseEntity<?> postSurvey(@RequestBody Survey survey) {
+  public ResponseEntity<?> postSurvey(@Valid @RequestBody Survey survey) {
     return super.postDomainObject(survey);
   }
 
@@ -56,7 +57,7 @@ public class SurveyResourceController
    * @param survey Survey
    */
   @RequestMapping(method = RequestMethod.PUT, value = "/surveys/{id:.+}")
-  public ResponseEntity<?> putSurvey(@PathVariable String id, @RequestBody Survey survey) {
+  public ResponseEntity<?> putSurvey(@PathVariable String id, @Valid @RequestBody Survey survey) {
     return super.putDomainObject(id, survey);
   }
 

@@ -56,7 +56,8 @@ angular.module('metadatamanagementApp')
           'studyId': result.studyId,
           'studyIsPresent': CleanJSObjectService.isNullOrEmpty(result.study) ?
             false : true,
-          'projectId': result.dataAcquisitionProjectId
+          'projectId': result.dataAcquisitionProjectId,
+          'version': _.get(result, 'release.version')
         });
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';

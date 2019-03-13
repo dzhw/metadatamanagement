@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 /**
@@ -45,7 +46,7 @@ public class VariableResourceController
    * @param variable Variable
    */
   @RequestMapping(method = RequestMethod.POST, value = "/variables")
-  public ResponseEntity<?> postVariable(@RequestBody Variable variable) {
+  public ResponseEntity<?> postVariable(@Valid @RequestBody Variable variable) {
     return super.postDomainObject(variable);
   }
 
@@ -55,7 +56,8 @@ public class VariableResourceController
    * @param variable Variable
    */
   @RequestMapping(method = RequestMethod.PUT, value = "/variables/{id:.+}")
-  public ResponseEntity<?> putVariable(@PathVariable String id, @RequestBody Variable variable) {
+  public ResponseEntity<?> putVariable(@PathVariable String id,
+                                       @Valid @RequestBody Variable variable) {
     return super.putDomainObject(id, variable);
   }
 

@@ -60,7 +60,9 @@ angular.module('metadatamanagementApp')
           'studyId': result.studyId,
           'studyIsPresent': CleanJSObjectService.
           isNullOrEmpty(result.study) ? false : true,
-          'projectId': result.dataAcquisitionProjectId});
+          'projectId': result.dataAcquisitionProjectId,
+          'version': _.get(result, 'release.version')
+        });
         if (result.dataSets) {
           ctrl.accessWays = [];
           result.dataSets.forEach(function(dataSet) {
@@ -71,7 +73,7 @@ angular.module('metadatamanagementApp')
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.question = result;
           QuestionSearchService.findAllPredeccessors(ctrl.question.id, ['id',
-            'instrumentNumber', 'questionText', 'type','instrumentNmber',
+            'instrumentNumber', 'questionText', 'type', 'masterId',
             'number', 'dataAcquisitionProjectId', 'instrument.description'],
             0, 100)
           .then(function(predecessors) {
@@ -82,7 +84,7 @@ angular.module('metadatamanagementApp')
           if (ctrl.question.successors) {
             QuestionSearchService.findAllSuccessors(ctrl.question.successors,
               ['id', 'instrumentNumber', 'questionText', 'type',
-              'number', 'dataAcquisitionProjectId',
+              'number', 'dataAcquisitionProjectId', 'masterId',
               'instrument.description'], 0, 100)
             .then(function(successors) {
               ctrl.successors = successors.hits.hits;

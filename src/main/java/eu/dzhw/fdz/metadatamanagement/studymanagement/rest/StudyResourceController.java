@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 /**
@@ -47,7 +48,7 @@ public class StudyResourceController
    * @param study Study
    */
   @RequestMapping(method = RequestMethod.PUT, value = "/studies/{id:.+}")
-  public ResponseEntity<?> putStudy(@PathVariable String id, @RequestBody Study study) {
+  public ResponseEntity<?> putStudy(@PathVariable String id, @Valid @RequestBody Study study) {
     return super.putDomainObject(id, study);
   }
 

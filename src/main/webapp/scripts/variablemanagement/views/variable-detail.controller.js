@@ -1,4 +1,4 @@
-/* global html_beautify */
+/* global html_beautify, _*/
 /* Author: Daniel Katzberg */
 'use strict';
 
@@ -50,7 +50,8 @@ angular.module('metadatamanagementApp')
         'studyId': result.studyId,
         'studyIsPresent': CleanJSObjectService.
         isNullOrEmpty(result.study) ? false : true,
-        'projectId': result.dataAcquisitionProjectId
+        'projectId': result.dataAcquisitionProjectId,
+        'version': _.get(result, 'release.version')
       });
       if (result.release || Principal.hasAnyAuthority(['ROLE_PUBLISHER',
           'ROLE_DATA_PROVIDER'])) {
@@ -82,7 +83,7 @@ angular.module('metadatamanagementApp')
         var previousIndexInDataSet = result.indexInDataSet - 1;
         VariableSearchService.findByDataSetIdAndIndexInDataSet(result.dataSetId,
           previousIndexInDataSet, ['id', 'label', 'name', 'dataType',
-            'scaleLevel', 'surveys'])
+            'scaleLevel', 'surveys', 'masterId'])
           .then(function(resultPreviousVariable) {
             $scope.previousVariables = resultPreviousVariable.hits.hits;
           });
@@ -91,7 +92,7 @@ angular.module('metadatamanagementApp')
         var nextIndexInDataSet = result.indexInDataSet + 1;
         VariableSearchService.findByDataSetIdAndIndexInDataSet(result.dataSetId,
           nextIndexInDataSet, ['id', 'label', 'name', 'dataType',
-            'scaleLevel', 'surveys'])
+            'scaleLevel', 'surveys', 'masterId'])
           .then(function(resultNextVariable) {
             $scope.nextVariables = resultNextVariable.hits.hits;
           });

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 /**
@@ -48,7 +49,7 @@ public class InstrumentResourceController
    */
   @RequestMapping(method = RequestMethod.PUT, value = "/instruments/{id:.+}")
   public ResponseEntity<?> putInstrument(@PathVariable  String id,
-                                         @RequestBody Instrument instrument) {
+                                         @Valid @RequestBody Instrument instrument) {
     return super.putDomainObject(id, instrument);
   }
 
@@ -57,7 +58,7 @@ public class InstrumentResourceController
    * @param instrument Instrument to create
    */
   @RequestMapping(method = RequestMethod.POST, value = "/instruments")
-  public ResponseEntity<?> postInstrument(@RequestBody Instrument instrument) {
+  public ResponseEntity<?> postInstrument(@Valid @RequestBody Instrument instrument) {
     return super.postDomainObject(instrument);
   }
 

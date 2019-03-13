@@ -5,6 +5,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedEx
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.event.AfterCreateEvent;
 import org.springframework.data.rest.core.event.AfterDeleteEvent;
@@ -15,8 +16,11 @@ import org.springframework.data.rest.core.event.BeforeSaveEvent;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -30,20 +34,33 @@ public abstract class GenericShadowableDomainObjectResourceController
 
   private ApplicationEventPublisher applicationEventPublisher;
 
+  private static final List<String> defaultIgnoreProperties = Collections
+      .unmodifiableList(Arrays.asList("createdDate", "createdBy"));
+
   public GenericShadowableDomainObjectResourceController(S repository, ApplicationEventPublisher
       applicationEventPublisher) {
     super(repository);
     this.applicationEventPublisher = applicationEventPublisher;
   }
 
-  protected ResponseEntity<?> putDomainObject(String id, @Valid T domainObject) {
+  protected ResponseEntity<?> putDomainObject(String id, T domainObject) {
     Optional<T> opt = repository.findById(id);
     if (opt.isPresent()) {
-      T persistedDomainObject = opt.get();
-      if (persistedDomainObject.isShadow()) {
+      T domainObjectToUpdate = opt.get();
+      if (domainObjectToUpdate.isShadow()) {
         throw new ShadowCopyUpdateNotAllowedException();
       } else {
-        saveDomainObject(domainObject);
+        List<String> ignoreProperties;
+        if (domainObject.getVersion() == null) {
+          ignoreProperties = new ArrayList<>(defaultIgnoreProperties);
+          ignoreProperties.add("version");
+        } else {
+          ignoreProperties = defaultIgnoreProperties;
+        }
+        BeanUtils.copyProperties(domainObject, domainObjectToUpdate, ignoreProperties
+            .toArray(new String[ignoreProperties.size()]));
+
+        saveDomainObject(domainObjectToUpdate);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
       }
     } else if (domainObject.isShadow()) {
@@ -54,7 +71,7 @@ public abstract class GenericShadowableDomainObjectResourceController
     }
   }
 
-  protected ResponseEntity<T> postDomainObject(@Valid T domainObject) {
+  protected ResponseEntity<T> postDomainObject(T domainObject) {
     if (domainObject.isShadow()) {
       throw new ShadowCopyCreateNotAllowedException();
     } else {

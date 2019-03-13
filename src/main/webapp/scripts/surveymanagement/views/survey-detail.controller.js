@@ -57,7 +57,8 @@ angular.module('metadatamanagementApp')
           'studyId': survey.studyId,
           'studyIsPresent': CleanJSObjectService.isNullOrEmpty(survey.study) ?
             false : true,
-          'projectId': survey.dataAcquisitionProjectId
+          'projectId': survey.dataAcquisitionProjectId,
+          'version': _.get(survey, 'release.version')
         });
         if (survey.dataSets) {
           ctrl.accessWays = [];
