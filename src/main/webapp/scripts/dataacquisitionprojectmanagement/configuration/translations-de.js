@@ -198,7 +198,7 @@ angular.module('metadatamanagementApp').config(
             'publisher': 'Publisher',
             'data-provider': 'Datengeber',
             'unreleased': 'nicht freigegeben',
-            'tooltip': 'Klicken, um dieses Projekt im Projekt-Cockpit zu öffnen'
+            'tooltip': 'Klicken, um das Projekt-Cockpit dieses Projekts zu öffnen'
           },
           'pagination': {
             'previous': 'Klicken, um die vorherigen Projekte anzuzeigen',
