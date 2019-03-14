@@ -95,7 +95,7 @@
                 <md-divider></md-divider>
                 <md-card-content layout="column" layout-align="center start">
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                        <div ng-if="!ctrl.isStudyInUpdateProcess">
+                        <div ng-if="!ctrl.isStudyInUpdateProcess" style="overflow: hidden">
                             <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.undocumented' | translate}}
@@ -120,14 +120,14 @@
                                 </a>
                             </div>
                         </div>
-                        <div ng-if="ctrl.isStudyInUpdateProcess">
+                        <div ng-if="ctrl.isStudyInUpdateProcess" style="overflow: hidden">
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                             {{'survey-management.detail.label.survey' | translate }}:
                             {{'study-management.detail.is-in-update-process' | translate }}
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                        <div ng-if="!ctrl.isStudyInUpdateProcess">
+                        <div ng-if="!ctrl.isStudyInUpdateProcess" style="overflow: hidden">
                             <div ng-if="ctrl.counts.instrumentsCount == 0" class="fdz-truncate-string" flex>
                                 <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                                 {{'instrument-management.detail.label.instrument' | translate }}: {{'global.messages.error.undocumented' | translate}}
@@ -151,14 +151,14 @@
                                 </a>
                             </div>
                         </div>
-                        <div ng-if="ctrl.isStudyInUpdateProcess">
+                        <div ng-if="ctrl.isStudyInUpdateProcess" style="overflow: hidden">
                             <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
                             {{'instrument-management.detail.label.instrument' | translate }}:
                             {{'study-management.detail.is-in-update-process' | translate }}
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                        <div ng-if="!ctrl.isStudyInUpdateProcess">
+                        <div ng-if="!ctrl.isStudyInUpdateProcess" style="overflow: hidden">
                             <div ng-if="ctrl.counts.questionsCount == 0" class="fdz-truncate-string" flex>
                                 <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                                 {{'question-management.detail.label.questions' | translate }}: {{'global.messages.error.undocumented' | translate}}
@@ -182,14 +182,14 @@
                                 </a>
                             </div>
                         </div>
-                        <div ng-if="ctrl.isStudyInUpdateProcess">
+                        <div ng-if="ctrl.isStudyInUpdateProcess" style="overflow: hidden">
                             <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                             {{'instrument-management.detail.label.instrument' | translate }}:
                             {{'study-management.detail.is-in-update-process' | translate }}
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                        <div ng-if="!ctrl.isStudyInUpdateProcess">
+                        <div ng-if="!ctrl.isStudyInUpdateProcess" style="overflow: hidden">
                             <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.label.data-sets' | translate }}: {{'global.messages.error.undocumented' | translate}}
@@ -214,14 +214,14 @@
                                 </a>
                             </div>
                         </div>
-                        <div ng-if="ctrl.isStudyInUpdateProcess">
+                        <div ng-if="ctrl.isStudyInUpdateProcess" style="overflow: hidden">
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                             {{'data-set-management.detail.label.data-set' | translate }}:
                             {{'study-management.detail.is-in-update-process' | translate }}
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                        <div ng-if="!ctrl.isStudyInUpdateProcess">
+                        <div ng-if="!ctrl.isStudyInUpdateProcess" style="overflow: hidden">
                             <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string" flex>
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.label.variables' | translate }}: {{'global.messages.error.undocumented' | translate}}
@@ -246,7 +246,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div ng-if="ctrl.isStudyInUpdateProcess">
+                        <div ng-if="ctrl.isStudyInUpdateProcess" style="overflow: hidden">
                             <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                             {{'variable-management.detail.label.variables' | translate }}:
                             {{'study-management.detail.is-in-update-process' | translate }}
