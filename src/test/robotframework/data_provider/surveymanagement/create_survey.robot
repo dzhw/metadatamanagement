@@ -11,43 +11,41 @@ Resource          ../../resources/login_resource.robot
 *** Variables ***
 ${TOAST_MSSG}  Die Erhebung wurde nicht gespeichert
 
-*** Test Cases ***    GerTitle       EngTitle     Wave        FielPeriodStart    FieldPeriodEnd    GerSurvMeth    EngSurvMeth    GerPopTitle    EngPopTitle    GerPopDesc      EngPopDesc            GerSample    EngSample    NetSampleSize     ResponseRate
-Empty German Title    ${Empty}       Something    1           01.05.2018         31.05.2018        Versuch        Trial          Alle           All            Na eben alle    Of course everyone    Alle         All          1400              10
+*** Test Cases ***    GerTitle       EngTitle     Wave        FielPeriodStart    FieldPeriodEnd    GerSurvMeth    EngSurvMeth     GerPopDesc      EngPopDesc            GerSample    EngSample    NetSampleSize     ResponseRate
+Empty German Title    ${Empty}       Something    1           01.05.2018         31.05.2018        Versuch        Trial           Na eben alle    Of course everyone    Alle         All          1400              10
 
 Empty English Title
-                      Irgendetwas    ${Empty}     1           01.05.2018         31.05.2018        Versuch        Trial          Alle           All            Na eben alle    Of course everyone    Alle         All          1400              10
+                      Irgendetwas    ${Empty}     1           01.05.2018         31.05.2018        Versuch        Trial           Na eben alle    Of course everyone    Alle         All          1400              10
 
-Empty Wave            Irgendetwas    Something    ${Empty}    01.05.2018         31.05.2018        Versuch        Trial          Alle           All            Na eben alle    Of course everyone    Alle         All          1400              10
+Empty Wave            Irgendetwas    Something    ${Empty}    01.05.2018         31.05.2018        Versuch        Trial           Na eben alle    Of course everyone    Alle         All          1400              10
 
 Empty German SurveyMethod
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        ${Empty}       Trial          Alle           All            Na eben alle    Of course everyone    Alle         All          1400              10
+                      Irgendetwas    Something    1           01.05.2018         01.06.2018        ${Empty}       Trial           Na eben alle    Of course everyone    Alle         All          1400              10
 
 Empty English SurveyMethod
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        ${Empty}       Alle           All            Na eben alle    Of course everyone    Alle         All          1400              10
-
-Empty PopTitle        Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial          ${Empty}       ${Empty}       Na eben alle    Of course everyone    Alle         All          1400              10
+                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        ${Empty}        Na eben alle    Of course everyone    Alle         All          1400              10
 
 Empty PopDescription
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial          Alle           All            ${Empty}        ${Empty}              Alle         All          1400              10
+                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial           ${Empty}        ${Empty}              Alle         All          1400              10
 
-Empty Sample          Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial          Alle           All            Na eben alle    Of course everyone    ${Empty}     ${Empty}     1400              10
+Empty Sample          Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial           Na eben alle    Of course everyone    ${Empty}     ${Empty}     1400              10
 
-Empty SampleSize      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial          Alle           All            Na eben alle    Of course everyone    Alle         All          ${Empty}          10
+Empty SampleSize      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial           Na eben alle    Of course everyone    Alle         All          ${Empty}          10
 
 Invalid SampleSize First
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial          Alle           All            Na eben alle    Of course everyone    Alle         All          -5                10
+                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial           Na eben alle    Of course everyone    Alle         All          -5                10
 
 Invalid SampleSize Second
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial          Alle           All            Na eben alle    Of course everyone    Alle         All          Testsamplesize    10
+                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial           Na eben alle    Of course everyone    Alle         All          Testsamplesize    10
 
 Invalid ResponseRate
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial          Alle           All            Na eben alle    Of course everyone    Alle         All          Testsamplesize    E
+                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial           Na eben alle    Of course everyone    Alle         All          Testsamplesize    E
 
 *** Keywords ***
 Survey Page With Empty Or Invalid Options Should Fail
     [Arguments]    ${GTitle}    ${ETitle}    ${Wave}    ${FieldPeriodStart}    ${FieldPeriodEnd}    ${GSurveyMethod}
-    ...    ${ESurveyMethod}    ${GPopTitle}    ${EPopTitle}    ${GPopDesc}    ${EPopDesc}    ${GSample}
-    ...    ${ESample}    ${NetSampleSize}    ${ResponseRate}
+    ...    ${ESurveyMethod}   ${GPopDesc}    ${EPopDesc}    ${GSample}    ${ESample}    ${NetSampleSize}
+    ...    ${ResponseRate}
     Pass Execution If    '${BROWSER}' == 'ie'    Survey Creation not possible in IE
     Clear Element Text    name=titleDe
     Input Text    name=titleDe    ${GTitle}
@@ -64,10 +62,6 @@ Survey Page With Empty Or Invalid Options Should Fail
     Clear Element Text    name=surveyMethodEn
     Input Text    name=surveyMethodEn    ${ESurveyMethod}
     Choose Quantitative Daten As Data Type
-    Clear Element Text    name=populationTitleDe
-    Input Text    name=populationTitleDe    ${GPopTitle}
-    Clear Element Text    name=populationTitleEn
-    Input Text    name=populationTitleEn    ${EPopTitle}
     Clear Element Text    name=populationDescriptionDe
     Input Text    name=populationDescriptionDe    ${GPopDesc}
     Clear Element Text    name=populationDescriptionEn
@@ -82,6 +76,7 @@ Survey Page With Empty Or Invalid Options Should Fail
     Input Text    name=responseRate    ${ResponseRate}
     Save Changes
     Page Should Contain    Die Erhebung wurde nicht gespeichert, weil es noch ungültige Felder gibt!
+
     Close The Toast Message   ${TOAST_MSSG}
 
 Go To Survey Create Page

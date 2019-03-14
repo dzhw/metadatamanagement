@@ -116,6 +116,10 @@ angular.module('metadatamanagementApp').config(
             },
             'studies': {
               'one': 'Klicken, um die Studie dieser Erhebung anzuzeigen'
+            },
+            'questions': {
+              'one': 'Klicken, um die Frage dieser Erhebung anzuzeigen.',
+              'many': 'Klicken, um die Fragen dieser Erhebung anzuzeigen.'
             }
           }
         },
