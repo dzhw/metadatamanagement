@@ -5,6 +5,21 @@ angular
   .config(
     function($stateProvider) {
       $stateProvider
+        .state('project-overview', {
+          parent: 'site',
+          url: '/projects/overview?limit&page&sort',
+          data: {
+            authorities: ['ROLE_PUBLISHER', 'ROLE_ADMIN']
+          },
+          views: {
+            'content@': {
+              templateUrl: 'scripts/dataacquisitionprojectmanagement/views/' +
+                'project-overview.html.tmpl',
+              controller: 'ProjectOverviewController',
+              controllerAs: 'ctrl'
+            }
+          }
+        })
         .state('project-cockpit', {
           parent: 'site',
           url: '/projects/:id?:tab',
