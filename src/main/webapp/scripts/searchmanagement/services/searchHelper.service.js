@@ -239,11 +239,20 @@ angular.module('metadatamanagementApp').factory(
         query.body.query = query.body.query || {};
         query.body.query.bool = query.body.query.bool || {};
         query.body.query.bool.filter = query.body.query.bool.filter || [];
-        query.body.query.bool.filter.push({
+
+        var releaseExistsFilter = {
           'exists': {
             'field': 'release'
           }
-        });
+        };
+        if (angular.isArray(query.body.query.bool.filter)) {
+          query.body.query.bool.filter.push(releaseExistsFilter);
+        } else if (angular.isDefined(query.body.query.bool.filter)) {
+          var filterObj = query.body.query.bool.filter;
+          query.body.query.bool.filter = [filterObj, releaseExistsFilter];
+        } else {
+          query.body.query.bool.filter = [releaseExistsFilter];
+        }
       }
     };
 

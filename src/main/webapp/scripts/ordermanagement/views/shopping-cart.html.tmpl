@@ -10,7 +10,7 @@
                     <md-icon md-svg-src="/assets/images/icons/product.svg" class="fdz-search-result-icon"></md-icon>
                 </md-card-avatar>
                 <md-card-header-text class="fdz-truncate-string">
-                    <div class="md-title fdz-truncate-string"><a ui-sref="studyDetail({id: product.study.id})">
+                    <div class="md-title fdz-truncate-string"><a ui-sref="studyDetail({id: product.study.id, version: product.version})">
                             {{ctrl.studies[product.study.id + '-' + product.version].title | displayI18nString}}
                             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                 {{'shopping-cart.detail.study-tooltip' | translate}}
@@ -29,13 +29,13 @@
                     </md-tooltip>
                 </a>
                 <span>{{'shopping-cart.detail.label.contains' | translate}}</span>
-                <a ui-sref="search({'type': 'variables', 'study': product.study.id, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.variables' | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' + (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}
+                <a ui-sref="search({'type': 'variables', 'study': product.study.id + '-' + product.version, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.variables' | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' + (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'shopping-cart.detail.variables-tooltip' | translate}}
                     </md-tooltip>
                 </a>
                 <span>{{'shopping-cart.detail.label.in' | translate}}</span>
-                <a ui-sref="search({'type': 'data_sets', 'study': product.study.id, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}
+                <a ui-sref="search({'type': 'data_sets', 'study': product.study.id + '-' + product.version, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'shopping-cart.detail.data-sets-tooltip' | translate}}
                     </md-tooltip>

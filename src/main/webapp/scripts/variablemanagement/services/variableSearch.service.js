@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('VariableSearchService',
   function(ElasticSearchClient, $q, SearchHelperService,
-    CleanJSObjectService, LanguageService) {
+    CleanJSObjectService, LanguageService, Principal) {
       var createQueryObject = function(type) {
         type = type || 'variables';
         return {
@@ -203,6 +203,24 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
             }
           };
           query.body.query.bool.filter = termFilters;
+        } else {
+          _.set(query, 'body.query.bool.filter', []);
+        }
+
+        if (Principal.loginName()) {
+          query.body.query.bool.filter.push({
+            'term': {
+              'shadow': false
+            }
+          });
+        } else {
+          query.body.query.bool.filter.push({
+            'term': {
+              'shadow': true
+            }
+          });
+          _.set(query, 'body.query.bool.must_not[0].exists.field',
+            'successorId');
         }
 
         SearchHelperService.addQuery(query, queryterm);

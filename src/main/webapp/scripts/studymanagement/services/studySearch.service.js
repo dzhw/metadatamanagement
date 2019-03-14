@@ -64,7 +64,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
     };
 
     var findStudySeries = function(searchText, filter, language, type,
-      queryterm, dataAcquisitionProjectId, ignoreAuthorization) {
+        queryterm, dataAcquisitionProjectId, ignoreAuthorization) {
       ignoreAuthorization = ignoreAuthorization || false;
       language = language || LanguageService.getCurrentInstantly();
       var query = createQueryObject(type);
@@ -308,7 +308,15 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
       if (termFilters) {
         query.body.query.bool.filter = termFilters;
+      } else {
+        query.body.query.bool.filter = [];
       }
+
+      query.body.query.bool.filter.push({
+        'term': {
+          'shadow': false
+        }
+      });
 
       if (!ignoreAuthorization) {
         SearchHelperService.addFilter(query);
@@ -399,7 +407,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
     };
 
     var buildSearchConfig = function(searchText, filter, type, queryTerm,
-      dataAcquisitionProjectId, filterAttribute) {
+        dataAcquisitionProjectId, filterAttribute) {
 
       return {
         searchText: searchText,
@@ -413,7 +421,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
     };
 
     var findInstitutionFilterOptions = function(searchText, filter, type,
-                                         queryTerm, dataAcquisitionProjectId) {
+        queryTerm, dataAcquisitionProjectId) {
 
       var searchConfig = buildSearchConfig(
         searchText,
@@ -428,7 +436,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
     };
 
     var findSponsorFilterOptions = function(searchText, filter, type,
-                                     queryTerm, dataAcquisitionProjectId) {
+        queryTerm, dataAcquisitionProjectId) {
 
       var searchConfig = buildSearchConfig(
         searchText,
