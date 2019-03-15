@@ -207,7 +207,6 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
   public void testIdIsMandatory() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setId(null);
-    project.setMasterId(null);
 
     // create the project without id
     mockMvc
@@ -215,7 +214,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().isBadRequest()).andExpect(
         jsonPath("$.errors[0].message", containsString("data-acquisition-project-management"
-            + ".error.data-acquisition-project.master-id.pattern")));
+            + ".error.data-acquisition-project.id.not-empty")));
   }
 
   @Test

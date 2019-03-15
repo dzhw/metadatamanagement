@@ -14,6 +14,16 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         return id;
       }
     };
+    var appendReleaseVersionToSurveys = function(surveys, version) {
+      if (!version) {
+        return surveys;
+      }
+      var clones = _.cloneDeep(surveys);
+      return clones.map(function(survey) {
+        survey.version = version;
+        return survey;
+      });
+    };
     var translationStringsMap = {
       'questionDetail': {
         'type': 'question-management.detail.label.question',
@@ -298,8 +308,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'icon': translationStringsMap.questionDetail.icon,
             'number': item.questionNumber
           };
-          surveyItem = createRelatedSurveyItem(item.surveys, 'question',
-          item.id);
+          surveyItem = createRelatedSurveyItem(
+            appendReleaseVersionToSurveys(item.surveys, item.version),
+            'question', item.id);
           instrumentItem = createRelatedInstrumentItem(item, 'question');
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
           surveyItem, instrumentItem, questionItem);
@@ -314,8 +325,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'name': item.name
           };
           dataSetItem = createRelatedDataSetItem(item, 'variable');
-          surveyItem = createRelatedSurveyItem(item.surveys, 'variable',
-          item.id);
+          surveyItem = createRelatedSurveyItem(
+            appendReleaseVersionToSurveys(item.surveys, item.version),
+            'variable', item.id);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
           surveyItem, dataSetItem, variableItem);
           break;
@@ -350,8 +362,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           break;
         case 'dataSetDetail':
           dataSetItem = createRelatedDataSetItem(item, 'data-set');
-          surveyItem = createRelatedSurveyItem(item.surveys, 'data-set',
-          item.id);
+          surveyItem = createRelatedSurveyItem(
+            appendReleaseVersionToSurveys(item.surveys, item.version),
+            'data-set', item.id);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
           surveyItem, dataSetItem);
           break;
@@ -371,8 +384,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           break;
         case 'instrumentDetail':
           instrumentItem = createRelatedInstrumentItem(item, 'instrument');
-          surveyItem = createRelatedSurveyItem(item.surveys, 'instrument',
-          item.id);
+          surveyItem = createRelatedSurveyItem(
+            appendReleaseVersionToSurveys(item.surveys, item.version),
+            'instrument', item.id);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
             surveyItem, instrumentItem);
           break;

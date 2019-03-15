@@ -51,7 +51,8 @@ angular.module('metadatamanagementApp')
         'studyIsPresent': CleanJSObjectService.
         isNullOrEmpty(result.study) ? false : true,
         'projectId': result.dataAcquisitionProjectId,
-        'version': _.get(result, 'release.version')
+        'version': Principal.loginName() ? null : _.get(result,
+          'release.version')
       });
       if (result.release || Principal.hasAnyAuthority(['ROLE_PUBLISHER',
           'ROLE_DATA_PROVIDER'])) {

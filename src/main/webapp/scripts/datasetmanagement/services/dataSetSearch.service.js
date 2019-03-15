@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('DataSetSearchService',
   function(ElasticSearchClient, $q, CleanJSObjectService, SearchHelperService,
-    LanguageService) {
+    LanguageService, Principal) {
     var createQueryObject = function(type) {
       type = type || 'data_sets';
       return {
@@ -364,6 +364,18 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
           }
         };
         query.body.query.bool.filter = termFilters;
+      } else {
+        _.set(query, 'body.query.bool.filter', []);
+      }
+
+      query.body.query.bool.filter.push({
+        'term': {
+          'shadow': !Principal.loginName()
+        }
+      });
+
+      if (!Principal.loginName()) {
+        _.set(query, 'body.query.bool.must_not[0].exists.field', 'successorId');
       }
 
       SearchHelperService.addQuery(query, queryterm);

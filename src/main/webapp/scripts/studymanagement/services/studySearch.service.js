@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('StudySearchService',
   function($q, ElasticSearchClient, CleanJSObjectService, SearchHelperService,
-           GenericFilterOptionsSearchService, LanguageService) {
+           GenericFilterOptionsSearchService, LanguageService, Principal) {
     var createQueryObject = function(type) {
       type = type || 'studies';
       return {
@@ -104,11 +104,15 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
           }],
           'filter': {
             'term': {
-              'shadow': false
+              'shadow': !Principal.loginName()
             }
           }
         }
       };
+
+      if (!Principal.loginName()) {
+        _.set(query, 'body.query.bool.must_not[0].exists.field', 'successorId');
+      }
 
       query.body.query.bool.must[0].match
         [prefix + fieldName + language + '.ngrams'] = {

@@ -99,7 +99,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.counts.variablesCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'variables', 'data-set': ctrl.dataSet.masterId, 'study': ctrl.dataSet.studyId})">
+                            <a ui-sref="search({'type': 'variables', 'data-set': ctrl.dataSet.id, 'study': ctrl.dataSet.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.label.variables' | translate }}: ({{ctrl.counts.variablesCount| number: 0}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
