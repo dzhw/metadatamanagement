@@ -182,8 +182,9 @@ try {
         blockUIConfig.requestFilter = function(config) {
           // If the request contains '/api/search' ...
           if (config.url.indexOf('_search') !== -1 ||
-              config.url.indexOf('/api/data-acquisition-projects/search') !==
-                -1 ||
+             (config.url.indexOf('/api/data-acquisition-projects/') !== -1 &&
+                config.method === 'GET' &&
+                config.url.indexOf('/releases') === -1) ||
               config.url.indexOf('/api/users/findUserWithRole') !== -1) {
             return false; // ... don't block it.
           }
