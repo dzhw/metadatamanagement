@@ -8,7 +8,6 @@ angular.module('metadatamanagementApp')
       .state('dataSetDetail', {
         parent: 'site',
         url: '/data-sets/{id}?{search-result-index},{version}',
-        reloadOnSearch: false,
         data: {
           authorities: []
         },

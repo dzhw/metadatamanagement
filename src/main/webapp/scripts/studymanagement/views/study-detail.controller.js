@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
              StudyAttachmentResource, SearchResultNavigatorService,
              $stateParams, $rootScope, DataAcquisitionProjectResource,
              ProductChooserDialogService, ProjectUpdateAccessService, $scope,
-             $timeout) {
+             $timeout, OutdatedVersionNotifier, StudySearchService) {
 
       SearchResultNavigatorService.registerCurrentSearchResult(
         $stateParams['search-result-index']);
@@ -57,6 +57,12 @@ angular.module('metadatamanagementApp')
       });
 
       entity.promise.then(function(result) {
+
+        if (!Principal.loginName()) {
+          var fetchFn = StudySearchService.findShadowByIdAndVersion
+            .bind(null, result.masterId);
+          OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
+        }
 
         if (Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {

@@ -10,7 +10,8 @@ angular.module('metadatamanagementApp')
              CleanJSObjectService, SimpleMessageToastService,
              DataSetAttachmentResource, DataSetCitateDialogService,
              SearchResultNavigatorService, $stateParams,
-             ProductChooserDialogService, DataAcquisitionProjectResource) {
+             ProductChooserDialogService, DataAcquisitionProjectResource,
+             OutdatedVersionNotifier) {
 
       SearchResultNavigatorService.registerCurrentSearchResult(
         $stateParams['search-result-index']);
@@ -48,6 +49,13 @@ angular.module('metadatamanagementApp')
             activeProject = project;
           });
         }
+
+        if (!Principal.loginName()) {
+          var fetchFn = DataSetSearchService.findShadowByIdAndVersion
+            .bind(null, result.masterId);
+          OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
+        }
+
         var currentLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currentLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('data-set-management.detail.title', {

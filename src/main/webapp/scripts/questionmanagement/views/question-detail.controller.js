@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
       $stateParams, QuestionImageMetadataResource, $mdMenu, $timeout,
-      ProductChooserDialogService) {
+      ProductChooserDialogService, OutdatedVersionNotifier) {
       SearchResultNavigatorService.registerCurrentSearchResult(
             $stateParams['search-result-index']);
       var ctrl = this;
@@ -38,6 +38,11 @@ angular.module('metadatamanagementApp')
       ];
 
       entity.promise.then(function(result) {
+        if (!Principal.loginName()) {
+          var fetchFn = QuestionSearchService.findShadowByIdAndVersion
+            .bind(null, result.masterId);
+          OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
+        }
         var title = {
           questionNumber: result.number,
           questionId: result.id

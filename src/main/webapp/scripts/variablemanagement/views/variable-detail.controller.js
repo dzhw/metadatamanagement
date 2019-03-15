@@ -7,7 +7,8 @@ angular.module('metadatamanagementApp')
     QuestionSearchService, VariableSearchService, Principal,
     SimpleMessageToastService, PageTitleService, LanguageService,
     CleanJSObjectService, $state, ToolbarHeaderService,
-    SearchResultNavigatorService, $stateParams, ProductChooserDialogService) {
+    SearchResultNavigatorService, $stateParams, ProductChooserDialogService,
+    OutdatedVersionNotifier) {
     SearchResultNavigatorService.registerCurrentSearchResult(
       $stateParams['search-result-index']);
     $scope.isAuthenticated = Principal.isAuthenticated;
@@ -31,6 +32,11 @@ angular.module('metadatamanagementApp')
       'nestedInstruments'
     ];
     entity.promise.then(function(result) {
+      if (!Principal.loginName()) {
+        var fetchFn = VariableSearchService.findShadowByIdAndVersion
+          .bind(null, result.masterId);
+        OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
+      }
       var currenLanguage = LanguageService.getCurrentInstantly();
       var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
       PageTitleService.setPageTitle('variable-management.detail.title', {

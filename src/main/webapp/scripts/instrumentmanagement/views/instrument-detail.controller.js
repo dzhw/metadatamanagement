@@ -8,7 +8,8 @@ angular.module('metadatamanagementApp')
              ToolbarHeaderService, Principal, SimpleMessageToastService,
              SearchResultNavigatorService, $stateParams,
              ProductChooserDialogService, DataAcquisitionProjectResource,
-             ProjectUpdateAccessService) {
+             ProjectUpdateAccessService, InstrumentSearchService,
+             OutdatedVersionNotifier) {
 
       SearchResultNavigatorService.registerCurrentSearchResult(
         $stateParams['search-result-index']);
@@ -37,6 +38,11 @@ angular.module('metadatamanagementApp')
 
       //Wait for instrument Promise
       entity.promise.then(function(result) {
+        if (!Principal.loginName()) {
+          var fetchFn = InstrumentSearchService.findShadowByIdAndVersion
+            .bind(null, result.masterId);
+          OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
+        }
         if (Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({

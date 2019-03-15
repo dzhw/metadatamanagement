@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
              SimpleMessageToastService, SearchResultNavigatorService,
              $stateParams, SurveyResponseRateImageUploadService,
              DataAcquisitionProjectResource, ProductChooserDialogService,
-             ProjectUpdateAccessService) {
+             ProjectUpdateAccessService, OutdatedVersionNotifier) {
 
       SearchResultNavigatorService.registerCurrentSearchResult(
         $stateParams['search-result-index']);
@@ -33,6 +33,11 @@ angular.module('metadatamanagementApp')
       ];
 
       entity.promise.then(function(survey) {
+        if (!Principal.loginName()) {
+          var fetchFn = SurveySearchService.findShadowByIdAndVersion
+            .bind(null, survey.masterId);
+          OutdatedVersionNotifier.checkVersionAndNotify(survey, fetchFn);
+        }
         if (Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({

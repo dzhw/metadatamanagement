@@ -205,7 +205,8 @@ angular.module('metadatamanagementApp').config(
             'next': 'Klicken, um die nächsten Projekte anzuzeigen',
             'current': 'Klicken, um die Projekte auf Seite {{number}} anzuzeigen'
           }
-        }
+        },
+        'outdated-version-alert': 'Sie betrachten eine veraltete Version. <a href="{{href}}">Hier geht es zur aktuellen Version</a>'
       }
       //jscs:enable
     };
