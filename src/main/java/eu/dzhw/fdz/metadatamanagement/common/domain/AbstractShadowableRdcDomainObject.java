@@ -2,6 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.common.domain;
 
 import java.util.Objects;
 
+import org.springframework.data.mongodb.core.index.Indexed;
+
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,6 +31,7 @@ public abstract class AbstractShadowableRdcDomainObject extends AbstractRdcDomai
    * Determines whether this document is a shadow copy.
    */
   @Setter(AccessLevel.NONE)
+  @Indexed
   private boolean shadow;
 
   /**
