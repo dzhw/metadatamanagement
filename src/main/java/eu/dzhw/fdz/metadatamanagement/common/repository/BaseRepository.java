@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.rest.core.annotation.RestResource;
@@ -23,7 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  */
 @NoRepositoryBean
 public interface BaseRepository<T, ID extends Serializable>
-    extends MongoRepository<T, ID>, CrudRepository<T, ID> {
+    extends MongoRepository<T, ID>, CrudRepository<T, ID>, QuerydslPredicateExecutor<T> {
   @Override
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   void delete(T entity);
