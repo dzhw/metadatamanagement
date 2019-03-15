@@ -182,6 +182,29 @@ angular.module('metadatamanagementApp').config(
             'title': 'Projekt zurückziehen',
             'text': 'Möchten Sie das Projekt wirklich von der Gruppe Datengeber zurückziehen?'
           }
+        },
+        'project-overview': {
+          'header': 'Projektübersicht',
+          'table': {
+            'project-name': 'Projekt',
+            'release-version': 'Aktuelle Version',
+            'assigned-group': 'Zugewiesene Gruppe',
+            'study-status': 'Studie',
+            'surveys-status': 'Erhebungen',
+            'instruments-status': 'Instrumente',
+            'data-sets-status': 'Datensätze',
+            'questions-status': 'Fragen',
+            'variables-status': 'Variablen',
+            'publisher': 'Publisher',
+            'data-provider': 'Datengeber',
+            'unreleased': 'nicht freigegeben',
+            'tooltip': 'Klicken, um das Projekt-Cockpit dieses Projekts zu öffnen'
+          },
+          'pagination': {
+            'previous': 'Klicken, um die vorherigen Projekte anzuzeigen',
+            'next': 'Klicken, um die nächsten Projekte anzuzeigen',
+            'current': 'Klicken, um die Projekte auf Seite {{number}} anzuzeigen'
+          }
         }
       }
       //jscs:enable
