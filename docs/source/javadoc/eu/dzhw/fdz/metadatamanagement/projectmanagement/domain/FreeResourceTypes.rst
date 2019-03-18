@@ -14,16 +14,16 @@ FreeResourceTypes
 
 Fields
 ------
-COMPETENCE_DATA
-^^^^^^^^^^^^^^^
-
-.. java:field:: public static final I18nString COMPETENCE_DATA
-   :outertype: FreeResourceTypes
-
 MIXED_DATA
 ^^^^^^^^^^
 
 .. java:field:: public static final I18nString MIXED_DATA
+   :outertype: FreeResourceTypes
+
+QUALITATIVE_DATA
+^^^^^^^^^^^^^^^^
+
+.. java:field:: public static final I18nString QUALITATIVE_DATA
    :outertype: FreeResourceTypes
 
 SURVEY_DATA
