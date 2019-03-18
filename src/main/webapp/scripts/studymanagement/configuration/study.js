@@ -32,9 +32,12 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('studyDetail', {
         parent: 'site',
-        url: '/studies/{id}?{search-result-index},{version}',
+        url: '/studies/{id}?,{version}',
         data: {
           authorities: []
+        },
+        params: {
+          'search-result-index': null
         },
         views: {
           'content@': {

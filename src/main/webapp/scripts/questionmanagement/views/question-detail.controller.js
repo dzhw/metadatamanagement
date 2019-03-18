@@ -8,14 +8,20 @@ angular.module('metadatamanagementApp')
     function(entity, $state, ToolbarHeaderService,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
-      $stateParams, QuestionImageMetadataResource, $mdMenu, $timeout,
-      ProductChooserDialogService, OutdatedVersionNotifier) {
+      QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
+      ProductChooserDialogService, OutdatedVersionNotifier,
+      SearchResultIndexStore) {
+
+      SearchResultIndexStore
+        .currentSearchResultIndex($stateParams['search-result-index']);
+
       SearchResultNavigatorService.registerCurrentSearchResult(
-            $stateParams['search-result-index']);
+            SearchResultIndexStore.currentSearchResultIndex());
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
-      ctrl.searchResultIndex = $stateParams['search-result-index'];
+      ctrl.searchResultIndex = SearchResultIndexStore
+        .currentSearchResultIndex();
       this.representationCodeToggleFlag = true;
       ctrl.predecessors = [];
       ctrl.successors = [];

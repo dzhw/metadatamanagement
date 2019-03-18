@@ -7,9 +7,12 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('variableDetail', {
         parent: 'site',
-        url: '/variables/{id}?{search-result-index},{version}',
+        url: '/variables/{id}?{version}',
         data: {
           authorities: []
+        },
+        params: {
+          'search-result-index': null
         },
         views: {
           'content@': {

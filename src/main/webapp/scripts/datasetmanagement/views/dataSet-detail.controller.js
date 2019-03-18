@@ -9,15 +9,19 @@ angular.module('metadatamanagementApp')
              LanguageService, $state, ToolbarHeaderService,
              CleanJSObjectService, SimpleMessageToastService,
              DataSetAttachmentResource, DataSetCitateDialogService,
-             SearchResultNavigatorService, $stateParams,
-             ProductChooserDialogService, DataAcquisitionProjectResource,
-             OutdatedVersionNotifier) {
+             SearchResultNavigatorService, ProductChooserDialogService,
+             DataAcquisitionProjectResource, OutdatedVersionNotifier,
+             SearchResultIndexStore, $stateParams) {
+
+      SearchResultIndexStore
+        .currentSearchResultIndex($stateParams['search-result-index']);
 
       SearchResultNavigatorService.registerCurrentSearchResult(
-        $stateParams['search-result-index']);
+        SearchResultIndexStore.currentSearchResultIndex());
       var activeProject;
       var ctrl = this;
-      ctrl.searchResultIndex = $stateParams['search-result-index'];
+      ctrl.searchResultIndex = SearchResultIndexStore
+        .currentSearchResultIndex();
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAnyAuthority = Principal.hasAnyAuthority;
       ctrl.hasAuthority = Principal.hasAuthority;

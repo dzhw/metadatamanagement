@@ -6,19 +6,23 @@ angular.module('metadatamanagementApp')
     function(entity, InstrumentAttachmentResource,
              PageTitleService, LanguageService, $state, CleanJSObjectService,
              ToolbarHeaderService, Principal, SimpleMessageToastService,
-             SearchResultNavigatorService, $stateParams,
-             ProductChooserDialogService, DataAcquisitionProjectResource,
-             ProjectUpdateAccessService, InstrumentSearchService,
-             OutdatedVersionNotifier) {
+             SearchResultNavigatorService, ProductChooserDialogService,
+             DataAcquisitionProjectResource, ProjectUpdateAccessService,
+             InstrumentSearchService, OutdatedVersionNotifier,
+             SearchResultIndexStore, $stateParams) {
+
+      SearchResultIndexStore
+        .currentSearchResultIndex($stateParams['search-result-index']);
 
       SearchResultNavigatorService.registerCurrentSearchResult(
-        $stateParams['search-result-index']);
+        SearchResultIndexStore.currentSearchResultIndex());
       var activeProject;
       //Controller Init
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
-      ctrl.searchResultIndex = $stateParams['search-result-index'];
+      ctrl.searchResultIndex = SearchResultIndexStore
+        .currentSearchResultIndex();
       ctrl.survey = null;
       ctrl.attachments = null;
       ctrl.study = null;

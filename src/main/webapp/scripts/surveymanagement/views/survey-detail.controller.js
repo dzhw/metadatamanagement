@@ -7,17 +7,22 @@ angular.module('metadatamanagementApp')
              PageTitleService, $state, ToolbarHeaderService,
              SurveySearchService, SurveyAttachmentResource, Principal,
              SimpleMessageToastService, SearchResultNavigatorService,
-             $stateParams, SurveyResponseRateImageUploadService,
+             SurveyResponseRateImageUploadService,
              DataAcquisitionProjectResource, ProductChooserDialogService,
-             ProjectUpdateAccessService, OutdatedVersionNotifier) {
+             ProjectUpdateAccessService, OutdatedVersionNotifier,
+             SearchResultIndexStore, $stateParams) {
+
+      SearchResultIndexStore
+        .currentSearchResultIndex($stateParams['search-result-index']);
 
       SearchResultNavigatorService.registerCurrentSearchResult(
-        $stateParams['search-result-index']);
+        SearchResultIndexStore.currentSearchResultIndex());
       var activeProject;
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
-      ctrl.searchResultIndex = $stateParams['search-result-index'];
+      ctrl.searchResultIndex = SearchResultIndexStore
+        .currentSearchResultIndex();
       ctrl.counts = {};
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.enableJsonView = Principal

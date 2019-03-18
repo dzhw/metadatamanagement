@@ -7,9 +7,12 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('instrumentDetail', {
         parent: 'site',
-        url: '/instruments/{id}?{search-result-index},{version}',
+        url: '/instruments/{id}?{version}',
         data: {
           authorities: []
+        },
+        params: {
+          'search-result-index': null
         },
         views: {
           'content@': {

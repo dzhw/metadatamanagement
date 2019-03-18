@@ -2,7 +2,8 @@
 
 angular.module('metadatamanagementApp').factory(
   'SearchResultNavigatorService',
-  function(SearchDao, $q, ToolbarHeaderService, $location, $transitions) {
+  function(SearchDao, $q, ToolbarHeaderService, $location, $transitions,
+           SearchResultIndexStore) {
     var lastSearchParams = {};
     var lastProjectId;
     var lastPageObject;
@@ -73,7 +74,7 @@ angular.module('metadatamanagementApp').factory(
         }
       } else {
         if (searchResultIndex != null) {
-          $location.search('search-result-index', null).replace();
+          SearchResultIndexStore.currentSearchResultIndex(null);
         }
       }
     }

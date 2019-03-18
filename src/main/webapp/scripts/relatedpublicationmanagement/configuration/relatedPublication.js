@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('relatedPublicationDetail', {
         parent: 'site',
-        url: '/publications/{id}?{search-result-index}',
+        url: '/publications/{id}',
         reloadOnSearch: false,
         data: {
           authorities: []
