@@ -557,6 +557,10 @@ md-dialog h2 {
     vertical-align: top;
 }
 
+td.fdz-table-data-vertical-middle {
+    vertical-align: middle;
+}
+
 .fdz-table-wide th {
     white-space: nowrap;
 }
@@ -1192,6 +1196,9 @@ project-status-badge > span, release-status-badge > span {
     animation: fade-highlight 1s ease-out;
 }
 
+.fdz-project-status-overview-metadata-status-table-cell {
+    min-height: 28px;
+}
 geographic-coverage-list {
     display: block;
 

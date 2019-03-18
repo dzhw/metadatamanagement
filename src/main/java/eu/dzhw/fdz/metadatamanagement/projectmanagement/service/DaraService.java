@@ -320,12 +320,12 @@ public class DaraService {
         resourceTypeFree = FreeResourceTypes.SURVEY_DATA;
       } else if (survey.getDataType().equals(DataTypes.QUALITATIVE_DATA)
           && resourceTypeFree == null) {
-        resourceTypeFree = FreeResourceTypes.COMPETENCE_DATA;
+        resourceTypeFree = FreeResourceTypes.QUALITATIVE_DATA;
       } else if (survey.getDataType().equals(DataTypes.QUALITATIVE_DATA)
           && resourceTypeFree == FreeResourceTypes.SURVEY_DATA) {
         resourceTypeFree = FreeResourceTypes.MIXED_DATA;
       } else if (survey.getDataType().equals(DataTypes.QUANTITATIVE_DATA)
-          && resourceTypeFree == FreeResourceTypes.COMPETENCE_DATA) {
+          && resourceTypeFree == FreeResourceTypes.QUALITATIVE_DATA) {
         resourceTypeFree = FreeResourceTypes.MIXED_DATA;
       }
     }

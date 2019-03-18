@@ -76,6 +76,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       'projectCockpit': {
         'type': 'data-acquisition-project-management.project-cockpit.header'
       },
+      'projectOverview': {
+        'type': 'data-acquisition-project-management.project-overview.header'
+      },
       'login': {
         'type': 'global.toolbar.buttons.login'
       },
@@ -387,6 +390,14 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           };
           $rootScope.toolbarHeaderItems.push(cockpitItem);
           break;
+        case 'project-overview': {
+          var projectOverviewItem = {
+            'state': 'project-overview',
+            'type': translationStringsMap.projectOverview.type
+          };
+          $rootScope.toolbarHeaderItems.push(projectOverviewItem);
+          break;
+        }
         case 'user-management':
           var managementItem = {
             'state': 'user-management',
