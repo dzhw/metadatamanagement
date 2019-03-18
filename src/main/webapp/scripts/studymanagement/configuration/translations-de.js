@@ -96,7 +96,7 @@ angular.module('metadatamanagementApp').config(
           'not-released-toast': 'Die Studie "{{ id }}" wird aktuell bearbeitet und ist daher nicht für alle Benutzer freigegeben!',
           'is-currently-updated-toast': 'Die Studie "{{ id }}" wird zur Zeit aktualisiert. Inhalte dieser Studie können sich in der nächsten Version ändern.',
           'old-version': 'Ihr Link verweist auf eine ältere Version ({{versionFromUrl}}) dieser Studie. Hier wird die aktuelle Version ({{actualVersion}}) der Studie "{{title}}" dargestellt.',
-          'beta-release-no-doi': 'Die Studie ist noch nicht veröffentlicht und hat daher noch keine DOI',
+          'beta-release-no-doi': 'Diese Studie hat noch keine DOI.',
           'publications-for-series': 'Publikationen zur Studienreihe "{{studySeries}}"',
           'publications-for-study': 'Publikationen zu dieser Studie',
           'tooltips': {
