@@ -18,6 +18,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     ctrl.releases = {};
     ctrl.customer = {};
     ctrl.counts = {};
+    ctrl.noShadowCopyAvailable = {};
     ctrl.initComplete = false;
 
     var appendVersionSuffix = function(product) {
@@ -71,6 +72,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       var masterId = ProjectReleaseService.stripVersionSuffix(studyId);
       return StudyResource.get({id: masterId}).$promise.then(function(study) {
         ctrl.studies[studyId] = study;
+        ctrl.noShadowCopyAvailable[studyId] = true;
       }, function(error) {
         return $q.reject(error);
       });

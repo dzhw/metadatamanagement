@@ -8,18 +8,18 @@ angular.module('metadatamanagementApp')
     SimpleMessageToastService, PageTitleService, LanguageService,
     CleanJSObjectService, $state, ToolbarHeaderService,
     SearchResultNavigatorService, ProductChooserDialogService,
-    OutdatedVersionNotifier, SearchResultIndexStore, $stateParams) {
+    OutdatedVersionNotifier, $stateParams) {
+
+    SearchResultNavigatorService
+      .currentSearchResultIndex($stateParams['search-result-index']);
 
     SearchResultNavigatorService.registerCurrentSearchResult(
-      SearchResultIndexStore.currentSearchResultIndex());
-
-    SearchResultIndexStore
-      .currentSearchResultIndex($stateParams['search-result-index']);
+      SearchResultNavigatorService.getSearchIndex());
 
     $scope.isAuthenticated = Principal.isAuthenticated;
     $scope.hasAuthority = Principal.hasAuthority;
-    $scope.searchResultIndex = SearchResultIndexStore
-      .currentSearchResultIndex();
+    $scope.searchResultIndex = SearchResultNavigatorService
+      .getSearchIndex();
     $scope.generationCodeToggleFlag = true;
     $scope.filterDetailsCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;

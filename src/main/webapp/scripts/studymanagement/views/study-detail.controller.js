@@ -8,22 +8,20 @@ angular.module('metadatamanagementApp')
              StudyAttachmentResource, SearchResultNavigatorService,
              $stateParams, $rootScope, DataAcquisitionProjectResource,
              ProductChooserDialogService, ProjectUpdateAccessService, $scope,
-             $timeout, OutdatedVersionNotifier, StudySearchService,
-             SearchResultIndexStore) {
+             $timeout, OutdatedVersionNotifier, StudySearchService) {
 
-      SearchResultIndexStore
-        .currentSearchResultIndex($stateParams['search-result-index']);
+      SearchResultNavigatorService
+        .setSearchIndex($stateParams['search-result-index']);
 
       SearchResultNavigatorService.registerCurrentSearchResult(
-        SearchResultIndexStore.currentSearchResultIndex());
+        SearchResultNavigatorService.getSearchIndex());
       var versionFromUrl = $stateParams.version;
       var activeProject;
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.projectIsCurrentlyReleased = true;
-      ctrl.searchResultIndex = SearchResultIndexStore
-        .currentSearchResultIndex();
+      ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {};
       ctrl.jsonExcludes = [
         'nestedDataSets',

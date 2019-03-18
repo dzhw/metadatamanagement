@@ -2,8 +2,8 @@
 
 angular.module('metadatamanagementApp').factory(
   'SearchResultNavigatorService',
-  function(SearchDao, $q, ToolbarHeaderService, $location, $transitions,
-           SearchResultIndexStore) {
+  function(SearchDao, $q, ToolbarHeaderService, $location, $transitions) {
+    var searchIndex = null;
     var lastSearchParams = {};
     var lastProjectId;
     var lastPageObject;
@@ -74,7 +74,7 @@ angular.module('metadatamanagementApp').factory(
         }
       } else {
         if (searchResultIndex != null) {
-          SearchResultIndexStore.currentSearchResultIndex(null);
+          searchResultIndex = null;
         }
       }
     }
@@ -95,13 +95,23 @@ angular.module('metadatamanagementApp').factory(
       return currentSearchResultIndex + 1;
     }
 
+    function setSearchIndex(newIndex) {
+      searchIndex = newIndex;
+    }
+
+    function getSearchIndex() {
+      return searchIndex;
+    }
+
     return {
       setCurrentSearchParams: setCurrentSearchParams,
       registerCurrentSearchResult: registerCurrentSearchResult,
       getPreviousSearchResult: getPreviousSearchResult,
       getPreviousSearchResultIndex: getPreviousSearchResultIndex,
       getNextSearchResult: getNextSearchResult,
-      getNextSearchResultIndex: getNextSearchResultIndex
+      getNextSearchResultIndex: getNextSearchResultIndex,
+      setSearchIndex: setSearchIndex,
+      getSearchIndex: getSearchIndex
     };
   }
 );

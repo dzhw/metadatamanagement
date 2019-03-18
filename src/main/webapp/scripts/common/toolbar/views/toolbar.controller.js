@@ -2,7 +2,8 @@
 
 angular.module('metadatamanagementApp').controller(
   'ToolbarController',
-  function($scope, $mdSidenav, $location, ShoppingCartService, Principal, SearchResultIndexStore) {
+  function($scope, $mdSidenav, ShoppingCartService, Principal,
+           SearchResultNavigatorService) {
     //Toggle Function
     $scope.toggleLeft = function() {
       $mdSidenav('SideNavBar').toggle();
@@ -17,5 +18,5 @@ angular.module('metadatamanagementApp').controller(
         $scope.productsCount = count;
       });
 
-    $scope.SearchResultIndexStore = SearchResultIndexStore;
+    $scope.SearchResultNavigatorService = SearchResultNavigatorService;
   });

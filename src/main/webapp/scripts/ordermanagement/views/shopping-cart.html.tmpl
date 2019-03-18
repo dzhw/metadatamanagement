@@ -21,7 +21,7 @@
                           ng-if="ctrl.isCurrentVersion(product)">{{' (' + ('shopping-cart.detail.label.current' | translate) + ')'}}</span></div>
                 </md-card-header-text>
             </md-card-header>
-            <md-card-content>
+            <md-card-content ng-switch="ctrl.noShadowCopyAvailable[product.study.id + '-' + product.version]">
                 <span>{{'shopping-cart.detail.label.this-data-product' | translate}}</span>
                 <a ui-sref="search({'type': 'studies', 'study-series-{{currentLanguage}}': ctrl.studies[product.study.id].studySeries[currentLanguage]})" ng-if="ctrl.studies[product.study.id].studySeries[currentLanguage]">{{'shopping-cart.detail.label.study-series' | translate:'{series:"'+ ctrl.studies[product.study.id].studySeries[currentLanguage] + '"}'}}
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -29,13 +29,15 @@
                     </md-tooltip>
                 </a>
                 <span>{{'shopping-cart.detail.label.contains' | translate}}</span>
-                <a ui-sref="search({'type': 'variables', 'study': product.study.id + '-' + product.version, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.variables' | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' + (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}
+                <span ng-switch-when="true">{{'shopping-cart.detail.label.variables' | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' + (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}</span>
+                <a ng-switch-default ui-sref="search({'type': 'variables', 'study': product.study.id + '-' + product.version, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.variables' | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' + (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'shopping-cart.detail.variables-tooltip' | translate}}
                     </md-tooltip>
                 </a>
                 <span>{{'shopping-cart.detail.label.in' | translate}}</span>
-                <a ui-sref="search({'type': 'data_sets', 'study': product.study.id + '-' + product.version, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}
+                <span ng-switch-when="true">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}</span>
+                <a ng-switch-default ui-sref="search({'type': 'data_sets', 'study': product.study.id + '-' + product.version, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'shopping-cart.detail.data-sets-tooltip' | translate}}
                     </md-tooltip>

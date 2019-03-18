@@ -3,12 +3,12 @@
 angular.module('metadatamanagementApp')
   .controller('RelatedPublicationDetailController',
     function(entity, PageTitleService, $state, ToolbarHeaderService,
-    SearchResultNavigatorService, Principal, SearchResultIndexStore) {
+    SearchResultNavigatorService, Principal) {
+
       SearchResultNavigatorService.registerCurrentSearchResult(
-          SearchResultIndexStore.currentSearchResultIndex());
+          SearchResultNavigatorService.getSearchIndex());
       var ctrl = this;
-      ctrl.searchResultIndex = SearchResultIndexStore
-        .currentSearchResultIndex();
+      ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER','ROLE_DATA_PROVIDER']);
       ctrl.jsonExcludes = [

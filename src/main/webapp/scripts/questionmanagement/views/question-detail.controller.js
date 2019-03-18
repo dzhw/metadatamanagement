@@ -9,19 +9,17 @@ angular.module('metadatamanagementApp')
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
       QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
-      ProductChooserDialogService, OutdatedVersionNotifier,
-      SearchResultIndexStore) {
+      ProductChooserDialogService, OutdatedVersionNotifier) {
 
-      SearchResultIndexStore
-        .currentSearchResultIndex($stateParams['search-result-index']);
+      SearchResultNavigatorService
+        .setSearchIndex($stateParams['search-result-index']);
 
       SearchResultNavigatorService.registerCurrentSearchResult(
-            SearchResultIndexStore.currentSearchResultIndex());
+            SearchResultNavigatorService.getSearchIndex());
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
-      ctrl.searchResultIndex = SearchResultIndexStore
-        .currentSearchResultIndex();
+      ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       this.representationCodeToggleFlag = true;
       ctrl.predecessors = [];
       ctrl.successors = [];

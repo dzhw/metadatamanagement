@@ -1,5 +1,7 @@
 .. java:import:: java.util Objects
 
+.. java:import:: org.springframework.data.mongodb.core.index Indexed
+
 .. java:import:: lombok AccessLevel
 
 .. java:import:: lombok Data
@@ -31,7 +33,7 @@ masterId
 shadow
 ^^^^^^
 
-.. java:field:: @Setter private boolean shadow
+.. java:field:: @Setter @Indexed private boolean shadow
    :outertype: AbstractShadowableRdcDomainObject
 
    Determines whether this document is a shadow copy.
