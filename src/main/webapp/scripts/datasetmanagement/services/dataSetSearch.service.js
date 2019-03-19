@@ -368,19 +368,9 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
         _.set(query, 'body.query.bool.filter', []);
       }
 
-      query.body.query.bool.filter.push({
-        'term': {
-          'shadow': !Principal.loginName()
-        }
-      });
-
-      if (!Principal.loginName()) {
-        _.set(query, 'body.query.bool.must_not[0].exists.field', 'successorId');
-      }
-
       SearchHelperService.addQuery(query, queryterm);
-
       SearchHelperService.addFilter(query);
+      SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
 
       return ElasticSearchClient.search(query).then(function(result) {
         return result.aggregations.accessWays.buckets;

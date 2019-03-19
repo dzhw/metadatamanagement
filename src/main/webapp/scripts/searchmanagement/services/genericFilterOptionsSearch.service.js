@@ -95,8 +95,10 @@ angular.module('metadatamanagementApp')
             'shadow': true
           }
         });
-        _.set(query, 'body.query.bool.must_not[0].exists.field',
-          'successorId');
+        if (_.isEmpty(searchConfig.filter)) {
+          _.set(query, 'body.query.bool.must_not[0].exists.field',
+            'successorId');
+        }
       }
 
       SearchHelperService.addQuery(query, searchConfig.queryTerm);

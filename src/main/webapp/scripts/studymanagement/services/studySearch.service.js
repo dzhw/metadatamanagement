@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('StudySearchService',
   function($q, ElasticSearchClient, CleanJSObjectService, SearchHelperService,
-           GenericFilterOptionsSearchService, LanguageService, Principal) {
+           GenericFilterOptionsSearchService, LanguageService) {
     var createQueryObject = function(type) {
       type = type || 'studies';
       return {
@@ -101,18 +101,9 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         'bool': {
           'must': [{
             'match': {}
-          }],
-          'filter': {
-            'term': {
-              'shadow': !Principal.loginName()
-            }
-          }
+          }]
         }
       };
-
-      if (!Principal.loginName()) {
-        _.set(query, 'body.query.bool.must_not[0].exists.field', 'successorId');
-      }
 
       query.body.query.bool.must[0].match
         [prefix + fieldName + language + '.ngrams'] = {
@@ -127,6 +118,9 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       }
 
       SearchHelperService.addQuery(query, queryterm);
+      if (type !== 'related_publications') {
+        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(termFilters));
+      }
 
       if (!ignoreAuthorization) {
         SearchHelperService.addFilter(query);
