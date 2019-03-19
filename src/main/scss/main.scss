@@ -1223,3 +1223,14 @@ geographic-coverage {
 .fdz-error {
     color: $brand-danger;
 }
+
+.fdz-plain-list {
+    list-style: none;
+    padding: 0;
+    li {
+        margin: 0;
+        &:not(:last-child) {
+            margin-bottom: 8px;
+        }
+    }
+}

@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp').config(
             'surveys-same-study': 'Alle Erhebungen der Studie',
             'field-period': 'Feldzeit',
             'population': 'Grundgesamtheit',
-            'geographic-coverage': 'Geographic coverage',
+            'geographic-coverage': 'Untersuchungsumgebung',
             'data-type': 'Erhebungsdatentyp',
             'survey-method': 'Erhebungsmethode',
             'sample': 'Stichprobenverfahren',

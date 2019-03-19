@@ -85,7 +85,7 @@
         <#list survey.population.geographicCoverages as geographicCoverage>
         <geographicCoverage>
             <geographicCoverageControlled>${geographicCoverage.country}</geographicCoverageControlled>
-          <#if geographicCoverage.description.de?has_content || geographicCoverage.description.en?has_content>
+          <#if geographicCoverage.description?? && (geographicCoverage.description.de?has_content || geographicCoverage.description.en?has_content)>
             <geographicCoveragesFree>
               <#if geographicCoverage.description.de?has_content>
                 <geographicCoverageFree>
