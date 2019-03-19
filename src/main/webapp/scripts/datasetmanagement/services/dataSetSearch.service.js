@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('DataSetSearchService',
   function(ElasticSearchClient, $q, CleanJSObjectService, SearchHelperService,
-    LanguageService, Principal) {
+    LanguageService) {
     var createQueryObject = function(type) {
       type = type || 'data_sets';
       return {

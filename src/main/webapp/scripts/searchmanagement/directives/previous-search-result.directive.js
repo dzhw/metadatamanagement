@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').directive('previousSearchResult',
   function(SearchResultNavigatorService, SearchTypeToDetailsStateMapper,
-           LanguageService, $state) {
+           $state) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/searchmanagement/directives/' +
@@ -17,15 +17,13 @@ angular.module('metadatamanagementApp').directive('previousSearchResult',
 
               var state = SearchTypeToDetailsStateMapper
                 .getDetailStateUrl(data.hits.hits[0]._type);
-              var lang = LanguageService.getCurrentInstantly();
               var id = scope.previousSearchResult.masterId ?
                 scope.previousSearchResult.masterId : scope
                   .previousSearchResult.id;
 
               scope.goToPreviousSearchResult = function() {
                 $state.go(state, {
-                  id: id, lang: lang,
-                  'search-result-index': scope.previousSearchResultIndex
+                  id: id, 'search-result-index': scope.previousSearchResultIndex
                 });
               };
             }
