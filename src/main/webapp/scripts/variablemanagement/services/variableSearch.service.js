@@ -219,12 +219,13 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
               'shadow': true
             }
           });
-          _.set(query, 'body.query.bool.must_not[0].exists.field',
-            'successorId');
+          if (_.isEmpty(termFilters)) {
+            _.set(query, 'body.query.bool.must_not[0].exists.field',
+              'successorId');
+          }
         }
 
         SearchHelperService.addQuery(query, queryterm);
-
         SearchHelperService.addFilter(query);
 
         return ElasticSearchClient.search(query).then(function(result) {
@@ -261,8 +262,8 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         }
 
         SearchHelperService.addQuery(query, queryterm);
-
         SearchHelperService.addFilter(query);
+        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(termFilters));
 
         return ElasticSearchClient.search(query).then(function(result) {
           return result.aggregations.panelIdentifiers.buckets;
@@ -298,8 +299,8 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         }
 
         SearchHelperService.addQuery(query, queryterm);
-
         SearchHelperService.addFilter(query);
+        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(termFilters));
 
         return ElasticSearchClient.search(query).then(function(result) {
           return result.aggregations.derivedVariablesIdentifiers.buckets;
