@@ -41,6 +41,8 @@ public class VariableSubDocument extends AbstractRdcDomainObject
 
   private List<String> surveyIds;
 
+  private String masterId;
+
   public VariableSubDocument() {
     super();
   }

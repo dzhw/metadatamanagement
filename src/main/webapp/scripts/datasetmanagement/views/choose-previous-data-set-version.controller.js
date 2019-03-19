@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.select = function(dataSet, index) {
+        delete dataSet.version;
         $mdDialog.hide({
           dataSet: dataSet,
           isCurrentVersion: $scope.isCurrentVersion(index)

@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .service('GenericFilterOptionsSearchService',
   function(SearchHelperService, LanguageService, ElasticSearchClient,
-           CleanJSObjectService) {
+           CleanJSObjectService, Principal) {
 
     var createTermFilters = function(filter, dataAcquisitionProjectId, type) {
       var termFilter;
@@ -79,6 +79,26 @@ angular.module('metadatamanagementApp')
 
       if (termFilters) {
         query.body.query.bool.filter = termFilters;
+      } else {
+        query.body.query.bool.filter = [];
+      }
+
+      if (Principal.loginName()) {
+        query.body.query.bool.filter.push({
+          'term': {
+            'shadow': false
+          }
+        });
+      } else {
+        query.body.query.bool.filter.push({
+          'term': {
+            'shadow': true
+          }
+        });
+        if (_.isEmpty(searchConfig.filter)) {
+          _.set(query, 'body.query.bool.must_not[0].exists.field',
+            'successorId');
+        }
       }
 
       SearchHelperService.addQuery(query, searchConfig.queryTerm);

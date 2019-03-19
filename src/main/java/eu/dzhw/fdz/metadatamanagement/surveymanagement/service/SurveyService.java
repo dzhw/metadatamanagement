@@ -1,27 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.rest.core.annotation.HandleAfterCreate;
-import org.springframework.data.rest.core.annotation.HandleAfterDelete;
-import org.springframework.data.rest.core.annotation.HandleAfterSave;
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.data.rest.core.event.AfterDeleteEvent;
-import org.springframework.data.rest.core.event.BeforeDeleteEvent;
-import org.springframework.stereotype.Service;
-
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
@@ -35,6 +22,22 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.IdAndN
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableChangesProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
+import org.springframework.data.rest.core.annotation.HandleAfterDelete;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.event.AfterDeleteEvent;
+import org.springframework.data.rest.core.event.BeforeDeleteEvent;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Service which deletes surveys when the corresponding dataAcquisitionProject has been deleted.
@@ -75,6 +78,12 @@ public class SurveyService {
   @Autowired
   private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
+  @Autowired
+  private ShadowCopyService<Survey> shadowCopyService;
+
+  @Autowired
+  private SurveyShadowCopyDataSource surveyShadowCopyDataSource;
+
   /**
    * Listener, which will be activate by a deletion of a data acquisition project.
    * 
@@ -106,6 +115,9 @@ public class SurveyService {
     try (Stream<Survey> surveys =
         surveyRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       surveys.forEach(survey -> {
+        if (survey.isShadow()) {
+          throw new ShadowCopyDeleteNotAllowedException();
+        }
         eventPublisher.publishEvent(new BeforeDeleteEvent(survey));
         surveyRepository.delete(survey);
         eventPublisher.publishEvent(new AfterDeleteEvent(survey));
@@ -224,6 +236,20 @@ public class SurveyService {
         relatedPublicationChangesProvider.getAffectedSurveyIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> surveyRepository.streamIdsByIdIn(surveyIds), ElasticsearchType.surveys);
+
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> surveyRepository.streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(surveyIds),
+        ElasticsearchType.surveys);
+  }
+
+  /**
+   * Create shadow copies for {@link Survey} on project release.
+   * @param projectReleasedEvent Released project event
+   */
+  @EventListener
+  public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        projectReleasedEvent.getPreviousReleaseVersion(), surveyShadowCopyDataSource);
   }
 
   /**

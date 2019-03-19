@@ -1,7 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.After;
@@ -26,8 +28,8 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 
 public class DeleteAllSurveysResourceControllerTest extends AbstractTest {
 
-
   private static final String API_DELETE_ALL_QUESTIONS_URI = "/api/data-acquisition-projects";
+
   @Autowired
   private WebApplicationContext wac;
 
@@ -37,7 +39,8 @@ public class DeleteAllSurveysResourceControllerTest extends AbstractTest {
   private MockMvc mockMvc;
 
   @Autowired
-  SurveyRepository surveyRepo;
+  private SurveyRepository surveyRepo;
+
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
@@ -56,16 +59,19 @@ public class DeleteAllSurveysResourceControllerTest extends AbstractTest {
     javersService.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
   }
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
-  public void testDeleteAllQuestionsOfProject() throws Exception {
+  public void testDeleteAllSurveysOfProject() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
     String projectId = project.getId();
     Survey testSurvey0 = UnitTestCreateDomainObjectUtils.buildSurvey(projectId);
     Survey testSurvey1 = UnitTestCreateDomainObjectUtils.buildSurvey(projectId);
     testSurvey0.setId(UnitTestCreateValidIds.buildSurveyId(projectId, 1));
+    testSurvey0.setMasterId(testSurvey0.getId());
     testSurvey1.setId(UnitTestCreateValidIds.buildSurveyId(projectId, 2));
+    testSurvey1.setMasterId(testSurvey1.getId());
     testSurvey0.setNumber(1);
     testSurvey1.setNumber(2);
     surveyRepo.insert(testSurvey0);
@@ -73,6 +79,21 @@ public class DeleteAllSurveysResourceControllerTest extends AbstractTest {
     assertEquals(2, surveyRepo.findByDataAcquisitionProjectId(projectId).size());
     mockMvc.perform(delete(API_DELETE_ALL_QUESTIONS_URI + "/" + projectId + "/"+"surveys")).andExpect(status().isNoContent());
     assertEquals(0, surveyRepo.findByDataAcquisitionProjectId(projectId).size());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
+  public void testDeleteAllSurveysOfShadowCopyProject() throws Exception {
+    String masterProjectId = "issue1991";
+    String shadowProjectId = masterProjectId + "-1.0.0";
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(masterProjectId);
+    survey.setId(survey.getId() + "-1.0.0");
+    survey.setDataAcquisitionProjectId(shadowProjectId);
+    surveyRepo.save(survey);
+
+    mockMvc.perform(delete(API_DELETE_ALL_QUESTIONS_URI + "/" + shadowProjectId + "/"+"surveys"))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
   }
 
 }

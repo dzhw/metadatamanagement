@@ -37,3 +37,9 @@ DATA_SET_REPORT
 .. java:field:: public static final Task.TaskType DATA_SET_REPORT
    :outertype: Task.TaskType
 
+PROJECT_RELEASE
+^^^^^^^^^^^^^^^
+
+.. java:field:: public static final Task.TaskType PROJECT_RELEASE
+   :outertype: Task.TaskType
+

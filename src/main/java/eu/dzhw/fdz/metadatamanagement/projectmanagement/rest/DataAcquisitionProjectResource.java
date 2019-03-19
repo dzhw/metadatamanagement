@@ -1,12 +1,18 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.rest.GenericShadowableDomainObjectResourceController;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.ValidDataAcquisitionProjectSave;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +24,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.ValidDataAcquisitionProjectSave;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import lombok.extern.slf4j.Slf4j;
+import javax.validation.Valid;
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * If a data acquisition project has been released before, it can not be deleted by anyone.
@@ -36,15 +40,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Validated
 public class DataAcquisitionProjectResource extends
-    GenericDomainObjectResourceController<DataAcquisitionProject,
-        DataAcquisitionProjectRepository> {
+    GenericShadowableDomainObjectResourceController<DataAcquisitionProject,
+            DataAcquisitionProjectRepository> {
 
   private DataAcquisitionProjectService dataAcquisitionProjectService;
 
   @Autowired
   public DataAcquisitionProjectResource(DataAcquisitionProjectRepository projectRepository,
-      DataAcquisitionProjectService service) {
-    super(projectRepository);
+                                        DataAcquisitionProjectService service,
+                                        ApplicationEventPublisher applicationEventPublisher) {
+    super(projectRepository, applicationEventPublisher);
     this.dataAcquisitionProjectService = service;
   }
 
@@ -56,8 +61,18 @@ public class DataAcquisitionProjectResource extends
       AuthoritiesConstants.ADMIN})
   public ResponseEntity<?> saveProject(@PathVariable String id,
       @RequestBody @ValidDataAcquisitionProjectSave @Valid DataAcquisitionProject newDataProject) {
+
     Optional<DataAcquisitionProject> dataAcquisitionProject = repository.findById(id);
     DataAcquisitionProject projectToSave;
+
+    if (dataAcquisitionProject.isPresent()) {
+      projectToSave = dataAcquisitionProject.get();
+      if (projectToSave.isShadow()) {
+        throw new ShadowCopyUpdateNotAllowedException();
+      }
+    } else if (newDataProject.isShadow()) {
+      throw new ShadowCopyCreateNotAllowedException();
+    }
 
     projectToSave = dataAcquisitionProject.orElseGet(DataAcquisitionProject::new);
 
@@ -68,8 +83,26 @@ public class DataAcquisitionProjectResource extends
     if (dataAcquisitionProject.isPresent()) {
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     } else {
-      return ResponseEntity.status(HttpStatus.CREATED).body(savedProject);
+      return ResponseEntity.created(buildLocationHeaderUri(savedProject)).body(savedProject);
     }
+  }
+
+  /**
+   * Override default post to prevent clients from creating shadow copies.
+   */
+  @RequestMapping(method = RequestMethod.POST, value = "/data-acquisition-projects")
+  @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER,
+      AuthoritiesConstants.ADMIN})
+  public ResponseEntity<?> postDataAcquisitionProject(@Valid @RequestBody DataAcquisitionProject
+                                                          dataAcquisitionProject) {
+    if (dataAcquisitionProject.isShadow()) {
+      throw new ShadowCopyCreateNotAllowedException();
+    }
+
+    DataAcquisitionProject savedProject = dataAcquisitionProjectService
+        .saveDataAcquisitionProject(dataAcquisitionProject);
+
+    return ResponseEntity.created(buildLocationHeaderUri(savedProject)).build();
   }
 
   /**
@@ -94,7 +127,7 @@ public class DataAcquisitionProjectResource extends
    * @return Return a 200 (ok) if successful deleted or a Bad Request, if it has been released
    *         before and deleting is forbidden.
    */
-  @RequestMapping(value = "/data-acquisition-projects/{id}", method = RequestMethod.DELETE)
+  @RequestMapping(value = "/data-acquisition-projects/{id:.+}", method = RequestMethod.DELETE)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.ADMIN})
   public ResponseEntity<?> deleteDataAcquisitionProject(@PathVariable String id) {
 
@@ -105,6 +138,8 @@ public class DataAcquisitionProjectResource extends
     if (dataAcquisitionProject == null) {
       log.warn("Project could not be found and deleted!");
       return ResponseEntity.badRequest().build();
+    } else if (dataAcquisitionProject.isShadow()) {
+      throw new ShadowCopyDeleteNotAllowedException();
     }
 
     // Check project, if it has been released before
@@ -128,4 +163,9 @@ public class DataAcquisitionProjectResource extends
     return ResponseEntity.ok(projects);
   }
 
+  @Override
+  protected URI buildLocationHeaderUri(DataAcquisitionProject domainObject) {
+    return UriComponentsBuilder.fromPath("/api/data-acquisition-projects/"
+        + domainObject.getId()).build().toUri();
+  }
 }

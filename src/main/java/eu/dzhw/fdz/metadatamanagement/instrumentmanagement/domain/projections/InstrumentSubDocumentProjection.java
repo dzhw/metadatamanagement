@@ -28,4 +28,6 @@ public interface InstrumentSubDocumentProjection
   String getStudyId();
 
   String getType();
+
+  String getMasterId();
 }

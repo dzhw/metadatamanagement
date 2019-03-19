@@ -2,18 +2,16 @@
 
 angular.module('metadatamanagementApp').factory(
   'SearchTypeToDetailsStateMapper',
-  function($state) {
-    function getDetailStateUrl(type, stateParams) {
+  function() {
+    function getDetailStateUrl(type) {
       switch (type) {
-        case 'studies': return $state.href('studyDetail', stateParams);
-        case 'surveys': return $state.href('surveyDetail', stateParams);
-        case 'instruments':
-          return $state.href('instrumentDetail', stateParams);
-        case 'questions': return $state.href('questionDetail', stateParams);
-        case 'data_sets': return $state.href('dataSetDetail', stateParams);
-        case 'variables': return $state.href('variableDetail', stateParams);
-        case 'related_publications':
-          return $state.href('relatedPublicationDetail', stateParams);
+        case 'studies': return 'studyDetail';
+        case 'surveys': return 'surveyDetail';
+        case 'instruments': return 'instrumentDetail';
+        case 'questions': return 'questionDetail';
+        case 'data_sets': return 'dataSetDetail';
+        case 'variables': return 'variableDetail';
+        case 'related_publications': return 'relatedPublicationDetail';
       }
     }
 

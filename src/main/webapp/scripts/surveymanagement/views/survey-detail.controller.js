@@ -7,17 +7,20 @@ angular.module('metadatamanagementApp')
              PageTitleService, $state, ToolbarHeaderService,
              SurveySearchService, SurveyAttachmentResource, Principal,
              SimpleMessageToastService, SearchResultNavigatorService,
-             $stateParams, SurveyResponseRateImageUploadService,
+             SurveyResponseRateImageUploadService,
              DataAcquisitionProjectResource, ProductChooserDialogService,
-             ProjectUpdateAccessService) {
+             ProjectUpdateAccessService, OutdatedVersionNotifier,
+             $stateParams) {
 
-      SearchResultNavigatorService.registerCurrentSearchResult(
-        $stateParams['search-result-index']);
+      SearchResultNavigatorService
+        .setSearchIndex($stateParams['search-result-index']);
+
+      SearchResultNavigatorService.registerCurrentSearchResult();
       var activeProject;
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
-      ctrl.searchResultIndex = $stateParams['search-result-index'];
+      ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {};
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.enableJsonView = Principal
@@ -33,6 +36,11 @@ angular.module('metadatamanagementApp')
       ];
 
       entity.promise.then(function(survey) {
+        if (!Principal.loginName()) {
+          var fetchFn = SurveySearchService.findShadowByIdAndVersion
+            .bind(null, survey.masterId);
+          OutdatedVersionNotifier.checkVersionAndNotify(survey, fetchFn);
+        }
         if (Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
@@ -57,7 +65,9 @@ angular.module('metadatamanagementApp')
           'studyId': survey.studyId,
           'studyIsPresent': CleanJSObjectService.isNullOrEmpty(survey.study) ?
             false : true,
-          'projectId': survey.dataAcquisitionProjectId
+          'projectId': survey.dataAcquisitionProjectId,
+          'version': Principal.loginName() ? null : _.get(survey,
+            'release.version')
         });
         if (survey.dataSets) {
           ctrl.accessWays = [];

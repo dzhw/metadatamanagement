@@ -4,7 +4,7 @@
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
         <h1 class="md-headline" style="margin-left: 0px;">
             <span display-i18n-string="ctrl.dataSet.description" fdz-hyphenate></span>
-            <span class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span>
+            <span class="label label-as-badge label-default">{{ctrl.dataSet.masterId}}</span>
         </h1>
         <json-content-dialog ng-if="ctrl.enableJsonView" content="ctrl.dataSet" exclude-fields="ctrl.jsonExcludes" header-title="ctrl.dataSet.description" class="fdz-no-margin-bottom"></json-content-dialog>
     </div>
@@ -48,7 +48,7 @@
                             {{'study-management.detail.label.study' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.study" class="fdz-truncate-string" flex>
-                            <a ui-sref="studyDetail({id: ctrl.study.id})">
+                            <a ui-sref="studyDetail({id: ctrl.study.masterId, version: ctrl.dataSet.release.version})">
                                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                                 {{'study-management.detail.label.study' | translate }}:
                                 <span display-i18n-string="ctrl.study.title"></span>
@@ -64,7 +64,7 @@
                             {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.unavailable' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
-                            <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
+                            <a ui-sref="surveyDetail({'id': ctrl.survey.masterId, version: ctrl.dataSet.release.version})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.label.survey' | translate }}:
                                 <span display-i18n-string="ctrl.survey.title"></span>
@@ -74,7 +74,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'surveys', 'data-set': ctrl.dataSet.id, 'study': ctrl.dataSet.studyId})">
+                            <a ui-sref="search({'type': 'surveys', 'data-set': ctrl.dataSet.masterId, 'study': ctrl.dataSet.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.label.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -89,7 +89,7 @@
                             {{'variable-management.detail.label.variables' | translate }}: {{'global.messages.error.undocumented' | translate}}
                         </div>
                         <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable" class="fdz-truncate-string" flex>
-                            <a ui-sref="variableDetail({'id': ctrl.variable.id})">
+                            <a ui-sref="variableDetail({'id': ctrl.variable.masterId, version: ctrl.dataSet.release.version})">
                                 <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                                 {{'variable-management.detail.label.variable' | translate }}:
                                 <span display-i18n-string="ctrl.variable.label"></span>

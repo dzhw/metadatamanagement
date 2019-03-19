@@ -1,13 +1,21 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import com.github.zafarkhaja.semver.Version;
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
@@ -17,16 +25,12 @@ import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeSaveEvent;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
-import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Service class for the Data Acquisition Project. Handles calls to the mongo db.
@@ -36,6 +40,8 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationPro
 @Service
 @RepositoryEventHandler
 public class DataAcquisitionProjectService {
+
+  private static final Version PUBLIC_RELEASE_VERSION = Version.valueOf("1.0.0");
 
   private DataAcquisitionProjectRepository acquisitionProjectRepository;
 
@@ -51,14 +57,23 @@ public class DataAcquisitionProjectService {
 
   private MetadataManagementProperties metadataManagementProperties;
 
+  private DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource;
+
+  private ShadowCopyService<DataAcquisitionProject> shadowCopyService;
+
+  private ShadowCopyQueueItemService shadowCopyQueueItemService;
+
   /**
    * Creates a new {@link DataAcquisitionProjectService} instance.
    */
   public DataAcquisitionProjectService(DataAcquisitionProjectRepository dataAcquisitionProjectRepo,
-      ApplicationEventPublisher applicationEventPublisher,
-      UserInformationProvider userInformationProvider,
-      DataAcquisitionProjectChangesProvider changesProvider, UserRepository userRepository,
-      MailService mailService, MetadataManagementProperties metadataManagementProperties) {
+       ApplicationEventPublisher applicationEventPublisher,
+       UserInformationProvider userInformationProvider,
+       DataAcquisitionProjectChangesProvider changesProvider, UserRepository userRepository,
+       MailService mailService, MetadataManagementProperties metadataManagementProperties,
+       DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource,
+       ShadowCopyService<DataAcquisitionProject> shadowCopyService,
+       ShadowCopyQueueItemService shadowCopyQueueItemService) {
     this.acquisitionProjectRepository = dataAcquisitionProjectRepo;
     this.eventPublisher = applicationEventPublisher;
     this.userInformationProvider = userInformationProvider;
@@ -66,6 +81,10 @@ public class DataAcquisitionProjectService {
     this.userRepository = userRepository;
     this.mailService = mailService;
     this.metadataManagementProperties = metadataManagementProperties;
+    this.dataAcquisitionProjectShadowCopyDataSource =
+        dataAcquisitionProjectShadowCopyDataSource;
+    this.shadowCopyService = shadowCopyService;
+    this.shadowCopyQueueItemService = shadowCopyQueueItemService;
   }
 
   /**
@@ -105,11 +124,11 @@ public class DataAcquisitionProjectService {
    * @return A list of {@link DataAcquisitionProject}
    */
   public List<DataAcquisitionProject> findByIdLikeOrderByIdAsc(String projectId) {
-    String loginName = userInformationProvider.getUserLogin();
-
     if (isAdmin() || isPublisher()) {
-      return acquisitionProjectRepository.findByIdLikeOrderByIdAsc(projectId);
+      return acquisitionProjectRepository
+          .findByIdLikeAndShadowIsFalseAndSuccessorIdIsNull(projectId);
     } else {
+      String loginName = userInformationProvider.getUserLogin();
       return acquisitionProjectRepository.findAllByIdLikeAndPublisherIdOrderByIdAsc(projectId,
           loginName);
     }
@@ -118,9 +137,8 @@ public class DataAcquisitionProjectService {
   /**
    * Searches for a {@link DataAcquisitionProject} with the given id. The result depends on the
    * user's role. Publishers and administrators find everything (provided the project with the given
-   * id exists). Data Providers only find those projects where they are added as a data provider.
-   * Anonymous users may access all projects.
-   * 
+   * id exists). In all other cases the user must be a data provider for the requested project.
+   *
    * @param projectId Project id
    * @return Optional of {@link DataAcquisitionProject}, might contain {@code null} if the project
    *         doesn't exist or if the user has insufficient access rights.
@@ -130,10 +148,8 @@ public class DataAcquisitionProjectService {
 
     if (isAdmin() || isPublisher()) {
       return acquisitionProjectRepository.findById(projectId);
-    } else if (isDataProvider()) {
-      return acquisitionProjectRepository.findByProjectIdAndDataProviderId(projectId, loginName);
     } else {
-      return acquisitionProjectRepository.findById(projectId);
+      return acquisitionProjectRepository.findByProjectIdAndDataProviderId(projectId, loginName);
     }
   }
 
@@ -145,10 +161,6 @@ public class DataAcquisitionProjectService {
     return userInformationProvider.isUserInRole(AuthoritiesConstants.PUBLISHER);
   }
 
-  private boolean isDataProvider() {
-    return userInformationProvider.isUserInRole(AuthoritiesConstants.DATA_PROVIDER);
-  }
-
   @HandleBeforeSave
   void onHandleBeforeSave(DataAcquisitionProject newDataAcquisitionProject) {
     Optional<DataAcquisitionProject> oldProject =
@@ -158,9 +170,24 @@ public class DataAcquisitionProjectService {
 
   @HandleAfterSave
   void onHandleAfterSave(DataAcquisitionProject newDataAcquisitionProject) {
-    final String projectId = newDataAcquisitionProject.getId();
-    sendPublishersDataProvidersChangedMails(projectId);
-    sendAssigneeGroupChangedMails(newDataAcquisitionProject);
+    if (!newDataAcquisitionProject.isShadow()) {
+      final String projectId = newDataAcquisitionProject.getId();
+
+      if (isPublicProjectRelease(projectId)) {
+        shadowCopyQueueItemService.createShadowCopyTask(projectId, newDataAcquisitionProject
+            .getRelease().getVersion());
+      }
+
+      sendPublishersDataProvidersChangedMails(projectId);
+      sendAssigneeGroupChangedMails(newDataAcquisitionProject);
+    }
+  }
+
+  @EventListener
+  void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        projectReleasedEvent
+            .getPreviousReleaseVersion(), dataAcquisitionProjectShadowCopyDataSource);
   }
 
   private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {
@@ -275,6 +302,28 @@ public class DataAcquisitionProjectService {
       this.removedPublisherUsers = removedPublisherUsers;
       this.addedDataProviderUsers = addedDataProviderUsers;
       this.removedDataProviderUsers = removedDataProviderUsers;
+    }
+  }
+
+  private boolean isPublicProjectRelease(String dataAcquisitionProjectId) {
+    DataAcquisitionProject oldProject =
+        changesProvider.getOldDataAcquisitionProject(dataAcquisitionProjectId);
+
+    DataAcquisitionProject newProject =
+        changesProvider.getNewDataAcquisitionProject(dataAcquisitionProjectId);
+
+    if (oldProject != null && newProject != null) {
+      Release oldRelease = oldProject.getRelease();
+      Release newRelease = newProject.getRelease();
+
+      if (oldRelease == null && newRelease != null) {
+        return Version.valueOf(newRelease.getVersion())
+            .greaterThanOrEqualTo(PUBLIC_RELEASE_VERSION);
+      } else {
+        return false;
+      }
+    } else {
+      return false;
     }
   }
 }

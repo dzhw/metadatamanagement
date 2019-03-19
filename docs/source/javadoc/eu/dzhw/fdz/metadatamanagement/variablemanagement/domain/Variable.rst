@@ -1,28 +1,4 @@
-.. java:import:: java.util List
-
-.. java:import:: javax.validation Valid
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: javax.validation.constraints Size
-
-.. java:import:: org.springframework.beans BeanUtils
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: org.springframework.data.mongodb.core.index CompoundIndex
-
-.. java:import:: org.springframework.data.mongodb.core.index CompoundIndexes
-
-.. java:import:: org.springframework.data.mongodb.core.index Indexed
-
-.. java:import:: org.springframework.data.mongodb.core.mapping Document
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
@@ -33,6 +9,10 @@
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringSize
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain DataSet
 
@@ -88,6 +68,8 @@
 
 .. java:import:: io.searchbox.annotations JestId
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -98,7 +80,33 @@
 
 .. java:import:: lombok NoArgsConstructor
 
+.. java:import:: lombok Setter
+
 .. java:import:: lombok ToString
+
+.. java:import:: org.springframework.beans BeanUtils
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: org.springframework.data.mongodb.core.index CompoundIndex
+
+.. java:import:: org.springframework.data.mongodb.core.index CompoundIndexes
+
+.. java:import:: org.springframework.data.mongodb.core.index Indexed
+
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
+.. java:import:: javax.validation Valid
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
+
+.. java:import:: javax.validation.constraints Size
+
+.. java:import:: java.util List
 
 Variable
 ========
@@ -106,7 +114,7 @@ Variable
 .. java:package:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain
    :noindex:
 
-.. java:type:: @Document @CompoundIndexes @ValidVariableIdName @ValidPanelIdentifier @ValidDerivedVariablesIdentifier @UniqueVariableNameInDataSet @OnlyOrdinalScaleLevelForDateDataType @ValidResponseValueMustBeAnIsoDateOnDateDataType @StatisticsMinimumMustBeAnIsoDateOnDateDataType @StatisticsMaximumMustBeAnIsoDateOnDateDataType @StatisticsMedianMustBeAnIsoDateOnDateDataType @StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType @StatisticsThirdQuartileMustBeAnIsoDateOnDateDataType @ValidResponseValueMustBeANumberOnNumericDataType @StatisticsMinimumMustBeANumberOnNumericDataType @StatisticsMaximumMustBeANumberOnNumericDataType @StatisticsMedianMustBeANumberOnNumericDataType @StatisticsFirstQuartileMustBeANumberOnNumericDataType @StatisticsThirdQuartileMustBeANumberOnNumericDataType @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Variable extends AbstractRdcDomainObject
+.. java:type:: @Document @CompoundIndexes @ValidMasterId @ValidShadowId @ValidVariableIdName @ValidPanelIdentifier @ValidDerivedVariablesIdentifier @UniqueVariableNameInDataSet @OnlyOrdinalScaleLevelForDateDataType @ValidResponseValueMustBeAnIsoDateOnDateDataType @StatisticsMinimumMustBeAnIsoDateOnDateDataType @StatisticsMaximumMustBeAnIsoDateOnDateDataType @StatisticsMedianMustBeAnIsoDateOnDateDataType @StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType @StatisticsThirdQuartileMustBeAnIsoDateOnDateDataType @ValidResponseValueMustBeANumberOnNumericDataType @StatisticsMinimumMustBeANumberOnNumericDataType @StatisticsMaximumMustBeANumberOnNumericDataType @StatisticsMedianMustBeANumberOnNumericDataType @StatisticsFirstQuartileMustBeANumberOnNumericDataType @StatisticsThirdQuartileMustBeANumberOnNumericDataType @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Variable extends AbstractShadowableRdcDomainObject
 
    A variable contains the results from at least one \ :java:ref:`Survey`\ . These results can be the responses from participants of an online survey, hence a variable can result from \ :java:ref:`RelatedQuestion`\ s. A variable is part of exactly one \ :java:ref:`DataSet`\ .
 
@@ -203,7 +211,7 @@ generationDetails
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Size @Pattern private String id
+.. java:field:: @Id @JestId @NotEmpty @Size @Setter private String id
    :outertype: Variable
 
    The id of the variable which uniquely identifies the variable in this application. The id must not be empty and must be of the form var-{{dataAcquisitionProjectId}}-ds{{dataSetNumber}}-{{name}}$. The id must not contain more than 512 characters.

@@ -130,6 +130,9 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                 question.dataAcquisitionProjectId,
                 question.instrumentNumber,
                 questionNumber);
+              if (angular.isUndefined(question.masterId)) {
+                question.masterId = question.id;
+              }
               if (existingQuestions[question.id]) {
                 existingQuestions[question.id].presentInJson = true;
               }

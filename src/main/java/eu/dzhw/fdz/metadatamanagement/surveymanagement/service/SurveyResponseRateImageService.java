@@ -1,19 +1,24 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.time.LocalDateTime;
-
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRateImageMetadata;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRateImageMetadata;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Service for creating and updating survey images. Used for updating images in mongo
@@ -27,7 +32,16 @@ public class SurveyResponseRateImageService {
   private GridFsOperations operations;
   
   @Autowired
-  private MimeTypeDetector mimeTypeDetector;
+  private SurveyResponseRateImageMetadataShadowCopyDataSource shadowCopyDataSource;
+
+  @Autowired
+  private ShadowCopyService<SurveyResponseRateImageMetadata> shadowCopyService;
+
+  @Autowired
+  private SurveyRepository surveyRepository;
+
+  @Autowired
+  private AttachmentMetadataHelper<SurveyResponseRateImageMetadata> attachmentMetadataHelper;
 
   /**
    * This method save an image into GridFS/MongoDB based on a byteArrayOutputStream.
@@ -38,21 +52,21 @@ public class SurveyResponseRateImageService {
    */
   public String saveSurveyImage(MultipartFile multipartFile,
       SurveyResponseRateImageMetadata metadata, String fileName) throws IOException {
-    try (InputStream in = multipartFile.getInputStream()) {
-      String currentUser = SecurityUtils.getCurrentUserLogin();
-      metadata.setVersion(0L);
-      metadata.setCreatedDate(LocalDateTime.now());
-      metadata.setCreatedBy(currentUser);
-      metadata.setLastModifiedBy(currentUser);
-      metadata.setLastModifiedDate(LocalDateTime.now());
-      metadata.generateId();
-      // ensure there is no existing image
-      deleteSurveyImage(metadata.getSurveyId(), fileName);
-      String relativePathWithName = buildFilename(metadata.getSurveyId(), fileName);
-      String contentType = mimeTypeDetector.detect(multipartFile);
-      this.operations.store(in, relativePathWithName, contentType, metadata);   
-      return relativePathWithName;      
+
+    if (metadata.isShadow()) {
+      throw new ShadowCopyCreateNotAllowedException();
     }
+
+    String currentUser = SecurityUtils.getCurrentUserLogin();
+    attachmentMetadataHelper.initAttachmentMetadata(metadata, currentUser);
+    metadata.generateId();
+    metadata.setMasterId(metadata.getId());
+    // ensure there is no existing image
+    deleteSurveyImage(metadata.getSurveyId(), fileName);
+    String relativePathWithName = buildFilename(metadata.getSurveyId(), fileName);
+    attachmentMetadataHelper.writeAttachmentMetadata(multipartFile, relativePathWithName, metadata,
+        currentUser);
+    return relativePathWithName;
   }
   
   /**
@@ -63,6 +77,10 @@ public class SurveyResponseRateImageService {
    * @throws IOException if gridfs access fails
    */
   public void deleteSurveyImage(String surveyId, String fileName) throws IOException {
+    Optional<Survey> survey = surveyRepository.findById(surveyId);
+    if (survey.isPresent() && survey.get().isShadow()) {
+      throw new ShadowCopyDeleteNotAllowedException();
+    }
     String filename = buildFilename(surveyId, fileName);
     Query query = new Query(GridFsCriteria.whereFilename()
         .is(filename));
@@ -78,7 +96,12 @@ public class SurveyResponseRateImageService {
    * @param surveyId The id of the image to be deleted
    */
   public void deleteAllSurveyImagesById(String surveyId) {
-        
+
+    Optional<Survey> survey = surveyRepository.findById(surveyId);
+    if (survey.isPresent() && survey.get().isShadow()) {
+      throw new ShadowCopyDeleteNotAllowedException();
+    }
+
     Query queryDe = new Query(GridFsCriteria.whereFilename()
         .is("/surveys/" + surveyId + "/" + this.getResponseRateFileNameGerman(surveyId)));
     this.operations.delete(queryDe);
@@ -86,6 +109,16 @@ public class SurveyResponseRateImageService {
     Query queryEn = new Query(GridFsCriteria.whereFilename()
         .is("/surveys/" + surveyId + "/" + this.getResponseRateFileNameEnglish(surveyId)));
     this.operations.delete(queryEn);
+  }
+
+  /**
+   * Create shadow copies for {@link SurveyResponseRateImageMetadata} on project release.
+   * @param projectReleasedEvent Released project event
+   */
+  @EventListener
+  public void onProjectReleasedEvent(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        projectReleasedEvent.getPreviousReleaseVersion(), shadowCopyDataSource);
   }
   
   /**

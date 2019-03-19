@@ -1,4 +1,4 @@
-/* global html_beautify */
+/* global html_beautify, _*/
 /* Author: Daniel Katzberg */
 'use strict';
 
@@ -7,12 +7,18 @@ angular.module('metadatamanagementApp')
     QuestionSearchService, VariableSearchService, Principal,
     SimpleMessageToastService, PageTitleService, LanguageService,
     CleanJSObjectService, $state, ToolbarHeaderService,
-    SearchResultNavigatorService, $stateParams, ProductChooserDialogService) {
-    SearchResultNavigatorService.registerCurrentSearchResult(
-      $stateParams['search-result-index']);
+    SearchResultNavigatorService, ProductChooserDialogService,
+    OutdatedVersionNotifier, $stateParams) {
+
+    SearchResultNavigatorService
+      .setSearchIndex($stateParams['search-result-index']);
+
+    SearchResultNavigatorService.registerCurrentSearchResult();
+
     $scope.isAuthenticated = Principal.isAuthenticated;
     $scope.hasAuthority = Principal.hasAuthority;
-    $scope.searchResultIndex = $stateParams['search-result-index'];
+    $scope.searchResultIndex = SearchResultNavigatorService
+      .getSearchIndex();
     $scope.generationCodeToggleFlag = true;
     $scope.filterDetailsCodeToggleFlag = true;
     $scope.notAllRowsVisible = true;
@@ -31,6 +37,11 @@ angular.module('metadatamanagementApp')
       'nestedInstruments'
     ];
     entity.promise.then(function(result) {
+      if (!Principal.loginName()) {
+        var fetchFn = VariableSearchService.findShadowByIdAndVersion
+          .bind(null, result.masterId);
+        OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
+      }
       var currenLanguage = LanguageService.getCurrentInstantly();
       var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
       PageTitleService.setPageTitle('variable-management.detail.title', {
@@ -50,7 +61,9 @@ angular.module('metadatamanagementApp')
         'studyId': result.studyId,
         'studyIsPresent': CleanJSObjectService.
         isNullOrEmpty(result.study) ? false : true,
-        'projectId': result.dataAcquisitionProjectId
+        'projectId': result.dataAcquisitionProjectId,
+        'version': Principal.loginName() ? null : _.get(result,
+          'release.version')
       });
       if (result.release || Principal.hasAnyAuthority(['ROLE_PUBLISHER',
           'ROLE_DATA_PROVIDER'])) {
@@ -82,7 +95,7 @@ angular.module('metadatamanagementApp')
         var previousIndexInDataSet = result.indexInDataSet - 1;
         VariableSearchService.findByDataSetIdAndIndexInDataSet(result.dataSetId,
           previousIndexInDataSet, ['id', 'label', 'name', 'dataType',
-            'scaleLevel', 'surveys'])
+            'scaleLevel', 'surveys', 'masterId'])
           .then(function(resultPreviousVariable) {
             $scope.previousVariables = resultPreviousVariable.hits.hits;
           });
@@ -91,7 +104,7 @@ angular.module('metadatamanagementApp')
         var nextIndexInDataSet = result.indexInDataSet + 1;
         VariableSearchService.findByDataSetIdAndIndexInDataSet(result.dataSetId,
           nextIndexInDataSet, ['id', 'label', 'name', 'dataType',
-            'scaleLevel', 'surveys'])
+            'scaleLevel', 'surveys', 'masterId'])
           .then(function(resultNextVariable) {
             $scope.nextVariables = resultNextVariable.hits.hits;
           });

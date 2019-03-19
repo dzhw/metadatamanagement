@@ -1,10 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -15,6 +17,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -88,7 +91,7 @@ public class SurveyResourceTest extends AbstractTest {
 
     // create the survey with the given id
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     // read the survey under the new url
@@ -115,7 +118,7 @@ public class SurveyResourceTest extends AbstractTest {
 
     // create the survey with the given id but with wrong period
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())
       .andReturn();
   }
@@ -130,7 +133,7 @@ public class SurveyResourceTest extends AbstractTest {
 
     // create the survey with the given id but with wrong period
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())
       .andReturn();
   }
@@ -153,7 +156,7 @@ public class SurveyResourceTest extends AbstractTest {
 
     // create the survey with the given id but with wrong period
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())
       .andReturn();
   }
@@ -170,7 +173,7 @@ public class SurveyResourceTest extends AbstractTest {
 
     // create the survey with the given id but with an unlimited period
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -191,7 +194,7 @@ public class SurveyResourceTest extends AbstractTest {
 
     // create the survey with the given id but with an unknown project
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -210,7 +213,7 @@ public class SurveyResourceTest extends AbstractTest {
 
     // create the survey with the given id but without a project
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -222,7 +225,7 @@ public class SurveyResourceTest extends AbstractTest {
         + "\"fieldPeriod\":{\"start\":\"2012-12-01\",\"end\":\"2013-04-01d\"}}";
 
     // create the survey with the given id but without a project
-    mockMvc.perform(put(API_SURVEYS_URI + "/6").content(survey))
+    mockMvc.perform(put(API_SURVEYS_URI + "/6").content(survey).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())     
       .andExpect(jsonPath("$.errors[0].invalidValue", is("2013-04-01d")))
       .andExpect(jsonPath("$.errors[0].property", is("end")))
@@ -239,7 +242,7 @@ public class SurveyResourceTest extends AbstractTest {
         + "\"fieldPeriod\":{\"start\":\"2012-12-01\",\"end\":\"2013-04-01\"}}";
 
     // create the survey with the given id but without a project
-    mockMvc.perform(put(API_SURVEYS_URI + "/6").content(survey))
+    mockMvc.perform(put(API_SURVEYS_URI + "/6").content(survey).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].invalidValue", is("6te")))
       .andExpect(jsonPath("$.errors[0].property", is("sampleSize")))
@@ -256,7 +259,7 @@ public class SurveyResourceTest extends AbstractTest {
         + "\"fieldPeriod\":{\"start\":\"2012-12-01\",\"end\":\"2013-04-01\"}}";
 
     // create the survey with the given id but without a project
-    mockMvc.perform(put(API_SURVEYS_URI + "/6").content(survey))
+    mockMvc.perform(put(API_SURVEYS_URI + "/6").content(survey).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].invalidValue", is("6te")))
       .andExpect(jsonPath("$.errors[0].property", is("responseRate")))
@@ -273,7 +276,7 @@ public class SurveyResourceTest extends AbstractTest {
 
     // create the survey with the given id
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     // delete the survey
@@ -300,7 +303,7 @@ public class SurveyResourceTest extends AbstractTest {
 
     // create the survey with the given id
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
     
     // delete the survey
@@ -312,7 +315,7 @@ public class SurveyResourceTest extends AbstractTest {
       .setDe("titel2");
     
     mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
-        .content(TestUtil.convertObjectToJsonBytes(survey)))
+        .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated());
 
     // get the survey and check the updated title and version
@@ -352,5 +355,44 @@ public class SurveyResourceTest extends AbstractTest {
     mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId() + "?projection=complete"))
       .andExpect(status().isNotFound());
 
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testCreateShadowCopySurvey() throws Exception {
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey("issue1991");
+    survey.setId(survey.getId() + "-1.0.0");
+
+    mockMvc.perform(post(API_SURVEYS_URI)
+        .content(TestUtil.convertObjectToJsonBytes(survey))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testUpdateShadowCopySurvey() throws Exception {
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey("issue1991");
+    survey.setId(survey.getId() + "-1.0.0");
+    surveyRepository.save(survey);
+
+    mockMvc.perform(put(API_SURVEYS_URI + "/" + survey.getId())
+        .content(TestUtil.convertObjectToJsonBytes(survey))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testDeleteShadowCopySurvey() throws Exception {
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey("issue1991");
+    survey.setId(survey.getId() + "-1.0.0");
+    surveyRepository.save(survey);
+
+    mockMvc.perform(delete(API_SURVEYS_URI + "/" + survey.getId()))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
   }
 }

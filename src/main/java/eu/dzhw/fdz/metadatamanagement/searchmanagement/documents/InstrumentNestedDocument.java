@@ -32,6 +32,8 @@ public class InstrumentNestedDocument extends AbstractNestedSubDocument {
 
   private List<String> surveyIds;
 
+  private String masterId;
+
   /**
    * Create the subdocument.
    * 
