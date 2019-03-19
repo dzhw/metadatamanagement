@@ -13,8 +13,7 @@ angular.module('metadatamanagementApp')
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 
-      SearchResultNavigatorService.registerCurrentSearchResult(
-        SearchResultNavigatorService.getSearchIndex());
+      SearchResultNavigatorService.registerCurrentSearchResult();
       var versionFromUrl = $stateParams.version;
       var activeProject;
       var ctrl = this;

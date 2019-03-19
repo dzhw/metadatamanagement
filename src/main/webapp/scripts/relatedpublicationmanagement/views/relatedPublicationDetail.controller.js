@@ -3,10 +3,12 @@
 angular.module('metadatamanagementApp')
   .controller('RelatedPublicationDetailController',
     function(entity, PageTitleService, $state, ToolbarHeaderService,
-    SearchResultNavigatorService, Principal) {
+    SearchResultNavigatorService, Principal, $stateParams) {
 
-      SearchResultNavigatorService.registerCurrentSearchResult(
-          SearchResultNavigatorService.getSearchIndex());
+      SearchResultNavigatorService
+        .setSearchIndex($stateParams['search-result-index']);
+
+      SearchResultNavigatorService.registerCurrentSearchResult();
       var ctrl = this;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.enableJsonView = Principal

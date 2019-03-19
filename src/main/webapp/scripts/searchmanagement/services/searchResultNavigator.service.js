@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').factory(
   'SearchResultNavigatorService',
-  function(SearchDao, $q, ToolbarHeaderService, $location, $transitions) {
+  function(SearchDao, $q, ToolbarHeaderService) {
     var searchIndex = null;
     var lastSearchParams = {};
     var lastProjectId;
@@ -11,27 +11,6 @@ angular.module('metadatamanagementApp').factory(
     var currentSearchResultIndex;
     var previousSearchResult = $q.resolve();
     var nextSearchResult = $q.resolve();
-    var previousLocation = $location.absUrl();
-
-    $transitions.onBefore({}, function(transition) {
-      var toState       = transition.to();
-      var toStateName   = toState.name;
-      var toStateParams = transition.params();
-      var toLocation = transition.router.stateService.href(
-        toStateName, toStateParams);
-      var fromState       = transition.from();
-      var fromStateName   = fromState.name;
-      var fromStateParams = transition.params('from');
-      var fromLocation = transition.router.stateService.href(
-        fromStateName, fromStateParams);
-      if (toLocation === previousLocation &&
-        fromStateName === 'search' && toStateName !== 'search') {
-        lastPageObject = null;
-      }
-      if (!(fromStateName === 'search' && toStateName === 'search')) {
-        previousLocation = fromLocation;
-      }
-    });
 
     function setCurrentSearchParams(searchParams,
       projectId, elasticSearchType, pageObject) {
@@ -42,6 +21,9 @@ angular.module('metadatamanagementApp').factory(
     }
 
     function registerCurrentSearchResult(searchResultIndex) {
+      if (!angular.isDefined(searchResultIndex)) {
+        searchResultIndex = searchIndex;
+      }
       nextSearchResult = $q.defer();
       previousSearchResult = $q.defer();
       if (searchResultIndex != null && lastPageObject) {
@@ -74,7 +56,7 @@ angular.module('metadatamanagementApp').factory(
         }
       } else {
         if (searchResultIndex != null) {
-          searchResultIndex = null;
+          searchIndex = null;
         }
       }
     }

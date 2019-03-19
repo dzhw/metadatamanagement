@@ -16,8 +16,7 @@ angular.module('metadatamanagementApp')
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 
-      SearchResultNavigatorService.registerCurrentSearchResult(
-        SearchResultNavigatorService.getSearchIndex());
+      SearchResultNavigatorService.registerCurrentSearchResult();
       var activeProject;
       var ctrl = this;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();

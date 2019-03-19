@@ -11,10 +11,9 @@ angular.module('metadatamanagementApp')
     OutdatedVersionNotifier, $stateParams) {
 
     SearchResultNavigatorService
-      .currentSearchResultIndex($stateParams['search-result-index']);
+      .setSearchIndex($stateParams['search-result-index']);
 
-    SearchResultNavigatorService.registerCurrentSearchResult(
-      SearchResultNavigatorService.getSearchIndex());
+    SearchResultNavigatorService.registerCurrentSearchResult();
 
     $scope.isAuthenticated = Principal.isAuthenticated;
     $scope.hasAuthority = Principal.hasAuthority;

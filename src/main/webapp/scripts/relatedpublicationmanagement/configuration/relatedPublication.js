@@ -12,6 +12,9 @@ angular.module('metadatamanagementApp')
         data: {
           authorities: []
         },
+        params: {
+          'search-result-index': null
+        },
         views: {
           'content@': {
             templateUrl: 'scripts/relatedpublicationmanagement/views/' +
@@ -27,6 +30,6 @@ angular.module('metadatamanagementApp')
                 $stateParams.id);
             }
           ]
-        },
+        }
       });
   });
