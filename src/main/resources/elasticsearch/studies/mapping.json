@@ -707,6 +707,23 @@
 						"type": "keyword"
 					}
 				}
+			},
+			"tags": {
+				"type": "object",
+				"properties": {
+					"de": {
+						"type": "text",
+						"analyzer": "ngrams",
+						"norms": false,
+						"copy_to": "all"
+					},
+					"en": {
+						"type": "text",
+						"analyzer": "ngrams",
+						"norms": false,
+						"copy_to": "all"
+					}
+				}
 			}
 		}
 	}

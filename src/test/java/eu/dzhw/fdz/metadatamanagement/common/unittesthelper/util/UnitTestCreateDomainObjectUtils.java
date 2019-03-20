@@ -30,6 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentTypes;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Tags;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
@@ -90,6 +91,8 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static Study buildStudy(String projectId) {
+    Tags tags = new Tags();
+    tags.setDe(Collections.singletonList("Test-Tag"));
     List<Person> authors = new ArrayList<>();
     authors.add(buildPerson("Test", null, "Authors"));
 
@@ -120,6 +123,7 @@ public class UnitTestCreateDomainObjectUtils {
         .annotations(I18nString.builder().de("De Anmerkungen")
             .en("En Annotations")
             .build())
+        .tags(tags)
         .dataAvailability(DataAvailabilities.AVAILABLE)
         .surveyDesign(SurveyDesigns.PANEL)
         .dataAcquisitionProjectId(projectId)

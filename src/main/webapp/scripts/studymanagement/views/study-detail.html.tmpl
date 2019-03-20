@@ -278,6 +278,19 @@
             </md-card-content>
         </md-card>
     </div>
+    <div layout="row" ng-if="ctrl.studyTags">
+        <md-card flex class="fdz-reset-top-margin">
+            <md-card-header>
+                <md-card-header-text>
+                    <h2 class="md-title">{{'study-management.detail.tags' | translate | fdzHyphenate}}</h2>
+                </md-card-header-text>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content>
+                <md-chips ng-model="ctrl.studyTags" readonly="true"></md-chips>
+            </md-card-content>
+        </md-card>
+    </div>
     <div layout="row">
         <md-card ng-if="ctrl.attachments && ctrl.attachments.length > 0" flex class="fdz-reset-top-margin">
             <md-card-header layout-align="center center">

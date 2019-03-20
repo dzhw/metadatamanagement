@@ -67,6 +67,26 @@
       <freetext>Application necessary under https://metadata.fdz.dzhw.eu/#!/en/studies/${study.id}?version=${dataAcquisitionProject.release.version}</freetext>
     </availabilityFree>
   </availability>
+  <freeKeywords>
+      <freeKeyword>
+          <language>de</language>
+          <keywords>
+     <#list study.tags.de as deTag>
+         <keyword>${deTag}</keyword>
+     </#list>
+          </keywords>
+      </freeKeyword>
+  <#if study.tags.en??>
+    <freeKeyword>
+        <language>en</language>
+        <keywords>
+        <#list study.tags.en as enTag>
+            <keyword>${enTag}</keyword>
+        </#list>
+        </keywords>
+    </freeKeyword>
+  </#if>
+  </freeKeywords>
   <descriptions>
     <description>
       <language>de</language>

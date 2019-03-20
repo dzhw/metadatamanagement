@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp').config(
             'studySeries': 'Study Series',
             'institution': 'Institution',
             'authors': 'Authors',
+            'tags': 'Tags',
             'sponsors': 'Sponsored by',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
@@ -89,6 +90,7 @@ angular.module('metadatamanagementApp').config(
           },
           'title': '{{ title }} ({{ studyId }})',
           'description': 'Study Description',
+          'tags': 'Tags',
           'basic-data-of-surveys': 'Basic Data of Surveys',
           'not-found': 'The {{id}} references to an unknown Study.',
           'not-found-references': 'The id {{id}} has no References to Studies.',
@@ -299,6 +301,16 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'all-studies-deleted-toast': 'The study of Data Acquisition Project "{{id}}" has been deleted.'
+        },
+        'tag-editor': {
+          'label': {
+            'german-tags': 'German Tags',
+            'english-tags': 'English Tags'
+          },
+          'placeholder': 'Enter a new tag and confirm by pressing Enter',
+          'error': {
+            'required': 'At least one tag must be provided'
+          }
         }
       }
       //jscs:enable

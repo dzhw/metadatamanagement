@@ -1,0 +1,22 @@
+<div ng-form="tagEditorForm" layout-gt-md="column" layout-gt-lg="row">
+    <md-input-container flex-gt-md="100" flex-gt-lg="50">
+        <label class="fdz-input-required">{{'study-management.tag-editor.label.german-tags' | translate}}</label>
+        <md-chips ng-model="tags.de"
+                  ng-required="true"
+                  name="tagsDe"
+                  placeholder="{{'study-management.tag-editor.placeholder' | translate}}">
+        </md-chips>
+        <div  ng-if="tagEditorForm.$dirty" ng-messages="tagEditorForm.tagsDe.$error">
+            <div ng-message="required">
+                {{'study-management.tag-editor.error.required' | translate}}
+            </div>
+        </div>
+    </md-input-container>
+    <md-input-container flex-gt-md="100" flex-gt-lg="50">
+        <label>{{'study-management.tag-editor.label.english-tags' | translate}}</label>
+        <md-chips ng-model="tags.en"
+                  name="tagsEn"
+                  placeholder="{{'study-management.tag-editor.placeholder' | translate}}">
+        </md-chips>
+    </md-input-container>
+</div>

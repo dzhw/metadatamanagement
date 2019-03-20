@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp').config(
             'studySeries': 'Studienreihe',
             'institution': 'Erhebende Institution',
             'authors': 'Projektmitarbeiter(innen)',
+            'tags': 'Tags',
             'sponsors': 'Gefördert von',
             'version': 'Version',
             'surveyDesign': 'Erhebungsdesign',
@@ -89,6 +90,7 @@ angular.module('metadatamanagementApp').config(
           },
           'title': '{{ title }} ({{ studyId }})',
           'description': 'Studienbeschreibung',
+          'tags': 'Tags',
           'basic-data-of-surveys': 'Eckdaten der Erhebungen',
           'not-found': 'Die id {{id}} referenziert auf eine unbekannte Studie.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Studien.',
@@ -187,7 +189,7 @@ angular.module('metadatamanagementApp').config(
               'valid-survey-design': 'Die erlaubten Werte für das Erhebungsdesign der Studie sind: Querschnitt, Panel.'
             },
             'authors': {
-              'not-empty': 'Die Liste der Autoren einer Studie benötigt mindestens ein Element und darf nicht leer sein!',
+              'not-empty': 'Die Liste der Autoren einer Studie benötigt mindestens ein Element und darf nicht leer sein!'
             },
             'annotations': {
               'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
@@ -299,6 +301,16 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'all-studies-deleted-toast': 'Die Studie des Datenaufbereitungsprojekts "{{id}}" wurde gelöscht.'
+        },
+        'tag-editor': {
+          'label': {
+            'german-tags': 'Deutsche Tags',
+            'english-tags': 'Englische Tags'
+          },
+          'placeholder': 'Geben Sie einen neuen Tag ein und bestätigen Sie mit der Eintabetaste',
+          'error': {
+            'required': 'Es muss mindestens ein Tag eingetragen sein.'
+          }
         }
       }
       //jscs:enable
