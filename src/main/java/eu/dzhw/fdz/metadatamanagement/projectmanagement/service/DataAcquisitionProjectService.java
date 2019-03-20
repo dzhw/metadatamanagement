@@ -1,6 +1,23 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import com.github.zafarkhaja.semver.Version;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.HandleBeforeSave;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.event.AfterDeleteEvent;
+import org.springframework.data.rest.core.event.AfterSaveEvent;
+import org.springframework.data.rest.core.event.BeforeDeleteEvent;
+import org.springframework.data.rest.core.event.BeforeSaveEvent;
+import org.springframework.stereotype.Service;
+
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
@@ -14,23 +31,6 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
-import org.springframework.data.rest.core.annotation.HandleAfterSave;
-import org.springframework.data.rest.core.annotation.HandleBeforeSave;
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.data.rest.core.event.AfterDeleteEvent;
-import org.springframework.data.rest.core.event.AfterSaveEvent;
-import org.springframework.data.rest.core.event.BeforeDeleteEvent;
-import org.springframework.data.rest.core.event.BeforeSaveEvent;
-import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Service class for the Data Acquisition Project. Handles calls to the mongo db.
@@ -40,8 +40,6 @@ import java.util.stream.Collectors;
 @Service
 @RepositoryEventHandler
 public class DataAcquisitionProjectService {
-
-  private static final Version PUBLIC_RELEASE_VERSION = Version.valueOf("1.0.0");
 
   private DataAcquisitionProjectRepository acquisitionProjectRepository;
 
@@ -173,7 +171,7 @@ public class DataAcquisitionProjectService {
     if (!newDataAcquisitionProject.isShadow()) {
       final String projectId = newDataAcquisitionProject.getId();
 
-      if (isPublicProjectRelease(projectId)) {
+      if (isProjectRelease(projectId)) {
         shadowCopyQueueItemService.createShadowCopyTask(projectId, newDataAcquisitionProject
             .getRelease().getVersion());
       }
@@ -305,7 +303,7 @@ public class DataAcquisitionProjectService {
     }
   }
 
-  private boolean isPublicProjectRelease(String dataAcquisitionProjectId) {
+  private boolean isProjectRelease(String dataAcquisitionProjectId) {
     DataAcquisitionProject oldProject =
         changesProvider.getOldDataAcquisitionProject(dataAcquisitionProjectId);
 
@@ -317,8 +315,7 @@ public class DataAcquisitionProjectService {
       Release newRelease = newProject.getRelease();
 
       if (oldRelease == null && newRelease != null) {
-        return Version.valueOf(newRelease.getVersion())
-            .greaterThanOrEqualTo(PUBLIC_RELEASE_VERSION);
+        return true;
       } else {
         return false;
       }
