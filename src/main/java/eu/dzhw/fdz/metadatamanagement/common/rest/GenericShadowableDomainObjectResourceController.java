@@ -1,10 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
+import java.net.URI;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.event.AfterCreateEvent;
@@ -16,12 +17,11 @@ import org.springframework.data.rest.core.event.BeforeSaveEvent;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 
 /**
  * REST Controller for handling {@link AbstractShadowableRdcDomainObject} implementations.
@@ -35,7 +35,7 @@ public abstract class GenericShadowableDomainObjectResourceController
   private ApplicationEventPublisher applicationEventPublisher;
 
   private static final List<String> defaultIgnoreProperties = Collections
-      .unmodifiableList(Arrays.asList("createdDate", "createdBy"));
+      .unmodifiableList(Arrays.asList("createdDate", "createdBy", "version"));
 
   public GenericShadowableDomainObjectResourceController(S repository, ApplicationEventPublisher
       applicationEventPublisher) {
@@ -50,15 +50,8 @@ public abstract class GenericShadowableDomainObjectResourceController
       if (domainObjectToUpdate.isShadow()) {
         throw new ShadowCopyUpdateNotAllowedException();
       } else {
-        List<String> ignoreProperties;
-        if (domainObject.getVersion() == null) {
-          ignoreProperties = new ArrayList<>(defaultIgnoreProperties);
-          ignoreProperties.add("version");
-        } else {
-          ignoreProperties = defaultIgnoreProperties;
-        }
-        BeanUtils.copyProperties(domainObject, domainObjectToUpdate, ignoreProperties
-            .toArray(new String[ignoreProperties.size()]));
+        BeanUtils.copyProperties(domainObject, domainObjectToUpdate, defaultIgnoreProperties
+            .toArray(new String[defaultIgnoreProperties.size()]));
 
         saveDomainObject(domainObjectToUpdate);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
