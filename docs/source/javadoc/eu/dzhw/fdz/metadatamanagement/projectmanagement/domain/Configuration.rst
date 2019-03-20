@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: java.util ArrayList
 
 .. java:import:: java.util List
@@ -24,7 +26,7 @@ Configuration
 .. java:package:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain
    :noindex:
 
-.. java:type:: @Data @NoArgsConstructor @ValueObject @AllArgsConstructor @Builder public class Configuration
+.. java:type:: @Data @NoArgsConstructor @ValueObject @AllArgsConstructor @Builder public class Configuration implements Serializable
 
    The project configuration describes which users are publishers or data providers for a project.
 
@@ -77,6 +79,12 @@ requirements
    :outertype: Configuration
 
    Defines which object types are required before a project can be released.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Configuration
 
 studiesState
 ^^^^^^^^^^^^

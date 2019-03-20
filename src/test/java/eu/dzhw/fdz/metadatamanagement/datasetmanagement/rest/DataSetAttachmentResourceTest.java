@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -8,10 +9,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.mongodb.gridfs.GridFS;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentFilenameBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,21 +37,31 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchU
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 public class DataSetAttachmentResourceTest extends AbstractTest {
   @Autowired
   private WebApplicationContext wac;
 
   @Autowired
   private DataSetAttachmentService dataSetAttachmentService;
-  
+
   @Autowired
   private DataSetRepository dataSetRepository;
-  
+
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
   @Autowired
   private JaversService javersService;
+
+  @Autowired
+  private GridFsOperations gridFsOperations;
+
+  @Autowired
+  private GridFS gridFs;
 
   private MockMvc mockMvc;
 
@@ -59,9 +74,9 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
   @After
   public void cleanUp() {
     this.dataSetRepository.deleteAll();
-    this.dataSetAttachmentService.deleteAll();
     this.elasticsearchUpdateQueueItemRepository.deleteAll();
     this.javersService.deleteAll();
+    gridFs.getFileList().iterator().forEachRemaining(gridFs::remove);
   }
 
   @Test
@@ -77,8 +92,10 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
 
     mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments")
       .file(attachment)
-      .file(metadata))    
+      .file(metadata))
       .andExpect(status().isCreated());
+
+    dataSetAttachmentMetadata.generateId();
 
     // read the created attachment and check the version
     mockMvc.perform(
@@ -87,7 +104,8 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.[0].dataSetId", is(dataSetAttachmentMetadata.getDataSetId())))
       .andExpect(jsonPath("$.[0].version", is(0)))
       .andExpect(jsonPath("$.[0].createdBy", is("test")))
-      .andExpect(jsonPath("$.[0].lastModifiedBy", is("test")));
+      .andExpect(jsonPath("$.[0].lastModifiedBy", is("test")))
+      .andExpect(jsonPath("$.[0].masterId", is(dataSetAttachmentMetadata.getId())));
   }
 
   @Test
@@ -109,7 +127,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.errors[0].message",
           is("data-set-management.error.data-set-attachment-metadata.language.not-supported")));
   }
-  
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testUploadAttachmentWithMissingDescription() throws Exception {
@@ -130,7 +148,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.errors[0].message",
           is("data-set-management.error.data-set-attachment-metadata.description.i18n-string-not-empty")));
   }
-  
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testAttachmentIsDeletedWithDataSet() throws Exception {
@@ -140,9 +158,9 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
 
     // create the dataSet with the given id
     mockMvc.perform(put("/api/data-sets/" + dataSet.getId())
-      .content(TestUtil.convertObjectToJsonBytes(dataSet)))
+      .content(TestUtil.convertObjectToJsonBytes(dataSet)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
-    
+
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     DataSetAttachmentMetadata dataSetAttachmentMetadata = UnitTestCreateDomainObjectUtils
@@ -155,11 +173,11 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
       .file(attachment)
       .file(metadata))
       .andExpect(status().isCreated());
-    
+
     // delete the dataSet with the given id
     mockMvc.perform(delete("/api/data-sets/" + dataSet.getId()))
       .andExpect(status().isNoContent());
-    
+
     // check if attachment has been deleted as well
     mockMvc.perform(
         get("/api/data-sets/" + dataSetAttachmentMetadata.getDataSetId() + "/attachments"))
@@ -167,4 +185,85 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
       .andExpect(content().json("[]"));
   }
 
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void createShadowCopyDataSetAttachment() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    DataSetAttachmentMetadata dataSetAttachmentMetadata = UnitTestCreateDomainObjectUtils
+        .buildDataSetAttachmentMetadata("issue1991", 1);
+    dataSetAttachmentMetadata.setDataSetId(dataSetAttachmentMetadata.getDataSetId() + "-1.0.0");
+    dataSetAttachmentMetadata.generateId();
+
+    MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(dataSetAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments")
+        .file(attachment)
+        .file(metadata))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testUpdateAttachmentOfShadowDataSet() throws Exception {
+    String dataSetId = "dat-issue1991-ds1$-1.0.0";
+    DataSetAttachmentMetadata metadata = UnitTestCreateDomainObjectUtils
+        .buildDataSetAttachmentMetadata("issue1991", 1);
+    metadata.setDataSetId(dataSetId);
+    metadata.generateId();
+    metadata.setVersion(0L);
+
+    String filename = DataSetAttachmentFilenameBuilder.buildFileName(metadata);
+    try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
+      gridFsOperations.store(is, filename, "text/plain", metadata);
+    }
+
+    mockMvc.perform(put("/api/data-sets/" + dataSetId + "/attachments/" + metadata.getFileName())
+        .content(TestUtil.convertObjectToJsonBytes(metadata))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testDeleteAllAttachmentsOfShadowCopyDataSet() throws Exception {
+    String dataSetId = "dat-issue1991-ds1$-1.0.0";
+
+    DataSetAttachmentMetadata metadata = UnitTestCreateDomainObjectUtils
+        .buildDataSetAttachmentMetadata("issue1991", 1);
+    metadata.setDataSetId(dataSetId);
+    metadata.generateId();
+
+    try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
+      String filename = DataSetAttachmentFilenameBuilder.buildFileName(metadata);
+      gridFsOperations.store(is, filename, "text/plain", metadata);
+    }
+
+    mockMvc.perform(delete("/api/data-sets/" + dataSetId + "/attachments"))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testDeleteAttachmentOfShadowDataSet() throws Exception {
+    String dataSetId = "dat-issue1991-ds1$-1.0.0";
+
+    DataSetAttachmentMetadata metadata = UnitTestCreateDomainObjectUtils
+        .buildDataSetAttachmentMetadata("issue1991", 1);
+    metadata.setDataSetId(dataSetId);
+    metadata.generateId();
+
+    String filename = DataSetAttachmentFilenameBuilder.buildFileName(metadata);
+    try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
+      gridFsOperations.store(is, filename, "text/plain", metadata);
+    }
+
+    mockMvc.perform(delete("/api/data-sets/" + dataSetId + "/attachments/" + metadata.getFileName()))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
+  }
 }

@@ -1,29 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
@@ -34,6 +10,31 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import org.hamcrest.core.AnyOf;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+
+import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Test the REST API for {@link DataAcquisitionProject}s.
@@ -94,10 +95,11 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testCreateDataAcquisitionProjectWithTooLongId() throws IOException, Exception {
+  public void testCreateDataAcquisitionProjectWithTooLongId() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // Collections.emptyList()));
     project.setId("thisidistoolongandshouldproduceanerror");
+    project.setMasterId("thisidistoolongandshouldproduceanerror");
     // create the project with the given id
     mockMvc
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -203,17 +205,23 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testIdIsMandatory() throws IOException, Exception {
+  public void testIdIsMandatory() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setId(null);
+
+    AnyOf<String> matcher = anyOf(
+        containsString("data-acquisition-project-management"
+            + ".error.data-acquisition-project.id.not-empty"),
+        containsString("data-acquisition-project-management"
+            + ".error.data-acquisition-project.id.pattern"));
 
     // create the project without id
     mockMvc
         .perform(post(API_DATA_ACQUISITION_PROJECTS_URI).contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
-        .andExpect(status().isBadRequest()).andExpect(
-        jsonPath("$.errors[0].message", containsString("data-acquisition-project-management"
-            + ".error.data-acquisition-project.id.not-empty")));
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", matcher))
+        .andExpect(jsonPath("$.errors[1].message", matcher));
   }
 
   @Test
@@ -226,6 +234,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     DataAcquisitionProject shouldBeFound =
         UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     shouldBeFound.setId("testid");
+    shouldBeFound.setMasterId("testid");
     shouldBeFound.setConfiguration(shouldBeFoundConfiguration);
 
     Configuration shouldNotBeFoundConfiguration = UnitTestCreateDomainObjectUtils
@@ -235,6 +244,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     DataAcquisitionProject shouldNotBeFound =
         UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     shouldNotBeFound.setId("shouldnotbefoundid");
+    shouldNotBeFound.setMasterId("shouldnotbefoundid");
     shouldNotBeFound.setConfiguration(shouldNotBeFoundConfiguration);
 
     rdcProjectRepository.saveAll(Arrays.asList(shouldBeFound, shouldNotBeFound));
@@ -255,6 +265,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
             Collections.singletonList(PUBLISHER_USERNAME));
     DataAcquisitionProject projectA = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     projectA.setId("a");
+    projectA.setMasterId("a");
     projectA.setConfiguration(configurationA);
 
     Configuration configurationB =
@@ -263,6 +274,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
             Collections.singletonList("someDataProvider"));
     DataAcquisitionProject projectB = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     projectB.setId("b");
+    projectB.setMasterId("b");
     projectB.setConfiguration(configurationB);
 
     rdcProjectRepository.saveAll(Arrays.asList(projectA, projectB));
@@ -443,5 +455,44 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(project))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
+  public void testCreateShadowCopyProject() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setId(project.getId() + "-1.0.0");
+
+    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_URI)
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
+  public void testUpdateShadowCopyProject() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setId(project.getId() + "-1.0.0");
+    project = rdcProjectRepository.save(project);
+
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
+  public void testDeleteShadowCopyProject() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.setId(project.getId() + "-1.0.0");
+    project = rdcProjectRepository.save(project);
+
+    mockMvc.perform(delete(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
   }
 }

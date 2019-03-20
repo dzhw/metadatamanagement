@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: java.time LocalDateTime
 
 .. java:import:: javax.validation.constraints NotEmpty
@@ -28,7 +30,7 @@ Release
 .. java:package:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValueObject public class Release
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValueObject public class Release implements Serializable
 
    The release object contains the version and a timestamp of the current release.
 
@@ -41,6 +43,12 @@ date
    :outertype: Release
 
    The timestamp (in UTC) indicates when a publisher has released the \ :java:ref:`DataAcquisitionProject`\ . Must not be empty.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Release
 
 version
 ^^^^^^^

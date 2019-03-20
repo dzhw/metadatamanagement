@@ -13,6 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -74,7 +75,7 @@ public class SurveyVersionsResourceTest extends AbstractTest {
     
     // create the study with the given id
     mockMvc.perform(put(API_SURVEY_URI + "/" + survey.getId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     // read the study versions
@@ -95,19 +96,21 @@ public class SurveyVersionsResourceTest extends AbstractTest {
     
     // create the survey with the given id
     mockMvc.perform(put(API_SURVEY_URI + "/" + survey.getId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
-    
+
+    survey.setVersion(0L);
     // update the study with the given id
     survey.setTitle(new I18nString("hurzDe2", "hurzEn2"));
     mockMvc.perform(put(API_SURVEY_URI + "/" + survey.getId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isNoContent());
-    
+
+    survey.setVersion(1L);
     // update the study again with the given id
     survey.setTitle(new I18nString("hurzDe3", "hurzEn3"));
     mockMvc.perform(put(API_SURVEY_URI + "/" + survey.getId())
-      .content(TestUtil.convertObjectToJsonBytes(survey)))
+      .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isNoContent());
 
     // read the study versions

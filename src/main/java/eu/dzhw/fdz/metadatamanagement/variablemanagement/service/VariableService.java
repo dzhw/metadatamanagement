@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -16,9 +17,11 @@ import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
@@ -55,6 +58,12 @@ public class VariableService {
   @Autowired
   private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
+  @Autowired
+  private ShadowCopyService<Variable> shadowCopyService;
+
+  @Autowired
+  private VariableShadowCopyDataSource variableShadowCopyDataProvider;
+
   /**
    * Delete all variables when the dataAcquisitionProject was deleted.
    * 
@@ -76,6 +85,16 @@ public class VariableService {
         () -> variableRepository.streamIdsByDataAcquisitionProjectId(
             dataAcquisitionProject.getId()),
         ElasticsearchType.variables);
+  }
+
+  /**
+   * Create shadow variables for instruments on project release.
+   * @param projectReleasedEvent Released project event
+   */
+  @EventListener
+  public void onProjectRelease(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        projectReleasedEvent.getPreviousReleaseVersion(), variableShadowCopyDataProvider);
   }
   
   /**
@@ -182,7 +201,12 @@ public class VariableService {
         .getAffectedVariableIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> variableRepository.streamIdsByIdIn(variableIds),
-        ElasticsearchType.variables); 
+        ElasticsearchType.variables);
+
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> variableRepository
+            .streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(variableIds),
+        ElasticsearchType.variables);
   }
   
   /**

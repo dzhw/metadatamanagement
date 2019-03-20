@@ -6,18 +6,20 @@ angular.module('metadatamanagementApp')
     function(entity, InstrumentAttachmentResource,
              PageTitleService, LanguageService, $state, CleanJSObjectService,
              ToolbarHeaderService, Principal, SimpleMessageToastService,
-             SearchResultNavigatorService, $stateParams,
-             ProductChooserDialogService, DataAcquisitionProjectResource,
-             ProjectUpdateAccessService) {
+             SearchResultNavigatorService, ProductChooserDialogService,
+             DataAcquisitionProjectResource, ProjectUpdateAccessService,
+             InstrumentSearchService, OutdatedVersionNotifier, $stateParams) {
 
-      SearchResultNavigatorService.registerCurrentSearchResult(
-        $stateParams['search-result-index']);
+      SearchResultNavigatorService
+        .setSearchIndex($stateParams['search-result-index']);
+
+      SearchResultNavigatorService.registerCurrentSearchResult();
       var activeProject;
       //Controller Init
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
-      ctrl.searchResultIndex = $stateParams['search-result-index'];
+      ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.survey = null;
       ctrl.attachments = null;
       ctrl.study = null;
@@ -37,6 +39,11 @@ angular.module('metadatamanagementApp')
 
       //Wait for instrument Promise
       entity.promise.then(function(result) {
+        if (!Principal.loginName()) {
+          var fetchFn = InstrumentSearchService.findShadowByIdAndVersion
+            .bind(null, result.masterId);
+          OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
+        }
         if (Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
@@ -56,7 +63,9 @@ angular.module('metadatamanagementApp')
           'studyId': result.studyId,
           'studyIsPresent': CleanJSObjectService.isNullOrEmpty(result.study) ?
             false : true,
-          'projectId': result.dataAcquisitionProjectId
+          'projectId': result.dataAcquisitionProjectId,
+          'version': Principal.loginName() ? null : _.get(result,
+            'release.version')
         });
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';

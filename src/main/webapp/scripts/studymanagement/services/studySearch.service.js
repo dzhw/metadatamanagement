@@ -48,8 +48,23 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return deferred;
     };
 
+    var findShadowByIdAndVersion = function(id, version) {
+      var query = {};
+      _.extend(query, createQueryObject(),
+        SearchHelperService.createShadowByIdAndVersionQuery(id, version));
+      var deferred = $q.defer();
+      ElasticSearchClient.search(query).then(function(result) {
+        if (result.hits.total === 1) {
+          deferred.resolve(result.hits.hits[0]._source);
+        } else {
+          return deferred.resolve(null);
+        }
+      }, deferred.reject);
+      return deferred;
+    };
+
     var findStudySeries = function(searchText, filter, language, type,
-      queryterm, dataAcquisitionProjectId, ignoreAuthorization) {
+        queryterm, dataAcquisitionProjectId, ignoreAuthorization) {
       ignoreAuthorization = ignoreAuthorization || false;
       language = language || LanguageService.getCurrentInstantly();
       var query = createQueryObject(type);
@@ -103,6 +118,9 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       }
 
       SearchHelperService.addQuery(query, queryterm);
+      if (type !== 'related_publications') {
+        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(termFilters));
+      }
 
       if (!ignoreAuthorization) {
         SearchHelperService.addFilter(query);
@@ -155,6 +173,12 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
                   'size': 100
                 },
                 'aggs': {
+                  'masterId': {
+                    'terms': {
+                      'field': prefix + 'masterId',
+                      'size': 100
+                    }
+                  },
                   'titleDe': {
                     'terms': {
                       'field': prefix + 'title.de',
@@ -208,8 +232,10 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       }
 
       SearchHelperService.addQuery(query, queryterm);
-
       SearchHelperService.addFilter(query);
+      if (type !== 'related_publications') {
+        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
+      }
 
       return ElasticSearchClient.search(query).then(function(result) {
         var titles = [];
@@ -227,6 +253,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
               en: bucket.titleDe.buckets[0].titleEn.buckets[0].key
             },
             id: bucket.key,
+            masterId: bucket.masterId.buckets[0].key,
             count: bucket.doc_count
           };
           titles.push(titleElement);
@@ -279,7 +306,15 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
       if (termFilters) {
         query.body.query.bool.filter = termFilters;
+      } else {
+        query.body.query.bool.filter = [];
       }
+
+      query.body.query.bool.filter.push({
+        'term': {
+          'shadow': false
+        }
+      });
 
       if (!ignoreAuthorization) {
         SearchHelperService.addFilter(query);
@@ -329,7 +364,12 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         'bool': {
           'must': [{
             'match': {}
-          }]
+          }],
+          'filter': {
+            'term': {
+              'shadow': false
+            }
+          }
         }
       };
 
@@ -365,7 +405,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
     };
 
     var buildSearchConfig = function(searchText, filter, type, queryTerm,
-      dataAcquisitionProjectId, filterAttribute) {
+        dataAcquisitionProjectId, filterAttribute) {
 
       return {
         searchText: searchText,
@@ -379,7 +419,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
     };
 
     var findInstitutionFilterOptions = function(searchText, filter, type,
-                                         queryTerm, dataAcquisitionProjectId) {
+        queryTerm, dataAcquisitionProjectId) {
 
       var searchConfig = buildSearchConfig(
         searchText,
@@ -394,7 +434,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
     };
 
     var findSponsorFilterOptions = function(searchText, filter, type,
-                                     queryTerm, dataAcquisitionProjectId) {
+        queryTerm, dataAcquisitionProjectId) {
 
       var searchConfig = buildSearchConfig(
         searchText,
@@ -410,6 +450,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
     return {
       findOneById: findOneById,
+      findShadowByIdAndVersion: findShadowByIdAndVersion,
       findStudySeries: findStudySeries,
       findSponsors: findSponsors,
       findInstitutions: findInstitutions,

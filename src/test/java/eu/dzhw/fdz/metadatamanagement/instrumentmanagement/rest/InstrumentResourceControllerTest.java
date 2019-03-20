@@ -3,26 +3,6 @@
  */
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.rest;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
@@ -35,6 +15,28 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class InstrumentResourceControllerTest extends AbstractTest {
@@ -89,7 +91,7 @@ public class InstrumentResourceControllerTest extends AbstractTest {
     // Act and Assert
     // create the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
-      .content(TestUtil.convertObjectToJsonBytes(instrument)))
+      .content(TestUtil.convertObjectToJsonBytes(instrument)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     elasticsearchUpdateQueueService.processAllQueueItems();
@@ -123,7 +125,7 @@ public class InstrumentResourceControllerTest extends AbstractTest {
     // Act and Assert
     // create the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
-      .content(TestUtil.convertObjectToJsonBytes(instrument)))
+      .content(TestUtil.convertObjectToJsonBytes(instrument)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     // delete the survey
@@ -134,7 +136,7 @@ public class InstrumentResourceControllerTest extends AbstractTest {
 
     // update the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
-      .content(TestUtil.convertObjectToJsonBytes(instrument)))
+      .content(TestUtil.convertObjectToJsonBytes(instrument)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().is2xxSuccessful());
 
     // read the updated instrument and check the version
@@ -164,7 +166,7 @@ public class InstrumentResourceControllerTest extends AbstractTest {
     // Act and Assert
     // create the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
-      .content(TestUtil.convertObjectToJsonBytes(instrument)))
+      .content(TestUtil.convertObjectToJsonBytes(instrument)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     // delete the survey
@@ -176,7 +178,7 @@ public class InstrumentResourceControllerTest extends AbstractTest {
 
     // update the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
-      .content(TestUtil.convertObjectToJsonBytes(instrument)))
+      .content(TestUtil.convertObjectToJsonBytes(instrument)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())
       .andExpect(
           jsonPath("$.errors[0].message", is("instrument-management.error.instrument.type.valid")));
@@ -195,10 +197,11 @@ public class InstrumentResourceControllerTest extends AbstractTest {
     // Act and Assert
     // set inconsistent id
     instrument.setId("hurz");
+    instrument.setMasterId("hurz");
 
     // create the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
-      .content(TestUtil.convertObjectToJsonBytes(instrument)))
+      .content(TestUtil.convertObjectToJsonBytes(instrument)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message",
           is("instrument-management.error" + ".instrument.valid-instrument-id-pattern")));
@@ -220,7 +223,7 @@ public class InstrumentResourceControllerTest extends AbstractTest {
 
     // create the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
-      .content(TestUtil.convertObjectToJsonBytes(instrument)))
+      .content(TestUtil.convertObjectToJsonBytes(instrument)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message",
           is("instrument-management.error.instrument.title.i18n-string-not-empty")));
@@ -238,7 +241,7 @@ public class InstrumentResourceControllerTest extends AbstractTest {
 
     // create the instrument with the given id
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
-      .content(TestUtil.convertObjectToJsonBytes(instrument)))
+      .content(TestUtil.convertObjectToJsonBytes(instrument)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     // check that the instrument has been created
@@ -252,5 +255,46 @@ public class InstrumentResourceControllerTest extends AbstractTest {
     // check that the instrument has been deleted as well
     mockMvc.perform(get(API_INSTRUMENTS_URI + "/" + instrument.getId()))
       .andExpect(status().isNotFound());
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testCreateInstrumentShadowCopy() throws Exception {
+    Instrument instrument =
+        UnitTestCreateDomainObjectUtils.buildInstrument("issue1991", "issue1991-sy1");
+    instrument.setId(instrument.getId() + "-1.0.0");
+
+    mockMvc.perform(post(API_INSTRUMENTS_URI)
+        .content(TestUtil.convertObjectToJsonBytes(instrument)).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testUpdateInstrumentShadowCopy() throws Exception {
+    Instrument instrument =
+        UnitTestCreateDomainObjectUtils.buildInstrument("issue1991", "issue1991-sy1");
+    instrument.setId(instrument.getId() + "-1.0.0");
+    instrument = instrumentRepository.save(instrument);
+
+    mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
+        .content(TestUtil.convertObjectToJsonBytes(instrument)).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testDeleteInstrumentShadowCopy() throws Exception {
+    Instrument instrument =
+        UnitTestCreateDomainObjectUtils.buildInstrument("issue1991", "issue1991-sy1");
+    instrument.setId(instrument.getId() + "-1.0.0");
+    instrumentRepository.save(instrument);
+
+    mockMvc.perform(delete(API_INSTRUMENTS_URI + "/" + instrument.getId()))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
   }
 }

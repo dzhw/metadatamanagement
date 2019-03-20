@@ -49,17 +49,16 @@ public class ValidSemanticVersionValidator implements
     if (StringUtils.isEmpty(version)) {
       return true;
     }
+    if (!version.matches("^[0-9]+\\.[0-9]+\\.[0-9]+$")) {
+      return false;
+    }
     try {
       Version currentVersion = Version.valueOf(version);
       Version lastVersion = null;
       Release lastRelease = dataAcquisitionProjectVersionsService.findLastRelease(project.getId());
       if (lastRelease != null) {
         lastVersion = Version.valueOf(lastRelease.getVersion());
-        if (currentVersion.greaterThanOrEqualTo(lastVersion)) {
-          return true;
-        } else {
-          return false;
-        }
+        return currentVersion.greaterThanOrEqualTo(lastVersion);
       } else {
         return true;
       }

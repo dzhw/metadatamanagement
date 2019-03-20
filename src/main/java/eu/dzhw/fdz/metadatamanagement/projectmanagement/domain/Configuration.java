@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,10 @@ import lombok.NoArgsConstructor;
 @ValueObject
 @AllArgsConstructor
 @Builder
-public class Configuration {
+public class Configuration implements Serializable {
+
+  private static final long serialVersionUID = 1549882025184369274L;
+
   /**
    * User names having the role of a publisher for a project. Must contain at least one user
    * name.

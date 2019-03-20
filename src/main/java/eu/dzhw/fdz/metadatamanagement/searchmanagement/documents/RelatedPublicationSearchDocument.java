@@ -50,6 +50,11 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
   // dummy string which ensures that related publications are always released
   private String release = "released";
 
+  /*
+   * dummy field which ensures that related publications can be found.
+   */
+  private boolean shadow = false;
+
   private I18nString guiLabels = RelatedPublicationDetailsGuiLabels.GUI_LABELS;
 
   private I18nString completeTitle;

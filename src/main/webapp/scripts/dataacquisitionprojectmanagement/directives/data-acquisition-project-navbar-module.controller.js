@@ -67,6 +67,9 @@ angular.module('metadatamanagementApp')
           locals: {id: ctrl.selectedProject ? null : ctrl.searchText}
         })
           .then(function(project) {
+            if (angular.isUndefined(project.masterId)) {
+              project.masterId = project.id;
+            }
             Principal.identity().then(function(identity) {
               project.hasBeenReleasedBefore = false;
               project.configuration = {

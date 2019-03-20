@@ -7,10 +7,12 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('variableDetail', {
         parent: 'site',
-        url: '/variables/{id}?{search-result-index}',
-        reloadOnSearch: false,
+        url: '/variables/{id}?{version}',
         data: {
           authorities: []
+        },
+        params: {
+          'search-result-index': null
         },
         views: {
           'content@': {
@@ -20,11 +22,16 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'VariableSearchService',
-            function($stateParams, VariableSearchService) {
-              return VariableSearchService.findOneById($stateParams.id);
+          entity: ['$stateParams', 'VariableSearchService', 'Principal',
+            function($stateParams, VariableSearchService, Principal) {
+              if (Principal.loginName()) {
+                return VariableSearchService.findOneById($stateParams.id);
+              } else {
+                return VariableSearchService.findShadowByIdAndVersion(
+                  $stateParams.id, $stateParams.version);
+              }
             }
           ]
-        },
+        }
       });
   });

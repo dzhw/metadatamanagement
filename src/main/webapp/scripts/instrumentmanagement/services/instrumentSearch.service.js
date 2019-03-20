@@ -81,6 +81,12 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
                   'size': 100
                 },
                 'aggs': {
+                  'masterId': {
+                    'terms': {
+                      'field': prefix + 'masterId',
+                      'size': 100
+                    }
+                  },
                   'descriptionDe': {
                     'terms': {
                       'field': prefix + 'description.de',
@@ -138,8 +144,10 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
       }
 
       SearchHelperService.addQuery(query, queryterm);
-
       SearchHelperService.addFilter(query);
+      if (type !== 'related_publications') {
+        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
+      }
 
       return ElasticSearchClient.search(query).then(function(result) {
         var descriptions = [];
@@ -157,6 +165,7 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
               en: bucket.descriptionDe.buckets[0].descriptionEn.buckets[0].key
             },
             id: bucket.key,
+            masterId: bucket.masterId.buckets[0].key,
             count: bucket.doc_count
           };
           descriptions.push(descriptionElement);
@@ -176,6 +185,21 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
             deferred.resolve(response);
           }
         });
+      return deferred;
+    };
+
+    var findShadowByIdAndVersion = function(id, version) {
+      var query = {};
+      _.extend(query, createQueryObject(),
+        SearchHelperService.createShadowByIdAndVersionQuery(id, version));
+      var deferred = $q.defer();
+      ElasticSearchClient.search(query).then(function(result) {
+        if (result.hits.total === 1) {
+          deferred.resolve(result.hits.hits[0]._source);
+        } else {
+          return deferred.resolve(null);
+        }
+      }, deferred.reject);
       return deferred;
     };
 
@@ -244,6 +268,7 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
       findOneById: findOneById,
       findBySurveyId: findBySurveyId,
       findByProjectId: findByProjectId,
+      findShadowByIdAndVersion: findShadowByIdAndVersion,
       countBy: countBy,
       findInstrumentDescriptions: findInstrumentDescriptions
     };
