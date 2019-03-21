@@ -1,7 +1,7 @@
 <div ng-form="tagEditorForm" layout-gt-md="column" layout-gt-lg="row">
     <md-input-container flex-gt-md="100" flex-gt-lg="50">
         <label class="fdz-input-required">{{'study-management.tag-editor.label.german-tags' | translate}}</label>
-        <md-chips ng-model="tags.de"
+        <md-chips ng-model="tags.de" md-add-on-blur="true"
                   ng-required="true"
                   name="tagsDe"
                   placeholder="{{'study-management.tag-editor.placeholder' | translate}}">
@@ -14,7 +14,7 @@
     </md-input-container>
     <md-input-container flex-gt-md="100" flex-gt-lg="50">
         <label>{{'study-management.tag-editor.label.english-tags' | translate}}</label>
-        <md-chips ng-model="tags.en"
+        <md-chips ng-model="tags.en" md-add-on-blur="true"
                   name="tagsEn"
                   placeholder="{{'study-management.tag-editor.placeholder' | translate}}">
         </md-chips>
