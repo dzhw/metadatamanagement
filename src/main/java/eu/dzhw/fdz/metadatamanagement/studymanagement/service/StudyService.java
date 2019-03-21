@@ -1,24 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.rest.core.annotation.HandleAfterCreate;
-import org.springframework.data.rest.core.annotation.HandleAfterDelete;
-import org.springframework.data.rest.core.annotation.HandleAfterSave;
-import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
-import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
-import org.springframework.data.rest.core.annotation.HandleBeforeSave;
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.data.rest.core.event.AfterDeleteEvent;
-import org.springframework.data.rest.core.event.BeforeDeleteEvent;
-import org.springframework.stereotype.Service;
-
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
@@ -30,6 +17,22 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
+import org.springframework.data.rest.core.annotation.HandleAfterDelete;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
+import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
+import org.springframework.data.rest.core.annotation.HandleBeforeSave;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.event.AfterDeleteEvent;
+import org.springframework.data.rest.core.event.BeforeDeleteEvent;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Service for creating and updating variable. Used for updating variables in mongo and
@@ -56,6 +59,12 @@ public class StudyService {
 
   @Autowired
   private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
+
+  @Autowired
+  private ShadowCopyService<Study> shadowCopyService;
+
+  @Autowired
+  private StudyShadowCopyDataSource studyShadowCopyDataSource;
   
   /**
    * Delete all studies when the dataAcquisitionProject was deleted.
@@ -109,6 +118,9 @@ public class StudyService {
     try (Stream<Study> studies =
         studyRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       studies.forEach(study -> {
+        if (study.isShadow()) {
+          throw new ShadowCopyDeleteNotAllowedException();
+        }
         eventPublisher.publishEvent(new BeforeDeleteEvent(study));
         studyRepository.delete(study);
         eventPublisher.publishEvent(new AfterDeleteEvent(study));
@@ -182,6 +194,10 @@ public class StudyService {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> studyRepository.streamIdsByIdIn(studyIds),
         ElasticsearchType.studies);
+
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> studyRepository.streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(studyIds),
+        ElasticsearchType.studies);
   }
 
   /**
@@ -224,5 +240,15 @@ public class StudyService {
     elasticsearchUpdateQueueService.enqueueUpsertAsync(
         () -> studyRepository.findOneIdAndVersionById(instrument.getStudyId()),
         ElasticsearchType.studies);
+  }
+
+  /**
+   * Create shadow copies for studies on project release.
+   * @param projectReleasedEvent Released project event
+   */
+  @EventListener
+  public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        projectReleasedEvent.getPreviousReleaseVersion(), studyShadowCopyDataSource);
   }
 }

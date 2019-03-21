@@ -1,11 +1,11 @@
 <md-card style="position: relative;">
-    <a ui-sref="dataSetDetail({id: searchResult.id, 'search-result-index': searchResultIndex})" class="fdz-search-result">
+    <a ui-sref="dataSetDetail({id: searchResult.masterId, 'search-result-index': searchResultIndex, version: isLoggedIn ? '' :searchResult.release.version})" class="fdz-search-result">
         <md-card-header class="fdz-card-header-border">
             <md-card-avatar>
                 <md-icon md-svg-src="/assets/images/icons/data-set.svg" class="fdz-search-result-icon"></md-icon>
             </md-card-avatar>
             <md-card-header-text class="fdz-truncate-string">
-                <div class="md-title fdz-truncate-string"><span display-i18n-string="searchResult.description"></span> <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
+                <div class="md-title fdz-truncate-string"><span display-i18n-string="searchResult.description"></span> <span class="label label-as-badge label-default">{{searchResult.masterId}}</span></div>
                 <div class="md-subhead fdz-truncate-string" display-i18n-string="searchResult.type"></div>
             </md-card-header-text>
         </md-card-header>
@@ -32,7 +32,7 @@
             </div>
         </md-card-content>
         <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-          {{'search-management.cards.data-set-tooltip' | translate: {id:searchResult.id} }}
+          {{'search-management.cards.data-set-tooltip' | translate: {id: searchResult.masterId} }}
         </md-tooltip>
     </a>
     <div class="fdz-search-result-actions-container" ng-if="!projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" >

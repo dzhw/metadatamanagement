@@ -1,3 +1,4 @@
+/* globals _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -8,14 +9,17 @@ angular.module('metadatamanagementApp')
              LanguageService, $state, ToolbarHeaderService,
              CleanJSObjectService, SimpleMessageToastService,
              DataSetAttachmentResource, DataSetCitateDialogService,
-             SearchResultNavigatorService, $stateParams,
-             ProductChooserDialogService, DataAcquisitionProjectResource) {
+             SearchResultNavigatorService, ProductChooserDialogService,
+             DataAcquisitionProjectResource, OutdatedVersionNotifier,
+             $stateParams) {
 
-      SearchResultNavigatorService.registerCurrentSearchResult(
-        $stateParams['search-result-index']);
+      SearchResultNavigatorService
+        .setSearchIndex($stateParams['search-result-index']);
+
+      SearchResultNavigatorService.registerCurrentSearchResult();
       var activeProject;
       var ctrl = this;
-      ctrl.searchResultIndex = $stateParams['search-result-index'];
+      ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAnyAuthority = Principal.hasAnyAuthority;
       ctrl.hasAuthority = Principal.hasAuthority;
@@ -47,6 +51,13 @@ angular.module('metadatamanagementApp')
             activeProject = project;
           });
         }
+
+        if (!Principal.loginName()) {
+          var fetchFn = DataSetSearchService.findShadowByIdAndVersion
+            .bind(null, result.masterId);
+          OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
+        }
+
         var currentLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currentLanguage === 'de' ? 'en' : 'de';
         PageTitleService.setPageTitle('data-set-management.detail.title', {
@@ -63,7 +74,9 @@ angular.module('metadatamanagementApp')
           'dataSetIsPresent': true,
           'studyIsPresent': CleanJSObjectService.isNullOrEmpty(result.study) ?
             false : true,
-          'projectId': result.dataAcquisitionProjectId
+          'projectId': result.dataAcquisitionProjectId,
+          'version': Principal.loginName() ? null : _.get(result,
+            'release.version')
         });
         if (result.release || Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {

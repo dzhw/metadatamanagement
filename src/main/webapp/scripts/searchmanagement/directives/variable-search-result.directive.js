@@ -11,6 +11,9 @@ angular.module('metadatamanagementApp').directive('variableSearchResult',
         currentLanguage: '=',
         bowser: '=',
         searchResultIndex: '='
+      },
+      controller: function($scope, Principal) {
+        $scope.isLoggedIn = Principal.loginName();
       }
     };
   });

@@ -1,26 +1,4 @@
-.. java:import:: java.util List
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: javax.validation.constraints Size
-
-.. java:import:: org.javers.core.metamodel.annotation Entity
-
-.. java:import:: org.springframework.beans BeanUtils
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: org.springframework.data.mongodb.core.index CompoundIndex
-
-.. java:import:: org.springframework.data.mongodb.core.index Indexed
-
-.. java:import:: org.springframework.data.mongodb.core.mapping Document
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
@@ -31,6 +9,10 @@
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringSize
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation ValidInstrumentIdPattern
 
@@ -46,6 +28,8 @@
 
 .. java:import:: io.searchbox.annotations JestId
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -56,7 +40,29 @@
 
 .. java:import:: lombok NoArgsConstructor
 
+.. java:import:: lombok Setter
+
 .. java:import:: lombok ToString
+
+.. java:import:: org.javers.core.metamodel.annotation Entity
+
+.. java:import:: org.springframework.beans BeanUtils
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: org.springframework.data.mongodb.core.index CompoundIndex
+
+.. java:import:: org.springframework.data.mongodb.core.index Indexed
+
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Size
+
+.. java:import:: java.util List
 
 Instrument
 ==========
@@ -64,7 +70,7 @@ Instrument
 .. java:package:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @ValidInstrumentIdPattern @ValidUniqueInstrumentNumber @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Instrument extends AbstractRdcDomainObject
+.. java:type:: @Entity @Document @ValidInstrumentIdPattern @ValidUniqueInstrumentNumber @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidMasterId @ValidShadowId public class Instrument extends AbstractShadowableRdcDomainObject
 
    An instrument (e.g. a questionnaire) which was used in at least one \ :java:ref:`Survey`\ .
 
@@ -97,7 +103,7 @@ description
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Pattern @Size private String id
+.. java:field:: @Id @JestId @NotEmpty @Size @Setter private String id
    :outertype: Instrument
 
    The id of the instrument which uniquely identifies the instrument in this application. The id must not be empty and must be of the form ins-{{dataAcquisitionProjectId}}-ins{{number}}$. The id must not contain more than 512 characters.

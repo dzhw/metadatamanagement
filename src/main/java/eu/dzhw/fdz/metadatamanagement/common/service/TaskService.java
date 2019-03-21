@@ -40,12 +40,13 @@ public class TaskService {
   /**
    * Create a task.
    *
+   * @param taskType The kind of task to create. Defined by {@link TaskType}
    * @return the created task.
    */
-  public Task createTask() {
+  public Task createTask(TaskType taskType) {
     String taskId = Long.toString(counterService.getNextSequence("tasks"));
     Task task =
-        Task.builder().state(TaskState.RUNNING).id(taskId).type(TaskType.DATA_SET_REPORT).build();
+        Task.builder().state(TaskState.RUNNING).id(taskId).type(taskType).build();
     return taskRepo.insert(task);
   }
 
@@ -60,7 +61,6 @@ public class TaskService {
     task.setState(TaskState.FAILURE);
     task.setErrorList(createErrorListFromException(exception));
     return taskRepo.save(task);
-
   }
 
   /**

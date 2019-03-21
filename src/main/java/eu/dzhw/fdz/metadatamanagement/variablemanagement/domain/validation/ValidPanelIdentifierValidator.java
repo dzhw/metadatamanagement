@@ -28,10 +28,14 @@ public class ValidPanelIdentifierValidator
    */
   @Override
   public boolean isValid(Variable variable, ConstraintValidatorContext context) {
-    if (variable.getPanelIdentifier() == null) {
+    if (variable.isShadow()) {
       return true;
+    } else {
+      if (variable.getPanelIdentifier() == null) {
+        return true;
+      }
+      return variable.getPanelIdentifier().contains(variable
+          .getDataAcquisitionProjectId() + "-ds" + variable.getDataSetNumber() + "-");
     }
-    return variable.getPanelIdentifier().contains(variable
-        .getDataAcquisitionProjectId() + "-ds" + variable.getDataSetNumber() + "-");
   }
 }

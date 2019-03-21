@@ -3,12 +3,6 @@
  */
 package eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
@@ -55,6 +49,12 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.StorageTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author Daniel Katzberg
  *
@@ -72,12 +72,15 @@ public class UnitTestCreateDomainObjectUtils {
         null
     );
 
-    return DataAcquisitionProject.builder()
+    DataAcquisitionProject project = DataAcquisitionProject.builder()
         .id(projectId)
         .hasBeenReleasedBefore(false)
         .configuration(configuration)
         .assigneeGroup(AssigneeGroup.PUBLISHER)
         .build();
+
+    project.setMasterId(projectId);
+    return project;
   }
 
   public static Configuration buildDataAcquisitionProjectConfiguration(List<String> publishers, List<String> dataProviders) {
@@ -91,8 +94,9 @@ public class UnitTestCreateDomainObjectUtils {
     List<Person> authors = new ArrayList<>();
     authors.add(buildPerson("Test", null, "Authors"));
 
-    return Study.builder()
-        .id(UnitTestCreateValidIds.buildStudyId(projectId))
+    String studyId = UnitTestCreateValidIds.buildStudyId(projectId);
+    Study study = Study.builder()
+        .id(studyId)
         .authors(authors)
         .description(I18nString.builder()
             .de("Description De")
@@ -121,6 +125,8 @@ public class UnitTestCreateDomainObjectUtils {
         .surveyDesign(SurveyDesigns.PANEL)
         .dataAcquisitionProjectId(projectId)
         .build();
+    study.setMasterId(studyId);
+    return study;
   }
 
   public static Survey buildSurvey(String projectId) {
@@ -134,8 +140,10 @@ public class UnitTestCreateDomainObjectUtils {
         .geographicCoverages(Collections.singletonList(geographicCoverage))
         .build();
 
-    return Survey.builder()
-      .id(UnitTestCreateValidIds.buildSurveyId(projectId, 1))
+    String surveyId = UnitTestCreateValidIds.buildSurveyId(projectId, 1);
+
+    Survey survey = Survey.builder()
+      .id(surveyId)
       .dataAcquisitionProjectId(projectId)
       .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
       .fieldPeriod(Period.builder().start(LocalDate.now())
@@ -161,9 +169,13 @@ public class UnitTestCreateDomainObjectUtils {
       .number(1)
       .wave(1)
       .build();
+
+    survey.setMasterId(surveyId);
+    return survey;
   }
 
   public static DataSet buildDataSet(String projectId, String surveyId, Integer surveyNumber) {
+    String dataSetId = UnitTestCreateValidIds.buildDataSetId(projectId, 1);
     List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(surveyNumber);
 
@@ -210,9 +222,9 @@ public class UnitTestCreateDomainObjectUtils {
           .en("Description 4 EN")
           .build()).build());
 
-    return DataSet.builder().surveyIds(surveyIds)
+    DataSet dataSet = DataSet.builder().surveyIds(surveyIds)
       .dataAcquisitionProjectId(projectId)
-      .id(UnitTestCreateValidIds.buildDataSetId(projectId, 1))
+      .id(dataSetId)
       .surveyNumbers(surveyNumbers)
       .surveyIds(surveyIds)
       .number(1)
@@ -227,9 +239,13 @@ public class UnitTestCreateDomainObjectUtils {
       .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
       .subDataSets(subDataSets)
       .build();
+    dataSet.setMasterId(dataSetId);
+    return dataSet;
   }
 
   public static Variable buildVariable(String projectId, Integer dataSetNumber, String name, Integer index, List<Integer> surveyNumbers) {
+
+    String variableId = UnitTestCreateValidIds.buildVariableId(projectId, dataSetNumber, name);
 
     // Prepare Variable
     List<String> accessWays = new ArrayList<>();
@@ -248,7 +264,7 @@ public class UnitTestCreateDomainObjectUtils {
 
     List<RelatedQuestion> relatedQuestions = new ArrayList<>();
     relatedQuestions.add(buildRelatedQuestion(projectId, "1", "1"));
-    return Variable.builder().id(UnitTestCreateValidIds.buildVariableId(projectId, dataSetNumber, name))
+    Variable variable = Variable.builder().id(variableId)
       .dataType(DataTypes.NUMERIC)
       .scaleLevel(ScaleLevels.RATIO)
       .dataAcquisitionProjectId(projectId)
@@ -282,6 +298,8 @@ public class UnitTestCreateDomainObjectUtils {
       .storageType(StorageTypes.DOUBLE)
       .doNotDisplayThousandsSeparator(true)
       .build();
+    variable.setMasterId(variableId);
+    return variable;
   }
 
   public static TechnicalRepresentation buildTechnicalRepresentation() {
@@ -293,10 +311,12 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static Question buildQuestion(String projectId, Integer instrumentNumber,
-      String instrumentId, String surveyId) {
+                                       String instrumentId) {
 
-    return Question.builder().dataAcquisitionProjectId(projectId)
-      .id(UnitTestCreateValidIds.buildQuestionId(projectId, instrumentNumber, "123.12"))
+    String questionId = UnitTestCreateValidIds.buildQuestionId(projectId, instrumentNumber, "123.12");
+
+    Question question = Question.builder().dataAcquisitionProjectId(projectId)
+      .id(questionId)
       .additionalQuestionText(new I18nString("Zusätzlicher Fragetext", "Additional Question Text"))
       .dataAcquisitionProjectId(projectId)
       .instruction(new I18nString("Instruktionen", "Instruction"))
@@ -316,11 +336,13 @@ public class UnitTestCreateDomainObjectUtils {
           .build())
       .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
       .build();
+    question.setMasterId(questionId);
+    return question;
   }
 
   public static QuestionImageMetadata buildQuestionImageMetadata(String projectId, String questionId) {
 
-    return QuestionImageMetadata.builder()
+    QuestionImageMetadata questionImageMetadata = QuestionImageMetadata.builder()
         .fileName("TestFileName.PNG")
         .language("de")
         .resolution(Resolution.builder()
@@ -331,7 +353,12 @@ public class UnitTestCreateDomainObjectUtils {
         .containsAnnotations(false)
         .dataAcquisitionProjectId(projectId)
         .questionId(questionId)
+        .indexInQuestion(1)
         .build();
+
+    questionImageMetadata.generateId();
+    questionImageMetadata.setMasterId(questionImageMetadata.getId());
+    return questionImageMetadata;
   }
 
   public static Instrument buildInstrument(String projectId) {
@@ -339,8 +366,9 @@ public class UnitTestCreateDomainObjectUtils {
     surveyNumbers.add(1);
     List<String> surveyIds = new ArrayList<>();
     surveyIds.add(UnitTestCreateValidIds.buildSurveyId(projectId, 1));
-    return Instrument.builder().dataAcquisitionProjectId(projectId)
-      .id(UnitTestCreateValidIds.buildInstrumentId(projectId, 1))
+    String instrumentId = UnitTestCreateValidIds.buildInstrumentId(projectId, 1);
+    Instrument instrument = Instrument.builder().dataAcquisitionProjectId(projectId)
+      .id(instrumentId)
       .title(I18nString.builder()
           .de("Instrument.de")
           .en("Instrument.en")
@@ -363,6 +391,8 @@ public class UnitTestCreateDomainObjectUtils {
       .number(1)
       .surveyNumbers(surveyNumbers)
       .build();
+    instrument.setMasterId(instrumentId);
+    return instrument;
   }
 
   public static Statistics buildStatistics() {
@@ -499,8 +529,9 @@ public class UnitTestCreateDomainObjectUtils {
     surveyNumbers.add(1);
     List<String> surveyIds = new ArrayList<>();
     surveyIds.add(surveyId);
-    return Instrument.builder()
-        .id(UnitTestCreateValidIds.buildInstrumentId(projectId, 1))
+    String instrumentId = UnitTestCreateValidIds.buildInstrumentId(projectId, 1);
+    Instrument instrument = Instrument.builder()
+        .id(instrumentId)
         .dataAcquisitionProjectId(projectId)
         .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
         .surveyIds(surveyIds)
@@ -523,10 +554,12 @@ public class UnitTestCreateDomainObjectUtils {
         .number(1)
         .surveyNumbers(surveyNumbers)
         .build();
+    instrument.setMasterId(instrumentId);
+    return instrument;
   }
 
   public static InstrumentAttachmentMetadata buildInstrumentAttachmentMetadata(String projectId, Integer instrumentNumber) {
-    return InstrumentAttachmentMetadata.builder()
+    InstrumentAttachmentMetadata instrumentAttachmentMetadata = InstrumentAttachmentMetadata.builder()
           .dataAcquisitionProjectId(projectId)
           .instrumentId(UnitTestCreateValidIds.buildInstrumentId(projectId, instrumentNumber))
           .instrumentNumber(instrumentNumber)
@@ -536,10 +569,14 @@ public class UnitTestCreateDomainObjectUtils {
           .type(InstrumentAttachmentTypes.QUESTION_FLOW)
           .indexInInstrument(1)
           .build();
+
+    instrumentAttachmentMetadata.generateId();
+    instrumentAttachmentMetadata.setMasterId(instrumentAttachmentMetadata.getId());
+    return instrumentAttachmentMetadata;
   }
 
   public static SurveyAttachmentMetadata buildSurveyAttachmentMetadata(String projectId, Integer surveyNumber) {
-    return SurveyAttachmentMetadata.builder()
+    SurveyAttachmentMetadata surveyAttachmentMetadata = SurveyAttachmentMetadata.builder()
           .dataAcquisitionProjectId(projectId)
           .surveyId(UnitTestCreateValidIds.buildSurveyId(projectId, surveyNumber))
           .surveyNumber(surveyNumber)
@@ -549,10 +586,14 @@ public class UnitTestCreateDomainObjectUtils {
           .language("de")
           .indexInSurvey(1)
           .build();
+
+    surveyAttachmentMetadata.generateId();
+    surveyAttachmentMetadata.setMasterId(surveyAttachmentMetadata.getId());
+    return surveyAttachmentMetadata;
   }
 
   public static DataSetAttachmentMetadata buildDataSetAttachmentMetadata(String projectId, Integer dataSetNumber) {
-    return DataSetAttachmentMetadata.builder()
+    DataSetAttachmentMetadata dataSetAttachmentMetadata = DataSetAttachmentMetadata.builder()
           .dataAcquisitionProjectId(projectId)
           .dataSetId(UnitTestCreateValidIds.buildDataSetId(projectId, dataSetNumber))
           .dataSetNumber(dataSetNumber)
@@ -562,10 +603,14 @@ public class UnitTestCreateDomainObjectUtils {
           .language("de")
           .indexInDataSet(1)
           .build();
+
+    dataSetAttachmentMetadata.generateId();
+    dataSetAttachmentMetadata.setMasterId(dataSetAttachmentMetadata.getId());
+    return dataSetAttachmentMetadata;
   }
 
   public static StudyAttachmentMetadata buildStudyAttachmentMetadata(String projectId) {
-    return StudyAttachmentMetadata.builder()
+    StudyAttachmentMetadata studyAttachmentMetadata = StudyAttachmentMetadata.builder()
           .dataAcquisitionProjectId(projectId)
           .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
           .fileName("filename.txt")
@@ -575,6 +620,10 @@ public class UnitTestCreateDomainObjectUtils {
           .type(StudyAttachmentTypes.METHOD_REPORT)
           .indexInStudy(1)
           .build();
+
+    studyAttachmentMetadata.generateId();
+    studyAttachmentMetadata.setMasterId(studyAttachmentMetadata.getId());
+    return studyAttachmentMetadata;
   }
 
   public static RelatedQuestion buildRelatedQuestion(String projectId, String questionNumber, String instrumentNumber) {

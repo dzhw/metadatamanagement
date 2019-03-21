@@ -1,13 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
-import org.javers.core.metamodel.annotation.Entity;
-import org.springframework.data.annotation.Id;
-
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
@@ -16,12 +9,20 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentAttachmentType;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.data.annotation.Id;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * Metadata which will be stored with each attachment of a {@link Instrument}.
@@ -33,11 +34,12 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
+public class InstrumentAttachmentMetadata extends AbstractShadowableRdcDomainObject {
   /**
    * The id of the attachment. Holds the complete path which can be used to download the file.
    */
   @Id
+  @Setter(AccessLevel.NONE)
   private String id;
 
   /**
@@ -133,6 +135,11 @@ public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject {
    * Generate the id of this attachment from the instrumentId and the fileName.
    */
   public void generateId() {
-    this.id = "/public/files/instruments/" + instrumentId + "/attachments/" + fileName;
+    this.setId("/public/files/instruments/" + instrumentId + "/attachments/" + fileName);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

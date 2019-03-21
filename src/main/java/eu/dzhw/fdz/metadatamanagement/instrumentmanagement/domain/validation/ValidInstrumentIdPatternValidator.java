@@ -28,14 +28,18 @@ public class ValidInstrumentIdPatternValidator
   @Override
   public boolean isValid(Instrument instrument, ConstraintValidatorContext context) {
 
-    // check precondition
-    if (instrument.getDataAcquisitionProjectId() == null || instrument.getId() == null
-        || instrument.getNumber() == null) {
-      return false;
-    }
+    if (instrument.isShadow()) {
+      return true;
+    } else {
+      // check precondition
+      if (instrument.getDataAcquisitionProjectId() == null || instrument.getId() == null
+          || instrument.getNumber() == null) {
+        return false;
+      }
 
-    return instrument.getId().equals("ins-" + instrument.getDataAcquisitionProjectId() + "-ins"
-        + instrument.getNumber() + "$");
+      return instrument.getId().equals("ins-" + instrument.getDataAcquisitionProjectId() + "-ins"
+          + instrument.getNumber() + "$");
+    }
   }
 
 }

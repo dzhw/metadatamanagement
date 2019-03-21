@@ -58,7 +58,7 @@ public class DataSetsReportResource {
       File zipTmpFile = zipTmpFilePath.toFile();
       multiPartFile.transferTo(zipTmpFile);
       zipTmpFile.setWritable(true);      
-      Task task = taskService.createTask();
+      Task task = taskService.createTask(Task.TaskType.DATA_SET_REPORT);
       URI pollUri = URI.create("/api/tasks/" + task.getId());
       // fill the data with data and store the template into mongodb / gridfs
       dataSetReportService.generateReport(zipTmpFilePath, multiPartFile.getOriginalFilename(),

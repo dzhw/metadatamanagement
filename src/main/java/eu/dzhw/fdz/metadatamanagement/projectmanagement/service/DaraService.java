@@ -217,14 +217,15 @@ public class DaraService {
       log.debug("Response body from Dara: {}", result.getBody());
       return result.getStatusCode();
     } catch (HttpClientErrorException httpClientError) {
-      log.debug("HTTP Error durind Dara call", httpClientError);
-      log.debug("Dara Response Body:\n" + httpClientError.getResponseBodyAsString());
+      log.error("HTTP Error durind Dara call", httpClientError);
+      log.error("Dara Response Body:\n" + httpClientError.getResponseBodyAsString());
       // Has been released is false? Something went wrong at the local save?
       // Catch the second try for registring
       // Idempotent Method!
+      String responseBody = httpClientError.getResponseBodyAsString();
       if (httpClientError.getStatusCode().is4xxClientError()
-          && httpClientError.getResponseBodyAsString()
-              .equals("A resource with the given doiProposal exists in the system.")) {
+          && (responseBody.equals("A resource with the given doiProposal exists in the system.")
+              || responseBody.contains("remint failed"))) {
         return HttpStatus.CREATED;
       } else {
         throw httpClientError;

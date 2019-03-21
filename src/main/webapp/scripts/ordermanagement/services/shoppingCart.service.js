@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').service('ShoppingCartService',
   function(OrderResource, StudyResource, localStorageService,
-           SimpleMessageToastService, $rootScope) {
+           SimpleMessageToastService, ProjectReleaseService, $rootScope) {
 
     var SHOPPING_CART_KEY = 'shoppingCart';
     var ORDER_ID_KEY = 'shoppingCart.orderId';
@@ -125,19 +125,32 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       }, _displayUpdateOrderError);
     };
 
+    var _stripVersionSuffix = function(product) {
+      var normalizedProduct = _.cloneDeep(product);
+
+      normalizedProduct.dataAcquisitionProjectId = ProjectReleaseService
+        .stripVersionSuffix(normalizedProduct.dataAcquisitionProjectId);
+
+      normalizedProduct.study.id = ProjectReleaseService
+        .stripVersionSuffix(normalizedProduct.study.id);
+      return normalizedProduct;
+    };
+
     var add = function(product) {
+      var normalizedProduct = _stripVersionSuffix(product);
       if (orderId) {
-        _addProductToExistingOrder(product);
+        _addProductToExistingOrder(normalizedProduct);
       } else {
-        _addProductToLocalShoppingCart(product);
+        _addProductToLocalShoppingCart(normalizedProduct);
       }
     };
 
     var remove = function(product) {
+      var normalizedProduct = _stripVersionSuffix(product);
       if (orderId) {
-        _removeProductFromExistingOrder(product);
+        _removeProductFromExistingOrder(normalizedProduct);
       } else {
-        _removeProductFromLocalShoppingCart(product);
+        _removeProductFromLocalShoppingCart(normalizedProduct);
       }
     };
 

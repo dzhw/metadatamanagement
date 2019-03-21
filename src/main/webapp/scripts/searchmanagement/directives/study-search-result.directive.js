@@ -33,6 +33,7 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
             $state.go('studyEdit', {id: $scope.searchResult.id});
           }
         };
+        $scope.isLoggedIn = Principal.loginName();
       }
     };
   });

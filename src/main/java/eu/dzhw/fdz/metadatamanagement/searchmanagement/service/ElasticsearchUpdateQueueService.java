@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 
-import com.github.zafarkhaja.semver.Version;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
@@ -12,7 +11,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DoiBuilder;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
@@ -125,9 +123,6 @@ public class ElasticsearchUpdateQueueService {
   
   @Autowired
   private DoiBuilder doiBuilder;
-
-  @Autowired
-  private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
 
   /**
    * Attach one item to the queue.
@@ -284,7 +279,7 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsByIdIn(dataSetIds);
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository.findSubDocumentsByInstrumentIdsContaining(
-              instrument.getId());
+              instrument.getMasterId());
       DataAcquisitionProject project = projectRepository.findById(
           instrument.getDataAcquisitionProjectId()).orElse(null);
       Release release = null;
@@ -392,7 +387,7 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsByIdIn(questionIds);
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
-            .findSubDocumentsByDataSetIdsContaining(dataSet.getId());
+            .findSubDocumentsByDataSetIdsContaining(dataSet.getMasterId());
       List<SurveySubDocumentProjection> surveys = new ArrayList<SurveySubDocumentProjection>();
       if (dataSet.getSurveyIds() != null) {        
         surveys = surveyRepository.findSubDocumentByIdIn(dataSet.getSurveyIds());
@@ -433,7 +428,7 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsBySurveyIdsContaining(survey.getId());
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
-            .findSubDocumentsBySurveyIdsContaining(survey.getId());
+            .findSubDocumentsBySurveyIdsContaining(survey.getMasterId());
       Map<String, InstrumentSubDocumentProjection> instruments = instrumentRepository
           .findSubDocumentsBySurveyIdsContaining(survey.getId()).stream()
           .collect(Collectors.toMap(InstrumentSubDocumentProjection::getId, Function.identity()));
@@ -478,7 +473,7 @@ public class ElasticsearchUpdateQueueService {
           .findOneSubDocumentById(variable.getDataSetId());
       final List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
-            .findSubDocumentsByVariableIdsContaining(variable.getId());
+            .findSubDocumentsByVariableIdsContaining(variable.getMasterId());
       List<SurveySubDocumentProjection> surveys = new ArrayList<SurveySubDocumentProjection>();
       if (variable.getSurveyIds() != null) {
         surveys = surveyRepository.findSubDocumentByIdIn(variable.getSurveyIds());        
@@ -542,7 +537,7 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsByIdIn(dataSetIds);
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
-            .findSubDocumentsByQuestionIdsContaining(question.getId());
+            .findSubDocumentsByQuestionIdsContaining(question.getMasterId());
       DataAcquisitionProject project = projectRepository.findById(
           question.getDataAcquisitionProjectId()).orElse(null);
       Release release = null;
@@ -581,7 +576,7 @@ public class ElasticsearchUpdateQueueService {
           .findSubDocumentsByStudyId(study.getId());
       List<RelatedPublicationSubDocumentProjection> relatedPublications = 
           relatedPublicationRepository
-            .findSubDocumentsByStudyIdsContaining(study.getId());
+            .findSubDocumentsByStudyIdsContaining(study.getMasterId());
       List<SurveySubDocumentProjection> surveys = surveyRepository
           .findSubDocumentByStudyId(study.getId());
       List<QuestionSubDocumentProjection> questions = questionRepository
@@ -594,14 +589,14 @@ public class ElasticsearchUpdateQueueService {
         seriesPublications = relatedPublicationRepository
             .findSubDocumentsByStudySeriesesContaining(study.getStudySeries()); 
       }
-      DataAcquisitionProject project = getDataAcquisitionProject(study);
-      Release release = project.getRelease();
-
-      if (release == null) {
-        release = getLastReleaseVersionForStudy(project.getId());
+      DataAcquisitionProject project = projectRepository.findById(
+          study.getDataAcquisitionProjectId()).orElse(null);
+      Release release = null;
+      Configuration configuration = null;
+      if (project != null) {
+        release = project.getRelease();
+        configuration = project.getConfiguration();
       }
-
-      Configuration configuration = project.getConfiguration();
       String doi = doiBuilder.buildStudyDoi(study, release);
       StudySearchDocument searchDocument = new StudySearchDocument(study, dataSets, variables,
           relatedPublications, surveys, questions, instruments, seriesPublications, release, doi,
@@ -613,31 +608,6 @@ public class ElasticsearchUpdateQueueService {
               .name())
           .id(searchDocument.getId())
           .build());
-    }
-  }
-
-  private DataAcquisitionProject getDataAcquisitionProject(Study study) {
-    return projectRepository.findById(
-        study.getDataAcquisitionProjectId()).orElseThrow(() ->
-        new IllegalStateException("Study " + study.getId() + " has DataAcquisitionProject "
-            + "with id " + study.getDataAcquisitionProjectId() + " which could not be found"));
-  }
-
-  private Release getLastReleaseVersionForStudy(String dataAcquisitionProjectId) {
-    Release lastRelease = dataAcquisitionProjectVersionsService
-        .findLastRelease(dataAcquisitionProjectId);
-
-    if (lastRelease == null) {
-      return null;
-    }
-
-    Version releaseVersion = Version.forIntegers(1, 0, 0);
-    Version lastVersion = Version.valueOf(lastRelease.getVersion());
-
-    if (lastVersion.greaterThanOrEqualTo(releaseVersion)) {
-      return lastRelease;
-    } else {
-      return null;
     }
   }
 

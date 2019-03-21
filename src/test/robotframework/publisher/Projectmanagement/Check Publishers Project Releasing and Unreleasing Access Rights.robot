@@ -21,7 +21,7 @@ Check Publishers Project Releasing and Unreleasing Funtionalities
   Write Version Name
   Click on OK Button
   Verify The Released Project is Available under The Study Tab
-  Verify The Unreleased Project is Unavailable under The Study Tab
+  Verify The Unreleased Project is Available under The Study Tab
 
 *** Keywords ***
 Assert Project Release Action Has Error Message
@@ -41,7 +41,7 @@ Verify The Released Project is Available under The Study Tab
   Click on study tab
   Element Should Contain  xpath=//md-card-header-text//span[contains(.,"stu-robotprojectrelease4${BROWSER}$")]  stu-robotprojectrelease4${BROWSER}$
 
-Verify The Unreleased Project is Unavailable under The Study Tab
+Verify The Unreleased Project is Available under The Study Tab
   Login as publisher
   Select project by name  robotprojectrelease4${BROWSER}
   Click on Cockpit Button
@@ -52,5 +52,5 @@ Verify The Unreleased Project is Unavailable under The Study Tab
   Sleep  60s   #We need explicit sleep for 60s to ensure the project is not available under the study tab
   Publisher Logout
   Click on study tab
-  Page Should Not Contain  stu-robotprojectrelease4${BROWSER}$
+  Page Should Contain  stu-robotprojectrelease4${BROWSER}$
   Login as publisher  #we need explicit login to be synced with suite teardown

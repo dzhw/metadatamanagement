@@ -29,6 +29,32 @@
 					}
 				}
 			},
+			"masterId": {
+				"type": "keyword",
+				"copy_to": "all",
+				"fields": {
+					"ngrams": {
+						"type": "text",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
+			},
+			"successorId": {
+				"type": "keyword",
+				"copy_to": "all",
+				"fields": {
+					"ngrams": {
+						"type": "text",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
+			},
+			"shadow": {
+				"type": "boolean",
+				"copy_to": "all"
+			},
 			"completeTitle": {
 				"type": "object",
 				"properties": {
@@ -326,6 +352,9 @@
 					"id": {
 						"type": "keyword"
 					},
+					"masterId": {
+						"type": "keyword"
+					},
 					"title": {
 						"type": "object",
 						"properties": {
@@ -427,6 +456,9 @@
 					"id": {
 						"type": "keyword"
 					},
+					"masterId": {
+						"type": "keyword"
+					},
 					"title": {
 						"type": "object",
 						"properties": {
@@ -453,6 +485,9 @@
 				"type": "nested",
 				"properties": {
 					"id": {
+						"type": "keyword"
+					},
+					"masterId": {
 						"type": "keyword"
 					},
 					"instrumentId": {
@@ -504,6 +539,9 @@
 					"id": {
 						"type": "keyword"
 					},
+					"masterId": {
+						"type": "keyword"
+					},
 					"dataSetId": {
 						"type": "keyword"
 					},
@@ -551,6 +589,9 @@
 				"type": "nested",
 				"properties": {
 					"id": {
+						"type": "keyword"
+					},
+					"masterId": {
 						"type": "keyword"
 					},
 					"surveyIds": {
@@ -619,6 +660,14 @@
 								"norms": false
 							}
 						}
+					}
+				}
+			},
+			"release": {
+				"type": "object",
+				"properties": {
+					"version": {
+						"type": "keyword"
 					}
 				}
 			}

@@ -1,18 +1,12 @@
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.util Patterns
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidIsoLanguage
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
+
+.. java:import:: lombok AccessLevel
 
 .. java:import:: lombok AllArgsConstructor
 
@@ -24,7 +18,17 @@
 
 .. java:import:: lombok NoArgsConstructor
 
+.. java:import:: lombok Setter
+
 .. java:import:: lombok ToString
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
 
 SurveyResponseRateImageMetadata
 ===============================
@@ -32,7 +36,7 @@ SurveyResponseRateImageMetadata
 .. java:package:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain
    :noindex:
 
-.. java:type:: @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class SurveyResponseRateImageMetadata extends AbstractRdcDomainObject
+.. java:type:: @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class SurveyResponseRateImageMetadata extends AbstractShadowableRdcDomainObject
 
    Metadata which will be stored with each response rate image of a \ :java:ref:`Survey`\ .
 
@@ -57,7 +61,7 @@ fileName
 id
 ^^
 
-.. java:field:: @Id private String id
+.. java:field:: @Id @Setter private String id
    :outertype: SurveyResponseRateImageMetadata
 
    The id of the response rate image. Holds the complete path which can be used to download the file.

@@ -8,7 +8,7 @@
 
 .. java:import:: org.springframework.data.annotation Id
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
@@ -24,6 +24,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -34,6 +36,8 @@
 
 .. java:import:: lombok NoArgsConstructor
 
+.. java:import:: lombok Setter
+
 .. java:import:: lombok ToString
 
 SurveyAttachmentMetadata
@@ -42,7 +46,7 @@ SurveyAttachmentMetadata
 .. java:package:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain
    :noindex:
 
-.. java:type:: @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class SurveyAttachmentMetadata extends AbstractRdcDomainObject
+.. java:type:: @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject
 
    Metadata which will be stored with each attachment of a \ :java:ref:`Survey`\ .
 
@@ -75,7 +79,7 @@ fileName
 id
 ^^
 
-.. java:field:: @Id private String id
+.. java:field:: @Id @Setter private String id
    :outertype: SurveyAttachmentMetadata
 
    The id of the attachment. Holds the complete path which can be used to download the file.

@@ -1,14 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.domain;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.javers.core.metamodel.annotation.Entity;
-import org.springframework.data.annotation.Id;
-
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
@@ -17,12 +9,21 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidStudyAttachmentType;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.data.annotation.Id;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * Metadata which will be stored with each attachment of a {@link Study}.
@@ -34,11 +35,12 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-public class StudyAttachmentMetadata extends AbstractRdcDomainObject {
+public class StudyAttachmentMetadata extends AbstractShadowableRdcDomainObject {
   /**
    * The id of the attachment. Holds the complete path which can be used to download the file.
    */
   @Id
+  @Setter(AccessLevel.NONE)
   private String id;
 
   /**
@@ -134,6 +136,11 @@ public class StudyAttachmentMetadata extends AbstractRdcDomainObject {
    */
   public void generateId() {
     // hack to satisfy javers
-    this.id = "/public/files/studies/" + studyId + "/attachments/" + fileName;
+    this.setId("/public/files/studies/" + studyId + "/attachments/" + fileName);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

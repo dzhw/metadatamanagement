@@ -1,23 +1,27 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
-import java.io.IOException;
-
-import javax.validation.Valid;
-
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyReleaseToDaraNotAllowed;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import freemarker.template.TemplateException;
+import javax.validation.Valid;
+import java.io.IOException;
 
 /**
  * A Resource Class for handling releasing and unreleading of data acquisition projects to dara.
@@ -44,7 +48,21 @@ public class DaraReleaseResource {
   @Secured(value = {AuthoritiesConstants.PUBLISHER})
   public ResponseEntity<?> release(@PathVariable String id,
         @RequestBody @Valid DataAcquisitionProject project) throws IOException, TemplateException {
+    if (project.isShadow()) {
+      throw new ShadowCopyReleaseToDaraNotAllowed();
+    }
     HttpStatus status = this.daraService.registerOrUpdateProjectToDara(project);
     return ResponseEntity.status(status).build();
+  }
+
+  @ExceptionHandler(ShadowCopyReleaseToDaraNotAllowed.class)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ErrorListDto handleShadowCopyReleaseToDaraNotAllowed() {
+    ErrorDto errorDto = new ErrorDto(null, "project-management.error."
+        + "shadow-copy-release-to-dara-not-allowed", null, null);
+    ErrorListDto errorListDto = new ErrorListDto();
+    errorListDto.add(errorDto);
+    return errorListDto;
   }
 }

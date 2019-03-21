@@ -219,6 +219,9 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveStudy = function() {
         if ($scope.studyForm.$valid) {
+          if (angular.isUndefined(ctrl.study.masterId)) {
+            ctrl.study.masterId = ctrl.study.id;
+          }
           ctrl.study.$save()
             .then(ctrl.updateElasticSearchIndex)
             .then(ctrl.onSavedSuccessfully)
