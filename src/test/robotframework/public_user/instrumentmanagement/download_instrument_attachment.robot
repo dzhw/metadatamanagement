@@ -19,6 +19,6 @@ Click on questionnaire
     Click Element Through Tooltips    xpath=//md-card//a[contains(text(),'gra2005_W1_Questionnaire_de.pdf')]
 
 Switch windows forth and back
-    Select Window    gra2005_W1_Questionnaire_de.pdf
+    Select Window    NEW
     Close Window
-    Select Window    Fragebogen des DZHW-Absolventenpanels 2005 - erste Welle (ins-gra2005-ins1$)
+    Select Window    MAIN
