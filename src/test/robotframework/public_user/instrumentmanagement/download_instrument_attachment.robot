@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     Tests downloading an instrument attachment
-Force Tags        firefoxonly
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
 
