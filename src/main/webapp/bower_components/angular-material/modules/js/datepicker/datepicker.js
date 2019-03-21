@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.10
+ * v1.1.14-master-7674959
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -30,11 +30,13 @@ angular.module('material.components.datepicker', [
    * @param {Date} ng-model The component's model. Should be a Date object.
    * @param {Date=} md-min-date Expression representing the minimum date.
    * @param {Date=} md-max-date Expression representing the maximum date.
-   * @param {(function(Date): boolean)=} md-date-filter Function expecting a date and returning a boolean whether it can be selected or not.
+   * @param {(function(Date): boolean)=} md-date-filter Function expecting a date and returning a
+   *  boolean whether it can be selected or not.
    * @param {String=} md-current-view Current view of the calendar. Can be either "month" or "year".
-   * @param {String=} md-mode Restricts the user to only selecting a value from a particular view. This option can
-   * be used if the user is only supposed to choose from a certain date type (e.g. only selecting the month).
-   * Can be either "month" or "day". **Note** that this will ovewrite the `md-current-view` value.
+   * @param {String=} md-mode Restricts the user to only selecting a value from a particular view.
+   *  This option can be used if the user is only supposed to choose from a certain date type
+   *  (e.g. only selecting the month). Can be either "month" or "day". **Note** that this will
+   *  overwrite the `md-current-view` value.
    *
    * @description
    * `<md-calendar>` is a component that renders a calendar that can be used to select a date.
@@ -658,7 +660,7 @@ angular.module('material.components.datepicker', [
     };
   }
 
-  /*** Initialization ***/
+  /** Initialization **/
 
   /**
    * Initialize the controller by saving a reference to the calendar and
@@ -1453,8 +1455,8 @@ angular.module('material.components.datepicker', [
 
   /**
    * Creates a single cell to contain a year in the calendar.
-   * @param {number} opt_year Four-digit year.
-   * @param {number} opt_month Zero-indexed month.
+   * @param {number} year Four-digit year.
+   * @param {number} month Zero-indexed month.
    * @returns {HTMLElement}
    */
   CalendarYearBodyCtrl.prototype.buildMonthCell = function(year, month) {
@@ -1468,7 +1470,7 @@ angular.module('material.components.datepicker', [
     cell.id = calendarCtrl.getDateId(firstOfMonth, 'year');
 
     // Use `data-timestamp` attribute because IE10 does not support the `dataset` property.
-    cell.setAttribute('data-timestamp', firstOfMonth.getTime());
+    cell.setAttribute('data-timestamp', String(firstOfMonth.getTime()));
 
     if (this.dateUtil.isSameMonthAndYear(firstOfMonth, calendarCtrl.today)) {
       cell.classList.add(calendarCtrl.TODAY_CLASS);
@@ -1482,15 +1484,18 @@ angular.module('material.components.datepicker', [
 
     var cellText = this.dateLocale.shortMonths[month];
 
-    if (this.dateUtil.isMonthWithinRange(firstOfMonth,
-        calendarCtrl.minDate, calendarCtrl.maxDate)) {
+    if (this.dateUtil.isMonthWithinRange(
+          firstOfMonth, calendarCtrl.minDate, calendarCtrl.maxDate) &&
+      (!angular.isFunction(this.calendarCtrl.dateFilter) ||
+        this.calendarCtrl.dateFilter(firstOfMonth))) {
       var selectionIndicator = document.createElement('span');
       selectionIndicator.classList.add('md-calendar-date-selection-indicator');
       selectionIndicator.textContent = cellText;
       cell.appendChild(selectionIndicator);
       cell.addEventListener('click', yearCtrl.cellClickHandler);
 
-      if (calendarCtrl.displayDate && this.dateUtil.isSameMonthAndYear(firstOfMonth, calendarCtrl.displayDate)) {
+      if (calendarCtrl.displayDate &&
+          this.dateUtil.isSameMonthAndYear(firstOfMonth, calendarCtrl.displayDate)) {
         this.focusAfterAppend = cell;
       }
     } else {
@@ -1503,7 +1508,7 @@ angular.module('material.components.datepicker', [
 
   /**
    * Builds a blank cell.
-   * @return {HTMLTableCellElement}
+   * @return {HTMLElement}
    */
   CalendarYearBodyCtrl.prototype.buildBlankCell = function() {
     var cell = document.createElement('td');
@@ -2200,7 +2205,7 @@ angular.module('material.components.datepicker', [
   // TODO(jelbourn): something better for mobile (calendar panel takes up entire screen?)
   // TODO(jelbourn): input behavior (masking? auto-complete?)
 
-  DatePickerCtrl['$inject'] = ["$scope", "$element", "$attrs", "$window", "$mdConstant", "$mdTheming", "$mdUtil", "$mdDateLocale", "$$mdDateUtil", "$$rAF", "$filter"];
+  DatePickerCtrl['$inject'] = ["$scope", "$element", "$attrs", "$window", "$mdConstant", "$mdTheming", "$mdUtil", "$mdDateLocale", "$$mdDateUtil", "$$rAF", "$filter", "$timeout"];
   datePickerDirective['$inject'] = ["$$mdSvgRegistry", "$mdUtil", "$mdAria", "inputDirective"];
   angular.module('material.components.datepicker')
       .directive('mdDatepicker', datePickerDirective);
@@ -2376,7 +2381,7 @@ angular.module('material.components.datepicker', [
 
           if (!mdInputContainer.label) {
             $mdAria.expect(element, 'aria-label', attr.mdPlaceholder);
-          } else if(!mdNoAsterisk) {
+          } else if (!mdNoAsterisk) {
             attr.$observe('required', function(value) {
               mdInputContainer.label.toggleClass('md-required', !!value);
             });
@@ -2449,8 +2454,8 @@ angular.module('material.components.datepicker', [
    *
    * ngInject @constructor
    */
-  function DatePickerCtrl($scope, $element, $attrs, $window, $mdConstant,
-    $mdTheming, $mdUtil, $mdDateLocale, $$mdDateUtil, $$rAF, $filter) {
+  function DatePickerCtrl($scope, $element, $attrs, $window, $mdConstant, $mdTheming, $mdUtil,
+                          $mdDateLocale, $$mdDateUtil, $$rAF, $filter, $timeout) {
 
     /** @final */
     this.$window = $window;
@@ -2461,7 +2466,7 @@ angular.module('material.components.datepicker', [
     /** @final */
     this.$mdConstant = $mdConstant;
 
-    /* @final */
+    /** @final */
     this.$mdUtil = $mdUtil;
 
     /** @final */
@@ -2469,6 +2474,9 @@ angular.module('material.components.datepicker', [
 
     /** @final */
     this.$mdDateLocale = $mdDateLocale;
+
+    /** @final */
+    this.$timeout = $timeout;
 
     /**
      * The root document element. This is used for attaching a top-level click handler to
@@ -2822,7 +2830,29 @@ angular.module('material.components.datepicker', [
       this.ngModelCtrl.$setValidity('valid', date == null);
     }
 
+    var input = this.inputElement.value;
+    var parsedDate = this.locale.parseDate(input);
+
+    if (!this.isInputValid(input, parsedDate) && this.ngModelCtrl.$valid) {
+      this.ngModelCtrl.$setValidity('valid', date == null);
+    }
+
     angular.element(this.inputContainer).toggleClass(INVALID_CLASS, !this.ngModelCtrl.$valid);
+  };
+
+  /**
+   * Check to see if the input is valid as the validation should fail if the model is invalid
+   *
+   * @param {String} inputString
+   * @param {Date} parsedDate
+   * @return {boolean} Whether the input is valid
+   */
+  DatePickerCtrl.prototype.isInputValid = function (inputString, parsedDate) {
+    return inputString === '' || (
+      this.dateUtil.isValidDate(parsedDate) &&
+      this.locale.isDateComplete(inputString) &&
+      this.isDateEnabled(parsedDate)
+    );
   };
 
   /** Clears any error flags set by `updateErrorState`. */
@@ -2849,11 +2879,7 @@ angular.module('material.components.datepicker', [
 
     // An input string is valid if it is either empty (representing no date)
     // or if it parses to a valid date that the user is allowed to select.
-    var isValidInput = inputString == '' || (
-      this.dateUtil.isValidDate(parsedDate) &&
-      this.locale.isDateComplete(inputString) &&
-      this.isDateEnabled(parsedDate)
-    );
+    var isValidInput = this.isInputValid(inputString, parsedDate);
 
     // The datepicker's model is only updated when there is a valid input.
     if (isValidInput) {
@@ -2996,14 +3022,14 @@ angular.module('material.components.datepicker', [
       this.evalAttr('ngFocus');
 
       // Attach click listener inside of a timeout because, if this open call was triggered by a
-      // click, we don't want it to be immediately propogated up to the body and handled.
+      // click, we don't want it to be immediately propagated up to the body and handled.
       var self = this;
-      this.$mdUtil.nextTick(function() {
+      this.$timeout(function() {
         // Use 'touchstart` in addition to click in order to work on iOS Safari, where click
         // events aren't propagated under most circumstances.
         // See http://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
         self.documentElement.on('click touchstart', self.bodyClickHandler);
-      }, false);
+      }, 100);
 
       window.addEventListener(this.windowEventName, this.windowEventHandler);
     }
@@ -3030,7 +3056,7 @@ angular.module('material.components.datepicker', [
         // in IE when md-open-on-focus is set. Also it needs to trigger
         // a digest, in order to prevent issues where the calendar wasn't
         // showing up on the next open.
-        self.$mdUtil.nextTick(reset);
+        self.$timeout(reset);
       } else {
         reset();
       }
