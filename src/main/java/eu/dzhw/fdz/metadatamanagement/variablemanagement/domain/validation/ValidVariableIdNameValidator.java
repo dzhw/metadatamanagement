@@ -32,15 +32,19 @@ public class ValidVariableIdNameValidator
   @Override
   public boolean isValid(Variable variable, ConstraintValidatorContext context) {
 
-    // check for set project id
-    if (variable.getDataAcquisitionProjectId() == null
-        || variable.getName() == null || variable.getDataSetNumber() == null) {
-      return false;
-    }
+    if (variable.isShadow()) {
+      return true;
+    } else {
+      // check for set project id
+      if (variable.getDataAcquisitionProjectId() == null
+          || variable.getName() == null || variable.getDataSetNumber() == null) {
+        return false;
+      }
 
-    return variable.getId()
-      .equals("var-" + variable.getDataAcquisitionProjectId() + "-ds" + variable.getDataSetNumber()
-      + "-" + variable.getName() + "$");
+      return variable.getId()
+          .equals("var-" + variable.getDataAcquisitionProjectId() + "-ds"
+              + variable.getDataSetNumber() + "-" + variable.getName() + "$");
+    }
   }
 
 }

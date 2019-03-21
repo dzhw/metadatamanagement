@@ -31,6 +31,8 @@ public class SurveyNestedDocument extends AbstractNestedSubDocument {
 
   private I18nString surveyMethod;
 
+  private String masterId;
+
   /**
    * Create the subdocument.
    * 

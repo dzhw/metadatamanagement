@@ -123,6 +123,7 @@ Desktop.ini
 *~
 .merge_file*
 *.pyc
+.attach*
 
 ######################
 # Gradle Wrapper

@@ -1,16 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.core.env.Profiles;
-import org.springframework.stereotype.Component;
-
 import com.github.zafarkhaja.semver.Version;
-
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
+import java.util.regex.Pattern;
 
 /**
  * Generate DOIs which will be sent to DARA on release of a {@link DataAcquisitionProject}.
@@ -21,6 +22,8 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySub
 public class DoiBuilder {
   @Autowired
   private Environment environment;
+
+  private static final Pattern VERSION_SUFFIX = Pattern.compile("-[0-9]+\\.[0-9]+\\.[0-9]+$");
 
   /**
    * Create a doi for releases greater than or equal to 1.0.0.
@@ -33,13 +36,21 @@ public class DoiBuilder {
     if (release != null && study != null
         && Version.valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))) {
       if (environment.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_PROD))) {
-        return "10.21249/DZHW:" + study.getDataAcquisitionProjectId() + ":"
+        return "10.21249/DZHW:" + stripVersionSuffix(study.getDataAcquisitionProjectId()) + ":"
             + release.getVersion();
       } else {
-        return "10.5072/DZHW:" + study.getDataAcquisitionProjectId() + ":"
+        return "10.5072/DZHW:" + stripVersionSuffix(study.getDataAcquisitionProjectId()) + ":"
             + release.getVersion();
       }
     }
     return null;
+  }
+
+  private String stripVersionSuffix(String dataAcquisitionProjectId) {
+    if (StringUtils.hasText(dataAcquisitionProjectId)) {
+      return VERSION_SUFFIX.matcher(dataAcquisitionProjectId).replaceFirst("");
+    } else {
+      return dataAcquisitionProjectId;
+    }
   }
 }

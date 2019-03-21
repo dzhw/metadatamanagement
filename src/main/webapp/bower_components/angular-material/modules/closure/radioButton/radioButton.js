@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.10
+ * v1.1.14-master-7674959
  */
 goog.provide('ngmaterial.components.radioButton');
 goog.require('ngmaterial.core');
@@ -88,7 +88,7 @@ function mdRadioGroupDirective($mdUtil, $mdConstant, $mdTheming, $timeout) {
         }, 100);
       })
       .on('focus', function() {
-        if(scope.mouseActive === false) {
+        if (scope.mouseActive === false) {
           rgCtrl.$element.addClass('md-focused');
         }
       })

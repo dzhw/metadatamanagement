@@ -29,6 +29,32 @@
 					}
 				}
 			},
+			"successorId": {
+				"type": "keyword",
+				"copy_to": "all",
+				"fields": {
+					"ngrams": {
+						"type": "text",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
+			},
+			"masterId": {
+				"type": "keyword",
+				"copy_to": "all",
+				"fields": {
+					"ngrams": {
+						"type": "text",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
+			},
+			"shadow": {
+				"type": "boolean",
+				"copy_to": "all"
+			},
 			"completeTitle": {
 				"type": "object",
 				"properties": {
@@ -168,35 +194,6 @@
 			"population": {
 				"type": "object",
 				"properties": {
-					"title": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"index": false,
-								"copy_to": "all",
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
-							},
-							"en": {
-								"type": "text",
-								"index": false,
-								"copy_to": "all",
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
-							}
-						}
-					},
 					"description": {
 						"type": "object",
 						"properties": {
@@ -376,6 +373,9 @@
 					"id": {
 						"type": "keyword"
 					},
+					"masterId": {
+						"type": "keyword"
+					},
 					"title": {
 						"type": "object",
 						"properties": {
@@ -442,6 +442,9 @@
 					"id": {
 						"type": "keyword"
 					},
+					"masterId": {
+						"type": "keyword"
+					},
 					"surveyIds": {
 						"type": "keyword"
 					},
@@ -486,6 +489,9 @@
 				"type": "nested",
 				"properties": {
 					"id": {
+						"type": "keyword"
+					},
+					"masterId": {
 						"type": "keyword"
 					},
 					"dataSetId": {
@@ -541,6 +547,9 @@
 					"id": {
 						"type": "keyword"
 					},
+					"masterId": {
+						"type": "keyword"
+					},
 					"surveyIds": {
 						"type": "keyword"
 					},
@@ -587,6 +596,9 @@
 					"id": {
 						"type": "keyword"
 					},
+					"masterId": {
+						"type": "keyword"
+					},
 					"instrumentId": {
 						"type": "keyword"
 					},
@@ -618,6 +630,14 @@
 								"type": "keyword"
 							}
 						}
+					}
+				}
+			},
+			"release": {
+				"type": "object",
+				"properties": {
+					"version": {
+						"type": "keyword"
 					}
 				}
 			}

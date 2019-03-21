@@ -116,6 +116,10 @@ angular.module('metadatamanagementApp').config(
             },
             'studies': {
               'one': 'Klicken, um die Studie dieser Erhebung anzuzeigen'
+            },
+            'questions': {
+              'one': 'Klicken, um die Frage dieser Erhebung anzuzeigen.',
+              'many': 'Klicken, um die Fragen dieser Erhebung anzuzeigen.'
             }
           }
         },
@@ -183,14 +187,9 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'population': {
-            'title': {
-              'not-null': 'Der Titel der Grundgesamtheit darf nicht leer sein!',
-              'i18n-string-not-empty': 'Der Titel der Grundgesamtheit muss mindestens in einer Sprache vorliegen.',
-              'i18n-string-size': 'Die Maximallänge des Titels der Grundgesamtheit ist 512 Zeichen.'
-            },
             'description': {
               'not-null': 'Die Beschreibung der Grundgesamtheit darf nicht leer sein!',
-              'i18n-string-not-empty': 'Die Beschreibung der Grundgesamtheit muss mindestens in einer Sprache vorliegen.',
+              'i18n-string-not-empty': 'Die Beschreibung der Grundgesamtheit muss in beiden Sprachen vorliegen.',
               'i18n-string-size': 'Die Maximallänge des Beschreibung der Grundgesamtheit ist 2048 Zeichen.'
             }
           },

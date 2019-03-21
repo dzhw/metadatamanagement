@@ -7,10 +7,13 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('relatedPublicationDetail', {
         parent: 'site',
-        url: '/publications/{id}?{search-result-index}',
+        url: '/publications/{id}',
         reloadOnSearch: false,
         data: {
           authorities: []
+        },
+        params: {
+          'search-result-index': null
         },
         views: {
           'content@': {
@@ -27,6 +30,6 @@ angular.module('metadatamanagementApp')
                 $stateParams.id);
             }
           ]
-        },
+        }
       });
   });

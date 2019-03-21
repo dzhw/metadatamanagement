@@ -29,6 +29,32 @@
 					}
 				}
 			},
+			"masterId": {
+				"type": "keyword",
+				"copy_to": "all",
+				"fields": {
+					"ngrams": {
+						"type": "text",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
+			},
+			"successorId": {
+				"type": "keyword",
+				"copy_to": "all",
+				"fields": {
+					"ngrams": {
+						"type": "text",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
+			},
+			"shadow": {
+				"type": "boolean",
+				"copy_to": "all"
+			},
 			"completeTitle": {
 				"type": "object",
 				"properties": {
@@ -279,6 +305,9 @@
 					"id": {
 						"type": "keyword"
 					},
+					"masterId": {
+						"type": "keyword"
+					},
 					"title": {
 						"type": "object",
 						"properties": {
@@ -305,6 +334,9 @@
 				"type": "nested",
 				"properties": {
 					"id": {
+						"type": "keyword"
+					},
+					"masterId": {
 						"type": "keyword"
 					},
 					"dataSetId": {
@@ -349,19 +381,6 @@
 						"copy_to": [
 							"all"
 						]
-					},
-					"population": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"index": false
-							},
-							"en": {
-								"type": "text",
-								"index": false
-							}
-						}
 					},
 					"title": {
 						"type": "object",
@@ -442,6 +461,9 @@
 					"id": {
 						"type": "keyword"
 					},
+					"masterId": {
+						"type": "keyword"
+					},
 					"title": {
 						"type": "object",
 						"properties": {
@@ -472,6 +494,9 @@
 				"type": "nested",
 				"properties": {
 					"id": {
+						"type": "keyword"
+					},
+					"masterId": {
 						"type": "keyword"
 					},
 					"surveyIds": {
@@ -518,6 +543,9 @@
 				"type": "nested",
 				"properties": {
 					"id": {
+						"type": "keyword"
+					},
+					"masterId": {
 						"type": "keyword"
 					},
 					"instrumentId": {
@@ -589,6 +617,14 @@
 								"norms": false
 							}
 						}
+					}
+				}
+			},
+			"release": {
+				"type": "object",
+				"properties": {
+					"version": {
+						"type": "keyword"
 					}
 				}
 			}

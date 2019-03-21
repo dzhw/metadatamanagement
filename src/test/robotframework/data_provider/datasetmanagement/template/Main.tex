@@ -1,0 +1,493 @@
+\documentclass[ngerman]{book}
+
+\ifx\directlua\undefined\ifx\XeTeXcharclass\undefined
+  \usepackage[utf8]{inputenc}                %pdftex engine
+  \else\RequirePackage[no-math]{fontspec}\fi %xetex engine
+  \else\RequirePackage[no-math]{fontspec}\fi %luatex engine
+
+\usepackage[marginalspalte]{dsreport}
+\usepackage{verbatim}
+
+%formatting numbers
+\usepackage[locale = DE]{siunitx}
+
+%support bold siunitx formatted numbers in table cells
+\usepackage{etoolbox}
+\robustify\bfseries
+
+%siunitx defaults
+%numbers in german notation using thousand seperators
+%zahlen werden auf zwei stellen gerundet, integer erhalten keine nachfolgenden nullen
+%detect-weight and detect-inline-weight are used to make a single cell bold
+\sisetup{%
+	output-decimal-marker={,},
+	group-separator={.},
+	group-digits=integer,
+	group-minimum-digits=4,
+	detect-weight=true,
+	detect-inline-weight=math,
+        detect-all
+}
+
+
+
+%Definitionen aus alter Datei, was wird davon gebraucht?
+    \usepackage{pgfplots}
+    \usepackage{filecontents}
+
+    %For Debugging
+    %\tracingstats=1
+
+    %Disable Shorthands for Babel Package
+    \let\LanguageShortHands\languageshorthands
+    \def\languageshorthands#1{}
+
+    % PGF Plots Definitions
+    \pgfplotsset{compat=newest}
+    \usepgfplotslibrary{statistics}
+    \setlength{\columnsep}{1cm}
+
+
+
+
+\subject{Datensatzreport}
+%\author{Autor(in) 1 / Autor(in) 2}
+\title{Variablendokumentation: ${study.title.de}}
+\subtitle{Datensatz ${dataSet.number}}
+\version{Version ${(lastRelease.version)!"\"Noch nicht freigegeben!\""}}
+%\date{März \number\year}
+\bibliogrAngaben{}
+% \impressum{%
+%   Autor(inn)en:\\
+%   Autor(in) 1\\
+%   Autor(in) 2\par
+%   \vskip\baselineskip
+%   Unter Mitarbeit von:\\
+%   Person 3 (Lektorat)\\
+%   Person 4 (Lektorat)}
+
+\newcolumntype{P}{>{\RaggedRight\arraybackslash}p}
+\newcolumntype{Q}{>{\RaggedRight\arraybackslash}X}
+\usepackage{filecontents}
+\usepackage{ltxtable}
+
+
+%The Styling of \section-Headline has to be finalised
+%Try 1
+    \usepackage[explicit]{titlesec}
+    \usepackage{lipsum}
+
+    \titleformat{\section}
+    {\normalfont\Large\bfseries}{}{0em}{\colorbox{spot}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{\textcolor{white}{\thesection\quad#1}}}}
+    \titleformat{name=\section,numberless}
+    {\normalfont\Large\bfseries}{}{0em}{\colorbox{spot}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{\textcolor{white}{#1}}}}
+
+%Try 2
+\begin{comment}
+    \usepackage{titlesec}
+    \newcommand\specialsection{%
+	    \titleformat*{\section}{\centering\scshape\Large}
+    }
+    \newcommand\regularsection{%
+	    \titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+    }
+\end{comment}
+
+
+
+\begin{document}
+\frontmatter
+\maketitle
+\tableofcontents
+%\listoffigures
+%\listoftables
+
+
+
+\mainmatter
+% \chapter*{Einleitung}\label{sec:mylabel3}
+% Einleitender Text zum Datensatzreport.
+
+
+% \chapter*{Übersicht zum DZHW-Absolventenpanel 2005}\label{sec:mylabel4}
+
+% \begin{filecontents}{uebersicht.tex}
+% \begin{longtable}{P{12em}Q}\toprule
+%   \textbf{Studienreihe}
+% 				 & DZHW-Absolventenstudien\\\midrule
+%   \textbf{Kohorte}
+% 				 & Absol\-vent(inn)en\-kohorte 2005 (5. Kohorte der Studienreihe)\\\midrule
+%   \textbf{Erhebende Institution}
+% 				 & Deutsches Zentrum für Hochschul- und Wissenschaftsforschung (DZHW)\\\midrule
+%   \textbf{Förderung}
+% 				 & Bundesministerium für Bildung und Forschung (BMBF)\\\midrule
+%   \textbf{Projektmitarbeiter(innen)}\par \textbf{(\underline{Projektleitung})}
+% 				 & \underline{Kolja Briedis}, Michael Grotheer, Sören Isleib, \underline{Karl-Heinz Minks}, Nicolai Netz\\\midrule
+%   \textbf{Themen}
+% 				 & Studienverlauf\par Übergang in den Beruf\par Beruf"|licher Werdegang\par Weiterqualifizierung\\\midrule
+%   \textbf{Erhebungsdesign}
+% 				 & Kohorten-Panel-Design\\\midrule
+%   \textbf{Grundgesamtheit}
+% 				 & Hochschulabsolvent(inn)en, die im Wintersemester 2004\slash2005 oder im Sommersemester 2005 ihren ersten berufsqualifizierenden Studienabschluss an einer staatlich anerkannten Hochschule in der Bundesrepublik Deutschland erworben haben (mit Ausnahme der Absolvent(inn)en von Bundeswehrhochschulen, Verwaltungsfachhochschulen, Berufsakademien und Fernhochschulen)\\\midrule
+%   \textbf{Stichproben}           & Absolvent(inn)en traditioneller Studiengänge:\par quotierte geschichtete Klumpenstichprobe\par Absolvent(inn)en aus Bachelor-Studiengängen:\par bewusste Auswahl\\\midrule
+%   \textbf{Erhebungsmethode}
+% 				 & \href{https://www.google.de/search?q=Standardisiert & spell=1 & sa=X & ved=0ahUKEwiTk9W1jNLLAhUhA3MKHXpnAQUQvwUIGigA}{Standardisiert}e postalische Befragung\\\midrule
+%   \textbf{Erhebungszeitraum}
+% 				 & 1. Welle: Januar 2006 bis Mai 2007\par 2. Welle: Dezember 2010 bis September 2011\\\midrule
+%   \textbf{Auswertbare Fälle} & 1. Welle: n = 11.788 (davon 1.622 Bachelor-Absolvent(inn)en)\par 2. Welle: n = 6.459 (davon 797 Bachelor-Absolvent(inn)en)\\\midrule
+%   \textbf{Rücklaufquote}
+% 				 & 1. Welle: 24,7\,\%\par 2. Welle: 60,3\,\%\\\midrule
+%   \textbf{Datenprodukte und}\par \textbf{Zugangswege}
+% 				 & CUF: Download\par SUF: Download, Remote-Desktop, On-Site\\\midrule
+%   \textbf{Datensatzstruktur}
+%  & Personendatensätze im wide-Format\par Episodendatensätze im long-Format\\\midrule
+%   \textbf{Besonderheiten der Daten}
+%  & Getrennte Datensätze für Absolvent(inn)en traditioneller Studiengänge und Bachelorabsolvent(inn)en wegen unterschiedlicher Stichprobenziehung\\\midrule
+%   \textbf{DOI}
+%  & xx.xxxx/FDZ-DZHW:gds2005:x.x.x.\\\midrule
+%   \textbf{Weitere Informationen}
+%  & \url{https://fdz.dzhw.eu}\\\midrule
+%   \multicolumn{2}{p{\dimexpr\hsize-2\tabcolsep}}{\textbf{Projektpublikationen*}\par Briedis, K. (2007). \textit{Übergänge und Erfahrungen nach dem Hochschulabschluss. Ergebnisse der HIS-Absolventenbefragung 2005} (HIS: Forum Hochschule 13/2007). Hannover: HIS.\par Briedis, K. \& Minks, K.-H. (2007). \textit{Generation Praktikum. Mythos oder Massenphänomen}. Hannover: HIS.\par Grotheer, M., Isleib, S., Netz, N. \& Briedis, K. (2012). \textit{Hochqualifiziert und gefragt. Ergebnisse der zweiten HIS-HF Absolventenbefragung des Jahrgangs 2005} (HIS: Forum Hochschule 14/2012). Hannover: HIS.\par {\small* Alle Projektpublikationen werden auf der Website des Projektes (\href{http://www.dzhw.eu/projekte/pr_show?pr_id=298}{http://www.dzhw.eu/projekte/pr\_show?pr\_id=298}) zum Download bereitgestellt.\par}~\vspace{-\baselineskip}}\\\midrule
+%   \multicolumn{2}{p{\dimexpr\hsize-2\tabcolsep}}{\textbf{Publikationen zum Datensatz (Auswahl)}\par Schaeper, H. (2009). Development of competencies and teaching--learning arrangements in higher education: findings from Germany. \textit{Studies in Higher Education, 34} (6), 677--697. \doi{doi:10.1080/03075070802669207}\par Jaksztat, S. (2014). Bildungsherkunft und Promotionen: Wie beeinflusst das elterliche Bildungsniveau den Übergang in die Promotionsphase? \textit{Zeitschrift für Soziologie, 43} (4), 286--301.\par Schaeper, H., Grotheer, M. \& Brandt, G. (2014). Familiengründung von Hochschulabsolventinnen. Eine empirische Untersuchung verschiedener Examenskohorten. In D. Konietzka \& M. Kreyenfeld (Hrsg.), \textit{Ein Leben ohne Kinder} (2. Aufl., S.~47--80). Wiesbaden: Springer VS. \doi{doi:10.1007/978-3-531-94149-3\_2}\par Kratz, F. \& Netz, N. (2016). Which mechanisms explain monetary returns to international student mobility? \textit{Studies in Higher Education.} \doi{doi:10.1080/03075079.2016.1172307}}\\\midrule
+%   \end{longtable}
+% \end{filecontents}
+% {\makeatletter\@margincolreset\makeatother
+% \LTXtable{140mm}{uebersicht}
+% \addtocounter{table}{-1}
+% \clearpage}
+
+
+
+% \chapter*{Nutzungshinweise zum Datensatzreport}\label{sec:mylabel5}
+% Text mit Nutzungshinweisen zum Datensatzreport.
+
+
+
+% \chapter{Datenaufbereitung}\label{sec:mylabel11}
+
+% Im Folgenden werden die verschiedenen Schritte der Datenaufbereitung beschrieben. Diese erfolgten in
+% der ersten und zweiten Befragungswelle analog. Die Aufbereitungsprozesse der Gewichtung und
+% Anonymisierung werden in den beiden folgenden Kapiteln~7 und 8 gesondert erläutert.
+
+
+% \section{Codierung offener Angaben}\label{subsec:mylabel4}
+
+% Vor der Datenübertragung erfolgte eine Codierung der (halb-)offenen Angaben. Dabei wurden diesen
+% anhand einer Codierliste numerische Codierungen zugeordnet. Je nach Variable wurden unterschiedliche
+% Codierlisten verwendet.  Es handelt sich um Klassifikationsschlüssel der amtlichen Statistik
+% (Klassifikation der Berufe, Schlüsselverzeichnis der Studenten- und Prüfungsstatistik etc.) oder um
+% bereits in anderen Studien eingesetzte projekteigene Schlüssel. Für einige Variablen wurden neue
+% projekteigene Codierlisten auf Basis der in den Daten des Absolventenpanels 2005 vorkommenden
+% Nennungen entwickelt. Für einige halboffene Fragen wurden keine neuen Variablen mit numerischen
+% Codierungen erstellt, sondern die Nennungen nur -- sofern möglich -- den vorhandenen (geschlossenen)
+% Antwortkategorien zugeordnet. Einzelne offene Fragen wurden überhaupt nicht vercodet, weil sie
+% vorwiegend als Kontextinformationen zur Codierung anderer offener Angaben erfasst
+% wurden.\footnote{Dies betrifft in beiden Wellen die typischen Arbeitsschwerpunkte, die neben der
+%   Berufsbezeichnung und dem Aufgabenbereich in Frage 5.1 in der ersten und Frage 4.12 in der zweiten
+%   Welle erhoben wurden. Die Angaben zu den typischen Arbeitsschwerpunkten dienten nur dazu,
+%   zusätzliche Informationen für die Codierung der ebenfalls offen abgefragten Berufsbezeichnung
+%   sowie des beruf"|lichen Aufgabenbereichs zu erhalten.}
+
+% In Tabelle~3 sind die codierten Merkmale sowie die
+% jeweils verwendete Codierliste dargestellt. Die Ausprägungen der
+% einzelnen Variablen sind im Variablenreport dokumentiert. Der Datensatz
+% beinhaltet ausschließlich die codierten numerischen Variablen, die
+% offenen Nennungen selbst sind nicht im Datensatz enthalten.
+
+% \begin{table}[ht]
+%   \begin{wide}\vskip-\baselineskip%
+%   \caption{Vercodete Merkmale und verwendete Codierlisten im DZHW-Absolventenpanel 2005}\label{tab6}
+%   \begin{tabularx}{166mm}{P{10em}QP{8em}}\toprule
+%     \textbf{Merkmal} & \textbf{Codierliste} & \textbf{Codierlisten-ID}\textsuperscript{b}               \\\midrule
+%     Studienfach & Destatis Schlüsselverzeichnis für die Studenten- und Prüfungsstatistik (WiSe 2004\slash2005 und SoSe 2005), Schlüssel~3.1
+%     & cl-destatis-studien\-fach-2005\textsuperscript{c}           \\[1ex]
+%     Studienabschluss
+%     & projekteigene Codierung
+%     & cl-dzhw-2                                                 \\[1ex]
+%     Fachlicher\par Studienschwerpunkt\par(für ausgewählte wirtschaftswissenschaftliche Fächer)
+%     & projekteigene Codierung
+%     & cl-dzhw-3                                                 \\[1ex]
+%     Hochschule
+%     & Destatis Schlüsselverzeichnis für die Studenten- und Prüfungsstatistik (WiSe 2004\slash2005 und SoSe 2005), Schlüssel 2.2
+%     & cl-destatis-hoch\-schule-2005\textsuperscript{d}            \\[1ex]
+%     Bundesland
+%     & Destatis Bundeslandschlüssel (entsprechend der ersten beiden Ziffern des Amtlichen Gemeindeschlüssels (AGS))
+%     & cl-destatis-bundes\-land-1990\textsuperscript{e}            \\[1ex]
+%     Ausland / Staats-angehörigkeit
+%     & projekteigene Codierung
+%     & cl-dzhw-1                                                 \\[1ex]
+%     Berufsbezeichnung
+%     & Welle~1: Destatis Klassifikation der Berufe 1992\par Welle~2: Destatis Klassifikation der Berufe 2010
+%     & cl-destatis-kldb-1992\par cl-destatis-kldb-\allowbreak 2010Vorversion \\[1ex]
+%     Beruf"|licher\par Aufgabenbereich\textsuperscript{a}
+%     & projekteigene Codierung
+%     & cl-dzhw-4                                                 \\[1ex]
+%     sonstige offene Abfragen
+%     & Zuordnung zu vorgegebenen Kategorien oder projekteigene Codierung
+%     & ---                                                       \\\bottomrule
+%   \end{tabularx}
+%   \begin{noten}
+%     \note{a} vgl. Frage~5.1 (Welle~1) und Frage 4.12 (Welle~2)%
+%     \note{b} Eine Codierlisten-ID wurde nur dann vergeben, wenn die Kategorien nicht aus den
+%     tatsächlichen Nennungen im Datensatz hergeleitet wurden, sondern sich aus einer Systematik
+%     ergeben.%
+%     \note{c} ergänzt um Codes aus älteren Schlüsselverzeichnissen, wenn Studienfächer nicht mehr im
+%     aktuellen Verzeichnis enthalten waren%
+%     \note{d} ergänzt um projekteigene Codes, wenn nicht zuordenbar (z.\,B. bei Hochschulen im
+%     Ausland)%
+%     \note{e} ergänzt um projekteigene Codes, wenn nicht zuordenbar
+%   \end{noten}
+%   \end{wide}%
+% \end{table}
+
+
+% \section{Generierung von Variablen}\label{subsec:mylabel6}
+
+% Neben den Variablen, die die codierten Antworten der Befragten enthalten, beinhaltet der Datensatz
+% des Absolventenpanels 2005 auch neu generierte Variablen. Dabei handelt es sich zum einen um
+% Variablen mit numerischen Codierungen von ursprünglich offenen Nennungen (vgl. Kapitel~6.2). Zum
+% anderen wurden im Forschungsfeld häufiger benötigte Variablen aus den Werten einer oder mehrerer
+% Quellvariablen generiert (z.\,B. Aggregation der Studienfächer zu Studienbereichen und Fächergruppen
+% oder Ableitung von Hochschultyp und Hochschulort aus den Hochschulvariablen). Der Variablenname
+% einer generierten Variablen ist im Datensatz durch das Suffix „\_g{\#}“ gekennzeichnet. Eine
+% Übersicht aller für das Absolventenpanel 2005 generierten Variablen sowie eine detaillierte
+% Dokumentation der einzelnen Variablen mit Angabe ihrer jeweiligen Ausprägungen und
+% Berechnungsvorschriften findet sich im Variablenreport.
+
+% Generierte Variablen wurden im Datensatz -- sofern möglich -- nach der jeweiligen Ausgangsvariable
+% positioniert. Sofern die Ausgangsvariable aufgrund von Anonymisierung nicht mehr im Datensatz
+% vorhanden ist (vgl.  Kapitel~8), nimmt die generierte Variable ihren Platz im Datensatz ein. Wurde
+% eine Variable aus verschiedenen Quellvariablen generiert, wurde sie hinter jene Variable eingefügt,
+% die ihr thematisch am nächsten ist. Falls eine eindeutige Zuordnung nicht möglich war, wurde die
+% generierte Variable am Ende des Datensatzes eingefügt.
+
+% \section{Erstellung der Datensätze}\label{subsec:mylabel7}
+
+% \leavevmode\marginpar{Zusammenführung der Wellen}\index{Zusammenführung der Wellen}Die Daten der
+% ersten und zweiten Befragungswelle wurden zusammengeführt. Die Zuordnung der Fälle erfolgte über die
+% im Rahmen der Feldphase vergebenen Identifikationsnummern der Befragten (vgl. Kapitel~4).
+
+% \leavevmode\marginpar{Erstellung von Personen- und Episodendatensatz}\index{Erstellung!von Personen-
+%   und Episodendatensatz}Die so zusammengeführten Daten wurden in zwei getrennten Datensätzen
+% abgelegt. Der \textit{Personendatensatz} enthält den Großteil der Befragungsdaten sowie die
+% zusätzlich generierten Variablen. Pro befragter Person existiert eine Datenzeile (wide-Format). Die
+% Reihenfolge der Variablen orientiert sich an der Reihenfolge der zugehörigen Fragen im
+% Fragebogen. Der \textit{Episodendatensatz} enthält nur die Antworten aus den Kalendarien (Frage 4.7
+% der ersten Welle, Frage 1.7 der zweiten Welle). Für jede befragte Person werden ein oder mehrere
+% Episoden gespeichert. Dabei ist eine Episode definiert als ein Zeitraum, in dem eine bestimmte
+% Tätigkeitsart (z.\,B.  Erwerbstätigkeit, Ausbildung) ausgeübt wird bzw. ein konkreter Status
+% (z.\,B. Elternzeit, Arbeitslosigkeit) besteht. Für jede Episode einer Person existiert jeweils eine
+% Datenzeile (long format). Die Struktur entspricht der gängigen Struktur für Episodendaten
+% (vgl. Scherer \& Brüderl, 2010, S.~1042). Die Episoden wurden fallweise sortiert, das heißt alle
+% Episoden einer Person folgen direkt aufeinander.  Verschiedene Tätigkeitsarten im selben Zeitraum
+% wurden jeweils als eigenständige Episode codiert. Wenn Tätigkeiten derselben Art unmittelbar
+% aufeinander folgten oder parallel ausgeübt wurden, wurden sie zu einer Episode
+% zusammengefasst. Daher geht aus den Episodendaten nicht hervor, ob eine Episode eine oder mehrere
+% Tätigkeiten derselben Art umfasst. Für Episoden der Tätigkeitsarten Erwerbstätigkeit und akademische
+% Weiterqualifizierung sind detailliertere Informationen jedoch in den entsprechenden Variablen des
+% Personendatensatzes enthalten. Die Daten dieser Variablen können mit den Episodendaten verbunden
+% werden. Das Zusammenführen von Personendatensatz und Episodendatensatz wird über die
+% Identifikationsnummer der Person (Variable: \textit{pid}) ermöglicht.
+
+% \leavevmode\marginpar{Abtrennung der Bachelor-Daten}\index{Abtrennung der Bachelor-Daten}Aufgrund
+% des angewendeten Stichprobenverfahrens (vgl. Kapitel~3) eignet sich die Stichprobe der
+% Bachelorabsolvent(inn)en nicht, um Aussagen zu treffen, die sich auf die Grundgesamtheit dieser
+% Gruppe beziehen. Aus diesem Grund wurden die Daten der Bachelorabsolvent(inn)en von denen der
+% Absolvent(inn)en traditioneller Studiengänge sowohl im Personen- als auch im Episodendatensatz
+% abgetrennt und in zwei gesonderten Datensätzen gespeichert.
+
+% \leavevmode\marginpar{Dateiformat}\index{Dateiformat}Alle Datensätze werden sowohl im Stata- als
+% auch im SPSS-Format bereitgestellt (vgl. Abschnitt III).
+
+% \section{Vergabe von Variablennamen, Variablenlabels und Wertelabels}\label{subsec:mylabel8}
+
+% \leavevmode\marginpar{Variablen- und Wertelabelvergabe}\index{Variablen- und Wertelabelvergabe}Für
+% Variablen- und Wertelabels wurden Formulierungen des Fragebogens übernommen oder prägnante
+% Kurzformen von Formulierungen gewählt. Dabei basieren die Variablenlabels in der Regel auf dem
+% entsprechenden Fragetext. Grundlage für die Wertelabels sind je nach Fragetyp die Texte der
+% Antwortoptionen bzw. eine Kombination der Texte von Frage und Antwortoption. Bei generierten
+% Variablen, denen bestimmte Klassifikationen zugrunde liegen, wurden für die Wertelabels die
+% Bezeichnungen der Schlüssel der Klassifikation wortgetreu übernommen. Die Variablen- und Wertelabels
+% liegen auf Deutsch und auf Englisch vor. Im SPSS-Format existiert für jede Sprache ein eigener
+% Datensatz. Im Stata-Format wurden zweisprachige Labels im gleichen Datensatz hinterlegt.
+
+% \leavevmode\marginpar{Variablenbenennung im Personendatensatz}\index{Variablenbenennung im
+%   Personendatensatz}Mit Ausnahme der Identifikatorvariablen pid sowie der Wellenvariablen
+% wave\footnote{Diese enthält die Information, welche Fälle nur an der ersten Welle bzw.  an beiden
+%   Wellen teilgenommen haben.}  wurden die Variablennamen im Personendatensatz nach einem
+% Präfix-Stamm-Suffix-Schema, das eine automatisierte Verarbeitung erleichtert, gebildet. Zudem
+% liefern die Variablennamen Metainformationen zur entsprechenden Variable. Das Präfix der Variable
+% enthält die Wellenkennung anhand eines Buchstabens. Im Stamm geht der Themenbereich, dem die
+% Variable zugeordnet ist, aus einem dreistelligen englischen Buchstabenkürzel hervor.  Tabelle~4
+% stellt die verschiedenen Themenbereiche des Absolventenpanels 2005 sowie das zugehörige Kürzel für
+% den Stamm des Variablennamens im Überblick dar. Das anhand eines Unterstriches vom Stamm abgetrennte
+% Suffix enthält verschiedene Zusatzinformationen, wie die Kenntlichmachung von generierten Variablen
+% sowie verschiedenen Datenzugangswegen.
+
+% Für Indikatoren, die in beiden Befragungswellen verwendet werden, wurden die Namen der zugehörigen
+% Variablen durch die Vergabe eines identischen Stammes harmonisiert.
+
+% Detaillierte Informationen zur Variablenbenennung im Absolventenpanel 2005 befinden sich im
+% Variablenreport und im Variablenbenennungskonzept des FDZ-DZHW.
+
+% \begin{table}[htbp]
+%   \caption{Themengebiete und Kürzel für Variablennamen des DZHW-Absolventenpanels 2005}\label{fig5}
+%   \advance\tabcolsep-0.5pt
+%   \begin{tabular*}{\hsize}{lell}\toprule
+%     \textbf{Themengebiets-Kürzel} & \textbf{Bedeutung (englisch)} & \textbf{Bedeutung (deutsch)}         \\\midrule
+%     \textbf{stu}                  & studies                       & Studium                              \\
+%     \textbf{occ}                  & occupation                    & Beschäftigung                        \\
+%     \textbf{ski}                  & skills                        & Fähigkeiten                          \\
+%     \textbf{fvt}                  & further vocational training   & Beruf"|liche Fort- und Weiterbildung \\
+%     \textbf{fec}                  & further education             & Aus- und Weiterbildung               \\
+%     \textbf{dem}                  & demographic information       & demographische Informationen         \\
+%     \textbf{wgt}                  & weights                       & Gewichtungsvariablen                 \\
+%     \textbf{sys}                  & system variables              & Systemvariablen                      \\\bottomrule
+%   \end{tabular*}
+% \end{table}
+
+% \leavevmode\marginpar{Variablenbenennung im Episodendatensatz}\index{Variablenbenennung im
+%   Episodendatensatz}Die Variablen im Episodendatensatz sind die Identifikationsnummer der befragten
+% Person (pid), die Identifikationsnummer der jeweiligen Episode (eid), die ausgeübte Tätigkeitsart
+% (status) sowie Beginn und Ende des Episodenzeitraums, der über vier Variablen (Monat: begin\_m und
+% end\_m; Jahr: begin\_y; end\_y) codiert wird.
+
+% \section{Codierung fehlender Werte}\label{subsec:mylabel9}
+
+% Zur Codierung fehlender Werte wurde im FDZ-DZHW eine übergreifende Systematik erstellt, um über
+% verschiedene Datensätze des DZHW hinweg eine einheitliche Missingcodierung gewährleisten zu
+% können. Fehlende Angaben wurden dabei durch dreistellige negative Werte codiert.  Tabelle~5 stellt
+% die verwendete Missingsystematik im Überblick dar. Die im Absolventenpanel 2005 verwendeten
+% Missingcodierungen sind hervorgehoben.
+
+% Sie lassen sich vier verschiedenen Gruppen zuordnen. In den ersten beiden Gruppen wird zwischen
+% fehlenden Werten aufgrund von Nicht-Beantwortung von Fragen seitens der Befragten (Nonresponse) und
+% fehlenden Werten aufgrund der Filterführung oder für Befragte nicht relevanten Fragen unterschieden
+% (Nicht zutreffend). Die dritte Gruppe beinhaltet Missingcodierungen, die durch das
+% Primärforschungsprojekt oder das FDZ im Zuge der Datenaufbereitung vergeben wurden (Editierter
+% fehlender Wert).  Zu dieser Gruppe gehören auch die Codierungen, die aufgrund von
+% Anonymisierungsmaßnahmen für bestimmte Variablen gesetzt wurden. Die vierte Gruppe umfasst spezielle
+% Missingcodierungen, die im Rahmen der Datenaufbereitung nur für bestimmte Items vergeben wurden
+% (z.\,B. „nicht gegeben“ bei den Items aocc17a, aocc17b und aocc17c, Frage 4.16, 1. Welle).
+
+% \begin{table}[htbp]%5
+%   \caption{Systematik des FDZ-DZHW für fehlende Werte}
+%     \begin{tabularx}{\hsize}{Qll}\toprule
+%       \textbf{Wertebereich}
+%       & \textbf{Code}
+%       & \textbf{Wertelabel}                                \\\midrule
+%       \textbf{\textminus 999 bis \textminus 990: Nonresponse}
+%       & \textminus 999
+%       & weiß nicht                                         \\
+%       & \textbf{\textminus 998}
+%       & \textbf{keine Angabe}                              \\
+%       & \textminus 997
+%       & keine Angabe (Antwortkategorie)                    \\
+%       & \textminus 996
+%       & Interviewabbruch                                   \\
+%       & \textbf{\textminus 995}
+%       & \textbf{keine Teilnahme (Panel)}                   \\
+%       & \textminus 994
+%       & verweigert                                         \\\midrule
+%       \textbf{\textminus 989 bis \textminus 970: Nicht zutreffend}
+%       & \textbf{\textminus 989}
+%       & \textbf{filterbedingt fehlend}                     \\
+%       & \textbf{\textminus 988}
+%       & \textbf{trifft nicht zu}                           \\
+%       & \textminus 987
+%       & designbedingt fehlend (Fragebogensplit)            \\
+%       & \textminus 986
+%       & designbedingt fehlend (Welle)\textsuperscript{a}                \\
+%       & \textminus 985
+%       & designbedingt fehlend (Kohorte)\textsuperscript{b} \\\midrule
+%       \textbf{\textminus 969 bis \textminus 950: Editierter fehlender Wert}
+%       & \textminus 969
+%       & unbekannter fehlender Wert\textsuperscript{c}                   \\
+%       & \textbf{\textminus 968}
+%       & \textbf{unplausibler Wert}\textsuperscript{d}          \\
+%       & \textbf{\textminus 967}
+%       & \textbf{anonymisiert}                              \\
+%       & \textbf{\textminus 966}
+%       & \textbf{nicht bestimmbar}\textsuperscript{e}           \\
+%       & \textminus 965
+%       & ungültige Mehrfachnennung                          \\
+%       \textbf{\textminus 949 bis \textminus 930: Item-spezifische fehlende Werte}\textsuperscript{f}
+%       & \textbf{\textminus 949}
+%       & \textbf{nicht gegeben}                             \\
+%       & \textbf{\textminus 948}
+%       & \textbf{läuft noch}                                \\
+%       \textbf{\textminus 929 bis \textminus 920: Andere fehlende Werte}
+%       & \textminus 929
+%       & Datenverlust                                       \\\bottomrule
+%     \end{tabularx}
+%     \begin{noten}
+%       \note{a} Dieser Wert wird nur für Datensätze im Long-Format vergeben.%
+%       \note{b} Dieser Wert wird nur in gepoolten Datensätzen vergeben.%
+%       \note{c} Dieser Wert wird vergeben, wenn keinerlei Ursache rekonstruiert werden
+%       kann.%
+%       \note{d} Angaben, die aufgrund unterschiedlicher Faktoren in der Codierphase als
+%       nicht plausibel eingestuft werden, erhalten diesen Wert. Eine exakte Rekonstruktion ist
+%       ggf. nicht mehr möglich.%
+%       \note{e} Diese Kategorie wird vergeben, wenn eine eindeutige Codierung nicht
+%       möglich ist, z.\,B. offene Angabe, die nicht vercodet werden konnte, da sie nicht lesbar ist.%
+%       \note{f} Die Ausprägungen dieser Missingkategorie sind definitionsgemäß für jeden
+%       Datensatz spezifisch.
+%   \end{noten}
+% \end{table}
+
+
+
+\variablesmatter
+
+
+\begin{comment}
+\chapter{Variablen}
+
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+\end{comment}
+
+
+\chapter{Variablen}
+\pagebreak
+
+\input{Variablelist}
+
+
+
+\backmatter
+
+
+
+% %References can be importet from file
+% \bibliographystyle{apa}
+% \nocite{*}
+% \bibliography{citavi-standardexport}
+
+
+
+% %references can be inserted manually
+% \begin{comment}
+% \begin{thebibliography}{0}
+% \bibitem[Blumenstiel \& Gummer(2015)]{bib1} Blumenstiel, J. E. \& Gummer, T. (2015). Prävention,
+%   Korrektur oder beides? Drei Wege zur Reduzierung von Nonresponse Bias mit Propensity Scores. In
+%   J. Schupp \& C. Wolf (Hrsg.), \textit{Nonresponse Bias. Qualitätssicherung
+%     sozialwissenschaftlicher Umfragen} (S.~13--44). Wiesbaden: Springer
+%   VS. \doi{doi:10.1007/978-3-658-10459-7}
+
+% \bibitem[M(1999)]{bib2} Briedis, K. (2007). \textit{Übergänge und Erfahrungen nach dem
+%     Hochschulabschluss. Ergebnisse der HIS-Absolventenbefragung 2005} (HIS: Forum Hochschule
+%   13/2007). Hannover: HIS.
+
+% \bibitem[M(1999)]{bib25} Valliant, R., Dever, J. A. \& Kreuter, F. (2013). \textit{Practical tools
+%     for designing andweighting survey samples}. New York, NY: Springer New
+%   York. \doi{doi:10.1007/978-1-4614-6449-5}
+% \end{thebibliography}
+% \end{comment}
+
+
+
+\printindex
+
+\end{document}

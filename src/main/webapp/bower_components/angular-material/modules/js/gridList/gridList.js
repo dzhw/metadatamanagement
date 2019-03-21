@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.10
+ * v1.1.14-master-7674959
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -345,7 +345,7 @@ function GridListDirective($interpolate, $mdConstant, $mdGridLayout, $mdMedia) {
     function getGridStyle(colCount, rowCount, gutter, rowMode, rowHeight) {
       var style = {};
 
-      switch(rowMode) {
+      switch (rowMode) {
         case 'fixed':
           style.height = DIMENSION({ unit: rowHeight, span: rowCount, gutter: gutter });
           style.paddingBottom = '';

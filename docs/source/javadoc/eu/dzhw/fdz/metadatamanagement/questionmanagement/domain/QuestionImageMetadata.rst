@@ -1,14 +1,4 @@
-.. java:import:: javax.validation Valid
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: javax.validation.constraints Size
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain Resolution
 
@@ -22,6 +12,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation ValidQuestionImageType
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -32,7 +24,21 @@
 
 .. java:import:: lombok NoArgsConstructor
 
+.. java:import:: lombok Setter
+
 .. java:import:: lombok ToString
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: javax.validation Valid
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
+
+.. java:import:: javax.validation.constraints Size
 
 QuestionImageMetadata
 =====================
@@ -40,7 +46,7 @@ QuestionImageMetadata
 .. java:package:: eu.dzhw.fdz.metadatamanagement.questionmanagement.domain
    :noindex:
 
-.. java:type:: @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class QuestionImageMetadata extends AbstractRdcDomainObject
+.. java:type:: @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class QuestionImageMetadata extends AbstractShadowableRdcDomainObject
 
    The metadata for one question images. One question image displays the question in one language with one given resolution.
 
@@ -69,6 +75,12 @@ fileName
    :outertype: QuestionImageMetadata
 
    The name of the images file. Must not be empty and must only contain (german) alphanumeric characters and "_","-" and ".".
+
+id
+^^
+
+.. java:field:: @Id @Setter private String id
+   :outertype: QuestionImageMetadata
 
 imageType
 ^^^^^^^^^

@@ -39,17 +39,21 @@ public class UniqueVariableNameInDataSetValidator implements
    */
   @Override
   public boolean isValid(Variable variable, ConstraintValidatorContext context) {
-    if (StringUtils.isEmpty(variable.getName()) && StringUtils.isEmpty(variable.getDataSetId())) {
-      return false;
+    if (variable.isShadow()) {
+      return true;
+    } else {
+      if (StringUtils.isEmpty(variable.getName()) && StringUtils.isEmpty(variable.getDataSetId())) {
+        return false;
+      }
+      List<IdAndVersionProjection> variables = variableRepository
+          .findIdsByNameAndDataSetId(variable.getName(), variable.getDataSetId());
+      if (variables.size() > 1) {
+        return false;
+      }
+      if (variables.size() == 1) {
+        return variables.get(0).getId().equals(variable.getId());
+      }
+      return true;
     }
-    List<IdAndVersionProjection> variables = variableRepository
-        .findIdsByNameAndDataSetId(variable.getName(), variable.getDataSetId());
-    if (variables.size() > 1) {
-      return false;
-    }
-    if (variables.size() == 1) {
-      return variables.get(0).getId().equals(variable.getId());
-    }
-    return true;
   }
 }

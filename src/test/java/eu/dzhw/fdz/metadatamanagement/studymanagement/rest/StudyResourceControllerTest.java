@@ -1,25 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
 
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
@@ -33,6 +13,28 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdmi
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * 
@@ -87,7 +89,7 @@ public class StudyResourceControllerTest extends AbstractTest {
     
     // create the study with the given id
     mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
-      .content(TestUtil.convertObjectToJsonBytes(study)))
+      .content(TestUtil.convertObjectToJsonBytes(study)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     // read the study under the new url
@@ -138,16 +140,17 @@ public class StudyResourceControllerTest extends AbstractTest {
     
     // create the study with the given id
     mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
-      .content(TestUtil.convertObjectToJsonBytes(study)))
+      .content(TestUtil.convertObjectToJsonBytes(study)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
     
     List<Person> authors = new ArrayList<>();
     authors.add(UnitTestCreateDomainObjectUtils.buildPerson("Another", null, "Author"));
     study.setAuthors(authors);
-    
-    // create the study with the given id
+
+    study.setVersion(0L);
+    // update the study with the given id
     mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
-      .content(TestUtil.convertObjectToJsonBytes(study)))
+      .content(TestUtil.convertObjectToJsonBytes(study)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().is2xxSuccessful());
 
     // read the study under the new url
@@ -167,7 +170,7 @@ public class StudyResourceControllerTest extends AbstractTest {
     
     // create the project with the given id
     mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
-      .content(TestUtil.convertObjectToJsonBytes(study)))
+      .content(TestUtil.convertObjectToJsonBytes(study)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     // delete the project under the new url
@@ -192,5 +195,38 @@ public class StudyResourceControllerTest extends AbstractTest {
       .content(TestUtil.convertObjectToJsonBytes(study)))
       .andExpect(status().is4xxClientError());
   }
-  
+
+  @Test
+  public void testCreateShadowCopyStudy() throws Exception {
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy("issue1991");
+    study.setId(study.getId() + "-1.0.0");
+
+    mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
+        .content(TestUtil.convertObjectToJsonBytes(study)).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
+  }
+
+  @Test
+  public void testUpdateShadowCopyStudy() throws Exception {
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy("issue1991");
+    study.setId(study.getId() + "-1.0.0");
+    studyRepository.save(study);
+
+    mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
+        .content(TestUtil.convertObjectToJsonBytes(study)).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+  }
+
+  @Test
+  public void testDeleteShadowCopyStudy() throws Exception {
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy("issue1991");
+    study.setId(study.getId() + "-1.0.0");
+    studyRepository.save(study);
+
+    mockMvc.perform(delete(API_STUDY_URI + "/" + study.getId()))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
+  }
 }

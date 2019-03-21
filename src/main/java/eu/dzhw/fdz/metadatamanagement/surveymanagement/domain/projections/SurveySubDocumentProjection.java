@@ -33,4 +33,6 @@ public interface SurveySubDocumentProjection
 
   I18nString getDataType();
 
+  String getMasterId();
+
 }

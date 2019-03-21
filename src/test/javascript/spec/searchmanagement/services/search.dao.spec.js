@@ -257,8 +257,6 @@ describe("search.dao.js", function() {
       expect(findQueryItem(capturedQuery, buildPredicate('id.ngrams', searchTerm))).toBeDefined();
       expect(findQueryItem(capturedQuery, buildPredicate('population.description.de.ngrams', searchTerm))).toBeDefined();
       expect(findQueryItem(capturedQuery, buildPredicate('population.description.en.ngrams', searchTerm))).toBeDefined();
-      expect(findQueryItem(capturedQuery, buildPredicate('population.title.de.ngrams', searchTerm))).toBeDefined();
-      expect(findQueryItem(capturedQuery, buildPredicate('population.title.en.ngrams', searchTerm))).toBeDefined();
       expect(findQueryItem(capturedQuery, buildPredicate('sample.de.ngrams', searchTerm))).toBeDefined();
       expect(findQueryItem(capturedQuery, buildPredicate('sample.en.ngrams', searchTerm))).toBeDefined();
     });

@@ -1,16 +1,4 @@
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: javax.validation.constraints Size
-
-.. java:import:: org.javers.core.metamodel.annotation Entity
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
@@ -28,6 +16,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation ValidStudyAttachmentType
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -38,7 +28,21 @@
 
 .. java:import:: lombok NoArgsConstructor
 
+.. java:import:: lombok Setter
+
 .. java:import:: lombok ToString
+
+.. java:import:: org.javers.core.metamodel.annotation Entity
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
+
+.. java:import:: javax.validation.constraints Size
 
 StudyAttachmentMetadata
 =======================
@@ -46,7 +50,7 @@ StudyAttachmentMetadata
 .. java:package:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain
    :noindex:
 
-.. java:type:: @Entity @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class StudyAttachmentMetadata extends AbstractRdcDomainObject
+.. java:type:: @Entity @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class StudyAttachmentMetadata extends AbstractShadowableRdcDomainObject
 
    Metadata which will be stored with each attachment of a \ :java:ref:`Study`\ .
 
@@ -79,7 +83,7 @@ fileName
 id
 ^^
 
-.. java:field:: @Id private String id
+.. java:field:: @Id @Setter private String id
    :outertype: StudyAttachmentMetadata
 
    The id of the attachment. Holds the complete path which can be used to download the file.

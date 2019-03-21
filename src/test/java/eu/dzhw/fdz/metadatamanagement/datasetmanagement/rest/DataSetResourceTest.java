@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
@@ -7,6 +8,7 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -17,6 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -101,7 +104,7 @@ public class DataSetResourceTest extends AbstractTest {
     // Act and Assert
     // create the variable with the given id
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
-      .content(TestUtil.convertObjectToJsonBytes(dataSet)))
+      .content(TestUtil.convertObjectToJsonBytes(dataSet)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     // check that auditing attributes have been set
@@ -137,7 +140,7 @@ public class DataSetResourceTest extends AbstractTest {
     // Act and Assert
     // create the DataSet with a survey but without a project
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
-      .content(TestUtil.convertObjectToJsonBytes(dataSet)))
+      .content(TestUtil.convertObjectToJsonBytes(dataSet)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
   
@@ -155,7 +158,7 @@ public class DataSetResourceTest extends AbstractTest {
     // Act and Assert
     // create the DataSet with a survey but without a project
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
-      .content(TestUtil.convertObjectToJsonBytes(dataSet)))
+      .content(TestUtil.convertObjectToJsonBytes(dataSet)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -174,7 +177,7 @@ public class DataSetResourceTest extends AbstractTest {
     // Act and Assert
     // create the DataSet with a survey but without a project
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
-        .content(TestUtil.convertObjectToJsonBytes(dataSet)))
+        .content(TestUtil.convertObjectToJsonBytes(dataSet)).contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest());
   }
 
@@ -189,7 +192,7 @@ public class DataSetResourceTest extends AbstractTest {
     // Act and Assert
     // create the DataSet with the given id but with an unknown survey
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
-      .content(TestUtil.convertObjectToJsonBytes(dataSet)))
+      .content(TestUtil.convertObjectToJsonBytes(dataSet)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().is2xxSuccessful());
   }
 
@@ -200,6 +203,7 @@ public class DataSetResourceTest extends AbstractTest {
     DataAcquisitionProject project1 = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     DataAcquisitionProject project2 = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project2.setId("testproject2");
+    project2.setMasterId("testproject2");
     this.dataAcquisitionProjectRepository.save(project1);
     this.dataAcquisitionProjectRepository.save(project2);
 
@@ -211,7 +215,7 @@ public class DataSetResourceTest extends AbstractTest {
     // Act and Assert
     // create the DataSet with the given id but with a survey from a different project
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
-      .content(TestUtil.convertObjectToJsonBytes(dataSet)))
+      .content(TestUtil.convertObjectToJsonBytes(dataSet)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().is2xxSuccessful()).andReturn();
   }
 
@@ -227,7 +231,7 @@ public class DataSetResourceTest extends AbstractTest {
 
     // create the DataSet with the given id
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
-      .content(TestUtil.convertObjectToJsonBytes(dataSet)))
+      .content(TestUtil.convertObjectToJsonBytes(dataSet)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     // delete the DataSet
@@ -258,15 +262,16 @@ public class DataSetResourceTest extends AbstractTest {
     // Act and Assert
     // create the DataSet with the given id
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
-      .content(TestUtil.convertObjectToJsonBytes(dataSet)))
+      .content(TestUtil.convertObjectToJsonBytes(dataSet)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     dataSet.getDescription()
       .setDe("Angepasst.");
+    dataSet.setVersion(0L);
 
     // update the DataSet with the given id
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
-      .content(TestUtil.convertObjectToJsonBytes(dataSet)))
+      .content(TestUtil.convertObjectToJsonBytes(dataSet)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().is2xxSuccessful());
 
     // read the updated DataSet and check the version
@@ -285,6 +290,47 @@ public class DataSetResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testCreateShadowCopyDataSet() throws Exception {
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet("issue1991", "test", 1);
+    dataSet.setId(dataSet.getId() + "-1.0.0");
+
+    mockMvc.perform(post(API_DATASETS_URI)
+        .content(TestUtil.convertObjectToJsonBytes(dataSet))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testUpdateShadowCopyDataSet() throws Exception {
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet("issue1991", "test", 1);
+    dataSet.setId(dataSet.getId() + "-1.0.0");
+
+    dataSetRepository.save(dataSet);
+
+    mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
+        .content(TestUtil.convertObjectToJsonBytes(dataSet))
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testDeleteShadowCopyDataSet() throws Exception {
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet("issue1991", "test", 1);
+    dataSet.setId(dataSet.getId() + "-1.0.0");
+
+    dataSetRepository.save(dataSet);
+
+    mockMvc.perform(delete(API_DATASETS_URI + "/" + dataSet.getId()))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testDeletingProjectDeletesDataSet() throws Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
@@ -298,7 +344,7 @@ public class DataSetResourceTest extends AbstractTest {
     // Act and Assert
     // create the DataSet with the given id
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
-      .content(TestUtil.convertObjectToJsonBytes(dataSet)))
+      .content(TestUtil.convertObjectToJsonBytes(dataSet)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     mockMvc.perform(delete("/api/data-acquisition-projects/" + project.getId()))

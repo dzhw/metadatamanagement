@@ -12,6 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -140,7 +141,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
 
     // create the instrument with the given id
     mockMvc.perform(put("/api/instruments/" + instrument.getId())
-      .content(TestUtil.convertObjectToJsonBytes(instrument)))
+      .content(TestUtil.convertObjectToJsonBytes(instrument)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
     
     MockMultipartFile attachment =

@@ -12,7 +12,11 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.projectman
    Configuration
    DaraUpdateQueueItem
    DataAcquisitionProject
+   FreeResourceTypes
+   ProjectReleasedEvent
    ProjectState
    Release
    Requirements
+   ShadowCopyQueueItem
+   ShadowCopyReleaseToDaraNotAllowed
 
