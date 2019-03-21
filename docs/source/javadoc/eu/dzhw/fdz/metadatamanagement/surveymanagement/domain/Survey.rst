@@ -8,15 +8,13 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringEntireNotEmpty
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringNotEmpty
-
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringSize
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
-
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain DataSet
 
@@ -25,6 +23,8 @@
 .. java:import:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain Study
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation ValidDataType
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation ValidSampleType
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation ValidSurveyIdName
 
@@ -157,10 +157,12 @@ responseRate
 sample
 ^^^^^^
 
-.. java:field:: @NotNull @I18nStringNotEmpty @I18nStringSize private I18nString sample
+.. java:field:: @NotNull @ValidSampleType private I18nString sample
    :outertype: Survey
 
-   The sampling method is the procedure for selecting sample members from a population. It must be specified in at least one language and it must not contain more than 2048 characters.
+   The sampling method is the procedure for selecting sample members from a population. It must match the controlled vocabulary specified by VFDB.
+
+   **See also:** \ `Catalog: GNERD: Sampling Procedure Educational Research (Version 1.0) <https://mdr.iqb.hu-berlin.de/#/catalog/1d791cc7-6d8d-dd35-b1ef-0eec9c31bbb5">`_\
 
 sampleSize
 ^^^^^^^^^^

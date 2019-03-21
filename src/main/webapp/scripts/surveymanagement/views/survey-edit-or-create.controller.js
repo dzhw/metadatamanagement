@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
       CommonDialogsService, LanguageService, AvailableSurveyNumbersResource,
       SurveyAttachmentResource, $q, StudyIdBuilderService, moment,
-      SurveyResponseRateImageUploadService, SurveySearchService,
+      SurveyResponseRateImageUploadService, SurveySearchService, $log,
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService) {
       var ctrl = this;
       var surveyMethodCache = {};
@@ -182,7 +182,7 @@ angular.module('metadatamanagementApp')
           .then(ctrl.updateElasticSearchIndex)
           .then(ctrl.onSavedSuccessfully)
           .catch(function(error) {
-              console.log(error);
+              $log.error(error);
               SimpleMessageToastService.openAlertMessageToast(
                 'survey-management.edit.error-on-save-toast',
                 {surveyId: ctrl.survey.id});
@@ -191,7 +191,11 @@ angular.module('metadatamanagementApp')
           // ensure that all validation errors are visible
           angular.forEach($scope.surveyForm.$error, function(field) {
             angular.forEach(field, function(errorField) {
-              errorField.$setTouched();
+              if (errorField.$setTouched) {
+                errorField.$setTouched();
+              } else if (errorField.$setDirty) {
+                errorField.$setDirty();
+              }
             });
           });
           SimpleMessageToastService.openAlertMessageToast(
@@ -205,7 +209,7 @@ angular.module('metadatamanagementApp')
           ElasticSearchAdminService.
             processUpdateQueue('surveys'),
           ElasticSearchAdminService.
-            processUpdateQueue('studies'),
+            processUpdateQueue('studies')
         ]);
       };
 
