@@ -11,6 +11,14 @@ angular.module('metadatamanagementApp')
       }
     };
 
+    var swapListItems = function(indexA, indexB) {
+      var list = $scope.geographicCoverages;
+      var itemB = list[indexB];
+      list[indexB] = list[indexA];
+      list[indexA] = itemB;
+      updateModelCtrl();
+    };
+
     $scope.onAddGeographicCoverage = function() {
       var geographicCoverage = {
         country: null,
@@ -33,5 +41,13 @@ angular.module('metadatamanagementApp')
         $scope.ngModelCtrl.$setDirty();
         updateModelCtrl();
       }
+    };
+
+    $scope.moveItemUp = function(index) {
+      swapListItems(index, index - 1);
+    };
+
+    $scope.moveItemDown = function(index) {
+      swapListItems(index, index + 1);
     };
   });

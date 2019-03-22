@@ -79,33 +79,31 @@
       <descriptionType>Abstract</descriptionType>
     </description>
   </descriptions>
-  <#if surveys?? && surveys?size gt 0>
-    <geographicCoverages>
-      <#list surveys as survey>
-        <#list survey.population.geographicCoverages as geographicCoverage>
-        <geographicCoverage>
-            <geographicCoverageControlled>${geographicCoverage.country}</geographicCoverageControlled>
-          <#if geographicCoverage.description?? && (geographicCoverage.description.de?has_content || geographicCoverage.description.en?has_content)>
-            <geographicCoveragesFree>
-              <#if geographicCoverage.description.de?has_content>
-                <geographicCoverageFree>
-                    <language>de</language>
-                    <freetext>${geographicCoverage.description.de}</freetext>
-                </geographicCoverageFree>
-              </#if>
-              <#if geographicCoverage.description.en?has_content>
-                <geographicCoverageFree>
-                    <language>en</language>
-                    <freetext>${geographicCoverage.description.en}</freetext>
-                </geographicCoverageFree>
-              </#if>
-            </geographicCoveragesFree>
-          </#if>
-        </geographicCoverage>
-        </#list>
+  <geographicCoverages>
+    <#list surveys as survey>
+      <#list survey.population.geographicCoverages as geographicCoverage>
+      <geographicCoverage>
+          <geographicCoverageControlled>${geographicCoverage.country}</geographicCoverageControlled>
+        <#if geographicCoverage.description?? && (geographicCoverage.description.de?has_content || geographicCoverage.description.en?has_content)>
+          <geographicCoveragesFree>
+            <#if geographicCoverage.description.de?has_content>
+              <geographicCoverageFree>
+                  <language>de</language>
+                  <freetext>${geographicCoverage.description.de}</freetext>
+              </geographicCoverageFree>
+            </#if>
+            <#if geographicCoverage.description.en?has_content>
+              <geographicCoverageFree>
+                  <language>en</language>
+                  <freetext>${geographicCoverage.description.en}</freetext>
+              </geographicCoverageFree>
+            </#if>
+          </geographicCoveragesFree>
+        </#if>
+      </geographicCoverage>
       </#list>
-    </geographicCoverages>
-  </#if>
+    </#list>
+  </geographicCoverages>
   <universes>
     <universe>
       <language>de</language>

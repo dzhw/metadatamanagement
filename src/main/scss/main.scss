@@ -1202,17 +1202,23 @@ project-status-badge > span, release-status-badge > span {
 geographic-coverage-list {
     display: block;
 
-    ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
+    div.fdz-geographic-coverage-item-controls {
+        padding-left: 8px;
     }
 
-    li:not(:last-child) {
-        border-bottom-style: solid;
-        border-bottom-width: 1px;
-        border-bottom-color: #000000;
-        margin-bottom: 8px;
+    md-card-content {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    ul {
+        padding: 0;
+        list-style: none;
+
+        geographic-coverage {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
     }
 }
 
@@ -1229,8 +1235,5 @@ geographic-coverage {
     padding: 0;
     li {
         margin: 0;
-        &:not(:last-child) {
-            margin-bottom: 8px;
-        }
     }
 }

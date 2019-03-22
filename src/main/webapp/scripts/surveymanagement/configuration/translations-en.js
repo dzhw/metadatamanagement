@@ -323,6 +323,8 @@ angular.module('metadatamanagementApp').config(
         },
         'geographic-coverage-list': {
           'tooltip': {
+            'move-item-up': 'Click to move this geographic coverage entry up',
+            'move-item-down': 'Click to move this geographic coverage entry down',
             'add-geographic-coverage': 'Click to add a new geographic coverage'
           },
           'hint': {

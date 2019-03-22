@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp').config(
             'surveys-same-study': 'Alle Erhebungen der Studie',
             'field-period': 'Feldzeit',
             'population': 'Grundgesamtheit',
-            'geographic-coverage': 'Untersuchungsumgebung',
+            'geographic-coverage': 'Untersuchungsgebiete',
             'data-type': 'Erhebungsdatentyp',
             'survey-method': 'Erhebungsmethode',
             'sample': 'Stichprobenverfahren',
@@ -323,6 +323,8 @@ angular.module('metadatamanagementApp').config(
         },
         'geographic-coverage-list': {
           'tooltip': {
+            'move-item-up': 'Klicken, um dieses Untersuchungsgebiet nach oben zu verschieben',
+            'move-item-down': 'Klicken, um dieses Untersuchungsgebiet nach unten zu verschieben',
             'add-geographic-coverage': 'Klicken, um ein neues Untersuchungsgebiet hinzuzufügen'
           },
           'hint': {

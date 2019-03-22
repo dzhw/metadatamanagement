@@ -5,6 +5,8 @@ describe('geographic-coverage-list.controller', function() {
 
   var $scope;
   var $controller;
+  var countryA;
+  var countryB;
 
   beforeEach(module('metadatamanagementApp'));
   beforeEach(inject(function(_$controller_, _$rootScope_) {
@@ -18,6 +20,20 @@ describe('geographic-coverage-list.controller', function() {
     };
     spyOn($scope.ngModelCtrl, '$setDirty');
     spyOn($scope.ngModelCtrl, '$validate');
+    countryA = {
+      country: 'US',
+      description: {
+        de: 'Vereinigte Staaten von Amerika',
+        en: 'United States'
+      }
+    };
+    countryB = {
+      country: 'DE',
+      description: {
+        de: 'Deutschland',
+        en: 'Germany'
+      }
+    };
   }));
 
   var verifyCreatedCountryItem = function(country) {
@@ -57,20 +73,6 @@ describe('geographic-coverage-list.controller', function() {
   });
 
   it('should delete a geographic coverage item from the array', function() {
-    var countryA = {
-      country: 'US',
-      description: {
-        de: 'Vereinigte Staaten von Amerika',
-        en: 'United States'
-      }
-    };
-    var countryB = {
-      country: 'DE',
-      description: {
-        de: 'Deutschland',
-        en: 'Germany'
-      }
-    };
     $scope.geographicCoverages = [countryA, countryB];
     $controller('GeographicCoverageListController', {$scope: $scope});
 
@@ -78,6 +80,30 @@ describe('geographic-coverage-list.controller', function() {
 
     expect($scope.geographicCoverages.length).toEqual(1);
     expect($scope.geographicCoverages[0]).toBe(countryB);
+    verifyNgModelCtrlInteraction();
+  });
+
+  it('should move an item up in the list', function() {
+    $scope.geographicCoverages = [countryA, countryB];
+    $controller('GeographicCoverageListController', {$scope: $scope});
+
+    $scope.moveItemUp(1);
+
+    expect($scope.geographicCoverages.length).toEqual(2);
+    expect($scope.geographicCoverages[0]).toEqual(countryB);
+    expect($scope.geographicCoverages[1]).toEqual(countryA);
+    verifyNgModelCtrlInteraction();
+  });
+
+  it('should move an item down in the list', function() {
+    $scope.geographicCoverages = [countryA, countryB];
+    $controller('GeographicCoverageListController', {$scope: $scope});
+
+    $scope.moveItemDown(0);
+
+    expect($scope.geographicCoverages.length).toEqual(2);
+    expect($scope.geographicCoverages[0]).toEqual(countryB);
+    expect($scope.geographicCoverages[1]).toEqual(countryA);
     verifyNgModelCtrlInteraction();
   });
 });
