@@ -1,9 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,20 +17,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateValidIds;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class DeleteAllQuestionsResourceControllerTest extends AbstractTest {
 
-  private static final String API_DELETE_ALL_QUESTIONS_URI = "/api/data-acquisition-projects";
+  private static final String API_PROJECT_URI = "/api/data-acquisition-projects";
   @Autowired
   private WebApplicationContext wac;
 
@@ -36,7 +35,8 @@ public class DeleteAllQuestionsResourceControllerTest extends AbstractTest {
   private MockMvc mockMvc;
 
   @Autowired
-  SurveyRepository surveyRepo;
+  private QuestionRepository questionRepo;
+
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
@@ -51,27 +51,36 @@ public class DeleteAllQuestionsResourceControllerTest extends AbstractTest {
   @After
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
-    surveyRepo.deleteAll();
+    questionRepo.deleteAll();
     javersService.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
   }
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
   public void testDeleteAllQuestionsOfProject() throws Exception {
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    dataAcquisitionProjectRepository.save(project);
-    String projectId = project.getId();
-    Survey testSurvey0 = UnitTestCreateDomainObjectUtils.buildSurvey(projectId);
-    Survey testSurvey1 = UnitTestCreateDomainObjectUtils.buildSurvey(projectId);
-    testSurvey0.setId(UnitTestCreateValidIds.buildSurveyId(projectId, 1));
-    testSurvey1.setId(UnitTestCreateValidIds.buildSurveyId(projectId, 2));
-    testSurvey0.setNumber(1);
-    testSurvey1.setNumber(2);
-    surveyRepo.insert(testSurvey0);
-    surveyRepo.insert(testSurvey1);
-    assertEquals(2, surveyRepo.findByDataAcquisitionProjectId(projectId).size());
-    mockMvc.perform(delete(API_DELETE_ALL_QUESTIONS_URI + "/" + projectId + "/"+"surveys")).andExpect(status().isNoContent());
-    assertEquals(0, surveyRepo.findByDataAcquisitionProjectId(projectId).size());
+    String projectId = "theproject";
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(projectId, 1, "instrumentid");
+    questionRepo.save(question);
+
+    assertEquals(1, questionRepo.findByDataAcquisitionProjectId(projectId).size());
+    mockMvc.perform(delete(API_PROJECT_URI + "/" + projectId + "/questions")).andExpect(status().isNoContent());
+    assertEquals(0, questionRepo.findByDataAcquisitionProjectId(projectId).size());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testDeleteAllShadowCopyQuestionsOfProject() throws Exception {
+    String masterProjectId = "issue1991";
+    String shadowCopyProjectId = masterProjectId + "-1.0.0";
+    Question question = UnitTestCreateDomainObjectUtils.buildQuestion(masterProjectId,1,"instrumentid");
+    question.setId(question.getId() + "-1.0.0");
+    question.setDataAcquisitionProjectId(shadowCopyProjectId);
+    questionRepo.save(question);
+
+    mockMvc.perform(delete(API_PROJECT_URI + "/" + shadowCopyProjectId + "/questions"))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
   }
 
 }

@@ -100,7 +100,8 @@ angular.module('metadatamanagementApp').config(
           },
           'navbar-feedback': 'Klicken, um Feedback zu geben oder einen Fehler zu melden',
           'navbar-documentation': 'Klicken, um die Benutzerdokumentation zu öffnen',
-          'navbar-usage-info': 'Klicken, um Hinweise für Datengeber zu erhalten'
+          'navbar-usage-info': 'Klicken, um Hinweise für Datengeber zu erhalten',
+          'navbar-project-overview': 'Klicken, um die Projektübersicht zu öffnen'
         },
         'feedback-dialog': {
           'toolbar-head': 'Feedback geben oder Fehler melden',
@@ -150,7 +151,8 @@ angular.module('metadatamanagementApp').config(
           'disclosure': 'Impressum',
           'notepad': 'Merkzettel',
           'documentation': 'Dokumentation',
-          'usage-info': 'Hinweise für Datengeber'
+          'usage-info': 'Hinweise für Datengeber',
+          'project-overview': 'Projektübersicht'
         },
         'form': {
           'username': 'Benutzername',

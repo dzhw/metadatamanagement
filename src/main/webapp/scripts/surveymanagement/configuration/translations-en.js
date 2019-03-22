@@ -116,6 +116,10 @@ angular.module('metadatamanagementApp').config(
             },
             'studies': {
               'one': 'Click to show the study of this survey'
+            },
+            'questions': {
+              'one': 'Click to show the question of this survey',
+              'many': 'Click to show all questions of this survey'
             }
           }
         },
@@ -183,14 +187,9 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'population': {
-            'title': {
-              'not-null': 'The title of the Population must not be empty!',
-              'i18n-string-not-empty': 'The title of the Population has to be given for one language.',
-              'i18n-string-size': 'The max length of the population title is 512 signs.'
-            },
             'description': {
               'not-null': 'The description of the Population must not be empty!',
-              'i18n-string-not-empty': 'The description of the Population has to be given for one language.',
+              'i18n-string-not-empty': 'The description of the population must not be empty for both languages.',
               'i18n-string-size': 'The max length of the population description is 2048 signs.'
             }
           },

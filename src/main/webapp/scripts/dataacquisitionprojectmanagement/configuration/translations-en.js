@@ -33,7 +33,7 @@ angular.module('metadatamanagementApp').config(
             'deleted-not-successfully-project': 'Could not delete Data Acquisition Project "{{ id }}"!',
             'released-successfully': 'The projects metadata has been sent to da|ra and the data of the project "{{ id }}" will be visible to all users in about 10 minutes.',
             'released-beta-successfully': 'The data of the project "{{ id }}" will be visible to all users in about 10 minutes. No metadata has been sent to da|ra.',
-            'unreleased-successfully': 'The data of the project "{{ id }}" will be visible to Data Providers only in about 10 minutes.',
+            'unreleased-successfully': 'The data of the project "{{ id }}" can now be edited by assigned Publishers and Data Providers.',
             'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. An error occured during sending metadata to da|ra.',
             'unrelease-title': 'Unrelease Project "{{ id }}"?',
             'unrelease': 'Do you really want to reduce visibility of the project "{{ id }}" to Data Providers only?',
@@ -183,7 +183,31 @@ angular.module('metadatamanagementApp').config(
             'title': 'Take back project',
             'text': 'Do you really want to withdraw this project from the data provider group?'
           }
-        }
+        },
+        'project-overview': {
+          'header': 'Project Overview',
+          'table': {
+            'project-name': 'Project',
+            'release-version': 'Current Version',
+            'assigned-group': 'Assigned Group',
+            'study-status': 'Study',
+            'surveys-status': 'Surveys',
+            'instruments-status': 'Instruments',
+            'data-sets-status': 'Data Sets',
+            'questions-status': 'Questions',
+            'variables-status': 'Variables',
+            'publisher': 'Publisher',
+            'data-provider': 'Data Provider',
+            'unreleased': 'unreleased',
+            'tooltip': 'Click to open the project cockpit for this project'
+          },
+          'pagination': {
+            'previous': 'Click to show previous projects',
+            'next': 'Click to show next projects',
+            'current': 'Click to show projects on page {{number}}'
+          }
+        },
+        'outdated-version-alert': 'This is an outdated document version ({{oldVersion}}). <a href="{{href}}">Click here to open the current version ({{newVersion}})!</a>'
       }
       //jscs:enable
     };

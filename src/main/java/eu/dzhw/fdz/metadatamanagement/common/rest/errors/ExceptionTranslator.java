@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 import com.mongodb.DuplicateKeyException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
 import freemarker.core.InvalidReferenceException;
 import freemarker.core.ParseException;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
@@ -332,6 +335,48 @@ public class ExceptionTranslator {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ErrorListDto handleOptimisticLockingFailureException() {
     ErrorDto errorDto = new ErrorDto(null, "global.error.optimistic-locking-failure", null, null);
+    ErrorListDto errorListDto = new ErrorListDto();
+    errorListDto.add(errorDto);
+    return errorListDto;
+  }
+
+  /**
+   * Handle {@link ShadowCopyUpdateNotAllowedException} thrown by attempts to
+   * update a shadowed domain object.
+   */
+  @ExceptionHandler(ShadowCopyUpdateNotAllowedException.class)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ErrorListDto handleShadowUpdateNotAllowedException() {
+    ErrorDto errorDto = new ErrorDto(null, "global.error.shadow-update-not-allowed", null, null);
+    ErrorListDto errorListDto = new ErrorListDto();
+    errorListDto.add(errorDto);
+    return errorListDto;
+  }
+
+  /**
+   * Handle {@link ShadowCopyCreateNotAllowedException} thrown by attempts to
+   * create a shadowed domain object.
+   */
+  @ExceptionHandler(ShadowCopyCreateNotAllowedException.class)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ErrorListDto handleShadowCreateNotAllowedException() {
+    ErrorDto errorDto = new ErrorDto(null, "global.error.shadow-create-not-allowed", null, null);
+    ErrorListDto errorListDto = new ErrorListDto();
+    errorListDto.add(errorDto);
+    return errorListDto;
+  }
+
+  /**
+   * Handle {@link ShadowCopyDeleteNotAllowedException} thrown by attempts to
+   * delete a shadowed domain object.
+   */
+  @ExceptionHandler(ShadowCopyDeleteNotAllowedException.class)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ErrorListDto handleShadowDeleteNotAllowedException() {
+    ErrorDto errorDto = new ErrorDto(null, "global.error.shadow-delete-not-allowed", null, null);
     ErrorListDto errorListDto = new ErrorListDto();
     errorListDto.add(errorDto);
     return errorListDto;

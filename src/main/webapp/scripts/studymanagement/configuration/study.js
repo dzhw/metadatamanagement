@@ -2,15 +2,42 @@
 
 angular.module('metadatamanagementApp')
   .config(function($stateProvider, $urlRouterProvider) {
+    var loadShadowCopy = function(StudySearchService, SimpleMessageToastService,
+                                  id, version) {
+      var loadLatestShadowCopyFallback = function() {
+        return StudySearchService.findShadowByIdAndVersion(id, null).promise
+          .then(function(result) {
+            if (result) {
+              return result;
+            } else {
+              SimpleMessageToastService.openSimpleMessageToast(
+                'study-management.detail.not-found', {id: id});
+              return null;
+            }
+          });
+      };
+
+      return StudySearchService.findShadowByIdAndVersion(id, version).promise
+        .then(function(result) {
+          if (result) {
+            return result;
+          } else {
+            return loadLatestShadowCopyFallback();
+          }
+        });
+    };
+
     $urlRouterProvider.when('/de/studies/', '/de/error');
     $urlRouterProvider.when('/en/studies/', '/en/error');
     $stateProvider
       .state('studyDetail', {
         parent: 'site',
-        url: '/studies/{id}?{search-result-index}{version}',
-        reloadOnSearch: false,
+        url: '/studies/{id}?,{version}',
         data: {
           authorities: []
+        },
+        params: {
+          'search-result-index': null
         },
         views: {
           'content@': {
@@ -21,9 +48,18 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'StudySearchService',
-            function($stateParams, StudySearchService) {
-              return StudySearchService.findOneById($stateParams.id);
+          entity: ['$q', '$stateParams', 'StudySearchService', 'Principal',
+            'SimpleMessageToastService', function($q, $stateParams,
+                StudySearchService, Principal, SimpleMessageToastService) {
+              if (Principal.loginName()) {
+                return StudySearchService.findOneById($stateParams.id);
+              } else {
+                var deferred = $q.defer();
+                loadShadowCopy(StudySearchService,
+                  SimpleMessageToastService, $stateParams.id,
+                  $stateParams.version).then(deferred.resolve, deferred.reject);
+                return deferred;
+              }
             }
           ]
         }

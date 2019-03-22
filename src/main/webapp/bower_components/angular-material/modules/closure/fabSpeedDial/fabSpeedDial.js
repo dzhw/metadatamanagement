@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.10
+ * v1.1.14-master-7674959
  */
 goog.provide('ngmaterial.components.fabShared');
 goog.require('ngmaterial.core');
@@ -189,7 +189,7 @@ goog.require('ngmaterial.core');
 
       // TODO: On desktop, we should be able to reset the indexes so you cannot tab through, but
       // this breaks accessibility, especially on mobile, since you have no arrow keys to press
-      //resetActionTabIndexes();
+      // resetActionTabIndexes();
     }
 
     function disableKeyboard() {

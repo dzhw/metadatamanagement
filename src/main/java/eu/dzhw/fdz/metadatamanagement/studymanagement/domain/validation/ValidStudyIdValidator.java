@@ -28,6 +28,10 @@ public class ValidStudyIdValidator implements ConstraintValidator<ValidStudyId, 
    */
   @Override
   public boolean isValid(Study study, ConstraintValidatorContext context) {
-    return study.getId().equals("stu-" + study.getDataAcquisitionProjectId() + "$");
+    if (study.isShadow()) {
+      return true;
+    } else {
+      return study.getId().equals("stu-" + study.getDataAcquisitionProjectId() + "$");
+    }
   }
 }

@@ -67,6 +67,7 @@ public class Task extends AbstractRdcDomainObject {
    *
    */
   public enum TaskType {
-    DATA_SET_REPORT;
+    DATA_SET_REPORT,
+    PROJECT_RELEASE
   }
 }

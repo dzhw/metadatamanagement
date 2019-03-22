@@ -1,4 +1,4 @@
-.. java:import:: java.time LocalDateTime
+.. java:import:: lombok Data
 
 .. java:import:: org.springframework.data.annotation CreatedBy
 
@@ -10,7 +10,7 @@
 
 .. java:import:: org.springframework.data.annotation Version
 
-.. java:import:: lombok Data
+.. java:import:: java.time LocalDateTime
 
 AbstractRdcDomainObject
 =======================

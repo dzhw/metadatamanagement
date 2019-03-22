@@ -56,9 +56,22 @@ angular.module('metadatamanagementApp').service(
       });
     };
 
+    var stripVersionSuffix = function(id) {
+      if (!id) {
+        return id;
+      }
+      var match = id.match(/-[0-9]+\.[0-9]+\.[0-9]+$/);
+      if (match !== null) {
+        return id.substr(0, match.index);
+      } else {
+        return id;
+      }
+    };
+
     return {
       releaseProject: releaseProject,
-      unreleaseProject: unreleaseProject
+      unreleaseProject: unreleaseProject,
+      stripVersionSuffix: stripVersionSuffix
     };
   }
 );

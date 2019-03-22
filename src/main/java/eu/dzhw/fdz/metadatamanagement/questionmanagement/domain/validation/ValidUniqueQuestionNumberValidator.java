@@ -36,23 +36,24 @@ public class ValidUniqueQuestionNumberValidator
    */
   @Override
   public boolean isValid(Question question, ConstraintValidatorContext context) {
-    if (question.getInstrumentId() != null
-        && question.getNumber() != null) {
-        
-      List<IdAndVersionProjection> existingQuestions = 
-          questionRepository.findIdsByInstrumentIdAndNumber(question.getInstrumentId(),
-          question.getNumber());
-      if (existingQuestions.isEmpty()) {
-        return true;
-      } else {
-        if (existingQuestions.get(0).getId().equals(question.getId())) {
-          //we are updating this question
+    if (question.isShadow()) {
+      return true;
+    } else {
+      if (question.getInstrumentId() != null
+          && question.getNumber() != null) {
+
+        List<IdAndVersionProjection> existingQuestions =
+            questionRepository.findIdsByInstrumentIdAndNumber(question.getInstrumentId(),
+                question.getNumber());
+        if (existingQuestions.isEmpty()) {
           return true;
         } else {
-          return false;
+          //we are updating this question
+          return existingQuestions.get(0).getId().equals(question.getId());
         }
       }
+      return true;
     }
-    return true;
+
   }
 }

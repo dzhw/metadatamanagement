@@ -1,21 +1,22 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
-import org.springframework.data.annotation.Id;
-
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * Metadata which will be stored with each response rate image of a {@link Survey}.
@@ -26,12 +27,13 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-public class SurveyResponseRateImageMetadata extends AbstractRdcDomainObject {
+public class SurveyResponseRateImageMetadata extends AbstractShadowableRdcDomainObject {
   /**
    * The id of the response rate image. Holds the complete path which can be used to download the
    * file.
    */
   @Id
+  @Setter(AccessLevel.NONE)
   private String id;
 
   /**
@@ -91,6 +93,11 @@ public class SurveyResponseRateImageMetadata extends AbstractRdcDomainObject {
    */
   public void generateId() {
     // hack to satisfy javers
-    this.id = "/public/files/surveys/" + surveyId + "/" + fileName;
+    this.setId("/public/files/surveys/" + surveyId + "/" + fileName);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

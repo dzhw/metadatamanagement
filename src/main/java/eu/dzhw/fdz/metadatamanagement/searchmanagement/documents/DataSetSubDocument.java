@@ -46,6 +46,8 @@ public class DataSetSubDocument extends AbstractRdcDomainObject
   private String studyId;
 
   private List<String> surveyIds;
+
+  private String masterId;
  
   /**
    * Create the sub document from the given projection.

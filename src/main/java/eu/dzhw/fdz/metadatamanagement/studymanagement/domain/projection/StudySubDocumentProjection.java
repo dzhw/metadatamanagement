@@ -29,4 +29,6 @@ public interface StudySubDocumentProjection
   I18nString getSurveyDesign();
 
   I18nString getDataAvailability();
+
+  String getMasterId();
 }

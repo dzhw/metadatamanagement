@@ -8,14 +8,17 @@ angular.module('metadatamanagementApp')
     function(entity, $state, ToolbarHeaderService,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
-      $stateParams, QuestionImageMetadataResource, $mdMenu, $timeout,
-      ProductChooserDialogService) {
-      SearchResultNavigatorService.registerCurrentSearchResult(
-            $stateParams['search-result-index']);
+      QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
+      ProductChooserDialogService, OutdatedVersionNotifier) {
+
+      SearchResultNavigatorService
+        .setSearchIndex($stateParams['search-result-index']);
+
+      SearchResultNavigatorService.registerCurrentSearchResult();
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
-      ctrl.searchResultIndex = $stateParams['search-result-index'];
+      ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       this.representationCodeToggleFlag = true;
       ctrl.predecessors = [];
       ctrl.successors = [];
@@ -38,6 +41,11 @@ angular.module('metadatamanagementApp')
       ];
 
       entity.promise.then(function(result) {
+        if (!Principal.loginName()) {
+          var fetchFn = QuestionSearchService.findShadowByIdAndVersion
+            .bind(null, result.masterId);
+          OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
+        }
         var title = {
           questionNumber: result.number,
           questionId: result.id
@@ -60,7 +68,10 @@ angular.module('metadatamanagementApp')
           'studyId': result.studyId,
           'studyIsPresent': CleanJSObjectService.
           isNullOrEmpty(result.study) ? false : true,
-          'projectId': result.dataAcquisitionProjectId});
+          'projectId': result.dataAcquisitionProjectId,
+          'version': Principal.loginName() ? null : _.get(result,
+            'release.version')
+        });
         if (result.dataSets) {
           ctrl.accessWays = [];
           result.dataSets.forEach(function(dataSet) {
@@ -71,8 +82,9 @@ angular.module('metadatamanagementApp')
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.question = result;
           QuestionSearchService.findAllPredeccessors(ctrl.question.id, ['id',
-            'instrumentNumber', 'questionText', 'type','instrumentNmber',
-            'number', 'dataAcquisitionProjectId', 'instrument.description'],
+            'instrumentNumber', 'questionText', 'type', 'masterId',
+            'number', 'dataAcquisitionProjectId', 'instrument.description',
+            'release'],
             0, 100)
           .then(function(predecessors) {
             if (!CleanJSObjectService.isNullOrEmpty(predecessors)) {
@@ -82,8 +94,8 @@ angular.module('metadatamanagementApp')
           if (ctrl.question.successors) {
             QuestionSearchService.findAllSuccessors(ctrl.question.successors,
               ['id', 'instrumentNumber', 'questionText', 'type',
-              'number', 'dataAcquisitionProjectId',
-              'instrument.description'], 0, 100)
+              'number', 'dataAcquisitionProjectId', 'masterId',
+              'instrument.description', 'release'], 0, 100)
             .then(function(successors) {
               ctrl.successors = successors.hits.hits;
             });
@@ -165,6 +177,7 @@ angular.module('metadatamanagementApp')
         ProductChooserDialogService.showDialog(
           ctrl.question.dataAcquisitionProjectId, ctrl.accessWays,
           ctrl.question.study,
+          ctrl.question.release.version,
           event);
       };
     });

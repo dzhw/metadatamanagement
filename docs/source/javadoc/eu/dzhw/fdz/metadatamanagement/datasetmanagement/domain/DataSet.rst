@@ -1,28 +1,4 @@
-.. java:import:: java.util List
-
-.. java:import:: javax.validation Valid
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: javax.validation.constraints Size
-
-.. java:import:: org.javers.core.metamodel.annotation Entity
-
-.. java:import:: org.springframework.beans BeanUtils
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: org.springframework.data.mongodb.core.index CompoundIndex
-
-.. java:import:: org.springframework.data.mongodb.core.index Indexed
-
-.. java:import:: org.springframework.data.mongodb.core.mapping Document
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
@@ -33,6 +9,10 @@
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringSize
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation UniqueDatasetNumberInProject
 
@@ -56,6 +36,8 @@
 
 .. java:import:: io.searchbox.annotations JestId
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -66,7 +48,31 @@
 
 .. java:import:: lombok NoArgsConstructor
 
+.. java:import:: lombok Setter
+
 .. java:import:: lombok ToString
+
+.. java:import:: org.javers.core.metamodel.annotation Entity
+
+.. java:import:: org.springframework.beans BeanUtils
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: org.springframework.data.mongodb.core.index CompoundIndex
+
+.. java:import:: org.springframework.data.mongodb.core.index Indexed
+
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
+.. java:import:: javax.validation Valid
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Size
+
+.. java:import:: java.util List
 
 DataSet
 =======
@@ -74,7 +80,7 @@ DataSet
 .. java:package:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @ValidDataSetIdName @UniqueDatasetNumberInProject @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class DataSet extends AbstractRdcDomainObject
+.. java:type:: @Entity @Document @ValidDataSetIdName @UniqueDatasetNumberInProject @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidMasterId @ValidShadowId public class DataSet extends AbstractShadowableRdcDomainObject
 
    A dataset contains \ :java:ref:`Variable`\ s. It results from at least one \ :java:ref:`Survey`\ .
 
@@ -115,7 +121,7 @@ format
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Size @Pattern private String id
+.. java:field:: @Id @JestId @NotEmpty @Size @Setter private String id
    :outertype: DataSet
 
    The id of the dataset which uniquely identifies the dataset in this application. The id must not be empty and must be of the form dat-{{dataAcquisitionProjectId}}-ds{{number}}$. The id must not contain more than 512 characters.

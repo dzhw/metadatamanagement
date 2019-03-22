@@ -12,6 +12,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * This configuration defines which object types have to be delivered before
  * a project can be released.
@@ -22,7 +24,9 @@ import lombok.Setter;
 @ValueObject
 @EqualsAndHashCode
 @Builder
-public class Requirements {
+public class Requirements implements Serializable {
+
+  private static final long serialVersionUID = 1549882098416793512L;
 
   /**
    * Defines if study data is required for a release (this object type is mandatory and this setting

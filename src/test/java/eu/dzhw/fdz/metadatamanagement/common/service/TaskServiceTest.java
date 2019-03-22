@@ -32,7 +32,7 @@ public class TaskServiceTest extends AbstractTest {
 
   @Test
   public void testCreateTask() {
-    Task task = taskService.createTask();
+    Task task = taskService.createTask(Task.TaskType.DATA_SET_REPORT);
 
     Optional<Task> result = taskRepo.findById(task.getId());
     if (result.isPresent()) {
