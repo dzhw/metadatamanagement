@@ -90,7 +90,6 @@ angular.module('metadatamanagementApp').config(
           },
           'title': '{{ title }} ({{ studyId }})',
           'description': 'Study Description',
-          'tags': 'Tags',
           'basic-data-of-surveys': 'Basic Data of Surveys',
           'not-found': 'The {{id}} references to an unknown Study.',
           'not-found-references': 'The id {{id}} has no References to Studies.',
