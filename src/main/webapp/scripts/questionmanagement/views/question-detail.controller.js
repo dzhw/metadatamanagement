@@ -83,7 +83,8 @@ angular.module('metadatamanagementApp')
           ctrl.question = result;
           QuestionSearchService.findAllPredeccessors(ctrl.question.id, ['id',
             'instrumentNumber', 'questionText', 'type', 'masterId',
-            'number', 'dataAcquisitionProjectId', 'instrument.description'],
+            'number', 'dataAcquisitionProjectId', 'instrument.description',
+            'release'],
             0, 100)
           .then(function(predecessors) {
             if (!CleanJSObjectService.isNullOrEmpty(predecessors)) {
@@ -94,7 +95,7 @@ angular.module('metadatamanagementApp')
             QuestionSearchService.findAllSuccessors(ctrl.question.successors,
               ['id', 'instrumentNumber', 'questionText', 'type',
               'number', 'dataAcquisitionProjectId', 'masterId',
-              'instrument.description'], 0, 100)
+              'instrument.description', 'release'], 0, 100)
             .then(function(successors) {
               ctrl.successors = successors.hits.hits;
             });
@@ -176,6 +177,7 @@ angular.module('metadatamanagementApp')
         ProductChooserDialogService.showDialog(
           ctrl.question.dataAcquisitionProjectId, ctrl.accessWays,
           ctrl.question.study,
+          ctrl.question.release.version,
           event);
       };
     });
