@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.10
+ * v1.1.14-master-7674959
  */
 goog.provide('ngmaterial.components.panel');
 goog.require('ngmaterial.components.backdrop');
@@ -121,9 +121,11 @@ angular
  *   }
  *
  *   function PanelMenuCtrl(mdPanelRef) {
- *     // The controller is provided with an import named 'mdPanelRef'
+ *     // 'mdPanelRef' is injected in the controller.
  *     this.closeMenu = function() {
- *       mdPanelRef && mdPanelRef.close();
+ *       if (mdPanelRef) {
+ *         mdPanelRef.close();
+ *       }
  *     };
  *   }
  * })(angular);
@@ -1175,7 +1177,7 @@ MdPanelService.prototype.create = function(preset, config) {
 
   // Create the panelRef and add it to the `_trackedPanels` object.
   var panelRef = new MdPanelRef(this._config, this._$injector);
-  this._trackedPanels[config.id] = panelRef;
+  this._trackedPanels[this._config.id] = panelRef;
 
   // Add the panel to each of its requested groups.
   if (this._config.groupName) {
@@ -2434,7 +2436,7 @@ MdPanelRef.prototype._callInterceptors = function(type) {
       if (!response) {
         try {
           response = interceptor(self);
-        } catch(e) {
+        } catch (e) {
           response = $q.reject(e);
         }
       }

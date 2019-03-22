@@ -1,9 +1,15 @@
+/*!
+ * AngularJS Material Design
+ * https://github.com/angular/material
+ * @license MIT
+ * v1.1.14-master-7674959
+ */
 // Typography
 // ------------------------------
 $font-family: Roboto, 'Helvetica Neue', sans-serif !default;
 $font-size:   10px !default;
 
-//-- Must be defined before $font-size.
+//-- Must be defined after $font-size and before variables that depend on the function.
 @function rem($multiplier) {
   @return $multiplier * $font-size;
 }
@@ -884,6 +890,7 @@ input {
 
 @mixin flex-properties-for-name($name: null) {
   $flexName: 'flex';
+  // $name would be something like xs, sm, md, lg, xl
   @if $name != null {
     $flexName: 'flex-#{$name}';
     $name : '-#{$name}';
@@ -928,24 +935,26 @@ input {
       box-sizing: border-box;
     }
 
-    .layout#{$name}-row > .#{$flexName}-#{$i * 5} {
-      flex: 1 1 100%;
-      max-width: #{$value};
-      max-height: 100%;
-      box-sizing: border-box;
+    @if ($name != '') {
+      .layout#{$name}-row > .#{$flexName}-#{$i * 5} {
+        flex: 1 1 100%;
+        max-width: #{$value};
+        max-height: 100%;
+        box-sizing: border-box;
 
-      // Required by Chrome M48+ due to http://crbug.com/546034
-      @if $i == 0 {  min-width: 0;  }
-    }
+        // Required by Chrome M48+ due to http://crbug.com/546034
+        @if $i == 0 { min-width: 0; }
+      }
 
-    .layout#{$name}-column > .#{$flexName}-#{$i * 5} {
-      flex: 1 1 100%;
-      max-width: 100%;
-      max-height: #{$value};
-      box-sizing: border-box;
+      .layout#{$name}-column > .#{$flexName}-#{$i * 5} {
+        flex: 1 1 100%;
+        max-width: 100%;
+        max-height: #{$value};
+        box-sizing: border-box;
 
-      // Required by Chrome M48+ due to http://crbug.com/546034
-      @if $i == 0 {  min-height: 0;  }
+        // Required by Chrome M48+ due to http://crbug.com/546034
+        @if $i == 0 { min-height: 0; }
+      }
     }
   }
 
@@ -969,7 +978,7 @@ input {
     > .#{$flexName}-66 { flex: 1 1 100%;  max-width: 66.66%;  max-height: 100%; box-sizing: border-box; }
 
     // Required by Chrome M48+ due to http://crbug.com/546034
-    > .flex { min-width: 0;  }
+    > .flex { min-width: 0; }
   }
 
   .layout#{$name}-column {
@@ -1469,7 +1478,8 @@ md-autocomplete {
   }
 }
 
-.md-virtual-repeat-container.md-autocomplete-suggestions-container {
+.md-virtual-repeat-container.md-autocomplete-suggestions-container,
+.md-standard-list-container.md-autocomplete-suggestions-container {
   position: absolute;
   box-shadow: 0 2px 5px rgba(black, 0.25);
   z-index: $z-index-tooltip;
@@ -1483,7 +1493,17 @@ md-autocomplete {
   }
 }
 
-.md-virtual-repeat-container.md-not-found {
+.md-standard-list-container {
+  box-sizing: border-box;
+  display: block;
+  margin: 0;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.md-virtual-repeat-container.md-not-found,
+.md-standard-list-container.md-not-found {
   height: $md-autocomplete-item-height;
 }
 
@@ -3503,42 +3523,6 @@ md-icon {
   }
 }
 
-//
-//@font-face {
-//  font-family:"material";
-//  src:url("/dist/material-font/material.eot");
-//  font-weight:normal;
-//  font-style:normal;
-//}
-//
-//@font-face {
-//  font-family:"material";
-//  src:url("/dist/material-font/material.eot");
-//  src:url("/dist/material-font/material.eot?#iefix") format("embedded-opentype"),
-//    url("/dist/material-font/material.woff") format("woff"),
-//    url("/dist/material-font/material.ttf") format("truetype"),
-//    url("/dist/material-font/material.svg?#material") format("svg");
-//  font-weight:normal;
-//  font-style:normal;
-//}
-//
-///* Bootstrap Overrides */
-//[class^="icon-"]:before,
-//[class*=" icon-"]:before {
-//  font-family:"material";
-//  display:inline-block;
-//  vertical-align:middle;
-//  line-height:1;
-//  font-weight:normal;
-//  font-style:normal;
-//  speak:none;
-//  text-decoration:inherit;
-//  text-transform:none;
-//  text-rendering:optimizeLegibility;
-//  -webkit-font-smoothing:antialiased;
-//  -moz-osx-font-smoothing:grayscale;
-//}
-
 $input-container-padding: 2px !default;
 
 $input-label-default-offset: 24px !default;
@@ -3689,7 +3673,9 @@ md-input-container {
     opacity: 0;
   }
 
-  &:not( .md-input-has-value ) input:not( :focus ),
+  &:not( .md-input-has-value ):not( .md-input-has-placeholder ) input:not( :focus ) {
+    color: transparent;
+  }
   &:not( .md-input-has-value ) input:not( :focus )::-webkit-datetime-edit-ampm-field,
   &:not( .md-input-has-value ) input:not( :focus )::-webkit-datetime-edit-day-field,
   &:not( .md-input-has-value ) input:not( :focus )::-webkit-datetime-edit-hour-field,
@@ -4095,7 +4081,7 @@ md-list-item {
       .md-list-item-inner {
         // The list item content should fill the complete width.
         width: 100%;
-        min-height: inherit;
+        @include ie11-min-height-flexbug(inherit);
       }
 
     }
@@ -4216,6 +4202,9 @@ md-list-item {
     .md-secondary-container {
       display: flex;
       align-items: center;
+      // Ensure the secondary button is not behind the primary button if its template is provided by
+      // a directive.
+      position: relative;
 
       // Per W3C: https://www.w3.org/TR/css-flexbox/#flex-common
       // By default, flex items won’t shrink below their minimum content size.
@@ -4415,7 +4404,7 @@ md-menu-content {
     max-height: $max-dense-menu-height;
     md-menu-item {
       height: $dense-menu-item-height;
-      min-height: 0px;
+      min-height: $dense-menu-item-height;
     }
   }
 }
@@ -4647,11 +4636,6 @@ $md-nav-bar-height: 48px;
   &:focus {
     outline: none;
   }
-
-  &:hover {
-    background-color: inherit;
-  }
-
 }
 
 md-nav-ink-bar {
@@ -5076,8 +5060,16 @@ md-radio-group {
     outline: none;
   }
 
-  &.md-focused {
+  &.md-focused.ng-not-empty {
     .md-checked .md-container:before {
+      left: -8px;
+      top: -8px;
+      right: -8px;
+      bottom: -8px;
+    }
+  }
+  &.md-focused.ng-empty>md-radio-button:first-child {
+    .md-container:before {
       left: -8px;
       top: -8px;
       right: -8px;
@@ -5217,7 +5209,7 @@ md-select {
   margin: 2.5*$baseline-grid 0 3*$baseline-grid + 2 0;
 
   &[required], &.ng-required {
-    &.ng-invalid:not(.md-no-asterisk) {
+    &.ng-empty.ng-invalid:not(.md-no-asterisk) {
       .md-select-value span:first-child:after {
         content: ' *';
         font-size: 13px;
@@ -5301,8 +5293,8 @@ md-input-container.md-input-has-value .md-select-value {
 
   .md-select-icon {
     display: block;
-    align-items: flex-end;
-    text-align: end;
+    @include rtl(align-items, flex-end, flex-start);
+    @include rtl(text-align, right, left);
     width: 3 * $baseline-grid;
     margin: 0 .5 * $baseline-grid;
     transform: translate3d(0, -2px, 0);
@@ -6025,7 +6017,7 @@ md-slider-container {
 
   & > *:first-child,
   & > *:last-child {
-    &:not(md-slider){
+    &:not(md-slider) {
       min-width: $items-width;
       max-width: ($items-width * 2) - 8;
       height: $items-height;
@@ -6226,18 +6218,12 @@ md-switch {
     }
   }
 
-  &.md-focused:not([disabled]) {
+  &.md-focused {
     .md-thumb:before {
       left: -8px;
       top: -8px;
       right: -8px;
       bottom: -8px;
-    }
-
-    &:not(.md-checked) {
-      .md-thumb:before {
-        background-color: rgba(0, 0, 0, 0.12);
-      }
     }
   }
 
@@ -6411,7 +6397,7 @@ md-tabs-wrapper {
   display: block;
   position: relative;
   // transform is needed for iOS Safari to prevent content from disappearing on scroll
-  transform: translate3d(0, 0, 0);
+  transform: translate(0, 0);
   md-prev-button, md-next-button {
     height: 100%;
     width: $tabs-paginator-width;
@@ -6438,7 +6424,7 @@ md-tabs-wrapper {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate3d(-50%, -50%, 0);
+      transform: translate(-50%, -50%);
     }
 
     // For RTL tabs, rotate the buttons
@@ -6456,7 +6442,7 @@ md-tabs-wrapper {
 
     // In regular mode, we need to flip the chevron icon to point the other way
     md-icon {
-      transform: translate3d(-50%, -50%, 0) rotate(180deg);
+      transform: translate(-50%, -50%) rotate(180deg);
     }
   }
   &.md-stretch-tabs {
@@ -6502,7 +6488,7 @@ md-pagination-wrapper {
   transition: transform $swift-ease-in-out-duration $swift-ease-in-out-timing-function;
   position: absolute;
   @include rtl-prop(left, right, 0, auto);
-  transform: translate3d(0, 0, 0);
+  transform: translate(0, 0);
   &.md-center-tabs {
     position: relative;
     justify-content: center;
@@ -6529,7 +6515,7 @@ md-tab-content {
   transition: transform $swift-ease-in-out-duration $swift-ease-in-out-timing-function;
   overflow: auto;
   // transform is needed for iOS Safari to prevent content from disappearing on scroll
-  transform: translate3d(0, 0, 0);
+  transform: translate(0, 0);
   &.md-no-scroll {
     bottom: auto;
     overflow: hidden;
