@@ -1,14 +1,4 @@
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: org.javers.core.metamodel.annotation Entity
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
@@ -26,6 +16,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
 
+.. java:import:: lombok AccessLevel
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -36,7 +28,19 @@
 
 .. java:import:: lombok NoArgsConstructor
 
+.. java:import:: lombok Setter
+
 .. java:import:: lombok ToString
+
+.. java:import:: org.javers.core.metamodel.annotation Entity
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
 
 InstrumentAttachmentMetadata
 ============================
@@ -44,7 +48,7 @@ InstrumentAttachmentMetadata
 .. java:package:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain
    :noindex:
 
-.. java:type:: @Entity @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class InstrumentAttachmentMetadata extends AbstractRdcDomainObject
+.. java:type:: @Entity @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class InstrumentAttachmentMetadata extends AbstractShadowableRdcDomainObject
 
    Metadata which will be stored with each attachment of a \ :java:ref:`Instrument`\ .
 
@@ -77,7 +81,7 @@ fileName
 id
 ^^
 
-.. java:field:: @Id private String id
+.. java:field:: @Id @Setter private String id
    :outertype: InstrumentAttachmentMetadata
 
    The id of the attachment. Holds the complete path which can be used to download the file.

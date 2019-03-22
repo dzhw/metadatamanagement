@@ -38,6 +38,8 @@ public class QuestionSubDocument extends AbstractRdcDomainObject
   
   private String studyId;
 
+  private String masterId;
+
   public QuestionSubDocument() {
     super();
   }

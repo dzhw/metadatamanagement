@@ -1,26 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
-import java.util.List;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
@@ -48,12 +35,27 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.Valid
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidStorageType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidVariableIdName;
 import io.searchbox.annotations.JestId;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * A variable contains the results from at least one {@link Survey}. These results can be the
@@ -65,6 +67,9 @@ import lombok.ToString;
     @CompoundIndex(def = "{name: 1, dataSetId: 1}", unique = true),
     @CompoundIndex(def = "{indexInDataSet: 1, dataSetId: 1}", unique = false)
     })
+@ValidMasterId(pattern = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
+    message = "variable-management.error.variable.master-id.pattern")
+@ValidShadowId(message = "variable-management.error.variable.id.pattern")
 @ValidVariableIdName(message = "variable-management.error.variable.valid-variable-name")
 @ValidPanelIdentifier(message = "variable-management.error.variable.valid-panel-identifier")
 @ValidDerivedVariablesIdentifier(message =
@@ -114,7 +119,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-public class Variable extends AbstractRdcDomainObject {
+public class Variable extends AbstractShadowableRdcDomainObject {
   /**
    * The id of the variable which uniquely identifies the variable in this application.
    * 
@@ -127,8 +132,7 @@ public class Variable extends AbstractRdcDomainObject {
   @NotEmpty(message = "variable-management.error.variable.id.not-empty")
   @Size(max = StringLengths.MEDIUM,
       message = "variable-management.error.variable.id.size")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
-      message = "variable-management.error.variable.id.pattern")
+  @Setter(AccessLevel.NONE)
   private String id;
 
 
@@ -341,5 +345,10 @@ public class Variable extends AbstractRdcDomainObject {
   public Variable(Variable variable) {
     super();
     BeanUtils.copyProperties(variable, this);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

@@ -45,6 +45,8 @@ public class StudySubDocument extends AbstractRdcDomainObject
 
   private I18nString dataAvailability;
 
+  private String masterId;
+
   public StudySubDocument() {
     super();
   }

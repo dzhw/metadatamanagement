@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * State of a data acquisition project. Used for all metadata
  * 
@@ -19,7 +21,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProjectState {
+public class ProjectState implements Serializable {
+
+  private static final long serialVersionUID = 1549882052456349234L;
+
   /**
    * indicates if the data providers marked it's metadata as ready.
    */

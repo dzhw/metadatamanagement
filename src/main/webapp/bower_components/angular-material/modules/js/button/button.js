@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.10
+ * v1.1.14-master-7674959
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -17,7 +17,7 @@
 MdButtonDirective['$inject'] = ["$mdButtonInkRipple", "$mdTheming", "$mdAria", "$mdInteraction"];
 MdAnchorDirective['$inject'] = ["$mdTheming"];
 angular
-    .module('material.components.button', [ 'material.core' ])
+    .module('material.components.button', ['material.core'])
     .directive('mdButton', MdButtonDirective)
     .directive('a', MdAnchorDirective);
 
@@ -144,7 +144,7 @@ function MdButtonDirective($mdButtonInkRipple, $mdTheming, $mdAria, $mdInteracti
     if (isAnchor(attr)) {
       return '<a class="md-button" ng-transclude></a>';
     } else {
-      //If buttons don't have type="button", they will submit forms automatically.
+      // If buttons don't have type="button", they will submit forms automatically.
       var btnType = (typeof attr.type === 'undefined') ? 'button' : attr.type;
       return '<button class="md-button" type="' + btnType + '" ng-transclude></button>';
     }
@@ -157,9 +157,10 @@ function MdButtonDirective($mdButtonInkRipple, $mdTheming, $mdAria, $mdInteracti
     // Use async expect to support possible bindings in the button label
     $mdAria.expectWithoutText(element, 'aria-label');
 
-    // For anchor elements, we have to set tabindex manually when the
-    // element is disabled
-    if (isAnchor(attr) && angular.isDefined(attr.ngDisabled) ) {
+    // For anchor elements, we have to set tabindex manually when the element is disabled.
+    // We don't do this for md-nav-bar anchors as the component manages its own tabindex values.
+    if (isAnchor(attr) && angular.isDefined(attr.ngDisabled) &&
+        !element.hasClass('_md-nav-button')) {
       scope.$watch(attr.ngDisabled, function(isDisabled) {
         element.attr('tabindex', isDisabled ? -1 : 0);
       });

@@ -1,13 +1,25 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.IdAndNumberInstrumentProjection;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableChangesProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -19,20 +31,11 @@ import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.IdAndNumberInstrumentProjection;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableChangesProvider;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * The service for the instruments. This service handels delete events.
@@ -64,6 +67,12 @@ public class InstrumentService {
 
   @Autowired
   private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
+
+  @Autowired
+  private ShadowCopyService<Instrument> shadowCopyService;
+
+  @Autowired
+  private InstrumentShadowCopyDataSource instrumentShadowCopyDataSource;
 
   /**
    * Delete all instruments when the dataAcquisitionProject was deleted.
@@ -97,6 +106,9 @@ public class InstrumentService {
     try (Stream<Instrument> instruments =
         instrumentRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       instruments.forEach(instrument -> {
+        if (instrument.isShadow()) {
+          throw new ShadowCopyDeleteNotAllowedException();
+        }
         eventPublisher.publishEvent(new BeforeDeleteEvent(instrument));
         instrumentRepository.delete(instrument);
         eventPublisher.publishEvent(new AfterDeleteEvent(instrument));
@@ -218,6 +230,20 @@ public class InstrumentService {
         relatedPublicationChangesProvider.getAffectedInstrumentIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> instrumentRepository.streamIdsByIdIn(instrumentIds), ElasticsearchType.instruments);
+
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> instrumentRepository.streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
+            instrumentIds), ElasticsearchType.instruments);
+  }
+
+  /**
+   * Create shadow copies for {@link Instrument} on project release.
+   * @param projectReleasedEvent Released project event
+   */
+  @EventListener
+  public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        projectReleasedEvent.getPreviousReleaseVersion(), instrumentShadowCopyDataSource);
   }
 
   /**

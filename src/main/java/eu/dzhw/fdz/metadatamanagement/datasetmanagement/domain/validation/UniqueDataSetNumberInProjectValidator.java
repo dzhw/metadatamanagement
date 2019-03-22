@@ -42,23 +42,27 @@ public class UniqueDataSetNumberInProjectValidator
   @Override
   public boolean isValid(DataSet dataSet, ConstraintValidatorContext context) {
 
-    // search for data sets with the same project id and number (not id!)
-    List<IdAndVersionProjection> dataSetWithNumberAndProject =
-        this.dataSetRepository.findIdsByDataAcquisitionProjectIdAndNumber(
-        dataSet.getDataAcquisitionProjectId(), dataSet.getNumber());
-    
-    // ignore the same object (for an update)
-    List<IdAndVersionProjection> dataSetWithoutSameDataSet = new ArrayList<>();
-    for (IdAndVersionProjection dataSetFromList : dataSetWithNumberAndProject) {
-      if (!dataSetFromList.getId()
-          .equals(dataSet.getId())) {
-        dataSetWithoutSameDataSet.add(dataSetFromList);
+    if (dataSet.isShadow()) {
+      return true;
+    } else {
+      // search for data sets with the same project id and number (not id!)
+      List<IdAndVersionProjection> dataSetWithNumberAndProject =
+          this.dataSetRepository.findIdsByDataAcquisitionProjectIdAndNumber(
+              dataSet.getDataAcquisitionProjectId(), dataSet.getNumber());
+
+      // ignore the same object (for an update)
+      List<IdAndVersionProjection> dataSetWithoutSameDataSet = new ArrayList<>();
+      for (IdAndVersionProjection dataSetFromList : dataSetWithNumberAndProject) {
+        if (!dataSetFromList.getId()
+            .equals(dataSet.getId())) {
+          dataSetWithoutSameDataSet.add(dataSetFromList);
+        }
       }
+
+      //check for data set with same number and project id
+      // if no other found .-> good!
+      return dataSetWithoutSameDataSet.size() == 0;
     }
-    
-    //check for data set with same number and project id
-    // if no other found .-> good!
-    return dataSetWithoutSameDataSet.size() == 0;
   }
 
 }

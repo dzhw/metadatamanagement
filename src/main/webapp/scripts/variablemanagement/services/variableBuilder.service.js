@@ -23,6 +23,9 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
         dataAcquisitionProjectId, dataSet.dataSetNumber,
         variableFromJson.name
       );
+      if (angular.isUndefined(variableObj.masterId)) {
+        variableObj.masterId = variableObj.id;
+      }
       variableObj.dataAcquisitionProjectId = dataAcquisitionProjectId;
       variableObj.studyId = StudyIdBuilderService.buildStudyId(
         dataAcquisitionProjectId);

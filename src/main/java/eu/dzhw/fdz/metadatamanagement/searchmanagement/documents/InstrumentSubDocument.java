@@ -42,6 +42,8 @@ public class InstrumentSubDocument extends AbstractRdcDomainObject
 
   private String studyId;
 
+  private String masterId;
+
   public InstrumentSubDocument() {
     super();
   }

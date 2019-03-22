@@ -276,6 +276,9 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveDataSet = function() {
         if ($scope.dataSetForm.$valid) {
+          if (angular.isUndefined(ctrl.dataSet.masterId)) {
+            ctrl.dataSet.masterId = ctrl.dataSet.id;
+          }
           ctrl.dataSet.$save()
           .then(ctrl.updateElasticSearchIndex)
           .then(ctrl.onSavedSuccessfully)

@@ -128,8 +128,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     //Search function
     $scope.search = function() {
-      var projectId = $scope.currentProject ?
-        $scope.currentProject.id : undefined;
+      var projectId = _.get($scope, 'currentProject.id');
       $scope.isSearching++;
       $scope.setDropZoneDisabled();
       SearchResultNavigatorService.setCurrentSearchParams(

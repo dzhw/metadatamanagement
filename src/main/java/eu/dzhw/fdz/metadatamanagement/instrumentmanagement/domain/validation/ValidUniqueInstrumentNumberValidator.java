@@ -37,19 +37,24 @@ public class ValidUniqueInstrumentNumberValidator
    */
   @Override
   public boolean isValid(Instrument instrument, ConstraintValidatorContext context) {
-    if (instrument.getNumber() == null
-        || StringUtils.isEmpty(instrument.getDataAcquisitionProjectId())) {
+
+    if (instrument.isShadow()) {
+      return true;
+    } else {
+      if (instrument.getNumber() == null
+          || StringUtils.isEmpty(instrument.getDataAcquisitionProjectId())) {
+        return true;
+      }
+      List<IdAndVersionProjection> instruments = instrumentRepository
+          .findIdsByNumberAndDataAcquisitionProjectId(instrument.getNumber(),
+              instrument.getDataAcquisitionProjectId());
+      if (instruments.size() > 1) {
+        return false;
+      }
+      if (instruments.size() == 1) {
+        return instruments.get(0).getId().equals(instrument.getId());
+      }
       return true;
     }
-    List<IdAndVersionProjection> instruments = instrumentRepository
-        .findIdsByNumberAndDataAcquisitionProjectId(instrument.getNumber(),
-            instrument.getDataAcquisitionProjectId());
-    if (instruments.size() > 1) {
-      return false;
-    }
-    if (instruments.size() == 1) {
-      return instruments.get(0).getId().equals(instrument.getId());
-    }
-    return true;
   }
 }

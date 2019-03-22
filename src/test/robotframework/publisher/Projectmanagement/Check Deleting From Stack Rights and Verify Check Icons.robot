@@ -31,6 +31,7 @@ Check The Sentiments of Metadata
    Switch To Status Tab
    Verify The Sentiments From The List of Metadata
    Delete project by name  ${PROJECT_NAME}${BROWSER}
+   Wait Until Page Contains  erfolgreich gelöscht  10 seconds
 
 *** Keywords ***
 Assign Dataprovider From List

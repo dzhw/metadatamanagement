@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('VariableSearchService',
   function(ElasticSearchClient, $q, SearchHelperService,
-    CleanJSObjectService, LanguageService) {
+    CleanJSObjectService, LanguageService, Principal) {
       var createQueryObject = function(type) {
         type = type || 'variables';
         return {
@@ -68,6 +68,21 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
               deferred.resolve(response);
             }
           });
+        return deferred;
+      };
+
+      var findShadowByIdAndVersion = function(id, version) {
+        var query = {};
+        _.extend(query, createQueryObject(),
+          SearchHelperService.createShadowByIdAndVersionQuery(id, version));
+        var deferred = $q.defer();
+        ElasticSearchClient.search(query).then(function(result) {
+          if (result.hits.total === 1) {
+            deferred.resolve(result.hits.hits[0]._source);
+          } else {
+            return deferred.resolve(null);
+          }
+        }, deferred.reject);
         return deferred;
       };
 
@@ -188,10 +203,29 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
             }
           };
           query.body.query.bool.filter = termFilters;
+        } else {
+          _.set(query, 'body.query.bool.filter', []);
+        }
+
+        if (Principal.loginName()) {
+          query.body.query.bool.filter.push({
+            'term': {
+              'shadow': false
+            }
+          });
+        } else {
+          query.body.query.bool.filter.push({
+            'term': {
+              'shadow': true
+            }
+          });
+          if (_.isEmpty(termFilters)) {
+            _.set(query, 'body.query.bool.must_not[0].exists.field',
+              'successorId');
+          }
         }
 
         SearchHelperService.addQuery(query, queryterm);
-
         SearchHelperService.addFilter(query);
 
         return ElasticSearchClient.search(query).then(function(result) {
@@ -228,8 +262,8 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         }
 
         SearchHelperService.addQuery(query, queryterm);
-
         SearchHelperService.addFilter(query);
+        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(termFilters));
 
         return ElasticSearchClient.search(query).then(function(result) {
           return result.aggregations.panelIdentifiers.buckets;
@@ -265,8 +299,8 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         }
 
         SearchHelperService.addQuery(query, queryterm);
-
         SearchHelperService.addFilter(query);
+        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(termFilters));
 
         return ElasticSearchClient.search(query).then(function(result) {
           return result.aggregations.derivedVariablesIdentifiers.buckets;
@@ -302,6 +336,12 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
                       'size': 100
                     },
                     'aggs': {
+                      'masterId': {
+                        'terms': {
+                          'field': prefix + 'masterId',
+                          'size': 100
+                        }
+                      },
                       'labelDe': {
                         'terms': {
                           'field': prefix + 'label.de',
@@ -357,8 +397,10 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         }
 
         SearchHelperService.addQuery(query, queryterm);
-
         SearchHelperService.addFilter(query);
+        if (type !== 'related_publications') {
+          SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
+        }
 
         return ElasticSearchClient.search(query).then(function(result) {
           var labels = [];
@@ -378,6 +420,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
                     bucket.labelEn.buckets[0].key : ''
                 },
                 id: bucket.key,
+                masterId: bucket.masterId.buckets[0].key,
                 count: bucket.doc_count
               };
               labels.push(labelElement);
@@ -412,6 +455,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         findOneById: findOneById,
         findByQuestionId: findByQuestionId,
         findByDataSetId: findByDataSetId,
+        findShadowByIdAndVersion: findShadowByIdAndVersion,
         countBy: countBy,
         countByMultiple: countByMultiple,
         findAccessWays: findAccessWays,

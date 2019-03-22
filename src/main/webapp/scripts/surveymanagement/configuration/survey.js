@@ -7,10 +7,12 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('surveyDetail', {
         parent: 'site',
-        url: '/surveys/{id}?{search-result-index}',
-        reloadOnSearch: false,
+        url: '/surveys/{id}?{version}',
         data: {
           authorities: []
+        },
+        params: {
+          'search-result-index': null
         },
         views: {
           'content@': {
@@ -21,12 +23,17 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'SurveySearchService',
-            function($stateParams, SurveySearchService) {
-              return SurveySearchService.findOneById($stateParams.id);
+          entity: ['$stateParams', 'SurveySearchService', 'Principal',
+            function($stateParams, SurveySearchService, Principal) {
+              if (Principal.loginName()) {
+                return SurveySearchService.findOneById($stateParams.id);
+              } else {
+                return SurveySearchService.findShadowByIdAndVersion(
+                  $stateParams.id, $stateParams.version);
+              }
             }
           ]
-        },
+        }
       });
 
     $stateProvider
