@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
-  function($state, SimpleMessageToastService) {
+  function($state, SimpleMessageToastService, $document, $mdToast) {
 
     var createHref = function(item) {
       return $state.href($state.current.name, {
@@ -33,6 +33,11 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
           var href = createHref(result);
           showMessage(href, oldVersion, newVersion);
         });
+      } else {
+        if ($document.find('[data-translate="data-acquisition' +
+          '-project-management.outdated-version-alert"').length > 0) {
+          $mdToast.hide();
+        }
       }
     };
 
