@@ -12,7 +12,7 @@ Check Publishers Project Releasing and Unreleasing Funtionalities
   Click on Cockpit Button
   Change Project Release Status
   Click on OK Button
-  Sleep  2s  # to avoid failing in Firefox
+  Sleep  2s  # to avoid failing in firefoxe
   Assert Project Release Action Has Error Message
   Close The Toast Message for Project Release Validation
   Click on OK Button
@@ -25,6 +25,7 @@ Check Publishers Project Releasing and Unreleasing Funtionalities
 
 *** Keywords ***
 Assert Project Release Action Has Error Message
+  Wait Until Element Is Visible   xpath=//md-dialog-content//h2
   Element Should Contain   xpath=//md-dialog-content//h2   kann nicht freigegeben werden
 
 Write Version Name

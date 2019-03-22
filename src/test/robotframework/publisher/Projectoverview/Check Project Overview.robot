@@ -9,7 +9,6 @@ Resource          ../../resources/home_page_resource.robot
 Check Project Overview Funtionalities
    Click on Project Overview Button
    Assert Table Head Has All Columns Names
-   Assert Project gra2005's Version and Assigned Group
    Click on Next Button
    Assert Project robotprojectrelease4chrome-firefox-edge's Version and Assigned Group
    Click on Next Button
@@ -26,10 +25,6 @@ Assert Table Head Has All Columns Names
    :FOR   ${MD_TH}   IN  @{MD_THEADERS}
    \  Page Should Contain Element   xpath=//table[@class="table-striped table-hover ng-scope fdz-table-wide"]//thead//tr//th[contains(., "${MD_TH}")]
 
-Assert Project gra2005's Version and Assigned Group
-    Page Should Contain Element  xpath=//table[@class="table-striped table-hover ng-scope fdz-table-wide"]//tbody//tr//td[contains(., "1.0.1")]
-    Page Should Contain Element  xpath=//table[@class="table-striped table-hover ng-scope fdz-table-wide"]//tbody//tr//td//span[contains(., "Publisher")]
-
 Assert Project robotprojectrelease4chrome-firefox-edge's Version and Assigned Group
     @{MD_PROJECTS}    Create List   robotprojectrelease4chrome  robotprojectrelease4firefox   robotprojectrelease4edge
     :FOR   ${MD_PJ}   IN  @{MD_PROJECTS}
@@ -42,7 +37,9 @@ Assert Project robotprojectrelease4ie's Version and Assigned Group
 
 Click on Next Button
     Click Element Through Tooltips   xpath=//ul//li[@class="pagination-next ng-scope"]//a[contains(., "Weiter")]
+    Sleep  1s
 
 Click on Previous Button
     Click Element Through Tooltips   xpath=//ul//li[@class="pagination-prev ng-scope"]//a[contains(., "Zurück")]
+    Sleep  1s
 
