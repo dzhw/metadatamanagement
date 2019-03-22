@@ -712,16 +712,28 @@
 				"type": "object",
 				"properties": {
 					"de": {
-						"type": "text",
-						"analyzer": "ngrams",
+						"type": "keyword",
 						"norms": false,
-						"copy_to": "all"
+						"copy_to": "all",
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					},
 					"en": {
-						"type": "text",
-						"analyzer": "ngrams",
+						"type": "keyword",
 						"norms": false,
-						"copy_to": "all"
+						"copy_to": "all",
+						"fields": {
+							"ngrams": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false
+							}
+						}
 					}
 				}
 			}

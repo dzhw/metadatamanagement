@@ -307,7 +307,7 @@ angular.module('metadatamanagementApp').config(
             'german-tags': 'Deutsche Tags',
             'english-tags': 'Englische Tags'
           },
-          'placeholder': 'Geben Sie einen neuen Tag ein und bestätigen Sie mit der Eintabetaste',
+          'placeholder': 'Geben Sie einen neuen Tag ein',
           'error': {
             'required': 'Es muss mindestens ein Tag eingetragen sein.'
           }

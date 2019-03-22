@@ -14,13 +14,13 @@ import java.util.List;
 public class Tags {
 
   /**
-   * German tags.
+   * German tags. At least one tag must be provided.
    */
-  @NotEmpty
+  @NotEmpty(message = "studymanagement.error.study.tags.not-empty")
   private List<String> de;
 
   /**
-   * English tags.
+   * English tags (optional).
    */
   private List<String> en;
 }

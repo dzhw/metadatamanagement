@@ -24,7 +24,7 @@ de
 .. java:field:: @NotEmpty private List<String> de
    :outertype: Tags
 
-   German tags.
+   German tags. At least one tag must be provided.
 
 en
 ^^
@@ -32,5 +32,5 @@ en
 .. java:field:: private List<String> en
    :outertype: Tags
 
-   English tags.
+   English tags (optional).
 

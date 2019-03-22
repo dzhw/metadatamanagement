@@ -307,7 +307,7 @@ angular.module('metadatamanagementApp').config(
             'german-tags': 'German Tags',
             'english-tags': 'English Tags'
           },
-          'placeholder': 'Enter a new tag and confirm by pressing Enter',
+          'placeholder': 'Enter a new tag',
           'error': {
             'required': 'At least one tag must be provided'
           }
