@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').service('ProductChooserDialogService',
   function($mdDialog) {
-    var showDialog = function(projectId, accessWays, study, event) {
+    var showDialog = function(projectId, accessWays, study, version, event) {
       $mdDialog.show({
         templateUrl: 'scripts/ordermanagement/views/' +
         'product-chooser.html.tmpl',
@@ -12,7 +12,8 @@ angular.module('metadatamanagementApp').service('ProductChooserDialogService',
         locals: {
           study: study,
           accessWays: accessWays || [],
-          projectId: projectId
+          projectId: projectId,
+          version: version
         },
         clickOutsideToClose: false,
         closeTo: '#shoppingCartButton',
