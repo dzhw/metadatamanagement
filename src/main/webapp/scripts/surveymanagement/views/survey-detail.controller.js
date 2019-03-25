@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
              SimpleMessageToastService, SearchResultNavigatorService,
              SurveyResponseRateImageUploadService,
              DataAcquisitionProjectResource, ProductChooserDialogService,
-             ProjectUpdateAccessService, OutdatedVersionNotifier, COUNTRIES,
+             ProjectUpdateAccessService, COUNTRIES, OutdatedVersionNotifier,
              $stateParams) {
 
       SearchResultNavigatorService
