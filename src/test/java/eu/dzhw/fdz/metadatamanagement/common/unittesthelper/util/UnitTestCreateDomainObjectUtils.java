@@ -3,6 +3,14 @@
  */
 package eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
@@ -30,6 +38,8 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentTypes;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Tags;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
@@ -47,12 +57,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Statistics;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.StorageTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author Daniel Katzberg
@@ -90,6 +94,8 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static Study buildStudy(String projectId) {
+    Tags tags = new Tags();
+    tags.setDe(new HashSet<String>(Arrays.asList("Test-Tag")));
     List<Person> authors = new ArrayList<>();
     authors.add(buildPerson("Test", null, "Authors"));
 
@@ -120,6 +126,7 @@ public class UnitTestCreateDomainObjectUtils {
         .annotations(I18nString.builder().de("De Anmerkungen")
             .en("En Annotations")
             .build())
+        .tags(tags)
         .dataAvailability(DataAvailabilities.AVAILABLE)
         .surveyDesign(SurveyDesigns.PANEL)
         .dataAcquisitionProjectId(projectId)
@@ -129,6 +136,8 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static Survey buildSurvey(String projectId) {
+    GeographicCoverage geographicCoverage = GeographicCoverage.builder().country("DE").build();
+
     Population population = Population.builder()
         .unit(I18nString.builder()
             .de("Hochschulabsolventen")
@@ -138,6 +147,7 @@ public class UnitTestCreateDomainObjectUtils {
             .de("Population Beschreibung")
             .en("Population Description")
             .build())
+        .geographicCoverages(Collections.singletonList(geographicCoverage))
         .build();
 
     String surveyId = UnitTestCreateValidIds.buildSurveyId(projectId, 1);

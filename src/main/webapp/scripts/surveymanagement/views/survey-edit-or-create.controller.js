@@ -181,8 +181,7 @@ angular.module('metadatamanagementApp')
           ctrl.survey.$save()
           .then(ctrl.updateElasticSearchIndex)
           .then(ctrl.onSavedSuccessfully)
-          .catch(function(error) {
-              console.log(error);
+          .catch(function() {
               SimpleMessageToastService.openAlertMessageToast(
                 'survey-management.edit.error-on-save-toast',
                 {surveyId: ctrl.survey.id});
@@ -194,6 +193,7 @@ angular.module('metadatamanagementApp')
               if (errorField.$setTouched) {
                 errorField.$setTouched();
               } else if (errorField.$setDirty) {
+                // could be a ngForm which doesn't have $setTouched
                 errorField.$setDirty();
               }
             });

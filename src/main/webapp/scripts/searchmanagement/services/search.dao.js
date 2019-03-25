@@ -89,6 +89,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'description.de.ngrams', queryTerm, germanMinorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'description.en.ngrams', queryTerm, englishMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tags.de', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tags.en', queryTerm, englishMajorBoost));
             break;
 
           case 'surveys':
