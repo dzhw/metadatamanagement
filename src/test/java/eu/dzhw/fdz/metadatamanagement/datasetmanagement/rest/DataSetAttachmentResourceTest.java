@@ -9,8 +9,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.mongodb.gridfs.GridFS;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentFilenameBuilder;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +26,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.mongodb.gridfs.GridFS;
+
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
@@ -32,21 +36,14 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-
 public class DataSetAttachmentResourceTest extends AbstractTest {
   @Autowired
   private WebApplicationContext wac;
-
-  @Autowired
-  private DataSetAttachmentService dataSetAttachmentService;
 
   @Autowired
   private DataSetRepository dataSetRepository;
