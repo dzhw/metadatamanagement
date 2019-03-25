@@ -1,0 +1,43 @@
+<div ng-form="tagEditorForm" layout-gt-sm="row" layout="column">
+    <md-input-container flex-gt-sm="50" flex="100"
+                        ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}">
+        <label class="fdz-input-required">{{'study-management.tag-editor.label.german-tags' | translate}}</label>
+        <md-chips ng-model="tags.de"
+                  ng-required="true"
+                  name="tagsDe"
+                  md-add-on-blur="true">
+            <md-autocomplete md-items="tag in searchTags(tagSearchTextDe, 'de')"
+                             md-search-text="tagSearchTextDe"
+                             md-item-text="tag"
+                             md-no-cache="true"
+                             md-min-length="0"
+                             placeholder="{{'study-management.tag-editor.placeholder' | translate}}">
+                <md-item-template>
+                    {{tag}}
+                </md-item-template>
+            </md-autocomplete>
+        </md-chips>
+        <div ng-if="tagEditorForm.$dirty" ng-messages="tagEditorForm.tagsDe.$error">
+            <div ng-message="required">
+                {{'study-management.tag-editor.error.required' | translate}}
+            </div>
+        </div>
+    </md-input-container>
+    <md-input-container flex-gt-sm="50" flex="100">
+        <label>{{'study-management.tag-editor.label.english-tags' | translate}}</label>
+        <md-chips ng-model="tags.en"
+                  name="tagsEn"
+                  md-add-on-blur="true">
+            <md-autocomplete md-items="tag in searchTags(tagSearchTextEn, 'en')"
+                             md-search-text="tagSearchTextEn"
+                             md-item-text="tag"
+                             md-no-cache="true"
+                             md-min-length="0"
+                             placeholder="{{'study-management.tag-editor.placeholder' | translate}}">
+                <md-item-template>
+                    {{tag}}
+                </md-item-template>
+            </md-autocomplete>
+        </md-chips>
+    </md-input-container>
+</div>

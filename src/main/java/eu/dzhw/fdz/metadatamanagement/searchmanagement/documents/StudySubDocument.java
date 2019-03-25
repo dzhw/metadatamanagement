@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.List;
 
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Tags;
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
@@ -46,6 +47,8 @@ public class StudySubDocument extends AbstractRdcDomainObject
   private I18nString dataAvailability;
 
   private String masterId;
+
+  private Tags tags;
 
   public StudySubDocument() {
     super();
