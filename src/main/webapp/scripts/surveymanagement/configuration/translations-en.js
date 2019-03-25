@@ -36,6 +36,7 @@ angular.module('metadatamanagementApp').config(
             'geographic-coverages': 'Geographic Coverages',
             'survey-method': 'Survey Method',
             'data-type': 'Survey Data Type',
+            'sample': 'Sampling Procedure',
             'grossSampleSize': 'Gross Sample Size',
             'sampleSize': 'Net Sample Size',
             'responseRate': 'Response Rate',

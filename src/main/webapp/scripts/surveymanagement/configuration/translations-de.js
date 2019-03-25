@@ -36,6 +36,7 @@ angular.module('metadatamanagementApp').config(
             'geographic-coverages': 'Untersuchungsgebiete',
             'data-type': 'Erhebungsdatentyp',
             'survey-method': 'Erhebungsmethode',
+            'sample': 'Stichprobenverfahren',
             'annotations': 'Anmerkungen',
             'grossSampleSize': 'Bruttostichprobe',
             'sampleSize': 'Nettostichprobe',
