@@ -194,6 +194,7 @@ angular.module('metadatamanagementApp')
               if (errorField.$setTouched) {
                 errorField.$setTouched();
               } else if (errorField.$setDirty) {
+                // could be a ngForm which doesn't have $setTouched
                 errorField.$setDirty();
               }
             });

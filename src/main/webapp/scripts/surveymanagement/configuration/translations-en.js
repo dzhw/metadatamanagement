@@ -32,6 +32,8 @@ angular.module('metadatamanagementApp').config(
             'surveys-same-study': 'All Surveys of this Study',
             'field-period': 'Field Period',
             'population': 'Population',
+            'geographic-coverage': 'Geographic Coverage',
+            'geographic-coverages': 'Geographic Coverages',
             'survey-method': 'Survey Method',
             'data-type': 'Survey Data Type',
             'grossSampleSize': 'Gross Sample Size',
@@ -322,6 +324,41 @@ angular.module('metadatamanagementApp').config(
           'not-found': 'No matching sample method found',
           'error': {
             'required': 'A sampling procedure must be selected'
+          }
+        },
+        'geographic-coverage-list': {
+          'tooltip': {
+            'move-item-up': 'Click to move this geographic coverage entry up',
+            'move-item-down': 'Click to move this geographic coverage entry down',
+            'add-geographic-coverage': 'Click to add a new geographic coverage'
+          },
+          'hint': {
+            'empty-list': 'No geographic coverages are specified. Click on the button at the bottom left to add one.'
+          },
+          'errors': {
+            'empty': 'At least one geographic coverage must be specified!'
+          }
+        },
+        'geographic-coverage': {
+          'tooltip': {
+            'delete': 'Click to remove this geographic coverage'
+          },
+          'label': {
+            'country': 'Country',
+            'country-not-found': 'No country name matches your search query',
+            'description': {
+              'de': 'Optional information regarding this geographic coverage (in German)',
+              'en': 'Optional information regarding this geographic coverage (in English)'
+            }
+          },
+          'hints': {
+            'country': 'Select the country where the survey was conducted.',
+            'description': 'You can add additional information here.'
+          },
+          'errors': {
+            'required': 'Please select a country!',
+            'no-match': 'This is not a valid selection!',
+            'maxlength': 'The additional information exceeds the maximum character count!'
           }
         }
       }

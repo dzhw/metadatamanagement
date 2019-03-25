@@ -141,7 +141,7 @@ number
 population
 ^^^^^^^^^^
 
-.. java:field:: @NotNull private Population population
+.. java:field:: @Valid @NotNull private Population population
    :outertype: Survey
 
    Details about the \ :java:ref:`Population`\ . Must not be empty.

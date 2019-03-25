@@ -286,7 +286,11 @@ module.exports = function(grunt) {
               ' “div” at this point.',
               'Possible misuse of “aria-label”. (If you disagree with this ' +
               'warning, file an issue report or send e-mail to ' +
-              'www-validator@w3.org.)'
+              'www-validator@w3.org.)',
+              'Attribute “layout-gt-md” not allowed on element “div” at this ' +
+              'point.',
+              'Attribute “layout-gt-lg” not allowed on element “div” at this ' +
+              'point.'
             ],
             customattrs: [
               'show-validation',

@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
              SimpleMessageToastService, SearchResultNavigatorService,
              SurveyResponseRateImageUploadService,
              DataAcquisitionProjectResource, ProductChooserDialogService,
-             ProjectUpdateAccessService, OutdatedVersionNotifier,
+             ProjectUpdateAccessService, COUNTRIES, OutdatedVersionNotifier,
              $stateParams) {
 
       SearchResultNavigatorService
@@ -123,7 +123,7 @@ angular.module('metadatamanagementApp')
       ctrl.addToShoppingCart = function(event) {
         ProductChooserDialogService.showDialog(
           ctrl.survey.dataAcquisitionProjectId, ctrl.accessWays,
-          ctrl.survey.study,
+          ctrl.survey.study, ctrl.survey.release.version,
           event);
       };
 
@@ -131,6 +131,30 @@ angular.module('metadatamanagementApp')
         if (ProjectUpdateAccessService
           .isUpdateAllowed(activeProject, 'surveys', true)) {
           $state.go('surveyEdit', {id: ctrl.survey.id});
+        }
+      };
+
+      ctrl.isSimpleGeographicCoverage = function(geographicCoverages) {
+        if (geographicCoverages && geographicCoverages.length === 1) {
+          var descriptionDe = _.get(geographicCoverages[0], 'description.de');
+          var descriptionEn = _.get(geographicCoverages[0], 'description.en');
+
+          return !descriptionDe && !descriptionEn;
+        } else {
+          return false;
+        }
+      };
+
+      ctrl.getCountryName = function(geographicCoverage) {
+        var country = _.filter(COUNTRIES, function(country) {
+          return country.code === geographicCoverage.country;
+        });
+
+        if (country.length === 1) {
+          var language = LanguageService.getCurrentInstantly();
+          return country[0][language];
+        } else {
+          return '';
         }
       };
     });

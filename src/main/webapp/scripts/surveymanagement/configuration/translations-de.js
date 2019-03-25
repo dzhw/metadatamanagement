@@ -32,6 +32,8 @@ angular.module('metadatamanagementApp').config(
             'surveys-same-study': 'Alle Erhebungen der Studie',
             'field-period': 'Feldzeit',
             'population': 'Grundgesamtheit',
+            'geographic-coverage': 'Untersuchungsgebiet',
+            'geographic-coverages': 'Untersuchungsgebiete',
             'data-type': 'Erhebungsdatentyp',
             'survey-method': 'Erhebungsmethode',
             'annotations': 'Anmerkungen',
@@ -306,7 +308,7 @@ angular.module('metadatamanagementApp').config(
             'responseRate': 'Geben Sie die Rücklaufquote in Prozent an.',
             'annotations': {
               'de': 'Geben Sie zusätzliche Anmerkungen zu der Erhebung hier auf Deutsch an.',
-              'en': 'Geben Sie zusätzliche Anmerkungen zu der Erhebung hier auf Englisch an.',
+              'en': 'Geben Sie zusätzliche Anmerkungen zu der Erhebung hier auf Englisch an.'
             },
             'response-rate-image': {
               'available-after-save': 'Grafische Darstellungen des Verlaufs des Rücklaufs können nach dem Speichern der Erhebung hinzugefügt werden.',
@@ -322,6 +324,41 @@ angular.module('metadatamanagementApp').config(
           'not-found': 'Kein passendes Stichprobenverfahren gefunden',
           'error': {
             'required': 'Ein Stichprobenverfahren muss angegeben werden'
+          }
+        },
+        'geographic-coverage-list': {
+          'tooltip': {
+            'move-item-up': 'Klicken, um dieses Untersuchungsgebiet nach oben zu verschieben',
+            'move-item-down': 'Klicken, um dieses Untersuchungsgebiet nach unten zu verschieben',
+            'add-geographic-coverage': 'Klicken, um ein neues Untersuchungsgebiet hinzuzufügen'
+          },
+          'hint': {
+            'empty-list': 'Es sind keine Untersuchungsgebiete angegeben. Klicken Sie auf den Button unten links, um ein neues Untersuchungsgebiet anzulegen.'
+          },
+          'errors': {
+            'empty': 'Es muss mindestens ein Untersuchungsgebiet angegeben werden!'
+          }
+        },
+        'geographic-coverage': {
+          'tooltip': {
+            'delete': 'Klicken, um dieses Untersuchungsgebiet zu entfernen'
+          },
+          'label': {
+            'country': 'Land',
+            'country-not-found': 'Zu Ihrer Suche wurde kein Land gefunden',
+            'description': {
+              'de': 'Optionale Angaben zum Untersuchungsgebiet (in Deutsch)',
+              'en': 'Optionale Angaben zum Untersuchungsgebiet (in Englisch)'
+            }
+          },
+          'hints': {
+            'country': 'Wählen Sie das Land aus, in dem die Erhebung durchgeführt wurde.',
+            'description': 'Sie können hier zusätzliche Angaben zum Untersuchungsgebiet machen.'
+          },
+          'errors': {
+            'required': 'Bitte wählen Sie ein Land aus!',
+            'no-match': 'Das ist keine gültige Auswahl!',
+            'maxlength': 'Die optionalen Angaben dürfen nicht mehr als 512 Zeichen enthalten!'
           }
         }
       }

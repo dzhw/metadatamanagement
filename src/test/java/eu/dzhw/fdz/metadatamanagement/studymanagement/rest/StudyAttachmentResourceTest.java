@@ -1,18 +1,18 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
 
-import com.mongodb.gridfs.GridFS;
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
-import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyAttachmentFilenameBuilder;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyAttachmentService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,25 +26,23 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import com.mongodb.gridfs.GridFS;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyAttachmentFilenameBuilder;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 public class StudyAttachmentResourceTest extends AbstractTest {
   @Autowired
   private WebApplicationContext wac;
-
-  @Autowired
-  private StudyAttachmentService studyAttachmentService;
   
   @Autowired
   private StudyRepository studyRepository;

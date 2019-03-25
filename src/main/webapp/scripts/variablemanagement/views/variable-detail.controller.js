@@ -95,7 +95,7 @@ angular.module('metadatamanagementApp')
         var previousIndexInDataSet = result.indexInDataSet - 1;
         VariableSearchService.findByDataSetIdAndIndexInDataSet(result.dataSetId,
           previousIndexInDataSet, ['id', 'label', 'name', 'dataType',
-            'scaleLevel', 'surveys', 'masterId'])
+            'scaleLevel', 'surveys', 'masterId', 'release'])
           .then(function(resultPreviousVariable) {
             $scope.previousVariables = resultPreviousVariable.hits.hits;
           });
@@ -104,7 +104,7 @@ angular.module('metadatamanagementApp')
         var nextIndexInDataSet = result.indexInDataSet + 1;
         VariableSearchService.findByDataSetIdAndIndexInDataSet(result.dataSetId,
           nextIndexInDataSet, ['id', 'label', 'name', 'dataType',
-            'scaleLevel', 'surveys', 'masterId'])
+            'scaleLevel', 'surveys', 'masterId', 'release'])
           .then(function(resultNextVariable) {
             $scope.nextVariables = resultNextVariable.hits.hits;
           });
@@ -209,7 +209,7 @@ angular.module('metadatamanagementApp')
     $scope.addToShoppingCart = function(event) {
       ProductChooserDialogService.showDialog(
         $scope.variable.dataAcquisitionProjectId, $scope.variable.accessWays,
-        $scope.variable.study,
+        $scope.variable.study, $scope.variable.release.version,
         event);
     };
   });

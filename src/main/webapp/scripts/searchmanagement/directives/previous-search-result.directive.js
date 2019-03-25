@@ -1,8 +1,9 @@
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp').directive('previousSearchResult',
   function(SearchResultNavigatorService, SearchTypeToDetailsStateMapper,
-           $state) {
+           $state, Principal) {
     return {
       restrict: 'E',
       templateUrl: 'scripts/searchmanagement/directives/' +
@@ -23,7 +24,10 @@ angular.module('metadatamanagementApp').directive('previousSearchResult',
 
               scope.goToPreviousSearchResult = function() {
                 $state.go(state, {
-                  id: id, 'search-result-index': scope.previousSearchResultIndex
+                  id: id,
+                  'search-result-index': scope.previousSearchResultIndex,
+                  version: Principal.loginName() ? undefined :
+                    _.get(scope.previousSearchResult, 'release.version')
                 });
               };
             }
