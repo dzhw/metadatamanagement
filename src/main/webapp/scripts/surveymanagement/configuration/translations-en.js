@@ -319,6 +319,16 @@ angular.module('metadatamanagementApp').config(
             'survey-number': 'Please select a survey number for the new survey.'
           },
           'all-surveys-deleted-toast': 'All surveys of the Data Acquisition Project "{{id}}" have been deleted.'
+        },
+        'unit-value-picker': {
+          'label': 'Select a survey unit',
+          'unit-not-found': 'No survey unit found with this name',
+          'hints': {
+            'unit': 'Please select a survey unit'
+          },
+          'errors': {
+            'required': 'A survey unit must be selected'
+          }
         }
       }
       //jscs:enable

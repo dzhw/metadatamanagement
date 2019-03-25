@@ -205,22 +205,24 @@
       </#list>
     </dataSets>
   </#if>
-  <#if study.annotations?? && (study.annotations.de?? || study.annotations.en??)>
-    <notes>
-      <#if study.annotations.de??>
-        <note>
-          <language>de</language>
-          <text>Anmerkungen zur Studie: ${study.annotations.de}</text>
-        </note>
-      </#if>
-      <#if study.annotations.en??>
-        <note>
-          <language>en</language>
-          <text>Comments on the study: ${study.annotations.en}</text>
-        </note>
-      </#if>
-    </notes>
-  </#if>
+  <notes>
+    <#if study.annotations?? && study.annotations.de??>
+      <note>
+        <language>de</language>
+        <text>Anmerkungen zur Studie: ${study.annotations.de}</text>
+      </note>
+    </#if>
+    <#if study.annotations?? && study.annotations.en??>
+      <note>
+        <language>en</language>
+        <text>Comments on the study: ${study.annotations.en}</text>
+      </note>
+    </#if>
+    <note>
+        <language>de</language>
+        <text>Untersuchungseinheit: ${surveyUnits}</text>
+    </note>
+  </notes>
   <#if previousDoi??>
     <relations>
       <relation>

@@ -319,6 +319,16 @@ angular.module('metadatamanagementApp').config(
             'survey-number': 'Wählen Sie eine freie Nummer für die neue Erhebung aus.'
           },
           'all-surveys-deleted-toast': 'Alle Erhebungen des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
+        },
+        'unit-value-picker': {
+          'label': 'Wählen Sie eine Erhebungseinheit aus',
+          'unit-not-found': 'Keine Erhebungseinheit mit diesem Namen gefunden',
+          'hints': {
+            'unit': 'Wählen Sie eine Erhebungseinheit aus'
+          },
+          'errors': {
+            'required': 'Eine Erhebungseinheit muss ausgewählt sein'
+          }
         }
       }
       //jscs:enable

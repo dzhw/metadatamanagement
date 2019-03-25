@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
@@ -269,6 +270,7 @@ public class DaraService {
     List<Survey> surveys =
         this.surveyRepository.findByDataAcquisitionProjectIdOrderByNumber(projectId);
     dataForTemplate.put("surveys", surveys);
+    dataForTemplate.put("surveyUnits", concatenateUnits(surveys));
 
     // Get Datasets Information
     List<DataSet> dataSets = this.dataSetRepository.findByDataAcquisitionProjectId(projectId);
@@ -300,6 +302,12 @@ public class DaraService {
     dataForTemplate.put("timeDimension", computeTimeDimension(study));
 
     return dataForTemplate;
+  }
+
+  private String concatenateUnits(List<Survey> surveys) {
+    return String.join(", ", surveys.stream()
+        .map(survey -> survey.getPopulation().getUnit().getDe())
+        .collect(Collectors.toSet()));
   }
 
   private String computeTimeDimension(Study study) {
