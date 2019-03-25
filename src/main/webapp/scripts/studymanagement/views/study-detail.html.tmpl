@@ -9,7 +9,12 @@
         <json-content-dialog ng-if="ctrl.enableJsonView" content="ctrl.study" header-title="ctrl.study.title" exclude-fields="ctrl.jsonExcludes" class="fdz-no-margin-bottom"></json-content-dialog>
     </div>
     <div layout="row" class="fdz-tag-link-container">
-        <a ng-repeat="tag in ctrl.studyTags" ui-sref="search({type: 'studies', 'query': tag})" class="label label-as-badge bg-primary">{{tag}}</a>
+        <a ng-repeat="tag in ctrl.studyTags" ui-sref="search({type: 'studies', 'query': tag})" class="label label-as-badge md-raised md-button md-ink-ripple md-primary">
+          <span>{{tag}}</span>
+          <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'study-management.detail.tag-tooltip' | translate}}
+          </md-tooltip>
+        </a>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">

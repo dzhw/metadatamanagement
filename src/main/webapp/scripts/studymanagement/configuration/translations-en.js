@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').config(
             'studySeries': 'Study Series',
             'institution': 'Institution',
             'authors': 'Authors',
-            'tags': 'Tags',
+            'tags': 'Tags (Keywords) for the Study',
             'sponsors': 'Sponsored by',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
@@ -129,7 +129,8 @@ angular.module('metadatamanagementApp').config(
               'study-series': 'Click to show all studies of the study series.'
             }
           },
-          'doi-tooltip': 'Click to open the DOI in a new Tab'
+          'doi-tooltip': 'Click to open the DOI in a new Tab',
+          'tag-tooltip': 'Click to search for studies with this tag'
         },
         'log-messages': {
           'study': {

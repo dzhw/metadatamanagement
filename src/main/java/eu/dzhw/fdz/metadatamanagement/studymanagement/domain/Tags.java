@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Contains tags associated with a study.
@@ -17,10 +17,10 @@ public class Tags {
    * German tags. At least one tag must be provided.
    */
   @NotEmpty(message = "studymanagement.error.study.tags.not-empty")
-  private List<String> de;
+  private Set<String> de;
 
   /**
    * English tags (optional).
    */
-  private List<String> en;
+  private Set<String> en;
 }

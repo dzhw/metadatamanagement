@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').config(
             'studySeries': 'Studienreihe',
             'institution': 'Erhebende Institution',
             'authors': 'Projektmitarbeiter(innen)',
-            'tags': 'Tags',
+            'tags': 'Tags (Schlüsselwörter) zur Studie',
             'sponsors': 'Gefördert von',
             'version': 'Version',
             'surveyDesign': 'Erhebungsdesign',
@@ -129,7 +129,8 @@ angular.module('metadatamanagementApp').config(
               'study-series': 'Klicken, um alle Studien aus der Studienreihe anzuzeigen.'
             }
           },
-          'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen'
+          'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',
+          'tag-tooltip': 'Klicken, um Studien mit diesem Tag zu suchen'
         },
         'log-messages': {
           'study': {
@@ -306,7 +307,7 @@ angular.module('metadatamanagementApp').config(
             'german-tags': 'Deutsche Tags',
             'english-tags': 'Englische Tags'
           },
-          'placeholder': 'Geben Sie einen neuen Tag ein',
+          'placeholder': 'Neuen Tag eingeben',
           'error': {
             'required': 'Es muss mindestens ein Tag eingetragen sein.'
           }

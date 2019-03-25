@@ -3,6 +3,14 @@
  */
 package eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
@@ -49,12 +57,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.StorageTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * @author Daniel Katzberg
  *
@@ -92,7 +94,7 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static Study buildStudy(String projectId) {
     Tags tags = new Tags();
-    tags.setDe(Collections.singletonList("Test-Tag"));
+    tags.setDe(new HashSet<String>(Arrays.asList("Test-Tag")));
     List<Person> authors = new ArrayList<>();
     authors.add(buildPerson("Test", null, "Authors"));
 
