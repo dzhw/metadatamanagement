@@ -122,6 +122,7 @@ angular.module('metadatamanagementApp')
         ProductChooserDialogService.showDialog(
           ctrl.instrument.dataAcquisitionProjectId, ctrl.accessWays,
           ctrl.instrument.study,
+          ctrl.instrument.release.version,
           event);
       };
 
