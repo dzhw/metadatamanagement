@@ -30,6 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentTypes;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
@@ -129,11 +130,14 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static Survey buildSurvey(String projectId) {
+    GeographicCoverage geographicCoverage = GeographicCoverage.builder().country("DE").build();
+
     Population population = Population.builder()
         .description(I18nString.builder()
             .de("Population Beschreibung")
             .en("Population Description")
             .build())
+        .geographicCoverages(Collections.singletonList(geographicCoverage))
         .build();
 
     String surveyId = UnitTestCreateValidIds.buildSurveyId(projectId, 1);

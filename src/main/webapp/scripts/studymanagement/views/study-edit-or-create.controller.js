@@ -225,8 +225,7 @@ angular.module('metadatamanagementApp')
           ctrl.study.$save()
             .then(ctrl.updateElasticSearchIndex)
             .then(ctrl.onSavedSuccessfully)
-            .catch(function(error) {
-              console.log(error);
+            .catch(function() {
               SimpleMessageToastService.openAlertMessageToast(
                 'study-management.edit.error-on-save-toast', {
                   studyId: ctrl.study.id
