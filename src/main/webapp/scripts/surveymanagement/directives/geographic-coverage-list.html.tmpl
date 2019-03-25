@@ -1,7 +1,7 @@
 <md-card>
     <md-card-header>
         <md-card-header-text>
-            <h2 class="md-title">{{'survey-management.detail.label.geographic-coverage' | translate}}</h2>
+            <h2 class="md-title">{{'survey-management.detail.label.geographic-coverages' | translate}}</h2>
         </md-card-header-text>
     </md-card-header>
     <md-divider></md-divider>
@@ -28,13 +28,13 @@
                                          flex>
                     </geographic-coverage>
                 </div>
-                <md-divider ng-if="$index + 1 < geographicCoverages.length"></md-divider>
+                <md-divider></md-divider>
             </li>
         </ul>
-        <p ng-if="ngModelCtrl.$untouched && (!geographicCoverages || geographicCoverages.length === 0)">
+        <p style="margin: 16px 16px 0px 16px;" ng-if="ngModelCtrl.$untouched && (!geographicCoverages || geographicCoverages.length === 0)">
             {{'survey-management.geographic-coverage-list.hint.empty-list' | translate}}
         </p>
-        <div ng-if="ngModelCtrl.$touched" ng-messages="ngModelCtrl.$error" class="fdz-error">
+        <div style="margin: 16px 16px 0px 16px;" ng-if="ngModelCtrl.$touched" ng-messages="ngModelCtrl.$error" class="fdz-error">
             <div ng-message="not-empty">{{'survey-management.geographic-coverage-list.errors.empty' | translate}}</div>
         </div>
     </md-card-content>

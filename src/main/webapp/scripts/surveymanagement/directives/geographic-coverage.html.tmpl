@@ -6,7 +6,7 @@
                          md-search-text="countryStr"
                          md-selected-item="selectedCountry"
                          md-item-text="country[language]"
-                         md-input-name="country"
+                         md-input-name="countryInput"
                          md-require-match="true"
                          md-select-on-focus="true"
                          md-match-case-insensitive="true"
@@ -21,22 +21,22 @@
             <md-not-found>
                 {{'survey-management.geographic-coverage.label.country-not-found' | translate}}
             </md-not-found>
-            <div ng-if="geographicCoverageForm.country.$untouched" class="fdz-input-hint">
+            <div ng-if="geographicCoverageForm.countryInput.$untouched" class="fdz-input-hint">
                 {{'survey-management.geographic-coverage.hints.country' | translate}}
             </div>
-            <div ng-messages="geographicCoverageForm.country.$error">
+            <div ng-messages="geographicCoverageForm.countryInput.$error">
                 <div ng-message="required">{{'survey-management.geographic-coverage.errors.required' | translate}}</div>
                 <div ng-message="md-require-match">{{'survey-management.geographic-coverage.errors.no-match' | translate}}</div>
             </div>
         </md-autocomplete>
-        <md-button class="md-icon-button md-primary" aria-label="Delete geographic location" ng-click="onDelete()">
+        <md-button class="md-icon-button md-primary" aria-label="Delete geographic location" ng-click="onDelete()" style="margin: 6px;">
             <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'survey-management.geographic-coverage.tooltip.delete' | translate}}
             </md-tooltip>
             <md-icon>delete_forever</md-icon>
         </md-button>
     </div>
-    <div layout-gt-xs="column" layout-gt-sm="row">
+    <div layout-gt-xs="column" layout-gt-sm="row" style="padding-right: 16px;">
         <md-input-container flex="grow" ng-class="{'fdz-add-right-margin': isScreenGreaterSmall}">
             <label>{{'survey-management.geographic-coverage.label.description.de' | translate}}</label>
             <textarea name="descriptionDe" ng-model="geographicCoverage.description.de" rows="4" md-maxlength="512" lang="de"></textarea>

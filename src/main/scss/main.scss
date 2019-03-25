@@ -1202,23 +1202,14 @@ project-status-badge > span, release-status-badge > span {
 geographic-coverage-list {
     display: block;
 
-    div.fdz-geographic-coverage-item-controls {
-        padding-left: 8px;
-    }
-
     md-card-content {
-        padding-left: 0;
-        padding-right: 0;
+        padding: 0;
     }
 
     ul {
         padding: 0;
+        margin: 0;
         list-style: none;
-
-        geographic-coverage {
-            padding-left: 16px;
-            padding-right: 16px;
-        }
     }
 }
 

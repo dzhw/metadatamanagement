@@ -32,7 +32,8 @@ angular.module('metadatamanagementApp').config(
             'surveys-same-study': 'Alle Erhebungen der Studie',
             'field-period': 'Feldzeit',
             'population': 'Grundgesamtheit',
-            'geographic-coverage': 'Untersuchungsgebiete',
+            'geographic-coverage': 'Untersuchungsgebiet',
+            'geographic-coverages': 'Untersuchungsgebiete',
             'data-type': 'Erhebungsdatentyp',
             'survey-method': 'Erhebungsmethode',
             'sample': 'Stichprobenverfahren',
@@ -328,10 +329,10 @@ angular.module('metadatamanagementApp').config(
             'add-geographic-coverage': 'Klicken, um ein neues Untersuchungsgebiet hinzuzufügen'
           },
           'hint': {
-            'empty-list': 'Es sind keine Untersuchungsumgebungen angegeben. Klicken Sie auf den Button unten links, um eine neue Untersuchungsumgebung anzulegen.'
+            'empty-list': 'Es sind keine Untersuchungsgebiete angegeben. Klicken Sie auf den Button unten links, um ein neues Untersuchungsgebiet anzulegen.'
           },
           'errors': {
-            'empty': 'Es muss mindestens eine Untersuchungsumgebung angegeben werden!'
+            'empty': 'Es muss mindestens ein Untersuchungsgebiet angegeben werden!'
           }
         },
         'geographic-coverage': {
@@ -347,13 +348,13 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'hints': {
-            'country': 'Wählen Sie das Land aus, in dem Daten zu die Erhebung gesammelt wurden.',
+            'country': 'Wählen Sie das Land aus, in dem die Erhebung durchgeführt wurde.',
             'description': 'Sie können hier zusätzliche Angaben zum Untersuchungsgebiet machen.'
           },
           'errors': {
             'required': 'Bitte wählen Sie ein Land aus!',
             'no-match': 'Das ist keine gültige Auswahl!',
-            'maxlength': 'The description exceeds the maximum character count!'
+            'maxlength': 'Die optionalen Angaben dürfen nicht mehr als 512 Zeichen enthalten!'
           }
         }
       }

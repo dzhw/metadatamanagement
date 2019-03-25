@@ -33,6 +33,7 @@ angular.module('metadatamanagementApp').config(
             'field-period': 'Field Period',
             'population': 'Population',
             'geographic-coverage': 'Geographic Coverage',
+            'geographic-coverages': 'Geographic Coverages',
             'survey-method': 'Survey Method',
             'data-type': 'Survey Data Type',
             'sample': 'Sampling Procedure',
@@ -328,7 +329,7 @@ angular.module('metadatamanagementApp').config(
             'add-geographic-coverage': 'Click to add a new geographic coverage'
           },
           'hint': {
-            'empty-list': 'No geographic coverages are specified. Click on the button at the bottom left to add one'
+            'empty-list': 'No geographic coverages are specified. Click on the button at the bottom left to add one.'
           },
           'errors': {
             'empty': 'At least one geographic coverage must be specified!'
@@ -343,17 +344,17 @@ angular.module('metadatamanagementApp').config(
             'country-not-found': 'No country name matches your search query',
             'description': {
               'de': 'Optional information regarding this geographic coverage (in German)',
-              'en': 'Optional information regarding this geographic coverage  (in English)'
+              'en': 'Optional information regarding this geographic coverage (in English)'
             }
           },
           'hints': {
-            'country': 'Select the country where the survey data was collected.',
+            'country': 'Select the country where the survey was conducted.',
             'description': 'You can add additional information here.'
           },
           'errors': {
             'required': 'Please select a country!',
             'no-match': 'This is not a valid selection!',
-            'maxlength': 'The description exceeds the maximum character count!'
+            'maxlength': 'The additional information exceeds the maximum character count!'
           }
         }
       }
