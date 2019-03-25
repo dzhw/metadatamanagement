@@ -1199,3 +1199,32 @@ project-status-badge > span, release-status-badge > span {
 .fdz-project-status-overview-metadata-status-table-cell {
     min-height: 28px;
 }
+geographic-coverage-list {
+    display: block;
+
+    md-card-content {
+        padding: 0;
+    }
+
+    ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+}
+
+geographic-coverage {
+    display: block;
+}
+
+.fdz-error {
+    color: $brand-danger;
+}
+
+.fdz-plain-list {
+    list-style: none;
+    padding: 0;
+    li {
+        margin: 0;
+    }
+}
