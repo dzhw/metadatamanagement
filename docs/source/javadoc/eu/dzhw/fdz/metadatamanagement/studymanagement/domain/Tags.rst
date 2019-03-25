@@ -4,7 +4,7 @@
 
 .. java:import:: javax.validation.constraints NotEmpty
 
-.. java:import:: java.util List
+.. java:import:: java.util Set
 
 Tags
 ====
@@ -21,7 +21,7 @@ Fields
 de
 ^^
 
-.. java:field:: @NotEmpty private List<String> de
+.. java:field:: @NotEmpty private Set<String> de
    :outertype: Tags
 
    German tags. At least one tag must be provided.
@@ -29,7 +29,7 @@ de
 en
 ^^
 
-.. java:field:: private List<String> en
+.. java:field:: private Set<String> en
    :outertype: Tags
 
    English tags (optional).

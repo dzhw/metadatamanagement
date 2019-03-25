@@ -38,11 +38,8 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentTypes;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
-<<<<<<< HEAD
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Tags;
-=======
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage;
->>>>>>> development
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
