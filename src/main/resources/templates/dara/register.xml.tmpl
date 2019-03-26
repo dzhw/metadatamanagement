@@ -142,7 +142,7 @@
       <sampled>
         <ul>
         <#list surveys as survey>
-          <li><strong>${survey.title.en}:</strong> 
+          <li><strong>${survey.title.en}:</strong>
           ${survey.population.description.en}
           </li>
         </#list>
@@ -150,6 +150,20 @@
       </sampled>
     </universe>
   </universes>
+  <#if surveySamples?? && surveySamples?size gt 0>
+  <samplings>
+    <#list surveySamples as surveySample>
+    <sampling>
+        <language>de</language>
+        <method>${surveySample.de}</method>
+    </sampling>
+    <sampling>
+        <language>en</language>
+        <method>${surveySample.en}</method>
+    </sampling>
+    </#list>
+  </samplings>
+  </#if>
   <#if surveys?? && surveys?size gt 0>
     <temporalCoverages>
       <#list surveys as survey>

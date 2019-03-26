@@ -8,12 +8,14 @@
                      md-input-name="sampleType"
                      md-select-on-match="true"
                      md-match-case-insensitive="true"
+                     md-clear-button="true"
                      md-require-match="true"
                      md-floating-label="{{'survey-management.sample-type-picker.label' | translate}}"
                      md-item-text="sampleOption[language]"
-                     ng-required="true">
+                     ng-required="true"
+                     ng-disabled="isDisabled">
         <md-item-template>
-            {{sampleOption[language]}}
+            <span md-highlight-text="sampleTypeSearchText">{{sampleOption[language]}}</span>
         </md-item-template>
         <md-not-found>
             {{'survey-management.sample-type-picker.not-found' | translate}}

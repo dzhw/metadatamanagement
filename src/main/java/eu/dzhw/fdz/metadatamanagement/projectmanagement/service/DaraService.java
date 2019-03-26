@@ -1,37 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.NotImplementedException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
-import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import com.google.common.base.Charsets;
-
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -57,6 +26,37 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
+import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Access component for getting health information or registration or updates for dara and the doi.
@@ -270,6 +270,8 @@ public class DaraService {
         this.surveyRepository.findByDataAcquisitionProjectIdOrderByNumber(projectId);
     dataForTemplate.put("surveys", surveys);
 
+    dataForTemplate.put("surveySamples", deduplicateSurveySamples(surveys));
+
     // Get Datasets Information
     List<DataSet> dataSets = this.dataSetRepository.findByDataAcquisitionProjectId(projectId);
     dataForTemplate.put("dataSets", dataSets);
@@ -300,6 +302,12 @@ public class DaraService {
     dataForTemplate.put("timeDimension", computeTimeDimension(study));
 
     return dataForTemplate;
+  }
+
+  private Set<I18nString> deduplicateSurveySamples(List<Survey> surveys) {
+    return surveys.stream()
+        .map(Survey::getSample)
+        .collect(Collectors.toSet());
   }
 
   private String computeTimeDimension(Study study) {
