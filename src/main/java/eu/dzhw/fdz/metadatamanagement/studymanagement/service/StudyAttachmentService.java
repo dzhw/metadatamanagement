@@ -1,18 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import org.bson.Document;
 import org.javers.core.Javers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -25,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -36,9 +30,6 @@ import java.util.regex.Pattern;
 @Service
 public class StudyAttachmentService {
 
-  @Autowired
-  private GridFS gridFs;
-  
   @Autowired
   private GridFsOperations operations;
   
@@ -80,27 +71,15 @@ public class StudyAttachmentService {
 
     return filename;
   }
-  
+
   /**
    * Update the metadata of the attachment.
-   * 
    * @param metadata The new metadata.
    */
   public void updateAttachmentMetadata(StudyAttachmentMetadata metadata) {
-    metadata.setVersion(metadata.getVersion() + 1);
-    String currentUser = SecurityUtils.getCurrentUserLogin();
-    metadata.setLastModifiedBy(currentUser);
-    metadata.setLastModifiedDate(LocalDateTime.now());
-    GridFSDBFile file = gridFs.findOne(StudyAttachmentFilenameBuilder.buildFileName(
-        metadata.getStudyId(), metadata.getFileName()));
-    if (Boolean.TRUE.equals(file.getMetaData().get("shadow"))) {
-      throw new ShadowCopyUpdateNotAllowedException();
-    }
-    BasicDBObject dbObject = new BasicDBObject(
-        (Document) mongoTemplate.getConverter().convertToMongoType(metadata));
-    file.setMetaData(dbObject);
-    file.save();
-    javers.commit(currentUser, metadata);
+    String filePath = StudyAttachmentFilenameBuilder.buildFileName(metadata.getStudyId(),
+        metadata.getFileName());
+    attachmentMetadataHelper.updateAttachmentMetadata(metadata, filePath);
   }
   
   /**
