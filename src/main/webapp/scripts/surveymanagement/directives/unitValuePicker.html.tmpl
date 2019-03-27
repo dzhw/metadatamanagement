@@ -12,7 +12,8 @@
                      md-clear-button="true"
                      md-selected-item-change="selectedUnitChange(unitValue)"
                      md-min-length="0"
-                     md-floating-label="{{'survey-management.unit-value-picker.label' | translate}}">
+                     md-floating-label="{{'survey-management.unit-value-picker.label' | translate}}"
+                     ng-disabled="isDisabled">
         <md-item-template>
             {{unitValue[language]}}
         </md-item-template>

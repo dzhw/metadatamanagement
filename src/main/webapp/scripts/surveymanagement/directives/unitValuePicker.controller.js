@@ -2,13 +2,22 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('UnitValuePickerController',
-  function($scope, LanguageService, UNIT_VALUES) {
-    if ($scope.unit) {
-      $scope.selectedUnitValue = _.find(UNIT_VALUES, $scope.unit);
-    }
+  function($scope, LanguageService, UnitValuesResource) {
+    var unitValues;
+
+    $scope.isDisabled = true;
     $scope.language = LanguageService.getCurrentInstantly();
+
+    UnitValuesResource.query().$promise.then(function(result) {
+      unitValues = _.sortBy(result, function(unit) {
+        return unit[$scope.language];
+      });
+      $scope.isDisabled = false;
+      $scope.selectedUnitValue = _.find(unitValues, $scope.unit);
+    });
+
     $scope.filterUnitValues = function(unitValueStr) {
-      return _.filter(UNIT_VALUES, function(unitValue) {
+      return _.filter(unitValues, function(unitValue) {
         return unitValue[$scope.language].toLowerCase()
           .indexOf(unitValueStr.toLowerCase()) !== -1;
       });
