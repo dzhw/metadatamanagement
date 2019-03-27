@@ -121,7 +121,7 @@ angular.module('metadatamanagementApp')
           if (ctrl.counts.instrumentsCount === 1) {
             ctrl.instrument = result.instruments[0];
           }
-          if (result.release.version) {
+          if (_.get(result, 'release.version')) {
             ctrl.study.surveys.map(function(survey) {
               _.set(survey, 'release.version', result.release.version);
             });
