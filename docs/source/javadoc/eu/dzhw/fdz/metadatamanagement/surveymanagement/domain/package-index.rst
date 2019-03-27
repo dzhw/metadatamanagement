@@ -9,6 +9,7 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.surveymana
    :maxdepth: 1
 
    DataTypes
+   GeographicCoverage
    Population
    Survey
    SurveyAttachmentMetadata

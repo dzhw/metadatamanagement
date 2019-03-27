@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
