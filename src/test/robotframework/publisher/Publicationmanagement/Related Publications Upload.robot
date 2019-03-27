@@ -14,13 +14,14 @@ Upload excel file for related publications
 
 *** Keywords ***
 Upload Excel file
-    press key  xpath=//input[@type='file' and @ngf-select='uploadRelatedPublications($file)'][1]   ${CURDIR}/publicationdata/relatedPublications.xls
+   Press Key  xpath=//input[@type='file' and @ngf-select='uploadRelatedPublications($file)'][1]   ${CURDIR}/publicationdata/relatedPublications.xls
 
 Close The Toast Message for upload
-     Wait Until Element Is Visible   xpath=//md-toast//span[contains(., "Upload von 48 Publikationen")]  # to ensure enough time for uploading and next test
-     Click Element Through Tooltips   xpath=//md-toast//span[contains(., "Upload von 48 Publikationen")]
-     Element Should Contain  xpath=//md-toast//span[contains(.,"Upload von 48 Publikationen")]  Upload von 48 Publikationen
-     Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
+   Wait Until Element Is Visible   xpath=//md-toast//span[contains(., "Upload von 48 Publikationen")]  # to ensure enough time for uploading and next test
+   Click Element Through Tooltips   xpath=//md-toast//span[contains(., "Upload von 48 Publikationen")]
+   Element Should Contain  xpath=//md-toast//span[contains(.,"Upload von 48 Publikationen")]  Upload von 48 Publikationen
+   Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
 
 Assert New Publication Entry with Excel Upload
-     Element Should Contain    xpath=//a//span[text()='pub-HossainPub2019$']   pub-HossainPub2019$
+   Wait Until Page Contains    The related publicatoin title pub-HossainPub2019$
+

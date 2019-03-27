@@ -3,7 +3,7 @@ Documentation     Tests the upload on the survey edit site. #File upload is not 
 Force Tags        chromeonly
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
-
+Resource          ../../resources/login_resource.robot
 
 *** Test Cases ***
 Upload file in survey editor
@@ -33,13 +33,15 @@ Click Survey Edit Button
     Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='mode_edit']
 
 Delete Response Rate Upload
-    Click Element Through Tooltips    xpath=//md-card//button[contains(.,'delete_forever')]
+    Click Element Through Tooltips    xpath=//md-card[@class='fdz-reset-top-margin _md']//button[@type='button']//md-icon[contains(.,'delete_forever')]
 
 Save Response Rate Changes
-    Click Element Through Tooltips    xpath=//md-card//button[contains(.,'save')]
+    Click Element Through Tooltips    xpath=//md-card//button[@type='button']//md-icon[contains(.,'save')]
 
 Get To Survey Page
     Click Element Through Tooltips    xpath=//md-toolbar//a[span[text()='1']]
 
 Upload Response Response Rate
     Choose File    xpath=//input[@type='file'][@ngf-select='ctrl.saveResponseRateImageDe($file)'][1]    ${CURDIR}/data/1_responserate_de.svg
+
+
