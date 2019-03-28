@@ -162,6 +162,14 @@ surveyDesign
 
    The survey design of this \ :java:ref:`Study`\ . Must be one of \ :java:ref:`SurveyDesigns`\  and must not be empty.
 
+tags
+^^^^
+
+.. java:field:: @Valid private Tags tags
+   :outertype: Study
+
+   Keywords for the study.
+
 title
 ^^^^^
 

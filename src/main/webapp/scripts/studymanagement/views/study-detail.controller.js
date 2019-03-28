@@ -8,12 +8,22 @@ angular.module('metadatamanagementApp')
              StudyAttachmentResource, SearchResultNavigatorService,
              $stateParams, $rootScope, DataAcquisitionProjectResource,
              ProductChooserDialogService, ProjectUpdateAccessService, $scope,
-             $timeout, OutdatedVersionNotifier, StudySearchService) {
+             $timeout, OutdatedVersionNotifier, StudySearchService, $log) {
 
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 
       SearchResultNavigatorService.registerCurrentSearchResult();
+
+      var getTags = function(study) {
+        if (study.tags) {
+          var language = LanguageService.getCurrentInstantly();
+          return study.tags[language];
+        } else {
+          return [];
+        }
+      };
+
       var versionFromUrl = $stateParams.version;
       var activeProject;
       var ctrl = this;
@@ -153,7 +163,9 @@ angular.module('metadatamanagementApp')
             'study-management.detail.not-released-toast', {id: result.id}
           );
         }
-      });
+
+        ctrl.studyTags = getTags(result);
+      }, $log.error);
 
       ctrl.addToShoppingCart = function(event) {
         ProductChooserDialogService.showDialog(
