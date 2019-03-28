@@ -290,7 +290,8 @@ module.exports = function(grunt) {
               'Attribute “layout-gt-md” not allowed on element “div” at this ' +
               'point.',
               'Attribute “layout-gt-lg” not allowed on element “div” at this ' +
-              'point.'
+              'point.',
+              'Element “a” is missing required attribute “href”.'
             ],
             customattrs: [
               'show-validation',
