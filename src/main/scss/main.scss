@@ -1149,6 +1149,7 @@ project-cockpit-status {
 }
 
 .fdz-metadata-type-state-card {
+    padding-bottom: 2px;
     display: block;
     min-width: 30%;
     @media screen and (max-width: 1600px) {
@@ -1242,4 +1243,8 @@ geographic-coverage {
         margin: 0;
 
     }
+}
+
+metadata-type-state-card.ng-hide:not(.ng-hide-animate) {
+    visibility: hidden;
 }
