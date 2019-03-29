@@ -8,6 +8,7 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.instrument
 .. toctree::
    :maxdepth: 1
 
+   CollectionModes
    Instrument
    InstrumentAttachmentMetadata
    InstrumentAttachmentTypes
