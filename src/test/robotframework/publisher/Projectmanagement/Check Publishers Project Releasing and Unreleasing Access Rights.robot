@@ -25,7 +25,7 @@ Verify The Released Project is Available under The Study Tab
   Sleep  30s  #We need explicit sleep to ensure the project is available under the study tab
   Publisher Logout   #explicit logout
   Click on study tab
-  Element Should Contain  xpath=//md-card-header-text//span[contains(.,"stu-robotprojectrelease4${BROWSER}$")]  stu-robotprojectrelease4${BROWSER}$
+  Wait Until Page Contains Element  xpath=//md-card-header-text//span[contains(.,"stu-robotprojectrelease4${BROWSER}$")]  5s
 
 Verify The Unreleased Project is Still Available under The Study Tab with Shadow Copy
   Login as publisher
@@ -35,10 +35,10 @@ Verify The Unreleased Project is Still Available under The Study Tab with Shadow
   Click on OK Button
   Sleep  2s  #to ensure enough time for the next checkbox to be ready
   Click Publisher Ready Checkbox for Studies   #deselect the check box here
-  Sleep  30s   #We need explicit sleep to ensure the project is not available under the study tab
+  Sleep  5s   #We need explicit sleep to ensure the project is not available under the study tab
   Publisher Logout
   Click on study tab
-  Wait Until Page Contains   stu-robotprojectrelease4${BROWSER}$
+  Wait Until Page Contains Element  xpath=//md-card-header-text//span[contains(.,"stu-robotprojectrelease4${BROWSER}$")]  5s
 
 Edit Project Title and Check it does not appear under study when unreleased
   Login as publisher  #we need explicit login to be synced with suite teardown
@@ -51,7 +51,7 @@ Edit Project Title and Check it does not appear under study when unreleased
   Sleep  5s
   Publisher Logout
   Click on study tab
-  Wait Until Page Contains  Page Should Contain  stu-robotprojectrelease4${BROWSER}$
+  Wait Until Page Contains Element  xpath=//md-card-header-text//span[contains(. ,"Test Project Release Study ${BROWSER} DE")]  5s
 
 Check Edited Project appears under study when released
   Login as publisher
@@ -61,10 +61,11 @@ Check Edited Project appears under study when released
   Change Project Release Status
   Write Version Name
   Click on OK Button
-  Sleep  80s  #We need explicit sleep to ensure the project is available under the study tab
+  Sleep  90s  #We need explicit sleep to ensure the project is available under the study tab
   Publisher Logout   #explicit logout
   Click on study tab
-  Wait Until Page Contains    Test Project Release Study ${BROWSER} DE Edit_786
+  Reload Page
+  Wait Until Page Contains Element  xpath=//md-card-header-text//span[contains(. ,"Test Project Release Study ${BROWSER} DE Edit_786")]  10s
 
 Restore The Previous Project Version and Publish Again
   Login as publisher
@@ -83,12 +84,13 @@ Restore The Previous Project Version and Publish Again
   Click Publisher Ready Checkbox for Studies
   Change Project Release Status  #release the previous version again
   Click on OK Button
-  Sleep  80s
+  Sleep  90s
 
 Verify The Re-Released Previous Project is Available under The Study Tab
   Publisher Logout
   Click on study tab
-  Wait Until Page Contains    Test Project Release Study ${BROWSER} DE
+  Reload Page
+  Wait Until Page Contains Element  xpath=//md-card-header-text//span[contains(. ,"Test Project Release Study ${BROWSER} DE")]  10s
 
 Unrelased The Project again to Sync with Intial Step
   Login as publisher
@@ -125,7 +127,7 @@ Click Restore Button
 
 Revise to second latest version
   Click Element Through Tooltips  xpath=//md-dialog//table//tbody//tr[2]//td
-  Sleep  2s
+  Sleep  1s
 
 Get back to home page and deselect project
   Get back to german home page
