@@ -132,9 +132,8 @@ angular.module('metadatamanagementApp')
             ctrl.instrument = result.instruments[0];
           }
           if (_.get(result, 'release.version')) {
-            var version = _.get(result, 'release.version');
             ctrl.study.surveys.map(function(survey) {
-              _.set(survey, 'release.version', version);
+              _.set(survey, 'release.version', result.release.version);
             });
           }
           /* We need to load search the dataSets cause the contain needed

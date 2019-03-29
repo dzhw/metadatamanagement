@@ -2,51 +2,71 @@
 'use strict';
 
 describe('geographic-coverage.controller', function() {
+  var countryQueryResult = [
+    {
+      'code': 'DE',
+      'de': 'Deutschland',
+      'en': 'Germany'
+    },
+    {
+      'code': 'US',
+      'de': 'Vereinigte Staaten von Amerika',
+      'en': 'United States'
+    }
+  ];
   var $scope;
   var $controller;
-  var countries;
-  var expectedCountry = {
-    code: 'DE',
-    en: 'Germany',
-    de: 'Deutschland'
-  };
+  var $httpBackend;
+  var expectedCountry = countryQueryResult[0];
 
   beforeEach(module('metadatamanagementApp'));
   beforeEach(inject(function(_$controller_, _$rootScope_, _LanguageService_,
-                             _COUNTRIES_) {
+                             _$httpBackend_) {
     $controller = _$controller_;
     $scope = _$rootScope_.$new();
-    countries = _COUNTRIES_;
     spyOn(_LanguageService_, 'getCurrentInstantly').and.returnValue('de');
     $scope.geographicCoverage = {
       country: 'DE'
       //description ...
     };
+    $httpBackend = _$httpBackend_;
+    $httpBackend.when('GET', '/api/surveys/country-codes')
+      .respond(countryQueryResult);
   }));
 
   it('should initialize properly', function() {
     $controller('GeographicCoverageController', {$scope: $scope});
 
+    expect($scope.isDisabled).toBe(true);
+
+    $httpBackend.flush();
+
+    expect($scope.isDisabled).toBe(false);
     expect($scope.language).toEqual('de');
-    expect($scope.countries).toBe(countries);
-    expect($scope.selectedCountry).toEqual(expectedCountry);
+    expect($scope.selectedCountry.code).toEqual(expectedCountry.code);
+    expect($scope.selectedCountry.de).toEqual(expectedCountry.de);
+    expect($scope.selectedCountry.en).toEqual(expectedCountry.en);
   });
 
   it('should filter the available country list with the partial country name',
     function() {
       $controller('GeographicCoverageController', {$scope: $scope});
+      $httpBackend.flush();
 
       var filteredCountries = $scope.filterCountries('deu');
       expect(filteredCountries.length).toBe(1);
-      expect(filteredCountries[0]).toEqual(expectedCountry);
+      expect(filteredCountries[0].code).toEqual(expectedCountry.code);
+      expect(filteredCountries[0].de).toEqual(expectedCountry.de);
+      expect(filteredCountries[0].en).toEqual(expectedCountry.en);
     });
 
   it('should filter the available country list with the country code',
     function() {
       $controller('GeographicCoverageController', {$scope: $scope});
+      $httpBackend.flush();
 
       var filteredCountries = $scope.filterCountries('US');
-      expect(filteredCountries.length).toBe(2);
+      expect(filteredCountries.length).toBe(1);
       expect(filteredCountries[0]).toEqual(jasmine
         .objectContaining({code: 'US'}));
     });
@@ -54,14 +74,16 @@ describe('geographic-coverage.controller', function() {
   it('should set the country on geographic coverage', function() {
     $controller('GeographicCoverageController', {$scope: $scope});
 
-    $scope.selectedCountryChange(countries[0]);
+    $scope.selectedCountryChange(countryQueryResult[0]);
 
-    expect($scope.geographicCoverage.country).toEqual(countries[0].code);
+    expect($scope.geographicCoverage.country)
+      .toEqual(countryQueryResult[0].code);
   });
 
   it('should clear the country in geographic coverage if no country was given',
     function() {
       $controller('GeographicCoverageController', {$scope: $scope});
+      $httpBackend.flush();
 
       $scope.selectedCountryChange(undefined);
 

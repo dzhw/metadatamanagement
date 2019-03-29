@@ -116,7 +116,8 @@ angular.module('metadatamanagementApp')
         }
         if ($scope.variable.panelIdentifier) {
           VariableSearchService
-            .countBy('panelIdentifier', $scope.variable.panelIdentifier)
+            .countBy('panelIdentifier', $scope.variable.panelIdentifier,
+              null, _.get(result, 'release.version'))
             .then(function(variablesInPanel) {
               $scope.counts.variablesInPanel = variablesInPanel.count;
             });
@@ -126,7 +127,8 @@ angular.module('metadatamanagementApp')
         if ($scope.variable.derivedVariablesIdentifier) {
           VariableSearchService
             .countBy('derivedVariablesIdentifier',
-              $scope.variable.derivedVariablesIdentifier)
+              $scope.variable.derivedVariablesIdentifier, null,
+              _.get(result, 'release.version'))
             .then(function(derivedVariables) {
               $scope.counts.derivedVariables = derivedVariables.count;
             });

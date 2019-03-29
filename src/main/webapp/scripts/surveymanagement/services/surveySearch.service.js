@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('SurveySearchService',
   function(ElasticSearchClient, $q, LanguageService, SearchHelperService,
-           CleanJSObjectService, GenericFilterOptionsSearchService) {
+           CleanJSObjectService, GenericFilterOptionsSearchService, Principal) {
       var createQueryObject = function(type) {
         type = type || 'surveys';
         return {
@@ -105,7 +105,8 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         };
         return ElasticSearchClient.search(query);
       };
-      var countBy = function(term, value) {
+
+      var countBy = function(term, value, version) {
         var query = createQueryObject();
         query.body = {};
         query.body.query = {};
@@ -122,6 +123,29 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         };
         mustTerm.term[term] = value;
         query.body.query.bool.filter.push(mustTerm);
+
+        var isAnonymous = Principal.loginName() === null;
+
+        query.body.query.bool.filter.push({term: {
+            shadow: isAnonymous
+          }});
+
+        if (isAnonymous) {
+          if (version) {
+            query.body.query.bool.filter.push({
+              term: {
+                'release.version': version
+              }
+            });
+          } else {
+            query.body.query.bool.must_not = [{
+              exists: {
+                field: 'successorId'
+              }
+            }];
+          }
+        }
+
         return ElasticSearchClient.count(query);
       };
 
