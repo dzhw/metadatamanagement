@@ -1,10 +1,22 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
+import java.io.Serializable;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.SetHasBeenReleasedBeforeOnlyOnce;
@@ -21,16 +33,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.javers.core.metamodel.annotation.Entity;
-import org.springframework.beans.BeanUtils;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
 
 /**
  * The data acquisition project collects the metadata for the data products which are published by
@@ -72,8 +74,6 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
   @Id
   @NotEmpty(message = "data-acquisition-project-management.error."
       + "data-acquisition-project.id.not-empty")
-  @Size(max = StringLengths.SMALL,
-      message = "data-acquisition-project-management.error.data-acquisition-project.id.size")
   @Setter(AccessLevel.NONE)
   private String id;
 
