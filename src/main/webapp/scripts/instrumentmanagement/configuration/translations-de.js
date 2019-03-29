@@ -178,7 +178,7 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'instrument-has-invalid-survey-id': 'Das Instrument {{id}} referenziert eine unbekannte Erhebung ({{toBereferenzedId}}).',
-            'no-instruments': 'Es sind keine Instrumente vorhanden'
+            'no-instruments': 'Es sind keine Instrumente vorhanden.'
           }
         },
         'edit': {
