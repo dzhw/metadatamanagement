@@ -127,27 +127,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       ];
       return ElasticSearchClient.search(query);
     };
-    var findByProjectId = function(dataAcquisitionProjectId, selectedAttributes,
-      from, size) {
-      var query =  createQueryObject();
-      query.body = {};
-      query.body.from = from;
-      query.body.size = size;
-      query.body._source = selectedAttributes;
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match_all': {}
-          }],
-          'filter': [{
-            'term': {
-              'dataAcquisitionProjectId': dataAcquisitionProjectId
-            }
-          }]
-        }
-      };
-      return ElasticSearchClient.search(query);
-    };
+
     var findByVariableId = function(variableId, selectedAttributes, from,
       size) {
       var query =  createQueryObject();
@@ -168,25 +148,6 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
         }
       };
       return ElasticSearchClient.search(query);
-    };
-    var countBy = function(term, value) {
-      var query =  createQueryObject();
-      query.body = {};
-      query.body.query = {};
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match_all': {}
-          }],
-          'filter': []
-        }
-      };
-      var mustTerm = {
-        'term': {}
-      };
-      mustTerm.term[term] = value;
-      query.body.query.bool.filter.push(mustTerm);
-      return ElasticSearchClient.count(query);
     };
 
     var findQuestionTitles = function(searchText, filter, type,
@@ -324,11 +285,8 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       findOneById: findOneById,
       findAllPredeccessors: findAllPredeccessors,
       findAllSuccessors: findAllSuccessors,
-      findByProjectId: findByProjectId,
-      findByStudyId: findByProjectId,
       findByVariableId: findByVariableId,
       findShadowByIdAndVersion: findShadowByIdAndVersion,
-      countBy: countBy,
       findQuestionTitles: findQuestionTitles
     };
   });
