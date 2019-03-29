@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp').config(
             'unreleased-successfully': 'The data of the project "{{ id }}" can now be edited by assigned Publishers and Data Providers.',
             'dara-released-not-successfully': 'The data of the project "{{ id }}" could not be released. An error occured during sending metadata to da|ra.',
             'unrelease-title': 'Unrelease Project "{{ id }}"?',
-            'unrelease': 'Do you really want to reduce visibility of the project "{{ id }}" to Data Providers only?',
+            'unrelease': 'Do you really want to unrelease the project "{{ id }}" and edit its metadata?',
             'release-not-possible-title': 'Project "{{ id }}" cannot be released!',
             'release-not-possible': 'The project "{{ id }}" cannot be released, since there are post-validation errors.'
           }

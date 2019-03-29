@@ -1,19 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import org.bson.Document;
 import org.javers.core.Javers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -26,27 +20,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
 /**
  * Service for managing attachments for data sets.
- * 
+ *
  */
 @Service
 public class DataSetAttachmentService {
 
   @Autowired
-  private GridFS gridFs;
+  private GridFsOperations operations;
 
   @Autowired
-  private GridFsOperations operations;
-  
-  @Autowired
   private MongoTemplate mongoTemplate;
-  
+
   @Autowired
   private Javers javers;
 
@@ -60,7 +50,7 @@ public class DataSetAttachmentService {
   private AttachmentMetadataHelper<DataSetAttachmentMetadata> attachmentMetadataHelper;
 
   /**
-   * Save the attachment for a data set. 
+   * Save the attachment for a data set.
    * @param metadata The metadata of the attachment.
    * @return The GridFs filename.
    * @throws IOException thrown when the input stream is not closable
@@ -82,33 +72,20 @@ public class DataSetAttachmentService {
 
     return filename;
   }
-  
+
   /**
    * Update the metadata of the attachment.
-   * 
    * @param metadata The new metadata.
    */
   public void updateAttachmentMetadata(DataSetAttachmentMetadata metadata) {
-    metadata.setVersion(metadata.getVersion() + 1);
-    String currentUser = SecurityUtils.getCurrentUserLogin();
-    metadata.setLastModifiedBy(currentUser);
-    metadata.setLastModifiedDate(LocalDateTime.now());
-    GridFSDBFile file = gridFs.findOne(DataSetAttachmentFilenameBuilder
-        .buildFileName(metadata.getDataSetId(), metadata.getFileName()));
-    DBObject metaData = file.getMetaData();
-    if (Boolean.TRUE.equals(metaData.get("shadow"))) {
-      throw new ShadowCopyUpdateNotAllowedException();
-    }
-    BasicDBObject dbObject =
-        new BasicDBObject((Document) mongoTemplate.getConverter().convertToMongoType(metadata));
-    file.setMetaData(dbObject);
-    file.save();
-    javers.commit(currentUser, metadata);
+    String filePath = DataSetAttachmentFilenameBuilder.buildFileName(metadata.getDataSetId(),
+        metadata.getFileName());
+    attachmentMetadataHelper.updateAttachmentMetadata(metadata, filePath);
   }
 
   /**
    * Delete all attachments of the given dataSet.
-   * 
+   *
    * @param dataSetId the id of the dataSet.
    */
   public void deleteAllByDataSetId(String dataSetId) {
@@ -127,10 +104,10 @@ public class DataSetAttachmentService {
     });
     this.operations.delete(query);
   }
-  
+
   /**
    * Load all metadata objects from gridfs (ordered by indexInDataSet).
-   * 
+   *
    * @param dataSetId The id of the dataSet.
    * @return A list of metadata.
    */
@@ -142,7 +119,7 @@ public class DataSetAttachmentService {
     Iterable<GridFSFile> files = this.operations.find(query);
     List<DataSetAttachmentMetadata> result = new ArrayList<>();
     files.forEach(gridfsFile -> {
-      result.add(mongoTemplate.getConverter().read(DataSetAttachmentMetadata.class, 
+      result.add(mongoTemplate.getConverter().read(DataSetAttachmentMetadata.class,
           gridfsFile.getMetadata()));
     });
     return result;
@@ -169,7 +146,7 @@ public class DataSetAttachmentService {
 
   /**
    * Delete the attachment and its metadata from gridfs.
-   * 
+   *
    * @param dataSetId The id of the dataSet.
    * @param filename The filename of the attachment.
    */

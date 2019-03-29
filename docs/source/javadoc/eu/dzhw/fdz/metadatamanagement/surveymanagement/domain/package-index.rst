@@ -8,6 +8,7 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.surveymana
 .. toctree::
    :maxdepth: 1
 
+   Country
    DataTypes
    GeographicCoverage
    Population

@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp').config(
             'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Es trat ein Fehler beim Senden der Metadaten zu da|ra auf.',
             'unreleased-successfully': 'Die Daten des Projektes "{{ id }}" können jetzt von zugewiesenen Publishern bzw. Datengebern bearbeitet werden.',
             'unrelease-title': 'Freigabe für Projekt "{{ id }}" zurücknehmen?',
-            'unrelease': 'Möchten Sie wirklich, dass das Projekt "{{ id }}" nur noch für Datengeber sichtbar ist?',
+            'unrelease': 'Möchten Sie wirklich die Freigabe zurücknehmen und die Metadaten des Projektes "{{ id }}" bearbeiten?',
             'release-not-possible-title': 'Projekt "{{ id }}" kann nicht freigegeben werden!',
             'release-not-possible': 'Das Projekt "{{ id }}" kann nicht freigegeben werden, weil bei der Post-Validierung Fehler aufgetreten sind!'
           }

@@ -3,9 +3,9 @@
 applications:
 - name: metadatamanagement
   path: ../target/metadatamanagement-test.war
-  memory: 1024M
+  memory: 1536M
   disk_quota: 1024M
-  instances: 3
+  instances: 2
   buildpacks:
   - https://github.com/cloudfoundry/java-buildpack#v4.16.1
   env:
