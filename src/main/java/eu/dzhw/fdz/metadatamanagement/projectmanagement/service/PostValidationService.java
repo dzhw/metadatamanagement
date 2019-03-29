@@ -107,7 +107,8 @@ public class PostValidationService {
     
     errors = this.postValidateVariables(errors, dataAcquisitionProjectId);
 
-    errors = this.postValidateInstruments(errors, dataAcquisitionProjectId);
+    errors = this.postValidateInstruments(errors, dataAcquisitionProjectId,
+        activateFullReleaseChecks);
 
     return errors;
   }
@@ -273,9 +274,11 @@ public class PostValidationService {
    * @return a list of errors of the post validation of instruments.
    */
   private List<PostValidationMessageDto> postValidateInstruments(
-      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId) {
+      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId,
+      boolean activateFullReleaseChecks) {
 
-    if (!instrumentRepository.existsByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+    if (activateFullReleaseChecks && !instrumentRepository
+        .existsByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       errors.add(new PostValidationMessageDto("instrument-management.error."
           + "post-validation.no-instruments", Collections.emptyList()));
       return errors;
