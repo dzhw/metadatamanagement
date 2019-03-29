@@ -322,9 +322,9 @@ angular.module('metadatamanagementApp').config(
         },
         'sample-type-picker': {
           'label': 'Sampling Procedure',
-          'not-found': 'No matching sample method found',
           'error': {
-            'required': 'A sampling procedure must be selected'
+            'required': 'A sampling procedure must be selected',
+            'no-match': 'No matching sampling procedure found'
           }
         },
         'geographic-coverage-list': {

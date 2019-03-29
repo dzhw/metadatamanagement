@@ -60,7 +60,7 @@ public class SurveySampleTypeProvider {
             "Probability Sample: Stratified Sample: Proportional"),
         new ImmutableI18nString("Wahrscheinlichkeitsauswahl: Systematische Zufallsauswahl",
             "Probability Sample: Systematic Random Sample"),
-        new ImmutableI18nString("TotaI universe/Complete Enumeration", "Vollerhebung")));
+        new ImmutableI18nString("Vollerhebung", "TotaI universe/Complete Enumeration")));
   }
 
 

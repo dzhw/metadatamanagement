@@ -10,7 +10,8 @@ angular.module('metadatamanagementApp').controller('SampleTypePickerController',
     $scope.selectedSampleType = $scope.sampleType;
     $scope.searchSampleTypes = function(sampleTypeSearchText) {
       return _.filter(sampleTypes, function(sampleType) {
-        return sampleType[$scope.language].indexOf(sampleTypeSearchText) !== -1;
+        return sampleType[$scope.language].toLowerCase()
+          .indexOf(sampleTypeSearchText.toLowerCase()) !== -1;
       });
     };
     $scope.onSampleTypeChange = function(sampleType) {

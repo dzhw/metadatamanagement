@@ -56,7 +56,7 @@ describe('SurveySampleTypePicker', function() {
     function() {
       $controller('SampleTypePickerController', {$scope: $scope});
       $httpBackend.flush();
-      var result = $scope.searchSampleTypes('Klumpen');
+      var result = $scope.searchSampleTypes('klumpen');
 
       expect(result).toBeDefined();
       expect(result.length).toBe(1);

@@ -270,7 +270,7 @@ public class DaraService {
         this.surveyRepository.findByDataAcquisitionProjectIdOrderByNumber(projectId);
     dataForTemplate.put("surveys", surveys);
 
-    dataForTemplate.put("surveySamples", deduplicateSurveySamples(surveys));
+    dataForTemplate.put("surveySamplesMap", concatenateSurveySamplesByLanguage(surveys));
 
     // Get Datasets Information
     List<DataSet> dataSets = this.dataSetRepository.findByDataAcquisitionProjectId(projectId);
@@ -304,10 +304,17 @@ public class DaraService {
     return dataForTemplate;
   }
 
-  private Set<I18nString> deduplicateSurveySamples(List<Survey> surveys) {
-    return surveys.stream()
+  private Map<String, String> concatenateSurveySamplesByLanguage(List<Survey> surveys) {
+    Set<I18nString> samples = surveys.stream()
         .map(Survey::getSample)
         .collect(Collectors.toSet());
+
+    Map<String,String> samplesGroupedByLanguage = new HashMap<>();
+    String german = samples.stream().map(I18nString::getDe).collect(Collectors.joining("; "));
+    samplesGroupedByLanguage.put("de", german);
+    String english = samples.stream().map(I18nString::getEn).collect(Collectors.joining("; "));
+    samplesGroupedByLanguage.put("en", english);
+    return samplesGroupedByLanguage;
   }
 
   private String computeTimeDimension(Study study) {

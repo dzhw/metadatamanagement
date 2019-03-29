@@ -18,10 +18,11 @@
             <span md-highlight-text="sampleTypeSearchText">{{sampleOption[language]}}</span>
         </md-item-template>
         <md-not-found>
-            {{'survey-management.sample-type-picker.not-found' | translate}}
+            {{'survey-management.sample-type-picker.error.no-match' | translate}}
         </md-not-found>
         <div ng-if="sampleTypeForm.$dirty" ng-messages="sampleTypeForm.sampleType.$error">
             <div ng-message="required">{{'survey-management.sample-type-picker.error.required' | translate}}</div>
+            <div ng-message="md-require-match">{{'survey-management.sample-type-picker.error.no-match' | translate}}</div>
         </div>
     </md-autocomplete>
 </div>

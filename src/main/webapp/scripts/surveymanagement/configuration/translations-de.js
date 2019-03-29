@@ -324,7 +324,8 @@ angular.module('metadatamanagementApp').config(
           'label': 'Stichprobenverfahren',
           'not-found': 'Kein passendes Stichprobenverfahren gefunden',
           'error': {
-            'required': 'Ein Stichprobenverfahren muss angegeben werden'
+            'required': 'Ein Stichprobenverfahren muss angegeben werden',
+            'no-match': 'Keine passende Erhebungsmethode gefunden'
           }
         },
         'geographic-coverage-list': {

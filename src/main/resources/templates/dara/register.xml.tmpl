@@ -150,18 +150,16 @@
       </sampled>
     </universe>
   </universes>
-  <#if surveySamples?? && surveySamples?size gt 0>
+  <#if surveySamplesMap?? && surveySamplesMap?size gt 0>
   <samplings>
-    <#list surveySamples as surveySample>
     <sampling>
         <language>de</language>
-        <method>${surveySample.de}</method>
+        <method>${surveySamplesMap['de']}</method>
     </sampling>
     <sampling>
         <language>en</language>
-        <method>${surveySample.en}</method>
+        <method>${surveySamplesMap['en']}</method>
     </sampling>
-    </#list>
   </samplings>
   </#if>
   <#if surveys?? && surveys?size gt 0>
