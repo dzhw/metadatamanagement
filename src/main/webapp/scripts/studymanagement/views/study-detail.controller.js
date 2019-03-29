@@ -8,8 +8,9 @@ angular.module('metadatamanagementApp')
              StudyAttachmentResource, SearchResultNavigatorService,
              $stateParams, $rootScope, DataAcquisitionProjectResource,
              ProductChooserDialogService, ProjectUpdateAccessService, $scope,
-             $timeout, OutdatedVersionNotifier, StudySearchService, $log) {
-
+             $timeout, OutdatedVersionNotifier, StudySearchService, $log,
+             blockUI) {
+      blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 
@@ -165,7 +166,7 @@ angular.module('metadatamanagementApp')
         }
 
         ctrl.studyTags = getTags(result);
-      }, $log.error);
+      }, $log.error).finally(blockUI.stop);
 
       ctrl.addToShoppingCart = function(event) {
         ProductChooserDialogService.showDialog(
