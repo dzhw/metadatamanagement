@@ -8,8 +8,8 @@ angular.module('metadatamanagementApp')
     SimpleMessageToastService, PageTitleService, LanguageService,
     CleanJSObjectService, $state, ToolbarHeaderService,
     SearchResultNavigatorService, ProductChooserDialogService,
-    OutdatedVersionNotifier, $stateParams) {
-
+    OutdatedVersionNotifier, $stateParams, blockUI) {
+    blockUI.start();
     SearchResultNavigatorService
       .setSearchIndex($stateParams['search-result-index']);
 
@@ -154,7 +154,7 @@ angular.module('metadatamanagementApp')
           }
         );
       }
-    });
+    }).finally(blockUI.stop);
     $scope.isRowHidden = function(index) {
       if (index <= 4 || index >= $scope
         .variable.distribution.validResponses.length - 5) {

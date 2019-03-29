@@ -8,7 +8,9 @@ angular.module('metadatamanagementApp')
              ToolbarHeaderService, Principal, SimpleMessageToastService,
              SearchResultNavigatorService, ProductChooserDialogService,
              DataAcquisitionProjectResource, ProjectUpdateAccessService,
-             InstrumentSearchService, OutdatedVersionNotifier, $stateParams) {
+             InstrumentSearchService, OutdatedVersionNotifier, $stateParams,
+             blockUI) {
+      blockUI.start();
 
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -116,7 +118,7 @@ angular.module('metadatamanagementApp')
             'instrument-management.detail.not-released-toast', {id: result.id}
           );
         }
-      });
+      }).finally(blockUI.stop);
 
       ctrl.addToShoppingCart = function(event) {
         ProductChooserDialogService.showDialog(
