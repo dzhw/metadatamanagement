@@ -151,7 +151,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         };
         return ElasticSearchClient.search(query);
       };
-      var countBy = function(term, value, dataSetId) {
+      var countBy = function(term, value, dataSetId, version) {
         var query = createQueryObject();
         query.body = {};
         query.body.query = {};
@@ -174,6 +174,29 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
               'dataSetId': dataSetId
             }});
         }
+
+        var isAnonymous = Principal.loginName() === null;
+
+        query.body.query.bool.filter.push({term: {
+          shadow: isAnonymous
+        }});
+
+        if (isAnonymous) {
+          if (version) {
+            query.body.query.bool.filter.push({
+              term: {
+                'release.version': version
+              }
+            });
+          } else {
+            query.body.query.bool.must_not = [{
+              exists: {
+                field: 'successorId'
+              }
+            }];
+          }
+        }
+
         return ElasticSearchClient.count(query);
       };
 
