@@ -89,6 +89,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'description.de.ngrams', queryTerm, germanMinorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'description.en.ngrams', queryTerm, englishMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tags.de', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tags.en', queryTerm, englishMajorBoost));
             break;
 
           case 'surveys':
@@ -210,6 +214,86 @@ angular.module('metadatamanagementApp').service('SearchDao',
       });
     };
 
+    var applyFetchOnlyMasterDataFilter = function(query, elasticSearchType) {
+      if (elasticSearchType !== 'related_publications') {
+        var masterFilterCriteria = {
+          'bool': {
+            'must': [{
+              'term': {'shadow': false}
+            }]
+          }
+        };
+        var masterFilter = _.get(query, 'body.query.bool.filter');
+        if (_.isArray(masterFilter)) {
+          query.body.query.bool.filter.push(masterFilterCriteria);
+        } else {
+          _.set(query, 'body.query.bool.filter[0]', masterFilterCriteria);
+        }
+      }
+    };
+
+    var applyFetchDataWhereUserIsDataProviderFilter = function(query) {
+      var loginName = Principal.loginName();
+
+      if (loginName) {
+        var filterCriteria = {
+          'bool': {
+            'must': [{
+              'term': {'configuration.dataProviders': loginName}
+            }]
+          }
+        };
+
+        var filterArray = _.get(query, 'body.query.bool.filter');
+
+        if (_.isArray(filterArray)) {
+          query.body.query.bool.filter.push(filterCriteria);
+        } else {
+          _.set(query, 'body.query.bool.filter[0]', filterCriteria);
+        }
+      }
+    };
+
+    var applyFetchLatestShadowCopyFilter = function(query,
+        searchLatestShadowCopy, elasticSearchType) {
+      var loginName = Principal.loginName();
+
+      if (!loginName && elasticSearchType !== 'related_publications') {
+        var filterCriteria = {
+          'bool': {
+            'must': [{
+              'term': {'shadow': true}
+            }]
+          }
+        };
+
+        if (searchLatestShadowCopy) {
+          _.set(filterCriteria, 'bool.must_not[0].exists.field', 'successorId');
+        }
+
+        var filterArray = _.get(query, 'body.query.bool.filter');
+
+        if (_.isArray(filterArray)) {
+          query.body.query.bool.filter.push(filterCriteria);
+        } else {
+          _.set(query, 'body.query.bool.filter[0]', filterCriteria);
+        }
+      }
+    };
+
+    var stripVersionSuffixFromFilters = function(filter) {
+      var strippedFilter = {};
+      _.forEach(_.keys(filter), function(index) {
+        var match = filter[index].match(/-[0-9]+\.[0-9]+\.[0-9]+$/);
+        if (match !== null) {
+          strippedFilter[index] = filter[index].substr(0, match.index);
+        } else {
+          strippedFilter[index] = filter[index];
+        }
+      });
+      return strippedFilter;
+    };
+
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
                        filter, elasticsearchType, pageSize, idsToExclude) {
@@ -234,7 +318,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
           'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
           'population', 'release',
           'instrumentNumber', 'instrument.description', 'surveys.title',
-          'language', 'subDataSets', 'accessWays', 'maxNumberOfObservations'
+          'language', 'subDataSets', 'accessWays', 'maxNumberOfObservations',
+          'masterId'
         ];
 
         query.body.sort = SearchHelperService
@@ -339,39 +424,32 @@ angular.module('metadatamanagementApp').service('SearchDao',
           query.body.query.bool.filter.push(boolFilter);
         }
 
-        if (!CleanJSObjectService.isNullOrEmpty(filter)) {
+        var filterToUse;
+
+        if (elasticsearchType === 'related_publications') {
+          filterToUse = stripVersionSuffixFromFilters(filter);
+        } else {
+          filterToUse = filter;
+        }
+
+        if (!CleanJSObjectService.isNullOrEmpty(filterToUse)) {
           if (!query.body.query.bool.filter) {
             query.body.query.bool.filter = SearchHelperService
-              .createTermFilters(elasticsearchType, filter);
+              .createTermFilters(elasticsearchType, filterToUse);
           } else {
             query.body.query.bool.filter = _.concat(
               query.body.query.bool.filter, SearchHelperService
-                .createTermFilters(elasticsearchType, filter));
+                .createTermFilters(elasticsearchType, filterToUse));
           }
         }
 
         if (Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
+          applyFetchOnlyMasterDataFilter(query, elasticsearchType);
           return ElasticSearchClient.search(query);
         } else {
-          var loginName = Principal.loginName();
-
-          if (loginName) {
-            var filterCriteria = {
-              'bool': {
-                'must': [{
-                  'term': {'configuration.dataProviders': loginName}
-                }]
-              }
-            };
-
-            var filterArray = _.get(query, 'body.query.bool.filter');
-
-            if (_.isArray(filterArray)) {
-              query.body.query.bool.filter.push(filterCriteria);
-            } else {
-              _.set(query, 'body.query.bool.filter[0]', filterCriteria);
-            }
-          }
+          applyFetchDataWhereUserIsDataProviderFilter(query);
+          applyFetchLatestShadowCopyFilter(query, _.isEmpty(filterToUse),
+            elasticsearchType);
           return ElasticSearchClient.search(query);
         }
       }

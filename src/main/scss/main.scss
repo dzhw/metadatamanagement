@@ -557,6 +557,10 @@ md-dialog h2 {
     vertical-align: top;
 }
 
+td.fdz-table-data-vertical-middle {
+    vertical-align: middle;
+}
+
 .fdz-table-wide th {
     white-space: nowrap;
 }
@@ -1190,4 +1194,52 @@ project-status-badge > span, release-status-badge > span {
 .fdz-project-user-list + md-list md-list-item {
     background: white;
     animation: fade-highlight 1s ease-out;
+}
+
+.fdz-project-status-overview-metadata-status-table-cell {
+    min-height: 28px;
+}
+
+.fdz-tag-link-container {
+    a {
+      font-weight: normal;
+      min-height: auto;
+      min-width: auto;
+      padding: 0.2em 0.6em;
+      font-size: 100%!important;
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
+    }
+}
+
+geographic-coverage-list {
+    display: block;
+
+    md-card-content {
+        padding: 0;
+    }
+
+    ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+}
+
+geographic-coverage {
+    display: block;
+}
+
+.fdz-error {
+    color: $brand-danger;
+}
+
+.fdz-plain-list {
+    list-style: none;
+    padding: 0;
+    li {
+        margin: 0;
+
+    }
 }

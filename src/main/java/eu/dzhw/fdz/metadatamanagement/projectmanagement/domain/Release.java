@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotEmpty;
@@ -24,7 +25,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @ValueObject
-public class Release {
+public class Release implements Serializable {
+
+  private static final long serialVersionUID = 1549881974451264828L;
 
   /**
    * A valid semver version (major.minor.patch).

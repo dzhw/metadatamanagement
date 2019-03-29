@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('DataSetSearchService',
   function(ElasticSearchClient, $q, CleanJSObjectService, SearchHelperService,
-    LanguageService) {
+    LanguageService, Principal) {
     var createQueryObject = function(type) {
       type = type || 'data_sets';
       return {
@@ -63,25 +63,22 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
         });
       return deferred;
     };
-    var findOneByVariableId = function(variableId, selectedAttributes) {
-      var query =  createQueryObject();
-      query.body = {};
-      query.body.size = 1;
-      query.body._source = selectedAttributes;
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match_all': {}
-          }],
-          'filter': [{
-            'term': {
-              'variables.id': variableId
-            }
-          }]
+
+    var findShadowByIdAndVersion = function(id, version) {
+      var query = {};
+      _.extend(query, createQueryObject(),
+        SearchHelperService.createShadowByIdAndVersionQuery(id, version));
+      var deferred = $q.defer();
+      ElasticSearchClient.search(query).then(function(result) {
+        if (result.hits.total === 1) {
+          deferred.resolve(result.hits.hits[0]._source);
+        } else {
+          return deferred.resolve(null);
         }
-      };
-      return ElasticSearchClient.search(query);
+      }, deferred.reject);
+      return deferred;
     };
+
     var findBySurveyId = function(surveyId, selectedAttributes, from,
       size) {
       var query =  createQueryObject();
@@ -103,37 +100,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var findByProjectId = function(dataAcquisitionProjectId, selectedAttributes,
-      from, size,
-      excludedDataSetId) {
-      var query =  createQueryObject();
-      query.body = {};
-      query.body.from = from;
-      query.body.size = size;
-      query.body._source = selectedAttributes;
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match_all': {}
-          }],
-          'filter': [{
-            'term': {
-              'dataAcquisitionProjectId': dataAcquisitionProjectId
-            }
-          }]
-        }
-      };
-      if (excludedDataSetId) {
-        // jscs:disable
-        query.body.query.bool.must_not = {
-          'term': {
-            'id': excludedDataSetId
-          }
-        };
-        // jscs:enable
-      }
-      return ElasticSearchClient.search(query);
-    };
+
     var findByStudyId = function(studyId, selectedAttributes, from, size) {
       var query =  createQueryObject();
       query.body = {};
@@ -154,7 +121,8 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var countBy = function(term, value) {
+
+    var countBy = function(term, value, version) {
       var query =  createQueryObject();
       query.body = {};
       query.body.query = {};
@@ -171,6 +139,29 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       };
       mustTerm.term[term] = value;
       query.body.query.bool.filter.push(mustTerm);
+
+      var isAnonymous = Principal.loginName() === null;
+
+      query.body.query.bool.filter.push({term: {
+          shadow: isAnonymous
+        }});
+
+      if (isAnonymous) {
+        if (version) {
+          query.body.query.bool.filter.push({
+            term: {
+              'release.version': version
+            }
+          });
+        } else {
+          query.body.query.bool.must_not = [{
+            exists: {
+              field: 'successorId'
+            }
+          }];
+        }
+      }
+
       return ElasticSearchClient.count(query);
     };
 
@@ -227,6 +218,12 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
                   'size': 100
                 },
                 'aggs': {
+                  'masterId': {
+                    'terms': {
+                      'field': prefix + 'masterId',
+                      'size': 100
+                    }
+                  },
                   'descriptionDe': {
                     'terms': {
                       'field': prefix + 'description.de',
@@ -284,8 +281,12 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       }
 
       SearchHelperService.addQuery(query, queryterm);
-
       SearchHelperService.addFilter(query);
+      if (type !== 'related_publications') {
+        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
+      } else {
+
+      }
 
       return ElasticSearchClient.search(query).then(function(result) {
         var descriptions = [];
@@ -303,6 +304,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
               en: bucket.descriptionDe.buckets[0].descriptionEn.buckets[0].key
             },
             id: bucket.key,
+            masterId: bucket.masterId.buckets[0].key,
             count: bucket.doc_count
           };
           descriptions.push(descriptionElement);
@@ -337,11 +339,13 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
           }
         };
         query.body.query.bool.filter = termFilters;
+      } else {
+        _.set(query, 'body.query.bool.filter', []);
       }
 
       SearchHelperService.addQuery(query, queryterm);
-
       SearchHelperService.addFilter(query);
+      SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
 
       return ElasticSearchClient.search(query).then(function(result) {
         return result.aggregations.accessWays.buckets;
@@ -350,12 +354,11 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
 
     return {
       findOneById: findOneById,
-      findOneByVariableId: findOneByVariableId,
       findBySurveyId: findBySurveyId,
-      findByProjectId: findByProjectId,
       findByStudyId: findByStudyId,
       countBy: countBy,
       countByMultiple: countByMultiple,
+      findShadowByIdAndVersion: findShadowByIdAndVersion,
       findDataSetDescriptions: findDataSetDescriptions,
       findAccessWays: findAccessWays
     };

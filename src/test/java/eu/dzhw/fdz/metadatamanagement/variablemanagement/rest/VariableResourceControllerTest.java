@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -15,12 +16,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -110,7 +113,7 @@ public class VariableResourceControllerTest extends AbstractTest {
    
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     queueService.processAllQueueItems();
@@ -144,7 +147,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -162,7 +165,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
   
@@ -180,7 +183,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
   
@@ -198,7 +201,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
   
@@ -224,7 +227,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
   }
   
@@ -250,7 +253,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message", containsString("variable-management.error.variable.only-ordinal-scale-level-for-date-data-type")));
   }
@@ -277,7 +280,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message", containsString("variable-management.error.variable.only-ordinal-scale-level-for-date-data-type")));
   }
@@ -296,14 +299,14 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a null label
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
     
     variable.setLabel(new I18nString());
     
     // create the variable with an empty label
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message", containsString("variable-management.error.variable.label.i18n-string-not-empty")));
   }
@@ -323,7 +326,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a null label
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message", containsString("variable-management.error.generation-details.rule-expression-language-and-rule-filled-or-empty")));
   }
@@ -355,7 +358,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with duplicate value codes
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message", containsString("unique")));
 
@@ -391,7 +394,7 @@ public class VariableResourceControllerTest extends AbstractTest {
       
     // create the variable with duplicate value classes
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.errors[0].message", containsString("unique")));
      
@@ -437,7 +440,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -454,7 +457,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -474,7 +477,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -492,7 +495,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -513,7 +516,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -532,7 +535,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -550,7 +553,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -568,7 +571,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the first variable
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     Variable variable2 =
@@ -599,7 +602,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     // delete the variable
@@ -627,7 +630,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     variable.setLabel(I18nString.builder().de("modified")
@@ -638,9 +641,10 @@ public class VariableResourceControllerTest extends AbstractTest {
       .en(ScaleLevels.NOMINAL.getEn())
       .build());
 
+    variable.setVersion(0L);
     // update the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().is2xxSuccessful());
 
     // read the updated variable and check the version
@@ -674,7 +678,7 @@ public class VariableResourceControllerTest extends AbstractTest {
     // Act and Assert
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -695,7 +699,7 @@ public class VariableResourceControllerTest extends AbstractTest {
     // Act and Assert
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -716,7 +720,7 @@ public class VariableResourceControllerTest extends AbstractTest {
     // Act and Assert
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
   }
 
@@ -737,7 +741,7 @@ public class VariableResourceControllerTest extends AbstractTest {
     // Act and Assert
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -758,7 +762,7 @@ public class VariableResourceControllerTest extends AbstractTest {
     // Act and Assert
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest());
   }
 
@@ -779,7 +783,7 @@ public class VariableResourceControllerTest extends AbstractTest {
     // Act and Assert
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
   }
 
@@ -796,7 +800,7 @@ public class VariableResourceControllerTest extends AbstractTest {
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
     // create the variable with the given id
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
-      .content(TestUtil.convertObjectToJsonBytes(variable)))
+      .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     mockMvc.perform(delete("/api/data-acquisition-projects/" + project.getId()))
@@ -858,5 +862,46 @@ public class VariableResourceControllerTest extends AbstractTest {
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
       .content(TestUtil.convertObjectToJsonBytes(variable)))
       .andExpect(status().is4xxClientError());
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testCreateVariableShadowCopy() throws Exception {
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable("issue1991", 1, "varname", 1, Collections.singletonList(1));
+    variable.setId(variable.getId() + "-1.0.0");
+
+    mockMvc.perform(post(API_VARIABLES_URI)
+        .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testUpdateVariableShadowCopy() throws Exception {
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable("issue1991", 1, "varname", 1, Collections.singletonList(1));
+    variable.setId(variable.getId() + "-1.0.0");
+    variable = variableRepository.save(variable);
+
+    mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
+        .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+
+  }
+
+  @Test
+  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+  public void testDeleteInstrumentShadowCopy() throws Exception {
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable("issue1991", 1, "varname", 1, Collections.singletonList(1));
+    variable.setId(variable.getId() + "-1.0.0");
+    variableRepository.save(variable);
+
+    mockMvc.perform(delete(API_VARIABLES_URI + "/" + variable.getId()))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
   }
 }

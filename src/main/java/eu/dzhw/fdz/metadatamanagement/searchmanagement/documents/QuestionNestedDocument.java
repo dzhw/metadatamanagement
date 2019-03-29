@@ -32,6 +32,8 @@ public class QuestionNestedDocument extends AbstractNestedSubDocument {
 
   private String studyId;
 
+  private String masterId;
+
   /**
    * Create the subdocument.
    *

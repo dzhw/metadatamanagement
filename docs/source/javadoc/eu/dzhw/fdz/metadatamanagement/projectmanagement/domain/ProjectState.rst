@@ -8,13 +8,15 @@
 
 .. java:import:: lombok NoArgsConstructor
 
+.. java:import:: java.io Serializable
+
 ProjectState
 ============
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain
    :noindex:
 
-.. java:type:: @ValueObject @Data @AllArgsConstructor @NoArgsConstructor @Builder public class ProjectState
+.. java:type:: @ValueObject @Data @AllArgsConstructor @NoArgsConstructor @Builder public class ProjectState implements Serializable
 
    State of a data acquisition project. Used for all metadata
 
@@ -37,4 +39,10 @@ isPublisherReady
    :outertype: ProjectState
 
    indicates if the publisher marked the metadata as ready.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: ProjectState
 

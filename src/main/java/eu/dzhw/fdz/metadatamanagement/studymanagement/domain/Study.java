@@ -1,20 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.domain;
 
-import java.util.List;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.javers.core.metamodel.annotation.Entity;
-import org.springframework.beans.BeanUtils;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -23,6 +9,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireN
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringMustNotContainComma;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidDataAvailability;
@@ -30,12 +18,25 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidStu
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidSurveyDesign;
 import io.searchbox.annotations.JestId;
 import io.swagger.annotations.ApiModel;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * A study contains all metadata of a {@link DataAcquisitionProject}. It will get a DOI (Digital
@@ -53,7 +54,10 @@ import lombok.ToString;
 @ApiModel(
     description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
     + "fdz/metadatamanagement/studymanagement/domain/Study.html'>here</a> for further details.")
-public class Study extends AbstractRdcDomainObject implements StudySubDocumentProjection {
+@ValidMasterId(pattern = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
+    message = "study-management.error.study.master-id.pattern")
+@ValidShadowId(message = "study-management.error.study.id.pattern")
+public class Study extends AbstractShadowableRdcDomainObject implements StudySubDocumentProjection {
 
   /**
    * The id of the study which uniquely identifies the study in this application.
@@ -63,10 +67,9 @@ public class Study extends AbstractRdcDomainObject implements StudySubDocumentPr
    */
   @Id
   @JestId
+  @Setter(AccessLevel.NONE)
   @NotEmpty(message = "study-management.error.study.id.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "study-management.error.study.id.size")
-  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
-      message = "study-management.error.study.id.pattern")
   private String id;
 
   /**
@@ -178,8 +181,19 @@ public class Study extends AbstractRdcDomainObject implements StudySubDocumentPr
       message = "study-management.error.study.annotations.i18n-string-size")
   private I18nString annotations;
 
+  /**
+   * Keywords for the study.
+   */
+  @Valid
+  private Tags tags;
+
   public Study(Study study) {
     super();
     BeanUtils.copyProperties(study, this);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

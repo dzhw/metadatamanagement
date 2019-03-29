@@ -219,11 +219,13 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveStudy = function() {
         if ($scope.studyForm.$valid) {
+          if (angular.isUndefined(ctrl.study.masterId)) {
+            ctrl.study.masterId = ctrl.study.id;
+          }
           ctrl.study.$save()
             .then(ctrl.updateElasticSearchIndex)
             .then(ctrl.onSavedSuccessfully)
-            .catch(function(error) {
-              console.log(error);
+            .catch(function() {
               SimpleMessageToastService.openAlertMessageToast(
                 'study-management.edit.error-on-save-toast', {
                   studyId: ctrl.study.id
@@ -233,7 +235,11 @@ angular.module('metadatamanagementApp')
           // ensure that all validation errors are visible
           angular.forEach($scope.studyForm.$error, function(field) {
             angular.forEach(field, function(errorField) {
-              errorField.$setTouched();
+              if (errorField.$setTouched) {
+                errorField.$setTouched();
+              } else if (errorField.$setDirty) {
+                errorField.$setDirty();
+              }
             });
           });
           SimpleMessageToastService.openAlertMessageToast(

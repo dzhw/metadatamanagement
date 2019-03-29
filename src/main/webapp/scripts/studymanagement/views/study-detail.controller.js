@@ -8,17 +8,29 @@ angular.module('metadatamanagementApp')
              StudyAttachmentResource, SearchResultNavigatorService,
              $stateParams, $rootScope, DataAcquisitionProjectResource,
              ProductChooserDialogService, ProjectUpdateAccessService, $scope,
-             $timeout) {
+             $timeout, OutdatedVersionNotifier, StudySearchService, $log) {
 
-      SearchResultNavigatorService.registerCurrentSearchResult(
-        $stateParams['search-result-index']);
+      SearchResultNavigatorService
+        .setSearchIndex($stateParams['search-result-index']);
+
+      SearchResultNavigatorService.registerCurrentSearchResult();
+
+      var getTags = function(study) {
+        if (study.tags) {
+          var language = LanguageService.getCurrentInstantly();
+          return study.tags[language];
+        } else {
+          return [];
+        }
+      };
+
       var versionFromUrl = $stateParams.version;
       var activeProject;
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.projectIsCurrentlyReleased = true;
-      ctrl.searchResultIndex = $stateParams['search-result-index'];
+      ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {};
       ctrl.jsonExcludes = [
         'nestedDataSets',
@@ -58,23 +70,21 @@ angular.module('metadatamanagementApp')
 
       entity.promise.then(function(result) {
 
-        DataAcquisitionProjectResource.get({
-          id: result.dataAcquisitionProjectId
-        }).$promise.then(function(project) {
-          if (Principal.hasAnyAuthority(
-            ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+        if (!Principal.loginName()) {
+          var fetchFn = StudySearchService.findShadowByIdAndVersion
+            .bind(null, result.masterId);
+          OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
+        }
+
+        if (Principal
+          .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+          DataAcquisitionProjectResource.get({
+            id: result.dataAcquisitionProjectId
+          }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
             ctrl.assigneeGroup = project.assigneeGroup;
-            activeProject = project;
-          } else {
-            ctrl.isStudyInUpdateProcess = result.release && !project.release;
-            if (ctrl.isStudyInUpdateProcess) {
-              SimpleMessageToastService.openAlertMessageToast(
-                'study-management.detail.' +
-                'is-currently-updated-toast', {id: result.id});
-            }
-          }
-        });
+          });
+        }
 
         PageTitleService.setPageTitle('study-management.detail.title', {
           title: result.title[LanguageService.getCurrentInstantly()],
@@ -121,12 +131,17 @@ angular.module('metadatamanagementApp')
           if (ctrl.counts.instrumentsCount === 1) {
             ctrl.instrument = result.instruments[0];
           }
+          if (_.get(result, 'release.version')) {
+            ctrl.study.surveys.map(function(survey) {
+              _.set(survey, 'release.version', result.release.version);
+            });
+          }
           /* We need to load search the dataSets cause the contain needed
              survey titles */
           DataSetSearchService.findByStudyId(result.id,
             ['id', 'number', 'description', 'type', 'surveys',
               'maxNumberOfObservations', 'accessWays',
-              'dataAcquisitionProjectId'])
+              'dataAcquisitionProjectId', 'masterId', 'release.version'])
             .then(function(dataSets) {
               ctrl.dataSets = dataSets.hits.hits;
             });
@@ -148,11 +163,14 @@ angular.module('metadatamanagementApp')
             'study-management.detail.not-released-toast', {id: result.id}
           );
         }
-      });
+
+        ctrl.studyTags = getTags(result);
+      }, $log.error);
 
       ctrl.addToShoppingCart = function(event) {
         ProductChooserDialogService.showDialog(
           ctrl.study.dataAcquisitionProjectId, ctrl.accessWays, ctrl.study,
+          ctrl.study.release.version,
           event);
       };
 

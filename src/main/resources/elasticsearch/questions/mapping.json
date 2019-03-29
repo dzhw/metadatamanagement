@@ -29,6 +29,32 @@
 					}
 				}
 			},
+			"masterId": {
+				"type": "keyword",
+				"copy_to": "all",
+				"fields": {
+					"ngrams": {
+						"type": "text",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
+			},
+			"successorId": {
+				"type": "keyword",
+				"copy_to": "all",
+				"fields": {
+					"ngrams": {
+						"type": "text",
+						"analyzer": "ngrams",
+						"norms": false
+					}
+				}
+			},
+			"shadow": {
+				"type": "boolean",
+				"copy_to": "all"
+			},
 			"completeTitle": {
 				"type": "object",
 				"properties": {
@@ -255,6 +281,23 @@
 								}
 							}
 						}
+					},
+					"tags": {
+						"type": "object",
+						"properties": {
+							"de": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false,
+								"copy_to": "all"
+							},
+							"en": {
+								"type": "text",
+								"analyzer": "ngrams",
+								"norms": false,
+								"copy_to": "all"
+							}
+						}
 					}
 				}
 			},
@@ -277,6 +320,12 @@
 						}
 					},
 					"id": {
+						"type": "keyword",
+						"copy_to": [
+							"all"
+						]
+					},
+					"masterId": {
 						"type": "keyword",
 						"copy_to": [
 							"all"
@@ -389,6 +438,9 @@
 					"id": {
 						"type": "keyword"
 					},
+					"masterId": {
+						"type": "keyword"
+					},
 					"title": {
 						"type": "object",
 						"properties": {
@@ -415,6 +467,9 @@
 				"type": "nested",
 				"properties": {
 					"id": {
+						"type": "keyword"
+					},
+					"masterId": {
 						"type": "keyword"
 					},
 					"dataSetId": {
@@ -464,6 +519,9 @@
 				"type": "nested",
 				"properties": {
 					"id": {
+						"type": "keyword"
+					},
+					"masterId": {
 						"type": "keyword"
 					},
 					"surveyIds": {
@@ -581,6 +639,9 @@
 					"id": {
 						"type": "keyword"
 					},
+					"masterId": {
+						"type": "keyword"
+					},
 					"surveyIds": {
 						"type": "keyword"
 					},
@@ -609,6 +670,14 @@
 								"type": "keyword"
 							}
 						}
+					}
+				}
+			},
+			"release": {
+				"type": "object",
+				"properties": {
+					"version": {
+						"type": "keyword"
 					}
 				}
 			}

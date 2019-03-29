@@ -1,7 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.After;
@@ -58,7 +60,7 @@ public class DeleteAllDateSetsResourceControllerTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
-  public void testDeleteAllQuestionsOfProject() throws Exception {
+  public void testDeleteAllDataSetsOfProject() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
     String projectId = project.getId();
@@ -72,7 +74,9 @@ public class DeleteAllDateSetsResourceControllerTest extends AbstractTest {
     DataSet testDataSet1 =
         UnitTestCreateDomainObjectUtils.buildDataSet(projectId, surveyId1, surveyNumber1);
     testDataSet0.setId(UnitTestCreateValidIds.buildDataSetId(projectId, 1));
+    testDataSet0.setMasterId(testDataSet0.getId());
     testDataSet1.setId(UnitTestCreateValidIds.buildDataSetId(projectId, 2));
+    testDataSet1.setMasterId(testDataSet1.getId());
     testDataSet0.setNumber(1);
     testDataSet1.setNumber(2);
     dataSetRepo.insert(testDataSet0);
@@ -81,6 +85,25 @@ public class DeleteAllDateSetsResourceControllerTest extends AbstractTest {
     mockMvc.perform(delete(API_DELETE_ALL_QUESTIONS_URI + "/" + projectId + "/" + "data-sets"))
         .andExpect(status().isNoContent());
     assertEquals(0, dataSetRepo.findByDataAcquisitionProjectId(projectId).size());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
+  public void testDeleteAllDataSetsOfShadowCopyProject() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    String masterProjectId = project.getId();
+    String shadowProjectId = masterProjectId + "-1.0.0";
+    project.setId(shadowProjectId);
+    dataAcquisitionProjectRepository.save(project);
+
+    DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(masterProjectId, "survey", 1);
+    dataSet.setId(dataSet.getId() + "-1.0.0");
+    dataSet.setDataAcquisitionProjectId(shadowProjectId);
+    dataSetRepo.save(dataSet);
+
+    mockMvc.perform(delete(API_DELETE_ALL_QUESTIONS_URI + "/" + shadowProjectId + "/" + "data-sets"))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
   }
 
 }

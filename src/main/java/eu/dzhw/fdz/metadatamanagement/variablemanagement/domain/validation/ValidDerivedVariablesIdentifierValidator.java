@@ -29,10 +29,14 @@ public class ValidDerivedVariablesIdentifierValidator
    */
   @Override
   public boolean isValid(Variable variable, ConstraintValidatorContext context) {
-    if (variable.getDerivedVariablesIdentifier() == null) {
+    if (variable.isShadow()) {
       return true;
+    } else {
+      if (variable.getDerivedVariablesIdentifier() == null) {
+        return true;
+      }
+      return variable.getDerivedVariablesIdentifier().contains(variable
+          .getDataAcquisitionProjectId() + "-ds" + variable.getDataSetNumber() + "-");
     }
-    return variable.getDerivedVariablesIdentifier().contains(variable
-        .getDataAcquisitionProjectId() + "-ds" + variable.getDataSetNumber() + "-");
   }
 }

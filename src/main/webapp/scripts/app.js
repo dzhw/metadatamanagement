@@ -28,6 +28,7 @@ try {
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
         $rootScope.$mdMedia = $mdMedia;
+        $rootScope.$state = $state;
         $rootScope.currentDate = new Date();
         //prevent default browser actions for drag and drop
         $window.addEventListener('dragover', function(e) {
@@ -181,7 +182,7 @@ try {
         blockUIConfig.requestFilter = function(config) {
           // If the request contains '/api/search' ...
           if (config.url.indexOf('_search') !== -1 ||
-              (config.url.indexOf('/api/data-acquisition-projects') !== -1 &&
+             (config.url.indexOf('/api/data-acquisition-projects/') !== -1 &&
                 config.method === 'GET' &&
                 config.url.indexOf('/releases') === -1) ||
               config.url.indexOf('/api/users/findUserWithRole') !== -1) {

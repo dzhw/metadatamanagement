@@ -64,6 +64,21 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       return deferred;
     };
 
+    var findShadowByIdAndVersion = function(id, version) {
+      var query = {};
+      _.extend(query, createQueryObject(),
+        SearchHelperService.createShadowByIdAndVersionQuery(id, version));
+      var deferred = $q.defer();
+      ElasticSearchClient.search(query).then(function(result) {
+        if (result.hits.total === 1) {
+          deferred.resolve(result.hits.hits[0]._source);
+        } else {
+          return deferred.resolve(null);
+        }
+      }, deferred.reject);
+      return deferred;
+    };
+
     var findAllSuccessors = function(questionIds, selectedAttributes, from,
       size) {
       var ids = _.split(questionIds, ',');
@@ -112,27 +127,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       ];
       return ElasticSearchClient.search(query);
     };
-    var findByProjectId = function(dataAcquisitionProjectId, selectedAttributes,
-      from, size) {
-      var query =  createQueryObject();
-      query.body = {};
-      query.body.from = from;
-      query.body.size = size;
-      query.body._source = selectedAttributes;
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match_all': {}
-          }],
-          'filter': [{
-            'term': {
-              'dataAcquisitionProjectId': dataAcquisitionProjectId
-            }
-          }]
-        }
-      };
-      return ElasticSearchClient.search(query);
-    };
+
     var findByVariableId = function(variableId, selectedAttributes, from,
       size) {
       var query =  createQueryObject();
@@ -153,25 +148,6 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
         }
       };
       return ElasticSearchClient.search(query);
-    };
-    var countBy = function(term, value) {
-      var query =  createQueryObject();
-      query.body = {};
-      query.body.query = {};
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match_all': {}
-          }],
-          'filter': []
-        }
-      };
-      var mustTerm = {
-        'term': {}
-      };
-      mustTerm.term[term] = value;
-      query.body.query.bool.filter.push(mustTerm);
-      return ElasticSearchClient.count(query);
     };
 
     var findQuestionTitles = function(searchText, filter, type,
@@ -203,6 +179,12 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
                     'size': 100
                   },
                   'aggs': {
+                    'masterId': {
+                      'terms': {
+                        'field': prefix + 'masterId',
+                        'size': 100
+                      }
+                    },
                     'number': {
                       'terms': {
                         'field': prefix + 'number',
@@ -266,8 +248,10 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       }
 
       SearchHelperService.addQuery(query, queryterm);
-
       SearchHelperService.addFilter(query);
+      if (type !== 'related_publications') {
+        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
+      }
 
       return ElasticSearchClient.search(query).then(function(result) {
         var titles = [];
@@ -289,6 +273,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
               },
               number: numberBucket.key,
               id: bucket.key,
+              masterId: bucket.masterId.buckets[0].key,
               count: bucket.doc_count
             };
             titles.push(titleElement);
@@ -300,10 +285,8 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       findOneById: findOneById,
       findAllPredeccessors: findAllPredeccessors,
       findAllSuccessors: findAllSuccessors,
-      findByProjectId: findByProjectId,
-      findByStudyId: findByProjectId,
       findByVariableId: findByVariableId,
-      countBy: countBy,
+      findShadowByIdAndVersion: findShadowByIdAndVersion,
       findQuestionTitles: findQuestionTitles
     };
   });

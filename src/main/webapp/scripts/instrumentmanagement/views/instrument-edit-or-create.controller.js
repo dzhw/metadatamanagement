@@ -185,6 +185,9 @@ angular.module('metadatamanagementApp')
 
       ctrl.saveInstrument = function() {
         if ($scope.instrumentForm.$valid) {
+          if (angular.isUndefined(ctrl.instrument.masterId)) {
+            ctrl.instrument.masterId = ctrl.instrument.id;
+          }
           ctrl.instrument.$save()
           .then(ctrl.updateElasticSearchIndex)
           .then(ctrl.onSavedSuccessfully)

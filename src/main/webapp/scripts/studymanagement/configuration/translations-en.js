@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp').config(
             'studySeries': 'Study Series',
             'institution': 'Institution',
             'authors': 'Authors',
+            'tags': 'Tags (Keywords) for the Study',
             'sponsors': 'Sponsored by',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
@@ -94,9 +95,8 @@ angular.module('metadatamanagementApp').config(
           'not-found-references': 'The id {{id}} has no References to Studies.',
           'not-yet-released': 'Currently not released',
           'not-released-toast': 'Study "{{ id }}" is being worked on. Therefore it is not visible to all users at the moment!',
-          'is-currently-updated-toast': 'Study "{{ id }}" is currently being updated. Contents of this study might change in the next version.',
           'old-version': 'Your link refers to a former version ({{versionFromUrl}}) of this study. This page displays the current version ({{actualVersion}}) of the study "{{title}}".',
-          'beta-release-no-doi': 'The study has not yet been published and therefore has no DOI.',
+          'beta-release-no-doi': 'This study has no DOI yet.',
           'publications-for-series': 'Publications related to Series "{{studySeries}}"',
           'publications-for-study': 'Publications related to this Study',
           'tooltips': {
@@ -130,7 +130,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'doi-tooltip': 'Click to open the DOI in a new Tab',
-          'is-in-update-process': 'Unavailable, since this study is currently being updated.'
+          'tag-tooltip': 'Click to search for studies with this tag'
         },
         'log-messages': {
           'study': {
@@ -301,6 +301,16 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'all-studies-deleted-toast': 'The study of Data Acquisition Project "{{id}}" has been deleted.'
+        },
+        'tag-editor': {
+          'label': {
+            'german-tags': 'German Tags',
+            'english-tags': 'English Tags'
+          },
+          'placeholder': 'Enter a new tag',
+          'error': {
+            'required': 'At least one tag must be provided'
+          }
         }
       }
       //jscs:enable

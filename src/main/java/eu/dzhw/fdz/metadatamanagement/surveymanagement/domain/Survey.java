@@ -1,20 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.javers.core.metamodel.annotation.Entity;
-import org.springframework.beans.BeanUtils;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -22,6 +8,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireN
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
@@ -29,12 +17,26 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidDa
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSurveyIdName;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidUniqueSurveyNumber;
 import io.searchbox.annotations.JestId;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * A survey is conducted to examine a population on the basis of a sample. The resulting
@@ -45,13 +47,17 @@ import lombok.ToString;
 @ValidSurveyIdName(message = "survey-management.error.survey.id.valid-survey-id-name")
 @ValidUniqueSurveyNumber(message = "survey-management.error"
     + ".survey.unique-survey-number")
+@ValidMasterId(
+    pattern = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
+    message = "survey-management.error.survey.master-id.pattern")
+@ValidShadowId(message = "survey-management.error.survey.id.pattern")
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
 @Builder
-public class Survey extends AbstractRdcDomainObject {
+public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the survey which uniquely identifies the survey in this application.
@@ -62,11 +68,9 @@ public class Survey extends AbstractRdcDomainObject {
    */
   @Id
   @JestId
+  @Setter(AccessLevel.NONE)
   @NotEmpty(message = "survey-management.error.survey.id.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "survey-management.error.survey.id.size")
-  @Pattern(
-      regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
-      message = "survey-management.error.survey.id.pattern")
   private String id;
 
   /**
@@ -94,6 +98,7 @@ public class Survey extends AbstractRdcDomainObject {
    * 
    * Must not be empty.
    */
+  @Valid
   @NotNull(message = "survey-management.error.survey.population.not-null")
   private Population population;
 
@@ -205,5 +210,10 @@ public class Survey extends AbstractRdcDomainObject {
   public Survey(Survey survey) {
     super();
     BeanUtils.copyProperties(survey, this);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

@@ -7,17 +7,20 @@ angular.module('metadatamanagementApp')
              PageTitleService, $state, ToolbarHeaderService,
              SurveySearchService, SurveyAttachmentResource, Principal,
              SimpleMessageToastService, SearchResultNavigatorService,
-             $stateParams, SurveyResponseRateImageUploadService,
+             SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
              DataAcquisitionProjectResource, ProductChooserDialogService,
-             ProjectUpdateAccessService) {
+             ProjectUpdateAccessService, CountryCodesResource, $stateParams) {
 
-      SearchResultNavigatorService.registerCurrentSearchResult(
-        $stateParams['search-result-index']);
+      SearchResultNavigatorService
+        .setSearchIndex($stateParams['search-result-index']);
+      SearchResultNavigatorService.registerCurrentSearchResult();
+
+      var countries = CountryCodesResource.query();
       var activeProject;
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
-      ctrl.searchResultIndex = $stateParams['search-result-index'];
+      ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {};
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.enableJsonView = Principal
@@ -33,6 +36,11 @@ angular.module('metadatamanagementApp')
       ];
 
       entity.promise.then(function(survey) {
+        if (!Principal.loginName()) {
+          var fetchFn = SurveySearchService.findShadowByIdAndVersion
+            .bind(null, survey.masterId);
+          OutdatedVersionNotifier.checkVersionAndNotify(survey, fetchFn);
+        }
         if (Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
@@ -57,7 +65,9 @@ angular.module('metadatamanagementApp')
           'studyId': survey.studyId,
           'studyIsPresent': CleanJSObjectService.isNullOrEmpty(survey.study) ?
             false : true,
-          'projectId': survey.dataAcquisitionProjectId
+          'projectId': survey.dataAcquisitionProjectId,
+          'version': Principal.loginName() ? null : _.get(survey,
+            'release.version')
         });
         if (survey.dataSets) {
           ctrl.accessWays = [];
@@ -74,7 +84,8 @@ angular.module('metadatamanagementApp')
             ctrl.dataSet = survey.dataSets[0];
           }
           SurveySearchService.countBy('dataAcquisitionProjectId',
-            ctrl.survey.dataAcquisitionProjectId)
+            ctrl.survey.dataAcquisitionProjectId,
+            _.get(survey, 'release.version'))
             .then(function(surveysCount) {
               ctrl.counts.surveysCount = surveysCount.count;
             });
@@ -113,7 +124,7 @@ angular.module('metadatamanagementApp')
       ctrl.addToShoppingCart = function(event) {
         ProductChooserDialogService.showDialog(
           ctrl.survey.dataAcquisitionProjectId, ctrl.accessWays,
-          ctrl.survey.study,
+          ctrl.survey.study, ctrl.survey.release.version,
           event);
       };
 
@@ -121,6 +132,30 @@ angular.module('metadatamanagementApp')
         if (ProjectUpdateAccessService
           .isUpdateAllowed(activeProject, 'surveys', true)) {
           $state.go('surveyEdit', {id: ctrl.survey.id});
+        }
+      };
+
+      ctrl.isSimpleGeographicCoverage = function(geographicCoverages) {
+        if (geographicCoverages && geographicCoverages.length === 1) {
+          var descriptionDe = _.get(geographicCoverages[0], 'description.de');
+          var descriptionEn = _.get(geographicCoverages[0], 'description.en');
+
+          return !descriptionDe && !descriptionEn;
+        } else {
+          return false;
+        }
+      };
+
+      ctrl.getCountryName = function(geographicCoverage) {
+        var country = _.filter(countries, function(country) {
+          return country.code === geographicCoverage.country;
+        });
+
+        if (country.length === 1) {
+          var language = LanguageService.getCurrentInstantly();
+          return country[0][language];
+        } else {
+          return '';
         }
       };
     });

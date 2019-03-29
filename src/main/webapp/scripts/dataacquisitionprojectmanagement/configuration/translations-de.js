@@ -34,9 +34,9 @@ angular.module('metadatamanagementApp').config(
             'released-successfully': 'Die Metadaten des Projektes wurden bei da|ra gespeichert und die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer sichtbar sein.',
             'released-beta-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer sichtbar sein. Es wurde keine Metadaten zu da|ra gesendet.',
             'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Es trat ein Fehler beim Senden der Metadaten zu da|ra auf.',
-            'unreleased-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten nur noch für Datengeber sichtbar sein.',
+            'unreleased-successfully': 'Die Daten des Projektes "{{ id }}" können jetzt von zugewiesenen Publishern bzw. Datengebern bearbeitet werden.',
             'unrelease-title': 'Freigabe für Projekt "{{ id }}" zurücknehmen?',
-            'unrelease': 'Möchten Sie wirklich, dass das Projekt "{{ id }}" nur noch für Datengeber sichtbar ist?',
+            'unrelease': 'Möchten Sie wirklich die Freigabe zurücknehmen und die Metadaten des Projektes "{{ id }}" bearbeiten?',
             'release-not-possible-title': 'Projekt "{{ id }}" kann nicht freigegeben werden!',
             'release-not-possible': 'Das Projekt "{{ id }}" kann nicht freigegeben werden, weil bei der Post-Validierung Fehler aufgetreten sind!'
           }
@@ -182,7 +182,31 @@ angular.module('metadatamanagementApp').config(
             'title': 'Projekt zurückziehen',
             'text': 'Möchten Sie das Projekt wirklich von der Gruppe Datengeber zurückziehen?'
           }
-        }
+        },
+        'project-overview': {
+          'header': 'Projektübersicht',
+          'table': {
+            'project-name': 'Projekt',
+            'release-version': 'Aktuelle Version',
+            'assigned-group': 'Zugewiesene Gruppe',
+            'study-status': 'Studie',
+            'surveys-status': 'Erhebungen',
+            'instruments-status': 'Instrumente',
+            'data-sets-status': 'Datensätze',
+            'questions-status': 'Fragen',
+            'variables-status': 'Variablen',
+            'publisher': 'Publisher',
+            'data-provider': 'Datengeber',
+            'unreleased': 'nicht freigegeben',
+            'tooltip': 'Klicken, um das Projekt-Cockpit dieses Projekts zu öffnen'
+          },
+          'pagination': {
+            'previous': 'Klicken, um die vorherigen Projekte anzuzeigen',
+            'next': 'Klicken, um die nächsten Projekte anzuzeigen',
+            'current': 'Klicken, um die Projekte auf Seite {{number}} anzuzeigen'
+          }
+        },
+        'outdated-version-alert': 'Sie betrachten eine veraltete Version ({{oldVersion}}). <a href="{{href}}">Hier geht es zur aktuellen Version ({{newVersion}})!</a>'
       }
       //jscs:enable
     };

@@ -1,15 +1,16 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import org.bson.Document;
+import com.mongodb.client.gridfs.model.GridFSFile;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import org.javers.core.Javers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -18,14 +19,10 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
-
-import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Service for managing attachments for instruments.
@@ -36,19 +33,22 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 public class InstrumentAttachmentService {
 
   @Autowired
-  private GridFS gridFs;
-
-  @Autowired
   private GridFsOperations operations;
   
   @Autowired
   private MongoTemplate mongoTemplate;
   
   @Autowired
-  private MimeTypeDetector mimeTypeDetector;
-  
-  @Autowired
   private Javers javers;
+
+  @Autowired
+  private InstrumentAttachmentMetadataShadowCopyDataSource shadowCopyDataSource;
+
+  @Autowired
+  private ShadowCopyService<InstrumentAttachmentMetadata> shadowCopyService;
+
+  @Autowired
+  private AttachmentMetadataHelper<InstrumentAttachmentMetadata> metadataAttachmentMetadataHelper;
 
   /**
    * Save the attachment for an instrument. 
@@ -58,39 +58,28 @@ public class InstrumentAttachmentService {
    */
   public String createInstrumentAttachment(MultipartFile multipartFile, 
       InstrumentAttachmentMetadata metadata) throws IOException {
-    try (InputStream in = multipartFile.getInputStream()) {
-      String currentUser = SecurityUtils.getCurrentUserLogin();
-      metadata.setVersion(0L);
-      metadata.setCreatedDate(LocalDateTime.now());
-      metadata.setCreatedBy(currentUser);
-      metadata.setLastModifiedBy(currentUser);
-      metadata.setLastModifiedDate(LocalDateTime.now());
-      metadata.generateId();
-      String contentType = mimeTypeDetector.detect(multipartFile);
-      String filename = InstrumentAttachmentFilenameBuilder.buildFileName(metadata);
-      this.operations.store(in, filename, contentType, metadata);
-      javers.commit(currentUser, metadata);
-      return filename;      
+    if (metadata.isShadow()) {
+      throw new ShadowCopyCreateNotAllowedException();
     }
+
+    String currentUser = SecurityUtils.getCurrentUserLogin();
+    metadataAttachmentMetadataHelper.initAttachmentMetadata(metadata, currentUser);
+    metadata.generateId();
+    metadata.setMasterId(metadata.getId());
+    String filename = InstrumentAttachmentFilenameBuilder.buildFileName(metadata);
+    metadataAttachmentMetadataHelper.writeAttachmentMetadata(multipartFile, filename, metadata,
+        currentUser);
+    return filename;
   }
-  
+
   /**
    * Update the metadata of the attachment.
-   * 
    * @param metadata The new metadata.
    */
   public void updateAttachmentMetadata(InstrumentAttachmentMetadata metadata) {
-    metadata.setVersion(metadata.getVersion() + 1);
-    String currentUser = SecurityUtils.getCurrentUserLogin();
-    metadata.setLastModifiedBy(currentUser);
-    metadata.setLastModifiedDate(LocalDateTime.now());
-    GridFSDBFile file = gridFs.findOne(InstrumentAttachmentFilenameBuilder
-        .buildFileName(metadata.getInstrumentId(), metadata.getFileName()));
-    BasicDBObject dbObject =
-        new BasicDBObject((Document) mongoTemplate.getConverter().convertToMongoType(metadata));
-    file.setMetaData(dbObject);
-    file.save();
-    javers.commit(currentUser, metadata);
+    String filePath = InstrumentAttachmentFilenameBuilder.buildFileName(metadata.getInstrumentId(),
+        metadata.getFileName());
+    metadataAttachmentMetadataHelper.updateAttachmentMetadata(metadata, filePath);
   }
 
   /**
@@ -107,6 +96,9 @@ public class InstrumentAttachmentService {
     files.forEach(file -> {
       InstrumentAttachmentMetadata metadata =
           mongoTemplate.getConverter().read(InstrumentAttachmentMetadata.class, file.getMetadata());
+      if (metadata.isShadow()) {
+        throw new ShadowCopyDeleteNotAllowedException();
+      }
       javers.commitShallowDelete(currentUser, metadata);
     });
     this.operations.delete(query);
@@ -142,6 +134,9 @@ public class InstrumentAttachmentService {
     files.forEach(file -> {
       InstrumentAttachmentMetadata metadata =
           mongoTemplate.getConverter().read(InstrumentAttachmentMetadata.class, file.getMetadata());
+      if (metadata.isShadow()) {
+        throw new ShadowCopyDeleteNotAllowedException();
+      }
       javers.commitShallowDelete(currentUser, metadata);
     });
     this.operations.delete(query);
@@ -162,8 +157,17 @@ public class InstrumentAttachmentService {
     }
     InstrumentAttachmentMetadata metadata =
         mongoTemplate.getConverter().read(InstrumentAttachmentMetadata.class, file.getMetadata());
+    if (metadata.isShadow()) {
+      throw new ShadowCopyDeleteNotAllowedException();
+    }
     String currentUser = SecurityUtils.getCurrentUserLogin();
     this.operations.delete(fileQuery);
     javers.commitShallowDelete(currentUser, metadata);
+  }
+
+  @EventListener
+  public void onProjectReleasedEvent(ProjectReleasedEvent projectReleasedEvent) {
+    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
+        projectReleasedEvent.getPreviousReleaseVersion(), shadowCopyDataSource);
   }
 }

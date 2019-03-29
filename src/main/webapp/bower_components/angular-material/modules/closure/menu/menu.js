@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.10
+ * v1.1.14-master-7674959
  */
 goog.provide('ngmaterial.components.menu');
 goog.require('ngmaterial.components.backdrop');
@@ -197,7 +197,7 @@ function MenuController($mdMenu, $attrs, $element, $scope, $mdUtil, $timeout, $r
 
   // Use the $mdMenu interim element service to close the menu contents
   this.close = function closeMenu(skipFocus, closeOpts) {
-    if ( !self.isOpen ) return;
+    if (!self.isOpen) return;
     self.isOpen = false;
     $mdUtil.nextTick(function(){ self.onIsOpenChanged(self.isOpen);});
 
@@ -302,9 +302,18 @@ function MenuController($mdMenu, $attrs, $element, $scope, $mdUtil, $timeout, $r
  *
  * The width of the menu when it is open may be specified by specifying a `width`
  * attribute on the `md-menu-content` element.
- * See the [Material Design Spec](https://material.io/guidelines/components/menus.html#menus-simple-menus)
+ * See the [Material Design Spec](https://material.io/archive/guidelines/components/menus.html#menus-simple-menus)
  * for more information.
  *
+ * ## Menu Density
+ *
+ * You can use dense menus by adding the `md-dense` class to the `md-menu-content` element.
+ * This reduces the height of menu items, their top and bottom padding, and default font size.
+ * Without the `md-dense` class, we use the "mobile" height of `48px`. With the `md-dense` class,
+ * we use the "desktop" height of `32px`. We do not support the "dense desktop" option in the spec,
+ * which uses a height of `24px`, at this time.
+ * See the [Menu Specs](https://material.io/archive/guidelines/components/menus.html#menus-specs)
+ * section of the Material Design Spec for more information.
  *
  * ## Aligning Menus
  *
@@ -518,7 +527,7 @@ function MenuDirective($mdUtil) {
     var mdMenuCtrl = ctrls[0];
     var isInMenuBar = !!ctrls[1];
     // Move everything into a md-menu-container and pass it to the controller
-    var menuContainer = angular.element( '<div class="_md md-open-menu-container md-whiteframe-z2"></div>');
+    var menuContainer = angular.element('<div class="_md md-open-menu-container md-whiteframe-z2"></div>');
     var menuContents = element.children()[1];
 
     element.addClass('_md');     // private md component indicator for styling
@@ -544,7 +553,7 @@ MenuProvider['$inject'] = ["$$interimElementProvider"];angular
   .module('material.components.menu')
   .provider('$mdMenu', MenuProvider);
 
-/*
+/**
  * Interim element provider for the menu.
  * Handles behavior for a menu while it is open, including:
  *    - handling animating the menu opening/closing
@@ -630,7 +639,7 @@ function MenuProvider($$interimElementProvider) {
       // For navigation $destroy events, do a quick, non-animated removal,
       // but for normal closes (from clicks, etc) animate the removal
 
-      return (opts.$destroy === true) ? detachAndClean() : animateRemoval().then( detachAndClean );
+      return (opts.$destroy === true) ? detachAndClean() : animateRemoval().then(detachAndClean);
 
       /**
        * For normal closes, animate the removal.
@@ -723,7 +732,7 @@ function MenuProvider($$interimElementProvider) {
         angular.extend(opts, {
           alreadyOpen: false,
           isRemoved: false,
-          target: angular.element(opts.target), //make sure it's not a naked dom node
+          target: angular.element(opts.target), // make sure it's not a naked DOM node
           parent: angular.element(opts.parent),
           menuContentEl: angular.element(element[0].querySelector('md-menu-content'))
         });
@@ -802,9 +811,9 @@ function MenuProvider($$interimElementProvider) {
         var focusTarget = opts.menuContentEl[0]
           .querySelector(prefixer.buildSelector(['md-menu-focus-target', 'md-autofocus']));
 
-        if ( !focusTarget ) {
+        if (!focusTarget) {
           var childrenLen = opts.menuContentEl[0].children.length;
-          for(var childIndex = 0; childIndex < childrenLen; childIndex++) {
+          for (var childIndex = 0; childIndex < childrenLen; childIndex++) {
             var child = opts.menuContentEl[0].children[childIndex];
             focusTarget = child.querySelector('.md-button:not([disabled])');
             if (focusTarget) {
@@ -1007,7 +1016,7 @@ function MenuProvider($$interimElementProvider) {
 
       if (positionMode.top === 'target' || positionMode.left === 'target' || positionMode.left === 'target-right') {
         alignTarget = firstVisibleChild();
-        if ( alignTarget ) {
+        if (alignTarget) {
           // TODO: Allow centering on an arbitrary node, for now center on first menu-item's child
           alignTarget = alignTarget.firstElementChild || alignTarget;
           alignTarget = alignTarget.querySelector(prefixer.buildSelector('md-menu-align-target')) || alignTarget;

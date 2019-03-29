@@ -9,8 +9,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +65,7 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testCreateProjectAndReadVersions() throws IOException, Exception {
+  public void testCreateProjectAndReadVersions() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the study with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -82,7 +80,7 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testEditProjectAndReadVersions() throws IOException, Exception {
+  public void testEditProjectAndReadVersions() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the study with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -120,7 +118,7 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testReleaseCompare() throws IOException, Exception {
+  public void testReleaseCompare() throws Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // Act

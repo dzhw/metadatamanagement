@@ -1,17 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.javers.core.metamodel.annotation.Entity;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.SetHasBeenReleasedBeforeOnlyOnce;
@@ -20,12 +13,24 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * The data acquisition project collects the metadata for the data products which are published by
@@ -49,7 +54,14 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-public class DataAcquisitionProject extends AbstractRdcDomainObject {
+@ValidMasterId(pattern = Patterns.ALPHANUMERIC, message = "data-acquisition-project-management."
+    + "error.data-acquisition-project.master-id.pattern")
+@ValidShadowId(message = "data-acquisition-project-management.error.data-acquisition-project."
+    + "id.pattern")
+public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
+    implements Serializable {
+
+  private static final long serialVersionUID = 1549622375585915772L;
 
   /**
    * The id of this project.
@@ -60,10 +72,9 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   @Id
   @NotEmpty(message = "data-acquisition-project-management.error."
       + "data-acquisition-project.id.not-empty")
-  @Pattern(regexp = "^[a-z0-9]*$",
-      message = "data-acquisition-project-management.error.data-acquisition-project.id.pattern")
   @Size(max = StringLengths.SMALL,
       message = "data-acquisition-project-management.error.data-acquisition-project.id.size")
+  @Setter(AccessLevel.NONE)
   private String id;
 
   /**
@@ -107,4 +118,13 @@ public class DataAcquisitionProject extends AbstractRdcDomainObject {
   @Size(max = StringLengths.LARGE, message = "data-acquisition-project-management.error."
       + "data-acquisition-project.last-assignee-group-message.size")
   private String lastAssigneeGroupMessage;
+
+  public DataAcquisitionProject(DataAcquisitionProject dataAcquisitionProject) {
+    BeanUtils.copyProperties(dataAcquisitionProject, this);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
+  }
 }

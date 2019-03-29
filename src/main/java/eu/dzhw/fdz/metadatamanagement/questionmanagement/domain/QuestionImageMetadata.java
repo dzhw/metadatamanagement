@@ -1,24 +1,27 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionImageType;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * The metadata for one question images. One question image displays the question in one language
@@ -30,7 +33,11 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-public class QuestionImageMetadata extends AbstractRdcDomainObject {
+public class QuestionImageMetadata extends AbstractShadowableRdcDomainObject {
+
+  @Id
+  @Setter(AccessLevel.NONE)
+  private String id;
 
   /**
    * The type of this image.
@@ -113,6 +120,18 @@ public class QuestionImageMetadata extends AbstractRdcDomainObject {
 
   @Override
   public String getId() {
-    return "/public/files/questions/" + questionId + "/images/" + fileName;
+    return id;
+  }
+
+  /**
+   * Generate the id of this attachment from the questionId and the fileName.
+   */
+  public void generateId() {
+    this.setId("/public/files/questions/" + questionId + "/images/" + fileName);
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
   }
 }

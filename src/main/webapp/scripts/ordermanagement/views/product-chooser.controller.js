@@ -5,10 +5,10 @@ angular.module('metadatamanagementApp')
   .controller('ProductChooserController', [
     '$scope', 'Principal', '$rootScope', '$mdDialog',
     'DataAcquisitionProjectReleasesResource', 'ShoppingCartService',
-    'projectId', 'accessWays', 'study',
+    'ProjectReleaseService', 'projectId', 'accessWays', 'study', 'version',
     function($scope, Principal, $rootScope, $mdDialog,
       DataAcquisitionProjectReleasesResource, ShoppingCartService,
-      projectId, accessWays, study) {
+      ProjectReleaseService, projectId, accessWays, study, version) {
       var ctrl = this;
       ctrl.accessWays = accessWays;
       ctrl.projectId = projectId;
@@ -39,12 +39,16 @@ angular.module('metadatamanagementApp')
       }
 
       DataAcquisitionProjectReleasesResource.get(
-        {id: ctrl.projectId})
+        {id: ProjectReleaseService.stripVersionSuffix(ctrl.projectId)})
         .$promise.then(
           function(releases) {
             ctrl.releases = releases;
             if (releases.length > 0) {
-              ctrl.selectedVersion = releases[0].version;
+              if (version) {
+                ctrl.selectedVersion = version;
+              } else {
+                ctrl.selectedVersion = releases[0].version;
+              }
             } else {
               ctrl.noFinalRelease = true;
             }

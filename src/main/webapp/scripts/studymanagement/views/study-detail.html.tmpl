@@ -4,9 +4,17 @@
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
         <h1 class="md-headline" style="margin-left: 0px;">
             <span display-i18n-string="ctrl.study.title" fdz-hyphenate></span>
-            <span class="label label-as-badge label-default">{{ctrl.study.id}}</span>
+            <span class="label label-as-badge label-default">{{ctrl.study.masterId}}</span>
         </h1>
         <json-content-dialog ng-if="ctrl.enableJsonView" content="ctrl.study" header-title="ctrl.study.title" exclude-fields="ctrl.jsonExcludes" class="fdz-no-margin-bottom"></json-content-dialog>
+    </div>
+    <div layout="row" class="fdz-tag-link-container">
+        <a ng-repeat="tag in ctrl.studyTags" ui-sref="search({type: 'studies', 'query': tag})" class="label label-as-badge md-raised md-button md-ink-ripple md-primary">
+          <span>{{tag}}</span>
+          <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'study-management.detail.tag-tooltip' | translate}}
+          </md-tooltip>
+        </a>
     </div>
     <div layout="column" layout-gt-sm="row">
         <div flex-gt-sm="50" layout="column">
@@ -95,161 +103,126 @@
                 <md-divider></md-divider>
                 <md-card-content layout="column" layout-align="center start">
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                        <div ng-if="!ctrl.isStudyInUpdateProcess" style="overflow: hidden">
-                            <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>
-                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                                {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.undocumented' | translate}}
-                            </div>
-                            <div ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
-                                <a ui-sref="surveyDetail({'id': ctrl.survey.id})">
-                                    <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                                    {{'survey-management.detail.label.survey' | translate }}:
-                                    <span display-i18n-string="ctrl.survey.title"></span>
-                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                                        {{'study-management.detail.tooltips.surveys.one' | translate}}
-                                    </md-tooltip>
-                                </a>
-                            </div>
-                            <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
-                                <a ui-sref="search({'type': 'surveys', 'study': ctrl.study.id})">
-                                    <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                                    {{'survey-management.detail.label.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
-                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                                        {{'study-management.detail.tooltips.surveys.many' | translate}}
-                                    </md-tooltip>
-                                </a>
-                            </div>
-                        </div>
-                        <div ng-if="ctrl.isStudyInUpdateProcess" style="overflow: hidden">
+                        <div ng-if="ctrl.counts.surveysCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                            {{'survey-management.detail.label.survey' | translate }}:
-                            {{'study-management.detail.is-in-update-process' | translate }}
+                            {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.undocumented' | translate}}
+                        </div>
+                        <div ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey" class="fdz-truncate-string" flex>
+                            <a ui-sref="surveyDetail({'id': ctrl.survey.masterId, 'version': ctrl.study.release.version})">
+                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                                {{'survey-management.detail.label.survey' | translate }}:
+                                <span display-i18n-string="ctrl.survey.title"></span>
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                                    {{'study-management.detail.tooltips.surveys.one' | translate}}
+                                </md-tooltip>
+                            </a>
+                        </div>
+                        <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'surveys', 'study': ctrl.study.id})">
+                                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
+                                {{'survey-management.detail.label.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                                    {{'study-management.detail.tooltips.surveys.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                        <div ng-if="!ctrl.isStudyInUpdateProcess" style="overflow: hidden">
-                            <div ng-if="ctrl.counts.instrumentsCount == 0" class="fdz-truncate-string" flex>
-                                <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                                {{'instrument-management.detail.label.instrument' | translate }}: {{'global.messages.error.undocumented' | translate}}
-                            </div>
-                            <div ng-if="ctrl.counts.instrumentsCount == 1 && ctrl.instrument" class="fdz-truncate-string" flex>
-                                <a ui-sref="instrumentDetail({'id': ctrl.instrument.id})">
-                                    <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                                    {{'instrument-management.detail.label.instrument' | translate }}: <span display-i18n-string="ctrl.instrument.description"></span>
-                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                                        {{'study-management.detail.tooltips.instruments.one' | translate}}
-                                    </md-tooltip>
-                                </a>
-                            </div>
-                            <div ng-if="ctrl.counts.instrumentsCount > 1" class="fdz-truncate-string" flex>
-                                <a ui-sref="search({'type': 'instruments', 'study': ctrl.study.id, 'sorty-by': 'number'})">
-                                    <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                                    {{'instrument-management.detail.label.instruments' | translate }}: ({{ctrl.counts.instrumentsCount}})
-                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                                        {{'study-management.detail.tooltips.instruments.many' | translate}}
-                                    </md-tooltip>
-                                </a>
-                            </div>
-                        </div>
-                        <div ng-if="ctrl.isStudyInUpdateProcess" style="overflow: hidden">
+                        <div ng-if="ctrl.counts.instrumentsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                            {{'instrument-management.detail.label.instrument' | translate }}:
-                            {{'study-management.detail.is-in-update-process' | translate }}
+                            {{'instrument-management.detail.label.instrument' | translate }}: {{'global.messages.error.undocumented' | translate}}
+                        </div>
+                        <div ng-if="ctrl.counts.instrumentsCount == 1 && ctrl.instrument" class="fdz-truncate-string" flex>
+                            <a ui-sref="instrumentDetail({'id': ctrl.instrument.masterId, 'version': ctrl.study.release.version})">
+                                <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
+                                {{'instrument-management.detail.label.instrument' | translate }}: <span display-i18n-string="ctrl.instrument.description"></span>
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                                    {{'study-management.detail.tooltips.instruments.one' | translate}}
+                                </md-tooltip>
+                            </a>
+                        </div>
+                        <div ng-if="ctrl.counts.instrumentsCount > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'instruments', 'study': ctrl.study.id, 'sorty-by': 'number'})">
+                                <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
+                                {{'instrument-management.detail.label.instruments' | translate }}: ({{ctrl.counts.instrumentsCount}})
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                                    {{'study-management.detail.tooltips.instruments.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                        <div ng-if="!ctrl.isStudyInUpdateProcess" style="overflow: hidden">
-                            <div ng-if="ctrl.counts.questionsCount == 0" class="fdz-truncate-string" flex>
-                                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                                {{'question-management.detail.label.questions' | translate }}: {{'global.messages.error.undocumented' | translate}}
-                            </div>
-                            <div ng-if="ctrl.counts.questionsCount == 1 && ctrl.question" class="fdz-truncate-string" flex>
-                                <a ui-sref="questionDetail({'id': question.id})">
-                                    <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                                    {{'question-management.detail.label.question' | translate }}: <span display-i18n-string="ctrl.question.questionText"></span>
-                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                                        {{'study-management.detail.tooltips.questions.one' | translate}}
-                                    </md-tooltip>
-                                </a>
-                            </div>
-                            <div ng-if="ctrl.counts.questionsCount > 1" class="fdz-truncate-string" flex>
-                                <a ui-sref="search({'type': 'questions', 'study':ctrl.study.id})">
-                                    <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                                    {{'question-management.detail.label.questions' | translate }}: ({{ctrl.counts.questionsCount}})
-                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                                        {{'study-management.detail.tooltips.questions.many' | translate}}
-                                    </md-tooltip>
-                                </a>
-                            </div>
-                        </div>
-                        <div ng-if="ctrl.isStudyInUpdateProcess" style="overflow: hidden">
+                        <div ng-if="ctrl.counts.questionsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                            {{'instrument-management.detail.label.instrument' | translate }}:
-                            {{'study-management.detail.is-in-update-process' | translate }}
+                            {{'question-management.detail.label.questions' | translate }}: {{'global.messages.error.undocumented' | translate}}
+                        </div>
+                        <div ng-if="ctrl.counts.questionsCount == 1 && ctrl.question" class="fdz-truncate-string" flex>
+                            <a ui-sref="questionDetail({'id': question.masterId, 'version': ctrl.study.release.version})">
+                                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                                {{'question-management.detail.label.question' | translate }}: <span display-i18n-string="ctrl.question.questionText"></span>
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                                    {{'study-management.detail.tooltips.questions.one' | translate}}
+                                </md-tooltip>
+                            </a>
+                        </div>
+                        <div ng-if="ctrl.counts.questionsCount > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'questions', 'study':ctrl.study.id})">
+                                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
+                                {{'question-management.detail.label.questions' | translate }}: ({{ctrl.counts.questionsCount}})
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                                    {{'study-management.detail.tooltips.questions.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                        <div ng-if="!ctrl.isStudyInUpdateProcess" style="overflow: hidden">
-                            <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>
-                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                {{'data-set-management.detail.label.data-sets' | translate }}: {{'global.messages.error.undocumented' | translate}}
-                            </div>
-                            <div ng-if="ctrl.counts.dataSetsCount == 1 && ctrl.dataSet" class="fdz-truncate-string" flex>
-                                <a ui-sref="dataSetDetail({'id': ctrl.dataSet.id})">
-                                    <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                    {{'data-set-management.detail.label.data-set' | translate }}:
-                                    <span display-i18n-string="ctrl.dataSet.description"></span>
-                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                                        {{'study-management.detail.tooltips.data-sets.one' | translate}}
-                                    </md-tooltip>
-                                </a>
-                            </div>
-                            <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
-                                <a ui-sref="search({'type': 'data_sets', 'study': ctrl.study.id})">
-                                    <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                                    {{'data-set-management.detail.label.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})
-                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                                        {{'study-management.detail.tooltips.data-sets.many' | translate}}
-                                    </md-tooltip>
-                                </a>
-                            </div>
-                        </div>
-                        <div ng-if="ctrl.isStudyInUpdateProcess" style="overflow: hidden">
+                        <div ng-if="ctrl.counts.dataSetsCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                            {{'data-set-management.detail.label.data-set' | translate }}:
-                            {{'study-management.detail.is-in-update-process' | translate }}
+                            {{'data-set-management.detail.label.data-sets' | translate }}: {{'global.messages.error.undocumented' | translate}}
+                        </div>
+                        <div ng-if="ctrl.counts.dataSetsCount == 1 && ctrl.dataSet" class="fdz-truncate-string" flex>
+                            <a ui-sref="dataSetDetail({'id': ctrl.dataSet.masterId, 'version': ctrl.study.release.version})">
+                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                                {{'data-set-management.detail.label.data-set' | translate }}:
+                                <span display-i18n-string="ctrl.dataSet.description"></span>
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                                    {{'study-management.detail.tooltips.data-sets.one' | translate}}
+                                </md-tooltip>
+                            </a>
+                        </div>
+                        <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'data_sets', 'study': ctrl.study.id})">
+                                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
+                                {{'data-set-management.detail.label.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                                    {{'study-management.detail.tooltips.data-sets.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
-                        <div ng-if="!ctrl.isStudyInUpdateProcess" style="overflow: hidden">
-                            <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string" flex>
-                                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                                {{'variable-management.detail.label.variables' | translate }}: {{'global.messages.error.undocumented' | translate}}
-                            </div>
-                            <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable" class="fdz-truncate-string" flex>
-                                <a ui-sref="variableDetail({'id': ctrl.variable.id})">
-                                    <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                                    {{'variable-management.detail.label.variable' | translate }}:
-                                    <span display-i18n-string="ctrl.variable.label"></span>
-                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                                        {{'study-management.detail.tooltips.variables.one' | translate}}
-                                    </md-tooltip>
-                                </a>
-                            </div>
-                            <div ng-if="ctrl.counts.variablesCount > 1" class="fdz-truncate-string" flex>
-                                <a ui-sref="search({'type': 'variables', 'study': ctrl.study.id})">
-                                    <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                                    {{'variable-management.detail.label.variables' | translate }}: ({{ctrl.counts.variablesCount}})
-                                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                                        {{'study-management.detail.tooltips.variables.many' | translate}}
-                                    </md-tooltip>
-                                </a>
-                            </div>
-                        </div>
-                        <div ng-if="ctrl.isStudyInUpdateProcess" style="overflow: hidden">
+                        <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string" flex>
                             <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                            {{'variable-management.detail.label.variables' | translate }}:
-                            {{'study-management.detail.is-in-update-process' | translate }}
+                            {{'variable-management.detail.label.variables' | translate }}: {{'global.messages.error.undocumented' | translate}}
+                        </div>
+                        <div ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable" class="fdz-truncate-string" flex>
+                            <a ui-sref="variableDetail({'id': ctrl.variable.masterId, 'version': ctrl.study.release.version})">
+                                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
+                                {{'variable-management.detail.label.variable' | translate }}:
+                                <span display-i18n-string="ctrl.variable.label"></span>
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                                    {{'study-management.detail.tooltips.variables.one' | translate}}
+                                </md-tooltip>
+                            </a>
+                        </div>
+                        <div ng-if="ctrl.counts.variablesCount > 1" class="fdz-truncate-string" flex>
+                            <a ui-sref="search({'type': 'variables', 'study': ctrl.study.id})">
+                                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
+                                {{'variable-management.detail.label.variables' | translate }}: ({{ctrl.counts.variablesCount}})
+                                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                                    {{'study-management.detail.tooltips.variables.many' | translate}}
+                                </md-tooltip>
+                            </a>
                         </div>
                     </div>
                     <div style="margin-bottom: 0.5em; width: 100%;" layout="row">
@@ -314,7 +287,7 @@
         </md-card>
     </div>
     <div layout="row">
-        <md-card ng-if="!ctrl.isStudyInUpdateProcess && ctrl.attachments && ctrl.attachments.length > 0" flex class="fdz-reset-top-margin">
+        <md-card ng-if="ctrl.attachments && ctrl.attachments.length > 0" flex class="fdz-reset-top-margin">
             <md-card-header layout-align="center center">
                 <md-card-header-text>
                     <h2 class="md-title">{{'study-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>
@@ -363,7 +336,7 @@
         </md-card>
     </div>
     <div layout="row">
-        <md-card ng-if="!ctrl.isStudyInUpdateProcess && ctrl.dataSets.length > 0" flex class="fdz-reset-top-margin">
+        <md-card ng-if="ctrl.dataSets.length > 0" flex class="fdz-reset-top-margin">
             <md-card-header>
                 <md-card-header-text>
                     <h2 class="md-title">{{'study-management.detail.data-set.card-title' | translate | fdzHyphenate }}</h2>
@@ -378,7 +351,7 @@
         </md-card>
     </div>
     <div layout="row">
-        <md-card ng-if="!ctrl.isStudyInUpdateProcess && ctrl.study.surveys.length > 0" flex class="fdz-reset-top-margin">
+        <md-card ng-if="ctrl.study.surveys.length > 0" flex class="fdz-reset-top-margin">
             <md-card-header>
                 <md-card-header-text>
                     <h2 class="md-title">{{'study-management.detail.basic-data-of-surveys' | translate | fdzHyphenate }}</h2>

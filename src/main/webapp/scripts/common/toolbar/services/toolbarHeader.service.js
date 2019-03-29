@@ -3,6 +3,27 @@
 
 angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
   function($rootScope) {
+    var stripVersionSuffix = function(id) {
+      if (!id) {
+        return id;
+      }
+      var match = id.match(/-[0-9]+\.[0-9]+\.[0-9]+$/);
+      if (match !== null) {
+        return id.substr(0, match.index);
+      } else {
+        return id;
+      }
+    };
+    var appendReleaseVersionToSurveys = function(surveys, version) {
+      if (!version) {
+        return surveys;
+      }
+      var clones = _.cloneDeep(surveys);
+      return clones.map(function(survey) {
+        survey.version = version;
+        return survey;
+      });
+    };
     var translationStringsMap = {
       'questionDetail': {
         'type': 'question-management.detail.label.question',
@@ -75,6 +96,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       },
       'projectCockpit': {
         'type': 'data-acquisition-project-management.project-cockpit.header'
+      },
+      'projectOverview': {
+        'type': 'data-acquisition-project-management.project-overview.header'
       },
       'login': {
         'type': 'global.toolbar.buttons.login'
@@ -153,9 +177,13 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         'icon': translationStringsMap.studyDetail.icon
       };
       if (item.studyIsPresent) {
-        studyItem.state = 'studyDetail({"id":"' + item.studyId + '"})';
+        var stateParams = {id: stripVersionSuffix(item.studyId)};
+        if (item.version) {
+          stateParams.version = item.version;
+        }
+        studyItem.state = 'studyDetail(' + JSON.stringify(stateParams) + ')';
         studyItem.tooltip = translationStringsMap.studyDetail.translateString;
-        studyItem.projectId = item.projectId;
+        studyItem.projectId = stripVersionSuffix(item.projectId);
         studyItem.enableLastItem = item.enableLastItem;
       } else {
         studyItem.notFound = '?';
@@ -175,8 +203,12 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         instrumentItem.number = item.number;
       } else {
         if (item.instrumentIsPresent) {
+          var stateParams = {id: stripVersionSuffix(item.instrumentId)};
+          if (item.version) {
+            stateParams.version = item.version;
+          }
           instrumentItem.state =
-          'instrumentDetail({"id":"' + item.instrumentId + '"})';
+          'instrumentDetail(' + JSON.stringify(stateParams) + ')';
           instrumentItem.tooltip = translationStringsMap
           .instrumentDetail.translateString;
           instrumentItem.number = item.instrumentNumber;
@@ -200,8 +232,12 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         dataSetItem.number = dataSet.number;
       } else {
         if (dataSet.dataSetIsPresent) {
+          var stateParams = {id: stripVersionSuffix(dataSet.dataSetId)};
+          if (dataSet.version) {
+            stateParams.version = dataSet.version;
+          }
           dataSetItem.state =
-          'dataSetDetail({"id":"' + dataSet.dataSetId + '"})';
+          'dataSetDetail(' + JSON.stringify(stateParams) + ')';
           dataSetItem.tooltip = translationStringsMap
           .dataSetDetail.translateString;
           dataSetItem.number = dataSet.dataSetNumber;
@@ -213,13 +249,17 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       return dataSetItem;
     };
     var createRelatedSurveyItem = function(surveys, itemTyp, itemId) {
+      var stateParams = {};
       var surveyItem = {
         'iconType': translationStringsMap.surveyDetail.iconType,
         'icon': translationStringsMap.surveyDetail.icon
       };
       if (surveys.length === 1) {
-        surveyItem.state = 'surveyDetail({"id":"' + surveys[0].id +
-        '"})';
+        stateParams = {id: stripVersionSuffix(surveys[0].id)};
+        if (surveys[0].version) {
+          stateParams.version = surveys[0].version;
+        }
+        surveyItem.state = 'surveyDetail(' + JSON.stringify(stateParams) + ')';
         surveyItem.type = translationStringsMap.surveyDetail.type;
         surveyItem.tooltip = translationStringsMap.surveyDetail.
         translateString;
@@ -227,7 +267,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         surveyItem.enableLastItem = surveys[0].enableLastItem;
       }
       if (surveys.length > 1) {
-        var stateParams = {'type': 'surveys'};
+        stateParams = {'type': 'surveys'};
         stateParams[itemTyp] = itemId;
         surveyItem.state = 'search(' + JSON.stringify(stateParams) + ')';
         surveyItem.type = translationStringsMap.surveyDetail.types;
@@ -271,8 +311,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'icon': translationStringsMap.questionDetail.icon,
             'number': item.questionNumber
           };
-          surveyItem = createRelatedSurveyItem(item.surveys, 'question',
-          item.id);
+          surveyItem = createRelatedSurveyItem(
+            appendReleaseVersionToSurveys(item.surveys, item.version),
+            'question', item.id);
           instrumentItem = createRelatedInstrumentItem(item, 'question');
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
           surveyItem, instrumentItem, questionItem);
@@ -287,8 +328,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             'name': item.name
           };
           dataSetItem = createRelatedDataSetItem(item, 'variable');
-          surveyItem = createRelatedSurveyItem(item.surveys, 'variable',
-          item.id);
+          surveyItem = createRelatedSurveyItem(
+            appendReleaseVersionToSurveys(item.surveys, item.version),
+            'variable', item.id);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
           surveyItem, dataSetItem, variableItem);
           break;
@@ -323,8 +365,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           break;
         case 'dataSetDetail':
           dataSetItem = createRelatedDataSetItem(item, 'data-set');
-          surveyItem = createRelatedSurveyItem(item.surveys, 'data-set',
-          item.id);
+          surveyItem = createRelatedSurveyItem(
+            appendReleaseVersionToSurveys(item.surveys, item.version),
+            'data-set', item.id);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
           surveyItem, dataSetItem);
           break;
@@ -344,8 +387,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           break;
         case 'instrumentDetail':
           instrumentItem = createRelatedInstrumentItem(item, 'instrument');
-          surveyItem = createRelatedSurveyItem(item.surveys, 'instrument',
-          item.id);
+          surveyItem = createRelatedSurveyItem(
+            appendReleaseVersionToSurveys(item.surveys, item.version),
+            'instrument', item.id);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
             surveyItem, instrumentItem);
           break;
@@ -387,6 +431,14 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           };
           $rootScope.toolbarHeaderItems.push(cockpitItem);
           break;
+        case 'project-overview': {
+          var projectOverviewItem = {
+            'state': 'project-overview',
+            'type': translationStringsMap.projectOverview.type
+          };
+          $rootScope.toolbarHeaderItems.push(projectOverviewItem);
+          break;
+        }
         case 'user-management':
           var managementItem = {
             'state': 'user-management',

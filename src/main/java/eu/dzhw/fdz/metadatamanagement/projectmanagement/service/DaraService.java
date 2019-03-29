@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.TimeMethods;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
@@ -60,6 +61,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Access component for getting health information or registration or updates for dara and the doi.
@@ -223,14 +226,15 @@ public class DaraService {
       log.debug("Response body from Dara: {}", result.getBody());
       return result.getStatusCode();
     } catch (HttpClientErrorException httpClientError) {
-      log.debug("HTTP Error durind Dara call", httpClientError);
-      log.debug("Dara Response Body:\n" + httpClientError.getResponseBodyAsString());
+      log.error("HTTP Error durind Dara call", httpClientError);
+      log.error("Dara Response Body:\n" + httpClientError.getResponseBodyAsString());
       // Has been released is false? Something went wrong at the local save?
       // Catch the second try for registring
       // Idempotent Method!
+      String responseBody = httpClientError.getResponseBodyAsString();
       if (httpClientError.getStatusCode().is4xxClientError()
-          && httpClientError.getResponseBodyAsString()
-              .equals("A resource with the given doiProposal exists in the system.")) {
+          && (responseBody.equals("A resource with the given doiProposal exists in the system.")
+              || responseBody.contains("remint failed"))) {
         return HttpStatus.CREATED;
       } else {
         throw httpClientError;
@@ -274,6 +278,7 @@ public class DaraService {
     List<Survey> surveys =
         this.surveyRepository.findByDataAcquisitionProjectIdOrderByNumber(projectId);
     dataForTemplate.put("surveys", surveys);
+    dataForTemplate.put("geographicCoverages", deduplicateGeographicCoverages(surveys));
 
     // Get Datasets Information
     List<DataSet> dataSets = this.dataSetRepository.findByDataAcquisitionProjectId(projectId);
@@ -344,6 +349,12 @@ public class DaraService {
     return surveyToCollectionModesMap;
   }
 
+  private Set<GeographicCoverage> deduplicateGeographicCoverages(List<Survey> surveys) {
+    return surveys.stream()
+        .flatMap(survey -> survey.getPopulation().getGeographicCoverages()
+            .stream()).collect(Collectors.toSet());
+  }
+
   private String computeTimeDimension(Study study) {
     if (study.getSurveyDesign().equals(SurveyDesigns.CROSS_SECTION)) {
       return TimeMethods.CROSSSECTION;
@@ -363,12 +374,12 @@ public class DaraService {
         resourceTypeFree = FreeResourceTypes.SURVEY_DATA;
       } else if (survey.getDataType().equals(DataTypes.QUALITATIVE_DATA)
           && resourceTypeFree == null) {
-        resourceTypeFree = FreeResourceTypes.COMPETENCE_DATA;
+        resourceTypeFree = FreeResourceTypes.QUALITATIVE_DATA;
       } else if (survey.getDataType().equals(DataTypes.QUALITATIVE_DATA)
           && resourceTypeFree == FreeResourceTypes.SURVEY_DATA) {
         resourceTypeFree = FreeResourceTypes.MIXED_DATA;
       } else if (survey.getDataType().equals(DataTypes.QUANTITATIVE_DATA)
-          && resourceTypeFree == FreeResourceTypes.COMPETENCE_DATA) {
+          && resourceTypeFree == FreeResourceTypes.QUALITATIVE_DATA) {
         resourceTypeFree = FreeResourceTypes.MIXED_DATA;
       }
     }

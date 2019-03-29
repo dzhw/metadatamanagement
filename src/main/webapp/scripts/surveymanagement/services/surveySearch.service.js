@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('SurveySearchService',
   function(ElasticSearchClient, $q, LanguageService, SearchHelperService,
-           CleanJSObjectService, GenericFilterOptionsSearchService) {
+           CleanJSObjectService, GenericFilterOptionsSearchService, Principal) {
       var createQueryObject = function(type) {
         type = type || 'surveys';
         return {
@@ -45,6 +45,21 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
               deferred.resolve(response);
             }
           });
+        return deferred;
+      };
+
+      var findShadowByIdAndVersion = function(id, version) {
+        var query = {};
+        _.extend(query, createQueryObject(),
+          SearchHelperService.createShadowByIdAndVersionQuery(id, version));
+        var deferred = $q.defer();
+        ElasticSearchClient.search(query).then(function(result) {
+          if (result.hits.total === 1) {
+            deferred.resolve(result.hits.hits[0]._source);
+          } else {
+            return deferred.resolve(null);
+          }
+        }, deferred.reject);
         return deferred;
       };
 
@@ -90,7 +105,8 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         };
         return ElasticSearchClient.search(query);
       };
-      var countBy = function(term, value) {
+
+      var countBy = function(term, value, version) {
         var query = createQueryObject();
         query.body = {};
         query.body.query = {};
@@ -107,6 +123,29 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         };
         mustTerm.term[term] = value;
         query.body.query.bool.filter.push(mustTerm);
+
+        var isAnonymous = Principal.loginName() === null;
+
+        query.body.query.bool.filter.push({term: {
+            shadow: isAnonymous
+          }});
+
+        if (isAnonymous) {
+          if (version) {
+            query.body.query.bool.filter.push({
+              term: {
+                'release.version': version
+              }
+            });
+          } else {
+            query.body.query.bool.must_not = [{
+              exists: {
+                field: 'successorId'
+              }
+            }];
+          }
+        }
+
         return ElasticSearchClient.count(query);
       };
 
@@ -141,7 +180,12 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
             'must': [{
                 'match': {
                 }
-              }]
+              }],
+            'filter': {
+              'term': {
+                'shadow': false
+              }
+            }
           }
         };
 
@@ -204,6 +248,12 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
                       'size': 100
                     },
                     'aggs': {
+                      'masterId': {
+                        'terms': {
+                          'field': prefix + 'masterId',
+                          'size': 100
+                        }
+                      },
                       'titleDe': {
                         'terms': {
                           'field': prefix + 'title.de',
@@ -257,8 +307,10 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         }
 
         SearchHelperService.addQuery(query, queryterm);
-
         SearchHelperService.addFilter(query);
+        if (type !== 'related_publications') {
+          SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
+        }
 
         return ElasticSearchClient.search(query).then(function(result) {
           var titles = [];
@@ -276,6 +328,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
                   en: bucket.titleDe.buckets[0].titleEn.buckets[0].key
                 },
                 id: bucket.key,
+                masterId: bucket.masterId.buckets[0].key,
                 count: bucket.doc_count
               };
               titles.push(titleElement);
@@ -300,6 +353,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
 
       return {
         findOneById: findOneById,
+        findShadowByIdAndVersion: findShadowByIdAndVersion,
         findByStudyId: findByStudyId,
         findByDataSetId: findByDataSetId,
         countBy: countBy,
