@@ -359,12 +359,12 @@ angular.module('metadatamanagementApp').config(
         },
         'unit-value-picker': {
           'label': 'Wählen Sie eine Erhebungseinheit aus',
-          'unit-not-found': 'Keine Erhebungseinheit mit diesem Namen gefunden',
           'hints': {
             'unit': 'Wählen Sie eine Erhebungseinheit aus'
           },
           'errors': {
-            'required': 'Eine Erhebungseinheit muss ausgewählt sein'
+            'required': 'Eine Erhebungseinheit muss ausgewählt sein',
+            'no-match': 'Keine Erhebungseinheit mit diesem Namen gefunden'
           }
         }
       }

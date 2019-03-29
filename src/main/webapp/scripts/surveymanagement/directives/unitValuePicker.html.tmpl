@@ -18,13 +18,14 @@
             {{unitValue[language]}}
         </md-item-template>
         <md-not-found>
-            {{'survey-management.unit-value-picker.unit-not-found' | translate}}
+            {{'survey-management.unit-value-picker.errors.no-match' | translate}}
         </md-not-found>
         <div ng-if="unitValuePickerForm.unit.$untouched" class="fdz-input-hint">
             {{'survey-management.unit-value-picker.hints.unit' | translate}}
         </div>
         <div ng-messages="unitValuePickerForm.unit.$error">
             <div ng-message="required">{{'survey-management.unit-value-picker.errors.required' | translate}}</div>
+            <div ng-message="md-require-match">{{'survey-management.unit-value-picker.errors.no-match' | translate}}</div>
         </div>
     </md-autocomplete>
 </div>

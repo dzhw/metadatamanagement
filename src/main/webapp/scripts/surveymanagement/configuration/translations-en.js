@@ -359,12 +359,12 @@ angular.module('metadatamanagementApp').config(
         },
         'unit-value-picker': {
           'label': 'Select a survey unit',
-          'unit-not-found': 'No survey unit found with this name',
           'hints': {
             'unit': 'Please select a survey unit'
           },
           'errors': {
-            'required': 'A survey unit must be selected'
+            'required': 'A survey unit must be selected',
+            'no-match': 'No survey unit found with this name'
           }
         }
       }
