@@ -14,7 +14,8 @@
                          md-selected-item-change="selectedCountryChange(country)"
                          md-min-length="0"
                          md-floating-label="{{'survey-management.geographic-coverage.label.country' | translate}}"
-                         flex="100" flex-gt-sm="50">
+                         flex="100" flex-gt-sm="50"
+                         ng-disabled="isDisabled">
             <md-item-template>
                 {{country[language]}}
             </md-item-template>

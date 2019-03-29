@@ -7,15 +7,15 @@ angular.module('metadatamanagementApp')
              PageTitleService, $state, ToolbarHeaderService,
              SurveySearchService, SurveyAttachmentResource, Principal,
              SimpleMessageToastService, SearchResultNavigatorService,
-             SurveyResponseRateImageUploadService,
+             SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
              DataAcquisitionProjectResource, ProductChooserDialogService,
-             ProjectUpdateAccessService, COUNTRIES, OutdatedVersionNotifier,
-             $stateParams) {
+             ProjectUpdateAccessService, CountryCodesResource, $stateParams) {
 
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
-
       SearchResultNavigatorService.registerCurrentSearchResult();
+
+      var countries = CountryCodesResource.query();
       var activeProject;
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
@@ -84,7 +84,8 @@ angular.module('metadatamanagementApp')
             ctrl.dataSet = survey.dataSets[0];
           }
           SurveySearchService.countBy('dataAcquisitionProjectId',
-            ctrl.survey.dataAcquisitionProjectId)
+            ctrl.survey.dataAcquisitionProjectId,
+            _.get(survey, 'release.version'))
             .then(function(surveysCount) {
               ctrl.counts.surveysCount = surveysCount.count;
             });
@@ -146,7 +147,7 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.getCountryName = function(geographicCoverage) {
-        var country = _.filter(COUNTRIES, function(country) {
+        var country = _.filter(countries, function(country) {
           return country.code === geographicCoverage.country;
         });
 

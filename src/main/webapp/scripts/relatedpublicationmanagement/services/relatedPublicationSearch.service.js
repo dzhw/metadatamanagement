@@ -91,27 +91,7 @@ angular.module('metadatamanagementApp')
         };
         return ElasticSearchClient.search(query);
       };
-      var findByVariableId = function(variableId, selectedAttributes, from,
-        size) {
-        var query = createQueryObject();
-        query.body = {};
-        query.body.from = from;
-        query.body.size = size;
-        query.body._source = selectedAttributes;
-        query.body.query = {
-          'bool': {
-            'must': [{
-              'match_all': {}
-            }],
-            'filter': [{
-              'term': {
-                'variables.id': variableId
-              }
-            }]
-          }
-        };
-        return ElasticSearchClient.search(query);
-      };
+
       var findByInstrumentId = function(instrumentId, selectedAttributes,
         from, size) {
         var query = createQueryObject();
@@ -174,25 +154,6 @@ angular.module('metadatamanagementApp')
           }
         };
         return ElasticSearchClient.search(query);
-      };
-      var countBy = function(term, value) {
-        var query = createQueryObject();
-        query.body = {};
-        query.body.query = {};
-        query.body.query = {
-          'bool': {
-            'must': [{
-              'match_all': {}
-            }],
-            'filter': []
-          }
-        };
-        var mustTerm = {
-          'term': {}
-        };
-        mustTerm.term[term] = value;
-        query.body.query.bool.filter.push(mustTerm);
-        return ElasticSearchClient.count(query);
       };
 
       var findTitles = function(searchText, filter, type,
@@ -304,12 +265,10 @@ angular.module('metadatamanagementApp')
       return {
         findOneById: findOneById,
         findBySurveyId: findBySurveyId,
-        findByVariableId: findByVariableId,
         findByDataSetId: findByDataSetId,
         findByQuestionId: findByQuestionId,
         findByStudyId: findByStudyId,
         findByInstrumentId: findByInstrumentId,
-        countBy: countBy,
         findTitles: findTitles
       };
     });

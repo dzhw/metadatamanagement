@@ -96,7 +96,8 @@ angular.module('metadatamanagementApp')
           }
           DataSetSearchService
             .countBy('dataAcquisitionProjectId',
-              ctrl.dataSet.dataAcquisitionProjectId)
+              ctrl.dataSet.dataAcquisitionProjectId,
+              _.get(result, 'release.version'))
             .then(function(dataSetsCount) {
               ctrl.counts.dataSetsCount = dataSetsCount.count;
             });
@@ -104,7 +105,8 @@ angular.module('metadatamanagementApp')
           ctrl.dataSet.subDataSets.forEach(function(subDataSet) {
             ctrl.accessWays.push(subDataSet.accessWay);
             VariableSearchService.countBy('accessWays',
-              subDataSet.accessWay, ctrl.dataSet.id).then(function(counts) {
+              subDataSet.accessWay, ctrl.dataSet.id,
+              _.get(result, 'release.version')).then(function(counts) {
               ctrl.counts[subDataSet.name] = counts.count;
             });
           });

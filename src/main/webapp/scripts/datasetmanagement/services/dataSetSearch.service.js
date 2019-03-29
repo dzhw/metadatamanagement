@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('DataSetSearchService',
   function(ElasticSearchClient, $q, CleanJSObjectService, SearchHelperService,
-    LanguageService) {
+    LanguageService, Principal) {
     var createQueryObject = function(type) {
       type = type || 'data_sets';
       return {
@@ -79,25 +79,6 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       return deferred;
     };
 
-    var findOneByVariableId = function(variableId, selectedAttributes) {
-      var query =  createQueryObject();
-      query.body = {};
-      query.body.size = 1;
-      query.body._source = selectedAttributes;
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match_all': {}
-          }],
-          'filter': [{
-            'term': {
-              'variables.id': variableId
-            }
-          }]
-        }
-      };
-      return ElasticSearchClient.search(query);
-    };
     var findBySurveyId = function(surveyId, selectedAttributes, from,
       size) {
       var query =  createQueryObject();
@@ -119,37 +100,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var findByProjectId = function(dataAcquisitionProjectId, selectedAttributes,
-      from, size,
-      excludedDataSetId) {
-      var query =  createQueryObject();
-      query.body = {};
-      query.body.from = from;
-      query.body.size = size;
-      query.body._source = selectedAttributes;
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match_all': {}
-          }],
-          'filter': [{
-            'term': {
-              'dataAcquisitionProjectId': dataAcquisitionProjectId
-            }
-          }]
-        }
-      };
-      if (excludedDataSetId) {
-        // jscs:disable
-        query.body.query.bool.must_not = {
-          'term': {
-            'id': excludedDataSetId
-          }
-        };
-        // jscs:enable
-      }
-      return ElasticSearchClient.search(query);
-    };
+
     var findByStudyId = function(studyId, selectedAttributes, from, size) {
       var query =  createQueryObject();
       query.body = {};
@@ -170,7 +121,8 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       };
       return ElasticSearchClient.search(query);
     };
-    var countBy = function(term, value) {
+
+    var countBy = function(term, value, version) {
       var query =  createQueryObject();
       query.body = {};
       query.body.query = {};
@@ -187,6 +139,29 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       };
       mustTerm.term[term] = value;
       query.body.query.bool.filter.push(mustTerm);
+
+      var isAnonymous = Principal.loginName() === null;
+
+      query.body.query.bool.filter.push({term: {
+          shadow: isAnonymous
+        }});
+
+      if (isAnonymous) {
+        if (version) {
+          query.body.query.bool.filter.push({
+            term: {
+              'release.version': version
+            }
+          });
+        } else {
+          query.body.query.bool.must_not = [{
+            exists: {
+              field: 'successorId'
+            }
+          }];
+        }
+      }
+
       return ElasticSearchClient.count(query);
     };
 
@@ -379,9 +354,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
 
     return {
       findOneById: findOneById,
-      findOneByVariableId: findOneByVariableId,
       findBySurveyId: findBySurveyId,
-      findByProjectId: findByProjectId,
       findByStudyId: findByStudyId,
       countBy: countBy,
       countByMultiple: countByMultiple,

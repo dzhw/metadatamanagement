@@ -100,8 +100,7 @@
     </description>
   </descriptions>
   <geographicCoverages>
-    <#list surveys as survey>
-      <#list survey.population.geographicCoverages as geographicCoverage>
+    <#list geographicCoverages as geographicCoverage>
       <geographicCoverage>
           <geographicCoverageControlled>${geographicCoverage.country}</geographicCoverageControlled>
         <#if geographicCoverage.description?? && (geographicCoverage.description.de?has_content || geographicCoverage.description.en?has_content)>
@@ -121,7 +120,6 @@
           </geographicCoveragesFree>
         </#if>
       </geographicCoverage>
-      </#list>
     </#list>
   </geographicCoverages>
   <universes>
