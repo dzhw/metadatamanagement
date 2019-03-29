@@ -1,38 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.NotImplementedException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
-import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import com.google.common.base.Charsets;
-
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -62,6 +30,36 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
+import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Access component for getting health information or registration or updates for dara and the doi.
@@ -319,18 +317,26 @@ public class DaraService {
           instrumentRepository.findSubDocumentsBySurveyIdsContaining(survey.getId());
       List<String> collectionModes = new ArrayList<String>(instruments.size());
       for (InstrumentSubDocumentProjection instrument : instruments) {
-        if (instrument.getType().equals(InstrumentTypes.CAPI)) {
-          collectionModes.add(CollectionModes.INTERVIEW_FACETOFACE_CAPICAMI);
-        } else if (instrument.getType().equals(InstrumentTypes.CATI)) {
-          collectionModes.add(CollectionModes.INTERVIEW_TELEPHONE_CATI);
-        } else if (instrument.getType().equals(InstrumentTypes.CAWI)) {
-          collectionModes.add(CollectionModes.SELFADMINISTEREDQUESTIONNAIRE_WEBBASED);
-        } else if (instrument.getType().equals(InstrumentTypes.PAPI)) {
-          collectionModes.add(CollectionModes.SELFADMINISTEREDQUESTIONNAIRE_PAPER);
-        } else {
-          throw new NotImplementedException(
-              "There is no mapping to DARAs collectionMode for the instrument type "
-                  + instrument.getType());
+        switch (instrument.getType()) {
+          case InstrumentTypes.CAPI:
+            collectionModes.add(CollectionModes.INTERVIEW_FACETOFACE_CAPICAMI);
+            break;
+          case InstrumentTypes.CATI:
+            collectionModes.add(CollectionModes.INTERVIEW_TELEPHONE_CATI);
+            break;
+          case InstrumentTypes.CAWI:
+            collectionModes.add(CollectionModes.SELFADMINISTEREDQUESTIONNAIRE_WEBBASED);
+            break;
+          case InstrumentTypes.PAPI:
+            collectionModes.add(CollectionModes.SELFADMINISTEREDQUESTIONNAIRE_PAPER);
+            break;
+          case InstrumentTypes.INTERVIEW:
+            collectionModes.add(CollectionModes.INTERVIEW_FACETOFACE);
+            break;
+          default:
+            throw new NotImplementedException(
+                "There is no mapping to DARAs collectionMode for the instrument type "
+                    + instrument.getType());
         }
       }
       surveyToCollectionModesMap.put(survey.getId(), collectionModes);

@@ -176,7 +176,8 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                     }
                 },
                 'post-validation': {
-                    'instrument-has-invalid-survey-id': 'The Instrument {{id}} references an unknown Survey ({{toBereferenzedId}}).'
+                    'instrument-has-invalid-survey-id': 'The Instrument {{id}} references an unknown Survey ({{toBereferenzedId}}).',
+                    'no-instruments': 'There are no instruments in this project'
                 }
             },
             'edit': {

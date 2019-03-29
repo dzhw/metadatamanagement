@@ -70,4 +70,7 @@ public interface InstrumentRepository
   @RestResource(exported = false)
   List<IdAndNumberInstrumentProjection> findInstrumentNumbersByDataAcquisitionProjectId(
       String dataAcquisitionProjectId);
+
+  @RestResource(exported = false)
+  boolean existsByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 }
