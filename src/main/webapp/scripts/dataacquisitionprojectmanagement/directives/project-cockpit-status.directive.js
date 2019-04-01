@@ -31,8 +31,29 @@ angular.module('metadatamanagementApp')
       /* jshint -W098 */
       link: function($scope, elem, attrs, ctrl) {
 
+        var sortByRequiredState = function() {
+          var optionalStates = ['surveys', 'instruments', 'questions',
+            'dataSets', 'variables'];
+          var sorted = _.sortBy(optionalStates, function(state) {
+            return ctrl.project.configuration.requirements[state + 'Required'];
+          });
+          return _.reverse(sorted);
+        };
+
+        ctrl.sortedStates = sortByRequiredState();
+
+        ctrl.isDataProviderOnly = function() {
+          var login = Principal.loginName();
+          var publishers = _.get(ctrl.project, 'configuration.publishers', []);
+          var dataProviders = _.get(ctrl.project,
+            'configuration.dataProviders', []);
+          return publishers.indexOf(login) === -1 && dataProviders
+            .indexOf(login) !== -1;
+        };
+
         $scope.$on('project-changed', function() {
           ctrl.changed = true;
+          ctrl.sortedStates = sortByRequiredState();
         });
         $scope.$on('project-saved', function() {
           ctrl.changed = false;

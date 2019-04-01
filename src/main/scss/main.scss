@@ -1247,4 +1247,5 @@ geographic-coverage {
 
 metadata-type-state-card.ng-hide:not(.ng-hide-animate) {
     visibility: hidden;
+    display: inherit!important;
 }
