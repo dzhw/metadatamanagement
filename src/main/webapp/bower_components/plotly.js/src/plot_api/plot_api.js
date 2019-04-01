@@ -1589,7 +1589,7 @@ function _restyle(gd, aobj, traces) {
     // and figure out what kind of graphics update we need to do
     for(var ai in aobj) {
         if(helpers.hasParent(aobj, ai)) {
-            throw new Error('cannot set ' + ai + 'and a parent attribute simultaneously');
+            throw new Error('cannot set ' + ai + ' and a parent attribute simultaneously');
         }
 
         var vi = aobj[ai];
@@ -2095,7 +2095,7 @@ function _relayout(gd, aobj) {
     // alter gd.layout
     for(var ai in aobj) {
         if(helpers.hasParent(aobj, ai)) {
-            throw new Error('cannot set ' + ai + 'and a parent attribute simultaneously');
+            throw new Error('cannot set ' + ai + ' and a parent attribute simultaneously');
         }
 
         var p = layoutNP(layout, ai);
@@ -2304,6 +2304,9 @@ function _relayout(gd, aobj) {
                 (vi === 'lasso' || vi === 'select') &&
                 !(vOld === 'lasso' || vOld === 'select'))
             ) {
+                flags.plot = true;
+            }
+            else if(fullLayout._has('gl2d')) {
                 flags.plot = true;
             }
             else if(valObject) editTypes.update(flags, valObject);

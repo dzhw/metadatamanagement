@@ -65,13 +65,13 @@ public class DataAcquisitionProjectService {
    * Creates a new {@link DataAcquisitionProjectService} instance.
    */
   public DataAcquisitionProjectService(DataAcquisitionProjectRepository dataAcquisitionProjectRepo,
-       ApplicationEventPublisher applicationEventPublisher,
-       UserInformationProvider userInformationProvider,
-       DataAcquisitionProjectChangesProvider changesProvider, UserRepository userRepository,
-       MailService mailService, MetadataManagementProperties metadataManagementProperties,
-       DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource,
-       ShadowCopyService<DataAcquisitionProject> shadowCopyService,
-       ShadowCopyQueueItemService shadowCopyQueueItemService) {
+      ApplicationEventPublisher applicationEventPublisher,
+      UserInformationProvider userInformationProvider,
+      DataAcquisitionProjectChangesProvider changesProvider, UserRepository userRepository,
+      MailService mailService, MetadataManagementProperties metadataManagementProperties,
+      DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource,
+      ShadowCopyService<DataAcquisitionProject> shadowCopyService,
+      ShadowCopyQueueItemService shadowCopyQueueItemService) {
     this.acquisitionProjectRepository = dataAcquisitionProjectRepo;
     this.eventPublisher = applicationEventPublisher;
     this.userInformationProvider = userInformationProvider;
@@ -79,8 +79,7 @@ public class DataAcquisitionProjectService {
     this.userRepository = userRepository;
     this.mailService = mailService;
     this.metadataManagementProperties = metadataManagementProperties;
-    this.dataAcquisitionProjectShadowCopyDataSource =
-        dataAcquisitionProjectShadowCopyDataSource;
+    this.dataAcquisitionProjectShadowCopyDataSource = dataAcquisitionProjectShadowCopyDataSource;
     this.shadowCopyService = shadowCopyService;
     this.shadowCopyQueueItemService = shadowCopyQueueItemService;
   }
@@ -127,8 +126,8 @@ public class DataAcquisitionProjectService {
           .findByIdLikeAndShadowIsFalseAndSuccessorIdIsNull(projectId);
     } else {
       String loginName = userInformationProvider.getUserLogin();
-      return acquisitionProjectRepository.findAllByIdLikeAndPublisherIdOrderByIdAsc(projectId,
-          loginName);
+      return acquisitionProjectRepository
+          .findAllMastersByIdLikeAndPublisherIdOrderByIdAsc(projectId, loginName);
     }
   }
 
@@ -172,8 +171,8 @@ public class DataAcquisitionProjectService {
       final String projectId = newDataAcquisitionProject.getId();
 
       if (isProjectRelease(projectId)) {
-        shadowCopyQueueItemService.createShadowCopyTask(projectId, newDataAcquisitionProject
-            .getRelease().getVersion());
+        shadowCopyQueueItemService.createShadowCopyTask(projectId,
+            newDataAcquisitionProject.getRelease().getVersion());
       }
 
       sendPublishersDataProvidersChangedMails(projectId);
@@ -184,8 +183,8 @@ public class DataAcquisitionProjectService {
   @EventListener
   void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
     shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        projectReleasedEvent
-            .getPreviousReleaseVersion(), dataAcquisitionProjectShadowCopyDataSource);
+        projectReleasedEvent.getPreviousReleaseVersion(),
+        dataAcquisitionProjectShadowCopyDataSource);
   }
 
   private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {

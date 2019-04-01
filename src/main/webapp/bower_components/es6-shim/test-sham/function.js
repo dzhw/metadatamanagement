@@ -17,6 +17,12 @@ describe('Function', function () {
       });
     });
 
+    it('does not poison every name when accessed on Function.prototype', function () {
+      expect((function foo() {}).name).to.equal('foo');
+      expect(Function.prototype.name).to.equal('');
+      expect((function foo() {}).name).to.equal('foo');
+    });
+
     it('returns empty string for anonymous functions', function () {
       var anon = identity(function () {});
       expect(anon.name).to.equal('');
@@ -33,10 +39,8 @@ describe('Function', function () {
     });
 
     it('returns "anomymous" for Function functions', function () {
-      /* eslint no-new-func: 1 */
-      /* jshint evil: true */
+      // eslint-disable-next-line no-new-func
       var func = identity(Function(''));
-      /* jshint evil: false */
       expect(typeof func.name).to.equal('string');
       expect(func.name === 'anonymous' || func.name === '').to.equal(true);
 

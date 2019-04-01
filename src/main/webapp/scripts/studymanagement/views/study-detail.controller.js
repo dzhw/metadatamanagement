@@ -8,8 +8,9 @@ angular.module('metadatamanagementApp')
              StudyAttachmentResource, SearchResultNavigatorService,
              $stateParams, $rootScope, DataAcquisitionProjectResource,
              ProductChooserDialogService, ProjectUpdateAccessService, $scope,
-             $timeout, OutdatedVersionNotifier, StudySearchService, $log) {
-
+             $timeout, OutdatedVersionNotifier, StudySearchService, $log,
+             blockUI) {
+      blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 
@@ -132,9 +133,8 @@ angular.module('metadatamanagementApp')
             ctrl.instrument = result.instruments[0];
           }
           if (_.get(result, 'release.version')) {
-            var version = _.get(result, 'release.version');
             ctrl.study.surveys.map(function(survey) {
-              _.set(survey, 'release.version', version);
+              _.set(survey, 'release.version', result.release.version);
             });
           }
           /* We need to load search the dataSets cause the contain needed
@@ -166,7 +166,7 @@ angular.module('metadatamanagementApp')
         }
 
         ctrl.studyTags = getTags(result);
-      }, $log.error);
+      }, $log.error).finally(blockUI.stop);
 
       ctrl.addToShoppingCart = function(event) {
         ProductChooserDialogService.showDialog(

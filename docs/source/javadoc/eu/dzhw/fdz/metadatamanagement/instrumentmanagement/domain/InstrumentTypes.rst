@@ -42,6 +42,12 @@ CAWI
 .. java:field:: public static final String CAWI
    :outertype: InstrumentTypes
 
+INTERVIEW
+^^^^^^^^^
+
+.. java:field:: public static final String INTERVIEW
+   :outertype: InstrumentTypes
+
 PAPI
 ^^^^
 

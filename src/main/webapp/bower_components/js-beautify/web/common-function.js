@@ -69,6 +69,7 @@ function read_settings_from_cookie() {
   $('#comma-first').prop('checked', Cookies.get('comma-first') === 'on');
   $('#e4x').prop('checked', Cookies.get('e4x') === 'on');
   $('#language').val(any(Cookies.get('language'), 'auto'));
+  $('#indent-empty-lines').prop('checked', Cookies.get('indent-empty-lines') === 'on');
 }
 
 function store_settings_to_cookie() {
@@ -93,6 +94,7 @@ function store_settings_to_cookie() {
   Cookies.set('comma-first', $('#comma-first').prop('checked') ? 'on' : 'off', opts);
   Cookies.set('e4x', $('#e4x').prop('checked') ? 'on' : 'off', opts);
   Cookies.set('language', $('#language').val(), opts);
+  Cookies.set('indent-empty-lines', $('#indent-empty-lines').prop('checked') ? 'on' : 'off', opts);
 
 }
 
@@ -169,6 +171,7 @@ function beautify() {
   opts.indent_inner_html = $('#indent-inner-html').prop('checked');
   opts.comma_first = $('#comma-first').prop('checked');
   opts.e4x = $('#e4x').prop('checked');
+  opts.indent_empty_lines = $('#indent-empty-lines').prop('checked');
 
   $('#additional-options-error').hide();
   $('#open-issue').hide();
@@ -185,7 +188,7 @@ function beautify() {
   var selectedOptions = JSON.stringify(opts, null, 2);
   $('#options-selected').val(selectedOptions);
 
-  if (language === 'html' || (language === 'auto' && looks_like_html(source))) {
+  if (language === 'html') {
     output = the.beautifier.html(source, opts);
   } else if (language === 'css') {
     output = the.beautifier.css(source, opts);
@@ -208,12 +211,6 @@ function beautify() {
   the.lastOpts = selectedOptions;
 
   the.beautify_in_progress = false;
-}
-
-function looks_like_html(source) {
-  // <foo> - looks like html
-  var trimmed = source.replace(/^[ \t\n\r]+/, '');
-  return trimmed && (trimmed.substring(0, 1) === '<');
 }
 
 function mergeObjects(allOptions, additionalOptions) {

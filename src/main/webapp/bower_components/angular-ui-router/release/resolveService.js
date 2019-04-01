@@ -1,14 +1,14 @@
 /**
  * State-based routing for AngularJS 1.x
- * @version v1.0.20
+ * @version v1.0.22
  * @link https://ui-router.github.io
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@uirouter/core'), require('angular')) :
     typeof define === 'function' && define.amd ? define(['exports', '@uirouter/core', 'angular'], factory) :
-    (factory((global['@uirouter/angularjs-resolve-service'] = {}),global['@uirouter/core'],global.angular));
-}(this, (function (exports,core,angular) { 'use strict';
+    (global = global || self, factory(global['@uirouter/angularjs-resolve-service'] = {}, global['@uirouter/core'], global.angular));
+}(this, function (exports, core, angular) { 'use strict';
 
     /** @publicapi @module ng1 */ /** */
     /**
@@ -79,5 +79,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=resolveService.js.map

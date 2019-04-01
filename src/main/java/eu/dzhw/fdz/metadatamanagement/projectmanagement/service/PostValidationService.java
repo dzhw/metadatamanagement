@@ -107,7 +107,8 @@ public class PostValidationService {
     
     errors = this.postValidateVariables(errors, dataAcquisitionProjectId);
 
-    errors = this.postValidateInstruments(errors, dataAcquisitionProjectId);
+    errors = this.postValidateInstruments(errors, dataAcquisitionProjectId,
+        activateFullReleaseChecks);
 
     return errors;
   }
@@ -273,16 +274,26 @@ public class PostValidationService {
    * @return a list of errors of the post validation of instruments.
    */
   private List<PostValidationMessageDto> postValidateInstruments(
-      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId) {
+      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId,
+      boolean activateFullReleaseChecks) {
+
+    if (activateFullReleaseChecks && !instrumentRepository
+        .existsByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+      errors.add(new PostValidationMessageDto("instrument-management.error."
+          + "post-validation.no-instruments", Collections.emptyList()));
+      return errors;
+    }
+
     try (Stream<Instrument> instruments =
-        this.instrumentRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+             this.instrumentRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       instruments.forEach(instrument -> {
         for (String surveyId : instrument.getSurveyIds()) {
           // surveyId: there must be a survey with that id
           if (!this.surveyRepository.findById(surveyId).isPresent()) {
             String[] information = {instrument.getId(), surveyId};
             errors.add(new PostValidationMessageDto(
-                "instrument-management.error." + "post-validation.instrument-has-invalid-survey-id",
+                "instrument-management.error.post-validation."
+                    + "instrument-has-invalid-survey-id",
                 Arrays.asList(information)));
           }
         }

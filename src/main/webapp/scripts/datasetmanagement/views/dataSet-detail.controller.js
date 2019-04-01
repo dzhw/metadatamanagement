@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp')
              DataSetAttachmentResource, DataSetCitateDialogService,
              SearchResultNavigatorService, ProductChooserDialogService,
              DataAcquisitionProjectResource, OutdatedVersionNotifier,
-             $stateParams) {
+             $stateParams, blockUI) {
+      blockUI.start();
 
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -96,7 +97,8 @@ angular.module('metadatamanagementApp')
           }
           DataSetSearchService
             .countBy('dataAcquisitionProjectId',
-              ctrl.dataSet.dataAcquisitionProjectId)
+              ctrl.dataSet.dataAcquisitionProjectId,
+              _.get(result, 'release.version'))
             .then(function(dataSetsCount) {
               ctrl.counts.dataSetsCount = dataSetsCount.count;
             });
@@ -104,7 +106,8 @@ angular.module('metadatamanagementApp')
           ctrl.dataSet.subDataSets.forEach(function(subDataSet) {
             ctrl.accessWays.push(subDataSet.accessWay);
             VariableSearchService.countBy('accessWays',
-              subDataSet.accessWay, ctrl.dataSet.id).then(function(counts) {
+              subDataSet.accessWay, ctrl.dataSet.id,
+              _.get(result, 'release.version')).then(function(counts) {
               ctrl.counts[subDataSet.name] = counts.count;
             });
           });
@@ -121,7 +124,7 @@ angular.module('metadatamanagementApp')
             'data-set-management.detail.not-released-toast', {id: result.id}
           );
         }
-      });
+      }).finally(blockUI.stop);
       ctrl.uploadTexTemplate = function(files) {
         if (files != null) {
           DataSetReportService.uploadTexTemplate(files, ctrl.dataSet.id);

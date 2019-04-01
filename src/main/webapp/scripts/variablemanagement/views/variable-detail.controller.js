@@ -8,8 +8,8 @@ angular.module('metadatamanagementApp')
     SimpleMessageToastService, PageTitleService, LanguageService,
     CleanJSObjectService, $state, ToolbarHeaderService,
     SearchResultNavigatorService, ProductChooserDialogService,
-    OutdatedVersionNotifier, $stateParams) {
-
+    OutdatedVersionNotifier, $stateParams, blockUI) {
+    blockUI.start();
     SearchResultNavigatorService
       .setSearchIndex($stateParams['search-result-index']);
 
@@ -116,7 +116,8 @@ angular.module('metadatamanagementApp')
         }
         if ($scope.variable.panelIdentifier) {
           VariableSearchService
-            .countBy('panelIdentifier', $scope.variable.panelIdentifier)
+            .countBy('panelIdentifier', $scope.variable.panelIdentifier,
+              null, _.get(result, 'release.version'))
             .then(function(variablesInPanel) {
               $scope.counts.variablesInPanel = variablesInPanel.count;
             });
@@ -126,7 +127,8 @@ angular.module('metadatamanagementApp')
         if ($scope.variable.derivedVariablesIdentifier) {
           VariableSearchService
             .countBy('derivedVariablesIdentifier',
-              $scope.variable.derivedVariablesIdentifier)
+              $scope.variable.derivedVariablesIdentifier, null,
+              _.get(result, 'release.version'))
             .then(function(derivedVariables) {
               $scope.counts.derivedVariables = derivedVariables.count;
             });
@@ -152,7 +154,7 @@ angular.module('metadatamanagementApp')
           }
         );
       }
-    });
+    }).finally(blockUI.stop);
     $scope.isRowHidden = function(index) {
       if (index <= 4 || index >= $scope
         .variable.distribution.validResponses.length - 5) {

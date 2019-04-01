@@ -1,18 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import org.bson.Document;
 import org.javers.core.Javers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -25,23 +20,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
 /**
  * Service for managing attachments for surveys.
- * 
+ *
  */
 @Service
 public class SurveyAttachmentService {
 
   @Autowired
   private GridFsOperations operations;
-  
-  @Autowired
-  private GridFS gridFs;
 
   @Autowired
   private MongoTemplate mongoTemplate;
@@ -60,7 +51,7 @@ public class SurveyAttachmentService {
 
   /**
    * Save the attachment for a survey.
-   * 
+   *
    * @param metadata The metadata of the attachment.
    * @return The GridFs filename.
    * @throws IOException thrown when the input stream is not closable
@@ -83,7 +74,7 @@ public class SurveyAttachmentService {
 
   /**
    * Delete all attachments of the given survey.
-   * 
+   *
    * @param surveyId the id of the survey.
    */
   public void deleteAllBySurveyId(String surveyId) {
@@ -104,7 +95,7 @@ public class SurveyAttachmentService {
 
   /**
    * Load all metadata objects from gridfs (ordered by indexInSurvey).
-   * 
+   *
    * @param surveyId the id of the survey.
    * @return A list of metadata.
    */
@@ -115,7 +106,7 @@ public class SurveyAttachmentService {
     Iterable<GridFSFile> files = this.operations.find(query);
     List<SurveyAttachmentMetadata> result = new ArrayList<>();
     files.forEach(gridfsFile -> {
-      result.add(mongoTemplate.getConverter().read(SurveyAttachmentMetadata.class, 
+      result.add(mongoTemplate.getConverter().read(SurveyAttachmentMetadata.class,
           gridfsFile.getMetadata()));
     });
     return result;
@@ -139,29 +130,17 @@ public class SurveyAttachmentService {
 
   /**
    * Update the metadata of the attachment.
-   * 
    * @param metadata The new metadata.
    */
   public void updateAttachmentMetadata(SurveyAttachmentMetadata metadata) {
-    metadata.setVersion(metadata.getVersion() + 1);
-    String currentUser = SecurityUtils.getCurrentUserLogin();
-    metadata.setLastModifiedBy(currentUser);
-    metadata.setLastModifiedDate(LocalDateTime.now());
-    GridFSDBFile file = gridFs.findOne(SurveyAttachmentFilenameBuilder.buildFileName(
-        metadata.getSurveyId(), metadata.getFileName()));
-    if (Boolean.TRUE.equals(file.getMetaData().get("shadow"))) {
-      throw new ShadowCopyUpdateNotAllowedException();
-    }
-    BasicDBObject dbObject = new BasicDBObject(
-        (Document) mongoTemplate.getConverter().convertToMongoType(metadata));
-    file.setMetaData(dbObject);
-    file.save();
-    javers.commit(currentUser, metadata);
+    String filePath = SurveyAttachmentFilenameBuilder.buildFileName(
+        metadata.getSurveyId(), metadata.getFileName());
+    attachmentMetadataHelper.updateAttachmentMetadata(metadata, filePath);
   }
 
   /**
    * Delete the attachment and its metadata from gridfs.
-   * 
+   *
    * @param surveyId The id of the survey.
    * @param filename The filename of the attachment.
    */
