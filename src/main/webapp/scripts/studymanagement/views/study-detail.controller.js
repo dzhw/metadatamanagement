@@ -148,16 +148,17 @@ angular.module('metadatamanagementApp')
             });
           ctrl.loadAttachments();
 
-          if (result.release &&
-            bowser.compareVersions(
+          if (result.release && versionFromUrl) {
+            if (bowser.compareVersions(
               [versionFromUrl, result.release.version]) === -1) {
-            SimpleMessageToastService.openAlertMessageToast(
-              'study-management.detail.old-version',
-              {
-                title: result.title[LanguageService.getCurrentInstantly()],
-                versionFromUrl: versionFromUrl,
-                actualVersion: result.release.version
-              });
+              SimpleMessageToastService.openAlertMessageToast(
+                'study-management.detail.old-version',
+                {
+                  title: result.title[LanguageService.getCurrentInstantly()],
+                  versionFromUrl: versionFromUrl,
+                  actualVersion: result.release.version
+                });
+            }
           }
         } else {
           SimpleMessageToastService.openAlertMessageToast(
