@@ -7,15 +7,16 @@ angular.module('metadatamanagementApp')
              PageTitleService, $state, ToolbarHeaderService,
              SurveySearchService, SurveyAttachmentResource, Principal,
              SimpleMessageToastService, SearchResultNavigatorService,
-             SurveyResponseRateImageUploadService,
+             SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
              DataAcquisitionProjectResource, ProductChooserDialogService,
-             ProjectUpdateAccessService, OutdatedVersionNotifier,
-             $stateParams) {
-
+             ProjectUpdateAccessService, CountryCodesResource, $stateParams,
+             blockUI) {
+      blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
-
       SearchResultNavigatorService.registerCurrentSearchResult();
+
+      var countries = CountryCodesResource.query();
       var activeProject;
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
@@ -84,7 +85,8 @@ angular.module('metadatamanagementApp')
             ctrl.dataSet = survey.dataSets[0];
           }
           SurveySearchService.countBy('dataAcquisitionProjectId',
-            ctrl.survey.dataAcquisitionProjectId)
+            ctrl.survey.dataAcquisitionProjectId,
+            _.get(survey, 'release.version'))
             .then(function(surveysCount) {
               ctrl.counts.surveysCount = surveysCount.count;
             });
@@ -118,7 +120,7 @@ angular.module('metadatamanagementApp')
             'survey-management.detail.not-released-toast', {id: survey.id}
           );
         }
-      });
+      }).finally(blockUI.stop);
 
       ctrl.addToShoppingCart = function(event) {
         ProductChooserDialogService.showDialog(
@@ -131,6 +133,30 @@ angular.module('metadatamanagementApp')
         if (ProjectUpdateAccessService
           .isUpdateAllowed(activeProject, 'surveys', true)) {
           $state.go('surveyEdit', {id: ctrl.survey.id});
+        }
+      };
+
+      ctrl.isSimpleGeographicCoverage = function(geographicCoverages) {
+        if (geographicCoverages && geographicCoverages.length === 1) {
+          var descriptionDe = _.get(geographicCoverages[0], 'description.de');
+          var descriptionEn = _.get(geographicCoverages[0], 'description.en');
+
+          return !descriptionDe && !descriptionEn;
+        } else {
+          return false;
+        }
+      };
+
+      ctrl.getCountryName = function(geographicCoverage) {
+        var country = _.filter(countries, function(country) {
+          return country.code === geographicCoverage.country;
+        });
+
+        if (country.length === 1) {
+          var language = LanguageService.getCurrentInstantly();
+          return country[0][language];
+        } else {
+          return '';
         }
       };
     });

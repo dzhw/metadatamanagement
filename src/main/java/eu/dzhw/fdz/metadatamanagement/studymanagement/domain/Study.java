@@ -181,6 +181,12 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
       message = "study-management.error.study.annotations.i18n-string-size")
   private I18nString annotations;
 
+  /**
+   * Keywords for the study.
+   */
+  @Valid
+  private Tags tags;
+
   public Study(Study study) {
     super();
     BeanUtils.copyProperties(study, this);

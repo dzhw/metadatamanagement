@@ -287,6 +287,10 @@ module.exports = function(grunt) {
               'Possible misuse of “aria-label”. (If you disagree with this ' +
               'warning, file an issue report or send e-mail to ' +
               'www-validator@w3.org.)',
+              'Attribute “layout-gt-md” not allowed on element “div” at this ' +
+              'point.',
+              'Attribute “layout-gt-lg” not allowed on element “div” at this ' +
+              'point.',
               'Element “a” is missing required attribute “href”'
             ],
             customattrs: [

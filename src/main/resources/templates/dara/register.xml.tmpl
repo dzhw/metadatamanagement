@@ -67,6 +67,26 @@
       <freetext>Application necessary under https://metadata.fdz.dzhw.eu/#!/en/studies/${study.id}?version=${dataAcquisitionProject.release.version}</freetext>
     </availabilityFree>
   </availability>
+  <freeKeywords>
+      <freeKeyword>
+          <language>de</language>
+          <keywords>
+     <#list study.tags.de as deTag>
+         <keyword>${deTag}</keyword>
+     </#list>
+          </keywords>
+      </freeKeyword>
+  <#if study.tags.en??>
+    <freeKeyword>
+        <language>en</language>
+        <keywords>
+        <#list study.tags.en as enTag>
+            <keyword>${enTag}</keyword>
+        </#list>
+        </keywords>
+    </freeKeyword>
+  </#if>
+  </freeKeywords>
   <descriptions>
     <description>
       <language>de</language>
@@ -79,6 +99,29 @@
       <descriptionType>Abstract</descriptionType>
     </description>
   </descriptions>
+  <geographicCoverages>
+    <#list geographicCoverages as geographicCoverage>
+      <geographicCoverage>
+          <geographicCoverageControlled>${geographicCoverage.country}</geographicCoverageControlled>
+        <#if geographicCoverage.description?? && (geographicCoverage.description.de?has_content || geographicCoverage.description.en?has_content)>
+          <geographicCoveragesFree>
+            <#if geographicCoverage.description.de?has_content>
+              <geographicCoverageFree>
+                  <language>de</language>
+                  <freetext>${geographicCoverage.description.de}</freetext>
+              </geographicCoverageFree>
+            </#if>
+            <#if geographicCoverage.description.en?has_content>
+              <geographicCoverageFree>
+                  <language>en</language>
+                  <freetext>${geographicCoverage.description.en}</freetext>
+              </geographicCoverageFree>
+            </#if>
+          </geographicCoveragesFree>
+        </#if>
+      </geographicCoverage>
+    </#list>
+  </geographicCoverages>
   <universes>
     <universe>
       <language>de</language>
@@ -161,11 +204,12 @@
       </fundingReference>
     </fundingReferences>
   </#if>
-  <#if surveys?? && surveys?size gt 0>
+  
     <collectionModes>
       <#list surveys as survey>
-        <#if survey.surveyMethod??>
+        <#list surveyToCollectionModesMap[survey.getId()] as collectionMode>
           <collectionMode>
+          	<collectionModeType>${collectionMode}</collectionModeType>
             <collectionModesFree>
               <#if survey.surveyMethod.de??>
                 <collectionModeFree>
@@ -181,10 +225,10 @@
               </#if>
             </collectionModesFree>
           </collectionMode>
-        </#if>
+        </#list>
       </#list>
     </collectionModes>
-  </#if>
+  
   <#if dataSets?? && dataSets?size gt 0>
     <dataSets>
       <#list dataSets as dataSet>
