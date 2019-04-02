@@ -8,7 +8,11 @@ var showConfusedGif = function(name) {
   document.body.appendChild(node);
 
   var img = document.createElement('img');
-  img.src = 'assets/images/' + name + '.gif';
+  if (name === 'andy') {
+    img.src = 'assets/images/andy.gif';
+  } else {
+    img.src = 'assets/images/travolta.gif';
+  }
   node.appendChild(img);
 
   document.addEventListener('keydown', function(e) {
