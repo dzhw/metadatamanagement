@@ -119,7 +119,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
       SearchHelperService.addQuery(query, queryterm);
       if (type !== 'related_publications') {
-        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(termFilters));
+        SearchHelperService.addShadowCopyFilter(query, termFilters);
       }
 
       if (!ignoreAuthorization) {
@@ -234,7 +234,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       SearchHelperService.addQuery(query, queryterm);
       SearchHelperService.addFilter(query);
       if (type !== 'related_publications') {
-        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
+        SearchHelperService.addShadowCopyFilter(query, filter);
       }
 
       return ElasticSearchClient.search(query).then(function(result) {
