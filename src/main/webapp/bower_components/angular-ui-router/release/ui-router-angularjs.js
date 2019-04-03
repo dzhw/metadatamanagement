@@ -1,15 +1,15 @@
 /**
  * State-based routing for AngularJS 1.x
  * This bundle requires the ui-router-core.js bundle from the @uirouter/core package.
- * @version v1.0.20
+ * @version v1.0.22
  * @link https://ui-router.github.io
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('angular'), require('@uirouter/core')) :
     typeof define === 'function' && define.amd ? define(['exports', 'angular', '@uirouter/core'], factory) :
-    (factory((global['@uirouter/angularjs'] = {}),global.angular,global['@uirouter/core']));
-}(this, (function (exports,ng_from_import,core) { 'use strict';
+    (global = global || self, factory(global['@uirouter/angularjs'] = {}, global.angular, global['@uirouter/core']));
+}(this, function (exports, ng_from_import, core) { 'use strict';
 
     /** @publicapi @module ng1 */ /** */
     /** @hidden */ var ng_from_global = angular;
@@ -2057,5 +2057,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=ui-router-angularjs.js.map

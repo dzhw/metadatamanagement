@@ -1,18 +1,19 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.repository;
 
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 
 /**
  * Custom implementation for {@link DataAcquisitionProjectRepository}.
@@ -30,13 +31,14 @@ class DataAcquisitionProjectRepositoryCustomImpl implements DataAcquisitionProje
   }
 
   @Override
-  public List<DataAcquisitionProject> findAllByIdLikeAndPublisherIdOrderByIdAsc(
+  public List<DataAcquisitionProject> findAllMastersByIdLikeAndPublisherIdOrderByIdAsc(
       String projectId, String dataProviderId) {
     List<String> dataProviderIdValues = Collections.singletonList(dataProviderId);
     Criteria criteria = where("configuration.dataProviders")
         .in(dataProviderIdValues)
         .and("_id")
-        .regex(projectId, "i");
+        .regex(projectId, "i")
+        .and("shadow").is(false);
 
     Query query = query(criteria).with(new Sort(Sort.Direction.ASC, "_id"));
 

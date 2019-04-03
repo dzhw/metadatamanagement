@@ -9,8 +9,9 @@ angular.module('metadatamanagementApp')
              SimpleMessageToastService, SearchResultNavigatorService,
              SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
              DataAcquisitionProjectResource, ProductChooserDialogService,
-             ProjectUpdateAccessService, CountryCodesResource, $stateParams) {
-
+             ProjectUpdateAccessService, CountryCodesResource, $stateParams,
+             blockUI) {
+      blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
       SearchResultNavigatorService.registerCurrentSearchResult();
@@ -119,7 +120,7 @@ angular.module('metadatamanagementApp')
             'survey-management.detail.not-released-toast', {id: survey.id}
           );
         }
-      });
+      }).finally(blockUI.stop);
 
       ctrl.addToShoppingCart = function(event) {
         ProductChooserDialogService.showDialog(

@@ -5,13 +5,9 @@ jobs:
     vmImage: 'vs2017-win2016'
   strategy:
     matrix:
-      Python27x86_Node6:
-        python.version: '2.7'
-        python.architecture: 'x86'
-        node_version: 6.x
       Python34_Node8:
         python.version: '3.4'
-        python.architecture: 'x64'
+        python.architecture: 'x86'
         node_version: 8.x
       Python36_Node10:
         python.version: '3.6'
@@ -31,11 +27,6 @@ jobs:
   - task: NodeTool@0
     inputs:
       versionSpec: $(node_version)
-
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: 'npm i npm --no-save'
 
 # change this to make ci after addressing git CRLF issue
   - task: Bash@3
@@ -74,11 +65,6 @@ jobs:
   - task: Bash@3
     inputs:
       targetType: 'inline'
-      script: 'npm i npm --no-save'
-
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
       script: 'make ci'
 
 - job: 'MacOS'
@@ -102,11 +88,6 @@ jobs:
   - task: NodeTool@0
     inputs:
       versionSpec: $(node_version)
-
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: 'npm i npm --no-save'
 
   - task: Bash@3
     inputs:

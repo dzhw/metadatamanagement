@@ -1,14 +1,14 @@
 /**
  * State-based routing for AngularJS 1.x
- * @version v1.0.20
+ * @version v1.0.22
  * @link https://ui-router.github.io
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('angular')) :
     typeof define === 'function' && define.amd ? define(['exports', 'angular'], factory) :
-    (factory((global['@uirouter/angularjs-state-events'] = {}),global.angular));
-}(this, (function (exports,ng_from_import) { 'use strict';
+    (global = global || self, factory(global['@uirouter/angularjs-state-events'] = {}, global.angular));
+}(this, function (exports, ng_from_import) { 'use strict';
 
     /** @publicapi @module ng1 */ /** */
     /** @hidden */ var ng_from_global = angular;
@@ -296,5 +296,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=stateEvents.js.map
