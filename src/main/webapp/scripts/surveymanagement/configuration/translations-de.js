@@ -149,9 +149,7 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Die Grundgesamtheit der Erhebung darf nicht leer sein!'
             },
             'sample': {
-              'not-null': 'Das Stichprobenverfahren der Erhebung darf nicht leer sein!',
-              'i18n-string-not-empty': 'Das Stichprobenverfahren der Erhebung muss mindestens in einer Sprache vorliegen.',
-              'i18n-string-size': 'Die Maximallänge des Stichprobenverfahrens der Erhebung ist 2048 Zeichen.'
+              'not-null': 'Das Stichprobenverfahren der Erhebung darf nicht leer sein!'
             },
             'wave': {
               'not-null': 'Die Welle der Erhebung darf nicht leer sein!',
@@ -321,6 +319,13 @@ angular.module('metadatamanagementApp').config(
             'survey-number': 'Wählen Sie eine freie Nummer für die neue Erhebung aus.'
           },
           'all-surveys-deleted-toast': 'Alle Erhebungen des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
+        },
+        'sample-type-picker': {
+          'label': 'Stichprobenverfahren',
+          'error': {
+            'required': 'Ein Stichprobenverfahren muss angegeben werden',
+            'no-match': 'Keine passendes Stichprobenverfahren gefunden'
+          }
         },
         'geographic-coverage-list': {
           'tooltip': {

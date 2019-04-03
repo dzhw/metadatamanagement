@@ -1,11 +1,24 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
@@ -13,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidDataType;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSampleType;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSurveyIdName;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidUniqueSurveyNumber;
 import io.searchbox.annotations.JestId;
@@ -24,19 +38,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.javers.core.metamodel.annotation.Entity;
-import org.springframework.beans.BeanUtils;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 /**
  * A survey is conducted to examine a population on the basis of a sample. The resulting
@@ -137,14 +138,13 @@ public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * The sampling method is the procedure for selecting sample members from a population.
-   * 
-   * It must be specified in at least one language and it must not contain more than 2048
-   * characters.
+   * It must match the controlled vocabulary specified by VFDB.
+   * @see <a href=https://mdr.iqb.hu-berlin.de/#/catalog/1d791cc7-6d8d-dd35-b1ef-0eec9c31bbb5">
+   * Catalog: GNERD: Sampling Procedure Educational Research (Version 1.0)
+   * </a>
    */
   @NotNull(message = "survey-management.error.survey.sample.not-null")
-  @I18nStringNotEmpty(message = "survey-management.error.survey.sample.i18n-string-not-empty")
-  @I18nStringSize(max = StringLengths.LARGE,
-      message = "survey-management.error.survey.sample.i18n-string-size")
+  @ValidSampleType(message = "survey-management.error.survey.sample.valid-sample-type")
   private I18nString sample;
 
   /**
