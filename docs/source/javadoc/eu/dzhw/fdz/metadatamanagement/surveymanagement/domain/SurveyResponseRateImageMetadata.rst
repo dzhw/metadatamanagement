@@ -74,6 +74,14 @@ language
 
    The language used in the response rate image. Must be either "de" or "en".
 
+masterId
+^^^^^^^^
+
+.. java:field:: @NotEmpty @Setter private String masterId
+   :outertype: SurveyResponseRateImageMetadata
+
+   The master id of the survey response rate image metadata. Must not be empty.
+
 surveyId
 ^^^^^^^^
 

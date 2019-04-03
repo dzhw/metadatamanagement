@@ -10,7 +10,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringMustNot
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidDataAvailability;
@@ -35,6 +34,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -54,23 +54,30 @@ import java.util.List;
 @ApiModel(
     description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
     + "fdz/metadatamanagement/studymanagement/domain/Study.html'>here</a> for further details.")
-@ValidMasterId(pattern = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
-    message = "study-management.error.study.master-id.pattern")
 @ValidShadowId(message = "study-management.error.study.id.pattern")
 public class Study extends AbstractShadowableRdcDomainObject implements StudySubDocumentProjection {
 
   /**
    * The id of the study which uniquely identifies the study in this application.
-   *
-   * The id must not be empty and must be of the form stu-{{dataAcquisitionProjectId}}$. The id must
-   * not contain more than 512 characters.
    */
   @Id
   @JestId
   @Setter(AccessLevel.NONE)
   @NotEmpty(message = "study-management.error.study.id.not-empty")
-  @Size(max = StringLengths.MEDIUM, message = "study-management.error.study.id.size")
   private String id;
+
+  /**
+   * The master id of the study.
+   *
+   * The master id must not be empty, must be of the form {@code stu-{{dataAcquisitionProjectId}}$}
+   * and the master id must not contain more than 512 characters.
+   */
+  @NotEmpty(message = "study-management.error.study.master-id.not-empty")
+  @Size(max = StringLengths.MEDIUM, message = "study-management.error.study.master-id.size")
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
+      message = "study-management.error.study.master-id.pattern")
+  @Setter(AccessLevel.NONE)
+  private String masterId;
 
   /**
    * The id of the {@link DataAcquisitionProject} to which this study belongs.
@@ -190,6 +197,11 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
   public Study(Study study) {
     super();
     BeanUtils.copyProperties(study, this);
+  }
+
+  @Override
+  protected void setMasterIdInternal(String masterId) {
+    this.masterId = masterId;
   }
 
   @Override

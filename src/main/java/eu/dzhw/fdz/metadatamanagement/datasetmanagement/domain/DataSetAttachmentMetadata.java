@@ -42,6 +42,10 @@ public class DataSetAttachmentMetadata extends AbstractShadowableRdcDomainObject
   @Setter(AccessLevel.NONE)
   private String id;
 
+  @NotEmpty(message = "data-set-management.error.data-set-attachment-metadata.master-id.not-empty")
+  @Setter(AccessLevel.NONE)
+  private String masterId;
+
   /**
    * The id of the {@link DataSet} to which this attachment belongs.
    * 
@@ -133,6 +137,11 @@ public class DataSetAttachmentMetadata extends AbstractShadowableRdcDomainObject
    */
   public void generateId() {
     this.setId("/public/files/data-sets/" + dataSetId + "/attachments/" + fileName);
+  }
+
+  @Override
+  protected void setMasterIdInternal(String masterId) {
+    this.masterId = masterId;
   }
 
   @Override

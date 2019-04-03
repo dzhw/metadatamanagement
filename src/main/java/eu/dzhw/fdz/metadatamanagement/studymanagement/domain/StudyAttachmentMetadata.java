@@ -44,6 +44,13 @@ public class StudyAttachmentMetadata extends AbstractShadowableRdcDomainObject {
   private String id;
 
   /**
+   * The master id of the study attachment. Must not be empty.
+   */
+  @NotEmpty(message = "study-management.error.study-attachment-metadata.master-id.not-empty")
+  @Setter(AccessLevel.NONE)
+  private String masterId;
+
+  /**
    * The id of the {@link Study} to which this attachment belongs.
    * 
    * Must not be empty.
@@ -137,6 +144,19 @@ public class StudyAttachmentMetadata extends AbstractShadowableRdcDomainObject {
   public void generateId() {
     // hack to satisfy javers
     this.setId("/public/files/studies/" + studyId + "/attachments/" + fileName);
+  }
+
+  @Override
+  protected void setMasterIdInternal(String masterId) {
+    this.masterId = masterId;
+  }
+
+  /**
+   * Returns the master id of the study attachment.
+   * @return Master Id
+   */
+  public String getMasterId() {
+    return masterId;
   }
 
   @Override

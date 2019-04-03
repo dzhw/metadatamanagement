@@ -6,6 +6,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation ValidUnitValue
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -51,4 +53,14 @@ geographicCoverages
    :outertype: Population
 
    A list of geographic coverages. Must contain at least one entry.
+
+unit
+^^^^
+
+.. java:field:: @NotNull @ValidUnitValue private I18nString unit
+   :outertype: Population
+
+   Unit type. Mandatory field which only allows values specified by VFDB.
+
+   **See also:** \ `GNERD: Survey Unit Educational Research (Version 1.0) <https://mdr.iqb.hu-berlin.de/#/catalog/94d1ae4f-a441-c728-4a03-adb0eb4604af>`_\
 
