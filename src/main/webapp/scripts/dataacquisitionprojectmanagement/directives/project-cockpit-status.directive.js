@@ -42,15 +42,6 @@ angular.module('metadatamanagementApp')
 
         ctrl.sortedStates = sortByRequiredState();
 
-        ctrl.isDataProviderOnly = function() {
-          var login = Principal.loginName();
-          var publishers = _.get(ctrl.project, 'configuration.publishers', []);
-          var dataProviders = _.get(ctrl.project,
-            'configuration.dataProviders', []);
-          return publishers.indexOf(login) === -1 && dataProviders
-            .indexOf(login) !== -1;
-        };
-
         $scope.$on('project-changed', function() {
           ctrl.changed = true;
           ctrl.sortedStates = sortByRequiredState();
