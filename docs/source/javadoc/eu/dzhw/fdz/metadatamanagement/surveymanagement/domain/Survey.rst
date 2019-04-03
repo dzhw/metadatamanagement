@@ -1,3 +1,27 @@
+.. java:import:: javax.validation Valid
+
+.. java:import:: javax.validation.constraints Max
+
+.. java:import:: javax.validation.constraints Min
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
+
+.. java:import:: javax.validation.constraints Size
+
+.. java:import:: org.javers.core.metamodel.annotation Entity
+
+.. java:import:: org.springframework.beans BeanUtils
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: org.springframework.data.mongodb.core.index Indexed
+
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
@@ -11,8 +35,6 @@
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringSize
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
 
@@ -48,35 +70,13 @@
 
 .. java:import:: lombok ToString
 
-.. java:import:: org.javers.core.metamodel.annotation Entity
-
-.. java:import:: org.springframework.beans BeanUtils
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: org.springframework.data.mongodb.core.index Indexed
-
-.. java:import:: org.springframework.data.mongodb.core.mapping Document
-
-.. java:import:: javax.validation Valid
-
-.. java:import:: javax.validation.constraints Max
-
-.. java:import:: javax.validation.constraints Min
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Size
-
 Survey
 ======
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @ValidSurveyIdName @ValidUniqueSurveyNumber @ValidMasterId @ValidShadowId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Survey extends AbstractShadowableRdcDomainObject
+.. java:type:: @Entity @Document @ValidSurveyIdName @ValidUniqueSurveyNumber @ValidShadowId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Survey extends AbstractShadowableRdcDomainObject
 
    A survey is conducted to examine a population on the basis of a sample. The resulting \ :java:ref:`DataSet`\ s can be used to make statements about the population.
 
@@ -125,10 +125,18 @@ grossSampleSize
 id
 ^^
 
-.. java:field:: @Id @JestId @Setter @NotEmpty @Size private String id
+.. java:field:: @Id @JestId @Setter private String id
    :outertype: Survey
 
-   The id of the survey which uniquely identifies the survey in this application. The id must not be empty and must be of the form sur-{{dataAcquisitionProjectId}}-sy{{number}}$. The id must not contain more than 512 characters.
+   The id of the survey which uniquely identifies the survey in this application.
+
+masterId
+^^^^^^^^
+
+.. java:field:: @NotEmpty @Size @Pattern @Setter private String masterId
+   :outertype: Survey
+
+   The master id of the survey. It must not be empty, must be of the form \ ``sur-{{dataAcquisitionProjectId}}-sy{{number}}$``\  and must not contain more than 512 characters.
 
 number
 ^^^^^^

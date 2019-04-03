@@ -22,14 +22,6 @@ AbstractShadowableRdcDomainObject
 
 Fields
 ------
-masterId
-^^^^^^^^
-
-.. java:field:: private String masterId
-   :outertype: AbstractShadowableRdcDomainObject
-
-   The id shared between all shadow copies of a domain object. It points to the most recent version of the domain object.
-
 shadow
 ^^^^^^
 
