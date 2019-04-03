@@ -15,4 +15,5 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.surveymana
    Survey
    SurveyAttachmentMetadata
    SurveyResponseRateImageMetadata
+   SurveySampleTypeProvider
 

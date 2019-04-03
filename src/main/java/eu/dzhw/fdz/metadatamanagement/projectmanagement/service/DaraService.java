@@ -280,6 +280,8 @@ public class DaraService {
     dataForTemplate.put("surveys", surveys);
     dataForTemplate.put("geographicCoverages", deduplicateGeographicCoverages(surveys));
 
+    dataForTemplate.put("surveySamplesMap", concatenateSurveySamplesByLanguage(surveys));
+
     // Get Datasets Information
     List<DataSet> dataSets = this.dataSetRepository.findByDataAcquisitionProjectId(projectId);
     dataForTemplate.put("dataSets", dataSets);
@@ -353,6 +355,19 @@ public class DaraService {
     return surveys.stream()
         .flatMap(survey -> survey.getPopulation().getGeographicCoverages()
             .stream()).collect(Collectors.toSet());
+  }
+
+  private Map<String, String> concatenateSurveySamplesByLanguage(List<Survey> surveys) {
+    Set<I18nString> samples = surveys.stream()
+        .map(Survey::getSample)
+        .collect(Collectors.toSet());
+
+    Map<String,String> samplesGroupedByLanguage = new HashMap<>();
+    String german = samples.stream().map(I18nString::getDe).collect(Collectors.joining("; "));
+    samplesGroupedByLanguage.put("de", german);
+    String english = samples.stream().map(I18nString::getEn).collect(Collectors.joining("; "));
+    samplesGroupedByLanguage.put("en", english);
+    return samplesGroupedByLanguage;
   }
 
   private String computeTimeDimension(Study study) {
