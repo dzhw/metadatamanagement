@@ -92,6 +92,7 @@ var path = require('path'),
         "end_with_newline": Boolean,
         "comma_first": Boolean,
         "operator_position": ["before-newline", "after-newline", "preserve-newline"],
+        "indent_empty_lines": Boolean,
         // CSS-only
         "selector_separator_newline": Boolean,
         "newline_between_rules": Boolean,
@@ -107,6 +108,7 @@ var path = require('path'),
         "indent_handlebars": [Boolean],
         "indent_scripts": ["keep", "separate", "normal"],
         "extra_liners": [String, Array],
+        "unformatted_content_delimiter": String,
         // CLI
         "version": Boolean,
         "help": Boolean,
@@ -176,6 +178,7 @@ var path = require('path'),
         "q": ["--quiet"]
         // no shorthand for "config"
         // no shorthand for "editorconfig"
+        // no shorthand for "indent_empty_lines"
     });
 
 function verifyExists(fullPath) {
@@ -345,6 +348,7 @@ function usage(err) {
         '  -e, --eol                         Character(s) to use as line terminators.',
         '                                    [first newline in file, otherwise "\\n]',
         '  -n, --end-with-newline            End output with newline',
+        '  --indent-empty-lines              Keep indentation on empty lines',
         '  --editorconfig                    Use EditorConfig to set up the options'
     ];
 
@@ -363,7 +367,7 @@ function usage(err) {
             msg.push('  -B, --break-chained-methods       Break chained method calls across subsequent lines');
             msg.push('  -k, --keep-array-indentation      Preserve array indentation');
             msg.push('  -x, --unescape-strings            Decode printable characters encoded in xNN notation');
-            msg.push('  -w, --wrap-line-length            Wrap lines at next opportunity after N characters [0]');
+            msg.push('  -w, --wrap-line-length            Wrap lines that exceed N characters [0]');
             msg.push('  -X, --e4x                         Pass E4X xml literals through untouched');
             msg.push('  --good-stuff                      Warm the cockles of Crockford\'s heart');
             msg.push('  -C, --comma-first                 Put commas at the beginning of new line instead of end');
@@ -374,7 +378,7 @@ function usage(err) {
             msg.push('  -I, --indent-inner-html           Indent body and head sections. Default is false.');
             msg.push('  -H, --indent-handlebars           Indent handlebars. Default is false.');
             msg.push('  -S, --indent-scripts              [keep|separate|normal] ["normal"]');
-            msg.push('  -w, --wrap-line-length            Wrap lines at next opportunity after N characters [0]');
+            msg.push('  -w, --wrap-line-length            Wrap lines that exceed N characters [0]');
             msg.push('  -A, --wrap-attributes             Wrap html tag attributes to new lines [auto|force|force-aligned|force-expand-multiline|aligned-multiple|preserve|preserve-aligned] ["auto"]');
             msg.push('  -i, --wrap-attributes-indent-size Indent wrapped tags to after N characters [indent-level]');
             msg.push('  -p, --preserve-newlines           Preserve line-breaks (--no-preserve-newlines disables)');
@@ -382,6 +386,7 @@ function usage(err) {
             msg.push('  -U, --unformatted                 List of tags (defaults to inline) that should not be reformatted');
             msg.push('  -T, --content_unformatted         List of tags (defaults to pre) whose content should not be reformatted');
             msg.push('  -E, --extra_liners                List of tags (defaults to [head,body,/html] that should have an extra newline');
+            msg.push('  --unformatted_content_delimiter    Keep text content together between this string [""]');
             break;
         case "css":
             msg.push('  -L, --selector-separator-newline        Add a newline between multiple selectors.');
@@ -615,7 +620,16 @@ function checkFiles(parsed) {
             });
         } else {
             // Input was not a glob, add it to an array so we are able to handle it in the same loop below
-            testFilePath(f);
+            try {
+                testFilePath(f);
+            } catch (err) {
+                // if file is not found, and the resolved path indicates stdin marker
+                if (path.parse(f).base === '-') {
+                    f = '-';
+                } else {
+                    throw err;
+                }
+            }
             foundFiles = [f];
         }
 
@@ -623,7 +637,9 @@ function checkFiles(parsed) {
             // Add files to the parsed.files if it didn't exist in the array yet
             foundFiles.forEach(function(file) {
                 var filePath = path.resolve(file);
-                if (parsed.files.indexOf(filePath) === -1) {
+                if (file === '-') { // case of stdin
+                    parsed.files.push(file);
+                } else if (parsed.files.indexOf(filePath) === -1) {
                     parsed.files.push(filePath);
                 }
             });
