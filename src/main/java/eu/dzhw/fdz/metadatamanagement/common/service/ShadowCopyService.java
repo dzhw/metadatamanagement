@@ -2,6 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.common.service;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -17,6 +19,13 @@ public class ShadowCopyService<T extends AbstractShadowableRdcDomainObject> {
 
   private static final String MASTER_DELETED_SUCCESSOR_ID = "DELETED";
 
+  private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
+
+  public ShadowCopyService(DataAcquisitionProjectVersionsService
+                               dataAcquisitionProjectVersionsService) {
+    this.dataAcquisitionProjectVersionsService = dataAcquisitionProjectVersionsService;
+  }
+
   /**
    * Create shadow copies of the master domain objects of a project returned by
    * {@link ShadowCopyDataSource}.
@@ -26,7 +35,7 @@ public class ShadowCopyService<T extends AbstractShadowableRdcDomainObject> {
   public void createShadowCopies(DataAcquisitionProject dataAcquisitionProject,
       String previousVersion, ShadowCopyDataSource<T> shadowCopyDataSource) {
 
-    String version = dataAcquisitionProject.getRelease().getVersion();
+    String version = getVersion(dataAcquisitionProject);
     String projectId = dataAcquisitionProject.getId();
     boolean hasPreviousVersion = StringUtils.hasText(previousVersion);
 
@@ -54,6 +63,39 @@ public class ShadowCopyService<T extends AbstractShadowableRdcDomainObject> {
         shadowCopy.setSuccessorId(MASTER_DELETED_SUCCESSOR_ID);
         shadowCopyDataSource.updatePredecessor(shadowCopy);
       });
+    }
+  }
+
+  private String getVersion(DataAcquisitionProject dataAcquisitionProject) {
+    Release release = dataAcquisitionProject.getRelease();
+    String version;
+    if (release != null) {
+      String currentVersion = release.getVersion();
+      if (StringUtils.hasText(currentVersion)) {
+        version = currentVersion;
+      } else {
+        version = loadVersionFromHistory(dataAcquisitionProject.getMasterId());
+      }
+    } else {
+      version = loadVersionFromHistory(dataAcquisitionProject.getMasterId());
+    }
+
+    if (StringUtils.hasText(version)) {
+      return version;
+    } else {
+      throw new IllegalStateException(dataAcquisitionProject + " has currently no set version and "
+          + "it could not be found in the project's history. Unable to create a shadow copy for "
+          + "this project.");
+    }
+  }
+
+  private String loadVersionFromHistory(String dataAcquisitionProjectId) {
+    Release release = dataAcquisitionProjectVersionsService
+        .findLastRelease(dataAcquisitionProjectId);
+    if (release != null) {
+      return release.getVersion();
+    } else {
+      return null;
     }
   }
 }

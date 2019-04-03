@@ -7,7 +7,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedStudy;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -54,17 +53,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @Builder
-@ValidMasterId(pattern = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
-    message = "question-management.error.question.master-id.pattern")
 @ValidShadowId(message = "question-management.error.question.id.pattern")
 public class Question extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the question which uniquely identifies the question in this application.
-   * 
-   * The id must not be empty and must be of the form
-   * que-{{dataAcquisitionProjectId}}-ins{{instrumentNumber}}-{{number}}$. The id must not contain
-   * more than 512 characters.
    */
   @Id
   @JestId
@@ -72,6 +65,18 @@ public class Question extends AbstractShadowableRdcDomainObject {
   @Size(max = StringLengths.MEDIUM, message = "question-management.error.question.id.size")
   @Setter(AccessLevel.NONE)
   private String id;
+
+  /**
+   * The master id of the question. It must not be empty, must be of the form
+   * {@code que-{{dataAcquisitionProjectId}}-ins{{instrumentNumber}}-{{number}}$} and must not
+   * contain more than 512 characters.
+   */
+  @NotEmpty(message = "question-management.error.question.master-id.not-empty")
+  @Size(max = StringLengths.MEDIUM, message = "question-management.error.question.master-id.size")
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
+      message = "question-management.error.question.master-id.pattern")
+  @Setter(AccessLevel.NONE)
+  private String masterId;
 
   /**
    * The id of the {@link DataAcquisitionProject} to which this question belongs.
@@ -217,6 +222,11 @@ public class Question extends AbstractShadowableRdcDomainObject {
   public Question(Question question) {
     super();
     BeanUtils.copyProperties(question, this);
+  }
+
+  @Override
+  protected void setMasterIdInternal(String masterId) {
+    this.masterId = masterId;
   }
 
   @Override

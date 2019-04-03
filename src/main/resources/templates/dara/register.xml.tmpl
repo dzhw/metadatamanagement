@@ -140,7 +140,7 @@
       <sampled>
         <ul>
         <#list surveys as survey>
-          <li><strong>${survey.title.en}:</strong> 
+          <li><strong>${survey.title.en}:</strong>
           ${survey.population.description.en}
           </li>
         </#list>
@@ -148,6 +148,18 @@
       </sampled>
     </universe>
   </universes>
+  <#if surveySamplesMap?? && surveySamplesMap?size gt 0>
+  <samplings>
+    <sampling>
+        <language>de</language>
+        <method>${surveySamplesMap['de']}</method>
+    </sampling>
+    <sampling>
+        <language>en</language>
+        <method>${surveySamplesMap['en']}</method>
+    </sampling>
+  </samplings>
+  </#if>
   <#if surveys?? && surveys?size gt 0>
     <temporalCoverages>
       <#list surveys as survey>

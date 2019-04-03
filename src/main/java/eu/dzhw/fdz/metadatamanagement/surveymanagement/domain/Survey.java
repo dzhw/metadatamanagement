@@ -1,19 +1,32 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidDataType;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSampleType;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSurveyIdName;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidUniqueSurveyNumber;
 import io.searchbox.annotations.JestId;
@@ -25,18 +38,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.javers.core.metamodel.annotation.Entity;
-import org.springframework.beans.BeanUtils;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  * A survey is conducted to examine a population on the basis of a sample. The resulting
@@ -47,9 +48,6 @@ import javax.validation.constraints.Size;
 @ValidSurveyIdName(message = "survey-management.error.survey.id.valid-survey-id-name")
 @ValidUniqueSurveyNumber(message = "survey-management.error"
     + ".survey.unique-survey-number")
-@ValidMasterId(
-    pattern = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
-    message = "survey-management.error.survey.master-id.pattern")
 @ValidShadowId(message = "survey-management.error.survey.id.pattern")
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
@@ -61,17 +59,24 @@ public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the survey which uniquely identifies the survey in this application.
-   * 
-   * The id must not be empty and must be of the form
-   * sur-{{dataAcquisitionProjectId}}-sy{{number}}$. The id must not contain more than 512
-   * characters.
    */
   @Id
   @JestId
   @Setter(AccessLevel.NONE)
-  @NotEmpty(message = "survey-management.error.survey.id.not-empty")
-  @Size(max = StringLengths.MEDIUM, message = "survey-management.error.survey.id.size")
   private String id;
+
+  /**
+   * The master id of the survey. It must not be empty, must be of the form
+   * {@code sur-{{dataAcquisitionProjectId}}-sy{{number}}$} and must not contain more than 512
+   * characters.
+   */
+  @NotEmpty(message = "survey-management.error.survey.master-id.not-empty")
+  @Size(max = StringLengths.MEDIUM, message = "survey-management.error.survey.master-id.size")
+  @Pattern(
+      regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
+      message = "survey-management.error.survey.master-id.pattern")
+  @Setter(AccessLevel.NONE)
+  private String masterId;
 
   /**
    * The id of the {@link DataAcquisitionProject} to which this survey belongs.
@@ -133,14 +138,13 @@ public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * The sampling method is the procedure for selecting sample members from a population.
-   * 
-   * It must be specified in at least one language and it must not contain more than 2048
-   * characters.
+   * It must match the controlled vocabulary specified by VFDB.
+   * @see <a href=https://mdr.iqb.hu-berlin.de/#/catalog/1d791cc7-6d8d-dd35-b1ef-0eec9c31bbb5">
+   * Catalog: GNERD: Sampling Procedure Educational Research (Version 1.0)
+   * </a>
    */
   @NotNull(message = "survey-management.error.survey.sample.not-null")
-  @I18nStringNotEmpty(message = "survey-management.error.survey.sample.i18n-string-not-empty")
-  @I18nStringSize(max = StringLengths.LARGE,
-      message = "survey-management.error.survey.sample.i18n-string-size")
+  @ValidSampleType(message = "survey-management.error.survey.sample.valid-sample-type")
   private I18nString sample;
 
   /**
@@ -210,6 +214,11 @@ public class Survey extends AbstractShadowableRdcDomainObject {
   public Survey(Survey survey) {
     super();
     BeanUtils.copyProperties(survey, this);
+  }
+
+  @Override
+  protected void setMasterIdInternal(String masterId) {
+    this.masterId = masterId;
   }
 
   @Override

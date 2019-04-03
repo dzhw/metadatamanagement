@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
       CommonDialogsService, LanguageService, AvailableSurveyNumbersResource,
       SurveyAttachmentResource, $q, StudyIdBuilderService, moment,
-      SurveyResponseRateImageUploadService, SurveySearchService,
+      SurveyResponseRateImageUploadService, SurveySearchService, $log,
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService) {
       var ctrl = this;
       var surveyMethodCache = {};
@@ -181,7 +181,8 @@ angular.module('metadatamanagementApp')
           ctrl.survey.$save()
           .then(ctrl.updateElasticSearchIndex)
           .then(ctrl.onSavedSuccessfully)
-          .catch(function() {
+          .catch(function(error) {
+              $log.error(error);
               SimpleMessageToastService.openAlertMessageToast(
                 'survey-management.edit.error-on-save-toast',
                 {surveyId: ctrl.survey.id});
