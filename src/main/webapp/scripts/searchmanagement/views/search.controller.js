@@ -287,30 +287,34 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var filterActiveTabs = function(tabs) {
       var project = CurrentProjectService.getCurrentProject();
 
-      var inactiveStates = [];
-      if (!project.configuration.requirements.surveysRequired) {
-        inactiveStates.push('surveys');
-      }
-      if (!project.configuration.requirements.instrumentsRequired) {
-        inactiveStates.push('instruments');
-      }
-      if (!project.configuration.requirements.questionsRequired) {
-        inactiveStates.push('questions');
-      }
-      if (!project.configuration.requirements.dataSetsRequired) {
-        inactiveStates.push('dataSets');
-      }
-      if (!project.configuration.requirements.variables) {
-        inactiveStates.push('variables');
-      }
-
-      return _.filter(tabs, function(tab) {
-        if (tab.group) {
-          return inactiveStates.indexOf(tab.group) === -1;
-        } else {
-          return true;
+      if (project) {
+        var inactiveStates = [];
+        if (!project.configuration.requirements.surveysRequired) {
+          inactiveStates.push('surveys');
         }
-      });
+        if (!project.configuration.requirements.instrumentsRequired) {
+          inactiveStates.push('instruments');
+        }
+        if (!project.configuration.requirements.questionsRequired) {
+          inactiveStates.push('questions');
+        }
+        if (!project.configuration.requirements.dataSetsRequired) {
+          inactiveStates.push('dataSets');
+        }
+        if (!project.configuration.requirements.variables) {
+          inactiveStates.push('variables');
+        }
+
+        return _.filter(tabs, function(tab) {
+          if (tab.group) {
+            return inactiveStates.indexOf(tab.group) === -1;
+          } else {
+            return true;
+          }
+        });
+      } else {
+        return tabs;
+      }
     };
 
     $scope.$on('current-project-changed',
