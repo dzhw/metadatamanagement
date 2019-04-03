@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp')
              DataSetAttachmentResource, DataSetCitateDialogService,
              SearchResultNavigatorService, ProductChooserDialogService,
              DataAcquisitionProjectResource, OutdatedVersionNotifier,
-             $stateParams) {
+             $stateParams, blockUI) {
+      blockUI.start();
 
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -123,7 +124,7 @@ angular.module('metadatamanagementApp')
             'data-set-management.detail.not-released-toast', {id: result.id}
           );
         }
-      });
+      }).finally(blockUI.stop);
       ctrl.uploadTexTemplate = function(files) {
         if (files != null) {
           DataSetReportService.uploadTexTemplate(files, ctrl.dataSet.id);

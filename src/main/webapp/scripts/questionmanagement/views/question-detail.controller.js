@@ -9,7 +9,8 @@ angular.module('metadatamanagementApp')
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
       QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
-      ProductChooserDialogService, OutdatedVersionNotifier) {
+      ProductChooserDialogService, OutdatedVersionNotifier, blockUI) {
+      blockUI.start();
 
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -155,7 +156,7 @@ angular.module('metadatamanagementApp')
           'question-management.detail.not-released-toast', {id: result.id}
           );
         }
-      });
+      }).finally(blockUI.stop);
 
       ctrl.changeCurrentImageLanguage = function(language) {
         if (ctrl.imageLanguages.indexOf(language) !== -1) {

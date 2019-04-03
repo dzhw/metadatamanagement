@@ -13,6 +13,7 @@ public class InstrumentTypes {
   public static final String CAPI = "CAPI";
   public static final String CATI = "CATI";
   public static final String CAWI = "CAWI";
+  public static final String INTERVIEW = "INTERVIEW";
   public static final Set<String> ALL =
-      Collections.unmodifiableSet(new HashSet<>(Arrays.asList(PAPI, CAPI, CATI, CAWI)));
+      Collections.unmodifiableSet(new HashSet<>(Arrays.asList(PAPI, CAPI, CATI, CAWI, INTERVIEW)));
 }
