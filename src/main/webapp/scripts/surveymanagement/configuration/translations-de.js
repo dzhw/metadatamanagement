@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp').config(
             'surveys-same-study': 'Alle Erhebungen der Studie',
             'field-period': 'Feldzeit',
             'population': 'Grundgesamtheit',
+            'unit': 'Erhebungseinheit',
             'geographic-coverage': 'Untersuchungsgebiet',
             'geographic-coverages': 'Untersuchungsgebiete',
             'data-type': 'Erhebungsdatentyp',
@@ -360,6 +361,16 @@ angular.module('metadatamanagementApp').config(
             'required': 'Bitte wählen Sie ein Land aus!',
             'no-match': 'Das ist keine gültige Auswahl!',
             'maxlength': 'Die optionalen Angaben dürfen nicht mehr als 512 Zeichen enthalten!'
+          }
+        },
+        'unit-value-picker': {
+          'label': 'Wählen Sie eine Erhebungseinheit aus',
+          'hints': {
+            'unit': 'Wählen Sie eine Erhebungseinheit aus'
+          },
+          'errors': {
+            'required': 'Eine Erhebungseinheit muss ausgewählt sein',
+            'no-match': 'Keine Erhebungseinheit mit diesem Namen gefunden'
           }
         }
       }

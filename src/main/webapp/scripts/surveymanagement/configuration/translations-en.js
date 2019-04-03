@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp').config(
             'surveys-same-study': 'All Surveys of this Study',
             'field-period': 'Field Period',
             'population': 'Population',
+            'unit': 'Survey Unit',
             'geographic-coverage': 'Geographic Coverage',
             'geographic-coverages': 'Geographic Coverages',
             'survey-method': 'Survey Method',
@@ -360,6 +361,16 @@ angular.module('metadatamanagementApp').config(
             'required': 'Please select a country!',
             'no-match': 'This is not a valid selection!',
             'maxlength': 'The additional information exceeds the maximum character count!'
+          }
+        },
+        'unit-value-picker': {
+          'label': 'Select a survey unit',
+          'hints': {
+            'unit': 'Please select a survey unit'
+          },
+          'errors': {
+            'required': 'A survey unit must be selected',
+            'no-match': 'No survey unit found with this name'
           }
         }
       }

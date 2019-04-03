@@ -139,6 +139,10 @@ public class UnitTestCreateDomainObjectUtils {
     GeographicCoverage geographicCoverage = GeographicCoverage.builder().country("DE").build();
 
     Population population = Population.builder()
+        .unit(I18nString.builder()
+            .de("Hochschulabsolventen")
+            .en("College Graduates")
+            .build())
         .description(I18nString.builder()
             .de("Population Beschreibung")
             .en("Population Description")
