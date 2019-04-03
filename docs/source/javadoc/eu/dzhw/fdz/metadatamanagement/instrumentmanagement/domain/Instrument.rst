@@ -114,7 +114,7 @@ masterId
 .. java:field:: @NotEmpty @Size @Pattern @Setter private String masterId
    :outertype: Instrument
 
-   The instruments masterId. It must not be empty, must be of the form \ ``ins-{{dataAcquisitionProjectId}}-ins{{number}}$``\  and must not contain more than 512 characters.
+   The instrument's master id. It must not be empty, must be of the form \ ``ins-{{dataAcquisitionProjectId}}-ins{{number}}$``\  and must not contain more than 512 characters.
 
 number
 ^^^^^^

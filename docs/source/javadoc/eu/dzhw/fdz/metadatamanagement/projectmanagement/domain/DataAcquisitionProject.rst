@@ -116,7 +116,7 @@ masterId
 .. java:field:: @NotEmpty @Size @Pattern @Setter private String masterId
    :outertype: DataAcquisitionProject
 
-   The masterId of this project. Must not be empty and must only contain lower cased (english) letters and numbers. Must not contain more than 32 characters.
+   The master id of this project. Must not be empty, must only contain lower cased (english) letters and numbers and must not contain more than 32 characters.
 
 release
 ^^^^^^^
