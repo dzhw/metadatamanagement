@@ -1249,3 +1249,33 @@ metadata-type-state-card.ng-hide:not(.ng-hide-animate) {
     visibility: hidden;
     display: inherit!important;
 }
+
+.egg-confused {
+    position: absolute;
+    z-index: 999999;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+
+    img {
+        position: relative;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        bottom: -220px;
+        opacity: 0;
+        animation: move 5s forwards, show 5s forwards;
+    }
+
+    @keyframes move {
+      100% {
+        bottom: 0px;
+      }
+    }
+
+    @keyframes show {
+      100% {
+        opacity: 1;
+      }
+    }
+}
