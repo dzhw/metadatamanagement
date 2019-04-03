@@ -266,6 +266,17 @@
                 </md-button>
             </md-card-actions>
         </md-card>
+        <md-card>
+            <md-card-header>
+                <md-card-header-text>
+                    <h2 class="md-title">{{'study-management.detail.label.tags' | translate }}</h2>
+                </md-card-header-text>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content>
+                <tag-editor tags="ctrl.study.tags"></tag-editor>
+            </md-card-content>
+        </md-card>
     </div>
 </form>
 <md-card ng-if="ctrl.study.id" class="fdz-reset-top-margin">

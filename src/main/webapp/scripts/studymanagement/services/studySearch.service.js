@@ -448,6 +448,61 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return GenericFilterOptionsSearchService.findFilterOptions(searchConfig);
     };
 
+    var findTags = function(searchText, language, filter, ignoreAuthorization) {
+      ignoreAuthorization = ignoreAuthorization || false;
+      language = language || LanguageService.getCurrentInstantly();
+      var query = createQueryObject();
+      var termFilters = createTermFilters(filter);
+      query.size = 0;
+      query.body = {
+        'aggs': {
+          'tags': {
+            'terms': {
+              'field': 'tags.' + language,
+              'size': 100
+            }
+          }
+        }
+      };
+
+      query.body.query = {
+        'bool': {
+          'must': [{
+            'match': {}
+          }],
+          'filter': {
+            'term': {
+              'shadow': false
+            }
+          }
+        }
+      };
+
+      query.body.query.bool.must[0].match
+        ['tags.' + language + '.ngrams'] = {
+        'query': searchText,
+        'operator': 'AND',
+        'minimum_should_match': '100%',
+        'zero_terms_query': 'ALL'
+      };
+
+      if (termFilters) {
+        query.body.query.bool.filter = termFilters;
+      }
+
+      if (!ignoreAuthorization) {
+        SearchHelperService.addFilter(query);
+      }
+
+      return ElasticSearchClient.search(query).then(function(result) {
+        var tags = [];
+        result.aggregations.tags.buckets.forEach(function(bucket) {
+          tags.push(bucket.key);
+        });
+        return tags;
+      });
+    };
+
     return {
       findOneById: findOneById,
       findShadowByIdAndVersion: findShadowByIdAndVersion,
@@ -456,6 +511,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       findInstitutions: findInstitutions,
       findStudyTitles: findStudyTitles,
       findInstitutionFilterOptions: findInstitutionFilterOptions,
-      findSponsorFilterOptions: findSponsorFilterOptions
+      findSponsorFilterOptions: findSponsorFilterOptions,
+      findTags: findTags
     };
   });

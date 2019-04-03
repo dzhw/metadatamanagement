@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp').config(
             'studySeries': 'Study Series',
             'institution': 'Institution',
             'authors': 'Authors',
+            'tags': 'Tags (Keywords) for the Study',
             'sponsors': 'Sponsored by',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
@@ -128,7 +129,8 @@ angular.module('metadatamanagementApp').config(
               'study-series': 'Click to show all studies of the study series.'
             }
           },
-          'doi-tooltip': 'Click to open the DOI in a new Tab'
+          'doi-tooltip': 'Click to open the DOI in a new Tab',
+          'tag-tooltip': 'Click to search for studies with this tag'
         },
         'log-messages': {
           'study': {
@@ -299,6 +301,16 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'all-studies-deleted-toast': 'The study of Data Acquisition Project "{{id}}" has been deleted.'
+        },
+        'tag-editor': {
+          'label': {
+            'german-tags': 'German Tags',
+            'english-tags': 'English Tags'
+          },
+          'placeholder': 'Enter a new tag',
+          'error': {
+            'required': 'At least one tag must be provided'
+          }
         }
       }
       //jscs:enable

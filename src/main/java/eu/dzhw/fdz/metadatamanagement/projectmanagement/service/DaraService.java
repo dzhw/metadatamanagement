@@ -1,16 +1,36 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.base.Charsets;
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.CollectionModes;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentTypes;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.FreeResourceTypes;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.DataAvailabilities;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.TimeMethods;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import freemarker.core.XMLOutputFormat;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateExceptionHandler;
+import io.micrometer.core.instrument.MeterRegistry;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.NotImplementedException;
@@ -30,33 +50,19 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.google.common.base.Charsets;
-
-import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.FreeResourceTypes;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.DataAvailabilities;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.TimeMethods;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
-import freemarker.core.XMLOutputFormat;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
-import io.micrometer.core.instrument.MeterRegistry;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Access component for getting health information or registration or updates for dara and the doi.
@@ -87,6 +93,9 @@ public class DaraService {
 
   @Autowired
   private VariableRepository variableRepository;
+
+  @Autowired
+  private InstrumentRepository instrumentRepository;
 
   @Autowired
   private RelatedPublicationRepository relatedPublicationRepository;
@@ -269,6 +278,7 @@ public class DaraService {
     List<Survey> surveys =
         this.surveyRepository.findByDataAcquisitionProjectIdOrderByNumber(projectId);
     dataForTemplate.put("surveys", surveys);
+    dataForTemplate.put("geographicCoverages", deduplicateGeographicCoverages(surveys));
 
     // Get Datasets Information
     List<DataSet> dataSets = this.dataSetRepository.findByDataAcquisitionProjectId(projectId);
@@ -299,7 +309,50 @@ public class DaraService {
     // Add Time Dimension
     dataForTemplate.put("timeDimension", computeTimeDimension(study));
 
+    // Add data for collection mode
+    dataForTemplate.put("surveyToCollectionModesMap", computeSurveyToCollectionModesMap(surveys));
+
     return dataForTemplate;
+  }
+
+  private Map<String, List<String>> computeSurveyToCollectionModesMap(List<Survey> surveys) {
+    Map<String, List<String>> surveyToCollectionModesMap = new HashMap<>();
+    for (Survey survey : surveys) {
+      List<InstrumentSubDocumentProjection> instruments =
+          instrumentRepository.findSubDocumentsBySurveyIdsContaining(survey.getId());
+      List<String> collectionModes = new ArrayList<String>(instruments.size());
+      for (InstrumentSubDocumentProjection instrument : instruments) {
+        switch (instrument.getType()) {
+          case InstrumentTypes.CAPI:
+            collectionModes.add(CollectionModes.INTERVIEW_FACETOFACE_CAPICAMI);
+            break;
+          case InstrumentTypes.CATI:
+            collectionModes.add(CollectionModes.INTERVIEW_TELEPHONE_CATI);
+            break;
+          case InstrumentTypes.CAWI:
+            collectionModes.add(CollectionModes.SELFADMINISTEREDQUESTIONNAIRE_WEBBASED);
+            break;
+          case InstrumentTypes.PAPI:
+            collectionModes.add(CollectionModes.SELFADMINISTEREDQUESTIONNAIRE_PAPER);
+            break;
+          case InstrumentTypes.INTERVIEW:
+            collectionModes.add(CollectionModes.INTERVIEW_FACETOFACE);
+            break;
+          default:
+            throw new NotImplementedException(
+                "There is no mapping to DARAs collectionMode for the instrument type "
+                    + instrument.getType());
+        }
+      }
+      surveyToCollectionModesMap.put(survey.getId(), collectionModes);
+    }
+    return surveyToCollectionModesMap;
+  }
+
+  private Set<GeographicCoverage> deduplicateGeographicCoverages(List<Survey> surveys) {
+    return surveys.stream()
+        .flatMap(survey -> survey.getPopulation().getGeographicCoverages()
+            .stream()).collect(Collectors.toSet());
   }
 
   private String computeTimeDimension(Study study) {

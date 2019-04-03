@@ -415,7 +415,7 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.types = [
-        'PAPI', 'CAPI', 'CATI', 'CAWI'
+        'PAPI', 'CAPI', 'CATI', 'CAWI', 'INTERVIEW'
       ];
 
       init();
