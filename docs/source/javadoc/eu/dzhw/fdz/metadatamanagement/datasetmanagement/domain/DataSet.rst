@@ -12,8 +12,6 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
-
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation UniqueDatasetNumberInProject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation UniqueSubDatasetAccessWayInDataSet
@@ -70,6 +68,8 @@
 
 .. java:import:: javax.validation.constraints NotNull
 
+.. java:import:: javax.validation.constraints Pattern
+
 .. java:import:: javax.validation.constraints Size
 
 .. java:import:: java.util List
@@ -80,7 +80,7 @@ DataSet
 .. java:package:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @ValidDataSetIdName @UniqueDatasetNumberInProject @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidMasterId @ValidShadowId public class DataSet extends AbstractShadowableRdcDomainObject
+.. java:type:: @Entity @Document @ValidDataSetIdName @UniqueDatasetNumberInProject @CompoundIndex @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidShadowId public class DataSet extends AbstractShadowableRdcDomainObject
 
    A dataset contains \ :java:ref:`Variable`\ s. It results from at least one \ :java:ref:`Survey`\ .
 
@@ -121,10 +121,18 @@ format
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Size @Setter private String id
+.. java:field:: @Id @JestId @NotEmpty @Setter private String id
    :outertype: DataSet
 
-   The id of the dataset which uniquely identifies the dataset in this application. The id must not be empty and must be of the form dat-{{dataAcquisitionProjectId}}-ds{{number}}$. The id must not contain more than 512 characters.
+   The id of the dataset which uniquely identifies the dataset in this application.
+
+masterId
+^^^^^^^^
+
+.. java:field:: @NotEmpty @Size @Pattern @Setter private String masterId
+   :outertype: DataSet
+
+   The master id of this dataset. It must not contain more than 512 characters, must not be empty and must be of the form dat-{{dataAcquisitionProjectId}}-ds{{number}}$.
 
 number
 ^^^^^^
