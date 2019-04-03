@@ -180,6 +180,10 @@
                     <div flex="50"></div>
                 </div>
                 <div layout-gt-sm="row" layout="column">
+                    <unit-value-picker unit="ctrl.survey.population.unit" flex="50"></unit-value-picker>
+                    <div flex="50"></div>
+                </div>
+                <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" style="-ms-flex:auto" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!surveyForm.annotationsDe.$valid && (surveyForm.annotationsDe.$dirty || surveyForm.annotationsDe.$touched)">
                         <label>{{'survey-management.detail.label.annotations' | translate}} ({{'global.in-german' | translate}})</label>
                         <textarea rows="4" md-maxlength="2048" ng-model="ctrl.survey.annotations.de" name="annotationsDe" lang="de" md-no-asterisk></textarea>
