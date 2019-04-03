@@ -322,10 +322,9 @@ angular.module('metadatamanagementApp').config(
         },
         'sample-type-picker': {
           'label': 'Stichprobenverfahren',
-          'not-found': 'Kein passendes Stichprobenverfahren gefunden',
           'error': {
             'required': 'Ein Stichprobenverfahren muss angegeben werden',
-            'no-match': 'Keine passende Erhebungsmethode gefunden'
+            'no-match': 'Keine passendes Stichprobenverfahren gefunden'
           }
         },
         'geographic-coverage-list': {
