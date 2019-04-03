@@ -286,7 +286,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
 
         SearchHelperService.addQuery(query, queryterm);
         SearchHelperService.addFilter(query);
-        SearchHelperService.addShadowCopyFilter(query, termFilters);
+        SearchHelperService.addShadowCopyFilter(query, filter);
 
         return ElasticSearchClient.search(query).then(function(result) {
           return result.aggregations.panelIdentifiers.buckets;
