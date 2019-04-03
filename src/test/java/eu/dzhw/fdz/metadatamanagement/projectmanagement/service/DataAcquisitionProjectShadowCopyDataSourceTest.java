@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.time.LocalDateTime;
@@ -41,14 +40,14 @@ public class DataAcquisitionProjectShadowCopyDataSourceTest extends AbstractTest
   private DataAcquisitionProjectShadowCopyDataSource shadowCopyDataSource;
 
   @Mock
-  private ApplicationEventPublisher applicationEventPublisher;
+  private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
 
   private Release release;
 
   @Before
   public void setUp() {
     release = new Release("1.0.0", LocalDateTime.now());
-    shadowCopyService = new ShadowCopyService<>();
+    shadowCopyService = new ShadowCopyService<>(dataAcquisitionProjectVersionsService);
     DataAcquisitionProject releasedProject = UnitTestCreateDomainObjectUtils
         .buildDataAcquisitionProject();
     releasedProject.setRelease(release);
