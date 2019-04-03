@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp').config(
             'surveys-same-study': 'All Surveys of this Study',
             'field-period': 'Field Period',
             'population': 'Population',
+            'unit': 'Survey Unit',
             'geographic-coverage': 'Geographic Coverage',
             'geographic-coverages': 'Geographic Coverages',
             'survey-method': 'Survey Method',
