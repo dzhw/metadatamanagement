@@ -126,6 +126,95 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.search();
     };
 
+    //Information for the different tabs
+    var tabs = [{
+      title: 'search-management.tabs.all',
+      inputLabel: 'search-management.input-label.all',
+      elasticSearchType: undefined,
+      count: null,
+      acceptedFileUploadType: null,
+      uploadFunction: null,
+      disabled: false,
+      visibleForPublicUser: false,
+      noResultsText: 'search-management.no-results-text.all'
+    }, {
+      title: 'search-management.tabs.studies',
+      inputLabel: 'search-management.input-label.studies',
+      icon: 'assets/images/icons/study.svg',
+      elasticSearchType: 'studies',
+      count: null,
+      uploadFunction: null,
+      disabled: false,
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.studies',
+      group: 'studies'
+    }, {
+      title: 'search-management.tabs.surveys',
+      inputLabel: 'search-management.input-label.surveys',
+      icon: 'assets/images/icons/survey.svg',
+      elasticSearchType: 'surveys',
+      count: null,
+      uploadFunction: null,
+      disabled: false,
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.surveys',
+      group: 'surveys'
+    }, {
+      title: 'search-management.tabs.instruments',
+      inputLabel: 'search-management.input-label.instruments',
+      icon: 'assets/images/icons/instrument.svg',
+      elasticSearchType: 'instruments',
+      count: null,
+      uploadFunction: null,
+      disabled: false,
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.instruments',
+      group: 'instruments'
+    }, {
+      title: 'search-management.tabs.questions',
+      inputLabel: 'search-management.input-label.questions',
+      icon: 'assets/images/icons/question.svg',
+      elasticSearchType: 'questions',
+      count: null,
+      uploadFunction: $scope.uploadQuestions,
+      disabled: false,
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.questions',
+      group: 'questions'
+    }, {
+      title: 'search-management.tabs.data_sets',
+      inputLabel: 'search-management.input-label.data-sets',
+      icon: 'assets/images/icons/data-set.svg',
+      elasticSearchType: 'data_sets',
+      count: null,
+      uploadFunction: null,
+      disabled: false,
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.data-sets',
+      group: 'dataSets'
+    }, {
+      title: 'search-management.tabs.variables',
+      inputLabel: 'search-management.input-label.variables',
+      icon: 'assets/images/icons/variable.svg',
+      elasticSearchType: 'variables',
+      count: null,
+      uploadFunction: $scope.uploadVariables,
+      disabled: false,
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.variables',
+      group: 'variables'
+    }, {
+      title: 'search-management.tabs.related_publications',
+      inputLabel: 'search-management.input-label.related-publications',
+      icon: 'assets/images/icons/related-publication.svg',
+      elasticSearchType: 'related_publications',
+      count: null,
+      uploadFunction: $scope.uploadRelatedPublications,
+      disabled: false,
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.related-publications'
+    }];
+
     //Search function
     $scope.search = function() {
       var projectId = _.get($scope, 'currentProject.id');
@@ -195,8 +284,42 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
     });
 
+    var filterActiveTabs = function(tabs) {
+      var project = CurrentProjectService.getCurrentProject();
+
+      if (project) {
+        var inactiveStates = [];
+        if (!project.configuration.requirements.surveysRequired) {
+          inactiveStates.push('surveys');
+        }
+        if (!project.configuration.requirements.instrumentsRequired) {
+          inactiveStates.push('instruments');
+        }
+        if (!project.configuration.requirements.questionsRequired) {
+          inactiveStates.push('questions');
+        }
+        if (!project.configuration.requirements.dataSetsRequired) {
+          inactiveStates.push('dataSets');
+        }
+        if (!project.configuration.requirements.variablesRequired) {
+          inactiveStates.push('variables');
+        }
+
+        return _.filter(tabs, function(tab) {
+          if (tab.group) {
+            return inactiveStates.indexOf(tab.group) === -1;
+          } else {
+            return true;
+          }
+        });
+      } else {
+        return tabs;
+      }
+    };
+
     $scope.$on('current-project-changed',
       function(event, currentProject) { // jshint ignore:line
+        $scope.tabs = filterActiveTabs(tabs);
         currentProjectChangeIsBeingHandled = true;
         //wait for other events (logout, selectedTabIndex)
         $timeout(function() {
@@ -317,94 +440,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $timeout($scope.search, 2000);
     });
 
-    //Information for the different tabs
-    $scope.tabs = [{
-      title: 'search-management.tabs.all',
-      inputLabel: 'search-management.input-label.all',
-      elasticSearchType: undefined,
-      count: null,
-      acceptedFileUploadType: null,
-      uploadFunction: null,
-      disabled: false,
-      visibleForPublicUser: false,
-      noResultsText: 'search-management.no-results-text.all'
-    }, {
-      title: 'search-management.tabs.studies',
-      inputLabel: 'search-management.input-label.studies',
-      icon: 'assets/images/icons/study.svg',
-      elasticSearchType: 'studies',
-      count: null,
-      uploadFunction: null,
-      disabled: false,
-      visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.studies',
-      group: 'studies'
-    }, {
-      title: 'search-management.tabs.surveys',
-      inputLabel: 'search-management.input-label.surveys',
-      icon: 'assets/images/icons/survey.svg',
-      elasticSearchType: 'surveys',
-      count: null,
-      uploadFunction: null,
-      disabled: false,
-      visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.surveys',
-      group: 'surveys'
-    }, {
-      title: 'search-management.tabs.instruments',
-      inputLabel: 'search-management.input-label.instruments',
-      icon: 'assets/images/icons/instrument.svg',
-      elasticSearchType: 'instruments',
-      count: null,
-      uploadFunction: null,
-      disabled: false,
-      visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.instruments',
-      group: 'instruments'
-    }, {
-      title: 'search-management.tabs.questions',
-      inputLabel: 'search-management.input-label.questions',
-      icon: 'assets/images/icons/question.svg',
-      elasticSearchType: 'questions',
-      count: null,
-      uploadFunction: $scope.uploadQuestions,
-      disabled: false,
-      visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.questions',
-      group: 'questions'
-    }, {
-      title: 'search-management.tabs.data_sets',
-      inputLabel: 'search-management.input-label.data-sets',
-      icon: 'assets/images/icons/data-set.svg',
-      elasticSearchType: 'data_sets',
-      count: null,
-      uploadFunction: null,
-      disabled: false,
-      visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.data-sets',
-      group: 'dataSets'
-    }, {
-      title: 'search-management.tabs.variables',
-      inputLabel: 'search-management.input-label.variables',
-      icon: 'assets/images/icons/variable.svg',
-      elasticSearchType: 'variables',
-      count: null,
-      uploadFunction: $scope.uploadVariables,
-      disabled: false,
-      visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.variables',
-      group: 'variables'
-    }, {
-      title: 'search-management.tabs.related_publications',
-      inputLabel: 'search-management.input-label.related-publications',
-      icon: 'assets/images/icons/related-publication.svg',
-      elasticSearchType: 'related_publications',
-      count: null,
-      uploadFunction: $scope.uploadRelatedPublications,
-      disabled: false,
-      visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.related-publications'
-    }];
+    $scope.tabs = filterActiveTabs(tabs);
 
     $scope.hideMobileKeyboard = function($event) {
       $event.target.querySelector('#query').blur();
