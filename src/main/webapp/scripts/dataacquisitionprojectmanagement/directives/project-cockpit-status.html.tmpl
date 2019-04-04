@@ -36,6 +36,6 @@
 	</div>
 	<div layout-gt-sm="row" layout="column" layout-wrap>
 		<metadata-type-state-card flex="auto" project="ctrl.project" counts="ctrl.counts" type="studies"></metadata-type-state-card>
-		<metadata-type-state-card ng-repeat="state in ctrl.sortedStates" ng-hide="!ctrl.project.configuration.requirements[state + 'Required']" flex="auto" project="ctrl.project" counts="ctrl.counts" type="{{state}}"></metadata-type-state-card>
+		<metadata-type-state-card ng-repeat="state in ctrl.sortedStates" flex="auto" project="ctrl.project" counts="ctrl.counts" type="{{state}}"></metadata-type-state-card>
 	</div>
 </div>

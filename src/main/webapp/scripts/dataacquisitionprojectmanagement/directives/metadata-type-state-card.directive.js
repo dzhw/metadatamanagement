@@ -16,7 +16,7 @@ angular.module('metadatamanagementApp')
         counts: '=',
         project: '='
       },
-      replace: false,
+      replace: true,
       controllerAs: 'ctrl',
 
       controller: function($scope) {
