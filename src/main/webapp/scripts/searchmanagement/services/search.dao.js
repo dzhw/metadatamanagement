@@ -6,6 +6,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchClient, CleanJSObjectService, Principal,
            LanguageService, StudyIdBuilderService, SearchHelperService,
            clientId) {
+
     var addAdditionalShouldQueries = function(elasticsearchType, query,
                                               boolQuery) {
       var queryTerms = query.split(' ');
@@ -254,30 +255,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
       }
     };
 
-    var applyFetchLatestShadowCopyFilter = function(query,
-        searchLatestShadowCopy, elasticSearchType) {
-      var loginName = Principal.loginName();
-
-      if (!loginName && elasticSearchType !== 'related_publications') {
-        var filterCriteria = {
-          'bool': {
-            'must': [{
-              'term': {'shadow': true}
-            }]
-          }
-        };
-
-        if (searchLatestShadowCopy) {
-          _.set(filterCriteria, 'bool.must_not[0].exists.field', 'successorId');
-        }
-
-        var filterArray = _.get(query, 'body.query.bool.filter');
-
-        if (_.isArray(filterArray)) {
-          query.body.query.bool.filter.push(filterCriteria);
-        } else {
-          _.set(query, 'body.query.bool.filter[0]', filterCriteria);
-        }
+    var applyFetchLatestShadowCopyFilter = function(query, elasticSearchType,
+                                                    filter) {
+      if (elasticSearchType !== 'related_publications') {
+        SearchHelperService.addShadowCopyFilter(query, filter);
       }
     };
 
@@ -448,8 +429,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
           return ElasticSearchClient.search(query);
         } else {
           applyFetchDataWhereUserIsDataProviderFilter(query);
-          applyFetchLatestShadowCopyFilter(query, _.isEmpty(filterToUse),
-            elasticsearchType);
+          applyFetchLatestShadowCopyFilter(query, elasticsearchType,
+            filterToUse);
           return ElasticSearchClient.search(query);
         }
       }

@@ -345,7 +345,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
 
       SearchHelperService.addQuery(query, queryterm);
       SearchHelperService.addFilter(query);
-      SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
+      SearchHelperService.addShadowCopyFilter(query, filter);
 
       return ElasticSearchClient.search(query).then(function(result) {
         return result.aggregations.accessWays.buckets;
