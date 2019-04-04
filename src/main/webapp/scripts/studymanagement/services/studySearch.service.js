@@ -119,7 +119,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
       SearchHelperService.addQuery(query, queryterm);
       if (type !== 'related_publications') {
-        SearchHelperService.addShadowCopyFilter(query, termFilters);
+        SearchHelperService.addShadowCopyFilter(query, filter);
       }
 
       if (!ignoreAuthorization) {
