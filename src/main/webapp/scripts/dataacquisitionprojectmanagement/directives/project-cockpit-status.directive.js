@@ -31,8 +31,21 @@ angular.module('metadatamanagementApp')
       /* jshint -W098 */
       link: function($scope, elem, attrs, ctrl) {
 
+        var sortByRequiredState = function() {
+          var optionalStates = ['surveys', 'instruments', 'questions',
+            'dataSets', 'variables'];
+          var activeStates = _.filter(optionalStates, function(state) {
+            return ctrl.project.configuration.requirements[state + 'Required'];
+          });
+          var inactiveStates = _.difference(optionalStates, activeStates);
+          return activeStates.concat(inactiveStates);
+        };
+
+        ctrl.sortedStates = sortByRequiredState();
+
         $scope.$on('project-changed', function() {
           ctrl.changed = true;
+          ctrl.sortedStates = sortByRequiredState();
         });
         $scope.$on('project-saved', function() {
           ctrl.changed = false;
