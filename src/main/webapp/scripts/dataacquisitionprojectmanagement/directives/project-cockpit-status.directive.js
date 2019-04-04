@@ -34,10 +34,11 @@ angular.module('metadatamanagementApp')
         var sortByRequiredState = function() {
           var optionalStates = ['surveys', 'instruments', 'questions',
             'dataSets', 'variables'];
-          var sorted = _.sortBy(optionalStates, function(state) {
+          var activeStates = _.filter(optionalStates, function(state) {
             return ctrl.project.configuration.requirements[state + 'Required'];
           });
-          return _.reverse(sorted);
+          var inactiveStates = _.difference(optionalStates, activeStates);
+          return activeStates.concat(inactiveStates);
         };
 
         ctrl.sortedStates = sortByRequiredState();

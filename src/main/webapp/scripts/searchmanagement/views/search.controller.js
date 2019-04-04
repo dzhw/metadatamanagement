@@ -301,7 +301,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         if (!project.configuration.requirements.dataSetsRequired) {
           inactiveStates.push('dataSets');
         }
-        if (!project.configuration.requirements.variables) {
+        if (!project.configuration.requirements.variablesRequired) {
           inactiveStates.push('variables');
         }
 
