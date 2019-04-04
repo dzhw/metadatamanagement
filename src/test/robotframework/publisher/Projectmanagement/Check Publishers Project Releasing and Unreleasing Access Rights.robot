@@ -20,6 +20,43 @@ Check Publishers Project Releasing and Unreleasing Funtionalities
   Change Project Release Status
   Write Version Name
   Click on OK Button
+  Verify The Released Project is Available under The Study Tab
+  Verify The Unreleased Project is Still Available under The Study Tab with Shadow Copy
+  Edit Project Title and Check it does not appear under study when unreleased
+  Check Edited Project appears under study when released
+  Restore The Previous Project Version and Publish Again
+  Verify The Re-Released Previous Project is Available under The Study Tab
+  Unrelased The Project again to Sync with Intial Step
+
+*** Keywords ***
+Assert Project Release Action Has Error Message
+  Wait Until Element Is Visible   xpath=//md-dialog-content//h2
+  Element Should Contain   xpath=//md-dialog-content//h2   kann nicht freigegeben werden
+
+Write Version Name
+  Input Text  xpath=//input[@name="version"]   0.0.2
+
+Close The Toast Message for Project Release Validation
+  Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Post-Validierung wurde mit")]
+  Element Should Contain  xpath=//md-toast//span[contains(.,"Die Post-Validierung wurde mit")]  Die Post-Validierung wurde mit
+  Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
+
+Click Study Edit Button
+  Click Element Through Tooltips  xpath=//button[md-icon[text()="mode_edit"]]
+
+Click Study Save Button
+  Click Element Through Tooltips  xpath=//button[@type="submit"]//md-icon[contains(. , "save")]
+
+Click Restore Button
+  Click Element Through Tooltips  xpath=//div[@ng-if="ctrl.study.id"]//button[@type="button"]//md-icon[contains(.,"undo")]
+
+Revise to second latest version
+  Click Element Through Tooltips  xpath=//md-dialog//table//tbody//tr[2]//td
+  Sleep  1s
+
+Get back to home page and deselect project
+  Get back to german home page
+  Click Element Through Tooltips    xpath=//md-sidenav//project-navbar-module//button[@aria-label="Clear Input"]
 
 Verify The Released Project is Available under The Study Tab
   Sleep  30s  #We need explicit sleep to ensure the project is available under the study tab
@@ -48,10 +85,11 @@ Edit Project Title and Check it does not appear under study when unreleased
   Input Text    name=titleEn    Test Project Release Study ${BROWSER} EN Edit_786
   Click Study Save Button
   Get back to german home page
-  Sleep  5s
+  Sleep  10s
   Publisher Logout
   Click on study tab
-  Wait Until Page Contains Element  xpath=//md-card-header-text//span[contains(. ,"Test Project Release Study ${BROWSER} DE")]  5s
+  Reload Page
+  Wait Until Page Contains Element  xpath=//md-card-header-text//span[contains(. ,"Test Project Release Study ${BROWSER} DE")]  10s
 
 Check Edited Project appears under study when released
   Login as publisher
@@ -102,33 +140,3 @@ Unrelased The Project again to Sync with Intial Step
   Click Publisher Ready Checkbox for Studies
   Sleep  5s
   Get back to home page and deselect project
-
-*** Keywords ***
-Assert Project Release Action Has Error Message
-  Wait Until Element Is Visible   xpath=//md-dialog-content//h2
-  Element Should Contain   xpath=//md-dialog-content//h2   kann nicht freigegeben werden
-
-Write Version Name
-  Input Text  xpath=//input[@name="version"]   0.0.2
-
-Close The Toast Message for Project Release Validation
-  Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Post-Validierung wurde mit")]
-  Element Should Contain  xpath=//md-toast//span[contains(.,"Die Post-Validierung wurde mit")]  Die Post-Validierung wurde mit
-  Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
-
-Click Study Edit Button
-  Click Element Through Tooltips  xpath=//button[md-icon[text()="mode_edit"]]
-
-Click Study Save Button
-  Click Element Through Tooltips  xpath=//button[@type="submit"]//md-icon[contains(. , "save")]
-
-Click Restore Button
-  Click Element Through Tooltips  xpath=//div[@ng-if="ctrl.study.id"]//button[@type="button"]//md-icon[contains(.,"undo")]
-
-Revise to second latest version
-  Click Element Through Tooltips  xpath=//md-dialog//table//tbody//tr[2]//td
-  Sleep  1s
-
-Get back to home page and deselect project
-  Get back to german home page
-  Click Element Through Tooltips    xpath=//md-sidenav//project-navbar-module//button[@aria-label="Clear Input"]
