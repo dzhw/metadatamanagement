@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp').config(
             'surveys-same-study': 'Alle Erhebungen der Studie',
             'field-period': 'Feldzeit',
             'population': 'Grundgesamtheit',
+            'unit': 'Erhebungseinheit',
             'geographic-coverage': 'Untersuchungsgebiet',
             'geographic-coverages': 'Untersuchungsgebiete',
             'data-type': 'Erhebungsdatentyp',
@@ -149,9 +150,7 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Die Grundgesamtheit der Erhebung darf nicht leer sein!'
             },
             'sample': {
-              'not-null': 'Das Stichprobenverfahren der Erhebung darf nicht leer sein!',
-              'i18n-string-not-empty': 'Das Stichprobenverfahren der Erhebung muss mindestens in einer Sprache vorliegen.',
-              'i18n-string-size': 'Die Maximallänge des Stichprobenverfahrens der Erhebung ist 2048 Zeichen.'
+              'not-null': 'Das Stichprobenverfahren der Erhebung darf nicht leer sein!'
             },
             'wave': {
               'not-null': 'Die Welle der Erhebung darf nicht leer sein!',
@@ -322,6 +321,13 @@ angular.module('metadatamanagementApp').config(
           },
           'all-surveys-deleted-toast': 'Alle Erhebungen des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
         },
+        'sample-type-picker': {
+          'label': 'Stichprobenverfahren',
+          'error': {
+            'required': 'Ein Stichprobenverfahren muss angegeben werden',
+            'no-match': 'Keine passendes Stichprobenverfahren gefunden'
+          }
+        },
         'geographic-coverage-list': {
           'tooltip': {
             'move-item-up': 'Klicken, um dieses Untersuchungsgebiet nach oben zu verschieben',
@@ -355,6 +361,16 @@ angular.module('metadatamanagementApp').config(
             'required': 'Bitte wählen Sie ein Land aus!',
             'no-match': 'Das ist keine gültige Auswahl!',
             'maxlength': 'Die optionalen Angaben dürfen nicht mehr als 512 Zeichen enthalten!'
+          }
+        },
+        'unit-value-picker': {
+          'label': 'Wählen Sie eine Erhebungseinheit aus',
+          'hints': {
+            'unit': 'Wählen Sie eine Erhebungseinheit aus'
+          },
+          'errors': {
+            'required': 'Eine Erhebungseinheit muss ausgewählt sein',
+            'no-match': 'Keine Erhebungseinheit mit diesem Namen gefunden'
           }
         }
       }

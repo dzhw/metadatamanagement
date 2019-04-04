@@ -4,6 +4,9 @@
 angular.module('metadatamanagementApp').factory(
   'SearchHelperService',
   function(CleanJSObjectService, Principal) {
+    var domainObjectFilterNames = ['study', 'survey', 'data-set', 'instrument',
+      'variable', 'question'];
+
     var keyMapping = {
       'studies': {
         'study-series-de': 'studySeries.de',
@@ -180,6 +183,13 @@ angular.module('metadatamanagementApp').factory(
       ]
     };
 
+    var containsDomainObjectFilter = function(filter) {
+      var configuredFilterNames = _.keys(filter);
+      return _.find(configuredFilterNames, function(configuredFilterName) {
+        return domainObjectFilterNames.indexOf(configuredFilterName) !== -1;
+      }) !== undefined;
+    };
+
     //Returns the search criteria
     var createSortByCriteria = function(elasticsearchType) {
       // no special sorting for all tab
@@ -304,7 +314,7 @@ angular.module('metadatamanagementApp').factory(
       pushToFilterArray(query, masterFilter);
     };
 
-    var applyShadowCopyFilter = function(query, filterLatestShadowCopy) {
+    var applyShadowCopyFilter = function(query, filter) {
       var shadowCopyFilter = {
         'bool': {
           'must': [{
@@ -313,18 +323,18 @@ angular.module('metadatamanagementApp').factory(
         }
       };
 
-      if (filterLatestShadowCopy) {
+      if (!containsDomainObjectFilter(filter)) {
         _.set(shadowCopyFilter, 'bool.must_not[0].exists.field',
           'successorId');
       }
       pushToFilterArray(query, shadowCopyFilter);
     };
 
-    var addShadowCopyFilter = function(query, filterLatestShadowCopy) {
+    var addShadowCopyFilter = function(query, filter) {
       if (Principal.loginName()) {
         applyOnlyMasterDataFilter(query);
       } else {
-        applyShadowCopyFilter(query, filterLatestShadowCopy);
+        applyShadowCopyFilter(query, filter);
       }
     };
 

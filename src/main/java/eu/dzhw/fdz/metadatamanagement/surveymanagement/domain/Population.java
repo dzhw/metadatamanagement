@@ -4,6 +4,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidUnitValue;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +27,6 @@ import java.util.List;
 public class Population {
   /**
    * A description of the population.
-   * 
    * It must be specified in all languages and it must not contain more than 2048
    * characters.
    */
@@ -43,4 +43,14 @@ public class Population {
   @Valid
   @NotEmpty(message = "survey-management.error.population.geographic-coverages.not-empty")
   private List<GeographicCoverage> geographicCoverages;
+
+  /**
+   * Unit type. Mandatory field which only allows values specified by VFDB.
+   * @see <a href="https://mdr.iqb.hu-berlin.de/#/catalog/94d1ae4f-a441-c728-4a03-adb0eb4604af">
+   * GNERD: Survey Unit Educational Research (Version 1.0)
+   * </a>
+   */
+  @NotNull(message = "survey-management.error.population.unit.not-null")
+  @ValidUnitValue(message = "survey-management.error.population.valid-unit-value")
+  private I18nString unit;
 }

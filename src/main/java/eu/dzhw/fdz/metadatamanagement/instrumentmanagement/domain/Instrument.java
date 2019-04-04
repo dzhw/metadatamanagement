@@ -7,7 +7,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentIdPattern;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentType;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidUniqueInstrumentNumber;
@@ -32,6 +31,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -51,24 +51,30 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @Builder
-@ValidMasterId(pattern = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
-    message = "instrument-management.error.instrument.id.pattern")
 @ValidShadowId(message = "instrument-management.error.instrument.derived-id.pattern")
 public class Instrument extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the instrument which uniquely identifies the instrument in this application.
-   * 
-   * The id must not be empty and must be of the form
-   * ins-{{dataAcquisitionProjectId}}-ins{{number}}$. The id must not contain more than 512
-   * characters.
    */
   @Id
   @JestId
   @NotEmpty(message = "instrument-management.error.instrument.id.not-empty")
-  @Size(max = StringLengths.MEDIUM, message = "instrument-management.error.instrument.id.size")
   @Setter(AccessLevel.NONE)
   private String id;
+
+  /**
+   * The instrument's master id. It must not be empty, must be of the form
+   * {@code ins-{{dataAcquisitionProjectId}}-ins{{number}}$} and must not contain more than
+   * 512 characters.
+   */
+  @NotEmpty(message = "instrument-management.error.instrument.master-id.not-empty")
+  @Size(max = StringLengths.MEDIUM, message = "instrument-management.error.instrument"
+      + ".master-id.size")
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
+      message = "instrument-management.error.instrument.master-id.pattern")
+  @Setter(AccessLevel.NONE)
+  private String masterId;
 
 
   /**
@@ -172,6 +178,11 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
   public Instrument(Instrument instrument) {
     super();
     BeanUtils.copyProperties(instrument, this);
+  }
+
+  @Override
+  protected void setMasterIdInternal(String masterId) {
+    this.masterId = masterId;
   }
 
   @Override
