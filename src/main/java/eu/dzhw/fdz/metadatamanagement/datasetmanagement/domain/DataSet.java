@@ -7,7 +7,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.UniqueDatasetNumberInProject;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.UniqueSubDatasetAccessWayInDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetIdName;
@@ -37,6 +36,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -55,24 +55,28 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @Builder
-@ValidMasterId(pattern = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
-    message = "data-set-management.error.data-set.master-id.pattern")
 @ValidShadowId(message = "data-set-management.error.data-set.id.pattern")
 public class DataSet extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the dataset which uniquely identifies the dataset in this application.
-   * 
-   * The id must not be empty and must be of the form
-   * dat-{{dataAcquisitionProjectId}}-ds{{number}}$. The id must not contain more than 512
-   * characters.
    */
   @Id
   @JestId
   @NotEmpty(message = "data-set-management.error.data-set.id.not-empty")
-  @Size(max = StringLengths.MEDIUM, message = "data-set-management.error.data-set.id.size")
   @Setter(AccessLevel.NONE)
   private String id;
+
+  /**
+   * The master id of this dataset. It must not contain more than 512 characters, must not
+   * be empty and must be of the form {@code dat-{{dataAcquisitionProjectId}}-ds{{number}}$}.
+   */
+  @NotEmpty(message = "data-set-management.error.data-set.master-id.not-empty")
+  @Size(max = StringLengths.MEDIUM, message = "data-set-management.error.data-set.master-id.size")
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
+      message = "data-set-management.error.data-set.master-id.pattern")
+  @Setter(AccessLevel.NONE)
+  private String masterId;
 
   /**
    * The id of the {@link DataAcquisitionProject} to which this dataset belongs.
@@ -173,6 +177,11 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
   public DataSet(DataSet dataSet) {
     super();
     BeanUtils.copyProperties(dataSet, this);
+  }
+
+  @Override
+  protected void setMasterIdInternal(String masterId) {
+    this.masterId = masterId;
   }
 
   @Override

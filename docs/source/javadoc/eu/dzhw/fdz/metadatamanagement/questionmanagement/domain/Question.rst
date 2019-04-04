@@ -12,8 +12,6 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidMasterId
-
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain Instrument
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain OrderedStudy
@@ -76,7 +74,7 @@ Question
 .. java:package:: eu.dzhw.fdz.metadatamanagement.questionmanagement.domain
    :noindex:
 
-.. java:type:: @Document @CompoundIndex @ValidUniqueQuestionNumber @ValidQuestionIdName @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidMasterId @ValidShadowId public class Question extends AbstractShadowableRdcDomainObject
+.. java:type:: @Document @CompoundIndex @ValidUniqueQuestionNumber @ValidQuestionIdName @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidShadowId public class Question extends AbstractShadowableRdcDomainObject
 
    A question is part of an \ :java:ref:`Instrument`\  which has been used in at least one \ :java:ref:`Survey`\ s. The responses to a question are stored in \ :java:ref:`Variable`\ s.
 
@@ -112,7 +110,7 @@ id
 .. java:field:: @Id @JestId @NotEmpty @Size @Setter private String id
    :outertype: Question
 
-   The id of the question which uniquely identifies the question in this application. The id must not be empty and must be of the form que-{{dataAcquisitionProjectId}}-ins{{instrumentNumber}}-{{number}}$. The id must not contain more than 512 characters.
+   The id of the question which uniquely identifies the question in this application.
 
 indexInInstrument
 ^^^^^^^^^^^^^^^^^
@@ -153,6 +151,14 @@ introduction
    :outertype: Question
 
    The introduction of this question which gives more context to the participant before asking the question. Must not contain more than 2048 characters.
+
+masterId
+^^^^^^^^
+
+.. java:field:: @NotEmpty @Size @Pattern @Setter private String masterId
+   :outertype: Question
+
+   The master id of the question. It must not be empty, must be of the form \ ``que-{{dataAcquisitionProjectId}}-ins{{instrumentNumber}}-{{number}}$``\  and must not contain more than 512 characters.
 
 number
 ^^^^^^

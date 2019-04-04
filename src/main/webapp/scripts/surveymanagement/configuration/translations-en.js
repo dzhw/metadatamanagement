@@ -32,6 +32,7 @@ angular.module('metadatamanagementApp').config(
             'surveys-same-study': 'All Surveys of this Study',
             'field-period': 'Field Period',
             'population': 'Population',
+            'unit': 'Survey Unit',
             'geographic-coverage': 'Geographic Coverage',
             'geographic-coverages': 'Geographic Coverages',
             'survey-method': 'Survey Method',
@@ -149,9 +150,7 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The Population of a Survey must not be empty!'
             },
             'sample': {
-              'not-null': 'The sampling procedure of a survey must not be empty!',
-              'i18n-string-not-empty': 'The sampling procedure of the survey has to be given for one language.',
-              'i18n-string-size': 'The max length of the sampling procedure of the survey is 2048 signs.'
+              'not-null': 'The sampling procedure of a survey must not be empty!'
             },
             'wave': {
               'not-null': 'The Wave of a Survey must not be empty!',
@@ -322,6 +321,13 @@ angular.module('metadatamanagementApp').config(
           },
           'all-surveys-deleted-toast': 'All surveys of the Data Acquisition Project "{{id}}" have been deleted.'
         },
+        'sample-type-picker': {
+          'label': 'Sampling Procedure',
+          'error': {
+            'required': 'A sampling procedure must be selected',
+            'no-match': 'No matching sampling procedure found'
+          }
+        },
         'geographic-coverage-list': {
           'tooltip': {
             'move-item-up': 'Click to move this geographic coverage entry up',
@@ -355,6 +361,16 @@ angular.module('metadatamanagementApp').config(
             'required': 'Please select a country!',
             'no-match': 'This is not a valid selection!',
             'maxlength': 'The additional information exceeds the maximum character count!'
+          }
+        },
+        'unit-value-picker': {
+          'label': 'Select a survey unit',
+          'hints': {
+            'unit': 'Please select a survey unit'
+          },
+          'errors': {
+            'required': 'A survey unit must be selected',
+            'no-match': 'No survey unit found with this name'
           }
         }
       }

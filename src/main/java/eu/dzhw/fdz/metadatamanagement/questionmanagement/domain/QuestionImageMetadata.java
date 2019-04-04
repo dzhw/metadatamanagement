@@ -40,6 +40,13 @@ public class QuestionImageMetadata extends AbstractShadowableRdcDomainObject {
   private String id;
 
   /**
+   * The master id of question image metadata. Must not be empty.
+   */
+  @NotEmpty(message = "question-management.error.question-image-metadata.master-id.not-empty")
+  @Setter(AccessLevel.NONE)
+  private String masterId;
+
+  /**
    * The type of this image.
    * 
    * Must be one of {@link ImageType} and must not be empty.
@@ -128,6 +135,11 @@ public class QuestionImageMetadata extends AbstractShadowableRdcDomainObject {
    */
   public void generateId() {
     this.setId("/public/files/questions/" + questionId + "/images/" + fileName);
+  }
+
+  @Override
+  protected void setMasterIdInternal(String masterId) {
+    this.masterId = masterId;
   }
 
   @Override
