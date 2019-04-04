@@ -53,6 +53,7 @@ angular.module('metadatamanagementApp').config(
           'variables-tooltip': 'Click to display all variables of this data product.'
         },
         'error': {
+          'synchronize': 'Unable to synchronize shopping cart with the server.',
           'customer': {
             'name': {
               'empty': 'Your name must not be empty.',

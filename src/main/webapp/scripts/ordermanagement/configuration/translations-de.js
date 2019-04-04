@@ -53,6 +53,7 @@ angular.module('metadatamanagementApp').config(
           'variables-tooltip': 'Klicken, um alle Variablen dieses Datenproduktes anzuzeigen.'
         },
         'error': {
+          'synchronize': 'Der Einkaufswagen konnte nicht mit dem Server synchronisiert werden.',
           'customer': {
             'name': {
               'empty': 'Ihr Name darf nicht leer sein.',

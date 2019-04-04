@@ -57,15 +57,32 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     };
 
     var initViewWithOrderResource = function(order) {
+      $rootScope.$broadcast('start-ignoring-404');
+      var isCompletedOrder = false;
       order.$promise.then(function(order) {
-        ShoppingCartService
-          .initShoppingCartProducts(_.get(order, 'products', []), order.id,
-            order.version);
+        if (order.state === 'ORDERED') {
+          ShoppingCartService.completeOrder();
+          isCompletedOrder = true;
+        } else {
+          ShoppingCartService
+            .initShoppingCartProducts(_.get(order, 'products', []), order.id,
+              order.version);
+        }
       }, function(error) {
         if (error.status === 404) {
           ShoppingCartService.clearLocalOrderId();
+        } else {
+          SimpleMessageToastService.openAlertMessageToast(
+            'shopping-cart.error.synchronize');
         }
-      }).finally(ctrl.init);
+      }).finally(function() {
+        $rootScope.$broadcast('stop-ignoring-404');
+        if (isCompletedOrder) {
+          $state.go('shoppingCart');
+        } else {
+          ctrl.init();
+        }
+      });
     };
 
     var loadDataSetCountForProduct = function(product, studyId) {

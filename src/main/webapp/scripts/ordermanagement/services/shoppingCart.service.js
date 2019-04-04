@@ -3,8 +3,9 @@
 
 angular.module('metadatamanagementApp').service('ShoppingCartService',
   function(OrderResource, StudyResource, localStorageService,
-           SimpleMessageToastService, ProjectReleaseService, $rootScope) {
+           SimpleMessageToastService, ProjectReleaseService, $rootScope, $q) {
 
+    var SYNCHRONIZE_FAILURE_KEY = 'shopping-cart.error.synchronize';
     var SHOPPING_CART_KEY = 'shoppingCart';
     var ORDER_ID_KEY = 'shoppingCart.orderId';
     var VERSION_KEY = 'shoppingCart.version';
@@ -12,6 +13,11 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var products = localStorageService.get(SHOPPING_CART_KEY) || [];
     var orderId = localStorageService.get(ORDER_ID_KEY);
     var version = localStorageService.get(VERSION_KEY);
+    var synchronizePromise;
+
+    var showSynchronizeErrorMessage = function() {
+      SimpleMessageToastService.openAlertMessageToast(SYNCHRONIZE_FAILURE_KEY);
+    };
 
     var _setOrderVersion = function(newVersion) {
       version = newVersion;
@@ -100,7 +106,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         var removed = _.remove(order.products, function(productInOrder) {
           return productInOrder.study.id === product.study.id &&
             productInOrder.version === product.version &&
-          productInOrder.accessWay === product.accessWay;
+            productInOrder.accessWay === product.accessWay;
         });
 
         if (removed.length > 0) {
@@ -139,7 +145,9 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var add = function(product) {
       var normalizedProduct = _stripVersionSuffix(product);
       if (orderId) {
-        _addProductToExistingOrder(normalizedProduct);
+        synchronizePromise.then(function() {
+          _addProductToExistingOrder(normalizedProduct);
+        }, showSynchronizeErrorMessage);
       } else {
         _addProductToLocalShoppingCart(normalizedProduct);
       }
@@ -148,7 +156,9 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var remove = function(product) {
       var normalizedProduct = _stripVersionSuffix(product);
       if (orderId) {
-        _removeProductFromExistingOrder(normalizedProduct);
+        synchronizePromise.then(function() {
+          _removeProductFromExistingOrder(normalizedProduct);
+        }, showSynchronizeErrorMessage);
       } else {
         _removeProductFromLocalShoppingCart(normalizedProduct);
       }
@@ -156,7 +166,9 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
 
     var clearProducts = function() {
       if (orderId) {
-        _clearProductsFromExistingOrder();
+        synchronizePromise.then(function() {
+          _clearProductsFromExistingOrder();
+        }, showSynchronizeErrorMessage);
       } else {
         _clearLocalShoppingCart();
       }
@@ -223,6 +235,33 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var getVersion = function() {
       return version;
     };
+
+    var synchronizeExistingOrder = function() {
+      if (orderId) {
+        $rootScope.$broadcast('start-ignoring-404');
+        var deferred = $q.defer();
+        synchronizePromise = deferred.promise;
+        OrderResource.get({id: orderId}).$promise.then(function(order) {
+          if (order.state === 'ORDERED') {
+            completeOrder();
+            deferred.resolve();
+          }
+        }, function(error) {
+          if (error.status === 404) {
+            completeOrder();
+            deferred.resolve();
+          } else {
+            deferred.reject();
+          }
+        }).finally(function() {
+          $rootScope.$broadcast('stop-ignoring-404');
+        });
+      } else {
+        synchronizePromise = $q.resolve();
+      }
+    };
+
+    synchronizeExistingOrder();
 
     return {
       add: add,
