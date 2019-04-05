@@ -19,7 +19,7 @@ addons:
       - g++-4.9
 stages:
     - name: build
-      if: NOT (branch =~ /^saikotitis.*$/ || branch =~ /^(development|master)$/)
+      if: NOT (branch =~ /^saikotitis.*$/ || branch =~ /^(development|master|test)$/)
     - name: build and deploy
       if: branch =~ /^(development|master|test)$/
     - name: e2e smoketests
