@@ -678,16 +678,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>build-info</goal>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
-                    <finalName>metadatamanagement-${project.activeProfiles[0].id}</finalName>
                     <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
                     <arguments>
                         <argument>--spring-boot.run.profiles=local</argument>
@@ -800,6 +791,7 @@
         <profile>
             <id>dev</id>
             <build>
+                <finalName>metadatamanagement-dev</finalName>
                 <plugins>
                     <plugin>
                         <groupId>com.github.trecloux</groupId>
@@ -853,6 +845,7 @@
         <profile>
             <id>test</id>
             <build>
+                <finalName>metadatamanagement-test</finalName>
                 <plugins>
                     <plugin>
                         <groupId>com.github.trecloux</groupId>
@@ -906,6 +899,7 @@
         <profile>
             <id>prod</id>
             <build>
+                <finalName>metadatamanagement-prod</finalName>
                 <plugins>
                     <plugin>
                         <groupId>com.github.trecloux</groupId>
