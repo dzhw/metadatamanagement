@@ -9,6 +9,7 @@ ${TOAST_MSSG_SINGLE}   Erzeugen von Tex Dokument Abgebrochen!
 *** Test Cases ***
 Upload folder and single file in Dataset editor
     [Tags]  localonly   chromeonly
+    Pass Execution If    '${BROWSER}' == 'chrome'   to avoid failing in chrome at saucelab
     Select project by name    gra2005
     Click on data set tab
     Click on search result by id    dat-gra2005-ds2$
@@ -16,9 +17,10 @@ Upload folder and single file in Dataset editor
     Upload Variable Report Template Folder
     Close The Toast Message for Complete Template   ${TOAST_MSSG_COMP}
     Sleep    5s   # Sleep is needed to wait for uploading the variable report
-    #Click to generate variable report
-    #Upload Variable Report Template Single File
-    #Close The Toast Message for Single File   ${TOAST_MSSG_SINGLE}
+    Click to generate variable report
+    Upload Variable Report Template Single File
+    Close The Toast Message for Single File   ${TOAST_MSSG_SINGLE}
+    Sleep    5s
     Get back to home page and deselect project
 
 *** Keywords ***
@@ -32,8 +34,8 @@ Click to generate variable report
 Upload Variable Report Template Folder
     Press Key    xpath=//input[@type='file' and @ngf-select='ctrl.uploadTexTemplate($files)'][1]   ${CURDIR}/template   # template folder contains all the required files
 
-#Upload Variable Report Template Single File
-    #Press Key   xpath=//input[@type='file' and @ngf-select='ctrl.uploadTexTemplate($files)'][1]   ${CURDIR}/singlefile  # singlefile folder contains only a single file
+Upload Variable Report Template Single File
+    Choose File   xpath=//input[@type='file' and @ngf-select='ctrl.uploadTexTemplate($files)'][1]   ${CURDIR}/singlefile/Variablelist.tex  # singlefile folder contains only a single file
 
 Close The Toast Message for Complete Template
     [Arguments]  ${TOAST_MSSG}

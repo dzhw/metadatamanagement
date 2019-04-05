@@ -7,6 +7,7 @@ Resource          ../../resources/login_resource.robot
 
 *** Test Cases ***
 Upload file in survey editor
+    Pass Execution If    '${BROWSER}' == 'chrome'   temporary solution
     Select project by name    fileuploadproject
     Click on surveys tab
     Click on search result by id    sur-fileuploadproject-sy1$

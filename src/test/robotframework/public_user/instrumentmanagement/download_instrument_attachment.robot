@@ -5,6 +5,8 @@ Resource          ../../resources/home_page_resource.robot
 
 *** Test Cases ***
 Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
+    Pass Execution If    '${BROWSER}' == 'edge'    Switching windows fails in EDGE
+    Pass Execution If    '${BROWSER}' == 'ie'    Switching windows fails in IE
     Click on instruments tab
     Search for    Absolventenpanel 2005 Fragebogen Erste Welle
     Click on search result by id    ins-gra2005-ins1$
@@ -15,7 +17,7 @@ Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
 
 *** Keywords ***
 Click on questionnaire
-    Click Element Through Tooltips    xpath=//md-card//a[contains(text(),'gra2005_W1_Questionnaire_de.pdf')]
+    Click Element Through Tooltips    xpath=//md-card[@ng-if="ctrl.attachments"]//a[contains(text(),'gra2005_W1_Questionnaire_de.pdf')]
 
 Switch windows forth and back
     Select Window    NEW
