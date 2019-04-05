@@ -4,7 +4,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainO
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
-import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidMasterId;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.SetHasBeenReleasedBeforeOnlyOnce;
@@ -29,6 +28,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -54,8 +54,6 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @Builder
-@ValidMasterId(pattern = Patterns.ALPHANUMERIC, message = "data-acquisition-project-management."
-    + "error.data-acquisition-project.master-id.pattern")
 @ValidShadowId(message = "data-acquisition-project-management.error.data-acquisition-project."
     + "id.pattern")
 public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
@@ -64,18 +62,27 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
   private static final long serialVersionUID = 1549622375585915772L;
 
   /**
-   * The id of this project.
-   * 
-   * Must not be empty and must only contain lower cased (english) letters and numbers. Must not
-   * contain more than 32 characters.
+   * The id of this project. Must not be empty
    */
   @Id
   @NotEmpty(message = "data-acquisition-project-management.error."
       + "data-acquisition-project.id.not-empty")
-  @Size(max = StringLengths.SMALL,
-      message = "data-acquisition-project-management.error.data-acquisition-project.id.size")
   @Setter(AccessLevel.NONE)
   private String id;
+
+  /**
+   * The master id of this project.
+   * Must not be empty, must only contain lower cased (english) letters and numbers and must not
+   * contain more than 32 characters.
+   */
+  @NotEmpty(message = "data-acquisition-project-management.error."
+      + "data-acquisition-project.master-id.not-empty")
+  @Size(max = StringLengths.SMALL,
+      message = "data-acquisition-project-management.error.data-acquisition-project.master-id.size")
+  @Pattern(regexp = Patterns.ALPHANUMERIC, message = "data-acquisition-project-management."
+      + "error.data-acquisition-project.master-id.pattern")
+  @Setter(AccessLevel.NONE)
+  private String masterId;
 
   /**
    * Flag indicating whether this project has ever been released in its life. It is used to ensure
@@ -121,6 +128,11 @@ public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject
 
   public DataAcquisitionProject(DataAcquisitionProject dataAcquisitionProject) {
     BeanUtils.copyProperties(dataAcquisitionProject, this);
+  }
+
+  @Override
+  protected void setMasterIdInternal(String masterId) {
+    this.masterId = masterId;
   }
 
   @Override

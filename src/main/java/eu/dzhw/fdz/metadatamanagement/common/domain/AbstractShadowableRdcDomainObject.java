@@ -17,12 +17,6 @@ import lombok.Setter;
 public abstract class AbstractShadowableRdcDomainObject extends AbstractRdcDomainObject {
 
   /**
-   * The id shared between all shadow copies of a domain object. It points to
-   * the most recent version of the domain object.
-   */
-  private String masterId;
-
-  /**
    * The document id which is the successor to this shadow copy.
    */
   private String successorId;
@@ -40,8 +34,8 @@ public abstract class AbstractShadowableRdcDomainObject extends AbstractRdcDomai
    * @param masterId Master id
    */
   public final void setMasterId(String masterId) {
-    this.masterId = masterId;
-    this.shadow = !Objects.equals(masterId, getId());
+    setMasterIdInternal(masterId);
+    this.shadow = !Objects.equals(getMasterId(), getId());
   }
 
   /**
@@ -51,13 +45,21 @@ public abstract class AbstractShadowableRdcDomainObject extends AbstractRdcDomai
    */
   public final void setId(String id) {
     setIdInternal(id);
-    this.shadow = !Objects.equals(masterId, getId());
+    this.shadow = !Objects.equals(getMasterId(), getId());
   }
+
+  /**
+   * Set masterId on implementations of {@link AbstractShadowableRdcDomainObject}.
+   * @param masterId Master Id
+   */
+  protected abstract void setMasterIdInternal(String masterId);
 
   /**
    * Set id on implementation of {@link AbstractShadowableRdcDomainObject}.
    * @param id Id
    */
   protected abstract void setIdInternal(String id);
+
+  public abstract String getMasterId();
 
 }

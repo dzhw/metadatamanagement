@@ -6,6 +6,7 @@ import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -14,7 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.time.LocalDateTime;
@@ -44,7 +44,7 @@ public class SurveyShadowCopyDataSourceTest extends AbstractTest {
   private SurveyShadowCopyDataSource surveyShadowCopyDataProvider;
 
   @Mock
-  private ApplicationEventPublisher applicationEventPublisher;
+  private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
 
   private DataAcquisitionProject project;
 
@@ -53,7 +53,7 @@ public class SurveyShadowCopyDataSourceTest extends AbstractTest {
   @Before
   public void setUp() {
     release = new Release("1.0.0", LocalDateTime.now());
-    shadowCopyService = new ShadowCopyService<>();
+    shadowCopyService = new ShadowCopyService<>(dataAcquisitionProjectVersionsService);
     DataAcquisitionProject unreleasedProject = UnitTestCreateDomainObjectUtils
         .buildDataAcquisitionProject();
     unreleasedProject.setRelease(null);

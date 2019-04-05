@@ -10,6 +10,80 @@ https://github.com/plotly/plotly.js/compare/vX.Y.Z...master
 where X.Y.Z is the semver of most recent plotly.js release.
 
 
+## [1.46.1] -- 2019-04-02
+
+### Fixed
+- Fix `bar` traces that set `textfont` but don't have `text`
+  (bug introduced in 1.46.0) [#3715]
+- Fix hover text formatting in `waterfall` traces [#3711]
+- Fix `surface` and `mesh3d` color scales with more than 256 items [#3702]
+
+
+## [1.46.0] -- 2019-04-01
+
+### Added
+- New `waterfall` trace type [#3531, #3708]
+- New `sunburst` trace type [#3594]
+- Add attributes `node.x` and `node.y` to `sankey` traces [#3583]
+- Implement `connectgaps` on `surface` traces [#3638]
+- Implement `hovertemplate` for `box` and `violin` points [#3685]
+
+### Changed
+- Display hover labels above modebar, ensuring that the hover labels
+  are always visible within the graph div [#3589, #3678]
+
+### Fixed
+- Fix horizontal legend item wrapping by pushing overflowed items to newline [#3628]
+- Fix erroneous gap for histogram under relative `barmode` [#3652]
+- Fix position of overlapping grouped bars within trace [#3680]
+- Fix `violin` `bandwidth` logic for traces with identical values in sample [#3626]
+- Fix `violin` trace `scalegroup` description [#3687]
+- Fix stacked scatter for groupby traces [#3692]
+- Fix outside text on empty items in `bar` traces under `textposition: 'outside'` [#3701]
+- Fix `pie` un-hover event emission after updates [#3662, 3690]
+- Fix `scatter` line decimation algo for filled trace with far-away data points [#3696]
+- Fix `heatmap` and `contour` computation for traces with category coordinates containing `0` [#3691]
+- Fix zoom interactions on gl3d subplots using an orthographic projection [#3601]
+- Fix miscellaneous gl3d camera on-initialization bugs [#3585]
+- Fix `surface` contour line rendering in some Firefox versions [#3670]
+- Fix rendering of marker points and gl3d subplots on date axes (or with coordinates close to 64K floating limits)
+  for WebGL-based traces on some iOS devices [#3666, #3672, #3674, #3676]
+- Fix center-aligned hover labels positioning [#3681]
+
+
+## [1.45.3] -- 2019-03-19
+
+### Fixed
+- Fix legend click dispatch on legend item symbols (bug introduced in 1.44.0) [#3635]
+- Fix overlapping of "very close" hover labels [#3645]
+- Fix `hovermode` default logic for stacked `scatter` traces [#3646]
+- Fix `glPixelRatio` handling in `surface` contour lines [#3641]
+- Fix `gl2d` subplot zoombox appearance (bug introduced in 1.32.0) [#3647]
+- Fix axis label updates on `gl2d` subplots on scroll (bug introduced in 1.32.0) [#3647]
+- Fix `dragmode` relayout calls on `gl2d` subplots [#3647]
+- Improve info about `<extra>` in `hovertemplate` description [#3623]
+
+
+## [1.45.2] -- 2019-03-07
+
+### Fixed
+- Fix webpack builds that include `sankey` by upgrading d3-sankey-circular to 0.33.0 (bug introduced in 1.45.0) [#3611]
+
+## [1.45.1] -- 2019-03-05
+
+### Fixed
+- Fix axis automargin pushes for rotated tick labels [#3605]
+- Fix automargin logic on (very) small graphs [#3605]
+- Fix locales support in `hovertemplate` strings [#3586]
+- Fix gl3d reset camera buttons for scenes with orthographic projection [#3597]
+- Fix typed array support for `parcoords` dimensions values and `line.color` [#3598]
+- Fix `cone` rendering on some older browsers [#3591]
+- Fix `lightposition` behavior for `cone` traces [#3591]
+- Fix `lightposition` behavior for `streamtube` trace [#3593]
+- Remove unused files from `gl-cone3d` dependency [#3591]
+- Remove unused files from `gl-streamtube3d` dependency [#3593]
+
+
 ## [1.45.0] -- 2019-02-26
 
 ### Added

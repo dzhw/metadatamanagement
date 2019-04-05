@@ -8,13 +8,13 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.time.LocalDateTime;
@@ -44,7 +44,7 @@ public class InstrumentShadowCopyDataSourceTest extends AbstractTest {
   private InstrumentShadowCopyDataSource shadowCopyDataSource;
 
   @Mock
-  private ApplicationEventPublisher applicationEventPublisher;
+  private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
 
   private DataAcquisitionProject project;
 
@@ -53,7 +53,7 @@ public class InstrumentShadowCopyDataSourceTest extends AbstractTest {
   @Before
   public void setUp() {
     release = new Release("1.0.0", LocalDateTime.now());
-    shadowCopyService = new ShadowCopyService<>();
+    shadowCopyService = new ShadowCopyService<>(dataAcquisitionProjectVersionsService);
     DataAcquisitionProject releasedProject = UnitTestCreateDomainObjectUtils
         .buildDataAcquisitionProject();
     releasedProject.setRelease(release);

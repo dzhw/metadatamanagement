@@ -67,6 +67,17 @@
       <freetext>Application necessary under https://metadata.fdz.dzhw.eu/#!/en/studies/${study.id}?version=${dataAcquisitionProject.release.version}</freetext>
     </availabilityFree>
   </availability>
+  <classifications>
+    <classification>
+      <classificationExternal>
+        <language>de</language>
+        <classificationSchema>VerbundFDB</classificationSchema>
+        <terms>
+          <term>VerbundFDB</term>
+        </terms>
+      </classificationExternal>
+    </classification>
+  </classifications>
   <freeKeywords>
       <freeKeyword>
           <language>de</language>
@@ -140,7 +151,7 @@
       <sampled>
         <ul>
         <#list surveys as survey>
-          <li><strong>${survey.title.en}:</strong> 
+          <li><strong>${survey.title.en}:</strong>
           ${survey.population.description.en}
           </li>
         </#list>
@@ -148,6 +159,18 @@
       </sampled>
     </universe>
   </universes>
+  <#if surveySamplesMap?? && surveySamplesMap?size gt 0>
+  <samplings>
+    <sampling>
+        <language>de</language>
+        <method>${surveySamplesMap['de']}</method>
+    </sampling>
+    <sampling>
+        <language>en</language>
+        <method>${surveySamplesMap['en']}</method>
+    </sampling>
+  </samplings>
+  </#if>
   <#if surveys?? && surveys?size gt 0>
     <temporalCoverages>
       <#list surveys as survey>
@@ -204,11 +227,12 @@
       </fundingReference>
     </fundingReferences>
   </#if>
-  <#if surveys?? && surveys?size gt 0>
+  
     <collectionModes>
       <#list surveys as survey>
-        <#if survey.surveyMethod??>
+        <#list surveyToCollectionModesMap[survey.getId()] as collectionMode>
           <collectionMode>
+          	<collectionModeType>${collectionMode}</collectionModeType>
             <collectionModesFree>
               <#if survey.surveyMethod.de??>
                 <collectionModeFree>
@@ -224,10 +248,10 @@
               </#if>
             </collectionModesFree>
           </collectionMode>
-        </#if>
+        </#list>
       </#list>
     </collectionModes>
-  </#if>
+  
   <#if dataSets?? && dataSets?size gt 0>
     <dataSets>
       <#list dataSets as dataSet>
@@ -248,22 +272,18 @@
       </#list>
     </dataSets>
   </#if>
-  <#if study.annotations?? && (study.annotations.de?? || study.annotations.en??)>
-    <notes>
-      <#if study.annotations.de??>
-        <note>
-          <language>de</language>
-          <text>Anmerkungen zur Studie: ${study.annotations.de}</text>
-        </note>
-      </#if>
-      <#if study.annotations.en??>
-        <note>
-          <language>en</language>
-          <text>Comments on the study: ${study.annotations.en}</text>
-        </note>
-      </#if>
-    </notes>
-  </#if>
+  <notes>
+    <note>
+      <language>de</language>
+      <text><#if study.annotations?? && study.annotations.de??>Anmerkungen zur Studie: ${study.annotations.de}; </#if>Untersuchungseinheit: ${surveyUnits}</text>
+    </note>
+    <#if study.annotations?? && study.annotations.en??>
+      <note>
+        <language>en</language>
+        <text>Comments on the study: ${study.annotations.en}</text>
+      </note>
+    </#if>
+  </notes>
   <#if previousDoi??>
     <relations>
       <relation>

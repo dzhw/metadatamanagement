@@ -1,10 +1,48 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
+import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import com.google.common.base.Charsets;
+
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.CollectionModes;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentTypes;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.FreeResourceTypes;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
@@ -27,37 +65,6 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.NotImplementedException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
-import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Access component for getting health information or registration or updates for dara and the doi.
@@ -88,6 +95,9 @@ public class DaraService {
 
   @Autowired
   private VariableRepository variableRepository;
+
+  @Autowired
+  private InstrumentRepository instrumentRepository;
 
   @Autowired
   private RelatedPublicationRepository relatedPublicationRepository;
@@ -125,7 +135,7 @@ public class DaraService {
 
   /**
    * Check the dara health endpoint.
-   * 
+   *
    * @return Returns the status of the dara server.
    */
   public boolean isDaraHealthy() {
@@ -140,7 +150,7 @@ public class DaraService {
 
   /**
    * Registers or updates a dataset with a given doi to dara.
-   * 
+   *
    * @param project The Project.
    * @return The HttpStatus from Dara Returns a false, if something gone wrong.
    * @throws IOException the io exception for non readable xml file.
@@ -163,7 +173,7 @@ public class DaraService {
 
   /**
    * Registers or updates a dataset with a given doi to dara.
-   * 
+   *
    * @param projectId The id of the Project.
    * @return The HttpStatus from Dara Returns a false, if something gone wrong.
    * @throws IOException the io exception for non readable xml file.
@@ -179,7 +189,7 @@ public class DaraService {
 
   /**
    * This is the kernel method for registration, update and unregister of a doi element.
-   * 
+   *
    * @param filledTemplate The filled and used template.
    * @return the HttpStatus from Dara.
    */
@@ -237,7 +247,7 @@ public class DaraService {
   /**
    * Load all needed Data for the XML Templates. The data is callable in freemarker by: study
    * releaseDate availabilityControlled resourceType
-   * 
+   *
    * @param project The project to find the study.
    * @return Returns a Map of names and the depending objects. If the key is 'study' so the study
    *         object is the value. Study is the name for the object use in freemarker.
@@ -270,7 +280,12 @@ public class DaraService {
     List<Survey> surveys =
         this.surveyRepository.findByDataAcquisitionProjectIdOrderByNumber(projectId);
     dataForTemplate.put("surveys", surveys);
+
+    dataForTemplate.put("surveyUnits", concatenateUnits(surveys));
+
     dataForTemplate.put("geographicCoverages", deduplicateGeographicCoverages(surveys));
+
+    dataForTemplate.put("surveySamplesMap", concatenateSurveySamplesByLanguage(surveys));
 
     // Get Datasets Information
     List<DataSet> dataSets = this.dataSetRepository.findByDataAcquisitionProjectId(projectId);
@@ -301,13 +316,71 @@ public class DaraService {
     // Add Time Dimension
     dataForTemplate.put("timeDimension", computeTimeDimension(study));
 
+    // Add data for collection mode
+    dataForTemplate.put("surveyToCollectionModesMap", computeSurveyToCollectionModesMap(surveys));
+
     return dataForTemplate;
+  }
+
+
+  private String concatenateUnits(List<Survey> surveys) {
+    return String.join("; ", surveys.stream()
+        .map(survey -> survey.getPopulation().getUnit().getDe())
+        .collect(Collectors.toSet()));
+  }
+
+  private Map<String, List<String>> computeSurveyToCollectionModesMap(List<Survey> surveys) {
+    Map<String, List<String>> surveyToCollectionModesMap = new HashMap<>();
+    for (Survey survey : surveys) {
+      List<InstrumentSubDocumentProjection> instruments =
+          instrumentRepository.findSubDocumentsBySurveyIdsContaining(survey.getId());
+      List<String> collectionModes = new ArrayList<String>(instruments.size());
+      for (InstrumentSubDocumentProjection instrument : instruments) {
+        switch (instrument.getType()) {
+          case InstrumentTypes.CAPI:
+            collectionModes.add(CollectionModes.INTERVIEW_FACETOFACE_CAPICAMI);
+            break;
+          case InstrumentTypes.CATI:
+            collectionModes.add(CollectionModes.INTERVIEW_TELEPHONE_CATI);
+            break;
+          case InstrumentTypes.CAWI:
+            collectionModes.add(CollectionModes.SELFADMINISTEREDQUESTIONNAIRE_WEBBASED);
+            break;
+          case InstrumentTypes.PAPI:
+            collectionModes.add(CollectionModes.SELFADMINISTEREDQUESTIONNAIRE_PAPER);
+            break;
+          case InstrumentTypes.INTERVIEW:
+            collectionModes.add(CollectionModes.INTERVIEW_FACETOFACE);
+            break;
+          default:
+            throw new NotImplementedException(
+                "There is no mapping to DARAs collectionMode for the instrument type "
+                    + instrument.getType());
+        }
+      }
+      surveyToCollectionModesMap.put(survey.getId(), collectionModes);
+    }
+    return surveyToCollectionModesMap;
   }
 
   private Set<GeographicCoverage> deduplicateGeographicCoverages(List<Survey> surveys) {
     return surveys.stream()
         .flatMap(survey -> survey.getPopulation().getGeographicCoverages()
             .stream()).collect(Collectors.toSet());
+
+  }
+
+  private Map<String, String> concatenateSurveySamplesByLanguage(List<Survey> surveys) {
+    Set<I18nString> samples = surveys.stream()
+        .map(Survey::getSample)
+        .collect(Collectors.toSet());
+
+    Map<String,String> samplesGroupedByLanguage = new HashMap<>();
+    String german = samples.stream().map(I18nString::getDe).collect(Collectors.joining("; "));
+    samplesGroupedByLanguage.put("de", german);
+    String english = samples.stream().map(I18nString::getEn).collect(Collectors.joining("; "));
+    samplesGroupedByLanguage.put("en", english);
+    return samplesGroupedByLanguage;
   }
 
   private String computeTimeDimension(Study study) {
@@ -343,7 +416,7 @@ public class DaraService {
 
   /**
    * Get the configuration for freemarker.
-   * 
+   *
    * @return a configratution object for the registration.
    */
   private Configuration getTemplateConfiguration() {
@@ -381,7 +454,7 @@ public class DaraService {
 
   /**
    * Returns dara api endpont.
-   * 
+   *
    * @return the api endpoint given by the configuration.
    */
   public String getApiEndpoint() {

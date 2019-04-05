@@ -45,6 +45,8 @@ pytest: depends py python/dist/*
 		$(PYTHON) --version && \
 		./jsbeautifier/tests/shell-test.sh
 
+alltest: jstest pytest
+
 package: js py build/*.tgz python/dist/*
 
 
@@ -115,6 +117,7 @@ update: depends
 $(BUILD_DIR)/node: package.json package-lock.json | $(BUILD_DIR)
 	@$(NODE) --version
 	$(NPM) install
+	$(NPM) --version
 	@touch $(BUILD_DIR)/node
 
 $(BUILD_DIR)/python: python/setup.py | $(BUILD_DIR) $(BUILD_DIR)/virtualenv

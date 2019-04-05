@@ -1,6 +1,10 @@
 <!doctype html>
-<html lang="en-US" dir="ltr" prefix="og:http://ogp.me/ns# fb:http://ogp.me/ns/fb#">
-<!--
+<html lang="en-US" dir="ltr" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+
+<head>
+  <meta charset="utf-8" /><!-- The <meta> element must be within the first 1024 bytes of the HTML -->
+
+  <!--
   The MIT License (MIT)
 
   Copyright (c) 2007-2018 Einar Lielmanis, Liam Newman, and contributors.
@@ -26,10 +30,6 @@
   SOFTWARE.
   -->
 
-<head>
-
-  <meta charset="utf-8" />
-  <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
   <!-- if you feel an urge to move this to bootstrap or something, you're most welcome -->
   <title>Online JavaScript beautifier</title>
   <link rel="icon" href="web/favicon.png" type="image/png">
@@ -53,9 +53,8 @@
   <script src="web/common-function.js"></script>
 </head>
 
-<h1>Online JavaScript Beautifier <span id="version-number"></span></h1>
-
 <body>
+  <h1>Online JavaScript Beautifier <span id="version-number"></span></h1>
 
   <div id="about">
     <p>
@@ -64,6 +63,13 @@
     <p>
       All of the source code is completely free and open, available on <a href="https://github.com/beautify-web/js-beautify">GitHub</a> under MIT licence,
       <br>and we have a command-line version, python library and a <a href="https://npmjs.org/package/js-beautify">node package</a> as well.
+    </p>
+    <p>
+      <select name="language" id="language">
+        <option value="css">Beautify CSS</option>
+        <option value="html">Beautify HTML</option>
+        <option value="js">Beautify JavaScript</option>
+      </select>
     </p>
   </div>
 
@@ -154,6 +160,9 @@
         <br>
         <input class="checkbox" type="checkbox" id="indent-inner-html">
         <label for="indent-inner-html">Indent &lt;head&gt; and &lt;body&gt; sections?</label>
+        <br>
+        <input class="checkbox" type="checkbox" id="indent-empty-lines">
+        <label for="indent-empty-lines">Keep indentation on empty lines?</label>
         <br><a href="?without-codemirror" class="turn-off-codemirror">Use a simple textarea for code input?</a>
 
 
@@ -162,16 +171,10 @@
   </table>
 
   <div style="line-height: 0">
-    <select name="language" id="language">
-      <option value="auto">Auto Detect</option>
-      <option value="css">CSS</option>
-      <option value="html">HTML</option>
-      <option value="js">JavaScript</option>
-    </select>
-    <button class="submit"><strong>Beautify JavaScript or HTML</strong> <em>(ctrl-enter)</em>
+    <button class="submit"><strong>Beautify Code</strong> <em>(ctrl-enter)</em>
     </button>
     <textarea id="source" rows="30" cols="160"></textarea>
-    <button class="submit"><strong>Beautify JavaScript or HTML</strong> <em>(ctrl-enter)</em>
+    <button class="submit"><strong>Beautify Code</strong> <em>(ctrl-enter)</em>
     </button>
   </div>
 
@@ -224,7 +227,7 @@
     </div>
     <div class="col-6">
       <ul class="uses">
-        <li><a href="https://marketplace.visualstudio.com/items/HookyQR.beautify">Beautify plugin</a> (<a href="https://github.com/HookyQR/VSCodeBeautify">github</a>) by HookyQR for the <a href="https://code.visualstudio.com/">Visual Studio Code</a> IDE</a>,</li>
+        <li><a href="https://marketplace.visualstudio.com/items/HookyQR.beautify">Beautify plugin</a> (<a href="https://github.com/HookyQR/VSCodeBeautify">github</a>) by HookyQR for the <a href="https://code.visualstudio.com/">Visual Studio Code</a> IDE,</li>
         <li><a href="http://fiddler2.com/">Fiddler</a> proxy: <a href="http://fiddler2.com/Fiddler2/extensions.asp">JavaScript Formatter addon</a>,</li>
         <li><a href="https://github.com/nagaozen/gedit-tunnings/">gEdit tips</a> by Fabio Nagao,</li>
         <li><a href="http://akelpad.sourceforge.net/forum/viewtopic.php?p=11246#11246">Akelpad extension</a> by Infocatcher,</li>

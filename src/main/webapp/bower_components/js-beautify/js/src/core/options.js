@@ -46,15 +46,26 @@ function Options(options, merge_child_field) {
     this.max_preserve_newlines = 0;
   }
 
-  this.indent_with_tabs = this._get_boolean('indent_with_tabs');
+  this.indent_with_tabs = this._get_boolean('indent_with_tabs', this.indent_char === '\t');
   if (this.indent_with_tabs) {
     this.indent_char = '\t';
-    this.indent_size = 1;
+
+    // indent_size behavior changed after 1.8.6
+    // It used to be that indent_size would be
+    // set to 1 for indent_with_tabs. That is no longer needed and
+    // actually doesn't make sense - why not use spaces? Further,
+    // that might produce unexpected behavior - tabs being used
+    // for single-column alignment. So, when indent_with_tabs is true
+    // and indent_size is 1, reset indent_size to 4.
+    if (this.indent_size === 1) {
+      this.indent_size = 4;
+    }
   }
 
   // Backwards compat with 1.3.x
   this.wrap_line_length = this._get_number('wrap_line_length', this._get_number('max_char'));
 
+  this.indent_empty_lines = this._get_boolean('indent_empty_lines');
 }
 
 Options.prototype._get_array = function(name, default_value) {
