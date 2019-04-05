@@ -17,7 +17,7 @@
                          flex="100" flex-gt-sm="50"
                          ng-disabled="isDisabled">
             <md-item-template>
-                {{country[language]}}
+                <span class="md-title" style="font-size: 14px;" md-highlight-text="countryStr" md-highlight-flags="ig">{{country[language]}}</span>
             </md-item-template>
             <md-not-found>
                 {{'survey-management.geographic-coverage.label.country-not-found' | translate}}

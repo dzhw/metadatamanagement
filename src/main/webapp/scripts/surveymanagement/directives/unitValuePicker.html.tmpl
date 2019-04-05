@@ -15,7 +15,7 @@
                      md-floating-label="{{'survey-management.unit-value-picker.label' | translate}}"
                      ng-disabled="isDisabled">
         <md-item-template>
-            {{unitValue[language]}}
+            <span class="md-title" style="font-size: 14px;" md-highlight-text="unitValueStr" md-highlight-flags="ig">{{unitValue[language]}}</span>
         </md-item-template>
         <md-not-found>
             {{'survey-management.unit-value-picker.errors.no-match' | translate}}

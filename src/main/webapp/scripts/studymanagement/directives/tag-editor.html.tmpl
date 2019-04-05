@@ -13,7 +13,7 @@
                              md-min-length="0"
                              placeholder="{{'study-management.tag-editor.placeholder' | translate}}">
                 <md-item-template>
-                    {{tag}}
+                    <span md-highlight-text="tagSearchTextDe" md-highlight-flags="ig">{{tag}}</span>
                 </md-item-template>
             </md-autocomplete>
         </md-chips>
@@ -35,7 +35,7 @@
                              md-min-length="0"
                              placeholder="{{'study-management.tag-editor.placeholder' | translate}}">
                 <md-item-template>
-                    {{tag}}
+                    <span md-highlight-text="tagSearchTextEn" md-highlight-flags="ig">{{tag}}</span>
                 </md-item-template>
             </md-autocomplete>
         </md-chips>
