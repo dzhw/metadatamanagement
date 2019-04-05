@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.14-master-7674959
+ * v1.1.17
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -1842,7 +1842,7 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
     /**
      * Animate the requested element's scrollTop to the requested scrollPosition with basic easing.
      *
-     * @param {!HTMLElement} element The element to scroll.
+     * @param {!Element} element The element to scroll.
      * @param {number} scrollEnd The new/final scroll position.
      * @param {number=} duration Duration of the scroll. Default is 1000ms.
      */
@@ -32904,7 +32904,7 @@ function SliderDirective($$rAF, $window, $mdAria, $mdUtil, $mdConstant, $mdThemi
 
     if (tAttrs.disabled || tAttrs.ngDisabled) wrapper.attr('tabindex', -1);
 
-    tElement.attr('role', 'slider');
+    wrapper.attr('role', 'slider');
 
     $mdAria.expect(tElement, 'aria-label');
 
@@ -33003,13 +33003,13 @@ function SliderDirective($$rAF, $window, $mdAria, $mdUtil, $mdConstant, $mdThemi
     function updateMin(value) {
       min = parseFloat(value);
       ngModelCtrl.$viewValue = minMaxValidator(ngModelCtrl.$modelValue, min, max);
-      element.attr('aria-valuemin', value);
+      wrapper.attr('aria-valuemin', value);
       updateAll();
     }
     function updateMax(value) {
       max = parseFloat(value);
       ngModelCtrl.$viewValue = minMaxValidator(ngModelCtrl.$modelValue, min, max);
-      element.attr('aria-valuemax', value);
+      wrapper.attr('aria-valuemax', value);
       updateAll();
     }
     function updateStep(value) {
@@ -33187,7 +33187,7 @@ function SliderDirective($$rAF, $window, $mdAria, $mdUtil, $mdConstant, $mdThemi
 
       var percent = valueToPercent(ngModelCtrl.$viewValue);
       scope.modelValue = ngModelCtrl.$viewValue;
-      element.attr('aria-valuenow', ngModelCtrl.$viewValue);
+      wrapper.attr('aria-valuenow', ngModelCtrl.$viewValue);
       setSliderPercent(percent);
       thumbText.text(ngModelCtrl.$viewValue);
     }
@@ -34493,7 +34493,7 @@ function MdTabScroll ($parse) {
     compile: function ($element, attr) {
       var fn = $parse(attr.mdTabScroll, null, true);
       return function ngEventHandler (scope, element) {
-        element.on('mousewheel', function (event) {
+        element.on('wheel', function (event) {
           scope.$apply(function () { fn(scope, { $event: event }); });
         });
       };
@@ -34856,12 +34856,16 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
 
   /**
    * When pagination is on, this makes sure the selected index is in view.
-   * @param event
+   * @param {WheelEvent} event
    */
   function scroll (event) {
     if (!ctrl.shouldPaginate) return;
     event.preventDefault();
-    ctrl.offsetLeft = fixOffset(ctrl.offsetLeft - event.wheelDelta);
+    if (event.deltaY) {
+      ctrl.offsetLeft = fixOffset(ctrl.offsetLeft + event.deltaY);
+    } else if (event.deltaX) {
+      ctrl.offsetLeft = fixOffset(ctrl.offsetLeft + event.deltaX);
+    }
   }
 
   /**
@@ -35415,8 +35419,8 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
 
   /**
    * Takes an offset value and makes sure that it is within the min/max allowed values.
-   * @param value
-   * @returns {*}
+   * @param {number} value
+   * @returns {number}
    */
   function fixOffset (value) {
     var elements = getElements();
@@ -38363,4 +38367,4 @@ angular.module("material.core").constant("$MD_THEME_CSS", "md-autocomplete.md-TH
 })();
 
 
-})(window, window.angular);;window.ngMaterial={version:{full: "1.1.14-master-7674959"}};
+})(window, window.angular);;window.ngMaterial={version:{full: "1.1.17"}};
