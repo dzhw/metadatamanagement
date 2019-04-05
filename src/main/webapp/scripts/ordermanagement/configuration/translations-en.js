@@ -54,6 +54,7 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'synchronize': 'Unable to synchronize shopping cart with the server.',
+          'already-completed': 'The order has already been completed. A new shopping cart has been created.',
           'customer': {
             'name': {
               'empty': 'Your name must not be empty.',

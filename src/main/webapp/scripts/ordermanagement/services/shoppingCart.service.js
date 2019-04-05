@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('ShoppingCartService',
-  function(OrderResource, StudyResource, localStorageService,
+  function(OrderResource, StudyResource, localStorageService, $state,
            SimpleMessageToastService, ProjectReleaseService, $rootScope, $q) {
 
     var SYNCHRONIZE_FAILURE_KEY = 'shopping-cart.error.synchronize';
@@ -75,47 +75,83 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       _broadcastShoppingCartChanged();
     };
 
+    var _stripVersionSuffix = function(product) {
+      var normalizedProduct = _.cloneDeep(product);
+
+      normalizedProduct.dataAcquisitionProjectId = ProjectReleaseService
+        .stripVersionSuffix(normalizedProduct.dataAcquisitionProjectId);
+
+      normalizedProduct.study.id = ProjectReleaseService
+        .stripVersionSuffix(normalizedProduct.study.id);
+      return normalizedProduct;
+    };
+
+    var clearOrderData = function() {
+      orderId = '';
+      localStorageService.set(ORDER_ID_KEY, orderId);
+      version = '';
+      localStorageService.set(VERSION_KEY, version);
+    };
+
+    var completeOrder = function() {
+      clearOrderData();
+      _clearLocalShoppingCart();
+    };
+
     var _addProductToExistingOrder = function(product) {
       OrderResource.get({id: orderId}).$promise.then(function(order) {
-        if (_isProductInShoppingCart(products, product)) {
-          _displayProductAlreadyInShoppingCart(product);
+        if (order.state === 'ORDERED') {
+          completeOrder();
+          var normalizedProduct = _stripVersionSuffix(product);
+          _addProductToLocalShoppingCart(normalizedProduct);
         } else {
-          StudyResource.get({id: product.study.id}).$promise
-            .then(function(study) {
-              var newProduct = {
-                dataAcquisitionProjectId: product.dataAcquisitionProjectId,
-                study: study,
-                accessWay: product.accessWay,
-                version: product.version
-              };
+          if (_isProductInShoppingCart(products, product)) {
+            _displayProductAlreadyInShoppingCart(product);
+          } else {
+            StudyResource.get({id: product.study.id}).$promise
+              .then(function(study) {
+                var newProduct = {
+                  dataAcquisitionProjectId: product.dataAcquisitionProjectId,
+                  study: study,
+                  accessWay: product.accessWay,
+                  version: product.version
+                };
 
-              order.products.push(newProduct);
-              OrderResource.update(order).$promise
-                .then(function(response) {
-                    _setOrderVersion(response.version);
-                    _addProductToLocalShoppingCart(product);
-                  },
-                  _displayUpdateOrderError);
-            }, _displayUpdateOrderError);
+                order.products.push(newProduct);
+                OrderResource.update(order).$promise
+                  .then(function(response) {
+                      _setOrderVersion(response.version);
+                      _addProductToLocalShoppingCart(product);
+                    },
+                    _displayUpdateOrderError);
+              }, _displayUpdateOrderError);
+          }
         }
       }, _displayUpdateOrderError);
     };
 
     var _removeProductFromExistingOrder = function(product) {
       OrderResource.get({id: orderId}).$promise.then(function(order) {
-        var removed = _.remove(order.products, function(productInOrder) {
-          return productInOrder.study.id === product.study.id &&
-            productInOrder.version === product.version &&
-            productInOrder.accessWay === product.accessWay;
-        });
+        if (order.state === 'ORDERED') {
+          completeOrder();
+          SimpleMessageToastService.openAlertMessageToast(
+            'shopping-cart.error.already-completed');
+          $state.go('shoppingCart');
+        } else {
+          var removed = _.remove(order.products, function(productInOrder) {
+            return productInOrder.study.id === product.study.id &&
+              productInOrder.version === product.version &&
+              productInOrder.accessWay === product.accessWay;
+          });
 
-        if (removed.length > 0) {
-          OrderResource.update(order).$promise
-            .then(function(response) {
-                _setOrderVersion(response.version);
-                _removeProductFromLocalShoppingCart(product);
-              },
-              _displayUpdateOrderError);
+          if (removed.length > 0) {
+            OrderResource.update(order).$promise
+              .then(function(response) {
+                  _setOrderVersion(response.version);
+                  _removeProductFromLocalShoppingCart(product);
+                },
+                _displayUpdateOrderError);
+          }
         }
       }, _displayUpdateOrderError);
     };
@@ -129,17 +165,6 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
             _clearLocalShoppingCart();
           }, _displayUpdateOrderError);
       }, _displayUpdateOrderError);
-    };
-
-    var _stripVersionSuffix = function(product) {
-      var normalizedProduct = _.cloneDeep(product);
-
-      normalizedProduct.dataAcquisitionProjectId = ProjectReleaseService
-        .stripVersionSuffix(normalizedProduct.dataAcquisitionProjectId);
-
-      normalizedProduct.study.id = ProjectReleaseService
-        .stripVersionSuffix(normalizedProduct.study.id);
-      return normalizedProduct;
     };
 
     var add = function(product) {
@@ -216,18 +241,6 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       products = migratedProducts;
     };
 
-    var clearOrderData = function() {
-      orderId = '';
-      localStorageService.set(ORDER_ID_KEY, orderId);
-      version = '';
-      localStorageService.set(VERSION_KEY, version);
-    };
-
-    var completeOrder = function() {
-      clearOrderData();
-      _clearLocalShoppingCart();
-    };
-
     var getOrderId = function() {
       return orderId;
     };
@@ -244,8 +257,8 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         OrderResource.get({id: orderId}).$promise.then(function(order) {
           if (order.state === 'ORDERED') {
             completeOrder();
-            deferred.resolve();
           }
+          deferred.resolve();
         }, function(error) {
           if (error.status === 404) {
             completeOrder();
