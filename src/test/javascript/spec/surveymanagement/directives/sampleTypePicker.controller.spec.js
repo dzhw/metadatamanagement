@@ -17,6 +17,7 @@ describe('SurveySampleTypePicker', function() {
   var $scope;
   var $controller;
   var $httpBackend;
+  var noop = function() {};
 
   beforeEach(module('metadatamanagementApp'));
   beforeEach(inject(function(_$rootScope_, _$controller_, _$httpBackend_,
@@ -47,6 +48,9 @@ describe('SurveySampleTypePicker', function() {
   it('should set sampleType field to the given sample type parameter',
     function() {
       $controller('SampleTypePickerController', {$scope: $scope});
+      $scope.sampleTypeForm = {
+        $setDirty: noop
+      };
       $scope.onSampleTypeChange(sampleTypesResponse[0]);
 
       expect($scope.sampleType).toBe(sampleTypesResponse[0]);
