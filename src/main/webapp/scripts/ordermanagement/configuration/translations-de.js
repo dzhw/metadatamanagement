@@ -54,6 +54,7 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'synchronize': 'Der Einkaufswagen konnte nicht mit dem Server synchronisiert werden.',
+          'already-completed': 'Die Bestellung wurde bereits abgeschlossen. Ihr Einkaufswagen wurde geleert.',
           'customer': {
             'name': {
               'empty': 'Ihr Name darf nicht leer sein.',
