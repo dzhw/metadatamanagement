@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.filemanagement.util;
 import java.io.IOException;
 import java.io.InputStream;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.tika.Tika;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +26,7 @@ public class MimeTypeDetector {
    * @return the mime type of the file
    * @throws IOException if the uploaded file cannot be read
    */
+  @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
   public String detect(MultipartFile multipartFile) throws IOException {
     try (InputStream is = multipartFile.getInputStream()) {
       return tika.detect(is);
