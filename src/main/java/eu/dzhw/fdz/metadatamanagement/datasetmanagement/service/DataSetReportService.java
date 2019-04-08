@@ -215,17 +215,12 @@ public class DataSetReportService {
       File zipTmpFile = zipTmpFilePath.toFile();
       String fileName = this.saveCompleteZipFile(zipTmpFile, originalName);
       log.debug("file saved, start #handletaskDone");
-      task = taskService.handleTaskDone(task, fileName);
-      return;
+      taskService.handleTaskDone(task, fileName);
     } catch (IOException e) {
       log.error("failed generating report", e);
-      task = taskService.handleErrorTask(task, e);
-      return;
+      taskService.handleErrorTask(task, e);
     }
-
   }
-
-
 
   /**
    * Checks for all files which are included for the tex template.

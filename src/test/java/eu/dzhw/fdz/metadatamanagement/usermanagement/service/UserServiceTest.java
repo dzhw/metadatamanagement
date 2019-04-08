@@ -177,22 +177,10 @@ public class UserServiceTest extends AbstractTest {
     UnitTestUserManagementUtils.login("admin", "admin");
 
     // Act
-    User user = this.userService.getUserWithAuthorities();
+    Optional<User> userOpt = this.userService.getUserWithAuthorities();
 
-    // Assert
-    assertThat(user.getAuthorities()
-      .size(), is(4));
-    assertThat(user.getEmail(), is("admin@localhost"));
-    assertThat(user.getId(), is("user-2"));
-  }
-
-  @Test
-  public void testGetUserWithAuthoritiesWithId() {
-    // Arrange
-
-    // Act
-    User user = this.userService.getUserWithAuthorities("user-2");
-
+    assertThat(userOpt.isPresent(), is(true));
+    User user = userOpt.get();
     // Assert
     assertThat(user.getAuthorities()
       .size(), is(4));
