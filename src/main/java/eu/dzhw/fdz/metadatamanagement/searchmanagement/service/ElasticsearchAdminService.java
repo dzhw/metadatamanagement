@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.scheduling.annotation.Async;
@@ -206,6 +207,7 @@ public class ElasticsearchAdminService {
    * Load Elasticsearch Index Settings.
    * @return A JSON Representation of the Settings.
    */
+  @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
   private JsonObject loadSettings() {
     try (InputStream inputStream = resourceLoader
           .getResource("classpath:elasticsearch/settings.json").getInputStream();
@@ -223,6 +225,7 @@ public class ElasticsearchAdminService {
    * @param type An elasticsearch type of an index.
    * @return A Json Representation of a Mapping
    */
+  @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
   private JsonObject loadMapping(String type) {
     try (InputStream inputStream = resourceLoader
         .getResource("classpath:elasticsearch/" + type + "/mapping.json")

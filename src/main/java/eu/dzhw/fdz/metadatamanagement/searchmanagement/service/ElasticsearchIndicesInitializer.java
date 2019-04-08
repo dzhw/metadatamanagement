@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ResourceLoader;
@@ -69,7 +70,8 @@ public class ElasticsearchIndicesInitializer {
       });
     }
   }
-  
+
+  @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
   private JsonObject loadIndicesVersion() {
     try (InputStream inputStream = resourceLoader
         .getResource("classpath:elasticsearch/indices_version.json").getInputStream();
