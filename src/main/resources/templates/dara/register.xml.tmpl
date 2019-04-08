@@ -67,17 +67,12 @@
       <freetext>Application necessary under https://metadata.fdz.dzhw.eu/#!/en/studies/${study.id}?version=${dataAcquisitionProject.release.version}</freetext>
     </availabilityFree>
   </availability>
-  <classifications>
-    <classification>
-      <classificationExternal>
-        <language>de</language>
-        <classificationSchema>VerbundFDB</classificationSchema>
-        <terms>
-          <term>VerbundFDB</term>
-        </terms>
-      </classificationExternal>
-    </classification>
-  </classifications>
+  <alternativeIDs>
+    <alternativeID>
+      <identifier>1</identifier>
+      <type>VerbundFDB</type>
+    </alternativeID>
+  </alternativeIDs>
   <freeKeywords>
       <freeKeyword>
           <language>de</language>
@@ -227,7 +222,7 @@
       </fundingReference>
     </fundingReferences>
   </#if>
-  
+
     <collectionModes>
       <#list surveys as survey>
         <#list surveyToCollectionModesMap[survey.getId()] as collectionMode>
@@ -251,7 +246,7 @@
         </#list>
       </#list>
     </collectionModes>
-  
+
   <#if dataSets?? && dataSets?size gt 0>
     <dataSets>
       <#list dataSets as dataSet>
@@ -275,7 +270,7 @@
   <notes>
     <note>
       <language>de</language>
-      <text><#if study.annotations?? && study.annotations.de??>Anmerkungen zur Studie: ${study.annotations.de}; </#if>Untersuchungseinheit: ${surveyUnits}</text>
+      <text><#if study.annotations?? && study.annotations.de??>Anmerkungen zur Studie: ${study.annotations.de} ### </#if>Erhebungsseinheit: ${surveyUnits}</text>
     </note>
     <#if study.annotations?? && study.annotations.en??>
       <note>
