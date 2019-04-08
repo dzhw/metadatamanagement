@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.mailmanagement.service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -9,7 +10,6 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import org.apache.commons.lang3.CharEncoding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -63,7 +63,7 @@ public class MailService {
     MimeMessage mimeMessage = javaMailSender.createMimeMessage();
     try {
       MimeMessageHelper message =
-          new MimeMessageHelper(mimeMessage, isMultipart, CharEncoding.UTF_8);
+          new MimeMessageHelper(mimeMessage, isMultipart, StandardCharsets.UTF_8.name());
       message.setTo(to);
       if (StringUtils.hasText(cc)) {
         message.setCc(cc);
