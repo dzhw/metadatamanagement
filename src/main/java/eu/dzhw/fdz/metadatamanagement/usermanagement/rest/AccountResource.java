@@ -1,11 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.rest;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
+import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.KeyAndPasswordDto;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
@@ -18,16 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.KeyAndPasswordDto;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * REST controller for managing the current user's account.
@@ -59,7 +57,7 @@ public class AccountResource {
             .orElseGet(() -> {
               User user = userService.createUserInformation(userDto.getLogin(),
                   userDto.getPassword(), userDto.getFirstName(), userDto.getLastName(),
-                  userDto.getEmail().toLowerCase(), userDto.getLangKey());
+                  userDto.getEmail().toLowerCase(Locale.ENGLISH), userDto.getLangKey());
               mailService.sendActivationEmail(user);
               return new ResponseEntity<>(HttpStatus.CREATED);
             }));
@@ -96,7 +94,7 @@ public class AccountResource {
   @RequestMapping(value = "/account", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserDto> getAccount() {
-    return Optional.ofNullable(userService.getUserWithAuthorities()).map(
+    return userService.getUserWithAuthorities().map(
         user -> ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(new UserDto(user)))
         .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
   }

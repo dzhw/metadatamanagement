@@ -663,16 +663,14 @@ public class ElasticsearchUpdateQueueService {
       }
     }
   }
-  
+
   private void enqueueStreamUpserts(ElasticsearchType type,
       Stream<IdAndVersionProjection> idStream) {
-    if (idStream != null) {
-      try (Stream<IdAndVersionProjection> stream = idStream) {
-        stream.forEach(document -> {
-          this.enqueue(document.getId(),
-              type, ElasticsearchUpdateQueueAction.UPSERT);
-        });      
-      }      
+    try (Stream<IdAndVersionProjection> stream = idStream) {
+      stream.forEach(document -> {
+        this.enqueue(document.getId(),
+            type, ElasticsearchUpdateQueueAction.UPSERT);
+      });
     }
   }
   

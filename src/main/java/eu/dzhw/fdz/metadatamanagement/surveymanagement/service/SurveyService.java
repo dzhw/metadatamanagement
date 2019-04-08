@@ -178,7 +178,7 @@ public class SurveyService {
       if (optional.isPresent() && optional.get().getSurveyIds() != null) {
         return surveyRepository.streamIdsByIdIn(optional.get().getSurveyIds());
       }
-      return null;
+      return Stream.empty();
     }, ElasticsearchType.surveys);
   }
 
