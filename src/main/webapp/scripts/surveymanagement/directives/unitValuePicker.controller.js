@@ -7,13 +7,13 @@ angular.module('metadatamanagementApp').controller('UnitValuePickerController',
 
     $scope.isDisabled = true;
     $scope.language = LanguageService.getCurrentInstantly();
+    $scope.selectedUnitValue = $scope.unit;
 
     UnitValuesResource.query().$promise.then(function(result) {
       unitValues = _.sortBy(result, function(unit) {
         return unit[$scope.language];
       });
       $scope.isDisabled = false;
-      $scope.selectedUnitValue = _.find(unitValues, $scope.unit);
     });
 
     $scope.filterUnitValues = function(unitValueStr) {
@@ -24,6 +24,7 @@ angular.module('metadatamanagementApp').controller('UnitValuePickerController',
     };
     $scope.selectedUnitChange = function(unit) {
       $scope.unit = unit;
+      $scope.unitValuePickerForm.$setDirty();
     };
     $scope.$watch('unitValuePickerForm.$dirty',
       function(newVal, oldVal) {
