@@ -154,36 +154,15 @@ public class UserService {
    * Find the user by login.
    */
   public Optional<User> getUserWithAuthoritiesByLogin(String login) {
-    return userRepository.findOneByLogin(login)
-      .map(u -> {
-        u.getAuthorities()
-          .size();
-        return u;
-      });
-  }
-
-  /**
-   * Find the user by id.
-   */
-  public User getUserWithAuthorities(String id) {
-    User user = userRepository.findById(id).get();
-    int size = user.getAuthorities()
-        .size(); // eagerly load the association
-    log.debug("user.getAuthorities().size() = " + size);
-    return user;
+    return userRepository.findOneByLogin(login);
   }
 
   /**
    * Get currently logged in user.
    * @return the currently logged in user.
    */
-  public User getUserWithAuthorities() {
-    User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin())
-        .get();
-    int size = user.getAuthorities()
-        .size(); // eagerly load the association
-    log.debug("user.getAuthorities().size() = " + size);
-    return user;
+  public Optional<User> getUserWithAuthorities() {
+    return userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin());
   }
 
   /**
