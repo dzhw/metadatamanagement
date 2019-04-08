@@ -15,6 +15,9 @@ describe('UnitValuePickerController', function() {
   var $scope;
   var $controller;
   var $httpBackend;
+  var noop = function() {
+
+  };
   beforeEach(module('metadatamanagementApp'));
   beforeEach(inject(function(_$rootScope_, _$controller_, _LanguageService_,
                              _$httpBackend_) {
@@ -48,6 +51,9 @@ describe('UnitValuePickerController', function() {
   it('should set "unit" field to given unit parameter', function() {
     $controller('UnitValuePickerController', {$scope: $scope});
     $httpBackend.flush();
+    $scope.unitValuePickerForm = {
+      $setDirty: noop
+    };
     $scope.selectedUnitChange(unitValuesResponse[0]);
     expect($scope.unit.de).toEqual(unitValuesResponse[0].de);
     expect($scope.unit.en).toEqual(unitValuesResponse[0].en);
