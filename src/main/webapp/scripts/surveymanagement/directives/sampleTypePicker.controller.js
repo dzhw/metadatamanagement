@@ -16,6 +16,7 @@ angular.module('metadatamanagementApp').controller('SampleTypePickerController',
     };
     $scope.onSampleTypeChange = function(sampleType) {
       $scope.sampleType = sampleType;
+      $scope.sampleTypeForm.$setDirty();
     };
 
     $scope.$watch('sampleTypeForm.$dirty',

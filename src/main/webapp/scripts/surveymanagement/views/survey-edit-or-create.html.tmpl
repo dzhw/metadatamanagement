@@ -73,7 +73,7 @@
                 <div layout-gt-sm="row" layout="column" style="-ms-flex:auto">
                     <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="surveyMethodDe" md-input-maxlength="512" ng-required="true" md-floating-label="{{'survey-management.detail.label.survey-method' | translate}} ({{'global.in-german' | translate}})" md-min-length="0"
                       md-require-match="false" md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentSurveyMethod" md-search-text="ctrl.survey.surveyMethod.de" md-items="item in ctrl.searchSurveyMethods(ctrl.survey.surveyMethod.de, 'de')" md-item-text="item.de"
-                      md-clear-button="true" md-no-cache="true" md-is-error="!surveyForm.surveyMethodDe.$valid && (surveyForm.surveyMethodDe.$dirty surveyForm.surveyMethodDe.$touched)">
+                      md-clear-button="true" md-no-cache="true" md-is-error="!surveyForm.surveyMethodDe.$valid && (surveyForm.surveyMethodDe.$dirty surveyForm.surveyMethodDe.$touched)" md-selected-item-change="surveyForm.$setDirty()">
                         <md-item-template>
                             <span class="md-title" style="font-size: 14px;" md-highlight-text="ctrl.survey.surveyMethod.de" md-highlight-flags="ig">{{item.de}}</span>
                         </md-item-template>
@@ -88,7 +88,7 @@
                     </md-autocomplete>
                     <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="surveyMethodEn" md-input-maxlength="512" md-floating-label="{{'survey-management.detail.label.survey-method' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false"
                       ng-required="true" md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentSurveyMethod" md-search-text="ctrl.survey.surveyMethod.en" md-items="item in ctrl.searchSurveyMethods(ctrl.survey.surveyMethod.en, 'en')" md-item-text="item.en"
-                      md-clear-button="true" md-no-cache="true" md-is-error="!surveyForm.surveyMethodEn.$valid && (surveyForm.surveyMethodEn.$dirty || surveyForm.surveyMethodEn.$touched)">
+                      md-clear-button="true" md-no-cache="true" md-is-error="!surveyForm.surveyMethodEn.$valid && (surveyForm.surveyMethodEn.$dirty || surveyForm.surveyMethodEn.$touched)" md-selected-item-change="surveyForm.$setDirty()">
                         <md-item-template>
                             <span class="md-title" style="font-size: 14px;" md-highlight-text="ctrl.survey.surveyMethod.en" md-highlight-flags="ig">{{item.en}}</span>
                         </md-item-template>
