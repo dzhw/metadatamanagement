@@ -15,7 +15,7 @@
                      ng-required="true"
                      ng-disabled="isDisabled">
         <md-item-template>
-            <span md-highlight-text="sampleTypeSearchText">{{sampleOption[language]}}</span>
+            <span class="md-title" style="font-size: 14px;" md-highlight-text="sampleTypeSearchText" md-highlight-flags="ig">{{sampleOption[language]}}</span>
         </md-item-template>
         <md-not-found>
             {{'survey-management.sample-type-picker.error.no-match' | translate}}
