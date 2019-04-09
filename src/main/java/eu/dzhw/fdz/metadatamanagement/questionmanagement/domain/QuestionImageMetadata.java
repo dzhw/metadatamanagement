@@ -40,9 +40,8 @@ public class QuestionImageMetadata extends AbstractShadowableRdcDomainObject {
   private String id;
 
   /**
-   * The master id of question image metadata. Must not be empty.
+   * The master id of question image metadata.
    */
-  @NotEmpty(message = "question-management.error.question-image-metadata.master-id.not-empty")
   @Setter(AccessLevel.NONE)
   private String masterId;
 

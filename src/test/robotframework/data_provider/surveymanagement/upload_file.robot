@@ -34,7 +34,7 @@ Click Survey Edit Button
     Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='mode_edit']
 
 Delete Response Rate Upload
-    Click Element Through Tooltips    xpath=//md-card[@class='fdz-reset-top-margin _md']//button[@type='button']//md-icon[contains(.,'delete_forever')]
+    Click Element Through Tooltips    xpath=//md-card//button[@ng-click='ctrl.deleteResponseRateImageDe()']
 
 Save Response Rate Changes
     Click Element Through Tooltips    xpath=//md-card//button[@type='button']//md-icon[contains(.,'save')]
@@ -44,5 +44,3 @@ Get To Survey Page
 
 Upload Response Response Rate
     Choose File    xpath=//input[@type='file'][@ngf-select='ctrl.saveResponseRateImageDe($file)'][1]    ${CURDIR}/data/1_responserate_de.svg
-
-

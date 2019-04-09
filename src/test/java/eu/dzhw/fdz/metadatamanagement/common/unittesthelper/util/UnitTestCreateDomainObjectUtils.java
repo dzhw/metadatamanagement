@@ -640,7 +640,7 @@ public class UnitTestCreateDomainObjectUtils {
     return RelatedQuestion.builder()
         .instrumentNumber(instrumentNumber)
         .questionNumber(questionNumber)
-        .instrumentId(UnitTestCreateValidIds.buildInstrumentId(projectId, new Integer(instrumentNumber).intValue()))
+        .instrumentId(UnitTestCreateValidIds.buildInstrumentId(projectId, Integer.parseInt(instrumentNumber)))
         .relatedQuestionStrings(I18nString.builder()
             .de("Related Question String DE")
             .en("Related Question String EN")

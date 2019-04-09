@@ -44,9 +44,8 @@ public class StudyAttachmentMetadata extends AbstractShadowableRdcDomainObject {
   private String id;
 
   /**
-   * The master id of the study attachment. Must not be empty.
+   * The master id of the study attachment.
    */
-  @NotEmpty(message = "study-management.error.study-attachment-metadata.master-id.not-empty")
   @Setter(AccessLevel.NONE)
   private String masterId;
 

@@ -107,7 +107,6 @@ Input Gross Sample Size
 Select a survey unit
     Clear Element Text   name=unit
     Input Text    xpath=//md-input-container//input[@name='unit']  Eltern
-    #Click Element Through Tooltips    xpath=//md-autocomplete-parent-scope[contains(., 'Eltern')]
 
 Click add button
     Click Element Through Tooltips    xpath=//button[@type='button']//md-icon[text()='add']
@@ -115,7 +114,6 @@ Click add button
 Select a country
     Clear Element Text   name=countryInput
     Input Text    xpath=//md-input-container//input[@name='countryInput']   Deutschland
-   # Click Element Through Tooltips    xpath=//md-autocomplete-parent-scope[contains(., 'Albanien')]
 
 Close The Toast Message
     [Arguments]  ${TOAST_MSSG}

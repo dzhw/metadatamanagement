@@ -42,7 +42,6 @@ public class DataSetAttachmentMetadata extends AbstractShadowableRdcDomainObject
   @Setter(AccessLevel.NONE)
   private String id;
 
-  @NotEmpty(message = "data-set-management.error.data-set-attachment-metadata.master-id.not-empty")
   @Setter(AccessLevel.NONE)
   private String masterId;
 

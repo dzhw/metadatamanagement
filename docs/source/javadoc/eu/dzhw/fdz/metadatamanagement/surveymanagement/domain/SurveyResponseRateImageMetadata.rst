@@ -77,10 +77,10 @@ language
 masterId
 ^^^^^^^^
 
-.. java:field:: @NotEmpty @Setter private String masterId
+.. java:field:: @Setter private String masterId
    :outertype: SurveyResponseRateImageMetadata
 
-   The master id of the survey response rate image metadata. Must not be empty.
+   The master id of the survey response rate image metadata.
 
 surveyId
 ^^^^^^^^

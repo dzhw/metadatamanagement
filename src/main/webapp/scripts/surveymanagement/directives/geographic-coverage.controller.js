@@ -6,6 +6,7 @@ angular.module('metadatamanagementApp')
      CountryCodesResource, LanguageService) {
 
     var countries;
+    var initComplete = false;
 
     $scope.isDisabled = true;
     $scope.isScreenGreaterSmall = $mdMedia('gt-sm');
@@ -22,10 +23,10 @@ angular.module('metadatamanagementApp')
       countries = _.sortBy(result, function(country) {
         return country[$scope.language];
       });
-      $scope.isDisabled = false;
       $scope.selectedCountry = _.find(result, function(country) {
         return country.code === $scope.geographicCoverage.country;
       });
+      $scope.isDisabled = false;
     });
 
     $scope.filterCountries = function(countryStr) {
@@ -40,6 +41,18 @@ angular.module('metadatamanagementApp')
         $scope.geographicCoverage.country = country.code;
       } else {
         $scope.geographicCoverage.country = null;
+      }
+
+      /*
+       * This function is triggered due to the delayed initialization caused by
+       * a request for countries. To prevent the form from becoming dirty we
+       * ignore the first call to this function and listen on real user
+       * interactions afterwards.
+       */
+      if (!initComplete) {
+        initComplete = true;
+      } else {
+        $scope.geographicCoverageForm.$setDirty();
       }
     };
 

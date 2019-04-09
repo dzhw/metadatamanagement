@@ -121,10 +121,10 @@ language
 masterId
 ^^^^^^^^
 
-.. java:field:: @NotEmpty @Setter private String masterId
+.. java:field:: @Setter private String masterId
    :outertype: InstrumentAttachmentMetadata
 
-   The master id of the instrument attachment metadata. Must not be empty.
+   The master id of the instrument attachment metadata.
 
 type
 ^^^^
