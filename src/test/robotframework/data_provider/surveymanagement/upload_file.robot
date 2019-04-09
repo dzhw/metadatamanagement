@@ -33,7 +33,7 @@ Click Survey Edit Button
     Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='mode_edit']
 
 Delete Response Rate Upload
-    Click Element Through Tooltips    xpath=//md-card//button[contains(.,'delete_forever')]
+    Click Element Through Tooltips    xpath=//md-card//button[@ng-click='ctrl.deleteResponseRateImageDe()']
 
 Save Response Rate Changes
     Click Element Through Tooltips    xpath=//md-card//button[contains(.,'save')]
