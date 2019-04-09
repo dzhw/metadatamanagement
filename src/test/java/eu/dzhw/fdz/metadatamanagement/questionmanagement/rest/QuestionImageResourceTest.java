@@ -67,6 +67,25 @@ public class QuestionImageResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities= AuthoritiesConstants.PUBLISHER)
+  public void testUploadQuestionImageResource() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("image", "image.png", "image/png", "fakeimage".getBytes());
+    QuestionImageMetadata questionImageMetadata = UnitTestCreateDomainObjectUtils
+        .buildQuestionImageMetadata("projectid", "questionid");
+    // Client uploads without id and master id
+    questionImageMetadata.setId(null);
+    questionImageMetadata.setMasterId(null);
+    MockMultipartFile metadata = new MockMultipartFile("questionImageMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(questionImageMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/questions/images")
+        .file(attachment)
+        .file(metadata))
+        .andExpect(status().isCreated());
+  }
+
+  @Test
+  @WithMockUser(authorities= AuthoritiesConstants.PUBLISHER)
   public void testCreateShadowCopyQuestionImageMetadata() throws Exception {
     MockMultipartFile attachment =
         new MockMultipartFile("image", "image.png", "image/png", "fakeimage".getBytes());

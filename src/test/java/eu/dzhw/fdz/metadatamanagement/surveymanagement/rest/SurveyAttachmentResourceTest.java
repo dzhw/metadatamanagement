@@ -81,6 +81,9 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     SurveyAttachmentMetadata surveyAttachmentMetadata = UnitTestCreateDomainObjectUtils
       .buildSurveyAttachmentMetadata("projectid", 1);
+    // Client uploads without id and masterId
+    surveyAttachmentMetadata.setId(null);
+    surveyAttachmentMetadata.setMasterId(null);
     MockMultipartFile metadata = new MockMultipartFile("surveyAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(surveyAttachmentMetadata));
 
@@ -88,8 +91,6 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
       .file(attachment)
       .file(metadata))
       .andExpect(status().isCreated());
-
-    surveyAttachmentMetadata.generateId();
 
     // read the created attachment and check the version
     mockMvc.perform(
@@ -99,7 +100,8 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.[0].version", is(0)))
       .andExpect(jsonPath("$.[0].createdBy", is("test")))
       .andExpect(jsonPath("$.[0].lastModifiedBy", is("test")))
-      .andExpect(jsonPath("$.[0].masterId", is(surveyAttachmentMetadata.getId())));
+      .andExpect(jsonPath("$.[0].masterId", is("/public/files/surveys/"
+          + "sur-projectid-sy1$/attachments/filename.txt")));
   }
 
   @Test
