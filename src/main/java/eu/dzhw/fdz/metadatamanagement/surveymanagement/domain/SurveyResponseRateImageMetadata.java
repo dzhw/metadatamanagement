@@ -37,10 +37,8 @@ public class SurveyResponseRateImageMetadata extends AbstractShadowableRdcDomain
   private String id;
 
   /**
-   * The master id of the survey response rate image metadata. Must not be empty.
+   * The master id of the survey response rate image metadata.
    */
-  @NotEmpty(message = "survey-management.error.survey-response-rate-image-metadata.master-id"
-      + ".not-empty")
   @Setter(AccessLevel.NONE)
   private String masterId;
 

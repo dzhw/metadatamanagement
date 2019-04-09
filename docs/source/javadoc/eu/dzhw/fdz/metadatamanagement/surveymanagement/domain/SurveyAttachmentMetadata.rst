@@ -103,7 +103,7 @@ language
 masterId
 ^^^^^^^^
 
-.. java:field:: @NotEmpty @Setter private String masterId
+.. java:field:: @Setter private String masterId
    :outertype: SurveyAttachmentMetadata
 
 surveyId

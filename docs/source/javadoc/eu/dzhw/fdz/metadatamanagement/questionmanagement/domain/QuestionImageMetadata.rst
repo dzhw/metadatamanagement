@@ -109,10 +109,10 @@ language
 masterId
 ^^^^^^^^
 
-.. java:field:: @NotEmpty @Setter private String masterId
+.. java:field:: @Setter private String masterId
    :outertype: QuestionImageMetadata
 
-   The master id of question image metadata. Must not be empty.
+   The master id of question image metadata.
 
 questionId
 ^^^^^^^^^^

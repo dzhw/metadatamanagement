@@ -43,10 +43,8 @@ public class InstrumentAttachmentMetadata extends AbstractShadowableRdcDomainObj
   private String id;
 
   /**
-   * The master id of the instrument attachment metadata. Must not be empty.
+   * The master id of the instrument attachment metadata.
    */
-  @NotEmpty(message = "instrument-management.error.instrument-attachment-metadata.master-id."
-      + "not-empty")
   @Setter(AccessLevel.NONE)
   private String masterId;
 

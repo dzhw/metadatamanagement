@@ -107,10 +107,10 @@ language
 masterId
 ^^^^^^^^
 
-.. java:field:: @NotEmpty @Setter private String masterId
+.. java:field:: @Setter private String masterId
    :outertype: StudyAttachmentMetadata
 
-   The master id of the study attachment. Must not be empty.
+   The master id of the study attachment.
 
 studyId
 ^^^^^^^
