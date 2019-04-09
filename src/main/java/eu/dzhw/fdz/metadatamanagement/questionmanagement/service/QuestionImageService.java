@@ -55,7 +55,7 @@ public class QuestionImageService {
   public String saveQuestionImage(MultipartFile multipartFile,
       QuestionImageMetadata questionImageMetadata) throws IOException {
 
-    if (questionImageMetadata.getId() != null && questionImageMetadata.isShadow()) {
+    if (questionImageMetadata.isShadow()) {
       throw new ShadowCopyCreateNotAllowedException();
     }
 

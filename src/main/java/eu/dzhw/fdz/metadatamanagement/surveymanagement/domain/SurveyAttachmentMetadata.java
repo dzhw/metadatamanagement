@@ -41,7 +41,6 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
   @Setter(AccessLevel.NONE)
   private String id;
 
-  @NotEmpty(message = "survey-management.error.survey-attachment-metadata.master-id.not-empty")
   @Setter(AccessLevel.NONE)
   private String masterId;
 

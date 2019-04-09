@@ -285,7 +285,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   questionImageMetadata.dataAcquisitionProjectId =
                       question.dataAcquisitionProjectId;
                   questionImageMetadata.questionId = question.id;
-                  questionImageMetadata.masterId = question.masterId;
                   questionImageMetadata.fileName = image.name;
                   questionImageMetadata.imageType = 'PNG';
                   questionImageMetadata.resolution = {};

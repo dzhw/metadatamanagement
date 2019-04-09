@@ -52,6 +52,13 @@ angular.module('metadatamanagementApp')
         });
       };
 
+      var displayError = function(error) {
+        var msg = _.get(error, 'errors[0].message');
+        if (msg) {
+          SimpleMessageToastService.openAlertMessageToast(msg);
+        }
+      };
+
       var redirectToSearchView = function() {
         $timeout(function() {
           $state.go('search', {
@@ -425,7 +432,7 @@ angular.module('metadatamanagementApp')
               'survey-management.edit.survey-image-deleted-toast',
               null);
             ctrl.responseRateImageDeDirty = false;
-          });
+          }, displayError);
         } else {
           SurveyResponseRateImageUploadService.uploadImage(
             ctrl.responseRateImageDe, metadata, ctrl.survey.number, 'de')
@@ -434,7 +441,7 @@ angular.module('metadatamanagementApp')
                 'survey-management.edit.survey-image-saved-toast',
                 null);
               ctrl.responseRateImageDeDirty = false;
-            });
+            }, displayError);
         }
       };
 
@@ -463,7 +470,7 @@ angular.module('metadatamanagementApp')
               'survey-management.edit.survey-image-deleted-toast',
               null);
             ctrl.responseRateImageEnDirty = false;
-          });
+          }, displayError);
         } else {
           SurveyResponseRateImageUploadService.uploadImage(
             ctrl.responseRateImageEn, metadata, ctrl.survey.number, 'en')
@@ -472,7 +479,7 @@ angular.module('metadatamanagementApp')
                 'survey-management.edit.survey-image-saved-toast',
                 null);
               ctrl.responseRateImageEnDirty = false;
-            });
+            }, displayError);
         }
       };
 
