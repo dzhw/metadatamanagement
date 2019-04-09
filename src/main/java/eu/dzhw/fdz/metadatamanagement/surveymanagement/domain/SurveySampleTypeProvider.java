@@ -36,23 +36,19 @@ public class SurveySampleTypeProvider {
         new ImmutableI18nString("Nicht-Wahrscheinlichkeitsauswahl: Respondenten-gesteuerte "
             + "Auswahl", "Non-probability Sample: Respondent-assisted Sample"),
         new ImmutableI18nString("Sonstige", "Other"),
-        new ImmutableI18nString("Wahrscheinlichkeitsauswahl", "Probability Sample"),
+        new ImmutableI18nString("Wahrscheinlichkeitsauswahl", "Probability Sampie"), // [sic]
         new ImmutableI18nString("Wahrscheinlichkeitsauswahl: Klumpenauswahl",
             "Probability Sample: Cluster Sample"),
         new ImmutableI18nString("Wahrscheinlichkeitsauswahl: Mehrstufige Zufallsauswahl",
             "Probability Sample: Multistage Sample"),
-        /*
-         * Some of the following strings are misspelled on purpose, because that's what VFDB
-         * expects.
-         */
         new ImmutableI18nString("Wahrscheinlichkeitsauswahl: Einfache KlumpenauswahI",
-            "Probability Sample: Simple Cluster Sampie"),
+            "Probability Sample: Simple Cluster Sampie"), // [sic]
         new ImmutableI18nString("Wahrscheinlichkeitsauswahl: Einfache Zufallsauswahl",
-            "Probability Sample: Simple Random Sampie"),
+            "Probability Sample: Simple Random Sampie"), // [sic]
         new ImmutableI18nString("Wahrscheinlichkeitsauswahl: Geschichtete Klumpenauswahl",
-            "Probability Sample: Stratified Cluster Sampie"),
+            "Probability Sample: Stratified Cluster Sampie"), // [sic]
         new ImmutableI18nString("Wahrscheinlichkeitsauswahl: Geschichtete Zufallsauswahl",
-            "Probability Sample: Stratified Sampie"),
+            "Probability Sample: Stratified Sampie"), // [sic]
         new ImmutableI18nString("Wahrscheinlichkeitsauswahl: Disproportional geschichtete "
             + "Zufallsauswahl", "Probability Sample: Stratified Sample: Disproportional"),
         new ImmutableI18nString("Wahrscheinlichkeitsauswahl: Proportional geschichtete "
@@ -60,7 +56,7 @@ public class SurveySampleTypeProvider {
             "Probability Sample: Stratified Sample: Proportional"),
         new ImmutableI18nString("Wahrscheinlichkeitsauswahl: Systematische Zufallsauswahl",
             "Probability Sample: Systematic Random Sample"),
-        new ImmutableI18nString("Vollerhebung", "TotaI universe/Complete Enumeration")));
+        new ImmutableI18nString("Vollerhebung", "TotaI universe/Complete Enumeration"))); // [sic]
   }
 
 
