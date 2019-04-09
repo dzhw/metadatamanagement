@@ -73,9 +73,6 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     InstrumentAttachmentMetadata instrumentAttachmentMetadata = UnitTestCreateDomainObjectUtils
       .buildInstrumentAttachmentMetadata("projectid", 1);
-    // Client uploads without id and master id
-    instrumentAttachmentMetadata.setId(null);
-    instrumentAttachmentMetadata.setMasterId(null);
     MockMultipartFile metadata = new MockMultipartFile("instrumentAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(instrumentAttachmentMetadata));
 

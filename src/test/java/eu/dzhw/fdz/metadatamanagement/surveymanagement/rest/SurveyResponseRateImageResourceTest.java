@@ -75,6 +75,21 @@ public class SurveyResponseRateImageResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities= AuthoritiesConstants.PUBLISHER)
+  public void testCreateSurveyResponseRateImageMetadata() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("image", FILE_NAME, "image/png", "fakeimage".getBytes());
+    SurveyResponseRateImageMetadata surveyResponseRateImageMetadata = createResponseRateImageMetadata();
+    MockMultipartFile metadata = new MockMultipartFile("surveyResponseRateImageMetadata", FILE_NAME,
+        "application/json", TestUtil.convertObjectToJsonBytes(surveyResponseRateImageMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/surveys/images")
+        .file(attachment)
+        .file(metadata))
+        .andExpect(status().isCreated());
+  }
+
+  @Test
+  @WithMockUser(authorities= AuthoritiesConstants.PUBLISHER)
   public void testCreateShadowCopySurveyResponseRateImageMetadata() throws Exception {
     MockMultipartFile attachment =
         new MockMultipartFile("image", FILE_NAME, "image/png", "fakeimage".getBytes());
@@ -128,8 +143,6 @@ public class SurveyResponseRateImageResourceTest extends AbstractTest {
     master.setLanguage("en");
     master.setFileName(FILE_NAME);
     master.setSurveyNumber(1);
-    master.generateId();
-    master.setMasterId(master.getId());
     return master;
   }
 

@@ -72,9 +72,6 @@ public class QuestionImageResourceTest extends AbstractTest {
         new MockMultipartFile("image", "image.png", "image/png", "fakeimage".getBytes());
     QuestionImageMetadata questionImageMetadata = UnitTestCreateDomainObjectUtils
         .buildQuestionImageMetadata("projectid", "questionid");
-    // Client uploads without id and master id
-    questionImageMetadata.setId(null);
-    questionImageMetadata.setMasterId(null);
     MockMultipartFile metadata = new MockMultipartFile("questionImageMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(questionImageMetadata));
 
