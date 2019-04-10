@@ -19,22 +19,21 @@ Upload folder and single file in Dataset editor
     Click to generate variable report
     Upload Variable Report Template Single File
     Close The Toast Message for Single File   ${TOAST_MSSG_SINGLE}
-    Sleep    5s
     Get back to home page and deselect project
 
 *** Keywords ***
 Get back to home page and deselect project
     Get back to german home page
-    Click Element Through Tooltips    xpath=//md-sidenav//project-navbar-module//button[@aria-label='Clear Input']
+    Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='note_add']
 
 Click to generate variable report
-    Click Element Through Tooltips    xpath=//ui-view//button[@type='file']//md-icon[text()='note_add']
+    Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='note_add']
 
 Upload Variable Report Template Folder
     Press Key    xpath=//input[@type='file' and @ngf-select='ctrl.uploadTexTemplate($files)'][1]   ${CURDIR}/template   # template folder contains all the required files
 
 Upload Variable Report Template Single File
-    Choose File   xpath=//input[@type='file' and @ngf-select='ctrl.uploadTexTemplate($files)'][1]   ${CURDIR}/singlefile/Variablelist.tex  # singlefile folder contains only a single file
+    Press Key   xpath=//input[@type='file' and @ngf-select='ctrl.uploadTexTemplate($files)'][1]   ${CURDIR}/singlefile  # singlefile folder contains only a single file
 
 Close The Toast Message for Complete Template
     [Arguments]  ${TOAST_MSSG}

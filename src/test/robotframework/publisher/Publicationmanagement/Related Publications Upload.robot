@@ -23,5 +23,5 @@ Close The Toast Message for upload
    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
 
 Assert New Publication Entry with Excel Upload
-   Wait Until Page Contains    The related publicatoin title pub-HossainPub2019$
+   Element Should Contain    xpath=//a//span[text()='pub-HossainPub2019$']   pub-HossainPub2019$
 
