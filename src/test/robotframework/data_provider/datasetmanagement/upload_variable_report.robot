@@ -9,7 +9,6 @@ ${TOAST_MSSG_SINGLE}   Erzeugen von Tex Dokument Abgebrochen!
 *** Test Cases ***
 Upload folder and single file in Dataset editor
     [Tags]  localonly   chromeonly
-    Pass Execution If    '${BROWSER}' == 'chrome'   to avoid failing in chrome at saucelab
     Select project by name    gra2005
     Click on data set tab
     Click on search result by id    dat-gra2005-ds2$

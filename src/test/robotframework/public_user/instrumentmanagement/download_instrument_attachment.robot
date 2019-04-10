@@ -6,7 +6,6 @@ Resource          ../../resources/home_page_resource.robot
 *** Test Cases ***
 Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
     Pass Execution If    '${BROWSER}' == 'edge'    Switching windows fails in EDGE
-    Pass Execution If    '${BROWSER}' == 'ie'    Switching windows fails in IE
     Click on instruments tab
     Search for    Absolventenpanel 2005 Fragebogen Erste Welle
     Click on search result by id    ins-gra2005-ins1$
