@@ -79,6 +79,8 @@ public class DataSetAttachmentMetadataShadowCopyDataSourceTest extends AbstractT
   public void createShadowCopy() throws Exception {
     DataSetAttachmentMetadata master = UnitTestCreateDomainObjectUtils
         .buildDataSetAttachmentMetadata(PROJECT_ID, 1);
+    master.generateId();
+    master.setMasterId(master.getId());
     createTestFileForAttachment(master);
 
     shadowCopyService.createShadowCopies(dataAcquisitionProject,
@@ -111,6 +113,8 @@ public class DataSetAttachmentMetadataShadowCopyDataSourceTest extends AbstractT
   public void createShadowCopyWithSameReleaseVersion() throws Exception {
     DataSetAttachmentMetadata master = UnitTestCreateDomainObjectUtils
         .buildDataSetAttachmentMetadata(PROJECT_ID, 1);
+    master.generateId();
+    master.setMasterId(master.getId());
     createTestFileForAttachment(master);
     DataSetAttachmentMetadata shadow = createShadow(master, "1.0.0");
     createTestFileForAttachment(shadow);
@@ -139,6 +143,8 @@ public class DataSetAttachmentMetadataShadowCopyDataSourceTest extends AbstractT
   public void createShadowCopyLinkPredecessorToSuccessor() throws Exception {
     DataSetAttachmentMetadata master = UnitTestCreateDomainObjectUtils
         .buildDataSetAttachmentMetadata(PROJECT_ID, 1);
+    master.generateId();
+    master.setMasterId(master.getId());
     createTestFileForAttachment(master);
 
     DataSetAttachmentMetadata shadow = createShadow(master, "1.0.0");

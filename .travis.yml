@@ -102,7 +102,7 @@ jobs:
         - ./src/test/robotframework/setup.sh
       script:
         - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publicuserNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTlocalonly ./src/test/robotframework
+        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publicuserNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
     - name: "Nightly Edge Tests (Public User)"
       install:
         - ./src/test/robotframework/setup.sh
@@ -127,7 +127,7 @@ jobs:
         - ./src/test/robotframework/setup.sh
       script:
         - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include dataproviderNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTlocalonly ./src/test/robotframework
+        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include dataproviderNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
     - name: "Nightly Edge Tests (Dataprovider)"
       install:
         - ./src/test/robotframework/setup.sh
@@ -152,7 +152,7 @@ jobs:
         - ./src/test/robotframework/setup.sh
       script:
         - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publisherNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTlocalonly ./src/test/robotframework
+        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publisherNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
     - name: "Nightly Edge Tests (Publisher)"
       install:
         - ./src/test/robotframework/setup.sh
