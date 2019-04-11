@@ -12,7 +12,6 @@ angular.module('metadatamanagementApp').config(
             'studySeries': 'Studienreihe',
             'institution': 'Erhebende Institution',
             'authors': 'Projektmitarbeiter(innen)',
-            'tags': 'Tags (Schlüsselwörter) zur Studie',
             'sponsors': 'Gefördert von',
             'version': 'Version',
             'surveyDesign': 'Erhebungsdesign',
@@ -247,7 +246,8 @@ angular.module('metadatamanagementApp').config(
             'create-study': 'Studie anlegen:',
             'first-name': 'Vorname',
             'middle-name': 'Zweiter Vorname',
-            'last-name': 'Nachname'
+            'last-name': 'Nachname',
+            'tags': 'Tags (Schlüsselwörter) zur Studie'
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieser Studie wieder herzustellen.',
           'save-tooltip': 'Klicken, um die Studie zu speichern.',
