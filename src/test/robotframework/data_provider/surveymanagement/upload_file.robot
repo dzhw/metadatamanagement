@@ -4,7 +4,6 @@ Force Tags        chromeonly
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
 
-
 *** Test Cases ***
 Upload file in survey editor
     Select project by name    fileuploadproject
