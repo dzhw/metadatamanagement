@@ -81,6 +81,8 @@ public class QuestionImageMetadataShadowCopyDataSourceTest extends AbstractTest 
   public void createShadowCopy() throws Exception {
     QuestionImageMetadata master = UnitTestCreateDomainObjectUtils
         .buildQuestionImageMetadata(PROJECT_ID, QUESTION_ID);
+    master.generateId();
+    master.setMasterId(master.getId());
     createTestFileForAttachment(master);
 
     shadowCopyService.createShadowCopies(dataAcquisitionProject,
@@ -113,6 +115,8 @@ public class QuestionImageMetadataShadowCopyDataSourceTest extends AbstractTest 
   public void createShadowCopyWithSameReleaseVersion() throws Exception {
     QuestionImageMetadata master = UnitTestCreateDomainObjectUtils
         .buildQuestionImageMetadata(PROJECT_ID, QUESTION_ID);
+    master.generateId();
+    master.setMasterId(master.getId());
     createTestFileForAttachment(master);
     QuestionImageMetadata shadow = createShadow(master, "1.0.0");
     createTestFileForAttachment(shadow);
@@ -141,6 +145,8 @@ public class QuestionImageMetadataShadowCopyDataSourceTest extends AbstractTest 
   public void createShadowCopyLinkPredecessorToSuccessor() throws Exception {
     QuestionImageMetadata master = UnitTestCreateDomainObjectUtils
         .buildQuestionImageMetadata(PROJECT_ID, QUESTION_ID);
+    master.generateId();
+    master.setMasterId(master.getId());
     createTestFileForAttachment(master);
 
     QuestionImageMetadata shadow = createShadow(master, "1.0.0");
