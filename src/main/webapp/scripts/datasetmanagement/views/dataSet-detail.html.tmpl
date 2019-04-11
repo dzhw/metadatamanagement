@@ -74,7 +74,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.counts.surveysCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'surveys', 'data-set': ctrl.dataSet.masterId, 'study': ctrl.dataSet.studyId})">
+                            <a ui-sref="search({'type': 'surveys', 'data-set': ctrl.dataSet.id, 'study': ctrl.dataSet.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                                 {{'survey-management.detail.label.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
