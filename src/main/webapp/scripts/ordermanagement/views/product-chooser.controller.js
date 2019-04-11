@@ -37,6 +37,14 @@ angular.module('metadatamanagementApp')
       if (ctrl.study.dataAvailability.en === 'In preparation') {
         ctrl.noFinalRelease = true;
       }
+      var extractDataFormats = function(study) {
+        var dataFormats = _.flatMap(study.dataSets, function(dataSet) {
+          return _.flatMap(dataSet.subDataSets, function(subDataSet) {
+            return subDataSet.dataFormats;
+          });
+        });
+        return _.uniq(dataFormats);
+      };
 
       DataAcquisitionProjectReleasesResource.get(
         {id: ProjectReleaseService.stripVersionSuffix(ctrl.projectId)})
@@ -59,8 +67,10 @@ angular.module('metadatamanagementApp')
           dataAcquisitionProjectId: ctrl.projectId,
           accessWay: ctrl.selectedAccessWay,
           version: ctrl.selectedVersion,
+          dataFormats: extractDataFormats(ctrl.study),
           study: {
-            id: ctrl.study.id
+            id: ctrl.study.id,
+            surveyDataType: ctrl.study.surveyDataType
           }
         });
         $mdDialog.hide();

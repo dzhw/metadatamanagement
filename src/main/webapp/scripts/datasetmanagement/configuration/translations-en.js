@@ -68,7 +68,13 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'sub-data-sets': {
-            'title': 'Available Subdatasets'
+            'title': 'Available Subdatasets',
+            'data-formats': {
+              'STATA': 'Stata',
+              'R': 'R',
+              'SPSS': 'SPSS',
+              'WORD': 'Microsoft Word'
+            }
           },
           'attachments': {
             'table-title': 'Documents related to the Data Set',
@@ -247,6 +253,9 @@ angular.module('metadatamanagementApp').config(
             'number-of-observations': {
               'not-null': 'The number of observations/episodes of a Subdataset must not be empty!',
               'invalid-number': 'Enter a positive integer!'
+            },
+            'data-formats': {
+              'required': 'At least on data format must be specified.'
             }
           },
           'post-validation': {
@@ -277,7 +286,8 @@ angular.module('metadatamanagementApp').config(
                   'access-way': 'Access Way',
                   'number-of-observations': 'Number of Observations/Episodes',
                   'description': 'Description',
-                  'citation-hint': 'Citation Hint'
+                  'citation-hint': 'Citation Hint',
+                  'data-formats': 'Available Data Formats'
                 }
             },
             'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this data set.',
@@ -326,7 +336,8 @@ angular.module('metadatamanagementApp').config(
                     'citation-hint': {
                       'de': 'How should the subdataset be cited?',
                       'en': 'How should the subdataset be cited?'
-                    }
+                    },
+                    'data-formats': 'Specify the data formats in which the subrecord is available.'
                 }
             },
             'all-data-sets-deleted-toast': 'All data sets of the Data Acquisition Project "{{id}}" have been deleted.'

@@ -4,6 +4,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataFormats;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import io.swagger.annotations.ApiModel;
@@ -11,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 /**
  * Data Product which can be ordered by a customer.
@@ -54,4 +57,10 @@ public class Product {
    */
   @NotEmpty
   private String version;
+
+  /**
+   * The available data formats of the study.
+   */
+  @NotEmpty
+  private Set<DataFormats> dataFormats;
 }

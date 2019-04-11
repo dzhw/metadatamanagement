@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.validation.ValidSurveyDataType;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -42,4 +43,11 @@ public class OrderedStudy {
    * The annotations of the {@link eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study}.
    */
   private I18nString annotations;
+
+  /**
+   * On of {@link eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.FreeResourceTypes}.
+   */
+  @NotNull
+  @ValidSurveyDataType
+  private I18nString surveyDataType;
 }

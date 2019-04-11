@@ -15,6 +15,7 @@ import org.javers.core.metamodel.annotation.ValueObject;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 /**
  * A subdataset is part of a {@link DataSet} and describes the concrete analyzable file which is
@@ -78,4 +79,10 @@ public class SubDataSet {
   @I18nStringNotEmpty(message = "data-set-management.error.sub-data-set.citation-hint."
       + "valid-citation")
   private I18nString citationHint;
+
+  /**
+   * Set of available file formats of the {@link SubDataSet}.
+   */
+  @NotEmpty(message = "data-set-management.error.sub-data-set.data-formats.not-empty")
+  private Set<DataFormats> dataFormats;
 }
