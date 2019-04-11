@@ -12,7 +12,6 @@ angular.module('metadatamanagementApp').config(
             'studySeries': 'Study Series',
             'institution': 'Institution',
             'authors': 'Authors',
-            'tags': 'Tags (Keywords) for the Study',
             'sponsors': 'Sponsored by',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
@@ -247,7 +246,8 @@ angular.module('metadatamanagementApp').config(
             'create-study': 'Create Study:',
             'first-name': 'First Name',
             'middle-name': 'Middle Name',
-            'last-name': 'Last Name'
+            'last-name': 'Last Name',
+            'tags': 'Tags (Keywords) for the Study'
           },
           'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this study.',
           'save-tooltip': 'Click to save this study.',
