@@ -84,5 +84,5 @@ public class SubDataSet {
    * Set of available file formats of the {@link SubDataSet}.
    */
   @NotEmpty(message = "data-set-management.error.sub-data-set.data-formats.not-empty")
-  private Set<DataFormats> dataFormats;
+  private Set<DataFormat> dataFormats;
 }

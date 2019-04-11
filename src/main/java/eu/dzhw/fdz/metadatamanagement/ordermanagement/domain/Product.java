@@ -4,7 +4,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataFormats;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataFormat;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import io.swagger.annotations.ApiModel;
@@ -59,8 +59,8 @@ public class Product {
   private String version;
 
   /**
-   * The available data formats of the study.
+   * The available data formats of the study. It must not be empty.
    */
   @NotEmpty
-  private Set<DataFormats> dataFormats;
+  private Set<DataFormat> dataFormats;
 }

@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataFormats;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataFormat;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,7 @@ import java.lang.management.ManagementFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Provides available {@link DataFormats}.
+ * Provides available {@link DataFormat}.
  */
 @Controller
 @RequestMapping("/api")
@@ -20,13 +20,13 @@ public class DataFormatsResource {
   private static final Long ETAG = ManagementFactory.getRuntimeMXBean().getStartTime();
 
   /**
-   * Return an array of available {@link DataFormats}.
+   * Return an array of available {@link DataFormat}.
    */
   @GetMapping(path = "/data-sets/data-formats")
-  public ResponseEntity<DataFormats[]> getDataFormats() {
+  public ResponseEntity<DataFormat[]> getDataFormats() {
     return ResponseEntity.ok()
         .cacheControl(CacheControl.maxAge(0, TimeUnit.DAYS).mustRevalidate().cachePublic())
         .eTag(ETAG.toString())
-        .body(DataFormats.values());
+        .body(DataFormat.values());
   }
 }

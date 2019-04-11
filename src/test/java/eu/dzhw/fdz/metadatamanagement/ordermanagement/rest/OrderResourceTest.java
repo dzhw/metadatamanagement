@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.ordermanagement.rest;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataFormats;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataFormat;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderState;
@@ -107,6 +107,6 @@ public class OrderResourceTest extends AbstractTest {
     study.setId("stu-" + dataAcquisitionProjectId + "$");
     I18nString title = new I18nString("test", "test");
     study.setTitle(title);
-    return new Product(dataAcquisitionProjectId, study, "remote-desktop-suf", "1.0.0", Set.of(DataFormats.R));
+    return new Product(dataAcquisitionProjectId, study, "remote-desktop-suf", "1.0.0", Set.of(DataFormat.R));
   }
 }

@@ -45,7 +45,8 @@ public class OrderedStudy {
   private I18nString annotations;
 
   /**
-   * On of {@link eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.FreeResourceTypes}.
+   * On of {@link eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDataTypes}. Must not
+   * be {@code null}.
    */
   @NotNull
   @ValidSurveyDataType

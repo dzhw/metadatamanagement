@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain;
 /**
  * File format for {@link SubDataSet}.
  */
-public enum DataFormats {
+public enum DataFormat {
   R,
   SPSS,
   STATA,

@@ -47,6 +47,7 @@ angular.module('metadatamanagementApp').config(
             'data-set-same-study': 'Data Sets of this Study',
             'sub-data-sets': {
               'name': 'Name',
+              'data-formats': 'Data Formats',
               'accessWay': 'Access Way',
               'description': 'Description',
               'numberOfAnalyzedVariables': 'Analyzable Variables',
@@ -73,7 +74,7 @@ angular.module('metadatamanagementApp').config(
               'STATA': 'Stata',
               'R': 'R',
               'SPSS': 'SPSS',
-              'WORD': 'Microsoft Word'
+              'WORD': 'Word'
             }
           },
           'attachments': {
