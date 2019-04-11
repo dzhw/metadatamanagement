@@ -24,7 +24,7 @@ Upload folder and single file in Dataset editor
 *** Keywords ***
 Get back to home page and deselect project
     Get back to german home page
-    Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='note_add']
+    Click Element Through Tooltips    xpath=//md-sidenav//project-navbar-module//button[@aria-label='Clear Input']
 
 Click to generate variable report
     Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='note_add']
