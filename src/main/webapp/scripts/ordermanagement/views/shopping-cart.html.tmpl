@@ -1,4 +1,5 @@
 <form name="orderForm" flex>
+    <input type="text" name="orderValue" class="fdz-order-value" ng-model="ctrl.orderValue" tabindex="-1" autocomplete="off">
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
         <h1 ng-if="!ctrl.orderSaved" class="md-headline" style="margin-left: 0px;">{{'shopping-cart.detail.table-title' | translate | fdzHyphenate }}</h1>
         <h1 ng-if="ctrl.orderSaved" class="md-headline" style="margin-left: 0px;">{{'shopping-cart.detail.thank-you' | translate | fdzHyphenate }}</h1>
@@ -70,7 +71,6 @@
         </md-card-header>
         <md-divider></md-divider>
         <md-card-content style="padding-top: 0px;">
-            <div data-vc-recaptcha data-key="'6LeEh3QUAAAAAIi38B2lNgKAxWagrZMeK3QQg8sN'" data-lang="currentLanguage" style="margin: 12px 0px;"></div>
             <div layout="row">
                 <md-button class="md-raised md-accent fdz-truncate-string" ng-click="ctrl.order()" style="margin-left: 0px; margin-top: 8px;">
                     <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

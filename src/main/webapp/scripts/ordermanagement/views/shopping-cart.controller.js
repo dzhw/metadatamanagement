@@ -23,6 +23,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     ctrl.noShadowCopyAvailable = {};
     ctrl.initComplete = false;
     ctrl.redirectCountDownSeconds = 5;
+    ctrl.orderValue = null;
 
     $scope.$on('$destroy', function() {
       if (intervalReference) {
@@ -210,7 +211,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
           languageKey: LanguageService.getCurrentInstantly(),
           client: 'MDM',
           state: 'CREATED',
-          products: []
+          products: [],
+          orderValue: ctrl.orderValue
         };
         ctrl.products.forEach(function(product) {
           var completeProduct = {

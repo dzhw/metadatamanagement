@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -67,4 +68,10 @@ public class Order extends AbstractRdcDomainObject {
    */
   @Valid
   private List<Product> products;
+
+  /**
+   * Form field for bots.
+   */
+  @Size(max = 1)
+  private String orderValue;
 }
