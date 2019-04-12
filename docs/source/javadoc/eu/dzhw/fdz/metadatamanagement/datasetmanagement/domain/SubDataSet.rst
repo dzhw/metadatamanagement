@@ -59,7 +59,7 @@ citationHint
 dataFormats
 ^^^^^^^^^^^
 
-.. java:field:: @NotEmpty private Set<DataFormats> dataFormats
+.. java:field:: @NotEmpty private Set<DataFormat> dataFormats
    :outertype: SubDataSet
 
    Set of available file formats of the \ :java:ref:`SubDataSet`\ .

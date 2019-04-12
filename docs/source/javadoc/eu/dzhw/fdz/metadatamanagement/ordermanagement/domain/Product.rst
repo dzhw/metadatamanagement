@@ -4,7 +4,7 @@
 
 .. java:import:: javax.validation.constraints NotNull
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain DataFormats
+.. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain DataFormat
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain DataSet
 
@@ -55,10 +55,10 @@ dataAcquisitionProjectId
 dataFormats
 ^^^^^^^^^^^
 
-.. java:field:: @NotEmpty private Set<DataFormats> dataFormats
+.. java:field:: @NotEmpty private Set<DataFormat> dataFormats
    :outertype: Product
 
-   The available data formats of the study.
+   The available data formats of the study. It must not be empty.
 
 study
 ^^^^^

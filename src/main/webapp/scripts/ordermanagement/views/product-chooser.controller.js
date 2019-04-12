@@ -6,9 +6,11 @@ angular.module('metadatamanagementApp')
     '$scope', 'Principal', '$rootScope', '$mdDialog',
     'DataAcquisitionProjectReleasesResource', 'ShoppingCartService',
     'ProjectReleaseService', 'projectId', 'accessWays', 'study', 'version',
+    'StudySearchService',
     function($scope, Principal, $rootScope, $mdDialog,
       DataAcquisitionProjectReleasesResource, ShoppingCartService,
-      ProjectReleaseService, projectId, accessWays, study, version) {
+      ProjectReleaseService, projectId, accessWays, study, version,
+      StudySearchService) {
       var ctrl = this;
       ctrl.accessWays = accessWays;
       ctrl.projectId = projectId;
@@ -19,6 +21,18 @@ angular.module('metadatamanagementApp')
       ctrl.noDataSets = false;
       ctrl.noFinalRelease = false;
       ctrl.dataNotAvailable = false;
+      ctrl.isStudyQueryResolved = false;
+
+      if (angular.isUndefined(ctrl.study.surveyDataType) || angular.isUndefined(
+        ctrl.study.dataSets)) {
+        StudySearchService.findOneById(ctrl.study.id).promise
+          .then(function(study) {
+          ctrl.study = study;
+          ctrl.isStudyQueryResolved = true;
+        });
+      } else {
+        ctrl.isStudyQueryResolved = true;
+      }
 
       if (ctrl.accessWays.length > 0) {
         if (_.includes(ctrl.accessWays, 'not-accessible')) {
@@ -37,11 +51,16 @@ angular.module('metadatamanagementApp')
       if (ctrl.study.dataAvailability.en === 'In preparation') {
         ctrl.noFinalRelease = true;
       }
-      var extractDataFormats = function(study) {
+      var extractDataFormats = function(study, selectedAccessWay) {
         var dataFormats = _.flatMap(study.dataSets, function(dataSet) {
-          return _.flatMap(dataSet.subDataSets, function(subDataSet) {
-            return subDataSet.dataFormats;
-          });
+          var subDataSetsBySelectedAccessWay = _.filter(dataSet.subDataSets,
+            function(subDataSet) {
+              return subDataSet.accessWay === selectedAccessWay;
+            });
+          return _.flatMap(subDataSetsBySelectedAccessWay,
+            function(subDataSet) {
+              return subDataSet.dataFormats;
+            });
         });
         return _.uniq(dataFormats);
       };
@@ -67,7 +86,7 @@ angular.module('metadatamanagementApp')
           dataAcquisitionProjectId: ctrl.projectId,
           accessWay: ctrl.selectedAccessWay,
           version: ctrl.selectedVersion,
-          dataFormats: extractDataFormats(ctrl.study),
+          dataFormats: extractDataFormats(ctrl.study, ctrl.selectedAccessWay),
           study: {
             id: ctrl.study.id,
             surveyDataType: ctrl.study.surveyDataType

@@ -46,7 +46,7 @@ surveyDataType
 .. java:field:: @NotNull @ValidSurveyDataType private I18nString surveyDataType
    :outertype: OrderedStudy
 
-   On of \ :java:ref:`eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.FreeResourceTypes`\ .
+   On of \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDataTypes`\ . Must not be \ ``null``\ .
 
 title
 ^^^^^
