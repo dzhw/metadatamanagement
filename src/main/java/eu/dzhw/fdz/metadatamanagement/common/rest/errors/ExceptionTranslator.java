@@ -8,6 +8,7 @@ import com.mongodb.DuplicateKeyException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.DuplicateFilenameException;
 import freemarker.core.InvalidReferenceException;
 import freemarker.core.ParseException;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
@@ -322,6 +323,17 @@ public class ExceptionTranslator {
     } else {
       throw exception;
     }
+    return errorListDto;
+  }
+
+  @ExceptionHandler
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  ErrorListDto handleDuplicateFilenameException(DuplicateFilenameException exception) {
+    ErrorListDto errorListDto = new ErrorListDto();
+    ErrorDto error = new ErrorDto(null, "global.error.import.file-already-exists",
+        null, "filename");
+    errorListDto.add(error);
     return errorListDto;
   }
 

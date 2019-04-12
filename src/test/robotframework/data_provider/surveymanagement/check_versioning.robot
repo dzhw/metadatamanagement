@@ -12,7 +12,7 @@ Editing survey and check versioning
     Input Text    name=titleDe    Test1337
     Click Submit Button
     Click Restore Dialogue
-    Wait Until Page Contains    vor ein paar Sekunden   10s
+    Page Should Contain    vor ein paar Sekunden
     Cancel Restore Dialoge
     Input Text    name=titleDe    Test
     Click Submit Button
