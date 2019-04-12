@@ -75,11 +75,20 @@ public class AttachmentMetadataHelper<T extends AbstractShadowableRdcDomainObjec
   public void writeAttachmentMetadata(MultipartFile multipartFile, String filename, T metadata,
                                       String currentUser) throws IOException {
 
+    if (fileNameExists(filename)) {
+      throw new DuplicateFilenameException(filename);
+    }
+
     String contentType = mimeTypeDetector.detect(multipartFile);
     try (InputStream in = multipartFile.getInputStream()) {
       this.operations.store(in, filename, contentType, metadata);
       javers.commit(currentUser, metadata);
     }
+  }
+
+  private boolean fileNameExists(String filename) {
+    GridFSDBFile file = gridFs.findOne(filename);
+    return file != null;
   }
 
   /**
