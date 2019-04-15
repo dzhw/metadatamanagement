@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('ShoppingCartService',
-  function(OrderResource, StudyResource, localStorageService, $state,
+  function(OrderResource, localStorageService, $state,
            SimpleMessageToastService, ProjectReleaseService, $rootScope, $q) {
 
     var SYNCHRONIZE_FAILURE_KEY = 'shopping-cart.error.synchronize';
@@ -108,23 +108,13 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
           if (_isProductInShoppingCart(products, product)) {
             _displayProductAlreadyInShoppingCart(product);
           } else {
-            StudyResource.get({id: product.study.id}).$promise
-              .then(function(study) {
-                var newProduct = {
-                  dataAcquisitionProjectId: product.dataAcquisitionProjectId,
-                  study: study,
-                  accessWay: product.accessWay,
-                  version: product.version
-                };
-
-                order.products.push(newProduct);
-                OrderResource.update(order).$promise
-                  .then(function(response) {
-                      _setOrderVersion(response.version);
-                      _addProductToLocalShoppingCart(product);
-                    },
-                    _displayUpdateOrderError);
-              }, _displayUpdateOrderError);
+            order.products.push(product);
+            OrderResource.update(order).$promise
+              .then(function(response) {
+                  _setOrderVersion(response.version);
+                  _addProductToLocalShoppingCart(product);
+                },
+                _displayUpdateOrderError);
           }
         }
       }, _displayUpdateOrderError);

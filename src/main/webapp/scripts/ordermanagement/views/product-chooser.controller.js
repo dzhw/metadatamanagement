@@ -89,7 +89,8 @@ angular.module('metadatamanagementApp')
           dataFormats: extractDataFormats(ctrl.study, ctrl.selectedAccessWay),
           study: {
             id: ctrl.study.id,
-            surveyDataType: ctrl.study.surveyDataType
+            surveyDataType: ctrl.study.surveyDataType,
+            title: ctrl.study.title
           }
         });
         $mdDialog.hide();
