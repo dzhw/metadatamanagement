@@ -43,6 +43,12 @@ public class InstrumentAttachmentMetadata extends AbstractShadowableRdcDomainObj
   private String id;
 
   /**
+   * The master id of the instrument attachment metadata.
+   */
+  @Setter(AccessLevel.NONE)
+  private String masterId;
+
+  /**
    * The id of the {@link Instrument} to which this attachment belongs.
    * 
    * Must not be empty.
@@ -136,6 +142,11 @@ public class InstrumentAttachmentMetadata extends AbstractShadowableRdcDomainObj
    */
   public void generateId() {
     this.setId("/public/files/instruments/" + instrumentId + "/attachments/" + fileName);
+  }
+
+  @Override
+  protected void setMasterIdInternal(String masterId) {
+    this.masterId = masterId;
   }
 
   @Override

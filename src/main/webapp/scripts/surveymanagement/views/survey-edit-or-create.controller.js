@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
       CommonDialogsService, LanguageService, AvailableSurveyNumbersResource,
       SurveyAttachmentResource, $q, StudyIdBuilderService, moment,
-      SurveyResponseRateImageUploadService, SurveySearchService,
+      SurveyResponseRateImageUploadService, SurveySearchService, $log,
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService) {
       var ctrl = this;
       var surveyMethodCache = {};
@@ -50,6 +50,13 @@ angular.module('metadatamanagementApp')
         }).finally(function() {
           $rootScope.$broadcast('stop-ignoring-404');
         });
+      };
+
+      var displayError = function(error) {
+        var msg = _.get(error, 'errors[0].message');
+        if (msg) {
+          SimpleMessageToastService.openAlertMessageToast(msg);
+        }
       };
 
       var redirectToSearchView = function() {
@@ -181,7 +188,8 @@ angular.module('metadatamanagementApp')
           ctrl.survey.$save()
           .then(ctrl.updateElasticSearchIndex)
           .then(ctrl.onSavedSuccessfully)
-          .catch(function() {
+          .catch(function(error) {
+              $log.error(error);
               SimpleMessageToastService.openAlertMessageToast(
                 'survey-management.edit.error-on-save-toast',
                 {surveyId: ctrl.survey.id});
@@ -424,7 +432,7 @@ angular.module('metadatamanagementApp')
               'survey-management.edit.survey-image-deleted-toast',
               null);
             ctrl.responseRateImageDeDirty = false;
-          });
+          }, displayError);
         } else {
           SurveyResponseRateImageUploadService.uploadImage(
             ctrl.responseRateImageDe, metadata, ctrl.survey.number, 'de')
@@ -433,7 +441,7 @@ angular.module('metadatamanagementApp')
                 'survey-management.edit.survey-image-saved-toast',
                 null);
               ctrl.responseRateImageDeDirty = false;
-            });
+            }, displayError);
         }
       };
 
@@ -462,7 +470,7 @@ angular.module('metadatamanagementApp')
               'survey-management.edit.survey-image-deleted-toast',
               null);
             ctrl.responseRateImageEnDirty = false;
-          });
+          }, displayError);
         } else {
           SurveyResponseRateImageUploadService.uploadImage(
             ctrl.responseRateImageEn, metadata, ctrl.survey.number, 'en')
@@ -471,7 +479,7 @@ angular.module('metadatamanagementApp')
                 'survey-management.edit.survey-image-saved-toast',
                 null);
               ctrl.responseRateImageEnDirty = false;
-            });
+            }, displayError);
         }
       };
 

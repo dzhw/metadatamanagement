@@ -22,6 +22,10 @@
                     <span style="font-weight: bold;">{{'survey-management.detail.label.population' | translate }}:</span>
                     <span display-i18n-string="ctrl.survey.population.description" fdz-hyphenate class="fdz-multiline-property"></span>
                   </div>
+                  <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.survey.population.unit">
+                    <span style="font-weight: bold;">{{'survey-management.detail.label.unit' | translate }}:</span>
+                    <span display-i18n-string="ctrl.survey.population.unit" fdz-hyphenate class="fdz-multiline-property"></span>
+                  </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.survey.dataType">
                     <span style="font-weight: bold;">{{'survey-management.detail.label.data-type' | translate }}:</span>
                     <span display-i18n-string="ctrl.survey.dataType" fdz-hyphenate></span>

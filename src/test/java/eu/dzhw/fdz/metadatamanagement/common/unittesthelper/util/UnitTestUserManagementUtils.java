@@ -3,7 +3,6 @@
  */
 package eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util;
 
-import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -111,26 +110,4 @@ public class UnitTestUserManagementUtils<T> {
     // Logout all user
     SecurityContextHolder.setContext(SecurityContextHolder.createEmptyContext());
   }
-
-  /**
-   * This method clones a object.
-   * 
-   * @param object
-   * @return
-   */
-  public static Object cloneObject(Object object) {
-    try {
-      Object clonedObject = object.getClass()
-        .newInstance();
-      for (Field field : object.getClass()
-        .getDeclaredFields()) {
-        field.setAccessible(true);
-        field.set(clonedObject, field.get(object));
-      }
-      return clonedObject;
-    } catch (Exception e) {
-      return null;
-    }
-  }
-
 }

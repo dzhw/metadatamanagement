@@ -124,7 +124,7 @@ public class AccountResourceTest extends AbstractTest {
   public void testGetExistingAccount() throws Exception {
 
     User user = UnitTestUserManagementUtils.getDefaultUser();
-    when(mockUserService.getUserWithAuthorities()).thenReturn(user);
+    when(mockUserService.getUserWithAuthorities()).thenReturn(Optional.of(user));
 
     restUserMockMvc.perform(get("/api/account").accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
@@ -318,7 +318,7 @@ public class AccountResourceTest extends AbstractTest {
 
   @Test
   public void testGetUnknownAccount() throws Exception {
-    when(mockUserService.getUserWithAuthorities()).thenReturn(null);
+    when(mockUserService.getUserWithAuthorities()).thenReturn(Optional.empty());
 
     restUserMockMvc.perform(get("/api/account").accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isInternalServerError());

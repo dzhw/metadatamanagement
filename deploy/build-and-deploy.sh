@@ -16,6 +16,9 @@ fi
 if [ "${TRAVIS_BRANCH}" = "master" ]; then
   PROFILE="prod"
 fi
+if [ "${TRAVIS_BRANCH}" = "test" ]; then
+  PROFILE="test"
+fi
 if [ -z ${PROFILE} ]; then
   echo "Please provide a valid profile e.g.: $0 dev"
   exit -1

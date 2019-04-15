@@ -11,41 +11,42 @@ Resource          ../../resources/login_resource.robot
 *** Variables ***
 ${TOAST_MSSG}  Die Erhebung wurde nicht gespeichert
 
-*** Test Cases ***    GerTitle       EngTitle     Wave        FielPeriodStart    FieldPeriodEnd    GerSurvMeth    EngSurvMeth     GerPopDesc      EngPopDesc            GerSample    EngSample    NetSampleSize     ResponseRate
-Empty German Title    ${Empty}       Something    1           01.05.2018         31.05.2018        Versuch        Trial           Na eben alle    Of course everyone    Alle         All          1400              10
+*** Test Cases ***    GerTitle       EngTitle     Wave        FielPeriodStart    FieldPeriodEnd    GerSurvMeth                                     GerSurvMeth                                 GerPopDesc       EngPopDesc                    NetSampleSize
+
+Empty German Title    ${Empty}       Something    1           01.05.2018         31.05.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             1
 
 Empty English Title
-                      Irgendetwas    ${Empty}     1           01.05.2018         31.05.2018        Versuch        Trial           Na eben alle    Of course everyone    Alle         All          1400              10
+                      Irgendetwas    ${Empty}     1           01.05.2018         31.05.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             1
 
-Empty Wave            Irgendetwas    Something    ${Empty}    01.05.2018         31.05.2018        Versuch        Trial           Na eben alle    Of course everyone    Alle         All          1400              10
+Empty Wave            Irgendetwas    Something    ${Empty}    01.05.2018         31.05.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             1
 
 Empty German SurveyMethod
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        ${Empty}       Trial           Na eben alle    Of course everyone    Alle         All          1400              10
+                      Irgendetwas    Something    1           01.05.2018         01.06.2018        ${Empty}                                         Standardised self-administered survey       Na eben alle    Of course everyone             1
 
 Empty English SurveyMethod
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        ${Empty}        Na eben alle    Of course everyone    Alle         All          1400              10
+                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Standardisierte postalische Befragung            ${Empty}                                    Na eben alle    Of course everyone             1
 
-Empty PopDescription
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial           ${Empty}        ${Empty}              Alle         All          1400              10
+Empty German PopDescription
+                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Standardisierte postalische Befragung            Standardised self-administered survey       ${Empty}        Of course everyone             1
 
-Empty Sample          Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial           Na eben alle    Of course everyone    ${Empty}     ${Empty}     1400              10
+Empty English PopDescription
+                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    ${Empty}                       1
 
-Empty SampleSize      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial           Na eben alle    Of course everyone    Alle         All          ${Empty}          10
+Empty NetSampleSize   Irgendetwas    Something    1           01.05.2018         01.06.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             ${Empty}
 
-Invalid SampleSize First
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial           Na eben alle    Of course everyone    Alle         All          -5                10
+Invalid NetSampleSize First
+                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             -5
 
-Invalid SampleSize Second
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial           Na eben alle    Of course everyone    Alle         All          Testsamplesize    10
+Invalid NetSampleSize Second
+                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             Testsamplesize
 
-Invalid ResponseRate
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Versuch        Trial           Na eben alle    Of course everyone    Alle         All          Testsamplesize    E
+
 
 *** Keywords ***
 Survey Page With Empty Or Invalid Options Should Fail
-    [Arguments]    ${GTitle}    ${ETitle}    ${Wave}    ${FieldPeriodStart}    ${FieldPeriodEnd}    ${GSurveyMethod}
-    ...    ${ESurveyMethod}   ${GPopDesc}    ${EPopDesc}    ${GSample}    ${ESample}    ${NetSampleSize}
-    ...    ${ResponseRate}
+    [Arguments]    ${GTitle}    ${ETitle}    ${Wave}    ${FieldPeriodStart}    ${FieldPeriodEnd}    ${GSurveyMethod}    ${ESurveyMethod}
+    ...    ${GPopDesc}    ${EPopDesc}     ${NetSampleSize}
+    ...
     Pass Execution If    '${BROWSER}' == 'ie'    Survey Creation not possible in IE
     Clear Element Text    name=titleDe
     Input Text    name=titleDe    ${GTitle}
@@ -66,17 +67,14 @@ Survey Page With Empty Or Invalid Options Should Fail
     Input Text    name=populationDescriptionDe    ${GPopDesc}
     Clear Element Text    name=populationDescriptionEn
     Input Text    name=populationDescriptionEn    ${EPopDesc}
-    Clear Element Text    name=sampleDe
-    Input Text    name=sampleDe    ${GSample}
-    Clear Element Text    name=sampleEn
-    Input Text    name=sampleEn    ${ESample}
+    Choose Sample Type
+    Input Gross Sample Size
     Clear Element Text    name=sampleSize
     Input Text    name=sampleSize    ${NetSampleSize}
-    Clear Element Text    name=responseRate
-    Input Text    name=responseRate    ${ResponseRate}
+    Select a survey unit
+    Select a country
     Save Changes
     Page Should Contain    Die Erhebung wurde nicht gespeichert, weil es noch ungültige Felder gibt!
-
     Close The Toast Message   ${TOAST_MSSG}
 
 Go To Survey Create Page
@@ -85,6 +83,7 @@ Go To Survey Create Page
     Wait Until Angular Ready    6s
     Click on surveys tab
     Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
+    Click add button
 
 Close Survey Editor
     Pass Execution If    '${BROWSER}' == 'ie'    Survey Creation not possible in IE
@@ -94,8 +93,27 @@ Close Survey Editor
     Sleep    1s
 
 Choose Quantitative Daten As Data Type
-    Click Element Through Tooltips    xpath=//md-select[@name = 'dataType']
+    Click Element Through Tooltips    xpath=//md-select[@name='dataType']
     Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'Quantitative Daten')]
+
+Choose Sample Type
+    Clear Element Text    xpath=//sample-type-picker//input[@name='sampleType']
+    Input Text    xpath=//sample-type-picker//input[@name='sampleType']   Kombination aus Wahrscheinlichkeits- und Nicht-Wahrscheinlichkeitsauswahl
+
+Input Gross Sample Size
+    Clear Element Text    name=grossSampleSize
+    Input Text    name=grossSampleSize    5
+
+Select a survey unit
+    Clear Element Text   name=unit
+    Input Text    xpath=//md-input-container//input[@name='unit']  Eltern
+
+Click add button
+    Click Element Through Tooltips    xpath=//button[@type='button']//md-icon[text()='add']
+
+Select a country
+    Clear Element Text   name=countryInput
+    Input Text    xpath=//md-input-container//input[@name='countryInput']   Deutschland
 
 Close The Toast Message
     [Arguments]  ${TOAST_MSSG}

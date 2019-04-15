@@ -18,7 +18,6 @@ import java.util.Collections;
 import org.hamcrest.core.AnyOf;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -97,8 +96,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  @Ignore("temporarily disabled")
-  public void testCreateDataAcquisitionProjectWithTooLongId() throws Exception {
+  public void testCreateDataAcquisitionProjectWithTooLongMasterId() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // Collections.emptyList()));
     project.setId("thisidistoolongandshouldproduceanerror");
@@ -109,7 +107,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().is4xxClientError()).andExpect(jsonPath("$.errors[0].message",
-        containsString("error.data-acquisition-project.id.size")));
+        containsString("error.data-acquisition-project.master-id.size")));
   }
 
   @Test

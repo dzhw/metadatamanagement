@@ -118,6 +118,12 @@ language
 
    The language of the attachments content. Must not be empty and must be specified as ISO 639 language code.
 
+masterId
+^^^^^^^^
+
+.. java:field:: @Setter private String masterId
+   :outertype: DataSetAttachmentMetadata
+
 title
 ^^^^^
 

@@ -1,4 +1,4 @@
-<div>
+<div flex layout="column">
 
   <div layout="row" style="margin-bottom: 0px;" layout-margin>
     <h1 id="top" class="md-headline fdz-truncate-string" style="margin-left: 0px;">{{'data-acquisition-project-management.project-cockpit.header' | translate}} <span class="label label-as-badge label-default">{{project.id}}</span></h1>
@@ -7,7 +7,7 @@
     <p>{{'data-acquisition-project-management.project-cockpit.alert.noproject' | translate}}</p>
   </div>
 
-  <md-card ng-cloak ng-if="project">
+  <md-card ng-cloak ng-if="project" flex>
     <md-tabs md-dynamic-height md-border-bottom md-selected="selectedTab.index">
       <md-tab md-on-select="onTabSelect('status')">
         <md-tab-label>

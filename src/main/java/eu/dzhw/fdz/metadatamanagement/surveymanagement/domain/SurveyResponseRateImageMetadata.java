@@ -37,6 +37,12 @@ public class SurveyResponseRateImageMetadata extends AbstractShadowableRdcDomain
   private String id;
 
   /**
+   * The master id of the survey response rate image metadata.
+   */
+  @Setter(AccessLevel.NONE)
+  private String masterId;
+
+  /**
    * The id of the {@link Survey} to which this response rate image belongs.
    * 
    * Must not be empty.
@@ -94,6 +100,11 @@ public class SurveyResponseRateImageMetadata extends AbstractShadowableRdcDomain
   public void generateId() {
     // hack to satisfy javers
     this.setId("/public/files/surveys/" + surveyId + "/" + fileName);
+  }
+
+  @Override
+  protected void setMasterIdInternal(String masterId) {
+    this.masterId = masterId;
   }
 
   @Override
