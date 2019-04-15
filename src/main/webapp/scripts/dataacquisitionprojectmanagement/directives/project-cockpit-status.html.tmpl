@@ -35,11 +35,7 @@
 		</div>
 	</div>
 	<div layout-gt-sm="row" layout="column" layout-wrap>
-		<metadata-type-state-card project="ctrl.project" counts="ctrl.counts" type="studies"></metadata-type-state-card>
-		<metadata-type-state-card project="ctrl.project" counts="ctrl.counts" type="surveys"></metadata-type-state-card>
-		<metadata-type-state-card project="ctrl.project" counts="ctrl.counts" type="instruments"></metadata-type-state-card>
-		<metadata-type-state-card project="ctrl.project" counts="ctrl.counts" type="questions"></metadata-type-state-card>
-		<metadata-type-state-card project="ctrl.project" counts="ctrl.counts" type="dataSets"></metadata-type-state-card>
-		<metadata-type-state-card project="ctrl.project" counts="ctrl.counts" type="variables"></metadata-type-state-card>
+		<metadata-type-state-card flex="auto" project="ctrl.project" counts="ctrl.counts" type="studies"></metadata-type-state-card>
+		<metadata-type-state-card ng-repeat="state in ctrl.sortedStates" flex="auto" project="ctrl.project" counts="ctrl.counts" type="{{state}}"></metadata-type-state-card>
 	</div>
 </div>

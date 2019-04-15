@@ -79,6 +79,8 @@ public class InstrumentAttachmentMetadataShadowCopyDataSourceTest extends Abstra
   public void createShadowCopy() throws Exception {
     InstrumentAttachmentMetadata master = UnitTestCreateDomainObjectUtils
         .buildInstrumentAttachmentMetadata(PROJECT_ID, 1);
+    master.generateId();
+    master.setMasterId(master.getId());
     createTestFileForAttachment(master);
 
     shadowCopyService.createShadowCopies(dataAcquisitionProject,
@@ -111,6 +113,8 @@ public class InstrumentAttachmentMetadataShadowCopyDataSourceTest extends Abstra
   public void createShadowCopyWithSameReleaseVersion() throws Exception {
     InstrumentAttachmentMetadata master = UnitTestCreateDomainObjectUtils
         .buildInstrumentAttachmentMetadata(PROJECT_ID, 1);
+    master.generateId();
+    master.setMasterId(master.getId());
     createTestFileForAttachment(master);
     InstrumentAttachmentMetadata shadow = createShadow(master, "1.0.0");
     createTestFileForAttachment(shadow);
@@ -141,6 +145,8 @@ public class InstrumentAttachmentMetadataShadowCopyDataSourceTest extends Abstra
   public void createShadowCopyLinkPredecessorToSuccessor() throws Exception {
     InstrumentAttachmentMetadata master = UnitTestCreateDomainObjectUtils
         .buildInstrumentAttachmentMetadata(PROJECT_ID, 1);
+    master.generateId();
+    master.setMasterId(master.getId());
     createTestFileForAttachment(master);
 
     InstrumentAttachmentMetadata shadow = createShadow(master, "1.0.0");

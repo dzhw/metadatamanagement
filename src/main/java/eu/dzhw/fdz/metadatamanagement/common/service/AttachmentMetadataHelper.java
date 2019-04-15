@@ -4,6 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
@@ -70,14 +71,24 @@ public class AttachmentMetadataHelper<T extends AbstractShadowableRdcDomainObjec
    * @param metadata      Metadata attachment
    * @param currentUser   User name from the current session
    */
+  @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
   public void writeAttachmentMetadata(MultipartFile multipartFile, String filename, T metadata,
                                       String currentUser) throws IOException {
+
+    if (fileNameExists(filename)) {
+      throw new DuplicateFilenameException(filename);
+    }
 
     String contentType = mimeTypeDetector.detect(multipartFile);
     try (InputStream in = multipartFile.getInputStream()) {
       this.operations.store(in, filename, contentType, metadata);
       javers.commit(currentUser, metadata);
     }
+  }
+
+  private boolean fileNameExists(String filename) {
+    GridFSDBFile file = gridFs.findOne(filename);
+    return file != null;
   }
 
   /**

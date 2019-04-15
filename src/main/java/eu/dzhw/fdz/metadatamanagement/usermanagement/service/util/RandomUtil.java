@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.service.util;
 
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * Utility class for generating random Strings.

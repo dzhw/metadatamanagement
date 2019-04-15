@@ -250,7 +250,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
       SearchHelperService.addQuery(query, queryterm);
       SearchHelperService.addFilter(query);
       if (type !== 'related_publications') {
-        SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
+        SearchHelperService.addShadowCopyFilter(query, filter);
       }
 
       return ElasticSearchClient.search(query).then(function(result) {

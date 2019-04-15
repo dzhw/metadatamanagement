@@ -223,7 +223,8 @@ angular.module('metadatamanagementApp').config(
               'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'
             },
             'filename': {
-              'not-empty': 'The filename of the attachment must not be empty!'
+              'not-empty': 'The filename of the attachment must not be empty!',
+              'not-unique': 'There is already an attachment with this name!'
             }
           },
           'sub-data-set': {

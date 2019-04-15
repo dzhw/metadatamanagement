@@ -73,7 +73,7 @@
                 <div layout-gt-sm="row" layout="column" style="-ms-flex:auto">
                     <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="surveyMethodDe" md-input-maxlength="512" ng-required="true" md-floating-label="{{'survey-management.detail.label.survey-method' | translate}} ({{'global.in-german' | translate}})" md-min-length="0"
                       md-require-match="false" md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentSurveyMethod" md-search-text="ctrl.survey.surveyMethod.de" md-items="item in ctrl.searchSurveyMethods(ctrl.survey.surveyMethod.de, 'de')" md-item-text="item.de"
-                      md-clear-button="true" md-no-cache="true" md-is-error="!surveyForm.surveyMethodDe.$valid && (surveyForm.surveyMethodDe.$dirty surveyForm.surveyMethodDe.$touched)">
+                      md-clear-button="true" md-no-cache="true" md-is-error="!surveyForm.surveyMethodDe.$valid && (surveyForm.surveyMethodDe.$dirty surveyForm.surveyMethodDe.$touched)" md-selected-item-change="surveyForm.$setDirty()">
                         <md-item-template>
                             <span class="md-title" style="font-size: 14px;" md-highlight-text="ctrl.survey.surveyMethod.de" md-highlight-flags="ig">{{item.de}}</span>
                         </md-item-template>
@@ -88,7 +88,7 @@
                     </md-autocomplete>
                     <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="surveyMethodEn" md-input-maxlength="512" md-floating-label="{{'survey-management.detail.label.survey-method' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false"
                       ng-required="true" md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentSurveyMethod" md-search-text="ctrl.survey.surveyMethod.en" md-items="item in ctrl.searchSurveyMethods(ctrl.survey.surveyMethod.en, 'en')" md-item-text="item.en"
-                      md-clear-button="true" md-no-cache="true" md-is-error="!surveyForm.surveyMethodEn.$valid && (surveyForm.surveyMethodEn.$dirty || surveyForm.surveyMethodEn.$touched)">
+                      md-clear-button="true" md-no-cache="true" md-is-error="!surveyForm.surveyMethodEn.$valid && (surveyForm.surveyMethodEn.$dirty || surveyForm.surveyMethodEn.$touched)" md-selected-item-change="surveyForm.$setDirty()">
                         <md-item-template>
                             <span class="md-title" style="font-size: 14px;" md-highlight-text="ctrl.survey.surveyMethod.en" md-highlight-flags="ig">{{item.en}}</span>
                         </md-item-template>
@@ -135,25 +135,8 @@
                         </div>
                     </md-input-container>
                 </div>
-                <div layout-gt-sm="row" layout="column">
-                    <md-input-container flex="50" style="-ms-flex:auto" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!surveyForm.sampleDe.$valid && (surveyForm.sampleDe.$dirty || surveyForm.sampleDe.$touched)">
-                        <label class="fdz-input-required">{{'survey-management.detail.label.sample' | translate}} ({{'global.in-german' | translate}})</label>
-                        <input md-maxlength="2048" fdz-required="!ctrl.survey.sample.en" ng-model="ctrl.survey.sample.de" name="sampleDe" lang="de" md-no-asterisk>
-                        <div ng-if="!surveyForm.sampleDe.$dirty && !surveyForm.sampleDe.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.sample.de' | translate}}</div>
-                        <div ng-messages="surveyForm.sampleDe.$error" multiple>
-                            <div ng-message="fdz-required">{{'survey-management.error.survey.sample.i18n-string-not-empty' | translate}}</div>
-                            <div ng-message="md-maxlength">{{'survey-management.error.survey.sample.i18n-string-size' | translate}}</div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container flex="50" style="-ms-flex:auto" md-is-error="!surveyForm.sampleEn.$valid && (surveyForm.sampleEn.$dirty || surveyForm.sampleEn.$touched)">
-                        <label class="fdz-input-required">{{'survey-management.detail.label.sample' | translate}} ({{'global.in-english' | translate}})</label>
-                        <input md-maxlength="2048" fdz-required="!ctrl.survey.sample.de" ng-model="ctrl.survey.sample.en" name="sampleEn" lang="en" md-no-asterisk>
-                        <div ng-if="!surveyForm.sampleEn.$dirty && !surveyForm.sampleEn.$touched" class="fdz-input-hint">{{'survey-management.edit.hints.sample.en' | translate}}</div>
-                        <div ng-messages="surveyForm.sampleEn.$error" multiple>
-                            <div ng-message="fdz-required">{{'survey-management.error.survey.sample.i18n-string-not-empty' | translate}}</div>
-                            <div ng-message="md-maxlength">{{'survey-management.error.survey.sample.i18n-string-size' | translate}}</div>
-                        </div>
-                    </md-input-container>
+                <div layout="row">
+                    <sample-type-picker sample-type="ctrl.survey.sample" flex="100" flex-gt-sm="50"></sample-type-picker>
                 </div>
                 <div layout-gt-sm="row" layout="column">
                     <md-input-container flex="50" style="-ms-flex:auto" md-is-error="!surveyForm.grossSampleSize.$valid && (surveyForm.grossSampleSize.$dirty || surveyForm.grossSampleSize.$touched)">
@@ -194,6 +177,10 @@
                             <div ng-message="max">{{'survey-management.error.survey.response-rate.max' | translate}}</div>
                         </div>
                     </md-input-container>
+                    <div flex="50"></div>
+                </div>
+                <div layout-gt-sm="row" layout="column">
+                    <unit-value-picker unit="ctrl.survey.population.unit" flex="50"></unit-value-picker>
                     <div flex="50"></div>
                 </div>
                 <div layout-gt-sm="row" layout="column">

@@ -173,7 +173,8 @@ angular.module('metadatamanagementApp').config(
               'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
             },
             'filename': {
-              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.'
+              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.',
+              'not-unique': 'Es gibt bereits ein Attachment mit diesem Dateinamen.'
             }
           },
           'post-validation': {

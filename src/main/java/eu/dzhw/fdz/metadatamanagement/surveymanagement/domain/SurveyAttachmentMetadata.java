@@ -41,6 +41,9 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
   @Setter(AccessLevel.NONE)
   private String id;
 
+  @Setter(AccessLevel.NONE)
+  private String masterId;
+
   /**
    * The id of the {@link Survey} to which this attachment belongs.
    * 
@@ -133,6 +136,11 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
   public void generateId() {
     // hack to satisfy javers
     this.setId("/public/files/surveys/" + surveyId + "/attachments/" + fileName);
+  }
+
+  @Override
+  protected void setMasterIdInternal(String masterId) {
+    this.masterId = masterId;
   }
 
   @Override

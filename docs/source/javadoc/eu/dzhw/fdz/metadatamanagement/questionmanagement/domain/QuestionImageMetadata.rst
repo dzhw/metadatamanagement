@@ -106,6 +106,14 @@ language
 
    The language of the question text on this image. Must not be empty and must be a valid ISO 639 code.
 
+masterId
+^^^^^^^^
+
+.. java:field:: @Setter private String masterId
+   :outertype: QuestionImageMetadata
+
+   The master id of question image metadata.
+
 questionId
 ^^^^^^^^^^
 

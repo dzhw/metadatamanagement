@@ -101,7 +101,8 @@ public class StudyAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.[0].version", is(0)))
       .andExpect(jsonPath("$.[0].createdBy", is("test")))
       .andExpect(jsonPath("$.[0].lastModifiedBy", is("test")))
-      .andExpect(jsonPath("$.[0].masterId", is(studyAttachmentMetadata.getMasterId())));
+      .andExpect(jsonPath("$.[0].masterId", is("/public/files/studies/"
+          + "stu-projectid$/attachments/filename.txt")));
   }
 
   @Test
