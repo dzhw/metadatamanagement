@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp').config(
             'study': 'Studie',
             'customer-name': 'Ihr Name',
             'customer-email': 'Ihre E-Mailadresse',
-            'data-formats': 'Die Datensätze enthalten Daten in den folgenden Dateiformaten:'
+            'data-formats': 'Die Datensätze enthalten Daten in den folgenden Formaten:'
           },
           'hints': {
             'name': 'Bitte teilen Sie uns Ihren vollständigen Namen mit.',
