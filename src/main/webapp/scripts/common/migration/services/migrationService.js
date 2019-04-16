@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp').service('MigrationService',
     var migrate = function() {
       var storedVersion = localStorageService.get(versionKey);
       if (storedVersion !== VERSION) {
-        ShoppingCartService.migrateStoredData();
+        ShoppingCartService.clearProducts();
         localStorageService.set(versionKey, VERSION);
       }
     };

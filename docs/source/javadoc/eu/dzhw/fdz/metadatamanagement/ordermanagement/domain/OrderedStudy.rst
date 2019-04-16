@@ -6,6 +6,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringEntireNotEmpty
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.validation ValidSurveyDataType
+
 .. java:import:: io.swagger.annotations ApiModel
 
 .. java:import:: lombok Data
@@ -37,6 +39,14 @@ id
    :outertype: OrderedStudy
 
    The id of the \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study`\ . Must not be empty.
+
+surveyDataType
+^^^^^^^^^^^^^^
+
+.. java:field:: @NotNull @ValidSurveyDataType private I18nString surveyDataType
+   :outertype: OrderedStudy
+
+   One of \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDataTypes`\ . Must not be \ ``null``\ .
 
 title
 ^^^^^

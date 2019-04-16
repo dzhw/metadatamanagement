@@ -9,16 +9,19 @@
                 <md-card-avatar>
                     <md-icon md-svg-src="/assets/images/icons/product.svg" class="fdz-search-result-icon"></md-icon>
                 </md-card-avatar>
-                <md-card-header-text class="fdz-truncate-string">
-                    <div class="md-title fdz-truncate-string"><a ui-sref="studyDetail({id: product.study.id, version: product.version})">
+                <md-card-header-text class="fdz-truncate-string" style="max-height: inherit;">
+                    <div class="md-title fdz-truncate-string">
+                        <a ui-sref="studyDetail({id: product.study.id, version: product.version})">
                             {{ctrl.studies[product.study.id + '-' + product.version].title | displayI18nString}}
                             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                 {{'shopping-cart.detail.study-tooltip' | translate}}
                             </md-tooltip>
                         </a>
                     </div>
-                    <div class="md-subhead fdz-truncate-string" style="color: black;"><span>{{product.accessWay}}, </span><span>{{'shopping-cart.detail.label.version' | translate }} {{product.version}}</span> <strong ng-if="!ctrl.isCurrentVersion(product)">{{'(' + ('shopping-cart.detail.label.not-current' | translate) + ')'}}</strong><span
-                          ng-if="ctrl.isCurrentVersion(product)">{{' (' + ('shopping-cart.detail.label.current' | translate) + ')'}}</span></div>
+                    <div class="md-subhead fdz-truncate-string" style="color: black;">
+                        <span>{{product.accessWay}}, </span><span>{{'shopping-cart.detail.label.version' | translate }} {{product.version}}</span> <strong ng-if="!ctrl.isCurrentVersion(product)">{{'(' + ('shopping-cart.detail.label.not-current' | translate) + ')'}}</strong>
+                        <span ng-if="ctrl.isCurrentVersion(product)">{{' (' + ('shopping-cart.detail.label.current' | translate) + ')'}}</span>
+                    </div>
                 </md-card-header-text>
             </md-card-header>
             <md-card-content ng-switch="ctrl.noShadowCopyAvailable[product.study.id + '-' + product.version]">
@@ -37,11 +40,16 @@
                 </a>
                 <span>{{'shopping-cart.detail.label.in' | translate}}</span>
                 <span ng-switch-when="true">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}</span>
-                <a ng-switch-default ui-sref="search({'type': 'data_sets', 'study': product.study.id + '-' + product.version, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}
+                <a ng-switch-default ui-sref="search({'type': 'data_sets', 'study': product.study.id + '-' + product.version, 'access-way': product.accessWay})">
+                    <span>{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}</span>
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'shopping-cart.detail.data-sets-tooltip' | translate}}
                     </md-tooltip>
                 </a>
+                <span>{{'shopping-cart.detail.label.data-formats' | translate}}</span>
+                <span ng-repeat="dataFormat in product.dataFormats">
+                    {{('data-set-management.detail.sub-data-sets.data-formats.' + dataFormat | translate) + (!$last ? ', ' : '.')}}
+                </span>
                 <div ng-if="ctrl.studies[product.study.id].annotations">
                     <span style="font-weight: bold;">{{'shopping-cart.detail.label.annotations' | translate }}:&nbsp;</span>
                     <span fdz-hyphenate class="fdz-text-block fdz-multiline-property" lang="{{currentLanguage}}">{{ctrl.studies[product.study.id].annotations | displayI18nString}}</span>
