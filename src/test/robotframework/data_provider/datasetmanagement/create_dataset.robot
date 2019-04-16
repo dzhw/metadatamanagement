@@ -34,7 +34,7 @@ Go To Dataset Create Page
 Fill up the description and title
     Pass Execution If    '${BROWSER}' == 'ie'    Dataset Creation not possible in IE
     Input Text   xpath=//input[@name='descriptionDe']    Dataset Description De
-    Input Text   xpath=//input[@name='descriptionEn']    Dataset Description De
+    Input Text   xpath=//input[@name='descriptionEn']    Dataset Description En
 
 Fill up the Subdatasets
     Pass Execution If    '${BROWSER}' == 'ie'    Dataset Creation not possible in IE
