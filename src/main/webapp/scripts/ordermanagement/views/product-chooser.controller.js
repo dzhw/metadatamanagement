@@ -6,11 +6,11 @@ angular.module('metadatamanagementApp')
     '$scope', 'Principal', '$rootScope', '$mdDialog',
     'DataAcquisitionProjectReleasesResource', 'ShoppingCartService',
     'ProjectReleaseService', 'projectId', 'accessWays', 'study', 'version',
-    'StudySearchService',
+    'StudySearchService', 'StudyIdBuilderService', '$log',
     function($scope, Principal, $rootScope, $mdDialog,
       DataAcquisitionProjectReleasesResource, ShoppingCartService,
       ProjectReleaseService, projectId, accessWays, study, version,
-      StudySearchService) {
+      StudySearchService, StudyIdBuilderService, $log) {
       var ctrl = this;
       ctrl.accessWays = accessWays;
       ctrl.projectId = projectId;
@@ -81,7 +81,7 @@ angular.module('metadatamanagementApp')
             }
           });
 
-      ctrl.addToShoppingCart = function() {
+      var _addToShoppingCart = function() {
         ShoppingCartService.add({
           dataAcquisitionProjectId: ctrl.projectId,
           accessWay: ctrl.selectedAccessWay,
@@ -94,6 +94,28 @@ angular.module('metadatamanagementApp')
           }
         });
         $mdDialog.hide();
+      };
+
+      ctrl.addToShoppingCart = function() {
+        // get the right shadow copy
+        if (ctrl.study.release.version !== ctrl.selectedVersion) {
+          var studyId = StudyIdBuilderService.buildStudyId(
+            ProjectReleaseService.stripVersionSuffix(ctrl.projectId),
+            ctrl.selectedVersion);
+          StudySearchService.findOneById(studyId).promise.then(function() {
+                _addToShoppingCart();
+              }).catch(function(error) {
+                if (error.status === 404) {
+                  // there might be no shadow copy
+                  _addToShoppingCart();
+                } else {
+                  $log.error('Error while retrieving shadow for "' + studyId +
+                  '".', error);
+                }
+              });
+        } else {
+          _addToShoppingCart();
+        }
       };
 
       $scope.closeDialog = function() {

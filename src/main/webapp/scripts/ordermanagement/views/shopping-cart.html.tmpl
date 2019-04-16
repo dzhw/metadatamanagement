@@ -48,7 +48,7 @@
                 </a>
                 <span>{{'shopping-cart.detail.label.data-formats' | translate}}</span>
                 <span ng-repeat="dataFormat in product.dataFormats">
-                    {{('data-set-management.detail.sub-data-sets.data-formats.' + dataFormat | translate) + ($index + 1 !== product.dataFormats.length ? ', ' : '')}}
+                    {{('data-set-management.detail.sub-data-sets.data-formats.' + dataFormat | translate) + (!$last ? ', ' : '.')}}
                 </span>
                 <div ng-if="ctrl.studies[product.study.id].annotations">
                     <span style="font-weight: bold;">{{'shopping-cart.detail.label.annotations' | translate }}:&nbsp;</span>
