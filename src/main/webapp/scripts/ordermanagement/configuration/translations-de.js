@@ -31,7 +31,8 @@ angular.module('metadatamanagementApp').config(
             'data-sets': '{dataSets, plural, =0{unbekannt vielen Datensätze.} =1{einem Datensatz.} other{{formattedDataSets} Datensätzen.}}',
             'study': 'Studie',
             'customer-name': 'Ihr Name',
-            'customer-email': 'Ihre E-Mailadresse'
+            'customer-email': 'Ihre E-Mailadresse',
+            'data-formats': 'Die Datensätze enthalten Daten in den folgenden Formaten:'
           },
           'hints': {
             'name': 'Bitte teilen Sie uns Ihren vollständigen Namen mit.',

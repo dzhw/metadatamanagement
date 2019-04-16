@@ -177,7 +177,7 @@ angular.module('metadatamanagementApp')
       ctrl.addToShoppingCart = function(event) {
         ProductChooserDialogService.showDialog(
           ctrl.question.dataAcquisitionProjectId, ctrl.accessWays,
-          ctrl.question.study,
+          ctrl.study,
           ctrl.question.release.version,
           event);
       };

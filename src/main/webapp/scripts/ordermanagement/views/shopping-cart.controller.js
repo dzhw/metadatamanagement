@@ -219,8 +219,11 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
             dataAcquisitionProjectId: product.dataAcquisitionProjectId,
             study: ctrl.studies[product.study.id + '-' + product.version],
             accessWay: product.accessWay,
-            version: product.version
+            version: product.version,
+            dataFormats: product.dataFormats
           };
+          _.set(completeProduct, 'study.surveyDataType',
+            product.study.surveyDataType);
           completeProduct.study.id = ProjectReleaseService
             .stripVersionSuffix(completeProduct.study.id);
           order.products.push(completeProduct);

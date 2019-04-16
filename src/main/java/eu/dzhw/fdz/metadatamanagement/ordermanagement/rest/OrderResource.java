@@ -92,7 +92,7 @@ public class OrderResource {
   public ResponseEntity<Order> findOrder(@PathVariable String id) {
     Optional<Order> optional = orderRepository.findById(id);
 
-    if (!optional.isPresent()) {
+    if (optional.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
 
@@ -118,7 +118,7 @@ public class OrderResource {
   public ResponseEntity<IdAndVersionOrderProjection> updateOrder(@PathVariable String id,
                                                           @RequestBody @Valid Order order) {
     Optional<Order> optional = orderService.update(id, order);
-    if (!optional.isPresent()) {
+    if (optional.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
     String destinationUrl;

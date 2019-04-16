@@ -450,7 +450,7 @@
         </div>
     </div>
     <div class="fdz-fab-button-container" layout="column">
-      <md-button ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')" class="md-fab md-raised md-accent" ng-click="addToShoppingCart($event)">
+      <md-button ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')" class="md-fab md-raised md-accent" ng-click="addToShoppingCart($event)" ng-disabled="dataSets === null">
           <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'shopping-cart.buttons.add-study-tooltip' | translate}}
           </md-tooltip>
