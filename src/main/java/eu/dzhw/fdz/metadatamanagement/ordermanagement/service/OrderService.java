@@ -17,6 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository
  */
 @Service
 public class OrderService {
+
   @Autowired
   private OrderRepository orderRepository;
 

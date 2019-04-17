@@ -1,4 +1,6 @@
 <form name="orderForm" flex>
+    <input id="website" type="text" name="website" ng-hide="true" tabindex="-1" autocomplete="off" />
+    <input id="email" type="text" name="email" tabindex="-1" autocomplete="off" value="your@email.com" class="fdz-order-email" />
     <div layout="row" style="margin-bottom: 0px;" layout-margin>
         <h1 ng-if="!ctrl.orderSaved" class="md-headline" style="margin-left: 0px;">{{'shopping-cart.detail.table-title' | translate | fdzHyphenate }}</h1>
         <h1 ng-if="ctrl.orderSaved" class="md-headline" style="margin-left: 0px;">{{'shopping-cart.detail.thank-you' | translate | fdzHyphenate }}</h1>
@@ -66,19 +68,13 @@
         </md-card>
     </div>
     <md-card ng-if="ctrl.initComplete && ctrl.products && ctrl.products.length > 0" class="fdz-fade-in">
-        <md-card-content>
-            <p data-translate="shopping-cart.detail.explain-data-product"></p>
-        </md-card-content>
-    </md-card>
-    <md-card ng-if="ctrl.initComplete && ctrl.products && ctrl.products.length > 0" class="fdz-fade-in">
-        <md-card-header>
+        <md-card-header class="fdz-card-header-border">
           <md-card-header-text>
-              <h2 class="md-title">{{'shopping-cart.detail.personal-details' | translate }}</h2>
+              <h2 class="md-title">{{'shopping-cart.detail.hint' | translate }}</h2>
           </md-card-header-text>
         </md-card-header>
-        <md-divider></md-divider>
-        <md-card-content style="padding-top: 0px;">
-            <div data-vc-recaptcha data-key="'6LeEh3QUAAAAAIi38B2lNgKAxWagrZMeK3QQg8sN'" data-lang="currentLanguage" style="margin: 12px 0px;"></div>
+        <md-card-content>
+            <p data-translate="shopping-cart.detail.explain-data-product"></p>
             <div layout="row">
                 <md-button class="md-raised md-accent fdz-truncate-string" ng-click="ctrl.order()" style="margin-left: 0px; margin-top: 8px;">
                     <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
