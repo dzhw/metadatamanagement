@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
            VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
            OrderResource, LanguageService, SimpleMessageToastService, order,
            $window, $interval, $location, $transitions, ProjectReleaseService,
-           $rootScope) {
+           $rootScope, $document) {
 
     PageTitleService.setPageTitle('shopping-cart.title');
     ToolbarHeaderService.updateToolbarHeader({
@@ -23,7 +23,6 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     ctrl.noShadowCopyAvailable = {};
     ctrl.initComplete = false;
     ctrl.redirectCountDownSeconds = 5;
-    ctrl.orderValue = null;
 
     $scope.$on('$destroy', function() {
       if (intervalReference) {
@@ -35,10 +34,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
                                           orderId) {
       interval.then(function() {
         $interval.cancel(interval);
-        $transitions.onBefore({}, function(transition) {
-          if (transition.$to().name === 'restoreShoppingCart') {
-            return false;
-          }
+        $transitions.onBefore({entering: 'restoreShoppingCart'}, function() {
+          return $q.defer().promise;
         });
         $location.path('/' + languageKey + '/shopping-cart/' + orderId)
           .replace();
@@ -206,13 +203,15 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     };
 
     ctrl.order = function() {
-      if ($scope.orderForm.$valid) {
+      // check honeypot fields
+      var email = $document.find('#email')[0].value;
+      var website = $document.find('#website')[0].value;
+      if (!website && email === 'your@email.com') {
         var order = {
           languageKey: LanguageService.getCurrentInstantly(),
           client: 'MDM',
           state: 'CREATED',
-          products: [],
-          orderValue: ctrl.orderValue
+          products: []
         };
         ctrl.products.forEach(function(product) {
           var completeProduct = {

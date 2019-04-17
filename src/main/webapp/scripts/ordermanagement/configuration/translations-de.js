@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp').config(
         'title': 'Einkaufswagen',
         'detail': {
           'table-title': 'Ihre ausgewählten Datenprodukte',
-          'personal-details': 'Persönliche Angaben',
+          'hint': 'Hinweis',
           'label': {
             'title': 'Studientitel',
             'access-way': 'Zugangsweg',
@@ -71,7 +71,7 @@ angular.module('metadatamanagementApp').config(
         'toasts': {
           'study-added': 'Das Datenprodukt wurde in den Einkaufswagen gelegt.',
           'study-already-in-cart': 'Das Datenprodukt ist bereits im Einkaufswagen.',
-          'order-has-validation-errors-toast': 'Sie haben noch nicht alle benötigten Angaben gemacht.',
+          'order-has-validation-errors-toast': 'Ihr Formular enthält ungültige Angaben.',
           'error-on-saving-order': 'Beim Senden Ihrer Bestellung trat ein Fehler auf.'
         },
         'buttons': {

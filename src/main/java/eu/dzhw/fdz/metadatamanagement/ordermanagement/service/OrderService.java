@@ -1,23 +1,21 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.service;
 
+import java.util.Optional;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderAlreadyCompletedException;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderState;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
-import java.util.Optional;
 
 /**
  * Service for creating and managing orders.
  * @author René Reitmann
  */
 @Service
-@Slf4j
 public class OrderService {
 
   @Autowired
@@ -29,12 +27,7 @@ public class OrderService {
    */
   public Order create(Order order) {
     order.setState(OrderState.CREATED);
-    Order persistedOrder = orderRepository.save(order);
-    if (StringUtils.hasText(persistedOrder.getOrderValue())) {
-      log.info("An order with id {} has been saved, where the orderValue field is not null. "
-          + "This might have been a bot!", persistedOrder.getId());
-    }
-    return persistedOrder;
+    return orderRepository.save(order);
   }
 
   /**

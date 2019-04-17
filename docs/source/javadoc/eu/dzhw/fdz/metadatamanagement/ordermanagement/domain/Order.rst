@@ -1,3 +1,17 @@
+.. java:import:: java.util List
+
+.. java:import:: javax.validation Valid
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: org.springframework.data.mongodb.core.index Indexed
+
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain Counter
@@ -15,22 +29,6 @@
 .. java:import:: lombok NoArgsConstructor
 
 .. java:import:: lombok ToString
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: org.springframework.data.mongodb.core.index Indexed
-
-.. java:import:: org.springframework.data.mongodb.core.mapping Document
-
-.. java:import:: javax.validation Valid
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Size
-
-.. java:import:: java.util List
 
 Order
 =====
@@ -67,14 +65,6 @@ languageKey
    :outertype: Order
 
    The key of the preferred language (either "de" or "en") of the customer. Must not be empty.
-
-orderValue
-^^^^^^^^^^
-
-.. java:field:: @Size private String orderValue
-   :outertype: Order
-
-   Form field for bots.
 
 products
 ^^^^^^^^
