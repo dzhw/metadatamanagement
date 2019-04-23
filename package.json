@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "browser-sync": "^2.26.3",
+    "browser-sync": "^2.26.4",
     "event-stream": "4.0.1",
     "grunt": "1.0.4",
     "grunt-angular-templates": "1.1.0",
