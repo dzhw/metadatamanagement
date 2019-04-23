@@ -32,10 +32,6 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation InstrumentExists
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation OneForeignKeyIsUsed
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation OneStudyOrStudySeriesIsUsed
-
 .. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation QuestionExists
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation StudyExists
@@ -82,7 +78,7 @@ RelatedPublication
 .. java:package:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain
    :noindex:
 
-.. java:type:: @Document @OneForeignKeyIsUsed @OneStudyOrStudySeriesIsUsed @ValidPublicationYear @ValidRelatedPublicationId @ValidStudyIdsForSurveyIds @ValidStudyIdsForDataSetIds @ValidStudyIdsForVariableIds @ValidStudyIdsForInstrumentIds @ValidStudyIdsForQuestionIds @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class RelatedPublication extends AbstractRdcDomainObject
+.. java:type:: @Document @ValidPublicationYear @ValidRelatedPublicationId @ValidStudyIdsForSurveyIds @ValidStudyIdsForDataSetIds @ValidStudyIdsForVariableIds @ValidStudyIdsForInstrumentIds @ValidStudyIdsForQuestionIds @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class RelatedPublication extends AbstractRdcDomainObject
 
    Domain Object for the Related Publications.
 

@@ -97,6 +97,21 @@ angular.module('metadatamanagementApp')
             this.deleteTooltip = 'search-management.buttons.' +
              'delete-all-variables-tooltip';
             break;
+          case 'publications':
+            this.icon = 'assets/images/icons/related-publication.svg';
+            this.createState = 'publicationAssignment';
+            this.searchState = 'related_publications';
+            this.tooltip = 'search-management.buttons.' +
+              'add-publication-tooltip';
+            this.deleteTooltip = 'search-management.buttons.' +
+             'delete-publications-tooltip';
+            this.editTooltip = 'search-management.buttons.' +
+             'edit-publications-tooltip';
+            break;
+          case 'fake1':
+            break;
+          case 'fake2':
+            break;
           default:
             throw Error('wrong argument for group');
         }
@@ -105,6 +120,7 @@ angular.module('metadatamanagementApp')
 
       /* jshint -W098 */
       link: function($scope, elem, attrs, ctrl) {
+        /* jshint +W098 */
         ctrl.getSentimentValue = function(tab) {
           return ProjectStatusScoringService
             .scoreProjectStatus(ctrl.project, tab);

@@ -32,4 +32,31 @@ angular.module('metadatamanagementApp')
           ]
         }
       });
+
+    $stateProvider
+      .state('publicationAssignment', {
+        parent: 'site',
+        url: '/publications/assign',
+        data: {
+          authorities: ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']
+        },
+        views: {
+          'content@': {
+            templateUrl: 'scripts/relatedpublicationmanagement/views/' +
+              'publicationAssignment.html.tmpl',
+            controller: 'PublicationAssignmentController',
+            controllerAs: 'ctrl'
+          }
+        },
+        onEnter: function($rootScope, $timeout) {
+          $timeout(function() {
+            $rootScope.$broadcast('domain-object-editing-started');
+          }, 500);
+        },
+        onExit: function($rootScope, $timeout) {
+          $timeout(function() {
+            $rootScope.$broadcast('domain-object-editing-stopped');
+          }, 500);
+        }
+      });
   });

@@ -100,6 +100,12 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete_sweep</md-icon>
         </md-button>
+        <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllPublications()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications' && currentProject">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'search-management.buttons.delete-all-publications-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">delete_sweep</md-icon>
+        </md-button>
         <div ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies'">
             <md-button ng-if="!currentStudy" class="md-fab md-raised md-accent" ng-click="navigateToCreateState('studyCreate')">
                 <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

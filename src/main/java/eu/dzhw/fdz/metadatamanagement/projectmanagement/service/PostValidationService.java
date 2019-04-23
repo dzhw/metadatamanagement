@@ -161,6 +161,11 @@ public class PostValidationService {
         configuration.getVariablesState())) {
       information.add("variables");
     }
+    
+    if (isProjectStateInvalid(requirements.isPublicationsRequired(),
+        configuration.getPublicationsState())) {
+      information.add("publications");
+    }
 
     if (!information.isEmpty()) {
       PostValidationMessageDto message = new PostValidationMessageDto(

@@ -212,7 +212,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: $scope.uploadRelatedPublications,
       disabled: false,
       visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.related-publications'
+      noResultsText: 'search-management.no-results-text.related-publications',
+      group: 'publications'
     }];
 
     //Search function
@@ -303,6 +304,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
         }
         if (!project.configuration.requirements.variablesRequired) {
           inactiveStates.push('variables');
+        }
+        if (!project.configuration.requirements.publicationsRequired) {
+          inactiveStates.push('publications');
         }
 
         return _.filter(tabs, function(tab) {
@@ -535,6 +539,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
     $scope.deleteAllDataSets = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject, 'data_sets');
+    };
+    $scope.deleteAllPublications = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject,
+        'publications');
     };
     $scope.navigateToCreateState = function(createState) {
       if (ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,

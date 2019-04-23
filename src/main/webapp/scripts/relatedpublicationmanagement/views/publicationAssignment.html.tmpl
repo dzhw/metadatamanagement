@@ -1,0 +1,6 @@
+<div ng-if="ctrl.publications.length">
+    <ul>
+      <li ng-repeat="publication in ctrl.publications">
+        <a ui-sref="relatedPublicationDetail({id:publication.id})">{{ publication.title }}</a></li>
+    </ul>
+</div>

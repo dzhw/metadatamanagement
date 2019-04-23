@@ -20,8 +20,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.DataSetExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.InstrumentExists;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneForeignKeyIsUsed;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.OneStudyOrStudySeriesIsUsed;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.QuestionExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.StudyExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.StudySeriesExists;
@@ -50,11 +48,6 @@ import lombok.ToString;
  *
  */
 @Document(collection = "related_publications")
-@OneForeignKeyIsUsed(
-    message = "related-publication-management.error.related-publication.one-foreign-key-is-used")
-@OneStudyOrStudySeriesIsUsed(
-    message = "related-publication-management.error.related-publication."
-        + "one-study-or-study-series-is-used")
 @ValidPublicationYear(message = "related-publication-management.error.related-publication."
     + "year.valid")
 @ValidRelatedPublicationId(message =

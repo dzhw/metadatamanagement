@@ -156,6 +156,7 @@ angular.module('metadatamanagementApp').config(
             'questions': 'Fragen',
             'dataSets': 'Datensätze',
             'variables': 'Variablen',
+            'publications': 'Publikationen',
             'setting-info': 'Die folgenden Metadaten müssen bereitgestellt werden, bevor dieses Projekt für alle Benutzer freigegeben werden kann:'
           },
           'config': {
@@ -195,6 +196,7 @@ angular.module('metadatamanagementApp').config(
             'data-sets-status': 'Datensätze',
             'questions-status': 'Fragen',
             'variables-status': 'Variablen',
+            'publications-status': 'Publikationen',
             'publisher': 'Publisher',
             'data-provider': 'Datengeber',
             'unreleased': 'nicht freigegeben',

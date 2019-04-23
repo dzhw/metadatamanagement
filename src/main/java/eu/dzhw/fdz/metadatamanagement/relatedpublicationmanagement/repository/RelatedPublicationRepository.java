@@ -112,6 +112,10 @@ public interface RelatedPublicationRepository
   @RestResource(exported = false)
   Stream<RelatedPublication> streamByStudySeriesesContaining(
       I18nString studySeries);
+  
+  @RestResource(exported = false)
+  Stream<RelatedPublication> streamByStudyIdsContaining(
+      String studyId);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
