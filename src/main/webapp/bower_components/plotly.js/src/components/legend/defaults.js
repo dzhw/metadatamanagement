@@ -91,8 +91,7 @@ module.exports = function legendDefaults(layoutIn, layoutOut, fullData) {
             defaultXAnchor = 'left';
             defaultY = 1.1;
             defaultYAnchor = 'bottom';
-        }
-        else {
+        } else {
             defaultX = 0;
             defaultXAnchor = 'left';
             defaultY = -0.1;
@@ -102,6 +101,8 @@ module.exports = function legendDefaults(layoutIn, layoutOut, fullData) {
 
     coerce('traceorder', defaultOrder);
     if(helpers.isGrouped(layoutOut.legend)) coerce('tracegroupgap');
+
+    coerce('itemsizing');
 
     coerce('x', defaultX);
     coerce('xanchor', defaultXAnchor);
