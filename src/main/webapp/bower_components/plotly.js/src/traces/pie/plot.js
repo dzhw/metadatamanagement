@@ -100,8 +100,7 @@ function plot(gd, cdpie) {
                             arc(pt.px0, pt.pxmid, false, hole) +
                             arc(pt.pxmid, pt.px0, false, hole) +
                             'Z' + outerCircle);
-                    }
-                    else slicePath.attr('d', outerCircle);
+                    } else slicePath.attr('d', outerCircle);
                 } else {
                     var outerArc = arc(pt.px0, pt.px1, true, 1);
 
@@ -363,10 +362,11 @@ function attachFxHandlers(sliceTop, gd, cd) {
             pt.percentLabel = helpers.formatPiePercent(pt.percent, separators);
             if(hoverinfo && hoverinfo.indexOf('percent') !== -1) thisText.push(pt.percentLabel);
 
-            var hoverLabel = trace.hoverlabel;
+            var hoverLabel = trace2.hoverlabel;
             var hoverFont = hoverLabel.font;
 
             Fx.loneHover({
+                trace: trace,
                 x0: hoverCenterX - rInscribed * cd0.r,
                 x1: hoverCenterX + rInscribed * cd0.r,
                 y: hoverCenterY,
@@ -378,8 +378,8 @@ function attachFxHandlers(sliceTop, gd, cd) {
                 fontFamily: helpers.castOption(hoverFont.family, pt.pts),
                 fontSize: helpers.castOption(hoverFont.size, pt.pts),
                 fontColor: helpers.castOption(hoverFont.color, pt.pts),
-
-                trace: trace2,
+                nameLength: helpers.castOption(hoverLabel.namelength, pt.pts),
+                textAlign: helpers.castOption(hoverLabel.align, pt.pts),
                 hovertemplate: helpers.castOption(trace2.hovertemplate, pt.pts),
                 hovertemplateLabels: pt,
                 eventData: [eventData(pt, trace2)]
@@ -631,8 +631,7 @@ function positionTitleOutside(cd0, plotSize) {
     if(trace.title.position.indexOf('top') !== -1) {
         topMiddle.y -= (1 + maxPull) * cd0.r;
         translate.ty -= cd0.titleBox.height;
-    }
-    else if(trace.title.position.indexOf('bottom') !== -1) {
+    } else if(trace.title.position.indexOf('bottom') !== -1) {
         topMiddle.y += (1 + maxPull) * cd0.r;
     }
 
