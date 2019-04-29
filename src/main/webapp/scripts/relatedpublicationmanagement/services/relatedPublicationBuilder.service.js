@@ -42,7 +42,6 @@ angular.module('metadatamanagementApp')
             variableIds: CleanJSObjectService
               .removeWhiteSpace(data.variableIds),
             dataSetIds: CleanJSObjectService.removeWhiteSpace(data.dataSetIds),
-            studyIds: CleanJSObjectService.removeWhiteSpace(data.studyIds),
             instrumentIds: CleanJSObjectService
               .removeWhiteSpace(data.instrumentIds),
             authors: data.authors,

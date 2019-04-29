@@ -47,16 +47,6 @@ angular.module('metadatamanagementApp')
             controller: 'PublicationAssignmentController',
             controllerAs: 'ctrl'
           }
-        },
-        onEnter: function($rootScope, $timeout) {
-          $timeout(function() {
-            $rootScope.$broadcast('domain-object-editing-started');
-          }, 500);
-        },
-        onExit: function($rootScope, $timeout) {
-          $timeout(function() {
-            $rootScope.$broadcast('domain-object-editing-stopped');
-          }, 500);
         }
       });
   });

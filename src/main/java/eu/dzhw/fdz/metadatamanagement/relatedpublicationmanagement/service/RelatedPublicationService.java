@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service;
 
 import java.util.stream.Stream;
 
+import org.javers.common.collections.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
@@ -217,7 +218,9 @@ public class RelatedPublicationService {
         relatedPublicationRepository.streamByStudyIdsContaining(studyId)) {
       publications.forEach(publication -> {
         eventPublisher.publishEvent(new BeforeSaveEvent(publication));
-        publication.getStudyIds().remove(studyId);
+        if (publication.getStudyIds() != null) {          
+          publication.getStudyIds().remove(studyId);
+        }
         relatedPublicationRepository.save(publication);
         eventPublisher.publishEvent(new AfterSaveEvent(publication));
       });
@@ -232,7 +235,11 @@ public class RelatedPublicationService {
    */
   public void assignPublicationToStudy(String studyId, String publicationId) {
     relatedPublicationRepository.findById(publicationId).ifPresent(publication -> {
-      publication.getStudyIds().add(studyId);
+      if (publication.getStudyIds() != null) {        
+        publication.getStudyIds().add(studyId);
+      } else {
+        publication.setStudyIds(Lists.immutableListOf(studyId));
+      }
       eventPublisher.publishEvent(new BeforeSaveEvent(publication));
       relatedPublicationRepository.save(publication);
       eventPublisher.publishEvent(new AfterSaveEvent(publication));
@@ -247,7 +254,9 @@ public class RelatedPublicationService {
    */
   public void removePublicationFromStudy(String studyId, String publicationId) {
     relatedPublicationRepository.findById(publicationId).ifPresent(publication -> {
-      publication.getStudyIds().remove(studyId);
+      if (publication.getStudyIds() != null) {        
+        publication.getStudyIds().remove(studyId);
+      }
       eventPublisher.publishEvent(new BeforeSaveEvent(publication));
       relatedPublicationRepository.save(publication);
       eventPublisher.publishEvent(new AfterSaveEvent(publication));

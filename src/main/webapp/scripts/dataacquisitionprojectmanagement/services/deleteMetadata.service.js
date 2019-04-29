@@ -35,6 +35,11 @@ angular.module('metadatamanagementApp').service('DeleteMetadataService',
             SimpleMessageToastService.openSimpleMessageToast(
               'study-management.edit.all-studies-deleted-toast',
               {id: project.id});
+          } else if (type === 'publications') {
+            SimpleMessageToastService.openSimpleMessageToast(
+              'related-publication-management.assign.' +
+              'all-publications-removed-toast',
+              {id: project.id});
           } else {
             SimpleMessageToastService.openSimpleMessageToast(
               _.kebabCase(type).slice(0, -1) + '-management.edit.all-' +

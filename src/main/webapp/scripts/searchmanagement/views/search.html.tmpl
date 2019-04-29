@@ -102,7 +102,7 @@
         </md-button>
         <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllPublications()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications' && currentProject">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'search-management.buttons.delete-all-publications-tooltip' | translate}}
+                {{'search-management.buttons.delete-publications-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete_sweep</md-icon>
         </md-button>
@@ -158,9 +158,16 @@
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
-        <md-button data-has-authority="ROLE_PUBLISHER" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications'" type="file" ngf-select="uploadRelatedPublications($file)" accept=".xls" class="md-accent md-fab fdz-fade-in">
+        <md-button data-has-authority="ROLE_PUBLISHER" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications' && !currentProject" type="file" ngf-select="uploadRelatedPublications($file)" accept=".xls" class="md-accent md-fab fdz-fade-in">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.upload-related-publications-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">add</md-icon>
+        </md-button>
+
+        <md-button ng-click="navigateToCreateState('publicationAssignment')" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications' && currentProject" class="md-accent md-fab fdz-fade-in">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'search-management.buttons.edit-publications-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>

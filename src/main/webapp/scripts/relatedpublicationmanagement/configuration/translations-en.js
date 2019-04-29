@@ -65,6 +65,20 @@ angular.module('metadatamanagementApp').config(
             'studies-series' : 'Click to show all studies for this study series'
           }
         },
+        'assign': {
+          'page-title': 'Register Publications for the Study of Project "{{projectId}}"',
+          'header': 'Publication Assignment',
+          'all-publications-removed-toast': 'All publications have been removed from the study of project "{{id}}"!',
+          'empty-publications': 'No Publications have been assigned to the Study yet.',
+          'choose-unreleased-project-toast': 'Publications may be assigned or unassigned if and only if the project is currently not released!',
+          'search': {
+            'placeholder': 'Search Publications and assign to Study',
+            'no-publications-found': 'No Publication found'
+          },
+          'button': {
+            'remove-publication': 'Unassign Publication from the Study'
+          }
+        },
         'error': {
           'related-publication': {
             'one-foreign-key-is-used': 'The Publication has no connection to any other object.',

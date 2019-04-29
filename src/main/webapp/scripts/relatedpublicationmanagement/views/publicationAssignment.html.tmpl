@@ -1,6 +1,54 @@
-<div ng-if="ctrl.publications.length">
-    <ul>
-      <li ng-repeat="publication in ctrl.publications">
-        <a ui-sref="relatedPublicationDetail({id:publication.id})">{{ publication.title }}</a></li>
-    </ul>
+<div layout="row" style="margin-bottom: 0px;" layout-margin>
+  <h1 class="md-headline" style="margin-left: 0px;">
+    <span data-translate="related-publication-management.assign.page-title" data-translate-values="{ projectId: ctrl.project.id}">Assign publications</span>
+  </h1>
+</div>
+<md-card>
+  <md-autocomplete flex autocomplete="off" md-search-text="ctrl.searchText" md-selected-item="ctrl.selectedPublication" md-selected-item-change="ctrl.selectedPublicationChanged(ctrl.selectedPublication)" md-items="publication in ctrl.searchPublications(ctrl.searchText)"
+    md-item-text="publication.title" md-min-length="0" md-delay="250" placeholder="{{'related-publication-management.assign.search.placeholder' | translate}}" md-require-match="true" md-no-cache="true" style="margin-bottom: 2px; -ms-flex: auto;"
+    class="fdz-project-user-list">
+    <md-item-template>
+      <div layout="row">
+        <strong><span md-highlight-text="ctrl.searchText" md-highlight-flags="ig">{{publication.title}}</span></strong>
+        &nbsp;
+        <span md-highlight-text="ctrl.searchText" md-highlight-flags="ig">({{publication.id}})</span>
+      </div>
+    </md-item-template>
+    <md-not-found>
+      <span data-translate="related-publication-management.assign.search.no-publications-found"></span>
+    </md-not-found>
+  </md-autocomplete>
+
+  <md-list ng-if="ctrl.publications && ctrl.publications.length" style="padding: 0px;">
+    <div ng-repeat="publication in ctrl.publications">
+      <md-list-item layout="row" style="padding-right: 0px;">
+        <div class="md-list-item-text fdz-truncate-string">
+          <a ui-sref="relatedPublicationDetail({id:publication.id})" style="color: black;"><strong>{{publication.title}}</strong> ({{publication.id}})
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'search-management.cards.publication-tooltip' | translate: {id:publication.id} }}
+            </md-tooltip>
+          </a>
+        </div>
+        <span flex></span>
+        <md-button class="md-icon-button md-primary" ng-click="ctrl.removePublication(publication)">
+          <md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img" aria-hidden="true">delete_forever</md-icon>
+          <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'related-publication-management.assign.button.remove-publication' | translate}}
+          </md-tooltip>
+        </md-button>
+      </md-list-item>
+      <md-divider ng-if=!$last></md-divider>
+    </div>
+  </md-list>
+  <div style="padding: 14px;" ng-if="!ctrl.publications || !ctrl.publications.length">
+    <i>{{'related-publication-management.assign.empty-publications' | translate}}</i>
+  </div>
+</md-card>
+<div class="fdz-fab-button-container" layout="column">
+  <md-button ng-disabled="!ctrl.publications.length" class="md-fab md-raised md-primary" ng-click="ctrl.removeAllPublications()">
+    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+      {{'search-management.buttons.delete-publications-tooltip' | translate}}
+    </md-tooltip>
+    <md-icon md-font-set="material-icons">delete_sweep</md-icon>
+  </md-button>
 </div>

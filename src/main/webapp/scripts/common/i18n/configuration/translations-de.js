@@ -378,6 +378,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-delete-all-data-sets': {
             'title': 'Alle Datensätze des Projekts "{{ id }}" löschen?',
             'content': 'Wollen Sie wirklich alle Datensätze des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+          },
+          'confirm-delete-all-publications': {
+            'title': 'Alle Publikationen von der Studies des Projektes "{{ id }}" entfernen?',
+            'content': 'Wollen Sie wirklich alle Publikationen von der Studie Datenaufbereitungsprojekts "{{ id }}" entfernen?'
           }
         }
       }

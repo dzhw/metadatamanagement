@@ -126,6 +126,23 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.search();
     };
 
+    $scope.uploadVariables = function(files) {
+      VariableUploadService.uploadVariables(files,
+        $scope.currentProject.id);
+    };
+
+    $scope.uploadQuestions = function(files) {
+      QuestionUploadService.uploadQuestions(files,
+        $scope.currentProject.id);
+    };
+
+    $scope.uploadRelatedPublications = function(file) {
+      if (Array.isArray(file)) {
+        file = file[0];
+      }
+      RelatedPublicationUploadService.uploadRelatedPublications(file);
+    };
+
     //Information for the different tabs
     var tabs = [{
       title: 'search-management.tabs.all',
@@ -410,23 +427,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
     };
 
-    $scope.uploadVariables = function(files) {
-      VariableUploadService.uploadVariables(files,
-        $scope.currentProject.id);
-    };
-
-    $scope.uploadQuestions = function(files) {
-      QuestionUploadService.uploadQuestions(files,
-        $scope.currentProject.id);
-    };
-
-    $scope.uploadRelatedPublications = function(file) {
-      if (Array.isArray(file)) {
-        file = file[0];
-      }
-      RelatedPublicationUploadService.uploadRelatedPublications(file);
-    };
-
     //Refresh function for the refresh button
     $scope.refresh = function() {
       $scope.search();
@@ -499,7 +499,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
           return;
         }
       } else {
-        if (!Principal.hasAuthority('ROLE_PUBLISHER')) {
+        if (!Principal.hasAuthority('ROLE_PUBLISHER') ||
+          $scope.currentProject != null) {
           $scope.isDropZoneDisabled = true;
           return;
         }
@@ -545,10 +546,14 @@ angular.module('metadatamanagementApp').controller('SearchController',
         'publications');
     };
     $scope.navigateToCreateState = function(createState) {
+      var type = getSelectedMetadataType();
+      if (type === 'related_publications') {
+        type = 'publications';
+      }
       if (ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,
-        getSelectedMetadataType(), true)) {
+        type, true)) {
         ProjectUpdateAccessService.isPrerequisiteFulfilled(
-          $scope.currentProject, getSelectedMetadataType()).then(function() {
+          $scope.currentProject, type).then(function() {
             $state.go(createState);
           });
       }

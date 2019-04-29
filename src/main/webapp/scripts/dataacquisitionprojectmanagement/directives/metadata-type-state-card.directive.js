@@ -102,11 +102,9 @@ angular.module('metadatamanagementApp')
             this.createState = 'publicationAssignment';
             this.searchState = 'related_publications';
             this.tooltip = 'search-management.buttons.' +
-              'add-publication-tooltip';
+             'edit-publications-tooltip';
             this.deleteTooltip = 'search-management.buttons.' +
              'delete-publications-tooltip';
-            this.editTooltip = 'search-management.buttons.' +
-             'edit-publications-tooltip';
             break;
           case 'fake1':
             break;
@@ -132,6 +130,9 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.getModifyButtonLabel = function(group) {
+          if (ctrl.type === 'publications') {
+            return 'edit';
+          }
           return ctrl.limit ? (ctrl.counts && ctrl.counts[
             // map camelCase to underscore_case
             group.replace(/([A-Z])/g,
