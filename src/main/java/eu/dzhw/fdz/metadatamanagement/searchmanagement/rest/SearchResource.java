@@ -114,7 +114,7 @@ public class SearchResource {
     String path = completePath.replaceFirst("/api/search", "");
     String url = connectionUrl + path;
     if (!StringUtils.isEmpty(queryString)) {
-      url = url + "?" + queryString;
+      url = url + "?" + queryString.replaceAll("%2C", ",");
     }
     ResponseEntity<String> responseFromElasticSearch = restTemplate.exchange(
         url, method, new HttpEntity<>(body, headers), String.class);

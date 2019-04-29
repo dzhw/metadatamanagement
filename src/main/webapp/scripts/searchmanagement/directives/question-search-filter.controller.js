@@ -28,7 +28,8 @@ angular.module('metadatamanagementApp')
           $scope.currentSearchParams.filter.question) {
           $rootScope.$broadcast('start-ignoring-404');
           QuestionSearchService.findOneById(
-            $scope.currentSearchParams.filter.question).promise
+            $scope.currentSearchParams.filter.question,
+            ['id', 'masterId', 'questionText', 'number']).promise
             .then(function(result) {
               $rootScope.$broadcast('stop-ignoring-404');
               if (result) {
