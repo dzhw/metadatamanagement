@@ -14,8 +14,8 @@ Upload Attachment for Study
     Select study data type
     Select a language
     Write Title in slected laguage
-    Write instrument description in de and en
-    Save Changes for instrument attachment
+    Write study description in de and en
+    Save Changes for study attachment
     Assert gra2005_MethodReport in the attachment
     Delete study with uploaded document
     Get back to home page and deselect project
@@ -42,17 +42,17 @@ Select a language
     Clear Element Text   name=language2
     Input Text    xpath=//md-input-container//input[@name="language2"]   Deutsch
 
-Write Title in slected laguage
+Write Title in selected laguage
     Clear Element Text   xpath=//textarea[@name="title"]
     Input Text    xpath=//textarea[@name="title"]    Title in German Language for Study
 
-Write instrument description in de and en
+Write study description in de and en
     Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.studyAttachmentMetadata.description.de"]
     Input Text   xpath=//md-input-container//input[@ng-model="ctrl.studyAttachmentMetadata.description.de"]   Study Description De
     Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.studyAttachmentMetadata.description.en"]
     Input Text   xpath=//md-input-container//input[@ng-model="ctrl.studyAttachmentMetadata.description.en"]   Study Description En
 
-Save Changes for instrument attachment
+Save Changes for study attachment
     Click Element Through Tooltips    xpath=//div[@class="fdz-fab-button-container layout-column"]//button//md-icon[contains(., "save")]
 
 Assert gra2005_MethodReport in the attachment
