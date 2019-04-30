@@ -59,7 +59,9 @@ angular.module('metadatamanagementApp').config(
           'delete-all-data-sets-tooltip': 'Klicken, um alle Datensätze des Datenaufbereitungsprojekts zu löschen',
           'edit-surveys-tooltip': 'Klicken, um die vorhandenen Erhebungen zu bearbeiten',
           'edit-instruments-tooltip': 'Klicken, um die vorhandenen Instrumente zu bearbeiten',
-          'edit-data-sets-tooltip': 'Klicken, um die vorhandenen Datensätze zu bearbeiten'
+          'edit-data-sets-tooltip': 'Klicken, um die vorhandenen Datensätze zu bearbeiten',
+          'edit-publications-tooltip': 'Klicken, um Publikationen zur Studie hinzuzufügen bzw. zu entfernen',
+          'delete-publications-tooltip': 'Klicken, um alle Publikationen von der Studie des aktuellen Projektes zu entfernen'
         },
         'input-label': {
           'all': 'Suchen Sie Studien, Variablen, Fragen, Erhebungen, Datensätze, Instrumente oder Publikationen...',

@@ -35,10 +35,11 @@ angular.module('metadatamanagementApp')
         return termFilter;
       };
 
-      var findOneById = function(id) {
+      var findOneById = function(id, attributes) {
         var deferred = $q.defer();
         var query = createQueryObject();
         query.id = id;
+        query._source = attributes;
         ElasticSearchClient.getSource(query, function(error, response) {
             if (error) {
               deferred.reject(error);
