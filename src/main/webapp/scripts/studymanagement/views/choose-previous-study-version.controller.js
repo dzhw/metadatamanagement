@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.select = function(study, index) {
-        if (!study.tags || !!study.tags.de) {
+        if (!study.tags || !study.tags.de) {
           study.tags = {
             de: []
           };
