@@ -22,15 +22,15 @@ SPSS
 .. java:field:: public static final DataFormat SPSS
    :outertype: DataFormat
 
-STATA
+Stata
 ^^^^^
 
-.. java:field:: public static final DataFormat STATA
+.. java:field:: public static final DataFormat Stata
    :outertype: DataFormat
 
-WORD
+Word
 ^^^^
 
-.. java:field:: public static final DataFormat WORD
+.. java:field:: public static final DataFormat Word
    :outertype: DataFormat
 

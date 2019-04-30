@@ -6,6 +6,6 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain;
 public enum DataFormat {
   R,
   SPSS,
-  STATA,
-  WORD;
+  Stata,
+  Word;
 }
