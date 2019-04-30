@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.AssertTrue;
 
 import org.javers.core.metamodel.annotation.ValueObject;
@@ -11,8 +13,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.io.Serializable;
 
 /**
  * This configuration defines which object types have to be delivered before
@@ -62,4 +62,9 @@ public class Requirements implements Serializable {
    * Defines if variable data is required for a release.
    */
   private boolean isVariablesRequired;
+  
+  /**
+   * Defines if publication data is required for a release.
+   */
+  private boolean isPublicationsRequired;
 }

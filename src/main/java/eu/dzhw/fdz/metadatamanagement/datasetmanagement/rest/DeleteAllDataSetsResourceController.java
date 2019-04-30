@@ -18,7 +18,6 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  * @author tgehrke
  *
  */
-
 @RestController
 @RequestMapping("/api")
 public class DeleteAllDataSetsResourceController {

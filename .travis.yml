@@ -68,21 +68,25 @@ jobs:
       install:
         - ./src/test/robotframework/setup.sh
       script:
+        - export PYTHONWARNINGS="ignore"
         - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include smoketest --exclude firefoxonly ./src/test/robotframework
     - name: "Firefox Smoketest"
       install:
         - ./src/test/robotframework/setup.sh
       script:
+        - export PYTHONWARNINGS="ignore"
         - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include smoketest --exclude chromeonly ./src/test/robotframework
     - name: "Edge Smoketest"
       install:
         - ./src/test/robotframework/setup.sh
       script:
+        - export PYTHONWARNINGS="ignore"
         - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:edge --include smoketest --exclude firefoxonly --exclude chromeonly --exclude noslowpoke ./src/test/robotframework
     - name: "IE11 Smoketest"
       install:
         - ./src/test/robotframework/setup.sh
       script:
+        - export PYTHONWARNINGS="ignore"
         - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:ie --include smoketest --exclude firefoxonly --exclude chromeonly --exclude noslowpoke ./src/test/robotframework
     - stage: nightly e2e tests publicuser
       name: "Nightly Chrome Tests (Public User)"
