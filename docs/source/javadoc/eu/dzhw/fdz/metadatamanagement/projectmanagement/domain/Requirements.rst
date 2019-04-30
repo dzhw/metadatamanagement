@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: javax.validation.constraints AssertTrue
 
 .. java:import:: org.javers.core.metamodel.annotation ValueObject
@@ -15,8 +17,6 @@
 .. java:import:: lombok NoArgsConstructor
 
 .. java:import:: lombok Setter
-
-.. java:import:: java.io Serializable
 
 Requirements
 ============
@@ -45,6 +45,14 @@ isInstrumentsRequired
    :outertype: Requirements
 
    Defines if instrument data is required for a release.
+
+isPublicationsRequired
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. java:field:: private boolean isPublicationsRequired
+   :outertype: Requirements
+
+   Defines if publication data is required for a release.
 
 isQuestionsRequired
 ^^^^^^^^^^^^^^^^^^^

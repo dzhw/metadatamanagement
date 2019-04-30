@@ -65,6 +65,20 @@ angular.module('metadatamanagementApp').config(
             'studies-series' : 'Klicken, um alle Studien dieser Studienreihe anzuzeigen'
           }
         },
+        'assign': {
+          'page-title': 'Publikationen zur Studie des Projektes "{{projectId}}" erfassen',
+          'header': 'Publikationenzuweisung',
+          'all-publications-removed-toast': 'Alle Publikationen wurden von der Studie des Projektes "{{id}}" entfernt!',
+          'empty-publications': 'Es wurden noch keine Publikationen zur Studie erfasst.',
+          'choose-unreleased-project-toast': 'Publikationen dürfen nur hinzugefügt bzw. entfernt werden, wenn das Projekt aktuell nicht freigegeben ist!',
+          'search': {
+            'placeholder': 'Publikationen suchen und der Studie zuordnen',
+            'no-publications-found': 'Keine Publikation gefunden'
+          },
+          'button': {
+            'remove-publication': 'Publikation von Studie entfernen'
+          }
+        },
         'error': {
           'related-publication': {
             'one-foreign-key-is-used': 'Die Publikation hat keine Verknüpfung zu einem anderen Objekt.',

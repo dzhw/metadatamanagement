@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
+package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,33 +8,30 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetService;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationService;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
- * Rest Controller for deleting data sets of a data acquisition project.
- * 
- * @author tgehrke
- *
+ * Rest Controller for removing all publications from a study.
  */
 @RestController
 @RequestMapping("/api")
-public class DeleteAllDataSetsResourceController {
+public class DeleteAllPublicationsResourceController {
   @Autowired
-  private DataSetService dataSetService;
+  private RelatedPublicationService relatedPublicationService;
 
   /**
-   * delete all data sets from data acquisition project.
+   * Remove all publication from the given study. 
    * 
-   * @param id the Id of the project.
+   * @param id the id of the {@link Study}.
+   * 
    * @return no Content.
    */
   @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER})
-  @DeleteMapping(value = "/data-acquisition-projects/{id}/data-sets")
-  public ResponseEntity<DataSet> delete(@PathVariable String id) {
-    dataSetService.deleteDataSetsByProjectId(id);
+  @DeleteMapping(value = "/studies/{id}/publications")
+  public ResponseEntity<?> delete(@PathVariable String id) {
+    relatedPublicationService.removeAllPublicationsFromStudy(id);
     return ResponseEntity.noContent().build();
   }
 }
-

@@ -97,7 +97,8 @@ angular.module('metadatamanagementApp').config(
             'member-of-assigned-group': 'Die Aktion ist nicht möglich, weil das Projekt momentan der anderen Projektgruppe zugewiesen ist.',
             'assigned-to-project': 'Die Aktion ist nicht möglich, weil Sie dem Projekt nicht als Publisher oder Datengeber zugewiesen sind.',
             'not-required': 'Die Aktion ist nicht möglich, weil diese Metadaten in den Projekteinstellungen nicht als "erwartet" markiert wurden.',
-            'prerequisite-missing-surveys': 'Die Aktion ist nicht möglich, weil das Projekt noch keine Erhebung enthält.'
+            'prerequisite-missing-surveys': 'Die Aktion ist nicht möglich, weil das Projekt noch keine Erhebung enthält.',
+            'prerequisite-missing-studies': 'Die Aktion ist nicht möglich, weil das Projekt noch keine Studie enthält.'
           }
         },
         'projectstatuslabel': {
@@ -156,6 +157,7 @@ angular.module('metadatamanagementApp').config(
             'questions': 'Fragen',
             'dataSets': 'Datensätze',
             'variables': 'Variablen',
+            'publications': 'Publikationen',
             'setting-info': 'Die folgenden Metadaten müssen bereitgestellt werden, bevor dieses Projekt für alle Benutzer freigegeben werden kann:'
           },
           'config': {
@@ -195,6 +197,7 @@ angular.module('metadatamanagementApp').config(
             'data-sets-status': 'Datensätze',
             'questions-status': 'Fragen',
             'variables-status': 'Variablen',
+            'publications-status': 'Publikationen',
             'publisher': 'Publisher',
             'data-provider': 'Datengeber',
             'unreleased': 'nicht freigegeben',

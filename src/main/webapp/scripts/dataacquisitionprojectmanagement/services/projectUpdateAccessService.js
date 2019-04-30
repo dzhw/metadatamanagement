@@ -55,6 +55,8 @@ angular.module('metadatamanagementApp').service(
           return 'questionsState';
         case 'variables':
           return 'variablesState';
+        case 'publications':
+          return 'publicationsState';
       }
     };
 
@@ -115,7 +117,8 @@ angular.module('metadatamanagementApp').service(
       }
 
       if (!_.includes(['studies', 'surveys', 'instruments',
-        'data_sets', 'questions', 'variables', undefined, null], type)) {
+        'data_sets', 'questions', 'variables', 'publications',
+         undefined, null], type)) {
         return false;
       }
 
@@ -214,6 +217,9 @@ angular.module('metadatamanagementApp').service(
       }
       if (type === 'data_sets') {
         prereq = 'surveys';
+      }
+      if (type === 'publications') {
+        prereq = 'studies';
       }
 
       if (!prereq) {

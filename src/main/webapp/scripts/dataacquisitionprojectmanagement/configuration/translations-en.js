@@ -98,7 +98,8 @@ angular.module('metadatamanagementApp').config(
             'member-of-assigned-group': 'The action is not possible because the project is currently assigned to the other project group.',
             'assigned-to-project': 'The action is not possible because you are not assigned to the project as a publisher or data provider.',
             'not-required': 'The action is not possible because this metadata was not marked as "expected" in the project settings.',
-            'prerequisite-missing-surveys': 'The action is not possible because the project does not contain any survey.'
+            'prerequisite-missing-surveys': 'The action is not possible because the project does not contain any survey.',
+            'prerequisite-missing-studies': 'The action is not possible because the project does not contain a study yet.'
           }
         },
         'projectstatuslabel': {
@@ -157,6 +158,7 @@ angular.module('metadatamanagementApp').config(
             'questions': 'Questions',
             'dataSets': 'Data Sets',
             'variables': 'Variables',
+            'publications': 'Publications',
             'setting-info': 'The following Metadata must be provided, before this project can be released to all public users:'
           },
           'config': {
@@ -196,6 +198,7 @@ angular.module('metadatamanagementApp').config(
             'data-sets-status': 'Data Sets',
             'questions-status': 'Questions',
             'variables-status': 'Variables',
+            'publications-status': 'Publications',
             'publisher': 'Publisher',
             'data-provider': 'Data Provider',
             'unreleased': 'unreleased',

@@ -56,6 +56,14 @@ instrumentsState
 
    The state of instruments.
 
+publicationsState
+^^^^^^^^^^^^^^^^^
+
+.. java:field:: private ProjectState publicationsState
+   :outertype: Configuration
+
+   The state of related publications.
+
 publishers
 ^^^^^^^^^^
 

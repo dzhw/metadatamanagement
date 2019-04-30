@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.Base64;
 
@@ -99,7 +100,7 @@ public class SearchResource {
   @RequestMapping(value = {"/api/search/**"})
   public ResponseEntity<String> search(@RequestBody(required = false) String body,
       HttpMethod method, HttpServletRequest request)
-      throws RestClientException, URISyntaxException {
+      throws RestClientException, URISyntaxException, UnsupportedEncodingException {
     HttpHeaders headers = new HttpHeaders();
     headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_UTF8_VALUE);
     headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
@@ -114,7 +115,7 @@ public class SearchResource {
     String path = completePath.replaceFirst("/api/search", "");
     String url = connectionUrl + path;
     if (!StringUtils.isEmpty(queryString)) {
-      url = url + "?" + queryString;
+      url = url + "?" + URLDecoder.decode(queryString, "UTF-8");
     }
     ResponseEntity<String> responseFromElasticSearch = restTemplate.exchange(
         url, method, new HttpEntity<>(body, headers), String.class);
