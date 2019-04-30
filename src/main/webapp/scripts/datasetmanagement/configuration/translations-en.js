@@ -71,10 +71,10 @@ angular.module('metadatamanagementApp').config(
           'sub-data-sets': {
             'title': 'Available Subdatasets',
             'data-formats': {
-              'STATA': 'Stata',
+              'Stata': 'Stata',
               'R': 'R',
               'SPSS': 'SPSS',
-              'WORD': 'Word'
+              'Word': 'Word'
             }
           },
           'attachments': {
