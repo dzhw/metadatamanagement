@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
       LanguageService, $timeout, SimpleMessageToastService, $state,
       ProjectUpdateAccessService, PageTitleService, ToolbarHeaderService, $q,
       SearchDao, PublicationAssignmentResource, ElasticSearchAdminService,
-      $scope, DeleteMetadataService) {
+      $scope, DeleteMetadataService, blockUI) {
       var ctrl = this;
 
       var redirectToSearchView = function() {
@@ -42,6 +42,7 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.init = function() {
+        blockUI.start();
         ctrl.project = CurrentProjectService.getCurrentProject();
         ctrl.studyId = StudyIdBuilderService.buildStudyId(ctrl.project.id);
         ctrl.publications = [];
@@ -52,9 +53,11 @@ angular.module('metadatamanagementApp')
         }).$promise.then(function(project) {
           ctrl.project = project;
           if (project.release != null) {
+            blockUI.stop();
             handleReleasedProject();
           } else if (!ProjectUpdateAccessService
               .isUpdateAllowed(project, 'publications', true)) {
+            blockUI.stop();
             redirectToSearchView();
           } else {
             RelatedPublicationSearchService.findByStudyId(
@@ -62,7 +65,7 @@ angular.module('metadatamanagementApp')
                 result.hits.hits.forEach(function(hit) {
                   ctrl.publications.push(hit._source);
                 });
-              });
+              }).finally(blockUI.stop);
             updateToolbarHeaderAndPageTitle();
           }
         });
