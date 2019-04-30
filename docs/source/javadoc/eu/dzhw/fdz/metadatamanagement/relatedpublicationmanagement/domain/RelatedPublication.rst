@@ -44,16 +44,6 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation ValidRelatedPublicationId
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation ValidStudyIdsForDataSetIds
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation ValidStudyIdsForInstrumentIds
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation ValidStudyIdsForQuestionIds
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation ValidStudyIdsForSurveyIds
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation ValidStudyIdsForVariableIds
-
 .. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation ValidUrl
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation VariableExists
@@ -78,7 +68,7 @@ RelatedPublication
 .. java:package:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain
    :noindex:
 
-.. java:type:: @Document @ValidPublicationYear @ValidRelatedPublicationId @ValidStudyIdsForSurveyIds @ValidStudyIdsForDataSetIds @ValidStudyIdsForVariableIds @ValidStudyIdsForInstrumentIds @ValidStudyIdsForQuestionIds @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class RelatedPublication extends AbstractRdcDomainObject
+.. java:type:: @Document @ValidPublicationYear @ValidRelatedPublicationId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class RelatedPublication extends AbstractRdcDomainObject
 
    Domain Object for the Related Publications.
 

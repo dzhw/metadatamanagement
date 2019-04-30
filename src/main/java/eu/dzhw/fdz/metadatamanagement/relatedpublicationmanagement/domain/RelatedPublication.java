@@ -26,11 +26,6 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.valida
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.SurveyExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidPublicationYear;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidRelatedPublicationId;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidStudyIdsForDataSetIds;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidStudyIdsForInstrumentIds;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidStudyIdsForQuestionIds;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidStudyIdsForSurveyIds;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidStudyIdsForVariableIds;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidUrl;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.VariableExists;
 import io.searchbox.annotations.JestId;
@@ -52,21 +47,6 @@ import lombok.ToString;
     + "year.valid")
 @ValidRelatedPublicationId(message =
     "related-publication-management.error.related-publication.valid-related-publication-id")
-@ValidStudyIdsForSurveyIds(message =
-    "related-publication-management.error."
-        + "post-validation.survey-has-not-a-referenced-study")
-@ValidStudyIdsForDataSetIds(message =
-    "related-publication-management.error."
-        + "post-validation.data-set-has-not-a-referenced-study")
-@ValidStudyIdsForVariableIds(message =
-    "related-publication-management.error."
-        + "post-validation.variable-has-not-a-referenced-study")
-@ValidStudyIdsForInstrumentIds(message =
-    "related-publication-management.error."
-        + "post-validation.instrument-has-not-a-referenced-study")
-@ValidStudyIdsForQuestionIds(message =
-    "related-publication-management.error."
-        + "post-validation.question-has-not-a-referenced-study")
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
