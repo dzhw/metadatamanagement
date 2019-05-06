@@ -52,3 +52,4 @@ Fill up the Annotations
 Delete Instrument
     Click Element Through Tooltips    xpath=//button[md-icon[text()='delete_forever']]
     Click Element Through Tooltips    xpath=//button[text()='Ja']
+
