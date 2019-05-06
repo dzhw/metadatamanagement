@@ -32,10 +32,17 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.select = function(study, index) {
-        if (!study.tags || !!study.tags.de) {
+        if (!study.tags) {
           study.tags = {
-            de: []
+            de: [],
+            en: []
           };
+        }
+        if (!study.tags.de) {
+          study.tags.de = [];
+        }
+        if (!study.tags.en) {
+          study.tags.en = [];
         }
         $mdDialog.hide({
           study: study,
