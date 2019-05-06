@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.12.0
+version: v1.13.3
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -82,3 +82,8 @@ patch:
         patched: '2018-07-03T01:23:38.040Z'
     - grunt-jscs > jscs > xmlbuilder > lodash:
         patched: '2018-07-03T01:23:38.040Z'
+  SNYK-JS-AXIOS-174505:
+    - browser-sync > localtunnel > axios:
+        patched: '2019-05-06T05:17:06.335Z'
+    - grunt-browser-sync > browser-sync > localtunnel > axios:
+        patched: '2019-05-06T05:17:06.335Z'
