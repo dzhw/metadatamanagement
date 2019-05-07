@@ -240,6 +240,7 @@ angular.module('metadatamanagementApp')
         SearchHelperService.addQuery(query, queryterm);
 
         SearchHelperService.addFilter(query);
+        SearchHelperService.addShadowCopyFilter(query, filter);
 
         return ElasticSearchClient.search(query).then(function(result) {
           var titles = [];
