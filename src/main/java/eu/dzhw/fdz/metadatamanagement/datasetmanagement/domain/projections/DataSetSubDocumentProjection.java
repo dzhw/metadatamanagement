@@ -32,4 +32,8 @@ public interface DataSetSubDocumentProjection
   List<String> getSurveyIds();
 
   String getMasterId();
+  
+  String getSuccessorId();
+  
+  boolean isShadow();
 }

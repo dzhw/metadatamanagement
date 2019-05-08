@@ -1,22 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
@@ -31,8 +19,26 @@ import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Stream;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
  * Service for creating and updating variable. Used for updating variables in mongo and
@@ -44,6 +50,12 @@ public class StudyService {
 
   @Autowired
   private StudyRepository studyRepository;
+  
+  @Autowired
+  private InstrumentRepository instrumentRepository;
+  
+  @Autowired
+  private QuestionRepository questionRepository;
 
   @Autowired
   private StudyAttachmentService studyAttachmentService;
@@ -192,11 +204,7 @@ public class StudyService {
     List<String> studyIds = relatedPublicationChangesProvider.getAffectedStudyIds(
         relatedPublication.getId()); 
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> studyRepository.streamIdsByIdIn(studyIds),
-        ElasticsearchType.studies);
-
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> studyRepository.streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(studyIds),
+        () -> studyRepository.streamIdsByMasterIdIn(studyIds),
         ElasticsearchType.studies);
   }
 
@@ -240,6 +248,24 @@ public class StudyService {
     elasticsearchUpdateQueueService.enqueueUpsertAsync(
         () -> studyRepository.findOneIdAndVersionById(instrument.getStudyId()),
         ElasticsearchType.studies);
+  }
+  
+  /**
+   * Enqueue update of study search documents when the concept is changed.
+   * 
+   * @param concept the updated, created or deleted concept.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onConceptChanged(Concept concept) {
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+      Set<String> studyIds = instrumentRepository.streamIdsByConceptIdsContaining(concept.getId())
+          .map(instrument -> instrument.getStudyId()).collect(Collectors.toSet());
+      studyIds.addAll(questionRepository.streamIdsByConceptIdsContaining(concept.getId())
+              .map(question -> question.getStudyId()).collect(Collectors.toSet()));
+      return studyRepository.streamIdsByIdIn(studyIds);
+    }, ElasticsearchType.studies);
   }
 
   /**

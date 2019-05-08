@@ -1,5 +1,19 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain;
 
+import java.util.List;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -7,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentIdPattern;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentType;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidUniqueInstrumentNumber;
@@ -22,18 +37,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.javers.core.metamodel.annotation.Entity;
-import org.springframework.beans.BeanUtils;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.util.List;
 
 /**
  * An instrument (e.g. a questionnaire) which was used in at least one {@link Survey}.
@@ -74,6 +77,7 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
       message = "instrument-management.error.instrument.master-id.pattern")
   @Setter(AccessLevel.NONE)
+  @Indexed
   private String masterId;
 
 
@@ -174,6 +178,12 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
   @Indexed
   @NotEmpty(message = "instrument-management.error.instrument.study-id.not-empty")
   private String studyId;
+  
+  /**
+   * List of ids of {@link Concept}s to which are covered by this instrument.
+   */
+  @Indexed
+  private List<String> conceptIds;
 
   public Instrument(Instrument instrument) {
     super();

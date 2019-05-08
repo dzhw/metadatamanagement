@@ -1,22 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.IdAndNumberInstrumentProjection;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableChangesProvider;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
@@ -31,11 +22,25 @@ import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.IdAndNumberInstrumentProjection;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableChangesProvider;
 
 /**
  * The service for the instruments. This service handels delete events.
@@ -49,6 +54,9 @@ public class InstrumentService {
 
   @Autowired
   private InstrumentRepository instrumentRepository;
+
+  @Autowired
+  private QuestionRepository questionRepository;
 
   @Autowired
   private InstrumentChangesProvider instrumentChangesProvider;
@@ -229,15 +237,32 @@ public class InstrumentService {
     List<String> instrumentIds =
         relatedPublicationChangesProvider.getAffectedInstrumentIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> instrumentRepository.streamIdsByIdIn(instrumentIds), ElasticsearchType.instruments);
+        () -> instrumentRepository.streamIdsByMasterIdIn(instrumentIds), ElasticsearchType.instruments);
+  }
 
+  /**
+   * Enqueue update of instrument search documents when the concept is changed.
+   * 
+   * @param concept the updated, created or deleted concept.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onConceptChanged(Concept concept) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> instrumentRepository.streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
-            instrumentIds), ElasticsearchType.instruments);
+        () -> instrumentRepository.streamIdsByConceptIdsContaining(concept.getId()),
+        ElasticsearchType.instruments);
+
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {      
+      Set<String> instrumentIds = questionRepository.streamIdsByConceptIdsContaining(concept.getId())
+          .map(question -> question.getInstrumentId()).collect(Collectors.toSet());
+      return instrumentRepository.streamIdsByIdIn(instrumentIds);
+    }, ElasticsearchType.instruments);
   }
 
   /**
    * Create shadow copies for {@link Instrument} on project release.
+   * 
    * @param projectReleasedEvent Released project event
    */
   @EventListener

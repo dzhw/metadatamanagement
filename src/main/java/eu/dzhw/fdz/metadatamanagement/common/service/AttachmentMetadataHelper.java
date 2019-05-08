@@ -1,14 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDateTime;
+
 import org.bson.Document;
 import org.javers.core.Javers;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -17,16 +12,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.time.LocalDateTime;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 
 /**
- * Provides helper method for handling common {@link AbstractShadowableRdcDomainObject} fields.
- * @param <T> {@link AbstractShadowableRdcDomainObject}
+ * Provides helper method for handling common {@link AbstractRdcDomainObject} fields.
+ * @param <T> {@link AbstractRdcDomainObject}
  */
 @Service
-public class AttachmentMetadataHelper<T extends AbstractShadowableRdcDomainObject> {
+public class AttachmentMetadataHelper<T extends AbstractRdcDomainObject> {
 
   private MimeTypeDetector mimeTypeDetector;
 
@@ -96,7 +99,7 @@ public class AttachmentMetadataHelper<T extends AbstractShadowableRdcDomainObjec
    * @param metadata         New metadata
    * @param filePath The path to the file for which the metadata will be updated.
    */
-  public void updateAttachmentMetadata(AbstractShadowableRdcDomainObject metadata,
+  public void updateAttachmentMetadata(AbstractRdcDomainObject metadata,
                                        String filePath) {
     metadata.setVersion(metadata.getVersion() + 1);
     String currentUser = SecurityUtils.getCurrentUserLogin();

@@ -33,6 +33,10 @@ public class DataSetNestedDocument extends AbstractNestedSubDocument {
   private List<String> surveyIds;
 
   private String masterId;
+  
+  private boolean shadow;
+  
+  private String successorId;
 
   /**
    * Create the sub document from the given projection.

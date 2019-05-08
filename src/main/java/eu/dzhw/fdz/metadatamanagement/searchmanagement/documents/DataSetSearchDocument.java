@@ -2,10 +2,10 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
@@ -48,6 +48,9 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
   private List<SurveySubDocument> surveys = 
       new ArrayList<>();
   private List<SurveyNestedDocument> nestedSurveys = new ArrayList<>();
+  private List<ConceptSubDocument> concepts = 
+      new ArrayList<>();
+  private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
   private Release release = null;
   private Configuration configuration = null;
   
@@ -76,8 +79,9 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
       List<VariableSubDocumentProjection> variables,
       List<RelatedPublicationSubDocumentProjection> relatedPublications, 
       List<SurveySubDocumentProjection> surveys,
-      Map<String, InstrumentSubDocumentProjection> instruments,
+      List<InstrumentSubDocumentProjection> instruments,
       List<QuestionSubDocumentProjection> questions,
+      List<ConceptSubDocumentProjection> concepts,
       Release release,
       String doi,
       Configuration configuration) {
@@ -105,9 +109,9 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
           surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
     }
     if (instruments != null) {
-      this.instruments = instruments.values().stream()
+      this.instruments = instruments.stream()
           .map(InstrumentSubDocument::new).collect(Collectors.toList());
-      this.nestedInstruments = instruments.values().stream().map(InstrumentNestedDocument::new)
+      this.nestedInstruments = instruments.stream().map(InstrumentNestedDocument::new)
           .collect(Collectors.toList());
     }
     if (questions != null) {
@@ -116,6 +120,13 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
       this.nestedQuestions =
           questions.stream()
               .map(question -> new QuestionNestedDocument(question))
+          .collect(Collectors.toList());
+    }
+    if (concepts != null) {
+      this.concepts = concepts.stream()
+          .map(concept -> new ConceptSubDocument(concept)).collect(Collectors.toList());
+      this.nestedConcepts = concepts.stream()
+          .map(concept -> new ConceptNestedDocument(concept))
           .collect(Collectors.toList());
     }
     this.maxNumberOfObservations = dataSet.getSubDataSets().stream()

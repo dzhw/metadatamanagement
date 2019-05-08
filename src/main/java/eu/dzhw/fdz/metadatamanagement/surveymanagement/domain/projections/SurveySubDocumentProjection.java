@@ -34,5 +34,8 @@ public interface SurveySubDocumentProjection
   I18nString getDataType();
 
   String getMasterId();
-
+  
+  String getSuccessorId();
+  
+  boolean isShadow();
 }

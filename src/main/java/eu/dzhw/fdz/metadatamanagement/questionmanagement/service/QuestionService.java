@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
@@ -18,10 +15,14 @@ import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
@@ -210,12 +211,21 @@ public class QuestionService {
     List<String> questionIds = relatedPublicationChangesProvider.getAffectedQuestionIds(
         relatedPublication.getId()); 
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> questionRepository.streamIdsByIdIn(questionIds),
+        () -> questionRepository.streamIdsByMasterIdIn(questionIds),
         ElasticsearchType.questions);
-
+  }
+  
+  /**
+   * Enqueue update of question search documents when the concept is changed.
+   * 
+   * @param concept the updated, created or deleted concept.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onConceptChanged(Concept concept) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> questionRepository.streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
-            questionIds), ElasticsearchType.questions);
+        () -> questionRepository.streamIdsByConceptIdsContaining(concept.getId()), ElasticsearchType.questions);
   }
 
   /**

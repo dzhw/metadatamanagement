@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -74,7 +73,7 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
       List<StudySubDocument> studies,
       List<StudyNestedDocument> nestedStudies,
       List<QuestionSubDocumentProjection> questions,
-      Map<String, InstrumentSubDocumentProjection> instruments,
+      List<InstrumentSubDocumentProjection> instruments,
       List<SurveySubDocumentProjection> surveys,
       List<DataSetSubDocumentProjection> dataSets,
       List<VariableSubDocumentProjection> variables) {
@@ -93,9 +92,9 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
           .collect(Collectors.toList());
     }
     if (instruments != null) {
-      this.instruments = instruments.values().stream()
+      this.instruments = instruments.stream()
           .map(InstrumentSubDocument::new).collect(Collectors.toList());
-      this.nestedInstruments = instruments.values().stream().map(InstrumentNestedDocument::new)
+      this.nestedInstruments = instruments.stream().map(InstrumentNestedDocument::new)
           .collect(Collectors.toList());
     }
     if (surveys != null) {

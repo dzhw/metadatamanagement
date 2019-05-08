@@ -1,5 +1,19 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
 
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -7,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpt
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedStudy;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -24,18 +39,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.beans.BeanUtils;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.util.List;
 
 /**
  * A question is part of an {@link Instrument} which has been used in at least one {@link Survey}s.
@@ -76,6 +79,7 @@ public class Question extends AbstractShadowableRdcDomainObject {
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
       message = "question-management.error.question.master-id.pattern")
   @Setter(AccessLevel.NONE)
+  @Indexed
   private String masterId;
 
   /**
@@ -218,6 +222,12 @@ public class Question extends AbstractShadowableRdcDomainObject {
   @Indexed
   @NotEmpty(message = "question-management.error.question.study-id.not-empty")
   private String studyId;
+  
+  /**
+   * List of ids of {@link Concept}s to which this question belongs.
+   */
+  @Indexed
+  private List<String> conceptIds;
 
   public Question(Question question) {
     super();

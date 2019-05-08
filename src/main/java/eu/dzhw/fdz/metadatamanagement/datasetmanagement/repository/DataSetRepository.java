@@ -1,18 +1,19 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
-import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.IdAndNumberDataSetProjection;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Stream;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
+import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.IdAndNumberDataSetProjection;
 
 /**
  * The Repository for {@link DataSet} domain object. The data will be insert with a REST API and
@@ -79,5 +80,9 @@ public interface DataSetRepository
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
+      Collection<String> dataSetIds);
+  
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByMasterIdIn(
       Collection<String> dataSetIds);
 }

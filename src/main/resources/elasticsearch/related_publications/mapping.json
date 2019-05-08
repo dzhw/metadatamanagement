@@ -44,17 +44,6 @@
 					}
 				}
 			},
-			"configuration": {
-				"type":"object",
-				"properties": {
-					"publishers": {
-						"type":"keyword"
-					},
-					"dataProviders":{
-						"type":"keyword"
-					}
-				}
-			},
 			"lastModifiedDate": {
 				"type": "date"
 			},

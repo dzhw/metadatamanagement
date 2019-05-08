@@ -27,6 +27,10 @@ public class StudyNestedDocument extends AbstractNestedSubDocument {
   private I18nString completeTitle;
 
   private String masterId;
+  
+  private boolean shadow;
+  
+  private String successorId;
 
   /**
    * Create a StudyNesteddocument from a projection.
