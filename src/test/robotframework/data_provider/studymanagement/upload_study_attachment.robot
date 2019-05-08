@@ -13,7 +13,7 @@ Upload Attachment for Study
     Upload study file
     Select study data type
     Select a language
-    Write Title in slected laguage
+    Write Title in selected laguage
     Write study description in de and en
     Save Changes for study attachment
     Assert gra2005_MethodReport in the attachment
