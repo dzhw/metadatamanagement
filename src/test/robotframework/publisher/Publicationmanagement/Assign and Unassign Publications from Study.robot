@@ -21,7 +21,7 @@ Assigning and unassigning publications to a publisher project and assert it
     Get back to german home page
     click on cockpit button
     Switch To Settings Tab
-    Select Publications Checkbox  # this time it deslect the publication
+    Click Publications Checkbox
     Get back to home page and deselect project
 
 *** Keywords ***
@@ -29,11 +29,11 @@ Mark and edit the publication tab of the project
     Select project by name  robotprojectrelease4${BROWSER}
     click on cockpit button
     Switch To Settings Tab
-    Select Publications Checkbox
+    Click Publications Checkbox
     Switch To Status Tab
-    Click on Publicaiton Edit Button
+    Click on Publication Edit Button
 
-Click on Publicaiton Edit Button
+Click on Publication Edit Button
    Click Element Through Tooltips    xpath=//md-card[@type="publications"]//button[@ng-disabled="ctrl.isProjectReleased()"]//span[text()="Bearbeiten"]
 
 Assign a publication to the project
@@ -46,20 +46,17 @@ Unassign the publication from the project
     Get back to german home page
     Select project by name  robotprojectrelease4${BROWSER}
     click on cockpit button
-    Click on Publicaiton Edit Button
+    Click on Publication Edit Button
     Delete the publication from the study
 
 Click on the first study in the list of studies
+    Sleep  30s   #explicit wait to make sure the publication is available
     Click Element Through Tooltips   xpath=//a[@class='fdz-search-result'][1]
 
 Assert the publication belongs to study selected study
-    Sleep  20s   #explicit wait to make sure the publication is available
-    Reload Page
     Wait Until Page Contains Element  xpath=//div//a[contains(.,"The labour market's requirement profiles for higher education graduates")]
 
 Assert the publication has been unassigend from the selected study
-    Sleep  20s   #explicit wait to make sure the deleted publication is unavailable
-    Reload Page
     Wait Until Page Contains Element  xpath=//div[@ng-if="ctrl.counts.publicationsCount == 0"][contains(.,"Publikationen zu dieser Studie: Nicht erfasst.")]
 
 Get back to home page and deselect project

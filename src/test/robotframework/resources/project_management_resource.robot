@@ -65,7 +65,7 @@ Select Datasets Checkbox
 Select Variable Checkbox
    Click Element Through Tooltips  xpath=//md-checkbox[@name="variables"]
 
-Select Publications Checkbox
+Click Publications Checkbox
    Click Element Through Tooltips  xpath=//md-checkbox[@name="publications"]
 
 Ensure Data Providers Ready Checkbox is Disabled
