@@ -25,6 +25,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@SuppressWarnings("CPD-START")
 public class RelatedPublicationSearchDocument extends RelatedPublication
     implements SearchDocumentInterface {
   private List<StudySubDocument> studies =
@@ -68,7 +69,6 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
    * @param dataSets the dataSets for which the publication was published
    * @param variables the variables for which the publication was published
    */
-  @SuppressWarnings("CPD-START")
   public RelatedPublicationSearchDocument(RelatedPublication relatedPublication,
       List<StudySubDocument> studies,
       List<StudyNestedDocument> nestedStudies,

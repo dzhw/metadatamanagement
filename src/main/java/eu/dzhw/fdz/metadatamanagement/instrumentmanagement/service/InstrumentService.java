@@ -237,7 +237,8 @@ public class InstrumentService {
     List<String> instrumentIds =
         relatedPublicationChangesProvider.getAffectedInstrumentIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> instrumentRepository.streamIdsByMasterIdIn(instrumentIds), ElasticsearchType.instruments);
+        () -> instrumentRepository.streamIdsByMasterIdIn(instrumentIds),
+        ElasticsearchType.instruments);
   }
 
   /**
@@ -253,9 +254,10 @@ public class InstrumentService {
         () -> instrumentRepository.streamIdsByConceptIdsContaining(concept.getId()),
         ElasticsearchType.instruments);
 
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {      
-      Set<String> instrumentIds = questionRepository.streamIdsByConceptIdsContaining(concept.getId())
-          .map(question -> question.getInstrumentId()).collect(Collectors.toSet());
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+      Set<String> instrumentIds =
+          questionRepository.streamIdsByConceptIdsContaining(concept.getId())
+              .map(question -> question.getInstrumentId()).collect(Collectors.toSet());
       return instrumentRepository.streamIdsByIdIn(instrumentIds);
     }, ElasticsearchType.instruments);
   }

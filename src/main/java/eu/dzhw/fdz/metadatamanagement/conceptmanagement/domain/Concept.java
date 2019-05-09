@@ -49,7 +49,8 @@ import lombok.ToString;
 @Builder
 @ApiModel(
     description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
-        + "fdz/metadatamanagement/conceptmanagement/domain/Concept.html'>here</a> for further details.")
+        + "fdz/metadatamanagement/conceptmanagement/domain/Concept.html'>here</a>"
+        + " for further details.")
 public class Concept extends AbstractRdcDomainObject implements ConceptSubDocumentProjection {
 
   /**
@@ -63,11 +64,9 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
   @Setter(AccessLevel.NONE)
   @NotEmpty(message = "concept-management.error.concept.id.not-empty")
   @Pattern(regexp = Patterns.NO_WHITESPACE,
-    message = "concept-management.error.concept.id.no-whitespace")
-  @Pattern(regexp = "^con\\-.*\\$$",
-    message = "concept-management.error.concept.id.pattern")
-  @Size(max = StringLengths.MEDIUM,
-    message = "concept-management.error.concept.id.size")
+      message = "concept-management.error.concept.id.no-whitespace")
+  @Pattern(regexp = "^con\\-.*\\$$", message = "concept-management.error.concept.id.pattern")
+  @Size(max = StringLengths.MEDIUM, message = "concept-management.error.concept.id.size")
   private String id;
 
   /**

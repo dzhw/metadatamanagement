@@ -37,6 +37,7 @@ public class ConceptAttachmentService {
   @Autowired
   private Javers javers;
 
+  @Autowired
   private AttachmentMetadataHelper<ConceptAttachmentMetadata> attachmentMetadataHelper;
 
   /**

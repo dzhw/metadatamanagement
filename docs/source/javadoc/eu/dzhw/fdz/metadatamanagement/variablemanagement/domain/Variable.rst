@@ -1,3 +1,27 @@
+.. java:import:: java.util List
+
+.. java:import:: javax.validation Valid
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
+
+.. java:import:: javax.validation.constraints Size
+
+.. java:import:: org.springframework.beans BeanUtils
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: org.springframework.data.mongodb.core.index CompoundIndex
+
+.. java:import:: org.springframework.data.mongodb.core.index CompoundIndexes
+
+.. java:import:: org.springframework.data.mongodb.core.index Indexed
+
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
@@ -81,30 +105,6 @@
 .. java:import:: lombok Setter
 
 .. java:import:: lombok ToString
-
-.. java:import:: org.springframework.beans BeanUtils
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: org.springframework.data.mongodb.core.index CompoundIndex
-
-.. java:import:: org.springframework.data.mongodb.core.index CompoundIndexes
-
-.. java:import:: org.springframework.data.mongodb.core.index Indexed
-
-.. java:import:: org.springframework.data.mongodb.core.mapping Document
-
-.. java:import:: javax.validation Valid
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: javax.validation.constraints Size
-
-.. java:import:: java.util List
 
 Variable
 ========
@@ -233,7 +233,7 @@ label
 masterId
 ^^^^^^^^
 
-.. java:field:: @NotEmpty @Size @Pattern @Setter private String masterId
+.. java:field:: @NotEmpty @Size @Pattern @Setter @Indexed private String masterId
    :outertype: Variable
 
 name

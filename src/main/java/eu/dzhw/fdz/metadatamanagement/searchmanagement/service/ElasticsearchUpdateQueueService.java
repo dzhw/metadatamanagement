@@ -478,16 +478,7 @@ public class ElasticsearchUpdateQueueService {
           .collect(Collectors.toList());
       List<QuestionSubDocumentProjection> questions =
           questionRepository.findSubDocumentsByInstrumentIdIn(instrumentIds);
-      Set<String> conceptIds = instruments.stream()
-          .map(instrument -> instrument.getConceptIds() != null ? instrument.getConceptIds()
-              : new ArrayList<String>())
-          .flatMap(List::stream).collect(Collectors.toSet());
-      conceptIds.addAll(questions.stream()
-          .map(question -> question.getConceptIds() != null ? question.getConceptIds()
-              : new ArrayList<String>())
-          .flatMap(List::stream).collect(Collectors.toSet()));
-      List<ConceptSubDocumentProjection> concepts =
-          conceptRepository.findSubDocumentsByIdIn(conceptIds);
+      List<ConceptSubDocumentProjection> concepts = getConcepts(instruments, questions);
       DataAcquisitionProject project =
           projectRepository.findById(survey.getDataAcquisitionProjectId()).get();
       Release release = getRelease(project);
@@ -501,6 +492,22 @@ public class ElasticsearchUpdateQueueService {
           .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
               .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
     }
+  }
+
+  private List<ConceptSubDocumentProjection> getConcepts(
+      List<InstrumentSubDocumentProjection> instruments,
+      List<QuestionSubDocumentProjection> questions) {
+    Set<String> conceptIds = instruments.stream()
+        .map(instrument -> instrument.getConceptIds() != null ? instrument.getConceptIds()
+            : new ArrayList<String>())
+        .flatMap(List::stream).collect(Collectors.toSet());
+    conceptIds.addAll(questions.stream()
+        .map(question -> question.getConceptIds() != null ? question.getConceptIds()
+            : new ArrayList<String>())
+        .flatMap(List::stream).collect(Collectors.toSet()));
+    List<ConceptSubDocumentProjection> concepts =
+        conceptRepository.findSubDocumentsByIdIn(conceptIds);
+    return concepts;
   }
 
   /**
@@ -628,16 +635,7 @@ public class ElasticsearchUpdateQueueService {
         seriesPublications = relatedPublicationRepository
             .findSubDocumentsByStudySeriesesContaining(study.getStudySeries());
       }
-      Set<String> conceptIds = instruments.stream()
-          .map(instrument -> instrument.getConceptIds() != null ? instrument.getConceptIds()
-              : new ArrayList<String>())
-          .flatMap(List::stream).collect(Collectors.toSet());
-      conceptIds.addAll(questions.stream()
-          .map(question -> question.getConceptIds() != null ? question.getConceptIds()
-              : new ArrayList<String>())
-          .flatMap(List::stream).collect(Collectors.toSet()));
-      List<ConceptSubDocumentProjection> concepts =
-          conceptRepository.findSubDocumentsByIdIn(conceptIds);
+      List<ConceptSubDocumentProjection> concepts = getConcepts(instruments, questions);
       DataAcquisitionProject project =
           projectRepository.findById(study.getDataAcquisitionProjectId()).get();
       Release release = getRelease(project);

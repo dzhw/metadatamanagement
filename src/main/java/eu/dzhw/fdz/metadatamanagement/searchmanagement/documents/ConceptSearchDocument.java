@@ -23,6 +23,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@SuppressWarnings("CPD-START")
 public class ConceptSearchDocument extends Concept
     implements SearchDocumentInterface {
   private List<StudySubDocument> studies =

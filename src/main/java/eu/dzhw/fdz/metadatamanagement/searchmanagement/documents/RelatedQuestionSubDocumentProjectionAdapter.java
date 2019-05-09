@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.RelatedQuestionSubDocumentProjection;
@@ -28,25 +27,16 @@ public class RelatedQuestionSubDocumentProjectionAdapter
   public RelatedQuestionSubDocumentProjection read(JsonReader in) throws IOException {
     RelatedQuestionSubDocument relatedQuestion = new RelatedQuestionSubDocument();
     in.beginObject();
-    String fieldname = null;
     while (in.hasNext()) {
-      JsonToken token = in.peek();
-
-      if (token.equals(JsonToken.NAME)) {
-        // get the current token
-        fieldname = in.nextName();
-      }
-
-      if ("instrumentId".equals(fieldname)) {
-        // move to next token
-        token = in.peek();
-        relatedQuestion.setInstrumentId(in.nextString());
-      }
-
-      if ("questionId".equals(fieldname)) {
-        // move to next token
-        token = in.peek();
-        relatedQuestion.setQuestionId(in.nextString());
+      switch (in.nextName()) {
+        case "instrumentId":
+          relatedQuestion.setInstrumentId(in.nextString());
+          break;
+        case "questionId":
+          relatedQuestion.setQuestionId(in.nextString());
+          break;
+        default:
+          break;
       }
     }
     in.endObject();

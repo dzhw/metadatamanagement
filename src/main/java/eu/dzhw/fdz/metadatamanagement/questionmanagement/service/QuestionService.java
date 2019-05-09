@@ -192,11 +192,9 @@ public class QuestionService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onVariableChanged(Variable variable) {
-    List<String> questionIds = variableChangesProvider.getAffectedQuestionIds(
-        variable.getId()); 
+    List<String> questionIds = variableChangesProvider.getAffectedQuestionIds(variable.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> questionRepository.streamIdsByIdIn(questionIds),
-        ElasticsearchType.questions);
+        () -> questionRepository.streamIdsByIdIn(questionIds), ElasticsearchType.questions);
   }
 
   /**
@@ -208,13 +206,12 @@ public class QuestionService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    List<String> questionIds = relatedPublicationChangesProvider.getAffectedQuestionIds(
-        relatedPublication.getId()); 
+    List<String> questionIds =
+        relatedPublicationChangesProvider.getAffectedQuestionIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> questionRepository.streamIdsByMasterIdIn(questionIds),
-        ElasticsearchType.questions);
+        () -> questionRepository.streamIdsByMasterIdIn(questionIds), ElasticsearchType.questions);
   }
-  
+
   /**
    * Enqueue update of question search documents when the concept is changed.
    * 
@@ -225,11 +222,13 @@ public class QuestionService {
   @HandleAfterDelete
   public void onConceptChanged(Concept concept) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> questionRepository.streamIdsByConceptIdsContaining(concept.getId()), ElasticsearchType.questions);
+        () -> questionRepository.streamIdsByConceptIdsContaining(concept.getId()),
+        ElasticsearchType.questions);
   }
 
   /**
    * Create shadow copies for questions on project release.
+   * 
    * @param projectReleasedEvent Released project event
    */
   @EventListener

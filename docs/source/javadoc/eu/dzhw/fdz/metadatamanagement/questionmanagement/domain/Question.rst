@@ -1,3 +1,25 @@
+.. java:import:: java.util List
+
+.. java:import:: javax.validation Valid
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
+
+.. java:import:: javax.validation.constraints Size
+
+.. java:import:: org.springframework.beans BeanUtils
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: org.springframework.data.mongodb.core.index CompoundIndex
+
+.. java:import:: org.springframework.data.mongodb.core.index Indexed
+
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
@@ -11,6 +33,8 @@
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain Concept
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain Instrument
 
@@ -46,28 +70,6 @@
 
 .. java:import:: lombok ToString
 
-.. java:import:: org.springframework.beans BeanUtils
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: org.springframework.data.mongodb.core.index CompoundIndex
-
-.. java:import:: org.springframework.data.mongodb.core.index Indexed
-
-.. java:import:: org.springframework.data.mongodb.core.mapping Document
-
-.. java:import:: javax.validation Valid
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: javax.validation.constraints Size
-
-.. java:import:: java.util List
-
 Question
 ========
 
@@ -95,6 +97,14 @@ annotations
    :outertype: Question
 
    Arbitrary annotations to this question. Must not contain more than 2048 characters.
+
+conceptIds
+^^^^^^^^^^
+
+.. java:field:: @Indexed private List<String> conceptIds
+   :outertype: Question
+
+   List of ids of \ :java:ref:`Concept`\ s to which this question belongs.
 
 dataAcquisitionProjectId
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -155,7 +165,7 @@ introduction
 masterId
 ^^^^^^^^
 
-.. java:field:: @NotEmpty @Size @Pattern @Setter private String masterId
+.. java:field:: @NotEmpty @Size @Pattern @Setter @Indexed private String masterId
    :outertype: Question
 
    The master id of the question. It must not be empty, must be of the form \ ``que-{{dataAcquisitionProjectId}}-ins{{instrumentNumber}}-{{number}}$``\  and must not contain more than 512 characters.

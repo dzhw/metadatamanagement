@@ -19,8 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.Ques
  * save in a mongo db.
  */
 @RepositoryRestResource(path = "/questions")
-public interface QuestionRepository
-    extends BaseRepository<Question, String> {
+public interface QuestionRepository extends BaseRepository<Question, String> {
 
   @RestResource(exported = false)
   Stream<Question> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
@@ -28,27 +27,28 @@ public interface QuestionRepository
   @RestResource(exported = true)
   List<Question> findByDataAcquisitionProjectId(
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
-  
+
   @RestResource(exported = false)
   List<IdAndVersionProjection> findIdsByInstrumentIdAndNumber(String instrumentId, String number);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
-  
+
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByInstrumentId(String instrumentId);
-  
+
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByIdIn(List<String> ids);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByStudyId(String studyId);
-  
+
   @RestResource(exported = false)
   Stream<IdAndVersionAndInstrumentProjection> streamIdsByConceptIdsContaining(String conceptId);
 
   @RestResource(exported = false)
-  List<QuestionSubDocumentProjection> findSubDocumentsByInstrumentIdIn(Collection<String> instrumentIds);
+  List<QuestionSubDocumentProjection> findSubDocumentsByInstrumentIdIn(
+      Collection<String> instrumentIds);
 
   @RestResource(exported = false)
   List<QuestionSubDocumentProjection> findSubDocumentsByStudyId(String studyId);
@@ -57,8 +57,7 @@ public interface QuestionRepository
   List<QuestionSubDocumentProjection> findSubDocumentsByIdIn(Collection<String> questionIds);
 
   @RestResource(exported = false)
-  List<QuestionSubDocumentProjection> findSubDocumentsByInstrumentId(
-      String instrumentId);
+  List<QuestionSubDocumentProjection> findSubDocumentsByInstrumentId(String instrumentId);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String projectId);
@@ -74,10 +73,9 @@ public interface QuestionRepository
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
       Collection<String> questionIds);
-  
+
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByMasterIdIn(
-      Collection<String> questionIds);
+  Stream<IdAndVersionProjection> streamIdsByMasterIdIn(Collection<String> questionIds);
 
   @RestResource(exported = false)
   List<QuestionSubDocumentProjection> findSubDocumentsByConceptIdsContaining(String id);

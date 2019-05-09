@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
@@ -13,6 +14,7 @@ import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository.ConceptRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -91,22 +93,27 @@ public class ConceptService {
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
-      Set<String> conceptIds = new HashSet<>();
       List<InstrumentSubDocumentProjection> instruments =
           instrumentRepository.findSubDocumentsByStudyId(study.getId());
-      conceptIds.addAll(instruments.stream()
-          .map(instrument -> instrument.getConceptIds() != null ? instrument.getConceptIds()
-              : new ArrayList<String>())
-          .flatMap(List::stream).collect(Collectors.toSet()));
-
-      Set<String> instrumentIds =
-          instruments.stream().map(instrument -> instrument.getId()).collect(Collectors.toSet());
-      conceptIds.addAll(questionRepository.findSubDocumentsByInstrumentIdIn(instrumentIds).stream()
-          .map(question -> question.getConceptIds() != null ? question.getConceptIds()
-              : new ArrayList<String>())
-          .flatMap(List::stream).collect(Collectors.toSet()));
-      return conceptRepository.streamIdsByIdIn(conceptIds);
+      return getConceptsForInstruments(instruments);
     }, ElasticsearchType.concepts);
+  }
+
+  private Stream<? extends IdAndVersionProjection> getConceptsForInstruments(
+      List<InstrumentSubDocumentProjection> instruments) {
+    Set<String> conceptIds = new HashSet<>();
+    conceptIds.addAll(instruments.stream()
+        .map(instrument -> instrument.getConceptIds() != null ? instrument.getConceptIds()
+            : new ArrayList<String>())
+        .flatMap(List::stream).collect(Collectors.toSet()));
+
+    Set<String> instrumentIds =
+        instruments.stream().map(instrument -> instrument.getId()).collect(Collectors.toSet());
+    conceptIds.addAll(questionRepository.findSubDocumentsByInstrumentIdIn(instrumentIds).stream()
+        .map(question -> question.getConceptIds() != null ? question.getConceptIds()
+            : new ArrayList<String>())
+        .flatMap(List::stream).collect(Collectors.toSet()));
+    return conceptRepository.streamIdsByIdIn(conceptIds);
   }
 
 
@@ -139,7 +146,7 @@ public class ConceptService {
   public void onInstrumentChanged(Instrument instrument) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
       Set<String> conceptIds = new HashSet<>();
-      if (instrument != null && instrument.getConceptIds() != null) {
+      if (instrument.getConceptIds() != null) {
         conceptIds.addAll(instrument.getConceptIds());
       }
       conceptIds.addAll(questionRepository.findSubDocumentsByInstrumentId(instrument.getId())
@@ -160,21 +167,9 @@ public class ConceptService {
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
-      Set<String> conceptIds = new HashSet<>();
       List<InstrumentSubDocumentProjection> instruments =
           instrumentRepository.findSubDocumentsBySurveyIdsContaining(survey.getId());
-      conceptIds.addAll(instruments.stream()
-          .map(instrument -> instrument.getConceptIds() != null ? instrument.getConceptIds()
-              : new ArrayList<String>())
-          .flatMap(List::stream).collect(Collectors.toSet()));
-
-      Set<String> instrumentIds =
-          instruments.stream().map(instrument -> instrument.getId()).collect(Collectors.toSet());
-      conceptIds.addAll(questionRepository.findSubDocumentsByInstrumentIdIn(instrumentIds).stream()
-          .map(question -> question.getConceptIds() != null ? question.getConceptIds()
-              : new ArrayList<String>())
-          .flatMap(List::stream).collect(Collectors.toSet()));
-      return conceptRepository.streamIdsByIdIn(conceptIds);
+      return getConceptsForInstruments(instruments);
     }, ElasticsearchType.concepts);
   }
 

@@ -27,6 +27,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@SuppressWarnings("CPD-START")
 public class QuestionSearchDocument extends Question implements SearchDocumentInterface {
   private StudySubDocument study = null;
   private StudyNestedDocument nestedStudy = null;
@@ -64,7 +65,6 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
    * @param relatedPublications all publication using this question
    * @param configuration the project configuration
    */
-  @SuppressWarnings("CPD-START")
   public QuestionSearchDocument(Question question,
                                 StudySubDocumentProjection study,
                                 InstrumentSubDocumentProjection instrument,

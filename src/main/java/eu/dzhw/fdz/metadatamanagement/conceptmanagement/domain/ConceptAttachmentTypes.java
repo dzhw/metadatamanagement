@@ -14,10 +14,9 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.ImmutableI18nString;
 public class ConceptAttachmentTypes {
   public static final I18nString DOCUMENTATION =
       new ImmutableI18nString("Dokumentation", "Documentation");
-  public static final I18nString INSTRUMENT =
-      new ImmutableI18nString("Instrument", "Instrument");
+  public static final I18nString INSTRUMENT = new ImmutableI18nString("Instrument", "Instrument");
   public static final I18nString OTHER = new ImmutableI18nString("Sonstiges", "Other");
 
-  public static final Set<I18nString> ALL =
-      Collections.unmodifiableSet(new HashSet<I18nString>(Arrays.asList(DOCUMENTATION, INSTRUMENT, OTHER)));
+  public static final Set<I18nString> ALL = Collections
+      .unmodifiableSet(new HashSet<I18nString>(Arrays.asList(DOCUMENTATION, INSTRUMENT, OTHER)));
 }
