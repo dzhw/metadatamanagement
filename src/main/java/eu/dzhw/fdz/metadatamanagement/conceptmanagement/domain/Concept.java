@@ -25,13 +25,11 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
 import io.searchbox.annotations.JestId;
 import io.swagger.annotations.ApiModel;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -61,7 +59,6 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
    */
   @Id
   @JestId
-  @Setter(AccessLevel.NONE)
   @NotEmpty(message = "concept-management.error.concept.id.not-empty")
   @Pattern(regexp = Patterns.NO_WHITESPACE,
       message = "concept-management.error.concept.id.no-whitespace")
