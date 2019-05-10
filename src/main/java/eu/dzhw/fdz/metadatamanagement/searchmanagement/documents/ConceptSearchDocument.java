@@ -53,7 +53,7 @@ public class ConceptSearchDocument extends Concept
    */
   private boolean shadow = false;
 
-  private I18nString guiLabels = new I18nString("TODO","TODO");
+  private I18nString guiLabels = ConceptDetailsGuiLabels.GUI_LABELS;
 
   private I18nString completeTitle;
 
