@@ -66,7 +66,7 @@ var numericNameWarningCountLimit = 5;
  *      object containing `data`, `layout`, `config`, and `frames` members
  *
  */
-exports.plot = function(gd, data, layout, config) {
+function plot(gd, data, layout, config) {
     var frames;
 
     gd = Lib.getGraphDiv(gd);
@@ -135,18 +135,8 @@ exports.plot = function(gd, data, layout, config) {
         gd.empty = false;
     }
 
-    if(!gd.layout || graphWasEmpty) gd.layout = helpers.cleanLayout(layout);
-
-    // if the user is trying to drag the axes, allow new data and layout
-    // to come in but don't allow a replot.
-    if(gd._dragging && !gd._transitioning) {
-        // signal to drag handler that after everything else is done
-        // we need to replot, because something has changed
-        gd._replotPending = true;
-        return Promise.reject();
-    } else {
-        // we're going ahead with a replot now
-        gd._replotPending = false;
+    if(!gd.layout || graphWasEmpty) {
+        gd.layout = helpers.cleanLayout(layout);
     }
 
     Plots.supplyDefaults(gd);
@@ -195,7 +185,7 @@ exports.plot = function(gd, data, layout, config) {
     if(gd._context.responsive) {
         if(!gd._responsiveChartHandler) {
             // Keep a reference to the resize handler to purge it down the road
-            gd._responsiveChartHandler = function() {Plots.resize(gd);};
+            gd._responsiveChartHandler = function() { Plots.resize(gd); };
 
             // Listen to window resize
             window.addEventListener('resize', gd._responsiveChartHandler);
@@ -242,10 +232,10 @@ exports.plot = function(gd, data, layout, config) {
                     return 'gl-canvas gl-canvas-' + d.key.replace('Layer', '');
                 })
                 .style({
-                    'position': 'absolute',
-                    'top': 0,
-                    'left': 0,
-                    'overflow': 'visible',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    overflow: 'visible',
                     'pointer-events': 'none'
                 });
         }
@@ -312,8 +302,7 @@ exports.plot = function(gd, data, layout, config) {
             var colorbarOpts = trace._module.colorbar;
             if(trace.visible !== true || !colorbarOpts) {
                 Plots.autoMargin(gd, 'cb' + trace.uid);
-            }
-            else connectColorbar(gd, cd, colorbarOpts);
+            } else connectColorbar(gd, cd, colorbarOpts);
         }
 
         Plots.doAutoMargin(gd);
@@ -384,6 +373,7 @@ exports.plot = function(gd, data, layout, config) {
         initInteractions,
         Plots.addLinks,
         Plots.rehover,
+        Plots.redrag,
         // TODO: doAutoMargin is only needed here for axis automargin, which
         // happens outside of marginPushers where all the other automargins are
         // calculated. Would be much better to separate margin calculations from
@@ -401,7 +391,7 @@ exports.plot = function(gd, data, layout, config) {
         emitAfterPlot(gd);
         return gd;
     });
-};
+}
 
 function emitAfterPlot(gd) {
     var fullLayout = gd._fullLayout;
@@ -413,9 +403,9 @@ function emitAfterPlot(gd) {
     }
 }
 
-exports.setPlotConfig = function setPlotConfig(obj) {
+function setPlotConfig(obj) {
     return Lib.extendFlat(dfltConfig, obj);
-};
+}
 
 function setBackground(gd, bgColor) {
     try {
@@ -632,7 +622,7 @@ function plotLegacyPolar(gd, data, layout) {
 }
 
 // convenience function to force a full redraw, mostly for use by plotly.js
-exports.redraw = function(gd) {
+function redraw(gd) {
     gd = Lib.getGraphDiv(gd);
 
     if(!Lib.isPlotDiv(gd)) {
@@ -647,7 +637,7 @@ exports.redraw = function(gd) {
         gd.emit('plotly_redraw');
         return gd;
     });
-};
+}
 
 /**
  * Convenience function to make idempotent plot option obvious to users.
@@ -657,7 +647,7 @@ exports.redraw = function(gd) {
  * @param {Object} layout
  * @param {Object} config
  */
-exports.newPlot = function(gd, data, layout, config) {
+function newPlot(gd, data, layout, config) {
     gd = Lib.getGraphDiv(gd);
 
     // remove gl contexts
@@ -665,7 +655,7 @@ exports.newPlot = function(gd, data, layout, config) {
 
     Plots.purge(gd);
     return exports.plot(gd, data, layout, config);
-};
+}
 
 /**
  * Wrap negative indicies to their positive counterparts.
@@ -985,7 +975,7 @@ function concatTypedArray(arr0, arr1) {
  * @param {Number|Object} [maxPoints] Number of points for trace window after lengthening.
  *
  */
-exports.extendTraces = function extendTraces(gd, update, indices, maxPoints) {
+function extendTraces(gd, update, indices, maxPoints) {
     gd = Lib.getGraphDiv(gd);
 
     function updateArray(target, insert, maxp) {
@@ -1041,9 +1031,9 @@ exports.extendTraces = function extendTraces(gd, update, indices, maxPoints) {
     Queue.add(gd, exports.prependTraces, undoArgs, extendTraces, arguments);
 
     return promise;
-};
+}
 
-exports.prependTraces = function prependTraces(gd, update, indices, maxPoints) {
+function prependTraces(gd, update, indices, maxPoints) {
     gd = Lib.getGraphDiv(gd);
 
     function updateArray(target, insert, maxp) {
@@ -1098,7 +1088,7 @@ exports.prependTraces = function prependTraces(gd, update, indices, maxPoints) {
     Queue.add(gd, exports.extendTraces, undoArgs, prependTraces, arguments);
 
     return promise;
-};
+}
 
 /**
  * Add data traces to an existing graph div.
@@ -1109,7 +1099,7 @@ exports.prependTraces = function prependTraces(gd, update, indices, maxPoints) {
  * @param {Number[]|Number} [newIndices=[gd.data.length]] Locations to add traces
  *
  */
-exports.addTraces = function addTraces(gd, traces, newIndices) {
+function addTraces(gd, traces, newIndices) {
     gd = Lib.getGraphDiv(gd);
 
     var currentIndices = [];
@@ -1161,8 +1151,7 @@ exports.addTraces = function addTraces(gd, traces, newIndices) {
     try {
         // this is redundant, but necessary to not catch later possible errors!
         checkMoveTracesArgs(gd, currentIndices, newIndices);
-    }
-    catch(error) {
+    } catch(error) {
         // something went wrong, reset gd to be safe and rethrow error
         gd.data.splice(gd.data.length - traces.length, traces.length);
         throw error;
@@ -1175,7 +1164,7 @@ exports.addTraces = function addTraces(gd, traces, newIndices) {
     promise = exports.moveTraces(gd, currentIndices, newIndices);
     Queue.stopSequence(gd);
     return promise;
-};
+}
 
 /**
  * Delete traces at `indices` from gd.data array.
@@ -1184,7 +1173,7 @@ exports.addTraces = function addTraces(gd, traces, newIndices) {
  * @param {Object[]} gd.data The array of traces we're removing from
  * @param {Number|Number[]} indices The indices
  */
-exports.deleteTraces = function deleteTraces(gd, indices) {
+function deleteTraces(gd, indices) {
     gd = Lib.getGraphDiv(gd);
 
     var traces = [];
@@ -1217,7 +1206,7 @@ exports.deleteTraces = function deleteTraces(gd, indices) {
     Queue.add(gd, undoFunc, undoArgs, redoFunc, redoArgs);
 
     return promise;
-};
+}
 
 /**
  * Move traces at currentIndices array to locations in newIndices array.
@@ -1250,7 +1239,7 @@ exports.deleteTraces = function deleteTraces(gd, indices) {
  *      // reorder all traces (assume there are 5--a, b, c, d, e)
  *      Plotly.moveTraces(gd, [b, d, e, a, c])  // same as 'move to end'
  */
-exports.moveTraces = function moveTraces(gd, currentIndices, newIndices) {
+function moveTraces(gd, currentIndices, newIndices) {
     gd = Lib.getGraphDiv(gd);
 
     var newData = [];
@@ -1314,7 +1303,7 @@ exports.moveTraces = function moveTraces(gd, currentIndices, newIndices) {
     Queue.add(gd, undoFunc, undoArgs, redoFunc, redoArgs);
 
     return promise;
-};
+}
 
 /**
  * restyle: update trace attributes of an existing plot
@@ -1356,8 +1345,7 @@ function restyle(gd, astr, val, _traces) {
         // the 3-arg form
         aobj = Lib.extendFlat({}, astr);
         if(_traces === undefined) _traces = val;
-    }
-    else {
+    } else {
         Lib.warn('Restyle fail.', astr, val, _traces);
         return Promise.reject();
     }
@@ -1402,7 +1390,7 @@ function restyle(gd, astr, val, _traces) {
         seq.push(emitAfterPlot);
     }
 
-    seq.push(Plots.rehover);
+    seq.push(Plots.rehover, Plots.redrag);
 
     Queue.add(gd,
         restyle, [gd, specs.undoit, specs.traces],
@@ -1417,7 +1405,6 @@ function restyle(gd, astr, val, _traces) {
         return gd;
     });
 }
-exports.restyle = restyle;
 
 // for undo: undefined initial vals must be turned into nulls
 // so that we unset rather than ignore them
@@ -1454,16 +1441,14 @@ function storeCurrent(attr, val, newVal, preGUI) {
         for(var i = 0; i < maxLen; i++) {
             storeCurrent(attr + '[' + i + ']', arrayVal[i], arrayNew[i], preGUI);
         }
-    }
-    else if(Lib.isPlainObject(val) || Lib.isPlainObject(newVal)) {
+    } else if(Lib.isPlainObject(val) || Lib.isPlainObject(newVal)) {
         var objVal = Lib.isPlainObject(val) ? val : {};
         var objNew = Lib.isPlainObject(newVal) ? newVal : {};
         var objBoth = Lib.extendFlat({}, objVal, objNew);
         for(var key in objBoth) {
             storeCurrent(attr + '.' + key, objVal[key], objNew[key], preGUI);
         }
-    }
-    else if(preGUI[attr] === undefined) {
+    } else if(preGUI[attr] === undefined) {
         preGUI[attr] = undefinedToNull(val);
     }
 }
@@ -1480,12 +1465,12 @@ function storeCurrent(attr, val, newVal, preGUI) {
  *     `layout._preGUI` or `layout._tracePreGUI[uid]`
  * @param {object} edits: the {attr: val} object as normally passed to `relayout` etc
  */
-exports._storeDirectGUIEdit = function(container, preGUI, edits) {
+function _storeDirectGUIEdit(container, preGUI, edits) {
     for(var attr in edits) {
         var np = nestedProperty(container, attr);
         storeCurrent(attr, np.get(), edits[attr], preGUI);
     }
-};
+}
 
 function _restyle(gd, aobj, traces) {
     var fullLayout = gd._fullLayout;
@@ -1639,18 +1624,17 @@ function _restyle(gd, aobj, traces) {
                 for(var impliedKey in valObject.impliedEdits) {
                     doextra(Lib.relativeAttr(ai, impliedKey), valObject.impliedEdits[impliedKey], i);
                 }
-            }
-
-            // changing colorbar size modes,
-            // make the resulting size not change
-            // note that colorbar fractional sizing is based on the
-            // original plot size, before anything (like a colorbar)
-            // increases the margins
-            else if((finalPart === 'thicknessmode' || finalPart === 'lenmode') &&
+            } else if((finalPart === 'thicknessmode' || finalPart === 'lenmode') &&
                     oldVal !== newVal &&
                     (newVal === 'fraction' || newVal === 'pixels') &&
                     innerContFull
             ) {
+                // changing colorbar size modes,
+                // make the resulting size not change
+                // note that colorbar fractional sizing is based on the
+                // original plot size, before anything (like a colorbar)
+                // increases the margins
+
                 var gs = fullLayout._size;
                 var orient = innerContFull.orient;
                 var topOrBottom = (orient === 'top') || (orient === 'bottom');
@@ -1658,15 +1642,12 @@ function _restyle(gd, aobj, traces) {
                     var thicknorm = topOrBottom ? gs.h : gs.w;
                     doextra(prefixDot + 'thickness', innerContFull.thickness *
                         (newVal === 'fraction' ? 1 / thicknorm : thicknorm), i);
-                }
-                else {
+                } else {
                     var lennorm = topOrBottom ? gs.w : gs.h;
                     doextra(prefixDot + 'len', innerContFull.len *
                         (newVal === 'fraction' ? 1 / lennorm : lennorm), i);
                 }
-            }
-
-            else if(ai === 'type' && (newVal === 'pie') !== (oldVal === 'pie')) {
+            } else if(ai === 'type' && (newVal === 'pie') !== (oldVal === 'pie')) {
                 var labelsTo = 'x';
                 var valuesTo = 'y';
                 if((newVal === 'bar' || oldVal === 'bar') && cont.orientation === 'h') {
@@ -1707,22 +1688,20 @@ function _restyle(gd, aobj, traces) {
                     if((param.get() || defaultOrientation) === contFull.orientation) {
                         continue;
                     }
-                }
-                // orientationaxes has no value,
-                // it flips everything and the axes
-                else if(ai === 'orientationaxes') {
+                } else if(ai === 'orientationaxes') {
+                    // orientationaxes has no value,
+                    // it flips everything and the axes
+
                     cont.orientation =
                         {v: 'h', h: 'v'}[contFull.orientation];
                 }
                 helpers.swapXYData(cont);
                 flags.calc = flags.clearAxisTypes = true;
-            }
-            else if(Plots.dataArrayContainers.indexOf(param.parts[0]) !== -1) {
+            } else if(Plots.dataArrayContainers.indexOf(param.parts[0]) !== -1) {
                 // TODO: use manageArrays.applyContainerArrayChanges here too
                 helpers.manageArrayContainers(param, newVal, undoit);
                 flags.calc = true;
-            }
-            else {
+            } else {
                 if(valObject) {
                     // must redo calcdata when restyling array values of arrayOk attributes
                     // ... but no need to this for regl-based traces
@@ -1731,10 +1710,8 @@ function _restyle(gd, aobj, traces) {
                         (Lib.isArrayOrTypedArray(newVal) || Lib.isArrayOrTypedArray(oldVal))
                     ) {
                         flags.calc = true;
-                    }
-                    else editTypes.update(flags, valObject);
-                }
-                else {
+                    } else editTypes.update(flags, valObject);
+                } else {
                     /*
                      * if we couldn't find valObject,  assume a full recalc.
                      * This can happen if you're changing type and making
@@ -1897,8 +1874,7 @@ function relayout(gd, astr, val) {
 
     if(flags.layoutReplot) {
         seq.push(subroutines.layoutReplot);
-    }
-    else if(Object.keys(aobj).length) {
+    } else if(Object.keys(aobj).length) {
         axRangeSupplyDefaultsByPass(gd, flags, specs) || Plots.supplyDefaults(gd);
 
         if(flags.legend) seq.push(subroutines.doLegend);
@@ -1911,7 +1887,7 @@ function relayout(gd, astr, val) {
         seq.push(emitAfterPlot);
     }
 
-    seq.push(Plots.rehover);
+    seq.push(Plots.rehover, Plots.redrag);
 
     Queue.add(gd,
         relayout, [gd, specs.undoit],
@@ -1926,7 +1902,6 @@ function relayout(gd, astr, val) {
         return gd;
     });
 }
-exports.relayout = relayout;
 
 // Optimization mostly for large splom traces where
 // Plots.supplyDefaults can take > 100ms
@@ -1992,13 +1967,8 @@ function addAxRangeSequence(seq, rangesAltered) {
             return Axes.draw(gd, 'redraw');
         };
 
-    var _clearSelect = function(gd) {
-        var zoomlayer = gd._fullLayout._zoomlayer;
-        if(zoomlayer) clearSelect(zoomlayer);
-    };
-
     seq.push(
-        _clearSelect,
+        clearSelect,
         subroutines.doAutoRangeAndConstraints,
         drawAxes,
         subroutines.drawData,
@@ -2133,22 +2103,19 @@ function _relayout(gd, aobj) {
                 // ignore this if the same relayout call also provides oppositeAttr
                 var oppositeAttr = ai === 'height' ? 'width' : 'height';
                 doextra(oppositeAttr, fullLayout[oppositeAttr]);
-            }
-            else {
+            } else {
                 fullLayout[ai] = gd._initialAutoSize[ai];
             }
-        }
-        else if(ai === 'autosize') {
+        } else if(ai === 'autosize') {
             // depends on vi here too, so again can't use impliedEdits
             doextra('width', vi ? null : fullLayout.width);
             doextra('height', vi ? null : fullLayout.height);
-        }
-        // check autorange vs range
-        else if(pleafPlus.match(AX_RANGE_RE)) {
+        } else if(pleafPlus.match(AX_RANGE_RE)) {
+            // check autorange vs range
+
             recordAlteredAxis(pleafPlus);
             nestedProperty(fullLayout, ptrunk + '._inputRange').set(null);
-        }
-        else if(pleafPlus.match(AX_AUTORANGE_RE)) {
+        } else if(pleafPlus.match(AX_AUTORANGE_RE)) {
             recordAlteredAxis(pleafPlus);
             nestedProperty(fullLayout, ptrunk + '._inputRange').set(null);
             var axFull = nestedProperty(fullLayout, ptrunk).get();
@@ -2157,8 +2124,7 @@ function _relayout(gd, aobj) {
                 // reset it so we don't get locked into a shrunken size
                 axFull._input.domain = axFull._inputDomain.slice();
             }
-        }
-        else if(pleafPlus.match(AX_DOMAIN_RE)) {
+        } else if(pleafPlus.match(AX_DOMAIN_RE)) {
             nestedProperty(fullLayout, ptrunk + '._inputDomain').set(null);
         }
 
@@ -2178,8 +2144,7 @@ function _relayout(gd, aobj) {
                     // I don't think this is needed, but left here in case there
                     // are edge cases I'm not thinking of.
                     doextra(ptrunk + '.autorange', true);
-                }
-                else if(!parentFull.autorange) {
+                } else if(!parentFull.autorange) {
                     // toggling log without autorange: need to also recalculate ranges
                     // because log axes use linearized values for range endpoints
                     var r0 = ax.range[0];
@@ -2195,13 +2160,11 @@ function _relayout(gd, aobj) {
                         // now set the range values as appropriate
                         doextra(ptrunk + '.range[0]', Math.log(r0) / Math.LN10);
                         doextra(ptrunk + '.range[1]', Math.log(r1) / Math.LN10);
-                    }
-                    else {
+                    } else {
                         doextra(ptrunk + '.range[0]', Math.pow(10, r0));
                         doextra(ptrunk + '.range[1]', Math.pow(10, r1));
                     }
-                }
-                else if(toLog) {
+                } else if(toLog) {
                     // just make sure the range is positive and in the right
                     // order, it'll get recalculated later
                     ax.range = (ax.range[1] > ax.range[0]) ? [1, 2] : [2, 1];
@@ -2221,16 +2184,14 @@ function _relayout(gd, aobj) {
                 // Shapes do not need this :)
                 Registry.getComponentMethod('annotations', 'convertCoords')(gd, parentFull, vi, doextra);
                 Registry.getComponentMethod('images', 'convertCoords')(gd, parentFull, vi, doextra);
-            }
-            else {
+            } else {
                 // any other type changes: the range from the previous type
                 // will not make sense, so autorange it.
                 doextra(ptrunk + '.autorange', true);
                 doextra(ptrunk + '.range', null);
             }
             nestedProperty(fullLayout, ptrunk + '._inputRange').set(null);
-        }
-        else if(pleaf.match(AX_NAME_PATTERN)) {
+        } else if(pleaf.match(AX_NAME_PATTERN)) {
             var fullProp = nestedProperty(fullLayout, ai).get();
             var newType = (vi || {}).type;
 
@@ -2276,9 +2237,9 @@ function _relayout(gd, aobj) {
             objEdits[propStr] = vi;
 
             delete aobj[ai];
-        }
-        // handle axis reversal explicitly, as there's no 'reverse' attribute
-        else if(pleaf === 'reverse') {
+        } else if(pleaf === 'reverse') {
+            // handle axis reversal explicitly, as there's no 'reverse' attribute
+
             if(parentIn.range) parentIn.range.reverse();
             else {
                 doextra(ptrunk + '.autorange', true);
@@ -2287,19 +2248,16 @@ function _relayout(gd, aobj) {
 
             if(parentFull.autorange) flags.calc = true;
             else flags.plot = true;
-        }
-        else {
+        } else {
             if((fullLayout._has('scatter-like') && fullLayout._has('regl')) &&
                 (ai === 'dragmode' &&
                 (vi === 'lasso' || vi === 'select') &&
                 !(vOld === 'lasso' || vOld === 'select'))
             ) {
                 flags.plot = true;
-            }
-            else if(fullLayout._has('gl2d')) {
+            } else if(fullLayout._has('gl2d')) {
                 flags.plot = true;
-            }
-            else if(valObject) editTypes.update(flags, valObject);
+            } else if(valObject) editTypes.update(flags, valObject);
             else flags.calc = true;
 
             p.set(vi);
@@ -2426,14 +2384,11 @@ function update(gd, traceUpdate, layoutUpdate, _traces) {
         gd.layout = undefined;
 
         seq.push(function() { return exports.plot(gd, data, layout); });
-    }
-    else if(restyleFlags.fullReplot) {
+    } else if(restyleFlags.fullReplot) {
         seq.push(exports.plot);
-    }
-    else if(relayoutFlags.layoutReplot) {
+    } else if(relayoutFlags.layoutReplot) {
         seq.push(subroutines.layoutReplot);
-    }
-    else {
+    } else {
         seq.push(Plots.previousPromises);
         axRangeSupplyDefaultsByPass(gd, relayoutFlags, relayoutSpecs) || Plots.supplyDefaults(gd);
 
@@ -2449,7 +2404,7 @@ function update(gd, traceUpdate, layoutUpdate, _traces) {
         seq.push(emitAfterPlot);
     }
 
-    seq.push(Plots.rehover);
+    seq.push(Plots.rehover, Plots.redrag);
 
     Queue.add(gd,
         update, [gd, restyleSpecs.undoit, relayoutSpecs.undoit, restyleSpecs.traces],
@@ -2468,7 +2423,6 @@ function update(gd, traceUpdate, layoutUpdate, _traces) {
         return gd;
     });
 }
-exports.update = update;
 
 /*
  * internal-use-only restyle/relayout/update variants that record the initial
@@ -2483,9 +2437,6 @@ function guiEdit(func) {
         return p;
     };
 }
-exports._guiRestyle = guiEdit(restyle);
-exports._guiRelayout = guiEdit(relayout);
-exports._guiUpdate = guiEdit(update);
 
 // For connecting edited layout attributes to uirevision attrs
 // If no `attr` we use `match[1] + '.uirevision'`
@@ -2517,7 +2468,7 @@ var traceUIControlPatterns = [
     // "visible" includes trace.transforms[i].styles[j].value.visible
     {pattern: /(^|value\.)visible$/, attr: 'legend.uirevision'},
     {pattern: /^dimensions\[\d+\]\.constraintrange/},
-    {pattern: /^node\.(x|y)/}, // for Sankey nodes
+    {pattern: /^node\.(x|y|groups)/}, // for Sankey nodes
     {pattern: /^level$/}, // for Sunburst traces
 
     // below this you must be in editable: true mode
@@ -2611,8 +2562,7 @@ function applyUIRevisions(data, layout, oldFullData, oldFullLayout) {
                     continue;
                 }
             }
-        }
-        else {
+        } else {
             Lib.warn('unrecognized GUI edit: ' + key);
         }
         // if we got this far, the new value was accepted as the new starting
@@ -2672,8 +2622,7 @@ function applyUIRevisions(data, layout, oldFullData, oldFullLayout) {
                 if(match.attr) {
                     oldRev = nestedProperty(oldFullLayout, match.attr).get();
                     newRev = oldRev && getNewRev(match.attr, layout);
-                }
-                else {
+                } else {
                     oldRev = fullInput.uirevision;
                     // inheritance for trace.uirevision is simple, just layout.uirevision
                     newRev = newTrace.uirevision;
@@ -2690,8 +2639,7 @@ function applyUIRevisions(data, layout, oldFullData, oldFullLayout) {
                         continue;
                     }
                 }
-            }
-            else {
+            } else {
                 Lib.warn('unrecognized GUI edit: ' + key + ' in trace uid ' + uid);
             }
             delete tracePreGUI[key];
@@ -2722,7 +2670,7 @@ function applyUIRevisions(data, layout, oldFullData, oldFullLayout) {
  *      object containing `data`, `layout`, `config`, and `frames` members
  *
  */
-exports.react = function(gd, data, layout, config) {
+function react(gd, data, layout, config) {
     var frames, plotDone;
 
     function addFrames() { return exports.addFrames(gd, frames); }
@@ -2735,8 +2683,7 @@ exports.react = function(gd, data, layout, config) {
     // you can use this as the initial draw as well as to update
     if(!Lib.isPlotDiv(gd) || !oldFullData || !oldFullLayout) {
         plotDone = exports.newPlot(gd, data, layout, config);
-    }
-    else {
+    } else {
         if(Lib.isPlainObject(data)) {
             var obj = data;
             data = obj.data;
@@ -2815,12 +2762,10 @@ exports.react = function(gd, data, layout, config) {
             seq.push(function() {
                 return Plots.transitionFromReact(gd, restyleFlags, relayoutFlags, oldFullLayout);
             });
-        }
-        else if(restyleFlags.fullReplot || relayoutFlags.layoutReplot || configChanged) {
+        } else if(restyleFlags.fullReplot || relayoutFlags.layoutReplot || configChanged) {
             gd._fullLayout._skipDefaults = true;
             seq.push(exports.plot);
-        }
-        else {
+        } else {
             for(var componentType in relayoutFlags.arrays) {
                 var indices = relayoutFlags.arrays[componentType];
                 if(indices.length) {
@@ -2829,8 +2774,7 @@ exports.react = function(gd, data, layout, config) {
                         for(var i = 0; i < indices.length; i++) {
                             drawOne(gd, indices[i]);
                         }
-                    }
-                    else {
+                    } else {
                         var draw = Registry.getComponentMethod(componentType, 'draw');
                         if(draw === Lib.noop) {
                             throw new Error('cannot draw components: ' + componentType);
@@ -2852,7 +2796,7 @@ exports.react = function(gd, data, layout, config) {
             seq.push(emitAfterPlot);
         }
 
-        seq.push(Plots.rehover);
+        seq.push(Plots.rehover, Plots.redrag);
 
         plotDone = Lib.syncOrAsync(seq, gd);
         if(!plotDone || !plotDone.then) plotDone = Promise.resolve(gd);
@@ -2866,7 +2810,7 @@ exports.react = function(gd, data, layout, config) {
 
         return gd;
     });
-};
+}
 
 function diffData(gd, oldFullData, newFullData, immutable, transition, newDataRevision) {
     var sameTraceLength = oldFullData.length === newFullData.length;
@@ -3049,8 +2993,7 @@ function getDiffFlags(oldContainer, newContainer, outerparts, opts) {
         if(newVal === undefined) {
             if(canBeDataArray && wasArray) flags.calc = true;
             else changed();
-        }
-        else if(valObject._isLinkedToArray) {
+        } else if(valObject._isLinkedToArray) {
             var arrayEditIndices = [];
             var extraIndices = false;
             if(!inArray) flags.arrays[key] = arrayEditIndices;
@@ -3060,8 +3003,7 @@ function getDiffFlags(oldContainer, newContainer, outerparts, opts) {
             if(minLen !== maxLen) {
                 if(valObject.editType === 'arraydraw') {
                     extraIndices = true;
-                }
-                else {
+                } else {
                     changed();
                     continue;
                 }
@@ -3081,11 +3023,9 @@ function getDiffFlags(oldContainer, newContainer, outerparts, opts) {
                     arrayEditIndices.push(i);
                 }
             }
-        }
-        else if(!valType && Lib.isPlainObject(oldVal)) {
+        } else if(!valType && Lib.isPlainObject(oldVal)) {
             getDiffFlags(oldVal, newVal, parts, opts);
-        }
-        else if(canBeDataArray) {
+        } else if(canBeDataArray) {
             if(wasArray && nowArray) {
                 // don't try to diff two data arrays. If immutable we know the data changed,
                 // if not, assume it didn't and let `layout.datarevision` tell us if it did
@@ -3097,13 +3037,10 @@ function getDiffFlags(oldContainer, newContainer, outerparts, opts) {
                 if(immutable || opts.newDataRevision) {
                     changed();
                 }
-            }
-            else if(wasArray !== nowArray) {
+            } else if(wasArray !== nowArray) {
                 flags.calc = true;
-            }
-            else changed();
-        }
-        else if(wasArray && nowArray) {
+            } else changed();
+        } else if(wasArray && nowArray) {
             // info array, colorscale, 'any' - these are short, just stringify.
             // I don't *think* that covers up any real differences post-validation, does it?
             // otherwise we need to dive in 1 (info_array) or 2 (colorscale) levels and compare
@@ -3111,8 +3048,7 @@ function getDiffFlags(oldContainer, newContainer, outerparts, opts) {
             if(oldVal.length !== newVal.length || String(oldVal) !== String(newVal)) {
                 changed();
             }
-        }
-        else {
+        } else {
             changed();
         }
     }
@@ -3124,8 +3060,7 @@ function getDiffFlags(oldContainer, newContainer, outerparts, opts) {
             if(valObjectCanBeDataArray(valObject) && Array.isArray(newContainer[key])) {
                 flags.calc = true;
                 return;
-            }
-            else changed();
+            } else changed();
         }
     }
 }
@@ -3145,8 +3080,7 @@ function diffConfig(oldConfig, newConfig) {
                 if(diffConfig(oldVal, newVal)) {
                     return true;
                 }
-            }
-            else if(Array.isArray(oldVal) && Array.isArray(newVal)) {
+            } else if(Array.isArray(oldVal) && Array.isArray(newVal)) {
                 if(oldVal.length !== newVal.length) {
                     return true;
                 }
@@ -3156,14 +3090,12 @@ function diffConfig(oldConfig, newConfig) {
                             if(diffConfig(oldVal[i], newVal[i])) {
                                 return true;
                             }
-                        }
-                        else {
+                        } else {
                             return true;
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 return true;
             }
         }
@@ -3197,7 +3129,7 @@ function diffConfig(oldConfig, newConfig) {
  * @param {object} animationOpts
  *      configuration for the animation
  */
-exports.animate = function(gd, frameOrGroupNameOrFrameList, animationOpts) {
+function animate(gd, frameOrGroupNameOrFrameList, animationOpts) {
     gd = Lib.getGraphDiv(gd);
 
     if(!Lib.isPlotDiv(gd)) {
@@ -3539,7 +3471,7 @@ exports.animate = function(gd, frameOrGroupNameOrFrameList, animationOpts) {
             resolve();
         }
     });
-};
+}
 
 /**
  * Register new frames
@@ -3560,7 +3492,7 @@ exports.animate = function(gd, frameOrGroupNameOrFrameList, animationOpts) {
  *      provided, an index will be provided in serial order. If already used, the frame
  *      will be overwritten.
  */
-exports.addFrames = function(gd, frameList, indices) {
+function addFrames(gd, frameList, indices) {
     gd = Lib.getGraphDiv(gd);
 
     if(frameList === null || frameList === undefined) {
@@ -3677,7 +3609,7 @@ exports.addFrames = function(gd, frameList, indices) {
     if(Queue) Queue.add(gd, undoFunc, undoArgs, redoFunc, redoArgs);
 
     return Plots.modifyFrames(gd, ops);
-};
+}
 
 /**
  * Delete frame
@@ -3688,7 +3620,7 @@ exports.addFrames = function(gd, frameList, indices) {
  * @param {array of integers} frameList
  *      list of integer indices of frames to be deleted
  */
-exports.deleteFrames = function(gd, frameList) {
+function deleteFrames(gd, frameList) {
     gd = Lib.getGraphDiv(gd);
 
     if(!Lib.isPlotDiv(gd)) {
@@ -3724,7 +3656,7 @@ exports.deleteFrames = function(gd, frameList) {
     if(Queue) Queue.add(gd, undoFunc, undoArgs, redoFunc, redoArgs);
 
     return Plots.modifyFrames(gd, ops);
-};
+}
 
 /**
  * Purge a graph container div back to its initial pre-Plotly.plot state
@@ -3732,7 +3664,7 @@ exports.deleteFrames = function(gd, frameList) {
  * @param {string id or DOM element} gd
  *      the id or DOM element of the graph container div
  */
-exports.purge = function purge(gd) {
+function purge(gd) {
     gd = Lib.getGraphDiv(gd);
 
     var fullLayout = gd._fullLayout || {};
@@ -3754,7 +3686,7 @@ exports.purge = function purge(gd) {
     delete gd._context;
 
     return gd;
-};
+}
 
 // -------------------------------------------------------
 // makePlotFramework: Create the plot container and axes
@@ -3891,3 +3823,32 @@ function makePlotFramework(gd) {
 
     gd.emit('plotly_framework');
 }
+
+exports.animate = animate;
+exports.addFrames = addFrames;
+exports.deleteFrames = deleteFrames;
+
+exports.addTraces = addTraces;
+exports.deleteTraces = deleteTraces;
+exports.extendTraces = extendTraces;
+exports.moveTraces = moveTraces;
+exports.prependTraces = prependTraces;
+
+exports.newPlot = newPlot;
+exports.plot = plot;
+exports.purge = purge;
+
+exports.react = react;
+exports.redraw = redraw;
+exports.relayout = relayout;
+exports.restyle = restyle;
+
+exports.setPlotConfig = setPlotConfig;
+
+exports.update = update;
+
+exports._guiRelayout = guiEdit(relayout);
+exports._guiRestyle = guiEdit(restyle);
+exports._guiUpdate = guiEdit(update);
+
+exports._storeDirectGUIEdit = _storeDirectGUIEdit;

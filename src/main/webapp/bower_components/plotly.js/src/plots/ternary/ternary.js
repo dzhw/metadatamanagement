@@ -187,8 +187,7 @@ proto.adjustLayout = function(ternaryLayout, graphSize) {
     if(wmax > whRatio * hmax) {
         h = hmax;
         w = h * whRatio;
-    }
-    else {
+    } else {
         w = wmax;
         h = w / whRatio;
     }
@@ -493,7 +492,7 @@ proto.initInteractions = function() {
     var _this = this;
     var dragger = _this.layers.plotbg.select('path').node();
     var gd = _this.graphDiv;
-    var zoomContainer = gd._fullLayout._zoomlayer;
+    var zoomLayer = gd._fullLayout._zoomlayer;
 
     // use plotbg for the main interactions
     var dragOptions = {
@@ -520,15 +519,13 @@ proto.initInteractions = function() {
                 dragOptions.clickFn = clickZoomPan;
                 dragOptions.doneFn = zoomDone;
                 zoomPrep(e, startX, startY);
-            }
-            else if(dragModeNow === 'pan') {
+            } else if(dragModeNow === 'pan') {
                 dragOptions.moveFn = plotDrag;
                 dragOptions.clickFn = clickZoomPan;
                 dragOptions.doneFn = dragDone;
                 panPrep();
-                clearSelect(zoomContainer);
-            }
-            else if(dragModeNow === 'select' || dragModeNow === 'lasso') {
+                clearSelect(gd);
+            } else if(dragModeNow === 'select' || dragModeNow === 'lasso') {
                 prepSelect(e, startX, startY, dragOptions, dragModeNow);
             }
         }
@@ -578,7 +575,7 @@ proto.initInteractions = function() {
         path0 = 'M0,' + _this.h + 'L' + (_this.w / 2) + ', 0L' + _this.w + ',' + _this.h + 'Z';
         dimmed = false;
 
-        zb = zoomContainer.append('path')
+        zb = zoomLayer.append('path')
             .attr('class', 'zoombox')
             .attr('transform', 'translate(' + _this.x0 + ', ' + _this.y0 + ')')
             .style({
@@ -587,7 +584,7 @@ proto.initInteractions = function() {
             })
             .attr('d', path0);
 
-        corners = zoomContainer.append('path')
+        corners = zoomLayer.append('path')
             .attr('class', 'zoombox-corners')
             .attr('transform', 'translate(' + _this.x0 + ', ' + _this.y0 + ')')
             .style({
@@ -598,7 +595,7 @@ proto.initInteractions = function() {
             })
             .attr('d', 'M0,0Z');
 
-        clearSelect(zoomContainer);
+        clearSelect(gd);
     }
 
     function getAFrac(x, y) { return 1 - (y / _this.h); }
@@ -622,8 +619,7 @@ proto.initInteractions = function() {
             mins = mins0;
             zb.attr('d', path0);
             corners.attr('d', 'M0,0Z');
-        }
-        else {
+        } else {
             mins = {
                 a: mins0.a + afrac * span0,
                 b: mins0.b + bfrac * span0,
@@ -690,8 +686,7 @@ proto.initInteractions = function() {
             if(minsorted[1] + minsorted[0] / 2 < 0) {
                 minsorted[2] += minsorted[0] + minsorted[1];
                 minsorted[0] = minsorted[1] = 0;
-            }
-            else {
+            } else {
                 minsorted[2] += minsorted[0] / 2;
                 minsorted[1] += minsorted[0] / 2;
                 minsorted[0] = 0;

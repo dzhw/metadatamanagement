@@ -66,6 +66,13 @@
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
+					<md-list-item>
+						<md-input-container ng-class="'fdz-no-margin'">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.publicationsRequired" ng-class="'fdz-no-margin'" name="publications" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+								{{'data-acquisition-project-management.project-cockpit.requirements.publications' | translate}}
+							</md-checkbox>
+						</md-input-container>
+					</md-list-item>
 				</md-list>
 			</form>
 		</md-card-content>

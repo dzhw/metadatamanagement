@@ -65,6 +65,9 @@ Select Datasets Checkbox
 Select Variable Checkbox
    Click Element Through Tooltips  xpath=//md-checkbox[@name="variables"]
 
+Click Publications Checkbox
+   Click Element Through Tooltips  xpath=//md-checkbox[@name="publications"]
+
 Ensure Data Providers Ready Checkbox is Disabled
    Page Should Contain Element  xpath=//*[@ng-model="ctrl.project.configuration[ctrl.type+'State'].dataProviderReady" and @disabled="disabled"][1]
 

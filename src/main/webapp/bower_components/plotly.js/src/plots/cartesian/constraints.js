@@ -157,8 +157,7 @@ function updateConstraintGroups(constraintGroups, thisGroup, thisID, scaleanchor
         thisGroup[thisID] = 1;
         thisGroupIndex = constraintGroups.length;
         constraintGroups.push(thisGroup);
-    }
-    else {
+    } else {
         thisGroupIndex = constraintGroups.indexOf(thisGroup);
     }
 
@@ -189,7 +188,7 @@ function updateConstraintGroups(constraintGroups, thisGroup, thisID, scaleanchor
     thisGroup[scaleanchor] = 1;
 }
 
-exports.enforce = function enforceAxisConstraints(gd) {
+exports.enforce = function enforce(gd) {
     var fullLayout = gd._fullLayout;
     var constraintGroups = fullLayout._axisConstraintGroups || [];
 
@@ -256,8 +255,7 @@ exports.enforce = function enforceAxisConstraints(gd) {
 
                 if(mode === 'range') {
                     scaleZoom(ax, factor);
-                }
-                else {
+                } else {
                     // mode === 'domain'
 
                     var inputDomain = ax._inputDomain;
@@ -348,7 +346,7 @@ exports.enforce = function enforceAxisConstraints(gd) {
 
 // For use before autoranging, check if this axis was previously constrained
 // by domain but no longer is
-exports.clean = function cleanConstraints(gd, ax) {
+exports.clean = function clean(gd, ax) {
     if(ax._inputDomain) {
         var isConstrained = false;
         var axId = ax._id;

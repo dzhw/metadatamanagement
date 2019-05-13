@@ -42,7 +42,7 @@ if [ $? -ne 0 ]; then
     echo "Maven build failed!"
     exit -1
 fi
-cf push -f ./deploy/manifest-${PROFILE}.yml
+cf push -f ./deploy/manifest-${PROFILE}.yml -s cflinuxfs3
 if [ $? -ne 0 ]; then
     echo "cf push failed!"
     exit -1

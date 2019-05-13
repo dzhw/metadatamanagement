@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     Tests downloading an instrument attachment
+Force Tags        noslowpoke
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
 

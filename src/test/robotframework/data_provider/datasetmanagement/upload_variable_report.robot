@@ -6,6 +6,7 @@ Resource          ../../resources/search_resource.robot
 *** Variables ***
 ${TOAST_MSSG_COMP}  Tex Dokument erfolgreich erzeugt
 ${TOAST_MSSG_SINGLE}   Erzeugen von Tex Dokument Abgebrochen!
+
 *** Test Cases ***
 Upload folder and single file in Dataset editor
     [Tags]  localonly   chromeonly
@@ -33,7 +34,7 @@ Upload Variable Report Template Folder
     Press Key    xpath=//input[@type='file' and @ngf-select='ctrl.uploadTexTemplate($files)'][1]   ${CURDIR}/template   # template folder contains all the required files
 
 Upload Variable Report Template Single File
-    Press Key   xpath=//input[@type='file' and @ngf-select='ctrl.uploadTexTemplate($files)'][1]   ${CURDIR}/singlefile  # singlefile folder contains only a single file
+    Press Key   xpath=//input[@type='file' and @ngf-select='ctrl.uploadTexTemplate($files)'][1]   ${CURDIR}/singlefile/Variablelist.tex  # singlefile folder contains only a single file
 
 Close The Toast Message for Complete Template
     [Arguments]  ${TOAST_MSSG}
