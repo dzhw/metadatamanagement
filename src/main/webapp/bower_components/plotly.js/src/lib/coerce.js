@@ -12,7 +12,7 @@ var isNumeric = require('fast-isnumeric');
 var tinycolor = require('tinycolor2');
 
 var baseTraceAttrs = require('../plots/attributes');
-var scales = require('../components/colorscale/scales');
+var colorscales = require('../components/colorscale/scales');
 var DESELECTDIM = require('../constants/interactions').DESELECTDIM;
 
 var nestedProperty = require('./nested_property');
@@ -86,8 +86,7 @@ exports.valObjectMeta = {
                     (opts.min !== undefined && v < opts.min) ||
                     (opts.max !== undefined && v > opts.max)) {
                 propOut.set(dflt);
-            }
-            else propOut.set(+v);
+            } else propOut.set(+v);
         }
     },
     integer: {
@@ -103,8 +102,7 @@ exports.valObjectMeta = {
                     (opts.min !== undefined && v < opts.min) ||
                     (opts.max !== undefined && v > opts.max)) {
                 propOut.set(dflt);
-            }
-            else propOut.set(+v);
+            } else propOut.set(+v);
         }
     },
     string: {
@@ -122,8 +120,7 @@ exports.valObjectMeta = {
 
                 if(opts.strict === true || !okToCoerce) propOut.set(dflt);
                 else propOut.set(String(v));
-            }
-            else if(opts.noBlank && !v) propOut.set(dflt);
+            } else if(opts.noBlank && !v) propOut.set(dflt);
             else propOut.set(v);
         }
     },
@@ -164,7 +161,7 @@ exports.valObjectMeta = {
     colorscale: {
         description: [
             'A Plotly colorscale either picked by a name:',
-            '(any of', Object.keys(scales.scales).join(', '), ')',
+            '(any of', Object.keys(colorscales.scales).join(', '), ')',
             'customized as an {array} of 2-element {arrays} where',
             'the first element is the normalized color level value',
             '(starting at *0* and ending at *1*),',
@@ -173,7 +170,7 @@ exports.valObjectMeta = {
         requiredOpts: [],
         otherOpts: ['dflt'],
         coerceFunction: function(v, propOut, dflt) {
-            propOut.set(scales.get(v, dflt));
+            propOut.set(colorscales.get(v, dflt));
         }
     },
     angle: {
@@ -239,8 +236,7 @@ exports.valObjectMeta = {
                 var vi = vParts[i];
                 if(opts.flags.indexOf(vi) === -1 || vParts.indexOf(vi) < i) {
                     vParts.splice(i, 1);
-                }
-                else i++;
+                } else i++;
             }
             if(!vParts.length) propOut.set(dflt);
             else propOut.set(vParts.join('+'));
@@ -314,8 +310,7 @@ exports.valObjectMeta = {
                         if(vNew !== undefined) vOut[i][j] = vNew;
                     }
                 }
-            }
-            else {
+            } else {
                 for(i = 0; i < len; i++) {
                     vNew = coercePart(v[i], arrayItems ? items[i] : items, dflt[i]);
                     if(vNew !== undefined) vOut[i] = vNew;
@@ -345,8 +340,7 @@ exports.valObjectMeta = {
                             return false;
                         }
                     }
-                }
-                else if(!validate(v[i], arrayItems ? items[i] : items)) return false;
+                } else if(!validate(v[i], arrayItems ? items[i] : items)) return false;
             }
 
             return true;

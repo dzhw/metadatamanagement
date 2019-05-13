@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service;
 
 import java.util.stream.Stream;
 
+import org.javers.common.collections.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
@@ -31,8 +32,8 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
- * This service for {@link RelatedPublicationService} will wait for delete events 
- * of a {@link RelatedPublication}.
+ * This service for {@link RelatedPublicationService} will wait for delete events of a
+ * {@link RelatedPublication}.
  * 
  * @author Daniel Katzberg
  *
@@ -43,36 +44,34 @@ public class RelatedPublicationService {
 
   @Autowired
   private RelatedPublicationRepository relatedPublicationRepository;
-  
+
   @Autowired
   private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
-  
+
   @Autowired
   private StudyChangesProvider studyChangesProvider;
-  
+
   @Autowired
   private StudyRepository studyRepository;
-  
+
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-  
+
   @Autowired
   private ApplicationEventPublisher eventPublisher;
-  
+
   /**
-   * Enqueue deletion of related publication search document 
-   * when the related publication is deleted.
+   * Enqueue deletion of related publication search document when the related publication is
+   * deleted.
    * 
    * @param relatedPublication the deleted related publication.
    */
   @HandleAfterDelete
   public void onRelatedPublicationDeleted(RelatedPublication relatedPublication) {
-    elasticsearchUpdateQueueService.enqueue(
-        relatedPublication.getId(), 
-        ElasticsearchType.related_publications, 
-        ElasticsearchUpdateQueueAction.DELETE);
+    elasticsearchUpdateQueueService.enqueue(relatedPublication.getId(),
+        ElasticsearchType.related_publications, ElasticsearchUpdateQueueAction.DELETE);
   }
-  
+
   /**
    * Enqueue update of related publication search document when the related publication is updated.
    * 
@@ -81,12 +80,10 @@ public class RelatedPublicationService {
   @HandleAfterCreate
   @HandleAfterSave
   public void onRelatedPublicationSaved(RelatedPublication relatedPublication) {
-    elasticsearchUpdateQueueService.enqueue(
-        relatedPublication.getId(), 
-        ElasticsearchType.related_publications, 
-        ElasticsearchUpdateQueueAction.UPSERT);
+    elasticsearchUpdateQueueService.enqueue(relatedPublication.getId(),
+        ElasticsearchType.related_publications, ElasticsearchUpdateQueueAction.UPSERT);
   }
-  
+
   /**
    * Remember the old and new related publication.
    * 
@@ -94,21 +91,20 @@ public class RelatedPublicationService {
    */
   @HandleBeforeSave
   public void onBeforeRelatedPublicationSaved(RelatedPublication relatedPublication) {
-    relatedPublicationChangesProvider.put(relatedPublication, 
-        relatedPublicationRepository.findById(relatedPublication.getId())
-        .orElse(null));
+    relatedPublicationChangesProvider.put(relatedPublication,
+        relatedPublicationRepository.findById(relatedPublication.getId()).orElse(null));
   }
-  
+
   @HandleBeforeCreate
   public void onBeforeRelatedPublicationCreated(RelatedPublication relatedPublication) {
     relatedPublicationChangesProvider.put(relatedPublication, null);
   }
-  
+
   @HandleBeforeDelete
   public void onBeforeRelatedPublicationDeleted(RelatedPublication relatedPublication) {
     relatedPublicationChangesProvider.put(null, relatedPublication);
   }
-  
+
   /**
    * Enqueue update of related publication search documents when the study changed.
    * 
@@ -119,12 +115,12 @@ public class RelatedPublicationService {
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
     if (studyChangesProvider.hasStudySeriesChanged(study.getId())) {
-      I18nString oldStudySeries = studyChangesProvider.getPreviousStudySeries(study.getId()); 
+      I18nString oldStudySeries = studyChangesProvider.getPreviousStudySeries(study.getId());
       // check if old study series does not exist anymore
       if (!studyRepository.existsByStudySeries(oldStudySeries)) {
-        // update all related publications to new study series        
-        try (Stream<RelatedPublication> stream = relatedPublicationRepository
-            .streamByStudySeriesesContaining(oldStudySeries)) {
+        // update all related publications to new study series
+        try (Stream<RelatedPublication> stream =
+            relatedPublicationRepository.streamByStudySeriesesContaining(oldStudySeries)) {
           stream.forEach(publication -> {
             publication.getStudySerieses().remove(oldStudySeries);
             publication.getStudySerieses().add(study.getStudySeries());
@@ -137,12 +133,11 @@ public class RelatedPublicationService {
       }
     }
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> relatedPublicationRepository.streamIdsByStudyIdsContaining(
-            study.getId()),
+        () -> relatedPublicationRepository.streamIdsByStudyIdsContaining(study.getId()),
         ElasticsearchType.related_publications);
   }
 
-  
+
   /**
    * Enqueue update of related publication search documents when the question changed.
    * 
@@ -153,11 +148,10 @@ public class RelatedPublicationService {
   @HandleAfterDelete
   public void onQuestionChanged(Question question) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> relatedPublicationRepository.streamIdsByQuestionIdsContaining(
-            question.getId()),
+        () -> relatedPublicationRepository.streamIdsByQuestionIdsContaining(question.getId()),
         ElasticsearchType.related_publications);
   }
-  
+
   /**
    * Enqueue update of related publication search documents when the instrument changed.
    * 
@@ -168,11 +162,10 @@ public class RelatedPublicationService {
   @HandleAfterDelete
   public void onInstrumentChanged(Instrument instrument) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> relatedPublicationRepository.streamIdsByInstrumentIdsContaining(
-            instrument.getId()),
+        () -> relatedPublicationRepository.streamIdsByInstrumentIdsContaining(instrument.getId()),
         ElasticsearchType.related_publications);
   }
-  
+
   /**
    * Enqueue update of related publication search documents when the survey changed.
    * 
@@ -183,11 +176,10 @@ public class RelatedPublicationService {
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> relatedPublicationRepository.streamIdsBySurveyIdsContaining(
-            survey.getId()),
+        () -> relatedPublicationRepository.streamIdsBySurveyIdsContaining(survey.getId()),
         ElasticsearchType.related_publications);
   }
-  
+
   /**
    * Enqueue update of related publication search documents when the data set changed.
    * 
@@ -198,11 +190,10 @@ public class RelatedPublicationService {
   @HandleAfterDelete
   public void onDataSetChanged(DataSet dataSet) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> relatedPublicationRepository.streamIdsByDataSetIdsContaining(
-            dataSet.getId()),
+        () -> relatedPublicationRepository.streamIdsByDataSetIdsContaining(dataSet.getId()),
         ElasticsearchType.related_publications);
   }
-  
+
   /**
    * Enqueue update of related publication search documents when the variable changed.
    * 
@@ -213,8 +204,62 @@ public class RelatedPublicationService {
   @HandleAfterDelete
   public void onVariableChanged(Variable variable) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> relatedPublicationRepository.streamIdsByVariableIdsContaining(
-            variable.getId()),
+        () -> relatedPublicationRepository.streamIdsByVariableIdsContaining(variable.getId()),
         ElasticsearchType.related_publications);
+  }
+
+  /**
+   * Remove the given studyId from all publications.
+   * 
+   * @param studyId the id to be removed.
+   */
+  public void removeAllPublicationsFromStudy(String studyId) {
+    try (Stream<RelatedPublication> publications =
+        relatedPublicationRepository.streamByStudyIdsContaining(studyId)) {
+      publications.forEach(publication -> {
+        eventPublisher.publishEvent(new BeforeSaveEvent(publication));
+        if (publication.getStudyIds() != null) {          
+          publication.getStudyIds().remove(studyId);
+        }
+        relatedPublicationRepository.save(publication);
+        eventPublisher.publishEvent(new AfterSaveEvent(publication));
+      });
+    }
+  }
+
+  /**
+   * Assign the study to the given publication.
+   * 
+   * @param studyId An id of a {@link Study}.
+   * @param publicationId An id of a {@link RelatedPublication}.
+   */
+  public void assignPublicationToStudy(String studyId, String publicationId) {
+    relatedPublicationRepository.findById(publicationId).ifPresent(publication -> {
+      if (publication.getStudyIds() != null) {        
+        publication.getStudyIds().add(studyId);
+      } else {
+        publication.setStudyIds(Lists.immutableListOf(studyId));
+      }
+      eventPublisher.publishEvent(new BeforeSaveEvent(publication));
+      relatedPublicationRepository.save(publication);
+      eventPublisher.publishEvent(new AfterSaveEvent(publication));
+    });
+  }
+  
+  /**
+   * Remove the study from the given publication.
+   * 
+   * @param studyId An id of a {@link Study}.
+   * @param publicationId An id of a {@link RelatedPublication}.
+   */
+  public void removePublicationFromStudy(String studyId, String publicationId) {
+    relatedPublicationRepository.findById(publicationId).ifPresent(publication -> {
+      if (publication.getStudyIds() != null) {        
+        publication.getStudyIds().remove(studyId);
+      }
+      eventPublisher.publishEvent(new BeforeSaveEvent(publication));
+      relatedPublicationRepository.save(publication);
+      eventPublisher.publishEvent(new AfterSaveEvent(publication));
+    });
   }
 }

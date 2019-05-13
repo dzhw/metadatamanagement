@@ -969,7 +969,7 @@ function mouseoverCategoryBand(bandViewModel) {
                 }
 
                 if(hoverItems) {
-                    Fx.multiHovers(hoverItems, {
+                    Fx.loneHover(hoverItems, {
                         container: fullLayout._hoverlayer.node(),
                         outerContainer: fullLayout._paper.node(),
                         gd: gd
@@ -1344,7 +1344,8 @@ function updateSvgCategories(parcatsViewModel, hasTransition) {
     // Update binding
     parcatsViewModel.dimensionSelection
         .data(function(d) {
-            return d.dimensions;}, key);
+            return d.dimensions;
+        }, key);
 
     var categorySelection = parcatsViewModel.dimensionSelection
         .selectAll('g.category')

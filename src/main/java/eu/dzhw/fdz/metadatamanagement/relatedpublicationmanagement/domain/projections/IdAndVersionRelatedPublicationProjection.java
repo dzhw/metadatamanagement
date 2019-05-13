@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections;
 
+import java.util.List;
+
 import org.springframework.data.rest.core.config.Projection;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
@@ -12,6 +14,6 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
  */
 @Projection(name = "id-and-version", types = RelatedPublication.class)
 public interface IdAndVersionRelatedPublicationProjection extends IdAndVersionProjection {
-  
+  List<String> getStudyIds();
 }
 

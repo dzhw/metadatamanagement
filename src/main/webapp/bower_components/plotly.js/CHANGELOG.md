@@ -10,6 +10,70 @@ https://github.com/plotly/plotly.js/compare/vX.Y.Z...master
 where X.Y.Z is the semver of most recent plotly.js release.
 
 
+## [1.47.4] -- 2019-04-25
+
+### Fixed
+- Fix graphs with `sankey` and cartesian subplots [#3802]
+- Fix selection of `bar` traces on subplot with a range slider [#3806]
+
+
+## [1.47.3] -- 2019-04-18
+
+### Fixed
+- Fix MathJax rendering in Firefox [#3783]
+- Fix `waterfall` hover under `hovermode: 'closest'` [#3778]
+- Fix `waterfall` `connector.line.width` updates [#3789]
+- Fix `waterfall` positioning on date axes [#3791]
+- Fix `waterfall` default connector line color [#3788]
+- Fix `hoverlabel.align` behavior for centered hover labels [#3781]
+
+
+## [1.47.2] -- 2019-04-15
+
+### Fixed
+- Fix bar `'auto'` and `'inside'` `textposition` rendering on log size axes [#3762, #3773]
+- Fix matching axes autorange algorithm for date axes [#3772]
+- Fix SVG gradient rendering (colorbar and marker gradient) when `<base>` is present on page [#3765]
+
+
+## [1.47.1] -- 2019-04-10
+
+### Fixed
+- Fix console errors during selections (bug introduced in 1.47.0) [#3755]
+
+
+## [1.47.0] -- 2019-04-09
+
+### Added
+- New `volume` gl3d trace type [#3488]
+- Implement node grouping via box and lasso selections for `sankey` traces [#3712, #3750]
+- Implement `hovermode: 'x'`  for `sankey` traces,
+  allowing users to compare links in a flow on hover [#3730]
+- Add way for `Plotly.toImage` and `Plotly.downloadImage` to export images
+  with current graph width/height by passing width/height option as `null` [#3746]
+- Add legend attribute `itemsizing` with value `'constant'` making legend item symbol sizing
+  independent of the sizing of their corresponding trace item [#3732]
+- Add `hoverlabel.align` with value `'left'`, `'right'` and `'auto'` to set the horizontal
+  alignment of the text content within hover labels [#3753]
+- Add `contour.start`, `contour.end` and `contour.size` attribute to `surface` traces [#3469]
+- Add `isosurface` and `volume` to the `gl3d` bundle [#3488]
+
+### Changed
+- Allow re-plot during drag interactions [#3716]
+- Use high-precision in `scattergl` error bars shader [#3739]
+
+### Fixed
+- Fix implementation of geo `lonaxis` and `lataxis` attribute `tick0` [#3706]
+- Fix `scrollZoom: false` configuration on mapbox subplots [#3745]
+- Fix rendering of alpha channel in `mesh3d` traces [#3744]
+- Fix `hoverlabel.namelength: 0` case [#3734]
+- Fix implementation of `hoverlabel.namelength` for `pie`, `sankey`, `sunburst` and
+  the gl3d traces [#3734]
+- Fix `waterfall` rendering when transforms filter out all
+  increasing or decreasing bars [#3720]
+- Fix clip-path attributes for pages with parenthesis in their `<base>` URL [#3725]
+
+
 ## [1.46.1] -- 2019-04-02
 
 ### Fixed

@@ -6,7 +6,6 @@
 * LICENSE file in the root directory of this source tree.
 */
 
-
 'use strict';
 
 var d3 = require('d3');
@@ -37,7 +36,6 @@ var scaleZoom = require('./scale_zoom');
 var constants = require('./constants');
 var MINDRAG = constants.MINDRAG;
 var MINZOOM = constants.MINZOOM;
-
 
 // flag for showing "doubleclick to zoom out" only at the beginning
 var SHOWZOOMOUTTIP = true;
@@ -166,13 +164,13 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
                 if(e.shiftKey) {
                     if(dragModeNow === 'pan') dragModeNow = 'zoom';
                     else if(!isSelectOrLasso(dragModeNow)) dragModeNow = 'pan';
-                }
-                else if(e.ctrlKey) {
+                } else if(e.ctrlKey) {
                     dragModeNow = 'pan';
                 }
+            } else {
+                // all other draggers just pan
+                dragModeNow = 'pan';
             }
-            // all other draggers just pan
-            else dragModeNow = 'pan';
         }
 
         if(dragModeNow === 'lasso') dragOptions.minDrag = 1;
@@ -216,13 +214,30 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
                 }
             }
         }
+
+        gd._fullLayout._redrag = function() {
+            var dragDataNow = gd._dragdata;
+
+            if(dragDataNow && dragDataNow.element === dragger) {
+                var dragModeNow = gd._fullLayout.dragmode;
+
+                if(!isSelectOrLasso(dragModeNow)) {
+                    recomputeAxisLists();
+                    updateSubplots([0, 0, pw, ph]);
+                    dragOptions.moveFn(dragDataNow.dx, dragDataNow.dy);
+                }
+
+                // TODO should we try to "re-select" under select/lasso modes?
+                // probably best to wait for https://github.com/plotly/plotly.js/issues/1851
+            }
+        };
     };
 
     function clearAndResetSelect() {
         // clear selection polygon cache (if any)
         dragOptions.plotinfo.selection = false;
         // clear selection outlines
-        clearSelect(zoomlayer);
+        clearSelect(gd);
     }
 
     function clickFn(numClicks, evt) {
@@ -240,8 +255,7 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
             if(clickmode.indexOf('event') > -1) {
                 Fx.click(gd, evt, plotinfo.id);
             }
-        }
-        else if(numClicks === 1 && singleEnd) {
+        } else if(numClicks === 1 && singleEnd) {
             var ax = ns ? ya0 : xa0;
             var end = (ns === 's' || ew === 'w') ? 0 : 1;
             var attrStr = ax._name + '.range[' + end + ']';
@@ -254,8 +268,7 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
             if(ns) {
                 vAlign = (ns === 'n') ? 'top' : 'bottom';
                 if(ax.side === 'right') hAlign = 'right';
-            }
-            else if(ew === 'e') hAlign = 'right';
+            } else if(ew === 'e') hAlign = 'right';
 
             if(gd._context.showAxisRangeEntryBoxes) {
                 d3.select(dragger)
@@ -353,8 +366,7 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
             } else {
                 noZoom();
             }
-        }
-        else if(matches.isSubplotConstrained) {
+        } else if(matches.isSubplotConstrained) {
             if(dx > MINZOOM || dy > MINZOOM) {
                 zoomMode = 'xy';
 
@@ -369,10 +381,10 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
             } else {
                 noZoom();
             }
-        }
-        // look for small drags in one direction or the other,
-        // and only drag the other axis
-        else if(!yActive || dy < Math.min(Math.max(dx * 0.6, MINDRAG), MINZOOM)) {
+        } else if(!yActive || dy < Math.min(Math.max(dx * 0.6, MINDRAG), MINZOOM)) {
+            // look for small drags in one direction or the other,
+            // and only drag the other axis
+
             if(dx < MINDRAG || !xActive) {
                 noZoom();
             } else {
@@ -381,14 +393,12 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
                 zoomMode = 'x';
                 corners.attr('d', xCorners(box, y0));
             }
-        }
-        else if(!xActive || dx < Math.min(dy * 0.6, MINZOOM)) {
+        } else if(!xActive || dx < Math.min(dy * 0.6, MINZOOM)) {
             box.l = 0;
             box.r = pw;
             zoomMode = 'y';
             corners.attr('d', yCorners(box, x0));
-        }
-        else {
+        } else {
             zoomMode = 'xy';
             corners.attr('d', xyCorners(box));
         }
@@ -587,8 +597,8 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
         else if(yActive === 's') dy = dz(yaxes, 0, -dy);
         else if(!yActive) dy = 0;
 
-        var x0 = (xActive === 'w') ? dx : 0;
-        var y0 = (yActive === 'n') ? dy : 0;
+        var xStart = (xActive === 'w') ? dx : 0;
+        var yStart = (yActive === 'n') ? dy : 0;
 
         if(links.isSubplotConstrained) {
             var i;
@@ -600,7 +610,7 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
                     scaleZoom(xaxes[i], 1 - dy / ph);
                 }
                 dx = dy * pw / ph;
-                x0 = dx / 2;
+                xStart = dx / 2;
             }
             if(!yActive && xActive.length === 1) {
                 for(i = 0; i < yaxes.length; i++) {
@@ -608,13 +618,13 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
                     scaleZoom(yaxes[i], 1 - dx / pw);
                 }
                 dy = dx * ph / pw;
-                y0 = dy / 2;
+                yStart = dy / 2;
             }
         }
 
         updateMatchedAxRange('x');
         updateMatchedAxRange('y');
-        updateSubplots([x0, y0, pw - dx, ph - dy]);
+        updateSubplots([xStart, yStart, pw - dx, ph - dy]);
         ticksAndAnnotations();
     }
 
@@ -723,8 +733,7 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
                 ax = axList[i];
                 if(!ax.fixedrange) attrs[ax._name + '.autorange'] = true;
             }
-        }
-        else if(doubleClickConfig === 'reset') {
+        } else if(doubleClickConfig === 'reset') {
             // when we're resetting, reset all linked axes too, so we get back
             // to the fully-auto-with-constraints situation
             if(xActive || links.isSubplotConstrained) axList = axList.concat(links.xaxes);
@@ -959,12 +968,10 @@ function getEndText(ax, end) {
     // rounding here... can we clean up at all?
     if(ax.type === 'date') {
         return initialVal;
-    }
-    else if(ax.type === 'log') {
+    } else if(ax.type === 'log') {
         dig = Math.ceil(Math.max(0, -Math.log(diff) / Math.LN10)) + 3;
         return d3.format('.' + dig + 'g')(Math.pow(10, initialVal));
-    }
-    else { // linear numeric (or category... but just show numbers here)
+    } else { // linear numeric (or category... but just show numbers here)
         dig = Math.floor(Math.log(Math.abs(initialVal)) / Math.LN10) -
             Math.floor(Math.log(diff) / Math.LN10) + 4;
         return d3.format('.' + String(dig) + 'g')(initialVal);
@@ -1197,8 +1204,7 @@ function attachWheelEventHandler(element, handler) {
     if(!supportsPassive) {
         if(element.onwheel !== undefined) element.onwheel = handler;
         else if(element.onmousewheel !== undefined) element.onmousewheel = handler;
-    }
-    else {
+    } else {
         var wheelEventName = element.onwheel !== undefined ? 'wheel' : 'mousewheel';
 
         if(element._onwheel) {

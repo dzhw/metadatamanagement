@@ -6,7 +6,6 @@
 * LICENSE file in the root directory of this source tree.
 */
 
-
 'use strict';
 
 var Registry = require('../../registry');
@@ -44,7 +43,6 @@ var modeBarButtons = module.exports = {};
  * @param {boolean} [toggle]
  *      is the button a toggle button?
  */
-
 modeBarButtons.toImage = {
     name: 'toImage',
     title: function(gd) {
@@ -67,7 +65,7 @@ modeBarButtons.toImage = {
         }
 
         ['filename', 'width', 'height', 'scale'].forEach(function(key) {
-            if(toImageButtonOptions[key]) {
+            if(key in toImageButtonOptions) {
                 opts[key] = toImageButtonOptions[key];
             }
         });
@@ -211,8 +209,7 @@ function handleCartesian(gd, ev) {
                 else if(val === 'reset') {
                     if(ax._rangeInitial === undefined) {
                         aobj[axName + '.autorange'] = true;
-                    }
-                    else {
+                    } else {
                         var rangeInitial = ax._rangeInitial.slice();
                         aobj[axName + '.range[0]'] = rangeInitial[0];
                         aobj[axName + '.range[1]'] = rangeInitial[1];
@@ -223,8 +220,7 @@ function handleCartesian(gd, ev) {
                             allSpikesEnabled = 'off';
                         }
                     }
-                }
-                else {
+                } else {
                     var rangeNow = [
                         ax.r2l(ax.range[0]),
                         ax.r2l(ax.range[1]),
@@ -241,8 +237,7 @@ function handleCartesian(gd, ev) {
             }
         }
         fullLayout._cartesianSpikesEnabled = allSpikesEnabled;
-    }
-    else {
+    } else {
         // if ALL traces have orientation 'h', 'hovermode': 'x' otherwise: 'y'
         if(astr === 'hovermode' && (val === 'x' || val === 'y')) {
             val = fullLayout._isHoriz ? 'y' : 'x';
@@ -387,8 +382,7 @@ function getNextHover3d(gd, ev) {
     if(val) {
         layoutUpdate = val;
         button._previousVal = null;
-    }
-    else {
+    } else {
         for(var i = 0; i < sceneIds.length; i++) {
             var sceneId = sceneIds[i];
             var sceneLayout = fullLayout[sceneId];
@@ -512,6 +506,26 @@ function toggleHover(gd) {
     var newHover = getNextHover(gd);
     Registry.call('_guiRelayout', gd, 'hovermode', newHover);
 }
+
+modeBarButtons.resetViewSankey = {
+    name: 'resetSankeyGroup',
+    title: function(gd) { return _(gd, 'Reset view'); },
+    icon: Icons.home,
+    click: function(gd) {
+        var aObj = {
+            'node.groups': [],
+            'node.x': [],
+            'node.y': []
+        };
+        for(var i = 0; i < gd._fullData.length; i++) {
+            var viewInitial = gd._fullData[i]._viewInitial;
+            aObj['node.groups'].push(viewInitial.node.groups.slice());
+            aObj['node.x'].push(viewInitial.node.x.slice());
+            aObj['node.y'].push(viewInitial.node.y.slice());
+        }
+        Registry.call('restyle', gd, aObj);
+    }
+};
 
 // buttons when more then one plot types are present
 

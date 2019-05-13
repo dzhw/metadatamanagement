@@ -70,17 +70,11 @@ module.exports = function plot(gd, plotinfo, cdModule, traceLayer) {
                 y1 = ya.c2p(di.p1, true);
                 x0 = xa.c2p(di.s0, true);
                 x1 = xa.c2p(di.s1, true);
-
-                // for selections
-                di.ct = [x1, (y0 + y1) / 2];
             } else {
                 x0 = xa.c2p(di.p0, true);
                 x1 = xa.c2p(di.p1, true);
                 y0 = ya.c2p(di.s0, true);
                 y1 = ya.c2p(di.s1, true);
-
-                // for selections
-                di.ct = [(x0 + x1) / 2, y1];
             }
 
             var isBlank = di.isBlank = (
@@ -107,9 +101,11 @@ module.exports = function plot(gd, plotinfo, cdModule, traceLayer) {
             var prefix;
 
             if(trace.type === 'waterfall') {
-                var cont = trace[di.dir].marker;
-                lw = cont.line.width;
-                mc = cont.color;
+                if(!isBlank) {
+                    var cont = trace[di.dir].marker;
+                    lw = cont.line.width;
+                    mc = cont.color;
+                }
                 prefix = 'waterfall';
             } else {
                 lw = (di.mlw + 1 || trace.marker.line.width + 1 ||
@@ -160,7 +156,7 @@ module.exports = function plot(gd, plotinfo, cdModule, traceLayer) {
                 .attr('d', isBlank ? 'M0,0Z' : 'M' + x0 + ',' + y0 + 'V' + y1 + 'H' + x1 + 'V' + y0 + 'Z')
                 .call(Drawing.setClipUrl, plotinfo.layerClipId, gd);
 
-            appendBarText(gd, bar, cd, i, x0, x1, y0, y1);
+            appendBarText(gd, plotinfo, bar, cd, i, x0, x1, y0, y1);
 
             if(plotinfo.layerClipId) {
                 Drawing.hideOutsideRangePoint(di, bar.select('text'), xa, ya, trace.xcalendar, trace.ycalendar);
@@ -177,7 +173,7 @@ module.exports = function plot(gd, plotinfo, cdModule, traceLayer) {
     Registry.getComponentMethod('errorbars', 'plot')(gd, bartraces, plotinfo);
 };
 
-function appendBarText(gd, bar, calcTrace, i, x0, x1, y0, y1) {
+function appendBarText(gd, plotinfo, bar, calcTrace, i, x0, x1, y0, y1) {
     var fullLayout = gd._fullLayout;
     var textPosition;
 
@@ -223,6 +219,29 @@ function appendBarText(gd, bar, calcTrace, i, x0, x1, y0, y1) {
     var barColor = style.getBarColor(calcTrace[i], trace);
     var insideTextFont = style.getInsideTextFont(trace, i, layoutFont, barColor);
     var outsideTextFont = style.getOutsideTextFont(trace, i, layoutFont);
+
+    // Special case: don't use the c2p(v, true) value on log size axes,
+    // so that we can get correctly inside text scaling
+    var di = bar.datum();
+    if(orientation === 'h') {
+        var xa = plotinfo.xaxis;
+        if(xa.type === 'log' && di.s0 <= 0) {
+            if(xa.range[0] < xa.range[1]) {
+                x0 = 0;
+            } else {
+                x0 = xa._length;
+            }
+        }
+    } else {
+        var ya = plotinfo.yaxis;
+        if(ya.type === 'log' && di.s0 <= 0) {
+            if(ya.range[0] < ya.range[1]) {
+                y0 = ya._length;
+            } else {
+                y0 = 0;
+            }
+        }
+    }
 
     // padding excluded
     var barWidth = Math.abs(x1 - x0) - 2 * TEXTPAD;
