@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     Upload a variable report template to generate variable report. Folder upload does not work in this case.
+Library   OperatingSystem
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
 
@@ -25,7 +26,7 @@ Get back to home page and deselect project
     Click Element Through Tooltips    xpath=//md-sidenav//project-navbar-module//button[@aria-label='Clear Input']
 
 Upload Variable Report Template Single File
-    Choose File   xpath=//input[@type='file' and @ngf-select='ctrl.uploadTexTemplate($files)'][1]   ${CURDIR}\\singlefile\\Variablelist.tex  # singlefile folder contains only a single file
+    Choose File   xpath=//input[@type='file' and @ngf-select='ctrl.uploadTexTemplate($files)'][1]   ${CURDIR}${/}singlefile${/}Variablelist.tex  # singlefile folder contains only a single file
 
 Click on protocol to check the error messages
     Click Element Through Tooltips   xpath=//button[@ng-click="showLog()"]//span[contains(., "Protokoll")]
