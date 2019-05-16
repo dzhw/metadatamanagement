@@ -7,7 +7,7 @@ applications:
   disk_quota: 1024M
   instances: 2
   buildpacks:
-  - https://github.com/cloudfoundry/java-buildpack#v4.19
+  - https://github.com/cloudfoundry/java-buildpack
   env:
     SPRING_PROFILES_ACTIVE: dev
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{ enabled: false }'
