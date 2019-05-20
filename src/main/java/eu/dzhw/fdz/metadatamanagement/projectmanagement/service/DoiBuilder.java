@@ -1,17 +1,21 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import com.github.zafarkhaja.semver.Version;
-import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.util.regex.Pattern;
+import com.github.zafarkhaja.semver.Version;
+
+import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 
 /**
  * Generate DOIs which will be sent to DARA on release of a {@link DataAcquisitionProject}.
@@ -39,6 +43,10 @@ public class DoiBuilder {
         return "10.21249/DZHW:" + stripVersionSuffix(study.getDataAcquisitionProjectId()) + ":"
             + release.getVersion();
       } else {
+        if (LocalDate.now().isAfter(LocalDate.of(2019, Month.MAY, 31))) {
+          return "10.17889/DZHW:" + stripVersionSuffix(study.getDataAcquisitionProjectId()) + ":"
+              + release.getVersion();
+        }
         return "10.5072/DZHW:" + stripVersionSuffix(study.getDataAcquisitionProjectId()) + ":"
             + release.getVersion();
       }
