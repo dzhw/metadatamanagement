@@ -22,7 +22,8 @@ angular.module('metadatamanagementApp').factory(
         'sponsor-de': 'sponsor.de',
         'sponsor-en': 'sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
-        'survey-method-en': 'surveys.surveyMethod.en'
+        'survey-method-en': 'surveys.surveyMethod.en',
+        'concept': 'concepts.id'
       },
       'variables': {
         'study-series-de': 'study.studySeries.de',
@@ -41,7 +42,8 @@ angular.module('metadatamanagementApp').factory(
         'sponsor-de': 'study.sponsor.de',
         'sponsor-en': 'study.sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
-        'survey-method-en': 'surveys.surveyMethod.en'
+        'survey-method-en': 'surveys.surveyMethod.en',
+        'concept': 'concepts.id'
       },
       'surveys': {
         'study-series-de': 'study.studySeries.de',
@@ -57,7 +59,8 @@ angular.module('metadatamanagementApp').factory(
         'sponsor-de': 'study.sponsor.de',
         'sponsor-en': 'study.sponsor.en',
         'survey-method-de': 'surveyMethod.de',
-        'survey-method-en': 'surveyMethod.en'
+        'survey-method-en': 'surveyMethod.en',
+        'concept': 'concepts.id'
       },
       'questions': {
         'study-series-de': 'study.studySeries.de',
@@ -73,7 +76,8 @@ angular.module('metadatamanagementApp').factory(
         'sponsor-de': 'study.sponsor.de',
         'sponsor-en': 'study.sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
-        'survey-method-en': 'surveys.surveyMethod.en'
+        'survey-method-en': 'surveys.surveyMethod.en',
+        'concept': 'concepts.id'
       },
       'instruments': {
         'study-series-de': 'study.studySeries.de',
@@ -89,7 +93,8 @@ angular.module('metadatamanagementApp').factory(
         'sponsor-de': 'study.sponsor.de',
         'sponsor-en': 'study.sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
-        'survey-method-en': 'surveys.surveyMethod.en'
+        'survey-method-en': 'surveys.surveyMethod.en',
+        'concept': 'concepts.id'
       },
       'data_sets': {
         'study-series-de': 'study.studySeries.de',
@@ -106,7 +111,8 @@ angular.module('metadatamanagementApp').factory(
         'sponsor-de': 'study.sponsor.de',
         'sponsor-en': 'study.sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
-        'survey-method-en': 'surveys.surveyMethod.en'
+        'survey-method-en': 'surveys.surveyMethod.en',
+        'concept': 'concepts.id'
       },
       'related_publications': {
         'study-series-de': 'studySerieses.de',
@@ -117,7 +123,15 @@ angular.module('metadatamanagementApp').factory(
         'question': 'questionIds',
         'data-set': 'dataSetIds',
         'variable': 'variableIds'
-      }
+      },
+      'concepts': {
+        'study': 'studies.id',
+        'survey': 'surveys.id',
+        'instrument': 'instruments.id',
+        'question': 'questions.id',
+        'data-set': 'dataSets.id',
+        'variable': 'variables.id'
+      },
     };
 
     var hiddenFiltersKeyMapping = {
@@ -141,6 +155,9 @@ angular.module('metadatamanagementApp').factory(
       },
       'related_publications': {
         'related-publication': '_id'
+      },
+      'concepts': {
+        'concept': '_id'
       }
     };
 
@@ -180,6 +197,10 @@ angular.module('metadatamanagementApp').factory(
         '_score',
         {year: {order: 'desc'}},
         'authors.keyword'
+      ],
+      'concepts': [
+        '_score',
+        'id'
       ]
     };
 

@@ -121,7 +121,7 @@ angular.module('metadatamanagementApp').config(
               'many': 'Klicken, um die Fragen dieser Studie anzuzeigen.'
             },
             'instruments': {
-              'one': 'Klicken, um die Instrumente dieser Studie anzuzeigen.',
+              'one': 'Klicken, um das Instrument dieser Studie anzuzeigen.',
               'many': 'Klicken, um die Instrumente dieser Studie anzuzeigen.'
             },
             'studies': {
@@ -151,7 +151,7 @@ angular.module('metadatamanagementApp').config(
             'id': {
               'not-empty': 'Die FDZ-ID der Studie darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
-              'pattern': 'Es dürfen für die FDZ-ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus, Ausrufezeichen und der Unterstrich verwendet werden.',
+              'pattern': 'Es dürfen für die FDZ-ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus und der Unterstrich verwendet werden.',
               'not-valid-id': 'Die FDZ-ID der Studie muss der Form "stu-" + {ProjektID} + "$" entsprechen.'
             },
             'title': {

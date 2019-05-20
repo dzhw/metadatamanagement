@@ -42,7 +42,7 @@ public class ConceptAttachmentMetadata extends AbstractRdcDomainObject {
 
   /**
    * The id of the {@link Concept} to which this attachment belongs.
-   * 
+   *
    * Must not be empty.
    */
   @NotEmpty(message =
@@ -52,16 +52,16 @@ public class ConceptAttachmentMetadata extends AbstractRdcDomainObject {
   /**
    * The index in the {@link Concept} of this attachment. Used for sorting the attachments of this
    * {@link Concept}.
-   * 
+   *
    * Must not be empty.
    */
   @NotNull(message =
-      "study-management.error.study-attachment-metadata.index-in-study.not-null")
+      "concept-management.error.concept-attachment-metadata.index-in-concept.not-null")
   private Integer indexInConcept;
 
   /**
    * An optional title of this attachment in the attachments' language.
-   * 
+   *
    * It must not contain more than 2048 characters.
    */
   @Size(max = StringLengths.LARGE, message =
@@ -70,7 +70,7 @@ public class ConceptAttachmentMetadata extends AbstractRdcDomainObject {
 
   /**
    * A description for this attachment.
-   * 
+   *
    * It must be specified in at least one language and it must not contain more than 512 characters.
    */
   @NotNull(message =
@@ -83,7 +83,7 @@ public class ConceptAttachmentMetadata extends AbstractRdcDomainObject {
 
   /**
    * The type of the attachment.
-   * 
+   *
    * Must be one of {@link ConceptAttachmentTypes} and must not be empty.
    */
   @NotNull(message =
@@ -96,7 +96,7 @@ public class ConceptAttachmentMetadata extends AbstractRdcDomainObject {
 
   /**
    * The filename of the attachment.
-   * 
+   *
    * Must not be empty and must contain only (german) alphanumeric characters and "_" and "-" and
    * ".".
    */
@@ -109,7 +109,7 @@ public class ConceptAttachmentMetadata extends AbstractRdcDomainObject {
 
   /**
    * The language of the attachments content.
-   * 
+   *
    * Must not be empty and must be specified as ISO 639 language code.
    */
   @NotNull(message =

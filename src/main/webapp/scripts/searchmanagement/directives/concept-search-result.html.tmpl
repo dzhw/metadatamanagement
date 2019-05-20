@@ -1,0 +1,39 @@
+<md-card style="position: relative;">
+    <a ui-sref="conceptDetail({id: concept.id, 'search-result-index': searchResultIndex})" class="fdz-search-result">
+        <md-card-header class="fdz-card-header-border">
+            <md-card-avatar>
+                <md-icon md-svg-src="/assets/images/icons/concept.svg" class="fdz-search-result-icon"></md-icon>
+            </md-card-avatar>
+            <md-card-header-text class="fdz-truncate-string">
+                <div class="md-title fdz-truncate-string"><span display-i18n-string="searchResult.title"></span> <span class="label label-as-badge label-default">{{searchResult.id}}</span></div>
+                <div class="md-subhead fdz-truncate-string">
+                    <span ng-repeat="author in searchResult.authors">
+                    <span>{{author.lastName}}, </span>
+                    <span ng-if="!author.middleName">{{author.firstName}}{{!$last?';':''}}</span>
+                    <span ng-if="author.middleName">{{author.firstName}} {{author.middleName}}{{!$last?';':''}}</span>
+                    </span>
+                </div>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content>
+            <div display-i18n-string="searchResult.description" limit-to="256" fdz-hyphenate class="fdz-text-block fdz-multiline-property"></div>
+        </md-card-content>
+        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'search-management.cards.concept-tooltip' | translate: {id: searchResult.id} }}
+        </md-tooltip>
+    </a>
+    <div class="fdz-search-result-actions-container" data-has-any-authority="ROLE_PUBLISHER">
+        <md-button class="md-icon-button md-primary" ui-sref="conceptEdit({id: concept.id})">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'search-management.buttons.edit-concept-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">mode_edit</md-icon>
+        </md-button>
+        <md-button class="md-icon-button md-primary" ng-click="deleteConcept(searchResult.id)" style="margin-left: 0px;" >
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'search-management.buttons.delete-concept-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">delete_forever</md-icon>
+        </md-button>
+    </div>
+</md-card>

@@ -53,7 +53,7 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
 
   /**
    * The id of the concept which uniquely identifies the concept in this application.
-   * 
+   *
    * Must not be empty and mist not contain more than 512 characters. Must start with "con-" and end
    * with "$" and must not contain any whitespace.
    */
@@ -61,8 +61,8 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
   @JestId
   @NotEmpty(message = "concept-management.error.concept.id.not-empty")
   @Pattern(regexp = Patterns.NO_WHITESPACE,
-      message = "concept-management.error.concept.id.no-whitespace")
-  @Pattern(regexp = "^con\\-.*\\$$", message = "concept-management.error.concept.id.pattern")
+      message = "concept-management.error.concept.id.pattern")
+  @Pattern(regexp = "^con\\-.*\\$$", message = "concept-management.error.concept.id.not-valid-id")
   @Size(max = StringLengths.MEDIUM, message = "concept-management.error.concept.id.size")
   private String id;
 
@@ -101,7 +101,7 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
 
   /**
    * The doi of the paper defining the concept.
-   * 
+   *
    * Must not contain more than 512 characters.
    */
   @Size(max = StringLengths.MEDIUM, message = "concept-management.error.concept.doi.size")
@@ -109,7 +109,7 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
 
   /**
    * The license of this concept.
-   * 
+   *
    * Must not contain more than 1 MB characters.
    */
   @Size(max = StringLengths.X_LARGE, message = "concept-management.error.concept.license.size")
@@ -117,7 +117,7 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
 
   /**
    * Hint on how to cite this concept.
-   * 
+   *
    * Must not be empty and must not contain more than 2048 characters.
    */
   @NotEmpty(message = "concept-management.error.concept." + "citation-hint.not-empty")
@@ -127,7 +127,7 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
 
   /**
    * Keywords for the concept.
-   * 
+   *
    * Must not be empty.
    */
   @Valid
@@ -135,7 +135,7 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
 
   /**
    * The original languages of the definition of the concept as ISO 639 code.
-   * 
+   *
    * Must not be empty.
    */
   @NotEmpty(message = "concept-management.error.concept." + "original-languages.not-empty")

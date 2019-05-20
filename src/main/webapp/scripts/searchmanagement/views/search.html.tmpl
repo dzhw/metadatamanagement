@@ -5,7 +5,7 @@
                 <md-tab-label>
                     <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
                     <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
-                        <span ng-if="tab.group && currentProject && !currentProject.released && hasAnyAuthority(['ROLE_PUBLISHER','ROLE_DATA_PROVIDER'])" ng-switch="getSentimentValue(tab.group)">
+                        <span ng-if="tab.group && currentProject && !currentProject.released && hasAnyAuthority(['ROLE_PUBLISHER','ROLE_DATA_PROVIDER']) && tab.group !== 'concepts'" ng-switch="getSentimentValue(tab.group)">
                             <span ng-switch-when="0">
                                 <md-icon md-svg-src="assets/images/icons/clipboard.svg"></md-icon>
                             </span>
@@ -42,6 +42,7 @@
             <study-search-result ng-switch-when="studies" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></study-search-result>
             <related-publication-search-result ng-switch-when="related_publications" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></related-publication-search-result>
             <instrument-search-result ng-switch-when="instruments" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></instrument-search-result>
+            <concept-search-result ng-switch-when="concepts" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></concept-search-result>
         </div>
         <div ng-if="pageObject.totalHits && pageObject.totalHits > pageObject.size" layout="row" layout-align="center">
             <ul template-url="scripts/common/pagination/custom-uib-pagination.html.tmpl" max-size="$mdMedia('gt-xs')?5:3" boundary-link-numbers="true" uib-pagination next-text="{{'global.pagination.next'|translate}}" previous-text="{{'global.pagination.previous'|translate}}"
@@ -168,6 +169,13 @@
         <md-button ng-click="navigateToCreateState('publicationAssignment')" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications' && currentProject" class="md-accent md-fab fdz-fade-in">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.edit-publications-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">add</md-icon>
+        </md-button>
+
+        <md-button class="md-fab md-raised md-accent" data-has-authority="ROLE_PUBLISHER" ng-click="navigateToCreateState('conceptCreate')" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='concepts'">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'search-management.buttons.create-concept-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>

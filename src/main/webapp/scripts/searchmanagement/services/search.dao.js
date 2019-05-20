@@ -211,12 +211,36 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'sourceReference.ngrams', queryTerm, standardMinorBoost));
             break;
+
+          case 'concepts':
+            boolQuery.should.push(createConstantScoreQuery(
+              'title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+                'title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'id.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'authors.firstName.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'authors.middleName.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'authors.lastName.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'description.de.ngrams', queryTerm, germanMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'description.en.ngrams', queryTerm, englishMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tags.de', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tags.en', queryTerm, englishMajorBoost));
+            break;
         }
       });
     };
 
     var applyFetchOnlyMasterDataFilter = function(query, elasticSearchType) {
-      if (elasticSearchType !== 'related_publications') {
+      if (!_.includes(['related_publications', 'concepts'],
+        elasticSearchType)) {
         var masterFilterCriteria = {
           'bool': {
             'must': [{
@@ -257,7 +281,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
     var applyFetchLatestShadowCopyFilter = function(query, elasticSearchType,
                                                     filter) {
-      if (elasticSearchType !== 'related_publications') {
+      if (!_.includes(['related_publications', 'concepts'],
+        elasticSearchType)) {
         SearchHelperService.addShadowCopyFilter(query, filter);
       }
     };
@@ -285,9 +310,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
         query.index = elasticsearchType;
         if (!elasticsearchType) {
           //search in all indices
-          query.index = ['studies', 'variables', 'surveys', 'data_sets',
-            'instruments', 'related_publications', 'questions'
-          ];
+          if (!Principal.hasAuthority('ROLE_PUBLISHER')) {
+            query.index = ['studies', 'variables', 'surveys', 'data_sets',
+              'instruments', 'related_publications', 'questions', 'concepts'
+            ];
+          } else {
+            query.index = ['studies', 'variables', 'surveys', 'data_sets',
+              'instruments', 'related_publications', 'questions'];
+          }
         }
         query.type = elasticsearchType;
         query.body = {};
@@ -407,7 +437,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
         var filterToUse;
 
-        if (elasticsearchType === 'related_publications') {
+        if (_.includes(['related_publications', 'concepts'],
+          elasticsearchType)) {
           filterToUse = stripVersionSuffixFromFilters(filter);
         } else {
           filterToUse = filter;
