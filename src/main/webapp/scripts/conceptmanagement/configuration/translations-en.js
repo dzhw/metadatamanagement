@@ -9,6 +9,17 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'concept': 'Concept',
             'concepts': 'Concepts',
+            'authors': 'Autors',
+            'doi': 'DOI',
+            'title': 'Title',
+            'citation-hint': 'Citation Hint',
+            'attachments': {
+              'type': 'Type',
+              'title': 'Title',
+              'description': 'Description',
+              'language': 'Document Language',
+              'file': 'File'
+            }
           },
           'attachments': {
             'table-title': 'Documents related to the concept',
@@ -58,6 +69,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'title': '{{ title }} ({{ conceptId }})',
+          'description': 'Description',
           'not-found': 'The {{id}} references to an unknown Concept.',
           'not-found-references': 'The id {{id}} has no References to Concepts.',
           'tooltips': {
@@ -165,6 +177,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'edit': {
+          'id': 'RDC-ID',
           'edit-page-title': 'Edit Concept {{conceptId}}',
           'create-page-title': 'Create Concept {{conceptId}}',
           'success-on-save-toast': 'Concept {{conceptId}} has been saved successfully.',
@@ -200,10 +213,12 @@ angular.module('metadatamanagementApp').config(
             'current-version-tooltip': 'This is the current version!'
           },
           'hints': {
+            'id': 'Specify the ID of this concept in our RDC.',
             'title': {
               'de': 'Please enter the title of this concept in German.',
               'en': 'Please enter the title of this concept in English.'
             },
+            'citation-hint': 'Specify how this concept shall be cited.',
             'description': {
               'de': 'Enter a description of this concept in German.',
               'en': 'Enter a description of this concept in English.'

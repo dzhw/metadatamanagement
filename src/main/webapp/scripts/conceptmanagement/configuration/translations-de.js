@@ -9,6 +9,17 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'concept': 'Konzept',
             'concepts': 'Konzepte',
+            'authors': 'Autor(innen)',
+            'doi': 'DOI',
+            'title': 'Titel',
+            'citation-hint': 'Zitationshinweis',
+            'attachments': {
+              'type': 'Typ',
+              'title': 'Titel',
+              'description': 'Beschreibung',
+              'language': 'Dokumentensprache',
+              'file': 'Datei'
+            }
           },
           'attachments': {
             'table-title': 'Materialien zum Konzept',
@@ -58,6 +69,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'title': '{{ title }} ({{ conceptId }})',
+          'description': 'Beschreibung',
           'not-found': 'Die id {{id}} referenziert auf ein unbekanntes Konzept.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Konzepte.',
           'tooltips': {
@@ -173,6 +185,7 @@ angular.module('metadatamanagementApp').config(
           'current-version-restored-toast': 'Die aktuelle Version von Konzept {{ conceptyId }} wurde wiederhergestellt.',
           'not-authorized-toast': 'Sie sind nicht berechtigt Konzepte zu bearbeiten oder anzulegen!',
           'label': {
+            'id': 'FDZ-ID',
             'edit-concept': 'Konzept bearbeiten:',
             'create-concept': 'Konzept anlegen:',
             'first-name': 'Vorname',
@@ -199,10 +212,12 @@ angular.module('metadatamanagementApp').config(
             'current-version-tooltip': 'Dies ist die aktuelle Version!'
           },
           'hints': {
+            'id': 'Geben Sie die ID dieses Konzeptes in unserem FDZ an.',
             'title': {
               'de': 'Geben Sie den Titel des Konzepts auf Deutsch ein.',
               'en': 'Geben Sie den Titel des Konzepts auf Englisch ein.'
             },
+            'citation-hint': 'Geben Sie an, wie dieses Konzept zitiert werden soll.',
             'description': {
               'de': 'Geben Sie eine Beschreibung des Konzepts auf Deutsch ein.',
               'en': 'Geben Sie eine Beschreibung des Konzepts auf Englisch ein.'

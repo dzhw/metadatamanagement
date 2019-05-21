@@ -47,7 +47,7 @@
         </div>
         <div layout-gt-sm="row" layout="column" style="-ms-flex:auto">
           <md-input-container flex="50" style="-ms-flex:auto" md-is-error="!conceptForm.citationHint.$valid && (conceptForm.citationHint.$dirty || conceptForm.citationHint.$touched)">
-            <label class="fdz-input-required">{{'concept-management.edit.label.citation-hint' | translate}}</label>
+            <label class="fdz-input-required">{{'concept-management.detail.label.citation-hint' | translate}}</label>
             <textarea rows="4" ng-trim="true" md-maxlength="2048" fdz-required ng-model="ctrl.concept.citationHint" name="citationHint" md-no-asterisk></textarea>
             <div ng-if="!conceptForm.citationHint.$dirty && !conceptForm.citationHint.$touched" class="fdz-input-hint">{{'concept-management.edit.hints.citation-hint' | translate}}</div>
             <div ng-messages="conceptForm.citationHint.$error" multiple>

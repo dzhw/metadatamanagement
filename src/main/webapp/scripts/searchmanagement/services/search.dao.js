@@ -257,7 +257,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
       }
     };
 
-    var applyFetchDataWhereUserIsDataProviderFilter = function(query) {
+    var applyFetchDataWhereUserIsDataProviderFilter = function(query,
+      elasticSearchType) {
+      if (_.includes(['related_publications', 'concepts'], elasticSearchType)) {
+        return;
+      }
       var loginName = Principal.loginName();
 
       if (loginName) {
@@ -268,6 +272,21 @@ angular.module('metadatamanagementApp').service('SearchDao',
             }]
           }
         };
+
+        // modify the filter for searching over all indices
+        if (!elasticSearchType) {
+          filterCriteria = {
+            'bool': {
+              'should': [{
+                'term': {'configuration.dataProviders': loginName}
+              }, {
+                'type': {'value': 'concepts'}
+              }, {
+                'type': {'value': 'related_publications'}
+              }]
+            }
+          };
+        }
 
         var filterArray = _.get(query, 'body.query.bool.filter');
 
@@ -454,7 +473,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           applyFetchOnlyMasterDataFilter(query, elasticsearchType);
           return ElasticSearchClient.search(query);
         } else {
-          applyFetchDataWhereUserIsDataProviderFilter(query);
+          applyFetchDataWhereUserIsDataProviderFilter(query, elasticsearchType);
           applyFetchLatestShadowCopyFilter(query, elasticsearchType,
             filterToUse);
           return ElasticSearchClient.search(query);
