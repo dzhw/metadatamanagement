@@ -106,7 +106,7 @@ angular.module('metadatamanagementApp').config(
               'not-empty': 'The RDC-ID of the concept must not be empty!',
               'size': 'The max length of the RDC-ID is 512 signs.',
               'pattern': 'The RDC-ID must not contain any whitespace.',
-              'not-valid-id': 'The RDC-ID of the concept must correspond to the form "con-" + {text} + "$".'
+              'not-valid-id': 'The RDC-ID of the concept must correspond to the form "con-" + {text} + "$". {text} must not contain any whitespace.'
             },
             'title': {
               'not-null': 'The title of the concept must not be empty!',
@@ -128,7 +128,7 @@ angular.module('metadatamanagementApp').config(
               'size': 'The max length of the license of the concept is 1 MB signs.'
             },
             'citation-hint': {
-              'not-empts': 'There must be a citation hint for the concept!',
+              'not-empty': 'There must be a citation hint for the concept!',
               'size': 'The max length of the citation hint of the concept is 2048 MB signs.'
             },
             'tags': {

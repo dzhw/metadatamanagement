@@ -105,8 +105,7 @@ angular.module('metadatamanagementApp').config(
             'id': {
               'not-empty': 'Die FDZ-ID eines Konzepts darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
-              'pattern': 'Die FDZ-ID darf keine Leerzeichen enthalten.',
-              'not-valid-id': 'Die FDZ-ID des Konzepts muss der Form "con-" + {text} + "$" entsprechen.'
+              'not-valid-id': 'Die FDZ-ID des Konzepts muss der Form "con-" + {text} + "$" entsprechen, wobei {text} keine Leerzeichen enthalten darf.'
             },
             'title': {
               'not-null': 'Der Titel eines Konzepts nicht leer sein!',
@@ -128,7 +127,7 @@ angular.module('metadatamanagementApp').config(
               'size': 'Die Maximallänge der Lizenz des Konzepts ist 1 MB Zeichen.'
             },
             'citation-hint': {
-              'not-empts': 'Es muss eine Zitationsangabe für das Konzept gemacht werden!',
+              'not-empty': 'Es muss eine Zitationsangabe für das Konzept gemacht werden!',
               'size': 'Die Maximallänge der Zitationsangabe ist 2048 Zeichen.'
             },
             'tags': {

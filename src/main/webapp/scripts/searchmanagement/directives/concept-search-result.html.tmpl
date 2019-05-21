@@ -1,5 +1,5 @@
 <md-card style="position: relative;">
-    <a ui-sref="conceptDetail({id: concept.id, 'search-result-index': searchResultIndex})" class="fdz-search-result">
+    <a ui-sref="conceptDetail({id: searchResult.id, 'search-result-index': searchResultIndex})" class="fdz-search-result">
         <md-card-header class="fdz-card-header-border">
             <md-card-avatar>
                 <md-icon md-svg-src="/assets/images/icons/concept.svg" class="fdz-search-result-icon"></md-icon>
@@ -23,7 +23,7 @@
         </md-tooltip>
     </a>
     <div class="fdz-search-result-actions-container" data-has-any-authority="ROLE_PUBLISHER">
-        <md-button class="md-icon-button md-primary" ui-sref="conceptEdit({id: concept.id})">
+        <md-button class="md-icon-button md-primary" ui-sref="conceptEdit({id: searchResult.id})">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.edit-concept-tooltip' | translate}}
             </md-tooltip>

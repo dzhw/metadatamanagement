@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('ChoosePreviousStudyVersionController',
-    function(StudyVersionsResource, studyId, $scope, $mdDialog,
+  .controller('ChoosePreviousConceptVersionController',
+    function(ConceptVersionsResource, conceptId, $scope, $mdDialog,
       LanguageService, $translate) {
       $scope.bowser = bowser;
       $scope.currentPage = {
@@ -13,17 +13,17 @@ angular.module('metadatamanagementApp')
       };
       $scope.currentLanguage = LanguageService.getCurrentInstantly();
       $scope.translationParams = {
-        studyId: studyId
+        conceptId: conceptId
       };
 
-      $scope.getStudyVersions = function() {
-        StudyVersionsResource.get({
-          id: studyId,
+      $scope.getConceptVersions = function() {
+        ConceptVersionsResource.get({
+          id: conceptId,
           limit: $scope.currentPage.limit,
           skip: $scope.currentPage.skip
         }).$promise.then(
-            function(studies) {
-              $scope.studies = studies;
+            function(concepts) {
+              $scope.concepts = concepts;
             });
       };
 
@@ -31,21 +31,21 @@ angular.module('metadatamanagementApp')
         $mdDialog.cancel();
       };
 
-      $scope.select = function(study, index) {
-        if (!study.tags) {
-          study.tags = {
+      $scope.select = function(concept, index) {
+        if (!concept.tags) {
+          concept.tags = {
             de: [],
             en: []
           };
         }
-        if (!study.tags.de) {
-          study.tags.de = [];
+        if (!concept.tags.de) {
+          concept.tags.de = [];
         }
-        if (!study.tags.en) {
-          study.tags.en = [];
+        if (!concept.tags.en) {
+          concept.tags.en = [];
         }
         $mdDialog.hide({
-          study: study,
+          concept: concept,
           isCurrentVersion: $scope.isCurrentVersion(index)
         });
       };
@@ -54,14 +54,14 @@ angular.module('metadatamanagementApp')
         $scope.currentPage.number++;
         $scope.currentPage.skip = ($scope.currentPage.limit *
           $scope.currentPage.number);
-        $scope.getStudyVersions();
+        $scope.getConceptVersions();
       };
 
       $scope.previousPage = function() {
         $scope.currentPage.number--;
         $scope.currentPage.skip = ($scope.currentPage.limit *
           $scope.currentPage.number);
-        $scope.getStudyVersions();
+        $scope.getConceptVersions();
       };
 
       $scope.isCurrentVersion = function(index) {
@@ -71,10 +71,10 @@ angular.module('metadatamanagementApp')
       $scope.getVersionTitle = function(index) {
         if ($scope.isCurrentVersion(index)) {
           return $translate.instant(
-            'study-management' +
+            'concept-management' +
             '.edit.choose-previous-version.current-version-tooltip');
         }
       };
 
-      $scope.getStudyVersions();
+      $scope.getConceptVersions();
     });

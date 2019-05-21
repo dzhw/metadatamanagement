@@ -2,15 +2,15 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('StudyAttachmentEditOrCreateController',
-    function($mdDialog, studyAttachmentMetadata, $scope, CommonDialogsService,
+  .controller('ConceptAttachmentEditOrCreateController',
+    function($mdDialog, conceptAttachmentMetadata, $scope, CommonDialogsService,
       LanguageService, isoLanguages, SimpleMessageToastService,
-      StudyAttachmentUploadService, StudyAttachmentResource) {
+      ConceptAttachmentUploadService, ConceptAttachmentResource) {
       $scope.bowser = bowser;
       var ctrl = this;
       $scope.translationParams = {
-        studyId: studyAttachmentMetadata.studyId,
-        filename: studyAttachmentMetadata.fileName
+        conceptId: conceptAttachmentMetadata.conceptId,
+        filename: conceptAttachmentMetadata.fileName
       };
       var isInitialisingSelectedLanguage = false;
 
@@ -27,21 +27,22 @@ angular.module('metadatamanagementApp')
         isInitialisingSelectedLanguage = true;
         ctrl.selectedLanguage = _.filter(isoLanguagesArray,
           function(isoLanguage) {
-            return isoLanguage.code === ctrl.studyAttachmentMetadata.language;
+            return isoLanguage.code === ctrl.conceptAttachmentMetadata.language;
           })[0];
       };
 
-      if (!studyAttachmentMetadata.id) {
+      if (!conceptAttachmentMetadata.id) {
         ctrl.isCreateMode = true;
-        ctrl.studyAttachmentMetadata = studyAttachmentMetadata;
+        ctrl.conceptAttachmentMetadata = conceptAttachmentMetadata;
       } else {
-        ctrl.studyAttachmentMetadata = angular.copy(studyAttachmentMetadata);
-        ctrl.originalStudyAttachmentMetadata = studyAttachmentMetadata;
+        ctrl.conceptAttachmentMetadata =
+          angular.copy(conceptAttachmentMetadata);
+        ctrl.originalConceptAttachmentMetadata = conceptAttachmentMetadata;
         ctrl.initSelectedLanguage();
       }
 
       ctrl.cancel = function() {
-        if ($scope.studyAttachmentForm.$dirty) {
+        if ($scope.conceptAttachmentForm.$dirty) {
           CommonDialogsService.showConfirmOnDirtyDialog()
             .then($mdDialog.cancel);
         } else {
@@ -50,68 +51,70 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.onSavedSuccessfully = function() {
-        $mdDialog.hide(ctrl.studyAttachmentMetadata);
+        $mdDialog.hide(ctrl.conceptAttachmentMetadata);
         SimpleMessageToastService.openSimpleMessageToast(
-          'study-management.detail.attachments.attachment-saved-toast',
+          'concept-management.detail.attachments.attachment-saved-toast',
           {
-            filename: ctrl.studyAttachmentMetadata.fileName
+            filename: ctrl.conceptAttachmentMetadata.fileName
           });
       };
 
       ctrl.onUploadFailed = function(response) {
         if (response.invalidFile) {
           SimpleMessageToastService.openAlertMessageToast(
-            'study-management.log-messages.study-attachment.file-not-found',
+            'concept-management.log-messages.concept-attachment.file-not-found',
             {
-              filename: ctrl.studyAttachmentMetadata.fileName
+              filename: ctrl.conceptAttachmentMetadata.fileName
             });
-          $scope.studyAttachmentForm.filename.$setValidity(
+          $scope.conceptAttachmentForm.filename.$setValidity(
             'valid', false);
         }
         if (response.errors && response.errors.length > 0) {
           SimpleMessageToastService.openAlertMessageToast(
             response.errors[0].message,
             {
-              filename: ctrl.studyAttachmentMetadata.fileName
+              filename: ctrl.conceptAttachmentMetadata.fileName
             });
-          $scope.studyAttachmentForm.filename.$setValidity(
+          $scope.conceptAttachmentForm.filename.$setValidity(
             'unique', false);
         }
       };
 
       ctrl.saveAttachment = function() {
-        if ($scope.studyAttachmentForm.$valid) {
+        if ($scope.conceptAttachmentForm.$valid) {
           if (!ctrl.selectedFile) {
-            ctrl.studyAttachmentMetadata.$save().then(ctrl.onSavedSuccessfully);
+            ctrl.conceptAttachmentMetadata.$save().then(
+              ctrl.onSavedSuccessfully);
           } else {
-            if (ctrl.originalStudyAttachmentMetadata) {
-              ctrl.originalStudyAttachmentMetadata.$delete().then(function() {
-                StudyAttachmentUploadService.uploadAttachment(
-                  ctrl.selectedFile, ctrl.studyAttachmentMetadata
+            if (ctrl.originalConceptAttachmentMetadata) {
+              ctrl.originalConceptAttachmentMetadata.$delete().then(function() {
+                ConceptAttachmentUploadService.uploadAttachment(
+                  ctrl.selectedFile, ctrl.conceptAttachmentMetadata
                 ).then(ctrl.onSavedSuccessfully).catch(ctrl.onUploadFailed);
               });
             } else {
-              StudyAttachmentUploadService.uploadAttachment(
-                ctrl.selectedFile, ctrl.studyAttachmentMetadata
+              ConceptAttachmentUploadService.uploadAttachment(
+                ctrl.selectedFile, ctrl.conceptAttachmentMetadata
               ).then(ctrl.onSavedSuccessfully).catch(ctrl.onUploadFailed);
             }
           }
         } else {
           // ensure that all validation errors are visible
-          angular.forEach($scope.studyAttachmentForm.$error, function(field) {
+          angular.forEach($scope.conceptAttachmentForm.$error, function(field) {
             angular.forEach(field, function(errorField) {
               errorField.$setTouched();
             });
           });
           SimpleMessageToastService.openAlertMessageToast(
-            'study-management.detail.attachments' +
+            'concept-management.detail.attachments' +
             '.attachment-has-validation-errors-toast',
             null);
         }
       };
 
-      ctrl.studyAttachmentTypes = [
-        {de: 'Daten- und Methodenbericht', en: 'Method Report'},
+      ctrl.conceptAttachmentTypes = [
+        {de: 'Dokumentation', en: 'Documentation'},
+        {de: 'Instrument', en: 'Instrument'},
         {de: 'Sonstiges', en: 'Other'}
       ];
 
@@ -128,76 +131,76 @@ angular.module('metadatamanagementApp')
 
       ctrl.selectedLanguageChanged = function() {
         if (ctrl.selectedLanguage) {
-          ctrl.studyAttachmentMetadata.language = ctrl.selectedLanguage.code;
+          ctrl.conceptAttachmentMetadata.language = ctrl.selectedLanguage.code;
         } else {
-          delete ctrl.studyAttachmentMetadata.language;
+          delete ctrl.conceptAttachmentMetadata.language;
         }
         if (!isInitialisingSelectedLanguage) {
-          $scope.studyAttachmentForm.$setDirty();
+          $scope.conceptAttachmentForm.$setDirty();
         }
         isInitialisingSelectedLanguage = false;
       };
 
       ctrl.upload = function(file) {
-        if (file.name !== ctrl.studyAttachmentMetadata.fileName &&
+        if (file.name !== ctrl.conceptAttachmentMetadata.fileName &&
           !ctrl.isCreateMode) {
           CommonDialogsService.showConfirmFilenameChangedDialog(
-            ctrl.studyAttachmentMetadata.fileName, file.name).then(
+            ctrl.conceptAttachmentMetadata.fileName, file.name).then(
             function() {
               ctrl.isCreateMode = true;
               ctrl.selectedFile = file;
-              ctrl.studyAttachmentMetadata.fileName = file.name;
-              $scope.studyAttachmentForm.filename.$setDirty();
-              $scope.studyAttachmentForm.filename.$setValidity(
+              ctrl.conceptAttachmentMetadata.fileName = file.name;
+              $scope.conceptAttachmentForm.filename.$setDirty();
+              $scope.conceptAttachmentForm.filename.$setValidity(
                 'valid', true);
-              $scope.studyAttachmentForm.filename.$setValidity(
+              $scope.conceptAttachmentForm.filename.$setValidity(
                 'unique', true);
             }
           );
         } else {
           ctrl.selectedFile = file;
-          ctrl.studyAttachmentMetadata.fileName = file.name;
-          $scope.studyAttachmentForm.filename.$setDirty();
-          $scope.studyAttachmentForm.filename.$setValidity(
+          ctrl.conceptAttachmentMetadata.fileName = file.name;
+          $scope.conceptAttachmentForm.filename.$setDirty();
+          $scope.conceptAttachmentForm.filename.$setValidity(
             'valid', true);
-          $scope.studyAttachmentForm.filename.$setValidity(
+          $scope.conceptAttachmentForm.filename.$setValidity(
             'unique', true);
         }
       };
 
       ctrl.openRestorePreviousVersionDialog = function(event) {
         $mdDialog.show({
-            controller: 'ChoosePreviousStudyAttachmentVersionController',
-            templateUrl: 'scripts/studymanagement/' +
-              'views/choose-previous-study-attachment-version.html.tmpl',
+            controller: 'ChoosePreviousConceptAttachmentVersionController',
+            templateUrl: 'scripts/conceptmanagement/' +
+              'views/choose-previous-concept-attachment-version.html.tmpl',
             clickOutsideToClose: false,
             fullscreen: true,
             locals: {
-              studyId: ctrl.studyAttachmentMetadata.studyId,
-              filename: ctrl.studyAttachmentMetadata.fileName
+              conceptId: ctrl.conceptAttachmentMetadata.conceptId,
+              filename: ctrl.conceptAttachmentMetadata.fileName
             },
             multiple: true,
             targetEvent: event
           })
-          .then(function(studyAttachmentWrapper) {
-            ctrl.studyAttachmentMetadata = new StudyAttachmentResource(
-              studyAttachmentWrapper.studyAttachment);
+          .then(function(conceptAttachmentWrapper) {
+            ctrl.conceptAttachmentMetadata = new ConceptAttachmentResource(
+              conceptAttachmentWrapper.conceptAttachment);
             ctrl.initSelectedLanguage();
-            if (studyAttachmentWrapper.isCurrentVersion) {
+            if (conceptAttachmentWrapper.isCurrentVersion) {
               SimpleMessageToastService.openSimpleMessageToast(
-                'study-management.detail.attachments' +
+                'concept-management.detail.attachments' +
                 '.current-version-restored-toast',
                 {
-                  filename: ctrl.studyAttachmentMetadata.fileName
+                  filename: ctrl.conceptAttachmentMetadata.fileName
                 });
-              $scope.studyAttachmentForm.$setPristine();
+              $scope.conceptAttachmentForm.$setPristine();
             } else {
-              $scope.studyAttachmentForm.$setDirty();
+              $scope.conceptAttachmentForm.$setDirty();
               SimpleMessageToastService.openSimpleMessageToast(
-                'study-management.detail.attachments' +
+                'concept-management.detail.attachments' +
                 '.previous-version-restored-toast',
                 {
-                  filename: ctrl.studyAttachmentMetadata.fileName
+                  filename: ctrl.conceptAttachmentMetadata.fileName
                 });
             }
           });

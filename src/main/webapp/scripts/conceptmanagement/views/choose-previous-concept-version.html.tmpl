@@ -1,57 +1,57 @@
-<md-dialog aria-label="{{'study-management.edit.choose-previous-version.title' | translate:translationParams }}" layout="column" style="-ms-flex: auto;">
+<md-dialog aria-label="{{'concept-management.edit.choose-previous-version.title' | translate:translationParams }}" layout="column" style="-ms-flex: auto;">
     <md-toolbar>
         <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
             <h2 class="fdz-truncate-string">
-                <span>{{'study-management.edit.choose-previous-version.title' | translate:translationParams }}</span>
+                <span>{{'concept-management.edit.choose-previous-version.title' | translate:translationParams }}</span>
             </h2>
             <md-button class="md-icon-button" ng-click="closeDialog()">
                 <md-icon md-font-set="material-icons">clear</md-icon>
                 <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
-                    {{'study-management.edit.choose-previous-version.cancel-tooltip' | translate }}
+                    {{'concept-management.edit.choose-previous-version.cancel-tooltip' | translate }}
                 </md-tooltip>
             </md-button>
         </div>
     </md-toolbar>
     <md-dialog-content layout-padding flex layout="column" style="-ms-flex: auto;">
-        <p ng-if="studies && studies.length > 0" style="margin: 0px;">{{'study-management.edit.choose-previous-version.text' | translate }}</p>
-        <table md-autofocus fdz-table ng-if="studies && studies.length > 0" style="width: 100%; -ms-flex: auto;" flex>
+        <p ng-if="concepts && concepts.length > 0" style="margin: 0px;">{{'concept-management.edit.choose-previous-version.text' | translate }}</p>
+        <table md-autofocus fdz-table ng-if="concepts && concepts.length > 0" style="width: 100%; -ms-flex: auto;" flex>
             <thead>
                 <tr>
-                    <th style="max-width: 600px;">{{'study-management.edit.choose-previous-version.study-title' | translate }}
+                    <th style="max-width: 600px;">{{'concept-management.edit.choose-previous-version.concept-title' | translate }}
                         <md-tooltip hide-gt-xs md-direction="right">
-                            {{'study-management.edit.choose-previous-version.study-title' | translate }}
+                            {{'concept-management.edit.choose-previous-version.concept-title' | translate }}
                         </md-tooltip>
                     </th>
-                    <th>{{'study-management.edit.choose-previous-version.lastModified' | translate }}
+                    <th>{{'concept-management.edit.choose-previous-version.lastModified' | translate }}
                         <md-tooltip hide-gt-xs md-direction="right">
-                            {{'study-management.edit.choose-previous-version.lastModified' | translate }}
+                            {{'concept-management.edit.choose-previous-version.lastModified' | translate }}
                         </md-tooltip>
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="study in studies" ng-click="study.id && select(study, $index)" ng-class="{'fdz-current-version': isCurrentVersion($index), 'fdz-deleted-version': !study.id}">
-                    <td ng-if="study.id" display-i18n-string="study.title" class="fdz-truncate-string" style="max-width: 600px;" title="{{ getVersionTitle($index) }}"></td>
-                    <td ng-if="!study.id" class="fdz-truncate-string" style="max-width: 600px;" title="{{'study-management.edit.choose-previous-version.study-deleted' | translate}}"></td>
-                    <td class="fdz-table-nowrap" title="{{ study.lastModifiedDate + 'Z'| date:'fullDate'}} {{ study.lastModifiedDate + 'Z'| date:'mediumTime'}}">
-                      <span am-time-ago="study.lastModifiedDate | amUtc | amLocal"></span> {{ 'study-management.edit.choose-previous-version.lastModifiedBy' | translate }} {{ study.lastModifiedBy }}
+                <tr ng-repeat="concept in concepts" ng-click="concept.id && select(concept, $index)" ng-class="{'fdz-current-version': isCurrentVersion($index), 'fdz-deleted-version': !concept.id}">
+                    <td ng-if="concept.id" display-i18n-string="concept.title" class="fdz-truncate-string" style="max-width: 600px;" title="{{ getVersionTitle($index) }}"></td>
+                    <td ng-if="!concept.id" class="fdz-truncate-string" style="max-width: 600px;" title="{{'concept-management.edit.choose-previous-version.concept-deleted' | translate}}"></td>
+                    <td class="fdz-table-nowrap" title="{{ concept.lastModifiedDate + 'Z'| date:'fullDate'}} {{ concept.lastModifiedDate + 'Z'| date:'mediumTime'}}">
+                      <span am-time-ago="concept.lastModifiedDate | amUtc | amLocal"></span> {{ 'concept-management.edit.choose-previous-version.lastModifiedBy' | translate }} {{ concept.lastModifiedBy }}
                     </td>
                 </tr>
             </tbody>
         </table>
-        <div ng-if="!studies || studies.length === 0" flex style="-ms-flex: auto;">
-            <span>{{'study-management.edit.choose-previous-version.no-versions-found' | translate:translationParams }}</span>
+        <div ng-if="!concepts || concepts.length === 0" flex style="-ms-flex: auto;">
+            <span>{{'concept-management.edit.choose-previous-version.no-versions-found' | translate:translationParams }}</span>
         </div>
-        <div ng-hide="(!studies || studies.length === 0) && (currentPage.number === 0)" layout="row" layout-align="space-between center" style="margin-top: 8px;">
+        <div ng-hide="(!concepts || concepts.length === 0) && (currentPage.number === 0)" layout="row" layout-align="space-between center" style="margin-top: 8px;">
           <md-button ng-disabled="currentPage.number === 0" class="md-raised md-primary md-icon-button" ng-click="previousPage()">
               <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
-                  {{'study-management.edit.choose-previous-version.previous-page-tooltip' | translate }}
+                  {{'concept-management.edit.choose-previous-version.previous-page-tooltip' | translate }}
               </md-tooltip>
               <md-icon md-font-set="material-icons">navigate_before</md-icon>
           </md-button>
-          <md-button ng-disabled="!studies || studies.length === 0 || studies.length < currentPage.limit" class="md-raised md-primary md-icon-button" ng-click="nextPage()">
+          <md-button ng-disabled="!concepts || concepts.length === 0 || concepts.length < currentPage.limit" class="md-raised md-primary md-icon-button" ng-click="nextPage()">
               <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
-                  {{'study-management.edit.choose-previous-version.next-page-tooltip' | translate }}
+                  {{'concept-management.edit.choose-previous-version.next-page-tooltip' | translate }}
               </md-tooltip>
               <md-icon md-font-set="material-icons">navigate_next</md-icon>
           </md-button>
@@ -61,7 +61,7 @@
         <md-button class="md-raised" ng-click="closeDialog()">
             <span>{{'global.entity.action.cancel' | translate}}</span>
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
-                {{'study-management.edit.choose-previous-version.cancel-tooltip' | translate }}
+                {{'concept-management.edit.choose-previous-version.cancel-tooltip' | translate }}
             </md-tooltip>
         </md-button>
     </md-dialog-actions>

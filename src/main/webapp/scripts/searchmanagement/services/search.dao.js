@@ -310,14 +310,9 @@ angular.module('metadatamanagementApp').service('SearchDao',
         query.index = elasticsearchType;
         if (!elasticsearchType) {
           //search in all indices
-          if (!Principal.hasAuthority('ROLE_PUBLISHER')) {
-            query.index = ['studies', 'variables', 'surveys', 'data_sets',
-              'instruments', 'related_publications', 'questions', 'concepts'
-            ];
-          } else {
-            query.index = ['studies', 'variables', 'surveys', 'data_sets',
-              'instruments', 'related_publications', 'questions'];
-          }
+          query.index = ['studies', 'variables', 'surveys', 'data_sets',
+            'instruments', 'related_publications', 'questions', 'concepts'
+          ];
         }
         query.type = elasticsearchType;
         query.body = {};

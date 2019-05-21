@@ -17,7 +17,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
-import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
@@ -54,15 +53,13 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
   /**
    * The id of the concept which uniquely identifies the concept in this application.
    *
-   * Must not be empty and mist not contain more than 512 characters. Must start with "con-" and end
+   * Must not be empty and must not contain more than 512 characters. Must start with "con-" and end
    * with "$" and must not contain any whitespace.
    */
   @Id
   @JestId
   @NotEmpty(message = "concept-management.error.concept.id.not-empty")
-  @Pattern(regexp = Patterns.NO_WHITESPACE,
-      message = "concept-management.error.concept.id.pattern")
-  @Pattern(regexp = "^con\\-.*\\$$", message = "concept-management.error.concept.id.not-valid-id")
+  @Pattern(regexp = "^con-\\S+\\$$", message = "concept-management.error.concept.id.not-valid-id")
   @Size(max = StringLengths.MEDIUM, message = "concept-management.error.concept.id.size")
   private String id;
 

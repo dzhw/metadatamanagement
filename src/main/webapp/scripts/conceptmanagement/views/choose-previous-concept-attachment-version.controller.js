@@ -2,8 +2,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('ChoosePreviousStudyAttachmentVersionController',
-    function(StudyAttachmentVersionsResource, studyId, filename,
+  .controller('ChoosePreviousConceptAttachmentVersionController',
+    function(ConceptAttachmentVersionsResource, conceptId, filename,
       $scope, $mdDialog, LanguageService, $translate) {
       $scope.bowser = bowser;
       $scope.currentPage = {
@@ -13,19 +13,19 @@ angular.module('metadatamanagementApp')
       };
       $scope.currentLanguage = LanguageService.getCurrentInstantly();
       $scope.translationParams = {
-        studyId: studyId,
+        conceptId: conceptId,
         filename: filename
       };
 
-      $scope.getStudyAttachmentVersions = function() {
-        StudyAttachmentVersionsResource.get({
-          studyId: studyId,
+      $scope.getConceptAttachmentVersions = function() {
+        ConceptAttachmentVersionsResource.get({
+          conceptId: conceptId,
           filename: filename,
           limit: $scope.currentPage.limit,
           skip: $scope.currentPage.skip
         }).$promise.then(
             function(attachments) {
-              $scope.studyAttachments = attachments;
+              $scope.conceptAttachments = attachments;
             });
       };
 
@@ -33,9 +33,9 @@ angular.module('metadatamanagementApp')
         $mdDialog.cancel();
       };
 
-      $scope.select = function(studyAttachment, index) {
+      $scope.select = function(conceptAttachment, index) {
         $mdDialog.hide({
-          studyAttachment: studyAttachment,
+          conceptAttachment: conceptAttachment,
           isCurrentVersion: $scope.isCurrentVersion(index)
         });
       };
@@ -44,14 +44,14 @@ angular.module('metadatamanagementApp')
         $scope.currentPage.number++;
         $scope.currentPage.skip = ($scope.currentPage.limit *
           $scope.currentPage.number);
-        $scope.getStudyAttachmentVersions();
+        $scope.getConceptAttachmentVersions();
       };
 
       $scope.previousPage = function() {
         $scope.currentPage.number--;
         $scope.currentPage.skip = ($scope.currentPage.limit *
           $scope.currentPage.number);
-        $scope.getStudyAttachmentVersions();
+        $scope.getConceptAttachmentVersions();
       };
 
       $scope.isCurrentVersion = function(index) {
@@ -61,11 +61,11 @@ angular.module('metadatamanagementApp')
       $scope.getVersionTitle = function(index) {
         if ($scope.isCurrentVersion(index)) {
           return $translate.instant(
-            'study-management' +
+            'concept-management' +
             '.detail.attachments.choose-previous-version' +
             '.current-version-tooltip');
         }
       };
 
-      $scope.getStudyAttachmentVersions();
+      $scope.getConceptAttachmentVersions();
     });
