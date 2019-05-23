@@ -169,7 +169,7 @@
                             </a>
                         </div>
                         <div ng-if="ctrl.counts.dataSetsCount > 1" class="fdz-truncate-string" flex>
-                            <a ui-sref="search({'type': 'data_sets'})">
+                            <a ui-sref="search({'type': 'data_sets', 'concept':ctrl.concept.id})">
                                 <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                                 {{'data-set-management.detail.label.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

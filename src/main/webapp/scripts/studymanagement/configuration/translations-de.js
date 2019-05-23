@@ -126,6 +126,10 @@ angular.module('metadatamanagementApp').config(
             },
             'studies': {
               'study-series': 'Klicken, um alle Studien aus der Studienreihe anzuzeigen.'
+            },
+            'concepts': {
+              'one': 'Klicken, um das Konzept, welches in dieser Studie gemessen wurde, anzuzeigen',
+              'many': 'Klicken, um alle Konzepte, die in dieser Studie gemessen wurden, anzuzeigen'
             }
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',

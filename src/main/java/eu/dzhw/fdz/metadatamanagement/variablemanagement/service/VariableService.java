@@ -25,6 +25,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
@@ -223,6 +224,21 @@ public class VariableService {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> variableRepository.streamIdsByRelatedQuestionsInstrumentId(
             instrument.getId()),
+        ElasticsearchType.variables);
+  }
+  
+  /**
+   * Enqueue update of variable search documents when the question is changed.
+   * 
+   * @param question the updated, created or deleted question.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onQuestionChanged(Question question) {
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> variableRepository.streamIdsByRelatedQuestionsQuestionId(
+            question.getId()),
         ElasticsearchType.variables);
   }
   

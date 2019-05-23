@@ -77,7 +77,7 @@ angular.module('metadatamanagementApp').factory(
         'sponsor-en': 'study.sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
         'survey-method-en': 'surveys.surveyMethod.en',
-        'concept': 'concepts.id'
+        'concept': 'conceptIds'
       },
       'instruments': {
         'study-series-de': 'study.studySeries.de',

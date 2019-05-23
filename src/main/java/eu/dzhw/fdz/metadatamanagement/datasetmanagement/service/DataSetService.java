@@ -28,8 +28,10 @@ import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.IdAndNumberDataSetProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
@@ -192,6 +194,44 @@ public class DataSetService {
   public void onSurveyChanged(Survey survey) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> dataSetRepository.streamIdsBySurveyIdsContaining(survey.getId()),
+        ElasticsearchType.data_sets);
+  }
+  
+  /**
+   * Enqueue update of data set search documents when the question is updated.
+   * 
+   * @param question the updated, created or deleted question.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onQuestionChanged(Question question) {
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> {
+          Set<String> dataSetIds =
+              variableRepository.streamIdsByRelatedQuestionsQuestionId(question.getId())
+                  .map(variable -> variable.getDataSetId()).collect(Collectors.toSet());
+          return dataSetRepository.streamIdsByIdIn(dataSetIds);
+        },
+        ElasticsearchType.data_sets);
+  }
+  
+  /**
+   * Enqueue update of data set search documents when the instrument is updated.
+   * 
+   * @param instrument the updated, created or deleted instrument.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onInstrumentChanged(Instrument instrument) {
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> {
+          Set<String> dataSetIds =
+              variableRepository.streamIdsByRelatedQuestionsInstrumentId(instrument.getId())
+                  .map(variable -> variable.getDataSetId()).collect(Collectors.toSet());
+          return dataSetRepository.streamIdsByIdIn(dataSetIds);
+        },
         ElasticsearchType.data_sets);
   }
 

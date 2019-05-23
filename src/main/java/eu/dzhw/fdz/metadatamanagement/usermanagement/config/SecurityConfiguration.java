@@ -50,6 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/api/data-sets/**")
         .antMatchers(HttpMethod.GET, "/api/questions/**")
         .antMatchers(HttpMethod.GET, "/api/studies/**")
+        .antMatchers(HttpMethod.GET, "/api/concepts/**")
         .antMatchers(HttpMethod.GET, "/api/study-serieses/**")
         .antMatchers(HttpMethod.GET, "/api/related-publications/**")
         .antMatchers(HttpMethod.GET, "/api/data-acquisition-projects/**/releases")

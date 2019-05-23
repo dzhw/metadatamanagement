@@ -673,6 +673,10 @@
 					}
 				}
 			},
+			"conceptIds": {
+				"type": "keyword",
+				"copy_to": "all"
+			},
 			"concepts": {
 				"type": "object",
 				"properties": {

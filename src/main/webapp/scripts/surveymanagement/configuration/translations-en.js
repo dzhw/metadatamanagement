@@ -123,6 +123,10 @@ angular.module('metadatamanagementApp').config(
             'questions': {
               'one': 'Click to show the question of this survey',
               'many': 'Click to show all questions of this survey'
+            },
+            'concepts': {
+              'one': 'Click to show the concept which has been measured in this survey',
+              'many': 'Click to show all concepts which have been measured in this survey'
             }
           }
         },

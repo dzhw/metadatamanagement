@@ -33,7 +33,8 @@ angular.module('metadatamanagementApp')
         'nestedVariables',
         'nestedRelatedPublications',
         'nestedInstruments',
-        'nestedQuestions'
+        'nestedQuestions',
+        'nestedConcepts'
       ];
 
       entity.promise.then(function(survey) {
@@ -109,6 +110,10 @@ angular.module('metadatamanagementApp')
           ctrl.counts.questionsCount = survey.questions.length;
           if (ctrl.counts.questionsCount === 1) {
             ctrl.question = survey.questions[0];
+          }
+          ctrl.counts.conceptsCount = survey.concepts.length;
+          if (ctrl.counts.conceptsCount === 1) {
+            ctrl.concept = survey.concepts[0];
           }
           SurveyResponseRateImageUploadService.getImage(
             ctrl.survey.id, ctrl.survey.number, currenLanguage)

@@ -63,7 +63,8 @@ public interface VariableRepository extends BaseRepository<Variable, String> {
   Stream<IdAndVersionProjection> streamIdsByStudyId(String studyId);
 
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByRelatedQuestionsInstrumentId(String instrumentId);
+  Stream<IdAndVersionAndDataSetProjection> streamIdsByRelatedQuestionsInstrumentId(
+      String instrumentId);
 
   @RestResource(exported = false)
   List<Variable> findByDataSetIdOrderByIndexInDataSetAsc(String dataSetId);
@@ -109,4 +110,7 @@ public interface VariableRepository extends BaseRepository<Variable, String> {
   @RestResource(exported = false)
   List<VariableSubDocumentProjection> findSubDocumentsByRelatedQuestionsQuestionIdIn(
       Collection<String> questionIds);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionAndDataSetProjection> streamIdsByRelatedQuestionsQuestionId(String questionId);
 }

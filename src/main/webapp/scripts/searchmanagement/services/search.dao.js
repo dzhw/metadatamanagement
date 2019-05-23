@@ -442,6 +442,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
                 'term': {
                   'studyIds': studyId
                 }
+              }, {
+                'term': {
+                  'studies.id': studyId
+                }
               }]
             }
           };

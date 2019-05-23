@@ -22,7 +22,7 @@ import lombok.ToString;
 public class ConceptNestedDocument extends AbstractNestedSubDocument {
   private String id;
 
-  private String title;
+  private I18nString title;
 
   private I18nString completeTitle;
 
