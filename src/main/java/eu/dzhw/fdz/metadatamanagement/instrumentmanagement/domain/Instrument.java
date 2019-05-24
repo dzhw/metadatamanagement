@@ -22,6 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.validation.ConceptExists;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentIdPattern;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentType;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidUniqueInstrumentNumber;
@@ -43,10 +44,10 @@ import lombok.ToString;
  */
 @Entity
 @Document(collection = "instruments")
-@ValidInstrumentIdPattern(message = "instrument-management.error"
-    + ".instrument.valid-instrument-id-pattern")
-@ValidUniqueInstrumentNumber(message = "instrument-management.error"
-    + ".instrument.unique-instrument-number")
+@ValidInstrumentIdPattern(
+    message = "instrument-management.error" + ".instrument.valid-instrument-id-pattern")
+@ValidUniqueInstrumentNumber(
+    message = "instrument-management.error" + ".instrument.unique-instrument-number")
 @CompoundIndex(def = "{number: 1, dataAcquisitionProjectId: 1}", unique = true)
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
@@ -68,12 +69,12 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
 
   /**
    * The instrument's master id. It must not be empty, must be of the form
-   * {@code ins-{{dataAcquisitionProjectId}}-ins{{number}}$} and must not contain more than
-   * 512 characters.
+   * {@code ins-{{dataAcquisitionProjectId}}-ins{{number}}$} and must not contain more than 512
+   * characters.
    */
   @NotEmpty(message = "instrument-management.error.instrument.master-id.not-empty")
-  @Size(max = StringLengths.MEDIUM, message = "instrument-management.error.instrument"
-      + ".master-id.size")
+  @Size(max = StringLengths.MEDIUM,
+      message = "instrument-management.error.instrument" + ".master-id.size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
       message = "instrument-management.error.instrument.master-id.pattern")
   @Setter(AccessLevel.NONE)
@@ -87,8 +88,8 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
    * The dataAcquisitionProjectId must not be empty.
    */
   @Indexed
-  @NotEmpty(message =
-      "instrument-management.error.instrument.data-acquisition-project-id.not-empty")
+  @NotEmpty(
+      message = "instrument-management.error.instrument.data-acquisition-project-id.not-empty")
   private String dataAcquisitionProjectId;
 
   /**
@@ -98,10 +99,10 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
    * characters.
    */
   @NotNull(message = "instrument-management.error.instrument.title.not-null")
-  @I18nStringSize(max = StringLengths.LARGE, message = "instrument-"
-      + "management.error.instrument.title.i18n-string-size")
-  @I18nStringNotEmpty(message = "instrument-management.error.instrument.title."
-      + "i18n-string-not-empty")
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "instrument-" + "management.error.instrument.title.i18n-string-size")
+  @I18nStringNotEmpty(
+      message = "instrument-management.error.instrument.title." + "i18n-string-not-empty")
   private I18nString title;
 
   /**
@@ -109,8 +110,8 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
    * 
    * It must not contain more than 2048 characters.
    */
-  @I18nStringSize(max = StringLengths.LARGE, message = "instrument-"
-      + "management.error.instrument.subtitle.i18n-string-size")
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "instrument-" + "management.error.instrument.subtitle.i18n-string-size")
   private I18nString subtitle;
 
   /**
@@ -119,10 +120,10 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
    * It must be specified in at least one language and it must not contain more than 512 characters.
    */
   @NotNull(message = "instrument-management.error.instrument.description.not-null")
-  @I18nStringSize(max = StringLengths.MEDIUM, message = "instrument-"
-      + "management.error.instrument.description.i18n-string-size")
-  @I18nStringNotEmpty(message = "instrument-management.error.instrument.description."
-      + "i18n-string-not-empty")
+  @I18nStringSize(max = StringLengths.MEDIUM,
+      message = "instrument-" + "management.error.instrument.description.i18n-string-size")
+  @I18nStringNotEmpty(
+      message = "instrument-management.error.instrument.description." + "i18n-string-not-empty")
   private I18nString description;
 
   /**
@@ -178,12 +179,13 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
   @Indexed
   @NotEmpty(message = "instrument-management.error.instrument.study-id.not-empty")
   private String studyId;
-  
+
   /**
    * List of ids of {@link Concept}s to which are covered by this instrument.
    */
   @Indexed
-  private List<String> conceptIds;
+  private List<@ConceptExists(
+      message = "instrument-management.error.instrument.concept-ids.not-exists") String> conceptIds;
 
   public Instrument(Instrument instrument) {
     super();

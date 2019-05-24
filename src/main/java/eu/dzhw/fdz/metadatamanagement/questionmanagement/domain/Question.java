@@ -22,6 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.validation.ConceptExists;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedStudy;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -46,10 +47,9 @@ import lombok.ToString;
  */
 @Document(collection = "questions")
 @CompoundIndex(def = "{instrumentId: 1, number: 1}", unique = true)
-@ValidUniqueQuestionNumber(message = "question-management.error"
-    + ".question.unique-question-number")
-@ValidQuestionIdName(message = "question-management.error"
-    + ".question.valid-question-id-name")
+@ValidUniqueQuestionNumber(
+    message = "question-management.error" + ".question.unique-question-number")
+@ValidQuestionIdName(message = "question-management.error" + ".question.valid-question-id-name")
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
@@ -222,12 +222,13 @@ public class Question extends AbstractShadowableRdcDomainObject {
   @Indexed
   @NotEmpty(message = "question-management.error.question.study-id.not-empty")
   private String studyId;
-  
+
   /**
    * List of ids of {@link Concept}s to which this question belongs.
    */
   @Indexed
-  private List<String> conceptIds;
+  private List<@ConceptExists(
+      message = "question-management.error.question.concept-ids.not-exists") String> conceptIds;
 
   public Question(Question question) {
     super();

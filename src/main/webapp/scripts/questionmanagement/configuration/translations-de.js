@@ -137,6 +137,9 @@ angular.module('metadatamanagementApp').config(
             },
             'annotations': {
               'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
+            },
+            'concept-ids': {
+              'not-exists': 'Es gibt kein Konzept mit der angegebenen ID "{{invalidValue}}".'
             }
           },
           'question-image-metadata': {

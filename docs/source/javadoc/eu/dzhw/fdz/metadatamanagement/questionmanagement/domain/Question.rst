@@ -36,6 +36,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain Concept
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.validation ConceptExists
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain Instrument
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain OrderedStudy
