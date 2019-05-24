@@ -219,16 +219,16 @@
                                 {{'concept-management.detail.label.concept' | translate }}:
                                 <span display-i18n-string="concept.title"></span>
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                                    {{'survey-management.detail.tooltips.concepts.one' | translate}}
+                                    {{'variable-management.detail.tooltips.concepts.one' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>
                         <div ng-if="counts.conceptsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'concepts', 'variable':variable.id, 'study': variable.studyId, 'data-set': variable.dataSetId})">
                                 <md-icon md-svg-src="/assets/images/icons/concept.svg"></md-icon>
-                                {{'concept-management.detail.label.concepts' | translate }}: ({{counts.conceptCount}})
+                                {{'concept-management.detail.label.concepts' | translate }}: ({{counts.conceptsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                                    {{'survey-management.detail.tooltips.concepts.many' | translate}}
+                                    {{'variable-management.detail.tooltips.concepts.many' | translate}}
                                 </md-tooltip>
                             </a>
                         </div>

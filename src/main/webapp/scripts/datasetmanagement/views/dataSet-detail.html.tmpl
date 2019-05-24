@@ -165,7 +165,7 @@
                         <div ng-if="ctrl.counts.conceptsCount > 1" class="fdz-truncate-string" flex>
                             <a ui-sref="search({'type': 'concepts', 'data-set':ctrl.dataSet.id, 'study': ctrl.dataSet.studyId})">
                                 <md-icon md-svg-src="/assets/images/icons/concept.svg"></md-icon>
-                                {{'concept-management.detail.label.concepts' | translate }}: ({{ctrl.counts.conceptCount}})
+                                {{'concept-management.detail.label.concepts' | translate }}: ({{ctrl.counts.conceptsCount}})
                                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                     {{'data-set-management.detail.tooltips.concepts.many' | translate}}
                                 </md-tooltip>

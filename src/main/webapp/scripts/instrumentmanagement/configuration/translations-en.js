@@ -102,6 +102,10 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                         'one': 'Click to show the question of this instrument',
                         'many': 'Click to show all questions of this instrument'
                     },
+                    'concepts': {
+                      'one': 'Click to show the concept which has been measured with this instrument',
+                      'many': 'Click to show all concepts which have been measured with this instrument'
+                    },
                     'studies': {
                         'one': 'Click to show the study in which this instrument has been used'
                     }

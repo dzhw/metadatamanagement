@@ -81,7 +81,11 @@ angular.module('metadatamanagementApp').config(
             },
             'studies': {
               'one': 'Klicken, um die Studie anzuzeigen, in der diese Frage verwendet wurde'
-            }
+            },
+            'concepts': {
+              'one': 'Klicken, um das Konzept, welches mit dieser Frage gemessen wurde, anzuzeigen',
+              'many': 'Klicken, um alle Konzepte, die mit dieser Frage gemessen wurden, anzuzeigen'
+            },
           }
         },
         'error': {

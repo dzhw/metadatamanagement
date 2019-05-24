@@ -66,9 +66,6 @@ angular.module('metadatamanagementApp').factory('ConceptSearchService',
         type);
       var prefix = (type === 'concepts' || !type)  ? ''
         : 'nestedConcepts.';
-      if (type === 'variables') {
-        prefix = 'nestedConcept.';
-      }
       var aggregation = {
         'aggs': {
           'title': {

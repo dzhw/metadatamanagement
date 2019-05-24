@@ -105,7 +105,11 @@ angular.module('metadatamanagementApp').config(
             },
             'studies': {
               'one': 'Klicken, um die Studie anzuzeigen, in der dieses Instrument verwendet wurde'
-            }
+            },
+            'concepts': {
+              'one': 'Klicken, um das Konzept, welches mit diesem Instrument gemessen wurde, anzuzeigen',
+              'many': 'Klicken, um alle Konzepte, die mit diesem Instrument gemessen wurden, anzuzeigen'
+            },
           }
         },
         'error': {
