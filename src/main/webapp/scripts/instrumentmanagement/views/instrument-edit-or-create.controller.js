@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp')
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService) {
       var ctrl = this;
       ctrl.surveyChips = [];
+      ctrl.conceptChips = [];
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageTitleService.setPageTitle(
@@ -83,6 +84,18 @@ angular.module('metadatamanagementApp')
           });
       };
 
+      ctrl.initConceptChips = function() {
+        ctrl.conceptChips = [];
+        if (ctrl.instrument.conceptIds) {
+          ctrl.instrument.conceptIds.forEach(
+            function(id) {
+              ctrl.conceptChips.push({
+                id: id
+              });
+            });
+        }
+      };
+
       var init = function() {
         if (Principal.hasAnyAuthority(['ROLE_PUBLISHER',
             'ROLE_DATA_PROVIDER'])) {
@@ -104,6 +117,7 @@ angular.module('metadatamanagementApp')
 
                   ctrl.instrument = instrument;
                   ctrl.initSurveyChips();
+                  ctrl.initConceptChips();
                   ctrl.loadAttachments();
                   updateToolbarHeaderAndPageTitle();
                   $scope.registerConfirmOnDirtyHook();
@@ -240,6 +254,7 @@ angular.module('metadatamanagementApp')
             ctrl.instrument = new InstrumentResource(
               instrumentWrapper.instrument);
             ctrl.initSurveyChips();
+            ctrl.initConceptChips();
             if (instrumentWrapper.isCurrentVersion) {
               $scope.instrumentForm.$setPristine();
               SimpleMessageToastService.openSimpleMessageToast(
@@ -393,6 +408,12 @@ angular.module('metadatamanagementApp')
         };
       };
 
+      ctrl.transformConceptChip = function(chip) {
+        return {
+          id: chip._source.id
+        };
+      };
+
       ctrl.updateSurveyReferences = function() {
         ctrl.instrument.surveyIds = [];
         ctrl.instrument.surveyNumbers = [];
@@ -404,11 +425,30 @@ angular.module('metadatamanagementApp')
         }
       };
 
+      ctrl.updateConceptReferences = function() {
+        ctrl.instrument.conceptIds = [];
+        if (ctrl.conceptChips) {
+          ctrl.conceptChips.forEach(function(chip) {
+            ctrl.instrument.conceptIds.push(chip.id);
+          });
+        }
+      };
+
       ctrl.searchSurveys = function(query) {
         return SearchDao.search(
           query, 1,
           ctrl.instrument.dataAcquisitionProjectId,
           null, 'surveys', 100,  ctrl.instrument.surveyIds
+        ).then(function(result) {
+            return result.hits.hits;
+          });
+      };
+
+      ctrl.searchConcepts = function(query) {
+        return SearchDao.search(
+          query, 1,
+          ctrl.instrument.dataAcquisitionProjectId,
+          null, 'concepts', 100,  ctrl.instrument.conceptIds
         ).then(function(result) {
             return result.hits.hits;
           });

@@ -127,6 +127,29 @@
                         </div>
                     </md-input-container>
                 </div>
+                <div layout-gt-sm="row" layout="column">
+                    <div flex="50" style="-ms-flex:auto;">
+                      <label style="color: rgba(0,0,0,0.38); margin: 0px;">{{'instrument-management.edit.label.concepts' | translate}}</label>
+                      <md-chips name="concepts" md-transform-chip="ctrl.transformConceptChip($chip)" ng-change="ctrl.updateConceptReferences()" ng-model="ctrl.conceptChips" md-autocomplete-snap="width" md-require-match="true">
+                        <md-autocomplete md-no-cache="true" md-delay="250" flex md-min-length="0" style="-ms-flex:auto;" md-selected-item="ctrl.selectedConcept" md-search-text="ctrl.searchConceptText" md-items="item in ctrl.searchConcepts(ctrl.searchConceptText)" placeholder="{{'instrument-management.edit.hints.search-concepts' | translate}}">
+                          <md-item-template>
+                            <span class="item-title fdz-truncate-string">
+                              <span class="label label-as-badge label-default" md-highlight-text="ctrl.searchConceptText" md-highlight-flags="ig">{{item._source.id}}</span>
+                              <strong md-highlight-text="ctrl.searchConceptText" md-highlight-flags="ig">{{(item._source.title | displayI18nString)}}</strong>
+                            </span>
+                          </md-item-template>
+                          <md-not-found>
+                            {{'instrument-management.edit.hints.no-concepts-found' | translate}}
+                          </md-not-found>
+                        </md-autocomplete>
+                        <md-chip-template>
+                          <span>{{$chip.id}}</span>
+                        </md-chip-template>
+                      </md-chips>
+                      <div ng-if="!instrumentForm.concepts.$dirty && !instrumentForm.concepts.$touched" class="fdz-input-hint">{{'instrument-management.edit.hints.concepts' | translate}}</div>
+                    </div>
+                    <div flex="50"></div>
+                </div>
             </md-card-content>
         </md-card>
     </div>

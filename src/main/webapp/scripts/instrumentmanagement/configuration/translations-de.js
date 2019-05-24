@@ -200,7 +200,8 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'edit-instrument': 'Instrument bearbeiten:',
             'create-instrument': 'Instrument anlegen:',
-            'surveys': 'Erhebungen *'
+            'surveys': 'Erhebungen *',
+            'concepts': 'Konzepte'
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Instruments wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Instrument zu speichern.',
@@ -237,8 +238,11 @@ angular.module('metadatamanagementApp').config(
             },
             'type': 'Wählen Sie den Typ des Instruments aus.',
             'surveys': 'Wählen Sie die Erhebungen aus, in denen dieses Instrument verwendet wurde.',
+            'concepts': 'Wählen Sie die Konzepte aus, die mit diesem Instrument gemessen wurden.',
             'search-surveys': 'Erhebungen suchen...',
+            'search-concepts': 'Konzepte suchen...',
             'no-surveys-found': 'Keine (weiteren) Erhebungen gefunden.',
+            'no-concepts-found': 'Keine (weiteren) Konzepte gefunden.',
             'annotations': {
               'de': 'Geben Sie zusätzliche Anmerkungen zu dem Instrument hier auf Deutsch an.',
               'en': 'Geben Sie zusätzliche Anmerkungen zu dem Instrument hier auf Englisch an.',
