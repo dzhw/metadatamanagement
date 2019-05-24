@@ -184,6 +184,7 @@ angular.module('metadatamanagementApp').config(
           'previous-version-restored-toast': 'Die ältere Version von Konzept {{ conceptId }} kann jetzt gespeichert werden.',
           'current-version-restored-toast': 'Die aktuelle Version von Konzept {{ conceptyId }} wurde wiederhergestellt.',
           'not-authorized-toast': 'Sie sind nicht berechtigt Konzepte zu bearbeiten oder anzulegen!',
+          'concept-deleted-toast': 'Das Konzept {{ id }} wurde gelöscht.',
           'label': {
             'id': 'FDZ-ID',
             'edit-concept': 'Konzept bearbeiten:',

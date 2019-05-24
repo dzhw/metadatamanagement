@@ -186,6 +186,7 @@ angular.module('metadatamanagementApp').config(
           'previous-version-restored-toast': 'Previous version of Concept {{ conceptId }} can be saved now.',
           'current-version-restored-toast': 'Current version of Concept {{ conceptId }} has been restored.',
           'not-authorized-toast': 'You are not authorized to create or edit concepts!',
+          'concept-deleted-toast': 'Concept {{ id }} has been deleted.',
           'label': {
             'edit-concept': 'Edit Concept:',
             'create-concept': 'Create Concept:',

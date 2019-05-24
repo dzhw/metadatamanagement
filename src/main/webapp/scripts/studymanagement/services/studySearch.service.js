@@ -119,7 +119,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       }
 
       SearchHelperService.addQuery(query, queryterm);
-      if (type !== 'related_publications') {
+      if (!_.includes(['related_publications', 'concepts'], type)) {
         SearchHelperService.addShadowCopyFilter(query, filter);
       }
 
@@ -154,7 +154,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         type);
       var prefix = (type === 'studies' || !type) ? ''
         : 'nestedStudy.';
-      if (type === 'related_publications') {
+      if (type === 'related_publications' || type === 'concepts') {
         prefix = 'nestedStudies.';
       }
       var aggregation = {
@@ -234,7 +234,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
       SearchHelperService.addQuery(query, queryterm);
       SearchHelperService.addFilter(query);
-      if (type !== 'related_publications') {
+      if (!_.includes(['related_publications', 'concepts'], type)) {
         SearchHelperService.addShadowCopyFilter(query, filter);
       }
 

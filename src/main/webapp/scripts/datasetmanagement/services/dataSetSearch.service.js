@@ -283,7 +283,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
 
       SearchHelperService.addQuery(query, queryterm);
       SearchHelperService.addFilter(query);
-      if (type !== 'related_publications') {
+      if (!_.includes(['related_publications', 'concepts'], type)) {
         SearchHelperService.addShadowCopyFilter(query, _.isEmpty(filter));
       } else {
 

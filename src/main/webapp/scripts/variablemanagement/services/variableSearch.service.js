@@ -422,7 +422,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
 
         SearchHelperService.addQuery(query, queryterm);
         SearchHelperService.addFilter(query);
-        if (type !== 'related_publications') {
+        if (!_.includes(['related_publications', 'concepts'], type)) {
           SearchHelperService.addShadowCopyFilter(query, filter);
         }
 
