@@ -15,12 +15,13 @@
         <div layout-gt-sm="row" layout="column" style="-ms-flex:auto">
           <md-input-container flex="50" style="-ms-flex:auto" md-is-error="!conceptForm.id.$valid && (conceptForm.id.$dirty || conceptForm.id.$touched)">
             <label class="fdz-input-required">{{'concept-management.edit.label.id' | translate}}</label>
-            <input ng-trim="true" md-maxlength="512" fdz-required ng-model="ctrl.concept.id" ng-pattern="/^con-\S+\$$/" name="id" md-no-asterisk ng-disabled="!ctrl.createMode">
+            <input ng-trim="true" md-maxlength="512" fdz-unique-concept-id fdz-required ng-model="ctrl.concept.id" ng-pattern="/^con-\S+\$$/" ng-model-options="{debounce: 200}" name="id" md-no-asterisk ng-disabled="!ctrl.createMode">
             <div ng-if="!conceptForm.id.$dirty && !conceptForm.id.$touched" class="fdz-input-hint">{{'concept-management.edit.hints.id' | translate}}</div>
             <div ng-messages="conceptForm.id.$error" multiple>
               <div ng-message="fdz-required">{{'concept-management.error.concept.id.not-empty' | translate}}</div>
               <div ng-message="md-maxlength">{{'concept-management.error.concept.id.size' | translate}}</div>
               <div ng-message="pattern">{{'concept-management.error.concept.id.not-valid-id' | translate}}</div>
+              <div ng-message="uniqueConceptId">{{'concept-management.error.concept.id.not-unique' | translate}}</div>
             </div>
           </md-input-container>
           <div flex="50" style="-ms-flex:auto"></div>

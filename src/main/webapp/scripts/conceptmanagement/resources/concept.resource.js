@@ -4,7 +4,8 @@
 /* Study Resource */
 angular.module('metadatamanagementApp')
   .factory('ConceptResource', function($resource, CleanJSObjectService) {
-    return $resource('/api/concepts/:id', {
+    var baseUrl = '/api/concepts';
+    return $resource(baseUrl + '/:id', {
       id: '@id'
     }, {
       'get': {
@@ -21,6 +22,9 @@ angular.module('metadatamanagementApp')
       },
       'delete': {
         method: 'DELETE'
+      },
+      'query': {
+        url: baseUrl
       }
     });
   });
