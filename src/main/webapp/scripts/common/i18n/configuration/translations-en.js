@@ -92,7 +92,8 @@ angular.module('metadatamanagementApp').config(
             'variable': 'Click to show variable {{param}}',
             'study': 'Click to show study {{param}}',
             'instrument': 'Click to show instrument {{param}}',
-            'publication': 'Click to show publication {{param}}'
+            'publication': 'Click to show publication {{param}}',
+            'concept': 'Click to show concept {{param}}'
           },
           'feedback-dialog': {
             'github': 'Click to give feedback or report a Bug by Github',

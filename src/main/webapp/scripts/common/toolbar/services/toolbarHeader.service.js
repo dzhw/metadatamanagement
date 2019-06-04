@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
-  function($rootScope) {
+  function($rootScope, $log) {
     var stripVersionSuffix = function(id) {
       if (!id) {
         return id;
@@ -25,6 +25,12 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       });
     };
     var translationStringsMap = {
+      'conceptDetail': {
+        'type': 'concept-management.detail.label.concept',
+        'translateString': 'global.tooltips.toolbarHeader.concept',
+        'iconType': 'svg',
+        'icon': 'assets/images/icons/concept.svg'
+      },
       'questionDetail': {
         'type': 'question-management.detail.label.question',
         'translateString': 'global.tooltips.toolbarHeader.question',
@@ -286,6 +292,28 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       }
       return surveyItem;
     };
+    var createRelatedConceptItem = function(item) {
+      var conceptItem = {
+        enableLastItem: item.enableLastItem,
+        tooltip: translationStringsMap.conceptDetail.translateString,
+        iconType: translationStringsMap.conceptDetail.iconType,
+        icon: translationStringsMap.conceptDetail.icon,
+        type: translationStringsMap.conceptDetail.type
+      };
+
+      if (item.id) {
+        var stateParams = {
+          id: item.id
+        };
+        conceptItem.id = item.id;
+        conceptItem.state = 'conceptDetail(' + JSON.stringify(stateParams) +
+          ')';
+      } else {
+        conceptItem.notFound = '?';
+      }
+
+      return conceptItem;
+    };
     var updateToolbarHeader = function(item) {
       $rootScope.toolbarHeaderItems = [];
       var instrumentItem = {};
@@ -543,9 +571,23 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           };
           $rootScope.toolbarHeaderItems.push(errorItem);
           break;
+        case 'conceptCreate':
+          var itemCopy = _.extend({}, item);
+          itemCopy.id = null;
+          $rootScope.toolbarHeaderItems.push(searchItem.get(),
+            createRelatedConceptItem(itemCopy));
+          break;
+        case 'conceptDetail':
+        case 'conceptEdit':
+          $rootScope.toolbarHeaderItems.push(searchItem.get(),
+            createRelatedConceptItem(item));
+          break;
         default:
           if (item.stateName) {
-            console.log(item.stateName + ': coming...');
+            $log.debug(item.stateName + ': coming...');
+          } else {
+            $log.warn('toolbarHeaderService: Given item has no state name ' +
+              'unable to generate appropriate toolbar items');
           }
           break;
       }
