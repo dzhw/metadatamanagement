@@ -15,7 +15,7 @@
         <div layout-gt-sm="row" layout="column" style="-ms-flex:auto">
           <md-input-container flex="50" style="-ms-flex:auto" md-is-error="!conceptForm.id.$valid && (conceptForm.id.$dirty || conceptForm.id.$touched)">
             <label class="fdz-input-required">{{'concept-management.edit.label.id' | translate}}</label>
-            <input ng-trim="true" md-maxlength="512" fdz-unique-concept-id fdz-required ng-model="ctrl.concept.id" ng-pattern="/^con-\S+\$$/" ng-model-options="{debounce: 200}" name="id" md-no-asterisk ng-disabled="!ctrl.createMode">
+            <input ng-trim="true" md-maxlength="512" fdz-unique-concept-id="{{ctrl.createMode}}" fdz-required ng-model="ctrl.concept.id" ng-pattern="/^con-\S+\$$/" ng-model-options="{debounce: 200}" name="id" md-no-asterisk ng-disabled="!ctrl.createMode">
             <div ng-if="!conceptForm.id.$dirty && !conceptForm.id.$touched" class="fdz-input-hint">{{'concept-management.edit.hints.id' | translate}}</div>
             <div ng-messages="conceptForm.id.$error" multiple>
               <div ng-message="fdz-required">{{'concept-management.error.concept.id.not-empty' | translate}}</div>
@@ -57,6 +57,16 @@
             </div>
           </md-input-container>
           <div flex="50" style="-ms-flex:auto"></div>
+        </div>
+        <div layout-gt-sm="row" layout="column" style="-ms-flex:auto" flex="100" flex-gt-sm="50">
+          <md-input-container flex="50" style="-ms-flex:auto" md-is-error="!conceptForm.doi.$valid && (conceptForm.doi.$dirty || conceptForm.doi.$touched)">
+            <label>{{'concept-management.detail.label.doi' | translate}}</label>
+            <input md-maxlength="512" ng-model="ctrl.concept.doi" name="doi">
+            <div ng-if="!conceptForm.doi.$dirty && !conceptForm.doi.$touched" class="fdz-input-hint">{{'concept-management.edit.hints.doi' | translate}}</div>
+            <div ng-messages="conceptForm.doi.$error" multiple>
+              <div ng-message="md-maxlength">{{'concept-management.error.concept.doi.size' | translate}}</div>
+            </div>
+          </md-input-container>
         </div>
       </md-card-content>
     </md-card>
@@ -161,6 +171,24 @@
       <md-divider></md-divider>
       <md-card-content>
         <tag-editor tags="ctrl.concept.tags"></tag-editor>
+      </md-card-content>
+    </md-card>
+    <md-card>
+      <md-card-header>
+        <md-card-header-text>
+          <h2 class="md-title">{{'concept-management.edit.label.license' | translate}}</h2>
+        </md-card-header-text>
+      </md-card-header>
+      <md-divider></md-divider>
+      <md-card-content>
+        <md-input-container style="-ms-flex:auto; width: 100%" md-is-error="!conceptForm.license.$valid && (conceptForm.license.$dirty || conceptForm.license.$touched)"">
+          <label>{{'concept-management.detail.label.license' | translate}}</label>
+          <textarea rows="4" ng-trim="true" md-maxlength="1048576" ng-model="ctrl.concept.license" name="license"></textarea>
+          <div ng-if="!conceptForm.license.$dirty && !conceptForm.license.$touched" class="fdz-input-hint">{{'concept-management.edit.hints.license' | translate}}</div>
+          <div ng-messages="conceptForm.license.$error" multiple>
+            <div ng-message="md-maxlength">{{'concept-management.error.concept.license.size' | translate}}</div>
+          </div>
+        </md-input-container>
       </md-card-content>
     </md-card>
   </div>

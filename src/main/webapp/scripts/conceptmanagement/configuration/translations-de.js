@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').config(
             'doi': 'DOI',
             'title': 'Titel',
             'citation-hint': 'Zitationshinweis',
+            'license': 'Lizenz',
             'attachments': {
               'type': 'Typ',
               'title': 'Titel',
@@ -193,7 +194,8 @@ angular.module('metadatamanagementApp').config(
             'first-name': 'Vorname',
             'middle-name': 'Zweiter Vorname',
             'last-name': 'Nachname',
-            'tags': 'Tags (Schlüsselwörter) zum Konzept'
+            'tags': 'Tags (Schlüsselwörter) zum Konzept',
+            'license': 'Lizenz'
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Konzepts wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Konzept zu speichern.',
@@ -215,6 +217,8 @@ angular.module('metadatamanagementApp').config(
           },
           'hints': {
             'id': 'Geben Sie die ID dieses Konzeptes in unserem FDZ an.',
+            'doi': 'Bitte geben Sie die DOI für dieses Konzept an (falls verfügbar)',
+            'license': 'Bitte geben die Lizenz an, unter der Sie dieses Konzept veröffentlichen wollen',
             'title': {
               'de': 'Geben Sie den Titel des Konzepts auf Deutsch ein.',
               'en': 'Geben Sie den Titel des Konzepts auf Englisch ein.'
