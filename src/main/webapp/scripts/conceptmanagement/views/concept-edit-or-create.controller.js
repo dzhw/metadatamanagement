@@ -12,6 +12,15 @@ angular.module('metadatamanagementApp')
 
       var ctrl = this;
 
+      /*
+       * TODO: Concept tag search
+       * Do we need a tag search restricted to concepts only, similar to
+       * StudySearchService.searchTags?
+       */
+      ctrl.conceptTagSearch = function() {
+        return $q.resolve([]);
+      };
+
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageTitleService.setPageTitle(

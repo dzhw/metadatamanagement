@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp').directive('fdzUniqueConceptId',
   function ($q, $log, ConceptResource) {
     return {
       require: 'ngModel',
-      link: function ($scope, el, attr, ctrl) {
+      link: function ($scope, el, attr, ctrl) { // jscs:ignore disallowUnusedParams
         var queryConceptId = function (id) {
           return ConceptResource.query({id: id}).$promise
             .then(function (result) {
@@ -16,12 +16,13 @@ angular.module('metadatamanagementApp').directive('fdzUniqueConceptId',
             });
         };
 
-        var isValidationEnabled = function() {
-          return attr.fdzUniqueConceptId === ''
-            || attr.fdzUniqueConceptId === 'true';
+        var isValidationEnabled = function () {
+          return attr.fdzUniqueConceptId === '' ||
+            attr.fdzUniqueConceptId === 'true';
         };
 
-        ctrl.$asyncValidators.uniqueConceptId = function (modelValue, viewValue) {
+        ctrl.$asyncValidators.uniqueConceptId = function (modelValue, viewValue) { // jscs:ignore disallowUnusedParams
+
           if (ctrl.$isEmpty(viewValue)) {
             return $q.resolve();
           } else if (isValidationEnabled()) {
@@ -29,7 +30,7 @@ angular.module('metadatamanagementApp').directive('fdzUniqueConceptId',
           } else {
             return $q.resolve();
           }
-        }
+        };
       }
-    }
+    };
   });

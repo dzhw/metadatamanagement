@@ -2,8 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('TagEditorController', function($scope, $mdMedia,
-                                              StudySearchService) {
+  .controller('TagEditorController', function($scope, $mdMedia) {
 
     var removeExistingTags = function(tags, language) {
       return _.difference(tags, $scope.tags[language]);
@@ -22,7 +21,7 @@ angular.module('metadatamanagementApp')
 
     $scope.$mdMedia = $mdMedia;
     $scope.searchTags = function(searchText, language) {
-      return StudySearchService.findTags(searchText, language)
+      return $scope.tagSearch({searchText: searchText, language: language})
         .then(function(foundTags) {
           return removeExistingTags(foundTags, language);
         });
