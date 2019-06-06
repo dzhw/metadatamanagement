@@ -40,5 +40,10 @@
                 </md-item-template>
             </md-autocomplete>
         </md-chips>
+        <div ng-if="tagEditorForm.$dirty" ng-messages="tagEditorForm.tagsEn.$error">
+          <div ng-message="required">
+            {{'study-management.tag-editor.error.required' | translate}}
+          </div>
+        </div>
     </md-input-container>
 </div>

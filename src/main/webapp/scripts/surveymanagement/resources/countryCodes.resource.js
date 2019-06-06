@@ -2,5 +2,5 @@
 
 angular.module('metadatamanagementApp').factory('CountryCodesResource',
   function($resource) {
-    return $resource('/api/surveys/country-codes');
+    return $resource('/api/i18n/country-codes');
   });

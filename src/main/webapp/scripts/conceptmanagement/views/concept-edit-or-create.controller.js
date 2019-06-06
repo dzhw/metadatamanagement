@@ -72,7 +72,7 @@ angular.module('metadatamanagementApp')
                 firstName: '',
                 lastName: ''
               }],
-              originalLanguages: ['de','en']
+              originalLanguages: []
             });
             updateToolbarHeaderAndPageTitle();
             $scope.registerConfirmOnDirtyHook();

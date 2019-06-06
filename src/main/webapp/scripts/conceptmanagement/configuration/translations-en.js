@@ -14,6 +14,7 @@ angular.module('metadatamanagementApp').config(
             'title': 'Title',
             'citation-hint': 'Citation Hint',
             'license': 'License',
+            'original-languages': 'Original Languages',
             'attachments': {
               'type': 'Type',
               'title': 'Title',

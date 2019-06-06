@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
+package eu.dzhw.fdz.metadatamanagement.common.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
