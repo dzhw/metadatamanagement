@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 @RepositoryRestResource(path = "/concepts")
 @JaversSpringDataAuditable
 public interface ConceptRepository 
-    extends BaseRepository<Concept, String> {
+    extends BaseRepository<Concept, String>, ConceptRepositoryCustom {
   @Override
   @Secured(value = AuthoritiesConstants.PUBLISHER)
   void delete(Concept entity);

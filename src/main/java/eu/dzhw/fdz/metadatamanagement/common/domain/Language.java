@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class Language implements Comparable<Language>{
+public class Language implements Comparable<Language> {
 
   /**
    * Language code.

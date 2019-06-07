@@ -19,8 +19,9 @@
         {{getLanguageDisplayName($chip)}}
       </md-chip-template>
     </md-chips>
-    <div ng-if="languageForm.$dirty" ng-messages="languageForm.languages.$error" multiple>
+    <div ng-if="languageForm.$dirty" ng-messages="languageForm.$error" multiple>
       <div ng-message="required">{{'common.language-picker.error.required' | translate}}</div>
+      <div ng-message="md-require-match">{{'common.language-picker.error.md-require-match' | translate}}</div>
     </div>
   </md-input-container>
 </div>

@@ -147,6 +147,10 @@ angular.module('metadatamanagementApp').config(
             },
             'tags': {
               'not-empty': 'In beiden Sprachen muss mindestens ein Tag angegeben werden.'
+            },
+            'in-use': {
+              'instruments': 'Das Konzept kann nicht gelöscht werden, weil es durch die folgenden Instrumente referenziert wird: {{ids}}.',
+              'questions': 'Das Konzept kann nicht gelöscht werden, weil es durch die folgenden Fragen referenziert wird: {{ids}}.'
             }
           },
           'concept-attachment-metadata': {
@@ -234,16 +238,6 @@ angular.module('metadatamanagementApp').config(
               'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen des Autors ein.',
               'last-name': 'Geben Sie den Nachnamen des Autors ein.'
             }
-          }
-        },
-        'tag-editor': {
-          'label': {
-            'german-tags': 'Deutsche Tags',
-            'english-tags': 'Englische Tags'
-          },
-          'placeholder': 'Neuen Tag eingeben',
-          'error': {
-            'required': 'Es muss mindestens ein Tag eingetragen sein.'
           }
         }
       }

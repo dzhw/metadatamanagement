@@ -27,7 +27,8 @@ public class LanguagesProvider {
   /**
    * Returns a set of known languages.
    *
-   * @param locale Locale to use for language names. Falls back to default JVM locale if given locale is unknown.
+   * @param locale Locale to use for language names. Falls back to default JVM locale if given
+   *               locale is unknown.
    * @return Set of languages
    */
   public Set<Language> getLanguages(String locale) {

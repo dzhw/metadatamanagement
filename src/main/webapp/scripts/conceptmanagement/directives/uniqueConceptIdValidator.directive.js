@@ -1,10 +1,11 @@
 /* globals _ */
+// jscs: disable
 'use strict';
 angular.module('metadatamanagementApp').directive('fdzUniqueConceptId',
   function ($q, $log, ConceptResource) {
     return {
       require: 'ngModel',
-      link: function ($scope, el, attr, ctrl) { // jscs:ignore disallowUnusedParams
+      link: function ($scope, el, attr, ctrl) {
         var queryConceptId = function (id) {
           return ConceptResource.query({id: id}).$promise
             .then(function (result) {
@@ -21,7 +22,7 @@ angular.module('metadatamanagementApp').directive('fdzUniqueConceptId',
             attr.fdzUniqueConceptId === 'true';
         };
 
-        ctrl.$asyncValidators.uniqueConceptId = function (modelValue, viewValue) { // jscs:ignore disallowUnusedParams
+        ctrl.$asyncValidators.uniqueConceptId = function (modelValue, viewValue) {
 
           if (ctrl.$isEmpty(viewValue)) {
             return $q.resolve();
@@ -34,3 +35,4 @@ angular.module('metadatamanagementApp').directive('fdzUniqueConceptId',
       }
     };
   });
+// jscs: enable

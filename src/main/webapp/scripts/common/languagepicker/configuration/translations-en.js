@@ -7,7 +7,8 @@ angular.module('metadatamanagementApp').config(
       'common': {
         'language-picker': {
           'error': {
-            'required': 'At least one language must be selected'
+            'required': 'At least one language must be selected',
+            'md-require-match': 'This language could not be found.'
           },
           'label': 'Languages',
           'placeholder': 'Select languages'

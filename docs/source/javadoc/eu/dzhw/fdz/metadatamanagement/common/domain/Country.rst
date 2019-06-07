@@ -5,7 +5,7 @@
 Country
 =======
 
-.. java:package:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain
+.. java:package:: eu.dzhw.fdz.metadatamanagement.common.domain
    :noindex:
 
 .. java:type:: @Data @AllArgsConstructor public class Country

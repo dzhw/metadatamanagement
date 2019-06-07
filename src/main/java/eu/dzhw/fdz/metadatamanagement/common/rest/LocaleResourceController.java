@@ -15,6 +15,9 @@ import java.lang.management.ManagementFactory;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Provides valid country and language data known to the backend.
+ */
 @Controller
 @RequestMapping("/api/i18n")
 public class LocaleResourceController {
@@ -25,7 +28,8 @@ public class LocaleResourceController {
 
   private final LanguagesProvider languagesProvider;
 
-  public LocaleResourceController(CountryCodeProvider countryCodeProvider, LanguagesProvider languagesProvider) {
+  public LocaleResourceController(CountryCodeProvider countryCodeProvider,
+                                  LanguagesProvider languagesProvider) {
     this.countryCodeProvider = countryCodeProvider;
     this.languagesProvider = languagesProvider;
   }
@@ -47,7 +51,8 @@ public class LocaleResourceController {
    * @return Set of languages
    */
   @GetMapping(path = "/languages")
-  public ResponseEntity<Set<Language>> getLanguages(@RequestParam(name = "locale", defaultValue = "de") String locale) {
+  public ResponseEntity<Set<Language>> getLanguages(@RequestParam(name = "locale",
+      defaultValue = "de") String locale) {
     return ResponseEntity.ok()
       .cacheControl(CacheControl.maxAge(0, TimeUnit.DAYS).mustRevalidate().cachePublic())
       .eTag(ETAG.toString())

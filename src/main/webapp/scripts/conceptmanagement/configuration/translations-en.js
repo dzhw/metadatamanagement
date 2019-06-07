@@ -148,6 +148,10 @@ angular.module('metadatamanagementApp').config(
             },
             'tags': {
               'not-empty': 'There must be at least one tag in both languages.'
+            },
+            'in-use': {
+              'instruments': 'The concept cannot be deleted, because it is referenced by the following instruments: {{ids}}.',
+              'questions': 'The concept cannot be deleted, because it is referenced by the following questions: {{ids}}.'
             }
           },
           'concept-attachment-metadata': {
@@ -235,16 +239,6 @@ angular.module('metadatamanagementApp').config(
               'middle-name': 'If available enter the middle-name of this project member.',
               'last-name': 'Enter the last name of this project member.'
             }
-          }
-        },
-        'tag-editor': {
-          'label': {
-            'german-tags': 'German Tags',
-            'english-tags': 'English Tags'
-          },
-          'placeholder': 'Enter a new tag',
-          'error': {
-            'required': 'At least one tag must be provided'
           }
         }
       }

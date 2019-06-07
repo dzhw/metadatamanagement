@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptInUseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
@@ -221,5 +222,20 @@ public class ConceptService {
           .flatMap(List::stream).collect(Collectors.toSet()));
       return conceptRepository.streamIdsByIdIn(conceptIds);
     }, ElasticsearchType.concepts);
+  }
+
+  /**
+   * Deletes a concept by id.
+   * @param conceptId Id of concept to delete
+   * @throws ConceptInUseException Thrown if concept is referenced in an Instrument or Question
+   */
+  public void deleteConcept(String conceptId) {
+    Set<String> instrumentIds = conceptRepository.findInstrumentIdsByConceptId(conceptId);
+    Set<String> questionIds = conceptRepository.findQuestionIdsByConceptId(conceptId);
+    if (!instrumentIds.isEmpty() || !questionIds.isEmpty()) {
+      throw new ConceptInUseException(instrumentIds, questionIds);
+    } else {
+      conceptRepository.deleteById(conceptId);
+    }
   }
 }
