@@ -101,7 +101,9 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',
-          'tag-tooltip': 'Klicken, um Konzepte mit diesem Tag zu suchen'
+          'tag-tooltip': 'Klicken, um Konzepte mit diesem Tag zu suchen',
+          'license': 'Lizenz',
+          'tags': 'Tags',
         },
         'log-messages': {
           'concept': {

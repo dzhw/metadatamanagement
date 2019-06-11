@@ -8,6 +8,18 @@ angular.module('metadatamanagementApp')
       return _.difference(tags, $scope.tags[language]);
     };
 
+    if (angular.isUndefined($scope.readonly)) {
+      $scope.readonly = false;
+    }
+
+    if (angular.isUndefined($scope.requireGermanTag)) {
+      $scope.requireGermanTag = false;
+    }
+
+    if (angular.isUndefined($scope.requireEnglishTag)) {
+      $scope.requireEnglishTag = false;
+    }
+
     if (angular.isUndefined($scope.tags)) {
       $scope.tags = {
         de: [],

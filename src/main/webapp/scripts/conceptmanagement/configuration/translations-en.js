@@ -101,13 +101,15 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'doi-tooltip': 'Click to open the DOI in a new tab',
-          'tag-tooltip': 'Click to search for concepts with this tag'
+          'tag-tooltip': 'Click to search for concepts with this tag',
+          'license': 'License',
+          'tags': 'Tags'
         },
         'log-messages': {
           'concept': {
             'saved': 'Concept with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Concept with RDC-ID {{ id }} has not been saved!',
-            'unable-to-delete': 'The concept could not be deleted!',
+            'unable-to-delete': 'The concept could not be deleted!'
           },
           'concept-attachment': {
             'not-saved': 'Attachment "{{ id }}" has not been saved:',

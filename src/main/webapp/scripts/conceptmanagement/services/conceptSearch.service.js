@@ -188,11 +188,11 @@ angular.module('metadatamanagementApp').factory('ConceptSearchService',
       };
 
       var filters = createTermFilters(filter);
-      if(filters) {
+      if (filters) {
         _.set(query, 'body.query.bool.filter', filters);
       }
 
-      if(!ignoreAuthorization) {
+      if (!ignoreAuthorization) {
         SearchHelperService.addFilter(query);
       }
 
