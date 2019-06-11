@@ -339,7 +339,8 @@ module.exports = function(grunt) {
               'md-highlight-text',
               'valid-project-version',
               'project-does-not-exist',
-              'md-select-on-focus'
+              'md-select-on-focus',
+              'fdz-unique-concept-id'
             ]
           },
           files: {

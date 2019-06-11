@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').config(
-  function ($translateProvider) {
+  function($translateProvider) {
     var translations = {
       //jscs:disable
       'common': {

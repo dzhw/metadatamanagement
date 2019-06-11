@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('LanguagePickerController',
-  function ($scope, LanguageResource) {
+  function($scope, LanguageResource) {
 
     $scope.languagesRequestPending = true;
 
@@ -13,27 +13,27 @@ angular.module('metadatamanagementApp').controller('LanguagePickerController',
     var languageMap = {};
     var languages = LanguageResource.get();
 
-    languages.$promise.then(function (languages) {
-      languageMap = languages.reduce(function (acc, currentValue) {
+    languages.$promise.then(function(languages) {
+      languageMap = languages.reduce(function(acc, currentValue) {
         acc[currentValue.languageCode] = currentValue;
         return acc;
       }, {});
       $scope.languagesRequestPending = false;
     });
 
-    $scope.searchLanguage = function (languageName) {
+    $scope.searchLanguage = function(languageName) {
       var lcLanguageName = languageName.toLowerCase();
-      var filteredLanguages = _.filter(languages, function (language) {
+      var filteredLanguages = _.filter(languages, function(language) {
         return language.displayName.toLowerCase()
           .indexOf(lcLanguageName) !== -1;
-      }).map(function (language) {
+      }).map(function(language) {
         return language.languageCode;
       });
 
       return _.difference(filteredLanguages, $scope.languages);
     };
 
-    $scope.getLanguageDisplayName = function (languageCode) {
+    $scope.getLanguageDisplayName = function(languageCode) {
       var language =  languageMap[languageCode];
       return language ? language.displayName : '';
     };

@@ -181,7 +181,7 @@
       </md-card-header>
       <md-divider></md-divider>
       <md-card-content>
-        <md-input-container style="-ms-flex:auto; width: 100%" md-is-error="!conceptForm.license.$valid && (conceptForm.license.$dirty || conceptForm.license.$touched)"">
+        <md-input-container style="-ms-flex:auto;width:100%" md-is-error="!conceptForm.license.$valid && (conceptForm.license.$dirty || conceptForm.license.$touched)">
           <label>{{'concept-management.detail.label.license' | translate}}</label>
           <textarea rows="4" ng-trim="true" md-maxlength="1048576" ng-model="ctrl.concept.license" name="license"></textarea>
           <div ng-if="!conceptForm.license.$dirty && !conceptForm.license.$touched" class="fdz-input-hint">{{'concept-management.edit.hints.license' | translate}}</div>
