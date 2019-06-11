@@ -51,4 +51,9 @@ public class OrderedStudy {
   @NotNull
   @ValidSurveyDataType
   private I18nString surveyDataType;
+  
+  /**
+   * The name of the series of studies to which this study belongs. May be null.
+   */
+  private I18nString studySeries;
 }

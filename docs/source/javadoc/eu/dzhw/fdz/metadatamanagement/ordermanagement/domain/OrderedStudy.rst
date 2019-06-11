@@ -40,6 +40,14 @@ id
 
    The id of the \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study`\ . Must not be empty.
 
+studySeries
+^^^^^^^^^^^
+
+.. java:field:: private I18nString studySeries
+   :outertype: OrderedStudy
+
+   The name of the series of studies to which this study belongs. May be null.
+
 surveyDataType
 ^^^^^^^^^^^^^^
 
