@@ -3,12 +3,8 @@
 
 angular.module('metadatamanagementApp').service('StudyIdBuilderService',
 function() {
-  var buildStudyId = function(dataAcquisitionProjectId, version) {
-    if (version && version !== '') {
-      return 'stu-' + dataAcquisitionProjectId + '$-' + version;
-    } else {
-      return 'stu-' + dataAcquisitionProjectId + '$';
-    }
+  var buildStudyId = function(dataAcquisitionProjectId) {
+    return 'stu-' + dataAcquisitionProjectId + '$';
   };
 
   return {

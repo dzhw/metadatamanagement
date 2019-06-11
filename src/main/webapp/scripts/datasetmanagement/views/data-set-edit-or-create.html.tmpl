@@ -121,7 +121,7 @@
                       </md-button>
                       <div ng-if="ctrl.dataSet.subDataSets.length <= 1" style="margin-left: 16px;"></div>
                       <div flex layout="row">
-                        <md-input-container flex="25" style="-ms-flex:auto" md-is-error="!dataSetForm['subDataSetsName_' + $index].$valid && (dataSetForm['subDataSetsName_' + $index].$dirty || dataSetForm['subDataSetsName_' + $index].$touched)">
+                        <md-input-container flex="33" style="-ms-flex:auto" md-is-error="!dataSetForm['subDataSetsName_' + $index].$valid && (dataSetForm['subDataSetsName_' + $index].$dirty || dataSetForm['subDataSetsName_' + $index].$touched)">
                           <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.name' | translate}}</label>
                           <input fdz-required md-maxlength="32" ng-model="subDataSet.name" name="subDataSetsName_{{$index}}" ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)" md-no-asterisk>
                           <div ng-if="!dataSetForm['subDataSetsName_' + $index].$dirty && !dataSetForm['subDataSetsName_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.name' | translate}}</div>
@@ -130,7 +130,7 @@
                             <div ng-message="md-maxlength">{{'data-set-management.error.sub-data-set.name.size' | translate}}</div>
                           </div>
                         </md-input-container>
-                        <md-input-container flex="25" style="-ms-flex:auto" md-is-error="!dataSetForm['subDataSetsAccessWay_' + $index].$valid && (dataSetForm['subDataSetsAccessWay_' + $index].$dirty || dataSetForm['subDataSetsAccessWay_' + $index].$touched)">
+                        <md-input-container flex="33" style="-ms-flex:auto" md-is-error="!dataSetForm['subDataSetsAccessWay_' + $index].$valid && (dataSetForm['subDataSetsAccessWay_' + $index].$dirty || dataSetForm['subDataSetsAccessWay_' + $index].$touched)">
                           <label>{{'data-set-management.edit.label.sub-data-set.access-way' | translate}}</label>
                           <md-select required ng-model="subDataSet.accessWay" ng-model-options="{trackBy: '$value'}" name="subDataSetsAccessWay_{{$index}}">
                             <md-option ng-value="accessWay" ng-repeat="accessWay in ctrl.availableAccessWays">{{accessWay}}</md-option>
@@ -141,7 +141,7 @@
                             <div ng-message="required">{{'data-set-management.error.sub-data-set.access-way.not-null' | translate}}</div>
                           </div>
                         </md-input-container>
-                        <md-input-container flex="25" style="-ms-flex:auto" md-is-error="!dataSetForm['subDataSetsNumberOfObservations_' + $index].$valid && (dataSetForm['subDataSetsNumberOfObservations_' + $index].$dirty || dataSetForm['subDataSetsNumberOfObservations_' + $index].$touched)">
+                        <md-input-container flex="33" style="-ms-flex:auto" md-is-error="!dataSetForm['subDataSetsNumberOfObservations_' + $index].$valid && (dataSetForm['subDataSetsNumberOfObservations_' + $index].$dirty || dataSetForm['subDataSetsNumberOfObservations_' + $index].$touched)">
                           <label>{{'data-set-management.edit.label.sub-data-set.number-of-observations' | translate}}</label>
                           <input required ng-model="subDataSet.numberOfObservations" name="subDataSetsNumberOfObservations_{{$index}}" type="number" step="1" min="0" ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)">
                           <div ng-if="!dataSetForm['subDataSetsNumberOfObservations_' + $index].$dirty && !dataSetForm['subDataSetsNumberOfObservations_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.number-of-observations' | translate}}</div>
@@ -150,16 +150,6 @@
                             <div ng-message="step">{{'data-set-management.error.sub-data-set.number-of-observations.invalid-number' | translate}}</div>
                             <div ng-message="number">{{'data-set-management.error.sub-data-set.number-of-observations.invalid-number' | translate}}</div>
                             <div ng-message="min">{{'data-set-management.error.sub-data-set.number-of-observations.invalid-number' | translate}}</div>
-                          </div>
-                        </md-input-container>
-                        <md-input-container flex="25" style="-ms-flex:auto" md-is-error="dataSetForm['subDataSetsDataFormats_' + $index].$invalid && (dataSetForm['subDataSetsDataFormats_' + $index].$dirty || dataSetForm['subDataSetsDataFormats_' + $index].$touched)">
-                          <label>{{'data-set-management.edit.label.sub-data-set.data-formats' | translate}}</label>
-                          <md-select multiple ng-model="subDataSet.dataFormats" name="subDataSetsDataFormats_{{$index}}" required ng-disabled="!ctrl.availableDataFormats.$resolved">
-                            <md-option ng-value="dataFormat" ng-repeat="dataFormat in ctrl.availableDataFormats">{{'data-set-management.detail.sub-data-sets.data-formats.' + dataFormat | translate}}</md-option>
-                          </md-select>
-                          <div ng-if="!dataSetForm['subDataSetsDataFormats_' + $index].$dirty && !dataSetForm['subDataSetsDataFormats_' + $index].$touched" class="fdz-input-hint">{{'data-set-management.edit.hints.sub-data-set.data-formats' | translate}}</div>
-                          <div ng-messages="dataSetForm['subDataSetsDataFormats_' + $index].$error" multiple>
-                            <div ng-message="required">{{'data-set-management.error.sub-data-set.data-formats.required' | translate}}</div>
                           </div>
                         </md-input-container>
                       </div>

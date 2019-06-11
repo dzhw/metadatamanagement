@@ -177,11 +177,6 @@
                                 {{'data-set-management.detail.label.sub-data-sets.name' | translate }}
                             </md-tooltip>
                         </th>
-                        <th>{{'data-set-management.detail.label.sub-data-sets.data-formats' | translate }}
-                            <md-tooltip hide-gt-xs md-direction="right">
-                                {{'data-set-management.detail.label.sub-data-sets.data-formats' | translate }}
-                            </md-tooltip>
-                        </th>
                         <th>{{'variable-management.detail.label.variables' | translate }}
                             <md-tooltip hide-gt-xs md-direction="right">
                                 {{'variable-management.detail.label.variables' | translate }}
@@ -210,11 +205,6 @@
                         <td class="fdz-table-nowrap">{{row.accessWay}}</td>
                         <td display-i18n-string="row.description" fdz-hyphenate class="fdz-text-block"></td>
                         <td class="fdz-table-nowrap">{{row.name}}&nbsp;</td>
-                        <td class="fdz-table-nowrap">
-                            <span ng-repeat="dataFormat in row.dataFormats">
-                                {{('data-set-management.detail.sub-data-sets.data-formats.' + dataFormat | translate) + ($index + 1 !== row.dataFormats.length ? ', ' : '')}}
-                            </span>
-                        </td>
                         <td ng-class="{'fdz-table-number' : ctrl.counts.variablesCount > 0}">
                             <div ng-if="ctrl.counts.variablesCount == 0" class="fdz-truncate-string">
                                 {{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}

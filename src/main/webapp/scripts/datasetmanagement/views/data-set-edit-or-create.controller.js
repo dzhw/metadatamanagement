@@ -10,12 +10,9 @@ angular.module('metadatamanagementApp')
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
       CommonDialogsService, LanguageService, AvailableDataSetNumbersResource,
       DataSetAttachmentResource, $q, StudyIdBuilderService, SearchDao,
-      DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
-      DataFormatsResource) {
-
+      DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService) {
       var ctrl = this;
       ctrl.surveyChips = [];
-      ctrl.availableDataFormats = DataFormatsResource.query();
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageTitleService.setPageTitle(

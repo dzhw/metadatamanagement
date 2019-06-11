@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp').config(
         'title': 'Einkaufswagen',
         'detail': {
           'table-title': 'Ihre ausgewählten Datenprodukte',
-          'hint': 'Hinweis',
+          'personal-details': 'Persönliche Angaben',
           'label': {
             'title': 'Studientitel',
             'access-way': 'Zugangsweg',
@@ -31,8 +31,7 @@ angular.module('metadatamanagementApp').config(
             'data-sets': '{dataSets, plural, =0{unbekannt vielen Datensätze.} =1{einem Datensatz.} other{{formattedDataSets} Datensätzen.}}',
             'study': 'Studie',
             'customer-name': 'Ihr Name',
-            'customer-email': 'Ihre E-Mailadresse',
-            'data-formats': 'Die Datensätze enthalten Daten in den folgenden Formaten:'
+            'customer-email': 'Ihre E-Mailadresse'
           },
           'hints': {
             'name': 'Bitte teilen Sie uns Ihren vollständigen Namen mit.',
@@ -41,7 +40,7 @@ angular.module('metadatamanagementApp').config(
             'version': 'Welche Version der Datensätze benötigen Sie?'
           },
           'thank-you': 'Vielen Dank für Ihr Interesse an unseren Datenprodukten!',
-          'dlp-redirect': 'Sie werden in {{seconds}} Sekunden zu unserem Dienstleistungsportal weitergeleitet...',
+          'order-placed-text': 'Wir haben Ihnen eine Bestätigungsmail gesendet und werden Sie in Kürze kontaktieren.',
           'empty-cart-text': 'Ihr Einkaufswagen ist aktuell leer. Sie können <a href="#!/de/search?type=studies"><strong>hier</strong></a> nach Datenprodukten suchen und diese Ihrem Einkaufswagen hinzufügen.',
           'warn-not-current-versions': 'Da Sie sich nicht für die aktuelle Version dieses Datenproduktes entschieden haben, kann Ihnen dieses System keine genaue Auskunft über die Anzahl an Variablen und Datensätzen des Produktes anzeigen.',
           'explain-data-product': 'Ein Datenprodukt beinhaltet immer alle Datensätze einer Studie, die für den gewählten Zugangsweg (download, on-site, remote,...) aufbereitet wurden. Sie können sowohl mehrere Datenprodukte, als auch dieselbe Studie mehrmals mit unterschiedlichen Zugangswegen beantragen.',
@@ -54,8 +53,6 @@ angular.module('metadatamanagementApp').config(
           'variables-tooltip': 'Klicken, um alle Variablen dieses Datenproduktes anzuzeigen.'
         },
         'error': {
-          'synchronize': 'Der Einkaufswagen konnte nicht mit dem Server synchronisiert werden.',
-          'already-completed': 'Die Bestellung wurde bereits abgeschlossen. Ihr Einkaufswagen wurde geleert.',
           'customer': {
             'name': {
               'empty': 'Ihr Name darf nicht leer sein.',
@@ -71,7 +68,7 @@ angular.module('metadatamanagementApp').config(
         'toasts': {
           'study-added': 'Das Datenprodukt wurde in den Einkaufswagen gelegt.',
           'study-already-in-cart': 'Das Datenprodukt ist bereits im Einkaufswagen.',
-          'order-has-validation-errors-toast': 'Ihr Formular enthält ungültige Angaben.',
+          'customer-has-validation-errors-toast': 'Sie haben noch nicht alle benötigten Angaben zu Ihrer Person gemacht.',
           'error-on-saving-order': 'Beim Senden Ihrer Bestellung trat ein Fehler auf.'
         },
         'buttons': {

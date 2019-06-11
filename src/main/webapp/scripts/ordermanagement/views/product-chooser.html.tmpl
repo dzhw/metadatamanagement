@@ -59,7 +59,7 @@
                 {{'shopping-cart.buttons.close-tooltip' | translate }}
             </md-tooltip>
         </md-button>
-        <md-button ng-if="ctrl.releases && !ctrl.noFinalRelease && !ctrl.noDataSets && !ctrl.variableNotAccessible && !ctrl.dataNotAvailable" class="md-raised md-primary fdz-truncate-string" ng-click="ctrl.addToShoppingCart()" ng-disabled="!ctrl.selectedAccessWay || !ctrl.selectedVersion || !ctrl.isStudyQueryResolved">
+        <md-button ng-if="ctrl.releases && !ctrl.noFinalRelease && !ctrl.noDataSets && !ctrl.variableNotAccessible && !ctrl.dataNotAvailable" class="md-raised md-primary fdz-truncate-string" ng-click="ctrl.addToShoppingCart()" ng-disabled="!ctrl.selectedAccessWay || !ctrl.selectedVersion">
             <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'shopping-cart.buttons.add-study-tooltip' | translate}}
             </md-tooltip>

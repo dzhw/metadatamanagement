@@ -6,11 +6,9 @@ angular.module('metadatamanagementApp')
     '$scope', 'Principal', '$rootScope', '$mdDialog',
     'DataAcquisitionProjectReleasesResource', 'ShoppingCartService',
     'ProjectReleaseService', 'projectId', 'accessWays', 'study', 'version',
-    'StudySearchService', 'StudyIdBuilderService', '$log',
     function($scope, Principal, $rootScope, $mdDialog,
       DataAcquisitionProjectReleasesResource, ShoppingCartService,
-      ProjectReleaseService, projectId, accessWays, study, version,
-      StudySearchService, StudyIdBuilderService, $log) {
+      ProjectReleaseService, projectId, accessWays, study, version) {
       var ctrl = this;
       ctrl.accessWays = accessWays;
       ctrl.projectId = projectId;
@@ -21,18 +19,6 @@ angular.module('metadatamanagementApp')
       ctrl.noDataSets = false;
       ctrl.noFinalRelease = false;
       ctrl.dataNotAvailable = false;
-      ctrl.isStudyQueryResolved = false;
-
-      if (angular.isUndefined(ctrl.study.surveyDataType) || angular.isUndefined(
-        ctrl.study.dataSets)) {
-        StudySearchService.findOneById(ctrl.study.id).promise
-          .then(function(study) {
-          ctrl.study = study;
-          ctrl.isStudyQueryResolved = true;
-        });
-      } else {
-        ctrl.isStudyQueryResolved = true;
-      }
 
       if (ctrl.accessWays.length > 0) {
         if (_.includes(ctrl.accessWays, 'not-accessible')) {
@@ -51,19 +37,6 @@ angular.module('metadatamanagementApp')
       if (ctrl.study.dataAvailability.en === 'In preparation') {
         ctrl.noFinalRelease = true;
       }
-      var extractDataFormats = function(study, selectedAccessWay) {
-        var dataFormats = _.flatMap(study.dataSets, function(dataSet) {
-          var subDataSetsBySelectedAccessWay = _.filter(dataSet.subDataSets,
-            function(subDataSet) {
-              return subDataSet.accessWay === selectedAccessWay;
-            });
-          return _.flatMap(subDataSetsBySelectedAccessWay,
-            function(subDataSet) {
-              return subDataSet.dataFormats;
-            });
-        });
-        return _.uniq(dataFormats);
-      };
 
       DataAcquisitionProjectReleasesResource.get(
         {id: ProjectReleaseService.stripVersionSuffix(ctrl.projectId)})
@@ -81,41 +54,16 @@ angular.module('metadatamanagementApp')
             }
           });
 
-      var _addToShoppingCart = function() {
+      ctrl.addToShoppingCart = function() {
         ShoppingCartService.add({
           dataAcquisitionProjectId: ctrl.projectId,
           accessWay: ctrl.selectedAccessWay,
           version: ctrl.selectedVersion,
-          dataFormats: extractDataFormats(ctrl.study, ctrl.selectedAccessWay),
           study: {
-            id: ctrl.study.id,
-            surveyDataType: ctrl.study.surveyDataType,
-            title: ctrl.study.title
+            id: ctrl.study.id
           }
         });
         $mdDialog.hide();
-      };
-
-      ctrl.addToShoppingCart = function() {
-        // get the right shadow copy
-        if (ctrl.study.release.version !== ctrl.selectedVersion) {
-          var studyId = StudyIdBuilderService.buildStudyId(
-            ProjectReleaseService.stripVersionSuffix(ctrl.projectId),
-            ctrl.selectedVersion);
-          StudySearchService.findOneById(studyId).promise.then(function() {
-                _addToShoppingCart();
-              }).catch(function(error) {
-                if (error.status === 404) {
-                  // there might be no shadow copy
-                  _addToShoppingCart();
-                } else {
-                  $log.error('Error while retrieving shadow for "' + studyId +
-                  '".', error);
-                }
-              });
-        } else {
-          _addToShoppingCart();
-        }
       };
 
       $scope.closeDialog = function() {
