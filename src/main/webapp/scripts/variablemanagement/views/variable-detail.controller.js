@@ -8,13 +8,14 @@ angular.module('metadatamanagementApp')
     SimpleMessageToastService, PageTitleService, LanguageService,
     CleanJSObjectService, $state, ToolbarHeaderService,
     SearchResultNavigatorService, ProductChooserDialogService,
-    OutdatedVersionNotifier, $stateParams, blockUI) {
+    OutdatedVersionNotifier, $stateParams, blockUI, DataSetSearchService) {
     blockUI.start();
     SearchResultNavigatorService
       .setSearchIndex($stateParams['search-result-index']);
 
     SearchResultNavigatorService.registerCurrentSearchResult();
 
+    $scope.dataSets = null;
     $scope.isAuthenticated = Principal.isAuthenticated;
     $scope.hasAuthority = Principal.hasAuthority;
     $scope.searchResultIndex = SearchResultNavigatorService
@@ -37,6 +38,9 @@ angular.module('metadatamanagementApp')
       'nestedInstruments'
     ];
     entity.promise.then(function(result) {
+      DataSetSearchService.findByStudyId(result.studyId).then(function(result) {
+        $scope.dataSets = result.hits.hits;
+      });
       if (!Principal.loginName()) {
         var fetchFn = VariableSearchService.findShadowByIdAndVersion
           .bind(null, result.masterId);

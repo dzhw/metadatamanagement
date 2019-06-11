@@ -6,6 +6,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringEntireNotEmpty
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.validation ValidSurveyDataType
+
 .. java:import:: io.swagger.annotations ApiModel
 
 .. java:import:: lombok Data
@@ -18,7 +20,7 @@ OrderedStudy
 
 .. java:type:: @Data @ApiModel public class OrderedStudy
 
-   Partial \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study`\  which is part of a \ :java:ref:`Product`\ . It is a copy of the \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study`\  attributes which is made when the \ :java:ref:`Customer`\  places the orders.
+   Partial \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study`\  which is part of a \ :java:ref:`Product`\ . It is a copy of the \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study`\  attributes which is made when the customer places the orders.
 
 Fields
 ------
@@ -37,6 +39,14 @@ id
    :outertype: OrderedStudy
 
    The id of the \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study`\ . Must not be empty.
+
+surveyDataType
+^^^^^^^^^^^^^^
+
+.. java:field:: @NotNull @ValidSurveyDataType private I18nString surveyDataType
+   :outertype: OrderedStudy
+
+   One of \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDataTypes`\ . Must not be \ ``null``\ .
 
 title
 ^^^^^

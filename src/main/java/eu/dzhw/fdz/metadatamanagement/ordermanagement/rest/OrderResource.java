@@ -5,6 +5,7 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderAlreadyCompletedException;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.projection.IdAndVersionOrderProjection;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.service.OrderService;
 import io.swagger.annotations.Api;
@@ -14,6 +15,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ResponseHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +49,9 @@ public class OrderResource {
   @Autowired
   private OrderService orderService;
 
+  @Autowired
+  private ProjectionFactory projectionFactory;
+
   @Value("${metadatamanagement.server.context-root}")
   private String baseUrl;
 
@@ -64,7 +69,7 @@ public class OrderResource {
       responseHeaders = {@ResponseHeader(name = "Location", response = URI.class,
           description = "URL to which the client should go now.")})})
   @ResponseStatus(value = HttpStatus.CREATED)
-  public ResponseEntity<?> createOrder(@RequestBody @Valid Order order) {
+  public ResponseEntity<IdAndVersionOrderProjection> createOrder(@RequestBody @Valid Order order) {
 
     if (order.getClient() != OrderClient.MDM) {
       return ResponseEntity.badRequest().build();
@@ -74,7 +79,7 @@ public class OrderResource {
 
     return ResponseEntity
         .created(UriComponentsBuilder.fromUriString(getDlpUrl(order.getId())).build().toUri())
-        .build();
+        .body(projectionFactory.createProjection(IdAndVersionOrderProjection.class, order));
   }
 
   /**
@@ -87,7 +92,7 @@ public class OrderResource {
   public ResponseEntity<Order> findOrder(@PathVariable String id) {
     Optional<Order> optional = orderRepository.findById(id);
 
-    if (!optional.isPresent()) {
+    if (optional.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
 
@@ -110,9 +115,10 @@ public class OrderResource {
           + " Follow the returned Location header to proceed with the order process.",
       responseHeaders = @ResponseHeader(name = "Location", response = URI.class,
           description = "URL to which the client should go now."))})
-  public ResponseEntity<?> updateOrder(@PathVariable String id, @RequestBody @Valid Order order) {
+  public ResponseEntity<IdAndVersionOrderProjection> updateOrder(@PathVariable String id,
+                                                          @RequestBody @Valid Order order) {
     Optional<Order> optional = orderService.update(id, order);
-    if (!optional.isPresent()) {
+    if (optional.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
     String destinationUrl;
@@ -123,13 +129,16 @@ public class OrderResource {
           + order.getId();
     }
 
+    Order persistedOrder = optional.get();
+
     return ResponseEntity.status(HttpStatus.OK)
-        .location(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri()).build();
+        .location(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri())
+        .body(projectionFactory.createProjection(IdAndVersionOrderProjection.class,
+            persistedOrder));
   }
 
   /**
    * Generate a DLP url for the given order id.
-   *
    * @param orderId Order Id
    * @return URL as string
    */

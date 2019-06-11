@@ -10,11 +10,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataFormat;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetTypes;
@@ -193,7 +195,9 @@ public class UnitTestCreateDomainObjectUtils {
     surveyIds.add(surveyId);
 
     List<SubDataSet> subDataSets = new ArrayList<>();
-    subDataSets.add(SubDataSet.builder().name(UnitTestCreateValidIds.buildDataSetId(projectId, 1))
+    subDataSets.add(SubDataSet.builder()
+        .name(UnitTestCreateValidIds.buildDataSetId(projectId, 1))
+        .dataFormats(Set.of(DataFormat.R))
         .numberOfObservations(1)
         .accessWay(AccessWays.DOWNLOAD_SUF)
         .citationHint(I18nString.builder()
@@ -204,6 +208,7 @@ public class UnitTestCreateDomainObjectUtils {
           .en("Description 3 EN")
           .build()).build());
     subDataSets.add(SubDataSet.builder().name(UnitTestCreateValidIds.buildDataSetId(projectId, 2))
+        .dataFormats(Set.of(DataFormat.R))
         .numberOfObservations(1)
         .accessWay(AccessWays.REMOTE_DESKTOP)
         .citationHint(I18nString.builder()
@@ -213,6 +218,7 @@ public class UnitTestCreateDomainObjectUtils {
           .en("Description 3 EN")
           .build()).build());
     subDataSets.add(SubDataSet.builder().name(UnitTestCreateValidIds.buildDataSetId(projectId, 3))
+        .dataFormats(Set.of(DataFormat.R))
         .numberOfObservations(1)
         .accessWay(AccessWays.DOWNLOAD_CUF)
         .citationHint(I18nString.builder()
@@ -222,6 +228,7 @@ public class UnitTestCreateDomainObjectUtils {
           .en("Description 3 EN")
           .build()).build());
     subDataSets.add(SubDataSet.builder().name(UnitTestCreateValidIds.buildDataSetId(projectId, 4))
+        .dataFormats(Set.of(DataFormat.R))
         .numberOfObservations(1)
         .accessWay(AccessWays.ONSITE_SUF)
         .citationHint(I18nString.builder()

@@ -1,11 +1,3 @@
-.. java:import:: java.util Arrays
-
-.. java:import:: java.util Collections
-
-.. java:import:: java.util HashSet
-
-.. java:import:: java.util Set
-
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain ImmutableI18nString
@@ -13,6 +5,8 @@
 .. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain DataTypes
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain Survey
+
+.. java:import:: java.util Set
 
 SurveyDataTypes
 ===============
