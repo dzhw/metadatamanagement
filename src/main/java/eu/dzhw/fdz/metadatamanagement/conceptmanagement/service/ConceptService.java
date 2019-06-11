@@ -67,8 +67,12 @@ public class ConceptService {
    */
   @HandleAfterDelete
   public void onConceptDeleted(Concept concept) {
-    conceptAttachmentService.deleteAllByConceptId(concept.getId());
-    elasticsearchUpdateQueueService.enqueue(concept.getId(), ElasticsearchType.concepts,
+    onConceptDeleted(concept.getId());
+  }
+
+  private void onConceptDeleted(String conceptId) {
+    conceptAttachmentService.deleteAllByConceptId(conceptId);
+    elasticsearchUpdateQueueService.enqueue(conceptId, ElasticsearchType.concepts,
         ElasticsearchUpdateQueueAction.DELETE);
   }
 
@@ -236,6 +240,7 @@ public class ConceptService {
       throw new ConceptInUseException(instrumentIds, questionIds);
     } else {
       conceptRepository.deleteById(conceptId);
+      onConceptDeleted(conceptId);
     }
   }
 }
