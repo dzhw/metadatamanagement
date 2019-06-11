@@ -5,21 +5,14 @@ angular.module('metadatamanagementApp')
   .controller('ConceptEditOrCreateController',
     function(entity, PageTitleService, $document, $timeout,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-      ConceptResource, $scope,
+      ConceptResource, ConceptSearchService, $scope,
       ElasticSearchAdminService, $mdDialog, $transitions,
       CommonDialogsService, LanguageService,
       ConceptAttachmentResource, $q) {
 
       var ctrl = this;
 
-      /*
-       * TODO: Concept tag search
-       * Do we need a tag search restricted to concepts only, similar to
-       * StudySearchService.searchTags?
-       */
-      ctrl.conceptTagSearch = function() {
-        return $q.resolve([]);
-      };
+      ctrl.conceptTagSearch = ConceptSearchService.findTags;
 
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {

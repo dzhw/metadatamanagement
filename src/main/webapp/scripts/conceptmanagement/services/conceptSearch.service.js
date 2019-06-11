@@ -170,8 +170,44 @@ angular.module('metadatamanagementApp').factory('ConceptSearchService',
       });
     };
 
+    var findTags = function(searchText, language, filter, ignoreAuthorization) {
+      var query = {
+        index: 'concepts',
+        type: 'concepts',
+        size: 0
+      };
+      _.set(query, 'body.aggs.tags.terms.field', 'tags.' + language);
+      _.set(query, 'body.aggs.tags.terms.size', 100);
+      _.set(query, 'body.query.bool.must[0].match', {});
+      _.set(query, 'body.query.bool.filter.term.shadow', false);
+      query.body.query.bool.must[0].match['tags.' + language + '.ngrams'] = {
+        'query': searchText,
+        'operator': 'AND',
+        'minimum_should_match': '100%',
+        'zero_terms_query': 'ALL'
+      };
+
+      var filters = createTermFilters(filter);
+      if(filters) {
+        _.set(query, 'body.query.bool.filter', filters);
+      }
+
+      if(!ignoreAuthorization) {
+        SearchHelperService.addFilter(query);
+      }
+
+      return ElasticSearchClient.search(query).then(function(result) {
+        var tags = [];
+        result.aggregations.tags.buckets.forEach(function(bucket) {
+          tags.push(bucket.key);
+        });
+        return tags;
+      });
+    };
+
     return {
       findTitles: findTitles,
-      findOneById: findOneById
+      findOneById: findOneById,
+      findTags: findTags
     };
   });
