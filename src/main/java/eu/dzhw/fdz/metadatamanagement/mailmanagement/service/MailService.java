@@ -24,7 +24,6 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import lombok.extern.slf4j.Slf4j;
 
@@ -152,21 +151,6 @@ public class MailService {
     List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
     return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null,
         subject, content, false, true);
-  }
-
-  /**
-   * Synchronously send an email to the customer and dataservice.
-   */
-  public void sendOrderCreatedMail(Order order, String cc) {
-    log.debug("Sending notification email for order " + order.getId());
-    Locale locale = Locale.forLanguageTag(order.getLanguageKey());
-    Context context = new Context(locale);
-    context.setVariable("order", order);
-    context.setVariable("baseUrl", baseUrl);
-    String content = templateEngine.process("orderCreated", context);
-    String subject = messageSource.getMessage("email.order.created.title", null, locale);
-    sendEmail(cc, new String[] {order.getCustomer().getEmail()}, cc, null, subject, content, false,
-        true);
   }
 
   /**

@@ -26,6 +26,8 @@
 
 .. java:import:: javax.validation.constraints Size
 
+.. java:import:: java.util Set
+
 SubDataSet
 ==========
 
@@ -53,6 +55,14 @@ citationHint
    :outertype: SubDataSet
 
    A hint telling how to cite this subdataset in publications. It must be specified in at least one language and it must not contain more than 2048 characters.
+
+dataFormats
+^^^^^^^^^^^
+
+.. java:field:: @NotEmpty private Set<DataFormat> dataFormats
+   :outertype: SubDataSet
+
+   Set of available file formats of the \ :java:ref:`SubDataSet`\ .
 
 description
 ^^^^^^^^^^^
