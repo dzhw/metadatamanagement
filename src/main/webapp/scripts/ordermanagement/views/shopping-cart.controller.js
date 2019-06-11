@@ -6,8 +6,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
            ShoppingCartService, $scope, StudyResource, DataSetSearchService,
            VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
            OrderResource, LanguageService, SimpleMessageToastService, order,
-           $window, $interval, $location, $transitions, ProjectReleaseService,
-           $rootScope, $document) {
+           ProjectReleaseService, $rootScope) {
 
     PageTitleService.setPageTitle('shopping-cart.title');
     ToolbarHeaderService.updateToolbarHeader({
@@ -15,35 +14,12 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     });
     var ctrl = this;
     var existingOrderId;
-    var intervalReference;
-    ctrl.dataAcquisitionProjects = {};
     ctrl.studies = {};
     ctrl.releases = {};
+    ctrl.customer = {};
     ctrl.counts = {};
     ctrl.noShadowCopyAvailable = {};
     ctrl.initComplete = false;
-    ctrl.redirectCountDownSeconds = 5;
-
-    $scope.$on('$destroy', function() {
-      if (intervalReference) {
-        $interval.cancel(intervalReference);
-      }
-    });
-
-    var redirectAfterCountDown = function(interval, location, languageKey,
-                                          orderId) {
-      interval.then(function() {
-        $interval.cancel(interval);
-        $transitions.onBefore({entering: 'restoreShoppingCart'}, function() {
-          return $q.defer().promise;
-        });
-        $location.path('/' + languageKey + '/shopping-cart/' + orderId)
-          .replace();
-        if (location) {
-          $window.open(location, '_self');
-        }
-      });
-    };
 
     var appendVersionSuffix = function(product) {
       var suffixedProduct = _.cloneDeep(product);
@@ -55,32 +31,15 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     };
 
     var initViewWithOrderResource = function(order) {
-      $rootScope.$broadcast('start-ignoring-404');
-      var isCompletedOrder = false;
       order.$promise.then(function(order) {
-        if (order.state === 'ORDERED') {
-          ShoppingCartService.completeOrder();
-          isCompletedOrder = true;
-        } else {
-          ShoppingCartService
-            .initShoppingCartProducts(_.get(order, 'products', []), order.id,
-              order.version);
-        }
+        ShoppingCartService
+          .initShoppingCartProducts(_.get(order, 'products', []), order.id,
+            order.version);
       }, function(error) {
         if (error.status === 404) {
           ShoppingCartService.clearLocalOrderId();
-        } else {
-          SimpleMessageToastService.openAlertMessageToast(
-            'shopping-cart.error.synchronize');
         }
-      }).finally(function() {
-        $rootScope.$broadcast('stop-ignoring-404');
-        if (isCompletedOrder) {
-          $state.go('shoppingCart');
-        } else {
-          ctrl.init();
-        }
-      });
+      }).finally(ctrl.init);
     };
 
     var loadDataSetCountForProduct = function(product, studyId) {
@@ -144,6 +103,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     ctrl.init = function() {
       var promises = [];
       existingOrderId = ShoppingCartService.getOrderId();
+      ctrl.customer.name = _.get(order, 'customer.name');
+      ctrl.customer.email = _.get(order, 'customer.email');
       ctrl.products = ShoppingCartService.getProducts();
       ctrl.products.forEach(function(product) {
         var studyId = product.study.id + '-' + product.version;
@@ -203,12 +164,10 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     };
 
     ctrl.order = function() {
-      // check honeypot fields
-      var email = $document.find('#email')[0].value;
-      var website = $document.find('#website')[0].value;
-      if (!website && email === 'your@email.com') {
+      if ($scope.customerForm.$valid) {
         var order = {
           languageKey: LanguageService.getCurrentInstantly(),
+          customer: ctrl.customer,
           client: 'MDM',
           state: 'CREATED',
           products: []
@@ -218,11 +177,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
             dataAcquisitionProjectId: product.dataAcquisitionProjectId,
             study: ctrl.studies[product.study.id + '-' + product.version],
             accessWay: product.accessWay,
-            version: product.version,
-            dataFormats: product.dataFormats
+            version: product.version
           };
-          _.set(completeProduct, 'study.surveyDataType',
-            product.study.surveyDataType);
           completeProduct.study.id = ProjectReleaseService
             .stripVersionSuffix(completeProduct.study.id);
           order.products.push(completeProduct);
@@ -241,30 +197,20 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
           orderFn = OrderResource.save;
         }
 
-        orderFn(requestParams, order,
-          function(responseData, headerGetter) {
-            ShoppingCartService.completeOrder();
-            ctrl.orderSaved = true;
-            ctrl.redirectCountDownSeconds = 5;
-
-            intervalReference = $interval(function() {
-              ctrl.redirectCountDownSeconds = ctrl.redirectCountDownSeconds - 1;
-            }, 1000, ctrl.redirectCountDownSeconds);
-
-            redirectAfterCountDown(intervalReference, headerGetter('Location'),
-              order.languageKey, responseData.id);
-          }, function() {
-            SimpleMessageToastService.openAlertMessageToast(
-              'shopping-cart.toasts.error-on-saving-order');
-            // Perhaps our order data went stale, attempt reload in this case
-            if (existingOrderId) {
-              initViewWithOrderResource(OrderResource
-                .get({id: existingOrderId}));
-            }
-          });
+        orderFn(requestParams, order).$promise.then(function() {
+          ShoppingCartService.completeOrder();
+          ctrl.orderSaved = true;
+        }).catch(function() {
+          SimpleMessageToastService.openAlertMessageToast(
+            'shopping-cart.toasts.error-on-saving-order');
+          // Perhaps our order data went stale, attempt reload in this case
+          if (existingOrderId) {
+            initViewWithOrderResource(OrderResource.get({id: existingOrderId}));
+          }
+        });
       } else {
         // ensure that all validation errors are visible
-        angular.forEach($scope.orderForm.$error, function(field) {
+        angular.forEach($scope.customerForm.$error, function(field) {
           angular.forEach(field, function(errorField) {
             if (errorField) {
               errorField.$setTouched();
@@ -272,7 +218,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
           });
         });
         SimpleMessageToastService.openAlertMessageToast(
-          'shopping-cart.toasts.order-has-validation-errors-toast');
+          'shopping-cart.toasts.customer-has-validation-errors-toast');
       }
     };
 

@@ -8,7 +8,6 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.datasetman
 .. toctree::
    :maxdepth: 1
 
-   DataFormat
    DataSet
    DataSetAttachmentMetadata
    DataSetTypes

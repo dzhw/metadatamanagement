@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp').config(
         'title': 'Shopping Cart',
         'detail': {
           'table-title': 'Your selected Data Products',
-          'hint': 'Hint',
+          'personal-details': 'Personal Details',
           'label': {
             'title': 'Study Title',
             'access-way': 'Access Way',
@@ -24,15 +24,14 @@ angular.module('metadatamanagementApp').config(
             'current': 'current',
             'not-current': 'not current',
             'this-data-product': 'This data product',
-            'study-series': 'from study series {{series}}',
+            'study-series': 'from study series "{{series}}"',
             'contains': 'contains',
             'variables': '{variables, plural, =0{an unknown amount of variables} =1{one variable} other{{formattedVariables} variables}}',
             'in': 'in',
             'data-sets': '{dataSets, plural, =0{an unknown amount of data sets.} =1{one data set.} other{{formattedDataSets} data sets.}}',
             'study': 'Study',
             'customer-name': 'Your Name',
-            'customer-email': 'Your E-mail Address',
-            'data-formats': 'The data sets contain data in the following formats:'
+            'customer-email': 'Your E-mail Address'
           },
           'hints': {
             'name': 'Please let us know your full name.',
@@ -41,7 +40,7 @@ angular.module('metadatamanagementApp').config(
             'version': 'Which version of the data sets do you need?'
           },
           'thank-you': 'Thank you for your interest in our data products!',
-          'dlp-redirect': 'You will be redirected to our service portal in {{seconds}} seconds...',
+          'order-placed-text': 'We have sent you a confirmation email and will contact you shortly.',
           'empty-cart-text': 'Your shopping cart is currently empty. You can search for data products <a href="#!/en/search?type=studies"><strong>here</strong></a> and add those to your shopping cart.',
           'warn-not-current-versions': 'Since you have not decided on the current version of this data product, this system cannot display exact information about the number of variables and data sets in the product.',
           'explain-data-product': 'A data product contains all data sets of a given study which have been prepared for the given access way (download, on-site, remote,...). You can request several data products as well as the same study several times with different access ways.',
@@ -54,8 +53,6 @@ angular.module('metadatamanagementApp').config(
           'variables-tooltip': 'Click to display all variables of this data product.'
         },
         'error': {
-          'synchronize': 'Unable to synchronize shopping cart with the server.',
-          'already-completed': 'The order has already been completed. Your shopping cart has been emptied.',
           'customer': {
             'name': {
               'empty': 'Your name must not be empty.',
@@ -71,7 +68,7 @@ angular.module('metadatamanagementApp').config(
         'toasts': {
           'study-added': 'The data product was put into the shopping cart.',
           'study-already-in-cart': 'The data product is already in the shopping cart.',
-          'order-has-validation-errors-toast': 'Your form contains invalid data.',
+          'customer-has-validation-errors-toast': 'You have not yet provided all the necessary information about yourself.',
           'error-on-saving-order': 'An error occurred while sending your order.'
         },
         'buttons': {

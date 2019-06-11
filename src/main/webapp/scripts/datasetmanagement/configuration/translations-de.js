@@ -47,7 +47,6 @@ angular.module('metadatamanagementApp').config(
             'data-set-same-study': 'Datensätze der gleichen Studie',
             'sub-data-sets': {
               'name': 'Name',
-              'data-formats': 'Datenformate',
               'accessWay': 'Zugangsweg',
               'description': 'Beschreibung',
               'numberOfAnalyzedVariables': 'Analysierbare Variablen',
@@ -69,13 +68,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'sub-data-sets': {
-            'title': 'Verfügbare Subdatensätze',
-            'data-formats': {
-              'Stata': 'Stata',
-              'R': 'R',
-              'SPSS': 'SPSS',
-              'Word': 'Word'
-            }
+            'title': 'Verfügbare Subdatensätze'
           },
           'attachments': {
             'table-title': 'Materialien zu dem Datensatz',
@@ -254,9 +247,6 @@ angular.module('metadatamanagementApp').config(
             'number-of-observations': {
               'not-null': 'Die Anzahl von Fälle/Episoden darf bei einem Subdatensatz nicht leer sein!',
               'invalid-number': 'Geben Sie eine positive ganze Zahl an!'
-            },
-            'data-formats': {
-              'required': 'Es muss mindestens ein Datenformat angegeben werden.'
             }
           },
           'post-validation': {
@@ -287,8 +277,7 @@ angular.module('metadatamanagementApp').config(
               'access-way': 'Zugangsweg',
               'number-of-observations': 'Anzahl Fälle/Episoden',
               'description': 'Beschreibung',
-              'citation-hint': 'Zitationshinweis',
-              'data-formats': 'Verfügbare Datenformate'
+              'citation-hint': 'Zitationshinweis'
             }
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Datensatzes wieder herzustellen.',
@@ -337,8 +326,7 @@ angular.module('metadatamanagementApp').config(
                 'citation-hint': {
                   'de': 'Wie soll der Subdatensatz zitiert werden?',
                   'en': 'Wie soll der Subdatensatz zitiert werden?'
-                },
-                'data-formats': 'Geben Sie die Datenformate an, in denen der Subdatensatz verfügbar ist.'
+                }
               }
             },
             'all-data-sets-deleted-toast': 'Alle Datensätze des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'

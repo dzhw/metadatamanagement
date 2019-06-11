@@ -37,5 +37,3 @@ Assert the error messages for missing files
 
 Close the protocol dialog
     Click Element Through Tooltips  xpath=//button[@ng-click="closeDialog()"][contains(., "Schließen")]
-
-

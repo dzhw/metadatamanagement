@@ -8,6 +8,7 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.ordermanag
 .. toctree::
    :maxdepth: 1
 
+   Customer
    Order
    OrderAlreadyCompletedException
    OrderClient
