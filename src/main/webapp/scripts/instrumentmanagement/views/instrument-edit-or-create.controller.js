@@ -152,7 +152,7 @@ angular.module('metadatamanagementApp')
                         CurrentProjectService.getCurrentProject().id,
                         studyId: StudyIdBuilderService.buildStudyId(
                           CurrentProjectService.getCurrentProject().id
-                        ),
+                        )
                       });
                       updateToolbarHeaderAndPageTitle();
                       $scope.registerConfirmOnDirtyHook();
@@ -447,7 +447,7 @@ angular.module('metadatamanagementApp')
       ctrl.searchConcepts = function(query) {
         return SearchDao.search(
           query, 1,
-          ctrl.instrument.dataAcquisitionProjectId,
+          null,
           null, 'concepts', 100,  ctrl.instrument.conceptIds
         ).then(function(result) {
             return result.hits.hits;

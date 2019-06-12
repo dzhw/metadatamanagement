@@ -21,6 +21,16 @@ angular.module('metadatamanagementApp')
         }
       };
 
+      var isPublisherOrDataProvider = Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']);
+
+      var isLatestShadow = function(item) {
+        return item.shadow && angular.isUndefined(item.successorId);
+      };
+
+      var isMaster = function(item) {
+        return item.shadow === false
+      };
+
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
@@ -55,8 +65,17 @@ angular.module('metadatamanagementApp')
         });
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
-          'id': result.id,
+          'id': result.id
         });
+
+        var predicate = isPublisherOrDataProvider ? isMaster : isLatestShadow;
+
+        result.studies = _.filter(result.studies, predicate);
+        result.surveys = _.filter(result.surveys, predicate);
+        result.dataSets = _.filter(result.dataSets, predicate);
+        result.variables = _.filter(result.variables, predicate);
+        result.questions = _.filter(result.questions, predicate);
+        result.instruments = _.filter(result.instruments, predicate);
 
         ctrl.concept = result;
         ctrl.counts.studiesCount = result.studies.length;
