@@ -83,7 +83,7 @@ angular.module('metadatamanagementApp')
           PublicationAssignmentResource.save({
             studyId: ctrl.studyId,
             publicationId: publication.id
-          }).$promise.then(ctrl.updateElasticSearchIndex).then(function() {
+          }).$promise.then(ctrl.updateElasticSearchIndices).then(function() {
             ctrl.publications.push(publication);
             ctrl.searchText = '';
             ctrl.selectedPublication = null;
@@ -126,16 +126,18 @@ angular.module('metadatamanagementApp')
         return deferred.promise;
       };
 
-      ctrl.updateElasticSearchIndex = function() {
-        return ElasticSearchAdminService
-          .processUpdateQueue('related_publications');
+      ctrl.updateElasticSearchIndices = function() {
+        return $q.all([ElasticSearchAdminService
+          .processUpdateQueue('related_publications'),
+          ElasticSearchAdminService
+            .processUpdateQueue('studies')]);
       };
 
       ctrl.removePublication = function(publication) {
         PublicationAssignmentResource.delete({
           studyId: ctrl.studyId,
           publicationId: publication.id
-        }).$promise.then(ctrl.updateElasticSearchIndex).then(function() {
+        }).$promise.then(ctrl.updateElasticSearchIndices).then(function() {
           ctrl.publications = ctrl.publications
           .filter(function(item) {
             return item.id !== publication.id;
