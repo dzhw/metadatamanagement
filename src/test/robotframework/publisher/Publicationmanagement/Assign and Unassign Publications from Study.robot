@@ -40,7 +40,6 @@ Assign a publication to the project
     Clear Element Text   xpath=//md-card[@class="ng-scope _md"]//input[@type="search"]
     Input Text  xpath=//md-card[@class="ng-scope _md"]//input[@type="search"]   The labour market's requirement profiles for higher education graduates
     Click Element Through Tooltips   xpath=//div//ul//li//span//span[contains(., "The labour market's requirement profiles for higher education graduates")]
-    Sleep  2s   #chrome is too fast which fails to assign the project
 
 Unassign the publication from the project
     Get back to german home page
@@ -50,7 +49,6 @@ Unassign the publication from the project
     Delete the publication from the study
 
 Click on the first study in the list of studies
-    Sleep  30s   #explicit wait to make sure the publication is available
     Click Element Through Tooltips   xpath=//a[@class='fdz-search-result'][1]
 
 Assert the publication belongs to study selected study
@@ -65,4 +63,4 @@ Get back to home page and deselect project
 
 Delete the publication from the study
     Click Element Through Tooltips    xpath=//button[@ng-click="ctrl.removePublication(publication)"]//md-icon[contains(.,"delete_forever")]
-    Sleep  2s   #to make sure enough time to delete
+
