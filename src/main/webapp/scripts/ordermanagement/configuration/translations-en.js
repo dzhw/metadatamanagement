@@ -24,7 +24,7 @@ angular.module('metadatamanagementApp').config(
             'current': 'current',
             'not-current': 'not current',
             'this-data-product': 'This data product',
-            'study-series': 'from study series {{series}}',
+            'study-series': 'from study series "{{series}}"',
             'contains': 'contains',
             'variables': '{variables, plural, =0{an unknown amount of variables} =1{one variable} other{{formattedVariables} variables}}',
             'in': 'in',
