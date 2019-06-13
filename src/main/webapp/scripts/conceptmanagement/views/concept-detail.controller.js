@@ -1,3 +1,4 @@
+/* globals _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -21,14 +22,15 @@ angular.module('metadatamanagementApp')
         }
       };
 
-      var isPublisherOrDataProvider = Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']);
+      var isPublisherOrDataProvider = Principal
+        .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']);
 
       var isLatestShadow = function(item) {
         return item.shadow && angular.isUndefined(item.successorId);
       };
 
       var isMaster = function(item) {
-        return item.shadow === false
+        return item.shadow === false;
       };
 
       var ctrl = this;

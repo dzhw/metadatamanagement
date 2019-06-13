@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptInUseException;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -226,6 +228,29 @@ public class ConceptService {
           .flatMap(List::stream).collect(Collectors.toSet()));
       return conceptRepository.streamIdsByIdIn(conceptIds);
     }, ElasticsearchType.concepts);
+  }
+
+  /**
+   * Re-indexes concepts with new instrument and question references.
+   * @param projectReleasedEvent Project release event
+   */
+  @EventListener
+  public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
+    Set<String> conceptIds = new HashSet<>();
+    String projectId = projectReleasedEvent.getDataAcquisitionProject().getId();
+    instrumentRepository.streamByDataAcquisitionProjectId(projectId).forEach(instrument -> {
+      if (instrument.getConceptIds() != null) {
+        conceptIds.addAll(instrument.getConceptIds());
+      }
+      questionRepository.findSubDocumentsByInstrumentId(instrument.getId()).forEach(question -> {
+        if (question.getConceptIds() != null) {
+          conceptIds.addAll(question.getConceptIds());
+        }
+      });
+    });
+
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> conceptRepository
+        .streamIdsByIdIn(conceptIds), ElasticsearchType.concepts);
   }
 
   /**
