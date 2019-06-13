@@ -33,3 +33,4 @@ Close the protocol dialog
 Get back to home page and deselect project
     Get back to german home page
     Click Element Through Tooltips    xpath=//md-sidenav//project-navbar-module//button[@aria-label='Clear Input']
+    Get back to german home page  #we need it again to focus on projectoverview button
