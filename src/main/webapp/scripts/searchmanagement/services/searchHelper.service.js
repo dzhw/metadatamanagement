@@ -428,6 +428,20 @@ angular.module('metadatamanagementApp').factory(
       return query;
     };
 
+    var addNestedShadowCopyFilter = function(boolFilter, path, type) {
+      var termFilter = {};
+      if (type === 'concepts') {
+        if (Principal.loginName()) {
+          _.set(termFilter, 'term.["' + path + 'shadow"]', false);
+          boolFilter.must.push(termFilter);
+        } else {
+          _.set(termFilter, 'term.["' + path + 'shadow"]', true);
+          boolFilter.must.push(termFilter);
+          _.set(boolFilter, 'must_not[0].exists.field', 'successorId');
+        }
+      }
+    };
+
     return {
       createTermFilters: createTermFilters,
       removeIrrelevantFilters: removeIrrelevantFilters,
@@ -437,6 +451,7 @@ angular.module('metadatamanagementApp').factory(
       createShadowByIdAndVersionQuery: createShadowByIdAndVersionQuery,
       addFilter: addFilter,
       addShadowCopyFilter: addShadowCopyFilter,
+      addNestedShadowCopyFilter: addNestedShadowCopyFilter,
       addQuery: addQuery
     };
   }

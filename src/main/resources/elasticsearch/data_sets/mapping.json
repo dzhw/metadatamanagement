@@ -325,6 +325,12 @@
 					"masterId": {
 						"type": "keyword"
 					},
+					"shadow": {
+						"type": "keyword"
+					},
+					"successorId": {
+						"type": "keyword"
+					},
 					"title": {
 						"type": "object",
 						"properties": {
@@ -354,6 +360,12 @@
 						"type": "keyword"
 					},
 					"masterId": {
+						"type": "keyword"
+					},
+					"shadow": {
+						"type": "keyword"
+					},
+					"successorId": {
 						"type": "keyword"
 					},
 					"dataSetId": {
@@ -481,6 +493,12 @@
 					"masterId": {
 						"type": "keyword"
 					},
+					"shadow": {
+						"type": "keyword"
+					},
+					"successorId": {
+						"type": "keyword"
+					},
 					"title": {
 						"type": "object",
 						"properties": {
@@ -514,6 +532,12 @@
 						"type": "keyword"
 					},
 					"masterId": {
+						"type": "keyword"
+					},
+					"shadow": {
+						"type": "keyword"
+					},
+					"successorId": {
 						"type": "keyword"
 					},
 					"surveyIds": {
@@ -563,6 +587,12 @@
 						"type": "keyword"
 					},
 					"masterId": {
+						"type": "keyword"
+					},
+					"shadow": {
+						"type": "keyword"
+					},
+					"successorId": {
 						"type": "keyword"
 					},
 					"instrumentId": {

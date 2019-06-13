@@ -19,7 +19,8 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
           !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
           termFilter = [];
         }
-        if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+        if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId) &&
+          !_.includes(['related_publications', 'concepts'], type)) {
           var projectFilter = {
             term: {
               dataAcquisitionProjectId: dataAcquisitionProjectId
@@ -292,6 +293,9 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
           'minimum_should_match': '100%',
           'zero_terms_query': 'ALL'
         };
+
+        SearchHelperService.addNestedShadowCopyFilter(
+          aggregation.aggs.title.filter.bool, prefix, type);
 
         if (prefix !== '') {
           nestedAggregation.aggs.surveys.aggs =

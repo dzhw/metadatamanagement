@@ -331,6 +331,12 @@
 							"all"
 						]
 					},
+					"shadow": {
+						"type": "keyword"
+					},
+					"successorId": {
+						"type": "keyword"
+					},
 					"title": {
 						"type": "object",
 						"properties": {
@@ -441,6 +447,12 @@
 					"masterId": {
 						"type": "keyword"
 					},
+					"shadow": {
+						"type": "keyword"
+					},
+					"successorId": {
+						"type": "keyword"
+					},
 					"title": {
 						"type": "object",
 						"properties": {
@@ -470,6 +482,12 @@
 						"type": "keyword"
 					},
 					"masterId": {
+						"type": "keyword"
+					},
+					"shadow": {
+						"type": "keyword"
+					},
+					"successorId": {
 						"type": "keyword"
 					},
 					"dataSetId": {
@@ -522,6 +540,12 @@
 						"type": "keyword"
 					},
 					"masterId": {
+						"type": "keyword"
+					},
+					"shadow": {
+						"type": "keyword"
+					},
+					"successorId": {
 						"type": "keyword"
 					},
 					"surveyIds": {
@@ -640,6 +664,12 @@
 						"type": "keyword"
 					},
 					"masterId": {
+						"type": "keyword"
+					},
+					"shadow": {
+						"type": "keyword"
+					},
+					"successorId": {
 						"type": "keyword"
 					},
 					"surveyIds": {
