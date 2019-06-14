@@ -1,29 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.conceptmanagement.service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptInUseException;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
-import org.springframework.data.rest.core.annotation.HandleAfterCreate;
-import org.springframework.data.rest.core.annotation.HandleAfterDelete;
-import org.springframework.data.rest.core.annotation.HandleAfterSave;
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.stereotype.Service;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptInUseException;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository.ConceptRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
@@ -35,6 +20,23 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.RelatedQuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
+import org.springframework.data.rest.core.annotation.HandleAfterDelete;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.event.AfterDeleteEvent;
+import org.springframework.data.rest.core.event.BeforeDeleteEvent;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Service for creating and updating {@link Concept}s. Used for updating concepts in mongo and
@@ -62,6 +64,9 @@ public class ConceptService {
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
+  @Autowired
+  private ApplicationEventPublisher eventPublisher;
+
   /**
    * Enqueue deletion of concept search document when the concept is deleted.
    * 
@@ -69,10 +74,7 @@ public class ConceptService {
    */
   @HandleAfterDelete
   public void onConceptDeleted(Concept concept) {
-    onConceptDeleted(concept.getId());
-  }
-
-  private void onConceptDeleted(String conceptId) {
+    String conceptId = concept.getId();
     conceptAttachmentService.deleteAllByConceptId(conceptId);
     elasticsearchUpdateQueueService.enqueue(conceptId, ElasticsearchType.concepts,
         ElasticsearchUpdateQueueAction.DELETE);
@@ -232,12 +234,13 @@ public class ConceptService {
 
   /**
    * Re-indexes concepts with new instrument and question references.
-   * @param projectReleasedEvent Project release event
+   *
+   * @param project Saved {@link DataAcquisitionProject}
    */
-  @EventListener
-  public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
+  @HandleAfterSave
+  public void onProjectUpdated(DataAcquisitionProject project) {
     Set<String> conceptIds = new HashSet<>();
-    String projectId = projectReleasedEvent.getDataAcquisitionProject().getId();
+    String projectId = project.getId();
     instrumentRepository.streamByDataAcquisitionProjectId(projectId).forEach(instrument -> {
       if (instrument.getConceptIds() != null) {
         conceptIds.addAll(instrument.getConceptIds());
@@ -264,8 +267,13 @@ public class ConceptService {
     if (!instrumentIds.isEmpty() || !questionIds.isEmpty()) {
       throw new ConceptInUseException(instrumentIds, questionIds);
     } else {
-      conceptRepository.deleteById(conceptId);
-      onConceptDeleted(conceptId);
+      Optional<Concept> opt = conceptRepository.findById(conceptId);
+      if (opt.isPresent()) {
+        Concept concept = opt.get();
+        eventPublisher.publishEvent(new BeforeDeleteEvent(concept));
+        conceptRepository.deleteById(conceptId);
+        eventPublisher.publishEvent(new AfterDeleteEvent(concept));
+      }
     }
   }
 }

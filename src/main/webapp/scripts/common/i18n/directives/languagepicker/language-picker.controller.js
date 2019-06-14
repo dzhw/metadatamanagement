@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('LanguagePickerController',
-  function($scope, LanguageResource) {
+  function($scope, LanguageResource, LanguageService) {
 
     $scope.languagesRequestPending = true;
 
@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp').controller('LanguagePickerController',
     }
 
     var languageMap = {};
-    var languages = LanguageResource.get();
+    var languages = LanguageResource.get({locale: LanguageService
+        .getCurrentInstantly()});
 
     languages.$promise.then(function(languages) {
       languageMap = languages.reduce(function(acc, currentValue) {

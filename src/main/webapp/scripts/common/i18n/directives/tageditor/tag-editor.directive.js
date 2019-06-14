@@ -12,7 +12,8 @@ angular.module('metadatamanagementApp').directive('tagEditor', function() {
   return {
     restrict: 'E',
     controller: 'TagEditorController',
-    templateUrl: 'scripts/common/i18ntageditor/tag-editor.html.tmpl',
+    templateUrl: 'scripts/common/i18n/directives/tageditor/' +
+      'tag-editor.html.tmpl',
     scope: {
       tags: '=',
       tagSearch: '&',
