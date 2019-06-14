@@ -1,5 +1,23 @@
 package eu.dzhw.fdz.metadatamanagement.conceptmanagement.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
+import org.springframework.data.rest.core.annotation.HandleAfterDelete;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
+import org.springframework.data.rest.core.event.AfterDeleteEvent;
+import org.springframework.data.rest.core.event.BeforeDeleteEvent;
+import org.springframework.stereotype.Service;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptInUseException;
@@ -20,23 +38,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.RelatedQuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.rest.core.annotation.HandleAfterCreate;
-import org.springframework.data.rest.core.annotation.HandleAfterDelete;
-import org.springframework.data.rest.core.annotation.HandleAfterSave;
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.data.rest.core.event.AfterDeleteEvent;
-import org.springframework.data.rest.core.event.BeforeDeleteEvent;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Service for creating and updating {@link Concept}s. Used for updating concepts in mongo and
@@ -233,31 +234,36 @@ public class ConceptService {
   }
 
   /**
-   * Re-indexes concepts with new instrument and question references.
+   * Re-indexes concepts with new instrument and question references if a shadow copy of a project
+   * is saved.
    *
    * @param project Saved {@link DataAcquisitionProject}
    */
   @HandleAfterSave
   public void onProjectUpdated(DataAcquisitionProject project) {
-    Set<String> conceptIds = new HashSet<>();
-    String projectId = project.getId();
-    instrumentRepository.streamByDataAcquisitionProjectId(projectId).forEach(instrument -> {
-      if (instrument.getConceptIds() != null) {
-        conceptIds.addAll(instrument.getConceptIds());
-      }
-      questionRepository.findSubDocumentsByInstrumentId(instrument.getId()).forEach(question -> {
-        if (question.getConceptIds() != null) {
-          conceptIds.addAll(question.getConceptIds());
-        }
-      });
-    });
-
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> conceptRepository
-        .streamIdsByIdIn(conceptIds), ElasticsearchType.concepts);
+    if (project.isShadow()) {
+      elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+        Set<String> conceptIds = new HashSet<>();
+        String projectId = project.getId();
+        instrumentRepository.streamByDataAcquisitionProjectId(projectId).forEach(instrument -> {
+          if (instrument.getConceptIds() != null) {
+            conceptIds.addAll(instrument.getConceptIds());
+          }
+          questionRepository.findSubDocumentsByInstrumentId(instrument.getId())
+              .forEach(question -> {
+                if (question.getConceptIds() != null) {
+                  conceptIds.addAll(question.getConceptIds());
+                }
+              });
+        });
+        return conceptRepository.streamIdsByIdIn(conceptIds);
+      }, ElasticsearchType.concepts);
+    }
   }
 
   /**
    * Deletes a concept by id.
+   * 
    * @param conceptId Id of concept to delete
    * @throws ConceptInUseException Thrown if concept is referenced in an Instrument or Question
    */
