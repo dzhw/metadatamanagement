@@ -1,9 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.Country;
-import eu.dzhw.fdz.metadatamanagement.common.domain.Language;
-import eu.dzhw.fdz.metadatamanagement.common.service.LanguagesProvider;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.CountryCodeProvider;
+import java.lang.management.ManagementFactory;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,16 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.lang.management.ManagementFactory;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Country;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Language;
+import eu.dzhw.fdz.metadatamanagement.common.service.LanguagesProvider;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.CountryCodeProvider;
 
 /**
  * Provides valid country and language data known to the backend.
  */
 @Controller
 @RequestMapping("/api/i18n")
-public class LocaleResourceController {
+public class I18nResourceController {
 
   private static final Long ETAG = ManagementFactory.getRuntimeMXBean().getStartTime();
 
@@ -28,7 +29,7 @@ public class LocaleResourceController {
 
   private final LanguagesProvider languagesProvider;
 
-  public LocaleResourceController(CountryCodeProvider countryCodeProvider,
+  public I18nResourceController(CountryCodeProvider countryCodeProvider,
                                   LanguagesProvider languagesProvider) {
     this.countryCodeProvider = countryCodeProvider;
     this.languagesProvider = languagesProvider;
