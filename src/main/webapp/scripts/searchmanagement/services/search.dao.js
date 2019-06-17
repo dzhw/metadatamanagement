@@ -79,6 +79,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'surveyDataType.en.ngrams', queryTerm, englishSuperBoost));
             boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'authors.firstName.ngrams', queryTerm, standardMajorBoost));
@@ -101,6 +109,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'title.de.ngrams', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.en.ngrams', queryTerm, englishMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'dataType.de.ngrams', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
@@ -128,6 +144,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'description.en.ngrams', queryTerm, englishMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'type.ngrams', queryTerm, standardMajorBoost));
@@ -143,6 +167,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'instrument.description.en.ngrams', queryTerm, englishMajorBoost)
             );
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.en.ngrams', queryTerm, englishMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
@@ -163,6 +195,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'description.en.ngrams', queryTerm, englishMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'type.de.ngrams', queryTerm, germanMajorBoost));
@@ -181,6 +221,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'label.de.ngrams', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'label.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.en.ngrams', queryTerm, englishMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'name.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
@@ -216,7 +264,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'title.de.ngrams', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
-                'title.en.ngrams', queryTerm, englishMajorBoost));
+              'title.en.ngrams', queryTerm, englishMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
