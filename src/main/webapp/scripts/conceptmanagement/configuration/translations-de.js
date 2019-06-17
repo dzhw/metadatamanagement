@@ -13,8 +13,8 @@ angular.module('metadatamanagementApp').config(
             'doi': 'DOI',
             'title': 'Titel',
             'citation-hint': 'Zitationshinweis',
-            'license': 'Lizenz',
-            'original-languages': 'Sprachen',
+            'license': 'Lizenz des Konzepts',
+            'original-languages': 'Ursprüngliche Sprachen des Konzepts',
             'attachments': {
               'type': 'Typ',
               'title': 'Titel',
@@ -102,7 +102,6 @@ angular.module('metadatamanagementApp').config(
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',
           'tag-tooltip': 'Klicken, um Konzepte mit diesem Tag zu suchen',
-          'license': 'Lizenz',
           'tags': 'Tags',
         },
         'log-messages': {
@@ -201,8 +200,7 @@ angular.module('metadatamanagementApp').config(
             'first-name': 'Vorname',
             'middle-name': 'Zweiter Vorname',
             'last-name': 'Nachname',
-            'tags': 'Tags (Schlüsselwörter) zum Konzept',
-            'license': 'Lizenz'
+            'tags': 'Tags (Schlüsselwörter) zum Konzept'
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Konzepts wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Konzept zu speichern.',
@@ -224,8 +222,8 @@ angular.module('metadatamanagementApp').config(
           },
           'hints': {
             'id': 'Geben Sie die ID dieses Konzeptes in unserem FDZ an.',
-            'doi': 'Bitte geben Sie die DOI für dieses Konzept an (falls verfügbar)',
-            'license': 'Bitte geben die Lizenz an, unter der Sie dieses Konzept veröffentlichen wollen',
+            'doi': 'Bitte geben Sie die DOI für dieses Konzept an (falls verfügbar).',
+            'license': 'Bitte geben die Lizenz an, unter der dieses Konzept veröffentlicht wurde.',
             'title': {
               'de': 'Geben Sie den Titel des Konzepts auf Deutsch ein.',
               'en': 'Geben Sie den Titel des Konzepts auf Englisch ein.'

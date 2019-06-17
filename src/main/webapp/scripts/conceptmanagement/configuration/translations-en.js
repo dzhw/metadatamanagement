@@ -13,8 +13,8 @@ angular.module('metadatamanagementApp').config(
             'doi': 'DOI',
             'title': 'Title',
             'citation-hint': 'Citation Hint',
-            'license': 'License',
-            'original-languages': 'Original Languages',
+            'license': 'License of this Concept',
+            'original-languages': 'Original Languages of this Concept',
             'attachments': {
               'type': 'Type',
               'title': 'Title',
@@ -24,7 +24,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'attachments': {
-            'table-title': 'Documents related to the concept',
+            'table-title': 'Documents related to this Concept',
             'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
             'delete-attachment-tooltip': 'Click to delete document "{{ filename }}"!',
             'edit-attachment-tooltip': 'Click to edit the metadata for document "{{ filename }}".',
@@ -102,7 +102,6 @@ angular.module('metadatamanagementApp').config(
           },
           'doi-tooltip': 'Click to open the DOI in a new tab',
           'tag-tooltip': 'Click to search for concepts with this tag',
-          'license': 'License',
           'tags': 'Tags'
         },
         'log-messages': {
@@ -202,8 +201,7 @@ angular.module('metadatamanagementApp').config(
             'first-name': 'First Name',
             'middle-name': 'Middle Name',
             'last-name': 'Last Name',
-            'tags': 'Tags (Keywords) for the Concept',
-            'license': 'License'
+            'tags': 'Tags (Keywords) for this Concept'
           },
           'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this concept.',
           'save-tooltip': 'Click to save this concept.',
@@ -225,8 +223,8 @@ angular.module('metadatamanagementApp').config(
           },
           'hints': {
             'id': 'Specify the ID of this concept in our RDC.',
-            'doi': 'Please enter the DOI of this concept (if available)',
-            'license': 'Please provide the license under which you want to publish this concept',
+            'doi': 'Please enter the DOI of this concept (if available).',
+            'license': 'Please provide the license under which this concept has been published.',
             'title': {
               'de': 'Please enter the title of this concept in German.',
               'en': 'Please enter the title of this concept in English.'
