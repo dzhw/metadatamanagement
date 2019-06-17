@@ -81,7 +81,11 @@ angular.module('metadatamanagementApp').config(
             },
             'studies': {
               'one': 'Click to show the study in which this question has been used'
-            }
+            },
+            'concepts': {
+              'one': 'Click to show the concept which has been measured with this question',
+              'many': 'Click to show all concepts which have been measured with this question'
+            },
           }
         },
         'error': {

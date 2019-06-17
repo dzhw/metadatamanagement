@@ -79,6 +79,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'surveyDataType.en.ngrams', queryTerm, englishSuperBoost));
             boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'authors.firstName.ngrams', queryTerm, standardMajorBoost));
@@ -101,6 +109,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'title.de.ngrams', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.en.ngrams', queryTerm, englishMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'dataType.de.ngrams', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
@@ -128,6 +144,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'description.en.ngrams', queryTerm, englishMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'type.ngrams', queryTerm, standardMajorBoost));
@@ -143,6 +167,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'instrument.description.en.ngrams', queryTerm, englishMajorBoost)
             );
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.en.ngrams', queryTerm, englishMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
@@ -163,6 +195,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'description.en.ngrams', queryTerm, englishMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'type.de.ngrams', queryTerm, germanMajorBoost));
@@ -181,6 +221,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'label.de.ngrams', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'label.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'concepts.tags.en.ngrams', queryTerm, englishMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'name.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
@@ -211,12 +259,36 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'sourceReference.ngrams', queryTerm, standardMinorBoost));
             break;
+
+          case 'concepts':
+            boolQuery.should.push(createConstantScoreQuery(
+              'title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'id.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'authors.firstName.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'authors.middleName.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'authors.lastName.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'description.de.ngrams', queryTerm, germanMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'description.en.ngrams', queryTerm, englishMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tags.de', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tags.en', queryTerm, englishMajorBoost));
+            break;
         }
       });
     };
 
     var applyFetchOnlyMasterDataFilter = function(query, elasticSearchType) {
-      if (elasticSearchType !== 'related_publications') {
+      if (!_.includes(['related_publications', 'concepts'],
+        elasticSearchType)) {
         var masterFilterCriteria = {
           'bool': {
             'must': [{
@@ -233,7 +305,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
       }
     };
 
-    var applyFetchDataWhereUserIsDataProviderFilter = function(query) {
+    var applyFetchDataWhereUserIsDataProviderFilter = function(query,
+      elasticSearchType) {
+      if (_.includes(['related_publications', 'concepts'], elasticSearchType)) {
+        return;
+      }
       var loginName = Principal.loginName();
 
       if (loginName) {
@@ -244,6 +320,21 @@ angular.module('metadatamanagementApp').service('SearchDao',
             }]
           }
         };
+
+        // modify the filter for searching over all indices
+        if (!elasticSearchType) {
+          filterCriteria = {
+            'bool': {
+              'should': [{
+                'term': {'configuration.dataProviders': loginName}
+              }, {
+                'type': {'value': 'concepts'}
+              }, {
+                'type': {'value': 'related_publications'}
+              }]
+            }
+          };
+        }
 
         var filterArray = _.get(query, 'body.query.bool.filter');
 
@@ -257,7 +348,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
     var applyFetchLatestShadowCopyFilter = function(query, elasticSearchType,
                                                     filter) {
-      if (elasticSearchType !== 'related_publications') {
+      if (!_.includes(['related_publications', 'concepts'],
+        elasticSearchType)) {
         SearchHelperService.addShadowCopyFilter(query, filter);
       }
     };
@@ -286,7 +378,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         if (!elasticsearchType) {
           //search in all indices
           query.index = ['studies', 'variables', 'surveys', 'data_sets',
-            'instruments', 'related_publications', 'questions'
+            'instruments', 'related_publications', 'questions', 'concepts'
           ];
         }
         query.type = elasticsearchType;
@@ -398,6 +490,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
                 'term': {
                   'studyIds': studyId
                 }
+              }, {
+                'term': {
+                  'studies.id': studyId
+                }
               }]
             }
           };
@@ -407,7 +503,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
         var filterToUse;
 
-        if (elasticsearchType === 'related_publications') {
+        if (_.includes(['related_publications', 'concepts'],
+          elasticsearchType)) {
           filterToUse = stripVersionSuffixFromFilters(filter);
         } else {
           filterToUse = filter;
@@ -428,7 +525,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           applyFetchOnlyMasterDataFilter(query, elasticsearchType);
           return ElasticSearchClient.search(query);
         } else {
-          applyFetchDataWhereUserIsDataProviderFilter(query);
+          applyFetchDataWhereUserIsDataProviderFilter(query, elasticsearchType);
           applyFetchLatestShadowCopyFilter(query, elasticsearchType,
             filterToUse);
           return ElasticSearchClient.search(query);

@@ -339,7 +339,8 @@ module.exports = function(grunt) {
               'md-highlight-text',
               'valid-project-version',
               'project-does-not-exist',
-              'md-select-on-focus'
+              'md-select-on-focus',
+              'fdz-unique-concept-id'
             ]
           },
           files: {
@@ -689,6 +690,7 @@ module.exports = function(grunt) {
         },
         sources: {
           src: ['src/main/webapp/scripts/studymanagement/**/translations*.js',
+            'src/main/webapp/scripts/conceptmanagement/**/translations*.js',
             'src/main/webapp/scripts/surveymanagement/**/translations*.js',
             'src/main/webapp/scripts/instrumentmanagement/**/translations*.js',
             'src/main/webapp/scripts/questionmanagement/**/translations*.js',
@@ -757,6 +759,9 @@ module.exports = function(grunt) {
         }
         if (filename.includes('surveymanagement')) {
           return 'Survey';
+        }
+        if (filename.includes('conceptmanagement')) {
+          return 'Concept';
         }
         if (filename.includes('instrumentmanagement')) {
           return 'Instrument';

@@ -319,7 +319,7 @@ public class SurveyResourceTest extends AbstractTest {
         .andExpect(status().isCreated());
 
     // get the survey and check the updated title and version
-    mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId() + "?projection=complete"))
+    mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId()))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(survey.getId())))
       .andExpect(jsonPath("$.version", is(0)))
@@ -342,7 +342,7 @@ public class SurveyResourceTest extends AbstractTest {
     surveyRepository.save(survey);
 
     // check that the survey is present
-    mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId() + "?projection=complete"))
+    mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId()))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(survey.getId())))
       .andExpect(jsonPath("$.version", is(0)));
@@ -352,7 +352,7 @@ public class SurveyResourceTest extends AbstractTest {
       .andExpect(status().is2xxSuccessful());
 
     // check that the survey has been deleted as well
-    mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId() + "?projection=complete"))
+    mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId()))
       .andExpect(status().isNotFound());
 
   }

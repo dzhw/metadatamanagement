@@ -2,10 +2,10 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
@@ -45,6 +45,9 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
   private List<InstrumentSubDocument> instruments = 
       new ArrayList<>();
   private List<InstrumentNestedDocument> nestedInstruments = new ArrayList<>();
+  private List<ConceptSubDocument> concepts = 
+      new ArrayList<>();
+  private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
   private Release release = null;
   private Configuration configuration = null;
   
@@ -60,6 +63,7 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
    * @param relatedPublications the related publications using this variable
    * @param surveys the surveys using this variable
    * @param instruments the instruments using this variable
+   * @param concepts the concepts covered by this variable
    * @param configuration the project configuration
    */
   @SuppressWarnings("CPD-START")
@@ -68,8 +72,9 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
                                 StudySubDocumentProjection study,
                                 List<RelatedPublicationSubDocumentProjection> relatedPublications,
                                 List<SurveySubDocumentProjection> surveys,
-                                Map<String, InstrumentSubDocumentProjection> instruments,
+                                List<InstrumentSubDocumentProjection> instruments,
                                 List<QuestionSubDocumentProjection> questions,
+                                List<ConceptSubDocumentProjection> concepts,
                                 Release release,
                                 String doi,
                                 Configuration configuration) {
@@ -95,15 +100,22 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
           surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
     }
     if (instruments != null) {
-      this.instruments = instruments.values().stream()
+      this.instruments = instruments.stream()
           .map(InstrumentSubDocument::new).collect(Collectors.toList());
       this.nestedInstruments =
-          instruments.values().stream().map(InstrumentNestedDocument::new)
+          instruments.stream().map(InstrumentNestedDocument::new)
               .collect(Collectors.toList());
     }
     if (questions != null) {
       this.nestedQuestions = questions.stream().map(
           question -> new QuestionNestedDocument(question))
+          .collect(Collectors.toList());
+    }
+    if (concepts != null) {
+      this.concepts = concepts.stream()
+          .map(concept -> new ConceptSubDocument(concept)).collect(Collectors.toList());
+      this.nestedConcepts = concepts.stream()
+          .map(concept -> new ConceptNestedDocument(concept))
           .collect(Collectors.toList());
     }
     this.release = release;

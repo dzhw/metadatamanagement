@@ -2,10 +2,10 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
@@ -48,6 +48,9 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
   private List<QuestionSubDocument> questions = 
       new ArrayList<>();
   private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
+  private List<ConceptSubDocument> concepts = 
+      new ArrayList<>();
+  private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
   private Release release = null;
   private Configuration configuration;
   
@@ -64,6 +67,7 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
    * @param relatedPublications the publication using this survey
    * @param instruments the instruments used by this survey
    * @param questions the questions used by this survey
+   * @param concepts the concepts used by this survey
    * @param configuration the project configuration
    */
   @SuppressWarnings("CPD-START")
@@ -72,8 +76,9 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
                               List<DataSetSubDocumentProjection> dataSets,
                               List<VariableSubDocumentProjection> variables,
                               List<RelatedPublicationSubDocumentProjection> relatedPublications,
-                              Map<String, InstrumentSubDocumentProjection> instruments,
+                              List<InstrumentSubDocumentProjection> instruments,
                               List<QuestionSubDocumentProjection> questions,
+                              List<ConceptSubDocumentProjection> concepts,
                               Release release,
                               String doi,
                               Configuration configuration) {
@@ -101,9 +106,9 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
           .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     if (instruments != null) {
-      this.instruments = instruments.values().stream()
+      this.instruments = instruments.stream()
           .map(InstrumentSubDocument::new).collect(Collectors.toList());
-      this.nestedInstruments = instruments.values().stream().map(InstrumentNestedDocument::new)
+      this.nestedInstruments = instruments.stream().map(InstrumentNestedDocument::new)
           .collect(Collectors.toList());
     }
     if (questions != null) {
@@ -111,6 +116,13 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
           .map(question -> new QuestionSubDocument(question)).collect(Collectors.toList());
       this.nestedQuestions = questions.stream()
           .map(question -> new QuestionNestedDocument(question))
+          .collect(Collectors.toList());
+    }
+    if (concepts != null) {
+      this.concepts = concepts.stream()
+          .map(concept -> new ConceptSubDocument(concept)).collect(Collectors.toList());
+      this.nestedConcepts = concepts.stream()
+          .map(concept -> new ConceptNestedDocument(concept))
           .collect(Collectors.toList());
     }
     this.release = release;

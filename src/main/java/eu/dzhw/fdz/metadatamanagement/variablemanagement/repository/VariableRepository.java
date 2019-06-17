@@ -1,30 +1,31 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.repository;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
-import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Stream;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
+import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.IdAndVersionAndDataSetProjection;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 
 /**
  * Spring Data MongoDB repository for the Variable entity.
  */
 @RepositoryRestResource(path = "/variables")
-public interface VariableRepository
-    extends BaseRepository<Variable, String> {
+public interface VariableRepository extends BaseRepository<Variable, String> {
   @RestResource(exported = false)
   Stream<Variable> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
-  List<IdAndVersionProjection> 
-      findAllIdsByPanelIdentifierAndIdNot(String panelIdentifier, String id);
-  
+  List<IdAndVersionProjection> findAllIdsByPanelIdentifierAndIdNot(String panelIdentifier,
+      String id);
+
   @RestResource(exported = true)
   List<Variable> findByDataAcquisitionProjectId(
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
@@ -51,8 +52,8 @@ public interface VariableRepository
   List<IdAndVersionProjection> findIdsByNameAndDataSetId(String name, String dataSetId);
 
   @RestResource(exported = false)
-  List<IdAndVersionProjection> findIdsByIndexInDataSetAndDataSetId(
-      Integer indexInDataSet, String dataSetId);
+  List<IdAndVersionProjection> findIdsByIndexInDataSetAndDataSetId(Integer indexInDataSet,
+      String dataSetId);
 
   @RestResource(exported = false)
   List<VariableSubDocumentProjection> findSubDocumentsByRelatedQuestionsQuestionId(
@@ -62,7 +63,8 @@ public interface VariableRepository
   Stream<IdAndVersionProjection> streamIdsByStudyId(String studyId);
 
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByRelatedQuestionsInstrumentId(String instrumentId);
+  Stream<IdAndVersionAndDataSetProjection> streamIdsByRelatedQuestionsInstrumentId(
+      String instrumentId);
 
   @RestResource(exported = false)
   List<Variable> findByDataSetIdOrderByIndexInDataSetAsc(String dataSetId);
@@ -76,6 +78,9 @@ public interface VariableRepository
   @RestResource(exported = false)
   List<VariableSubDocumentProjection> findSubDocumentsByRelatedQuestionsInstrumentId(
       String instrumentId);
+
+  @RestResource(exported = false)
+  List<VariableSubDocumentProjection> findSubDocumentsByDataSetId(String dataSetId);
 
   @RestResource(exported = false)
   List<VariableSubDocumentProjection> findSubDocumentsByStudyId(String studyId);
@@ -94,4 +99,18 @@ public interface VariableRepository
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
       Collection<String> variableIds);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByMasterIdIn(Collection<String> variableIds);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionAndDataSetProjection> streamIdsByRelatedQuestionsQuestionIdIn(
+      Collection<String> questionIds);
+
+  @RestResource(exported = false)
+  List<VariableSubDocumentProjection> findSubDocumentsByRelatedQuestionsQuestionIdIn(
+      Collection<String> questionIds);
+
+  @RestResource(exported = false)
+  Stream<IdAndVersionAndDataSetProjection> streamIdsByRelatedQuestionsQuestionId(String questionId);
 }

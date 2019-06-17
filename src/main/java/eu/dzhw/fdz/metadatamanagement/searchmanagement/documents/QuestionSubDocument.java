@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
@@ -36,9 +38,15 @@ public class QuestionSubDocument extends AbstractRdcDomainObject
   
   private I18nString topic;
   
+  private List<String> conceptIds;
+  
   private String studyId;
 
   private String masterId;
+  
+  private String successorId;
+  
+  private boolean shadow;
 
   public QuestionSubDocument() {
     super();

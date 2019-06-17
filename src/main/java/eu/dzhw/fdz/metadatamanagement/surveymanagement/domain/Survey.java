@@ -76,6 +76,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
       regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
       message = "survey-management.error.survey.master-id.pattern")
   @Setter(AccessLevel.NONE)
+  @Indexed
   private String masterId;
 
   /**

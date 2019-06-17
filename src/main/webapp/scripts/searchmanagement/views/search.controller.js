@@ -231,6 +231,17 @@ angular.module('metadatamanagementApp').controller('SearchController',
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.related-publications',
       group: 'publications'
+    }, {
+      title: 'search-management.tabs.concepts',
+      inputLabel: 'search-management.input-label.concepts',
+      icon: 'assets/images/icons/concept.svg',
+      elasticSearchType: 'concepts',
+      count: null,
+      uploadFunction: null,
+      disabled: false,
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.concepts',
+      group: 'concepts'
     }];
 
     //Search function
@@ -549,6 +560,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
       var type = getSelectedMetadataType();
       if (type === 'related_publications') {
         type = 'publications';
+      }
+      if (type === 'concepts') {
+        $state.go(createState);
+        return;
       }
       if (ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,
         type, true)) {

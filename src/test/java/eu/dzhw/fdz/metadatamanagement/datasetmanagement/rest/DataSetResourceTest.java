@@ -275,7 +275,7 @@ public class DataSetResourceTest extends AbstractTest {
       .andExpect(status().is2xxSuccessful());
 
     // read the updated DataSet and check the version
-    mockMvc.perform(get(API_DATASETS_URI + "/" + dataSet.getId() + "?projection=complete"))
+    mockMvc.perform(get(API_DATASETS_URI + "/" + dataSet.getId()))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(dataSet.getId())))
       .andExpect(jsonPath("$.version", is(1)))

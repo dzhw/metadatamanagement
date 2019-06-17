@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.RelatedQuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -40,8 +41,14 @@ public class VariableSubDocument extends AbstractRdcDomainObject
   private String studyId;
 
   private List<String> surveyIds;
+  
+  private List<RelatedQuestionSubDocumentProjection> relatedQuestions;
 
   private String masterId;
+  
+  private String successorId;
+  
+  private boolean shadow;
 
   public VariableSubDocument() {
     super();

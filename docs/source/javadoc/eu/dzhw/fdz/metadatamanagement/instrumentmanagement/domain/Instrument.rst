@@ -1,3 +1,25 @@
+.. java:import:: java.util List
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
+
+.. java:import:: javax.validation.constraints Size
+
+.. java:import:: org.javers.core.metamodel.annotation Entity
+
+.. java:import:: org.springframework.beans BeanUtils
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: org.springframework.data.mongodb.core.index CompoundIndex
+
+.. java:import:: org.springframework.data.mongodb.core.index Indexed
+
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
@@ -11,6 +33,10 @@
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain Concept
+
+.. java:import:: eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.validation ConceptExists
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation ValidInstrumentIdPattern
 
@@ -42,28 +68,6 @@
 
 .. java:import:: lombok ToString
 
-.. java:import:: org.javers.core.metamodel.annotation Entity
-
-.. java:import:: org.springframework.beans BeanUtils
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: org.springframework.data.mongodb.core.index CompoundIndex
-
-.. java:import:: org.springframework.data.mongodb.core.index Indexed
-
-.. java:import:: org.springframework.data.mongodb.core.mapping Document
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: javax.validation.constraints Size
-
-.. java:import:: java.util List
-
 Instrument
 ==========
 
@@ -83,6 +87,14 @@ annotations
    :outertype: Instrument
 
    Arbitrary additional text for this instrument. Must not contain more than 2048 characters.
+
+conceptIds
+^^^^^^^^^^
+
+.. java:field:: @Indexed private List<String> conceptIds
+   :outertype: Instrument
+
+   List of ids of \ :java:ref:`Concept`\ s to which are covered by this instrument.
 
 dataAcquisitionProjectId
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -111,7 +123,7 @@ id
 masterId
 ^^^^^^^^
 
-.. java:field:: @NotEmpty @Size @Pattern @Setter private String masterId
+.. java:field:: @NotEmpty @Size @Pattern @Setter @Indexed private String masterId
    :outertype: Instrument
 
    The instrument's master id. It must not be empty, must be of the form \ ``ins-{{dataAcquisitionProjectId}}-ins{{number}}$``\  and must not contain more than 512 characters.

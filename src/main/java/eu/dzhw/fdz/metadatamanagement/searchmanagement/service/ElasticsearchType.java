@@ -9,7 +9,7 @@ import java.util.stream.Stream;
  * @author René Reitmann
  */
 public enum ElasticsearchType {
-  variables, surveys, data_sets, questions, studies, related_publications, instruments;
+  variables, surveys, data_sets, questions, studies, related_publications, instruments, concepts;
 
   /**
    * Return the names of the types as array.

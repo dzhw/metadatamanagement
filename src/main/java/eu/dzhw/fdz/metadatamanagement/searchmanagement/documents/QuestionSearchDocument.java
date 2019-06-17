@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
@@ -26,6 +27,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@SuppressWarnings("CPD-START")
 public class QuestionSearchDocument extends Question implements SearchDocumentInterface {
   private StudySubDocument study = null;
   private StudyNestedDocument nestedStudy = null;
@@ -43,6 +45,9 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<>();
   private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
+  private List<ConceptSubDocument> concepts = 
+      new ArrayList<>();
+  private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
   private Release release = null;
   private Configuration configuration;
   
@@ -60,7 +65,6 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
    * @param relatedPublications all publication using this question
    * @param configuration the project configuration
    */
-  @SuppressWarnings("CPD-START")
   public QuestionSearchDocument(Question question,
                                 StudySubDocumentProjection study,
                                 InstrumentSubDocumentProjection instrument,
@@ -68,6 +72,7 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
                                 List<VariableSubDocumentProjection> variables,
                                 List<DataSetSubDocumentProjection> dataSets,
                                 List<RelatedPublicationSubDocumentProjection> relatedPublications,
+                                List<ConceptSubDocumentProjection> concepts,
                                 Release release,
                                 String doi,
                                 Configuration configuration) {
@@ -103,6 +108,13 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
       this.nestedRelatedPublications = relatedPublications.stream()
           .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
+    }
+    if (concepts != null) {
+      this.concepts = concepts.stream()
+          .map(concept -> new ConceptSubDocument(concept)).collect(Collectors.toList());
+      this.nestedConcepts = concepts.stream()
+          .map(concept -> new ConceptNestedDocument(concept))
+          .collect(Collectors.toList());
     }
     this.release = release;
     this.configuration = configuration;

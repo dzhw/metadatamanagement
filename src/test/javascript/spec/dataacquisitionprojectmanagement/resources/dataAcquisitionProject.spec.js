@@ -19,7 +19,7 @@ describe('DataAcquisitionProject', function() {
 		$httpBackend = $injector.get('$httpBackend');
 		mockDataSetResource = $injector.get('DataAcquisitionProjectResource');
 		$httpBackend.expectGET(
-		  /api\/data-acquisition-projects\?projection=complete/)
+		  /api\/data-acquisition-projects/)
 		  .respond(data);
 	  }));
 	it('should return DataAcquisitionProject resource ', function() {

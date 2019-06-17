@@ -22,7 +22,8 @@ angular.module('metadatamanagementApp').factory(
         'sponsor-de': 'sponsor.de',
         'sponsor-en': 'sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
-        'survey-method-en': 'surveys.surveyMethod.en'
+        'survey-method-en': 'surveys.surveyMethod.en',
+        'concept': 'concepts.id'
       },
       'variables': {
         'study-series-de': 'study.studySeries.de',
@@ -41,7 +42,8 @@ angular.module('metadatamanagementApp').factory(
         'sponsor-de': 'study.sponsor.de',
         'sponsor-en': 'study.sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
-        'survey-method-en': 'surveys.surveyMethod.en'
+        'survey-method-en': 'surveys.surveyMethod.en',
+        'concept': 'concepts.id'
       },
       'surveys': {
         'study-series-de': 'study.studySeries.de',
@@ -57,7 +59,8 @@ angular.module('metadatamanagementApp').factory(
         'sponsor-de': 'study.sponsor.de',
         'sponsor-en': 'study.sponsor.en',
         'survey-method-de': 'surveyMethod.de',
-        'survey-method-en': 'surveyMethod.en'
+        'survey-method-en': 'surveyMethod.en',
+        'concept': 'concepts.id'
       },
       'questions': {
         'study-series-de': 'study.studySeries.de',
@@ -73,7 +76,8 @@ angular.module('metadatamanagementApp').factory(
         'sponsor-de': 'study.sponsor.de',
         'sponsor-en': 'study.sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
-        'survey-method-en': 'surveys.surveyMethod.en'
+        'survey-method-en': 'surveys.surveyMethod.en',
+        'concept': 'conceptIds'
       },
       'instruments': {
         'study-series-de': 'study.studySeries.de',
@@ -89,7 +93,8 @@ angular.module('metadatamanagementApp').factory(
         'sponsor-de': 'study.sponsor.de',
         'sponsor-en': 'study.sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
-        'survey-method-en': 'surveys.surveyMethod.en'
+        'survey-method-en': 'surveys.surveyMethod.en',
+        'concept': 'concepts.id'
       },
       'data_sets': {
         'study-series-de': 'study.studySeries.de',
@@ -106,7 +111,8 @@ angular.module('metadatamanagementApp').factory(
         'sponsor-de': 'study.sponsor.de',
         'sponsor-en': 'study.sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
-        'survey-method-en': 'surveys.surveyMethod.en'
+        'survey-method-en': 'surveys.surveyMethod.en',
+        'concept': 'concepts.id'
       },
       'related_publications': {
         'study-series-de': 'studySerieses.de',
@@ -117,7 +123,15 @@ angular.module('metadatamanagementApp').factory(
         'question': 'questionIds',
         'data-set': 'dataSetIds',
         'variable': 'variableIds'
-      }
+      },
+      'concepts': {
+        'study': 'studies.id',
+        'survey': 'surveys.id',
+        'instrument': 'instruments.id',
+        'question': 'questions.id',
+        'data-set': 'dataSets.id',
+        'variable': 'variables.id'
+      },
     };
 
     var hiddenFiltersKeyMapping = {
@@ -141,6 +155,9 @@ angular.module('metadatamanagementApp').factory(
       },
       'related_publications': {
         'related-publication': '_id'
+      },
+      'concepts': {
+        'concept': '_id'
       }
     };
 
@@ -180,6 +197,10 @@ angular.module('metadatamanagementApp').factory(
         '_score',
         {year: {order: 'desc'}},
         'authors.keyword'
+      ],
+      'concepts': [
+        '_score',
+        'id'
       ]
     };
 
@@ -407,6 +428,20 @@ angular.module('metadatamanagementApp').factory(
       return query;
     };
 
+    var addNestedShadowCopyFilter = function(boolFilter, path, type) {
+      var termFilter = {};
+      if (type === 'concepts') {
+        if (Principal.loginName()) {
+          _.set(termFilter, 'term.["' + path + 'shadow"]', false);
+          boolFilter.must.push(termFilter);
+        } else {
+          _.set(termFilter, 'term.["' + path + 'shadow"]', true);
+          boolFilter.must.push(termFilter);
+          _.set(boolFilter, 'must_not[0].exists.field', 'successorId');
+        }
+      }
+    };
+
     return {
       createTermFilters: createTermFilters,
       removeIrrelevantFilters: removeIrrelevantFilters,
@@ -416,6 +451,7 @@ angular.module('metadatamanagementApp').factory(
       createShadowByIdAndVersionQuery: createShadowByIdAndVersionQuery,
       addFilter: addFilter,
       addShadowCopyFilter: addShadowCopyFilter,
+      addNestedShadowCopyFilter: addNestedShadowCopyFilter,
       addQuery: addQuery
     };
   }

@@ -141,6 +141,10 @@ angular.module('metadatamanagementApp').config(
               'one': 'Click to show the variable of this data set',
               'many': 'Click to show all variables of this data set'
             },
+            'concepts': {
+              'one': 'Click to show the concept which has been measured in this data set',
+              'many': 'Click to show all concepts which have been measured in this data set'
+            },
             'studies': {
               'one': 'Click to show the study of this data set'
             },
