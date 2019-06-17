@@ -2,6 +2,7 @@
   <md-input-container flex="100">
     <label ng-class="{'fdz-input-required': requireLanguage}">{{'common.language-picker.label' | translate}}</label>
     <md-chips ng-model="languages"
+              md-require-match="true"
               ng-required="requireLanguage"
               name="languages"
               md-add-on-blur="true">
