@@ -10,6 +10,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeDeleteEvent;
@@ -70,6 +71,9 @@ public class QuestionService {
 
   @Autowired
   private QuestionShadowCopyDataSource questionShadowCopyDataSource;
+
+  @Autowired
+  private QuestionChangesProvider questionChangesProvider;
 
   /**
    * Delete all questions when the dataAcquisitionProject was deleted.
@@ -235,5 +239,11 @@ public class QuestionService {
   public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
     shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
         projectReleasedEvent.getPreviousReleaseVersion(), questionShadowCopyDataSource);
+  }
+
+  @HandleBeforeSave
+  public void handleBeforeSave(Question question) {
+    questionChangesProvider.put(questionRepository.findById(question.getId()).orElse(null),
+        question);
   }
 }

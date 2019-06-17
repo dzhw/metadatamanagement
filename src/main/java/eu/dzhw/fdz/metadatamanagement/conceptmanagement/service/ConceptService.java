@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentChangesProvider;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionChangesProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
@@ -67,6 +69,12 @@ public class ConceptService {
 
   @Autowired
   private ApplicationEventPublisher eventPublisher;
+
+  @Autowired
+  private InstrumentChangesProvider instrumentChangesProvider;
+
+  @Autowired
+  private QuestionChangesProvider questionChangesProvider;
 
   /**
    * Enqueue deletion of concept search document when the concept is deleted.
@@ -136,10 +144,12 @@ public class ConceptService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onQuestionChanged(Question question) {
+    Set<String> removedConceptIds = questionChangesProvider.getRemovedConceptIds(question.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
       Set<String> conceptIds = new HashSet<>();
       if (question.getConceptIds() != null) {
         conceptIds.addAll(question.getConceptIds());
+        conceptIds.addAll(removedConceptIds);
       }
       return conceptRepository.streamIdsByIdIn(conceptIds);
     }, ElasticsearchType.concepts);
@@ -154,10 +164,13 @@ public class ConceptService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onInstrumentChanged(Instrument instrument) {
+    Set<String> removedConceptIds = instrumentChangesProvider.getRemovedConceptIds(instrument
+        .getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
       Set<String> conceptIds = new HashSet<>();
       if (instrument.getConceptIds() != null) {
         conceptIds.addAll(instrument.getConceptIds());
+        conceptIds.addAll(removedConceptIds);
       }
       conceptIds.addAll(questionRepository.findSubDocumentsByInstrumentId(instrument.getId())
           .stream().map(question -> question.getConceptIds() != null ? question.getConceptIds()
