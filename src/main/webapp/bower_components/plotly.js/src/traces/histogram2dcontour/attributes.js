@@ -10,8 +10,7 @@
 
 var histogram2dAttrs = require('../histogram2d/attributes');
 var contourAttrs = require('../contour/attributes');
-var colorscaleAttrs = require('../../components/colorscale/attributes');
-var colorbarAttrs = require('../../components/colorbar/attributes');
+var colorScaleAttrs = require('../../components/colorscale/attributes');
 
 var extendFlat = require('../../lib/extend').extendFlat;
 
@@ -30,6 +29,10 @@ module.exports = extendFlat({
     autobinx: histogram2dAttrs.autobinx,
     autobiny: histogram2dAttrs.autobiny,
 
+    bingroup: histogram2dAttrs.bingroup,
+    xbingroup: histogram2dAttrs.xbingroup,
+    ybingroup: histogram2dAttrs.ybingroup,
+
     autocontour: contourAttrs.autocontour,
     ncontours: contourAttrs.ncontours,
     contours: contourAttrs.contours,
@@ -37,9 +40,8 @@ module.exports = extendFlat({
     zhoverformat: histogram2dAttrs.zhoverformat,
     hovertemplate: histogram2dAttrs.hovertemplate
 },
-    colorscaleAttrs('', {
+    colorScaleAttrs('', {
         cLetter: 'z',
         editTypeOverride: 'calc'
-    }),
-    { colorbar: colorbarAttrs }
+    })
 );

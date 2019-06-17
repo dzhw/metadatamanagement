@@ -6,7 +6,6 @@
 * LICENSE file in the root directory of this source tree.
 */
 
-
 'use strict';
 
 var d3 = require('d3');
@@ -54,18 +53,18 @@ plots.hasSimpleAPICommandBindings = commandModule.hasSimpleAPICommandBindings;
 plots.redrawText = function(gd) {
     gd = Lib.getGraphDiv(gd);
 
+    var fullLayout = gd._fullLayout || {};
+    var hasPolar = fullLayout._has && fullLayout._has('polar');
+    var hasLegacyPolar = !hasPolar && gd.data && gd.data[0] && gd.data[0].r;
+
     // do not work if polar is present
-    if((gd.data && gd.data[0] && gd.data[0].r)) return;
+    if(hasLegacyPolar) return;
 
     return new Promise(function(resolve) {
         setTimeout(function() {
             Registry.getComponentMethod('annotations', 'draw')(gd);
             Registry.getComponentMethod('legend', 'draw')(gd);
-
-            (gd.calcdata || []).forEach(function(d) {
-                if(d[0] && d[0].t && d[0].t.cb) d[0].t.cb();
-            });
-
+            Registry.getComponentMethod('colorbar', 'draw')(gd);
             resolve(plots.previousPromises(gd));
         }, 300);
     });
@@ -390,6 +389,8 @@ plots.supplyDefaults = function(gd, opts) {
     newFullLayout._firstScatter = {};
     // for grouped bar/box/violin trace to share config across traces
     newFullLayout._alignmentOpts = {};
+    // track color axes referenced in the data
+    newFullLayout._colorAxes = {};
 
     // for traces to request a default rangeslider on their x axes
     // eg set `_requestRangeslider.x2 = true` for xaxis2
@@ -445,7 +446,6 @@ plots.supplyDefaults = function(gd, opts) {
     for(i = 0; i < crossTraceDefaultsFuncs.length; i++) {
         crossTraceDefaultsFuncs[i](newFullData, newFullLayout);
     }
-    Registry.getComponentMethod('colorscale', 'crossTraceDefaults')(newFullData, newFullLayout);
 
     // turn on flag to optimize large splom-only graphs
     // mostly by omitting SVG layers during Cartesian.drawFramework
@@ -482,8 +482,15 @@ plots.supplyDefaults = function(gd, opts) {
         oldFullLayout._zoomlayer.selectAll('.select-outline').remove();
     }
 
+
+    // fill in meta helpers
+    fillMetaTextHelpers(newFullData, newFullLayout);
+
     // relink functions and _ attributes to promote consistency between plots
     relinkPrivateKeys(newFullLayout, oldFullLayout);
+
+    // colorscale crossTraceDefaults needs newFullLayout with relinked keys
+    Registry.getComponentMethod('colorscale', 'crossTraceDefaults')(newFullData, newFullLayout);
 
     // For persisting GUI-driven changes in layout
     // _preGUI and _tracePreGUI were already copied over in relinkPrivateKeys
@@ -692,6 +699,38 @@ function getFormatter(formatObj, separators) {
     formatObj.thousands = separators.charAt(1);
 
     return d3.locale(formatObj);
+}
+
+function fillMetaTextHelpers(newFullData, newFullLayout) {
+    var _meta;
+    var meta4data = [];
+
+    if(newFullLayout.meta) {
+        _meta = newFullLayout._meta = {
+            meta: newFullLayout.meta,
+            layout: {meta: newFullLayout.meta}
+        };
+    }
+
+    for(var i = 0; i < newFullData.length; i++) {
+        var trace = newFullData[i];
+
+        if(trace.meta) {
+            meta4data[trace.index] = trace._meta = {meta: trace.meta};
+        } else if(newFullLayout.meta) {
+            trace._meta = {meta: newFullLayout.meta};
+        }
+        if(newFullLayout.meta) {
+            trace._meta.layout = {meta: newFullLayout.meta};
+        }
+    }
+
+    if(meta4data.length) {
+        if(!_meta) {
+            _meta = newFullLayout._meta = {};
+        }
+        _meta.data = meta4data;
+    }
 }
 
 // Create storage for all of the data related to frames and transitions:
@@ -1232,6 +1271,7 @@ plots.supplyTraceDefaults = function(traceIn, traceOut, colorIndex, layout, trac
     if(visible) {
         coerce('customdata');
         coerce('ids');
+        coerce('meta');
 
         if(Registry.traceIs(traceOut, 'showLegend')) {
             traceOut._dfltShowLegend = true;
@@ -1802,7 +1842,9 @@ plots.autoMargin = function(gd, id, o) {
             pushMarginIds[id] = 1;
         }
 
-        if(!fullLayout._replotting) plots.doAutoMargin(gd);
+        if(!fullLayout._replotting) {
+            plots.doAutoMargin(gd);
+        }
     }
 };
 
@@ -1812,8 +1854,8 @@ plots.doAutoMargin = function(gd) {
     initMargins(fullLayout);
 
     var gs = fullLayout._size;
-    var oldmargins = JSON.stringify(gs);
     var margin = fullLayout.margin;
+    var oldMargins = Lib.extendFlat({}, gs);
 
     // adjust margins for outside components
     // fullLayout.margin is the requested margin,
@@ -1892,10 +1934,7 @@ plots.doAutoMargin = function(gd) {
     gs.h = Math.round(height) - gs.t - gs.b;
 
     // if things changed and we're not already redrawing, trigger a redraw
-    if(!fullLayout._replotting &&
-        oldmargins !== '{}' &&
-        oldmargins !== JSON.stringify(fullLayout._size)
-    ) {
+    if(!fullLayout._replotting && plots.didMarginChange(oldMargins, gs)) {
         if('_redrawFromAutoMarginCount' in fullLayout) {
             fullLayout._redrawFromAutoMarginCount++;
         } else {
@@ -1903,6 +1942,22 @@ plots.doAutoMargin = function(gd) {
         }
         return Registry.call('plot', gd);
     }
+};
+
+var marginKeys = ['l', 'r', 't', 'b', 'p', 'w', 'h'];
+
+plots.didMarginChange = function(margin0, margin1) {
+    for(var i = 0; i < marginKeys.length; i++) {
+        var k = marginKeys[i];
+        var m0 = margin0[k];
+        var m1 = margin1[k];
+        // use 1px tolerance in case we old/new differ only
+        // by rounding errors, which can lead to infinite loops
+        if(!isNumeric(m0) || Math.abs(m1 - m0) > 1) {
+            return true;
+        }
+    }
+    return false;
 };
 
 /**
@@ -2290,7 +2345,7 @@ plots.extendLayout = function(destLayout, srcLayout) {
  */
 plots.transition = function(gd, data, layout, traces, frameOpts, transitionOpts) {
     var opts = {redraw: frameOpts.redraw};
-    var transitionedTraces = [];
+    var transitionedTraces = {};
     var axEdits = [];
 
     opts.prepareFn = function() {
@@ -2300,16 +2355,18 @@ plots.transition = function(gd, data, layout, traces, frameOpts, transitionOpts)
         for(var i = 0; i < traceIndices.length; i++) {
             var traceIdx = traceIndices[i];
             var trace = gd._fullData[traceIdx];
-            var module = trace._module;
+            var _module = trace._module;
 
             // There's nothing to do if this module is not defined:
-            if(!module) continue;
+            if(!_module) continue;
 
             // Don't register the trace as transitioned if it doesn't know what to do.
             // If it *is* registered, it will receive a callback that it's responsible
             // for calling in order to register the transition as having completed.
-            if(module.animatable) {
-                transitionedTraces.push(traceIdx);
+            if(_module.animatable) {
+                var n = _module.basePlotModule.name;
+                if(!transitionedTraces[n]) transitionedTraces[n] = [];
+                transitionedTraces[n].push(traceIdx);
             }
 
             gd.data[traceIndices[i]] = plots.extendTrace(gd.data[traceIndices[i]], data[i]);
@@ -2408,19 +2465,21 @@ plots.transition = function(gd, data, layout, traces, frameOpts, transitionOpts)
         if(hasAxisTransition) {
             traceTransitionOpts = Lib.extendFlat({}, transitionOpts);
             traceTransitionOpts.duration = 0;
-            // This means do not transition traces,
+            // This means do not transition cartesian traces,
             // this happens on layout-only (e.g. axis range) animations
-            transitionedTraces = null;
+            delete transitionedTraces.cartesian;
         } else {
             traceTransitionOpts = transitionOpts;
         }
 
-        for(i = 0; i < basePlotModules.length; i++) {
-            // Note that we pass a callback to *create* the callback that must be invoked on completion.
-            // This is since not all traces know about transitions, so it greatly simplifies matters if
-            // the trace is responsible for creating a callback, if needed, and then executing it when
-            // the time is right.
-            basePlotModules[i].plot(gd, transitionedTraces, traceTransitionOpts, makeCallback);
+        // Note that we pass a callback to *create* the callback that must be invoked on completion.
+        // This is since not all traces know about transitions, so it greatly simplifies matters if
+        // the trace is responsible for creating a callback, if needed, and then executing it when
+        // the time is right.
+        for(var n in transitionedTraces) {
+            var traceIndices = transitionedTraces[n];
+            var _module = gd._fullData[traceIndices[0]]._module;
+            _module.basePlotModule.plot(gd, traceIndices, traceTransitionOpts, makeCallback);
         }
     };
 
@@ -2699,9 +2758,10 @@ plots.doCalcdata = function(gd, traces) {
     gd._hmpixcount = 0;
     gd._hmlumcount = 0;
 
-    // for sharing colors across pies / sunbursts (and for legend)
+    // for sharing colors across pies / sunbursts / funnelarea (and for legend)
     fullLayout._piecolormap = {};
     fullLayout._sunburstcolormap = {};
+    fullLayout._funnelareacolormap = {};
 
     // If traces were specified and this trace was not included,
     // then transfer it over from the old calcdata:
@@ -2730,17 +2790,13 @@ plots.doCalcdata = function(gd, traces) {
         );
     }
 
-    setupAxisCategories(axList, fullData);
-
     var hasCalcTransform = false;
 
-    // transform loop
-    for(i = 0; i < fullData.length; i++) {
+    function transformCalci(i) {
         trace = fullData[i];
+        _module = trace._module;
 
         if(trace.visible === true && trace.transforms) {
-            _module = trace._module;
-
             // we need one round of trace module calc before
             // the calc transform to 'fill in' the categories list
             // used for example in the data-to-coordinate method
@@ -2767,9 +2823,6 @@ plots.doCalcdata = function(gd, traces) {
         }
     }
 
-    // clear stuff that should recomputed in 'regular' loop
-    if(hasCalcTransform) setupAxisCategories(axList, fullData);
-
     function calci(i, isContainer) {
         trace = fullData[i];
         _module = trace._module;
@@ -2778,7 +2831,7 @@ plots.doCalcdata = function(gd, traces) {
 
         var cd = [];
 
-        if(trace.visible === true) {
+        if(trace.visible === true && trace._length !== 0) {
             // clear existing ref in case it got relinked
             delete trace._indexToPoints;
             // keep ref of index-to-points map object of the *last* enabled transform,
@@ -2814,6 +2867,16 @@ plots.doCalcdata = function(gd, traces) {
         calcdata[i] = cd;
     }
 
+    setupAxisCategories(axList, fullData);
+
+    // 'transform' loop - must calc container traces first
+    // so that if their dependent traces can get transform properly
+    for(i = 0; i < fullData.length; i++) calci(i, true);
+    for(i = 0; i < fullData.length; i++) transformCalci(i);
+
+    // clear stuff that should recomputed in 'regular' loop
+    if(hasCalcTransform) setupAxisCategories(axList, fullData);
+
     // 'regular' loop - make sure container traces (eg carpet) calc before
     // contained traces (eg contourcarpet)
     for(i = 0; i < fullData.length; i++) calci(i, true);
@@ -2821,9 +2884,198 @@ plots.doCalcdata = function(gd, traces) {
 
     doCrossTraceCalc(gd);
 
+    // Sort axis categories per value if specified
+    var sorted = sortAxisCategoriesByValue(axList, gd);
+    if(sorted.length) {
+        // If a sort operation was performed, run calc() again
+        for(i = 0; i < sorted.length; i++) calci(sorted[i], true);
+        for(i = 0; i < sorted.length; i++) calci(sorted[i], false);
+        doCrossTraceCalc(gd);
+    }
+
     Registry.getComponentMethod('fx', 'calc')(gd);
     Registry.getComponentMethod('errorbars', 'calc')(gd);
 };
+
+var sortAxisCategoriesByValueRegex = /(total|sum|min|max|mean|median) (ascending|descending)/;
+
+function sortAxisCategoriesByValue(axList, gd) {
+    var affectedTraces = [];
+    var i, j, k, l, o;
+
+    function zMapCategory(type, ax, value) {
+        var axLetter = ax._id.charAt(0);
+        if(type === 'histogram2dcontour') {
+            var counterAxLetter = ax._counterAxes[0];
+            var counterAx = axisIDs.getFromId(gd, counterAxLetter);
+
+            var xCategorical = axLetter === 'x' || (counterAxLetter === 'x' && counterAx.type === 'category');
+            var yCategorical = axLetter === 'y' || (counterAxLetter === 'y' && counterAx.type === 'category');
+
+            return function(o, l) {
+                if(o === 0 || l === 0) return -1; // Skip first row and column
+                if(xCategorical && o === value[l].length - 1) return -1;
+                if(yCategorical && l === value.length - 1) return -1;
+
+                return (axLetter === 'y' ? l : o) - 1;
+            };
+        } else {
+            return function(o, l) {
+                return axLetter === 'y' ? l : o;
+            };
+        }
+    }
+
+    var aggFn = {
+        'min': function(values) {return Lib.aggNums(Math.min, null, values);},
+        'max': function(values) {return Lib.aggNums(Math.max, null, values);},
+        'sum': function(values) {return Lib.aggNums(function(a, b) { return a + b;}, null, values);},
+        'total': function(values) {return Lib.aggNums(function(a, b) { return a + b;}, null, values);},
+        'mean': function(values) {return Lib.mean(values);},
+        'median': function(values) {return Lib.median(values);}
+    };
+
+    for(i = 0; i < axList.length; i++) {
+        var ax = axList[i];
+        if(ax.type !== 'category') continue;
+
+        // Order by value
+        var match = ax.categoryorder.match(sortAxisCategoriesByValueRegex);
+        if(match) {
+            var aggregator = match[1];
+            var order = match[2];
+
+            // Store values associated with each category
+            var categoriesValue = [];
+            for(j = 0; j < ax._categories.length; j++) {
+                categoriesValue.push([ax._categories[j], []]);
+            }
+
+            // Collect values across traces
+            for(j = 0; j < ax._traceIndices.length; j++) {
+                var traceIndex = ax._traceIndices[j];
+                var fullTrace = gd._fullData[traceIndex];
+                var axLetter = ax._id.charAt(0);
+
+                // Skip over invisible traces
+                if(fullTrace.visible !== true) continue;
+
+                var type = fullTrace.type;
+                if(Registry.traceIs(fullTrace, 'histogram')) {
+                    delete fullTrace._xautoBinFinished;
+                    delete fullTrace._yautoBinFinished;
+                }
+
+                var cd = gd.calcdata[traceIndex];
+                for(k = 0; k < cd.length; k++) {
+                    var cdi = cd[k];
+                    var cat, catIndex, value;
+
+                    if(type === 'splom') {
+                        // If `splom`, collect values across dimensions
+                        // Find which dimension the current axis is representing
+                        var currentDimensionIndex = fullTrace._axesDim[ax._id];
+
+                        // Apply logic to associated x axis if it's defined
+                        if(axLetter === 'y') {
+                            var associatedXAxisID = fullTrace._diag[currentDimensionIndex][0];
+                            if(associatedXAxisID) ax = gd._fullLayout[axisIDs.id2name(associatedXAxisID)];
+                        }
+
+                        var categories = cdi.trace.dimensions[currentDimensionIndex].values;
+                        for(l = 0; l < categories.length; l++) {
+                            cat = categories[l];
+                            catIndex = ax._categoriesMap[cat];
+
+                            // Collect associated values at index `l` over all other dimensions
+                            for(o = 0; o < cdi.trace.dimensions.length; o++) {
+                                if(o === currentDimensionIndex) continue;
+                                var dimension = cdi.trace.dimensions[o];
+                                categoriesValue[catIndex][1].push(dimension.values[l]);
+                            }
+                        }
+                    } else if(type === 'scattergl') {
+                        // If `scattergl`, collect all values stashed under cdi.t
+                        for(l = 0; l < cdi.t.x.length; l++) {
+                            if(axLetter === 'x') {
+                                cat = cdi.t.x[l];
+                                catIndex = cat;
+                                value = cdi.t.y[l];
+                            }
+
+                            if(axLetter === 'y') {
+                                cat = cdi.t.y[l];
+                                catIndex = cat;
+                                value = cdi.t.x[l];
+                            }
+                            categoriesValue[catIndex][1].push(value);
+                        }
+                        // must clear scene 'batches', so that 2nd
+                        // _module.calc call starts from scratch
+                        if(cdi.t && cdi.t._scene) {
+                            delete cdi.t._scene.dirty;
+                        }
+                    } else if(cdi.hasOwnProperty('z')) {
+                        // If 2dMap, collect values in `z`
+                        value = cdi.z;
+                        var mapping = zMapCategory(fullTrace.type, ax, value);
+
+                        for(l = 0; l < value.length; l++) {
+                            for(o = 0; o < value[l].length; o++) {
+                                catIndex = mapping(o, l);
+                                if(catIndex + 1) categoriesValue[catIndex][1].push(value[l][o]);
+                            }
+                        }
+                    } else {
+                        // For all other 2d cartesian traces
+                        if(axLetter === 'x') {
+                            cat = cdi.p + 1 ? cdi.p : cdi.x;
+                            value = cdi.s || cdi.v || cdi.y;
+                        } else if(axLetter === 'y') {
+                            cat = cdi.p + 1 ? cdi.p : cdi.y;
+                            value = cdi.s || cdi.v || cdi.x;
+                        }
+                        if(!Array.isArray(value)) value = [value];
+                        for(l = 0; l < value.length; l++) {
+                            categoriesValue[cat][1].push(value[l]);
+                        }
+                    }
+                }
+            }
+
+            ax._categoriesValue = categoriesValue;
+
+            var categoriesAggregatedValue = [];
+            for(j = 0; j < categoriesValue.length; j++) {
+                categoriesAggregatedValue.push([
+                    categoriesValue[j][0],
+                    aggFn[aggregator](categoriesValue[j][1])
+                ]);
+            }
+
+            // Sort by aggregated value
+            categoriesAggregatedValue.sort(function(a, b) {
+                return a[1] - b[1];
+            });
+
+            ax._categoriesAggregatedValue = categoriesAggregatedValue;
+
+            // Set new category order
+            ax._initialCategories = categoriesAggregatedValue.map(function(c) {
+                return c[0];
+            });
+
+            // Reverse if descending
+            if(order === 'descending') {
+                ax._initialCategories.reverse();
+            }
+
+            // Sort all matching axes
+            affectedTraces = affectedTraces.concat(ax.sortByInitialCategories());
+        }
+    }
+    return affectedTraces;
+}
 
 function setupAxisCategories(axList, fullData) {
     for(var i = 0; i < axList.length; i++) {

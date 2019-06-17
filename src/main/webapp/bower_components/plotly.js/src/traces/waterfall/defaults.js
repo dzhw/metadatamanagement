@@ -45,10 +45,24 @@ function supplyDefaults(traceIn, traceOut, defaultColor, layout) {
     coerce('width');
 
     coerce('text');
+
     coerce('hovertext');
     coerce('hovertemplate');
 
-    handleText(traceIn, traceOut, layout, coerce, false);
+    var textposition = coerce('textposition');
+    handleText(traceIn, traceOut, layout, coerce, textposition, {
+        moduleHasSelected: false,
+        moduleHasUnselected: false,
+        moduleHasConstrain: true,
+        moduleHasCliponaxis: true,
+        moduleHasTextangle: true,
+        moduleHasInsideanchor: true
+    });
+
+
+    if(traceOut.textposition !== 'none') {
+        coerce('textinfo');
+    }
 
     handleDirection(coerce, 'increasing', INCREASING_COLOR);
     handleDirection(coerce, 'decreasing', DECREASING_COLOR);
@@ -84,6 +98,5 @@ function crossTraceDefaults(fullData, fullLayout) {
 
 module.exports = {
     supplyDefaults: supplyDefaults,
-    crossTraceDefaults: crossTraceDefaults,
-    handleGroupingDefaults: handleGroupingDefaults
+    crossTraceDefaults: crossTraceDefaults
 };

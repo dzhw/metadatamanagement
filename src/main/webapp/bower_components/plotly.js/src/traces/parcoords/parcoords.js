@@ -9,6 +9,7 @@
 'use strict';
 
 var d3 = require('d3');
+var rgba = require('color-rgba');
 
 var Lib = require('../../lib');
 var Drawing = require('../../components/drawing');
@@ -102,7 +103,10 @@ function ordinalScale(dimension) {
 
 function unitToColorScale(cscale) {
     var colorStops = cscale.map(function(d) { return d[0]; });
-    var colorTuples = cscale.map(function(d) { return d3.rgb(d[1]); });
+    var colorTuples = cscale.map(function(d) {
+        var RGBA = rgba(d[1]);
+        return d3.rgb('rgb(' + RGBA[0] + ',' + RGBA[1] + ',' + RGBA[2] + ')');
+    });
     var prop = function(n) { return function(o) { return o[n]; }; };
 
     // We can't use d3 color interpolation as we may have non-uniform color palette raster
@@ -132,7 +136,8 @@ function model(layout, d, i) {
     var trace = cd0.trace;
     var lineColor = cd0.lineColor;
     var line = trace.line;
-    var cscale = line.reversescale ? Colorscale.flipScale(cd0.cscale) : cd0.cscale;
+    var cOpts = Colorscale.extractOpts(line);
+    var cscale = cOpts.reversescale ? Colorscale.flipScale(cd0.cscale) : cd0.cscale;
     var domain = trace.domain;
     var dimensions = trace.dimensions;
     var width = layout.width;
@@ -143,7 +148,7 @@ function model(layout, d, i) {
     var lines = Lib.extendDeepNoArrays({}, line, {
         color: lineColor.map(d3.scale.linear().domain(dimensionExtent({
             values: lineColor,
-            range: [line.cmin, line.cmax],
+            range: [cOpts.min, cOpts.max],
             _length: trace._length
         }))),
         blockLineCount: c.blockLineCount,
