@@ -95,8 +95,5 @@ public interface InstrumentRepository
   Stream<IdAndVersionAndSurveyIdsProjection> streamIdsByConceptIdsContaining(String id);
 
   @RestResource(exported = false)
-  List<InstrumentSubDocumentProjection> findSubDocumentsByConceptIdsContaining(String id);
-
-  @RestResource(exported = false)
-  InstrumentSubDocumentProjection findSubDocumentById(String id);
+  List<IdAndVersionProjection> findIdsByConceptIdsContaining(String id);
 }
