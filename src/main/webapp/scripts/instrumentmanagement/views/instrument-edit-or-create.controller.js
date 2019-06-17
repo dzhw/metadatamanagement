@@ -225,7 +225,9 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.updateElasticSearchIndex = function() {
-        return ElasticSearchAdminService.processUpdateQueue('instruments');
+        return $q.all([
+          ElasticSearchAdminService.processUpdateQueue('instruments'),
+          ElasticSearchAdminService.processUpdateQueue('concepts')]);
       };
 
       ctrl.onSavedSuccessfully = function() {

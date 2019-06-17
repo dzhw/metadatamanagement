@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp')
 .factory('ConceptAttachmentResource',
   function($resource, CleanJSObjectService) {
       return $resource('/api/concepts/:conceptId/attachments/:fileName', {
-        studyId: '@conceptId',
+        conceptId: '@conceptId',
         fileName: '@fileName'
       }, {
         'findByConceptId': {
