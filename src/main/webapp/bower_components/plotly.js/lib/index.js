@@ -21,10 +21,12 @@ Plotly.register([
     require('./contour'),
     require('./scatterternary'),
     require('./violin'),
+    require('./funnel'),
     require('./waterfall'),
 
     require('./pie'),
     require('./sunburst'),
+    require('./funnelarea'),
 
     require('./scatter3d'),
     require('./surface'),

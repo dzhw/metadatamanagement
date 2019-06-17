@@ -133,7 +133,7 @@ id
 masterId
 ^^^^^^^^
 
-.. java:field:: @NotEmpty @Size @Pattern @Setter private String masterId
+.. java:field:: @NotEmpty @Size @Pattern @Setter @Indexed private String masterId
    :outertype: Survey
 
    The master id of the survey. It must not be empty, must be of the form \ ``sur-{{dataAcquisitionProjectId}}-sy{{number}}$``\  and must not contain more than 512 characters.

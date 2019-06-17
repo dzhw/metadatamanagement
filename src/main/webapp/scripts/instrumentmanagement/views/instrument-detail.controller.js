@@ -36,7 +36,8 @@ angular.module('metadatamanagementApp')
         'nestedQuestions',
         'nestedVariables',
         'nestedDataSets',
-        'nestedRelatedPublications'
+        'nestedRelatedPublications',
+        'nestedConcepts'
       ];
 
       //Wait for instrument Promise
@@ -112,6 +113,11 @@ angular.module('metadatamanagementApp')
           ctrl.publicationCount = result.relatedPublications.length;
           if (ctrl.publicationCount === 1) {
             ctrl.relatedPublication = result.relatedPublications[0];
+          }
+
+          ctrl.conceptsCount = result.concepts.length;
+          if (ctrl.conceptsCount === 1) {
+            ctrl.concept = result.concepts[0];
           }
         } else {
           SimpleMessageToastService.openAlertMessageToast(

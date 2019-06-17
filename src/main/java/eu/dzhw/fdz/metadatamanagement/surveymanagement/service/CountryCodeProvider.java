@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Country;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Country;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;

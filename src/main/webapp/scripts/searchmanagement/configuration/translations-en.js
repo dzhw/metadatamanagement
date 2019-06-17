@@ -33,14 +33,18 @@ angular.module('metadatamanagementApp').config(
           'upload-studies-tooltip': 'Click to upload the study with attachments',
           'upload-or-create-studies-tooltip': 'Create the study',
           'upload-or-create-surveys-tooltip': 'Create one survey',
+          'upload-or-create-concepts-tooltip': 'Create one concept',
           'upload-or-create-instruments-tooltip': 'Create one instrument',
           'upload-or-create-data-sets-tooltip': 'Create one data set',
           'upload-or-edit-studies-tooltip': 'Click to edit the study',
           'create-study-tooltip': 'Click to create the study',
+          'create-concept-tooltip': 'Click to create the concept',
           'create-survey-tooltip': 'Click to create a new survey',
           'edit-study-tooltip': 'Click to edit the study',
+          'edit-concept-tooltip': 'Click to edit the concept',
           'edit-survey-tooltip': 'Click to edit the survey',
           'delete-survey-tooltip': 'Click to delete the survey',
+          'delete-concept-tooltip': 'Click to delete the concept',
           'create-instrument-tooltip': 'Click to create a new instrument',
           'edit-instrument-tooltip': 'Click to edit the instrument',
           'delete-instrument-tooltip': 'Click to delete the instrument',
@@ -71,7 +75,8 @@ angular.module('metadatamanagementApp').config(
           'data-sets': 'Search for Data Sets...',
           'studies': 'Search for Studies...',
           'related-publications': 'Search for Publications...',
-          'instruments': 'Search for Instruments...'
+          'instruments': 'Search for Instruments...',
+          'concepts': 'Search for Concepts...'
         },
         'no-results-text': {
           'all': 'No results found for your search request.',
@@ -82,6 +87,7 @@ angular.module('metadatamanagementApp').config(
           'studies': 'No Studies found for your search request.',
           'related-publications': 'No Publications found for your search request.',
           'instruments': 'No Instruments found for your search request.',
+          'concepts': 'No Concepts found for your search request.',
           'sponsor': 'No Instruments found for your search request.'
         },
         'tabs': {
@@ -100,6 +106,9 @@ angular.module('metadatamanagementApp').config(
           'studies': 'Studies',
           'studies-found': '{number} {number, plural, =0{studies} =1{study} other{studies}} found.',
           'studies-tooltip': 'Click to search for studies',
+          'concepts': 'Concepts',
+          'concepts-found': '{number} {number, plural, =0{concepts} =1{concept} other{concepts}} found.',
+          'concepts-tooltip': 'Click to search for concepts',
           'all': 'All',
           'all-tooltip': 'Click to search for all objects',
           'related_publications': 'Publications',
@@ -116,10 +125,12 @@ angular.module('metadatamanagementApp').config(
           'instrument-tooltip': 'Click to show instrument "{{id}}"',
           'survey-tooltip': 'Click to show survey "{{id}}"',
           'study-tooltip': 'Click to show study "{{id}}"',
-          'publication-tooltip': 'Click to show publication "{{id}}"'
+          'publication-tooltip': 'Click to show publication "{{id}}"',
+          'concept-tooltip': 'Click to show concept "{{id}}"'
         },
         'filter': {
           'study': 'Study',
+          'concept': 'Concept',
           'data-set': 'Data Set',
           'question': 'Question',
           'related-publication': 'Publication',
@@ -139,23 +150,25 @@ angular.module('metadatamanagementApp').config(
           'survey-method-de': 'Survey Method',
           'survey-method-en': 'Survey Method',
           'floating-label': {
-            'survey': 'Which survey do you want to filter?',
-            'instrument': 'Which instrument do you want to filter?',
-            'study': 'Which study do you want to filter?',
-            'data-set': 'Which data set do you want to filter?',
-            'related-publication': 'Which publication do you want to filter?',
-            'panel-identifier': 'Which panel identifier of the variables do you want to filter?',
-            'derived-variables-identifier': 'Which derived variables do you want to filter?',
-            'access-way': 'Which access way do you want to filter?',
-            'variable': 'Which variable do you want to filter?',
-            'question': 'Which question do you want to filter?',
-            'study-series': 'Which study series do you want to filter?',
-            'institution': 'Which institute do you want to filter?',
-            'sponsor': 'Which sponsor do you want to filter?',
-            'survey-method': 'Which survey method do you want to filter?'
+            'survey': 'By which survey do you want to filter?',
+            'concept': 'By which concept do you want to filter?',
+            'instrument': 'By which instrument do you want to filter?',
+            'study': 'By which study do you want to filter?',
+            'data-set': 'By which data set do you want to filter?',
+            'related-publication': 'By which publication do you want to filter?',
+            'panel-identifier': 'By which panel identifier of the variables do you want to filter?',
+            'derived-variables-identifier': 'By which derived variables do you want to filter?',
+            'access-way': 'By which access way do you want to filter?',
+            'variable': 'By which variable do you want to filter?',
+            'question': 'By which question do you want to filter?',
+            'study-series': 'By which study series do you want to filter?',
+            'institution': 'By which institute do you want to filter?',
+            'sponsor': 'By which sponsor do you want to filter?',
+            'survey-method': 'By which survey method do you want to filter?'
           },
           'input-label': {
             'studies': 'Select filters for Study Search...',
+            'concepts': 'Select filters for Concept Search...',
             'surveys': 'Select filters for Survey Search...',
             'instruments': 'Select filters for Instrument Search...',
             'questions': 'Select filters for Question Search...',
@@ -172,6 +185,10 @@ angular.module('metadatamanagementApp').config(
           'study-filter': {
             'not-found': 'No study found!',
             'no-valid-selected': 'No valid study selected!'
+          },
+          'concept-filter': {
+            'not-found': 'No concept found!',
+            'no-valid-selected': 'No valid concept selected!'
           },
           'survey-filter': {
             'not-found': 'No survey found!',

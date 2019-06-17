@@ -35,6 +35,10 @@ public class VariableNestedDocument extends AbstractNestedSubDocument {
   private String studyId;
 
   private String masterId;
+  
+  private boolean shadow;
+  
+  private String successorId;
 
   /**
    * Create the subdocument.

@@ -47,6 +47,7 @@ describe('TagEditorController', function() {
       var deferred = $q.defer();
       deferred.resolve(['aa', 'ab', 'ac']);
       spyOn(StudySearchService, 'findTags').and.returnValue(deferred.promise);
+      $scope.tagSearch = StudySearchService.findTags;
 
       _.set($scope, 'tags.de', ['aa', 'ab']);
 

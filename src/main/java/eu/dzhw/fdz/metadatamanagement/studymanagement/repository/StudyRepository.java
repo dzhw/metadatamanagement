@@ -1,18 +1,19 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.repository;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
-import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Stream;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
+import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 
 /**
  * Spring Data MongoDB repository for the data acquisitionProject entity.
@@ -41,10 +42,10 @@ public interface StudyRepository
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
 
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByIdIn(List<String> studyIds);
+  Stream<IdAndVersionProjection> streamIdsByIdIn(Collection<String> studyIds);
 
   @RestResource(exported = false)
-  List<StudySubDocumentProjection> findSubDocumentsByIdIn(List<String> studyIds);
+  List<StudySubDocumentProjection> findSubDocumentsByIdIn(Collection<String> studyIds);
 
   @RestResource(exported = false)
   StudySubDocumentProjection findOneSubDocumentById(String studyId);
@@ -65,5 +66,9 @@ public interface StudyRepository
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
+      Collection<String> dataSetIds);
+  
+  @RestResource(exported = false)
+  Stream<IdAndVersionProjection> streamIdsByMasterIdIn(
       Collection<String> dataSetIds);
 }

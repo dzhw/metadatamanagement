@@ -6,9 +6,7 @@
 * LICENSE file in the root directory of this source tree.
 */
 
-
 'use strict';
-
 
 var d3 = require('d3');
 var isNumeric = require('fast-isnumeric');
@@ -28,7 +26,6 @@ var Polar = require('../plots/polar/legacy');
 var Axes = require('../plots/cartesian/axes');
 var Drawing = require('../components/drawing');
 var Color = require('../components/color');
-var connectColorbar = require('../components/colorbar/connect');
 var initInteractions = require('../plots/cartesian/graph_interact').initInteractions;
 var xmlnsNamespaces = require('../constants/xmlns_namespaces');
 var svgTextUtils = require('../lib/svg_text_utils');
@@ -198,7 +195,7 @@ function plot(gd, data, layout, config) {
      * start async-friendly code - now we're actually drawing things
      */
 
-    var oldmargins = JSON.stringify(fullLayout._size);
+    var oldMargins = Lib.extendFlat({}, fullLayout._size);
 
     // draw framework first so that margin-pushing
     // components can position themselves correctly
@@ -283,9 +280,6 @@ function plot(gd, data, layout, config) {
 
     // draw anything that can affect margins.
     function marginPushers() {
-        var calcdata = gd.calcdata;
-        var i, cd, trace;
-
         // First reset the list of things that are allowed to change the margins
         // So any deleted traces or components will be wiped out of the
         // automargin calculation.
@@ -296,22 +290,13 @@ function plot(gd, data, layout, config) {
         subroutines.drawMarginPushers(gd);
         Axes.allowAutoMargin(gd);
 
-        for(i = 0; i < calcdata.length; i++) {
-            cd = calcdata[i];
-            trace = cd[0].trace;
-            var colorbarOpts = trace._module.colorbar;
-            if(trace.visible !== true || !colorbarOpts) {
-                Plots.autoMargin(gd, 'cb' + trace.uid);
-            } else connectColorbar(gd, cd, colorbarOpts);
-        }
-
         Plots.doAutoMargin(gd);
         return Plots.previousPromises(gd);
     }
 
     // in case the margins changed, draw margin pushers again
     function marginPushersAgain() {
-        if(JSON.stringify(fullLayout._size) === oldmargins) return;
+        if(!Plots.didMarginChange(oldMargins, fullLayout._size)) return;
 
         return Lib.syncOrAsync([
             marginPushers,
@@ -1647,7 +1632,10 @@ function _restyle(gd, aobj, traces) {
                     doextra(prefixDot + 'len', innerContFull.len *
                         (newVal === 'fraction' ? 1 / lennorm : lennorm), i);
                 }
-            } else if(ai === 'type' && (newVal === 'pie') !== (oldVal === 'pie')) {
+            } else if(ai === 'type' && (
+                (newVal === 'pie') !== (oldVal === 'pie') ||
+                (newVal === 'funnelarea') !== (oldVal === 'funnelarea')
+            )) {
                 var labelsTo = 'x';
                 var valuesTo = 'y';
                 if((newVal === 'bar' || oldVal === 'bar') && cont.orientation === 'h') {
@@ -1658,7 +1646,7 @@ function _restyle(gd, aobj, traces) {
                 Lib.swapAttrs(cont, ['d?', '?0'], 'label', labelsTo);
                 Lib.swapAttrs(cont, ['?', '?src'], 'values', valuesTo);
 
-                if(oldVal === 'pie') {
+                if(oldVal === 'pie' || oldVal === 'funnelarea') {
                     nestedProperty(cont, 'marker.color')
                         .set(nestedProperty(cont, 'marker.colors').get());
 
@@ -1883,6 +1871,7 @@ function relayout(gd, astr, val) {
         if(flags.ticks) seq.push(subroutines.doTicksRelayout);
         if(flags.modebar) seq.push(subroutines.doModeBar);
         if(flags.camera) seq.push(subroutines.doCamera);
+        if(flags.colorbars) seq.push(subroutines.doColorBars);
 
         seq.push(emitAfterPlot);
     }
@@ -2374,26 +2363,18 @@ function update(gd, traceUpdate, layoutUpdate, _traces) {
     // fill in redraw sequence
     var seq = [];
 
-    if(restyleFlags.fullReplot && relayoutFlags.layoutReplot) {
-        var data = gd.data;
-        var layout = gd.layout;
-
-        // clear existing data/layout on gd
-        // so that Plotly.plot doesn't try to extend them
-        gd.data = undefined;
-        gd.layout = undefined;
-
-        seq.push(function() { return exports.plot(gd, data, layout); });
+    if(relayoutFlags.layoutReplot) {
+        // N.B. works fine when both
+        // relayoutFlags.layoutReplot and restyleFlags.fullReplot are true
+        seq.push(subroutines.layoutReplot);
     } else if(restyleFlags.fullReplot) {
         seq.push(exports.plot);
-    } else if(relayoutFlags.layoutReplot) {
-        seq.push(subroutines.layoutReplot);
     } else {
         seq.push(Plots.previousPromises);
         axRangeSupplyDefaultsByPass(gd, relayoutFlags, relayoutSpecs) || Plots.supplyDefaults(gd);
 
         if(restyleFlags.style) seq.push(subroutines.doTraceStyle);
-        if(restyleFlags.colorbars) seq.push(subroutines.doColorBars);
+        if(restyleFlags.colorbars || relayoutFlags.colorbars) seq.push(subroutines.doColorBars);
         if(relayoutFlags.legend) seq.push(subroutines.doLegend);
         if(relayoutFlags.layoutstyle) seq.push(subroutines.layoutStyles);
         if(relayoutFlags.axrange) addAxRangeSequence(seq, relayoutSpecs.rangesAltered);
@@ -2786,7 +2767,7 @@ function react(gd, data, layout, config) {
 
             seq.push(Plots.previousPromises);
             if(restyleFlags.style) seq.push(subroutines.doTraceStyle);
-            if(restyleFlags.colorbars) seq.push(subroutines.doColorBars);
+            if(restyleFlags.colorbars || relayoutFlags.colorbars) seq.push(subroutines.doColorBars);
             if(relayoutFlags.legend) seq.push(subroutines.doLegend);
             if(relayoutFlags.layoutstyle) seq.push(subroutines.layoutStyles);
             if(relayoutFlags.axrange) addAxRangeSequence(seq);
@@ -3789,10 +3770,13 @@ function makePlotFramework(gd) {
     // single geo layer for the whole plot
     fullLayout._geolayer = fullLayout._paper.append('g').classed('geolayer', true);
 
+    // single funnelarea layer for the whole plot
+    fullLayout._funnelarealayer = fullLayout._paper.append('g').classed('funnelarealayer', true);
+
     // single pie layer for the whole plot
     fullLayout._pielayer = fullLayout._paper.append('g').classed('pielayer', true);
 
-    // single sunbursrt layer for the whole plot
+    // single sunburst layer for the whole plot
     fullLayout._sunburstlayer = fullLayout._paper.append('g').classed('sunburstlayer', true);
 
     // fill in image server scrape-svg

@@ -123,6 +123,10 @@ angular.module('metadatamanagementApp').config(
             'questions': {
               'one': 'Klicken, um die Frage dieser Erhebung anzuzeigen.',
               'many': 'Klicken, um die Fragen dieser Erhebung anzuzeigen.'
+            },
+            'concepts': {
+              'one': 'Klicken, um das Konzept, welches in dieser Erhebung gemessen wurde, anzuzeigen',
+              'many': 'Klicken, um alle Konzepte, die in dieser Erhebung gemessen wurden, anzuzeigen'
             }
           }
         },

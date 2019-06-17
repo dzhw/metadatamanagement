@@ -45,6 +45,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.In
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.FreeResourceTypes;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
@@ -268,12 +269,17 @@ public class DaraService {
     if (study.getDataAvailability().equals(DataAvailabilities.AVAILABLE)) {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
     }
+    
+    Release release = project.getRelease();
+    if (release == null) {
+      release = dataAcquisitionProjectVersionsService.findLastRelease(project.getId()); 
+    }
 
-    String doi = doiBuilder.buildStudyDoi(study, project.getRelease());
+    String doi = doiBuilder.buildStudyDoi(study, release);
     dataForTemplate.put("doi", doi);
 
     String previousDoi = doiBuilder.buildStudyDoi(study, dataAcquisitionProjectVersionsService
-        .findPreviousRelease(project.getId(), project.getRelease()));
+        .findPreviousRelease(project.getId(), release));
     dataForTemplate.put("previousDoi", previousDoi);
 
     // Get Surveys Information

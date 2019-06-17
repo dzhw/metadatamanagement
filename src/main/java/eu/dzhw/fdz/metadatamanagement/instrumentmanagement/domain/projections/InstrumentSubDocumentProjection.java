@@ -25,9 +25,15 @@ public interface InstrumentSubDocumentProjection
 
   List<String> getSurveyIds();
   
+  List<String> getConceptIds();
+  
   String getStudyId();
 
   String getType();
 
   String getMasterId();
+  
+  String getSuccessorId();
+  
+  boolean isShadow();
 }

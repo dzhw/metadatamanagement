@@ -102,6 +102,10 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                         'one': 'Click to show the question of this instrument',
                         'many': 'Click to show all questions of this instrument'
                     },
+                    'concepts': {
+                      'one': 'Click to show the concept which has been measured with this instrument',
+                      'many': 'Click to show all concepts which have been measured with this instrument'
+                    },
                     'studies': {
                         'one': 'Click to show the study in which this instrument has been used'
                     }
@@ -195,7 +199,8 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                 'label': {
                     'edit-instrument': 'Edit Instrument:',
                     'create-instrument': 'Create Instrument:',
-                    'surveys': 'Surveys *'
+                    'surveys': 'Surveys *',
+                    'concepts': 'Concepts'
                 },
                 'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this instrument.',
                 'save-tooltip': 'Click to save this instrument.',
@@ -232,8 +237,11 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                     },
                     'type': 'Please select the type of this instrument.',
                     'surveys': 'Select the surveys in which this instrument has been used.',
+                    'concepts': 'Select the concepts which this instrument has measured.',
                     'search-surveys': 'Search surveys...',
+                    'search-concepts': 'Search concepts...',
                     'no-surveys-found': 'No (further) surveys found.',
+                    'no-concepts-found': 'No (further) concepts found.',
                     'annotations': {
                       'de': 'Please provide additional annotations (in German) to this survey here.',
                       'en': 'Please provide additional annotations (in English) to this survey here.'

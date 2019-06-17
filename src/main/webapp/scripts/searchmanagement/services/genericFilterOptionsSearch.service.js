@@ -12,7 +12,8 @@ angular.module('metadatamanagementApp')
         !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
         termFilter = [];
       }
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId) &&
+        !_.includes(['related_publications', 'concepts'], type)) {
         var projectFilter = {
           term: {
             dataAcquisitionProjectId: dataAcquisitionProjectId

@@ -148,6 +148,10 @@ angular.module('metadatamanagementApp').config(
               'one': 'Klicken, um die Variable dieses Datensatzes anzuzeigen',
               'many': 'Klicken, um alle Variablen dieses Datensatzes anzuzeigen'
             },
+            'concepts': {
+              'one': 'Klicken, um das Konzept, welches in diesem Datensatzes gemessen wurde, anzuzeigen',
+              'many': 'Klicken, um alle Konzepte, die in diesem Datensatzes gemessen wurden, anzuzeigen'
+            },
             'studies': {
               'one': 'Klicken, um die Studie dieses Datensatzes anzuzeigen'
             },

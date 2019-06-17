@@ -84,8 +84,10 @@ module.exports = function style(s, gd) {
             .classed('legendpoints', true);
     })
     .each(styleWaterfalls)
+    .each(styleFunnels)
     .each(styleBars)
     .each(styleBoxes)
+    .each(styleFunnelareas)
     .each(stylePies)
     .each(styleLines)
     .each(stylePoints)
@@ -306,14 +308,25 @@ module.exports = function style(s, gd) {
     }
 
     function styleBars(d) {
+        styleBarLike(d, this);
+    }
+
+    function styleFunnels(d) {
+        styleBarLike(d, this, 'funnel');
+    }
+
+    function styleBarLike(d, lThis, desiredType) {
         var trace = d[0].trace;
         var marker = trace.marker || {};
         var markerLine = marker.line || {};
 
-        var barpath = d3.select(this).select('g.legendpoints')
-            .selectAll('path.legendbar')
-            .data(Registry.traceIs(trace, 'bar') ? [d] : []);
-        barpath.enter().append('path').classed('legendbar', true)
+        var isVisible = (!desiredType) ? Registry.traceIs(trace, 'bar') :
+            (trace.type === desiredType && trace.visible);
+
+        var barpath = d3.select(lThis).select('g.legendpoints')
+            .selectAll('path.legend' + desiredType)
+            .data(isVisible ? [d] : []);
+        barpath.enter().append('path').classed('legend' + desiredType, true)
             .attr('d', 'M6,6H-6V-6H6Z')
             .attr('transform', 'translate(20,0)');
         barpath.exit().remove();
@@ -344,12 +357,27 @@ module.exports = function style(s, gd) {
 
         pts.each(function() {
             var p = d3.select(this);
-            var w = boundLineWidth(undefined, trace.line, MAX_MARKER_LINE_WIDTH, CST_MARKER_LINE_WIDTH);
 
-            p.style('stroke-width', w + 'px')
-                .call(Color.fill, trace.fillcolor);
+            if((trace.boxpoints === 'all' || trace.points === 'all') &&
+                Color.opacity(trace.fillcolor) === 0 && Color.opacity((trace.line || {}).color) === 0
+            ) {
+                var tMod = Lib.minExtend(trace, {
+                    marker: {
+                        size: constantItemSizing ? CST_MARKER_SIZE : Lib.constrain(trace.marker.size, 2, 16),
+                        sizeref: 1,
+                        sizemin: 1,
+                        sizemode: 'diameter'
+                    }
+                });
+                pts.call(Drawing.pointStyle, tMod, gd);
+            } else {
+                var w = boundLineWidth(undefined, trace.line, MAX_MARKER_LINE_WIDTH, CST_MARKER_LINE_WIDTH);
 
-            if(w) Color.stroke(p, trace.line.color);
+                p.style('stroke-width', w + 'px')
+                    .call(Color.fill, trace.fillcolor);
+
+                if(w) Color.stroke(p, trace.line.color);
+            }
         });
     }
 
@@ -408,13 +436,24 @@ module.exports = function style(s, gd) {
     }
 
     function stylePies(d) {
+        stylePieLike(d, this, 'pie');
+    }
+
+    function styleFunnelareas(d) {
+        stylePieLike(d, this, 'funnelarea');
+    }
+
+    function stylePieLike(d, lThis, desiredType) {
         var d0 = d[0];
         var trace = d0.trace;
 
-        var pts = d3.select(this).select('g.legendpoints')
-            .selectAll('path.legendpie')
-            .data(Registry.traceIs(trace, 'pie') && trace.visible ? [d] : []);
-        pts.enter().append('path').classed('legendpie', true)
+        var isVisible = (!desiredType) ? Registry.traceIs(trace, desiredType) :
+            (trace.type === desiredType && trace.visible);
+
+        var pts = d3.select(lThis).select('g.legendpoints')
+            .selectAll('path.legend' + desiredType)
+            .data(isVisible ? [d] : []);
+        pts.enter().append('path').classed('legend' + desiredType, true)
             .attr('d', 'M6,6H-6V-6H6Z')
             .attr('transform', 'translate(20,0)');
         pts.exit().remove();
@@ -422,8 +461,13 @@ module.exports = function style(s, gd) {
         if(pts.size()) {
             var cont = (trace.marker || {}).line;
             var lw = boundLineWidth(pieCastOption(cont.width, d0.pts), cont, MAX_MARKER_LINE_WIDTH, CST_MARKER_LINE_WIDTH);
+
             var tMod = Lib.minExtend(trace, {marker: {line: {width: lw}}});
+            // since minExtend do not slice more than 3 items we need to patch line.color here
+            tMod.marker.line.color = cont.color;
+
             var d0Mod = Lib.minExtend(d0, {trace: tMod});
+
             stylePie(pts, d0Mod, tMod);
         }
     }

@@ -2,12 +2,12 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.List;
 
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Tags;
 import org.springframework.beans.BeanUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Tags;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -47,6 +47,10 @@ public class StudySubDocument extends AbstractRdcDomainObject
   private I18nString dataAvailability;
 
   private String masterId;
+  
+  private String successorId;
+  
+  private boolean shadow;
 
   private Tags tags;
 

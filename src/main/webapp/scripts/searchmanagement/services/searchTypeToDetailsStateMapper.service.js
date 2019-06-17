@@ -12,6 +12,7 @@ angular.module('metadatamanagementApp').factory(
         case 'data_sets': return 'dataSetDetail';
         case 'variables': return 'variableDetail';
         case 'related_publications': return 'relatedPublicationDetail';
+        case 'concepts': return 'conceptDetail';
       }
     }
 

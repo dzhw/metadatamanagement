@@ -35,7 +35,8 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
         !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
         termFilter = [];
       }
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId) &&
+        !_.includes(['related_publications', 'concepts'], type)) {
         var projectFilter = {
           term: {
             dataAcquisitionProjectId: dataAcquisitionProjectId
@@ -135,6 +136,9 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
           createNestedTermFilters(filter, prefix));
       }
 
+      SearchHelperService.addNestedShadowCopyFilter(
+        aggregation.aggs.description.filter.bool, prefix, type);
+
       if (prefix !== '') {
         nestedAggregation.aggs.instruments.aggs =
         aggregation.aggs;
@@ -145,7 +149,7 @@ angular.module('metadatamanagementApp').factory('InstrumentSearchService',
 
       SearchHelperService.addQuery(query, queryterm);
       SearchHelperService.addFilter(query);
-      if (type !== 'related_publications') {
+      if (!_.includes(['related_publications', 'concepts'], type)) {
         SearchHelperService.addShadowCopyFilter(query, filter);
       }
 

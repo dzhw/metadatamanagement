@@ -35,7 +35,8 @@ angular.module('metadatamanagementApp')
       'nestedQuestions',
       'nestedRelatedPublications',
       'nestedSurveys',
-      'nestedInstruments'
+      'nestedInstruments',
+      'nestedConcepts'
     ];
     entity.promise.then(function(result) {
       DataSetSearchService.findByStudyId(result.studyId).then(function(result) {
@@ -117,6 +118,10 @@ angular.module('metadatamanagementApp')
           $scope.variable.surveyNumbers.length : 0;
         if ($scope.counts.surveysCount === 1) {
           $scope.survey = $scope.variable.surveys[0];
+        }
+        $scope.counts.conceptsCount = $scope.variable.concepts.length;
+        if ($scope.counts.conceptsCount === 1) {
+          $scope.concept = $scope.variable.concepts[0];
         }
         if ($scope.variable.panelIdentifier) {
           VariableSearchService

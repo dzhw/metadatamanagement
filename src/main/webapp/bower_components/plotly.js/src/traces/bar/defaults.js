@@ -39,7 +39,15 @@ function supplyDefaults(traceIn, traceOut, defaultColor, layout) {
     coerce('hovertext');
     coerce('hovertemplate');
 
-    handleText(traceIn, traceOut, layout, coerce, true);
+    var textposition = coerce('textposition');
+    handleText(traceIn, traceOut, layout, coerce, textposition, {
+        moduleHasSelected: true,
+        moduleHasUnselected: true,
+        moduleHasConstrain: true,
+        moduleHasCliponaxis: true,
+        moduleHasTextangle: true,
+        moduleHasInsideanchor: true
+    });
 
     handleStyleDefaults(traceIn, traceOut, coerce, defaultColor, layout);
 
@@ -55,7 +63,7 @@ function supplyDefaults(traceIn, traceOut, defaultColor, layout) {
 
 function handleGroupingDefaults(traceIn, traceOut, fullLayout, coerce) {
     var orientation = traceOut.orientation;
-    // N.B. grouping is done across all trace trace types that support it
+    // N.B. grouping is done across all trace types that support it
     var posAxId = traceOut[{v: 'x', h: 'y'}[orientation] + 'axis'];
     var groupId = getAxisGroup(fullLayout, posAxId) + orientation;
 
@@ -111,20 +119,27 @@ function crossTraceDefaults(fullData, fullLayout) {
     }
 }
 
-function handleText(traceIn, traceOut, layout, coerce, moduleHasSelUnselected) {
-    var textPosition = coerce('textposition');
-    var hasBoth = Array.isArray(textPosition) || textPosition === 'auto';
-    var hasInside = hasBoth || textPosition === 'inside';
-    var hasOutside = hasBoth || textPosition === 'outside';
+function handleText(traceIn, traceOut, layout, coerce, textposition, opts) {
+    opts = opts || {};
+    var moduleHasSelected = !(opts.moduleHasSelected === false);
+    var moduleHasUnselected = !(opts.moduleHasUnselected === false);
+    var moduleHasConstrain = !(opts.moduleHasConstrain === false);
+    var moduleHasCliponaxis = !(opts.moduleHasCliponaxis === false);
+    var moduleHasTextangle = !(opts.moduleHasTextangle === false);
+    var moduleHasInsideanchor = !(opts.moduleHasInsideanchor === false);
+
+    var hasBoth = Array.isArray(textposition) || textposition === 'auto';
+    var hasInside = hasBoth || textposition === 'inside';
+    var hasOutside = hasBoth || textposition === 'outside';
 
     if(hasInside || hasOutside) {
-        var textFont = coerceFont(coerce, 'textfont', layout.font);
+        var dfltFont = coerceFont(coerce, 'textfont', layout.font);
 
         // Note that coercing `insidetextfont` is always needed –
         // even if `textposition` is `outside` for each trace – since
         // an outside label can become an inside one, for example because
         // of a bar being stacked on top of it.
-        var insideTextFontDefault = Lib.extendFlat({}, textFont);
+        var insideTextFontDefault = Lib.extendFlat({}, dfltFont);
         var isTraceTextfontColorSet = traceIn.textfont && traceIn.textfont.color;
         var isColorInheritedFromLayoutFont = !isTraceTextfontColorSet;
         if(isColorInheritedFromLayoutFont) {
@@ -132,16 +147,18 @@ function handleText(traceIn, traceOut, layout, coerce, moduleHasSelUnselected) {
         }
         coerceFont(coerce, 'insidetextfont', insideTextFontDefault);
 
-        if(hasOutside) coerceFont(coerce, 'outsidetextfont', textFont);
+        if(hasOutside) coerceFont(coerce, 'outsidetextfont', dfltFont);
 
-        coerce('constraintext');
 
-        if(moduleHasSelUnselected) {
-            coerce('selected.textfont.color');
-            coerce('unselected.textfont.color');
-        }
+        if(moduleHasSelected) coerce('selected.textfont.color');
+        if(moduleHasUnselected) coerce('unselected.textfont.color');
+        if(moduleHasConstrain) coerce('constraintext');
+        if(moduleHasCliponaxis) coerce('cliponaxis');
+        if(moduleHasTextangle) coerce('textangle');
+    }
 
-        coerce('cliponaxis');
+    if(hasInside) {
+        if(moduleHasInsideanchor) coerce('insidetextanchor');
     }
 }
 

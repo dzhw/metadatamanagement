@@ -409,17 +409,13 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
         gd._dragged = zoomDragged;
 
         updateZoombox(zb, corners, box, path0, dimmed, lum);
+        computeZoomUpdates();
+        gd.emit('plotly_relayouting', updates);
         dimmed = true;
     }
 
-    function zoomDone() {
+    function computeZoomUpdates() {
         updates = {};
-
-        // more strict than dragged, which allows you to come back to where you started
-        // and still count as dragged
-        if(Math.min(box.h, box.w) < MINDRAG * 2) {
-            return removeZoombox(gd);
-        }
 
         // TODO: edit linked axes in zoomAxRanges and in dragTail
         if(zoomMode === 'xy' || zoomMode === 'x') {
@@ -430,6 +426,16 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
             zoomAxRanges(yaxes, (ph - box.b) / ph, (ph - box.t) / ph, updates, links.yaxes);
             updateMatchedAxRange('y', updates);
         }
+    }
+
+    function zoomDone() {
+        // more strict than dragged, which allows you to come back to where you started
+        // and still count as dragged
+        if(Math.min(box.h, box.w) < MINDRAG * 2) {
+            return removeZoombox(gd);
+        }
+
+        computeZoomUpdates();
 
         removeZoombox(gd);
         dragTail();
@@ -515,6 +521,8 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
         updateSubplots(scrollViewBox);
         ticksAndAnnotations();
 
+        gd.emit('plotly_relayouting', updates);
+
         // then replot after a delay to make sure
         // no more scrolling is coming
         redrawTimer = setTimeout(function() {
@@ -552,6 +560,7 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
             }
             updateSubplots([xActive ? -dx : 0, yActive ? -dy : 0, pw, ph]);
             ticksAndAnnotations();
+            gd.emit('plotly_relayouting', updates);
             return;
         }
 
@@ -626,6 +635,7 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
         updateMatchedAxRange('y');
         updateSubplots([xStart, yStart, pw - dx, ph - dy]);
         ticksAndAnnotations();
+        gd.emit('plotly_relayouting', updates);
     }
 
     function updateMatchedAxRange(axLetter, out) {
@@ -644,12 +654,12 @@ function makeDragBox(gd, plotinfo, x, y, w, h, ns, ew) {
             var ax2 = constrainedAxes[0] || xaHash[axId2] || yaHash[axId2];
 
             if(ax2) {
-                var rng = ax2.range;
                 if(out) {
-                    out[ax._name + '.range[0]'] = rng[0];
-                    out[ax._name + '.range[1]'] = rng[1];
+                    // zoombox case - don't mutate 'range', just add keys in 'updates'
+                    out[ax._name + '.range[0]'] = out[ax2._name + '.range[0]'];
+                    out[ax._name + '.range[1]'] = out[ax2._name + '.range[1]'];
                 } else {
-                    ax.range = rng;
+                    ax.range = ax2.range.slice();
                 }
             }
         }
@@ -985,19 +995,14 @@ function zoomAxRanges(axList, r0Fraction, r1Fraction, updates, linkedAxes) {
 
         var axRangeLinear0 = axi._rl[0];
         var axRangeLinearSpan = axi._rl[1] - axRangeLinear0;
-        axi.range = [
-            axi.l2r(axRangeLinear0 + axRangeLinearSpan * r0Fraction),
-            axi.l2r(axRangeLinear0 + axRangeLinearSpan * r1Fraction)
-        ];
-
-        updates[axi._name + '.range[0]'] = axi.range[0];
-        updates[axi._name + '.range[1]'] = axi.range[1];
+        updates[axi._name + '.range[0]'] = axi.l2r(axRangeLinear0 + axRangeLinearSpan * r0Fraction);
+        updates[axi._name + '.range[1]'] = axi.l2r(axRangeLinear0 + axRangeLinearSpan * r1Fraction);
     }
 
     // zoom linked axes about their centers
     if(linkedAxes && linkedAxes.length) {
         var linkedR0Fraction = (r0Fraction + (1 - r1Fraction)) / 2;
-        zoomAxRanges(linkedAxes, linkedR0Fraction, 1 - linkedR0Fraction, updates, [], []);
+        zoomAxRanges(linkedAxes, linkedR0Fraction, 1 - linkedR0Fraction, updates, []);
     }
 }
 

@@ -43,12 +43,6 @@ exports.plot = function plot(gd, plotinfo, cdcontours, contourLayer) {
         var heatmapColoringLayer = Lib.ensureSingle(plotGroup, 'g', 'heatmapcoloring');
         var cdheatmaps = [];
         if(contours.coloring === 'heatmap') {
-            if(trace.zauto && (trace.autocontour === false)) {
-                trace._input.zmin = trace.zmin =
-                    contours.start - contours.size / 2;
-                trace._input.zmax = trace.zmax =
-                    trace.zmin + pathinfo.length * contours.size;
-            }
             cdheatmaps = [cd];
         }
         heatmapPlot(gd, plotinfo, cdheatmaps, heatmapColoringLayer);
@@ -76,7 +70,7 @@ exports.plot = function plot(gd, plotinfo, cdcontours, contourLayer) {
         // draw everything
         makeBackground(plotGroup, perimeter, contours);
         makeFills(plotGroup, fillPathinfo, perimeter, contours);
-        makeLinesAndLabels(plotGroup, pathinfo, gd, cd0, contours, perimeter);
+        makeLinesAndLabels(plotGroup, pathinfo, gd, cd0, contours);
         clipGaps(plotGroup, plotinfo, gd, cd0, perimeter);
     });
 };
@@ -215,7 +209,7 @@ function joinAllPaths(pi, perimeter) {
     return fullpath;
 }
 
-function makeLinesAndLabels(plotgroup, pathinfo, gd, cd0, contours, perimeter) {
+function makeLinesAndLabels(plotgroup, pathinfo, gd, cd0, contours) {
     var lineContainer = Lib.ensureSingle(plotgroup, 'g', 'contourlines');
     var showLines = contours.showlines !== false;
     var showLabels = contours.showlabels;
@@ -256,10 +250,14 @@ function makeLinesAndLabels(plotgroup, pathinfo, gd, cd0, contours, perimeter) {
         var yLen = ya._length;
         var xRng = xa.range;
         var yRng = ya.range;
-        var x0 = Math.max(perimeter[0][0], 0);
-        var x1 = Math.min(perimeter[2][0], xLen);
-        var y0 = Math.max(perimeter[0][1], 0);
-        var y1 = Math.min(perimeter[2][1], yLen);
+        var xMin = Lib.aggNums(Math.min, null, cd0.x);
+        var xMax = Lib.aggNums(Math.max, null, cd0.x);
+        var yMin = Lib.aggNums(Math.min, null, cd0.y);
+        var yMax = Lib.aggNums(Math.max, null, cd0.y);
+        var x0 = Math.max(xa.c2p(xMin, true), 0);
+        var x1 = Math.min(xa.c2p(xMax, true), xLen);
+        var y0 = Math.max(ya.c2p(yMax, true), 0);
+        var y1 = Math.min(ya.c2p(yMin, true), yLen);
 
         // visible bounds of the contour trace (and the midpoints, to
         // help with cost calculations)

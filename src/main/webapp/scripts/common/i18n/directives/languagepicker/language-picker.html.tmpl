@@ -1,0 +1,29 @@
+<div ng-form="languageForm" layout="column">
+  <md-input-container flex="100">
+    <label ng-class="{'fdz-input-required': requireLanguage}">{{'common.language-picker.label' | translate}}</label>
+    <md-chips ng-model="languages"
+              md-require-match="true"
+              ng-required="requireLanguage"
+              name="languages"
+              md-add-on-blur="true">
+      <md-autocomplete md-items="language in searchLanguage(languageName)"
+                       md-search-text="languageName"
+                       md-no-cache="true"
+                       md-min-length="0"
+                       md-require-match="true"
+                       placeholder="{{'common.language-picker.placeholder' | translate}}"
+                       md-autoselect="true">
+        <md-item-template>
+          <span md-highlight-text="languageName" md-highlight-flags="ig">{{getLanguageDisplayName(language)}}</span>
+        </md-item-template>
+      </md-autocomplete>
+      <md-chip-template>
+        {{getLanguageDisplayName($chip)}}
+      </md-chip-template>
+    </md-chips>
+    <div ng-if="languageForm.$dirty" ng-messages="languageForm.$error" multiple>
+      <div ng-message="required">{{'common.language-picker.error.required' | translate}}</div>
+      <div ng-message="md-require-match">{{'common.language-picker.error.md-require-match' | translate}}</div>
+    </div>
+  </md-input-container>
+</div>

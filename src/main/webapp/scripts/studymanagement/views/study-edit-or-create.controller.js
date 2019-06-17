@@ -16,6 +16,8 @@ angular.module('metadatamanagementApp')
       var sponsorsCache = {};
       var institutionCache = {};
 
+      ctrl.findTags = StudySearchService.findTags;
+
       $scope.$watch('ctrl.study.studySeries', function() {
         ctrl.onStudySeriesChanged();
       }, true);

@@ -32,6 +32,10 @@ public interface StudySubDocumentProjection
   I18nString getDataAvailability();
 
   String getMasterId();
+  
+  String getSuccessorId();
+  
+  boolean isShadow();
 
   Tags getTags();
 }
