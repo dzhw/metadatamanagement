@@ -121,7 +121,7 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.20</version>
+            <version>1.21</version>
         </dependency>
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
@@ -130,7 +130,7 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
-            <version>5.4.0</version>
+            <version>5.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -340,7 +340,7 @@
                                     <pluginExecutionFilter>
                                         <groupId>com.github.spotbugs</groupId>
                                         <artifactId>spotbugs-maven-plugin</artifactId>
-                                        <versionRange>[3.1.11,)</versionRange>
+                                        <versionRange>[3.1.12,)</versionRange>
                                         <goals>
                                             <goal>check</goal>
                                         </goals>
@@ -394,7 +394,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>3.1.11</version>
+                <version>3.1.12</version>
                 <executions>
                     <execution>
                         <id>spotbugs</id>
