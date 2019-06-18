@@ -196,6 +196,7 @@ angular.module('metadatamanagementApp').config(
           'not-authorized-toast': 'You are not authorized to create or edit concepts!',
           'concept-deleted-toast': 'Concept {{ id }} has been deleted.',
           'label': {
+            'id': 'RDC-ID',
             'edit-concept': 'Edit Concept:',
             'create-concept': 'Create Concept:',
             'first-name': 'First Name',
