@@ -1,10 +1,11 @@
 'use strict';
 angular.module('metadatamanagementApp').directive('fdzUniqueConceptId',
-  function($q, $log, ConceptResource) {
+  function($q, $log, ConceptResource, $rootScope) {
     return {
       require: 'ngModel',
       link: function($scope, el, attr, ctrl) { // jshint ignore:line
         var queryConceptId = function(id) {
+          $rootScope.$broadcast('start-ignoring-404');
           return ConceptResource.get({id: id}).$promise
             .then(function() {
               return $q.reject();
@@ -15,6 +16,8 @@ angular.module('metadatamanagementApp').directive('fdzUniqueConceptId',
                 $log.error('error while resolving concept id ' + id, error);
                 return $q.reject(error);
               }
+            }).finally(function() {
+              $rootScope.$broadcast('stop-ignoring-404');
             });
         };
 
