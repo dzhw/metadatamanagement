@@ -137,6 +137,9 @@ angular.module('metadatamanagementApp').config(
             },
             'annotations': {
               'i18n-string-size': 'The max length of the annotations is 2048 signs.'
+            },
+            'concept-ids': {
+              'not-exists': 'There is no Concept with ID "{{invalidValue}}".'
             }
           },
           'question-image-metadata': {

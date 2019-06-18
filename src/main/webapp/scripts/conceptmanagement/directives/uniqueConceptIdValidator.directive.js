@@ -29,10 +29,10 @@ angular.module('metadatamanagementApp').directive('fdzUniqueConceptId',
         ctrl.$asyncValidators.uniqueConceptId =
           function(modelValue, viewValue) { // jshint ignore:line
 
-          if (ctrl.$isEmpty(viewValue)) {
+          if (ctrl.$isEmpty(modelValue)) {
             return $q.resolve();
           } else if (isValidationEnabled()) {
-            return queryConceptId(viewValue);
+            return queryConceptId(modelValue);
           } else {
             return $q.resolve();
           }

@@ -60,7 +60,6 @@ angular.module('metadatamanagementApp')
           } else {
             ctrl.createMode = true;
             ctrl.concept = new ConceptResource({
-              id: 'con-text$',
               authors: [{
                 firstName: '',
                 lastName: ''

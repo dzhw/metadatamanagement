@@ -39,15 +39,6 @@
                                         <span ng-if="author.middleName !== undefined"> {{author.firstName}}  {{author.middleName}}{{!$last?';':''}}</span>
                                         </span>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="ctrl.concept.doi">
-                        <span style="font-weight: bold;">{{'concept-management.detail.label.doi' | translate }}:</span>
-                        <a ng-href="https://dx.doi.org/{{ctrl.concept.doi}}" target="_blank">
-                            {{ctrl.concept.doi}}
-                            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                              {{'concept-management.detail.doi-tooltip' | translate}}
-                            </md-tooltip>
-                        </a>
-                    </div>
                   <div class="fdz-add-bottom-margin" ng-if="ctrl.concept.citationHint">
                       <span style="font-weight: bold;">{{'concept-management.detail.label.citation-hint' | translate }}:</span>
                       <span>{{ctrl.concept.citationHint}}</span>
@@ -57,6 +48,15 @@
                       <span ng-repeat="language in ctrl.concept.originalLanguages">
                           {{(language | displayIsoLanguage: currentLanguage)}}{{$index + 1 !== ctrl.concept.originalLanguages.length ? ', ': ''}}
                       </span>
+                  </div>
+                  <div class="fdz-add-bottom-margin" ng-if="ctrl.concept.doi">
+                    <span style="font-weight: bold;">{{'concept-management.detail.label.doi' | translate }}:</span>
+                    <a ng-href="https://dx.doi.org/{{ctrl.concept.doi}}" target="_blank">
+                      {{ctrl.concept.doi}}
+                      <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                        {{'concept-management.detail.doi-tooltip' | translate}}
+                      </md-tooltip>
+                    </a>
                   </div>
                 </md-card-content>
             </md-card>
