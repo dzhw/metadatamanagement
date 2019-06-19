@@ -602,6 +602,8 @@
                         <argument>-I</argument>
                         <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/projectmanagement/domain</argument>
                         <argument>-I</argument>
+                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/conceptmanagement/domain</argument>
+                        <argument>-I</argument>
                         <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/studymanagement/domain</argument>
                         <argument>-I</argument>
                         <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/surveymanagement/domain</argument>
