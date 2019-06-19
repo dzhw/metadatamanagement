@@ -13,11 +13,11 @@ angular.module('metadatamanagementApp').config(
             'institution': 'Institution',
             'authors': 'Authors',
             'sponsors': 'Sponsored by',
+            'version': 'Version',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
             'wave': 'Waves',
             'survey-data-type': 'Survey Data Type',
-            'version': 'Version',
             'title': 'Title',
             'dataAvailability': 'Data Availability',
             'attachments': {
@@ -50,11 +50,7 @@ angular.module('metadatamanagementApp').config(
             'add-attachment-tooltip': 'Click to add a new document to this study.',
             'edit-title': 'Modify Document "{{ filename }}" of Study "{{ studyId }}"',
             'create-title': 'Add new Document to Study "{{ studyId }}"',
-            'cancel-tooltip': 'Click to close this dialog without saving.',
-            'save-tooltip': 'Click to save this document.',
             'change-file-tooltip': 'Click to choose a file.',
-            'attachment-saved-toast': 'Document "{{ filename }}" has been saved.',
-            'attachment-has-validation-errors-toast': 'The document has not been saved because there are invalid fields.',
             'open-choose-previous-version-tooltip': 'Click to restore a previous version of the metadata.',
             'current-version-restored-toast': 'Current version of the metadata for document "{{ filename }}" has been restored.',
             'previous-version-restored-toast': 'Previous version of the metadata for document "{{ filename }}" can be saved now.',
@@ -74,15 +70,8 @@ angular.module('metadatamanagementApp').config(
             'language-not-found': 'No valid language found!',
             'save-study-before-adding-attachment': 'The Study has to be saved to enable attaching documents.',
             'hints': {
-              'filename': 'Choose a file which you want to attach to the study.',
-              'type': 'Choose the type of the file.',
-              'language': 'Select the language which has been used in the file.',
-              'title': 'Enter the title of the file in the language of the file.',
-              'description': {
-                'de': 'Please enter a description for the file in German.',
-                'en': 'Please enter a description for the file in English.'
+              'filename': 'Choose a file which you want to attach to the study.'
               }
-            }
           },
           'data-set': {
             'card-title': 'Available Data Sets'
@@ -144,10 +133,6 @@ angular.module('metadatamanagementApp').config(
             'unable-to-delete': 'The study could not be deleted!',
             'upload-terminated': 'Finished upload of {{ total }} Study and {{ attachments }} Attachments with {{ warnings }} warnings and {{ errors }} errors.',
             'cancelled': 'Study upload cancelled!'
-          },
-          'study-attachment': {
-            'not-saved': 'Attachment "{{ id }}" has not been saved:',
-            'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
           }
         },
         'error': {

@@ -9,12 +9,39 @@ angular.module('metadatamanagementApp')
       ElasticSearchAdminService, $mdDialog, $transitions,
       CommonDialogsService, LanguageService, StudySearchService,
       StudyAttachmentResource, $q, CleanJSObjectService,
-      DataAcquisitionProjectResource, ProjectUpdateAccessService) {
+      DataAcquisitionProjectResource, ProjectUpdateAccessService,
+      AttachmentDialogService, StudyAttachmentUploadService) {
 
       var ctrl = this;
       var studySeriesCache = {};
       var sponsorsCache = {};
       var institutionCache = {};
+      var attachmentTypes = [
+        {de: 'Daten- und Methodenbericht', en: 'Method Report'},
+        {de: 'Sonstiges', en: 'Other'}
+      ];
+
+      var getDialogLabels = function() {
+        return {
+          createTitle: {
+            key: 'study-management.detail.attachments.create-title',
+            params: {
+              studyId: ctrl.study.id
+            }
+          },
+          editTitle: {
+            key: 'study-management.detail.attachments.edit-title',
+            params: {
+              studyId: ctrl.study.id
+            }
+          },
+          hints: {
+            file: {
+              key: 'study-management.detail.attachments.hints.filename'
+            }
+          }
+        }
+      };
 
       ctrl.findTags = StudySearchService.findTags;
 
@@ -389,20 +416,24 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.editAttachment = function(attachment, event) {
-        $mdDialog.show({
-          controller: 'StudyAttachmentEditOrCreateController',
-          controllerAs: 'ctrl',
-          templateUrl: 'scripts/studymanagement/' +
-            'views/study-attachment-edit-or-create.html.tmpl',
-          clickOutsideToClose: false,
-          fullscreen: true,
-          locals: {
-            studyAttachmentMetadata: attachment
-          },
-          targetEvent: event
-        }).then(function() {
-          ctrl.loadAttachments();
-        });
+
+        var upload = function(file, newAttachmentMetadata) {
+          var metadata = _.extend(attachment, newAttachmentMetadata);
+          return StudyAttachmentUploadService.uploadAttachment(file, metadata);
+        };
+
+        var labels = getDialogLabels();
+        labels.editTitle.params.filename = attachment.fileName;
+
+        var dialogConfig = {
+          attachmentMetadata: attachment,
+          attachmentTypes: attachmentTypes,
+          uploadCallback: upload,
+          labels: labels
+        };
+
+        AttachmentDialogService.showDialog(dialogConfig, event)
+          .then(ctrl.loadAttachments);
       };
 
       ctrl.getNextIndexInStudy = function() {
@@ -414,25 +445,29 @@ angular.module('metadatamanagementApp')
         }).indexInStudy + 1;
       };
 
-      ctrl.addAttachment = function(event) {
-        $mdDialog.show({
-          controller: 'StudyAttachmentEditOrCreateController',
-          controllerAs: 'ctrl',
-          templateUrl: 'scripts/studymanagement/' +
-            'views/study-attachment-edit-or-create.html.tmpl',
-          clickOutsideToClose: false,
-          fullscreen: true,
-          locals: {
-            studyAttachmentMetadata: {
-              indexInStudy: ctrl.getNextIndexInStudy(),
-              studyId: ctrl.study.id,
-              dataAcquisitionProjectId: ctrl.study.dataAcquisitionProjectId
-            }
-          },
-          targetEvent: event
-        }).then(function() {
-          ctrl.loadAttachments(true);
-        });
+      ctrl.addAttachment = function (event) {
+
+        var upload = function (file, attachmentMetadata) {
+          var metadata = _.extend({}, attachmentMetadata, {
+            studyId: ctrl.study.id,
+            dataAcquisitionProjectId: ctrl.study.dataAcquisitionProjectId,
+            indexInStudy: ctrl.getNextIndexInStudy()
+          });
+          return StudyAttachmentUploadService.uploadAttachment(file, metadata);
+        };
+
+        var dialogConfig = {
+          attachmentMetadata: null,
+          attachmentTypes: attachmentTypes,
+          uploadCallback: upload,
+          labels: getDialogLabels()
+        };
+
+        AttachmentDialogService
+          .showDialog(dialogConfig, event)
+          .then(function () {
+            ctrl.loadAttachments(true);
+          });
       };
 
       ctrl.moveAttachmentUp = function() {
