@@ -1,9 +1,9 @@
 /* globals _ */
 'use strict';
 angular.module('metadatamanagementApp').service('AttachmentDialogService',
-  function ($mdDialog) {
+  function($mdDialog) {
 
-    var showDialog = function (dialogConfig, event) {
+    var showDialog = function(dialogConfig, event) {
 
       var defaultLabels = {
         createTitle: {
@@ -42,5 +42,5 @@ angular.module('metadatamanagementApp').service('AttachmentDialogService',
 
     return {
       showDialog: showDialog
-    }
+    };
   });

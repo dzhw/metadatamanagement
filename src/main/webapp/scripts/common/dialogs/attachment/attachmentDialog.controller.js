@@ -2,20 +2,22 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('AttachmentDialogController',
-  function (dialogConfig,
-            isoLanguages, CommonDialogsService, LanguageService,
+  function(dialogConfig, isoLanguages, CommonDialogsService, LanguageService,
             SimpleMessageToastService, $scope, $mdDialog) {
 
     var ctrl = this;
     var isInitialisingSelectedLanguage = false;
     var uploadFile = dialogConfig.uploadCallback;
 
-    ctrl.isCreateMode = dialogConfig.attachmentMetadata === undefined || dialogConfig.attachmentMetadata === null;
+    ctrl.isCreateMode = dialogConfig.attachmentMetadata === undefined ||
+        dialogConfig.attachmentMetadata === null;
     ctrl.attachmentForm = $scope.attachmentForm;
     ctrl.currentLanguage = LanguageService.getCurrentInstantly();
     ctrl.attachmentTypes = dialogConfig.attachmentTypes;
     ctrl.labels = dialogConfig.labels;
-    ctrl.titleParams = ctrl.isCreateMode ? _.get(ctrl,'labels.createTitle.params') : _.get(ctrl,'labels.editTitle.params');
+    ctrl.titleParams = ctrl.isCreateMode ?
+        _.get(ctrl, 'labels.createTitle.params') :
+        _.get(ctrl, 'labels.editTitle.params');
 
     var isoLanguagesArray = Object.keys(isoLanguages).map(function(key) {
       return {
@@ -32,7 +34,7 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
         })[0];
     };
 
-    if(dialogConfig.attachmentMetadata) {
+    if (dialogConfig.attachmentMetadata) {
       ctrl.attachmentMetadata = angular.copy(dialogConfig.attachmentMetadata);
       ctrl.originalAttachmentMetadata = dialogConfig.attachmentMetadata;
       initSelectedLanguage();
@@ -40,7 +42,7 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
       ctrl.attachmentMetadata = {};
     }
 
-    ctrl.cancel = function () {
+    ctrl.cancel = function() {
       if ($scope.attachmentForm.$dirty) {
         CommonDialogsService.showConfirmOnDirtyDialog().then($mdDialog.cancel);
       } else {
@@ -71,12 +73,12 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
       isInitialisingSelectedLanguage = false;
     };
 
-    ctrl.upload = function (file) {
+    ctrl.upload = function(file) {
       if (file.name !== ctrl.attachmentMetadata.fileName &&
         !ctrl.isCreateMode) {
         CommonDialogsService.showConfirmFilenameChangedDialog(
           ctrl.attachmentMetadata.fileName, file.name).then(
-          function () {
+          function() {
             ctrl.isCreateMode = true;
             ctrl.selectedFile = file;
             ctrl.attachmentMetadata.fileName = file.name;

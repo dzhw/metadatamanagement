@@ -40,7 +40,7 @@ angular.module('metadatamanagementApp')
               key: 'study-management.detail.attachments.hints.filename'
             }
           }
-        }
+        };
       };
 
       ctrl.findTags = StudySearchService.findTags;
@@ -445,9 +445,9 @@ angular.module('metadatamanagementApp')
         }).indexInStudy + 1;
       };
 
-      ctrl.addAttachment = function (event) {
+      ctrl.addAttachment = function(event) {
 
-        var upload = function (file, attachmentMetadata) {
+        var upload = function(file, attachmentMetadata) {
           var metadata = _.extend({}, attachmentMetadata, {
             studyId: ctrl.study.id,
             dataAcquisitionProjectId: ctrl.study.dataAcquisitionProjectId,
@@ -465,7 +465,7 @@ angular.module('metadatamanagementApp')
 
         AttachmentDialogService
           .showDialog(dialogConfig, event)
-          .then(function () {
+          .then(function() {
             ctrl.loadAttachments(true);
           });
       };

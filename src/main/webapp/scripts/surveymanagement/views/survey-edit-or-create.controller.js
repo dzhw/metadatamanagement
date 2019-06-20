@@ -10,7 +10,8 @@ angular.module('metadatamanagementApp')
       CommonDialogsService, LanguageService, AvailableSurveyNumbersResource,
       SurveyAttachmentResource, $q, StudyIdBuilderService, moment,
       SurveyResponseRateImageUploadService, SurveySearchService, $log,
-      DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService) {
+      DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
+      AttachmentDialogService, SurveyAttachmentUploadService) {
       var ctrl = this;
       var surveyMethodCache = {};
       var updateToolbarHeaderAndPageTitle = function() {
@@ -180,6 +181,28 @@ angular.module('metadatamanagementApp')
         }
       };
 
+      var getDialogLabels = function() {
+        return {
+          createTitle: {
+            key: 'survey-management.detail.attachments.create-title',
+            params: {
+              surveyId: ctrl.survey.id
+            }
+          },
+          editTitle: {
+            key: 'survey-management.detail.attachments.edit-title',
+            params: {
+              surveyId: ctrl.survey.id
+            }
+          },
+          hints: {
+            file: {
+              key: 'survey-management.detail.attachments.hints.filename'
+            }
+          }
+        };
+      };
+
       ctrl.saveSurvey = function() {
         if ($scope.surveyForm.$valid) {
           if (angular.isUndefined(ctrl.survey.masterId)) {
@@ -304,20 +327,22 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.editAttachment = function(attachment, event) {
-        $mdDialog.show({
-            controller: 'SurveyAttachmentEditOrCreateController',
-            controllerAs: 'ctrl',
-            templateUrl: 'scripts/surveymanagement/' +
-              'views/survey-attachment-edit-or-create.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              surveyAttachmentMetadata: attachment
-            },
-            targetEvent: event
-          }).then(function() {
-          ctrl.loadAttachments();
-        });
+        var upload = function(file, newAttachmentMetadata) {
+          var metadata = _.extend(attachment, newAttachmentMetadata);
+          return SurveyAttachmentUploadService.uploadAttachment(file, metadata);
+        };
+
+        var labels = getDialogLabels();
+        labels.editTitle.params.filename = attachment.fileName;
+
+        var dialogConfig = {
+          attachmentMetadata: attachment,
+          uploadCallback: upload,
+          labels: labels
+        };
+
+        AttachmentDialogService.showDialog(dialogConfig, event)
+          .then(ctrl.loadAttachments);
       };
 
       ctrl.getNextIndexInSurvey = function() {
@@ -330,25 +355,27 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.addAttachment = function(event) {
-        $mdDialog.show({
-            controller: 'SurveyAttachmentEditOrCreateController',
-            controllerAs: 'ctrl',
-            templateUrl: 'scripts/surveymanagement/' +
-              'views/survey-attachment-edit-or-create.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              surveyAttachmentMetadata: {
-                indexInSurvey: ctrl.getNextIndexInSurvey(),
-                surveyId: ctrl.survey.id,
-                surveyNumber: ctrl.survey.number,
-                dataAcquisitionProjectId: ctrl.survey.dataAcquisitionProjectId
-              }
-            },
-            targetEvent: event
-          }).then(function() {
-          ctrl.loadAttachments(true);
-        });
+        var upload = function(file, attachmentMetadata) {
+          var metadata = _.extend({}, attachmentMetadata, {
+            surveyId: ctrl.survey.id,
+            surveyNumber: ctrl.survey.number,
+            dataAcquisitionProjectId: ctrl.survey.dataAcquisitionProjectId,
+            indexInSurvey: ctrl.getNextIndexInSurvey()
+          });
+          return SurveyAttachmentUploadService.uploadAttachment(file, metadata);
+        };
+
+        var dialogConfig = {
+          attachmentMetadata: null,
+          uploadCallback: upload,
+          labels: getDialogLabels()
+        };
+
+        AttachmentDialogService
+          .showDialog(dialogConfig, event)
+          .then(function() {
+            ctrl.loadAttachments(true);
+          });
       };
 
       ctrl.moveAttachmentUp = function() {
