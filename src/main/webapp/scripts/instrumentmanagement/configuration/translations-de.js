@@ -16,11 +16,9 @@ angular.module('metadatamanagementApp').config(
             'duplicate-instrument-number': 'Die Nummer ({{ number }}) des Instrumentes aus der Exceldatei aus dem Arbeitsblatt "instruments" in der Zeile {{ index }} wurde bereits verwendet.'
           },
           'instrument-attachment': {
-            'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert:',
             'missing-instrument-number': 'Das Instrument Attachment aus dem Exceldocument aus dem Arbeitsblatt "attachments" in der Zeile {{ index }} hat keine Instrumentnummer und wurde daher nicht gespeichert.',
             'unknown-instrument-number': 'Die Nummer des Instrumentes des Attachments aus der Exceldatei in dem Arbeitsblatt "attachments" in der Zeile {{index}} gibt es nicht. Das Attachment wurde daher nicht gespeichert.',
-            'missing-filename': 'Das Attachment eines Instrumentes aus der Exceldatei aus dem Arbeitsblatt "attachments" in der Zeile {{index}} hat keinen Dateinamen und wurde daher nicht gespeichert.',
-            'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
+            'missing-filename': 'Das Attachment eines Instrumentes aus der Exceldatei aus dem Arbeitsblatt "attachments" in der Zeile {{index}} hat keinen Dateinamen und wurde daher nicht gespeichert.'
           }
         },
         'home': {
@@ -55,10 +53,6 @@ angular.module('metadatamanagementApp').config(
             'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Instrument hinzuzufügen.',
             'edit-title': 'Datei "{{ filename }}" von Instrument "{{ instrumentId }}" bearbeiten',
             'create-title': 'Neue Datei zu Instrument "{{ instrumentId }}" hinzufügen',
-            'cancel-tooltip': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
-            'save-tooltip': 'Klicken, um die Datei zu speichern.',
-            'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
-            'attachment-has-validation-errors-toast': 'Die Datei wurde nicht gespeichert, weil es noch ungültige Felder gibt.',
             'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
             'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
             'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
@@ -79,13 +73,7 @@ angular.module('metadatamanagementApp').config(
             'language-not-found': 'Keine gültige Sprache gefunden!',
             'save-instrument-before-adding-attachment': 'Das Instrument muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
             'hints': {
-              'filename': 'Wählen Sie eine Datei aus, die Sie dem Instrument hinzufügen wollen.',
-              'language': 'Wählen Sie die Sprache, die in der Datei verwendet wurde, aus.',
-              'type': 'Wählen Sie den Typ der Datei aus.',
-              'description': {
-                'de': 'Geben Sie eine Beschreibung dieser Datei auf Deutsch ein.',
-                'en': 'Geben Sie eine Beschreibung dieser Datei auf Englisch ein.'
-              }
+              'filename': 'Wählen Sie eine Datei aus, die Sie dem Instrument hinzufügen wollen.'
             }
           },
           'page-title': '{{ description }} ({{ instrumentId }})',

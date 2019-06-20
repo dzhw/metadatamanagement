@@ -15,11 +15,9 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                     'duplicate-instrument-number': 'The number ({{ number }}) of Instrument from the Excel document in the worksheet "instruments" in line {{ index }} has already been used.'
                 },
                 'instrument-attachment': {
-                    'not-saved': 'Attachment "{{ id }}" has not been saved:',
                     'missing-instrument-number': 'Attachment from the Excel document in the worksheet "attachments" in the line {{ index }} does not have an instrument number and has not been saved.',
                     'unknown-instrument-number': 'The number of the instrument of an attachment from the Excel document in the worksheet in the line {{ index }} does not exist. The attachment has not been saved.',
                     'missing-filename': 'Attachment of an instrument from the Excel document in the worksheet "attachments" in line {{ index }} does not have a filename and has not been saved.',
-                    'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
                 }
             },
             'home': {
@@ -54,11 +52,7 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                     'add-attachment-tooltip': 'Click to add a new document to this instrument.',
                     'edit-title': 'Modify Document "{{ filename }}" of Instrument "{{ instrumentId }}"',
                     'create-title': 'Add new Document to Instrument "{{ instrumentId }}"',
-                    'cancel-tooltip': 'Click to close this dialog without saving.',
-                    'save-tooltip': 'Click to save this document.',
                     'change-file-tooltip': 'Click to choose a file.',
-                    'attachment-saved-toast': 'Document "{{ filename }}" has been saved.',
-                    'attachment-has-validation-errors-toast': 'The document has not been saved because there are invalid fields.',
                     'open-choose-previous-version-tooltip': 'Click to restore a previous version of the metadata.',
                     'current-version-restored-toast': 'Current version of the metadata for document "{{ filename }}" has been restored.',
                     'previous-version-restored-toast': 'Previous version of the metadata for document "{{ filename }}" can be saved now.',
@@ -78,13 +72,7 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                     'language-not-found': 'No valid language found!',
                     'save-instrument-before-adding-attachment': 'The Instrument has to be saved to enable attaching documents.',
                     'hints': {
-                        'filename': 'Choose a file which you want to attach to the instrument.',
-                        'language': 'Select the language which has been used in the file.',
-                        'type': 'Select the type of the file.',
-                        'description': {
-                            'de': 'Please enter a description for the file in German.',
-                            'en': 'Please enter a description for the file in English.'
-                        }
+                        'filename': 'Choose a file which you want to attach to the instrument.'
                     }
                 },
                 'page-title': '{{ description }} ({{ instrumentId }})',
@@ -102,13 +90,13 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                         'one': 'Click to show the question of this instrument',
                         'many': 'Click to show all questions of this instrument'
                     },
-                    'concepts': {
-                      'one': 'Click to show the concept which has been measured with this instrument',
-                      'many': 'Click to show all concepts which have been measured with this instrument'
-                    },
                     'studies': {
                         'one': 'Click to show the study in which this instrument has been used'
-                    }
+                    },
+                    'concepts': {
+                        'one': 'Click to show the concept which has been measured with this instrument',
+                        'many': 'Click to show all concepts which have been measured with this instrument'
+                    },
                 }
             },
             'error': {

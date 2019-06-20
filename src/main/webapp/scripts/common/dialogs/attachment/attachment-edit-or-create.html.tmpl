@@ -85,7 +85,7 @@
             </md-autocomplete>
             <div flex="50"></div>
           </div>
-          <div layout="row">
+          <div layout="row" ng-if="ctrl.excludedMetadataFields.indexOf('title') === -1">
             <md-input-container flex style="margin-right: 8px; -ms-flex:auto;" md-is-error="!attachmentForm.title.$valid && (attachmentForm.title.$dirty || attachmentForm.title.$touched)">
               <label>{{'attachment.label.title' | translate}} ({{'global.in' | translate}} {{ctrl.selectedLanguage.displayLanguage[ctrl.currentLanguage]?ctrl.selectedLanguage.displayLanguage[ctrl.currentLanguage]:'?'}})</label>
               <textarea rows="4" md-maxlength="2048" ng-model="ctrl.attachmentMetadata.title" name="title"></textarea>

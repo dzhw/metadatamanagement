@@ -18,6 +18,7 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
     ctrl.titleParams = ctrl.isCreateMode ?
         _.get(ctrl, 'labels.createTitle.params') :
         _.get(ctrl, 'labels.editTitle.params');
+    ctrl.excludedMetadataFields = dialogConfig.exclude;
 
     var isoLanguagesArray = Object.keys(isoLanguages).map(function(key) {
       return {
