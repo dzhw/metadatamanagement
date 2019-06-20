@@ -19,8 +19,6 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'data-set-attachment': {
-            'not-saved': 'Attachment "{{ id }}" has not been saved.',
-            'file-not-found': 'The File {{ filename }} was not found and has not been saved.',
             'unknown-data-set-number': 'An Attachment of the Data Sets from the line {{ index }} in the worksheet "attachments" of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
           },
           'sub-data-set': {
@@ -40,9 +38,9 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'data-set': 'Data Set',
             'data-sets': 'Data Sets',
+            'description': 'Description',
             'type': 'Type',
             'format': 'Format',
-            'description': 'Description',
             'annotations': 'Annotations',
             'data-set-same-study': 'Data Sets of this Study',
             'sub-data-sets': {
@@ -83,11 +81,7 @@ angular.module('metadatamanagementApp').config(
             'add-attachment-tooltip': 'Click to add a new document to this data set.',
             'edit-title': 'Modify Document "{{ filename }}" of Data Set "{{ dataSetId }}"',
             'create-title': 'Add new Document to Data Set "{{ dataSetId }}"',
-            'cancel-tooltip': 'Click to close this dialog without saving.',
-            'save-tooltip': 'Click to save this document.',
             'change-file-tooltip': 'Click to choose a file.',
-            'attachment-saved-toast': 'Document "{{ filename }}" has been saved.',
-            'attachment-has-validation-errors-toast': 'The document has not been saved because there are invalid fields.',
             'open-choose-previous-version-tooltip': 'Click to restore a previous version of the metadata.',
             'current-version-restored-toast': 'Current version of the metadata for document "{{ filename }}" has been restored.',
             'previous-version-restored-toast': 'Previous version of the metadata for document "{{ filename }}" can be saved now.',
@@ -107,13 +101,7 @@ angular.module('metadatamanagementApp').config(
             'language-not-found': 'No valid language found!',
             'save-data-set-before-adding-attachment': 'The Data Set has to be saved to enable attaching documents.',
             'hints': {
-                'filename': 'Choose a file which you want to attach to the data set.',
-                'language': 'Select the language which has been used in the file.',
-                'description': {
-                    'de': 'Please enter a description for the file in German.',
-                    'en': 'Please enter a description for the file in English.'
-                },
-                'title': 'Enter the title of the file in the language of the file.'
+              'filename': 'Choose a file which you want to attach to the data set.'
             }
           },
           'title': '{{ description }} ({{ dataSetId }})',

@@ -10,7 +10,8 @@ angular.module('metadatamanagementApp')
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
       CommonDialogsService, LanguageService, AvailableDataSetNumbersResource,
       DataSetAttachmentResource, $q, StudyIdBuilderService, SearchDao,
-      DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService) {
+      DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
+      AttachmentDialogService, DataSetAttachmentUploadService) {
       var ctrl = this;
       ctrl.surveyChips = [];
       var updateToolbarHeaderAndPageTitle = function() {
@@ -191,6 +192,28 @@ angular.module('metadatamanagementApp')
           SimpleMessageToastService.openAlertMessageToast(
           'data-set-management.edit.not-authorized-toast');
         }
+      };
+
+      var getDialogLabels = function() {
+        return {
+          createTitle: {
+            key: 'data-set-management.detail.attachments.create-title',
+            params: {
+              dataSetId: ctrl.dataSet.id
+            }
+          },
+          editTitle: {
+            key: 'data-set-management.detail.attachments.edit-title',
+            params: {
+              dataSetId: ctrl.dataSet.id
+            }
+          },
+          hints: {
+            file: {
+              key: 'data-set-management.detail.attachments.hints.filename'
+            }
+          }
+        };
       };
 
       ctrl.allAccessWays = ['download-cuf', 'download-suf',
@@ -394,20 +417,23 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.editAttachment = function(attachment, event) {
-        $mdDialog.show({
-            controller: 'DataSetAttachmentEditOrCreateController',
-            controllerAs: 'ctrl',
-            templateUrl: 'scripts/datasetmanagement/' +
-              'views/data-set-attachment-edit-or-create.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              dataSetAttachmentMetadata: attachment
-            },
-            targetEvent: event
-          }).then(function() {
-          ctrl.loadAttachments();
-        });
+        var upload = function(file, newAttachmentMetadata) {
+          var metadata = _.extend(attachment, newAttachmentMetadata);
+          return DataSetAttachmentUploadService.uploadAttachment(file,
+              metadata);
+        };
+
+        var labels = getDialogLabels();
+        labels.editTitle.params.filename = attachment.fileName;
+
+        var dialogConfig = {
+          attachmentMetadata: attachment,
+          uploadCallback: upload,
+          labels: labels
+        };
+
+        AttachmentDialogService.showDialog(dialogConfig, event)
+            .then(ctrl.loadAttachments);
       };
 
       ctrl.getNextIndexInDataSet = function() {
@@ -420,26 +446,28 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.addAttachment = function(event) {
-        $mdDialog.show({
-            controller: 'DataSetAttachmentEditOrCreateController',
-            controllerAs: 'ctrl',
-            templateUrl: 'scripts/datasetmanagement/' +
-              'views/data-set-attachment-edit-or-create.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              dataSetAttachmentMetadata: {
-                indexInDataSet: ctrl.getNextIndexInDataSet(),
-                dataSetId: ctrl.dataSet.id,
-                dataSetNumber: ctrl.dataSet.number,
-                dataAcquisitionProjectId:
-                  ctrl.dataSet.dataAcquisitionProjectId
-              }
-            },
-            targetEvent: event
-          }).then(function() {
-          ctrl.loadAttachments(true);
-        });
+        var upload = function(file, attachmentMetadata) {
+          var metadata = _.extend({}, attachmentMetadata, {
+            dataSetId: ctrl.dataSet.id,
+            dataSetNumber: ctrl.dataSet.number,
+            dataAcquisitionProjectId: ctrl.dataSet.dataAcquisitionProjectId,
+            indexInDataSet: ctrl.getNextIndexInDataSet()
+          });
+          return DataSetAttachmentUploadService.uploadAttachment(file,
+              metadata);
+        };
+
+        var dialogConfig = {
+          attachmentMetadata: null,
+          uploadCallback: upload,
+          labels: getDialogLabels()
+        };
+
+        AttachmentDialogService
+            .showDialog(dialogConfig, event)
+            .then(function() {
+              ctrl.loadAttachments(true);
+            });
       };
 
       ctrl.moveAttachmentUp = function() {

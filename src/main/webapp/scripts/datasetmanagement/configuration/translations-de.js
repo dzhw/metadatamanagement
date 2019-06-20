@@ -19,8 +19,6 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'data-set-attachment': {
-            'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert.',
-            'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!',
             'unknown-data-set-number': 'Ein Attachment der Datensätze aus der Zeile {{index}} des Arbeitsblattes "attachments" im Excel Dokument verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.'
           },
           'sub-data-set': {
@@ -83,10 +81,6 @@ angular.module('metadatamanagementApp').config(
             'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Datensatz hinzuzufügen.',
             'edit-title': 'Datei "{{ filename }}" von Datensatz "{{ dataSetId }}" bearbeiten',
             'create-title': 'Neue Datei zu Datensatz "{{ dataSetId }}" hinzufügen',
-            'cancel-tooltip': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
-            'save-tooltip': 'Klicken, um die Datei zu speichern.',
-            'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
-            'attachment-has-validation-errors-toast': 'Die Datei wurde nicht gespeichert, weil es noch ungültige Felder gibt.',
             'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
             'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
             'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
@@ -107,13 +101,7 @@ angular.module('metadatamanagementApp').config(
             'language-not-found': 'Keine gültige Sprache gefunden!',
             'save-data-set-before-adding-attachment': 'Der Datensatz muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
             'hints': {
-              'filename': 'Wählen Sie eine Datei aus, die Sie dem Datensatz hinzufügen wollen.',
-              'language': 'Wählen Sie die Sprache, die in der Datei verwendet wurde, aus.',
-              'description': {
-                'de': 'Geben Sie eine Beschreibung dieser Datei auf Deutsch ein.',
-                'en': 'Geben Sie eine Beschreibung dieser Datei auf Englisch ein.'
-              },
-              'title': 'Geben Sie den Titel der Datei in der Dokumentensprache ein.'
+              'filename': 'Wählen Sie eine Datei aus, die Sie dem Datensatz hinzufügen wollen.'
             }
           },
           'title': '{{ description }} ({{ dataSetId }})',
