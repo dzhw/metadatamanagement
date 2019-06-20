@@ -36,10 +36,6 @@ angular.module('metadatamanagementApp').config(
             'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Konzept hinzuzufügen.',
             'edit-title': 'Datei "{{ filename }}" von Konzept "{{ conceptId }}" bearbeiten',
             'create-title': 'Neue Datei zu Konzept "{{ conceptId }}" hinzufügen',
-            'cancel-tooltip': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
-            'save-tooltip': 'Klicken, um die Datei zu speichern.',
-            'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
-            'attachment-has-validation-errors-toast': 'Die Datei wurde nicht gespeichert, weil es noch ungültige Felder gibt.',
             'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
             'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
             'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
@@ -60,14 +56,7 @@ angular.module('metadatamanagementApp').config(
             'language-not-found': 'Keine gültige Sprache gefunden!',
             'save-concept-before-adding-attachment': 'Das Konzept muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
             'hints': {
-              'filename': 'Wählen Sie eine Datei aus, die Sie dem Konzept hinzufügen wollen.',
-              'type': 'Wählen Sie den Typ der Datei aus.',
-              'language': 'Wählen Sie die Sprache, die in der Datei verwendet wurde, aus.',
-              'title': 'Geben Sie den Titel der Datei in der Dokumentensprache ein.',
-              'description': {
-                'de': 'Geben Sie eine Beschreibung dieser Datei auf Deutsch ein.',
-                'en': 'Geben Sie eine Beschreibung dieser Datei auf Englisch ein.'
-              }
+              'filename': 'Wählen Sie eine Datei aus, die Sie dem Konzept hinzufügen wollen.'
             }
           },
           'title': '{{ title }} ({{ conceptId }})',
@@ -102,17 +91,13 @@ angular.module('metadatamanagementApp').config(
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',
           'tag-tooltip': 'Klicken, um Konzepte mit diesem Tag zu suchen',
-          'tags': 'Tags',
+          'tags': 'Tags'
         },
         'log-messages': {
           'concept': {
             'saved': 'Konzept mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Konzept mit FDZ-ID {{ id }} wurde nicht gespeichert:',
             'unable-to-delete': 'Das Konzept konnte nicht gelöscht werden!'
-          },
-          'concept-attachment': {
-            'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert:',
-            'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
           }
         },
         'error': {

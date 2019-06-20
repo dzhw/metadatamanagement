@@ -36,11 +36,7 @@ angular.module('metadatamanagementApp').config(
             'add-attachment-tooltip': 'Click to add a new document to this concept.',
             'edit-title': 'Modify Document "{{ filename }}" of Concept "{{ conceptId }}"',
             'create-title': 'Add new Document to Concept "{{ conceptId }}"',
-            'cancel-tooltip': 'Click to close this dialog without saving.',
-            'save-tooltip': 'Click to save this document.',
             'change-file-tooltip': 'Click to choose a file.',
-            'attachment-saved-toast': 'Document "{{ filename }}" has been saved.',
-            'attachment-has-validation-errors-toast': 'The document has not been saved because there are invalid fields.',
             'open-choose-previous-version-tooltip': 'Click to restore a previous version of the metadata.',
             'current-version-restored-toast': 'Current version of the metadata for document "{{ filename }}" has been restored.',
             'previous-version-restored-toast': 'Previous version of the metadata for document "{{ filename }}" can be saved now.',
@@ -109,10 +105,6 @@ angular.module('metadatamanagementApp').config(
             'saved': 'Concept with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Concept with RDC-ID {{ id }} has not been saved!',
             'unable-to-delete': 'The concept could not be deleted!'
-          },
-          'concept-attachment': {
-            'not-saved': 'Attachment "{{ id }}" has not been saved:',
-            'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
           }
         },
         'error': {

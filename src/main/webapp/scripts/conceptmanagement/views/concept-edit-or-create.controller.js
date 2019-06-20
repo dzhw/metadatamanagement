@@ -7,12 +7,18 @@ angular.module('metadatamanagementApp')
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       ConceptResource, ConceptSearchService, $scope,
       ElasticSearchAdminService, $mdDialog, $transitions,
-      CommonDialogsService, LanguageService,
-      ConceptAttachmentResource, $q) {
+      CommonDialogsService, LanguageService, ConceptAttachmentUploadService,
+      ConceptAttachmentResource, AttachmentDialogService, $q) {
 
       var ctrl = this;
 
       ctrl.conceptTagSearch = ConceptSearchService.findTags;
+
+      var conceptAttachmentTypes = [
+        {de: 'Dokumentation', en: 'Documentation'},
+        {de: 'Instrument', en: 'Instrument'},
+        {de: 'Sonstiges', en: 'Other'}
+      ];
 
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
@@ -118,6 +124,28 @@ angular.module('metadatamanagementApp')
           delete ctrl.currentAuthorIndex;
           timeoutActive = null;
         }, 500);
+      };
+
+      var getDialogLabels = function() {
+        return {
+          createTitle: {
+            key: 'concept-management.detail.attachments.create-title',
+            params: {
+              conceptId: ctrl.concept.id
+            }
+          },
+          editTitle: {
+            key: 'concept-management.detail.attachments.edit-title',
+            params: {
+              conceptId: ctrl.concept.id
+            }
+          },
+          hints: {
+            file: {
+              key: 'concept-management.detail.attachments.hints.filename'
+            }
+          }
+        };
       };
 
       ctrl.moveCurrentAuthorUp = function() {
@@ -263,20 +291,24 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.editAttachment = function(attachment, event) {
-        $mdDialog.show({
-          controller: 'ConceptAttachmentEditOrCreateController',
-          controllerAs: 'ctrl',
-          templateUrl: 'scripts/conceptmanagement/' +
-            'views/concept-attachment-edit-or-create.html.tmpl',
-          clickOutsideToClose: false,
-          fullscreen: true,
-          locals: {
-            conceptAttachmentMetadata: attachment
-          },
-          targetEvent: event
-        }).then(function() {
-          ctrl.loadAttachments();
-        });
+        var upload = function(file, newAttachmentMetadata) {
+          var metadata = _.extend(attachment, newAttachmentMetadata);
+          return ConceptAttachmentUploadService.uploadAttachment(file,
+              metadata);
+        };
+
+        var labels = getDialogLabels();
+        labels.editTitle.params.filename = attachment.fileName;
+
+        var dialogConfig = {
+          attachmentMetadata: attachment,
+          attachmentTypes: conceptAttachmentTypes,
+          uploadCallback: upload,
+          labels: labels
+        };
+
+        AttachmentDialogService.showDialog(dialogConfig, event)
+            .then(ctrl.loadAttachments);
       };
 
       ctrl.getNextIndexInConcept = function() {
@@ -289,23 +321,27 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.addAttachment = function(event) {
-        $mdDialog.show({
-          controller: 'ConceptAttachmentEditOrCreateController',
-          controllerAs: 'ctrl',
-          templateUrl: 'scripts/conceptmanagement/' +
-            'views/concept-attachment-edit-or-create.html.tmpl',
-          clickOutsideToClose: false,
-          fullscreen: true,
-          locals: {
-            conceptAttachmentMetadata: {
-              indexInConcept: ctrl.getNextIndexInConcept(),
-              conceptId: ctrl.concept.id
-            }
-          },
-          targetEvent: event
-        }).then(function() {
-          ctrl.loadAttachments(true);
-        });
+        var upload = function(file, attachmentMetadata) {
+          var metadata = _.extend({}, attachmentMetadata, {
+            conceptId: ctrl.concept.id,
+            indexInConcept: ctrl.getNextIndexInConcept()
+          });
+          return ConceptAttachmentUploadService.uploadAttachment(file,
+              metadata);
+        };
+
+        var dialogConfig = {
+          attachmentMetadata: null,
+          attachmentTypes: conceptAttachmentTypes,
+          uploadCallback: upload,
+          labels: getDialogLabels()
+        };
+
+        AttachmentDialogService
+            .showDialog(dialogConfig, event)
+            .then(function() {
+              ctrl.loadAttachments(true);
+            });
       };
 
       ctrl.moveAttachmentUp = function() {
