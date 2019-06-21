@@ -10,7 +10,8 @@ angular.module('metadatamanagementApp')
       CommonDialogsService, LanguageService, StudySearchService,
       StudyAttachmentResource, $q, CleanJSObjectService,
       DataAcquisitionProjectResource, ProjectUpdateAccessService,
-      AttachmentDialogService, StudyAttachmentUploadService) {
+      AttachmentDialogService, StudyAttachmentUploadService,
+      StudyAttachmentVersionsResource) {
 
       var ctrl = this;
       var studySeriesCache = {};
@@ -425,10 +426,30 @@ angular.module('metadatamanagementApp')
         var labels = getDialogLabels();
         labels.editTitle.params.filename = attachment.fileName;
 
+        var extractAttachmentDomainId = function(attachmentMetadata) {
+          return attachmentMetadata.studyId;
+        };
+
+        var getAttachmentVersions = function(id, filename, limit, skip) {
+          return StudyAttachmentVersionsResource.get({
+                studyId: id,
+                filename: filename,
+                limit: limit,
+                skip: skip
+              }).$promise;
+        };
+
+        var createStudyAttachmentResource = function(attachmentWrapper) {
+          return new StudyAttachmentResource(attachmentWrapper.studyAttachment);
+        };
+
         var dialogConfig = {
           attachmentMetadata: attachment,
           attachmentTypes: attachmentTypes,
           uploadCallback: upload,
+          extractDomainIdCallback: extractAttachmentDomainId,
+          getAttachmentVersionCallback: getAttachmentVersions,
+          createAttachmentResource: createStudyAttachmentResource,
           labels: labels
         };
 
