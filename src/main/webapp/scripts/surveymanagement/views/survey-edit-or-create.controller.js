@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp')
       SurveyAttachmentResource, $q, StudyIdBuilderService, moment,
       SurveyResponseRateImageUploadService, SurveySearchService, $log,
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
-      AttachmentDialogService, SurveyAttachmentUploadService) {
+      AttachmentDialogService, SurveyAttachmentUploadService,
+      SurveyAttachmentVersionsResource) {
       var ctrl = this;
       var surveyMethodCache = {};
       var updateToolbarHeaderAndPageTitle = function() {
@@ -335,9 +336,26 @@ angular.module('metadatamanagementApp')
         var labels = getDialogLabels();
         labels.editTitle.params.filename = attachment.fileName;
 
+        var getAttachmentVersions = function(id, filename, limit, skip) {
+          return SurveyAttachmentVersionsResource.get({
+            surveyId: id,
+            filename: filename,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var createSurveyAttachmentResource = function(attachmentWrapper) {
+          return new SurveyAttachmentResource(attachmentWrapper
+              .studyAttachment);
+        };
+
         var dialogConfig = {
           attachmentMetadata: attachment,
+          attachmentDomainIdAttribute: 'surveyId',
+          getAttachmentVersionsCallback: getAttachmentVersions,
           uploadCallback: upload,
+          createAttachmentResource: createSurveyAttachmentResource,
           labels: labels
         };
 

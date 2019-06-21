@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp')
     .controller('ChoosePreviousAttachmentVersionController',
-        function(getAttachmentVersionCallback, domainId, filename, $scope,
+        function(getAttachmentVersionsCallback, domainId, filename, $scope,
                  $mdDialog, LanguageService, $translate) {
 
           $scope.bowser = bowser;
@@ -18,7 +18,7 @@ angular.module('metadatamanagementApp')
           };
 
           $scope.getAttachmentVersions = function() {
-            getAttachmentVersionCallback(domainId, filename, $scope.limit,
+            getAttachmentVersionsCallback(domainId, filename, $scope.limit,
                 $scope.skip).then(
                 function(attachments) {
                   $scope.attachments = attachments;

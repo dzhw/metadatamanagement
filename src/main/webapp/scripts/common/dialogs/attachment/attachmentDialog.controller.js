@@ -166,11 +166,11 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
         clickOutsideToClose: false,
         fullscreen: true,
         locals: {
-          domainId: dialogConfig
-              .extractDomainAttachmentId(ctrl.attachmentMetadata),
+          domainId: ctrl.attachmentMetadata[dialogConfig
+              .attachmentDomainIdAttribute],
           filename: dialogConfig.attachmentMetadata.fileName,
-          getAttachmentVersionCallback: dialogConfig
-              .getAttachmentVersionCallback
+          getAttachmentVersionsCallback: dialogConfig
+              .getAttachmentVersionsCallback
         },
         multiple: true,
         targetEvent: event

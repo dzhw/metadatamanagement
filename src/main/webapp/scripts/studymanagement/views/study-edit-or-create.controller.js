@@ -426,10 +426,6 @@ angular.module('metadatamanagementApp')
         var labels = getDialogLabels();
         labels.editTitle.params.filename = attachment.fileName;
 
-        var extractAttachmentDomainId = function(attachmentMetadata) {
-          return attachmentMetadata.studyId;
-        };
-
         var getAttachmentVersions = function(id, filename, limit, skip) {
           return StudyAttachmentVersionsResource.get({
                 studyId: id,
@@ -447,8 +443,8 @@ angular.module('metadatamanagementApp')
           attachmentMetadata: attachment,
           attachmentTypes: attachmentTypes,
           uploadCallback: upload,
-          extractDomainIdCallback: extractAttachmentDomainId,
-          getAttachmentVersionCallback: getAttachmentVersions,
+          attachmentDomainIdAttribute: 'studyId',
+          getAttachmentVersionsCallback: getAttachmentVersions,
           createAttachmentResource: createStudyAttachmentResource,
           labels: labels
         };
