@@ -157,4 +157,43 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
           'unique', false);
       }
     };
+
+    ctrl.openRestorePreviousVersionDialog = function(event) {
+      $mdDialog.show({
+        controller: 'ChoosePreviousAttachmentVersionController',
+        templateUrl: 'scripts/common/dialogs/choose-previous-attachment' +
+            '-version/choose-attachment-version.html.tmpl',
+        clickOutsideToClose: false,
+        fullscreen: true,
+        locals: {
+          domainId: dialogConfig
+              .extractDomainAttachmentId(ctrl.attachmentMetadata),
+          filename: dialogConfig.attachmentMetadata.fileName,
+          getAttachmentVersionCallback: dialogConfig
+              .getAttachmentVersionCallback
+        },
+        multiple: true,
+        targetEvent: event
+      })
+      .then(function(attachmentWrapper) {
+        ctrl.attachmentMetadata = dialogConfig
+            .createAttachmentResource(attachmentWrapper);
+        initSelectedLanguage();
+        if (attachmentWrapper.isCurrentVersion) {
+          SimpleMessageToastService.openSimpleMessageToast(
+              'attachment.current-version-restored-toast',
+              {
+                filename: ctrl.attachmentMetadata.fileName
+              });
+          $scope.attachmentForm.$setPristine();
+        } else {
+          $scope.attachmentForm.$setDirty();
+          SimpleMessageToastService.openSimpleMessageToast(
+              'attachment.previous-version-restored-toast',
+              {
+                filename: ctrl.attachmentMetadata.fileName
+              });
+        }
+      });
+    };
   });

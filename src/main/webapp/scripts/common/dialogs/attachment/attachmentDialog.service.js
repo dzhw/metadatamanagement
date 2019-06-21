@@ -33,6 +33,10 @@ angular.module('metadatamanagementApp').service('AttachmentDialogService',
             attachmentMetadata: dialogConfig.attachmentMetadata,
             attachmentTypes: dialogConfig.attachmentTypes,
             uploadCallback: dialogConfig.uploadCallback,
+            extractDomainAttachmentId: dialogConfig.extractDomainIdCallback,
+            getAttachmentVersionCallback: dialogConfig
+                .getAttachmentVersionCallback,
+            createAttachmentResource: dialogConfig.createAttachmentResource,
             labels: labels,
             exclude: dialogConfig.exclude ? dialogConfig.exclude : []
           }

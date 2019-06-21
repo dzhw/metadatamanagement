@@ -8,6 +8,8 @@ angular.module('metadatamanagementApp').config(
         'create-title': 'Datei anlegen',
         'edit-title': 'Datei bearbeiten',
         'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
+        'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
+        'previous-version-restored-toast': 'Die ältere Version der Metadaten von Datei "{{ filename }}" kann jetzt gespeichert werden.',
         'error': {
           'attachment-has-validation-errors-toast': 'Die Datei wurde nicht gespeichert, weil es noch ungültige Felder gibt.',
           'description': {
@@ -53,6 +55,7 @@ angular.module('metadatamanagementApp').config(
         'tooltip': {
           'cancel': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
           'change-file': 'Klicken, um eine Datei auszuwählen.',
+          'previous-version': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
           'save': 'Klicken, um die Datei zu speichern.'
         }
       }

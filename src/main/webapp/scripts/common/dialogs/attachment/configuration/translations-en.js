@@ -8,6 +8,8 @@ angular.module('metadatamanagementApp').config(
         'create-title': 'Add file',
         'edit-title': 'Edit file',
         'attachment-saved-toast': 'File "{{ filename }}" was saved.',
+        'current-version-restored-toast': 'Current version of the metadata for document "{{ filename }}" has been restored.',
+        'previous-version-restored-toast': 'Previous version of the metadata for document "{{ filename }}" can be saved now.',
         'error': {
           'attachment-has-validation-errors-toast': 'The file has not been saved because there are invalid fields!.',
           'description': {
@@ -53,6 +55,7 @@ angular.module('metadatamanagementApp').config(
         'tooltip': {
           'cancel': 'Click to close this dialog without saving.',
           'change-file': 'Click to choose a file.',
+          'previous-version': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
           'save': 'Click to save this document.'
         }
       }
