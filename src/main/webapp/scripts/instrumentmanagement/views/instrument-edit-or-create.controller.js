@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
       CommonDialogsService, LanguageService, AvailableInstrumentNumbersResource,
       InstrumentAttachmentResource, $q, StudyIdBuilderService, SearchDao,
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
-      InstrumentAttachmentUploadService) {
+      InstrumentAttachmentUploadService, InstrumentAttachmentVersionsResource) {
       var ctrl = this;
       ctrl.surveyChips = [];
       ctrl.conceptChips = [];
@@ -354,12 +354,29 @@ angular.module('metadatamanagementApp')
         var labels = getDialogLabels();
         labels.editTitle.params.filename = attachment.fileName;
 
+        var getAttachmentVersions = function(id, filename, limit, skip) {
+          return InstrumentAttachmentVersionsResource.get({
+            instrumentId: id,
+            filename: filename,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var createInstrumentAttachmentResource = function(attachmentWrapper) {
+          return new InstrumentAttachmentResource(attachmentWrapper
+              .studyAttachment);
+        };
+
         var dialogConfig = {
           attachmentMetadata: attachment,
           attachmentTypes: instrumentAttachmentTypes,
           uploadCallback: upload,
           labels: labels,
-          exclude: ['title']
+          exclude: ['title'],
+          attachmentDomainIdAttribute: 'instrumentId',
+          getAttachmentVersionsCallback: getAttachmentVersions,
+          createAttachmentResource: createInstrumentAttachmentResource
         };
 
         AttachmentDialogService.showDialog(dialogConfig, event)

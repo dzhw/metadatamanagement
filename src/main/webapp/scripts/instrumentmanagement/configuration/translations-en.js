@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                 'instrument-attachment': {
                     'missing-instrument-number': 'Attachment from the Excel document in the worksheet "attachments" in the line {{ index }} does not have an instrument number and has not been saved.',
                     'unknown-instrument-number': 'The number of the instrument of an attachment from the Excel document in the worksheet in the line {{ index }} does not exist. The attachment has not been saved.',
-                    'missing-filename': 'Attachment of an instrument from the Excel document in the worksheet "attachments" in line {{ index }} does not have a filename and has not been saved.',
+                    'missing-filename': 'Attachment of an instrument from the Excel document in the worksheet "attachments" in line {{ index }} does not have a filename and has not been saved.'
                 }
             },
             'home': {
@@ -56,19 +56,6 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                     'open-choose-previous-version-tooltip': 'Click to restore a previous version of the metadata.',
                     'current-version-restored-toast': 'Current version of the metadata for document "{{ filename }}" has been restored.',
                     'previous-version-restored-toast': 'Previous version of the metadata for document "{{ filename }}" can be saved now.',
-                    'choose-previous-version': {
-                        'title': 'Restore Previous Version of the Metadata for Document "{{ filename }}"',
-                        'text': 'Choose a previous version of the metadata for document "{{ filename }}" which shall be restored:',
-                        'attachment-description': 'Description (in English)',
-                        'lastModified': 'Modified',
-                        'lastModifiedBy': 'by',
-                        'cancel-tooltip': 'Click to return without choosing a previous metadata version.',
-                        'current-version-tooltip': 'This is the current version!',
-                        'next-page-tooltip': 'Click to show older versions.',
-                        'previous-page-tooltip': 'Click to more recent versions.',
-                        'attachment-deleted': 'Metadata has been deleted!',
-                        'no-versions-found': 'There are no previous versions of the metadata.'
-                    },
                     'language-not-found': 'No valid language found!',
                     'save-instrument-before-adding-attachment': 'The Instrument has to be saved to enable attaching documents.',
                     'hints': {
@@ -96,7 +83,7 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                     'concepts': {
                         'one': 'Click to show the concept which has been measured with this instrument',
                         'many': 'Click to show all concepts which have been measured with this instrument'
-                    },
+                    }
                 }
             },
             'error': {
