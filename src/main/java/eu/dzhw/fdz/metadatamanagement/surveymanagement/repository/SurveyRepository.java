@@ -22,24 +22,23 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.Survey
  */
 @RepositoryRestResource(path = "/surveys")
 @JaversSpringDataAuditable
-public interface SurveyRepository
-    extends BaseRepository<Survey, String> {
+public interface SurveyRepository extends BaseRepository<Survey, String> {
 
   @RestResource(exported = false)
   Stream<Survey> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
-  
+
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
-  
+
   @RestResource(exported = true)
   List<Survey> findByDataAcquisitionProjectId(
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
-  
+
   @RestResource(exported = false)
   List<Survey> findByDataAcquisitionProjectIdOrderByNumber(String dataAcquisitionProjectId);
-  
+
   @RestResource(exported = false)
-  List<IdAndVersionProjection> findIdsByNumberAndDataAcquisitionProjectId(Integer number, 
+  List<IdAndVersionProjection> findIdsByNumberAndDataAcquisitionProjectId(Integer number,
       String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
@@ -56,7 +55,7 @@ public interface SurveyRepository
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String projectId);
-  
+
   @RestResource(exported = false)
   List<IdAndNumberSurveyProjection> findSurveyNumbersByDataAcquisitionProjectId(
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
@@ -69,9 +68,16 @@ public interface SurveyRepository
       String oldProjectId);
 
   @RestResource(exported = false)
+  Stream<Survey> streamByDataAcquisitionProjectIdAndShadowIsTrue(String oldProjectId);
+
+  @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
       Collection<String> surveyIds);
-  
+
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByMasterIdIn(Collection<String> surveyIds);
+
+  @RestResource(exported = false)
+  List<IdAndVersionProjection> deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+      String dataAcquisitionProjectId);
 }

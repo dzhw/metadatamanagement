@@ -22,8 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySub
  */
 @RepositoryRestResource(path = "/studies")
 @JaversSpringDataAuditable
-public interface StudyRepository
-    extends BaseRepository<Study, String>, StudyRepositoryCustom {
+public interface StudyRepository extends BaseRepository<Study, String>, StudyRepositoryCustom {
 
   @RestResource(exported = false)
   IdAndVersionProjection findOneIdAndVersionById(String id);
@@ -65,10 +64,16 @@ public interface StudyRepository
       String oldProjectId);
 
   @RestResource(exported = false)
+  Stream<Study> streamByDataAcquisitionProjectIdAndShadowIsTrue(String oldProjectId);
+
+  @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
       Collection<String> dataSetIds);
-  
+
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByMasterIdIn(
-      Collection<String> dataSetIds);
+  Stream<IdAndVersionProjection> streamIdsByMasterIdIn(Collection<String> dataSetIds);
+
+  @RestResource(exported = false)
+  List<IdAndVersionProjection> deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+      String dataAcquisitionProjectId);
 }

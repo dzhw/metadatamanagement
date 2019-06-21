@@ -1,13 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.stream.Stream;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 
 /**
  * Provides data for creating shadow copies of {@link DataAcquisitionProject}.
@@ -31,8 +32,8 @@ public class DataAcquisitionProjectShadowCopyDataSource
   @Override
   public DataAcquisitionProject createShadowCopy(DataAcquisitionProject source, String version) {
     String derivedId = source.getId() + "-" + version;
-    DataAcquisitionProject copy = dataAcquisitionProjectRepository.findById(derivedId)
-        .orElseGet(DataAcquisitionProject::new);
+    DataAcquisitionProject copy =
+        dataAcquisitionProjectRepository.findById(derivedId).orElseGet(DataAcquisitionProject::new);
     BeanUtils.copyProperties(source, copy, "version");
     copy.setId(derivedId);
     return copy;
@@ -62,11 +63,15 @@ public class DataAcquisitionProjectShadowCopyDataSource
 
   @Override
   public Stream<DataAcquisitionProject> findShadowCopiesWithDeletedMasters(String projectId,
-                                                                           String previousVersion) {
+      String previousVersion) {
     String previousProjectId = projectId + "-" + previousVersion;
-    return dataAcquisitionProjectRepository
-        .streamByIdAndShadowIsTrueAndSuccessorIdIsNull(previousProjectId)
-        .filter(shadowCopy -> !dataAcquisitionProjectRepository
-            .existsById(shadowCopy.getMasterId()));
+    return dataAcquisitionProjectRepository.streamByIdAndShadowIsTrue(previousProjectId).filter(
+        shadowCopy -> !dataAcquisitionProjectRepository.existsById(shadowCopy.getMasterId()));
+  }
+
+  @Override
+  public void deleteExistingShadowCopies(String projectId, String version) {
+    String oldProjectId = projectId + "-" + version;
+    dataAcquisitionProjectRepository.deleteByIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId);
   }
 }

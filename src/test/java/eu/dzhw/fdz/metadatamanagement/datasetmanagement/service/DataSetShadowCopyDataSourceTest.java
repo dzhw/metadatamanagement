@@ -1,5 +1,22 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
+
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
@@ -9,23 +26,8 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class DataSetShadowCopyDataSourceTest extends AbstractTest {
@@ -51,6 +53,9 @@ public class DataSetShadowCopyDataSourceTest extends AbstractTest {
   private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
 
   private DataAcquisitionProject project;
+  
+  @Autowired
+  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository; 
 
   private Release release;
 
@@ -70,6 +75,7 @@ public class DataSetShadowCopyDataSourceTest extends AbstractTest {
   public void tearDown() {
     dataSetRepository.deleteAll();
     javersService.deleteAll();
+    elasticsearchUpdateQueueItemRepository.deleteAll();
   }
 
   @Test
