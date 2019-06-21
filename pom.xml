@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.5.RELEASE</version>
+        <version>2.1.6.RELEASE</version>
         <relativePath />
     </parent>
 
@@ -601,6 +601,8 @@
                         <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/common/domain</argument>
                         <argument>-I</argument>
                         <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/projectmanagement/domain</argument>
+                        <argument>-I</argument>
+                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/conceptmanagement/domain</argument>
                         <argument>-I</argument>
                         <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/studymanagement/domain</argument>
                         <argument>-I</argument>

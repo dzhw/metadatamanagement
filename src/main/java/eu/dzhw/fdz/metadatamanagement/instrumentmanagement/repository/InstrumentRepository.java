@@ -24,19 +24,18 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.In
  */
 @RepositoryRestResource(path = "/instruments")
 @JaversSpringDataAuditable
-public interface InstrumentRepository
-    extends BaseRepository<Instrument, String> {
+public interface InstrumentRepository extends BaseRepository<Instrument, String> {
 
   @RestResource(exported = false)
   Stream<Instrument> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
-  
+
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();
 
   @RestResource(exported = true)
   List<Instrument> findByDataAcquisitionProjectId(
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
-  
+
   @RestResource(exported = false)
   List<IdAndVersionProjection> findIdsByNumberAndDataAcquisitionProjectId(Integer number,
       String dataAcquisitionProjectId);
@@ -50,7 +49,7 @@ public interface InstrumentRepository
   @RestResource(exported = false)
   Stream<IdAndVersionAndSurveyIdsProjection> streamIdsByIdIn(Collection<String> instrumentIds);
 
-  @RestResource(exported = false)    
+  @RestResource(exported = false)
   IdAndVersionProjection findOneIdAndVersionById(String id);
 
   @RestResource(exported = false)
@@ -81,12 +80,14 @@ public interface InstrumentRepository
       String oldProjectId);
 
   @RestResource(exported = false)
+  Stream<Instrument> streamByDataAcquisitionProjectIdAndShadowIsTrue(String oldProjectId);
+
+  @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
       Collection<String> instrumentIds);
-  
+
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByMasterIdIn(
-      Collection<String> instrumentIds);
+  Stream<IdAndVersionProjection> streamIdsByMasterIdIn(Collection<String> instrumentIds);
 
   @RestResource(exported = false)
   boolean existsByDataAcquisitionProjectId(String dataAcquisitionProjectId);
@@ -96,4 +97,8 @@ public interface InstrumentRepository
 
   @RestResource(exported = false)
   List<IdAndVersionProjection> findIdsByConceptIdsContaining(String id);
+
+  @RestResource(exported = false)
+  List<IdAndVersionProjection> deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+      String dataAcquisitionProjectId);
 }

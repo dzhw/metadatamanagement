@@ -71,6 +71,9 @@ public interface QuestionRepository extends BaseRepository<Question, String> {
       String oldProjectId);
 
   @RestResource(exported = false)
+  Stream<Question> streamByDataAcquisitionProjectIdAndShadowIsTrue(String oldProjectId);
+
+  @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
       Collection<String> questionIds);
 
@@ -79,4 +82,8 @@ public interface QuestionRepository extends BaseRepository<Question, String> {
 
   @RestResource(exported = false)
   List<QuestionSubDocumentProjection> findSubDocumentsByConceptIdsContaining(String id);
+
+  @RestResource(exported = false)
+  List<IdAndVersionProjection> deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+      String dataAcquisitionProjectId);
 }

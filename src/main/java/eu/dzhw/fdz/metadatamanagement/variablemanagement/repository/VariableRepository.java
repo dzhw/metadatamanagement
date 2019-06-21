@@ -97,6 +97,9 @@ public interface VariableRepository extends BaseRepository<Variable, String> {
       String oldProjectId);
 
   @RestResource(exported = false)
+  Stream<Variable> findByDataAcquisitionProjectIdAndShadowIsTrue(String oldProjectId);
+
+  @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
       Collection<String> variableIds);
 
@@ -113,4 +116,8 @@ public interface VariableRepository extends BaseRepository<Variable, String> {
 
   @RestResource(exported = false)
   Stream<IdAndVersionAndDataSetProjection> streamIdsByRelatedQuestionsQuestionId(String questionId);
+
+  @RestResource(exported = false)
+  List<IdAndVersionProjection> deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+      String dataAcquisitionProjectId);
 }

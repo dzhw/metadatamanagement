@@ -8,9 +8,13 @@ import java.util.stream.Stream;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 
 /**
  * Provides data for creating shadow copies of {@link Question}.
@@ -20,8 +24,12 @@ public class QuestionShadowCopyDataSource implements ShadowCopyDataSource<Questi
 
   private QuestionRepository questionRepository;
 
-  public QuestionShadowCopyDataSource(QuestionRepository questionRepository) {
+  private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+
+  public QuestionShadowCopyDataSource(QuestionRepository questionRepository,
+      ElasticsearchUpdateQueueService elasticsearchUpdateQueueService) {
     this.questionRepository = questionRepository;
+    this.elasticsearchUpdateQueueService = elasticsearchUpdateQueueService;
   }
 
   @Override
@@ -68,13 +76,23 @@ public class QuestionShadowCopyDataSource implements ShadowCopyDataSource<Questi
   public Stream<Question> findShadowCopiesWithDeletedMasters(String projectId,
       String previousVersion) {
     String oldProjectId = projectId + "-" + previousVersion;
-    return questionRepository
-        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId)
+    return questionRepository.streamByDataAcquisitionProjectIdAndShadowIsTrue(oldProjectId)
         .filter(shadowCopy -> !questionRepository.existsById(shadowCopy.getMasterId()));
   }
 
   private List<String> createDerivedSuccessorIds(List<String> successorIds, String version) {
     return successorIds.stream().map(successorId -> successorId + "-" + version)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public void deleteExistingShadowCopies(String projectId, String version) {
+    String oldProjectId = projectId + "-" + version;
+    List<IdAndVersionProjection> deletedIds = questionRepository
+        .deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId);
+    for (IdAndVersionProjection question : deletedIds) {
+      elasticsearchUpdateQueueService.enqueue(question.getId(), ElasticsearchType.questions,
+          ElasticsearchUpdateQueueAction.DELETE);
+    }
   }
 }

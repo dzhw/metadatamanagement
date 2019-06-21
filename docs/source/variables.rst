@@ -114,8 +114,8 @@ Tabelle 5: Ausfüllanweisungen für die Excel-Tabelle "vimport_ds*Nr*."
 |                        |                       | Zugangswegen           |
 |                        |                       | entsprechend Spalten   |
 |                        |                       | vorhanden, die mit     |
-|                        |                       | „nicht verfügbar im …  |
-|                        |                       | “ überschrieben sind.  |
+|                        |                       | "nicht verfügbar im …" |
+|                        |                       | überschrieben sind.    |
 |                        |                       | Für jede Variable      |
 |                        |                       | muss dann ein „x“      |
 |                        |                       | gesetzt werden, wenn   |
@@ -282,6 +282,18 @@ Feld auch leer gelassen werden.
 |                        |                       | oder der Antworttext  |
 |                        |                       | (bei Einfach- oder    |
 |                        |                       | Mehrfachnennungen)    |
+|                        |                       |                       |
+|                        |                       | **wichtig**: da diese |
+|                        |                       | auch in den           | 
+|                        |                       | Datensatzreport als   |
+|                        |                       | "Fragetext"           |
+|                        |                       | ausgelesen werden,    |
+|                        |                       | muss unbedingt auf    |
+|                        |                       | eine korrekt          |
+|                        |                       | Formatierung          |
+|                        |                       | (Leerzeichen,         |
+|                        |                       | Zeilenumnrüche etc.)  |
+|                        |                       | geachtet werden.      |
 +------------------------+-----------------------+-----------------------+
 | questionNumber         | Ja                    | Nummer der zur        |
 |                        |                       | Variablen zugehörigen |
