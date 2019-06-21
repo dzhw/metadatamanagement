@@ -85,19 +85,6 @@ angular.module('metadatamanagementApp').config(
             'open-choose-previous-version-tooltip': 'Click to restore a previous version of the metadata.',
             'current-version-restored-toast': 'Current version of the metadata for document "{{ filename }}" has been restored.',
             'previous-version-restored-toast': 'Previous version of the metadata for document "{{ filename }}" can be saved now.',
-            'choose-previous-version': {
-                'title': 'Restore Previous Version of the Metadata for Document "{{ filename }}"',
-                'text': 'Choose a previous version of the metadata for document "{{ filename }}" which shall be restored:',
-                'attachment-title': 'Title',
-                'lastModified': 'Modified',
-                'lastModifiedBy': 'by',
-                'cancel-tooltip': 'Click to return without choosing a previous metadata version.',
-                'current-version-tooltip': 'This is the current version!',
-                'next-page-tooltip': 'Click to show older versions.',
-                'previous-page-tooltip': 'Click to more recent versions.',
-                'attachment-deleted': 'Metadata has been deleted!',
-                'no-versions-found': 'There are no previous versions of the metadata.'
-            },
             'language-not-found': 'No valid language found!',
             'save-data-set-before-adding-attachment': 'The Data Set has to be saved to enable attaching documents.',
             'hints': {

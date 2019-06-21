@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp')
       CommonDialogsService, LanguageService, AvailableDataSetNumbersResource,
       DataSetAttachmentResource, $q, StudyIdBuilderService, SearchDao,
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
-      AttachmentDialogService, DataSetAttachmentUploadService) {
+      AttachmentDialogService, DataSetAttachmentUploadService,
+      DataSetAttachmentVersionsResource) {
       var ctrl = this;
       ctrl.surveyChips = [];
       var updateToolbarHeaderAndPageTitle = function() {
@@ -426,10 +427,27 @@ angular.module('metadatamanagementApp')
         var labels = getDialogLabels();
         labels.editTitle.params.filename = attachment.fileName;
 
+        var getAttachmentVersions = function(id, filename, limit, skip) {
+          return DataSetAttachmentVersionsResource.get({
+            dataSetId: id,
+            filename: filename,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var createDataSetAttachmentResource = function(attachmentWrapper) {
+          return new DataSetAttachmentResource(attachmentWrapper
+              .studyAttachment);
+        };
+
         var dialogConfig = {
           attachmentMetadata: attachment,
           uploadCallback: upload,
-          labels: labels
+          labels: labels,
+          attachmentDomainIdAttribute: 'dataSetId',
+          getAttachmentVersionsCallback: getAttachmentVersions,
+          createAttachmentResource: createDataSetAttachmentResource
         };
 
         AttachmentDialogService.showDialog(dialogConfig, event)
