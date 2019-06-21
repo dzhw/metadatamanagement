@@ -5,10 +5,11 @@ angular.module('metadatamanagementApp')
   .controller('ConceptEditOrCreateController',
     function(entity, PageTitleService, $document, $timeout,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-      ConceptResource, ConceptSearchService, $scope,
+      ConceptResource, ConceptSearchService, $scope, $q,
       ElasticSearchAdminService, $mdDialog, $transitions,
       CommonDialogsService, LanguageService, ConceptAttachmentUploadService,
-      ConceptAttachmentResource, AttachmentDialogService, $q) {
+      ConceptAttachmentResource, AttachmentDialogService,
+      ConceptAttachmentVersionsResource) {
 
       var ctrl = this;
 
@@ -300,11 +301,28 @@ angular.module('metadatamanagementApp')
         var labels = getDialogLabels();
         labels.editTitle.params.filename = attachment.fileName;
 
+        var getAttachmentVersions = function(id, filename, limit, skip) {
+          return ConceptAttachmentVersionsResource.get({
+            conceptId: id,
+            filename: filename,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var createConceptAttachmentResource = function(attachmentWrapper) {
+          return new ConceptAttachmentResource(attachmentWrapper
+              .studyAttachment);
+        };
+
         var dialogConfig = {
           attachmentMetadata: attachment,
           attachmentTypes: conceptAttachmentTypes,
           uploadCallback: upload,
-          labels: labels
+          labels: labels,
+          attachmentDomainIdAttribute: 'conceptId',
+          getAttachmentVersionsCallback: getAttachmentVersions,
+          createAttachmentResource: createConceptAttachmentResource
         };
 
         AttachmentDialogService.showDialog(dialogConfig, event)
