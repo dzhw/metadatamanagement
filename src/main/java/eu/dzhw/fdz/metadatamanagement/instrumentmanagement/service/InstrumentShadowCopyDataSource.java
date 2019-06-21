@@ -8,9 +8,13 @@ import java.util.stream.Stream;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 
 /**
  * Provides data for creating shadow copies of {@link Instrument}.
@@ -19,9 +23,13 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.Instrument
 public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Instrument> {
 
   private InstrumentRepository instrumentRepository;
+  
+  private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
-  public InstrumentShadowCopyDataSource(InstrumentRepository instrumentRepository) {
+  public InstrumentShadowCopyDataSource(InstrumentRepository instrumentRepository, 
+      ElasticsearchUpdateQueueService elasticsearchUpdateQueueService) {
     this.instrumentRepository = instrumentRepository;
+    this.elasticsearchUpdateQueueService = elasticsearchUpdateQueueService;
   }
 
   @Override
@@ -67,13 +75,25 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
   public Stream<Instrument> findShadowCopiesWithDeletedMasters(String projectId,
       String previousVersion) {
     String oldProjectId = projectId + "-" + previousVersion;
-    return instrumentRepository
-        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId)
+    return instrumentRepository.streamByDataAcquisitionProjectIdAndShadowIsTrue(oldProjectId)
         .filter(shadowCopy -> !instrumentRepository.existsById(shadowCopy.getMasterId()));
   }
 
   private static List<String> createDerivedSurveyIds(List<String> surveyIds, String version) {
     return surveyIds.stream().map(surveyId -> surveyId + "-" + version)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public void deleteExistingShadowCopies(String projectId, String version) {
+    String oldProjectId = projectId + "-" + version;
+    List<IdAndVersionProjection> deletedIds = instrumentRepository
+        .deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId);
+    for (IdAndVersionProjection instrument : deletedIds) {      
+      elasticsearchUpdateQueueService.enqueue(
+          instrument.getId(), 
+          ElasticsearchType.instruments, 
+          ElasticsearchUpdateQueueAction.DELETE);
+    }
   }
 }

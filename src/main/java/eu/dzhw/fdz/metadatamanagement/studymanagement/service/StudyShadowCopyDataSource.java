@@ -1,13 +1,19 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.stream.Stream;
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 
 /**
  * Provides data for creating shadow copies of {@link Study}.
@@ -17,8 +23,12 @@ public class StudyShadowCopyDataSource implements ShadowCopyDataSource<Study> {
 
   private StudyRepository studyRepository;
 
-  public StudyShadowCopyDataSource(StudyRepository studyRepository) {
+  private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+
+  public StudyShadowCopyDataSource(StudyRepository studyRepository,
+      ElasticsearchUpdateQueueService elasticsearchUpdateQueueService) {
     this.studyRepository = studyRepository;
+    this.elasticsearchUpdateQueueService = elasticsearchUpdateQueueService;
   }
 
   @Override
@@ -61,8 +71,18 @@ public class StudyShadowCopyDataSource implements ShadowCopyDataSource<Study> {
   public Stream<Study> findShadowCopiesWithDeletedMasters(String projectId,
       String previousVersion) {
     String oldProjectId = projectId + "-" + previousVersion;
-    return studyRepository
-        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId)
+    return studyRepository.streamByDataAcquisitionProjectIdAndShadowIsTrue(oldProjectId)
         .filter(shadowCopy -> !studyRepository.existsById(shadowCopy.getMasterId()));
+  }
+
+  @Override
+  public void deleteExistingShadowCopies(String projectId, String version) {
+    String oldProjectId = projectId + "-" + version;
+    List<IdAndVersionProjection> deletedIds = studyRepository
+        .deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId);
+    for (IdAndVersionProjection study : deletedIds) {
+      elasticsearchUpdateQueueService.enqueue(study.getId(), ElasticsearchType.studies,
+          ElasticsearchUpdateQueueAction.DELETE);
+    }
   }
 }

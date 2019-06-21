@@ -55,4 +55,12 @@ public interface ShadowCopyDataSource<T extends AbstractShadowableRdcDomainObjec
    * @return Stream of shadow copies with deleted masters
    */
   Stream<T> findShadowCopiesWithDeletedMasters(String projectId, String previousVersion);
+  
+  /**
+   * Delete all shadow copies. Only the shadow copies of the current version can be deleted.
+   * 
+   * @param projectId The id of the project.
+   * @param version The current version of the project.
+   */
+  void deleteExistingShadowCopies(String projectId, String version);
 }

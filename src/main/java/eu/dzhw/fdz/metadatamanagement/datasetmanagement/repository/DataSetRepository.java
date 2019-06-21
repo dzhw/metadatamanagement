@@ -28,14 +28,14 @@ public interface DataSetRepository
 
   @RestResource(exported = false)
   Stream<DataSet> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
-  
+
   @RestResource(exported = true)
   List<DataSet> findByDataAcquisitionProjectId(
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
-  
+
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByStudyId(String studyId);
-  
+
   @RestResource(exported = false)
   List<IdAndVersionProjection> findIdsByDataAcquisitionProjectIdAndNumber(
       String dataAcquisitionProjectId, Integer number);
@@ -65,7 +65,7 @@ public interface DataSetRepository
   DataSetSubDocumentProjection findOneSubDocumentById(String dataSetId);
 
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String projectId);  
+  Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String projectId);
 
   @RestResource(exported = false)
   List<IdAndNumberDataSetProjection> findDataSetNumbersByDataAcquisitionProjectId(
@@ -79,10 +79,16 @@ public interface DataSetRepository
       String previousProjectId);
 
   @RestResource(exported = false)
+  Stream<DataSet> streamByDataAcquisitionProjectIdAndShadowIsTrue(String previousProjectId);
+
+  @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
       Collection<String> dataSetIds);
-  
+
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByMasterIdIn(
-      Collection<String> dataSetIds);
+  Stream<IdAndVersionProjection> streamIdsByMasterIdIn(Collection<String> dataSetIds);
+
+  @RestResource(exported = false)
+  List<IdAndVersionProjection> deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+      String dataAcquisitionProjectId);
 }

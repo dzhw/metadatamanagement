@@ -1,15 +1,20 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 
 /**
  * Provides data for creating shadow copies of {@link DataSet}.
@@ -19,8 +24,12 @@ public class DataSetShadowCopyDataSource implements ShadowCopyDataSource<DataSet
 
   private DataSetRepository dataSetRepository;
 
-  public DataSetShadowCopyDataSource(DataSetRepository dataSetRepository) {
+  private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+
+  public DataSetShadowCopyDataSource(DataSetRepository dataSetRepository,
+      ElasticsearchUpdateQueueService elasticsearchUpdateQueueService) {
     this.dataSetRepository = dataSetRepository;
+    this.elasticsearchUpdateQueueService = elasticsearchUpdateQueueService;
   }
 
   @Override
@@ -63,16 +72,26 @@ public class DataSetShadowCopyDataSource implements ShadowCopyDataSource<DataSet
 
   @Override
   public Stream<DataSet> findShadowCopiesWithDeletedMasters(String projectId,
-                                                            String previousVersion) {
+      String previousVersion) {
     String previousProjectId = projectId + "-" + previousVersion;
-    return dataSetRepository
-        .streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(previousProjectId)
+    return dataSetRepository.streamByDataAcquisitionProjectIdAndShadowIsTrue(previousProjectId)
         .filter(shadowCopy -> !dataSetRepository.existsById(shadowCopy.getMasterId()));
   }
 
   private static List<String> createDerivedSurveyIds(List<String> surveyIds, String version) {
     return surveyIds.stream().map(surveyId -> surveyId + "-" + version)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public void deleteExistingShadowCopies(String projectId, String version) {
+    String oldProjectId = projectId + "-" + version;
+    List<IdAndVersionProjection> deletedIds = dataSetRepository
+        .deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId);
+    for (IdAndVersionProjection dataSet : deletedIds) {
+      elasticsearchUpdateQueueService.enqueue(dataSet.getId(), ElasticsearchType.data_sets,
+          ElasticsearchUpdateQueueAction.DELETE);
+    }
   }
 
 }
