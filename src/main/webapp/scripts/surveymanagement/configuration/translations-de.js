@@ -232,16 +232,10 @@ angular.module('metadatamanagementApp').config(
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieser Erhebung wieder herzustellen.',
           'save-tooltip': 'Klicken, um die Erhebung zu speichern.',
           'choose-previous-version': {
-            'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
-            'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
             'title': 'Ältere Version der Erhebung {{ surveyId }} wiederherstellen',
             'text': 'Wählen Sie eine ältere Version der Erhebung aus, die wiederhergestellt werden soll:',
             'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Erhebung auszuwählen zurückzukehren.',
             'no-versions-found': 'Es wurden keine älteren Versionen der Erhebung {{ surveyId }} gefunden.',
-            'survey-title': 'Titel',
-            'lastModified': 'Geändert',
-            'lastModifiedBy': 'von',
-            'current-version-tooltip': 'Dies ist die aktuelle Version!',
             'survey-deleted': 'Die Erhebung wurde gelöscht!'
           },
           'choose-survey-number': {

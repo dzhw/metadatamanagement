@@ -12,7 +12,8 @@ angular.module('metadatamanagementApp')
       SurveyResponseRateImageUploadService, SurveySearchService, $log,
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
       AttachmentDialogService, SurveyAttachmentUploadService,
-      SurveyAttachmentVersionsResource) {
+      SurveyAttachmentVersionsResource, SurveyVersionsResource,
+      ChoosePreviousVersionService) {
       var ctrl = this;
       var surveyMethodCache = {};
       var updateToolbarHeaderAndPageTitle = function() {
@@ -256,36 +257,65 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.openRestorePreviousVersionDialog = function(event) {
-        $mdDialog.show({
-            controller: 'ChoosePreviousSurveyVersionController',
-            templateUrl: 'scripts/surveymanagement/' +
-              'views/choose-previous-survey-version.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              surveyId: ctrl.survey.id
+        var getVersions = function(id, limit, skip) {
+          return SurveyVersionsResource.get({
+            id: id,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var dialogConfig = {
+          domainId: ctrl.survey.id,
+          getPreviousVersionsCallback: getVersions,
+          labels: {
+            title: {
+              key: 'survey-management.edit.choose-previous-version.title',
+              params: {
+                surveyId: ctrl.survey.id
+              }
             },
-            targetEvent: event
-          })
-          .then(function(surveyWrapper) {
-            ctrl.survey = new SurveyResource(surveyWrapper.survey);
-            $scope.responseRateInitializing = true;
-            if (surveyWrapper.isCurrentVersion) {
-              $scope.surveyForm.$setPristine();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'survey-management.edit.current-version-restored-toast',
-                {
-                  surveyId: ctrl.survey.id
-                });
-            } else {
-              $scope.surveyForm.$setDirty();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'survey-management.edit.previous-version-restored-toast',
-                {
-                  surveyId: ctrl.survey.id
-                });
+            text: {
+              key: 'survey-management.edit.choose-previous-version.text'
+            },
+            cancelTooltip: {
+              key: 'survey-management.edit.choose-previous-version.' +
+                  'cancel-tooltip'
+            },
+            noVersionsFound: {
+              key: 'survey-management.edit.choose-previous-version.' +
+                  'no-versions-found',
+              params: {
+                surveyId: ctrl.survey.id
+              }
+            },
+            deleted: {
+              key: 'survey-management.edit.choose-previous-version.' +
+                  'survey-deleted'
             }
-          });
+          }
+        };
+
+        ChoosePreviousVersionService.showDialog(dialogConfig, event)
+            .then(function(wrapper) {
+              ctrl.survey = new SurveyResource(wrapper.selection);
+              $scope.responseRateInitializing = true;
+              if (wrapper.isCurrentVersion) {
+                $scope.surveyForm.$setPristine();
+                SimpleMessageToastService.openSimpleMessageToast(
+                    'survey-management.edit.current-version-restored-toast',
+                    {
+                      surveyId: ctrl.survey.id
+                    });
+              } else {
+                $scope.surveyForm.$setDirty();
+                SimpleMessageToastService.openSimpleMessageToast(
+                    'survey-management.edit.previous-version-restored-toast',
+                    {
+                      surveyId: ctrl.survey.id
+                    });
+              }
+            });
       };
 
       $scope.registerConfirmOnDirtyHook = function() {
