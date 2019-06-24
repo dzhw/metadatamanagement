@@ -61,6 +61,7 @@ management:
         - configprops
         - metrics
         - httptrace
+        - prometheus
   endpoint:
     health:
       show-details: always
