@@ -12,6 +12,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedQuestionSubDocumentProjectionAdapter;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.RelatedQuestionSubDocumentProjection;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestClientFactory;
 import io.searchbox.client.config.HttpClientConfig;
@@ -36,16 +38,12 @@ public class ElasticsearchClientConfiguration {
    */
   @Bean
   public JestClient jestClient(String elasticSearchConnectionUrl, Gson gson) throws Exception {
-    int readTimeout = metadataManagementProperties.getElasticsearchClient()
-        .getReadTimeout();
-    
+    int readTimeout = metadataManagementProperties.getElasticsearchClient().getReadTimeout();
+
     // Configuration
-    HttpClientConfig clientConfig =
-        new HttpClientConfig.Builder(elasticSearchConnectionUrl).readTimeout(readTimeout)
-          .multiThreaded(true)
-          .gson(gson)
-          .build();
-    
+    HttpClientConfig clientConfig = new HttpClientConfig.Builder(elasticSearchConnectionUrl)
+        .readTimeout(readTimeout).multiThreaded(true).gson(gson).build();
+
     // Construct a new Jest client according to configuration via factory
     JestClientFactory factory = new JestClientFactory();
     factory.setHttpClientConfig(clientConfig);
@@ -60,21 +58,22 @@ public class ElasticsearchClientConfiguration {
    */
   @Bean
   public String elasticSearchConnectionUrl(Environment environment) throws Exception {
-    String connectionUrl = metadataManagementProperties.getElasticsearchClient()
-        .getUrl();
+    String connectionUrl = metadataManagementProperties.getElasticsearchClient().getUrl();
 
     return connectionUrl;
   }
-  
+
   /**
    * Configure elasticsearch json serialization / deserialization.
+   * 
    * @return the configured gson mapper
    */
   @Bean
   public Gson gson() {
-    Gson gson = new GsonBuilder()
-        .registerTypeAdapter(LocalDate.class, new LocalDateConverter())
+    Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateConverter())
         .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeConverter())
+        .registerTypeAdapter(RelatedQuestionSubDocumentProjection.class,
+            new RelatedQuestionSubDocumentProjectionAdapter())
         .create();
     return gson;
   }

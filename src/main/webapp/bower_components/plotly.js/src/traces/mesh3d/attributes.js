@@ -8,8 +8,7 @@
 
 'use strict';
 
-var colorscaleAttrs = require('../../components/colorscale/attributes');
-var colorbarAttrs = require('../../components/colorbar/attributes');
+var colorScaleAttrs = require('../../components/colorscale/attributes');
 var hovertemplateAttrs = require('../../components/fx/hovertemplate_attributes');
 var surfaceAtts = require('../surface/attributes');
 var baseAttrs = require('../../plots/attributes');
@@ -163,7 +162,10 @@ module.exports = extendFlat({
         editType: 'calc',
         description: [
             'Sets the color of each vertex',
-            'Overrides *color*.'
+            'Overrides *color*. While Red, green and blue colors',
+            'are in the range of 0 and 255; in the case of having',
+            'vertex color data in RGBA format, the alpha color',
+            'should be normalized to be between 0 and 1.'
         ].join(' ')
     },
     facecolor: {
@@ -178,14 +180,11 @@ module.exports = extendFlat({
     transforms: undefined
 },
 
-colorscaleAttrs('', {
+colorScaleAttrs('', {
     colorAttr: '`intensity`',
     showScaleDflt: true,
     editTypeOverride: 'calc'
 }), {
-
-    colorbar: colorbarAttrs,
-
     opacity: surfaceAtts.opacity,
 
     // Flat shaded mode

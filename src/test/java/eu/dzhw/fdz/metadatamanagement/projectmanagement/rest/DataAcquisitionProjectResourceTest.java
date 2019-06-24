@@ -143,7 +143,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     // load the project with the projection
     mockMvc
         .perform(
-            get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "?projection=complete")
+            get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(project.getId())))
         .andExpect(jsonPath("$.version", is(0)));
@@ -169,7 +169,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     // load the project with the complete projection
     mockMvc
         .perform(
-            get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "?projection=complete")
+            get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(project.getId())))
         .andExpect(jsonPath("$.version", is(1)));
@@ -197,7 +197,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     // load the project with the complete projection
     mockMvc
         .perform(
-            get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "?projection=complete")
+            get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(project.getId())))
         .andExpect(jsonPath("$.hasBeenReleasedBefore", is(true)))

@@ -185,7 +185,7 @@ public class RelatedPublicationResourceTest extends AbstractTest {
 
     //ASSERT
     // read the related publication under the new url
-    mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId() + "?projection=complete"))
+    mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(relatedPublication.getId())))
       .andExpect(jsonPath("$.doi", is("Another DOI")));
@@ -291,7 +291,7 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     .andExpect(status().isCreated());
     
     // read the related publication under the new url
-    mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId() + "?projection=complete"))
+    mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(relatedPublication.getId())))
       .andExpect(jsonPath("$.studySerieses[0].de", is(studySeries.getDe())))

@@ -30,7 +30,7 @@ describe('geographic-coverage.controller', function() {
       //description ...
     };
     $httpBackend = _$httpBackend_;
-    $httpBackend.when('GET', '/api/surveys/country-codes')
+    $httpBackend.when('GET', '/api/i18n/country-codes')
       .respond(countryQueryResult);
   }));
 

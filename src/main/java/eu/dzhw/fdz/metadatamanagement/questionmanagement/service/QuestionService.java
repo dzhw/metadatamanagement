@@ -4,24 +4,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.event.AfterDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
@@ -69,6 +71,9 @@ public class QuestionService {
 
   @Autowired
   private QuestionShadowCopyDataSource questionShadowCopyDataSource;
+
+  @Autowired
+  private QuestionChangesProvider questionChangesProvider;
 
   /**
    * Delete all questions when the dataAcquisitionProject was deleted.
@@ -191,11 +196,9 @@ public class QuestionService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onVariableChanged(Variable variable) {
-    List<String> questionIds = variableChangesProvider.getAffectedQuestionIds(
-        variable.getId()); 
+    List<String> questionIds = variableChangesProvider.getAffectedQuestionIds(variable.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> questionRepository.streamIdsByIdIn(questionIds),
-        ElasticsearchType.questions);
+        () -> questionRepository.streamIdsByIdIn(questionIds), ElasticsearchType.questions);
   }
 
   /**
@@ -207,24 +210,40 @@ public class QuestionService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    List<String> questionIds = relatedPublicationChangesProvider.getAffectedQuestionIds(
-        relatedPublication.getId()); 
+    List<String> questionIds =
+        relatedPublicationChangesProvider.getAffectedQuestionIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> questionRepository.streamIdsByIdIn(questionIds),
-        ElasticsearchType.questions);
+        () -> questionRepository.streamIdsByMasterIdIn(questionIds), ElasticsearchType.questions);
+  }
 
+  /**
+   * Enqueue update of question search documents when the concept is changed.
+   * 
+   * @param concept the updated, created or deleted concept.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onConceptChanged(Concept concept) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> questionRepository.streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(
-            questionIds), ElasticsearchType.questions);
+        () -> questionRepository.streamIdsByConceptIdsContaining(concept.getId()),
+        ElasticsearchType.questions);
   }
 
   /**
    * Create shadow copies for questions on project release.
+   * 
    * @param projectReleasedEvent Released project event
    */
   @EventListener
   public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
     shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
         projectReleasedEvent.getPreviousReleaseVersion(), questionShadowCopyDataSource);
+  }
+
+  @HandleBeforeSave
+  public void handleBeforeSave(Question question) {
+    questionChangesProvider.put(questionRepository.findById(question.getId()).orElse(null),
+        question);
   }
 }

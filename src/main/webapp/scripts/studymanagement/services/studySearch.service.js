@@ -19,7 +19,8 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         !CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
         termFilter = [];
       }
-      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId)) {
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId) &&
+        !_.includes(['related_publications', 'concepts'], type)) {
         var projectFilter = {
           term: {
             dataAcquisitionProjectId: dataAcquisitionProjectId
@@ -119,7 +120,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       }
 
       SearchHelperService.addQuery(query, queryterm);
-      if (type !== 'related_publications') {
+      if (!_.includes(['related_publications', 'concepts'], type)) {
         SearchHelperService.addShadowCopyFilter(query, filter);
       }
 
@@ -154,7 +155,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         type);
       var prefix = (type === 'studies' || !type) ? ''
         : 'nestedStudy.';
-      if (type === 'related_publications') {
+      if (type === 'related_publications' || type === 'concepts') {
         prefix = 'nestedStudies.';
       }
       var aggregation = {
@@ -218,6 +219,9 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         'zero_terms_query': 'ALL'
       };
 
+      SearchHelperService.addNestedShadowCopyFilter(
+        aggregation.aggs.title.filter.bool, prefix, type);
+
       if (prefix !== '') {
         nestedAggregation.aggs.studies.aggs =
           aggregation.aggs;
@@ -234,10 +238,9 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
       SearchHelperService.addQuery(query, queryterm);
       SearchHelperService.addFilter(query);
-      if (type !== 'related_publications') {
+      if (!_.includes(['related_publications', 'concepts'], type)) {
         SearchHelperService.addShadowCopyFilter(query, filter);
       }
-
       return ElasticSearchClient.search(query).then(function(result) {
         var titles = [];
         var titleElement = {};

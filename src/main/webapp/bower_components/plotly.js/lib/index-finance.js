@@ -14,8 +14,10 @@ Plotly.register([
     require('./bar'),
     require('./histogram'),
     require('./pie'),
+    require('./funnelarea'),
     require('./ohlc'),
     require('./candlestick'),
+    require('./funnel'),
     require('./waterfall')
 ]);
 

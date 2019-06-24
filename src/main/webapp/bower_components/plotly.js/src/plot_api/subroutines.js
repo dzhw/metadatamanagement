@@ -528,29 +528,7 @@ exports.doTraceStyle = function(gd) {
 };
 
 exports.doColorBars = function(gd) {
-    for(var i = 0; i < gd.calcdata.length; i++) {
-        var cdi0 = gd.calcdata[i][0];
-
-        if((cdi0.t || {}).cb) {
-            var trace = cdi0.trace;
-            var cb = cdi0.t.cb;
-
-            if(Registry.traceIs(trace, 'contour')) {
-                cb.line({
-                    width: trace.contours.showlines !== false ?
-                        trace.line.width : 0,
-                    dash: trace.line.dash,
-                    color: trace.contours.coloring === 'line' ?
-                        cb._opts.line.color : trace.line.color
-                });
-            }
-            var moduleOpts = trace._module.colorbar;
-            var containerName = moduleOpts.container;
-            var opts = (containerName ? trace[containerName] : trace).colorbar;
-            cb.options(opts)();
-        }
-    }
-
+    Registry.getComponentMethod('colorbar', 'draw')(gd);
     return Plots.previousPromises(gd);
 };
 
@@ -607,22 +585,12 @@ exports.doCamera = function(gd) {
 
 exports.drawData = function(gd) {
     var fullLayout = gd._fullLayout;
-    var calcdata = gd.calcdata;
-    var i;
-
-    // remove old colorbars explicitly
-    for(i = 0; i < calcdata.length; i++) {
-        var trace = calcdata[i][0].trace;
-        if(trace.visible !== true || !trace._module.colorbar) {
-            fullLayout._infolayer.select('.cb' + trace.uid).remove();
-        }
-    }
 
     clearGlCanvases(gd);
 
     // loop over the base plot modules present on graph
     var basePlotModules = fullLayout._basePlotModules;
-    for(i = 0; i < basePlotModules.length; i++) {
+    for(var i = 0; i < basePlotModules.length; i++) {
         basePlotModules[i].plot(gd);
     }
 
@@ -674,7 +642,7 @@ exports.redrawReglTraces = function(gd) {
         for(i = 0; i < fullData.length; i++) {
             var trace = fullData[i];
 
-            if(trace.visible === true) {
+            if(trace.visible === true && trace._length !== 0) {
                 if(trace.type === 'splom') {
                     fullLayout._splomScenes[trace.uid].draw();
                 } else if(trace.type === 'scattergl') {
@@ -768,4 +736,5 @@ exports.drawMarginPushers = function(gd) {
     Registry.getComponentMethod('rangeselector', 'draw')(gd);
     Registry.getComponentMethod('sliders', 'draw')(gd);
     Registry.getComponentMethod('updatemenus', 'draw')(gd);
+    Registry.getComponentMethod('colorbar', 'draw')(gd);
 };

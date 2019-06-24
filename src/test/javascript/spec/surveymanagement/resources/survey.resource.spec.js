@@ -26,7 +26,7 @@ describe('Survey', function() {
   describe('getSurvey', function() {
     it('should call get with id', inject(function() {
       $httpBackend.expectGET(
-        /api\/surveys\?projection=complete/).respond(
+        /api\/surveys/).respond(
         data);
 
       var result = mockSurveyResource.get(1);

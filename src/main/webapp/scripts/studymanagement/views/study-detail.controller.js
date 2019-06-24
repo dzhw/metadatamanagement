@@ -39,7 +39,8 @@ angular.module('metadatamanagementApp')
         'nestedRelatedPublications',
         'nestedSurveys',
         'nestedQuestions',
-        'nestedInstruments'
+        'nestedInstruments',
+        'nestedConcepts'
       ];
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
@@ -131,6 +132,10 @@ angular.module('metadatamanagementApp')
           ctrl.counts.instrumentsCount = result.instruments.length;
           if (ctrl.counts.instrumentsCount === 1) {
             ctrl.instrument = result.instruments[0];
+          }
+          ctrl.counts.conceptsCount = result.concepts.length;
+          if (ctrl.counts.conceptsCount === 1) {
+            ctrl.concept = result.concepts[0];
           }
           if (_.get(result, 'release.version')) {
             ctrl.study.surveys.map(function(survey) {

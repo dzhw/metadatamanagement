@@ -368,7 +368,6 @@ axes.autoBin = function(data, ax, nbins, is2d, calendar, size) {
         axes.autoTicks(dummyAx, size0);
     }
 
-
     var finalSize = dummyAx.dtick;
     var binStart = axes.tickIncrement(
             axes.tickFirst(dummyAx), finalSize, 'reverse', calendar);
@@ -2813,7 +2812,7 @@ function hasBarsOrFill(gd, ax) {
 
         if(trace.visible === true && (trace.xaxis + trace.yaxis) === subplot) {
             if(
-                (Registry.traceIs(trace, 'bar') || trace.type === 'waterfall') &&
+                Registry.traceIs(trace, 'bar-like') &&
                 trace.orientation === {x: 'h', y: 'v'}[axLetter]
             ) return true;
 

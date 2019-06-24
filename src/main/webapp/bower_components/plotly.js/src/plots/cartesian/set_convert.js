@@ -133,7 +133,7 @@ module.exports = function setConvert(ax, fullLayout) {
             if(ax._categoriesMap[v] !== undefined) {
                 return ax._categoriesMap[v];
             } else {
-                ax._categories.push(v);
+                ax._categories.push(typeof v === 'number' ? String(v) : v);
 
                 var curLength = ax._categories.length - 1;
                 ax._categoriesMap[v] = curLength;
@@ -403,7 +403,7 @@ module.exports = function setConvert(ax, fullLayout) {
             return;
         }
 
-        if(ax.type === 'date') {
+        if(ax.type === 'date' && !ax.autorange) {
             // check if milliseconds or js date objects are provided for range
             // and convert to date strings
             range[0] = Lib.cleanDate(range[0], BADNUM, ax.calendar);
@@ -610,6 +610,37 @@ module.exports = function setConvert(ax, fullLayout) {
                 setCategoryIndex(ax._initialCategories[j]);
             }
         }
+    };
+
+    // sort the axis (and all the matching ones) by _initialCategories
+    // returns the indices of the traces affected by the reordering
+    ax.sortByInitialCategories = function() {
+        var affectedTraces = [];
+        var emptyCategories = function() {
+            ax._categories = [];
+            ax._categoriesMap = {};
+        };
+
+        emptyCategories();
+
+        if(ax._initialCategories) {
+            for(var j = 0; j < ax._initialCategories.length; j++) {
+                setCategoryIndex(ax._initialCategories[j]);
+            }
+        }
+
+        affectedTraces = affectedTraces.concat(ax._traceIndices);
+
+        // Propagate to matching axes
+        var group = ax._matchGroup;
+        for(var axId2 in group) {
+            if(axId === axId2) continue;
+            var ax2 = fullLayout[axisIds.id2name(axId2)];
+            ax2._categories = ax._categories;
+            ax2._categoriesMap = ax._categoriesMap;
+            affectedTraces = affectedTraces.concat(ax2._traceIndices);
+        }
+        return affectedTraces;
     };
 
     // Propagate localization into the axis so that

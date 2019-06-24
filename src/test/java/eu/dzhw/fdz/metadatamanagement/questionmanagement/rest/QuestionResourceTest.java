@@ -143,7 +143,7 @@ public class QuestionResourceTest extends AbstractTest {
 
     // read the updated Question and check the version
     mockMvc
-      .perform(get(API_QUESTIONS_URI + "/" + question.getId() + "?projection=complete"))
+      .perform(get(API_QUESTIONS_URI + "/" + question.getId()))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(question.getId())))
       .andExpect(jsonPath("$.version", is(1)))

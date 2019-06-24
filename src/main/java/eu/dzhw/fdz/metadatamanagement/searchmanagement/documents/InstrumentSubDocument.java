@@ -39,10 +39,16 @@ public class InstrumentSubDocument extends AbstractRdcDomainObject
   private String type;
   
   private List<String> surveyIds;
+  
+  private List<String> conceptIds;
 
   private String studyId;
 
   private String masterId;
+  
+  private String successorId;
+  
+  private boolean shadow;
 
   public InstrumentSubDocument() {
     super();

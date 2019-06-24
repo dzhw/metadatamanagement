@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository.ConceptRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DaraUpdateQueueItemRepository;
@@ -57,6 +58,9 @@ public abstract class AbstractTest {
   private VariableRepository variableRepository;
   
   @Autowired
+  private ConceptRepository conceptRepository;
+  
+  @Autowired
   private RelatedPublicationRepository relatedPublicationRepository;
   
   @Autowired
@@ -81,6 +85,7 @@ public abstract class AbstractTest {
     assertEquals(0, this.dataSetRepository.count());
     assertEquals(0, this.variableRepository.count());
     assertEquals(0, this.relatedPublicationRepository.count());
+    assertEquals(0, this.conceptRepository.count());
     assertEquals(0, this.taskRepository.count());
     assertEquals(0, this.elasticsearchUpdateQueueItemRepository.count());
     assertEquals(0, this.daraUpdateQueueItemRepository.count());

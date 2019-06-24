@@ -2,10 +2,10 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
@@ -58,6 +58,10 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
   
   private List<RelatedPublicationSubDocument> seriesPublications = 
       new ArrayList<>();
+  
+  private List<ConceptSubDocument> concepts = 
+      new ArrayList<>();
+  private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
       
   private Release release = null;
 
@@ -91,8 +95,9 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
                              List<RelatedPublicationSubDocumentProjection> relatedPublications,
                              List<SurveySubDocumentProjection> surveys,
                              List<QuestionSubDocumentProjection> questions,
-                             Map<String, InstrumentSubDocumentProjection> instruments,
+                             List<InstrumentSubDocumentProjection> instruments,
                              List<RelatedPublicationSubDocumentProjection> seriesPublications,
+                             List<ConceptSubDocumentProjection> concepts,
                              Release release,
                              String doi,
                              Configuration configuration) {
@@ -131,14 +136,21 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
           .collect(Collectors.toList());
     }
     if (instruments != null) {
-      this.instruments = instruments.values().stream()
+      this.instruments = instruments.stream()
           .map(InstrumentSubDocument::new).collect(Collectors.toList());
-      this.nestedInstruments = instruments.values().stream().map(InstrumentNestedDocument::new)
+      this.nestedInstruments = instruments.stream().map(InstrumentNestedDocument::new)
           .collect(Collectors.toList());
     }
     if (seriesPublications != null) {
       this.seriesPublications = seriesPublications.stream()
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+    }
+    if (concepts != null) {
+      this.concepts = concepts.stream()
+          .map(concept -> new ConceptSubDocument(concept)).collect(Collectors.toList());
+      this.nestedConcepts = concepts.stream()
+          .map(concept -> new ConceptNestedDocument(concept))
+          .collect(Collectors.toList());
     }
     this.release = release;
     this.configuration = configuration;

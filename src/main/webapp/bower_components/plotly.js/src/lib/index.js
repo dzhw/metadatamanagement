@@ -75,6 +75,7 @@ var statsModule = require('./stats');
 lib.aggNums = statsModule.aggNums;
 lib.len = statsModule.len;
 lib.mean = statsModule.mean;
+lib.median = statsModule.median;
 lib.midRange = statsModule.midRange;
 lib.variance = statsModule.variance;
 lib.stdev = statsModule.stdev;
@@ -1126,4 +1127,47 @@ lib.pseudoRandom = function() {
     // gets away from really trying to be random, in favor of better local uniformity
     if(Math.abs(randSeed - lastVal) < 429496729) return lib.pseudoRandom();
     return randSeed / 4294967296;
+};
+
+
+/** Fill hover 'pointData' container with 'correct' hover text value
+ *
+ * - If trace hoverinfo contains a 'text' flag and hovertext is not set,
+ *   the text elements will be seen in the hover labels.
+ *
+ * - If trace hoverinfo contains a 'text' flag and hovertext is set,
+ *   hovertext takes precedence over text
+ *   i.e. the hoverinfo elements will be seen in the hover labels
+ *
+ *  @param {object} calcPt
+ *  @param {object} trace
+ *  @param {object || array} contOut (mutated here)
+ */
+lib.fillText = function(calcPt, trace, contOut) {
+    var fill = Array.isArray(contOut) ?
+        function(v) { contOut.push(v); } :
+        function(v) { contOut.text = v; };
+
+    var htx = lib.extractOption(calcPt, trace, 'htx', 'hovertext');
+    if(lib.isValidTextValue(htx)) return fill(htx);
+
+    var tx = lib.extractOption(calcPt, trace, 'tx', 'text');
+    if(lib.isValidTextValue(tx)) return fill(tx);
+};
+
+// accept all truthy values and 0 (which gets cast to '0' in the hover labels)
+lib.isValidTextValue = function(v) {
+    return v || v === 0;
+};
+
+lib.formatPercent = function(ratio, n) {
+    n = n || 0;
+    var str = (Math.round(100 * ratio * Math.pow(10, n)) * Math.pow(0.1, n)).toFixed(n) + '%';
+    for(var i = 0; i < n; i++) {
+        if(str.indexOf('.') !== -1) {
+            str = str.replace('0%', '%');
+            str = str.replace('.%', '%');
+        }
+    }
+    return str;
 };

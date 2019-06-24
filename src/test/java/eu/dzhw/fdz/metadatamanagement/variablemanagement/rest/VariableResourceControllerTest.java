@@ -648,7 +648,7 @@ public class VariableResourceControllerTest extends AbstractTest {
       .andExpect(status().is2xxSuccessful());
 
     // read the updated variable and check the version
-    mockMvc.perform(get(API_VARIABLES_URI + "/" + variable.getId() + "?projection=complete"))
+    mockMvc.perform(get(API_VARIABLES_URI + "/" + variable.getId()))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(variable.getId())))
       .andExpect(jsonPath("$.version", is(1)))

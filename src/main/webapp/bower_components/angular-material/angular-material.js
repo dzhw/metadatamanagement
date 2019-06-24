@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.18
+ * v1.1.19
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -1933,7 +1933,14 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
       // The XMLSerializer API is supported on IE11 and is the recommended workaround.
       var serializer = new XMLSerializer();
       return serializer.serializeToString(element);
-    }
+    },
+
+    /**
+     * Support: IE 9-11 only
+     * documentMode is an IE-only property
+     * http://msdn.microsoft.com/en-us/library/ie/cc196988(v=vs.85).aspx
+     */
+    msie: window.document.documentMode
   };
 
   // Instantiate other namespace utility methods
@@ -3574,6 +3581,10 @@ var lastLabelClickPos = null;
 // Used to attach event listeners once when multiple ng-apps are running.
 var isInitialized = false;
 
+var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+var isIos = userAgent.match(/ipad|iphone|ipod/i);
+var isAndroid = userAgent.match(/android/i);
+
 /**
  * @ngdoc module
  * @name material.core.gestures
@@ -3667,9 +3678,6 @@ MdGestureProvider.prototype = {
  * @ngInject
  */
 function MdGesture($$MdGestureHandler, $$rAF, $timeout) {
-  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  var isIos = userAgent.match(/ipad|iphone|ipod/i);
-  var isAndroid = userAgent.match(/android/i);
   var touchActionProperty = getTouchAction();
   var hasJQuery =  (typeof window.jQuery !== 'undefined') && (angular.element === window.jQuery);
 
@@ -4034,7 +4042,7 @@ function MdGestureHandler() {
 
   return GestureHandler;
 
-  /*
+  /**
    * Dispatch an event with jQuery
    * TODO: Make sure this sends bubbling events
    *
@@ -4076,24 +4084,52 @@ function MdGestureHandler() {
     var eventObj;
 
     if (eventType === 'click' || eventType === 'mouseup' || eventType === 'mousedown') {
-      eventObj = document.createEvent('MouseEvents');
-      eventObj.initMouseEvent(
-        eventType, true, true, window, srcEvent.detail,
-        eventPointer.x, eventPointer.y, eventPointer.x, eventPointer.y,
-        srcEvent.ctrlKey, srcEvent.altKey, srcEvent.shiftKey, srcEvent.metaKey,
-        srcEvent.button, srcEvent.relatedTarget || null
-      );
-
+      if (typeof window.MouseEvent === "function") {
+        eventObj = new MouseEvent(eventType, {
+          bubbles: true,
+          cancelable: true,
+          screenX: Number(srcEvent.screenX),
+          screenY: Number(srcEvent.screenY),
+          clientX: Number(eventPointer.x),
+          clientY: Number(eventPointer.y),
+          ctrlKey: srcEvent.ctrlKey,
+          altKey: srcEvent.altKey,
+          shiftKey: srcEvent.shiftKey,
+          metaKey: srcEvent.metaKey,
+          button: srcEvent.button,
+          buttons: srcEvent.buttons,
+          relatedTarget: srcEvent.relatedTarget || null
+        });
+      } else {
+        eventObj = document.createEvent('MouseEvents');
+        // This has been deprecated
+        // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/initMouseEvent
+        eventObj.initMouseEvent(
+          eventType, true, true, window, srcEvent.detail,
+          eventPointer.x, eventPointer.y, eventPointer.x, eventPointer.y,
+          srcEvent.ctrlKey, srcEvent.altKey, srcEvent.shiftKey, srcEvent.metaKey,
+          srcEvent.button, srcEvent.relatedTarget || null
+        );
+      }
     } else {
-      eventObj = document.createEvent('CustomEvent');
-      eventObj.initCustomEvent(eventType, true, true, {});
+      if (typeof window.CustomEvent === "function") {
+        eventObj = new CustomEvent(eventType, {
+          bubbles: true,
+          cancelable: true,
+          detail: {}
+        });
+      } else {
+        // This has been deprecated
+        // https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/initCustomEvent
+        eventObj = document.createEvent('CustomEvent');
+        eventObj.initCustomEvent(eventType, true, true, {});
+      }
     }
     eventObj.$material = true;
     eventObj.pointer = eventPointer;
     eventObj.srcEvent = srcEvent;
     eventPointer.target.dispatchEvent(eventObj);
   }
-
 }
 
 /**
@@ -4146,18 +4182,26 @@ function attachToDocument($mdGesture, $$MdGestureHandler) {
     }
   }
 
+  /**
+   * Ignore click events that don't come from AngularJS Material, Ionic, Input Label clicks,
+   * or key presses that generate click events. This helps to ignore the ghost tap events on
+   * older mobile browsers that get sent after a 300-400ms delay.
+   * @param ev MouseEvent or modified MouseEvent with $material, pointer, and other fields
+   */
   function clickHijacker(ev) {
-    var isKeyClick = ev.clientX === 0 && ev.clientY === 0;
-    var isSubmitEvent = ev.target && ev.target.type === 'submit';
-    if (!isKeyClick && !ev.$material && !ev.isIonicTap
-      && !isInputEventFromLabelClick(ev)
-      && !isSubmitEvent) {
+    var isKeyClick;
+    if (isIos) {
+      isKeyClick = angular.isDefined(ev.webkitForce) && ev.webkitForce === 0;
+    } else {
+      isKeyClick = ev.clientX === 0 && ev.clientY === 0;
+    }
+    if (!isKeyClick && !ev.$material && !ev.isIonicTap && !isInputEventFromLabelClick(ev)) {
       ev.preventDefault();
       ev.stopPropagation();
       lastLabelClickPos = null;
     } else {
       lastLabelClickPos = null;
-      if (ev.target.tagName.toLowerCase() == 'label') {
+      if (ev.target.tagName.toLowerCase() === 'label') {
         lastLabelClickPos = {x: ev.x, y: ev.y};
       }
     }
@@ -4178,10 +4222,10 @@ function attachToDocument($mdGesture, $$MdGestureHandler) {
       lastPointer = pointer = null;
     });
 
-  /*
+  /**
    * When a DOM event happens, run all registered gesture handlers' lifecycle
    * methods which match the DOM event.
-   * Eg when a 'touchstart' event happens, runHandlers('start') will call and
+   * Eg. when a 'touchstart' event happens, runHandlers('start') will call and
    * run `handler.cancel()` and `handler.start()` on all registered handlers.
    */
   function runHandlers(handlerEvent, event) {
@@ -4195,7 +4239,6 @@ function attachToDocument($mdGesture, $$MdGestureHandler) {
           handler.cancel();
         }
         handler[handlerEvent](event, pointer);
-
       }
     }
   }
@@ -4222,9 +4265,11 @@ function attachToDocument($mdGesture, $$MdGestureHandler) {
 
     runHandlers('start', ev);
   }
-  /*
+
+  /**
    * If a move event happens of the right type, update the pointer and run all the move handlers.
-   * "of the right type": if a mousemove happens but our pointer started with a touch event, do nothing.
+   * "of the right type": if a mousemove happens but our pointer started with a touch event, do
+   * nothing.
    */
   function gestureMove(ev) {
     if (!pointer || !typesMatch(ev, pointer)) return;
@@ -4232,8 +4277,10 @@ function attachToDocument($mdGesture, $$MdGestureHandler) {
     updatePointerState(ev, pointer);
     runHandlers('move', ev);
   }
-  /*
-   * If an end event happens of the right type, update the pointer, run endHandlers, and save the pointer as 'lastPointer'
+
+  /**
+   * If an end event happens of the right type, update the pointer, run endHandlers, and save the
+   * pointer as 'lastPointer'.
    */
   function gestureEnd(ev) {
     if (!pointer || !typesMatch(ev, pointer)) return;
@@ -4297,8 +4344,8 @@ function typesMatch(ev, pointer) {
  */
 function isInputEventFromLabelClick(event) {
   return lastLabelClickPos
-      && lastLabelClickPos.x == event.x
-      && lastLabelClickPos.y == event.y;
+      && lastLabelClickPos.x === event.x
+      && lastLabelClickPos.y === event.y;
 }
 
 /*
@@ -6375,7 +6422,7 @@ function InkRippleDirective ($mdButtonInkRipple, $mdCheckboxInkRipple) {
  * @module material.core.ripple
  *
  * @description
- * `$mdInkRipple` is a service for adding ripples to any element
+ * `$mdInkRipple` is a service for adding ripples to any element.
  *
  * @usage
  * <hljs lang="js">
@@ -7887,6 +7934,7 @@ function ThemingProvider($mdColorPalette, $$mdMetaProvider) {
    *
    * @param {string} name Theme name to define
    * @param {object} options Theme definition options
+   *
    * Options are:<br/>
    * - `primary` - `{string}`: The name of the primary palette to use in the theme.<br/>
    * - `primaryHues` - `{object=}`: Override hues for primary palette.<br/>
@@ -13622,19 +13670,32 @@ function MdContactChips($mdTheming, $mdUtil) {
    * @module material.components.colors
    *
    * @description
-   * With only defining themes, one couldn't get non AngularJS Material elements colored with
-   * Material colors, `$mdColors` service is used by the md-color directive to convert the
-   * 1..n color expressions to RGBA values and will apply those values to element as CSS property
-   * values.
+   * By default, defining a theme does not make its colors available for applying to non AngularJS
+   * Material elements. The `$mdColors` service is used by the `md-color` directive to convert a
+   * set of color expressions to RGBA values and then apply those values to the element as CSS
+   * property values.
    *
-   *  @usage
+   * @usage
+   * Getting a color based on a theme
+   *
    *  <hljs lang="js">
    *    angular.controller('myCtrl', function ($mdColors) {
-   *      var color = $mdColors.getThemeColor('myTheme-red-200-0.5');
+   *      var color = $mdColors.getThemeColor('myTheme-primary-900-0.5');
    *      ...
    *    });
    *  </hljs>
    *
+   * Applying a color from a palette to an element
+   * <hljs lang="js">
+   *   app.directive('myDirective', function($mdColors) {
+   *     return {
+   *       ...
+   *       link: function (scope, elem) {
+   *         $mdColors.applyThemeColors(elem, {color: 'red-A200-0.2'});
+   *       }
+   *    }
+   *   });
+   * </hljs>
    */
   function MdColorsService($mdTheming, $mdUtil, $log) {
     colorPalettes = colorPalettes || Object.keys($mdTheming.PALETTES);
@@ -13655,24 +13716,14 @@ function MdContactChips($mdTheming, $mdUtil) {
      * @name $mdColors#applyThemeColors
      *
      * @description
-     * Gets a color json object, keys are css properties and values are string of the wanted color
-     * Then calculate the rgba() values based on the theme color parts
+     * Lookup a set of colors by hue, theme, and palette, then apply those colors
+     * with the provided opacity (via `rgba()`) to the specified CSS property.
      *
-     * @param {angular.element} element the element to apply the styles on.
-     * @param {Object} colorExpression json object, keys are css properties and values are string of
-     * the wanted color, for example: `{color: 'red-A200-0.3'}`.
-     *
-     * @usage
-     * <hljs lang="js">
-     *   app.directive('myDirective', function($mdColors) {
-     *     return {
-     *       ...
-     *       link: function (scope, elem) {
-     *         $mdColors.applyThemeColors(elem, {color: 'red'});
-     *       }
-     *    }
-     *   });
-     * </hljs>
+     * @param {angular.element} element the element to apply the styles to
+     * @param {Object} colorExpression Keys are CSS properties and values are strings representing
+     * the `theme-palette-hue-opacity` of the desired color. For example:
+     * `{'color': 'red-A200-0.3', 'background-color': 'myTheme-primary-700-0.8'}`. Theme, hue, and
+     * opacity are optional.
      */
     function applyThemeColors(element, colorExpression) {
       try {
@@ -13690,19 +13741,12 @@ function MdContactChips($mdTheming, $mdUtil) {
      * @name $mdColors#getThemeColor
      *
      * @description
-     * Get parsed color from expression
+     * Get a parsed RGBA color using a string representing the `theme-palette-hue-opacity` of the
+     * desired color.
      *
-     * @param {string} expression string of a color expression (for instance `'red-700-0.8'`)
-     *
-     * @returns {string} a css color expression (for instance `rgba(211, 47, 47, 0.8)`)
-     *
-     * @usage
-     *  <hljs lang="js">
-     *    angular.controller('myCtrl', function ($mdColors) {
-     *      var color = $mdColors.getThemeColor('myTheme-red-200-0.5');
-     *      ...
-     *    });
-     *  </hljs>
+     * @param {string} expression color expression like `'red-A200-0.3'` or
+     *  `'myTheme-primary-700-0.8'`. Theme, hue, and opacity are optional.
+     * @returns {string} a CSS color value like `rgba(211, 47, 47, 0.8)`
      */
     function getThemeColor(expression) {
       var color = extractColorOptions(expression);
@@ -13858,13 +13902,14 @@ function MdContactChips($mdTheming, $mdUtil) {
    * @description
    * `mdColors` directive will apply the theme-based color expression as RGBA CSS style values.
    *
-   *   The format will be similar to our color defining in the scss files:
+   *   The format will be similar to the colors defined in the Sass files:
    *
    *   ## `[?theme]-[palette]-[?hue]-[?opacity]`
    *   - [theme]    - default value is the default theme
    *   - [palette]  - can be either palette name or primary/accent/warn/background
    *   - [hue]      - default is 500 (hue-x can be used with primary/accent/warn/background)
    *   - [opacity]  - default is 1
+   *
    *
    *   > `?` indicates optional parameter
    *
@@ -13877,7 +13922,7 @@ function MdContactChips($mdTheming, $mdUtil) {
    *   </div>
    * </hljs>
    *
-   * `mdColors` directive will automatically watch for changes in the expression if it recognizes
+   * The `mdColors` directive will automatically watch for changes in the expression if it recognizes
    * an interpolation expression or a function. For performance options, you can use `::` prefix to
    * the `md-colors` expression to indicate a one-time data binding.
    *
@@ -16879,7 +16924,7 @@ angular.module('material.components.datepicker', [
 
     // Add event listener through angular so that we can triggerHandler in unit tests.
     self.ngInputElement.on('keydown', function(event) {
-      if (event.altKey && event.keyCode == keyCodes.DOWN_ARROW) {
+      if (event.altKey && event.keyCode === keyCodes.DOWN_ARROW) {
         self.openCalendarPane(event);
         $scope.$digest();
       }
@@ -16887,6 +16932,15 @@ angular.module('material.components.datepicker', [
 
     if (self.openOnFocus) {
       self.ngInputElement.on('focus', angular.bind(self, self.openCalendarPane));
+      self.ngInputElement.on('click', function(event) {
+        event.stopPropagation();
+      });
+      self.ngInputElement.on('pointerdown',function(event) {
+        if (event.target && event.target.setPointerCapture) {
+          event.target.setPointerCapture(event.pointerId);
+        }
+      });
+
       angular.element(self.$window).on('blur', self.windowBlurHandler);
 
       $scope.$on('$destroy', function() {
@@ -16900,7 +16954,7 @@ angular.module('material.components.datepicker', [
   };
 
   /**
-   * Capture properties set to the date-picker and imperitively handle internal changes.
+   * Capture properties set to the date-picker and imperatively handle internal changes.
    * This is done to avoid setting up additional $watches.
    */
   DatePickerCtrl.prototype.installPropertyInterceptors = function() {
@@ -17171,12 +17225,12 @@ angular.module('material.components.datepicker', [
       // Attach click listener inside of a timeout because, if this open call was triggered by a
       // click, we don't want it to be immediately propagated up to the body and handled.
       var self = this;
-      this.$timeout(function() {
+      this.$mdUtil.nextTick(function() {
         // Use 'touchstart` in addition to click in order to work on iOS Safari, where click
         // events aren't propagated under most circumstances.
         // See http://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
         self.documentElement.on('click touchstart', self.bodyClickHandler);
-      }, 100);
+      }, false);
 
       window.addEventListener(this.windowEventName, this.windowEventHandler);
     }
@@ -21266,17 +21320,17 @@ function MdIconService(config, $templateRequest, $q, $log, $mdUtil, $sce) {
    * @constructor
    */
   function Icon(el, config) {
-    var elementContents;
     // If the node is a <symbol>, it won't be rendered so we have to convert it into <svg>.
     if (el && el.tagName.toLowerCase() === 'symbol') {
       var viewbox = el.getAttribute('viewBox');
-      // Check if innerHTML is supported as IE11 does not support innerHTML on SVG elements.
+      // // Check if innerHTML is supported as IE11 does not support innerHTML on SVG elements.
       if (el.innerHTML) {
-        elementContents = el.innerHTML;
+        el = angular.element('<svg xmlns="http://www.w3.org/2000/svg">')
+          .html(el.innerHTML)[0];
       } else {
-        elementContents = $mdUtil.getInnerHTML(el);
+        el = angular.element('<svg xmlns="http://www.w3.org/2000/svg">')
+          .append($mdUtil.getInnerHTML(el))[0];
       }
-      el = angular.element('<svg xmlns="http://www.w3.org/2000/svg">').append(elementContents)[0];
       if (viewbox) el.setAttribute('viewBox', viewbox);
     }
 
@@ -24510,7 +24564,7 @@ MenuBarController.prototype.handleParentClick = function(event) {
  * @restrict E
  * @description
  *
- * Menu bars are containers that hold multiple menus. They change the behavior and appearence
+ * Menu bars are containers that hold multiple menus. They change the behavior and appearance
  * of the `md-menu` directive to behave similar to an operating system provided menu.
  *
  * @usage
@@ -24547,12 +24601,17 @@ MenuBarController.prototype.handleParentClick = function(event) {
  *
  * ## Menu Bar Controls
  *
- * You may place `md-menu-items` that function as controls within menu bars.
+ * You may place `md-menu-item`s that function as controls within menu bars.
  * There are two modes that are exposed via the `type` attribute of the `md-menu-item`.
  * `type="checkbox"` will function as a boolean control for the `ng-model` attribute of the
  * `md-menu-item`. `type="radio"` will function like a radio button, setting the `ngModel`
  * to the `string` value of the `value` attribute. If you need non-string values, you can use
- * `ng-value` to provide an expression (this is similar to how angular's native `input[type=radio]` works.
+ * `ng-value` to provide an expression (this is similar to how angular's native `input[type=radio]`
+ * works.
+ *
+ * If you want either to disable closing the opened menu when clicked, you can add the
+ * `md-prevent-menu-close` attribute to the `md-menu-item`. The attribute will be forwarded to the
+ * `button` element that is generated.
  *
  * <hljs lang="html">
  * <md-menu-bar>
@@ -24561,11 +24620,13 @@ MenuBarController.prototype.handleParentClick = function(event) {
  *      Sample Menu
  *    </button>
  *    <md-menu-content>
- *      <md-menu-item type="checkbox" ng-model="settings.allowChanges">Allow changes</md-menu-item>
+ *      <md-menu-item type="checkbox" ng-model="settings.allowChanges" md-prevent-menu-close>
+ *        Allow changes
+ *      </md-menu-item>
  *      <md-menu-divider></md-menu-divider>
  *      <md-menu-item type="radio" ng-model="settings.mode" ng-value="1">Mode 1</md-menu-item>
- *      <md-menu-item type="radio" ng-model="settings.mode" ng-value="1">Mode 2</md-menu-item>
- *      <md-menu-item type="radio" ng-model="settings.mode" ng-value="1">Mode 3</md-menu-item>
+ *      <md-menu-item type="radio" ng-model="settings.mode" ng-value="2">Mode 2</md-menu-item>
+ *      <md-menu-item type="radio" ng-model="settings.mode" ng-value="3">Mode 3</md-menu-item>
  *    </md-menu-content>
  *  </md-menu>
  * </md-menu-bar>
@@ -24799,7 +24860,7 @@ function MenuItemDirective($mdUtil, $mdConstant, $$mdSvgRegistry) {
 
       // Note: This allows us to show the `check` icon for the md-menu-bar items.
       // The `md-in-menu-bar` class is set by the mdMenuBar directive.
-      if ((type == 'checkbox' || type == 'radio') && templateEl.hasClass(inMenuBarClass)) {
+      if ((type === 'checkbox' || type === 'radio') && templateEl.hasClass(inMenuBarClass)) {
         var text = templateEl[0].textContent;
         var buttonEl = angular.element('<md-button type="button"></md-button>');
         var iconTemplate = '<md-icon md-svg-src="' + $$mdSvgRegistry.mdChecked + '"></md-icon>';
@@ -24807,12 +24868,16 @@ function MenuItemDirective($mdUtil, $mdConstant, $$mdSvgRegistry) {
         buttonEl.html(text);
         buttonEl.attr('tabindex', '0');
 
+        if (angular.isDefined(templateAttrs.mdPreventMenuClose)) {
+          buttonEl.attr('md-prevent-menu-close', templateAttrs.mdPreventMenuClose);
+        }
+
         templateEl.html('');
         templateEl.append(angular.element(iconTemplate));
         templateEl.append(buttonEl);
         templateEl.addClass('md-indent').removeClass(inMenuBarClass);
 
-        setDefault('role', type == 'checkbox' ? 'menuitemcheckbox' : 'menuitemradio', buttonEl);
+        setDefault('role', type === 'checkbox' ? 'menuitemcheckbox' : 'menuitemradio', buttonEl);
         moveAttrToButton('ng-disabled');
 
       } else {
@@ -31071,7 +31136,8 @@ function SelectMenuDirective($parse, $mdUtil, $mdConstant, $mdTheming) {
         // the current option, which will be added, then we can be sure, that the validation
         // of the option has occurred before the option was added properly.
         // This means, that we have to manually trigger a new validation of the current option.
-        if (angular.isDefined(self.ngModel.$modelValue) && self.hashGetter(self.ngModel.$modelValue) === hashKey) {
+        if (angular.isDefined(self.ngModel.$$rawModelValue) &&
+            self.hashGetter(self.ngModel.$$rawModelValue) === hashKey) {
           self.ngModel.$validate();
         }
 
@@ -33869,9 +33935,11 @@ function MdSubheaderDirective($mdSticky, $compile, $mdTheming, $mdUtil, $mdAria)
  *
  * ### Notes
  * - The `$event.currentTarget` of the swiped element will be `null`, but you can get a
- * reference to the element that actually holds the `md-swipe-left` directive by using `$target.current`
+ * reference to the element that actually holds the `md-swipe-left` directive by using
+ * `$target.current`
  *
- * > You can see this in action on the <a ng-href="demo/swipe">demo page</a> (Look at the Developer Tools console while swiping).
+ * > You can see this in action on the <a ng-href="demo/swipe">demo page</a> (Look at the Developer
+ * Tools console while swiping).
  *
  * @usage
  * <hljs lang="html">
@@ -33891,9 +33959,11 @@ function MdSubheaderDirective($mdSticky, $compile, $mdTheming, $mdUtil, $mdAria)
  *
  * ### Notes
  * - The `$event.currentTarget` of the swiped element will be `null`, but you can get a
- * reference to the element that actually holds the `md-swipe-right` directive by using `$target.current`
+ * reference to the element that actually holds the `md-swipe-right` directive by using
+ * `$target.current`
  *
- * > You can see this in action on the <a ng-href="demo/swipe">demo page</a> (Look at the Developer Tools console while swiping).
+ * > You can see this in action on the <a ng-href="demo/swipe">demo page</a> (Look at the Developer
+ * Tools console while swiping).
  *
  * @usage
  * <hljs lang="html">
@@ -33913,9 +33983,11 @@ function MdSubheaderDirective($mdSticky, $compile, $mdTheming, $mdUtil, $mdAria)
  *
  * ### Notes
  * - The `$event.currentTarget` of the swiped element will be `null`, but you can get a
- * reference to the element that actually holds the `md-swipe-up` directive by using `$target.current`
+ * reference to the element that actually holds the `md-swipe-up` directive by using
+ * `$target.current`
  *
- * > You can see this in action on the <a ng-href="demo/swipe">demo page</a> (Look at the Developer Tools console while swiping).
+ * > You can see this in action on the <a ng-href="demo/swipe">demo page</a> (Look at the Developer
+ * Tools console while swiping).
  *
  * @usage
  * <hljs lang="html">
@@ -33935,13 +34007,15 @@ function MdSubheaderDirective($mdSticky, $compile, $mdTheming, $mdUtil, $mdAria)
  *
  * ### Notes
  * - The `$event.currentTarget` of the swiped element will be `null`, but you can get a
- * reference to the element that actually holds the `md-swipe-down` directive by using `$target.current`
+ * reference to the element that actually holds the `md-swipe-down` directive by using
+ * `$target.current`
  *
- * > You can see this in action on the <a ng-href="demo/swipe">demo page</a> (Look at the Developer Tools console while swiping).
+ * > You can see this in action on the <a ng-href="demo/swipe">demo page</a> (Look at the Developer
+ * Tools console while swiping).
  *
  * @usage
  * <hljs lang="html">
- * <div md-swipe-down="onSwipDown($event, $target)">Swipe me down!</div>
+ * <div md-swipe-down="onSwipeDown($event, $target)">Swipe me down!</div>
  * </hljs>
  */
 
@@ -34337,7 +34411,8 @@ function MdTabsPaginationService() {
  * @param {string=} label Optional attribute to specify a simple string as the tab label
  * @param {boolean=} ng-disabled If present and expression evaluates to truthy, disabled tab
  *  selection.
- * @param {string=} md-tab-class Optional attribute to specify a class that will be applied to the tab's button
+ * @param {string=} md-tab-class Optional attribute to specify a class that will be applied to the
+ *  tab's button
  * @param {expression=} md-on-deselect Expression to be evaluated after the tab has been
  *  de-selected.
  * @param {expression=} md-on-select Expression to be evaluated after the tab has been selected.
@@ -34348,7 +34423,8 @@ function MdTabsPaginationService() {
  * @usage
  *
  * <hljs lang="html">
- * <md-tab label="My Tab" md-tab-class="my-content-tab" ng-disabled md-on-select="onSelect()" md-on-deselect="onDeselect()">
+ * <md-tab label="My Tab" md-tab-class="my-content-tab" ng-disabled md-on-select="onSelect()"
+ *         md-on-deselect="onDeselect()">
  *   <h3>My Tab content</h3>
  * </md-tab>
  *
@@ -34738,13 +34814,13 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
    * @param {string|number} left
    */
   function handleOffsetChange (left) {
-    var elements = getElements();
     var newValue = ((ctrl.shouldCenterTabs || isRtl() ? '' : '-') + left + 'px');
 
     // Fix double-negative which can happen with RTL support
     newValue = newValue.replace('--', '');
 
-    angular.element(elements.paging).css($mdConstant.CSS.TRANSFORM, 'translate(' + newValue + ', 0)');
+    angular.element(getElements().paging).css($mdConstant.CSS.TRANSFORM,
+                                              'translate(' + newValue + ', 0)');
     $scope.$broadcast('$mdTabsPaginationChanged');
   }
 
@@ -34947,11 +35023,11 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
    * Create an entry in the tabs array for a new tab at the specified index.
    * @param {Object} tabData tab to insert
    * @param {number} index location to insert the new tab
-   * @returns {*}
+   * @returns {Object} the inserted tab
    */
   function insertTab (tabData, index) {
     var hasLoaded = loaded;
-    var proto     = {
+    var proto = {
           getIndex:     function () { return ctrl.tabs.indexOf(tab); },
           isActive:     function () { return this.getIndex() === ctrl.selectedIndex; },
           isLeft:       function () { return this.getIndex() < ctrl.selectedIndex; },
@@ -34963,24 +35039,27 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
           },
           id:           $mdUtil.nextUid(),
           hasContent: !!(tabData.template && tabData.template.trim())
-        },
-        tab       = angular.extend(proto, tabData);
+    };
+    var tab = angular.extend(proto, tabData);
+
     if (angular.isDefined(index)) {
       ctrl.tabs.splice(index, 0, tab);
     } else {
       ctrl.tabs.push(tab);
     }
-
     processQueue();
     updateHasContent();
+
     $mdUtil.nextTick(function () {
       updatePagination();
       setAriaControls(tab);
 
       // if autoselect is enabled, select the newly added tab
-      if (hasLoaded && ctrl.autoselect) $mdUtil.nextTick(function () {
-        $mdUtil.nextTick(function () { select(ctrl.tabs.indexOf(tab)); });
-      });
+      if (hasLoaded && ctrl.autoselect) {
+        $mdUtil.nextTick(function () {
+          $mdUtil.nextTick(function () { select(ctrl.tabs.indexOf(tab)); });
+        });
+      }
     });
     return tab;
   }
@@ -35084,17 +35163,20 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
     });
 
     shouldPaginate = canvasWidth < 0;
-    // Work around width calculation issues on IE11 when pagination is enabled
-    if (shouldPaginate) {
-      getElements().paging.style.width = '999999px';
-    } else {
-      getElements().paging.style.width = undefined;
+    // Work around width calculation issues on IE11 when pagination is enabled.
+    // Don't do this on other browsers because it breaks scroll to new tab animation.
+    if ($mdUtil.msie) {
+      if (shouldPaginate) {
+        getElements().paging.style.width = '999999px';
+      } else {
+        getElements().paging.style.width = undefined;
+      }
     }
     return shouldPaginate;
   }
 
   /**
-   * Finds the nearest tab index that is available.  This is primarily used for when the active
+   * Finds the nearest tab index that is available. This is primarily used for when the active
    * tab is removed.
    * @param newIndex
    * @returns {*}
@@ -38367,4 +38449,4 @@ angular.module("material.core").constant("$MD_THEME_CSS", "md-autocomplete.md-TH
 })();
 
 
-})(window, window.angular);;window.ngMaterial={version:{full: "1.1.18"}};
+})(window, window.angular);;window.ngMaterial={version:{full: "1.1.19"}};

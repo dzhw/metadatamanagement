@@ -1,6 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,13 @@ import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
@@ -45,6 +50,9 @@ public class VariableService {
 
   @Autowired
   private VariableRepository variableRepository;
+  
+  @Autowired
+  private QuestionRepository questionRepository;
   
   @Autowired
   private VariableChangesProvider variableChangesProvider;
@@ -200,12 +208,7 @@ public class VariableService {
     List<String> variableIds = relatedPublicationChangesProvider
         .getAffectedVariableIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> variableRepository.streamIdsByIdIn(variableIds),
-        ElasticsearchType.variables);
-
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> variableRepository
-            .streamIdsByMasterIdInAndShadowIsTrueAndSuccessorIdIsNull(variableIds),
+        () -> variableRepository.streamIdsByMasterIdIn(variableIds),
         ElasticsearchType.variables);
   }
   
@@ -225,6 +228,21 @@ public class VariableService {
   }
   
   /**
+   * Enqueue update of variable search documents when the question is changed.
+   * 
+   * @param question the updated, created or deleted question.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onQuestionChanged(Question question) {
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> variableRepository.streamIdsByRelatedQuestionsQuestionId(
+            question.getId()),
+        ElasticsearchType.variables);
+  }
+  
+  /**
    * Enqueue update of variable search documents when the survey is updated.
    * 
    * @param survey the updated, created or deleted survey.
@@ -237,5 +255,21 @@ public class VariableService {
         () -> variableRepository.streamIdsBySurveyIdsContaining(
             survey.getId()),
         ElasticsearchType.variables);
+  }
+  
+  /**
+   * Enqueue update of variable search documents when the concept is changed.
+   * 
+   * @param concept the updated, created or deleted concept.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onConceptChanged(Concept concept) {
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+      Set<String> questionIds = questionRepository.streamIdsByConceptIdsContaining(concept.getId())
+          .map(question -> question.getId()).collect(Collectors.toSet());
+      return variableRepository.streamIdsByRelatedQuestionsQuestionIdIn(questionIds);
+    }, ElasticsearchType.variables);
   }
 }
