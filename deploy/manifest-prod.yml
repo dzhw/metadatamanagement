@@ -19,7 +19,6 @@ applications:
   - email
   - dara
   - rabbitmq
-  - metrics-forwarder-prod
   timeout: 180
   health-check-type: http
   health-check-http-endpoint: /management/info
