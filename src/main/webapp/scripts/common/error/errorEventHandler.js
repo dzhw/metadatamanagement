@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').run(
     });
 
     $rootScope.$on('stop-ignoring-404', function() {
-      ignore404--;
+      ignore404 = Math.max(ignore404 - 1, 0);
     });
 
     $rootScope.$on('start-ignoring-401', function() {
@@ -25,7 +25,7 @@ angular.module('metadatamanagementApp').run(
     });
 
     $rootScope.$on('stop-ignoring-401', function() {
-      ignore401--;
+      ignore401 = Math.max(ignore401 - 1, 0);
     });
 
     // Server or network down
