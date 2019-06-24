@@ -19,5 +19,5 @@ angular.module('metadatamanagementApp').config(
         }
         //jscs:enable
       };
-      $translateProvider.translations('de', translations);
+      $translateProvider.translations('en', translations);
     });
