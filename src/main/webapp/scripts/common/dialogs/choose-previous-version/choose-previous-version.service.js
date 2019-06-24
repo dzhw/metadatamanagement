@@ -23,6 +23,9 @@ angular.module('metadatamanagementApp').service('ChoosePreviousVersionService',
             params: {
               id: dialogConfig.domainId
             }
+          },
+          deleted: {
+            key: 'choose-previous-version.deleted'
           }
         };
 

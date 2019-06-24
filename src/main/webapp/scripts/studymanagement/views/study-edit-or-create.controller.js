@@ -6,12 +6,13 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, $document, $timeout,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       CurrentProjectService, StudyIdBuilderService, StudyResource, $scope,
-      ElasticSearchAdminService, $mdDialog, $transitions,
+      ElasticSearchAdminService, $transitions,
       CommonDialogsService, LanguageService, StudySearchService,
       StudyAttachmentResource, $q, CleanJSObjectService,
       DataAcquisitionProjectResource, ProjectUpdateAccessService,
       AttachmentDialogService, StudyAttachmentUploadService,
-      StudyAttachmentVersionsResource) {
+      StudyAttachmentVersionsResource, ChoosePreviousVersionService,
+      StudyVersionsResource) {
 
       var ctrl = this;
       var studySeriesCache = {};
@@ -296,31 +297,59 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.openRestorePreviousVersionDialog = function(event) {
-        $mdDialog.show({
-            controller: 'ChoosePreviousStudyVersionController',
-            templateUrl: 'scripts/studymanagement/' +
-              'views/choose-previous-study-version.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              studyId: ctrl.study.id
+        var getVersions = function(id, limit, skip) {
+          return StudyVersionsResource.get({
+            id: id,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var dialogConfig = {
+          domainId: ctrl.study.id,
+          getPreviousVersionsCallback: getVersions,
+          labels: {
+            title: {
+              key: 'study-management.edit.choose-previous-version.title',
+              params: {
+                studyId: ctrl.study.id
+              }
             },
-            targetEvent: event
-          })
-          .then(function(studyWrapper) {
-            ctrl.study = new StudyResource(studyWrapper.study);
-            if (studyWrapper.isCurrentVersion) {
+            text: {
+              key: 'study-management.edit.choose-previous-version.text'
+            },
+            cancelTooltip: {
+              key: 'study-management.edit.choose-previous-version.' +
+                  'cancel-tooltip'
+            },
+            noVersionsFound: {
+              key: 'study-management.edit.choose-previous-version.' +
+                  'no-versions-found',
+              params: {
+                studyId: ctrl.study.id
+              }
+            },
+            deleted: {
+              key: 'study-management.edit.choose-previous-version.study-deleted'
+            }
+          }
+        };
+
+        ChoosePreviousVersionService.showDialog(dialogConfig, event)
+          .then(function(wrapper) {
+            ctrl.study = new StudyResource(wrapper.selection);
+            if (wrapper.isCurrentVersion) {
               $scope.studyForm.$setPristine();
               SimpleMessageToastService.openSimpleMessageToast(
-                'study-management.edit.current-version-restored-toast', {
-                  studyId: ctrl.study.id
-                });
+                  'study-management.edit.current-version-restored-toast', {
+                    studyId: ctrl.study.id
+                  });
             } else {
               $scope.studyForm.$setDirty();
               SimpleMessageToastService.openSimpleMessageToast(
-                'study-management.edit.previous-version-restored-toast', {
-                  studyId: ctrl.study.id
-                });
+                  'study-management.edit.previous-version-restored-toast', {
+                    studyId: ctrl.study.id
+                  });
             }
           });
       };

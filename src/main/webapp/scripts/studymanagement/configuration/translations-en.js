@@ -232,16 +232,11 @@ angular.module('metadatamanagementApp').config(
           'add-author-tooltip': 'Click to add a new author to this study.',
           'delete-author-tooltip': 'Click to remove the author from this study.',
           'choose-previous-version': {
-            'next-page-tooltip': 'Click to show older versions.',
-            'previous-page-tooltip': 'Click to show more recent versions.',
             'title': 'Restore Previous Version of Study {{ studyId }}',
             'text': 'Choose a previous version of this study which shall be restored:',
             'cancel-tooltip': 'Click to return without choosing a previous study version.',
             'no-versions-found': 'There are no previous versions of study {{ studyId }}.',
-            'study-title': 'Title',
-            'lastModified': 'Modified',
-            'lastModifiedBy': 'by',
-            'current-version-tooltip': 'This is the current version!'
+            'study-deleted': 'The study has been deleted!'
           },
           'hints': {
             'title': {

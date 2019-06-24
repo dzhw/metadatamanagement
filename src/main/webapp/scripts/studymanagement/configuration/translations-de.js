@@ -238,10 +238,7 @@ angular.module('metadatamanagementApp').config(
             'text': 'Wählen Sie eine ältere Studienversion aus, die wiederhergestellt werden soll:',
             'cancel-tooltip': 'Klicken, um ohne eine ältere Studienversion auszuwählen zurückzukehren.',
             'no-versions-found': 'Es wurden keine älteren Versionen von Studie {{ studyId }} gefunden.',
-            'study-title': 'Titel',
-            'lastModified': 'Geändert',
-            'lastModifiedBy': 'von',
-            'current-version-tooltip': 'Dies ist die aktuelle Version!'
+            'study-deleted': 'Die Studie wurde gelöscht!'
           },
           'hints': {
             'title': {
