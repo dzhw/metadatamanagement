@@ -84,7 +84,7 @@ angular.module('metadatamanagementApp').config(
             'concepts': {
               'one': 'Klicken, um das Konzept, welches mit diesem Instrument gemessen wurde, anzuzeigen',
               'many': 'Klicken, um alle Konzepte, die mit diesem Instrument gemessen wurden, anzuzeigen'
-            },
+            }
           }
         },
         'error': {
@@ -181,16 +181,11 @@ angular.module('metadatamanagementApp').config(
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Instruments wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Instrument zu speichern.',
           'choose-previous-version': {
-            'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
-            'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
             'title': 'Ältere Version des Instruments {{ instrumentId }} wiederherstellen',
             'text': 'Wählen Sie eine ältere Version des Instruments aus, das wiederhergestellt werden soll:',
             'cancel-tooltip': 'Klicken, um ohne eine ältere Version des Instruments auszuwählen zurückzukehren.',
             'no-versions-found': 'Es wurden keine älteren Versionen des Instruments {{ instrumentId }} gefunden.',
             'instrument-description': 'Beschreibung',
-            'lastModified': 'Geändert',
-            'lastModifiedBy': 'von',
-            'current-version-tooltip': 'Dies ist die aktuelle Version!',
             'instrument-deleted': 'Das Instrument wurde gelöscht!'
           },
           'choose-instrument-number': {

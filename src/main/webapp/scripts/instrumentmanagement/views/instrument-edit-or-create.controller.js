@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp')
       CommonDialogsService, LanguageService, AvailableInstrumentNumbersResource,
       InstrumentAttachmentResource, $q, StudyIdBuilderService, SearchDao,
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
-      InstrumentAttachmentUploadService, InstrumentAttachmentVersionsResource) {
+      InstrumentAttachmentUploadService, InstrumentAttachmentVersionsResource,
+      ChoosePreviousVersionService, InstrumentVersionsResource) {
       var ctrl = this;
       ctrl.surveyChips = [];
       ctrl.conceptChips = [];
@@ -270,38 +271,71 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.openRestorePreviousVersionDialog = function(event) {
-        $mdDialog.show({
-            controller: 'ChoosePreviousInstrumentVersionController',
-            templateUrl: 'scripts/instrumentmanagement/' +
-              'views/choose-previous-instrument-version.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              instrumentId: ctrl.instrument.id
+        var getVersions = function(id, limit, skip) {
+          return InstrumentVersionsResource.get({
+            id: id,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var dialogConfig = {
+          domainId: ctrl.instrument.id,
+          getPreviousVersionsCallback: getVersions,
+          labels: {
+            title: {
+              key: 'instrument-management.edit.choose-previous-version.' +
+                  'instrument-description',
+              params: {
+                instrumentId: ctrl.instrument.id
+              }
             },
-            targetEvent: event
-          })
-          .then(function(instrumentWrapper) {
-            ctrl.instrument = new InstrumentResource(
-              instrumentWrapper.instrument);
-            ctrl.initSurveyChips();
-            ctrl.initConceptChips();
-            if (instrumentWrapper.isCurrentVersion) {
-              $scope.instrumentForm.$setPristine();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'instrument-management.edit.current-version-restored-toast',
-                {
-                  instrumentId: ctrl.instrument.id
-                });
-            } else {
-              $scope.instrumentForm.$setDirty();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'instrument-management.edit.previous-version-restored-toast',
-                {
-                  instrumentId: ctrl.instrument.id
-                });
+            text: {
+              key: 'instrument-management.edit.choose-previous-version.text'
+            },
+            cancelTooltip: {
+              key: 'instrument-management.edit.choose-previous-version.' +
+                  'cancel-tooltip'
+            },
+            noVersionsFound: {
+              key: 'instrument-management.edit.choose-previous-version.' +
+                  'no-versions-found',
+              params: {
+                instrumentId: ctrl.instrument.id
+              }
+            },
+            deleted: {
+              key: 'instrument-management.edit.choose-previous-version.' +
+                  'instrument-deleted'
             }
-          });
+          },
+          versionLabelAttribute: 'description'
+        };
+
+        ChoosePreviousVersionService.showDialog(dialogConfig, event)
+            .then(function(wrapper) {
+              ctrl.instrument = new InstrumentResource(
+                  wrapper.selection);
+              ctrl.initSurveyChips();
+              ctrl.initConceptChips();
+              if (wrapper.isCurrentVersion) {
+                $scope.instrumentForm.$setPristine();
+                SimpleMessageToastService.openSimpleMessageToast(
+                    'instrument-management.edit.current-version-' +
+                    'restored-toast',
+                    {
+                      instrumentId: ctrl.instrument.id
+                    });
+              } else {
+                $scope.instrumentForm.$setDirty();
+                SimpleMessageToastService.openSimpleMessageToast(
+                    'instrument-management.edit.previous-version-' +
+                    'restored-toast',
+                    {
+                      instrumentId: ctrl.instrument.id
+                    });
+              }
+            });
       };
 
       $scope.registerConfirmOnDirtyHook = function() {

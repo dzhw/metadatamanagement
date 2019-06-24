@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('ChoosePreviousVersionController',
     function(getPreviousVersionsCallback, domainId, labels, $scope, $mdDialog,
-             LanguageService, $translate) {
+             versionLabelAttribute, LanguageService, $translate) {
       $scope.bowser = bowser;
       $scope.currentPage = {
         number: 0,
@@ -16,6 +16,7 @@ angular.module('metadatamanagementApp')
         id: domainId
       };
       $scope.labels = labels;
+      $scope.versionLabelAttribute = versionLabelAttribute;
 
       $scope.getVersions = function() {
         getPreviousVersionsCallback(domainId, $scope.currentPage.limit,

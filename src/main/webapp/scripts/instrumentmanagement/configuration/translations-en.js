@@ -180,16 +180,11 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                 'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this instrument.',
                 'save-tooltip': 'Click to save this instrument.',
                 'choose-previous-version': {
-                  'next-page-tooltip': 'Click to show older versions.',
-                  'previous-page-tooltip': 'Click to show more recent versions.',
                   'title': 'Restore Previous Version of Instrument {{ instrumentId }}',
                   'text': 'Choose a previous version of this instrument which shall be restored:',
                   'cancel-tooltip': 'Click to return without choosing a previous instrument version.',
                   'no-versions-found': 'There are no previous versions of instrument {{ instrumentId }}.',
                   'instrument-description': 'Description',
-                  'lastModified': 'Modified',
-                  'lastModifiedBy': 'by',
-                  'current-version-tooltip': 'This is the current version!',
                   'instrument-deleted': 'The instrument has been deleted!'
                 },
                 'choose-instrument-number': {

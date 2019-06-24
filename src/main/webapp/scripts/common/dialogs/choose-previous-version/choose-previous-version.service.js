@@ -33,7 +33,9 @@ angular.module('metadatamanagementApp').service('ChoosePreviousVersionService',
           domainId: dialogConfig.domainId,
           getPreviousVersionsCallback: dialogConfig
               .getPreviousVersionsCallback,
-          labels: labels
+          labels: labels,
+          versionLabelAttribute: dialogConfig.versionLabelAttribute ?
+              dialogConfig.versionLabelAttribute : 'title'
         };
 
         if (dialogConfig.labels) {
