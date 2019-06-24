@@ -1,11 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.gridfs.GridFSFindIterable;
-import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
-import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Optional;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 import org.bson.Document;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
@@ -14,11 +14,13 @@ import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Optional;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.gridfs.GridFSFindIterable;
+import com.mongodb.client.gridfs.model.GridFSFile;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 
 /**
  * Provides common implementation shared between {@link ShadowCopyDataSource} that handle
@@ -49,12 +51,10 @@ public abstract class AbstractAttachmentShadowCopyDataSource
 
   @Override
   public Stream<T> getMasters(String dataAcquisitionProjectId) {
-    Query query = new Query(GridFsCriteria.whereMetaData("dataAcquisitionProjectId")
-        .is(dataAcquisitionProjectId)
-        .andOperator(GridFsCriteria.whereFilename()
-            .regex(getMasterFileNamePattern())
-            .andOperator(GridFsCriteria.whereMetaData("shadow")
-                .is(false))));
+    Query query = new Query(
+        GridFsCriteria.whereMetaData("dataAcquisitionProjectId").is(dataAcquisitionProjectId)
+            .andOperator(GridFsCriteria.whereFilename().regex(getMasterFileNamePattern())
+                .andOperator(GridFsCriteria.whereMetaData("shadow").is(false))));
 
     return convertIterableToStream(gridFsOperations.find(query));
   }
@@ -63,23 +63,22 @@ public abstract class AbstractAttachmentShadowCopyDataSource
   @Override
   public Optional<T> findPredecessorOfShadowCopy(T shadowCopy, String previousVersion) {
 
-    Query query = new Query(GridFsCriteria.whereMetaData("_id")
-        .is(getPredecessorId(shadowCopy, previousVersion)));
+    Query query = new Query(
+        GridFsCriteria.whereMetaData("_id").is(getPredecessorId(shadowCopy, previousVersion)));
 
     GridFSFile file = this.gridFsOperations.findOne(query);
     if (file == null) {
       return Optional.empty();
     } else {
-      return Optional.of(mongoTemplate.getConverter().read(attachmentClass,
-          file.getMetadata()));
+      return Optional.of(mongoTemplate.getConverter().read(attachmentClass, file.getMetadata()));
     }
   }
 
   @Override
   public void updatePredecessor(T predecessor) {
     GridFSDBFile file = gridFs.findOne(getPredecessorFileName(predecessor));
-    BasicDBObject dbObject = new BasicDBObject((Document) mongoTemplate.getConverter()
-        .convertToMongoType(predecessor));
+    BasicDBObject dbObject =
+        new BasicDBObject((Document) mongoTemplate.getConverter().convertToMongoType(predecessor));
     // _contentType gets lost after metadata conversion, so we have to set it again explicitly.
     dbObject.append("_contentType", getContentType(file));
     file.setMetaData(dbObject);
@@ -103,24 +102,18 @@ public abstract class AbstractAttachmentShadowCopyDataSource
   }
 
   @Override
-  public Stream<T> findShadowCopiesWithDeletedMasters(String projectId,
-      String previousVersion) {
+  public Stream<T> findShadowCopiesWithDeletedMasters(String projectId, String previousVersion) {
     String oldProjectVersion = projectId + "-" + previousVersion;
-    Query query = new Query(GridFsCriteria.whereMetaData("dataAcquisitionProjectId")
-        .is(oldProjectVersion)
-        .andOperator(GridFsCriteria.whereFilename()
-            .regex(getMasterFileNamePattern())
-            .andOperator(GridFsCriteria.whereMetaData("shadow")
-                .is(true)
-                .andOperator(GridFsCriteria.whereMetaData("successorId")
-                    .is(null)))));
+    Query query =
+        new Query(GridFsCriteria.whereMetaData("dataAcquisitionProjectId").is(oldProjectVersion)
+            .andOperator(GridFsCriteria.whereFilename().regex(getMasterFileNamePattern()),
+                GridFsCriteria.whereMetaData("shadow").is(true)));
 
-    return convertIterableToStream(gridFsOperations.find(query))
-        .filter(attachment -> {
-          String masterId = attachment.getMasterId();
-          Query existsQuery = new Query(GridFsCriteria.whereMetaData("_id").is(masterId));
-          return !mongoTemplate.exists(existsQuery, "fs.files");
-        });
+    return convertIterableToStream(gridFsOperations.find(query)).filter(attachment -> {
+      String masterId = attachment.getMasterId();
+      Query existsQuery = new Query(GridFsCriteria.whereMetaData("_id").is(masterId));
+      return !mongoTemplate.exists(existsQuery, "fs.files");
+    });
   }
 
   private void deleteExistingShadowCopy(String filename) {
@@ -154,10 +147,19 @@ public abstract class AbstractAttachmentShadowCopyDataSource
     String masterId = attachment.getMasterId();
     int index = masterId.lastIndexOf("/attachments/");
     StringBuilder builder = new StringBuilder();
-    builder.append(masterId, 0, index)
-        .append("-").append(previousVersion)
+    builder.append(masterId, 0, index).append("-").append(previousVersion)
         .append(masterId.substring(index));
     return builder.toString();
   }
 
+  @Override
+  public void deleteExistingShadowCopies(String projectId, String version) {
+    String oldProjectId = projectId + "-" + version;
+    Query query =
+        new Query(GridFsCriteria.whereMetaData("dataAcquisitionProjectId").is(oldProjectId)
+            .andOperator(GridFsCriteria.whereFilename().regex(getMasterFileNamePattern()),
+                GridFsCriteria.whereMetaData("shadow").is(true),
+                GridFsCriteria.whereMetaData("successorId").is(null)));
+    gridFsOperations.delete(query);
+  }
 }

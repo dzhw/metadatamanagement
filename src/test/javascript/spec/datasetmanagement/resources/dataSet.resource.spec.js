@@ -19,7 +19,7 @@ describe('DataSet', function() {
     $httpBackend = $injector.get('$httpBackend');
     mockDataSetResource = $injector.get('DataSetResource');
     $httpBackend.expectGET(
-      /api\/data-sets\?projection=complete/)
+      /api\/data-sets/)
       .respond(data);
   }));
   it('should return DataSet resource ', function() {

@@ -1,14 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
-import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * Create shadow copies of domain objects provided by {@link ShadowCopyDataSource}s.
@@ -39,6 +40,9 @@ public class ShadowCopyService<T extends AbstractShadowableRdcDomainObject> {
     String projectId = dataAcquisitionProject.getId();
     boolean hasPreviousVersion = StringUtils.hasText(previousVersion);
 
+    // we might release with the same version, therefore delete all existing shadows
+    shadowCopyDataSource.deleteExistingShadowCopies(projectId, version);
+    
     try (Stream<T> masters = shadowCopyDataSource.getMasters(projectId)) {
 
       masters.map(master -> shadowCopyDataSource.createShadowCopy(master, version))

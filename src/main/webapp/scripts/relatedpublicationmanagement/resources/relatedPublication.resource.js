@@ -7,10 +7,7 @@ angular.module('metadatamanagementApp')
       id: '@id'
     }, {
       'get': {
-        method: 'GET',
-        params: {
-          projection: 'complete'
-        }
+        method: 'GET'
       },
       'save': {
         method: 'PUT'

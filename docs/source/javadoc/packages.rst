@@ -5,6 +5,7 @@ Javadoc
    :maxdepth: 2
 
    eu/dzhw/fdz/metadatamanagement/common/domain/package-index
+   eu/dzhw/fdz/metadatamanagement/conceptmanagement/domain/package-index
    eu/dzhw/fdz/metadatamanagement/datasetmanagement/domain/package-index
    eu/dzhw/fdz/metadatamanagement/instrumentmanagement/domain/package-index
    eu/dzhw/fdz/metadatamanagement/ordermanagement/domain/package-index

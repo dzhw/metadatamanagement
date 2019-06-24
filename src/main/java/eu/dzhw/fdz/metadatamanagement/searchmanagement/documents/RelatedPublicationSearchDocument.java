@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -26,6 +25,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Getter
 @Setter
+@SuppressWarnings("CPD-START")
 public class RelatedPublicationSearchDocument extends RelatedPublication
     implements SearchDocumentInterface {
   private List<StudySubDocument> studies =
@@ -69,12 +69,11 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
    * @param dataSets the dataSets for which the publication was published
    * @param variables the variables for which the publication was published
    */
-  @SuppressWarnings("CPD-START")
   public RelatedPublicationSearchDocument(RelatedPublication relatedPublication,
       List<StudySubDocument> studies,
       List<StudyNestedDocument> nestedStudies,
       List<QuestionSubDocumentProjection> questions,
-      Map<String, InstrumentSubDocumentProjection> instruments,
+      List<InstrumentSubDocumentProjection> instruments,
       List<SurveySubDocumentProjection> surveys,
       List<DataSetSubDocumentProjection> dataSets,
       List<VariableSubDocumentProjection> variables) {
@@ -93,9 +92,9 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
           .collect(Collectors.toList());
     }
     if (instruments != null) {
-      this.instruments = instruments.values().stream()
+      this.instruments = instruments.stream()
           .map(InstrumentSubDocument::new).collect(Collectors.toList());
-      this.nestedInstruments = instruments.values().stream().map(InstrumentNestedDocument::new)
+      this.nestedInstruments = instruments.stream().map(InstrumentNestedDocument::new)
           .collect(Collectors.toList());
     }
     if (surveys != null) {

@@ -38,9 +38,12 @@ angular.module('metadatamanagementApp').config(
           'upload-or-edit-studies-tooltip': 'Klicken, um die Studie zu bearbeiten',
           'create-study-tooltip': 'Klicken, um die Studie zu erstellen',
           'create-survey-tooltip': 'Klicken, um eine neue Erhebung zu erstellen',
+          'create-concept-tooltip': 'Klicken, um ein neues Konzept zu erstellen',
           'edit-study-tooltip': 'Klicken, um die Studie zu bearbeiten',
+          'edit-concept-tooltip': 'Klicken, um das Konzept zu bearbeiten',
           'edit-survey-tooltip': 'Klicken, um die Erhebung zu bearbeiten',
           'delete-survey-tooltip': 'Klicken, um die Erhebung zu löschen',
+          'delete-concept-tooltip': 'Klicken, um das Konzept zu löschen',
           'create-instrument-tooltip': 'Klicken, um ein neues Instrument zu erstellen',
           'edit-instrument-tooltip': 'Klicken, um das Instrument zu bearbeiten',
           'delete-instrument-tooltip': 'Klicken, um das Instrument zu löschen',
@@ -71,7 +74,8 @@ angular.module('metadatamanagementApp').config(
           'data-sets': 'Suchen Sie nach Datensätzen...',
           'studies': 'Suchen Sie nach Studien...',
           'related-publications': 'Suchen Sie nach Publikationen...',
-          'instruments': 'Suchen Sie nach Instrumenten...'
+          'instruments': 'Suchen Sie nach Instrumenten...',
+          'concepts': 'Suchen Sie nach Konzepten...'
         },
         'no-results-text': {
           'all': 'Keine Ergebnisse zu Ihrer Suchanfrage gefunden.',
@@ -82,6 +86,7 @@ angular.module('metadatamanagementApp').config(
           'studies': 'Keine Studien zu Ihrer Suchanfrage gefunden.',
           'related-publications': 'Keine Publikationen zu Ihrer Suchanfrage gefunden.',
           'instruments': 'Keine Instrumente zu Ihrer Suchanfrage gefunden.',
+          'concepts': 'Keine Konzepte zu Ihrer Suchanfrage gefunden.',
           'sponsor': 'Keine Ergebnisse zu Ihrer Suchanfrage gefunden'
         },
         'tabs': {
@@ -100,6 +105,9 @@ angular.module('metadatamanagementApp').config(
           'studies': 'Studien',
           'studies-found': '{number} {number, plural, =0{Studien} =1{Studie} other{Studien}} gefunden.',
           'studies-tooltip': 'Klicken, um nach Studien zu suchen',
+          'concepts': 'Konzepte',
+          'concepts-found': '{number} {number, plural, =0{Konzepte} =1{Konzept} other{Konzepte}} gefunden.',
+          'concepts-tooltip': 'Klicken, um nach Konzepten zu suchen',
           'all': 'Alle',
           'all-tooltip': 'Klicken, um nach allen Objekten zu suchen',
           'related_publications': 'Publikationen',
@@ -116,10 +124,12 @@ angular.module('metadatamanagementApp').config(
           'instrument-tooltip': 'Klicken, um das Instrument "{{id}}" anzuzeigen',
           'survey-tooltip': 'Klicken, um die Erhebung "{{id}}" anzuzeigen',
           'study-tooltip': 'Klicken, um die Studie "{{id}}" anzuzeigen',
+          'concept-tooltip': 'Klicken, um das Konzept "{{id}}" anzuzeigen',
           'publication-tooltip': 'Klicken, um die Publikation "{{id}}" anzuzeigen'
         },
         'filter': {
           'study': 'Studie',
+          'concept': 'Konzept',
           'data-set': 'Datensatz',
           'question': 'Frage',
           'related-publication': 'Publikation',
@@ -142,6 +152,7 @@ angular.module('metadatamanagementApp').config(
             'survey': 'Nach welcher Erhebung wollen Sie filtern?',
             'instrument': 'Nach welchem Instrument wollen Sie filtern?',
             'study': 'Nach welcher Studie wollen Sie filtern?',
+            'concept': 'Nach welchem Konzept wollen Sie filtern?',
             'data-set': 'Nach welchem Datensatz wollen Sie filtern?',
             'related-publication': 'Nach welcher Publikation wollen Sie filtern?',
             'panel-identifier': 'Nach welcher Panelkennung wollen Sie filtern?',
@@ -161,6 +172,7 @@ angular.module('metadatamanagementApp').config(
             'questions': 'Filter für die Fragensuche...',
             'data_sets': 'Filter für die Datensatzsuche...',
             'variables': 'Filter für die Variablensuche...',
+            'concepts': 'Filter für die Konzeptsuche...',
             'related_publications': 'Filter für die Publikationssuche...'
           },
           'clear-filters-tooltip': 'Klicken, um alle Filter zu entfernen',
@@ -172,6 +184,10 @@ angular.module('metadatamanagementApp').config(
           'study-filter': {
             'not-found': 'Keine Studie gefunden!',
             'no-valid-selected': 'Keine gültige Studie ausgewählt!'
+          },
+          'concept-filter': {
+            'not-found': 'Kein Konzept gefunden!',
+            'no-valid-selected': 'Keine gültiges Konzept ausgewählt!'
           },
           'survey-filter': {
             'not-found': 'Keine Erhebung gefunden!',

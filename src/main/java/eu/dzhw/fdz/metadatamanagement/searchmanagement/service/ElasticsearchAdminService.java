@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.scheduling.annotation.Async;
@@ -17,7 +16,9 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository.ConceptRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
@@ -63,6 +64,9 @@ public class ElasticsearchAdminService {
   private StudyRepository studyRepository;
   
   @Autowired
+  private ConceptRepository conceptRepository;
+  
+  @Autowired
   private ElasticsearchUpdateQueueService updateQueueService;
 
   @Autowired
@@ -87,6 +91,7 @@ public class ElasticsearchAdminService {
       this.enqueueAllRelatedPublications();
       this.enqueueAllInstruments();
       this.enqueueAllStudies();
+      this.enqueueAllConcepts();
       updateQueueService.processAllQueueItems();
     } catch (Exception e) {
       log.error("Error during recreation of indices:", e);
@@ -100,6 +105,17 @@ public class ElasticsearchAdminService {
         updateQueueService.enqueue(
             instrument.getId(), 
             ElasticsearchType.studies, 
+            ElasticsearchUpdateQueueAction.UPSERT);
+      });      
+    }
+  }
+  
+  private void enqueueAllConcepts() {
+    try (Stream<IdAndVersionProjection> concepts = conceptRepository.streamAllIdAndVersionsBy()) {
+      concepts.forEach(instrument -> {
+        updateQueueService.enqueue(
+            instrument.getId(), 
+            ElasticsearchType.concepts, 
             ElasticsearchUpdateQueueAction.UPSERT);
       });      
     }

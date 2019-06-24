@@ -81,7 +81,11 @@ angular.module('metadatamanagementApp').config(
             },
             'studies': {
               'one': 'Click to show the study in which this question has been used'
-            }
+            },
+            'concepts': {
+              'one': 'Click to show the concept which has been measured with this question',
+              'many': 'Click to show all concepts which have been measured with this question'
+            },
           }
         },
         'error': {
@@ -133,6 +137,9 @@ angular.module('metadatamanagementApp').config(
             },
             'annotations': {
               'i18n-string-size': 'The max length of the annotations is 2048 signs.'
+            },
+            'concept-ids': {
+              'not-exists': 'There is no Concept with ID "{{invalidValue}}".'
             }
           },
           'question-image-metadata': {

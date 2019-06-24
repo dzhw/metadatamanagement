@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.18
+ * v1.1.19
  */
 goog.provide('ngmaterial.core');
 
@@ -1901,7 +1901,14 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
       // The XMLSerializer API is supported on IE11 and is the recommended workaround.
       var serializer = new XMLSerializer();
       return serializer.serializeToString(element);
-    }
+    },
+
+    /**
+     * Support: IE 9-11 only
+     * documentMode is an IE-only property
+     * http://msdn.microsoft.com/en-us/library/ie/cc196988(v=vs.85).aspx
+     */
+    msie: window.document.documentMode
   };
 
   // Instantiate other namespace utility methods
@@ -2814,1186 +2821,6 @@ function MdCompilerProvider($compileProvider) {
 }
 
 
-/**
- * @ngdoc module
- * @name material.core.interaction
- * @description
- * User interaction detection to provide proper accessibility.
- */
-MdInteractionService['$inject'] = ["$timeout", "$mdUtil", "$rootScope"];
-angular
-  .module('material.core.interaction', [])
-  .service('$mdInteraction', MdInteractionService);
-
-
-/**
- * @ngdoc service
- * @name $mdInteraction
- * @module material.core.interaction
- *
- * @description
- *
- * Service which keeps track of the last interaction type and validates them for several browsers.
- * The service hooks into the document's body and listens for touch, mouse and keyboard events.
- *
- * The most recent interaction type can be retrieved by calling the `getLastInteractionType` method.
- *
- * Here is an example markup for using the interaction service.
- *
- * <hljs lang="js">
- *   var lastType = $mdInteraction.getLastInteractionType();
- *
- *   if (lastType === 'keyboard') {
- *     // We only restore the focus for keyboard users.
- *     restoreFocus();
- *   }
- * </hljs>
- *
- */
-function MdInteractionService($timeout, $mdUtil, $rootScope) {
-  this.$timeout = $timeout;
-  this.$mdUtil = $mdUtil;
-  this.$rootScope = $rootScope;
-
-  // IE browsers can also trigger pointer events, which also leads to an interaction.
-  this.pointerEvent = 'MSPointerEvent' in window ? 'MSPointerDown' : 'PointerEvent' in window ? 'pointerdown' : null;
-  this.bodyElement = angular.element(document.body);
-  this.isBuffering = false;
-  this.bufferTimeout = null;
-  this.lastInteractionType = null;
-  this.lastInteractionTime = null;
-  this.inputHandler = this.onInputEvent.bind(this);
-  this.bufferedInputHandler = this.onBufferInputEvent.bind(this);
-
-  // Type Mappings for the different events
-  // There will be three three interaction types
-  // `keyboard`, `mouse` and `touch`
-  // type `pointer` will be evaluated in `pointerMap` for IE Browser events
-  this.inputEventMap = {
-    'keydown': 'keyboard',
-    'mousedown': 'mouse',
-    'mouseenter': 'mouse',
-    'touchstart': 'touch',
-    'pointerdown': 'pointer',
-    'MSPointerDown': 'pointer'
-  };
-
-  // IE PointerDown events will be validated in `touch` or `mouse`
-  // Index numbers referenced here: https://msdn.microsoft.com/library/windows/apps/hh466130.aspx
-  this.iePointerMap = {
-    2: 'touch',
-    3: 'touch',
-    4: 'mouse'
-  };
-
-  this.initializeEvents();
-  this.$rootScope.$on('$destroy', this.deregister.bind(this));
-}
-
-/**
- * Removes all event listeners created by $mdInteration on the
- * body element.
- */
-MdInteractionService.prototype.deregister = function() {
-
-    this.bodyElement.off('keydown mousedown', this.inputHandler);
-
-    if ('ontouchstart' in document.documentElement) {
-      this.bodyElement.off('touchstart', this.bufferedInputHandler);
-    }
-
-    if (this.pointerEvent) {
-      this.bodyElement.off(this.pointerEvent, this.inputHandler);
-    }
-
-};
-
-/**
- * Initializes the interaction service, by registering all interaction events to the
- * body element.
- */
-MdInteractionService.prototype.initializeEvents = function() {
-
-  this.bodyElement.on('keydown mousedown', this.inputHandler);
-
-  if ('ontouchstart' in document.documentElement) {
-    this.bodyElement.on('touchstart', this.bufferedInputHandler);
-  }
-
-  if (this.pointerEvent) {
-    this.bodyElement.on(this.pointerEvent, this.inputHandler);
-  }
-
-};
-
-/**
- * Event listener for normal interaction events, which should be tracked.
- * @param event {MouseEvent|KeyboardEvent|PointerEvent|TouchEvent}
- */
-MdInteractionService.prototype.onInputEvent = function(event) {
-  if (this.isBuffering) {
-    return;
-  }
-
-  var type = this.inputEventMap[event.type];
-
-  if (type === 'pointer') {
-    type = this.iePointerMap[event.pointerType] || event.pointerType;
-  }
-
-  this.lastInteractionType = type;
-  this.lastInteractionTime = this.$mdUtil.now();
-};
-
-/**
- * Event listener for interaction events which should be buffered (touch events).
- * @param event {TouchEvent}
- */
-MdInteractionService.prototype.onBufferInputEvent = function(event) {
-  this.$timeout.cancel(this.bufferTimeout);
-
-  this.onInputEvent(event);
-  this.isBuffering = true;
-
-  // The timeout of 650ms is needed to delay the touchstart, because otherwise the touch will call
-  // the `onInput` function multiple times.
-  this.bufferTimeout = this.$timeout(function() {
-    this.isBuffering = false;
-  }.bind(this), 650, false);
-
-};
-
-/**
- * @ngdoc method
- * @name $mdInteraction#getLastInteractionType
- * @description Retrieves the last interaction type triggered in body.
- * @returns {string|null} Last interaction type.
- */
-MdInteractionService.prototype.getLastInteractionType = function() {
-  return this.lastInteractionType;
-};
-
-/**
- * @ngdoc method
- * @name $mdInteraction#isUserInvoked
- * @description Method to detect whether any interaction happened recently or not.
- * @param {number=} checkDelay Time to check for any interaction to have been triggered.
- * @returns {boolean} Whether there was any interaction or not.
- */
-MdInteractionService.prototype.isUserInvoked = function(checkDelay) {
-  var delay = angular.isNumber(checkDelay) ? checkDelay : 15;
-
-  // Check for any interaction to be within the specified check time.
-  return this.lastInteractionTime >= this.$mdUtil.now() - delay;
-};
-
-
-MdGesture['$inject'] = ["$$MdGestureHandler", "$$rAF", "$timeout"];
-attachToDocument['$inject'] = ["$mdGesture", "$$MdGestureHandler"];var HANDLERS = {};
-
-/**
- * The state of the current 'pointer'. The pointer represents the state of the current touch.
- * It contains normalized x and y coordinates from DOM events,
- * as well as other information abstracted from the DOM.
- */
-var pointer, lastPointer, maxClickDistance = 6;
-var forceSkipClickHijack = false, disableAllGestures = false;
-
-/**
- * The position of the most recent click if that click was on a label element.
- * @type {{x: number, y: number}|null}
- */
-var lastLabelClickPos = null;
-
-// Used to attach event listeners once when multiple ng-apps are running.
-var isInitialized = false;
-
-/**
- * @ngdoc module
- * @name material.core.gestures
- * @description
- * AngularJS Material Gesture handling for touch devices. This module replaced the usage of the hammerjs library.
- */
-angular
-  .module('material.core.gestures', [])
-  .provider('$mdGesture', MdGestureProvider)
-  .factory('$$MdGestureHandler', MdGestureHandler)
-  .run(attachToDocument);
-
-/**
- * @ngdoc service
- * @name $mdGestureProvider
- * @module material.core.gestures
- *
- * @description
- * In some scenarios on mobile devices (without jQuery), the click events should NOT be hijacked.
- * `$mdGestureProvider` is used to configure the Gesture module to ignore or skip click hijacking on mobile
- * devices.
- *
- * You can also change the max click distance, `6px` by default, if you have issues on some touch screens.
- *
- * <hljs lang="js">
- *   app.config(function($mdGestureProvider) {
- *
- *     // For mobile devices without jQuery loaded, do not
- *     // intercept click events during the capture phase.
- *     $mdGestureProvider.skipClickHijack();
- *
- *     // If hijacking clicks, you may want to change the default click distance
- *     $mdGestureProvider.setMaxClickDistance(12);
- *   });
- * </hljs>
- *
- */
-function MdGestureProvider() { }
-
-MdGestureProvider.prototype = {
-
-  /**
-   * @ngdoc method
-   * @name $mdGestureProvider#disableAll
-   *
-   * @description
-   * Disable all gesture detection. This can be beneficial to application performance
-   * and memory usage.
-   */
-  disableAll: function () {
-    disableAllGestures = true;
-  },
-
-  // Publish access to setter to configure a variable BEFORE the
-  // $mdGesture service is instantiated...
-  /**
-   * @ngdoc method
-   * @name $mdGestureProvider#skipClickHijack
-   *
-   * @description
-   * Tell the AngularJS Material Gesture module to skip (or ignore) click hijacking on mobile devices.
-   */
-  skipClickHijack: function() {
-    return forceSkipClickHijack = true;
-  },
-
-  /**
-   * @ngdoc method
-   * @name $mdGestureProvider#setMaxClickDistance
-   * @param clickDistance {string} Distance in pixels. I.e. `12px`.
-   * @description
-   * Set the max distance from the origin of the touch event to trigger touch handlers.
-   */
-  setMaxClickDistance: function(clickDistance) {
-    maxClickDistance = parseInt(clickDistance);
-  },
-
-  /**
-   * $get is used to build an instance of $mdGesture
-   * ngInject
-   */
-  $get : ["$$MdGestureHandler", "$$rAF", "$timeout", function($$MdGestureHandler, $$rAF, $timeout) {
-       return new MdGesture($$MdGestureHandler, $$rAF, $timeout);
-  }]
-};
-
-
-
-/**
- * MdGesture factory construction function
- * ngInject
- */
-function MdGesture($$MdGestureHandler, $$rAF, $timeout) {
-  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  var isIos = userAgent.match(/ipad|iphone|ipod/i);
-  var isAndroid = userAgent.match(/android/i);
-  var touchActionProperty = getTouchAction();
-  var hasJQuery =  (typeof window.jQuery !== 'undefined') && (angular.element === window.jQuery);
-
-  var self = {
-    handler: addHandler,
-    register: register,
-    isAndroid: isAndroid,
-    isIos: isIos,
-    // On mobile w/out jQuery, we normally intercept clicks. Should we skip that?
-    isHijackingClicks: (isIos || isAndroid) && !hasJQuery && !forceSkipClickHijack
-  };
-
-  if (self.isHijackingClicks) {
-    self.handler('click', {
-      options: {
-        maxDistance: maxClickDistance
-      },
-      onEnd: checkDistanceAndEmit('click')
-    });
-
-    self.handler('focus', {
-      options: {
-        maxDistance: maxClickDistance
-      },
-      onEnd: function(ev, pointer) {
-        if (pointer.distance < this.state.options.maxDistance && canFocus(ev.target)) {
-          this.dispatchEvent(ev, 'focus', pointer);
-          ev.target.focus();
-        }
-      }
-    });
-
-    self.handler('mouseup', {
-      options: {
-        maxDistance: maxClickDistance
-      },
-      onEnd: checkDistanceAndEmit('mouseup')
-    });
-
-    self.handler('mousedown', {
-      onStart: function(ev) {
-        this.dispatchEvent(ev, 'mousedown');
-      }
-    });
-  }
-
-  function checkDistanceAndEmit(eventName) {
-    return function(ev, pointer) {
-      if (pointer.distance < this.state.options.maxDistance) {
-        this.dispatchEvent(ev, eventName, pointer);
-      }
-    };
-  }
-
-  /**
-   * Register an element to listen for a handler.
-   * This allows an element to override the default options for a handler.
-   * Additionally, some handlers like drag and hold only dispatch events if
-   * the domEvent happens inside an element that's registered to listen for these events.
-   *
-   * @see GestureHandler for how overriding of default options works.
-   * @example $mdGesture.register(myElement, 'drag', { minDistance: 20, horizontal: false })
-   */
-  function register(element, handlerName, options) {
-    var handler = HANDLERS[handlerName.replace(/^\$md./, '')];
-    if (!handler) {
-      throw new Error('Failed to register element with handler ' + handlerName + '. ' +
-      'Available handlers: ' + Object.keys(HANDLERS).join(', '));
-    }
-    return handler.registerElement(element, options);
-  }
-
-  /*
-   * add a handler to $mdGesture. see below.
-   */
-  function addHandler(name, definition) {
-    var handler = new $$MdGestureHandler(name);
-    angular.extend(handler, definition);
-    HANDLERS[name] = handler;
-
-    return self;
-  }
-
-  /**
-   * Register handlers. These listen to touch/start/move events, interpret them,
-   * and dispatch gesture events depending on options & conditions. These are all
-   * instances of GestureHandler.
-   * @see GestureHandler
-   */
-  return self
-    /*
-     * The press handler dispatches an event on touchdown/touchend.
-     * It's a simple abstraction of touch/mouse/pointer start and end.
-     */
-    .handler('press', {
-      onStart: function (ev, pointer) {
-        this.dispatchEvent(ev, '$md.pressdown');
-      },
-      onEnd: function (ev, pointer) {
-        this.dispatchEvent(ev, '$md.pressup');
-      }
-    })
-
-    /*
-     * The hold handler dispatches an event if the user keeps their finger within
-     * the same <maxDistance> area for <delay> ms.
-     * The hold handler will only run if a parent of the touch target is registered
-     * to listen for hold events through $mdGesture.register()
-     */
-    .handler('hold', {
-      options: {
-        maxDistance: 6,
-        delay: 500
-      },
-      onCancel: function () {
-        $timeout.cancel(this.state.timeout);
-      },
-      onStart: function (ev, pointer) {
-        // For hold, require a parent to be registered with $mdGesture.register()
-        // Because we prevent scroll events, this is necessary.
-        if (!this.state.registeredParent) return this.cancel();
-
-        this.state.pos = {x: pointer.x, y: pointer.y};
-        this.state.timeout = $timeout(angular.bind(this, function holdDelayFn() {
-          this.dispatchEvent(ev, '$md.hold');
-          this.cancel(); // we're done!
-        }), this.state.options.delay, false);
-      },
-      onMove: function (ev, pointer) {
-        // Don't scroll while waiting for hold.
-        // If we don't preventDefault touchmove events here, Android will assume we don't
-        // want to listen to anymore touch events. It will start scrolling and stop sending
-        // touchmove events.
-        if (!touchActionProperty && ev.type === 'touchmove') ev.preventDefault();
-
-        // If the user moves greater than <maxDistance> pixels, stop the hold timer
-        // set in onStart
-        var dx = this.state.pos.x - pointer.x;
-        var dy = this.state.pos.y - pointer.y;
-        if (Math.sqrt(dx * dx + dy * dy) > this.options.maxDistance) {
-          this.cancel();
-        }
-      },
-      onEnd: function () {
-        this.onCancel();
-      }
-    })
-
-    /*
-     * The drag handler dispatches a drag event if the user holds and moves his finger greater than
-     * <minDistance> px in the x or y direction, depending on options.horizontal.
-     * The drag will be cancelled if the user moves his finger greater than <minDistance>*<cancelMultiplier> in
-     * the perpendicular direction. Eg if the drag is horizontal and the user moves his finger <minDistance>*<cancelMultiplier>
-     * pixels vertically, this handler won't consider the move part of a drag.
-     */
-    .handler('drag', {
-      options: {
-        minDistance: 6,
-        horizontal: true,
-        cancelMultiplier: 1.5
-      },
-      onSetup: function(element, options) {
-        if (touchActionProperty) {
-          // We check for horizontal to be false, because otherwise we would overwrite the default opts.
-          this.oldTouchAction = element[0].style[touchActionProperty];
-          element[0].style[touchActionProperty] = options.horizontal ? 'pan-y' : 'pan-x';
-        }
-      },
-      onCleanup: function(element) {
-        if (this.oldTouchAction) {
-          element[0].style[touchActionProperty] = this.oldTouchAction;
-        }
-      },
-      onStart: function (ev) {
-        // For drag, require a parent to be registered with $mdGesture.register()
-        if (!this.state.registeredParent) this.cancel();
-      },
-      onMove: function (ev, pointer) {
-        var shouldStartDrag, shouldCancel;
-        // Don't scroll while deciding if this touchmove qualifies as a drag event.
-        // If we don't preventDefault touchmove events here, Android will assume we don't
-        // want to listen to anymore touch events. It will start scrolling and stop sending
-        // touchmove events.
-        if (!touchActionProperty && ev.type === 'touchmove') ev.preventDefault();
-
-        if (!this.state.dragPointer) {
-          if (this.state.options.horizontal) {
-            shouldStartDrag = Math.abs(pointer.distanceX) > this.state.options.minDistance;
-            shouldCancel = Math.abs(pointer.distanceY) > this.state.options.minDistance * this.state.options.cancelMultiplier;
-          } else {
-            shouldStartDrag = Math.abs(pointer.distanceY) > this.state.options.minDistance;
-            shouldCancel = Math.abs(pointer.distanceX) > this.state.options.minDistance * this.state.options.cancelMultiplier;
-          }
-
-          if (shouldStartDrag) {
-            // Create a new pointer representing this drag, starting at this point where the drag started.
-            this.state.dragPointer = makeStartPointer(ev);
-            updatePointerState(ev, this.state.dragPointer);
-            this.dispatchEvent(ev, '$md.dragstart', this.state.dragPointer);
-
-          } else if (shouldCancel) {
-            this.cancel();
-          }
-        } else {
-          this.dispatchDragMove(ev);
-        }
-      },
-      // Only dispatch dragmove events every frame; any more is unnecessary
-      dispatchDragMove: $$rAF.throttle(function (ev) {
-        // Make sure the drag didn't stop while waiting for the next frame
-        if (this.state.isRunning) {
-          updatePointerState(ev, this.state.dragPointer);
-          this.dispatchEvent(ev, '$md.drag', this.state.dragPointer);
-        }
-      }),
-      onEnd: function (ev, pointer) {
-        if (this.state.dragPointer) {
-          updatePointerState(ev, this.state.dragPointer);
-          this.dispatchEvent(ev, '$md.dragend', this.state.dragPointer);
-        }
-      }
-    })
-
-    /*
-     * The swipe handler will dispatch a swipe event if, on the end of a touch,
-     * the velocity and distance were high enough.
-     */
-    .handler('swipe', {
-      options: {
-        minVelocity: 0.65,
-        minDistance: 10
-      },
-      onEnd: function (ev, pointer) {
-        var eventType;
-
-        if (Math.abs(pointer.velocityX) > this.state.options.minVelocity &&
-          Math.abs(pointer.distanceX) > this.state.options.minDistance) {
-          eventType = pointer.directionX == 'left' ? '$md.swipeleft' : '$md.swiperight';
-          this.dispatchEvent(ev, eventType);
-        }
-        else if (Math.abs(pointer.velocityY) > this.state.options.minVelocity &&
-          Math.abs(pointer.distanceY) > this.state.options.minDistance) {
-          eventType = pointer.directionY == 'up' ? '$md.swipeup' : '$md.swipedown';
-          this.dispatchEvent(ev, eventType);
-        }
-      }
-    });
-
-  function getTouchAction() {
-    var testEl = document.createElement('div');
-    var vendorPrefixes = ['', 'webkit', 'Moz', 'MS', 'ms', 'o'];
-
-    for (var i = 0; i < vendorPrefixes.length; i++) {
-      var prefix = vendorPrefixes[i];
-      var property = prefix ? prefix + 'TouchAction' : 'touchAction';
-      if (angular.isDefined(testEl.style[property])) {
-        return property;
-      }
-    }
-  }
-
-}
-
-/**
- * MdGestureHandler
- * A GestureHandler is an object which is able to dispatch custom dom events
- * based on native dom {touch,pointer,mouse}{start,move,end} events.
- *
- * A gesture will manage its lifecycle through the start,move,end, and cancel
- * functions, which are called by native dom events.
- *
- * A gesture has the concept of 'options' (eg a swipe's required velocity), which can be
- * overridden by elements registering through $mdGesture.register()
- */
-function GestureHandler (name) {
-  this.name = name;
-  this.state = {};
-}
-
-function MdGestureHandler() {
-  var hasJQuery =  (typeof window.jQuery !== 'undefined') && (angular.element === window.jQuery);
-
-  GestureHandler.prototype = {
-    options: {},
-    // jQuery listeners don't work with custom DOMEvents, so we have to dispatch events
-    // differently when jQuery is loaded
-    dispatchEvent: hasJQuery ?  jQueryDispatchEvent : nativeDispatchEvent,
-
-    // These are overridden by the registered handler
-    onSetup: angular.noop,
-    onCleanup: angular.noop,
-    onStart: angular.noop,
-    onMove: angular.noop,
-    onEnd: angular.noop,
-    onCancel: angular.noop,
-
-    // onStart sets up a new state for the handler, which includes options from the
-    // nearest registered parent element of ev.target.
-    start: function (ev, pointer) {
-      if (this.state.isRunning) return;
-      var parentTarget = this.getNearestParent(ev.target);
-      // Get the options from the nearest registered parent
-      var parentTargetOptions = parentTarget && parentTarget.$mdGesture[this.name] || {};
-
-      this.state = {
-        isRunning: true,
-        // Override the default options with the nearest registered parent's options
-        options: angular.extend({}, this.options, parentTargetOptions),
-        // Pass in the registered parent node to the state so the onStart listener can use
-        registeredParent: parentTarget
-      };
-      this.onStart(ev, pointer);
-    },
-    move: function (ev, pointer) {
-      if (!this.state.isRunning) return;
-      this.onMove(ev, pointer);
-    },
-    end: function (ev, pointer) {
-      if (!this.state.isRunning) return;
-      this.onEnd(ev, pointer);
-      this.state.isRunning = false;
-    },
-    cancel: function (ev, pointer) {
-      this.onCancel(ev, pointer);
-      this.state = {};
-    },
-
-    // Find and return the nearest parent element that has been registered to
-    // listen for this handler via $mdGesture.register(element, 'handlerName').
-    getNearestParent: function (node) {
-      var current = node;
-      while (current) {
-        if ((current.$mdGesture || {})[this.name]) {
-          return current;
-        }
-        current = current.parentNode;
-      }
-      return null;
-    },
-
-    // Called from $mdGesture.register when an element registers itself with a handler.
-    // Store the options the user gave on the DOMElement itself. These options will
-    // be retrieved with getNearestParent when the handler starts.
-    registerElement: function (element, options) {
-      var self = this;
-      element[0].$mdGesture = element[0].$mdGesture || {};
-      element[0].$mdGesture[this.name] = options || {};
-      element.on('$destroy', onDestroy);
-
-      self.onSetup(element, options || {});
-
-      return onDestroy;
-
-      function onDestroy() {
-        delete element[0].$mdGesture[self.name];
-        element.off('$destroy', onDestroy);
-
-        self.onCleanup(element, options || {});
-      }
-    }
-  };
-
-  return GestureHandler;
-
-  /*
-   * Dispatch an event with jQuery
-   * TODO: Make sure this sends bubbling events
-   *
-   * @param srcEvent the original DOM touch event that started this.
-   * @param eventType the name of the custom event to send (eg 'click' or '$md.drag')
-   * @param eventPointer the pointer object that matches this event.
-   */
-  function jQueryDispatchEvent(srcEvent, eventType, eventPointer) {
-    eventPointer = eventPointer || pointer;
-    var eventObj = new angular.element.Event(eventType);
-
-    eventObj.$material = true;
-    eventObj.pointer = eventPointer;
-    eventObj.srcEvent = srcEvent;
-
-    angular.extend(eventObj, {
-      clientX: eventPointer.x,
-      clientY: eventPointer.y,
-      screenX: eventPointer.x,
-      screenY: eventPointer.y,
-      pageX: eventPointer.x,
-      pageY: eventPointer.y,
-      ctrlKey: srcEvent.ctrlKey,
-      altKey: srcEvent.altKey,
-      shiftKey: srcEvent.shiftKey,
-      metaKey: srcEvent.metaKey
-    });
-    angular.element(eventPointer.target).trigger(eventObj);
-  }
-
-  /**
-   * NOTE: nativeDispatchEvent is very performance sensitive.
-   * @param srcEvent the original DOM touch event that started this.
-   * @param eventType the name of the custom event to send (eg 'click' or '$md.drag')
-   * @param eventPointer the pointer object that matches this event.
-   */
-  function nativeDispatchEvent(srcEvent, eventType, eventPointer) {
-    eventPointer = eventPointer || pointer;
-    var eventObj;
-
-    if (eventType === 'click' || eventType === 'mouseup' || eventType === 'mousedown') {
-      eventObj = document.createEvent('MouseEvents');
-      eventObj.initMouseEvent(
-        eventType, true, true, window, srcEvent.detail,
-        eventPointer.x, eventPointer.y, eventPointer.x, eventPointer.y,
-        srcEvent.ctrlKey, srcEvent.altKey, srcEvent.shiftKey, srcEvent.metaKey,
-        srcEvent.button, srcEvent.relatedTarget || null
-      );
-
-    } else {
-      eventObj = document.createEvent('CustomEvent');
-      eventObj.initCustomEvent(eventType, true, true, {});
-    }
-    eventObj.$material = true;
-    eventObj.pointer = eventPointer;
-    eventObj.srcEvent = srcEvent;
-    eventPointer.target.dispatchEvent(eventObj);
-  }
-
-}
-
-/**
- * Attach Gestures: hook document and check shouldHijack clicks
- * ngInject
- */
-function attachToDocument($mdGesture, $$MdGestureHandler) {
-  if (disableAllGestures) {
-    return;
-  }
-
-  // Polyfill document.contains for IE11.
-  // TODO: move to util
-  document.contains || (document.contains = function (node) {
-    return document.body.contains(node);
-  });
-
-  if (!isInitialized && $mdGesture.isHijackingClicks) {
-    /*
-     * If hijack clicks is true, we preventDefault any click that wasn't
-     * sent by AngularJS Material. This is because on older Android & iOS, a false, or 'ghost',
-     * click event will be sent ~400ms after a touchend event happens.
-     * The only way to know if this click is real is to prevent any normal
-     * click events, and add a flag to events sent by material so we know not to prevent those.
-     *
-     * Two exceptions to click events that should be prevented are:
-     *  - click events sent by the keyboard (eg form submit)
-     *  - events that originate from an Ionic app
-     */
-    document.addEventListener('click'    , clickHijacker     , true);
-    document.addEventListener('mouseup'  , mouseInputHijacker, true);
-    document.addEventListener('mousedown', mouseInputHijacker, true);
-    document.addEventListener('focus'    , mouseInputHijacker, true);
-
-    isInitialized = true;
-  }
-
-  function mouseInputHijacker(ev) {
-    var isKeyClick = !ev.clientX && !ev.clientY;
-
-    if (
-      !isKeyClick &&
-      !ev.$material &&
-      !ev.isIonicTap &&
-      !isInputEventFromLabelClick(ev) &&
-      (ev.type !== 'mousedown' || (!canFocus(ev.target) && !canFocus(document.activeElement)))
-    ) {
-      ev.preventDefault();
-      ev.stopPropagation();
-    }
-  }
-
-  function clickHijacker(ev) {
-    var isKeyClick = ev.clientX === 0 && ev.clientY === 0;
-    var isSubmitEvent = ev.target && ev.target.type === 'submit';
-    if (!isKeyClick && !ev.$material && !ev.isIonicTap
-      && !isInputEventFromLabelClick(ev)
-      && !isSubmitEvent) {
-      ev.preventDefault();
-      ev.stopPropagation();
-      lastLabelClickPos = null;
-    } else {
-      lastLabelClickPos = null;
-      if (ev.target.tagName.toLowerCase() == 'label') {
-        lastLabelClickPos = {x: ev.x, y: ev.y};
-      }
-    }
-  }
-
-
-  // Listen to all events to cover all platforms.
-  var START_EVENTS = 'mousedown touchstart pointerdown';
-  var MOVE_EVENTS = 'mousemove touchmove pointermove';
-  var END_EVENTS = 'mouseup mouseleave touchend touchcancel pointerup pointercancel';
-
-  angular.element(document)
-    .on(START_EVENTS, gestureStart)
-    .on(MOVE_EVENTS, gestureMove)
-    .on(END_EVENTS, gestureEnd)
-    // For testing
-    .on('$$mdGestureReset', function gestureClearCache () {
-      lastPointer = pointer = null;
-    });
-
-  /*
-   * When a DOM event happens, run all registered gesture handlers' lifecycle
-   * methods which match the DOM event.
-   * Eg when a 'touchstart' event happens, runHandlers('start') will call and
-   * run `handler.cancel()` and `handler.start()` on all registered handlers.
-   */
-  function runHandlers(handlerEvent, event) {
-    var handler;
-    for (var name in HANDLERS) {
-      handler = HANDLERS[name];
-      if (handler instanceof $$MdGestureHandler) {
-
-        if (handlerEvent === 'start') {
-          // Run cancel to reset any handlers' state
-          handler.cancel();
-        }
-        handler[handlerEvent](event, pointer);
-
-      }
-    }
-  }
-
-  /*
-   * gestureStart vets if a start event is legitimate (and not part of a 'ghost click' from iOS/Android)
-   * If it is legitimate, we initiate the pointer state and mark the current pointer's type
-   * For example, for a touchstart event, mark the current pointer as a 'touch' pointer, so mouse events
-   * won't effect it.
-   */
-  function gestureStart(ev) {
-    // If we're already touched down, abort
-    if (pointer) return;
-
-    var now = +Date.now();
-
-    // iOS & old android bug: after a touch event, a click event is sent 350 ms later.
-    // If <400ms have passed, don't allow an event of a different type than the previous event
-    if (lastPointer && !typesMatch(ev, lastPointer) && (now - lastPointer.endTime < 1500)) {
-      return;
-    }
-
-    pointer = makeStartPointer(ev);
-
-    runHandlers('start', ev);
-  }
-  /*
-   * If a move event happens of the right type, update the pointer and run all the move handlers.
-   * "of the right type": if a mousemove happens but our pointer started with a touch event, do nothing.
-   */
-  function gestureMove(ev) {
-    if (!pointer || !typesMatch(ev, pointer)) return;
-
-    updatePointerState(ev, pointer);
-    runHandlers('move', ev);
-  }
-  /*
-   * If an end event happens of the right type, update the pointer, run endHandlers, and save the pointer as 'lastPointer'
-   */
-  function gestureEnd(ev) {
-    if (!pointer || !typesMatch(ev, pointer)) return;
-
-    updatePointerState(ev, pointer);
-    pointer.endTime = +Date.now();
-
-    if (ev.type !== 'pointercancel') {
-      runHandlers('end', ev);
-    }
-
-    lastPointer = pointer;
-    pointer = null;
-  }
-
-}
-
-// ********************
-// Module Functions
-// ********************
-
-/*
- * Initiate the pointer. x, y, and the pointer's type.
- */
-function makeStartPointer(ev) {
-  var point = getEventPoint(ev);
-  var startPointer = {
-    startTime: +Date.now(),
-    target: ev.target,
-    // 'p' for pointer events, 'm' for mouse, 't' for touch
-    type: ev.type.charAt(0)
-  };
-  startPointer.startX = startPointer.x = point.pageX;
-  startPointer.startY = startPointer.y = point.pageY;
-  return startPointer;
-}
-
-/*
- * return whether the pointer's type matches the event's type.
- * Eg if a touch event happens but the pointer has a mouse type, return false.
- */
-function typesMatch(ev, pointer) {
-  return ev && pointer && ev.type.charAt(0) === pointer.type;
-}
-
-/**
- * Gets whether the given event is an input event that was caused by clicking on an
- * associated label element.
- *
- * This is necessary because the browser will, upon clicking on a label element, fire an
- * *extra* click event on its associated input (if any). mdGesture is able to flag the label
- * click as with `$material` correctly, but not the second input click.
- *
- * In order to determine whether an input event is from a label click, we compare the (x, y) for
- * the event to the (x, y) for the most recent label click (which is cleared whenever a non-label
- * click occurs). Unfortunately, there are no event properties that tie the input and the label
- * together (such as relatedTarget).
- *
- * @param {MouseEvent} event
- * @returns {boolean}
- */
-function isInputEventFromLabelClick(event) {
-  return lastLabelClickPos
-      && lastLabelClickPos.x == event.x
-      && lastLabelClickPos.y == event.y;
-}
-
-/*
- * Update the given pointer based upon the given DOMEvent.
- * Distance, velocity, direction, duration, etc
- */
-function updatePointerState(ev, pointer) {
-  var point = getEventPoint(ev);
-  var x = pointer.x = point.pageX;
-  var y = pointer.y = point.pageY;
-
-  pointer.distanceX = x - pointer.startX;
-  pointer.distanceY = y - pointer.startY;
-  pointer.distance = Math.sqrt(
-    pointer.distanceX * pointer.distanceX + pointer.distanceY * pointer.distanceY
-  );
-
-  pointer.directionX = pointer.distanceX > 0 ? 'right' : pointer.distanceX < 0 ? 'left' : '';
-  pointer.directionY = pointer.distanceY > 0 ? 'down' : pointer.distanceY < 0 ? 'up' : '';
-
-  pointer.duration = +Date.now() - pointer.startTime;
-  pointer.velocityX = pointer.distanceX / pointer.duration;
-  pointer.velocityY = pointer.distanceY / pointer.duration;
-}
-
-/**
- * Normalize the point where the DOM event happened whether it's touch or mouse.
- * @returns point event obj with pageX and pageY on it.
- */
-function getEventPoint(ev) {
-  ev = ev.originalEvent || ev; // support jQuery events
-  return (ev.touches && ev.touches[0]) ||
-    (ev.changedTouches && ev.changedTouches[0]) ||
-    ev;
-}
-
-/** Checks whether an element can be focused. */
-function canFocus(element) {
-  return (
-    !!element &&
-    element.getAttribute('tabindex') !== '-1' &&
-    !element.hasAttribute('disabled') &&
-    (
-      element.hasAttribute('tabindex') ||
-      element.hasAttribute('href') ||
-      element.isContentEditable ||
-      ['INPUT', 'SELECT', 'BUTTON', 'TEXTAREA', 'VIDEO', 'AUDIO'].indexOf(element.nodeName) !== -1
-    )
-  );
-}
-
-/**
- * @ngdoc module
- * @name material.core.liveannouncer
- * @description
- * AngularJS Material Live Announcer to provide accessibility for Voice Readers.
- */
-MdLiveAnnouncer['$inject'] = ["$timeout"];
-angular
-  .module('material.core')
-  .service('$mdLiveAnnouncer', MdLiveAnnouncer);
-
-/**
- * @ngdoc service
- * @name $mdLiveAnnouncer
- * @module material.core.liveannouncer
- *
- * @description
- *
- * Service to announce messages to supported screenreaders.
- *
- * > The `$mdLiveAnnouncer` service is internally used for components to provide proper accessibility.
- *
- * <hljs lang="js">
- *   module.controller('AppCtrl', function($mdLiveAnnouncer) {
- *     // Basic announcement (Polite Mode)
- *     $mdLiveAnnouncer.announce('Hey Google');
- *
- *     // Custom announcement (Assertive Mode)
- *     $mdLiveAnnouncer.announce('Hey Google', 'assertive');
- *   });
- * </hljs>
- *
- */
-function MdLiveAnnouncer($timeout) {
-  /** @private @const @type {!angular.$timeout} */
-  this._$timeout = $timeout;
-
-  /** @private @const @type {!HTMLElement} */
-  this._liveElement = this._createLiveElement();
-
-  /** @private @const @type {!number} */
-  this._announceTimeout = 100;
-}
-
-/**
- * @ngdoc method
- * @name $mdLiveAnnouncer#announce
- * @description Announces messages to supported screenreaders.
- * @param {string} message Message to be announced to the screenreader
- * @param {'off'|'polite'|'assertive'} politeness The politeness of the announcer element.
- */
-MdLiveAnnouncer.prototype.announce = function(message, politeness) {
-  if (!politeness) {
-    politeness = 'polite';
-  }
-
-  var self = this;
-
-  self._liveElement.textContent = '';
-  self._liveElement.setAttribute('aria-live', politeness);
-
-  // This 100ms timeout is necessary for some browser + screen-reader combinations:
-  // - Both JAWS and NVDA over IE11 will not announce anything without a non-zero timeout.
-  // - With Chrome and IE11 with NVDA or JAWS, a repeated (identical) message won't be read a
-  //   second time without clearing and then using a non-zero delay.
-  // (using JAWS 17 at time of this writing).
-  self._$timeout(function() {
-    self._liveElement.textContent = message;
-  }, self._announceTimeout, false);
-};
-
-/**
- * Creates a live announcer element, which listens for DOM changes and announces them
- * to the screenreaders.
- * @returns {!HTMLElement}
- * @private
- */
-MdLiveAnnouncer.prototype._createLiveElement = function() {
-  var liveEl = document.createElement('div');
-
-  liveEl.classList.add('md-visually-hidden');
-  liveEl.setAttribute('role', 'status');
-  liveEl.setAttribute('aria-atomic', 'true');
-  liveEl.setAttribute('aria-live', 'polite');
-
-  document.body.appendChild(liveEl);
-
-  return liveEl;
-};
-
-/**
- * @ngdoc service
- * @name $$mdMeta
- * @module material.core.meta
- *
- * @description
- *
- * A provider and a service that simplifies meta tags access
- *
- * Note: This is intended only for use with dynamic meta tags such as browser color and title.
- * Tags that are only processed when the page is rendered (such as `charset`, and `http-equiv`)
- * will not work since `$$mdMeta` adds the tags after the page has already been loaded.
- *
- * ```js
- * app.config(function($$mdMetaProvider) {
- *   var removeMeta = $$mdMetaProvider.setMeta('meta-name', 'content');
- *   var metaValue  = $$mdMetaProvider.getMeta('meta-name'); // -> 'content'
- *
- *   removeMeta();
- * });
- *
- * app.controller('myController', function($$mdMeta) {
- *   var removeMeta = $$mdMeta.setMeta('meta-name', 'content');
- *   var metaValue  = $$mdMeta.getMeta('meta-name'); // -> 'content'
- *
- *   removeMeta();
- * });
- * ```
- *
- * @returns {$$mdMeta.$service}
- *
- */
-angular.module('material.core.meta', [])
-  .provider('$$mdMeta', function () {
-    var head = angular.element(document.head);
-    var metaElements = {};
-
-    /**
-     * Checks if the requested element was written manually and maps it
-     *
-     * @param {string} name meta tag 'name' attribute value
-     * @returns {boolean} returns true if there is an element with the requested name
-     */
-    function mapExistingElement(name) {
-      if (metaElements[name]) {
-        return true;
-      }
-
-      var element = document.getElementsByName(name)[0];
-
-      if (!element) {
-        return false;
-      }
-
-      metaElements[name] = angular.element(element);
-
-      return true;
-    }
-
-    /**
-     * @ngdoc method
-     * @name $$mdMeta#setMeta
-     *
-     * @description
-     * Creates meta element with the 'name' and 'content' attributes,
-     * if the meta tag is already created than we replace the 'content' value
-     *
-     * @param {string} name meta tag 'name' attribute value
-     * @param {string} content meta tag 'content' attribute value
-     * @returns {function} remove function
-     *
-     */
-    function setMeta(name, content) {
-      mapExistingElement(name);
-
-      if (!metaElements[name]) {
-        var newMeta = angular.element('<meta name="' + name + '" content="' + content + '"/>');
-        head.append(newMeta);
-        metaElements[name] = newMeta;
-      }
-      else {
-        metaElements[name].attr('content', content);
-      }
-
-      return function () {
-        metaElements[name].attr('content', '');
-        metaElements[name].remove();
-        delete metaElements[name];
-      };
-    }
-
-    /**
-     * @ngdoc method
-     * @name $$mdMeta#getMeta
-     *
-     * @description
-     * Gets the 'content' attribute value of the wanted meta element
-     *
-     * @param {string} name meta tag 'name' attribute value
-     * @returns {string} content attribute value
-     */
-    function getMeta(name) {
-      if (!mapExistingElement(name)) {
-        throw Error('$$mdMeta: could not find a meta tag with the name \'' + name + '\'');
-      }
-
-      return metaElements[name].attr('content');
-    }
-
-    var module = {
-      setMeta: setMeta,
-      getMeta: getMeta
-    };
-
-    return angular.extend({}, module, {
-      $get: function () {
-        return module;
-      }
-    });
-  });
 angular.module('material.core')
   .provider('$$interimElement', InterimElementProvider);
 
@@ -4758,131 +3585,842 @@ function InterimElementProvider() {
 
 }
 
+
+MdGesture['$inject'] = ["$$MdGestureHandler", "$$rAF", "$timeout"];
+attachToDocument['$inject'] = ["$mdGesture", "$$MdGestureHandler"];var HANDLERS = {};
+
+/**
+ * The state of the current 'pointer'. The pointer represents the state of the current touch.
+ * It contains normalized x and y coordinates from DOM events,
+ * as well as other information abstracted from the DOM.
+ */
+var pointer, lastPointer, maxClickDistance = 6;
+var forceSkipClickHijack = false, disableAllGestures = false;
+
+/**
+ * The position of the most recent click if that click was on a label element.
+ * @type {{x: number, y: number}|null}
+ */
+var lastLabelClickPos = null;
+
+// Used to attach event listeners once when multiple ng-apps are running.
+var isInitialized = false;
+
+var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+var isIos = userAgent.match(/ipad|iphone|ipod/i);
+var isAndroid = userAgent.match(/android/i);
+
+/**
+ * @ngdoc module
+ * @name material.core.gestures
+ * @description
+ * AngularJS Material Gesture handling for touch devices. This module replaced the usage of the hammerjs library.
+ */
+angular
+  .module('material.core.gestures', [])
+  .provider('$mdGesture', MdGestureProvider)
+  .factory('$$MdGestureHandler', MdGestureHandler)
+  .run(attachToDocument);
+
+/**
+ * @ngdoc service
+ * @name $mdGestureProvider
+ * @module material.core.gestures
+ *
+ * @description
+ * In some scenarios on mobile devices (without jQuery), the click events should NOT be hijacked.
+ * `$mdGestureProvider` is used to configure the Gesture module to ignore or skip click hijacking on mobile
+ * devices.
+ *
+ * You can also change the max click distance, `6px` by default, if you have issues on some touch screens.
+ *
+ * <hljs lang="js">
+ *   app.config(function($mdGestureProvider) {
+ *
+ *     // For mobile devices without jQuery loaded, do not
+ *     // intercept click events during the capture phase.
+ *     $mdGestureProvider.skipClickHijack();
+ *
+ *     // If hijacking clicks, you may want to change the default click distance
+ *     $mdGestureProvider.setMaxClickDistance(12);
+ *   });
+ * </hljs>
+ *
+ */
+function MdGestureProvider() { }
+
+MdGestureProvider.prototype = {
+
   /**
-   * @ngdoc module
-   * @name material.core.componentRegistry
+   * @ngdoc method
+   * @name $mdGestureProvider#disableAll
    *
    * @description
-   * A component instance registration service.
-   * Note: currently this as a private service in the SideNav component.
+   * Disable all gesture detection. This can be beneficial to application performance
+   * and memory usage.
    */
-  ComponentRegistry['$inject'] = ["$log", "$q"];
-  angular.module('material.core')
-    .factory('$mdComponentRegistry', ComponentRegistry);
+  disableAll: function () {
+    disableAllGestures = true;
+  },
+
+  // Publish access to setter to configure a variable BEFORE the
+  // $mdGesture service is instantiated...
+  /**
+   * @ngdoc method
+   * @name $mdGestureProvider#skipClickHijack
+   *
+   * @description
+   * Tell the AngularJS Material Gesture module to skip (or ignore) click hijacking on mobile devices.
+   */
+  skipClickHijack: function() {
+    return forceSkipClickHijack = true;
+  },
+
+  /**
+   * @ngdoc method
+   * @name $mdGestureProvider#setMaxClickDistance
+   * @param clickDistance {string} Distance in pixels. I.e. `12px`.
+   * @description
+   * Set the max distance from the origin of the touch event to trigger touch handlers.
+   */
+  setMaxClickDistance: function(clickDistance) {
+    maxClickDistance = parseInt(clickDistance);
+  },
+
+  /**
+   * $get is used to build an instance of $mdGesture
+   * ngInject
+   */
+  $get : ["$$MdGestureHandler", "$$rAF", "$timeout", function($$MdGestureHandler, $$rAF, $timeout) {
+       return new MdGesture($$MdGestureHandler, $$rAF, $timeout);
+  }]
+};
+
+
+
+/**
+ * MdGesture factory construction function
+ * ngInject
+ */
+function MdGesture($$MdGestureHandler, $$rAF, $timeout) {
+  var touchActionProperty = getTouchAction();
+  var hasJQuery =  (typeof window.jQuery !== 'undefined') && (angular.element === window.jQuery);
+
+  var self = {
+    handler: addHandler,
+    register: register,
+    isAndroid: isAndroid,
+    isIos: isIos,
+    // On mobile w/out jQuery, we normally intercept clicks. Should we skip that?
+    isHijackingClicks: (isIos || isAndroid) && !hasJQuery && !forceSkipClickHijack
+  };
+
+  if (self.isHijackingClicks) {
+    self.handler('click', {
+      options: {
+        maxDistance: maxClickDistance
+      },
+      onEnd: checkDistanceAndEmit('click')
+    });
+
+    self.handler('focus', {
+      options: {
+        maxDistance: maxClickDistance
+      },
+      onEnd: function(ev, pointer) {
+        if (pointer.distance < this.state.options.maxDistance && canFocus(ev.target)) {
+          this.dispatchEvent(ev, 'focus', pointer);
+          ev.target.focus();
+        }
+      }
+    });
+
+    self.handler('mouseup', {
+      options: {
+        maxDistance: maxClickDistance
+      },
+      onEnd: checkDistanceAndEmit('mouseup')
+    });
+
+    self.handler('mousedown', {
+      onStart: function(ev) {
+        this.dispatchEvent(ev, 'mousedown');
+      }
+    });
+  }
+
+  function checkDistanceAndEmit(eventName) {
+    return function(ev, pointer) {
+      if (pointer.distance < this.state.options.maxDistance) {
+        this.dispatchEvent(ev, eventName, pointer);
+      }
+    };
+  }
+
+  /**
+   * Register an element to listen for a handler.
+   * This allows an element to override the default options for a handler.
+   * Additionally, some handlers like drag and hold only dispatch events if
+   * the domEvent happens inside an element that's registered to listen for these events.
+   *
+   * @see GestureHandler for how overriding of default options works.
+   * @example $mdGesture.register(myElement, 'drag', { minDistance: 20, horizontal: false })
+   */
+  function register(element, handlerName, options) {
+    var handler = HANDLERS[handlerName.replace(/^\$md./, '')];
+    if (!handler) {
+      throw new Error('Failed to register element with handler ' + handlerName + '. ' +
+      'Available handlers: ' + Object.keys(HANDLERS).join(', '));
+    }
+    return handler.registerElement(element, options);
+  }
 
   /*
-   * @private
-   * @ngdoc factory
-   * @name ComponentRegistry
-   * @module material.core.componentRegistry
-   *
+   * add a handler to $mdGesture. see below.
    */
-  function ComponentRegistry($log, $q) {
+  function addHandler(name, definition) {
+    var handler = new $$MdGestureHandler(name);
+    angular.extend(handler, definition);
+    HANDLERS[name] = handler;
 
-    var self;
-    var instances = [];
-    var pendings = { };
+    return self;
+  }
 
-    return self = {
-      /**
-       * Used to print an error when an instance for a handle isn't found.
-       */
-      notFoundError: function(handle, msgContext) {
-        $log.error((msgContext || "") + 'No instance found for handle', handle);
+  /**
+   * Register handlers. These listen to touch/start/move events, interpret them,
+   * and dispatch gesture events depending on options & conditions. These are all
+   * instances of GestureHandler.
+   * @see GestureHandler
+   */
+  return self
+    /*
+     * The press handler dispatches an event on touchdown/touchend.
+     * It's a simple abstraction of touch/mouse/pointer start and end.
+     */
+    .handler('press', {
+      onStart: function (ev, pointer) {
+        this.dispatchEvent(ev, '$md.pressdown');
       },
-      /**
-       * Return all registered instances as an array.
-       */
-      getInstances: function() {
-        return instances;
-      },
-
-      /**
-       * Get a registered instance.
-       * @param handle the String handle to look up for a registered instance.
-       */
-      get: function(handle) {
-        if (!isValidID(handle)) return null;
-
-        var i, j, instance;
-        for (i = 0, j = instances.length; i < j; i++) {
-          instance = instances[i];
-          if (instance.$$mdHandle === handle) {
-            return instance;
-          }
-        }
-        return null;
-      },
-
-      /**
-       * Register an instance.
-       * @param instance the instance to register
-       * @param handle the handle to identify the instance under.
-       */
-      register: function(instance, handle) {
-        if (!handle) return angular.noop;
-
-        instance.$$mdHandle = handle;
-        instances.push(instance);
-        resolveWhen();
-
-        return deregister;
-
-        /**
-         * Remove registration for an instance
-         */
-        function deregister() {
-          var index = instances.indexOf(instance);
-          if (index !== -1) {
-            instances.splice(index, 1);
-          }
-        }
-
-        /**
-         * Resolve any pending promises for this instance
-         */
-        function resolveWhen() {
-          var dfd = pendings[handle];
-          if (dfd) {
-            dfd.forEach(function (promise) {
-              promise.resolve(instance);
-            });
-            delete pendings[handle];
-          }
-        }
-      },
-
-      /**
-       * Async accessor to registered component instance
-       * If not available then a promise is created to notify
-       * all listeners when the instance is registered.
-       */
-      when : function(handle) {
-        if (isValidID(handle)) {
-          var deferred = $q.defer();
-          var instance = self.get(handle);
-
-          if (instance)  {
-            deferred.resolve(instance);
-          } else {
-            if (pendings[handle] === undefined) {
-              pendings[handle] = [];
-            }
-            pendings[handle].push(deferred);
-          }
-
-          return deferred.promise;
-        }
-        return $q.reject("Invalid `md-component-id` value.");
+      onEnd: function (ev, pointer) {
+        this.dispatchEvent(ev, '$md.pressup');
       }
+    })
 
-    };
+    /*
+     * The hold handler dispatches an event if the user keeps their finger within
+     * the same <maxDistance> area for <delay> ms.
+     * The hold handler will only run if a parent of the touch target is registered
+     * to listen for hold events through $mdGesture.register()
+     */
+    .handler('hold', {
+      options: {
+        maxDistance: 6,
+        delay: 500
+      },
+      onCancel: function () {
+        $timeout.cancel(this.state.timeout);
+      },
+      onStart: function (ev, pointer) {
+        // For hold, require a parent to be registered with $mdGesture.register()
+        // Because we prevent scroll events, this is necessary.
+        if (!this.state.registeredParent) return this.cancel();
 
-    function isValidID(handle){
-      return handle && (handle !== "");
+        this.state.pos = {x: pointer.x, y: pointer.y};
+        this.state.timeout = $timeout(angular.bind(this, function holdDelayFn() {
+          this.dispatchEvent(ev, '$md.hold');
+          this.cancel(); // we're done!
+        }), this.state.options.delay, false);
+      },
+      onMove: function (ev, pointer) {
+        // Don't scroll while waiting for hold.
+        // If we don't preventDefault touchmove events here, Android will assume we don't
+        // want to listen to anymore touch events. It will start scrolling and stop sending
+        // touchmove events.
+        if (!touchActionProperty && ev.type === 'touchmove') ev.preventDefault();
+
+        // If the user moves greater than <maxDistance> pixels, stop the hold timer
+        // set in onStart
+        var dx = this.state.pos.x - pointer.x;
+        var dy = this.state.pos.y - pointer.y;
+        if (Math.sqrt(dx * dx + dy * dy) > this.options.maxDistance) {
+          this.cancel();
+        }
+      },
+      onEnd: function () {
+        this.onCancel();
+      }
+    })
+
+    /*
+     * The drag handler dispatches a drag event if the user holds and moves his finger greater than
+     * <minDistance> px in the x or y direction, depending on options.horizontal.
+     * The drag will be cancelled if the user moves his finger greater than <minDistance>*<cancelMultiplier> in
+     * the perpendicular direction. Eg if the drag is horizontal and the user moves his finger <minDistance>*<cancelMultiplier>
+     * pixels vertically, this handler won't consider the move part of a drag.
+     */
+    .handler('drag', {
+      options: {
+        minDistance: 6,
+        horizontal: true,
+        cancelMultiplier: 1.5
+      },
+      onSetup: function(element, options) {
+        if (touchActionProperty) {
+          // We check for horizontal to be false, because otherwise we would overwrite the default opts.
+          this.oldTouchAction = element[0].style[touchActionProperty];
+          element[0].style[touchActionProperty] = options.horizontal ? 'pan-y' : 'pan-x';
+        }
+      },
+      onCleanup: function(element) {
+        if (this.oldTouchAction) {
+          element[0].style[touchActionProperty] = this.oldTouchAction;
+        }
+      },
+      onStart: function (ev) {
+        // For drag, require a parent to be registered with $mdGesture.register()
+        if (!this.state.registeredParent) this.cancel();
+      },
+      onMove: function (ev, pointer) {
+        var shouldStartDrag, shouldCancel;
+        // Don't scroll while deciding if this touchmove qualifies as a drag event.
+        // If we don't preventDefault touchmove events here, Android will assume we don't
+        // want to listen to anymore touch events. It will start scrolling and stop sending
+        // touchmove events.
+        if (!touchActionProperty && ev.type === 'touchmove') ev.preventDefault();
+
+        if (!this.state.dragPointer) {
+          if (this.state.options.horizontal) {
+            shouldStartDrag = Math.abs(pointer.distanceX) > this.state.options.minDistance;
+            shouldCancel = Math.abs(pointer.distanceY) > this.state.options.minDistance * this.state.options.cancelMultiplier;
+          } else {
+            shouldStartDrag = Math.abs(pointer.distanceY) > this.state.options.minDistance;
+            shouldCancel = Math.abs(pointer.distanceX) > this.state.options.minDistance * this.state.options.cancelMultiplier;
+          }
+
+          if (shouldStartDrag) {
+            // Create a new pointer representing this drag, starting at this point where the drag started.
+            this.state.dragPointer = makeStartPointer(ev);
+            updatePointerState(ev, this.state.dragPointer);
+            this.dispatchEvent(ev, '$md.dragstart', this.state.dragPointer);
+
+          } else if (shouldCancel) {
+            this.cancel();
+          }
+        } else {
+          this.dispatchDragMove(ev);
+        }
+      },
+      // Only dispatch dragmove events every frame; any more is unnecessary
+      dispatchDragMove: $$rAF.throttle(function (ev) {
+        // Make sure the drag didn't stop while waiting for the next frame
+        if (this.state.isRunning) {
+          updatePointerState(ev, this.state.dragPointer);
+          this.dispatchEvent(ev, '$md.drag', this.state.dragPointer);
+        }
+      }),
+      onEnd: function (ev, pointer) {
+        if (this.state.dragPointer) {
+          updatePointerState(ev, this.state.dragPointer);
+          this.dispatchEvent(ev, '$md.dragend', this.state.dragPointer);
+        }
+      }
+    })
+
+    /*
+     * The swipe handler will dispatch a swipe event if, on the end of a touch,
+     * the velocity and distance were high enough.
+     */
+    .handler('swipe', {
+      options: {
+        minVelocity: 0.65,
+        minDistance: 10
+      },
+      onEnd: function (ev, pointer) {
+        var eventType;
+
+        if (Math.abs(pointer.velocityX) > this.state.options.minVelocity &&
+          Math.abs(pointer.distanceX) > this.state.options.minDistance) {
+          eventType = pointer.directionX == 'left' ? '$md.swipeleft' : '$md.swiperight';
+          this.dispatchEvent(ev, eventType);
+        }
+        else if (Math.abs(pointer.velocityY) > this.state.options.minVelocity &&
+          Math.abs(pointer.distanceY) > this.state.options.minDistance) {
+          eventType = pointer.directionY == 'up' ? '$md.swipeup' : '$md.swipedown';
+          this.dispatchEvent(ev, eventType);
+        }
+      }
+    });
+
+  function getTouchAction() {
+    var testEl = document.createElement('div');
+    var vendorPrefixes = ['', 'webkit', 'Moz', 'MS', 'ms', 'o'];
+
+    for (var i = 0; i < vendorPrefixes.length; i++) {
+      var prefix = vendorPrefixes[i];
+      var property = prefix ? prefix + 'TouchAction' : 'touchAction';
+      if (angular.isDefined(testEl.style[property])) {
+        return property;
+      }
+    }
+  }
+
+}
+
+/**
+ * MdGestureHandler
+ * A GestureHandler is an object which is able to dispatch custom dom events
+ * based on native dom {touch,pointer,mouse}{start,move,end} events.
+ *
+ * A gesture will manage its lifecycle through the start,move,end, and cancel
+ * functions, which are called by native dom events.
+ *
+ * A gesture has the concept of 'options' (eg a swipe's required velocity), which can be
+ * overridden by elements registering through $mdGesture.register()
+ */
+function GestureHandler (name) {
+  this.name = name;
+  this.state = {};
+}
+
+function MdGestureHandler() {
+  var hasJQuery =  (typeof window.jQuery !== 'undefined') && (angular.element === window.jQuery);
+
+  GestureHandler.prototype = {
+    options: {},
+    // jQuery listeners don't work with custom DOMEvents, so we have to dispatch events
+    // differently when jQuery is loaded
+    dispatchEvent: hasJQuery ?  jQueryDispatchEvent : nativeDispatchEvent,
+
+    // These are overridden by the registered handler
+    onSetup: angular.noop,
+    onCleanup: angular.noop,
+    onStart: angular.noop,
+    onMove: angular.noop,
+    onEnd: angular.noop,
+    onCancel: angular.noop,
+
+    // onStart sets up a new state for the handler, which includes options from the
+    // nearest registered parent element of ev.target.
+    start: function (ev, pointer) {
+      if (this.state.isRunning) return;
+      var parentTarget = this.getNearestParent(ev.target);
+      // Get the options from the nearest registered parent
+      var parentTargetOptions = parentTarget && parentTarget.$mdGesture[this.name] || {};
+
+      this.state = {
+        isRunning: true,
+        // Override the default options with the nearest registered parent's options
+        options: angular.extend({}, this.options, parentTargetOptions),
+        // Pass in the registered parent node to the state so the onStart listener can use
+        registeredParent: parentTarget
+      };
+      this.onStart(ev, pointer);
+    },
+    move: function (ev, pointer) {
+      if (!this.state.isRunning) return;
+      this.onMove(ev, pointer);
+    },
+    end: function (ev, pointer) {
+      if (!this.state.isRunning) return;
+      this.onEnd(ev, pointer);
+      this.state.isRunning = false;
+    },
+    cancel: function (ev, pointer) {
+      this.onCancel(ev, pointer);
+      this.state = {};
+    },
+
+    // Find and return the nearest parent element that has been registered to
+    // listen for this handler via $mdGesture.register(element, 'handlerName').
+    getNearestParent: function (node) {
+      var current = node;
+      while (current) {
+        if ((current.$mdGesture || {})[this.name]) {
+          return current;
+        }
+        current = current.parentNode;
+      }
+      return null;
+    },
+
+    // Called from $mdGesture.register when an element registers itself with a handler.
+    // Store the options the user gave on the DOMElement itself. These options will
+    // be retrieved with getNearestParent when the handler starts.
+    registerElement: function (element, options) {
+      var self = this;
+      element[0].$mdGesture = element[0].$mdGesture || {};
+      element[0].$mdGesture[this.name] = options || {};
+      element.on('$destroy', onDestroy);
+
+      self.onSetup(element, options || {});
+
+      return onDestroy;
+
+      function onDestroy() {
+        delete element[0].$mdGesture[self.name];
+        element.off('$destroy', onDestroy);
+
+        self.onCleanup(element, options || {});
+      }
+    }
+  };
+
+  return GestureHandler;
+
+  /**
+   * Dispatch an event with jQuery
+   * TODO: Make sure this sends bubbling events
+   *
+   * @param srcEvent the original DOM touch event that started this.
+   * @param eventType the name of the custom event to send (eg 'click' or '$md.drag')
+   * @param eventPointer the pointer object that matches this event.
+   */
+  function jQueryDispatchEvent(srcEvent, eventType, eventPointer) {
+    eventPointer = eventPointer || pointer;
+    var eventObj = new angular.element.Event(eventType);
+
+    eventObj.$material = true;
+    eventObj.pointer = eventPointer;
+    eventObj.srcEvent = srcEvent;
+
+    angular.extend(eventObj, {
+      clientX: eventPointer.x,
+      clientY: eventPointer.y,
+      screenX: eventPointer.x,
+      screenY: eventPointer.y,
+      pageX: eventPointer.x,
+      pageY: eventPointer.y,
+      ctrlKey: srcEvent.ctrlKey,
+      altKey: srcEvent.altKey,
+      shiftKey: srcEvent.shiftKey,
+      metaKey: srcEvent.metaKey
+    });
+    angular.element(eventPointer.target).trigger(eventObj);
+  }
+
+  /**
+   * NOTE: nativeDispatchEvent is very performance sensitive.
+   * @param srcEvent the original DOM touch event that started this.
+   * @param eventType the name of the custom event to send (eg 'click' or '$md.drag')
+   * @param eventPointer the pointer object that matches this event.
+   */
+  function nativeDispatchEvent(srcEvent, eventType, eventPointer) {
+    eventPointer = eventPointer || pointer;
+    var eventObj;
+
+    if (eventType === 'click' || eventType === 'mouseup' || eventType === 'mousedown') {
+      if (typeof window.MouseEvent === "function") {
+        eventObj = new MouseEvent(eventType, {
+          bubbles: true,
+          cancelable: true,
+          screenX: Number(srcEvent.screenX),
+          screenY: Number(srcEvent.screenY),
+          clientX: Number(eventPointer.x),
+          clientY: Number(eventPointer.y),
+          ctrlKey: srcEvent.ctrlKey,
+          altKey: srcEvent.altKey,
+          shiftKey: srcEvent.shiftKey,
+          metaKey: srcEvent.metaKey,
+          button: srcEvent.button,
+          buttons: srcEvent.buttons,
+          relatedTarget: srcEvent.relatedTarget || null
+        });
+      } else {
+        eventObj = document.createEvent('MouseEvents');
+        // This has been deprecated
+        // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/initMouseEvent
+        eventObj.initMouseEvent(
+          eventType, true, true, window, srcEvent.detail,
+          eventPointer.x, eventPointer.y, eventPointer.x, eventPointer.y,
+          srcEvent.ctrlKey, srcEvent.altKey, srcEvent.shiftKey, srcEvent.metaKey,
+          srcEvent.button, srcEvent.relatedTarget || null
+        );
+      }
+    } else {
+      if (typeof window.CustomEvent === "function") {
+        eventObj = new CustomEvent(eventType, {
+          bubbles: true,
+          cancelable: true,
+          detail: {}
+        });
+      } else {
+        // This has been deprecated
+        // https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/initCustomEvent
+        eventObj = document.createEvent('CustomEvent');
+        eventObj.initCustomEvent(eventType, true, true, {});
+      }
+    }
+    eventObj.$material = true;
+    eventObj.pointer = eventPointer;
+    eventObj.srcEvent = srcEvent;
+    eventPointer.target.dispatchEvent(eventObj);
+  }
+}
+
+/**
+ * Attach Gestures: hook document and check shouldHijack clicks
+ * ngInject
+ */
+function attachToDocument($mdGesture, $$MdGestureHandler) {
+  if (disableAllGestures) {
+    return;
+  }
+
+  // Polyfill document.contains for IE11.
+  // TODO: move to util
+  document.contains || (document.contains = function (node) {
+    return document.body.contains(node);
+  });
+
+  if (!isInitialized && $mdGesture.isHijackingClicks) {
+    /*
+     * If hijack clicks is true, we preventDefault any click that wasn't
+     * sent by AngularJS Material. This is because on older Android & iOS, a false, or 'ghost',
+     * click event will be sent ~400ms after a touchend event happens.
+     * The only way to know if this click is real is to prevent any normal
+     * click events, and add a flag to events sent by material so we know not to prevent those.
+     *
+     * Two exceptions to click events that should be prevented are:
+     *  - click events sent by the keyboard (eg form submit)
+     *  - events that originate from an Ionic app
+     */
+    document.addEventListener('click'    , clickHijacker     , true);
+    document.addEventListener('mouseup'  , mouseInputHijacker, true);
+    document.addEventListener('mousedown', mouseInputHijacker, true);
+    document.addEventListener('focus'    , mouseInputHijacker, true);
+
+    isInitialized = true;
+  }
+
+  function mouseInputHijacker(ev) {
+    var isKeyClick = !ev.clientX && !ev.clientY;
+
+    if (
+      !isKeyClick &&
+      !ev.$material &&
+      !ev.isIonicTap &&
+      !isInputEventFromLabelClick(ev) &&
+      (ev.type !== 'mousedown' || (!canFocus(ev.target) && !canFocus(document.activeElement)))
+    ) {
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
+  }
+
+  /**
+   * Ignore click events that don't come from AngularJS Material, Ionic, Input Label clicks,
+   * or key presses that generate click events. This helps to ignore the ghost tap events on
+   * older mobile browsers that get sent after a 300-400ms delay.
+   * @param ev MouseEvent or modified MouseEvent with $material, pointer, and other fields
+   */
+  function clickHijacker(ev) {
+    var isKeyClick;
+    if (isIos) {
+      isKeyClick = angular.isDefined(ev.webkitForce) && ev.webkitForce === 0;
+    } else {
+      isKeyClick = ev.clientX === 0 && ev.clientY === 0;
+    }
+    if (!isKeyClick && !ev.$material && !ev.isIonicTap && !isInputEventFromLabelClick(ev)) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      lastLabelClickPos = null;
+    } else {
+      lastLabelClickPos = null;
+      if (ev.target.tagName.toLowerCase() === 'label') {
+        lastLabelClickPos = {x: ev.x, y: ev.y};
+      }
+    }
+  }
+
+
+  // Listen to all events to cover all platforms.
+  var START_EVENTS = 'mousedown touchstart pointerdown';
+  var MOVE_EVENTS = 'mousemove touchmove pointermove';
+  var END_EVENTS = 'mouseup mouseleave touchend touchcancel pointerup pointercancel';
+
+  angular.element(document)
+    .on(START_EVENTS, gestureStart)
+    .on(MOVE_EVENTS, gestureMove)
+    .on(END_EVENTS, gestureEnd)
+    // For testing
+    .on('$$mdGestureReset', function gestureClearCache () {
+      lastPointer = pointer = null;
+    });
+
+  /**
+   * When a DOM event happens, run all registered gesture handlers' lifecycle
+   * methods which match the DOM event.
+   * Eg. when a 'touchstart' event happens, runHandlers('start') will call and
+   * run `handler.cancel()` and `handler.start()` on all registered handlers.
+   */
+  function runHandlers(handlerEvent, event) {
+    var handler;
+    for (var name in HANDLERS) {
+      handler = HANDLERS[name];
+      if (handler instanceof $$MdGestureHandler) {
+
+        if (handlerEvent === 'start') {
+          // Run cancel to reset any handlers' state
+          handler.cancel();
+        }
+        handler[handlerEvent](event, pointer);
+      }
+    }
+  }
+
+  /*
+   * gestureStart vets if a start event is legitimate (and not part of a 'ghost click' from iOS/Android)
+   * If it is legitimate, we initiate the pointer state and mark the current pointer's type
+   * For example, for a touchstart event, mark the current pointer as a 'touch' pointer, so mouse events
+   * won't effect it.
+   */
+  function gestureStart(ev) {
+    // If we're already touched down, abort
+    if (pointer) return;
+
+    var now = +Date.now();
+
+    // iOS & old android bug: after a touch event, a click event is sent 350 ms later.
+    // If <400ms have passed, don't allow an event of a different type than the previous event
+    if (lastPointer && !typesMatch(ev, lastPointer) && (now - lastPointer.endTime < 1500)) {
+      return;
     }
 
+    pointer = makeStartPointer(ev);
+
+    runHandlers('start', ev);
   }
+
+  /**
+   * If a move event happens of the right type, update the pointer and run all the move handlers.
+   * "of the right type": if a mousemove happens but our pointer started with a touch event, do
+   * nothing.
+   */
+  function gestureMove(ev) {
+    if (!pointer || !typesMatch(ev, pointer)) return;
+
+    updatePointerState(ev, pointer);
+    runHandlers('move', ev);
+  }
+
+  /**
+   * If an end event happens of the right type, update the pointer, run endHandlers, and save the
+   * pointer as 'lastPointer'.
+   */
+  function gestureEnd(ev) {
+    if (!pointer || !typesMatch(ev, pointer)) return;
+
+    updatePointerState(ev, pointer);
+    pointer.endTime = +Date.now();
+
+    if (ev.type !== 'pointercancel') {
+      runHandlers('end', ev);
+    }
+
+    lastPointer = pointer;
+    pointer = null;
+  }
+
+}
+
+// ********************
+// Module Functions
+// ********************
+
+/*
+ * Initiate the pointer. x, y, and the pointer's type.
+ */
+function makeStartPointer(ev) {
+  var point = getEventPoint(ev);
+  var startPointer = {
+    startTime: +Date.now(),
+    target: ev.target,
+    // 'p' for pointer events, 'm' for mouse, 't' for touch
+    type: ev.type.charAt(0)
+  };
+  startPointer.startX = startPointer.x = point.pageX;
+  startPointer.startY = startPointer.y = point.pageY;
+  return startPointer;
+}
+
+/*
+ * return whether the pointer's type matches the event's type.
+ * Eg if a touch event happens but the pointer has a mouse type, return false.
+ */
+function typesMatch(ev, pointer) {
+  return ev && pointer && ev.type.charAt(0) === pointer.type;
+}
+
+/**
+ * Gets whether the given event is an input event that was caused by clicking on an
+ * associated label element.
+ *
+ * This is necessary because the browser will, upon clicking on a label element, fire an
+ * *extra* click event on its associated input (if any). mdGesture is able to flag the label
+ * click as with `$material` correctly, but not the second input click.
+ *
+ * In order to determine whether an input event is from a label click, we compare the (x, y) for
+ * the event to the (x, y) for the most recent label click (which is cleared whenever a non-label
+ * click occurs). Unfortunately, there are no event properties that tie the input and the label
+ * together (such as relatedTarget).
+ *
+ * @param {MouseEvent} event
+ * @returns {boolean}
+ */
+function isInputEventFromLabelClick(event) {
+  return lastLabelClickPos
+      && lastLabelClickPos.x === event.x
+      && lastLabelClickPos.y === event.y;
+}
+
+/*
+ * Update the given pointer based upon the given DOMEvent.
+ * Distance, velocity, direction, duration, etc
+ */
+function updatePointerState(ev, pointer) {
+  var point = getEventPoint(ev);
+  var x = pointer.x = point.pageX;
+  var y = pointer.y = point.pageY;
+
+  pointer.distanceX = x - pointer.startX;
+  pointer.distanceY = y - pointer.startY;
+  pointer.distance = Math.sqrt(
+    pointer.distanceX * pointer.distanceX + pointer.distanceY * pointer.distanceY
+  );
+
+  pointer.directionX = pointer.distanceX > 0 ? 'right' : pointer.distanceX < 0 ? 'left' : '';
+  pointer.directionY = pointer.distanceY > 0 ? 'down' : pointer.distanceY < 0 ? 'up' : '';
+
+  pointer.duration = +Date.now() - pointer.startTime;
+  pointer.velocityX = pointer.distanceX / pointer.duration;
+  pointer.velocityY = pointer.distanceY / pointer.duration;
+}
+
+/**
+ * Normalize the point where the DOM event happened whether it's touch or mouse.
+ * @returns point event obj with pageX and pageY on it.
+ */
+function getEventPoint(ev) {
+  ev = ev.originalEvent || ev; // support jQuery events
+  return (ev.touches && ev.touches[0]) ||
+    (ev.changedTouches && ev.changedTouches[0]) ||
+    ev;
+}
+
+/** Checks whether an element can be focused. */
+function canFocus(element) {
+  return (
+    !!element &&
+    element.getAttribute('tabindex') !== '-1' &&
+    !element.hasAttribute('disabled') &&
+    (
+      element.hasAttribute('tabindex') ||
+      element.hasAttribute('href') ||
+      element.isContentEditable ||
+      ['INPUT', 'SELECT', 'BUTTON', 'TEXTAREA', 'VIDEO', 'AUDIO'].indexOf(element.nodeName) !== -1
+    )
+  );
+}
 
 (function() {
   'use strict';
@@ -5411,632 +4949,515 @@ function InterimElementProvider() {
 
 })();
 
-(function() {
-  'use strict';
+/**
+ * @ngdoc module
+ * @name material.core.interaction
+ * @description
+ * User interaction detection to provide proper accessibility.
+ */
+MdInteractionService['$inject'] = ["$timeout", "$mdUtil", "$rootScope"];
+angular
+  .module('material.core.interaction', [])
+  .service('$mdInteraction', MdInteractionService);
 
-  /**
-   * @ngdoc service
-   * @name $mdButtonInkRipple
-   * @module material.core
-   *
-   * @description
-   * Provides ripple effects for md-button.  See $mdInkRipple service for all possible configuration options.
-   *
-   * @param {object=} scope Scope within the current context
-   * @param {object=} element The element the ripple effect should be applied to
-   * @param {object=} options (Optional) Configuration options to override the default ripple configuration
-   */
 
-  MdButtonInkRipple['$inject'] = ["$mdInkRipple"];
-  angular.module('material.core')
-    .factory('$mdButtonInkRipple', MdButtonInkRipple);
+/**
+ * @ngdoc service
+ * @name $mdInteraction
+ * @module material.core.interaction
+ *
+ * @description
+ *
+ * Service which keeps track of the last interaction type and validates them for several browsers.
+ * The service hooks into the document's body and listens for touch, mouse and keyboard events.
+ *
+ * The most recent interaction type can be retrieved by calling the `getLastInteractionType` method.
+ *
+ * Here is an example markup for using the interaction service.
+ *
+ * <hljs lang="js">
+ *   var lastType = $mdInteraction.getLastInteractionType();
+ *
+ *   if (lastType === 'keyboard') {
+ *     // We only restore the focus for keyboard users.
+ *     restoreFocus();
+ *   }
+ * </hljs>
+ *
+ */
+function MdInteractionService($timeout, $mdUtil, $rootScope) {
+  this.$timeout = $timeout;
+  this.$mdUtil = $mdUtil;
+  this.$rootScope = $rootScope;
 
-  function MdButtonInkRipple($mdInkRipple) {
-    return {
-      attach: function attachRipple(scope, element, options) {
-        options = angular.extend(optionsForElement(element), options);
+  // IE browsers can also trigger pointer events, which also leads to an interaction.
+  this.pointerEvent = 'MSPointerEvent' in window ? 'MSPointerDown' : 'PointerEvent' in window ? 'pointerdown' : null;
+  this.bodyElement = angular.element(document.body);
+  this.isBuffering = false;
+  this.bufferTimeout = null;
+  this.lastInteractionType = null;
+  this.lastInteractionTime = null;
+  this.inputHandler = this.onInputEvent.bind(this);
+  this.bufferedInputHandler = this.onBufferInputEvent.bind(this);
 
-        return $mdInkRipple.attach(scope, element, options);
-      }
-    };
+  // Type Mappings for the different events
+  // There will be three three interaction types
+  // `keyboard`, `mouse` and `touch`
+  // type `pointer` will be evaluated in `pointerMap` for IE Browser events
+  this.inputEventMap = {
+    'keydown': 'keyboard',
+    'mousedown': 'mouse',
+    'mouseenter': 'mouse',
+    'touchstart': 'touch',
+    'pointerdown': 'pointer',
+    'MSPointerDown': 'pointer'
+  };
 
-    function optionsForElement(element) {
-      if (element.hasClass('md-icon-button')) {
-        return {
-          isMenuItem: element.hasClass('md-menu-item'),
-          fitRipple: true,
-          center: true
-        };
-      } else {
-        return {
-          isMenuItem: element.hasClass('md-menu-item'),
-          dimBackground: true
-        };
-      }
+  // IE PointerDown events will be validated in `touch` or `mouse`
+  // Index numbers referenced here: https://msdn.microsoft.com/library/windows/apps/hh466130.aspx
+  this.iePointerMap = {
+    2: 'touch',
+    3: 'touch',
+    4: 'mouse'
+  };
+
+  this.initializeEvents();
+  this.$rootScope.$on('$destroy', this.deregister.bind(this));
+}
+
+/**
+ * Removes all event listeners created by $mdInteration on the
+ * body element.
+ */
+MdInteractionService.prototype.deregister = function() {
+
+    this.bodyElement.off('keydown mousedown', this.inputHandler);
+
+    if ('ontouchstart' in document.documentElement) {
+      this.bodyElement.off('touchstart', this.bufferedInputHandler);
     }
-  }
-})();
 
-(function() {
-  'use strict';
-
-    /**
-   * @ngdoc service
-   * @name $mdCheckboxInkRipple
-   * @module material.core
-   *
-   * @description
-   * Provides ripple effects for md-checkbox.  See $mdInkRipple service for all possible configuration options.
-   *
-   * @param {object=} scope Scope within the current context
-   * @param {object=} element The element the ripple effect should be applied to
-   * @param {object=} options (Optional) Configuration options to override the defaultripple configuration
-   */
-
-  MdCheckboxInkRipple['$inject'] = ["$mdInkRipple"];
-  angular.module('material.core')
-    .factory('$mdCheckboxInkRipple', MdCheckboxInkRipple);
-
-  function MdCheckboxInkRipple($mdInkRipple) {
-    return {
-      attach: attach
-    };
-
-    function attach(scope, element, options) {
-      return $mdInkRipple.attach(scope, element, angular.extend({
-        center: true,
-        dimBackground: false,
-        fitRipple: true
-      }, options));
+    if (this.pointerEvent) {
+      this.bodyElement.off(this.pointerEvent, this.inputHandler);
     }
+
+};
+
+/**
+ * Initializes the interaction service, by registering all interaction events to the
+ * body element.
+ */
+MdInteractionService.prototype.initializeEvents = function() {
+
+  this.bodyElement.on('keydown mousedown', this.inputHandler);
+
+  if ('ontouchstart' in document.documentElement) {
+    this.bodyElement.on('touchstart', this.bufferedInputHandler);
   }
-})();
 
-(function() {
-  'use strict';
-
-  /**
-   * @ngdoc service
-   * @name $mdListInkRipple
-   * @module material.core
-   *
-   * @description
-   * Provides ripple effects for md-list.  See $mdInkRipple service for all possible configuration options.
-   *
-   * @param {object=} scope Scope within the current context
-   * @param {object=} element The element the ripple effect should be applied to
-   * @param {object=} options (Optional) Configuration options to override the defaultripple configuration
-   */
-
-  MdListInkRipple['$inject'] = ["$mdInkRipple"];
-  angular.module('material.core')
-    .factory('$mdListInkRipple', MdListInkRipple);
-
-  function MdListInkRipple($mdInkRipple) {
-    return {
-      attach: attach
-    };
-
-    function attach(scope, element, options) {
-      return $mdInkRipple.attach(scope, element, angular.extend({
-        center: false,
-        dimBackground: true,
-        outline: false,
-        rippleSize: 'full'
-      }, options));
-    }
+  if (this.pointerEvent) {
+    this.bodyElement.on(this.pointerEvent, this.inputHandler);
   }
-})();
+
+};
+
+/**
+ * Event listener for normal interaction events, which should be tracked.
+ * @param event {MouseEvent|KeyboardEvent|PointerEvent|TouchEvent}
+ */
+MdInteractionService.prototype.onInputEvent = function(event) {
+  if (this.isBuffering) {
+    return;
+  }
+
+  var type = this.inputEventMap[event.type];
+
+  if (type === 'pointer') {
+    type = this.iePointerMap[event.pointerType] || event.pointerType;
+  }
+
+  this.lastInteractionType = type;
+  this.lastInteractionTime = this.$mdUtil.now();
+};
+
+/**
+ * Event listener for interaction events which should be buffered (touch events).
+ * @param event {TouchEvent}
+ */
+MdInteractionService.prototype.onBufferInputEvent = function(event) {
+  this.$timeout.cancel(this.bufferTimeout);
+
+  this.onInputEvent(event);
+  this.isBuffering = true;
+
+  // The timeout of 650ms is needed to delay the touchstart, because otherwise the touch will call
+  // the `onInput` function multiple times.
+  this.bufferTimeout = this.$timeout(function() {
+    this.isBuffering = false;
+  }.bind(this), 650, false);
+
+};
+
+/**
+ * @ngdoc method
+ * @name $mdInteraction#getLastInteractionType
+ * @description Retrieves the last interaction type triggered in body.
+ * @returns {string|null} Last interaction type.
+ */
+MdInteractionService.prototype.getLastInteractionType = function() {
+  return this.lastInteractionType;
+};
+
+/**
+ * @ngdoc method
+ * @name $mdInteraction#isUserInvoked
+ * @description Method to detect whether any interaction happened recently or not.
+ * @param {number=} checkDelay Time to check for any interaction to have been triggered.
+ * @returns {boolean} Whether there was any interaction or not.
+ */
+MdInteractionService.prototype.isUserInvoked = function(checkDelay) {
+  var delay = angular.isNumber(checkDelay) ? checkDelay : 15;
+
+  // Check for any interaction to be within the specified check time.
+  return this.lastInteractionTime >= this.$mdUtil.now() - delay;
+};
 
 /**
  * @ngdoc module
- * @name material.core.ripple
+ * @name material.core.liveannouncer
  * @description
- * Ripple
+ * AngularJS Material Live Announcer to provide accessibility for Voice Readers.
  */
-InkRippleCtrl['$inject'] = ["$scope", "$element", "rippleOptions", "$window", "$timeout", "$mdUtil", "$mdColorUtil"];
-InkRippleDirective['$inject'] = ["$mdButtonInkRipple", "$mdCheckboxInkRipple"];
-angular.module('material.core')
-    .provider('$mdInkRipple', InkRippleProvider)
-    .directive('mdInkRipple', InkRippleDirective)
-    .directive('mdNoInk', attrNoDirective)
-    .directive('mdNoBar', attrNoDirective)
-    .directive('mdNoStretch', attrNoDirective);
-
-var DURATION = 450;
-
-/**
- * @ngdoc directive
- * @name mdInkRipple
- * @module material.core.ripple
- *
- * @description
- * The `md-ink-ripple` directive allows you to specify the ripple color or if a ripple is allowed.
- *
- * @param {string|boolean} md-ink-ripple A color string `#FF0000` or boolean (`false` or `0`) for
- *  preventing ripple
- *
- * @usage
- * ### String values
- * <hljs lang="html">
- *   <ANY md-ink-ripple="#FF0000">
- *     Ripples in red
- *   </ANY>
- *
- *   <ANY md-ink-ripple="false">
- *     Not rippling
- *   </ANY>
- * </hljs>
- *
- * ### Interpolated values
- * <hljs lang="html">
- *   <ANY md-ink-ripple="{{ randomColor() }}">
- *     Ripples with the return value of 'randomColor' function
- *   </ANY>
- *
- *   <ANY md-ink-ripple="{{ canRipple() }}">
- *     Ripples if 'canRipple' function return value is not 'false' or '0'
- *   </ANY>
- * </hljs>
- */
-function InkRippleDirective ($mdButtonInkRipple, $mdCheckboxInkRipple) {
-  return {
-    controller: angular.noop,
-    link:       function (scope, element, attr) {
-      attr.hasOwnProperty('mdInkRippleCheckbox')
-          ? $mdCheckboxInkRipple.attach(scope, element)
-          : $mdButtonInkRipple.attach(scope, element);
-    }
-  };
-}
+MdLiveAnnouncer['$inject'] = ["$timeout"];
+angular
+  .module('material.core')
+  .service('$mdLiveAnnouncer', MdLiveAnnouncer);
 
 /**
  * @ngdoc service
- * @name $mdInkRipple
- * @module material.core.ripple
+ * @name $mdLiveAnnouncer
+ * @module material.core.liveannouncer
  *
  * @description
- * `$mdInkRipple` is a service for adding ripples to any element
  *
- * @usage
+ * Service to announce messages to supported screenreaders.
+ *
+ * > The `$mdLiveAnnouncer` service is internally used for components to provide proper accessibility.
+ *
  * <hljs lang="js">
- * app.factory('$myElementInkRipple', function($mdInkRipple) {
- *   return {
- *     attach: function (scope, element, options) {
- *       return $mdInkRipple.attach(scope, element, angular.extend({
- *         center: false,
- *         dimBackground: true
- *       }, options));
- *     }
- *   };
- * });
+ *   module.controller('AppCtrl', function($mdLiveAnnouncer) {
+ *     // Basic announcement (Polite Mode)
+ *     $mdLiveAnnouncer.announce('Hey Google');
  *
- * app.controller('myController', function ($scope, $element, $myElementInkRipple) {
- *   $scope.onClick = function (ev) {
- *     $myElementInkRipple.attach($scope, angular.element(ev.target), { center: true });
- *   }
- * });
+ *     // Custom announcement (Assertive Mode)
+ *     $mdLiveAnnouncer.announce('Hey Google', 'assertive');
+ *   });
  * </hljs>
+ *
  */
+function MdLiveAnnouncer($timeout) {
+  /** @private @const @type {!angular.$timeout} */
+  this._$timeout = $timeout;
+
+  /** @private @const @type {!HTMLElement} */
+  this._liveElement = this._createLiveElement();
+
+  /** @private @const @type {!number} */
+  this._announceTimeout = 100;
+}
 
 /**
- * @ngdoc service
- * @name $mdInkRippleProvider
- * @module material.core.ripple
- *
- * @description
-  * If you want to disable ink ripples globally, for all components, you can call the
- * `disableInkRipple` method in your app's config.
- *
- *
- * @usage
- * <hljs lang="js">
- * app.config(function ($mdInkRippleProvider) {
- *   $mdInkRippleProvider.disableInkRipple();
- * });
- * </hljs>
+ * @ngdoc method
+ * @name $mdLiveAnnouncer#announce
+ * @description Announces messages to supported screenreaders.
+ * @param {string} message Message to be announced to the screenreader
+ * @param {'off'|'polite'|'assertive'} politeness The politeness of the announcer element.
  */
-
-function InkRippleProvider () {
-  var isDisabledGlobally = false;
-
-  return {
-    disableInkRipple: disableInkRipple,
-    $get: ["$injector", function($injector) {
-      return { attach: attach };
-
-      /**
-       * @ngdoc method
-       * @name $mdInkRipple#attach
-       *
-       * @description
-       * Attaching given scope, element and options to inkRipple controller
-       *
-       * @param {object=} scope Scope within the current context
-       * @param {object=} element The element the ripple effect should be applied to
-       * @param {object=} options (Optional) Configuration options to override the defaultRipple configuration
-       * * `center` -  Whether the ripple should start from the center of the container element
-       * * `dimBackground` - Whether the background should be dimmed with the ripple color
-       * * `colorElement` - The element the ripple should take its color from, defined by css property `color`
-       * * `fitRipple` - Whether the ripple should fill the element
-       */
-      function attach (scope, element, options) {
-        if (isDisabledGlobally || element.controller('mdNoInk')) return angular.noop;
-        return $injector.instantiate(InkRippleCtrl, {
-          $scope:        scope,
-          $element:      element,
-          rippleOptions: options
-        });
-      }
-    }]
-  };
-
-  /**
-   * @ngdoc method
-   * @name $mdInkRippleProvider#disableInkRipple
-   *
-   * @description
-   * A config-time method that, when called, disables ripples globally.
-   */
-  function disableInkRipple () {
-    isDisabledGlobally = true;
+MdLiveAnnouncer.prototype.announce = function(message, politeness) {
+  if (!politeness) {
+    politeness = 'polite';
   }
-}
 
-/**
- * Controller used by the ripple service in order to apply ripples
- * ngInject
- */
-function InkRippleCtrl ($scope, $element, rippleOptions, $window, $timeout, $mdUtil, $mdColorUtil) {
-  this.$window    = $window;
-  this.$timeout   = $timeout;
-  this.$mdUtil    = $mdUtil;
-  this.$mdColorUtil    = $mdColorUtil;
-  this.$scope     = $scope;
-  this.$element   = $element;
-  this.options    = rippleOptions;
-  this.mousedown  = false;
-  this.ripples    = [];
-  this.timeout    = null; // Stores a reference to the most-recent ripple timeout
-  this.lastRipple = null;
-
-  $mdUtil.valueOnUse(this, 'container', this.createContainer);
-
-  this.$element.addClass('md-ink-ripple');
-
-  // attach method for unit tests
-  ($element.controller('mdInkRipple') || {}).createRipple = angular.bind(this, this.createRipple);
-  ($element.controller('mdInkRipple') || {}).setColor = angular.bind(this, this.color);
-
-  this.bindEvents();
-}
-
-
-/**
- * Either remove or unlock any remaining ripples when the user mouses off of the element (either by
- * mouseup or mouseleave event)
- */
-function autoCleanup (self, cleanupFn) {
-  if (self.mousedown || self.lastRipple) {
-    self.mousedown = false;
-    self.$mdUtil.nextTick(angular.bind(self, cleanupFn), false);
-  }
-}
-
-
-/**
- * Returns the color that the ripple should be (either based on CSS or hard-coded)
- * @returns {string}
- */
-InkRippleCtrl.prototype.color = function (value) {
   var self = this;
 
-  // If assigning a color value, apply it to background and the ripple color
-  if (angular.isDefined(value)) {
-    self._color = self._parseColor(value);
-  }
+  self._liveElement.textContent = '';
+  self._liveElement.setAttribute('aria-live', politeness);
 
-  // If color lookup, use assigned, defined, or inherited
-  return self._color || self._parseColor(self.inkRipple()) || self._parseColor(getElementColor());
+  // This 100ms timeout is necessary for some browser + screen-reader combinations:
+  // - Both JAWS and NVDA over IE11 will not announce anything without a non-zero timeout.
+  // - With Chrome and IE11 with NVDA or JAWS, a repeated (identical) message won't be read a
+  //   second time without clearing and then using a non-zero delay.
+  // (using JAWS 17 at time of this writing).
+  self._$timeout(function() {
+    self._liveElement.textContent = message;
+  }, self._announceTimeout, false);
+};
+
+/**
+ * Creates a live announcer element, which listens for DOM changes and announces them
+ * to the screenreaders.
+ * @returns {!HTMLElement}
+ * @private
+ */
+MdLiveAnnouncer.prototype._createLiveElement = function() {
+  var liveEl = document.createElement('div');
+
+  liveEl.classList.add('md-visually-hidden');
+  liveEl.setAttribute('role', 'status');
+  liveEl.setAttribute('aria-atomic', 'true');
+  liveEl.setAttribute('aria-live', 'polite');
+
+  document.body.appendChild(liveEl);
+
+  return liveEl;
+};
 
   /**
-   * Finds the color element and returns its text color for use as default ripple color
-   * @returns {string}
-   */
-  function getElementColor () {
-    var items = self.options && self.options.colorElement ? self.options.colorElement : [];
-    var elem =  items.length ? items[ 0 ] : self.$element[ 0 ];
-
-    return elem ? self.$window.getComputedStyle(elem).color : 'rgb(0,0,0)';
-  }
-};
-
-/**
- * Updating the ripple colors based on the current inkRipple value
- * or the element's computed style color
- */
-InkRippleCtrl.prototype.calculateColor = function () {
-  return this.color();
-};
-
-
-/**
- * Takes a string color and converts it to RGBA format
- * @param {string} color
- * @param {number} multiplier
- * @returns {string}
- */
-InkRippleCtrl.prototype._parseColor = function parseColor (color, multiplier) {
-  multiplier = multiplier || 1;
-  var colorUtil = this.$mdColorUtil;
-
-  if (!color) return;
-  if (color.indexOf('rgba') === 0) return color.replace(/\d?\.?\d*\s*\)\s*$/, (0.1 * multiplier).toString() + ')');
-  if (color.indexOf('rgb') === 0) return colorUtil.rgbToRgba(color);
-  if (color.indexOf('#') === 0) return colorUtil.hexToRgba(color);
-
-};
-
-/**
- * Binds events to the root element for
- */
-InkRippleCtrl.prototype.bindEvents = function () {
-  this.$element.on('mousedown', angular.bind(this, this.handleMousedown));
-  this.$element.on('mouseup touchend', angular.bind(this, this.handleMouseup));
-  this.$element.on('mouseleave', angular.bind(this, this.handleMouseup));
-  this.$element.on('touchmove', angular.bind(this, this.handleTouchmove));
-};
-
-/**
- * Create a new ripple on every mousedown event from the root element
- * @param event {MouseEvent}
- */
-InkRippleCtrl.prototype.handleMousedown = function (event) {
-  if (this.mousedown) return;
-
-  // When jQuery is loaded, we have to get the original event
-  if (event.hasOwnProperty('originalEvent')) event = event.originalEvent;
-  this.mousedown = true;
-  if (this.options.center) {
-    this.createRipple(this.container.prop('clientWidth') / 2, this.container.prop('clientWidth') / 2);
-  } else {
-
-    // We need to calculate the relative coordinates if the target is a sublayer of the ripple element
-    if (event.srcElement !== this.$element[0]) {
-      var layerRect = this.$element[0].getBoundingClientRect();
-      var layerX = event.clientX - layerRect.left;
-      var layerY = event.clientY - layerRect.top;
-
-      this.createRipple(layerX, layerY);
-    } else {
-      this.createRipple(event.offsetX, event.offsetY);
-    }
-  }
-};
-
-/**
- * Either remove or unlock any remaining ripples when the user mouses off of the element (either by
- * mouseup, touchend or mouseleave event)
- */
-InkRippleCtrl.prototype.handleMouseup = function () {
-  this.$timeout(function () {
-    autoCleanup(this, this.clearRipples);
-  }.bind(this));
-};
-
-/**
- * Either remove or unlock any remaining ripples when the user mouses off of the element (by
- * touchmove)
- */
-InkRippleCtrl.prototype.handleTouchmove = function () {
-  autoCleanup(this, this.deleteRipples);
-};
-
-/**
- * Cycles through all ripples and attempts to remove them.
- */
-InkRippleCtrl.prototype.deleteRipples = function () {
-  for (var i = 0; i < this.ripples.length; i++) {
-    this.ripples[ i ].remove();
-  }
-};
-
-/**
- * Cycles through all ripples and attempts to remove them with fade.
- * Depending on logic within `fadeInComplete`, some removals will be postponed.
- */
-InkRippleCtrl.prototype.clearRipples = function () {
-  for (var i = 0; i < this.ripples.length; i++) {
-    this.fadeInComplete(this.ripples[ i ]);
-  }
-};
-
-/**
- * Creates the ripple container element
- * @returns {*}
- */
-InkRippleCtrl.prototype.createContainer = function () {
-  var container = angular.element('<div class="md-ripple-container"></div>');
-  this.$element.append(container);
-  return container;
-};
-
-InkRippleCtrl.prototype.clearTimeout = function () {
-  if (this.timeout) {
-    this.$timeout.cancel(this.timeout);
-    this.timeout = null;
-  }
-};
-
-InkRippleCtrl.prototype.isRippleAllowed = function () {
-  var element = this.$element[0];
-  do {
-    if (!element.tagName || element.tagName === 'BODY') break;
-
-    if (element && angular.isFunction(element.hasAttribute)) {
-      if (element.hasAttribute('disabled')) return false;
-      if (this.inkRipple() === 'false' || this.inkRipple() === '0') return false;
-    }
-
-  } while (element = element.parentNode);
-  return true;
-};
-
-/**
- * The attribute `md-ink-ripple` may be a static or interpolated
- * color value OR a boolean indicator (used to disable ripples)
- */
-InkRippleCtrl.prototype.inkRipple = function () {
-  return this.$element.attr('md-ink-ripple');
-};
-
-/**
- * Creates a new ripple and adds it to the container.  Also tracks ripple in `this.ripples`.
- * @param left
- * @param top
- */
-InkRippleCtrl.prototype.createRipple = function (left, top) {
-  if (!this.isRippleAllowed()) return;
-
-  var ctrl        = this;
-  var colorUtil   = ctrl.$mdColorUtil;
-  var ripple      = angular.element('<div class="md-ripple"></div>');
-  var width       = this.$element.prop('clientWidth');
-  var height      = this.$element.prop('clientHeight');
-  var x           = Math.max(Math.abs(width - left), left) * 2;
-  var y           = Math.max(Math.abs(height - top), top) * 2;
-  var size        = getSize(this.options.fitRipple, x, y);
-  var color       = this.calculateColor();
-
-  ripple.css({
-    left:            left + 'px',
-    top:             top + 'px',
-    background:      'black',
-    width:           size + 'px',
-    height:          size + 'px',
-    backgroundColor: colorUtil.rgbaToRgb(color),
-    borderColor:     colorUtil.rgbaToRgb(color)
-  });
-  this.lastRipple = ripple;
-
-  // we only want one timeout to be running at a time
-  this.clearTimeout();
-  this.timeout    = this.$timeout(function () {
-    ctrl.clearTimeout();
-    if (!ctrl.mousedown) ctrl.fadeInComplete(ripple);
-  }, DURATION * 0.35, false);
-
-  if (this.options.dimBackground) this.container.css({ backgroundColor: color });
-  this.container.append(ripple);
-  this.ripples.push(ripple);
-  ripple.addClass('md-ripple-placed');
-
-  this.$mdUtil.nextTick(function () {
-
-    ripple.addClass('md-ripple-scaled md-ripple-active');
-    ctrl.$timeout(function () {
-      ctrl.clearRipples();
-    }, DURATION, false);
-
-  }, false);
-
-  function getSize (fit, x, y) {
-    return fit
-        ? Math.max(x, y)
-        : Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-  }
-};
-
-
-
-/**
- * After fadeIn finishes, either kicks off the fade-out animation or queues the element for removal on mouseup
- * @param ripple
- */
-InkRippleCtrl.prototype.fadeInComplete = function (ripple) {
-  if (this.lastRipple === ripple) {
-    if (!this.timeout && !this.mousedown) {
-      this.removeRipple(ripple);
-    }
-  } else {
-    this.removeRipple(ripple);
-  }
-};
-
-/**
- * Kicks off the animation for removing a ripple
- * @param ripple {Element}
- */
-InkRippleCtrl.prototype.removeRipple = function (ripple) {
-  var ctrl  = this;
-  var index = this.ripples.indexOf(ripple);
-  if (index < 0) return;
-  this.ripples.splice(this.ripples.indexOf(ripple), 1);
-  ripple.removeClass('md-ripple-active');
-  ripple.addClass('md-ripple-remove');
-  if (this.ripples.length === 0) this.container.css({ backgroundColor: '' });
-  // use a 2-second timeout in order to allow for the animation to finish
-  // we don't actually care how long the animation takes
-  this.$timeout(function () {
-    ctrl.fadeOutComplete(ripple);
-  }, DURATION, false);
-};
-
-/**
- * Removes the provided ripple from the DOM
- * @param ripple
- */
-InkRippleCtrl.prototype.fadeOutComplete = function (ripple) {
-  ripple.remove();
-  this.lastRipple = null;
-};
-
-/**
- * Used to create an empty directive.  This is used to track flag-directives whose children may have
- * functionality based on them.
- *
- * Example: `md-no-ink` will potentially be used by all child directives.
- */
-function attrNoDirective () {
-  return { controller: angular.noop };
-}
-
-(function() {
-  'use strict';
-
-    /**
-   * @ngdoc service
-   * @name $mdTabInkRipple
-   * @module material.core
+   * @ngdoc module
+   * @name material.core.componentRegistry
    *
    * @description
-   * Provides ripple effects for md-tabs.  See $mdInkRipple service for all possible configuration options.
-   *
-   * @param {object=} scope Scope within the current context
-   * @param {object=} element The element the ripple effect should be applied to
-   * @param {object=} options (Optional) Configuration options to override the defaultripple configuration
+   * A component instance registration service.
+   * Note: currently this as a private service in the SideNav component.
    */
-
-  MdTabInkRipple['$inject'] = ["$mdInkRipple"];
+  ComponentRegistry['$inject'] = ["$log", "$q"];
   angular.module('material.core')
-    .factory('$mdTabInkRipple', MdTabInkRipple);
+    .factory('$mdComponentRegistry', ComponentRegistry);
 
-  function MdTabInkRipple($mdInkRipple) {
-    return {
-      attach: attach
+  /*
+   * @private
+   * @ngdoc factory
+   * @name ComponentRegistry
+   * @module material.core.componentRegistry
+   *
+   */
+  function ComponentRegistry($log, $q) {
+
+    var self;
+    var instances = [];
+    var pendings = { };
+
+    return self = {
+      /**
+       * Used to print an error when an instance for a handle isn't found.
+       */
+      notFoundError: function(handle, msgContext) {
+        $log.error((msgContext || "") + 'No instance found for handle', handle);
+      },
+      /**
+       * Return all registered instances as an array.
+       */
+      getInstances: function() {
+        return instances;
+      },
+
+      /**
+       * Get a registered instance.
+       * @param handle the String handle to look up for a registered instance.
+       */
+      get: function(handle) {
+        if (!isValidID(handle)) return null;
+
+        var i, j, instance;
+        for (i = 0, j = instances.length; i < j; i++) {
+          instance = instances[i];
+          if (instance.$$mdHandle === handle) {
+            return instance;
+          }
+        }
+        return null;
+      },
+
+      /**
+       * Register an instance.
+       * @param instance the instance to register
+       * @param handle the handle to identify the instance under.
+       */
+      register: function(instance, handle) {
+        if (!handle) return angular.noop;
+
+        instance.$$mdHandle = handle;
+        instances.push(instance);
+        resolveWhen();
+
+        return deregister;
+
+        /**
+         * Remove registration for an instance
+         */
+        function deregister() {
+          var index = instances.indexOf(instance);
+          if (index !== -1) {
+            instances.splice(index, 1);
+          }
+        }
+
+        /**
+         * Resolve any pending promises for this instance
+         */
+        function resolveWhen() {
+          var dfd = pendings[handle];
+          if (dfd) {
+            dfd.forEach(function (promise) {
+              promise.resolve(instance);
+            });
+            delete pendings[handle];
+          }
+        }
+      },
+
+      /**
+       * Async accessor to registered component instance
+       * If not available then a promise is created to notify
+       * all listeners when the instance is registered.
+       */
+      when : function(handle) {
+        if (isValidID(handle)) {
+          var deferred = $q.defer();
+          var instance = self.get(handle);
+
+          if (instance)  {
+            deferred.resolve(instance);
+          } else {
+            if (pendings[handle] === undefined) {
+              pendings[handle] = [];
+            }
+            pendings[handle].push(deferred);
+          }
+
+          return deferred.promise;
+        }
+        return $q.reject("Invalid `md-component-id` value.");
+      }
+
     };
 
-    function attach(scope, element, options) {
-      return $mdInkRipple.attach(scope, element, angular.extend({
-        center: false,
-        dimBackground: true,
-        outline: false,
-        rippleSize: 'full'
-      }, options));
+    function isValidID(handle){
+      return handle && (handle !== "");
     }
-  }
-})();
 
+  }
+
+/**
+ * @ngdoc service
+ * @name $$mdMeta
+ * @module material.core.meta
+ *
+ * @description
+ *
+ * A provider and a service that simplifies meta tags access
+ *
+ * Note: This is intended only for use with dynamic meta tags such as browser color and title.
+ * Tags that are only processed when the page is rendered (such as `charset`, and `http-equiv`)
+ * will not work since `$$mdMeta` adds the tags after the page has already been loaded.
+ *
+ * ```js
+ * app.config(function($$mdMetaProvider) {
+ *   var removeMeta = $$mdMetaProvider.setMeta('meta-name', 'content');
+ *   var metaValue  = $$mdMetaProvider.getMeta('meta-name'); // -> 'content'
+ *
+ *   removeMeta();
+ * });
+ *
+ * app.controller('myController', function($$mdMeta) {
+ *   var removeMeta = $$mdMeta.setMeta('meta-name', 'content');
+ *   var metaValue  = $$mdMeta.getMeta('meta-name'); // -> 'content'
+ *
+ *   removeMeta();
+ * });
+ * ```
+ *
+ * @returns {$$mdMeta.$service}
+ *
+ */
+angular.module('material.core.meta', [])
+  .provider('$$mdMeta', function () {
+    var head = angular.element(document.head);
+    var metaElements = {};
+
+    /**
+     * Checks if the requested element was written manually and maps it
+     *
+     * @param {string} name meta tag 'name' attribute value
+     * @returns {boolean} returns true if there is an element with the requested name
+     */
+    function mapExistingElement(name) {
+      if (metaElements[name]) {
+        return true;
+      }
+
+      var element = document.getElementsByName(name)[0];
+
+      if (!element) {
+        return false;
+      }
+
+      metaElements[name] = angular.element(element);
+
+      return true;
+    }
+
+    /**
+     * @ngdoc method
+     * @name $$mdMeta#setMeta
+     *
+     * @description
+     * Creates meta element with the 'name' and 'content' attributes,
+     * if the meta tag is already created than we replace the 'content' value
+     *
+     * @param {string} name meta tag 'name' attribute value
+     * @param {string} content meta tag 'content' attribute value
+     * @returns {function} remove function
+     *
+     */
+    function setMeta(name, content) {
+      mapExistingElement(name);
+
+      if (!metaElements[name]) {
+        var newMeta = angular.element('<meta name="' + name + '" content="' + content + '"/>');
+        head.append(newMeta);
+        metaElements[name] = newMeta;
+      }
+      else {
+        metaElements[name].attr('content', content);
+      }
+
+      return function () {
+        metaElements[name].attr('content', '');
+        metaElements[name].remove();
+        delete metaElements[name];
+      };
+    }
+
+    /**
+     * @ngdoc method
+     * @name $$mdMeta#getMeta
+     *
+     * @description
+     * Gets the 'content' attribute value of the wanted meta element
+     *
+     * @param {string} name meta tag 'name' attribute value
+     * @returns {string} content attribute value
+     */
+    function getMeta(name) {
+      if (!mapExistingElement(name)) {
+        throw Error('$$mdMeta: could not find a meta tag with the name \'' + name + '\'');
+      }
+
+      return metaElements[name].attr('content');
+    }
+
+    var module = {
+      setMeta: setMeta,
+      getMeta: getMeta
+    };
+
+    return angular.extend({}, module, {
+      $get: function () {
+        return module;
+      }
+    });
+  });
 angular.module('material.core.theming.palette', [])
 .constant('$mdColorPalette', {
   'red': {
@@ -7096,6 +6517,7 @@ function ThemingProvider($mdColorPalette, $$mdMetaProvider) {
    *
    * @param {string} name Theme name to define
    * @param {object} options Theme definition options
+   *
    * Options are:<br/>
    * - `primary` - `{string}`: The name of the primary palette to use in the theme.<br/>
    * - `primaryHues` - `{object=}`: Override hues for primary palette.<br/>
@@ -7631,6 +7053,632 @@ function rgba(rgbArray, opacity) {
 
 
 })(window.angular);
+
+(function() {
+  'use strict';
+
+  /**
+   * @ngdoc service
+   * @name $mdButtonInkRipple
+   * @module material.core
+   *
+   * @description
+   * Provides ripple effects for md-button.  See $mdInkRipple service for all possible configuration options.
+   *
+   * @param {object=} scope Scope within the current context
+   * @param {object=} element The element the ripple effect should be applied to
+   * @param {object=} options (Optional) Configuration options to override the default ripple configuration
+   */
+
+  MdButtonInkRipple['$inject'] = ["$mdInkRipple"];
+  angular.module('material.core')
+    .factory('$mdButtonInkRipple', MdButtonInkRipple);
+
+  function MdButtonInkRipple($mdInkRipple) {
+    return {
+      attach: function attachRipple(scope, element, options) {
+        options = angular.extend(optionsForElement(element), options);
+
+        return $mdInkRipple.attach(scope, element, options);
+      }
+    };
+
+    function optionsForElement(element) {
+      if (element.hasClass('md-icon-button')) {
+        return {
+          isMenuItem: element.hasClass('md-menu-item'),
+          fitRipple: true,
+          center: true
+        };
+      } else {
+        return {
+          isMenuItem: element.hasClass('md-menu-item'),
+          dimBackground: true
+        };
+      }
+    }
+  }
+})();
+
+(function() {
+  'use strict';
+
+    /**
+   * @ngdoc service
+   * @name $mdCheckboxInkRipple
+   * @module material.core
+   *
+   * @description
+   * Provides ripple effects for md-checkbox.  See $mdInkRipple service for all possible configuration options.
+   *
+   * @param {object=} scope Scope within the current context
+   * @param {object=} element The element the ripple effect should be applied to
+   * @param {object=} options (Optional) Configuration options to override the defaultripple configuration
+   */
+
+  MdCheckboxInkRipple['$inject'] = ["$mdInkRipple"];
+  angular.module('material.core')
+    .factory('$mdCheckboxInkRipple', MdCheckboxInkRipple);
+
+  function MdCheckboxInkRipple($mdInkRipple) {
+    return {
+      attach: attach
+    };
+
+    function attach(scope, element, options) {
+      return $mdInkRipple.attach(scope, element, angular.extend({
+        center: true,
+        dimBackground: false,
+        fitRipple: true
+      }, options));
+    }
+  }
+})();
+
+(function() {
+  'use strict';
+
+  /**
+   * @ngdoc service
+   * @name $mdListInkRipple
+   * @module material.core
+   *
+   * @description
+   * Provides ripple effects for md-list.  See $mdInkRipple service for all possible configuration options.
+   *
+   * @param {object=} scope Scope within the current context
+   * @param {object=} element The element the ripple effect should be applied to
+   * @param {object=} options (Optional) Configuration options to override the defaultripple configuration
+   */
+
+  MdListInkRipple['$inject'] = ["$mdInkRipple"];
+  angular.module('material.core')
+    .factory('$mdListInkRipple', MdListInkRipple);
+
+  function MdListInkRipple($mdInkRipple) {
+    return {
+      attach: attach
+    };
+
+    function attach(scope, element, options) {
+      return $mdInkRipple.attach(scope, element, angular.extend({
+        center: false,
+        dimBackground: true,
+        outline: false,
+        rippleSize: 'full'
+      }, options));
+    }
+  }
+})();
+
+/**
+ * @ngdoc module
+ * @name material.core.ripple
+ * @description
+ * Ripple
+ */
+InkRippleCtrl['$inject'] = ["$scope", "$element", "rippleOptions", "$window", "$timeout", "$mdUtil", "$mdColorUtil"];
+InkRippleDirective['$inject'] = ["$mdButtonInkRipple", "$mdCheckboxInkRipple"];
+angular.module('material.core')
+    .provider('$mdInkRipple', InkRippleProvider)
+    .directive('mdInkRipple', InkRippleDirective)
+    .directive('mdNoInk', attrNoDirective)
+    .directive('mdNoBar', attrNoDirective)
+    .directive('mdNoStretch', attrNoDirective);
+
+var DURATION = 450;
+
+/**
+ * @ngdoc directive
+ * @name mdInkRipple
+ * @module material.core.ripple
+ *
+ * @description
+ * The `md-ink-ripple` directive allows you to specify the ripple color or if a ripple is allowed.
+ *
+ * @param {string|boolean} md-ink-ripple A color string `#FF0000` or boolean (`false` or `0`) for
+ *  preventing ripple
+ *
+ * @usage
+ * ### String values
+ * <hljs lang="html">
+ *   <ANY md-ink-ripple="#FF0000">
+ *     Ripples in red
+ *   </ANY>
+ *
+ *   <ANY md-ink-ripple="false">
+ *     Not rippling
+ *   </ANY>
+ * </hljs>
+ *
+ * ### Interpolated values
+ * <hljs lang="html">
+ *   <ANY md-ink-ripple="{{ randomColor() }}">
+ *     Ripples with the return value of 'randomColor' function
+ *   </ANY>
+ *
+ *   <ANY md-ink-ripple="{{ canRipple() }}">
+ *     Ripples if 'canRipple' function return value is not 'false' or '0'
+ *   </ANY>
+ * </hljs>
+ */
+function InkRippleDirective ($mdButtonInkRipple, $mdCheckboxInkRipple) {
+  return {
+    controller: angular.noop,
+    link:       function (scope, element, attr) {
+      attr.hasOwnProperty('mdInkRippleCheckbox')
+          ? $mdCheckboxInkRipple.attach(scope, element)
+          : $mdButtonInkRipple.attach(scope, element);
+    }
+  };
+}
+
+/**
+ * @ngdoc service
+ * @name $mdInkRipple
+ * @module material.core.ripple
+ *
+ * @description
+ * `$mdInkRipple` is a service for adding ripples to any element.
+ *
+ * @usage
+ * <hljs lang="js">
+ * app.factory('$myElementInkRipple', function($mdInkRipple) {
+ *   return {
+ *     attach: function (scope, element, options) {
+ *       return $mdInkRipple.attach(scope, element, angular.extend({
+ *         center: false,
+ *         dimBackground: true
+ *       }, options));
+ *     }
+ *   };
+ * });
+ *
+ * app.controller('myController', function ($scope, $element, $myElementInkRipple) {
+ *   $scope.onClick = function (ev) {
+ *     $myElementInkRipple.attach($scope, angular.element(ev.target), { center: true });
+ *   }
+ * });
+ * </hljs>
+ */
+
+/**
+ * @ngdoc service
+ * @name $mdInkRippleProvider
+ * @module material.core.ripple
+ *
+ * @description
+  * If you want to disable ink ripples globally, for all components, you can call the
+ * `disableInkRipple` method in your app's config.
+ *
+ *
+ * @usage
+ * <hljs lang="js">
+ * app.config(function ($mdInkRippleProvider) {
+ *   $mdInkRippleProvider.disableInkRipple();
+ * });
+ * </hljs>
+ */
+
+function InkRippleProvider () {
+  var isDisabledGlobally = false;
+
+  return {
+    disableInkRipple: disableInkRipple,
+    $get: ["$injector", function($injector) {
+      return { attach: attach };
+
+      /**
+       * @ngdoc method
+       * @name $mdInkRipple#attach
+       *
+       * @description
+       * Attaching given scope, element and options to inkRipple controller
+       *
+       * @param {object=} scope Scope within the current context
+       * @param {object=} element The element the ripple effect should be applied to
+       * @param {object=} options (Optional) Configuration options to override the defaultRipple configuration
+       * * `center` -  Whether the ripple should start from the center of the container element
+       * * `dimBackground` - Whether the background should be dimmed with the ripple color
+       * * `colorElement` - The element the ripple should take its color from, defined by css property `color`
+       * * `fitRipple` - Whether the ripple should fill the element
+       */
+      function attach (scope, element, options) {
+        if (isDisabledGlobally || element.controller('mdNoInk')) return angular.noop;
+        return $injector.instantiate(InkRippleCtrl, {
+          $scope:        scope,
+          $element:      element,
+          rippleOptions: options
+        });
+      }
+    }]
+  };
+
+  /**
+   * @ngdoc method
+   * @name $mdInkRippleProvider#disableInkRipple
+   *
+   * @description
+   * A config-time method that, when called, disables ripples globally.
+   */
+  function disableInkRipple () {
+    isDisabledGlobally = true;
+  }
+}
+
+/**
+ * Controller used by the ripple service in order to apply ripples
+ * ngInject
+ */
+function InkRippleCtrl ($scope, $element, rippleOptions, $window, $timeout, $mdUtil, $mdColorUtil) {
+  this.$window    = $window;
+  this.$timeout   = $timeout;
+  this.$mdUtil    = $mdUtil;
+  this.$mdColorUtil    = $mdColorUtil;
+  this.$scope     = $scope;
+  this.$element   = $element;
+  this.options    = rippleOptions;
+  this.mousedown  = false;
+  this.ripples    = [];
+  this.timeout    = null; // Stores a reference to the most-recent ripple timeout
+  this.lastRipple = null;
+
+  $mdUtil.valueOnUse(this, 'container', this.createContainer);
+
+  this.$element.addClass('md-ink-ripple');
+
+  // attach method for unit tests
+  ($element.controller('mdInkRipple') || {}).createRipple = angular.bind(this, this.createRipple);
+  ($element.controller('mdInkRipple') || {}).setColor = angular.bind(this, this.color);
+
+  this.bindEvents();
+}
+
+
+/**
+ * Either remove or unlock any remaining ripples when the user mouses off of the element (either by
+ * mouseup or mouseleave event)
+ */
+function autoCleanup (self, cleanupFn) {
+  if (self.mousedown || self.lastRipple) {
+    self.mousedown = false;
+    self.$mdUtil.nextTick(angular.bind(self, cleanupFn), false);
+  }
+}
+
+
+/**
+ * Returns the color that the ripple should be (either based on CSS or hard-coded)
+ * @returns {string}
+ */
+InkRippleCtrl.prototype.color = function (value) {
+  var self = this;
+
+  // If assigning a color value, apply it to background and the ripple color
+  if (angular.isDefined(value)) {
+    self._color = self._parseColor(value);
+  }
+
+  // If color lookup, use assigned, defined, or inherited
+  return self._color || self._parseColor(self.inkRipple()) || self._parseColor(getElementColor());
+
+  /**
+   * Finds the color element and returns its text color for use as default ripple color
+   * @returns {string}
+   */
+  function getElementColor () {
+    var items = self.options && self.options.colorElement ? self.options.colorElement : [];
+    var elem =  items.length ? items[ 0 ] : self.$element[ 0 ];
+
+    return elem ? self.$window.getComputedStyle(elem).color : 'rgb(0,0,0)';
+  }
+};
+
+/**
+ * Updating the ripple colors based on the current inkRipple value
+ * or the element's computed style color
+ */
+InkRippleCtrl.prototype.calculateColor = function () {
+  return this.color();
+};
+
+
+/**
+ * Takes a string color and converts it to RGBA format
+ * @param {string} color
+ * @param {number} multiplier
+ * @returns {string}
+ */
+InkRippleCtrl.prototype._parseColor = function parseColor (color, multiplier) {
+  multiplier = multiplier || 1;
+  var colorUtil = this.$mdColorUtil;
+
+  if (!color) return;
+  if (color.indexOf('rgba') === 0) return color.replace(/\d?\.?\d*\s*\)\s*$/, (0.1 * multiplier).toString() + ')');
+  if (color.indexOf('rgb') === 0) return colorUtil.rgbToRgba(color);
+  if (color.indexOf('#') === 0) return colorUtil.hexToRgba(color);
+
+};
+
+/**
+ * Binds events to the root element for
+ */
+InkRippleCtrl.prototype.bindEvents = function () {
+  this.$element.on('mousedown', angular.bind(this, this.handleMousedown));
+  this.$element.on('mouseup touchend', angular.bind(this, this.handleMouseup));
+  this.$element.on('mouseleave', angular.bind(this, this.handleMouseup));
+  this.$element.on('touchmove', angular.bind(this, this.handleTouchmove));
+};
+
+/**
+ * Create a new ripple on every mousedown event from the root element
+ * @param event {MouseEvent}
+ */
+InkRippleCtrl.prototype.handleMousedown = function (event) {
+  if (this.mousedown) return;
+
+  // When jQuery is loaded, we have to get the original event
+  if (event.hasOwnProperty('originalEvent')) event = event.originalEvent;
+  this.mousedown = true;
+  if (this.options.center) {
+    this.createRipple(this.container.prop('clientWidth') / 2, this.container.prop('clientWidth') / 2);
+  } else {
+
+    // We need to calculate the relative coordinates if the target is a sublayer of the ripple element
+    if (event.srcElement !== this.$element[0]) {
+      var layerRect = this.$element[0].getBoundingClientRect();
+      var layerX = event.clientX - layerRect.left;
+      var layerY = event.clientY - layerRect.top;
+
+      this.createRipple(layerX, layerY);
+    } else {
+      this.createRipple(event.offsetX, event.offsetY);
+    }
+  }
+};
+
+/**
+ * Either remove or unlock any remaining ripples when the user mouses off of the element (either by
+ * mouseup, touchend or mouseleave event)
+ */
+InkRippleCtrl.prototype.handleMouseup = function () {
+  this.$timeout(function () {
+    autoCleanup(this, this.clearRipples);
+  }.bind(this));
+};
+
+/**
+ * Either remove or unlock any remaining ripples when the user mouses off of the element (by
+ * touchmove)
+ */
+InkRippleCtrl.prototype.handleTouchmove = function () {
+  autoCleanup(this, this.deleteRipples);
+};
+
+/**
+ * Cycles through all ripples and attempts to remove them.
+ */
+InkRippleCtrl.prototype.deleteRipples = function () {
+  for (var i = 0; i < this.ripples.length; i++) {
+    this.ripples[ i ].remove();
+  }
+};
+
+/**
+ * Cycles through all ripples and attempts to remove them with fade.
+ * Depending on logic within `fadeInComplete`, some removals will be postponed.
+ */
+InkRippleCtrl.prototype.clearRipples = function () {
+  for (var i = 0; i < this.ripples.length; i++) {
+    this.fadeInComplete(this.ripples[ i ]);
+  }
+};
+
+/**
+ * Creates the ripple container element
+ * @returns {*}
+ */
+InkRippleCtrl.prototype.createContainer = function () {
+  var container = angular.element('<div class="md-ripple-container"></div>');
+  this.$element.append(container);
+  return container;
+};
+
+InkRippleCtrl.prototype.clearTimeout = function () {
+  if (this.timeout) {
+    this.$timeout.cancel(this.timeout);
+    this.timeout = null;
+  }
+};
+
+InkRippleCtrl.prototype.isRippleAllowed = function () {
+  var element = this.$element[0];
+  do {
+    if (!element.tagName || element.tagName === 'BODY') break;
+
+    if (element && angular.isFunction(element.hasAttribute)) {
+      if (element.hasAttribute('disabled')) return false;
+      if (this.inkRipple() === 'false' || this.inkRipple() === '0') return false;
+    }
+
+  } while (element = element.parentNode);
+  return true;
+};
+
+/**
+ * The attribute `md-ink-ripple` may be a static or interpolated
+ * color value OR a boolean indicator (used to disable ripples)
+ */
+InkRippleCtrl.prototype.inkRipple = function () {
+  return this.$element.attr('md-ink-ripple');
+};
+
+/**
+ * Creates a new ripple and adds it to the container.  Also tracks ripple in `this.ripples`.
+ * @param left
+ * @param top
+ */
+InkRippleCtrl.prototype.createRipple = function (left, top) {
+  if (!this.isRippleAllowed()) return;
+
+  var ctrl        = this;
+  var colorUtil   = ctrl.$mdColorUtil;
+  var ripple      = angular.element('<div class="md-ripple"></div>');
+  var width       = this.$element.prop('clientWidth');
+  var height      = this.$element.prop('clientHeight');
+  var x           = Math.max(Math.abs(width - left), left) * 2;
+  var y           = Math.max(Math.abs(height - top), top) * 2;
+  var size        = getSize(this.options.fitRipple, x, y);
+  var color       = this.calculateColor();
+
+  ripple.css({
+    left:            left + 'px',
+    top:             top + 'px',
+    background:      'black',
+    width:           size + 'px',
+    height:          size + 'px',
+    backgroundColor: colorUtil.rgbaToRgb(color),
+    borderColor:     colorUtil.rgbaToRgb(color)
+  });
+  this.lastRipple = ripple;
+
+  // we only want one timeout to be running at a time
+  this.clearTimeout();
+  this.timeout    = this.$timeout(function () {
+    ctrl.clearTimeout();
+    if (!ctrl.mousedown) ctrl.fadeInComplete(ripple);
+  }, DURATION * 0.35, false);
+
+  if (this.options.dimBackground) this.container.css({ backgroundColor: color });
+  this.container.append(ripple);
+  this.ripples.push(ripple);
+  ripple.addClass('md-ripple-placed');
+
+  this.$mdUtil.nextTick(function () {
+
+    ripple.addClass('md-ripple-scaled md-ripple-active');
+    ctrl.$timeout(function () {
+      ctrl.clearRipples();
+    }, DURATION, false);
+
+  }, false);
+
+  function getSize (fit, x, y) {
+    return fit
+        ? Math.max(x, y)
+        : Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+  }
+};
+
+
+
+/**
+ * After fadeIn finishes, either kicks off the fade-out animation or queues the element for removal on mouseup
+ * @param ripple
+ */
+InkRippleCtrl.prototype.fadeInComplete = function (ripple) {
+  if (this.lastRipple === ripple) {
+    if (!this.timeout && !this.mousedown) {
+      this.removeRipple(ripple);
+    }
+  } else {
+    this.removeRipple(ripple);
+  }
+};
+
+/**
+ * Kicks off the animation for removing a ripple
+ * @param ripple {Element}
+ */
+InkRippleCtrl.prototype.removeRipple = function (ripple) {
+  var ctrl  = this;
+  var index = this.ripples.indexOf(ripple);
+  if (index < 0) return;
+  this.ripples.splice(this.ripples.indexOf(ripple), 1);
+  ripple.removeClass('md-ripple-active');
+  ripple.addClass('md-ripple-remove');
+  if (this.ripples.length === 0) this.container.css({ backgroundColor: '' });
+  // use a 2-second timeout in order to allow for the animation to finish
+  // we don't actually care how long the animation takes
+  this.$timeout(function () {
+    ctrl.fadeOutComplete(ripple);
+  }, DURATION, false);
+};
+
+/**
+ * Removes the provided ripple from the DOM
+ * @param ripple
+ */
+InkRippleCtrl.prototype.fadeOutComplete = function (ripple) {
+  ripple.remove();
+  this.lastRipple = null;
+};
+
+/**
+ * Used to create an empty directive.  This is used to track flag-directives whose children may have
+ * functionality based on them.
+ *
+ * Example: `md-no-ink` will potentially be used by all child directives.
+ */
+function attrNoDirective () {
+  return { controller: angular.noop };
+}
+
+(function() {
+  'use strict';
+
+    /**
+   * @ngdoc service
+   * @name $mdTabInkRipple
+   * @module material.core
+   *
+   * @description
+   * Provides ripple effects for md-tabs.  See $mdInkRipple service for all possible configuration options.
+   *
+   * @param {object=} scope Scope within the current context
+   * @param {object=} element The element the ripple effect should be applied to
+   * @param {object=} options (Optional) Configuration options to override the defaultripple configuration
+   */
+
+  MdTabInkRipple['$inject'] = ["$mdInkRipple"];
+  angular.module('material.core')
+    .factory('$mdTabInkRipple', MdTabInkRipple);
+
+  function MdTabInkRipple($mdInkRipple) {
+    return {
+      attach: attach
+    };
+
+    function attach(scope, element, options) {
+      return $mdInkRipple.attach(scope, element, angular.extend({
+        center: false,
+        dimBackground: true,
+        outline: false,
+        rippleSize: 'full'
+      }, options));
+    }
+  }
+})();
 
 // Polyfill angular < 1.4 (provide $animateCss)
 angular

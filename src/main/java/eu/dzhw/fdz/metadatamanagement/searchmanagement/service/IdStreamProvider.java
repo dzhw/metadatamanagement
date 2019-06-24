@@ -14,5 +14,5 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProj
 @FunctionalInterface
 public interface IdStreamProvider {
 
-  Stream<IdAndVersionProjection> get(); 
+  Stream<? extends IdAndVersionProjection> get(); 
 }

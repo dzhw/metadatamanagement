@@ -38,7 +38,8 @@ angular.module('metadatamanagementApp')
         'nestedInstruments',
         'nestedQuestions',
         'nestedRelatedPublications',
-        'nestedSurveys'
+        'nestedSurveys',
+        'nestedConcepts'
       ];
 
       entity.promise.then(function(result) {
@@ -94,6 +95,10 @@ angular.module('metadatamanagementApp')
           ctrl.counts.publicationsCount = result.relatedPublications.length;
           if (ctrl.counts.publicationsCount === 1) {
             ctrl.relatedPublication = result.relatedPublications[0];
+          }
+          ctrl.counts.conceptsCount = result.concepts.length;
+          if (ctrl.counts.conceptsCount === 1) {
+            ctrl.concept = result.concepts[0];
           }
           DataSetSearchService
             .countBy('dataAcquisitionProjectId',

@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp').factory(
         method: 'GET',
         url: '/api/data-acquisition-projects/search/findByIdLikeOrderByIdAsc',
         params: {
-          id: id,
-          projection: 'complete'
+          id: id
         },
         transformResponse: function(data) {
           var response = angular.fromJson(data);
@@ -26,10 +25,9 @@ angular.module('metadatamanagementApp').factory(
         method: 'GET',
         url: '/api/data-acquisition-projects/search/' +
           'findAllByConfigurationPublishersContains' +
-          'OrConfigurationDataProvidersContains',
+          'OrConfigurationDataProvidersContainsAndShadowIsFalse',
         params: {
-          login: login,
-          projection: 'complete'
+          login: login
         },
         transformResponse: function(data) {
           var response = angular.fromJson(data);
@@ -46,10 +44,9 @@ angular.module('metadatamanagementApp').factory(
       return $http({
         method: 'GET',
         url: '/api/data-acquisition-projects/search/' +
-          'findAllByConfigurationDataProvidersContains',
+          'findAllByConfigurationDataProvidersContainsAndShadowIsFalse',
         params: {
-          login: login,
-          projection: 'complete'
+          login: login
         },
         transformResponse: function(data) {
           var response = angular.fromJson(data);
@@ -66,10 +63,9 @@ angular.module('metadatamanagementApp').factory(
       return $http({
         method: 'GET',
         url: '/api/data-acquisition-projects/search/' +
-          'findAllByConfigurationPublishersContains',
+          'findAllByConfigurationPublishersContainsAndShadowIsFalse',
         params: {
-          login: login,
-          projection: 'complete'
+          login: login
         },
         transformResponse: function(data) {
           var response = angular.fromJson(data);

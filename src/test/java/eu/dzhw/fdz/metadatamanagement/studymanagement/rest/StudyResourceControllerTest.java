@@ -154,7 +154,7 @@ public class StudyResourceControllerTest extends AbstractTest {
       .andExpect(status().is2xxSuccessful());
 
     // read the study under the new url
-    mockMvc.perform(get(API_STUDY_URI + "/" + study.getId() + "?projection=complete"))
+    mockMvc.perform(get(API_STUDY_URI + "/" + study.getId()))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.id", is(study.getId())))
       .andExpect(jsonPath("$.authors[0].firstName", is("Another")))

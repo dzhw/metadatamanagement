@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections;
 
+import java.util.List;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 
@@ -24,6 +26,12 @@ public interface QuestionSubDocumentProjection
   I18nString getTopic();
 
   String getStudyId();
+  
+  List<String> getConceptIds();
 
   String getMasterId();
+  
+  String getSuccessorId();
+  
+  boolean isShadow();
 }

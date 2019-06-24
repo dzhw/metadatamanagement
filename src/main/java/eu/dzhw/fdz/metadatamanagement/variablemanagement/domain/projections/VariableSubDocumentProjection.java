@@ -28,4 +28,10 @@ public interface VariableSubDocumentProjection
   String getStudyId();
 
   String getMasterId();
+  
+  String getSuccessorId();
+  
+  boolean isShadow();
+  
+  List<RelatedQuestionSubDocumentProjection> getRelatedQuestions();
 }

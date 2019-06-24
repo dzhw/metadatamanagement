@@ -1,21 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -24,9 +11,24 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
+
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class VariableShadowCopyDataSourceTest extends AbstractTest {
@@ -43,6 +45,9 @@ public class VariableShadowCopyDataSourceTest extends AbstractTest {
 
   @Autowired
   private VariableShadowCopyDataSource shadowCopyDataSource;
+  
+  @Autowired
+  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
   @Mock
   private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
@@ -67,6 +72,7 @@ public class VariableShadowCopyDataSourceTest extends AbstractTest {
   public void tearDown() {
     variableRepository.deleteAll();
     javersService.deleteAll();
+    elasticsearchUpdateQueueItemRepository.deleteAll();
   }
 
   @Test

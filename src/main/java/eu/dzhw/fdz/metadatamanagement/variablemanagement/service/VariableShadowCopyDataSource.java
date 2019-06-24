@@ -1,16 +1,21 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
 /**
  * Provides data for creating shadow copies of {@link Variable}.
@@ -20,8 +25,12 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
 
   private VariableRepository variableRepository;
 
-  public VariableShadowCopyDataSource(VariableRepository variableRepository) {
+  private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+
+  public VariableShadowCopyDataSource(VariableRepository variableRepository,
+      ElasticsearchUpdateQueueService elasticsearchUpdateQueueService) {
     this.variableRepository = variableRepository;
+    this.elasticsearchUpdateQueueService = elasticsearchUpdateQueueService;
   }
 
   @Override
@@ -34,8 +43,8 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
   public Variable createShadowCopy(Variable source, String version) {
     String derivedId = source.getId() + "-" + version;
     Variable copy = variableRepository.findById(derivedId).orElseGet(Variable::new);
-    BeanUtils.copyProperties(source, copy, "version", "surveyIds",
-        "relatedQuestions", "relatedVariables");
+    BeanUtils.copyProperties(source, copy, "version", "surveyIds", "relatedQuestions",
+        "relatedVariables");
     copy.setId(derivedId);
     copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
     copy.setDataSetId(source.getDataSetId() + "-" + version);
@@ -96,12 +105,22 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
   public Stream<Variable> findShadowCopiesWithDeletedMasters(String projectId,
       String previousVersion) {
     String oldProjectId = projectId + "-" + previousVersion;
-    return variableRepository
-        .findByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(oldProjectId)
+    return variableRepository.findByDataAcquisitionProjectIdAndShadowIsTrue(oldProjectId)
         .filter(shadowCopy -> !variableRepository.existsById(shadowCopy.getMasterId()));
   }
 
   private static List<String> createDerivedSurveyIds(List<String> surveyIds, String version) {
     return surveyIds.stream().map(studyId -> studyId + "-" + version).collect(Collectors.toList());
+  }
+
+  @Override
+  public void deleteExistingShadowCopies(String projectId, String version) {
+    String oldProjectId = projectId + "-" + version;
+    List<IdAndVersionProjection> deletedIds = variableRepository
+        .deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId);
+    for (IdAndVersionProjection variable : deletedIds) {
+      elasticsearchUpdateQueueService.enqueue(variable.getId(), ElasticsearchType.variables,
+          ElasticsearchUpdateQueueAction.DELETE);
+    }
   }
 }

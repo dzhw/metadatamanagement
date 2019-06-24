@@ -1,5 +1,22 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
+
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
@@ -9,23 +26,8 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.Instrument
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class InstrumentShadowCopyDataSourceTest extends AbstractTest {
@@ -42,6 +44,9 @@ public class InstrumentShadowCopyDataSourceTest extends AbstractTest {
 
   @Autowired
   private InstrumentShadowCopyDataSource shadowCopyDataSource;
+  
+  @Autowired
+  private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
   @Mock
   private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
@@ -66,6 +71,7 @@ public class InstrumentShadowCopyDataSourceTest extends AbstractTest {
   public void tearDown() {
     instrumentRepository.deleteAll();
     javersService.deleteAll();
+    elasticsearchUpdateQueueItemRepository.deleteAll();
   }
 
   @Test

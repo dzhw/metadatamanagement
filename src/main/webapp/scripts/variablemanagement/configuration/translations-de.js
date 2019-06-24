@@ -119,6 +119,10 @@ angular.module('metadatamanagementApp').config(
             },
             'studies': {
               'one': 'Klicken, um die Studie anzuzeigen, aus der diese Variable resultierte'
+            },
+            'concepts': {
+              'one': 'Klicken, um das Konzept, welches u.a. mit dieser Variable gemessen wurde, anzuzeigen',
+              'many': 'Klicken, um alle Konzepte, welche u.a. mit dieser Variable gemessen wurden, anzuzeigen'
             }
           }
         },

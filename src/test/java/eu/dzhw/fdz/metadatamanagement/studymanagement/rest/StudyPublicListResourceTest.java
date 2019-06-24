@@ -96,7 +96,7 @@ public class StudyPublicListResourceTest extends AbstractTest {
       doi = "doi";
     }
     StudySearchDocument doc = new StudySearchDocument(buildStudy, null, null, null, null, null,
-        null, null, release, doi, project.getConfiguration());
+        null, null, null, release, doi, project.getConfiguration());
     Index build = new Index.Builder(doc).index("studies").type("studies").build();
 
     DocumentResult execute = jestClient.execute(build);

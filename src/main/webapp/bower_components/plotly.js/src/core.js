@@ -9,7 +9,7 @@
 'use strict';
 
 // package version injected by `npm run preprocess`
-exports.version = '1.47.4';
+exports.version = '1.48.3';
 
 // inject promise polyfill
 require('es6-promise').polyfill();
@@ -55,7 +55,8 @@ register([
     require('./components/rangeselector'),
     require('./components/grid'),
     require('./components/errorbars'),
-    require('./components/colorscale')
+    require('./components/colorscale'),
+    require('./components/colorbar')
 ]);
 
 // locales en and en-US are required for default behavior

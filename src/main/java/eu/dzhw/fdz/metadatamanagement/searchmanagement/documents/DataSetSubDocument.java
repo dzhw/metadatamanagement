@@ -46,6 +46,10 @@ public class DataSetSubDocument extends AbstractRdcDomainObject
   private String studyId;
 
   private List<String> surveyIds;
+  
+  private String successorId;
+  
+  private boolean shadow;
 
   private String masterId;
  

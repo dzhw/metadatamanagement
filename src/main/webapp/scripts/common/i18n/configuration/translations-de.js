@@ -92,7 +92,8 @@ angular.module('metadatamanagementApp').config(
             'variable': 'Klicken, um die Variable {{param}} anzuzeigen',
             'study': 'Klicken, um die Studie {{param}} anzuzeigen',
             'instrument': 'Klicken, um das Instrument {{param}} anzuzeigen',
-            'publication': 'Klicken, um die Publikation {{param}} anzuzeigen'
+            'publication': 'Klicken, um die Publikation {{param}} anzuzeigen',
+            'concept': 'Klicken, um das Konzept {{param}} anzuzeigen'
           },
           'feedback-dialog': {
             'github': 'Klicken, um auf Github Feedback zu geben oder einen Fehler zu melden',
@@ -346,6 +347,10 @@ angular.module('metadatamanagementApp').config(
           'confirm-delete-survey': {
             'title': 'Erhebung "{{ id }}" löschen?',
             'content': 'Wollen Sie die Erhebung "{{ id }}" wirklich löschen?'
+          },
+          'confirm-delete-concept': {
+            'title': 'Konzept "{{ id }}" löschen?',
+            'content': 'Wollen Sie das Konzept "{{ id }}" wirklich löschen?'
           },
           'confirm-delete-instrument': {
             'title': 'Instrument "{{ id }}" löschen?',
