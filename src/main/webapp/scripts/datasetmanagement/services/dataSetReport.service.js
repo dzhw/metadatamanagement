@@ -10,9 +10,9 @@ angular.module('metadatamanagementApp').service('DataSetReportService',
         if (file !== null) {
           file.name = file.name || 'report.zip';
           Upload.upload({
-            url: 'api/data-sets/fill-template',
+            url: 'api/data-sets/' + encodeURIComponent(dataSetId) +
+              '/fill-template',
             fields: {
-              'id': dataSetId,
               'version': version
             },
             file: file

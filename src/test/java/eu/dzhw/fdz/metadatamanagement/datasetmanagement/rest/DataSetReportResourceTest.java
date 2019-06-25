@@ -40,9 +40,9 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  * @author Daniel Katzberg
  *
  */
-public class DataSetsReportResourceTest extends AbstractTest {
+public class DataSetReportResourceTest extends AbstractTest {
 
-  private static final String API_DATASETS_REPORTS_URI = "/api/data-sets/report";
+  private static final String API_DATASETS_REPORTS_URI = "/api/data-sets/{dataSetId}/fill-template";
 
   @Autowired
   private WebApplicationContext wac;
@@ -107,8 +107,9 @@ public class DataSetsReportResourceTest extends AbstractTest {
         new MockMultipartFile("file", "TemplateExample.zip", "application/zip", texTemplate);
 
     MvcResult result = this.mockMvc
-        .perform(MockMvcRequestBuilders.multipart(API_DATASETS_REPORTS_URI).file(multipartFile)
-            .param("id", dataSet.getId()))
+        .perform(MockMvcRequestBuilders.multipart(API_DATASETS_REPORTS_URI, dataSet.getId())
+            .file(multipartFile)
+            .param("version", "1.0.0"))
         .andExpect(status().isAccepted())
         .andExpect(header().string("location", Matchers.containsString("/api/tasks/"))).andReturn();
     String headlerLocation = result.getResponse().getHeader("location");
@@ -142,7 +143,8 @@ public class DataSetsReportResourceTest extends AbstractTest {
         "application/zip", texTemplate);
 
     MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders
-        .multipart(API_DATASETS_REPORTS_URI).file(multipartFile).param("id", dataSet.getId()))
+        .multipart(API_DATASETS_REPORTS_URI, dataSet.getId())
+        .file(multipartFile).param("version", "1.0.0"))
         .andExpect(status().isAccepted()).andReturn();
     String headlerLocation = result.getResponse().getHeader("location");
     mockMvc.perform(MockMvcRequestBuilders.get(headlerLocation))
@@ -166,7 +168,7 @@ public class DataSetsReportResourceTest extends AbstractTest {
 
     // Act and Assert
     MockMultipartFile multipartFile = new MockMultipartFile("file", empty);
-    this.mockMvc.perform(MockMvcRequestBuilders.multipart(API_DATASETS_REPORTS_URI)
-        .file(multipartFile).param("id", dataSet.getId())).andExpect(status().isBadRequest());
+    this.mockMvc.perform(MockMvcRequestBuilders.multipart(API_DATASETS_REPORTS_URI, dataSet.getId())
+        .file(multipartFile).param("version", "1.0.0")).andExpect(status().isBadRequest());
   }
 }

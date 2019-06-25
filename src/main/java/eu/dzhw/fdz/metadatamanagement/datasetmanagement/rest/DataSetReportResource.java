@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.service.TaskService;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetReportService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import freemarker.template.TemplateException;
@@ -31,6 +34,9 @@ public class DataSetReportResource {
 
   @Autowired
   private DataSetReportService dataSetReportService;
+  
+  @Autowired
+  private DataSetAttachmentService dataSetAttachmentService;
 
   @Autowired
   private TaskService taskService;
@@ -44,10 +50,10 @@ public class DataSetReportResource {
    * @throws IOException Handles io exception for the template. (Freemarker Templates)
    * @throws TemplateException Handles template exceptions. (Freemarker Templates)
    */
-  @PostMapping(value = "/data-sets/fill-template")
+  @PostMapping(value = "/data-sets/{dataSetId}/fill-template")
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<Task> fillTemplate(@RequestParam("file") MultipartFile templateZip,
-      @RequestParam("id") String dataSetId, @RequestParam("version") String version)
+      @PathVariable("dataSetId") String dataSetId, @RequestParam("version") String version)
       throws IOException, TemplateException, TemplateIncompleteException {
 
     // Handles no empty latex templates
@@ -67,5 +73,20 @@ public class DataSetReportResource {
       return ResponseEntity.badRequest().body(null);
     }
 
+  }
+
+  /**
+   * Upload the generated dataset report and attach it to the given {@link DataSet}.
+   * @param reportFile The pdf report to attach to the given {@link DataSet}
+   * @param dataSetId The id of the {@link DataSet} to which this file shall be attached.
+   * @return 200 if attaching succeeded.
+   * @throws IOException Thrown if the multipart file cannot be read.
+   */
+  @PostMapping(value = "/data-sets/{dataSetId}/report")
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  public ResponseEntity<Void> uploadReport(@RequestParam("file") MultipartFile reportFile,
+      @PathVariable("dataSetId") String dataSetId) throws IOException {
+    dataSetAttachmentService.attachDataSetReport(dataSetId, reportFile);
+    return ResponseEntity.ok().build();
   }
 }
