@@ -334,6 +334,24 @@ angular.module('metadatamanagementApp').config(
                 }
             },
             'all-data-sets-deleted-toast': 'All data sets of the Data Acquisition Project "{{id}}" have been deleted.'
+        },
+        'create-report': {
+          'title': 'Generate Dataset Report',
+          'version': 'Version of the Report',
+          'error': {
+            'version': {
+              'not-empty': 'The version must not be empty.',
+              'pattern': 'The version must match the pattern "major.minor.patch" (e.g. "1.0.0").',
+              'size': 'The version must not contain more than 32 characters.'
+            }
+          },
+          'hints': {
+            'version': 'Specify the version number to be displayed on the title page of the dataset report.'
+          },
+          'tooltip': {
+            'cancel': 'Click to cancel the generation of the report',
+            'ok': 'Click to start the generation of the report'
+          }
         }
       }
       //jscs:enable

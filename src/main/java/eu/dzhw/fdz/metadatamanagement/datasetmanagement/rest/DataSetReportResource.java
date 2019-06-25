@@ -23,14 +23,11 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 import freemarker.template.TemplateException;
 
 /**
- * This Resource handles the upload of tex templates for the variable report.
- * 
- * @author Daniel Katzberg
- *
+ * This Resource handles the filling of the tex template and the upload of the compiled file.
  */
 @Controller
 @RequestMapping("/api")
-public class DataSetsReportResource {
+public class DataSetReportResource {
 
   @Autowired
   private DataSetReportService dataSetReportService;
@@ -39,30 +36,31 @@ public class DataSetsReportResource {
   private TaskService taskService;
 
   /**
-   * Accept latex templates under the given request mapping.
+   * Fill the given zip file which contains latex templates.
    * 
-   * @param multiPartFile The latex template as multipart file
-   * @param dataSetId the id of the data set, from where the file was uploaded
+   * @param templateZip The latex template as multipart file
+   * @param dataSetId the id of the data set, for which the template needs to be processed
+   * @param version The version of the dataset report as it is displayed on the first page
    * @throws IOException Handles io exception for the template. (Freemarker Templates)
    * @throws TemplateException Handles template exceptions. (Freemarker Templates)
    */
-  @PostMapping(value = "/data-sets/report")
+  @PostMapping(value = "/data-sets/fill-template")
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
-  public ResponseEntity<Task> uploadFile(@RequestParam("file") MultipartFile multiPartFile,
-      @RequestParam("id") String dataSetId)
+  public ResponseEntity<Task> fillTemplate(@RequestParam("file") MultipartFile templateZip,
+      @RequestParam("id") String dataSetId, @RequestParam("version") String version)
       throws IOException, TemplateException, TemplateIncompleteException {
 
     // Handles no empty latex templates
-    if (!multiPartFile.isEmpty()) {
+    if (!templateZip.isEmpty()) {
       Path zipTmpFilePath = Files.createTempFile(dataSetId.replace("!", ""), ".zip");
       File zipTmpFile = zipTmpFilePath.toFile();
-      multiPartFile.transferTo(zipTmpFile);
-      zipTmpFile.setWritable(true);      
+      templateZip.transferTo(zipTmpFile);
+      zipTmpFile.setWritable(true);
       Task task = taskService.createTask(Task.TaskType.DATA_SET_REPORT);
       URI pollUri = URI.create("/api/tasks/" + task.getId());
       // fill the data with data and store the template into mongodb / gridfs
-      dataSetReportService.generateReport(zipTmpFilePath, multiPartFile.getOriginalFilename(),
-          dataSetId, task);
+      dataSetReportService.generateReport(zipTmpFilePath, templateZip.getOriginalFilename(),
+          dataSetId, task, version);
       return ResponseEntity.accepted().location(pollUri).body(task);
     } else {
       // Return bad request, if file is empty.

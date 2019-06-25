@@ -4,15 +4,16 @@
 angular.module('metadatamanagementApp').service('DataSetReportService',
   function(Upload, FileResource, JobLoggingService, ZipWriterService,
     $timeout, $http, $log) {
-    var uploadTexTemplate = function(files, dataAcquisitionProjectId) {
+    var uploadTexTemplate = function(files, dataSetId, version) {
       JobLoggingService.start('dataSetReport');
       ZipWriterService.createZipFileAsync(files, true).then(function(file) {
         if (file !== null) {
           file.name = file.name || 'report.zip';
           Upload.upload({
-            url: 'api/data-sets/report',
+            url: 'api/data-sets/fill-template',
             fields: {
-              'id': dataAcquisitionProjectId
+              'id': dataSetId,
+              'version': version
             },
             file: file
             // jshint -W098
