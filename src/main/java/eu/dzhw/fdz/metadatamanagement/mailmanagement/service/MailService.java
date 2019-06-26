@@ -24,6 +24,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import lombok.extern.slf4j.Slf4j;
@@ -278,7 +279,7 @@ public class MailService {
       String sender, User currentUser) {
 
     if (!users.isEmpty()) {
-      log.debug("Sending 'data provider access revoked mail'");
+      log.debug("Sending 'data provider access revoked' mail");
     }
 
     users.parallelStream().forEach(user -> {
@@ -295,5 +296,28 @@ public class MailService {
       sendEmail(sender, new String[] {user.getEmail()}, null,
           currentUser != null ? currentUser.getEmail() : null, subject, content, false, true);
     });
+  }
+
+  /**
+   * Send the result of the dataset report generation to the user who has started the report
+   * generation.
+   * 
+   * @param user The user who has started the report generation.
+   * @param dataSetId The id of the {@link DataSet} for which the report has been generated.
+   * @param sender The sender of the email.
+   */
+  @Async
+  public void sendDataSetReportGeneratedMail(User user, String dataSetId, String sender) {
+    log.debug("Sending 'dataset report generated' mail");
+    Locale locale = Locale.forLanguageTag(user.getLangKey());
+    Context context = new Context(locale);
+    context.setVariable("user", user);
+    context.setVariable("dataSetId", dataSetId);
+    context.setVariable("locale", locale);
+    context.setVariable("baseUrl", baseUrl);
+    String content = templateEngine.process("datasetReportGeneratedEmail", context);
+    String subject = messageSource.getMessage("email.dataset-report-generated.title",
+        new Object[] {dataSetId}, locale);
+    sendEmail(sender, new String[] {user.getEmail()}, null, null, subject, content, false, true);
   }
 }

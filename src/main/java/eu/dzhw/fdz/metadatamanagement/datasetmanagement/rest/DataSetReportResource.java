@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,10 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetReportService;
+import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import freemarker.template.TemplateException;
 
 /**
@@ -34,16 +38,25 @@ public class DataSetReportResource {
 
   @Autowired
   private DataSetReportService dataSetReportService;
-  
+
   @Autowired
   private DataSetAttachmentService dataSetAttachmentService;
 
   @Autowired
+  private MailService mailService;
+
+  @Autowired
+  private UserService userService;
+
+  @Autowired
   private TaskService taskService;
+
+  @Value("${metadatamanagement.projectmanagement.email}")
+  private String sender;
 
   /**
    * Fill the given zip file which contains latex templates.
-   * 
+   *
    * @param templateZip The latex template as multipart file
    * @param dataSetId the id of the data set, for which the template needs to be processed
    * @param version The version of the dataset report as it is displayed on the first page
@@ -77,16 +90,22 @@ public class DataSetReportResource {
 
   /**
    * Upload the generated dataset report and attach it to the given {@link DataSet}.
+   *
    * @param reportFile The pdf report to attach to the given {@link DataSet}
    * @param dataSetId The id of the {@link DataSet} to which this file shall be attached.
+   * @param onBehalfOf Username of the MDM user who will receive an email, when the report has been
+   *        successfully attached.
    * @return 200 if attaching succeeded.
    * @throws IOException Thrown if the multipart file cannot be read.
    */
   @PostMapping(value = "/data-sets/{dataSetId}/report")
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<Void> uploadReport(@RequestParam("file") MultipartFile reportFile,
-      @PathVariable("dataSetId") String dataSetId) throws IOException {
+      @PathVariable("dataSetId") String dataSetId,
+      @RequestParam("onBehalfOf") String onBehalfOf) throws IOException {
     dataSetAttachmentService.attachDataSetReport(dataSetId, reportFile);
+    User user = userService.getUserWithAuthoritiesByLogin(onBehalfOf).get();
+    mailService.sendDataSetReportGeneratedMail(user, dataSetId, sender);
     return ResponseEntity.ok().build();
   }
 }

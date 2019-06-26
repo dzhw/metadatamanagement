@@ -39,7 +39,7 @@ public class MetadataManagementProperties {
 
   private final Ordermanagement ordermanagement = new Ordermanagement();
 
-  private final ProjectManagement projectManagement = new ProjectManagement();
+  private final Projectmanagement projectmanagement = new Projectmanagement();
 
   public Elasticsearch getElasticsearch() {
     return elasticsearch;
@@ -77,8 +77,8 @@ public class MetadataManagementProperties {
     return ordermanagement;
   }
 
-  public ProjectManagement getProjectManagement() {
-    return projectManagement;
+  public Projectmanagement getProjectmanagement() {
+    return projectmanagement;
   }
 
   /**
@@ -314,7 +314,7 @@ public class MetadataManagementProperties {
   /**
    * Project Management properties.
    */
-  public static class ProjectManagement {
+  public static class Projectmanagement {
     private String email = "";
 
     public String getEmail() {
