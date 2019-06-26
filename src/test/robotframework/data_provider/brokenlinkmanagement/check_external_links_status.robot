@@ -14,7 +14,7 @@ Check Link Status for DZHW Documentation and Data Access
 
 Check Link Status for DZHW and BMBF
     Get Link Status with xpath Locator   //a[@id="dzhw-link"]
-    #Get Link Status with xpath Locator   //a[@id="bmbf-link"]
+    #Get Link Status with xpath Locator   //a[@id="bmbf-link"]  #bmbf link does not work in travis for an uncertain reason
 
 *** Keywords ***
 Get Link Status with xpath Locator
