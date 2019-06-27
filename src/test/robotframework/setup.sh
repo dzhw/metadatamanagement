@@ -7,6 +7,6 @@ sudo apt-get -y install python-pip python-dev --allow-unauthenticated
 pip install urllib3[secure]==1.24.1 --user -Iv
 pip install robotframework --user
 pip install robotframework-extendedselenium2library --user
-pip install --upgrade robotframework-httplibrary --user
+pip install robotframework-httplibrary --user
 pip install pyyaml --user
 pip install six --user
