@@ -58,7 +58,7 @@ public class TaskServiceTest extends AbstractTest {
   @Test
   public void testHandleTaskDone() {
     String id = Long.toString(counterService.getNextSequence("tasks"));
-    String resultLocation = "/tmp/template.zip";
+    String resultLocation = "/public/files/tmp/template.zip";
     Task taskForDone = taskRepo.insert(Task.builder().id(id).state(TaskState.RUNNING).build());
     Task result = taskService.handleTaskDone(taskForDone, resultLocation);
     assertEquals(id, result.getId());

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -100,12 +101,17 @@ public class DataSetReportResource {
    */
   @PostMapping(value = "/data-sets/{dataSetId}/report")
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
-  public ResponseEntity<Void> uploadReport(@RequestParam("file") MultipartFile reportFile,
-      @PathVariable("dataSetId") String dataSetId,
-      @RequestParam("onBehalfOf") String onBehalfOf) throws IOException {
-    dataSetAttachmentService.attachDataSetReport(dataSetId, reportFile);
-    User user = userService.getUserWithAuthoritiesByLogin(onBehalfOf).get();
-    mailService.sendDataSetReportGeneratedMail(user, dataSetId, sender);
-    return ResponseEntity.ok().build();
+  public ResponseEntity<?> uploadReport(@RequestParam("file") MultipartFile reportFile,
+      @PathVariable("dataSetId") String dataSetId, @RequestParam("onBehalfOf") String onBehalfOf)
+      throws IOException {
+    Optional<User> user = userService.getUserWithAuthoritiesByLogin(onBehalfOf);
+    if (user.isPresent()) {
+      dataSetAttachmentService.attachDataSetReport(dataSetId, reportFile);
+      mailService.sendDataSetReportGeneratedMail(user.get(), dataSetId, sender);
+      return ResponseEntity.ok().build();
+    } else {
+      return ResponseEntity.badRequest()
+          .body("User with name '" + onBehalfOf + "' does not exist!");
+    }
   }
 }
