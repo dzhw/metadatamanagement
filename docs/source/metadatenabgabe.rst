@@ -157,7 +157,7 @@ oder bei den DatengeberInnen zur Bearbeitung liegt. Zuerst liegt es bei den
 Publishern und Sie werden per Mail benachrichtigt, wenn es Ihnen zugewiesen
 wird. Um das Projekt wieder den
 Publishern zuzuweisen, klicken Sie den "Papierflieger"-Button (siehe
-:numref:`papierflieger`) über dem "Zugewiesen an Datengeber" steht.
+:numref:`papierflieger`) über dem "Zugewiesen an Datengeber" bzw "Assigned to Publishers" steht.
 
 .. figure:: ./_static/projectcockpit_papierflieger.png
    :name: papierflieger
@@ -175,7 +175,7 @@ Es wird automatisch abgespeichert.
 .. figure:: ./_static/projectcockpit_dataprovider_ready.png
    :name: projectcockpit_dataprovider_ready
 
-Sie sehen, dass sich der Statussmiley von traurig hin zu neutral ändert, nachdem
+Sie sehen, dass sich der Status von keinem Häkchen hin zu einem Häkchen ändert, nachdem
 Sie "fertig" angeklickt haben.
 Nachdem der Papierflieger-Button geklickt wurde, erscheint der
 "Nachricht an Publisher" Dialog (siehe :numref:`nachricht_an_publisher`).
@@ -186,8 +186,8 @@ Nachdem der Papierflieger-Button geklickt wurde, erscheint der
 Falls die Publisher denken, dass noch irgend etwas vergessen wurde oder anders
 eingegeben werden sollte, erhalten Sie eine Email und das Projekt wird Ihnen
 zurückgegeben. Sollte das nicht der Fall sein, markiert der Publisher die Ebene
-auch als "fertig", was durch einen glücklichen Smiley signalisiert wird
-(siehe :numref:`studie_ready`). Sind alle Smileys glücklich, können
+auch als "fertig", was durch einen zweiten Haken signalisiert wird
+(siehe :numref:`studie_ready`). Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können
 die Publisher das Projekt freigeben, das heißt die Metadaten und damit letztlich
 die Datenprodukte allen öffentlichen Nutzern des Systems zur Verfügung stellen.
 
