@@ -189,7 +189,7 @@ public class DataAcquisitionProjectService {
 
   private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {
     String projectId = newDataAcquisitionProject.getId();
-    String sender = metadataManagementProperties.getProjectManagement().getEmail();
+    String sender = metadataManagementProperties.getProjectmanagement().getEmail();
     if (changesProvider.hasAssigneeGroupChanged(projectId)) {
       if (isProjectForcefullyReassignedByPublisher(projectId)) {
         List<String> dataProviders = changesProvider.getOldDataAcquisitionProject(projectId)
@@ -251,7 +251,7 @@ public class DataAcquisitionProjectService {
     UserFetchResult users = fetchUsersForUserNames(addedPublishers, removedPublishers,
         addedDataProviders, removedDataProviders);
 
-    String sender = metadataManagementProperties.getProjectManagement().getEmail();
+    String sender = metadataManagementProperties.getProjectmanagement().getEmail();
 
     mailService.sendPublishersAddedMail(users.addedPublisherUsers, projectId, sender);
     mailService.sendPublisherRemovedMail(users.removedPublisherUsers, projectId, sender);

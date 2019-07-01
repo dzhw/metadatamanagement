@@ -334,6 +334,24 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'all-data-sets-deleted-toast': 'Alle Datensätze des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
+          },
+          'create-report': {
+            'title': 'Datensatzreport erzeugen',
+            'version': 'Version des Datensatzreports',
+            'error': {
+              'version': {
+                'not-empty': 'Die Version darf nicht leer sein.',
+                'pattern': 'Die Version muss von der Form "major.minor.patch" (z.B. "1.0.0") sein.',
+                'size': 'Die Version darf nicht länger als 32 Zeichen sein.'
+              }
+            },
+            'hints': {
+              'version': 'Geben Sie die Versionsnummer an, die auf der Titelseite des Datensatzreports angezeigt werden soll.'
+            },
+            'tooltip': {
+              'cancel': 'Klicken, um das Erzeugen des Datensatzreports abzubrechen.',
+              'ok': 'Klicken, um das Erzeugen des Datensatzreports zu starten.'
+            }
           }
         }
       //jscs:enable

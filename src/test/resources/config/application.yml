@@ -55,6 +55,8 @@ server:
 metadatamanagement:
   ordermanagement:
     email: test@dzhw.eu
+  projectmanagement:
+    email: test@dzhw.eu
   server:
     context-root: http://localhost:8080
     instance-index: 0

@@ -37,8 +37,6 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
@@ -54,7 +52,7 @@ import freemarker.template.TemplateExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * This service fill tex templates with data and put it into the gridfs / mongodb.
+ * This service fills tex templates with data and put it into the gridfs / mongodb.
  *
  * @author Daniel Katzberg
  */
@@ -79,9 +77,6 @@ public class DataSetReportService {
 
   @Autowired
   private InstrumentRepository instrumentRepository;
-
-  @Autowired
-  private DataAcquisitionProjectVersionsService projectVersionsService;
 
   @Autowired
   private TaskService taskService;
@@ -123,18 +118,18 @@ public class DataSetReportService {
    * This service method will receive a tex template as a string and an id of a data set. With this
    * id, the service will load the data set for receiving all depending information, which are
    * needed for filling of the tex template with data.
-   * 
+   * @param zipTmpFilePath The path to uploaded zip file
    * @param originalName the original name of multipartfile
    * @param dataSetId An id of the data set.
    * @param task the task to update the status of the pro
-   * @param zipTmpFilePath The path to uploaded zip file
+   * @param version The version of the report as it is displayed in the title.
    * 
    * @throws TemplateException Handles templates exceptions.
    * @throws IOException Handles IO Exception for the template.
    */
   @Async
   public void generateReport(Path zipTmpFilePath, String originalName, String dataSetId,
-      Task task) {
+      Task task, String version) {
     log.debug("Start generating report for {} and datasetId {}", originalName, dataSetId);
     try {
       // Configuration, based on Freemarker Version 2.3.23
@@ -171,7 +166,7 @@ public class DataSetReportService {
         String texVariableFileStr = ZipUtil.readFileFromZip(pathToVariableTexFile);
 
         // Load data for template only once
-        Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
+        Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId, version);
         try {
           String variableListFilledStr = this.fillTemplate(texVariableListFileStr,
               templateConfiguration, dataForTemplate, KEY_VARIABLELIST);
@@ -301,17 +296,18 @@ public class DataSetReportService {
   /**
    * This method load all needed objects from the db for filling the tex template.
    *
-   * @param dataSetId An id of the data acquision project id.
+   * @param dataSetId the id of the dataset.
+   * @param version The version of the report as it is displayed in the title.
    * @return A HashMap with all data for the template filling. The Key is the name of the Object,
    *         which is used in the template.
    */
-  private Map<String, Object> loadDataForTemplateFilling(String dataSetId) {
+  private Map<String, Object> loadDataForTemplateFilling(String dataSetId, String version) {
 
     // Create Map for the template
     Map<String, Object> dataForTemplate = new HashMap<>();
 
     // Create Information for the latex template.
-    dataForTemplate = this.addStudyAndDataSetAndLastRelease(dataForTemplate, dataSetId);
+    dataForTemplate = this.addStudyAndDataSetAndLastRelease(dataForTemplate, dataSetId, version);
     dataForTemplate = this.createVariableDependingMaps(dataForTemplate);
 
     return dataForTemplate;
@@ -323,27 +319,25 @@ public class DataSetReportService {
    *
    * @param dataForTemplate The map for the template with all added objects before this method.
    * @param dataSetId The id of the used data set; Root Element of the report.
+   * @param version The version of the report as it is displayed in the title.
    * @return The map for the template as fluent result. Added some created elements within this
    *         method.
    */
   private Map<String, Object> addStudyAndDataSetAndLastRelease(Map<String, Object> dataForTemplate,
-      String dataSetId) {
+      String dataSetId, String version) {
     // Get DataSet and check the valid result
     DataSet dataSet = this.dataSetRepository.findById(dataSetId).orElse(null);
     Study study;
-    Release lastRelease;
 
     if (dataSet != null) {
       study = this.studyRepository.findById(dataSet.getStudyId()).orElse(null);
-      lastRelease = projectVersionsService.findLastRelease(dataSet.getDataAcquisitionProjectId());
     } else {
       study = null;
-      lastRelease = null;
     }
 
     dataForTemplate.put("study", study);
     dataForTemplate.put("dataSet", dataSet);
-    dataForTemplate.put("lastRelease", lastRelease);
+    dataForTemplate.put("version", version);
 
     return dataForTemplate;
   }

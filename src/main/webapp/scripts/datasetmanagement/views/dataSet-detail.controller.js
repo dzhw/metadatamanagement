@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
              DataSetAttachmentResource, DataSetCitateDialogService,
              SearchResultNavigatorService, ProductChooserDialogService,
              DataAcquisitionProjectResource, OutdatedVersionNotifier,
-             $stateParams, blockUI) {
+             $stateParams, blockUI, $mdDialog) {
       blockUI.start();
 
       SearchResultNavigatorService
@@ -131,8 +131,20 @@ angular.module('metadatamanagementApp')
         }
       }).finally(blockUI.stop);
       ctrl.uploadTexTemplate = function(files) {
-        if (files != null) {
-          DataSetReportService.uploadTexTemplate(files, ctrl.dataSet.id);
+        if (files != null && files.length > 0) {
+          $mdDialog.show({
+            controller: 'CreateReportDialogController',
+            controllerAs: 'ctrl',
+            templateUrl: 'scripts/datasetmanagement/' +
+              'views/create-report-dialog.html.tmpl',
+            clickOutsideToClose: false,
+            fullscreen: true
+          }).then(function(version) {
+            DataSetReportService.uploadTexTemplate(files, ctrl.dataSet.id,
+              version);
+          }).finally(function() {
+            files = null;
+          });
         }
       };
 

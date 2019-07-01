@@ -71,7 +71,7 @@ public class TaskService {
    */
   public Task handleTaskDone(@NotNull Task task, String resultLocation) {
     task.setState(TaskState.DONE);
-    task.setLocation(resultLocation);
+    task.setLocation("/public/files" + resultLocation);
     return taskRepo.save(task);
   }
 
