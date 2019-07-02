@@ -1,19 +1,20 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderAlreadyCompletedException;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderState;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.stream.Stream;
+import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderAlreadyCompletedException;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderState;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service for creating and managing orders.
@@ -75,7 +76,7 @@ public class OrderService {
     log.info("Starting processing created orders...");
     try (Stream<Order> orders = orderRepository.findByState(OrderState.CREATED)) {
       orders.forEach(order -> {
-        mailService.sendOrderCreatedMail(order, ccEmail);
+        mailService.sendOrderCreatedMail(order, ccEmail, new String[] {ccEmail});
         order.setState(OrderState.NOTIFIED);
         orderRepository.save(order);
       });

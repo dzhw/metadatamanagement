@@ -24,6 +24,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
+import eu.dzhw.fdz.metadatamanagement.common.domain.TaskErrorNotification;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
@@ -55,7 +56,7 @@ public class MailService {
   @Value("${metadatamanagement.server.context-root}")
   private String baseUrl;
 
-  private Future<Void> sendEmail(String from, String[] to, String cc, String bcc, String subject,
+  private Future<Void> sendEmail(String from, String[] to, String[] cc, String bcc, String subject,
       String content, boolean isMultipart, boolean isHtml) {
     log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
         isMultipart, isHtml, to, subject, content);
@@ -66,7 +67,7 @@ public class MailService {
       MimeMessageHelper message =
           new MimeMessageHelper(mimeMessage, isMultipart, StandardCharsets.UTF_8.name());
       message.setTo(to);
-      if (StringUtils.hasText(cc)) {
+      if (cc != null && cc.length > 0) {
         message.setCc(cc);
       }
       if (StringUtils.hasText(bcc)) {
@@ -158,7 +159,7 @@ public class MailService {
   /**
    * Synchronously send an email to the customer and dataservice.
    */
-  public void sendOrderCreatedMail(Order order, String cc) {
+  public void sendOrderCreatedMail(Order order, String from, String[] cc) {
     log.debug("Sending notification email for order " + order.getId());
     Locale locale = Locale.forLanguageTag(order.getLanguageKey());
     Context context = new Context(locale);
@@ -166,8 +167,8 @@ public class MailService {
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("orderCreated", context);
     String subject = messageSource.getMessage("email.order.created.title", null, locale);
-    sendEmail(cc, new String[] {order.getCustomer().getEmail()}, cc, null, subject, content, false,
-        true);
+    sendEmail(from, new String[] {order.getCustomer().getEmail()}, cc, null, subject, content,
+        false, true);
   }
 
   /**
@@ -319,5 +320,33 @@ public class MailService {
     String subject = messageSource.getMessage("email.dataset-report-generated.title",
         new Object[] {dataSetId}, locale);
     sendEmail(sender, new String[] {user.getEmail()}, null, null, subject, content, false, true);
+  }
+
+  /**
+   * Send the error during dataset report generation to the user who started the task and to all
+   * admins.
+   * 
+   * @param onBehalfUser The user who has started the report generation.
+   * @param admins A list of admins.
+   * @param sender The sender of the email.
+   */
+  @Async
+  public void sendDataSetReportErrorMail(User onBehalfUser, List<User> admins,
+      TaskErrorNotification errorNotification, String sender) {
+    log.debug("Sending 'dataset report error' mail");
+    Locale locale = Locale.forLanguageTag(onBehalfUser.getLangKey());
+    Context context = new Context(locale);
+    context.setVariable("onBehalfUser", onBehalfUser);
+    context.setVariable("taskErrorNotification", errorNotification);
+    context.setVariable("locale", locale);
+    context.setVariable("baseUrl", baseUrl);
+    String content = templateEngine.process("datasetReportErrorEmail", context);
+    String subject = messageSource.getMessage("email.dataset-report-error.title",
+        new Object[] {errorNotification.getDomainObjectId()}, locale);
+    List<String> adminAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
+    sendEmail(sender, new String[] {onBehalfUser.getEmail()},
+        adminAddresses.toArray(new String[adminAddresses.size()]), null, subject, content, false,
+        true);
+
   }
 }
