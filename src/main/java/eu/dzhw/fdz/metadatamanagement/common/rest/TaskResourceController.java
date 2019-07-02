@@ -37,6 +37,9 @@ public class TaskResourceController
 
   private TaskService taskService;
 
+  /**
+   * Construct the service.
+   */
   @Autowired
   public TaskResourceController(TaskRepository taskRepo, UserService userService,
       TaskService taskService) {
@@ -57,10 +60,9 @@ public class TaskResourceController
   }
 
   /**
-   * get the task state by id.
+   * Notify admins and optionally the user for whom the task was executed about an error.
    * 
-   * @param taskId the Id of the task.
-   * @return the task object.
+   * @param errorNotification A valid {@link TaskErrorNotification} object.
    */
   @PostMapping("/tasks/error-notification")
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})

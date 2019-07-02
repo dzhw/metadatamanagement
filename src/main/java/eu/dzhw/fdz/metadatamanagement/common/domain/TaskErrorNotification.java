@@ -11,6 +11,12 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * DTO holding all information required for sending notifications to users in case an error occurred
+ * during task execution.
+ * 
+ * @author René Reitmann
+ */
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
 @NoArgsConstructor
@@ -18,24 +24,24 @@ import lombok.ToString;
 @Data
 @Builder
 public class TaskErrorNotification {
-  
+
   /**
    * The name of the user for which the task has been executed. May be empty.
    */
   private String onBehalfOf;
-  
+
   /**
    * An error message indicating the reason of the error. Must not be empty.
    */
   @NotEmpty
   private String errorMessage;
-  
+
   /**
    * The type of the task which has been executed. Must not be empty.
    */
   @NotNull
   private TaskType taskType;
-  
+
   /**
    * An id of a domainObject. May be empty.
    */
