@@ -69,6 +69,11 @@ Click on publications tab
     Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Publikationen')]
     Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Publications')]
 
+Click on concept tab
+    ${url} =    Get Location
+    Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Konzepte')]
+    Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Concepts')]
+
 Click Survey Edit Button
     Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='mode_edit']
 

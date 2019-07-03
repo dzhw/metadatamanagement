@@ -32,7 +32,7 @@ Upload Variable Report Template Single File
 Write Dataset Report Vesrion
     Input Text   name=version   0.0.1
     Click on OK Button
-    
+
 Click on protocol to check the error messages
     Click Element Through Tooltips   xpath=//button[@ng-click="showLog()"]//span[contains(., "Protokoll")]
 
@@ -42,3 +42,6 @@ Assert the error messages for missing files
 
 Close the protocol dialog
     Click Element Through Tooltips  xpath=//button[@ng-click="closeDialog()"][contains(., "Schließen")]
+
+Click on OK Button
+   Click Element Through Tooltips  xpath=//md-dialog-actions//button//span[contains(.,'OK')]

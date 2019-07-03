@@ -1,0 +1,104 @@
+*** Settings ***
+Documentation     Publisher Create Study
+Resource          ../../resources/login_resource.robot
+Resource          ../../resources/click_element_resource.robot
+Resource          ../../resources/search_resource.robot
+Resource          ../../resources/home_page_resource.robot
+
+*** Test Cases ***
+Create Concepts by Publisher
+    [Tags]  chromeonly
+    Get Back to german home page
+    Click on concept tab
+    Open Concept Create Page
+    Input Text    name=id    Concept-RDC-ID-007
+    Input Text    name=titleDe    Test Konzepte
+    Input Text    name=titleEn    Test Concept
+    Input Text    xpath=//textarea[@name="citationHint"]    Concept Citation Hint
+    Input Text    name=doi    Concept DOI
+    Input Text    name=descriptionDe   Concept Description in DE
+    Input Text    name=descriptionEn   Concept Description in EN
+    Input Text    name=authorsFirstName_0    Md Shakawath
+    Input Text    name=authorsMiddleName_0    noMiddleName
+    Input Text    name=authorsLastName_0    Hossain
+    Add Another Author
+    Focus    xpath=//input[@name = 'authorsFirstName_1']
+    Input Text    name=authorsFirstName_1    Md Rameez
+    Input Text    name=authorsMiddleName_1    noMiddleName
+    Input Text    name=authorsLastName_1    Raza
+    Move Second Author To Place One
+    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input[@type="search"]   Konzept Tag 007
+    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input[@type="search"]   Concept Tag 007
+    Input Text    xpath=//textarea[@name="license"]    Concept License Agreement
+    Select a language
+    Save Changes
+    Get back to german home page
+    Click on concept tab
+    Assert created concept under concept list
+    Check the details of the concept
+    Attach documents to the concept
+    Delete Concept
+
+*** Keywords ***
+Open Concept Create Page
+    Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
+
+Add Another Author
+    Click Element Through Tooltips    xpath=//md-card/descendant::button[md-icon[text()='add']]
+
+Move Second Author To Place One
+    Click Element Through Tooltips    xpath=//md-card/descendant::button[md-icon[text()='keyboard_arrow_up']]
+
+Select a language
+    Click Element Through Tooltips    xpath=//md-autocomplete[@md-search-text="languageName"]//input[@type="search"]
+    Click Element Through Tooltips    xpath=//md-virtual-repeat-container[@ng-hide="$mdAutocompleteCtrl.hidden"]//ul//li//span[contains(., "Akan")]
+
+Delete Concept
+    Click Element Through Tooltips    xpath=//a[contains(., "RDC-ID-007")]//following::button[md-icon[text()='delete_forever']]
+    Click Element Through Tooltips    xpath=//button[text()='Ja']
+
+Assert created concept under concept list
+    Page Should Contain Element     xpath=//div[@class="md-title fdz-truncate-string"]//span[contains(., "Test Konzepte")]
+
+Check the details of the concept
+    Click Element Through Tooltips   xpath=//div[@class="md-title fdz-truncate-string"]//span[contains(., "Test Konzepte")]
+
+Upload concept attchment file
+    Press Key   xpath=//input[@type='file' and @ngf-select="ctrl.upload($file)"][1]   ${CURDIR}/data/gra2005_MethodReport_de.pdf  # data folder contains the PDF file
+
+Select concept data type
+    Click Element Through Tooltips   xpath=//md-select[@ng-model="ctrl.conceptAttachmentMetadata.type"]
+    Click Element Through Tooltips   xpath=//md-select-menu//md-option[contains(., "Dokumentation")]
+
+Select a language for concept attachment
+    Clear Element Text   name=language2
+    Input Text    xpath=//md-input-container//input[@name="language2"]   Deutsch
+
+Select a Titel of the attachment
+    Input Text   xpath=//textarea[@name="title"]  Thiis is a titel text for concept attachment
+
+Write instrument description in de and en
+    Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.conceptAttachmentMetadata.description.de"]
+    Input Text   xpath=//md-input-container//input[@ng-model="ctrl.conceptAttachmentMetadata.description.de"]   Dataset Description De
+    Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.conceptAttachmentMetadata.description.en"]
+    Input Text   xpath=//md-input-container//input[@ng-model="ctrl.conceptAttachmentMetadata.description.en"]   Dataset Description En
+
+Save Changes for concept attachment
+    Click Element Through Tooltips    xpath=//div[@class="fdz-fab-button-container layout-column"]//button//md-icon[contains(., "save")]
+
+Assert gra2005_W1_Questionnaire in the attachment
+    Page Should Contain Element    xpath=//a[@ng-href="/public/files/concepts/con-Concept-RDC-ID-007$/attachments/gra2005_MethodReport_de.pdf"]
+
+Attach documents to the concept
+    Click Element Through Tooltips    xpath=//a[contains(., "RDC-ID-007")]//following::button[md-icon[text()="mode_edit"]]
+    Click Element Through Tooltips    xpath=//md-card-actions[@ng-if="!ctrl.createMode"]//button//md-icon[text()="add"]
+    Upload concept attchment file
+    Select concept data type
+    Select a language for concept attachment
+    Select a Titel of the attachment
+    Write instrument description in de and en
+    Save Changes for concept attachment
+    Assert gra2005_W1_Questionnaire in the attachment
+    Get back to german home page
+    Click on concept tab
+
