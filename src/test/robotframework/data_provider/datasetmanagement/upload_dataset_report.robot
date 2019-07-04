@@ -3,6 +3,7 @@ Documentation     Upload a variable report template to generate variable report.
 Library   OperatingSystem
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
+Resource          ../../resources/project_management_resource.robot
 
 *** Variables ***
 ${TOAST_MSSG_COMP}  Tex Dokument erfolgreich erzeugt
@@ -15,7 +16,7 @@ Upload single file in Dataset editor
     Click on data set tab
     Click on search result by id    dat-gra2005-ds2$
     Upload Variable Report Template Single File
-    Write Dataset Report Vesrion
+    Write Dataset Report Version
     Click on protocol to check the error messages
     Assert the error messages for missing files
     Close the protocol dialog
@@ -29,10 +30,10 @@ Get back to home page and deselect project
 Upload Variable Report Template Single File
     Choose File   xpath=//input[@type='file' and @ngf-select='ctrl.uploadTexTemplate($files)'][1]   ${CURDIR}${/}singlefile${/}Variablelist.tex  # singlefile folder contains only a single file
 
-Write Dataset Report Vesrion
+Write Dataset Report Version
     Input Text   name=version   0.0.1
     Click on OK Button
-    
+
 Click on protocol to check the error messages
     Click Element Through Tooltips   xpath=//button[@ng-click="showLog()"]//span[contains(., "Protokoll")]
 
