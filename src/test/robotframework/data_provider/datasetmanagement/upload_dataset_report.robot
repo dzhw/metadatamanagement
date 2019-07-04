@@ -3,7 +3,6 @@ Documentation     Upload a variable report template to generate variable report.
 Library   OperatingSystem
 Resource          ../../resources/home_page_resource.robot
 Resource          ../../resources/search_resource.robot
-Resource          ../../resources/project_management_resource.robot
 
 *** Variables ***
 ${TOAST_MSSG_COMP}  Tex Dokument erfolgreich erzeugt
@@ -43,3 +42,6 @@ Assert the error messages for missing files
 
 Close the protocol dialog
     Click Element Through Tooltips  xpath=//button[@ng-click="closeDialog()"][contains(., "Schließen")]
+
+Click on OK Button
+   Click Element Through Tooltips  xpath=//md-dialog-actions//button//span[contains(.,'OK')]
