@@ -36,6 +36,10 @@ spring:
             enabled: false
     thymeleaf:
         mode: HTML
+    cloud:
+      cloudfoundry:
+        discovery:
+          enabled: false
 
 logging:
     level:

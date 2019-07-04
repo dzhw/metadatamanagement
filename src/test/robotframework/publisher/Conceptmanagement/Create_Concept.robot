@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Publisher Create Study
+Documentation     Publisher Create concept and check the details of the concept. Eventually publisher delete the concept. 
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot

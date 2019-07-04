@@ -19,7 +19,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.cloudfoundry.client.CloudFoundryClient;
+import org.cloudfoundry.client.v3.applications.ApplicationResource;
+import org.cloudfoundry.client.v3.applications.ListApplicationsRequest;
+import org.cloudfoundry.client.v3.tasks.CreateTaskRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.loader.tools.RunProcess;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +34,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
@@ -81,6 +89,12 @@ public class DataSetReportService {
   @Autowired
   private TaskService taskService;
 
+  @Autowired
+  private Environment environment;
+
+  @Autowired(required = false)
+  private CloudFoundryClient cloudFoundryClient;
+
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
    * Prefix will be copied before the template source code.
@@ -118,18 +132,19 @@ public class DataSetReportService {
    * This service method will receive a tex template as a string and an id of a data set. With this
    * id, the service will load the data set for receiving all depending information, which are
    * needed for filling of the tex template with data.
+   *
    * @param zipTmpFilePath The path to uploaded zip file
    * @param originalName the original name of multipartfile
    * @param dataSetId An id of the data set.
    * @param task the task to update the status of the pro
    * @param version The version of the report as it is displayed in the title.
-   * 
+   *
    * @throws TemplateException Handles templates exceptions.
    * @throws IOException Handles IO Exception for the template.
    */
   @Async
-  public void generateReport(Path zipTmpFilePath, String originalName, String dataSetId,
-      Task task, String version) {
+  public void generateReport(Path zipTmpFilePath, String originalName, String dataSetId, Task task,
+      String version) {
     log.debug("Start generating report for {} and datasetId {}", originalName, dataSetId);
     try {
       // Configuration, based on Freemarker Version 2.3.23
@@ -219,7 +234,7 @@ public class DataSetReportService {
 
   /**
    * Checks for all files which are included for the tex template.
-   * 
+   *
    * @param zipFileSystem The zip file as file system
    * @return True if all files are included. False min one file is missing.
    */
@@ -349,7 +364,7 @@ public class DataSetReportService {
    * variable has (key is variable.id) firstTenValues: The first ten isAMissing values for one tex
    * template layout. (key is variable.id) lastTenValues: The last ten isAMissing values for one tex
    * template layout. (key is variable.id)
-   * 
+   *
    * @param dataForTemplate The map for the template with all added objects before this method.
    * @return The map for the template as fluent result. Added some created elements within this
    *         method.
@@ -448,5 +463,38 @@ public class DataSetReportService {
 
       return variable.getId();
     }
+  }
+
+  /**
+   * Start the container which builds the report. Either via cloudfoundry or locally via docker.
+   *
+   * @param dataSetId The id of the dataSet for which the report will be generated.
+   * @param version The version of the dataset report.
+   * @param onBehalfOf The name of the user which wants to generate the report.
+   * @throws IOException in case the local task cannot be started
+   */
+  public void startDataSetReportTask(String dataSetId, String version, String onBehalfOf)
+      throws IOException {
+    if (environment.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {
+      log.debug("Starting docker container from image dataset-report-task...");
+      RunProcess dataSetReportTaskContainer = new RunProcess(
+          "src/main/resources/bin/run-dataset-report-task.sh", dataSetId, version, onBehalfOf);
+      dataSetReportTaskContainer.run(false);
+    } else {
+      log.debug("Starting cloudfoundry task dataset-report-task...");
+      cloudFoundryClient.tasks().create(
+          CreateTaskRequest.builder().name(dataSetId + " for " + onBehalfOf)
+              .applicationId(getApplicationId("dataset-report-task"))
+              .command("java -jar /app/dataset-report-task.jar --task.dataSetId=" + dataSetId
+                  + " --task.version=" + version + " --task.onBehalfOf=" + onBehalfOf)
+              .build()).block();
+    }
+  }
+
+  private String getApplicationId(String name) {
+    return cloudFoundryClient.applicationsV3()
+        .list(ListApplicationsRequest.builder().name(name).build())
+        .flatMapIterable(response -> response.getResources()).single()
+        .map(ApplicationResource::getId).block();
   }
 }
