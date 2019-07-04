@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
   .controller('DataSetDetailController',
     function(entity, Principal,
              VariableSearchService, ProjectUpdateAccessService,
-             DataSetSearchService, DataSetReportService, PageTitleService,
+             DataSetSearchService, DataSetReportResource, PageTitleService,
              LanguageService, $state, ToolbarHeaderService,
              CleanJSObjectService, SimpleMessageToastService,
              DataSetAttachmentResource, DataSetCitateDialogService,
@@ -130,22 +130,23 @@ angular.module('metadatamanagementApp')
           );
         }
       }).finally(blockUI.stop);
-      ctrl.uploadTexTemplate = function(files) {
-        if (files != null && files.length > 0) {
-          $mdDialog.show({
-            controller: 'CreateReportDialogController',
-            controllerAs: 'ctrl',
-            templateUrl: 'scripts/datasetmanagement/' +
-              'views/create-report-dialog.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true
-          }).then(function(version) {
-            DataSetReportService.uploadTexTemplate(files, ctrl.dataSet.id,
-              version);
-          }).finally(function() {
-            files = null;
-          });
-        }
+      ctrl.generateDataSetReport = function() {
+        $mdDialog.show({
+          controller: 'CreateReportDialogController',
+          controllerAs: 'ctrl',
+          templateUrl: 'scripts/datasetmanagement/' +
+            'views/create-report-dialog.html.tmpl',
+          clickOutsideToClose: false,
+          fullscreen: true
+        }).then(function(version) {
+          DataSetReportResource.startGeneration({
+            dataSetId: ctrl.dataSet.id,
+            version: version}).$promise.then(function() {
+              // show toast
+            }).catch(function() {
+              // show toast
+            });
+        });
       };
 
       ctrl.addToShoppingCart = function(event) {

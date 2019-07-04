@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +58,23 @@ public class DataSetReportResource {
   private String sender;
 
   /**
+   * Start the generation of a dataset report for the given {@link DataSet}.
+   * 
+   * @param dataSetId The id of the {@link DataSet} for which we need to generate the report.
+   * @param version The version of the report.
+   * @return ok if the generation has been started successfully.
+   * @throws IOException If the external task cannot be started.
+   */
+  @PostMapping(value = "/data-sets/{dataSetId}/report/generate/{version:.+}")
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  public ResponseEntity<?> startReportGeneration(@PathVariable("dataSetId") String dataSetId,
+      @PathVariable("version") String version, HttpServletRequest request) throws IOException {
+    dataSetReportService.startDataSetReportTask(dataSetId, version,
+        request.getUserPrincipal().getName());
+    return ResponseEntity.ok().build();
+  }
+
+  /**
    * Fill the given zip file which contains latex templates.
    *
    * @param templateZip The latex template as multipart file
@@ -64,7 +83,7 @@ public class DataSetReportResource {
    * @throws IOException Handles io exception for the template. (Freemarker Templates)
    * @throws TemplateException Handles template exceptions. (Freemarker Templates)
    */
-  @PostMapping(value = "/data-sets/{dataSetId}/fill-template")
+  @PostMapping(value = "/data-sets/{dataSetId}/report/fill-template")
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<Task> fillTemplate(@RequestParam("file") MultipartFile templateZip,
       @PathVariable("dataSetId") String dataSetId, @RequestParam("version") String version)
@@ -86,7 +105,6 @@ public class DataSetReportResource {
       // Return bad request, if file is empty.
       return ResponseEntity.badRequest().body(null);
     }
-
   }
 
   /**
