@@ -14,8 +14,7 @@ import org.springframework.security.access.annotation.Secured;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
- * Base repository from which all repository inherit access rights to modifying
- * methods.
+ * Base repository from which all repository inherit access rights to modifying methods.
  * 
  * @author René Reitmann
  *
@@ -26,37 +25,45 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 public interface BaseRepository<T, ID extends Serializable>
     extends MongoRepository<T, ID>, CrudRepository<T, ID>, QuerydslPredicateExecutor<T> {
   @Override
-  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.TASK_USER})
   void delete(T entity);
-  
+
   @Override
-  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.TASK_USER})
   void deleteById(ID id);
-  
+
   @Override
-  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.TASK_USER})
   void deleteAll(Iterable<? extends T> entities);
-  
+
   @Override
-  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.TASK_USER})
   void deleteAll();
-  
+
   @Override
-  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.TASK_USER})
   <S extends T> List<S> saveAll(Iterable<S> entites);
-  
+
   @Override
-  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.TASK_USER})
   <S extends T> S save(S entity);
-  
+
   @Override
-  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.TASK_USER})
   <S extends T> List<S> insert(Iterable<S> entities);
-  
+
   @Override
-  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.TASK_USER})
   <S extends T> S insert(S entity);
-  
+
   @RestResource(exported = false)
   <S extends T> Stream<S> streamAllBy();
 }

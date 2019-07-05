@@ -65,7 +65,7 @@ public class TaskResourceController
    * @param errorNotification A valid {@link TaskErrorNotification} object.
    */
   @PostMapping("/tasks/error-notification")
-  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  @Secured(value = {AuthoritiesConstants.TASK_USER})
   public ResponseEntity<?> getTaskStatus(
       @RequestBody @Valid TaskErrorNotification errorNotification) {
     if (StringUtils.isEmpty(errorNotification.getOnBehalfOf())) {

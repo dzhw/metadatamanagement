@@ -142,9 +142,8 @@ angular.module('metadatamanagementApp')
           DataSetReportResource.startGeneration({
             dataSetId: ctrl.dataSet.id,
             version: version}).$promise.then(function() {
-              // show toast
-            }).catch(function() {
-              // show toast
+              SimpleMessageToastService.openSimpleMessageToast(
+                'data-set-management.detail.report-generation-started-toast');
             });
         });
       };

@@ -84,7 +84,7 @@ public class DataSetReportResource {
    * @throws TemplateException Handles template exceptions. (Freemarker Templates)
    */
   @PostMapping(value = "/data-sets/{dataSetId}/report/fill-template")
-  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  @Secured(value = {AuthoritiesConstants.TASK_USER})
   public ResponseEntity<Task> fillTemplate(@RequestParam("file") MultipartFile templateZip,
       @PathVariable("dataSetId") String dataSetId, @RequestParam("version") String version)
       throws IOException, TemplateException, TemplateIncompleteException {
@@ -118,7 +118,7 @@ public class DataSetReportResource {
    * @throws IOException Thrown if the multipart file cannot be read.
    */
   @PostMapping(value = "/data-sets/{dataSetId}/report")
-  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  @Secured(value = {AuthoritiesConstants.TASK_USER})
   public ResponseEntity<?> uploadReport(@RequestParam("file") MultipartFile reportFile,
       @PathVariable("dataSetId") String dataSetId, @RequestParam("onBehalfOf") String onBehalfOf)
       throws IOException {
