@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.cloudfoundry.client.CloudFoundryClient;
-import org.cloudfoundry.client.v3.applications.ApplicationResource;
-import org.cloudfoundry.client.v3.applications.ListApplicationsRequest;
 import org.cloudfoundry.client.v3.tasks.CreateTaskRequest;
+import org.cloudfoundry.operations.CloudFoundryOperations;
+import org.cloudfoundry.operations.applications.ApplicationSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.loader.tools.RunProcess;
 import org.springframework.core.env.Environment;
@@ -99,6 +99,9 @@ public class DataSetReportService {
 
   @Autowired(required = false)
   private CloudFoundryClient cloudFoundryClient;
+
+  @Autowired(required = false)
+  private CloudFoundryOperations cloudFoundryOperations;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -498,9 +501,8 @@ public class DataSetReportService {
   }
 
   private String getApplicationId(String name) {
-    return cloudFoundryClient.applicationsV3()
-        .list(ListApplicationsRequest.builder().name(name).build())
-        .flatMapIterable(response -> response.getResources()).single()
-        .map(ApplicationResource::getId).block();
+    return cloudFoundryOperations.applications().list()
+        .filter(application -> application.getName().equalsIgnoreCase(name))
+        .map(ApplicationSummary::getId).single().block();
   }
 }
