@@ -1,13 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
-import com.mongodb.client.gridfs.model.GridFSFile;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+
 import org.javers.core.Javers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -19,10 +16,18 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
+import com.mongodb.client.gridfs.model.GridFSFile;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 
 /**
  * Service for managing attachments for data sets.
@@ -39,6 +44,9 @@ public class DataSetAttachmentService {
 
   @Autowired
   private Javers javers;
+
+  @Autowired
+  private DataSetRepository dataSetRepository;
 
   @Autowired
   private DataSetAttachmentMetadataShadowCopyDataSource shadowCopyDataSource;
@@ -165,6 +173,32 @@ public class DataSetAttachmentService {
     String currentUser = SecurityUtils.getCurrentUserLogin();
     this.operations.delete(fileQuery);
     javers.commitShallowDelete(currentUser, metadata);
+  }
+
+  /**
+   * Attach the given file as data set report to the data set.
+   * @param dataSetId The id of a {@link DataSet}.
+   * @param reportFile The pdf file.
+   * @throws IOException Thrown if the multipart file cannot be read.
+   */
+  public void attachDataSetReport(String dataSetId, MultipartFile reportFile) throws IOException {
+    DataSet dataSet = dataSetRepository.findById(dataSetId).get();
+    DataSetAttachmentMetadata metadata = DataSetAttachmentMetadata.builder()
+        .dataSetId(dataSetId)
+        .dataAcquisitionProjectId(dataSet.getDataAcquisitionProjectId())
+        .dataSetNumber(dataSet.getNumber())
+        .fileName(
+            "dsreport-" + dataSet.getDataAcquisitionProjectId()
+            + "-ds" + dataSet.getNumber() + ".pdf")
+        .title("Datensatzreport:\n" + dataSet.getDescription().getDe())
+        .description(new I18nString(
+            "Codebook, Variablenreport und Datensatzreport von " + dataSet.getDescription().getDe(),
+            "Codebook, Variable Report and Dataset Report of " + dataSet.getDescription().getEn()))
+        .language("de")
+        .indexInDataSet(0)
+        .build();
+    deleteByDataSetIdAndFilename(dataSetId, metadata.getFileName());
+    createDataSetAttachment(reportFile, metadata);
   }
 
   /**

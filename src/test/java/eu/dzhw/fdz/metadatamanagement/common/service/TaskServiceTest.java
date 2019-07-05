@@ -62,7 +62,7 @@ public class TaskServiceTest extends AbstractTest {
     Task taskForDone = taskRepo.insert(Task.builder().id(id).state(TaskState.RUNNING).build());
     Task result = taskService.handleTaskDone(taskForDone, resultLocation);
     assertEquals(id, result.getId());
-    assertEquals(resultLocation, result.getLocation());
+    assertEquals("/public/files" + resultLocation, result.getLocation());
     assertEquals(TaskState.DONE, result.getState());
     assertNull(result.getErrorList());
 

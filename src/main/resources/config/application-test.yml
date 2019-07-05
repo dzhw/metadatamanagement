@@ -21,6 +21,14 @@ spring:
         password: ${vcap.services.email.credentials.password}
     thymeleaf:
         cache: true
+    cloud:
+      cloudfoundry:
+        username: ${vcap.services.cloudfoundry.credentials.username}
+        password: ${vcap.services.cloudfoundry.credentials.password}
+        org: dzhw
+        space: test
+        discovery:
+          enabled: true
 
 # ===================================================================
 # Properties specific to our application
