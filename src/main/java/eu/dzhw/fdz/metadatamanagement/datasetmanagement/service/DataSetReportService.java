@@ -24,7 +24,6 @@ import org.cloudfoundry.client.v3.tasks.CreateTaskRequest;
 import org.cloudfoundry.operations.CloudFoundryOperations;
 import org.cloudfoundry.operations.applications.ApplicationSummary;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.loader.tools.RunProcess;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
@@ -103,12 +102,6 @@ public class DataSetReportService {
 
   @Autowired(required = false)
   private CloudFoundryOperations cloudFoundryOperations;
-
-  @Value("${spring.cloud.cloudfoundry.org:#{null}}")
-  private String cloudfoundryOrg;
-
-  @Value("${spring.cloud.cloudfoundry.space:#{null}}")
-  private String cloudfoundrySpace;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
