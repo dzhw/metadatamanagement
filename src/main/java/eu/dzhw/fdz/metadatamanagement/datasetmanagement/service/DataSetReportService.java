@@ -35,6 +35,8 @@ import com.google.common.collect.Maps;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.DatasetReportTask;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
@@ -91,6 +93,9 @@ public class DataSetReportService {
 
   @Autowired
   private Environment environment;
+
+  @Autowired
+  private MetadataManagementProperties metadataManagementProperties;
 
   @Autowired(required = false)
   private CloudFoundryClient cloudFoundryClient;
@@ -481,15 +486,14 @@ public class DataSetReportService {
           "src/main/resources/bin/run-dataset-report-task.sh", dataSetId, version, onBehalfOf);
       dataSetReportTaskContainer.run(false);
     } else {
-      log.debug("Starting cloudfoundry task dataset-report-task...");
-      cloudFoundryClient.tasks().create(
-          CreateTaskRequest.builder().name(dataSetId + " for " + onBehalfOf)
-              .applicationId(getApplicationId("dataset-report-task"))
-              .command("java -jar /app/dataset-report-task.jar --task.dataSetId=" + dataSetId
-                  + " --task.version=" + version + " --task.onBehalfOf=" + onBehalfOf)
-              .diskInMb(2048)
-              .memoryInMb(128)
-              .build()).block();
+      DatasetReportTask taskProperties = metadataManagementProperties.getDatasetReportTask();
+      log.debug("Starting cloudfoundry task {}...", taskProperties.getAppName());
+      cloudFoundryClient.tasks().create(CreateTaskRequest.builder()
+          .name(dataSetId + " for " + onBehalfOf)
+          .applicationId(getApplicationId(taskProperties.getAppName()))
+          .command(String.format(taskProperties.getStartCommand(), dataSetId, version, onBehalfOf))
+          .diskInMb(taskProperties.getDiskSizeInMb()).memoryInMb(taskProperties.getMemorySizeInMb())
+          .build()).block();
     }
   }
 

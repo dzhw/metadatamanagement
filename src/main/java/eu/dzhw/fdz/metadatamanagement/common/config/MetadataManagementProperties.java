@@ -8,8 +8,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.searchbox.client.JestClient;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Configuration Properties which are defined by our application.
@@ -18,6 +19,8 @@ import io.searchbox.client.JestClient;
  * @author René Reitmann
  */
 @ConfigurationProperties(prefix = "metadatamanagement", ignoreUnknownFields = false)
+@Getter
+@Setter
 public class MetadataManagementProperties {
 
   private final Elasticsearch elasticsearch = new Elasticsearch();
@@ -40,63 +43,18 @@ public class MetadataManagementProperties {
   private final Ordermanagement ordermanagement = new Ordermanagement();
 
   private final Projectmanagement projectmanagement = new Projectmanagement();
-
-  public Elasticsearch getElasticsearch() {
-    return elasticsearch;
-  }
-
-  public ElasticsearchClient getElasticsearchClient() {
-    return elasticsearchClient;
-  }
-
-  public ElasticsearchAngularClient getElasticsearchAngularClient() {
-    return elasticsearchAngularClient;
-  }
-
-  public Dara getDara() {
-    return dara;
-  }
-
-  public Dlp getDlp() {
-    return dlp;
-  }
-
-  public Rabbitmq getRabbitmq() {
-    return rabbitmq;
-  }
-
-  public Websockets getWebsockets() {
-    return websockets;
-  }
-
-  public Server getServer() {
-    return server;
-  }
-
-  public Ordermanagement getOrdermanagement() {
-    return ordermanagement;
-  }
-
-  public Projectmanagement getProjectmanagement() {
-    return projectmanagement;
-  }
+  
+  private final DatasetReportTask datasetReportTask = new DatasetReportTask();
 
   /**
    * Configure the current elasticsearch server version for testing.
    *
    * @author René Reitmann
    */
+  @Getter
+  @Setter
   public static class Elasticsearch {
     private String version = "6.3.2";
-
-    public String getVersion() {
-      return version;
-    }
-
-    public void setVersion(String version) {
-      this.version = version;
-    }
-
   }
 
   /**
@@ -104,26 +62,12 @@ public class MetadataManagementProperties {
    *
    * @author René Reitmann
    */
+  @Getter
+  @Setter
   public static class ElasticsearchClient {
     // default connection url
     private String url = "http://localhost:9200";
     private int readTimeout = 60000;
-
-    public String getUrl() {
-      return this.url;
-    }
-
-    public void setUrl(String url) {
-      this.url = url;
-    }
-
-    public int getReadTimeout() {
-      return readTimeout;
-    }
-
-    public void setReadTimeout(int readTimeout) {
-      this.readTimeout = readTimeout;
-    }
   }
 
   /**
@@ -131,43 +75,14 @@ public class MetadataManagementProperties {
    *
    * @author Amine Limouri
    */
+  @Getter
+  @Setter
   public static class ElasticsearchAngularClient {
     // default connection url
     private String url = "http://localhost:9200";
     private String apiVersion = "5.1";
     private String logLevel = "trace";
     private Integer pageSize = 10;
-
-    public String getUrl() {
-      return this.url;
-    }
-
-    public void setUrl(String url) {
-      this.url = url;
-    }
-
-    public String getApiVersion() {
-      return apiVersion;
-    }
-
-    public void setApiVersion(String apiVersion) {
-    }
-
-    public String getLogLevel() {
-      return logLevel;
-    }
-
-    public void setLogLevel(String logLevel) {
-      this.logLevel = logLevel;
-    }
-
-    public Integer getPageSize() {
-      return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-      this.pageSize = pageSize;
-    }
   }
 
   /**
@@ -175,50 +90,24 @@ public class MetadataManagementProperties {
    *
    * @author Daniel Katzberg
    */
+  @Getter
+  @Setter
   public static class Dara {
     private String endpoint;
     private String username;
     private String password;
-
-    public String getEndpoint() {
-      return endpoint;
-    }
-
-    public void setEndpoint(String endpoint) {
-      this.endpoint = endpoint;
-    }
-
-    @SuppressFBWarnings("NM_CONFUSING")
-    public String getUsername() {
-      return username;
-    }
-
-    public void setUsername(String username) {
-      this.username = username;
-    }
-
-    public String getPassword() {
-      return password;
-    }
-
-    public void setPassword(String password) {
-      this.password = password;
-    }
   }
 
   /**
    * Configuration Properties for RabbitMQ (ignored in LOCAL mode).
    */
+  @Getter
   public static class Rabbitmq {
     private String uri;
     private String username;
     private String password;
     private String host;
     private String virtualHost;
-
-    public String getUri() {
-      return uri;
-    }
 
     /**
      * Set the uri and decode its components.
@@ -255,16 +144,10 @@ public class MetadataManagementProperties {
    *
    * @author René Reitmann
    */
+  @Getter
+  @Setter
   public static class Websockets {
     private List<String> allowedOrigins = new ArrayList<String>();
-
-    public List<String> getAllowedOrigins() {
-      return allowedOrigins;
-    }
-
-    public void setAllowedOrigins(List<String> allowedOrigins) {
-      this.allowedOrigins = allowedOrigins;
-    }
   }
 
   /**
@@ -272,26 +155,12 @@ public class MetadataManagementProperties {
    *
    * @author René Reitmann
    */
+  @Getter
+  @Setter
   public static class Server {
     private String contextRoot = null;
 
     private Integer instanceIndex = null;
-
-    public Integer getInstanceIndex() {
-      return instanceIndex;
-    }
-
-    public void setInstanceIndex(Integer instanceIndex) {
-      this.instanceIndex = instanceIndex;
-    }
-
-    public String getContextRoot() {
-      return contextRoot;
-    }
-
-    public void setContextRoot(String contextRoot) {
-      this.contextRoot = contextRoot;
-    }
   }
 
   /**
@@ -299,45 +168,39 @@ public class MetadataManagementProperties {
    *
    * @author René Reitmann
    */
+  @Getter
+  @Setter
   public static class Ordermanagement {
     private String email = "";
-
-    public String getEmail() {
-      return email;
-    }
-
-    public void setEmail(String email) {
-      this.email = email;
-    }
   }
 
   /**
    * Project Management properties.
    */
+  @Getter
+  @Setter
   public static class Projectmanagement {
     private String email = "";
-
-    public String getEmail() {
-      return email;
-    }
-
-    public void setEmail(String email) {
-      this.email = email;
-    }
   }
 
   /**
    * DLP properties.
    */
+  @Getter
+  @Setter
   public static class Dlp {
     private String endpoint;
-
-    public String getEndpoint() {
-      return endpoint;
-    }
-
-    public void setEndpoint(String endpoint) {
-      this.endpoint = endpoint;
-    }
+  }
+  
+  /**
+   * Properties for the dataset-report-task.
+   */
+  @Getter
+  @Setter
+  public static class DatasetReportTask {
+    private Integer diskSizeInMb;
+    private Integer memorySizeInMb;
+    private String startCommand;
+    private String appName;
   }
 }
