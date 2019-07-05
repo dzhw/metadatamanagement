@@ -34,9 +34,21 @@ spring:
         max-file-size: 15MB
         max-request-size: 15MB
     cloud:
+      refresh:
+        enabled: false
+      service-registry:
+        auto-registration:
+          enabled: false
+      discovery:
+        client:
+          composite-indicator:
+            enabled: false
+          health-indicator:
+            enabled: false
       cloudfoundry:
         discovery:
           enabled: false
+          
 
 logging:
   level:
