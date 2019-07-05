@@ -87,6 +87,8 @@ management:
   health:
     elasticsearch:
       enabled: false
+    refresh:
+      enabled: false
 
 javers:
   algorithm: levenshtein_distance

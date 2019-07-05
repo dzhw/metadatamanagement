@@ -487,6 +487,8 @@ public class DataSetReportService {
               .applicationId(getApplicationId("dataset-report-task"))
               .command("java -jar /app/dataset-report-task.jar --task.dataSetId=" + dataSetId
                   + " --task.version=" + version + " --task.onBehalfOf=" + onBehalfOf)
+              .diskInMb(2048)
+              .memoryInMb(128)
               .build()).block();
     }
   }
