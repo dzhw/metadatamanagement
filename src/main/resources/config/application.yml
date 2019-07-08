@@ -33,6 +33,22 @@ spring:
       multipart:
         max-file-size: 15MB
         max-request-size: 15MB
+    cloud:
+      refresh:
+        enabled: false
+      service-registry:
+        auto-registration:
+          enabled: false
+      discovery:
+        client:
+          composite-indicator:
+            enabled: false
+          health-indicator:
+            enabled: false
+      cloudfoundry:
+        discovery:
+          enabled: false
+          
 
 logging:
   level:
@@ -71,6 +87,8 @@ management:
   health:
     elasticsearch:
       enabled: false
+    refresh:
+      enabled: false
 
 javers:
   algorithm: levenshtein_distance
@@ -84,6 +102,11 @@ metadatamanagement:
     email: reitmann@dzhw.eu
   dlp:
     endpoint: http://fakedlpendpoint.de
+  dataset-report-task:
+    app-name: dataset-report-task
+    disk-size-in-mb: 2048
+    memory-size-in-mb: 256
+    start-command: java -jar /app/dataset-report-task.jar --task.dataSetId=%1$s --task.version=%2$s --task.onBehalfOf=%3$s
 
 # ===================================================================
 # JHipster specific properties

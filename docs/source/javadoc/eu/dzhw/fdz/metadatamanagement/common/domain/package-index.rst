@@ -24,4 +24,5 @@ Common domain objects which can be used in all other subdomains of this applicat
    Task
    Task-TaskState
    Task-TaskType
+   TaskErrorNotification
 

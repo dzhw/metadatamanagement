@@ -1,13 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 
-import com.mongodb.client.gridfs.model.GridFSFile;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+
 import org.javers.core.Javers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -19,10 +16,18 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
+import com.mongodb.client.gridfs.model.GridFSFile;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
+import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 
 /**
  * Service for managing attachments for data sets.
@@ -41,6 +46,9 @@ public class DataSetAttachmentService {
   private Javers javers;
 
   @Autowired
+  private DataSetRepository dataSetRepository;
+
+  @Autowired
   private DataSetAttachmentMetadataShadowCopyDataSource shadowCopyDataSource;
 
   @Autowired
@@ -51,6 +59,7 @@ public class DataSetAttachmentService {
 
   /**
    * Save the attachment for a data set.
+   * 
    * @param metadata The metadata of the attachment.
    * @return The GridFs filename.
    * @throws IOException thrown when the input stream is not closable
@@ -75,6 +84,7 @@ public class DataSetAttachmentService {
 
   /**
    * Update the metadata of the attachment.
+   * 
    * @param metadata The new metadata.
    */
   public void updateAttachmentMetadata(DataSetAttachmentMetadata metadata) {
@@ -90,9 +100,8 @@ public class DataSetAttachmentService {
    */
   public void deleteAllByDataSetId(String dataSetId) {
     String currentUser = SecurityUtils.getCurrentUserLogin();
-    Query query = new Query(GridFsCriteria.whereFilename()
-        .regex(
-            "^" + Pattern.quote(DataSetAttachmentFilenameBuilder.buildFileNamePrefix(dataSetId))));
+    Query query = new Query(GridFsCriteria.whereFilename().regex(
+        "^" + Pattern.quote(DataSetAttachmentFilenameBuilder.buildFileNamePrefix(dataSetId))));
     Iterable<GridFSFile> files = this.operations.find(query);
     files.forEach(file -> {
       DataSetAttachmentMetadata metadata =
@@ -112,9 +121,8 @@ public class DataSetAttachmentService {
    * @return A list of metadata.
    */
   public List<DataSetAttachmentMetadata> findAllByDataSet(String dataSetId) {
-    Query query = new Query(GridFsCriteria.whereFilename()
-        .regex(
-            "^" + Pattern.quote(DataSetAttachmentFilenameBuilder.buildFileNamePrefix(dataSetId))));
+    Query query = new Query(GridFsCriteria.whereFilename().regex(
+        "^" + Pattern.quote(DataSetAttachmentFilenameBuilder.buildFileNamePrefix(dataSetId))));
     query.with(new Sort(Sort.Direction.ASC, "metadata.indexInDataSet"));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<DataSetAttachmentMetadata> result = new ArrayList<>();
@@ -168,7 +176,33 @@ public class DataSetAttachmentService {
   }
 
   /**
+   * Attach the given file as data set report to the data set.
+   * 
+   * @param dataSetId The id of a {@link DataSet}.
+   * @param reportFile The pdf file.
+   * @throws IOException Thrown if the multipart file cannot be read.
+   */
+  public void attachDataSetReport(String dataSetId, MultipartFile reportFile) throws IOException {
+    DataSet dataSet = dataSetRepository.findById(dataSetId).get();
+    DataSetAttachmentMetadata metadata = DataSetAttachmentMetadata.builder().dataSetId(dataSetId)
+        .dataAcquisitionProjectId(dataSet.getDataAcquisitionProjectId())
+        .dataSetNumber(dataSet.getNumber())
+        .fileName("dsreport-"
+            + dataSet.getDataAcquisitionProjectId() + "-ds" + dataSet.getNumber() + ".pdf")
+        .title("Datensatzreport:\n" + dataSet.getDescription().getDe())
+        .description(new I18nString(
+            "Codebook/Variablenreport/Datensatzreport von \"" + dataSet.getDescription().getDe()
+                + "\"",
+            "Codebook/Variable Report/Dataset Report of \"" + dataSet.getDescription().getEn()
+                + "\""))
+        .language("de").indexInDataSet(0).build();
+    deleteByDataSetIdAndFilename(dataSetId, metadata.getFileName());
+    createDataSetAttachment(reportFile, metadata);
+  }
+
+  /**
    * Create shadow copies for {@link DataSetAttachmentMetadata} on project release.
+   * 
    * @param projectReleasedEvent Released project event
    */
   @EventListener

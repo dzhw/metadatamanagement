@@ -17,7 +17,7 @@ Please checkout the development branch before starting to code and create a new 
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
-1. Java: You need to install java 8 sdk on your system. On Ubuntu you should use [SDKMAN!][]
+1. Java: You need to install java 11 sdk on your system. On Ubuntu you should use [SDKMAN!][]
 2. Maven: You need to install maven 3 on your system. On Ubuntu you should use [SDKMAN!][]
 3. [Node.js][]: Node.js (latest) and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][]
 

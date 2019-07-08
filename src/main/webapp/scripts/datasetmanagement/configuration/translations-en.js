@@ -26,11 +26,6 @@ angular.module('metadatamanagementApp').config(
           'sub-data-set': {
             'unknown-data-set-number': 'The Subdataset from the line {{ index }} in the worksheet "subDataSets" of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.',
             'citation-success-copy-to-clipboard': 'The citation was copied succesfully into the clipboard.'
-          },
-          'tex': {
-            'upload-terminated': 'Tex file upload terminated!',
-            'saved': 'Tex file was created successfully!',
-            'cancelled': 'Tex file creation cancelled!'
           }
         },
         'home': {
@@ -123,7 +118,7 @@ angular.module('metadatamanagementApp').config(
             'true': 'Click to maximize',
             'false': 'Click to minimize'
           },
-          'generate-variable-report-tooltip': 'Click to generate variable report',
+          'generate-dataset-report-tooltip': 'Click to generate the dataset report for this dataset',
           'not-released-toast': 'Data Set "{{ id }}" has not yet been released to all users!',
           'tooltips': {
             'data-sets': {
@@ -149,12 +144,10 @@ angular.module('metadatamanagementApp').config(
               'one': 'Click to show the study of this data set'
             },
             'get-data-set-tooltip': 'Click for information on data access'
-          }
+          },
+          'report-generation-started-toast': 'The dataset report is now being generated. You will be notified by e-mail as soon as the process is completed.'
         },
         'error': {
-          'files-in-template-zip-incomplete': 'The uploaded files for the data set report were not complete. The missing file is: {{invalidValue}}',
-          'tex-template-error': 'The generation of the data set report failed. There was an error: {{invalidValue}}',
-          'io-error': 'A server error occured. The report could not be genereated.',
           'data-set': {
             'unique-data-set-number-in-project': 'The number of the Data Set is not unique within the study.',
             'id': {
@@ -334,6 +327,24 @@ angular.module('metadatamanagementApp').config(
                 }
             },
             'all-data-sets-deleted-toast': 'All data sets of the Data Acquisition Project "{{id}}" have been deleted.'
+        },
+        'create-report': {
+          'title': 'Generate Dataset Report',
+          'version': 'Version of the Report',
+          'error': {
+            'version': {
+              'not-empty': 'The version must not be empty.',
+              'pattern': 'The version must match the pattern "major.minor.patch" (e.g. "1.0.0").',
+              'size': 'The version must not contain more than 32 characters.'
+            }
+          },
+          'hints': {
+            'version': 'Specify the version number to be displayed on the title page of the dataset report.'
+          },
+          'tooltip': {
+            'cancel': 'Click to cancel the generation of the report',
+            'ok': 'Click to start the generation of the report'
+          }
         }
       }
       //jscs:enable
