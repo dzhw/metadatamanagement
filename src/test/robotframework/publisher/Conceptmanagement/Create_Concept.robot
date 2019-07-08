@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Publisher Create concept and check the details of the concept. Eventually publisher delete the concept. 
+Documentation     Publisher Create concept and check the details of the concept. Eventually publisher delete the concept.
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
@@ -77,7 +77,7 @@ Select a language for concept attachment
 Select a Titel of the attachment
     Input Text   xpath=//textarea[@name="title"]  Thiis is a titel text for concept attachment
 
-Write instrument description in de and en
+Write attachment description in de and en
     Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.conceptAttachmentMetadata.description.de"]
     Input Text   xpath=//md-input-container//input[@ng-model="ctrl.conceptAttachmentMetadata.description.de"]   Dataset Description De
     Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.conceptAttachmentMetadata.description.en"]
@@ -96,9 +96,8 @@ Attach documents to the concept
     Select concept data type
     Select a language for concept attachment
     Select a Titel of the attachment
-    Write instrument description in de and en
+    Write attachment description in de and en
     Save Changes for concept attachment
     Assert gra2005_W1_Questionnaire in the attachment
     Get back to german home page
     Click on concept tab
-
