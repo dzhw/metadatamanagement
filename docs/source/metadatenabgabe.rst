@@ -13,13 +13,11 @@ Der Datenaufnahmeprozess im FDZ des DZHW
 Das FDZ des DZHW stellt Daten quantitativer und qualitativer Erhebungen
 aus dem Feld der Hochschul- und Wissenschaftsforschung zur Verfügung.
 Ein fester Bestandteil dieser Arbeit ist zunächst der Prozess der
-Datenaufnahme, welcher im FDZ des DZHW durch ein selbst entwickeltes
-System, das Metadatenmanagementsystem (MDM) unterstützt wird. Das
-Besondere am MDM ist, dass Informationen über die eigentlich erhobenen
-Forschungsdaten, also Metadaten, erfasst werden. Für die strukturierte
-Aufnahme der Metadaten sind sieben unterschiedliche Ebenen im MDM
+Datenaufnahme, welcher im FDZ des DZHW durch das Metadatenmanagementsystem (MDM)
+unterstützt wird. Im Metadatenmanagementsystem werden Metadaten über die von Ihnen bereitgestellten Daten erfasst.
+Für die strukturierte Aufnahme der Metadaten sind sieben unterschiedliche Ebenen im MDM
 vorgesehen: *Studie*, *Erhebungen*, *Erhebungsinstrumente*, *Fragen*,
-*Datensätze*, *Variablen* und *Publikationen*.
+*Datensätze*, *Variablen*, *Konzepte* und *Publikationen*.
 
 Innerhalb der Aufnahme von Forschungsdaten wird anhand der Metadaten auf
 diesen Ebenen erfasst, welcher Studie sowie Erhebung die Daten
@@ -41,11 +39,11 @@ Die eigenständige Abgabe von Metadaten
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Wenn Sie Ihre Daten im FDZ des DZHW abgeben möchten, erfassen Sie die
-projektbezogenen Metadaten selbst und können diese teilweise
+projektbezogenen Metadaten selbst und können diese größtenteils
 eigenständig in das MDM hochladen.
 
 Die Abgabe der Metadaten ist innerhalb der einzelnen Ebenen
-unterschiedlich komplex, sodass die Daten für jede der sieben Ebenen
+unterschiedlich komplex, sodass die Daten für jede der acht Ebenen
 separat erfasst werden müssen. Hierfür hat das FDZ des
 DZHW feste Strukturen entwickelt, die im weiteren Verlauf dieser
 Anleitung für jede Ebene detailliert erläutert werden. Diesen Vorgaben
@@ -53,7 +51,7 @@ ist unbedingt Folge zu leisten, damit eine erfolgreiche Erfassung der
 einzelnen Metadaten gewährleistet werden kann.
 
 Aktuell können einige Metadaten über eine Eingabemaske im MDM direkt eingetragen
-werden. Für die übrigen Ebenen müssen Json Dateien hochgeladen werden, bzw eine
+werden. Für die übrigen Ebenen müssen JSON-Dateien hochgeladen werden, bzw eine
 Exceldatei ans FDZ übergeben werden bzw. hochgeladen werden. In dieser Doku wird
 lediglich auf den Standardfall eingegangen, bei dem die Metadaten per
 Eingabemaske eingetragen werden. Zusätzlich ist auf manchen Ebenen das Erstellen
@@ -66,34 +64,39 @@ detaillierte Erläuterungen werden in den nachstehenden Kapiteln folgen.
 
 Tabelle 1: Vorgehen bei der Metadateneingabe pro Ebene
 
-+-----------------+-----------------+-----------------+-----------------+
-| Ebene           | Metadaten       | Zusätzliche     | Metadaten       |
-|                 | eingeben        | Dateien         | abgeben         |
-+=================+=================+=================+=================+
-| Studie          | Eingabemaske    | Anhänge (PDF)   | Eingabemaske    |
-|                 |                 |                 | ausfüllen       |
-+-----------------+-----------------+-----------------+-----------------+
-| Erhebungen      | Eingabemaske    | Anhänge (PDF)   | Eingabemaske    |
-|                 |                 |                 | ausfüllen       |
-+-----------------+-----------------+-----------------+-----------------+
-| Erhebungs-      | Eingabemaske    | Anhänge (PDF,   | Eingabemaske    |
-| instrumente     |                 | Excel)          | ausfüllen       |
-+-----------------+-----------------+-----------------+-----------------+
-| Fragen          | Excel-Tabelle   | Fragebilder     | Im              |
-|                 | (oder Zofar)    | (.png)          | Vorlage-Ordner  |
-|                 |                 |                 | speichern       |
-+-----------------+-----------------+-----------------+-----------------+
-| Datensätze      | Eingabemaske    | Anhänge (PDF)   | Eingabemaske    |
-|                 |                 |                 | ausfüllen       |
-+-----------------+-----------------+-----------------+-----------------+
-| Variablen       | mind. 1         | mind. 1         | Im              |
-|                 | Excel-Tabelle   | Datensatz       | Vorlage-Ordner  |
-|                 |                 | (Stata)         | speichern       |
-+-----------------+-----------------+-----------------+-----------------+
-| Publikationen   | -               | -               | Informationen   |
-|                 |                 |                 | dem FDZ         |
-|                 |                 |                 | schicken        |
-+-----------------+-----------------+-----------------+-----------------+
++-----------------+---------------------+-----------------+-----------------+
+| Ebene           | Metadaten           | Zusätzliche     | Metadaten       |
+|                 | eingeben            | Dateien         | abgeben         |
++=================+=====================+=================+=================+
+| Studie          | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
+|                 |                     |                 | ausfüllen       |
++-----------------+---------------------+-----------------+-----------------+
+| Erhebungen      | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
+|                 |                     |                 | ausfüllen       |
++-----------------+---------------------+-----------------+-----------------+
+| Erhebungs-      | Eingabemaske        | Anhänge (PDF,   | Eingabemaske    |
+| instrumente     |                     | Excel)          | ausfüllen       |
++-----------------+---------------------+-----------------+-----------------+
+| Fragen          | Excel-Tabelle       | Fragebilder     | Im              |
+|                 | (oder JSON-         | (.png)          | Vorlage-Ordner  |
+|                 | Dateien von Zofar)  |                 | speichern       |
++-----------------+---------------------+-----------------+-----------------+
+| Datensätze      | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
+|                 |                     |                 | ausfüllen       |
++-----------------+---------------------+-----------------+-----------------+
+| Variablen       | mind. 1             | mind. 1         | Im              |
+|                 | Excel-Tabelle       | Datensatz       | Vorlage-Ordner  |
+|                 |                     | (Stata)         | speichern       |
++-----------------+---------------------+-----------------+-----------------+
+| Publikationen   | -                   | -               | Informationen   |
+|                 |                     |                 | dem FDZ         |
+|                 |                     |                 | schicken        |
++-----------------+---------------------+-----------------+-----------------+
+| Konzepte        | -                   | -               | Informationen   |
+|                 |                     |                 | dem FDZ         |
+|                 |                     |                 | schicken        |
++-----------------+---------------------+-----------------+-----------------+
+
 
 Vorbereitende Schritte
 ----------------------
@@ -122,13 +125,13 @@ Verwaltung des Projektes im Projekt-Cockpit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Das Projekt-Cockpit dient der Zusammenarbeit zwischen FDZ-MitarbeiterInnen und
-den DatengeberInnen (das sind Sie und Ihre KollegInnen).
-In der Navigationsleiste links, welche je nach Fenstergröße des Browsers
+den DatengeberInnen (also Ihnen).
+In der Navigationsleiste links, welche ggfs.
 aufgeklappt werden muss, finden Sie den Zugang zum Projekt-Cockpit
 (vgl. :numref:`projectcockpit`).
 Wenn Sie ins Projekt-Cockpit gehen, sehen Sie unter dem Punkt Einstellungen
 (vgl. :numref:`project_cockpit_settings`), welche Publisher (
-FDZ-MitarbeiterInnen) und Datengeber dem Projekt zugewiesen sind und welche
+FDZ-MitarbeiterInnen) und DatengeberInnen dem Projekt zugewiesen sind und welche
 Metadaten erwartet werden.
 
 .. figure:: ./_static/cockpit-button.png
@@ -150,12 +153,13 @@ anzulegen:
 
    Projekt-Cockpit Status.
 
-Es wird angezeigt, ob das Projekt freigegeben ist. Freigegeben bedeutet, dass die
+Es wird angezeigt, ob das Projekt freigegeben ist, also die
 eingegebenen Metadaten für alle öffentlichen Nutzer des Systems sichtbar sind.
 Daneben wird angezeigt, ob das Projekt gerade bei den Publishern liegt,
-oder bei den DatengeberInnen zur Bearbeitung liegt. Zuerst liegt es bei den
-Publishern und Sie werden per Mail benachrichtigt, wenn es Ihnen zugewiesen
-wird. Um das Projekt wieder den
+oder bei den DatengeberInnen zur Bearbeitung liegt.
+
+Zuerst liegt das Projekt zur Bearbeitung bei den Publishern und Sie als Datengeber/in werden per Mail benachrichtigt,
+wenn es Ihnen zugewiesen wird. Um das Projekt wieder den
 Publishern zuzuweisen, klicken Sie den "Papierflieger"-Button (siehe
 :numref:`papierflieger`) über dem "Zugewiesen an Datengeber" bzw "Assigned to Publishers" steht.
 
@@ -163,13 +167,14 @@ Publishern zuzuweisen, klicken Sie den "Papierflieger"-Button (siehe
    :name: papierflieger
 
 Die Vorraussetzung, dass Sie das Projekt zurückgeben können ist, dass Sie die
-erwarteten Metadaten eingeben mittels des "Neu" bzw. "Hochladen" Buttons und als
+erwarteten Metadaten eingegeben haben mittels des "Neu" bzw. "Hochladen" Buttons und als
 "fertig" markiert haben (siehe :numref:`projectcockpit_dataprovider_ready`).
+
 Wenn Sie auf den Neu-Button klicken, gelangen Sie zur Eingabemaske der
 jeweiligen Ebene und mit Klick auf den Hochladen Button erscheint ein
-File-Explorer Fenster. Details zur Abgabe der Metadaten bei den einzelnen Ebenen
+File-Explorer Fenster. Details zur Abgabe der Metadaten der einzelnen Ebenen
 wird im jeweiligen Kapitel erklärt. Wenn Sie fertig mit der Eingabe der
-Metadaten einer Ebene sind setzen Sie bitte das entsprechende Häkchen.
+Metadaten einer Ebene sind, setzen Sie bitte das entsprechende Häkchen.
 Es wird automatisch abgespeichert.
 
 .. figure:: ./_static/projectcockpit_dataprovider_ready.png
@@ -184,12 +189,12 @@ Nachdem der Papierflieger-Button geklickt wurde, erscheint der
    :name: nachricht_an_publisher
 
 Falls die Publisher denken, dass noch irgend etwas vergessen wurde oder anders
-eingegeben werden sollte, erhalten Sie eine Email und das Projekt wird Ihnen
-zurückgegeben. Sollte das nicht der Fall sein, markiert der Publisher die Ebene
+eingegeben werden sollte, weisen die Publisher Ihnen das Projekt zurück zu und Sie
+werden per Email darüber benachrichtigt.
+Sollte der Publisher denken, dass die Eingabe der Metadaten auf der jeweiligen Ebene fertig sind, markiert er/sie die Ebene
 auch als "fertig", was durch einen zweiten Haken signalisiert wird
 (siehe :numref:`studie_ready`). Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können
-die Publisher das Projekt freigeben, das heißt die Metadaten und damit letztlich
-die Datenprodukte allen öffentlichen Nutzern des Systems zur Verfügung stellen.
+die Publisher das Projekt für alle öffentlichen Nutzern des Systems freigeben.
 
 .. figure:: ./_static/studie_ready.png
    :name: studie_ready
@@ -202,10 +207,10 @@ detailliert beschrieben werden.
 Notwendige Schnittstellen und Dateien
 -------------------------------------
 
-Grundsätzlich gibt es je Ebene verschiedene Möglichkeiten Metadaten zu erfassen:
-Eingabemasken und der Upload von Dateien welche Metadaten enthalten.
+Entweder werden Metadaten über Eingabemasken oder per Dateiupload angelegt.
 Die Eingabemasken ermöglichen eine komfortable Abgabe der Metadaten direkt
-auf der Website.
+auf der Website und in den meisten Fällen werden Sie die
+Metadaten lediglich per Eingabemaske anlegen und editieren.
 
 Eingabemasken
 ~~~~~~~~~~~~~
@@ -216,13 +221,12 @@ Felder, welche mit den einzutragenden Informationen beschriftet sind.
 Einige Felder sind verpflichtend auszufüllen und deshalb mit einem
 Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch
 darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben
-dürfen. Die Bedienung der Eingabemasken ist weitgehend intuitiv und an
-vielen Stellen selbsterklärend. Im Rahmen der relevanten Ebenen Studie,
+dürfen. Im Rahmen der relevanten Ebenen Studie,
 Erhebungen, Datensätze und Instrumente wird die Handhabung der jeweiligen
 Eingabemasken dann konkret gezeigt (s. :ref:`Erhebungen` :ref:`Instrumente`).
 
 Für die Ebenen Fragen, Variablen und Publikationen müssen Dateien hochgeladen
-werden -- wenden Sie sich hierfür bitte ans FDZ.
+werden -- wenden Sie sich hierfür bitte ans FDZ. Konzepte werden vom FDZ angelegt.
 
 .. _Anhänge:
 
@@ -265,14 +269,15 @@ Beispiel des Absolventenpanels 2005 dargestellt wird:
 **Eine neue Studie anlegen**
 
 Nachdem ein neues Projekt erstellt wurde, können
-Sie nun innerhalb des Projektes eine Studie anlegen.
-Der primäre Weg hierfür ist das Projekt-Cockpit.
+Sie nun innerhalb des Projektes eine Studie über das Project-Cockpit
+anlegen.
+
 
 **Studie anlegen über das Projekt-Cockpit**
 
 Im Projekt-Cockpit sehen Sie im Status-Bereich die Felder zu den einzelnen
 Metadatenebenen. Wenn Sie unter dem Punkt Studie auf den "Neu"-Button klicken,
-gelangen Sie zur Eingabemaske. Machen Sie beim übernächsten Punkt Eingabemaske_
+gelangen Sie zur Eingabemaske. Machen Sie beim Punkt Eingabemaske_
 weiter.
 
 .. figure:: ./_static/studie_leer.png
@@ -326,7 +331,7 @@ Alternativen auswählen können (s. grünes Kästchen in
 :numref:`studienebene_eingabemaske`).
 
 Im zweiten Abschnitt der Eingabemaske müssen Sie eine Beschreibung Ihrer
-Studie sowohl auf Deutsch als auch auf Englisch eingeben. Für ein
+Studie sowohl auf Deutsch als auch auf Englisch eingeben. Als
 Beispiel ist im Folgenden die Beschreibung der 21. Sozialerhebung
 abgebildet:
 
@@ -725,6 +730,11 @@ wie folgt dargestellt:
 Wenn Sie Publikationen zu Ihren Daten abgeben möchten, senden Sie dem
 FDZ per Mail die PDF-Datei Ihrer Publikation sowie den dazugehörigen
 Zitationshinweis zu.
+
+Konzepte
+~~~~~~~~
+
+Für das Anlegen von Konzepten sprechen Sie bitte die FDZ-MitarbeiterInnen an.
 
 Projekte freigeben
 ------------------
