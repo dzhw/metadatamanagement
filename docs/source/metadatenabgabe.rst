@@ -241,7 +241,7 @@ im PDF- oder Excel-Format vorliegen (Details dazu finden Sie in den jeweils
 relevanten Kapiteln zu den einzelnen Ebenen) und zudem nach bestimmten
 Richtlinien benannt werden. Für die Anhänge im PDF-Format gilt es darüber hinaus
 zu beachten, dass dokumenteigene Metadaten wie Autor und Titel aus der
-PDF-Datei gelöscht werden. Dies können Sie im PDF-Dokument über „Datei“
+PDF-Datei korrekt gepflegt werden. Dies können Sie im PDF-Dokument über „Datei“
 -> „Eigenschaften…“ erledigen.
 
 
@@ -250,6 +250,8 @@ PDF-Datei gelöscht werden. Dies können Sie im PDF-Dokument über „Datei“
 
 Die Abgabe von Metadaten für die einzelnen Ebenen
 -------------------------------------------------
+
+.. _Studie:
 
 Studie (study)
 ~~~~~~~~~~~~~~
@@ -368,10 +370,10 @@ zur Studie ablegen. Dazu klicken Sie auf den blauen Plus-Button (s.
 in dem Sie eine Datei hochladen und diese näher beschreiben können.
 Die hier relevanten Materialien sind momentan der deutsch- und
 englischsprachige Daten- und Methodenbericht (DMB) sowie eine
-englischsprachige *study overview*. [1]_
+deutsch oder englischsprachige *Studienübersicht/study overview*. [1]_
 Die Sprache der Materialien muss nach ISO 639-1_ angegeben werden.
-Bei den Metadaten der Materialien ist darauf zu achten die Metadaten aus den
-Dokumenten zu entfernen (Autor und Titel).
+Bei den Metadaten der Materialien ist darauf zu achten, dass diese korrekt
+eingegeben worden sind.
 Die Eingaben müssen Sie
 anschließend über den orangefarbenen Save-Button abspeichern.
 Mit den Pfeil-Buttons können Sie dann ggf. die Reihenfolge bereits
@@ -417,8 +419,8 @@ sind der Name des Nutzers, der die entsprechende Version der Studie
 gespeichert hat, sowie das Änderungsdatum sichtbar. Durch Klicken auf
 die Version wird diese wiederhergestellt, aber nicht automatisch als
 aktuelle Version gespeichert. Dies müsste über einen Klick auf den
-Save-Button erfolgen. Zu beachten ist, dass Materialien zur Studie nicht
-historisiert werden.
+Save-Button erfolgen. Zu beachten ist, dass Materialien zur Studie (Dateianhänge) nicht
+historisiert werden, sondern lediglich deren ins MDM eingegebene Metadaten.
 
 
 .. figure:: ./_static/21_de.png
@@ -445,7 +447,7 @@ erstellt:
 
 **Eine neue Erhebung anlegen**
 
-Wenn Sie eine Studie angelegt haben (vgl. Kapitel 4.1), können Sie über
+Wenn Sie eine Studie angelegt haben (vgl. Kapitel :ref:`Studie`), können Sie über
 den Reiter „Erhebungen“ eine neue Erhebung innerhalb Ihrer Studie
 erstellen. Hierzu finden Sie unten rechts auf der Seite – ebenso wie bei
 der Studie – einen orangefarbenen Plus-Button. Wenn
@@ -474,8 +476,8 @@ hier als Beispiel der 21. Sozialerhebung). Neben den bereits aus der
 Studienebene bekannten Funktionen gibt es in dieser Eingabemaske zusätzlich eine
 Kalenderfunktion (s. blaue Kästchen, :numref:`eingabemaske_erhebung_details_1`),
 welche die Feldzeit des
-Projekts erfasst und in :numref:`kalender_erhebung` dargestellt ist:
-
+Projekts erfasst und in :numref:`kalender_erhebung` dargestellt ist
+:
 
 .. figure:: ./_static/25_de.png
    :name: kalender_erhebung
@@ -560,8 +562,8 @@ nicht historisiert werden.
 
 **Prüfschritte**
 
-Der Titel der Erhebung wird zukünftig bei da|ra vor einige Attribute (z.B.
-Referenzzeitraum) gehängt. Der Titel der Erhebung muss daher eindeutig sein und
+Der Titel der Erhebung wird bei Veröffentlichung (mit Versionsnummer von mindestens 1.0.0) bei da|ra
+vor einige Attribute (z.B. Referenzzeitraum) gehängt. Der Titel der Erhebung muss daher eindeutig sein und
 im Falle von Panelstudien die Welle enthalten.
 
 .. _Instrumente:
@@ -628,15 +630,6 @@ Sollte es Erhebungsinstrumente geben, welche in einer anderen Sprache als
 deutsch oder englisch existieren, werden diese nur als Attachment und nicht auf
 Variablenebene bereitgestellt.
 
-Fragen
-~~~~~~
-
-Sollten Sie mit uns die Eingabe von Frage-Metadaten vereinbart haben, sprechen
-Sie uns bitte darauf an. Wir erläutern Ihnen dann den Prozess.
-Metadaten für Fragen müssen als JSON und png Dateien vorliegen.
-Sollte eine Umfrage mit Zofar durchgeführt worden sein, bitten wir Sie uns die
-Metadaten zukommen zu lassen. Die Fragen-Metadaten werden von uns hochgeladen.
-
 .. _Datensätze:
 
 Datensätze (dataSets)
@@ -667,8 +660,8 @@ Ihrer Studie erstellt haben, wird für jeden dieser Datensätze folgende
 
 **Eingabemaske**
 
-Datensätze lassen sich auch per Eingabemaske anlegen und editieren.
-Hierfür muss man auf den Reiter Datensätze klicken (:numref:`mdm-ebenen`),
+Datensätze lassen sich per Eingabemaske anlegen und editieren.
+Hierfür muss man entweder über das Projektcockpit gehen, oder in der Suche auf den Reiter Datensätze klicken (:numref:`mdm-ebenen`),
 anschließend auf das Plussymbol (:numref:`neuerdatensatz`) in der unteren
 rechten Ecke klicken. Anschließend öffnet sich die Eingabemaske (siehe :numref:`dataset_eingabemaske`).
 
@@ -703,6 +696,17 @@ blauen Plus-Button geklickt. [6]_
 Es öffnet sich ein Fenster (siehe :numref:`dataset_attachments`) in dem Sie eine
 Datei hochladen können und Metadaten zur Datei angeben müssen.
 
+Fragen
+~~~~~~
+
+Sollten Sie mit uns die Eingabe von Frage-Metadaten vereinbart haben, sprechen
+Sie uns bitte darauf an. Wir erläutern Ihnen dann den Prozess.
+Metadaten für Fragen müssen als JSON und png Dateien vorliegen.
+Sollte eine Umfrage mit Zofar durchgeführt worden sein, bitten wir Sie uns die
+Metadaten zukommen zu lassen. Die Fragen-Metadaten werden von uns hochgeladen.
+
+
+
 Variablen
 ~~~~~~~~~
 
@@ -734,14 +738,15 @@ Zitationshinweis zu.
 Konzepte
 ~~~~~~~~
 
+Mit Konzepten sind theoretische, latente Konstrukte wie "Persönlichkeit" gemeint, die
+nicht direkt beobachtbar sind, aber durch manifeste Variablen die z.B. durch das Big5 Modell gemessen werden können.
 Für das Anlegen von Konzepten sprechen Sie bitte die FDZ-MitarbeiterInnen an.
 
 Projekte freigeben
 ------------------
 
-Wenn Sie alle Metadaten ausgefüllt bzw. ans FDZ gesendet haben, melden
-Sie sich beim FDZ mit dem Hinweis, dass Sie Ihre Daten nicht weiter
-editieren möchten. Das FDZ nimmt ihre Daten dann in die sogenannte
+Wenn Sie alle Metadaten ausgefüllt bzw. ans FDZ gesendet haben, markieren Sie im Project-Cockpit die Metadaten als fertig.
+Das FDZ nimmt ihre Daten dann in die sogenannte
 Release-Pipeline auf. Die finale Freigabe erfolgt dann über einen dafür
 benannten Mitarbeiter des FDZ, den Release-Manager. Mit der Freigabe sind Ihre
 Metadaten und damit auch Ihre Datenprodukte für alle öffentlichen Nutzer des
@@ -763,7 +768,7 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
 
 -  die Daten wurden auf Richtigkeit überprüft
 
-☐ Metadaten sind aus PDF-Dokumenten entfernt (vgl. :ref:`Anhänge`)
+☐ Metadaten sind korrekt im PDF eingetragen oder aus PDF-Dokumenten entfernt (vgl. :ref:`Anhänge`)
 
 ☐ Nicht benötigte Zeilen entfernt (falls Fragen oder Variablen abgegeben werden)
 
@@ -795,6 +800,7 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
    Dokumentationsstandards finden Sie in den Dokumenten `„Anforderungen
    an Daten und Dokumentation im FDZ des
    DZHW“ <file:///\\faust\Abtuebergreifend\Projekte\FDZ\Allgemeine%20Materialien\Dokumentation>`__.
+   Sie erhalten es auf Anfrage.
 
 .. [3]
    Bitte beachten Sie, die dokumenteigenen Metadaten bei PDF-Dateien
@@ -806,12 +812,13 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
    Dokumentationsstandards finden Sie in den Dokumenten `„Anforderungen
    an Daten und Dokumentation im FDZ des
    DZHW“ <file:///\\faust\Abtuebergreifend\Projekte\FDZ\Allgemeine%20Materialien\Dokumentation>`__.
-
+   Sie erhalten das Dokument auf Anfrage.
+   
 .. [5]
    Bitte beachten Sie, die dokumenteigenen Metadaten der PDF-Dateien
-   vorab zu löschen (vgl. :ref:`Anhänge`).
+   vorab zu korrigieren oder zu löschen (vgl. :ref:`Anhänge`).
 
 
 .. [6]
    Bitte beachten Sie, die dokumenteigenen Metadaten bei PDF-Dateien
-   vorab zu löschen (vgl.  :ref:`Anhänge`).
+   vorab zu korrigieren oder zu löschen (vgl.  :ref:`Anhänge`).
