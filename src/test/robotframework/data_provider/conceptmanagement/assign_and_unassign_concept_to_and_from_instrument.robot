@@ -1,0 +1,55 @@
+*** Settings ***
+Documentation     Dataprovider assign a concept to an instrument and assert it under the instrument. It also assert the concept is assigned to a study and survey. Finally the concept is unassigned from the instrument.
+Resource          ../../resources/click_element_resource.robot
+Resource          ../../resources/search_resource.robot
+Resource          ../../resources/home_page_resource.robot
+
+
+*** Test Cases ***
+Assign and Unassign concept to and from an instrument
+    Get Back to german home page
+    Select project by name  fileuploadproject
+    Click on Cockpit Button
+    Click on Instrument Edit Button
+    Assign Concept to an Instrument
+    Click on Save Button
+    Get back to german home page
+    Assert the concept has been assigned to the instrument
+    Assert the concept is assigned to a study
+    Assert the concept is assigned to a survey
+    Unassign the concept from the instrument
+    Get back to home page and deselect project
+
+*** Keywords ***
+Click on Instrument Edit Button
+   Click Element Through Tooltips  xpath=//md-card[@type="instruments"]//button[@ng-click="ctrl.goToSearch(ctrl.searchState)"]//span[text()="Bearbeiten"]
+   Click Element Through Tooltips  xpath=//button[md-icon[text()="mode_edit"]]
+
+Assign Concept to an Instrument
+   Click Element Through Tooltips  xpath=//md-chips[@name="concepts"]//input[@placeholder="Konzepte suchen..."]
+   Click Element Through Tooltips  xpath=//md-virtual-repeat-container[@ng-hide="$mdAutocompleteCtrl.hidden"]//ul//li//span//span[contains(., "con-con-FDZ-ID-002$")]
+
+Click on Save Button
+   Click Element Through Tooltips  xpath=//button[@ng-click="ctrl.saveInstrument()"]//md-icon[contains(., "save")]
+
+Assert the concept has been assigned to the instrument
+   Click on instruments tab
+   Click Element Through Tooltips  xpath=//span[contains(., "ins-fileuploadproject-ins1$")]
+   Page Should Contain   Konzept: Test Konzept 03 für Publisher
+
+Assert the concept is assigned to a study
+   Page Should Contain  Studie: Study Title auf Deutsch
+
+Assert the concept is assigned to a survey
+   Page Should Contain  Erhebung: Test
+
+Unassign the concept from the instrument
+   Click Element Through Tooltips  xpath=//button//md-icon[contains(.,"mode_edit")]
+   Click Element Through Tooltips  xpath=//md-chips[@name="concepts"]//button[@ng-if="$mdChipsCtrl.isRemovable()"]//md-icon[@role="img"]
+   Click on Save Button
+
+Get back to home page and deselect project
+    Get back to german home page
+    Click Element Through Tooltips    xpath=//md-sidenav//project-navbar-module//button[@aria-label='Clear Input']
+
+
