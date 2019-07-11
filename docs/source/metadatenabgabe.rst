@@ -240,9 +240,9 @@ Codierlisten auf Instrumentenebene. Diese Dokumente müssen als Dateien
 im PDF- oder Excel-Format vorliegen (Details dazu finden Sie in den jeweils
 relevanten Kapiteln zu den einzelnen Ebenen) und zudem nach bestimmten
 Richtlinien benannt werden. Für die Anhänge im PDF-Format gilt es darüber hinaus
-zu beachten, dass dokumenteigene Metadaten wie Autor und Titel aus der
-PDF-Datei korrekt gepflegt werden. Dies können Sie im PDF-Dokument über „Datei“
--> „Eigenschaften…“ erledigen.
+zu beachten, dass dokumenteigene Metadaten wie Autor und Titel der
+PDF-Datei korrekt gepflegt werden. Eine Anleitung finden Sie hier:
+https://helpx.adobe.com/acrobat/using/pdf-properties-metadata.html
 
 
 .. _Abgabe_von_Metadaten_für_die_einzelnen_Ebenen:
@@ -501,7 +501,7 @@ zum Rücklauf“ [2]_) bearbeiten zu können, müssen Sie die bisherigen
 Eingaben abspeichern. Dann können Sie deutschsprachige und/oder
 englischsprachige Grafiken zum Rücklauf entweder über den blauen
 Plus-Button oder per Drag & Drop hochladen und dann mit dem Save-Button
-speichern. Diese Grafiken dürfen im svg-, png- oder auch PDF-Format
+speichern. Diese Grafiken dürfen im svg-Format
 vorliegen. Über den Button mit dem Mülleimer-Symbol lassen sich
 hochgeladene Dateien wieder löschen (s. :numref:`weitere_infos_rücklauf`).
 
@@ -768,7 +768,7 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
 
 -  die Daten wurden auf Richtigkeit überprüft
 
-☐ Metadaten sind korrekt im PDF eingetragen oder aus PDF-Dokumenten entfernt (vgl. :ref:`Anhänge`)
+☐ Metadaten sind korrekt im PDF eingetragen (vgl. :ref:`Anhänge`)
 
 ☐ Nicht benötigte Zeilen entfernt (falls Fragen oder Variablen abgegeben werden)
 
@@ -804,7 +804,7 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
 
 .. [3]
    Bitte beachten Sie, die dokumenteigenen Metadaten bei PDF-Dateien
-   vorab zu löschen (vgl.  :ref:`Anhänge`).
+   vorab zu korrigieren (vgl.  :ref:`Anhänge`).
 
 .. [4]
    Filterführungsdiagramme sind erst ab der 2. Dokumentationsstufe
@@ -816,9 +816,9 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
    
 .. [5]
    Bitte beachten Sie, die dokumenteigenen Metadaten der PDF-Dateien
-   vorab zu korrigieren oder zu löschen (vgl. :ref:`Anhänge`).
+   vorab zu korrigieren (vgl. :ref:`Anhänge`).
 
 
 .. [6]
    Bitte beachten Sie, die dokumenteigenen Metadaten bei PDF-Dateien
-   vorab zu korrigieren oder zu löschen (vgl.  :ref:`Anhänge`).
+   vorab zu korrigieren (vgl.  :ref:`Anhänge`).
