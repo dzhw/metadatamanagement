@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,7 +7,6 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.javers.core.Javers;
-import org.javers.core.metamodel.object.CdoSnapshot;
 import org.javers.repository.jql.QueryBuilder;
 import org.javers.shadow.Shadow;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +27,8 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
  *
  */
 @Service
-public class DataAcquisitionProjectVersionsService
-      extends GenericDomainObjectVersionsService<DataAcquisitionProject,
-      DataAcquisitionProjectRepository> {
+public class DataAcquisitionProjectVersionsService extends
+    GenericDomainObjectVersionsService<DataAcquisitionProject, DataAcquisitionProjectRepository> {
   /**
    * Construct the service.
    */
@@ -39,8 +36,8 @@ public class DataAcquisitionProjectVersionsService
   public DataAcquisitionProjectVersionsService(Javers javers,
       DataAcquisitionProjectRepository dataAcquisitionProjectRepository,
       MetadataManagementProperties metadataManagementProperties) {
-    super(DataAcquisitionProject.class, javers,
-        dataAcquisitionProjectRepository, metadataManagementProperties);
+    super(DataAcquisitionProject.class, javers, dataAcquisitionProjectRepository,
+        metadataManagementProperties);
   }
 
   /**
@@ -53,6 +50,7 @@ public class DataAcquisitionProjectVersionsService
 
   /**
    * Get the last saved release for the given project id.
+   * 
    * @param id the id of the data acquisition project.
    * @return the last saved release or null
    */
@@ -62,26 +60,16 @@ public class DataAcquisitionProjectVersionsService
 
   /**
    * Get the previous release of a data acquisition project. The release before currentRelease.
+   * 
    * @param id the id of the data acquisition project.
    * @param currentRelease get the release saved before this release
    * @return the previous release or null
    */
   public Release findPreviousRelease(String id, Release currentRelease) {
-    //Find last changes
-    QueryBuilder jqlQuery = QueryBuilder
-        .byValueObjectId(id, DataAcquisitionProject.class, "release")
-        .withChangedProperty("version")
-        .limit(2);
-    List<CdoSnapshot> snapshots = javers.findSnapshots(jqlQuery.build());
-    if (snapshots.isEmpty()) {
-      return null;
-    }
-    List<BigDecimal> commitIds = snapshots.stream()
-        .map(snapshot -> snapshot.getCommitId().valueAsNumber())
-        .collect(Collectors.toList());
-    List<Shadow<Release>> shadows = javers.findShadows(
-        QueryBuilder.byValueObjectId(id, DataAcquisitionProject.class, "release")
-        .withCommitIds(commitIds).build());
+    // Find last changes
+    List<Shadow<Release>> shadows =
+        javers.findShadows(QueryBuilder.byValueObjectId(id, DataAcquisitionProject.class, "release")
+            .withChangedProperty("version").limit(2).build());
 
     if (shadows.isEmpty()) {
       return null;
@@ -106,25 +94,16 @@ public class DataAcquisitionProjectVersionsService
    */
   public List<Release> findAllReleases(String id, Boolean noBeta) {
     // Find all version changes
-    QueryBuilder jqlQuery =
-        QueryBuilder.byValueObjectId(id, DataAcquisitionProject.class, "release")
-            .withChangedProperty("version").limit(100);
-    List<CdoSnapshot> snapshots = javers.findSnapshots(jqlQuery.build());
-    if (snapshots.isEmpty()) {
-      return new ArrayList<>();
-    }
-    List<BigDecimal> commitIds = snapshots.stream()
-        .map(snapshot -> snapshot.getCommitId().valueAsNumber()).collect(Collectors.toList());
     List<Shadow<Release>> shadows =
         javers.findShadows(QueryBuilder.byValueObjectId(id, DataAcquisitionProject.class, "release")
-            .withCommitIds(commitIds).build());
+            .withChangedProperty("version").limit(100).build());
 
     if (shadows.isEmpty()) {
       return new ArrayList<>();
     } else {
-      return shadows.stream().map(shadow -> shadow.get())
-          .filter(release -> !noBeta || Version.valueOf(release.getVersion())
-              .greaterThanOrEqualTo(Version.valueOf("1.0.0")))
+      return shadows
+          .stream().map(shadow -> shadow.get()).filter(release -> !noBeta || Version
+              .valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0")))
           .collect(Collectors.toList());
     }
   }

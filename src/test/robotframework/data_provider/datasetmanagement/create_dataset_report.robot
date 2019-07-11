@@ -11,7 +11,7 @@ Create Dataset Report
     Click on search result by id    dat-gra2005-ds2$
     Click Report Button
     Write Dataset Report Version
-    Page Should Contain  wird jetzt erzeugt
+    Page Should Not Contain Element  xpath://md-toast[contains(@class,"md-accent")]
     Get back to home page and deselect project
 
 *** Keywords ***

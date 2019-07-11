@@ -1,44 +1,16 @@
 /*jshint node: true */
+"use strict";
+
 module.exports = function(grunt) {
-  var browsers = [{
-      browserName: "iphone",
-      platform: "OS X 10.8",
-      version: "6"
-  }, {
-      browserName: "android",
-      platform: "Linux",
-      version: "4.0"
-  }, {
-      browserName: "firefox",
-      platform: "XP"
-  }, {
-      browserName: "chrome",
-      platform: "XP"
-  }, {
-      browserName: "internet explorer",
-      platform: "WIN8",
-      version: "10"
-  }, {
-      browserName: "internet explorer",
-      platform: "VISTA",
-      version: "9"
-  }, {
-      browserName: "internet explorer",
-      platform: "Windows 7",
-      version: "8"
-  }, {
-      browserName: "internet explorer",
-      platform: "XP",
-      version: "7"
-  }, {
-      browserName: "opera",
-      platform: "Windows 2008",
-      version: "12"
-  }, {
-      browserName: "safari",
-      platform: "OS X 10.8",
-      version: "6"
-  }];
+  // https://wiki.saucelabs.com/display/DOCS/Platform+Configurator
+  // A lot of the browsers seem to time out with Saucelab's unit testing
+  // framework. Here are the browsers that work that get enough coverage for our
+  // needs.
+  var browsers = [
+    {browserName: "chrome"},
+    {browserName: "firefox", platform: "Linux"},
+    {browserName: "internet explorer"}
+  ];
 
   var tags = [];
   if (process.env.TRAVIS_PULL_REQUEST && process.env.TRAVIS_PULL_REQUEST != "false") {
@@ -48,43 +20,46 @@ module.exports = function(grunt) {
   }
 
   var postBundleWithLicense = function(err, src, done) {
-      if (!err) {
-          // add the license
-          var license = require('fs').readFileSync('lib/license_header.js');
-          done(err, license + src);
-      } else {
-          done(err);
-      }
+    if (!err) {
+      // add the license
+      var license = require('fs').readFileSync('lib/license_header.js');
+      done(err, license + src);
+    } else {
+      done(err);
+    }
   };
 
   grunt.initConfig({
-      connect: {
-          server: {
-              options: {
-                  base: "",
-                  port: 9999
-              }
-          }
+    connect: {
+      server: {
+        options: {
+          base: "",
+          port: 8080
+        }
+      }
+    },
+    'saucelabs-qunit': {
+      all: {
+        options: {
+          urls: ["http://127.0.0.1:8080/test/index.html?hidepassed"],
+          build: process.env.TRAVIS_JOB_ID,
+          testname: "qunit tests",
+          tags: tags,
+          // Tests have statusCheckAttempts * pollInterval seconds to complete
+          pollInterval: 2000,
+          statusCheckAttempts: 15,
+          "max-duration": 30,
+          browsers: browsers,
+          maxRetries: 2
+        }
+      }
+    },
+    jshint: {
+      options: {
+        jshintrc: "./.jshintrc"
       },
-      'saucelabs-qunit': {
-          all: {
-              options: {
-                  urls: ["http://127.0.0.1:9999/test/index.html"],
-                  tunnelTimeout: 5,
-                  build: process.env.TRAVIS_JOB_ID,
-                  concurrency: 3,
-                  browsers: browsers,
-                  testname: "qunit tests",
-                  tags: tags
-              }
-          }
-      },
-      jshint: {
-            options: {
-                jshintrc: "./.jshintrc"
-            },
-            all: ['./lib/*.js']
-        },
+      all: ['./lib/*.js', "Gruntfile.js"]
+    },
     browserify: {
       "utils": {
         files: {
@@ -108,7 +83,9 @@ module.exports = function(grunt) {
       options: {
         report: 'gzip',
         mangle: true,
-        preserveComments: 'some'
+        output: {
+          comments: /^!/
+        }
       },
       "jszip-utils": {
         src: 'dist/jszip-utils.js',
@@ -127,11 +104,20 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
+  // A task to cause Grunt to sit and wait, keeping the test server running
+  grunt.registerTask("wait", function() {
+    this.async();
+  });
+
+  grunt.registerTask("test-local", ["build", "connect", "wait"]);
+  grunt.registerTask("test-remote", ["build", "connect", "saucelabs-qunit"]);
+
   if (process.env.SAUCE_USERNAME && process.env.SAUCE_ACCESS_KEY) {
-    grunt.registerTask("test", ["connect", "saucelabs-qunit"]);
+    grunt.registerTask("test", ["jshint", "test-remote"]);
   } else {
-    grunt.registerTask("test", []);
+    grunt.registerTask("test", ["jshint", "test-local"]);
   }
+
   grunt.registerTask("build", ["browserify", "uglify"]);
   grunt.registerTask("default", ["jshint", "build"]);
 };
