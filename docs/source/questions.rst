@@ -48,15 +48,14 @@ meist "erkennbare" Nummerierung. Es wird zwischen fünf Fragetypen differenziert
   genannten Fragetypen abzubilden sein.
 
 
-Questions (manuell)
-~~~~~~~~~~~~~~~~~~~
+Questions (manuell bzw. handcrafted)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Um json Dateien zu erzeugen muss zuerst einmal eine Exceltabelle ausgefüllt
 werden. Die Exceltabelle hat die beiden Tabellenblätter questions und images.
 Spaltennamen und Ausfüllanweisungen sind im nächsten Abschnitt zu finden.
 
 Zusätzlich können zu jeder Frage ein oder mehrere Bilder vorhanden sein (im
-Gegensatz zu früher nicht mehr verpflichtend). Es ist aber zu beachten, dass
-im Moment die R-Skripte noch nicht dahingehend aktualisiert wurden.
+Gegensatz zu früher nicht mehr verpflichtend).
 Wie Fragebilder aus Ragtime-Dateien extrahiert werden können, wird
 erklärt: :ref:`bilderfassung_ragtime-label`
 Eine Anleitung zum Ausschneiden von Bildern aus pdf Dateien ist
@@ -189,6 +188,11 @@ Tabelle 3: Ausfüllanweisungen für die Excel-Tabelle "questions"
 +------------------------+-----------------------+------------------------+
 | annotations.de/en      | Nein                  | Anmerkungen zur Frage  |
 +------------------------+-----------------------+------------------------+
+| conceptIds             | Nein                  | Liste von IDs von      |
+|                        |                       | Konzepten im MDM       |
+|                        |                       | (Angabe in einer Zeile,|
+|                        |                       | durch Komma getrennt.) |                     |
++------------------------+-----------------------+------------------------+
 
 x\* = nur, wenn technicalRepresentation vorhanden (wird dann automatisch
 von ZOFAR geliefert)
@@ -232,6 +236,12 @@ Tabellenblatt 2 ist nur auszufüllen falls es Bilder zu den Fragen gibt.
 |                        |                      | Frage nur ein Bild    |
 |                        |                      | vor, steht hier immer |
 |                        |                      | 1)                    |
++------------------------+----------------------+-----------------------+
+| resolution.widthX      | Nein                 | Auflösung des Bildes  |
+|                        |                      | in Pixel              |
++------------------------+----------------------+-----------------------+
+| resolution.heightY     | Nein                 | Auflösung des Bildes  | 
+|                        |                      | in Pixel              |
 +------------------------+----------------------+-----------------------+
 
 .. _639-1: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
