@@ -46,7 +46,6 @@ Invalid NetSampleSize Second
 Survey Page With Empty Or Invalid Options Should Fail
     [Arguments]    ${GTitle}    ${ETitle}    ${Wave}    ${FieldPeriodStart}    ${FieldPeriodEnd}    ${GSurveyMethod}    ${ESurveyMethod}
     ...    ${GPopDesc}    ${EPopDesc}     ${NetSampleSize}
-    ...
     Pass Execution If    '${BROWSER}' == 'ie'    Survey Creation not possible in IE
     Clear Element Text    name=titleDe
     Input Text    name=titleDe    ${GTitle}

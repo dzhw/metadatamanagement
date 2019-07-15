@@ -1,4 +1,4 @@
-<md-dialog aria-label="{{'data-set-management.create-report.title' | translate}}" style="min-width: 600px; min-height: 245px" class="md-inline-form">
+<md-dialog aria-label="{{'data-set-management.create-report.title' | translate}}" class="md-inline-form" flex="50">
     <md-toolbar>
         <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
             <div flex>
@@ -16,7 +16,7 @@
     </md-toolbar>
     <form name="reportForm" flex layout="column" layout-align="space-between stretch" style="-ms-flex: auto;">
         <md-dialog-content style="padding: 1.5em 1.5em 0 1.5em;">
-            <md-input-container class="md-block" md-is-error="!reportForm.version.$valid && (reportForm.version.$dirty || reportForm.version.$touched)">
+            <md-input-container class="md-block" md-is-error="!reportForm.version.$valid && (reportForm.version.$dirty || reportForm.version.$touched)" style="min-height: 80px">
                 <label>{{'data-set-management.create-report.version' | translate}}</label>
                 <input data-md-maxlength="32" required ng-model="ctrl.version" name="version" ng-pattern="/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/" data-md-autofocus autocomplete="off">
                 <div ng-if="!reportForm.version.$dirty && !reportForm.version.$touched" class="fdz-input-hint">{{'data-set-management.create-report.hints.version' | translate}}</div>

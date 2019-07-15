@@ -11,7 +11,7 @@
 
     <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.86-SNAPSHOT</version>
+    <version>1.0.87-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -134,7 +134,7 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
-            <version>5.6.0</version>
+            <version>5.6.2</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -238,7 +238,7 @@
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-            <version>2.1.4.RELEASE</version>
+            <version>2.1.6.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>pl.allegro.tech</groupId>

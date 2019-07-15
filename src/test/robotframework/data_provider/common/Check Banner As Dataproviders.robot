@@ -1,13 +1,16 @@
 *** Settings ***
 Documentation     Banner appears for Dataproviders and assert the welcome text and dont show again checkbox
+Library           HttpLibrary.HTTP
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
+Resource          ../../resources/check_url_resource.robot
 
 *** Test Cases ***
 Check for Dataproviders Welcome Banner Appears
    Data Provider Logout   # explicit logout to sync with suite setup
    Login as dataprovidertest
    Assert Welcome Text After Login
+   Check URL Status with xpath Locator   //p//a[contains(., "Dokumentation")]   #check MDM documentation url status
    Assert Checkbox Dont Show Again is Available  # prerequisite to maintain the test, never mark the checkbox for dataprovidertest
    Close The Banner
    Click on Information for Data Providers Link
