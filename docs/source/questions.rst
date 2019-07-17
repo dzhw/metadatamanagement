@@ -214,7 +214,11 @@ Tabellenblatt 2 ist nur auszufüllen falls es Bilder zu den Fragen gibt.
 |                        | ausfüllen?**         | eintragen?**          |
 +------------------------+----------------------+-----------------------+
 | fileName               | Ja                   | Dateiname des Bildes  |
-|                        |                      | (z.B. „1.1_1.png“)    |
+|                        |                      | (z.B. „1.1_1.png“) Das|
+|                        |                      | Bild wird dann in     |
+|                        |                      | "./Bilder/png/ins" +  |
+|                        |                      | "{instrumentNumber}/" |
+|                        |                      | erwartet.             |
 +------------------------+----------------------+-----------------------+
 | questionNumber         | Ja                   | Dem Bild zugeordnete  |
 |                        |                      | Fragenummer           |
@@ -249,7 +253,8 @@ Tabellenblatt 2 ist nur auszufüllen falls es Bilder zu den Fragen gibt.
 
 Mit dem zweiten Tabellenblatt *images* erfassen Sie Informationen zu den
 Fragebildern, welche Sie für jede Frage mit hochladen können. Falls Bilder
-vorhanden sind, müssen diese im Png Format vorliegen. Die Fragebilder können
+vorhanden sind, müssen diese im PNG-Format im Unterverzeichnis 
+"./Bilder/png/ins{instrumentNumber}" vorliegen. Die Fragebilder können
 z.B. mit Ragtime
 extrahiert werden, sofern der Fragebogen auch mit Ragtime erstellt
 wurde. Ansonsten lassen sich die Fragebilder auch aus einer PDF-Datei
