@@ -17,9 +17,8 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.Vari
 /**
  * Spring Data MongoDB repository for the Variable entity.
  */
-@RepositoryRestResource(path = "/variables")
+@RepositoryRestResource(path = "/variables", excerptProjection = IdAndVersionProjection.class)
 public interface VariableRepository extends BaseRepository<Variable, String> {
-  @RestResource(exported = false)
   Stream<Variable> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 
   @RestResource(exported = false)

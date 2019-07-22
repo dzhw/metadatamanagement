@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.GenericShadowableDomainObjectResourceController;
+import eu.dzhw.fdz.metadatamanagement.common.rest.OldGenericShadowableDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.net.URI;
  */
 @RepositoryRestController
 public class DataSetResourceController
-    extends GenericShadowableDomainObjectResourceController<DataSet, DataSetRepository> {
+    extends OldGenericShadowableDomainObjectResourceController<DataSet, DataSetRepository> {
 
   @Autowired
   public DataSetResourceController(DataSetRepository dataSetRepository, ApplicationEventPublisher

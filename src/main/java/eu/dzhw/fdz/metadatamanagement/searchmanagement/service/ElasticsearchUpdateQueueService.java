@@ -1,5 +1,21 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 
+import java.lang.management.ManagementFactory;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
@@ -52,21 +68,6 @@ import io.searchbox.core.Bulk.Builder;
 import io.searchbox.core.Delete;
 import io.searchbox.core.Index;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.NotImplementedException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
-
-import java.lang.management.ManagementFactory;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Service which manages asynchronous Elasticsearch updates as a FIFO queue. Inserting an item into
@@ -189,13 +190,14 @@ public class ElasticsearchUpdateQueueService {
    */
   private void executeQueueItemActions(List<ElasticsearchUpdateQueueItem> lockedItems) {
     Bulk.Builder bulkBuilder = new Bulk.Builder();
+    boolean bulkNotEmpty = false;
     for (ElasticsearchUpdateQueueItem lockedItem : lockedItems) {
       switch (lockedItem.getAction()) {
         case DELETE:
-          addDeleteActions(lockedItem, bulkBuilder);
+          bulkNotEmpty = bulkNotEmpty || addDeleteAction(lockedItem, bulkBuilder);
           break;
         case UPSERT:
-          addUpsertActions(lockedItem, bulkBuilder);
+          bulkNotEmpty = bulkNotEmpty || addUpsertAction(lockedItem, bulkBuilder);
           break;
         default:
           throw new NotImplementedException("Processing queue item with action "
@@ -205,9 +207,11 @@ public class ElasticsearchUpdateQueueService {
 
     // execute the bulk update/delete
     try {
-      elasticsearchDao.executeBulk(bulkBuilder.build());
+      if (bulkNotEmpty) {        
+        elasticsearchDao.executeBulk(bulkBuilder.build());
+      }
     } catch (ElasticsearchBulkOperationException ex) {
-      log.error("Some documents in Elasticsearch could not be updated!", ex);
+      log.warn("Some documents in Elasticsearch could not be updated!", ex);
     }
 
     // finally delete the queue items
@@ -219,11 +223,13 @@ public class ElasticsearchUpdateQueueService {
    * 
    * @param lockedItem a locked item.
    * @param bulkBuilder for building an add action.
+   * @return true if an action has been added to the bulkBuilder
    */
-  private void addDeleteActions(ElasticsearchUpdateQueueItem lockedItem, Builder bulkBuilder) {
+  private boolean addDeleteAction(ElasticsearchUpdateQueueItem lockedItem, Builder bulkBuilder) {
     bulkBuilder.addAction(
         new Delete.Builder(lockedItem.getDocumentId()).index(lockedItem.getDocumentType().name())
             .type(lockedItem.getDocumentType().name()).build());
+    return true;
   }
 
   /**
@@ -231,40 +237,33 @@ public class ElasticsearchUpdateQueueService {
    * 
    * @param lockedItem A locked item.
    * @param bulkBuilder The bulk builder for building update / insert actions.
+   * @return true if an action has been added to the bulkBuilder
    */
-  private void addUpsertActions(ElasticsearchUpdateQueueItem lockedItem, Builder bulkBuilder) {
+  private boolean addUpsertAction(ElasticsearchUpdateQueueItem lockedItem, Builder bulkBuilder) {
     switch (lockedItem.getDocumentType()) {
       case variables:
-        addUpsertActionForVariable(lockedItem, bulkBuilder);
-        break;
+        return addUpsertActionForVariable(lockedItem, bulkBuilder);
       case surveys:
-        addUpsertActionForSurvey(lockedItem, bulkBuilder);
-        break;
+        return addUpsertActionForSurvey(lockedItem, bulkBuilder);
       case data_sets:
-        addUpsertActionForDataSet(lockedItem, bulkBuilder);
-        break;
+        return addUpsertActionForDataSet(lockedItem, bulkBuilder);
       case questions:
-        addUpsertActionForQuestion(lockedItem, bulkBuilder);
-        break;
+        return addUpsertActionForQuestion(lockedItem, bulkBuilder);
       case studies:
-        addUpsertActionForStudy(lockedItem, bulkBuilder);
-        break;
+        return addUpsertActionForStudy(lockedItem, bulkBuilder);
       case related_publications:
-        addUpsertActionForRelatedPublication(lockedItem, bulkBuilder);
-        break;
+        return addUpsertActionForRelatedPublication(lockedItem, bulkBuilder);
       case instruments:
-        addUpsertActionForInstrument(lockedItem, bulkBuilder);
-        break;
+        return addUpsertActionForInstrument(lockedItem, bulkBuilder);
       case concepts:
-        addUpsertActionForConcept(lockedItem, bulkBuilder);
-        break;
+        return addUpsertActionForConcept(lockedItem, bulkBuilder);
       default:
         throw new NotImplementedException("Processing queue item with type "
             + lockedItem.getDocumentType() + " has not been implemented!");
     }
   }
 
-  private void addUpsertActionForConcept(ElasticsearchUpdateQueueItem lockedItem,
+  private boolean addUpsertActionForConcept(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
     Concept concept = conceptRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (concept != null) {
@@ -289,9 +288,13 @@ public class ElasticsearchUpdateQueueService {
       List<StudySubDocumentProjection> studies = studyRepository.findSubDocumentsByIdIn(studyIds);
       List<StudySubDocument> studySubDocuments = studies.stream().map(study -> {
         DataAcquisitionProject project =
-            projectRepository.findById(study.getDataAcquisitionProjectId()).get();
+            projectRepository.findById(study.getDataAcquisitionProjectId()).orElse(null);
+        if (project == null) {
+          // project has been deleted, skip upsert
+          return null;
+        }
         return new StudySubDocument(study, doiBuilder.buildStudyDoi(study, getRelease(project)));
-      }).collect(Collectors.toList());
+      }).filter(document -> document != null).collect(Collectors.toList());
       List<StudyNestedDocument> nestedStudyDocuments =
           studies.stream().map(StudyNestedDocument::new).collect(Collectors.toList());
 
@@ -311,10 +314,12 @@ public class ElasticsearchUpdateQueueService {
       bulkBuilder
           .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
               .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      return true;
     }
+    return false;
   }
 
-  private void addUpsertActionForInstrument(ElasticsearchUpdateQueueItem lockedItem,
+  private boolean addUpsertActionForInstrument(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
     Instrument instrument = instrumentRepository.findById(lockedItem.getDocumentId()).orElse(null);
 
@@ -346,7 +351,11 @@ public class ElasticsearchUpdateQueueService {
           relatedPublicationRepository
               .findSubDocumentsByInstrumentIdsContaining(instrument.getMasterId());
       DataAcquisitionProject project =
-          projectRepository.findById(instrument.getDataAcquisitionProjectId()).get();
+          projectRepository.findById(instrument.getDataAcquisitionProjectId()).orElse(null);
+      if (project == null) {
+        // project has been deleted, skip upsert
+        return false;
+      }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
       String doi = doiBuilder.buildStudyDoi(study, release);
@@ -357,10 +366,12 @@ public class ElasticsearchUpdateQueueService {
       bulkBuilder
           .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
               .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      return true;
     }
+    return false;
   }
 
-  private void addUpsertActionForRelatedPublication(ElasticsearchUpdateQueueItem lockedItem,
+  private boolean addUpsertActionForRelatedPublication(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
 
     RelatedPublication relatedPublication =
@@ -373,9 +384,13 @@ public class ElasticsearchUpdateQueueService {
             studyRepository.findSubDocumentsByIdIn(relatedPublication.getStudyIds());
         studySubDocuments = studies.stream().map(study -> {
           DataAcquisitionProject project =
-              projectRepository.findById(study.getDataAcquisitionProjectId()).get();
+              projectRepository.findById(study.getDataAcquisitionProjectId()).orElse(null);
+          if (project == null) {
+            // project has been deleted, skip upsert
+            return null;
+          }
           return new StudySubDocument(study, doiBuilder.buildStudyDoi(study, getRelease(project)));
-        }).collect(Collectors.toList());
+        }).filter(document -> document != null).collect(Collectors.toList());
         nestedStudyDocuments =
             studies.stream().map(StudyNestedDocument::new).collect(Collectors.toList());
       }
@@ -409,10 +424,12 @@ public class ElasticsearchUpdateQueueService {
       bulkBuilder
           .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
               .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      return true;
     }
+    return false;
   }
 
-  private void addUpsertActionForDataSet(ElasticsearchUpdateQueueItem lockedItem,
+  private boolean addUpsertActionForDataSet(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
     DataSet dataSet = dataSetRepository.findById(lockedItem.getDocumentId()).orElse(null);
 
@@ -447,7 +464,11 @@ public class ElasticsearchUpdateQueueService {
         surveys = surveyRepository.findSubDocumentByIdIn(dataSet.getSurveyIds());
       }
       DataAcquisitionProject project =
-          projectRepository.findById(dataSet.getDataAcquisitionProjectId()).get();
+          projectRepository.findById(dataSet.getDataAcquisitionProjectId()).orElse(null);
+      if (project == null) {
+        // project has been deleted, skip upsert
+        return false;
+      }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
       StudySubDocumentProjection study =
@@ -460,10 +481,12 @@ public class ElasticsearchUpdateQueueService {
       bulkBuilder
           .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
               .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      return true;
     }
+    return false;
   }
 
-  private void addUpsertActionForSurvey(ElasticsearchUpdateQueueItem lockedItem,
+  private boolean addUpsertActionForSurvey(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
     Survey survey = surveyRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (survey != null) {
@@ -483,7 +506,11 @@ public class ElasticsearchUpdateQueueService {
           questionRepository.findSubDocumentsByInstrumentIdIn(instrumentIds);
       List<ConceptSubDocumentProjection> concepts = getConcepts(instruments, questions);
       DataAcquisitionProject project =
-          projectRepository.findById(survey.getDataAcquisitionProjectId()).get();
+          projectRepository.findById(survey.getDataAcquisitionProjectId()).orElse(null);
+      if (project == null) {
+        // project has been deleted, skip upsert
+        return false;
+      }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
       String doi = doiBuilder.buildStudyDoi(study, release);
@@ -494,7 +521,9 @@ public class ElasticsearchUpdateQueueService {
       bulkBuilder
           .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
               .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      return true;
     }
+    return false;
   }
 
   private List<ConceptSubDocumentProjection> getConcepts(
@@ -519,7 +548,7 @@ public class ElasticsearchUpdateQueueService {
    * @param lockedItem A locked item.
    * @param bulkBuilder A bulk builder for building the actions.
    */
-  private void addUpsertActionForVariable(ElasticsearchUpdateQueueItem lockedItem,
+  private boolean addUpsertActionForVariable(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
     Variable variable = variableRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (variable != null) {
@@ -551,7 +580,11 @@ public class ElasticsearchUpdateQueueService {
         concepts = conceptRepository.findSubDocumentsByIdIn(conceptIds);
       }
       DataAcquisitionProject project =
-          projectRepository.findById(variable.getDataAcquisitionProjectId()).get();
+          projectRepository.findById(variable.getDataAcquisitionProjectId()).orElse(null);
+      if (project == null) {
+        // project has been deleted, skip upsert
+        return false;
+      }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
       String doi = doiBuilder.buildStudyDoi(study, release);
@@ -562,7 +595,9 @@ public class ElasticsearchUpdateQueueService {
       bulkBuilder
           .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
               .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      return true;
     }
+    return false;
   }
 
   /**
@@ -571,7 +606,7 @@ public class ElasticsearchUpdateQueueService {
    * @param lockedItem A locked item.
    * @param bulkBuilder A bulk builder for building the actions.
    */
-  private void addUpsertActionForQuestion(ElasticsearchUpdateQueueItem lockedItem,
+  private boolean addUpsertActionForQuestion(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
     Question question = questionRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (question != null) {
@@ -593,7 +628,11 @@ public class ElasticsearchUpdateQueueService {
           relatedPublicationRepository
               .findSubDocumentsByQuestionIdsContaining(question.getMasterId());
       DataAcquisitionProject project =
-          projectRepository.findById(question.getDataAcquisitionProjectId()).get();
+          projectRepository.findById(question.getDataAcquisitionProjectId()).orElse(null);
+      if (project == null) {
+        // project has been deleted, skip upsert
+        return false;
+      }
       List<ConceptSubDocumentProjection> concepts = new ArrayList<>();
       if (question.getConceptIds() != null) {
         concepts = conceptRepository.findSubDocumentsByIdIn(question.getConceptIds());
@@ -608,7 +647,9 @@ public class ElasticsearchUpdateQueueService {
       bulkBuilder
           .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
               .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      return true;
     }
+    return false;
   }
 
   /**
@@ -617,7 +658,7 @@ public class ElasticsearchUpdateQueueService {
    * @param lockedItem A locked item.
    * @param bulkBuilder A bulk builder for building the actions.
    */
-  private void addUpsertActionForStudy(ElasticsearchUpdateQueueItem lockedItem,
+  private boolean addUpsertActionForStudy(ElasticsearchUpdateQueueItem lockedItem,
       Builder bulkBuilder) {
     Study study = this.studyRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (study != null) {
@@ -640,7 +681,11 @@ public class ElasticsearchUpdateQueueService {
       }
       List<ConceptSubDocumentProjection> concepts = getConcepts(instruments, questions);
       DataAcquisitionProject project =
-          projectRepository.findById(study.getDataAcquisitionProjectId()).get();
+          projectRepository.findById(study.getDataAcquisitionProjectId()).orElse(null);
+      if (project == null) {
+        // project has been deleted, skip upsert
+        return false;
+      }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
       String doi = doiBuilder.buildStudyDoi(study, release);
@@ -651,7 +696,9 @@ public class ElasticsearchUpdateQueueService {
       bulkBuilder
           .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
               .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      return true;
     }
+    return false;
   }
 
   /**
@@ -660,7 +707,7 @@ public class ElasticsearchUpdateQueueService {
    * @param type the type of items to be processed.
    */
   public void processQueueItems(ElasticsearchType type) {
-    log.info("Starting processing of ElasticsearchUpdateQueue for type: " + type.name());
+    log.debug("Starting processing of ElasticsearchUpdateQueue for type: " + type.name());
     LocalDateTime updateStart = LocalDateTime.now();
 
     queueItemRepository.lockAllUnlockedOrExpiredItemsByType(updateStart, jvmId, type);
@@ -674,7 +721,7 @@ public class ElasticsearchUpdateQueueService {
       // check if there are more locked items to process
       lockedItems = queueItemRepository.findOldestLockedItemsByType(jvmId, updateStart, type);
     }
-    log.info("Finished processing of ElasticsearchUpdateQueue for type: " + type.name());
+    log.debug("Finished processing of ElasticsearchUpdateQueue for type: " + type.name());
   }
 
   /**

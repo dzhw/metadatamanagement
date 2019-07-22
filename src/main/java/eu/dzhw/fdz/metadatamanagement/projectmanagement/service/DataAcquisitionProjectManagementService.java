@@ -12,13 +12,12 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.data.rest.core.event.AfterDeleteEvent;
-import org.springframework.data.rest.core.event.AfterSaveEvent;
-import org.springframework.data.rest.core.event.BeforeDeleteEvent;
-import org.springframework.data.rest.core.event.BeforeSaveEvent;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
+import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
+import eu.dzhw.fdz.metadatamanagement.common.service.GenericShadowableDomainObjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
@@ -33,47 +32,48 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 
 /**
- * Service class for the Data Acquisition Project. Handles calls to the mongo db.
+ * Service for managing the domain object/aggregate {@link DataAcquisitionProject}.
  * 
- * @author Daniel Katzberg
+ * @author René Reitmann
  */
 @Service
 @RepositoryEventHandler
-public class DataAcquisitionProjectService {
+public class DataAcquisitionProjectManagementService
+    implements CrudService<DataAcquisitionProject> {
 
-  private DataAcquisitionProjectRepository acquisitionProjectRepository;
+  private final DataAcquisitionProjectRepository acquisitionProjectRepository;
 
-  private ApplicationEventPublisher eventPublisher;
+  private final UserInformationProvider userInformationProvider;
 
-  private UserInformationProvider userInformationProvider;
+  private final DataAcquisitionProjectChangesProvider changesProvider;
 
-  private DataAcquisitionProjectChangesProvider changesProvider;
+  private final UserRepository userRepository;
 
-  private UserRepository userRepository;
+  private final MailService mailService;
 
-  private MailService mailService;
+  private final MetadataManagementProperties metadataManagementProperties;
 
-  private MetadataManagementProperties metadataManagementProperties;
+  private final DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource;
 
-  private DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource;
+  private final ShadowCopyService<DataAcquisitionProject> shadowCopyService;
 
-  private ShadowCopyService<DataAcquisitionProject> shadowCopyService;
+  private final ShadowCopyQueueItemService shadowCopyQueueItemService;
 
-  private ShadowCopyQueueItemService shadowCopyQueueItemService;
+  private final GenericShadowableDomainObjectCrudHelper<DataAcquisitionProject, DataAcquisitionProjectRepository> crudHelper;
 
   /**
-   * Creates a new {@link DataAcquisitionProjectService} instance.
+   * Creates a new {@link DataAcquisitionProjectManagementService} instance.
    */
-  public DataAcquisitionProjectService(DataAcquisitionProjectRepository dataAcquisitionProjectRepo,
-      ApplicationEventPublisher applicationEventPublisher,
+  public DataAcquisitionProjectManagementService(
+      DataAcquisitionProjectRepository dataAcquisitionProjectRepo,
       UserInformationProvider userInformationProvider,
       DataAcquisitionProjectChangesProvider changesProvider, UserRepository userRepository,
       MailService mailService, MetadataManagementProperties metadataManagementProperties,
       DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource,
       ShadowCopyService<DataAcquisitionProject> shadowCopyService,
-      ShadowCopyQueueItemService shadowCopyQueueItemService) {
+      ShadowCopyQueueItemService shadowCopyQueueItemService,
+      ApplicationEventPublisher applicationEventPublisher) {
     this.acquisitionProjectRepository = dataAcquisitionProjectRepo;
-    this.eventPublisher = applicationEventPublisher;
     this.userInformationProvider = userInformationProvider;
     this.changesProvider = changesProvider;
     this.userRepository = userRepository;
@@ -82,35 +82,8 @@ public class DataAcquisitionProjectService {
     this.dataAcquisitionProjectShadowCopyDataSource = dataAcquisitionProjectShadowCopyDataSource;
     this.shadowCopyService = shadowCopyService;
     this.shadowCopyQueueItemService = shadowCopyQueueItemService;
-  }
-
-  /**
-   * Saves a Data Acquisition Project.
-   */
-  public DataAcquisitionProject saveDataAcquisitionProject(
-      DataAcquisitionProject dataAcquisitionProject) {
-    this.eventPublisher.publishEvent(new BeforeSaveEvent(dataAcquisitionProject));
-    DataAcquisitionProject saved = this.acquisitionProjectRepository.save(dataAcquisitionProject);
-    this.eventPublisher.publishEvent(new AfterSaveEvent(dataAcquisitionProject));
-    return saved;
-  }
-
-  /**
-   * Deletes a Data Acquisition Project, it it hasn't been released before.
-   * 
-   * @param dataAcquisitionProject A representation of the Data Acquisition Project.
-   * @return True = The Project is deleted. False = The Project is not deleted.
-   */
-  public boolean deleteDataAcquisitionProject(DataAcquisitionProject dataAcquisitionProject) {
-
-    // just delete project, if it has not been released before.
-    if (!dataAcquisitionProject.getHasBeenReleasedBefore()) {
-      this.eventPublisher.publishEvent(new BeforeDeleteEvent(dataAcquisitionProject));
-      this.acquisitionProjectRepository.delete(dataAcquisitionProject);
-      this.eventPublisher.publishEvent(new AfterDeleteEvent(dataAcquisitionProject));
-    }
-
-    return !dataAcquisitionProject.getHasBeenReleasedBefore();
+    this.crudHelper = new GenericShadowableDomainObjectCrudHelper<>(dataAcquisitionProjectRepo,
+        applicationEventPublisher);
   }
 
   /**
@@ -321,5 +294,35 @@ public class DataAcquisitionProjectService {
     } else {
       return false;
     }
+  }
+
+  @Override
+  public Optional<DataAcquisitionProject> read(String id) {
+    return crudHelper.read(id);
+  }
+
+  @Override
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.ADMIN})
+  public void delete(DataAcquisitionProject project) {
+    if (!project.getHasBeenReleasedBefore()) {
+      crudHelper.deleteMaster(project, true);
+    } else {
+      throw new IllegalStateException(
+          "Project has been released before and therefore it must not be deleted.");
+    }
+  }
+
+  @Override
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.ADMIN})
+  public DataAcquisitionProject save(DataAcquisitionProject project) {
+    return crudHelper.saveMaster(project, true);
+  }
+
+  @Override
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.ADMIN})
+  public DataAcquisitionProject create(DataAcquisitionProject domainObject) {
+    return crudHelper.createMaster(domainObject, true);
   }
 }

@@ -1,20 +1,21 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.GenericShadowableDomainObjectResourceController;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
+import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
+import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 
 /**
  * Study REST Controller which overrides default spring data rest methods.
@@ -22,42 +23,36 @@ import java.net.URI;
  * @author René Reitmann
  */
 @RepositoryRestController
-public class StudyResourceController 
-    extends GenericShadowableDomainObjectResourceController<Study, StudyRepository> {
+public class StudyResourceController extends GenericDomainObjectResourceController
+    <Study, CrudService<Study>> {
 
   @Autowired
-  public StudyResourceController(StudyRepository studyRepository,
-                                 ApplicationEventPublisher applicationEventPublisher) {
-    super(studyRepository, applicationEventPublisher);
+  public StudyResourceController(CrudService<Study> crudService) {
+    super(crudService);
   }
 
-  /**
-   * Override default get by id since it does not set cache headers correctly.
-   * 
-   * @param id a study id
-   * @return the study or not found
-   */
-  @RequestMapping(method = RequestMethod.GET, value = "/studies/{id:.+}")
-  public ResponseEntity<Study> findStudy(@PathVariable String id) {
-    return super.findDomainObject(id);
+  @Override
+  @GetMapping(value = "/studies/{id:.+}")
+  public ResponseEntity<Study> getDomainObject(@PathVariable String id) {
+    return super.getDomainObject(id);
   }
 
-  /**
-   * Override default put to prevent shadow copy updates or creating new ones.
-   * @param id Study id
-   * @param study Study
-   */
-  @RequestMapping(method = RequestMethod.PUT, value = "/studies/{id:.+}")
-  public ResponseEntity<?> putStudy(@PathVariable String id, @Valid @RequestBody Study study) {
-    return super.putDomainObject(id, study);
+ 
+  @Override
+  @PostMapping(value = "/studies")
+  public ResponseEntity<?> postDomainObject(@RequestBody Study variable) {
+    return super.postDomainObject(variable);
   }
 
-  /**
-   * Override default delete to prevent shadow copy deletion.
-   * @param id Study id
-   */
-  @RequestMapping(method = RequestMethod.DELETE, value = "/studies/{id:.+}")
-  public ResponseEntity<?> deleteStudy(@PathVariable String id) {
+  @Override
+  @PutMapping(value = "/studies/{id:.+}")
+  public ResponseEntity<?> putDomainObject(@RequestBody Study domainObject) {
+    return super.putDomainObject(domainObject);
+  }
+
+  @Override
+  @DeleteMapping("/studies/{id:.+}")
+  public ResponseEntity<?> deleteDomainObject(@PathVariable String id) {
     return super.deleteDomainObject(id);
   }
 

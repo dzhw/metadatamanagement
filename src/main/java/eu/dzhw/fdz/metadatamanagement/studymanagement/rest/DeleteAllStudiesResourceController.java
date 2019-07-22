@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyService;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyManagementService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
@@ -23,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 @RequestMapping("/api")
 public class DeleteAllStudiesResourceController {
   @Autowired
-  private StudyService studyService;
+  private StudyManagementService studyService;
 
   /**
    * delete all studies from data acquisition project.

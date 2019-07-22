@@ -1,11 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
@@ -15,10 +15,11 @@ import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.data.rest.core.event.AfterDeleteEvent;
-import org.springframework.data.rest.core.event.BeforeDeleteEvent;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
+import eu.dzhw.fdz.metadatamanagement.common.service.GenericShadowableDomainObjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -29,48 +30,58 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
 /**
- * Service for creating and updating variable. Used for updating variables in mongo and
- * elasticsearch.
+ * Service for managing the domain object/aggregate {@link Variable}.
  * 
  * @author René Reitmann
- * @author Daniel Katzberg
  */
 @Service
 @RepositoryEventHandler
-public class VariableService {
+public class VariableManagementService implements CrudService<Variable> {
 
-  @Autowired
-  private VariableRepository variableRepository;
-  
-  @Autowired
-  private QuestionRepository questionRepository;
-  
-  @Autowired
-  private VariableChangesProvider variableChangesProvider;
-  
-  @Autowired
-  private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-  
-  @Autowired
-  private ApplicationEventPublisher eventPublisher;
+  private final QuestionRepository questionRepository;
 
-  @Autowired
-  private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
+  private final VariableChangesProvider variableChangesProvider;
 
-  @Autowired
-  private ShadowCopyService<Variable> shadowCopyService;
+  private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
-  @Autowired
-  private VariableShadowCopyDataSource variableShadowCopyDataProvider;
+  private final ShadowCopyService<Variable> shadowCopyService;
+
+  private final VariableShadowCopyDataSource variableShadowCopyDataProvider;
+
+  private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+
+  private final VariableRepository variableRepository;
+
+  private final GenericShadowableDomainObjectCrudHelper<Variable, VariableRepository> crudHelper;
+
+  public VariableManagementService(QuestionRepository questionRepository,
+      VariableChangesProvider variableChangesProvider,
+      RelatedPublicationChangesProvider relatedPublicationChangesProvider,
+      ShadowCopyService<Variable> shadowCopyService,
+      VariableShadowCopyDataSource variableShadowCopyDataProvider,
+      ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
+      VariableRepository variableRepository, ApplicationEventPublisher applicationEventPublisher) {
+    super();
+    this.questionRepository = questionRepository;
+    this.variableChangesProvider = variableChangesProvider;
+    this.relatedPublicationChangesProvider = relatedPublicationChangesProvider;
+    this.shadowCopyService = shadowCopyService;
+    this.variableShadowCopyDataProvider = variableShadowCopyDataProvider;
+    this.elasticsearchUpdateQueueService = elasticsearchUpdateQueueService;
+    this.variableRepository = variableRepository;
+    this.crudHelper = new GenericShadowableDomainObjectCrudHelper<Variable, VariableRepository>(
+        variableRepository, applicationEventPublisher, elasticsearchUpdateQueueService,
+        ElasticsearchType.variables);
+  }
 
   /**
    * Delete all variables when the dataAcquisitionProject was deleted.
@@ -81,7 +92,7 @@ public class VariableService {
   public void onDataAcquisitionProjectDeleted(DataAcquisitionProject dataAcquisitionProject) {
     deleteAllVariablesByProjectId(dataAcquisitionProject.getId());
   }
-  
+
   /**
    * Update all variables of the project, when the project is released.
    * 
@@ -90,13 +101,14 @@ public class VariableService {
   @HandleAfterSave
   public void onDataAcquisitionProjectUpdated(DataAcquisitionProject dataAcquisitionProject) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> variableRepository.streamIdsByDataAcquisitionProjectId(
-            dataAcquisitionProject.getId()),
+        () -> variableRepository
+            .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
         ElasticsearchType.variables);
   }
 
   /**
    * Create shadow variables for instruments on project release.
+   * 
    * @param projectReleasedEvent Released project event
    */
   @EventListener
@@ -104,49 +116,22 @@ public class VariableService {
     shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
         projectReleasedEvent.getPreviousReleaseVersion(), variableShadowCopyDataProvider);
   }
-  
+
   /**
    * A service method for deletion of variables within a data acquisition project.
+   * 
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   public void deleteAllVariablesByProjectId(String dataAcquisitionProjectId) {
-    try (Stream<Variable> variables = variableRepository
-        .streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+    // TODO ensure project has not been released before && not marked as ready
+    try (Stream<Variable> variables =
+        variableRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       variables.forEach(variable -> {
-        eventPublisher.publishEvent(new BeforeDeleteEvent(variable));
-        variableRepository.delete(variable);
-        eventPublisher.publishEvent(new AfterDeleteEvent(variable));
+        crudHelper.deleteMaster(variable, false);
       });
     }
   }
-  
-  /**
-   * Enqueue deletion of variable search document when the variable is deleted.
-   * 
-   * @param variable the deleted variable.
-   */
-  @HandleAfterDelete
-  public void onVariableDeleted(Variable variable) {
-    elasticsearchUpdateQueueService.enqueue(
-        variable.getId(), 
-        ElasticsearchType.variables, 
-        ElasticsearchUpdateQueueAction.DELETE);
-  }
-  
-  /**
-   * Enqueue update of variable search document when the variable is updated.
-   * 
-   * @param variable the updated or created variable.
-   */
-  @HandleAfterCreate
-  @HandleAfterSave
-  public void onVariableSaved(Variable variable) {
-    elasticsearchUpdateQueueService.enqueue(
-        variable.getId(), 
-        ElasticsearchType.variables, 
-        ElasticsearchUpdateQueueAction.UPSERT);
-  }
-  
+
   /**
    * Remember the old and new variable.
    * 
@@ -154,20 +139,23 @@ public class VariableService {
    */
   @HandleBeforeSave
   public void onBeforeVariableSaved(Variable variable) {
-    variableChangesProvider.put(variable, 
+    // TODO move to save method (for master and shadow)
+    variableChangesProvider.put(variable,
         variableRepository.findById(variable.getId()).orElse(null));
   }
 
   @HandleBeforeCreate
   public void onBeforeVariableCreated(Variable variable) {
+    // TODO move to create method (for master and shadow)
     variableChangesProvider.put(variable, null);
   }
 
   @HandleBeforeDelete
   public void onBeforeVariableDeleted(Variable variable) {
+    // TODO move to delete method (for master and shadow)
     variableChangesProvider.put(null, variable);
   }
-  
+
   /**
    * Enqueue update of variable search documents when the data set is changed.
    * 
@@ -181,7 +169,7 @@ public class VariableService {
         () -> variableRepository.streamIdsByDataSetId(dataSet.getId()),
         ElasticsearchType.variables);
   }
-  
+
   /**
    * Enqueue update of variable search documents when the study is changed.
    * 
@@ -192,10 +180,9 @@ public class VariableService {
   @HandleAfterDelete
   public void onStudyChanged(Study study) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> variableRepository.streamIdsByStudyId(study.getId()),
-        ElasticsearchType.variables);
+        () -> variableRepository.streamIdsByStudyId(study.getId()), ElasticsearchType.variables);
   }
-  
+
   /**
    * Enqueue update of variable search documents when the related publication is changed.
    * 
@@ -205,13 +192,12 @@ public class VariableService {
   @HandleAfterSave
   @HandleAfterDelete
   public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    List<String> variableIds = relatedPublicationChangesProvider
-        .getAffectedVariableIds(relatedPublication.getId());
+    List<String> variableIds =
+        relatedPublicationChangesProvider.getAffectedVariableIds(relatedPublication.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> variableRepository.streamIdsByMasterIdIn(variableIds),
-        ElasticsearchType.variables);
+        () -> variableRepository.streamIdsByMasterIdIn(variableIds), ElasticsearchType.variables);
   }
-  
+
   /**
    * Enqueue update of variable search documents when the instrument is changed.
    * 
@@ -222,11 +208,10 @@ public class VariableService {
   @HandleAfterDelete
   public void onInstrumentChanged(Instrument instrument) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> variableRepository.streamIdsByRelatedQuestionsInstrumentId(
-            instrument.getId()),
+        () -> variableRepository.streamIdsByRelatedQuestionsInstrumentId(instrument.getId()),
         ElasticsearchType.variables);
   }
-  
+
   /**
    * Enqueue update of variable search documents when the question is changed.
    * 
@@ -237,11 +222,10 @@ public class VariableService {
   @HandleAfterDelete
   public void onQuestionChanged(Question question) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> variableRepository.streamIdsByRelatedQuestionsQuestionId(
-            question.getId()),
+        () -> variableRepository.streamIdsByRelatedQuestionsQuestionId(question.getId()),
         ElasticsearchType.variables);
   }
-  
+
   /**
    * Enqueue update of variable search documents when the survey is updated.
    * 
@@ -252,11 +236,10 @@ public class VariableService {
   @HandleAfterDelete
   public void onSurveyChanged(Survey survey) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> variableRepository.streamIdsBySurveyIdsContaining(
-            survey.getId()),
+        () -> variableRepository.streamIdsBySurveyIdsContaining(survey.getId()),
         ElasticsearchType.variables);
   }
-  
+
   /**
    * Enqueue update of variable search documents when the concept is changed.
    * 
@@ -271,5 +254,31 @@ public class VariableService {
           .map(question -> question.getId()).collect(Collectors.toSet());
       return variableRepository.streamIdsByRelatedQuestionsQuestionIdIn(questionIds);
     }, ElasticsearchType.variables);
+  }
+
+  @Override
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  public Variable create(Variable variable) {
+    // TODO check access rights by project
+    return crudHelper.createMaster(variable, true);
+  }
+
+  @Override
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  public Variable save(Variable variable) {
+    // TODO check access rights by project
+    return crudHelper.saveMaster(variable, true);
+  }
+
+  @Override
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
+  public void delete(Variable variable) {
+    // TODO check access rights by project
+    crudHelper.deleteMaster(variable, true);
+  }
+  
+  @Override
+  public Optional<Variable> read(String id) {
+    return crudHelper.read(id);
   }
 }

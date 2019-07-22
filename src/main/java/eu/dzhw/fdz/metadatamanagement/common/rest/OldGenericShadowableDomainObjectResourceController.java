@@ -20,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopySaveNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 
 /**
@@ -28,16 +28,16 @@ import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
  * @param <T> {@link AbstractShadowableRdcDomainObject} type
  * @param <S> Repository for saving/updating
  */
-public abstract class GenericShadowableDomainObjectResourceController
+public abstract class OldGenericShadowableDomainObjectResourceController
     <T extends AbstractShadowableRdcDomainObject, S extends BaseRepository<T, String>>
-    extends GenericDomainObjectResourceController<T, S> {
+    extends OldGenericDomainObjectResourceController<T, S> {
 
   private ApplicationEventPublisher applicationEventPublisher;
 
   private static final List<String> defaultIgnoreProperties = Collections
       .unmodifiableList(Arrays.asList("createdDate", "createdBy", "version"));
 
-  public GenericShadowableDomainObjectResourceController(S repository, ApplicationEventPublisher
+  public OldGenericShadowableDomainObjectResourceController(S repository, ApplicationEventPublisher
       applicationEventPublisher) {
     super(repository);
     this.applicationEventPublisher = applicationEventPublisher;
@@ -48,7 +48,7 @@ public abstract class GenericShadowableDomainObjectResourceController
     if (opt.isPresent()) {
       T domainObjectToUpdate = opt.get();
       if (domainObjectToUpdate.isShadow()) {
-        throw new ShadowCopyUpdateNotAllowedException();
+        throw new ShadowCopySaveNotAllowedException();
       } else {
         BeanUtils.copyProperties(domainObject, domainObjectToUpdate, defaultIgnoreProperties
             .toArray(new String[defaultIgnoreProperties.size()]));

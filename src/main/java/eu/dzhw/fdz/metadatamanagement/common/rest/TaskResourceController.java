@@ -32,7 +32,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 @RestController
 @RequestMapping("/api")
 public class TaskResourceController
-    extends GenericDomainObjectResourceController<Task, TaskRepository> {
+    extends OldGenericDomainObjectResourceController<Task, TaskRepository> {
   private UserService userService;
 
   private TaskService taskService;

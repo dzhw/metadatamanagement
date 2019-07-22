@@ -1,11 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
@@ -15,11 +15,10 @@ import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.data.rest.core.event.AfterDeleteEvent;
-import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
+import eu.dzhw.fdz.metadatamanagement.common.service.GenericShadowableDomainObjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -32,7 +31,6 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepo
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
@@ -41,43 +39,57 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
- * Service for creating and updating variable. Used for updating variables in mongo and
- * elasticsearch.
+ * Service for managing the domain object/aggregate {@link Study}.
+ * 
+ * @author René Reitmann
  */
 @Service
 @RepositoryEventHandler
-public class StudyService {
+public class StudyManagementService implements CrudService<Study> {
 
-  @Autowired
-  private StudyRepository studyRepository;
+  private final StudyRepository studyRepository;
   
-  @Autowired
-  private InstrumentRepository instrumentRepository;
+  private final InstrumentRepository instrumentRepository;
   
-  @Autowired
-  private QuestionRepository questionRepository;
+  private final QuestionRepository questionRepository;
 
-  @Autowired
-  private StudyAttachmentService studyAttachmentService;
+  private final StudyAttachmentService studyAttachmentService;
   
-  @Autowired
-  private StudyChangesProvider studyChangesProvider;
+  private final StudyChangesProvider studyChangesProvider;
 
-  @Autowired
-  private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+  private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
-  @Autowired
-  private ApplicationEventPublisher eventPublisher;
+  private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
-  @Autowired
-  private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
+  private final ShadowCopyService<Study> shadowCopyService;
 
-  @Autowired
-  private ShadowCopyService<Study> shadowCopyService;
-
-  @Autowired
-  private StudyShadowCopyDataSource studyShadowCopyDataSource;
+  private final StudyShadowCopyDataSource studyShadowCopyDataSource;
   
+  private final GenericShadowableDomainObjectCrudHelper<Study, StudyRepository> crudHelper;
+  
+  public StudyManagementService(StudyRepository studyRepository,
+      InstrumentRepository instrumentRepository, QuestionRepository questionRepository,
+      StudyAttachmentService studyAttachmentService, StudyChangesProvider studyChangesProvider,
+      ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
+      ApplicationEventPublisher eventPublisher,
+      RelatedPublicationChangesProvider relatedPublicationChangesProvider,
+      ShadowCopyService<Study> shadowCopyService,
+      StudyShadowCopyDataSource studyShadowCopyDataSource) {
+    super();
+    this.studyRepository = studyRepository;
+    this.instrumentRepository = instrumentRepository;
+    this.questionRepository = questionRepository;
+    this.studyAttachmentService = studyAttachmentService;
+    this.studyChangesProvider = studyChangesProvider;
+    this.elasticsearchUpdateQueueService = elasticsearchUpdateQueueService;
+    this.relatedPublicationChangesProvider = relatedPublicationChangesProvider;
+    this.shadowCopyService = shadowCopyService;
+    this.studyShadowCopyDataSource = studyShadowCopyDataSource;
+    this.crudHelper = new GenericShadowableDomainObjectCrudHelper<>(
+        studyRepository, eventPublisher, elasticsearchUpdateQueueService,
+        ElasticsearchType.studies);
+  }
+
   /**
    * Delete all studies when the dataAcquisitionProject was deleted.
    * 
@@ -130,38 +142,10 @@ public class StudyService {
     try (Stream<Study> studies =
         studyRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       studies.forEach(study -> {
-        if (study.isShadow()) {
-          throw new ShadowCopyDeleteNotAllowedException();
-        }
-        eventPublisher.publishEvent(new BeforeDeleteEvent(study));
-        studyRepository.delete(study);
-        eventPublisher.publishEvent(new AfterDeleteEvent(study));
+        crudHelper.deleteMaster(study, false);
+        studyAttachmentService.deleteAllByStudyId(study.getId());
       });
     }
-  }
-
-  /**
-   * Enqueue deletion of study search document when the study is deleted.
-   * 
-   * @param study the deleted variable.
-   */
-  @HandleAfterDelete
-  public void onStudyDeleted(Study study) {
-    studyAttachmentService.deleteAllByStudyId(study.getId());
-    elasticsearchUpdateQueueService.enqueue(study.getId(), ElasticsearchType.studies,
-        ElasticsearchUpdateQueueAction.DELETE);
-  }
-
-  /**
-   * Enqueue update of study search document when the study is updated.
-   * 
-   * @param study the updated or created study.
-   */
-  @HandleAfterCreate
-  @HandleAfterSave
-  public void onStudySaved(Study study) {
-    elasticsearchUpdateQueueService.enqueue(study.getId(), ElasticsearchType.studies,
-        ElasticsearchUpdateQueueAction.UPSERT);
   }
 
   /**
@@ -276,5 +260,29 @@ public class StudyService {
   public void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
     shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
         projectReleasedEvent.getPreviousReleaseVersion(), studyShadowCopyDataSource);
+  }
+
+  @Override
+  public Optional<Study> read(String id) {
+    return crudHelper.read(id);
+  }
+
+  @Override
+  public void delete(Study study) {
+    // TODO check project access rights
+    crudHelper.deleteMaster(study, true);
+    studyAttachmentService.deleteAllByStudyId(study.getId());
+  }
+
+  @Override
+  public Study save(Study study) {
+    // TODO check project access rights
+    return crudHelper.saveMaster(study, true);
+  }
+
+  @Override
+  public Study create(Study study) {
+    // TODO check project access rights
+    return crudHelper.createMaster(study, true);
   }
 }

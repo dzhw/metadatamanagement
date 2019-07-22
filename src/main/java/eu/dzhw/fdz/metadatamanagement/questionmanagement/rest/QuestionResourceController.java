@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.GenericShadowableDomainObjectResourceController;
+import eu.dzhw.fdz.metadatamanagement.common.rest.OldGenericShadowableDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.net.URI;
  */
 @RepositoryRestController
 public class QuestionResourceController
-    extends GenericShadowableDomainObjectResourceController<Question, QuestionRepository> {
+    extends OldGenericShadowableDomainObjectResourceController<Question, QuestionRepository> {
   
   @Autowired
   public QuestionResourceController(QuestionRepository questionRepository,

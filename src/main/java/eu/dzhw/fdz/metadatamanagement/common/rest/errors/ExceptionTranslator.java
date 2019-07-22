@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 import com.mongodb.DuplicateKeyException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopySaveNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.DuplicateFilenameException;
 import freemarker.core.InvalidReferenceException;
 import freemarker.core.ParseException;
@@ -353,10 +353,10 @@ public class ExceptionTranslator {
   }
 
   /**
-   * Handle {@link ShadowCopyUpdateNotAllowedException} thrown by attempts to
+   * Handle {@link ShadowCopySaveNotAllowedException} thrown by attempts to
    * update a shadowed domain object.
    */
-  @ExceptionHandler(ShadowCopyUpdateNotAllowedException.class)
+  @ExceptionHandler(ShadowCopySaveNotAllowedException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ErrorListDto handleShadowUpdateNotAllowedException() {

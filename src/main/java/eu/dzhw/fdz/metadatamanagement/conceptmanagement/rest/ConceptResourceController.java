@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.conceptmanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
+import eu.dzhw.fdz.metadatamanagement.common.rest.OldGenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
 import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @RepositoryRestController
 public class ConceptResourceController
-    extends GenericDomainObjectResourceController<Concept, ConceptRepository> {
+    extends OldGenericDomainObjectResourceController<Concept, ConceptRepository> {
 
   private final ConceptService conceptService;
 

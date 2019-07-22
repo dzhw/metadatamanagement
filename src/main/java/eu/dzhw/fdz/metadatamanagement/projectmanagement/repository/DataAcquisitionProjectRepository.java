@@ -22,22 +22,27 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 public interface DataAcquisitionProjectRepository
     extends BaseRepository<DataAcquisitionProject, String>, DataAcquisitionProjectRepositoryCustom {
 
-  List<DataAcquisitionProject> findByIdLikeOrderByIdAsc(@Param("id") String id);
+  @RestResource(exported = false)
+  List<DataAcquisitionProject> findByIdLikeOrderByIdAsc(String id);
 
+  @RestResource(exported = false)
   List<DataAcquisitionProject> findByIdLikeAndShadowIsFalseAndSuccessorIdIsNull(String id);
 
+  @RestResource(exported = true)
   List<DataAcquisitionProject>
       findAllByConfigurationPublishersContainsOrConfigurationDataProvidersContainsAndShadowIsFalse(
       @Param("login") String publishers, @Param("login") String dataProviders);
 
+  @RestResource(exported = true)
   List<DataAcquisitionProject> findAllByConfigurationPublishersContainsAndShadowIsFalse(
       @Param("login") String publishers);
 
+  @RestResource(exported = true)
   List<DataAcquisitionProject> findAllByConfigurationDataProvidersContainsAndShadowIsFalse(
       @Param("login") String dataProviders);
 
   @RestResource(exported = false)
-  Stream<DataAcquisitionProject> streamByIdAndShadowIsFalse(@Param("id") String id);
+  Stream<DataAcquisitionProject> streamByIdAndShadowIsFalse(String id);
 
   @RestResource(exported = false)
   Stream<DataAcquisitionProject> streamByIdAndShadowIsTrueAndSuccessorIdIsNull(
@@ -45,7 +50,7 @@ public interface DataAcquisitionProjectRepository
 
   @RestResource(exported = false)
   Stream<DataAcquisitionProject> streamByIdAndShadowIsTrue(String dataAcquisitionProjectId);
-
+  
   @RestResource(exported = false)
   List<IdAndVersionProjection> deleteByIdAndShadowIsTrueAndSuccessorIdIsNull(String id);
 }

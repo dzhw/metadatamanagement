@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.GenericShadowableDomainObjectResourceController;
+import eu.dzhw.fdz.metadatamanagement.common.rest.OldGenericShadowableDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.net.URI;
  */
 @RepositoryRestController
 public class SurveyResourceController 
-    extends GenericShadowableDomainObjectResourceController<Survey, SurveyRepository> {
+    extends OldGenericShadowableDomainObjectResourceController<Survey, SurveyRepository> {
 
   @Autowired
   public SurveyResourceController(SurveyRepository surveyRepository,

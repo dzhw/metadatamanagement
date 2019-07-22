@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.GenericShadowableDomainObjectResourceController;
+import eu.dzhw.fdz.metadatamanagement.common.rest.OldGenericShadowableDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.net.URI;
  */
 @RepositoryRestController
 public class InstrumentResourceController 
-    extends GenericShadowableDomainObjectResourceController<Instrument, InstrumentRepository> {
+    extends OldGenericShadowableDomainObjectResourceController<Instrument, InstrumentRepository> {
 
   @Autowired
   public InstrumentResourceController(InstrumentRepository instrumentRepository,

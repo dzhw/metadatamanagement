@@ -20,7 +20,7 @@ import com.mongodb.gridfs.GridFSDBFile;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyUpdateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopySaveNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.util.MimeTypeDetector;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 
@@ -110,7 +110,7 @@ public class AttachmentMetadataHelper<T extends AbstractRdcDomainObject> {
 
     DBObject gridFsMetadata = file.getMetaData();
     if (Boolean.TRUE.equals(gridFsMetadata.get("shadow"))) {
-      throw new ShadowCopyUpdateNotAllowedException();
+      throw new ShadowCopySaveNotAllowedException();
     }
     BasicDBObject dbObject =
         new BasicDBObject((Document) mongoTemplate.getConverter().convertToMongoType(metadata));

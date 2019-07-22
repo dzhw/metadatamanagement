@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
+import eu.dzhw.fdz.metadatamanagement.common.rest.OldGenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 
@@ -18,7 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.Re
  */
 @RepositoryRestController
 public class RelatedPublicationResourceController 
-    extends GenericDomainObjectResourceController<RelatedPublication, 
+    extends OldGenericDomainObjectResourceController<RelatedPublication, 
     RelatedPublicationRepository> {
 
   @Autowired
