@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyService;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyManagementService;
 
 /**
  * REST Controller for retrieving all survey numbers available for creating
@@ -23,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyService;
 public class AvailableSurveyNumbersResourceController {
   
   @Autowired
-  private SurveyService surveyService;
+  private SurveyManagementService surveyService;
    
   /**
    * Get all available survey numbers for the given project id.

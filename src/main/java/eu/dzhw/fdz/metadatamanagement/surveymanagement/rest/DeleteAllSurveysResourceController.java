@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyService;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyManagementService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
@@ -23,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 @RequestMapping("/api")
 public class DeleteAllSurveysResourceController {
   @Autowired
-  private SurveyService surveyService;
+  private SurveyManagementService surveyService;
 
   /**
    * delete all surveys from data acquisition project.

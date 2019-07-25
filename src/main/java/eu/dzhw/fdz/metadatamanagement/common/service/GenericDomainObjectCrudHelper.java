@@ -16,20 +16,27 @@ import org.springframework.data.rest.core.event.BeforeSaveEvent;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository.ConceptRepository;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
 /**
- * Service which implements CRUD functions for all {@link AbstractRdcDomainObject}s.
+ * Component which implements CRUD functions for all {@link AbstractRdcDomainObject}s.
  *
  * @param <S> The {@link BaseRepository} managing the data access.
  * @param <T> The {@link AbstractRdcDomainObject}.
  * 
  * @author René Reitmann
  */
-public class GenericDomainObjectCrudHelper
-  <T extends AbstractRdcDomainObject, S extends BaseRepository<T, String>> {
+public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject, S extends BaseRepository<T, String>> {
 
   private final S repository;
 
@@ -41,6 +48,8 @@ public class GenericDomainObjectCrudHelper
       Collections.unmodifiableList(Arrays.asList("createdDate", "createdBy", "version"));
 
   private final ElasticsearchType elasticsearchType;
+  
+  private final DomainObjectChangesProvider<T> domainObjectChangesProvider;
 
   /**
    * Create the CRUD service.
@@ -50,35 +59,64 @@ public class GenericDomainObjectCrudHelper
   public GenericDomainObjectCrudHelper(S repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      ElasticsearchType elasticsearchType) {
+      DomainObjectChangesProvider<T> domainObjectChangesProvider) {
     this.repository = repository;
     this.applicationEventPublisher = applicationEventPublisher;
     this.elasticsearchUpdateQueueService = elasticsearchUpdateQueueService;
-    this.elasticsearchType = elasticsearchType;
+    this.elasticsearchType = computeElasticsearchType(repository);
+    this.domainObjectChangesProvider = domainObjectChangesProvider;
+  }
+
+  private ElasticsearchType computeElasticsearchType(S repository) {
+    if (StudyRepository.class.isAssignableFrom(repository.getClass())) {
+      return ElasticsearchType.studies;
+    }
+    if (SurveyRepository.class.isAssignableFrom(repository.getClass())) {
+      return ElasticsearchType.surveys;
+    }
+    if (DataSetRepository.class.isAssignableFrom(repository.getClass())) {
+      return ElasticsearchType.data_sets;
+    }
+    if (VariableRepository.class.isAssignableFrom(repository.getClass())) {
+      return ElasticsearchType.variables;
+    }
+    if (InstrumentRepository.class.isAssignableFrom(repository.getClass())) {
+      return ElasticsearchType.instruments;
+    }
+    if (QuestionRepository.class.isAssignableFrom(repository.getClass())) {
+      return ElasticsearchType.questions;
+    }
+    if (RelatedPublicationRepository.class.isAssignableFrom(repository.getClass())) {
+      return ElasticsearchType.related_publications;
+    }
+    if (ConceptRepository.class.isAssignableFrom(repository.getClass())) {
+      return ElasticsearchType.concepts;
+    }
+    return null;
   }
 
   /**
    * Create the given {@link AbstractRdcDomainObject}. Updates elasticsearch as well.
    * 
    * @param domainObject The {@link AbstractRdcDomainObject} to be created.
-   * @param forceElasticsearchUpdate true if the search index shall be updated immediately.
    * @return The created {@link AbstractRdcDomainObject}.
    */
-  public T create(T domainObject, boolean forceElasticsearchUpdate) {
-    return doCreate(domainObject, forceElasticsearchUpdate);
+  public T create(T domainObject) {
+    return doCreate(domainObject);
   }
-  
-  private T doCreate(T domainObject, boolean forceElasticsearchUpdate) {
-    applicationEventPublisher.publishEvent(new BeforeCreateEvent(domainObject));
+
+  private T doCreate(T domainObject) {
+    if (domainObjectChangesProvider != null) {
+      domainObjectChangesProvider.put(null, domainObject);
+    }
+    applicationEventPublisher.publishEvent(new BeforeCreateEvent(domainObject));    
     // insert is not captured by javers!
     T persisted = repository.save(domainObject);
-    if (elasticsearchUpdateQueueService != null && forceElasticsearchUpdate) {      
+    if (elasticsearchType != null) {
       elasticsearchUpdateQueueService.enqueue(persisted.getId(), this.elasticsearchType,
           ElasticsearchUpdateQueueAction.UPSERT);
-      if (forceElasticsearchUpdate) {        
-        // flush the current changes
-        elasticsearchUpdateQueueService.processQueueItems(this.elasticsearchType);
-      }
+      // flush the current changes
+      elasticsearchUpdateQueueService.processQueueItems(this.elasticsearchType);
     }
     applicationEventPublisher.publishEvent(new AfterCreateEvent(persisted));
     return persisted;
@@ -89,27 +127,28 @@ public class GenericDomainObjectCrudHelper
    * well.
    * 
    * @param domainObject The {@link AbstractRdcDomainObject} to be saved.
-   * @param forceElasticsearchUpdate true if the search index shall be updated immediately.
+   * 
    * @return The saved {@link AbstractRdcDomainObject}.
    */
-  public T save(T domainObject, boolean forceElasticsearchUpdate) {
+  public T save(T domainObject) {
     T toBeSaved = domainObject;
     Optional<T> optional = repository.findById(domainObject.getId());
     if (optional.isEmpty()) {
-      return doCreate(domainObject, forceElasticsearchUpdate);
+      return doCreate(domainObject);
     }
     toBeSaved = optional.get();
+    if (domainObjectChangesProvider != null) {
+      domainObjectChangesProvider.put(toBeSaved, domainObject);
+    }
     BeanUtils.copyProperties(domainObject, toBeSaved,
         defaultIgnoreProperties.toArray(new String[defaultIgnoreProperties.size()]));
     applicationEventPublisher.publishEvent(new BeforeSaveEvent(toBeSaved));
     T persisted = repository.save(toBeSaved);
-    if (elasticsearchUpdateQueueService != null) {      
+    if (elasticsearchType != null) {
       elasticsearchUpdateQueueService.enqueue(persisted.getId(), this.elasticsearchType,
           ElasticsearchUpdateQueueAction.UPSERT);
-      if (forceElasticsearchUpdate) {        
-        // flush the current changes
-        elasticsearchUpdateQueueService.processQueueItems(this.elasticsearchType);
-      }
+      // flush the current changes
+      elasticsearchUpdateQueueService.processQueueItems(this.elasticsearchType);
     }
     applicationEventPublisher.publishEvent(new AfterSaveEvent(persisted));
     return persisted;
@@ -119,18 +158,18 @@ public class GenericDomainObjectCrudHelper
    * Delete the given {@link AbstractRdcDomainObject}. Updates elasticsearch as well.
    * 
    * @param domainObject The {@link AbstractRdcDomainObject} to be deleted.
-   * @param forceElasticsearchUpdate true if the search index shall be updated immediately.
    */
-  public void delete(T domainObject, boolean forceElasticsearchUpdate) {
+  public void delete(T domainObject) {
+    if (domainObjectChangesProvider != null) {
+      domainObjectChangesProvider.put(domainObject, null);
+    }
     applicationEventPublisher.publishEvent(new BeforeDeleteEvent(domainObject));
     repository.delete(domainObject);
-    if (elasticsearchUpdateQueueService != null) {      
+    if (elasticsearchType != null) {
       elasticsearchUpdateQueueService.enqueue(domainObject.getId(), this.elasticsearchType,
           ElasticsearchUpdateQueueAction.DELETE);
-      if (forceElasticsearchUpdate) {        
-        // flush the current changes
-        elasticsearchUpdateQueueService.processQueueItems(this.elasticsearchType);
-      }
+      // flush the current changes
+      elasticsearchUpdateQueueService.processQueueItems(this.elasticsearchType);
     }
     applicationEventPublisher.publishEvent(new AfterDeleteEvent(domainObject));
   }

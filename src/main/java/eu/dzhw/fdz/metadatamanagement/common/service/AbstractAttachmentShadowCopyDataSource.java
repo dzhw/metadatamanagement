@@ -30,13 +30,13 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainO
 public abstract class AbstractAttachmentShadowCopyDataSource
     <T extends AbstractShadowableRdcDomainObject> implements ShadowCopyDataSource<T> {
 
-  protected GridFsOperations gridFsOperations;
+  protected final GridFsOperations gridFsOperations;
 
-  protected GridFS gridFs;
+  protected final GridFS gridFs;
 
-  protected MongoTemplate mongoTemplate;
+  protected final MongoTemplate mongoTemplate;
 
-  private Class<T> attachmentClass;
+  private final Class<T> attachmentClass;
 
   /**
    * Creates a new instance.

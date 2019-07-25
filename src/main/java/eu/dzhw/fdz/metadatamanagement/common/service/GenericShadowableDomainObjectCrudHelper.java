@@ -7,7 +7,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedEx
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopySaveNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 
 /**
@@ -18,22 +17,15 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
  * 
  * @author René Reitmann
  */
-public class GenericShadowableDomainObjectCrudHelper
-    <T extends AbstractShadowableRdcDomainObject, S extends BaseRepository<T, String>>
-    extends GenericDomainObjectCrudHelper<T, S> {
+public class GenericShadowableDomainObjectCrudHelper<T extends AbstractShadowableRdcDomainObject, 
+    S extends BaseRepository<T, String>> extends GenericDomainObjectCrudHelper<T, S> {
 
   public GenericShadowableDomainObjectCrudHelper(S repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      ElasticsearchType elasticsearchType) {
+      DomainObjectChangesProvider<T> domainObjectChangesProvider) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService,
-        elasticsearchType);
-  }
-
-  public GenericShadowableDomainObjectCrudHelper(S repository,
-      ApplicationEventPublisher applicationEventPublisher) {
-    super(repository, applicationEventPublisher, null,
-        null);
+        domainObjectChangesProvider);
   }
 
   /**
@@ -41,14 +33,13 @@ public class GenericShadowableDomainObjectCrudHelper
    * well.
    * 
    * @param domainObject The master {@link AbstractShadowableRdcDomainObject} to be created.
-   * @param forceElasticsearchUpdate true if the search index shall be updated immediately.
    * @return The created master {@link AbstractShadowableRdcDomainObject}.
    */
-  public T createMaster(T domainObject, boolean forceElasticsearchUpdate) {
+  public T createMaster(T domainObject) {
     if (domainObject.isShadow()) {
       throw new ShadowCopyCreateNotAllowedException();
     }
-    return super.create(domainObject, forceElasticsearchUpdate);
+    return super.create(domainObject);
   }
 
   /**
@@ -56,14 +47,13 @@ public class GenericShadowableDomainObjectCrudHelper
    * elasticsearch as well.
    * 
    * @param domainObject The master {@link AbstractShadowableRdcDomainObject} to be saved.
-   * @param forceElasticsearchUpdate true if the search index shall be updated immediately.
    * @return The saved master {@link AbstractShadowableRdcDomainObject}.
    */
-  public T saveMaster(T domainObject, boolean forceElasticsearchUpdate) {
+  public T saveMaster(T domainObject) {
     if (domainObject.isShadow()) {
       throw new ShadowCopySaveNotAllowedException();
     }
-    return super.save(domainObject, forceElasticsearchUpdate);
+    return super.save(domainObject);
   }
 
   /**
@@ -71,13 +61,12 @@ public class GenericShadowableDomainObjectCrudHelper
    * well.
    * 
    * @param domainObject The master {@link AbstractShadowableRdcDomainObject} to be deleted.
-   * @param forceElasticsearchUpdate true if the search index shall be updated immediately.
    */
-  public void deleteMaster(T domainObject, boolean forceElasticsearchUpdate) {
+  public void deleteMaster(T domainObject) {
     if (domainObject.isShadow()) {
       throw new ShadowCopyDeleteNotAllowedException();
     }
-    super.delete(domainObject, forceElasticsearchUpdate);
+    super.delete(domainObject);
   }
 
   /**
@@ -85,14 +74,13 @@ public class GenericShadowableDomainObjectCrudHelper
    * well.
    * 
    * @param domainObject The shadow {@link AbstractShadowableRdcDomainObject} to be created.
-   * @param forceElasticsearchUpdate true if the search index shall be updated immediately.
    * @return The created shadow {@link AbstractShadowableRdcDomainObject}.
    */
-  public T createShadow(T domainObject, boolean forceElasticsearchUpdate) {
+  public T createShadow(T domainObject) {
     if (!domainObject.isShadow()) {
       throw new IllegalArgumentException("Expected a shadow copy for creating.");
     }
-    return super.create(domainObject, forceElasticsearchUpdate);
+    return super.create(domainObject);
   }
 
   /**
@@ -100,14 +88,13 @@ public class GenericShadowableDomainObjectCrudHelper
    * elasticsearch as well.
    * 
    * @param domainObject The shadow {@link AbstractShadowableRdcDomainObject} to be saved.
-   * @param forceElasticsearchUpdate true if the search index shall be updated immediately.
    * @return The saved shadow {@link AbstractShadowableRdcDomainObject}.
    */
-  public T saveShadow(T domainObject, boolean forceElasticsearchUpdate) {
+  public T saveShadow(T domainObject) {
     if (!domainObject.isShadow()) {
       throw new IllegalArgumentException("Expected a shadow copy for saving.");
     }
-    return super.save(domainObject, forceElasticsearchUpdate);
+    return super.save(domainObject);
   }
 
   /**
@@ -115,27 +102,29 @@ public class GenericShadowableDomainObjectCrudHelper
    * well.
    * 
    * @param domainObject The master {@link AbstractShadowableRdcDomainObject} to be deleted.
-   * @param forceElasticsearchUpdate true if the search index shall be updated immediately.
    */
-  public void deleteShadow(T domainObject, boolean forceElasticsearchUpdate) {
+  public void deleteShadow(T domainObject) {
     if (!domainObject.isShadow()) {
       throw new IllegalArgumentException("Expected a shadow copy for deleting.");
     }
-    super.delete(domainObject, forceElasticsearchUpdate);
-  }
-  
-  @Override
-  public T create(T domainObject, boolean forceElasticsearchUpadte) {
-    throw new IllegalAccessError("Services of shadowable domain objects must not call this directly");
+    super.delete(domainObject);
   }
 
   @Override
-  public T save(T domainObject, boolean forceElasticsearchUpdate) {
-    throw new IllegalAccessError("Services of shadowable domain objects must not call this directly");
+  public T create(T domainObject) {
+    throw new IllegalAccessError(
+        "Services of shadowable domain objects must not call this directly");
   }
 
   @Override
-  public void delete(T domainObject, boolean forceElasticsearchUpdate) {
-    throw new IllegalAccessError("Services of shadowable domain objects must not call this directly");
+  public T save(T domainObject) {
+    throw new IllegalAccessError(
+        "Services of shadowable domain objects must not call this directly");
+  }
+
+  @Override
+  public void delete(T domainObject) {
+    throw new IllegalAccessError(
+        "Services of shadowable domain objects must not call this directly");
   }
 }

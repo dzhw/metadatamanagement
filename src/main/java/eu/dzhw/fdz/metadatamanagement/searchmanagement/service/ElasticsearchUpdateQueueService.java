@@ -31,7 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DoiBuilder;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DoiBuilder;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
@@ -194,10 +194,10 @@ public class ElasticsearchUpdateQueueService {
     for (ElasticsearchUpdateQueueItem lockedItem : lockedItems) {
       switch (lockedItem.getAction()) {
         case DELETE:
-          bulkNotEmpty = bulkNotEmpty || addDeleteAction(lockedItem, bulkBuilder);
+          bulkNotEmpty = addDeleteAction(lockedItem, bulkBuilder) || bulkNotEmpty;
           break;
         case UPSERT:
-          bulkNotEmpty = bulkNotEmpty || addUpsertAction(lockedItem, bulkBuilder);
+          bulkNotEmpty = addUpsertAction(lockedItem, bulkBuilder) || bulkNotEmpty;
           break;
         default:
           throw new NotImplementedException("Processing queue item with action "
@@ -210,12 +210,11 @@ public class ElasticsearchUpdateQueueService {
       if (bulkNotEmpty) {        
         elasticsearchDao.executeBulk(bulkBuilder.build());
       }
+      // finally delete the queue items
+      queueItemRepository.deleteAll(lockedItems);
     } catch (ElasticsearchBulkOperationException ex) {
-      log.warn("Some documents in Elasticsearch could not be updated!", ex);
+      log.error("Some documents in Elasticsearch could not be updated!", ex);
     }
-
-    // finally delete the queue items
-    queueItemRepository.deleteAll(lockedItems);
   }
 
   /**
@@ -227,8 +226,10 @@ public class ElasticsearchUpdateQueueService {
    */
   private boolean addDeleteAction(ElasticsearchUpdateQueueItem lockedItem, Builder bulkBuilder) {
     bulkBuilder.addAction(
-        new Delete.Builder(lockedItem.getDocumentId()).index(lockedItem.getDocumentType().name())
-            .type(lockedItem.getDocumentType().name()).build());
+        new Delete.Builder(lockedItem.getDocumentId())
+                  .index(lockedItem.getDocumentType().name())
+                  .type(lockedItem.getDocumentType().name())
+                  .build());
     return true;
   }
 

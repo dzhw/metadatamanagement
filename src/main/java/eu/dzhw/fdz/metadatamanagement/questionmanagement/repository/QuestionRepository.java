@@ -18,7 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.Ques
  * The Repository for {@link Question} domain object. The data will be insert with a REST API and
  * save in a mongo db.
  */
-@RepositoryRestResource(path = "/questions")
+@RepositoryRestResource(path = "/questions", excerptProjection = IdAndVersionProjection.class)
 public interface QuestionRepository extends BaseRepository<Question, String> {
 
   @RestResource(exported = false)
@@ -84,6 +84,6 @@ public interface QuestionRepository extends BaseRepository<Question, String> {
   List<QuestionSubDocumentProjection> findSubDocumentsByConceptIdsContaining(String id);
 
   @RestResource(exported = false)
-  List<IdAndVersionProjection> deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+  Stream<Question> findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
       String dataAcquisitionProjectId);
 }

@@ -7,29 +7,24 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
-import org.springframework.data.rest.core.annotation.HandleAfterSave;
-import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
-import eu.dzhw.fdz.metadatamanagement.common.service.GenericShadowableDomainObjectCrudHelper;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DataAcquisitionProjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing the domain object/aggregate {@link DataAcquisitionProject}.
@@ -38,6 +33,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationPro
  */
 @Service
 @RepositoryEventHandler
+@RequiredArgsConstructor
 public class DataAcquisitionProjectManagementService
     implements CrudService<DataAcquisitionProject> {
 
@@ -53,38 +49,9 @@ public class DataAcquisitionProjectManagementService
 
   private final MetadataManagementProperties metadataManagementProperties;
 
-  private final DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource;
-
-  private final ShadowCopyService<DataAcquisitionProject> shadowCopyService;
-
   private final ShadowCopyQueueItemService shadowCopyQueueItemService;
 
-  private final GenericShadowableDomainObjectCrudHelper<DataAcquisitionProject, DataAcquisitionProjectRepository> crudHelper;
-
-  /**
-   * Creates a new {@link DataAcquisitionProjectManagementService} instance.
-   */
-  public DataAcquisitionProjectManagementService(
-      DataAcquisitionProjectRepository dataAcquisitionProjectRepo,
-      UserInformationProvider userInformationProvider,
-      DataAcquisitionProjectChangesProvider changesProvider, UserRepository userRepository,
-      MailService mailService, MetadataManagementProperties metadataManagementProperties,
-      DataAcquisitionProjectShadowCopyDataSource dataAcquisitionProjectShadowCopyDataSource,
-      ShadowCopyService<DataAcquisitionProject> shadowCopyService,
-      ShadowCopyQueueItemService shadowCopyQueueItemService,
-      ApplicationEventPublisher applicationEventPublisher) {
-    this.acquisitionProjectRepository = dataAcquisitionProjectRepo;
-    this.userInformationProvider = userInformationProvider;
-    this.changesProvider = changesProvider;
-    this.userRepository = userRepository;
-    this.mailService = mailService;
-    this.metadataManagementProperties = metadataManagementProperties;
-    this.dataAcquisitionProjectShadowCopyDataSource = dataAcquisitionProjectShadowCopyDataSource;
-    this.shadowCopyService = shadowCopyService;
-    this.shadowCopyQueueItemService = shadowCopyQueueItemService;
-    this.crudHelper = new GenericShadowableDomainObjectCrudHelper<>(dataAcquisitionProjectRepo,
-        applicationEventPublisher);
-  }
+  private final DataAcquisitionProjectCrudHelper crudHelper;
 
   /**
    * Searches for {@link DataAcquisitionProject} items for the given id. The result may be limited
@@ -129,35 +96,6 @@ public class DataAcquisitionProjectManagementService
 
   private boolean isPublisher() {
     return userInformationProvider.isUserInRole(AuthoritiesConstants.PUBLISHER);
-  }
-
-  @HandleBeforeSave
-  void onHandleBeforeSave(DataAcquisitionProject newDataAcquisitionProject) {
-    Optional<DataAcquisitionProject> oldProject =
-        acquisitionProjectRepository.findById(newDataAcquisitionProject.getId());
-    changesProvider.put(oldProject.orElse(null), newDataAcquisitionProject);
-  }
-
-  @HandleAfterSave
-  void onHandleAfterSave(DataAcquisitionProject newDataAcquisitionProject) {
-    if (!newDataAcquisitionProject.isShadow()) {
-      final String projectId = newDataAcquisitionProject.getId();
-
-      if (isProjectRelease(projectId)) {
-        shadowCopyQueueItemService.createShadowCopyTask(projectId,
-            newDataAcquisitionProject.getRelease().getVersion());
-      }
-
-      sendPublishersDataProvidersChangedMails(projectId);
-      sendAssigneeGroupChangedMails(newDataAcquisitionProject);
-    }
-  }
-
-  @EventListener
-  void onProjectReleaseEvent(ProjectReleasedEvent projectReleasedEvent) {
-    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        projectReleasedEvent.getPreviousReleaseVersion(),
-        dataAcquisitionProjectShadowCopyDataSource);
   }
 
   private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {
@@ -305,7 +243,7 @@ public class DataAcquisitionProjectManagementService
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.ADMIN})
   public void delete(DataAcquisitionProject project) {
     if (!project.getHasBeenReleasedBefore()) {
-      crudHelper.deleteMaster(project, true);
+      crudHelper.deleteMaster(project);
     } else {
       throw new IllegalStateException(
           "Project has been released before and therefore it must not be deleted.");
@@ -316,13 +254,23 @@ public class DataAcquisitionProjectManagementService
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
       AuthoritiesConstants.ADMIN})
   public DataAcquisitionProject save(DataAcquisitionProject project) {
-    return crudHelper.saveMaster(project, true);
+    project = crudHelper.saveMaster(project);
+
+    final String projectId = project.getId();
+
+    if (isProjectRelease(projectId)) {
+      shadowCopyQueueItemService.createShadowCopyTask(projectId, project.getRelease().getVersion());
+    } else {
+      sendPublishersDataProvidersChangedMails(projectId);
+      sendAssigneeGroupChangedMails(project);
+    }
+    return project;
   }
 
   @Override
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
       AuthoritiesConstants.ADMIN})
   public DataAcquisitionProject create(DataAcquisitionProject domainObject) {
-    return crudHelper.createMaster(domainObject, true);
+    return crudHelper.createMaster(domainObject);
   }
 }

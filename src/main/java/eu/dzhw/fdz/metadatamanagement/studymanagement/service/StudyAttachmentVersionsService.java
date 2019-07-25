@@ -24,6 +24,7 @@ import com.mongodb.gridfs.GridFSDBFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.service.helper.StudyAttachmentFilenameBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 /**

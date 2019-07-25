@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetService;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetManagementService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
@@ -22,7 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 @RequestMapping("/api")
 public class DeleteAllDataSetsResourceController {
   @Autowired
-  private DataSetService dataSetService;
+  private DataSetManagementService dataSetService;
 
   /**
    * delete all data sets from data acquisition project.

@@ -1,15 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueItem;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueItemRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import lombok.extern.slf4j.Slf4j;
+import java.lang.management.ManagementFactory;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.rest.core.event.AfterSaveEvent;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,15 +14,18 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.lang.management.ManagementFactory;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueItem;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * Handles the creation of shadow copies by triggering a {@link ProjectReleasedEvent}. This
- * service monitors the database for existing {@link ShadowCopyQueueItem} and creates shadow copies
- * for each one starting with the oldest entry.
+ * Handles the creation of shadow copies by triggering a {@link ShadowCopyingStartedEvent}. This service
+ * monitors the database for existing {@link ShadowCopyQueueItem} and creates shadow copies for each
+ * one starting with the oldest entry.
  */
 @Service
 @Slf4j
@@ -61,18 +60,19 @@ public class ShadowCopyQueueItemService {
 
   /**
    * Create a new shadow copy queue item.
+   * 
    * @param dataAcquisitionProjectId Id of project for which a shadow copy should be created
-   * @param shadowCopyVersion        The shadow copy version
+   * @param shadowCopyVersion The shadow copy version
    */
   public void createShadowCopyTask(String dataAcquisitionProjectId, String shadowCopyVersion) {
     ShadowCopyQueueItem queueItem = new ShadowCopyQueueItem();
 
-    Optional<ShadowCopyQueueItem> taskItem = shadowCopyQueueItemRepository
-        .findByDataAcquisitionProjectIdAndShadowCopyVersion(dataAcquisitionProjectId,
-            shadowCopyVersion);
+    Optional<ShadowCopyQueueItem> taskItem =
+        shadowCopyQueueItemRepository.findByDataAcquisitionProjectIdAndShadowCopyVersion(
+            dataAcquisitionProjectId, shadowCopyVersion);
 
-    taskItem.ifPresent(shadowCopyQueueItem -> shadowCopyQueueItemRepository
-        .delete(shadowCopyQueueItem));
+    taskItem.ifPresent(
+        shadowCopyQueueItem -> shadowCopyQueueItemRepository.delete(shadowCopyQueueItem));
 
     queueItem.setDataAcquisitionProjectId(dataAcquisitionProjectId);
     queueItem.setShadowCopyVersion(shadowCopyVersion);
@@ -81,27 +81,25 @@ public class ShadowCopyQueueItemService {
   }
 
   /**
-   * Emits {@link ProjectReleasedEvent} for each entry of the collection at a fixed rate.
+   * Emits {@link ShadowCopyingStartedEvent} for each entry of the collection at a fixed rate.
    */
   @Scheduled(fixedRate = 1000 * 60, initialDelay = 1000 * 60)
   public void createShadowCopies() {
     LocalDateTime updateStartTime = LocalDateTime.now();
     shadowCopyQueueItemRepository.lockAllUnlockedOrExpiredItems(updateStartTime, jvmId);
-    List<ShadowCopyQueueItem> tasks = shadowCopyQueueItemRepository
-        .findOldestLockedItems(updateStartTime, jvmId);
+    List<ShadowCopyQueueItem> tasks =
+        shadowCopyQueueItemRepository.findOldestLockedItems(updateStartTime, jvmId);
     log.debug("Creating shadow copies for {} queued items.", tasks.size());
     tasks.forEach(task -> {
       try {
         setupSecurityContext(task);
         String dataAcquisitionProjectId = task.getDataAcquisitionProjectId();
-        String shadowCopyVersion = task.getShadowCopyVersion();
+        String releaseVersion = task.getShadowCopyVersion();
         Optional<DataAcquisitionProject> dataAcquisitionProjectOpt =
             dataAcquisitionProjectRepository.findById(dataAcquisitionProjectId);
         if (dataAcquisitionProjectOpt.isPresent()) {
           DataAcquisitionProject dataAcquisitionProject = dataAcquisitionProjectOpt.get();
-          emitProjectReleasedEvent(dataAcquisitionProject);
-          emitProjectSavedEvent(dataAcquisitionProjectId, shadowCopyVersion);
-          updateShadowCopyPredecessor(dataAcquisitionProject, shadowCopyVersion);
+          emitProjectReleasedEvent(dataAcquisitionProject, releaseVersion);
         } else {
           log.warn("A shadow copy task was scheduled for project {}, but it could not be found!",
               dataAcquisitionProjectId);
@@ -114,27 +112,12 @@ public class ShadowCopyQueueItemService {
     log.debug("Finished creating shadow copies.");
   }
 
-  private void updateShadowCopyPredecessor(DataAcquisitionProject dataAcquisitionProject,
-                                           String shadowCopyVersion) {
-    Release previousRelease = dataAcquisitionProjectVersionsService
-        .findPreviousRelease(dataAcquisitionProject.getId(), dataAcquisitionProject.getRelease());
-    if (previousRelease != null) {
-      String lastVersion = previousRelease.getVersion();
-      if (!shadowCopyVersion.equals(lastVersion)) {
-        Optional<DataAcquisitionProject> projectOpt = dataAcquisitionProjectRepository
-            .findById(dataAcquisitionProject.getId() + "-" + lastVersion);
-        projectOpt.ifPresent(project -> applicationEventPublisher
-            .publishEvent(new AfterSaveEvent(project)));
-      }
-    }
-  }
-
   private void setupSecurityContext(ShadowCopyQueueItem shadowCopyQueueItem) {
     String username = shadowCopyQueueItem.getCreatedBy();
     try {
       UserDetails userDetails = userDetailsService.loadUserByUsername(username);
       UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-          userDetails.getUsername(), userDetails.getPassword(),userDetails.getAuthorities());
+          userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
       SecurityContextHolder.getContext().setAuthentication(token);
     } catch (UsernameNotFoundException e) {
       throw new IllegalStateException("User " + username + " created a shadow copy task for "
@@ -147,26 +130,20 @@ public class ShadowCopyQueueItemService {
     SecurityContextHolder.getContext().setAuthentication(null);
   }
 
-  // Trigger update methods in domain services so they queue document updates for ElasticSearch
-  private void emitProjectSavedEvent(String dataAcquisitionProjectId, String shadowCopyVersion) {
-    String shadowCopyId = dataAcquisitionProjectId + "-" + shadowCopyVersion;
-    Optional<DataAcquisitionProject> shadowCopyOpt = dataAcquisitionProjectRepository
-        .findById(shadowCopyId);
-
-    if (shadowCopyOpt.isPresent()) {
-      AfterSaveEvent saveEvent = new AfterSaveEvent(shadowCopyOpt.get());
-      applicationEventPublisher.publishEvent(saveEvent);
+  private void emitProjectReleasedEvent(DataAcquisitionProject dataAcquisitionProject,
+      String releaseVersion) {
+    Release currentRelease = null;
+    if (dataAcquisitionProject.getRelease() != null
+        && dataAcquisitionProject.getRelease().getVersion().equals(releaseVersion)) {
+      currentRelease = dataAcquisitionProject.getRelease();
     } else {
-      log.warn("{} created a shadow copy for project with id {}, but it's shadow copy version "
-              + "with id {} could not be found!", getClass().getSimpleName(),
-          dataAcquisitionProjectId, shadowCopyId);
+      currentRelease =
+          dataAcquisitionProjectVersionsService.findLastRelease(dataAcquisitionProject.getId());
     }
-  }
+    assert currentRelease.getVersion().equals(releaseVersion);
 
-  private void emitProjectReleasedEvent(DataAcquisitionProject dataAcquisitionProject) {
     Release previousRelease = dataAcquisitionProjectVersionsService
-        .findPreviousRelease(dataAcquisitionProject.getId(),
-            dataAcquisitionProject.getRelease());
+        .findPreviousRelease(dataAcquisitionProject.getId(), currentRelease);
     String previousVersion;
 
     if (previousRelease != null) {
@@ -174,7 +151,7 @@ public class ShadowCopyQueueItemService {
     } else {
       previousVersion = null;
     }
-    this.applicationEventPublisher.publishEvent(new ProjectReleasedEvent(this,
-        dataAcquisitionProject, previousVersion));
+    this.applicationEventPublisher.publishEvent(new ShadowCopyingStartedEvent(this,
+        dataAcquisitionProject.getId(), releaseVersion, previousVersion));
   }
 }

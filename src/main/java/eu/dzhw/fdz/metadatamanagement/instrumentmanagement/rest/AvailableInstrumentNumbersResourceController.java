@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentService;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentManagementService;
 
 /**
  * REST Controller for retrieving all instrument numbers available for creating new instruments.
@@ -23,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentSer
 public class AvailableInstrumentNumbersResourceController {
   
   @Autowired
-  private InstrumentService instrumentService;
+  private InstrumentManagementService instrumentService;
    
   /**
    * Get all available instrument numbers for the given project id.

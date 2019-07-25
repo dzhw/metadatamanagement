@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
-import eu.dzhw.fdz.metadatamanagement.common.service.TaskService;
+import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
@@ -52,7 +52,7 @@ public class DataSetReportResource {
   private UserService userService;
 
   @Autowired
-  private TaskService taskService;
+  private TaskManagementService taskService;
 
   @Value("${metadatamanagement.projectmanagement.email}")
   private String sender;

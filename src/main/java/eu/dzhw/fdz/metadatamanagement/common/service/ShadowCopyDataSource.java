@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 
 /**
- * Provides domain objects for {@link ShadowCopyService} which are used to create shadow copies.
+ * Provides domain objects for {@link ShadowCopyHelper} which are used to create shadow copies.
  * 
  * @param <T> The domain object to be copied.
  */

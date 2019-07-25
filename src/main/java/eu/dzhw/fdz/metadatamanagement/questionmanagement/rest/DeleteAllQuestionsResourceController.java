@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionService;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionManagementService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
@@ -23,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 @RequestMapping("/api")
 public class DeleteAllQuestionsResourceController {
   @Autowired
-  private QuestionService questionService;
+  private QuestionManagementService questionService;
 
   /**
    * delete all questions from data acquisition project.

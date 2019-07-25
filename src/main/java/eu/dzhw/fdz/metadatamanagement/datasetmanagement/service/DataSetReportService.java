@@ -40,7 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
-import eu.dzhw.fdz.metadatamanagement.common.service.TaskService;
+import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -89,7 +89,7 @@ public class DataSetReportService {
   private InstrumentRepository instrumentRepository;
 
   @Autowired
-  private TaskService taskService;
+  private TaskManagementService taskService;
 
   @Autowired
   private Environment environment;

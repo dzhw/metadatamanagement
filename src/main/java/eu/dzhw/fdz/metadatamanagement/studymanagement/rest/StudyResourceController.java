@@ -40,14 +40,14 @@ public class StudyResourceController extends GenericDomainObjectResourceControll
  
   @Override
   @PostMapping(value = "/studies")
-  public ResponseEntity<?> postDomainObject(@RequestBody Study variable) {
-    return super.postDomainObject(variable);
+  public ResponseEntity<?> postDomainObject(@RequestBody Study study) {
+    return super.postDomainObject(study);
   }
 
   @Override
   @PutMapping(value = "/studies/{id:.+}")
-  public ResponseEntity<?> putDomainObject(@RequestBody Study domainObject) {
-    return super.putDomainObject(domainObject);
+  public ResponseEntity<?> putDomainObject(@RequestBody Study study) {
+    return super.putDomainObject(study);
   }
 
   @Override

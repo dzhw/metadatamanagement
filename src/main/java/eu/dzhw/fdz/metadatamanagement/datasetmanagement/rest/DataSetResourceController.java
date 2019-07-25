@@ -1,20 +1,21 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.OldGenericShadowableDomainObjectResourceController;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
+import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
+import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 
 /**
  * DataSet REST Controller which overrides default spring data rest methods.
@@ -22,50 +23,36 @@ import java.net.URI;
  * @author René Reitmann
  */
 @RepositoryRestController
-public class DataSetResourceController
-    extends OldGenericShadowableDomainObjectResourceController<DataSet, DataSetRepository> {
+public class DataSetResourceController extends GenericDomainObjectResourceController
+    <DataSet, CrudService<DataSet>> {
 
   @Autowired
-  public DataSetResourceController(DataSetRepository dataSetRepository, ApplicationEventPublisher
-      applicationEventPublisher) {
-    super(dataSetRepository, applicationEventPublisher);
+  public DataSetResourceController(CrudService<DataSet> crudService) {
+    super(crudService);
   }
 
-  /**
-   * Override default get by id since it does not set cache headers correctly.
-   *
-   * @param id a dataSet id
-   * @return the dataSet or not found
-   */
-  @RequestMapping(method = RequestMethod.GET, value = "/data-sets/{id:.+}")
-  public ResponseEntity<DataSet> findDataSet(@PathVariable String id) {
-    return super.findDomainObject(id);
+  @Override
+  @GetMapping(value = "/data-sets/{id:.+}")
+  public ResponseEntity<DataSet> getDomainObject(@PathVariable String id) {
+    return super.getDomainObject(id);
   }
 
-  /**
-   * Override default put by id to prevent updates on shadow copies.
-   * @param id Data set id
-   */
-  @RequestMapping(method = RequestMethod.PUT, value = "/data-sets/{id:.+}")
-  public ResponseEntity<?> update(@PathVariable String id, @Valid @RequestBody DataSet dataSet) {
-    return super.putDomainObject(id, dataSet);
+ 
+  @Override
+  @PostMapping(value = "/data-sets")
+  public ResponseEntity<?> postDomainObject(@RequestBody DataSet DataSet) {
+    return super.postDomainObject(DataSet);
   }
 
-  /**
-   * Override default post to prevent creating shadow copies by a client.
-   * @param dataSet DataSet to create
-   */
-  @RequestMapping(method = RequestMethod.POST, value = "/data-sets")
-  public ResponseEntity<DataSet> create(@Valid @RequestBody DataSet dataSet) {
-    return super.postDomainObject(dataSet);
+  @Override
+  @PutMapping(value = "/data-sets/{id:.+}")
+  public ResponseEntity<?> putDomainObject(@RequestBody DataSet DataSet) {
+    return super.putDomainObject(DataSet);
   }
 
-  /**
-   * Override default delete to prevent deleting shadow copies.
-   * @param id Id of the data set to delete
-   */
-  @RequestMapping(method = RequestMethod.DELETE, value = "/data-sets/{id:.+}")
-  public ResponseEntity<Void> delete(@PathVariable String id) {
+  @Override
+  @DeleteMapping("/data-sets/{id:.+}")
+  public ResponseEntity<?> deleteDomainObject(@PathVariable String id) {
     return super.deleteDomainObject(id);
   }
 

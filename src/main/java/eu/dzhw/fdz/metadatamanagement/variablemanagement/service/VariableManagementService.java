@@ -6,26 +6,18 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
-import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
-import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
-import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
-import eu.dzhw.fdz.metadatamanagement.common.service.GenericShadowableDomainObjectCrudHelper;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
@@ -37,6 +29,8 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.helper.VariableCrudHelper;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing the domain object/aggregate {@link Variable}.
@@ -45,43 +39,18 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  */
 @Service
 @RepositoryEventHandler
+@RequiredArgsConstructor
 public class VariableManagementService implements CrudService<Variable> {
 
   private final QuestionRepository questionRepository;
 
-  private final VariableChangesProvider variableChangesProvider;
-
   private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
-
-  private final ShadowCopyService<Variable> shadowCopyService;
-
-  private final VariableShadowCopyDataSource variableShadowCopyDataProvider;
 
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   private final VariableRepository variableRepository;
 
-  private final GenericShadowableDomainObjectCrudHelper<Variable, VariableRepository> crudHelper;
-
-  public VariableManagementService(QuestionRepository questionRepository,
-      VariableChangesProvider variableChangesProvider,
-      RelatedPublicationChangesProvider relatedPublicationChangesProvider,
-      ShadowCopyService<Variable> shadowCopyService,
-      VariableShadowCopyDataSource variableShadowCopyDataProvider,
-      ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      VariableRepository variableRepository, ApplicationEventPublisher applicationEventPublisher) {
-    super();
-    this.questionRepository = questionRepository;
-    this.variableChangesProvider = variableChangesProvider;
-    this.relatedPublicationChangesProvider = relatedPublicationChangesProvider;
-    this.shadowCopyService = shadowCopyService;
-    this.variableShadowCopyDataProvider = variableShadowCopyDataProvider;
-    this.elasticsearchUpdateQueueService = elasticsearchUpdateQueueService;
-    this.variableRepository = variableRepository;
-    this.crudHelper = new GenericShadowableDomainObjectCrudHelper<Variable, VariableRepository>(
-        variableRepository, applicationEventPublisher, elasticsearchUpdateQueueService,
-        ElasticsearchType.variables);
-  }
+  private final VariableCrudHelper crudHelper;
 
   /**
    * Delete all variables when the dataAcquisitionProject was deleted.
@@ -107,53 +76,19 @@ public class VariableManagementService implements CrudService<Variable> {
   }
 
   /**
-   * Create shadow variables for instruments on project release.
-   * 
-   * @param projectReleasedEvent Released project event
-   */
-  @EventListener
-  public void onProjectRelease(ProjectReleasedEvent projectReleasedEvent) {
-    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        projectReleasedEvent.getPreviousReleaseVersion(), variableShadowCopyDataProvider);
-  }
-
-  /**
    * A service method for deletion of variables within a data acquisition project.
    * 
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public void deleteAllVariablesByProjectId(String dataAcquisitionProjectId) {
-    // TODO ensure project has not been released before && not marked as ready
+    // TODO check access rights by project
     try (Stream<Variable> variables =
         variableRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       variables.forEach(variable -> {
-        crudHelper.deleteMaster(variable, false);
+        crudHelper.deleteMaster(variable);
       });
     }
-  }
-
-  /**
-   * Remember the old and new variable.
-   * 
-   * @param variable the new variable
-   */
-  @HandleBeforeSave
-  public void onBeforeVariableSaved(Variable variable) {
-    // TODO move to save method (for master and shadow)
-    variableChangesProvider.put(variable,
-        variableRepository.findById(variable.getId()).orElse(null));
-  }
-
-  @HandleBeforeCreate
-  public void onBeforeVariableCreated(Variable variable) {
-    // TODO move to create method (for master and shadow)
-    variableChangesProvider.put(variable, null);
-  }
-
-  @HandleBeforeDelete
-  public void onBeforeVariableDeleted(Variable variable) {
-    // TODO move to delete method (for master and shadow)
-    variableChangesProvider.put(null, variable);
   }
 
   /**
@@ -260,21 +195,21 @@ public class VariableManagementService implements CrudService<Variable> {
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public Variable create(Variable variable) {
     // TODO check access rights by project
-    return crudHelper.createMaster(variable, true);
+    return crudHelper.createMaster(variable);
   }
 
   @Override
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public Variable save(Variable variable) {
     // TODO check access rights by project
-    return crudHelper.saveMaster(variable, true);
+    return crudHelper.saveMaster(variable);
   }
 
   @Override
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public void delete(Variable variable) {
     // TODO check access rights by project
-    crudHelper.deleteMaster(variable, true);
+    crudHelper.deleteMaster(variable);
   }
   
   @Override

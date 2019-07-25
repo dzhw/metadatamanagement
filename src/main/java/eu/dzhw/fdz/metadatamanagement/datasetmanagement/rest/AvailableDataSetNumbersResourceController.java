@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetService;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetManagementService;
 
 /**
  * REST Controller for retrieving all dataSet numbers available for creating new dataSets.
@@ -23,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetService;
 public class AvailableDataSetNumbersResourceController {
 
   @Autowired
-  private DataSetService dataSetService;
+  private DataSetManagementService dataSetService;
 
   /**
    * Get all available dataSet numbers for the given project id.

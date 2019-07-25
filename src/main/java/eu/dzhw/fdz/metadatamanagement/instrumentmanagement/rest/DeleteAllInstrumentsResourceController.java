@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentService;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentManagementService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
@@ -23,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 @RequestMapping("/api")
 public class DeleteAllInstrumentsResourceController {
   @Autowired
-  private InstrumentService instrumentService;
+  private InstrumentManagementService instrumentService;
 
   /**
    * delete all instruments from data acquisition project.

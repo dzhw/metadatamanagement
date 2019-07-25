@@ -1,10 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest;
 
+import java.net.URI;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
@@ -14,36 +14,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.domain.TaskErrorNotification;
-import eu.dzhw.fdz.metadatamanagement.common.repository.TaskRepository;
-import eu.dzhw.fdz.metadatamanagement.common.service.TaskService;
+import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 
 /**
- * Rest controller to request task status.
+ * Task REST Controller.
  * 
- * @author tgehrke
- *
+ * @author René Reitmann
  */
 @RestController
 @RequestMapping("/api")
 public class TaskResourceController
-    extends OldGenericDomainObjectResourceController<Task, TaskRepository> {
+    extends GenericDomainObjectResourceController<Task, TaskManagementService> {
   private UserService userService;
 
-  private TaskService taskService;
+  private TaskManagementService taskService;
 
   /**
    * Construct the service.
    */
-  @Autowired
-  public TaskResourceController(TaskRepository taskRepo, UserService userService,
-      TaskService taskService) {
-    super(taskRepo);
+  public TaskResourceController(UserService userService,
+      TaskManagementService taskService) {
+    super(taskService);
     this.userService = userService;
     this.taskService = taskService;
   }
@@ -54,9 +52,10 @@ public class TaskResourceController
    * @param taskId the Id of the task.
    * @return the task object.
    */
+  @Override
   @GetMapping("/tasks/{taskId}")
-  public ResponseEntity<Task> getTaskStatus(@PathVariable String taskId) {
-    return super.findDomainObject(taskId);
+  public ResponseEntity<Task> getDomainObject(@PathVariable String taskId) {
+    return super.getDomainObject(taskId);
   }
 
   /**
@@ -81,5 +80,10 @@ public class TaskResourceController
       }
     }
     return ResponseEntity.ok().build();
+  }
+
+  @Override
+  protected URI buildLocationHeaderUri(Task domainObject) {
+    return UriComponentsBuilder.fromPath("/api/tasks/" + domainObject.getId()).build().toUri();
   }
 }
