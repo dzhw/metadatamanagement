@@ -30,6 +30,7 @@ Assign Concept to an Instrument
    Run Keyword If    '${BROWSER}' == 'chrome'  Click Element Through Tooltips  xpath=//md-virtual-repeat-container[@ng-hide="$mdAutocompleteCtrl.hidden"]//ul//li//span//span[contains(., "con-d3i8h7i8g6g6i8f5b1$")]
    Run Keyword If    '${BROWSER}' == 'edge'  Click Element Through Tooltips  xpath=//md-virtual-repeat-container[@ng-hide="$mdAutocompleteCtrl.hidden"]//ul//li//span//span[contains(., "con-e4g6c2d3e4j9j9f5b1$")]
    Run Keyword If    '${BROWSER}' == 'ie'  Click Element Through Tooltips  xpath=//md-virtual-repeat-container[@ng-hide="$mdAutocompleteCtrl.hidden"]//ul//li//span//span[contains(., "con-j9b1i8i8a0i8i8f5b1$")]
+
 Click on Save Button
    Click Element Through Tooltips  xpath=//button[@ng-click="ctrl.saveInstrument()"]//md-icon[contains(., "save")]
 
@@ -44,7 +45,6 @@ Assert the concept has been assigned to the instrument
    Run Keyword If    '${BROWSER}' == 'chrome'  Page Should Contain   Konzept: Test Konzept Chrome Publisher
    Run Keyword If    '${BROWSER}' == 'edge'  Page Should Contain   Konzept: Test Konzept Edge Publisher
    Run Keyword If    '${BROWSER}' == 'ie'  Page Should Contain   Konzept: Test Konzept IE Publisher
-
 
 Assert the concept is assigned to a study
    Page Should Contain  Studie: Study Title in German
