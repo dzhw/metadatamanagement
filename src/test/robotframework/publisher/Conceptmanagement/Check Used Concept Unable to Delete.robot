@@ -19,7 +19,7 @@ Click on Concept Delete Button
    Click Element Through Tooltips  xpath=//concept-search-result//div[@data-has-any-authority="ROLE_PUBLISHER"]//button[contains(., "delete_forever")]
 
 Assert concept can not be deleted toast message
-   Element Should Contain   xpath=//md-toast[@ng-class="{'md-accent': alert}"]//p//span[contains(., "Das Konzept kann nicht gelöscht werden")]   Das Konzept kann nicht gelöscht werden
+   Page Should Contain  Das Konzept kann nicht gelöscht werden
 
 Close The Toast Message
     Click Element Through Tooltips  xpath=//button[@ng-click="closeToast()"]//following::md-icon[contains(.,"close")]
