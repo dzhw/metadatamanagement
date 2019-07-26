@@ -39,16 +39,16 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
 public class GenericDomainObjectCrudHelper
     <T extends AbstractRdcDomainObject, S extends BaseRepository<T, String>> {
 
-  private final S repository;
+  protected final S repository;
 
   private final ApplicationEventPublisher applicationEventPublisher;
 
-  private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+  protected final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   private static final List<String> defaultIgnoreProperties =
       Collections.unmodifiableList(Arrays.asList("createdDate", "createdBy", "version"));
 
-  private final ElasticsearchType elasticsearchType;
+  protected final ElasticsearchType elasticsearchType;
   
   private final DomainObjectChangesProvider<T> domainObjectChangesProvider;
 

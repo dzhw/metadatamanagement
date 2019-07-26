@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: javax.validation.constraints NotEmpty
 
 .. java:import:: javax.validation.constraints Size
@@ -22,7 +24,7 @@ TechnicalRepresentation
 .. java:package:: eu.dzhw.fdz.metadatamanagement.questionmanagement.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValueObject public class TechnicalRepresentation
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValueObject public class TechnicalRepresentation implements Serializable
 
    The technical representation of a \ :java:ref:`Question`\  which was used to generate the question for instance in an online \ :java:ref:`Instrument`\ .
 
@@ -35,6 +37,12 @@ language
    :outertype: TechnicalRepresentation
 
    The technical language of the source of this representation. E.g. "qml". Must not be empty and must not contain more than 32 characters.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: TechnicalRepresentation
 
 source
 ^^^^^^

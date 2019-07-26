@@ -7,6 +7,7 @@ import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyHelper;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.helper.DataSetShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyQueueItemService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyingEndedEvent;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyingStartedEvent;
 
 /**
@@ -31,5 +32,17 @@ public class DataSetShadowCopyService extends ShadowCopyHelper<DataSet> {
     super.createShadowCopies(shadowCopyingStartedEvent.getDataAcquisitionProjectId(),
         shadowCopyingStartedEvent.getReleaseVersion(),
         shadowCopyingStartedEvent.getPreviousReleaseVersion());
+  }
+  
+  /**
+   * Update elasticsearch (both predecessors and current shadows).
+   * 
+   * @param shadowCopyingEndedEvent Emitted by {@link ShadowCopyQueueItemService}
+   */
+  @EventListener
+  public void onShadowCopyingEnded(ShadowCopyingEndedEvent shadowCopyingEndedEvent) {
+    super.updateElasticsearch(shadowCopyingEndedEvent.getDataAcquisitionProjectId(),
+        shadowCopyingEndedEvent.getReleaseVersion(),
+        shadowCopyingEndedEvent.getPreviousReleaseVersion());
   }
 }

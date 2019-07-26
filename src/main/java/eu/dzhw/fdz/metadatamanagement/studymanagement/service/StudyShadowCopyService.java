@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyHelper;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyQueueItemService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyingEndedEvent;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyingStartedEvent;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.service.helper.StudyShadowCopyDataSource;
@@ -31,6 +32,18 @@ public class StudyShadowCopyService extends ShadowCopyHelper<Study> {
     super.createShadowCopies(shadowCopyingStartedEvent.getDataAcquisitionProjectId(),
         shadowCopyingStartedEvent.getReleaseVersion(),
         shadowCopyingStartedEvent.getPreviousReleaseVersion());
+  }
+  
+  /**
+   * Update elasticsearch (both predecessors and current shadows).
+   * 
+   * @param shadowCopyingEndedEvent Emitted by {@link ShadowCopyQueueItemService}
+   */
+  @EventListener
+  public void onShadowCopyingEnded(ShadowCopyingEndedEvent shadowCopyingEndedEvent) {
+    super.updateElasticsearch(shadowCopyingEndedEvent.getDataAcquisitionProjectId(),
+        shadowCopyingEndedEvent.getReleaseVersion(),
+        shadowCopyingEndedEvent.getPreviousReleaseVersion());
   }
 }
 

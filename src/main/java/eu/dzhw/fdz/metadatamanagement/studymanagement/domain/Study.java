@@ -59,6 +59,8 @@ import lombok.ToString;
 @ValidShadowId(message = "study-management.error.study.id.pattern")
 public class Study extends AbstractShadowableRdcDomainObject implements StudySubDocumentProjection {
 
+  private static final long serialVersionUID = -2715210632386850012L;
+
   /**
    * The id of the study which uniquely identifies the study in this application.
    */

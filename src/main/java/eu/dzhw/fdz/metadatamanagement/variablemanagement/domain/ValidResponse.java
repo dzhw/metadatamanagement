@@ -1,6 +1,8 @@
 
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,7 +22,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @Builder
-public class ValidResponse {
+public class ValidResponse implements Serializable {
+  
+  private static final long serialVersionUID = -5291769315828068076L;
 
   /**
    * An optional label for the value of this observation.

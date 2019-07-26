@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -19,7 +21,9 @@ import lombok.NoArgsConstructor;
 @ApiModel(
     description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
     + "fdz/metadatamanagement/ordermanagement/domain/Customer.html'>here</a> for further details.")
-public class Customer {
+public class Customer implements Serializable {
+
+  private static final long serialVersionUID = -2116777327999664418L;
 
   /**
    * Name of the customer as given in the shopping cart.

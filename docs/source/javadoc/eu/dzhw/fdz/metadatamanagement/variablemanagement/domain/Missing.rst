@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: javax.validation.constraints NotEmpty
 
 .. java:import:: javax.validation.constraints NotNull
@@ -22,7 +24,7 @@ Missing
 .. java:package:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Missing
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Missing implements Serializable
 
    A missing or missing value is a value in a \ :java:ref:`Variable`\  which represents a reason why no observation (\ :java:ref:`ValidResponse`\ ) has been stored. It also contains its frequency.
 
@@ -59,4 +61,10 @@ relativeFrequency
    :outertype: Missing
 
    The quotient from absoluteFrequency and \ :java:ref:`Distribution`\ .totalAbsoluteFrequency. Must not be empty.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Missing
 

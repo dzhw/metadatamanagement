@@ -58,6 +58,8 @@ import lombok.ToString;
 @ValidShadowId(message = "instrument-management.error.instrument.derived-id.pattern")
 public class Instrument extends AbstractShadowableRdcDomainObject {
 
+  private static final long serialVersionUID = 694805180930336603L;
+
   /**
    * The id of the instrument which uniquely identifies the instrument in this application.
    */

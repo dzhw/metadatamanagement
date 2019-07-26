@@ -5,8 +5,11 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +22,10 @@ import lombok.RequiredArgsConstructor;
 public class SurveyShadowCopyDataSource implements ShadowCopyDataSource<Survey> {
 
   private final SurveyRepository surveyRepository;
-  
+
   private final SurveyCrudHelper crudHelper;
+
+  private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   @Override
   public Stream<Survey> getMasters(String dataAcquisitionProjectId) {
@@ -72,7 +77,22 @@ public class SurveyShadowCopyDataSource implements ShadowCopyDataSource<Survey> 
     String oldProjectId = projectId + "-" + version;
     try (Stream<Survey> surveys = surveyRepository
         .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
-      surveys.forEach(crudHelper::deleteShadow); 
+      surveys.forEach(crudHelper::deleteShadow);
+    }
+  }
+
+  @Override
+  public void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
+      String previousVersion) {
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+      return surveyRepository
+          .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + releaseVersion);
+    }, ElasticsearchType.surveys);
+    if (!StringUtils.isEmpty(previousVersion)) {
+      elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+        return surveyRepository
+            .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + previousVersion);
+      }, ElasticsearchType.surveys);
     }
   }
 }

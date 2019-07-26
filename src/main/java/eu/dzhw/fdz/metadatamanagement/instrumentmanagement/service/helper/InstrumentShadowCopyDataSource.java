@@ -7,10 +7,13 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -24,6 +27,8 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
 
   private final InstrumentCrudHelper crudHelper;
 
+  private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
+  
   @Override
   public Stream<Instrument> getMasters(String dataAcquisitionProjectId) {
     return instrumentRepository
@@ -82,6 +87,21 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
     try (Stream<Instrument> instruments = instrumentRepository
         .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
       instruments.forEach(crudHelper::deleteShadow);
+    }
+  }
+
+  @Override
+  public void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
+      String previousVersion) {
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+      return instrumentRepository
+          .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + releaseVersion);
+    }, ElasticsearchType.instruments);
+    if (!StringUtils.isEmpty(previousVersion)) {      
+      elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+        return instrumentRepository
+            .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + previousVersion);
+      }, ElasticsearchType.instruments);
     }
   }
 }

@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringSize
@@ -20,7 +22,7 @@ GeographicCoverage
 .. java:package:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain
    :noindex:
 
-.. java:type:: @AllArgsConstructor @NoArgsConstructor @Data @Builder public class GeographicCoverage
+.. java:type:: @AllArgsConstructor @NoArgsConstructor @Data @Builder public class GeographicCoverage implements Serializable
 
    Contains data regarding the location where survey data was collected.
 
@@ -41,4 +43,10 @@ description
    :outertype: GeographicCoverage
 
    Free text description for additional information regarding the location.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: GeographicCoverage
 

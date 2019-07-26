@@ -31,6 +31,9 @@ import lombok.ToString;
 @Setter
 @SuppressWarnings("CPD-START")
 public class InstrumentSearchDocument extends Instrument implements SearchDocumentInterface {
+
+  private static final long serialVersionUID = -5421898926297821089L;
+  
   private StudySubDocument study = null;
   private StudyNestedDocument nestedStudy = null;
   private List<SurveySubDocument> surveys = 

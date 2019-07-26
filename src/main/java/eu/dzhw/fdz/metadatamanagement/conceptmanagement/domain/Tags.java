@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
@@ -12,7 +13,9 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-public class Tags {
+public class Tags implements Serializable {
+  
+  private static final long serialVersionUID = 2019192566828607087L;
 
   /**
    * German tags. At least one tag must be provided.

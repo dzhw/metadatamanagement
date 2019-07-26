@@ -1,5 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.springframework.data.annotation.Id;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
@@ -12,11 +18,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.Id;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 /**
  * Metadata which will be stored with each response rate image of a {@link Survey}.
@@ -28,6 +29,9 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 @Builder
 public class SurveyResponseRateImageMetadata extends AbstractShadowableRdcDomainObject {
+
+  private static final long serialVersionUID = -2095634291184034247L;
+
   /**
    * The id of the response rate image. Holds the complete path which can be used to download the
    * file.

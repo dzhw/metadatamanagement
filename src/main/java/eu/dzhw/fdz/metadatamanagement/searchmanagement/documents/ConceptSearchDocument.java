@@ -26,6 +26,9 @@ import lombok.ToString;
 @SuppressWarnings("CPD-START")
 public class ConceptSearchDocument extends Concept
     implements SearchDocumentInterface {
+
+  private static final long serialVersionUID = -5890470705228357297L;
+  
   private List<StudySubDocument> studies =
       new ArrayList<>();
   private List<StudyNestedDocument> nestedStudies = new ArrayList<>();

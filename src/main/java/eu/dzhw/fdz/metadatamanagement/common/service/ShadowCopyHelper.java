@@ -61,4 +61,10 @@ public class ShadowCopyHelper<T extends AbstractShadowableRdcDomainObject> {
       });
     }
   }
+
+  public void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
+      String previousVersion) {
+    shadowCopyDataSource.updateElasticsearch(dataAcquisitionProjectId, releaseVersion,
+        previousVersion);
+  }
 }

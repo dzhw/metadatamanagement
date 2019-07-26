@@ -7,10 +7,13 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -20,8 +23,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DataSetShadowCopyDataSource implements ShadowCopyDataSource<DataSet> {
   private final DataSetRepository dataSetRepository;
-  
+
   private final DataSetCrudHelper crudHelper;
+
+  private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   @Override
   public Stream<DataSet> getMasters(String dataAcquisitionProjectId) {
@@ -79,7 +84,22 @@ public class DataSetShadowCopyDataSource implements ShadowCopyDataSource<DataSet
     String oldProjectId = projectId + "-" + version;
     try (Stream<DataSet> dataSets = dataSetRepository
         .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
-      dataSets.forEach(crudHelper::deleteShadow); 
+      dataSets.forEach(crudHelper::deleteShadow);
+    }
+  }
+
+  @Override
+  public void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
+      String previousVersion) {
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+      return dataSetRepository
+          .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + releaseVersion);
+    }, ElasticsearchType.data_sets);
+    if (!StringUtils.isEmpty(previousVersion)) {      
+      elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+        return dataSetRepository
+            .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + previousVersion);
+      }, ElasticsearchType.data_sets);
     }
   }
 }

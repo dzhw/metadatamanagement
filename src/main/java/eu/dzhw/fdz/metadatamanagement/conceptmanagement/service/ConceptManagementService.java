@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -25,7 +26,8 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentChangesProvider;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyQueueItemService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyingEndedEvent;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionChangesProvider;
@@ -217,28 +219,26 @@ public class ConceptManagementService implements CrudService<Concept> {
    * Re-indexes concepts with new instrument and question references if a shadow copy of a project
    * is saved.
    *
-   * @param project Saved {@link DataAcquisitionProject}
+   * @param shadowCopyingEndedEvent Event emitted by {@link ShadowCopyQueueItemService}.
    */
-  @HandleAfterSave
-  public void onProjectUpdated(DataAcquisitionProject project) {
-    if (project.isShadow()) {
-      elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
-        Set<String> conceptIds = new HashSet<>();
-        String projectId = project.getId();
-        instrumentRepository.streamByDataAcquisitionProjectId(projectId).forEach(instrument -> {
-          if (instrument.getConceptIds() != null) {
-            conceptIds.addAll(instrument.getConceptIds());
+  @EventListener
+  public void onShadowCopyingEnded(ShadowCopyingEndedEvent shadowCopyingEndedEvent) {
+    String projectId = shadowCopyingEndedEvent.getDataAcquisitionProjectId() + "-"
+        + shadowCopyingEndedEvent.getReleaseVersion();
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+      Set<String> conceptIds = new HashSet<>();
+      instrumentRepository.streamByDataAcquisitionProjectId(projectId).forEach(instrument -> {
+        if (instrument.getConceptIds() != null) {
+          conceptIds.addAll(instrument.getConceptIds());
+        }
+        questionRepository.findSubDocumentsByInstrumentId(instrument.getId()).forEach(question -> {
+          if (question.getConceptIds() != null) {
+            conceptIds.addAll(question.getConceptIds());
           }
-          questionRepository.findSubDocumentsByInstrumentId(instrument.getId())
-              .forEach(question -> {
-                if (question.getConceptIds() != null) {
-                  conceptIds.addAll(question.getConceptIds());
-                }
-              });
         });
-        return conceptRepository.streamIdsByIdIn(conceptIds);
-      }, ElasticsearchType.concepts);
-    }
+      });
+      return conceptRepository.streamIdsByIdIn(conceptIds);
+    }, ElasticsearchType.concepts);
   }
 
   @Override

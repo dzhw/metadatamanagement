@@ -7,8 +7,11 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
@@ -24,6 +27,8 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
   private final VariableRepository variableRepository;
   
   private final VariableCrudHelper crudHelper;
+  
+  private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   @Override
   public Stream<Variable> getMasters(String dataAcquisitionProjectId) {
@@ -62,7 +67,7 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
     if (relatedQuestions != null) {
       return relatedQuestions.stream().map(relatedQuestion -> {
         RelatedQuestion copy = new RelatedQuestion();
-        BeanUtils.copyProperties(relatedQuestion, copy, "instrumentId", "questionId");
+        BeanUtils.copyProperties(relatedQuestion, copy, "variableId", "questionId");
         copy.setInstrumentId(relatedQuestion.getInstrumentId() + "-" + version);
         copy.setQuestionId(relatedQuestion.getQuestionId() + "-" + version);
         return copy;
@@ -111,6 +116,21 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
     try (Stream<Variable> variables = variableRepository
         .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
       variables.forEach(crudHelper::deleteShadow); 
+    }
+  }
+  
+  @Override
+  public void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
+      String previousVersion) {
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+      return variableRepository
+          .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + releaseVersion);
+    }, ElasticsearchType.variables);
+    if (!StringUtils.isEmpty(previousVersion)) {      
+      elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
+        return variableRepository
+            .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + previousVersion);
+      }, ElasticsearchType.variables);
     }
   }
 }

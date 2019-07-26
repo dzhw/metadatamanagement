@@ -162,4 +162,10 @@ public abstract class AbstractAttachmentShadowCopyDataSource
                 GridFsCriteria.whereMetaData("successorId").is(null)));
     gridFsOperations.delete(query);
   }
+  
+  @Override
+  public void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
+      String previousVersion) {
+    throw new IllegalAccessError("Attachment indexing has not yet been implemented!");
+  }
 }

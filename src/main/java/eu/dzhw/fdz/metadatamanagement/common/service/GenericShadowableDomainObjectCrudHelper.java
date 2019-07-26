@@ -7,6 +7,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedEx
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopySaveNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 
 /**
@@ -17,8 +18,9 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
  * 
  * @author René Reitmann
  */
-public class GenericShadowableDomainObjectCrudHelper<T extends AbstractShadowableRdcDomainObject, 
-    S extends BaseRepository<T, String>> extends GenericDomainObjectCrudHelper<T, S> {
+public class GenericShadowableDomainObjectCrudHelper
+    <T extends AbstractShadowableRdcDomainObject, S extends BaseRepository<T, String>>
+    extends GenericDomainObjectCrudHelper<T, S> {
 
   public GenericShadowableDomainObjectCrudHelper(S repository,
       ApplicationEventPublisher applicationEventPublisher,
@@ -70,8 +72,8 @@ public class GenericShadowableDomainObjectCrudHelper<T extends AbstractShadowabl
   }
 
   /**
-   * Create the given shadow {@link AbstractShadowableRdcDomainObject}. Updates elasticsearch as
-   * well.
+   * Create the given shadow {@link AbstractShadowableRdcDomainObject}. Does not do any
+   * elasticsearch updates at all. Cause the entire shadow project needs to be reindexed anyway.
    * 
    * @param domainObject The shadow {@link AbstractShadowableRdcDomainObject} to be created.
    * @return The created shadow {@link AbstractShadowableRdcDomainObject}.
@@ -80,12 +82,12 @@ public class GenericShadowableDomainObjectCrudHelper<T extends AbstractShadowabl
     if (!domainObject.isShadow()) {
       throw new IllegalArgumentException("Expected a shadow copy for creating.");
     }
-    return super.create(domainObject);
+    return repository.save(domainObject);
   }
 
   /**
-   * Save (update or create) the given shadow {@link AbstractShadowableRdcDomainObject}. Updates
-   * elasticsearch as well.
+   * Save (update or create) the given shadow {@link AbstractShadowableRdcDomainObject}. Does not do
+   * any elasticsearch updates at all. Cause the entire shadow project needs to be reindex anyway.
    * 
    * @param domainObject The shadow {@link AbstractShadowableRdcDomainObject} to be saved.
    * @return The saved shadow {@link AbstractShadowableRdcDomainObject}.
@@ -94,12 +96,13 @@ public class GenericShadowableDomainObjectCrudHelper<T extends AbstractShadowabl
     if (!domainObject.isShadow()) {
       throw new IllegalArgumentException("Expected a shadow copy for saving.");
     }
-    return super.save(domainObject);
+    return repository.save(domainObject);
   }
 
   /**
-   * Delete the given master {@link AbstractShadowableRdcDomainObject}. Updates elasticsearch as
-   * well.
+   * Delete the given shadow {@link AbstractShadowableRdcDomainObject}. Updates elasticsearch as
+   * well. But does not throw any events cause the request scoped
+   * {@link DomainObjectChangesProvider} do not work during shadow copying.
    * 
    * @param domainObject The master {@link AbstractShadowableRdcDomainObject} to be deleted.
    */
@@ -107,7 +110,13 @@ public class GenericShadowableDomainObjectCrudHelper<T extends AbstractShadowabl
     if (!domainObject.isShadow()) {
       throw new IllegalArgumentException("Expected a shadow copy for deleting.");
     }
-    super.delete(domainObject);
+    repository.delete(domainObject);
+    if (elasticsearchType != null) {
+      elasticsearchUpdateQueueService.enqueue(domainObject.getId(), this.elasticsearchType,
+          ElasticsearchUpdateQueueAction.DELETE);
+      // flush the current changes
+      elasticsearchUpdateQueueService.processQueueItems(this.elasticsearchType);
+    }
   }
 
   @Override

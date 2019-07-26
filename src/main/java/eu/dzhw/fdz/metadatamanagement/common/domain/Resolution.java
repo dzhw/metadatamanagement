@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 
 import org.javers.core.metamodel.annotation.ValueObject;
@@ -17,7 +19,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @ValueObject
-public class Resolution {
+public class Resolution implements Serializable {
+
+  private static final long serialVersionUID = -5319528181583261719L;
+
   /**
    * The width in pixel.
    */

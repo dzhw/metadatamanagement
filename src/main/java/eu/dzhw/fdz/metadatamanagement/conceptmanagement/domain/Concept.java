@@ -50,6 +50,8 @@ import lombok.ToString;
         + " for further details.")
 public class Concept extends AbstractRdcDomainObject implements ConceptSubDocumentProjection {
 
+  private static final long serialVersionUID = 2645187074336809036L;
+
   /**
    * The id of the concept which uniquely identifies the concept in this application.
    *

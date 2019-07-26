@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import org.javers.core.metamodel.annotation.ValueObject;
@@ -20,7 +21,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @ValueObject
-public class Period {
+public class Period implements Serializable {
+
+  private static final long serialVersionUID = -6927910736039696272L;
+
   /**
    * The start date of the period.
    * 

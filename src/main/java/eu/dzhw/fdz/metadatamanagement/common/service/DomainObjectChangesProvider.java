@@ -3,6 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.common.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.SerializationUtils;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 
@@ -25,10 +27,10 @@ public class DomainObjectChangesProvider<T extends AbstractRdcDomainObject> {
    */
   public void put(T oldDomainObject, T newDomainObject) {
     if (newDomainObject != null) {
-      newDomainObjects.put(newDomainObject.getId(), newDomainObject);
+      newDomainObjects.put(newDomainObject.getId(), SerializationUtils.clone(newDomainObject));
     }
     if (oldDomainObject != null) {
-      oldDomainObjects.put(oldDomainObject.getId(), oldDomainObject);
+      oldDomainObjects.put(oldDomainObject.getId(), SerializationUtils.clone(oldDomainObject));
     }
   }
 }

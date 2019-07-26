@@ -31,7 +31,8 @@ public class DataAcquisitionProjectShadowCopyDataSource
   @Override
   public DataAcquisitionProject createShadowCopy(DataAcquisitionProject source, String version) {
     String derivedId = source.getId() + "-" + version;
-    DataAcquisitionProject copy = crudHelper.read(derivedId).orElseGet(DataAcquisitionProject::new);
+    DataAcquisitionProject copy = crudHelper.read(derivedId)
+        .orElseGet(DataAcquisitionProject::new);
     BeanUtils.copyProperties(source, copy, "version");
     copy.setId(derivedId);
     return copy;
@@ -74,5 +75,12 @@ public class DataAcquisitionProjectShadowCopyDataSource
         .findByIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
       projects.forEach(crudHelper::deleteShadow);
     }
+  }
+
+  @Override
+  public void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
+      String previousVersion) {
+    throw new IllegalAccessError(
+        "DataAcquisitionProjects are currently not indexed in elasticsearch");
   }
 }

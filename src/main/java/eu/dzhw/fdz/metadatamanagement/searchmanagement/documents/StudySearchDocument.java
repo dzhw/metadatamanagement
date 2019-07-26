@@ -31,6 +31,9 @@ import lombok.ToString;
 @Getter
 @Setter
 public class StudySearchDocument extends Study implements SearchDocumentInterface {
+
+  private static final long serialVersionUID = -4015837106569277626L;
+  
   private List<DataSetSubDocument> dataSets = 
       new ArrayList<>();
   private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();

@@ -28,6 +28,9 @@ import lombok.ToString;
 @SuppressWarnings("CPD-START")
 public class RelatedPublicationSearchDocument extends RelatedPublication
     implements SearchDocumentInterface {
+  
+  private static final long serialVersionUID = -2413839238037781610L;
+  
   private List<StudySubDocument> studies =
       new ArrayList<>();
   private List<StudyNestedDocument> nestedStudies = new ArrayList<>();
