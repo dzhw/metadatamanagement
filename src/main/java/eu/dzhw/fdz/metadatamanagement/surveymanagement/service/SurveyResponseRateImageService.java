@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 import java.io.IOException;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
@@ -17,6 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRateImageMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Service for creating and updating survey images. Used for updating images in mongo
@@ -24,16 +24,14 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
  * @author Daniel Katzberg
  */
 @Service
+@RequiredArgsConstructor
 public class SurveyResponseRateImageService {
 
-  @Autowired
-  private GridFsOperations operations;
+  private final GridFsOperations operations;
  
-  @Autowired
-  private SurveyRepository surveyRepository;
+  private final SurveyRepository surveyRepository;
 
-  @Autowired
-  private AttachmentMetadataHelper<SurveyResponseRateImageMetadata> attachmentMetadataHelper;
+  private final AttachmentMetadataHelper<SurveyResponseRateImageMetadata> attachmentMetadataHelper;
 
   /**
    * This method save an image into GridFS/MongoDB based on a byteArrayOutputStream.

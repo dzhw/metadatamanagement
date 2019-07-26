@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.NotImplementedException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -67,6 +66,7 @@ import io.searchbox.core.Bulk;
 import io.searchbox.core.Bulk.Builder;
 import io.searchbox.core.Delete;
 import io.searchbox.core.Index;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -79,6 +79,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ElasticsearchUpdateQueueService {
   // id used to synchronize multiple jvm instances
   private String jvmId = ManagementFactory.getRuntimeMXBean().getName();
@@ -87,50 +88,37 @@ public class ElasticsearchUpdateQueueService {
    * MongoDB Repository with gets all queue elements for the synchronizations of the Elasticsearch
    * DB.
    */
-  @Autowired
-  private ElasticsearchUpdateQueueItemRepository queueItemRepository;
+  private final ElasticsearchUpdateQueueItemRepository queueItemRepository;
 
   /**
    * Repository for the variables for updating them.
    */
-  @Autowired
-  private VariableRepository variableRepository;
+  private final VariableRepository variableRepository;
 
-  @Autowired
-  private DataSetRepository dataSetRepository;
+  private final DataSetRepository dataSetRepository;
 
   /**
    * Repository for the surveys for updating them.
    */
-  @Autowired
-  private SurveyRepository surveyRepository;
+  private final SurveyRepository surveyRepository;
 
-  @Autowired
-  private QuestionRepository questionRepository;
+  private final QuestionRepository questionRepository;
 
-  @Autowired
-  private StudyRepository studyRepository;
+  private final StudyRepository studyRepository;
 
-  @Autowired
-  private RelatedPublicationRepository relatedPublicationRepository;
+  private final RelatedPublicationRepository relatedPublicationRepository;
 
-  @Autowired
-  private InstrumentRepository instrumentRepository;
+  private final InstrumentRepository instrumentRepository;
 
-  @Autowired
-  private ConceptRepository conceptRepository;
+  private final ConceptRepository conceptRepository;
 
-  @Autowired
-  private ElasticsearchDao elasticsearchDao;
+  private final ElasticsearchDao elasticsearchDao;
 
-  @Autowired
-  private DataAcquisitionProjectRepository projectRepository;
+  private final DataAcquisitionProjectRepository projectRepository;
 
-  @Autowired
-  private DoiBuilder doiBuilder;
-  
-  @Autowired
-  private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
+  private final DoiBuilder doiBuilder;
+
+  private final DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
 
   /**
    * Attach one item to the queue.
@@ -173,6 +161,7 @@ public class ElasticsearchUpdateQueueService {
       // check if there are more locked items to process
       lockedItems = queueItemRepository.findOldestLockedItems(jvmId, updateStart);
     }
+    elasticsearchDao.flush(List.of(ElasticsearchType.names()));
     log.info("Finished processing of ElasticsearchUpdateQueue...");
   }
 
@@ -207,7 +196,7 @@ public class ElasticsearchUpdateQueueService {
 
     // execute the bulk update/delete
     try {
-      if (bulkNotEmpty) {        
+      if (bulkNotEmpty) {
         elasticsearchDao.executeBulk(bulkBuilder.build());
       }
       // finally delete the queue items
@@ -226,10 +215,8 @@ public class ElasticsearchUpdateQueueService {
    */
   private boolean addDeleteAction(ElasticsearchUpdateQueueItem lockedItem, Builder bulkBuilder) {
     bulkBuilder.addAction(
-        new Delete.Builder(lockedItem.getDocumentId())
-                  .index(lockedItem.getDocumentType().name())
-                  .type(lockedItem.getDocumentType().name())
-                  .build());
+        new Delete.Builder(lockedItem.getDocumentId()).index(lockedItem.getDocumentType().name())
+            .type(lockedItem.getDocumentType().name()).build());
     return true;
   }
 
@@ -277,8 +264,8 @@ public class ElasticsearchUpdateQueueService {
       instrumentIds.addAll(instrumentRepository.findIdsByConceptIdsContaining(concept.getId())
           .stream().map(IdAndVersionProjection::getId).collect(Collectors.toSet()));
 
-      List<InstrumentSubDocumentProjection> instruments = new ArrayList<>(instrumentRepository
-          .findSubDocumentsByIdIn(instrumentIds));
+      List<InstrumentSubDocumentProjection> instruments =
+          new ArrayList<>(instrumentRepository.findSubDocumentsByIdIn(instrumentIds));
 
       Set<String> surveyIds = instruments.stream().map(instrument -> instrument.getSurveyIds())
           .flatMap(List::stream).collect(Collectors.toSet());
@@ -325,8 +312,6 @@ public class ElasticsearchUpdateQueueService {
     Instrument instrument = instrumentRepository.findById(lockedItem.getDocumentId()).orElse(null);
 
     if (instrument != null) {
-      StudySubDocumentProjection study =
-          studyRepository.findOneSubDocumentById(instrument.getStudyId());
       List<SurveySubDocumentProjection> surveys = new ArrayList<SurveySubDocumentProjection>();
       if (instrument.getSurveyIds() != null) {
         surveys = surveyRepository.findSubDocumentByIdIn(instrument.getSurveyIds());
@@ -359,6 +344,8 @@ public class ElasticsearchUpdateQueueService {
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
+      StudySubDocumentProjection study =
+          studyRepository.findOneSubDocumentById(instrument.getStudyId());
       String doi = doiBuilder.buildStudyDoi(study, release);
       InstrumentSearchDocument searchDocument =
           new InstrumentSearchDocument(instrument, study, surveys, questions, variables, dataSets,
@@ -611,8 +598,6 @@ public class ElasticsearchUpdateQueueService {
       Builder bulkBuilder) {
     Question question = questionRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (question != null) {
-      StudySubDocumentProjection study =
-          studyRepository.findOneSubDocumentById(question.getStudyId());
       InstrumentSubDocumentProjection instrument =
           instrumentRepository.findOneSubDocumentById(question.getInstrumentId());
       List<SurveySubDocumentProjection> surveys = new ArrayList<SurveySubDocumentProjection>();
@@ -640,6 +625,8 @@ public class ElasticsearchUpdateQueueService {
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
+      StudySubDocumentProjection study =
+          studyRepository.findOneSubDocumentById(question.getStudyId());
       String doi = doiBuilder.buildStudyDoi(study, release);
       QuestionSearchDocument searchDocument =
           new QuestionSearchDocument(question, study, instrument, surveys, variables, dataSets,
@@ -722,6 +709,7 @@ public class ElasticsearchUpdateQueueService {
       // check if there are more locked items to process
       lockedItems = queueItemRepository.findOldestLockedItemsByType(jvmId, updateStart, type);
     }
+    elasticsearchDao.flush(List.of(type.name()));
     log.debug("Finished processing of ElasticsearchUpdateQueue for type: " + type.name());
   }
 
@@ -777,11 +765,11 @@ public class ElasticsearchUpdateQueueService {
       this.enqueue(document.getId(), type, ElasticsearchUpdateQueueAction.UPSERT);
     }
   }
-  
+
   private Release getRelease(DataAcquisitionProject project) {
     Release release = project.getRelease();
     if (release == null) {
-      release = dataAcquisitionProjectVersionsService.findLastRelease(project.getId()); 
+      release = dataAcquisitionProjectVersionsService.findLastRelease(project.getId());
     }
     return release;
   }

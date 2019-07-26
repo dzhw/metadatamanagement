@@ -3,19 +3,18 @@ package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.valid
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Validator which ensures that there is a survey with the given id.
  * 
  * @author René Reitmann
  */
+@RequiredArgsConstructor
 public class SurveyExistsValidator implements ConstraintValidator<SurveyExists, String> {
 
-  @Autowired
-  private SurveyRepository surveyRepository;
+  private final SurveyRepository surveyRepository;
   
   /*
    * (non-Javadoc)

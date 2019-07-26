@@ -72,7 +72,7 @@ public class DataAcquisitionProjectShadowCopyDataSource
     String oldProjectId = projectId + "-" + version;
     try (Stream<DataAcquisitionProject> projects = dataAcquisitionProjectRepository
         .findByIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
-      projects.forEach(crudHelper::delete);
+      projects.forEach(crudHelper::deleteShadow);
     }
   }
 }

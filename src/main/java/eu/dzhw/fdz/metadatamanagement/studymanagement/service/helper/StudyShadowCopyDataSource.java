@@ -71,7 +71,7 @@ public class StudyShadowCopyDataSource implements ShadowCopyDataSource<Study> {
     String oldProjectId = projectId + "-" + version;
     try (Stream<Study> studies = studyRepository
         .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
-      studies.forEach(crudHelper::delete); 
+      studies.forEach(crudHelper::deleteShadow); 
     }
   }
 }

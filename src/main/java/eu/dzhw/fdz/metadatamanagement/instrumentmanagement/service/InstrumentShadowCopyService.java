@@ -17,7 +17,8 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyingSta
  */
 @Service
 public class InstrumentShadowCopyService extends ShadowCopyHelper<Instrument> {
-  public InstrumentShadowCopyService(InstrumentShadowCopyDataSource instrumentShadowCopyDataSource) {
+  public InstrumentShadowCopyService(
+      InstrumentShadowCopyDataSource instrumentShadowCopyDataSource) {
     super(instrumentShadowCopyDataSource);
   }
 

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
@@ -30,6 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -40,36 +40,24 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RepositoryEventHandler
+@RequiredArgsConstructor
 public class DaraUpdateQueueService {
   // id used to synchronize multiple jvm instances
   private String jvmId = ManagementFactory.getRuntimeMXBean().getName();
 
-  /**
-   * MongoDB Repository with gets all queue elements for the synchronizations of the Dara DB.
-   */
-  @Autowired
-  private DaraUpdateQueueItemRepository queueItemRepository;
+  private final DaraUpdateQueueItemRepository queueItemRepository;
   
-  @Autowired
-  private DataAcquisitionProjectRepository projectRepository;
+  private final DataAcquisitionProjectRepository projectRepository;
   
-  @Autowired
-  private StudyRepository studyRepository;
+  private final StudyRepository studyRepository;
   
-  @Autowired
-  private RelatedPublicationChangesProvider relatedPublicationChangesProvider;
+  private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
   
-  @Autowired
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
   
-  @Autowired
-  private MailService mailService;
+  private final MailService mailService;
   
-  /**
-   * The Dara Service for updating Studies on Dara.
-   */
-  @Autowired
-  private DaraService daraService;
+  private final DaraService daraService;
   
   /**
    * Update study metadata at dara if necessary.

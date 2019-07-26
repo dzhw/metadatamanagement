@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -31,28 +30,25 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import freemarker.template.TemplateException;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This Resource handles the filling of the tex template and the upload of the compiled file.
  */
 @Controller
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class DataSetReportResource {
 
-  @Autowired
-  private DataSetReportService dataSetReportService;
+  private final DataSetReportService dataSetReportService;
+  
+  private final DataSetAttachmentService dataSetAttachmentService;
 
-  @Autowired
-  private DataSetAttachmentService dataSetAttachmentService;
+  private final MailService mailService;
 
-  @Autowired
-  private MailService mailService;
+  private final UserService userService;
 
-  @Autowired
-  private UserService userService;
-
-  @Autowired
-  private TaskManagementService taskService;
+  private final TaskManagementService taskService;
 
   @Value("${metadatamanagement.projectmanagement.email}")
   private String sender;

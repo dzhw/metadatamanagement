@@ -10,8 +10,8 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRate
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper.SurveyResponseRateImageShadowCopyDataSource;
 
 /**
- * Service which generates shadow copies of all response rate images of a project, when the project has been
- * released.
+ * Service which generates shadow copies of all response rate images of a project, when the project
+ * has been released.
  * 
  * @author René Reitmann
  */
@@ -23,7 +23,7 @@ public class SurveyResponseRateImageShadowCopyService
       SurveyResponseRateImageShadowCopyDataSource shadowCopyDataSource) {
     super(shadowCopyDataSource);
   }
-  
+
   /**
    * Create shadow copies of current master response rate images on project release.
    * 

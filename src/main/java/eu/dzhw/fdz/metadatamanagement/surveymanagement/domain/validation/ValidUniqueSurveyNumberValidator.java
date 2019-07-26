@@ -1,22 +1,23 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.List;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Validates the uniqueness of number. Duplicate numbers are permitted for shadow copies.
  */
+@RequiredArgsConstructor
 public class ValidUniqueSurveyNumberValidator
     implements ConstraintValidator<ValidUniqueSurveyNumber, Survey> {
 
-  @Autowired
-  private SurveyRepository surveyRepository;
+  private final SurveyRepository surveyRepository;
 
   /*
    * (non-Javadoc)

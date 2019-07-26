@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.rest;
 
 import java.net.URI;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,10 +22,9 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
  * @author René Reitmann
  */
 @RepositoryRestController
-public class InstrumentResourceController extends GenericDomainObjectResourceController
-    <Instrument, CrudService<Instrument>> {
+public class InstrumentResourceController
+    extends GenericDomainObjectResourceController<Instrument, CrudService<Instrument>> {
 
-  @Autowired
   public InstrumentResourceController(CrudService<Instrument> crudService) {
     super(crudService);
   }
@@ -37,7 +35,7 @@ public class InstrumentResourceController extends GenericDomainObjectResourceCon
     return super.getDomainObject(id);
   }
 
- 
+
   @Override
   @PostMapping(value = "/instruments")
   public ResponseEntity<?> postDomainObject(@RequestBody Instrument instrument) {
@@ -58,6 +56,7 @@ public class InstrumentResourceController extends GenericDomainObjectResourceCon
 
   @Override
   protected URI buildLocationHeaderUri(Instrument domainObject) {
-    return UriComponentsBuilder.fromPath("/api/instruments/" + domainObject.getId()).build().toUri();
+    return UriComponentsBuilder.fromPath("/api/instruments/" + domainObject.getId()).build()
+        .toUri();
   }
 }

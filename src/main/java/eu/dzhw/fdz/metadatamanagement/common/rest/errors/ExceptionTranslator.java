@@ -1,19 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest.errors;
 
-import com.fasterxml.jackson.core.json.UTF8StreamJsonParser;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.fasterxml.jackson.databind.node.TreeTraversingParser;
-import com.mongodb.DuplicateKeyException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopySaveNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.service.DuplicateFilenameException;
-import freemarker.core.InvalidReferenceException;
-import freemarker.core.ParseException;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.hibernate.validator.internal.engine.path.PathImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -30,11 +25,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartException;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.core.json.UTF8StreamJsonParser;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.databind.node.TreeTraversingParser;
+import com.mongodb.DuplicateKeyException;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopySaveNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.DuplicateFilenameException;
+import freemarker.core.InvalidReferenceException;
+import freemarker.core.ParseException;
 
 /**
  * Controller advice to translate the server side exceptions to client-friendly json structures.
@@ -43,9 +45,8 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ExceptionTranslator {
 
-  private MessageSourceAccessor messageSourceAccessor;
+  private final MessageSourceAccessor messageSourceAccessor;
 
-  @Autowired
   public ExceptionTranslator(MessageSource messageSource) {
     this.messageSourceAccessor = new MessageSourceAccessor(messageSource);
   }

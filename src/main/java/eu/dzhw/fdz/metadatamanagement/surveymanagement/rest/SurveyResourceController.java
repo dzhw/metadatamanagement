@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
 import java.net.URI;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +25,6 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 public class SurveyResourceController extends GenericDomainObjectResourceController
     <Survey, CrudService<Survey>> {
 
-  @Autowired
   public SurveyResourceController(CrudService<Survey> crudService) {
     super(crudService);
   }

@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
 import java.net.URI;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +25,6 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 public class DataSetResourceController extends GenericDomainObjectResourceController
     <DataSet, CrudService<DataSet>> {
 
-  @Autowired
   public DataSetResourceController(CrudService<DataSet> crudService) {
     super(crudService);
   }
@@ -40,14 +38,14 @@ public class DataSetResourceController extends GenericDomainObjectResourceContro
  
   @Override
   @PostMapping(value = "/data-sets")
-  public ResponseEntity<?> postDomainObject(@RequestBody DataSet DataSet) {
-    return super.postDomainObject(DataSet);
+  public ResponseEntity<?> postDomainObject(@RequestBody DataSet dataSet) {
+    return super.postDomainObject(dataSet);
   }
 
   @Override
   @PutMapping(value = "/data-sets/{id:.+}")
-  public ResponseEntity<?> putDomainObject(@RequestBody DataSet DataSet) {
-    return super.putDomainObject(DataSet);
+  public ResponseEntity<?> putDomainObject(@RequestBody DataSet dataSet) {
+    return super.putDomainObject(dataSet);
   }
 
   @Override

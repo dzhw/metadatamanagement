@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.rest;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentManagementService;
+import lombok.RequiredArgsConstructor;
 
 /**
  * REST Controller for retrieving all instrument numbers available for creating new instruments.
@@ -20,10 +20,10 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentMan
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class AvailableInstrumentNumbersResourceController {
   
-  @Autowired
-  private InstrumentManagementService instrumentService;
+  private final InstrumentManagementService instrumentService;
    
   /**
    * Get all available instrument numbers for the given project id.

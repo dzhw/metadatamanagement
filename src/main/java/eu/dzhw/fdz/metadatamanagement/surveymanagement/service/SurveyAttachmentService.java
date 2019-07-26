@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.javers.core.Javers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -23,25 +22,22 @@ import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper.SurveyAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing attachments for surveys.
- *
  */
 @Service
+@RequiredArgsConstructor
 public class SurveyAttachmentService {
 
-  @Autowired
-  private GridFsOperations operations;
+  private final GridFsOperations operations;
 
-  @Autowired
-  private MongoTemplate mongoTemplate;
+  private final MongoTemplate mongoTemplate;
 
-  @Autowired
-  private Javers javers;
+  private final Javers javers;
 
-  @Autowired
-  private AttachmentMetadataHelper<SurveyAttachmentMetadata> attachmentMetadataHelper;
+  private final AttachmentMetadataHelper<SurveyAttachmentMetadata> attachmentMetadataHelper;
 
   /**
    * Save the attachment for a survey.

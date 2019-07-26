@@ -1,13 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
-import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyReleaseToDaraNotAllowed;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import freemarker.template.TemplateException;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.io.IOException;
+
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -20,8 +16,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.io.IOException;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyReleaseToDaraNotAllowed;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import freemarker.template.TemplateException;
+import lombok.RequiredArgsConstructor;
 
 /**
  * A Resource Class for handling releasing and unreleading of data acquisition projects to dara.
@@ -33,10 +35,10 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class DaraReleaseResource {
 
-  @Autowired
-  private DaraService daraService;
+  private final DaraService daraService;
 
   /**
    * Release a project to dara (or update it).

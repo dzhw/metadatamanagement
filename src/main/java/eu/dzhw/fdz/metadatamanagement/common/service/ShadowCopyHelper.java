@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class ShadowCopyHelper<T extends AbstractShadowableRdcDomainObject> {
 
   private static final String MASTER_DELETED_SUCCESSOR_ID = "DELETED";
-  
+
   private final ShadowCopyDataSource<T> shadowCopyDataSource;
 
   /**
@@ -52,8 +52,8 @@ public class ShadowCopyHelper<T extends AbstractShadowableRdcDomainObject> {
           });
     }
 
-    try (Stream<T> shadowCopies =
-        shadowCopyDataSource.findShadowCopiesWithDeletedMasters(dataAcquisitionProjectId, previousVersion)) {
+    try (Stream<T> shadowCopies = shadowCopyDataSource
+        .findShadowCopiesWithDeletedMasters(dataAcquisitionProjectId, previousVersion)) {
 
       shadowCopies.forEach(shadowCopy -> {
         shadowCopy.setSuccessorId(MASTER_DELETED_SUCCESSOR_ID);

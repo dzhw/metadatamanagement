@@ -5,20 +5,19 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Validates the uniqueness of question.
  */
+@RequiredArgsConstructor
 public class ValidUniqueQuestionNumberValidator
     implements ConstraintValidator<ValidUniqueQuestionNumber, Question> {
   
-  @Autowired
-  private QuestionRepository questionRepository;
+  private final QuestionRepository questionRepository;
 
   /*
    * (non-Javadoc)

@@ -72,7 +72,7 @@ public class SurveyShadowCopyDataSource implements ShadowCopyDataSource<Survey> 
     String oldProjectId = projectId + "-" + version;
     try (Stream<Survey> surveys = surveyRepository
         .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
-      surveys.forEach(crudHelper::delete); 
+      surveys.forEach(crudHelper::deleteShadow); 
     }
   }
 }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -24,8 +23,6 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
   private final InstrumentRepository instrumentRepository;
 
   private final InstrumentCrudHelper crudHelper;
-
-  private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   @Override
   public Stream<Instrument> getMasters(String dataAcquisitionProjectId) {
@@ -84,7 +81,7 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
     String oldProjectId = projectId + "-" + version;
     try (Stream<Instrument> instruments = instrumentRepository
         .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
-      instruments.forEach(crudHelper::delete);
+      instruments.forEach(crudHelper::deleteShadow);
     }
   }
 }

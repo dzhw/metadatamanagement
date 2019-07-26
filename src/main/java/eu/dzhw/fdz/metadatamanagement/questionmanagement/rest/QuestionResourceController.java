@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
 
 import java.net.URI;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +25,6 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 public class QuestionResourceController extends GenericDomainObjectResourceController
     <Question, CrudService<Question>> {
 
-  @Autowired
   public QuestionResourceController(CrudService<Question> crudService) {
     super(crudService);
   }

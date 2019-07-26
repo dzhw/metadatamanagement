@@ -71,25 +71,6 @@ public class DataAcquisitionProjectManagementService
     }
   }
 
-  /**
-   * Searches for a {@link DataAcquisitionProject} with the given id. The result depends on the
-   * user's role. Publishers and administrators find everything (provided the project with the given
-   * id exists). In all other cases the user must be a data provider for the requested project.
-   *
-   * @param projectId Project id
-   * @return Optional of {@link DataAcquisitionProject}, might contain {@code null} if the project
-   *         doesn't exist or if the user has insufficient access rights.
-   */
-  public Optional<DataAcquisitionProject> findDataAcquisitionProjectById(String projectId) {
-    String loginName = userInformationProvider.getUserLogin();
-
-    if (isAdmin() || isPublisher()) {
-      return acquisitionProjectRepository.findById(projectId);
-    } else {
-      return acquisitionProjectRepository.findByProjectIdAndDataProviderId(projectId, loginName);
-    }
-  }
-
   private boolean isAdmin() {
     return userInformationProvider.isUserInRole(AuthoritiesConstants.ADMIN);
   }

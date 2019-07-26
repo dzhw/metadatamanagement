@@ -72,7 +72,6 @@ public class QuestionResourceTest extends AbstractTest {
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
-    elasticsearchAdminService.recreateAllIndices();
   }
 
   @After
@@ -81,6 +80,7 @@ public class QuestionResourceTest extends AbstractTest {
     this.questionRepository.deleteAll();
     this.surveyRepository.deleteAll();
     this.elasticsearchUpdateQueueService.clearQueue();
+    this.elasticsearchAdminService.recreateAllIndices();
     this.javersService.deleteAll();
   }
 
@@ -102,7 +102,6 @@ public class QuestionResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one question documents
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
 
     // check that auditing attributes have been set
@@ -152,7 +151,6 @@ public class QuestionResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one question documents
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
 
@@ -282,7 +280,6 @@ public class QuestionResourceTest extends AbstractTest {
       .andExpect(status().isNotFound());
 
     // check that there are no question documents anymore
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
   }
 

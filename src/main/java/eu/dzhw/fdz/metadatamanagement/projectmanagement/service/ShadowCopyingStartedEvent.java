@@ -25,8 +25,8 @@ public class ShadowCopyingStartedEvent extends ApplicationEvent {
    * 
    * @param source Event emitter reference
    * @param dataAcquisitionProjectId id of the released project
-   * @param the version which has been released
-   * @param the previous version or null
+   * @param releaseVersion the version which has been released
+   * @param previousReleaseVersion the previous version or null
    */
   public ShadowCopyingStartedEvent(Object source, String dataAcquisitionProjectId,
       String releaseVersion, String previousReleaseVersion) {

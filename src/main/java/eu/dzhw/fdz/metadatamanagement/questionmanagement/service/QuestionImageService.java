@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -20,6 +19,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedEx
 import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Service for creating and updating images. Used for updating images in mongo.
@@ -27,16 +27,14 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
  * @author Daniel Katzberg
  */
 @Service
+@RequiredArgsConstructor
 public class QuestionImageService {
 
-  @Autowired
-  private GridFsOperations operations;
+  private final GridFsOperations operations;
 
-  @Autowired
-  private MongoTemplate mongoTemplate;
+  private final MongoTemplate mongoTemplate;
   
-  @Autowired
-  private AttachmentMetadataHelper<QuestionImageMetadata> attachmentMetadataHelper;
+  private final AttachmentMetadataHelper<QuestionImageMetadata> attachmentMetadataHelper;
 
   /**
    * This method save an image into GridFS/MongoDB based on a byteArrayOutputStream.

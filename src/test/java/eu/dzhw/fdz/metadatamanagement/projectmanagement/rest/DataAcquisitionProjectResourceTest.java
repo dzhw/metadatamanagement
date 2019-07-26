@@ -35,6 +35,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
@@ -63,6 +64,9 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
  
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
 
   @Before
   public void setup() {
@@ -74,6 +78,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     rdcProjectRepository.deleteAll();
     javersService.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
+    elasticsearchAdminService.recreateAllIndices();
   }
 
   @Test
@@ -116,7 +121,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     //delete not created project
     mockMvc.perform(delete(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
-        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
 
     // create the project with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -300,22 +305,6 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", equalTo(project.getId())));
-  }
-
-  @Test
-  @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER, username = DATA_PROVIDER_USERNAME)
-  public void testFindById_404() throws Exception {
-    Configuration configuration = UnitTestCreateDomainObjectUtils
-        .buildDataAcquisitionProjectConfiguration(Collections.singletonList("aPublisherId"),
-            Collections.singletonList("anotherDataProviderId"));
-
-    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    project.setConfiguration(configuration);
-
-    rdcProjectRepository.save(project);
-
-    mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
-        .andExpect(status().isNotFound());
   }
 
   /**

@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -28,6 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdat
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -37,40 +37,30 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ElasticsearchAdminService {
   
-  @Autowired
-  private ElasticsearchDao elasticsearchDao;
+  private final ElasticsearchDao elasticsearchDao;
 
-  @Autowired
-  private VariableRepository variableRepository;
+  private final VariableRepository variableRepository;
   
-  @Autowired
-  private SurveyRepository surveyRepository;
+  private final SurveyRepository surveyRepository;
   
-  @Autowired
-  private DataSetRepository dataSetRepository;
+  private final DataSetRepository dataSetRepository;
   
-  @Autowired
-  private QuestionRepository questionRepository;
+  private final QuestionRepository questionRepository;
   
-  @Autowired
-  private RelatedPublicationRepository relatedPublicationRepository;
+  private final RelatedPublicationRepository relatedPublicationRepository;
   
-  @Autowired
-  private InstrumentRepository instrumentRepository;
+  private final InstrumentRepository instrumentRepository;
   
-  @Autowired
-  private StudyRepository studyRepository;
+  private final StudyRepository studyRepository;
   
-  @Autowired
-  private ConceptRepository conceptRepository;
+  private final ConceptRepository conceptRepository;
   
-  @Autowired
-  private ElasticsearchUpdateQueueService updateQueueService;
+  private final ElasticsearchUpdateQueueService updateQueueService;
 
-  @Autowired
-  private ResourceLoader resourceLoader;
+  private final ResourceLoader resourceLoader;
   
   private JsonParser jsonParser = new JsonParser();
 
@@ -212,7 +202,7 @@ public class ElasticsearchAdminService {
     if (elasticsearchDao.exists(type.name())) {
       elasticsearchDao.delete(type.name());
       // deleting is asynchronous and thus searchly complains if we create the new index to early
-      elasticsearchDao.refresh(Arrays.asList(type.name()));
+      elasticsearchDao.flush(Arrays.asList(type.name()));
     }
     elasticsearchDao.createIndex(type.name(), loadSettings());
     elasticsearchDao.putMapping(type.name(), type.name(), 
@@ -254,21 +244,6 @@ public class ElasticsearchAdminService {
       throw new RuntimeException("Unable to load mapping for index " + type + " and type " + type,
           e);
     }
-  }
-  
-  /**
-   * Refresh all elasticsearch indices.
-   */
-  public void refreshAllIndices() {
-    elasticsearchDao.refresh(Arrays.asList(
-        ElasticsearchType.names()));
-  }
-  
-  /**
-   * Refresh elasticsearch index.
-   */
-  public void refreshIndex(ElasticsearchType type) {
-    elasticsearchDao.refresh(Arrays.asList(type.name()));
   }
   
   /**

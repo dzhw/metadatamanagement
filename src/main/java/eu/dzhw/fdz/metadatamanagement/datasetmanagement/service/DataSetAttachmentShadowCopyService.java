@@ -16,11 +16,13 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyingSta
  * @author René Reitmann
  */
 @Service
-public class DataSetAttachmentShadowCopyService extends ShadowCopyHelper<DataSetAttachmentMetadata> {
-  public DataSetAttachmentShadowCopyService(DataSetAttachmentShadowCopyDataSource shadowCopyDataSource) {
+public class DataSetAttachmentShadowCopyService
+    extends ShadowCopyHelper<DataSetAttachmentMetadata> {
+  public DataSetAttachmentShadowCopyService(
+      DataSetAttachmentShadowCopyDataSource shadowCopyDataSource) {
     super(shadowCopyDataSource);
   }
-  
+
   /**
    * Create shadow copies of current master dataSet attachments on project release.
    * 

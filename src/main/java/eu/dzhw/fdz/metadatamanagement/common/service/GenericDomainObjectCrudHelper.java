@@ -36,7 +36,8 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  * 
  * @author René Reitmann
  */
-public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject, S extends BaseRepository<T, String>> {
+public class GenericDomainObjectCrudHelper
+    <T extends AbstractRdcDomainObject, S extends BaseRepository<T, String>> {
 
   private final S repository;
 
@@ -131,12 +132,11 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject, S 
    * @return The saved {@link AbstractRdcDomainObject}.
    */
   public T save(T domainObject) {
-    T toBeSaved = domainObject;
     Optional<T> optional = repository.findById(domainObject.getId());
     if (optional.isEmpty()) {
       return doCreate(domainObject);
     }
-    toBeSaved = optional.get();
+    T toBeSaved = optional.get();
     if (domainObjectChangesProvider != null) {
       domainObjectChangesProvider.put(toBeSaved, domainObject);
     }

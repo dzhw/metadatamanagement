@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.regex.Pattern;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
 import org.springframework.stereotype.Component;
@@ -16,6 +15,7 @@ import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Generate DOIs which will be sent to DARA on release of a {@link DataAcquisitionProject}.
@@ -23,9 +23,10 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySub
  * @author René Reitmann
  */
 @Component
+@RequiredArgsConstructor
 public class DoiBuilder {
-  @Autowired
-  private Environment environment;
+  
+  private final Environment environment;
 
   private static final Pattern VERSION_SUFFIX = Pattern.compile("-[0-9]+\\.[0-9]+\\.[0-9]+$");
 

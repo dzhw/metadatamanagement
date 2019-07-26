@@ -29,7 +29,8 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionP
 @RepositoryRestController
 @Validated
 public class DataAcquisitionProjectResourceController extends
-    GenericDomainObjectResourceController<DataAcquisitionProject, CrudService<DataAcquisitionProject>> {
+    GenericDomainObjectResourceController<DataAcquisitionProject, 
+      CrudService<DataAcquisitionProject>> {
 
   private final DataAcquisitionProjectManagementService projectManagementService;
 
@@ -41,7 +42,7 @@ public class DataAcquisitionProjectResourceController extends
 
   /**
    * Project saving currently uses a special validator therefore we cannot directly override
-   * {@link GenericDomainObjectResourceController#putDomainObject(DataAcquisitionProject)}
+   * {@link GenericDomainObjectResourceController#putDomainObject(DataAcquisitionProject)}.
    * 
    * @param project The {@link DataAcquisitionProject} to be created.
    * @return The saved {@link DataAcquisitionProject}.
@@ -51,17 +52,16 @@ public class DataAcquisitionProjectResourceController extends
       @ValidDataAcquisitionProjectSave @RequestBody DataAcquisitionProject project) {
     return super.putDomainObject(project);
   }
-  
+
   /**
    * Project saving currently uses a special validator therefore we cannot directly override
-   * {@link GenericDomainObjectResourceController#postDomainObject(DataAcquisitionProject)}
+   * {@link GenericDomainObjectResourceController#postDomainObject(DataAcquisitionProject)}.
    * 
    * @param project The {@link DataAcquisitionProject} to be created.
    * @return The created {@link DataAcquisitionProject}.
    */
-  @PostMapping("/data-acquisition-projects/{id:.+}")
-  public ResponseEntity<?> postProject(
-      @ValidDataAcquisitionProjectSave @RequestBody DataAcquisitionProject project) {
+  @PostMapping("/data-acquisition-projects")
+  public ResponseEntity<?> postProject(@RequestBody DataAcquisitionProject project) {
     return super.postDomainObject(project);
   }
 

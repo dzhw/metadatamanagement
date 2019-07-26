@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.conceptmanagement.rest;
 
 import java.net.URI;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +32,6 @@ import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptInUseExcep
 public class ConceptResourceController extends GenericDomainObjectResourceController
     <Concept, CrudService<Concept>> {
 
-  @Autowired
   public ConceptResourceController(CrudService<Concept> crudService) {
     super(crudService);
   }

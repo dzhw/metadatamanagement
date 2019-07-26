@@ -26,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import freemarker.template.TemplateException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -35,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class TaskManagementService implements CrudService<Task> {
   private final TaskRepository taskRepo;
 
@@ -44,26 +46,13 @@ public class TaskManagementService implements CrudService<Task> {
 
   private final MailService mailService;
   
-  private final Integer instanceId;
+  @Value("${metadatamanagement.server.instance-index}")
+  private Integer instanceId;
 
-  private final String projectManagementEmailSender;
+  @Value("${metadatamanagement.projectmanagement.email}")
+  private String projectManagementEmailSender;
 
   private final TaskCrudHelper crudHelper;
-
-  public TaskManagementService(TaskRepository taskRepo, CounterService counterService,
-      UserRepository userRepository, MailService mailService, 
-      @Value("${metadatamanagement.server.instance-index}") Integer instanceId,
-      @Value("${metadatamanagement.projectmanagement.email}") String projectManagementEmailSender,
-      TaskCrudHelper crudHelper) {
-    super();
-    this.taskRepo = taskRepo;
-    this.counterService = counterService;
-    this.userRepository = userRepository;
-    this.mailService = mailService;
-    this.instanceId = instanceId;
-    this.projectManagementEmailSender = projectManagementEmailSender;
-    this.crudHelper = crudHelper;
-  }
 
   /**
    * Create a task.

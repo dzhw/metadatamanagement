@@ -67,7 +67,6 @@ public class InstrumentResourceControllerTest extends AbstractTest {
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
-    elasticsearchAdminService.recreateAllIndices();
   }
 
   @After
@@ -75,6 +74,7 @@ public class InstrumentResourceControllerTest extends AbstractTest {
     this.dataAcquisitionProjectRepository.deleteAll();
     this.instrumentRepository.deleteAll();
     this.elasticsearchUpdateQueueService.clearQueue();
+    this.elasticsearchAdminService.recreateAllIndices();
     this.javersService.deleteAll();
   }
 
@@ -98,7 +98,6 @@ public class InstrumentResourceControllerTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one instrument document
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
 
     // check that auditing attributes have been set
@@ -150,7 +149,6 @@ public class InstrumentResourceControllerTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one instrument documents
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
 

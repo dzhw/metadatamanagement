@@ -18,6 +18,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -43,37 +44,36 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  * @author Daniel Katzberg
  *
  */
-@WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+@WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class RelatedPublicationResourceTest extends AbstractTest {
   private static final String API_RELATED_PUBLICATION_URI = "/api/related-publications";
-  
+
   @Autowired
   private WebApplicationContext wac;
-  
+
   @Autowired
   private RelatedPublicationRepository publicationRepository;
-  
+
   @Autowired
   private StudyRepository studyRepository;
-  
+
   @Autowired
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
-  
+
   @Autowired
   private ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
-  
+
   @Autowired
   private JaversService javersService;
-  
+
   private MockMvc mockMvc;
 
   @Before
   public void setup() {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-      .build();
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
   @After
@@ -85,222 +85,233 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     this.elasticsearchAdminService.recreateAllIndices();
     this.javersService.deleteAll();
   }
-  
+
   @Test
   public void testCreateRelatedPublications() throws IOException, Exception {
-    //ARRANGE
+    // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     studyRepository.save(study);
-    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
-    //ACT
+    RelatedPublication relatedPublication =
+        UnitTestCreateDomainObjectUtils.buildRelatedPublication();
+    // ACT
     // create the related publication with the given id
     this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
-      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
-      .andExpect(status().isCreated());
+        .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
-    //ASSERT
+    // ASSERT
     // read the related publication under the new url
     this.mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
-      .andExpect(status().isOk());
-    
+        .andExpect(status().isOk());
+
     elasticsearchUpdateQueueService.processAllQueueItems();
 
-    // check that there is one data set document
-    elasticsearchAdminService.refreshAllIndices();
+    // check that there is one study and one publication document
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
   }
-  
+
   @Test
   public void testCreateRelatedPublicationsWithoutAuthors() throws IOException, Exception {
-    //ARRANGE
+    // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     studyRepository.save(study);
-    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication(null, 2017);
-    
-    //ACT
-    this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
-      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
-      .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message", containsString("related-publication-management.error.related-publication.authors.not-empty")));
+    RelatedPublication relatedPublication =
+        UnitTestCreateDomainObjectUtils.buildRelatedPublication(null, 2017);
+
+    // ACT
+    this.mockMvc
+        .perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+            .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString(
+            "related-publication-management.error.related-publication.authors.not-empty")));
   }
-  
+
   @Test
   public void testCreateRelatedPublicationsWithInvalidYearInPast() throws IOException, Exception {
-    //ARRANGE
+    // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     studyRepository.save(study);
-    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication("TestAuthors", 1959);
-    
-    //ACT
-    this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
-      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
-      .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message", containsString("related-publication-management.error.related-publication.year.valid")));
+    RelatedPublication relatedPublication =
+        UnitTestCreateDomainObjectUtils.buildRelatedPublication("TestAuthors", 1959);
+
+    // ACT
+    this.mockMvc
+        .perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+            .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
+            containsString("related-publication-management.error.related-publication.year.valid")));
   }
-  
+
   @Test
   public void testCreateRelatedPublicationsWithInvalidYearInFuture() throws IOException, Exception {
-    //ARRANGE
+    // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     studyRepository.save(study);
     LocalDate date = LocalDate.now();
-    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication("TestAuthors", date.getYear() + 1);
-    
-    //ACT
-    this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
-      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
-      .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message", containsString("related-publication-management.error.related-publication.year.valid")));
+    RelatedPublication relatedPublication =
+        UnitTestCreateDomainObjectUtils.buildRelatedPublication("TestAuthors", date.getYear() + 1);
+
+    // ACT
+    this.mockMvc
+        .perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+            .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
+            containsString("related-publication-management.error.related-publication.year.valid")));
   }
-  
+
   @Test
   public void testUpdateRelatedPublications() throws IOException, Exception {
-    //ARRANGE
+    // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     studyRepository.save(study);
-    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
-    
-    //ACT
+    RelatedPublication relatedPublication =
+        UnitTestCreateDomainObjectUtils.buildRelatedPublication();
+
+    // ACT
     // create the related publication with the given id
     this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
-      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
-      .andExpect(status().isCreated());
-    
-    relatedPublication.setDoi("Another DOI");
-    
-    //update the related publication with the given id
-    mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
-      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
-      .andExpect(status().is2xxSuccessful());
+        .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
-    //ASSERT
+    relatedPublication.setDoi("Another DOI");
+
+    // update the related publication with the given id
+    mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+        .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().is2xxSuccessful());
+
+    // ASSERT
     // read the related publication under the new url
     mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.id", is(relatedPublication.getId())))
-      .andExpect(jsonPath("$.doi", is("Another DOI")));
-    
+        .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(relatedPublication.getId())))
+        .andExpect(jsonPath("$.doi", is("Another DOI")));
+
     elasticsearchUpdateQueueService.processAllQueueItems();
 
-    // check that there are one data set document
-    elasticsearchAdminService.refreshAllIndices();
+    // check that there are is one study and one publication document
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
   }
-  
+
   @Test
   public void testDeleteRelatedPublications() throws IOException, Exception {
-    //ARRANGE
+    // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     studyRepository.save(study);
-    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
-    
-    //ACT
+    RelatedPublication relatedPublication =
+        UnitTestCreateDomainObjectUtils.buildRelatedPublication();
+
+    // ACT
     // create the related publication with the given id
     this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
-      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
-      .andExpect(status().isCreated());
+        .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
     
     // delete the related publication under the new url
     mockMvc.perform(delete(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
-      .andExpect(status().is2xxSuccessful());
+        .andExpect(status().is2xxSuccessful());
 
     // ensure it is really deleted
     mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
-      .andExpect(status().isNotFound());
+        .andExpect(status().isNotFound());
     
-    studyRepository.deleteById(study.getId());
+    // check that there is one study document left
     elasticsearchUpdateQueueService.processAllQueueItems();
-
-    // check that there are two data set documents plus two surveys
-    elasticsearchAdminService.refreshAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
-  
+
   @Test
   public void testUpdateStudyWithInvalidReleaseDoi() throws IOException, Exception {
-  //ARRANGE
+    // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     studyRepository.save(study);
-    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
-    
-    
-    relatedPublication.setDoi("ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong." + 
-        "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong." +
-        "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong." + 
-        "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong." +
-        "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong." + 
-        "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong." +
-        "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong." + 
-        "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.");
-    
-    //ACT and ASSERT
+    RelatedPublication relatedPublication =
+        UnitTestCreateDomainObjectUtils.buildRelatedPublication();
+
+
+    relatedPublication.setDoi(
+        "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong."
+            + "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong."
+            + "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong."
+            + "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong."
+            + "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong."
+            + "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong."
+            + "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong."
+            + "ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.ThisDoiIsTooLong.");
+
+    // ACT and ASSERT
     // create the related publication with the given id
     this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
-      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
-      .andExpect(status().is4xxClientError());
+        .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
   }
-  
+
   @Test
   public void testCreateRelatedPublicationWithInvalidStudySeries() throws IOException, Exception {
-    //ARRANGE
+    // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     studyRepository.save(study);
-    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
+    RelatedPublication relatedPublication =
+        UnitTestCreateDomainObjectUtils.buildRelatedPublication();
     I18nString studySeries = I18nString.builder().de("test").en("test").build();
     relatedPublication.setStudySerieses(Collections.singletonList(studySeries));
-    
+
     // ACT and Assert
-    this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
-      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
-    .andExpect(status().isBadRequest())
-    .andExpect(jsonPath("$.errors[0].message", 
-        containsString("related-publication-management.error.related-publication.study-series-exists")));
+    this.mockMvc
+        .perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
+            .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message", containsString(
+            "related-publication-management.error.related-publication.study-series-exists")));
   }
-  
+
   @Test
   public void testCreateRelatedPublicationWithValidStudySeries() throws IOException, Exception {
-    //ARRANGE
+    // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
     I18nString studySeries = I18nString.builder().de("test").en("test").build();
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     study.setStudySeries(studySeries);
     studyRepository.save(study);
-    RelatedPublication relatedPublication = UnitTestCreateDomainObjectUtils.buildRelatedPublication();
+    RelatedPublication relatedPublication =
+        UnitTestCreateDomainObjectUtils.buildRelatedPublication();
     relatedPublication.setStudySerieses(Collections.singletonList(studySeries));
-    
+
     // ACT and Assert
     this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
-      .content(TestUtil.convertObjectToJsonBytes(relatedPublication)))
-    .andExpect(status().isCreated());
-    
+        .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+
     // read the related publication under the new url
     mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.id", is(relatedPublication.getId())))
-      .andExpect(jsonPath("$.studySerieses[0].de", is(studySeries.getDe())))
-      .andExpect(jsonPath("$.studySerieses[0].en", is(studySeries.getEn())));
-    
+        .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(relatedPublication.getId())))
+        .andExpect(jsonPath("$.studySerieses[0].de", is(studySeries.getDe())))
+        .andExpect(jsonPath("$.studySerieses[0].en", is(studySeries.getEn())));
+
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there are two documents (study and related publication)
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
   }
 }

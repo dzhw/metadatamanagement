@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentManagementService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for deleting instruments of a data acquisition project.
@@ -18,12 +18,12 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  * @author tgehrke
  *
  */
-
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class DeleteAllInstrumentsResourceController {
-  @Autowired
-  private InstrumentManagementService instrumentService;
+  
+  private final InstrumentManagementService instrumentService;
 
   /**
    * delete all instruments from data acquisition project.

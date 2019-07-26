@@ -38,6 +38,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachment
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.helper.DataSetAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
@@ -50,6 +51,9 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
 
   @Autowired
   private JaversService javersService;
@@ -72,6 +76,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
   public void cleanUp() {
     this.dataSetRepository.deleteAll();
     this.elasticsearchUpdateQueueItemRepository.deleteAll();
+    this.elasticsearchAdminService.recreateAllIndices();
     this.javersService.deleteAll();
     gridFs.getFileList().iterator().forEachRemaining(gridFs::remove);
   }

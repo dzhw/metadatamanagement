@@ -17,6 +17,12 @@ public class DomainObjectChangesProvider<T extends AbstractRdcDomainObject> {
   protected Map<String, T> oldDomainObjects = new HashMap<>();
   protected Map<String, T> newDomainObjects = new HashMap<>();
 
+  /**
+   * Put the old and new version of the {@link AbstractRdcDomainObject} into the changes provider.
+   * 
+   * @param oldDomainObject the old version of the {@link AbstractRdcDomainObject}
+   * @param newDomainObject the new version of the {@link AbstractRdcDomainObject}
+   */
   public void put(T oldDomainObject, T newDomainObject) {
     if (newDomainObject != null) {
       newDomainObjects.put(newDomainObject.getId(), newDomainObject);

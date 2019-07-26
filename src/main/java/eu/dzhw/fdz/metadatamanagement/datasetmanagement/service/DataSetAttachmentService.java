@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.javers.core.Javers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -26,28 +25,26 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachment
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.helper.DataSetAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing attachments for data sets.
  *
+ * @author René Reitmann
  */
 @Service
+@RequiredArgsConstructor
 public class DataSetAttachmentService {
 
-  @Autowired
-  private GridFsOperations operations;
+  private final GridFsOperations operations;
 
-  @Autowired
-  private MongoTemplate mongoTemplate;
+  private final MongoTemplate mongoTemplate;
 
-  @Autowired
-  private Javers javers;
+  private final Javers javers;
 
-  @Autowired
-  private DataSetRepository dataSetRepository;
+  private final DataSetRepository dataSetRepository;
 
-  @Autowired
-  private AttachmentMetadataHelper<DataSetAttachmentMetadata> attachmentMetadataHelper;
+  private final AttachmentMetadataHelper<DataSetAttachmentMetadata> attachmentMetadataHelper;
 
   /**
    * Save the attachment for a data set.

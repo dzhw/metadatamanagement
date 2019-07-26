@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.javers.core.Javers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -21,24 +20,22 @@ import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing attachments for {@link Concept}s.
  */
 @Service
+@RequiredArgsConstructor
 public class ConceptAttachmentService {
-
-  @Autowired
-  private GridFsOperations operations;
   
-  @Autowired
-  private MongoTemplate mongoTemplate;
+  private final GridFsOperations operations;
   
-  @Autowired
-  private Javers javers;
+  private final MongoTemplate mongoTemplate;
+  
+  private final Javers javers;
 
-  @Autowired
-  private AttachmentMetadataHelper<ConceptAttachmentMetadata> attachmentMetadataHelper;
+  private final AttachmentMetadataHelper<ConceptAttachmentMetadata> attachmentMetadataHelper;
 
   /**
    * Save the attachment for a {@link Concept}. 

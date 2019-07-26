@@ -69,7 +69,6 @@ public class StudyResourceControllerTest extends AbstractTest {
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
-    elasticsearchAdminService.recreateAllIndices();
   }
 
   @After
@@ -77,6 +76,7 @@ public class StudyResourceControllerTest extends AbstractTest {
     dataAcquisitionProjectRepository.deleteAll();
     studyRepository.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
+    elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
   }
   

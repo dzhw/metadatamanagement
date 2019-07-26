@@ -121,7 +121,6 @@ public class DataSetResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one data set documents
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
 
@@ -245,7 +244,6 @@ public class DataSetResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there are no more data set documents
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
   }
 
@@ -284,7 +282,6 @@ public class DataSetResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one data set documents
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
 

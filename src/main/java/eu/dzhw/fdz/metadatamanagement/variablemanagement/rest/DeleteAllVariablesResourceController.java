@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableManagementService;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for deleting variables of a data acquisition project.
@@ -18,12 +18,12 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableManagem
  * @author tgehrke
  *
  */
-
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class DeleteAllVariablesResourceController {
-  @Autowired
-  private VariableManagementService variableService;
+
+  private final VariableManagementService variableService;
 
   /**
    * delete all variables from data acquisition project.

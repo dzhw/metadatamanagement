@@ -18,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.domain.TaskErrorNotification;
+import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -32,16 +33,16 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 @RequestMapping("/api")
 public class TaskResourceController
     extends GenericDomainObjectResourceController<Task, TaskManagementService> {
-  private UserService userService;
-
-  private TaskManagementService taskService;
+  private final UserService userService;
+  
+  private final TaskManagementService taskService;
 
   /**
-   * Construct the service.
+   * Construct the controller.
    */
-  public TaskResourceController(UserService userService,
+  public TaskResourceController(CrudService<Task> crudService, UserService userService,
       TaskManagementService taskService) {
-    super(taskService);
+    super(crudService);
     this.userService = userService;
     this.taskService = taskService;
   }

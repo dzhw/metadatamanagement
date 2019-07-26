@@ -82,7 +82,7 @@ public class QuestionShadowCopyDataSource implements ShadowCopyDataSource<Questi
     String oldProjectId = projectId + "-" + version;
     try (Stream<Question> questions = questionRepository
         .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
-      questions.forEach(crudHelper::delete); 
+      questions.forEach(crudHelper::deleteShadow); 
     }
   }
 }

@@ -7,6 +7,7 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
@@ -49,6 +50,9 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
   
   @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
+  
+  @Autowired
   private JaversService javersService;
 
   @Autowired
@@ -69,6 +73,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
   public void cleanUp() {
     this.surveyRepository.deleteAll();
     this.elasticsearchUpdateQueueItemRepository.deleteAll();
+    this.elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
     this.gridFs.getFileList().iterator().forEachRemaining(gridFs::remove);
   }

@@ -23,9 +23,9 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Handles the creation of shadow copies by triggering a {@link ShadowCopyingStartedEvent}. This service
- * monitors the database for existing {@link ShadowCopyQueueItem} and creates shadow copies for each
- * one starting with the oldest entry.
+ * Handles the creation of shadow copies by triggering a {@link ShadowCopyingStartedEvent}. This
+ * service monitors the database for existing {@link ShadowCopyQueueItem} and creates shadow copies
+ * for each one starting with the oldest entry.
  */
 @Service
 @Slf4j

@@ -79,7 +79,7 @@ public class DataSetShadowCopyDataSource implements ShadowCopyDataSource<DataSet
     String oldProjectId = projectId + "-" + version;
     try (Stream<DataSet> dataSets = dataSetRepository
         .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
-      dataSets.forEach(crudHelper::delete); 
+      dataSets.forEach(crudHelper::deleteShadow); 
     }
   }
 }

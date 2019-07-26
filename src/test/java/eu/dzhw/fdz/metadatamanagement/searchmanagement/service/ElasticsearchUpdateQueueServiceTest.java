@@ -21,9 +21,13 @@ public class ElasticsearchUpdateQueueServiceTest extends AbstractTest {
   @Autowired
   private ElasticsearchUpdateQueueItemRepository itemRepository;
   
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
+  
   @After
   public void cleanUp() {
     elasticsearchUpdateQueueService.clearQueue();
+    elasticsearchAdminService.recreateAllIndices();
   }
 
   @Test

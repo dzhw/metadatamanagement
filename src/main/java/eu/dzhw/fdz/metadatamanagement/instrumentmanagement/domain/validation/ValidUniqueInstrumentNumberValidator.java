@@ -5,21 +5,21 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Validates the uniqueness of number.
  */
+@RequiredArgsConstructor
 public class ValidUniqueInstrumentNumberValidator
     implements ConstraintValidator<ValidUniqueInstrumentNumber, Instrument> {
   
-  @Autowired
-  private InstrumentRepository instrumentRepository;
+  private final InstrumentRepository instrumentRepository;
 
   /*
    * (non-Javadoc)
