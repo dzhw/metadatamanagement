@@ -22,7 +22,6 @@ Click on Concept Delete Button
    Click Element Through Tooltips  xpath=//concept-search-result//div[@data-has-any-authority="ROLE_PUBLISHER"]//button[contains(., "delete_forever")][1]
 
 Assert concept can not be deleted toast message
-   Run Keyword if  '${BROWSER}' == 'ie'  Sleep  2s   # to avoid failing is travis
    Page Should Contain  Das Konzept kann nicht gelöscht werden
 
 Close The Toast Message
