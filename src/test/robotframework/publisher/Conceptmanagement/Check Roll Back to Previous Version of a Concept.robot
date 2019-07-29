@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Roll back to previous version of a concept. Prerequisite to have "Bereits referenziertes Konzept mit Instrument" concept in the system.
+Documentation     Roll back to previous version of a concept. Prerequisite to have "Roll Back Concept ${BROWSER} De" concept in the system.
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
@@ -8,26 +8,20 @@ Resource          ../../resources/search_resource.robot
 Check already used concept can not be deleted
     Get Back to german home page
     Click on concept tab
-    Click on Concept Edit Button
-    Click on Restore Button
-    Click on the previous concept version
-    Click on Save Button
-    Click on Restore Button
-    Get back to the actual concept verison
-    Click on Save Button
+    Concept Roll Back
 
 *** Keywords ***
-Click on Concept Edit Button
-   Click Element Through Tooltips  xpath=//concept-search-result//div[@data-has-any-authority="ROLE_PUBLISHER"]//md-icon[contains(., "mode_edit")]
-
-Click on Restore Button
+Concept Roll Back
+   Search for  Roll Back Concept ${BROWSER} De
+   Run Keyword if  '${BROWSER}' == 'chrome'  Sleep  3s  #chrome is too fast
+   Click on the first search result
+   Click Element Through Tooltips  xpath=//button[@ng-click="ctrl.conceptEdit()"]//md-icon[contains(., "mode_edit")]
    Click Element Through Tooltips  xpath=//button[@ng-click="ctrl.openRestorePreviousVersionDialog($event)"]//md-icon[contains(., "undo")]
-
-Click on the previous concept version
-   Click Element Through Tooltips  xpath=//md-dialog-content//table//tr//td[contains(., "Bereits referenziertes Konzept mit Instrument_rollback")]
-
-Get back to the actual concept verison
-   Click Element Through Tooltips  xpath=//md-dialog-content//table//tr[@class="ng-scope"]//td[contains(., "Bereits referenziertes Konzept mit Instrument")]
-
-Click on Save Button
+   Click Element Through Tooltips  xpath=//md-dialog-content//table//tr//td[contains(., "Roll Back Concept ${BROWSER} De_Rollback")]
    Click Element Through Tooltips  xpath=//button[@ng-click="ctrl.saveConcept()"]//md-icon[contains(., "save")]
+   Click Element Through Tooltips  xpath=//button[@ng-click="ctrl.openRestorePreviousVersionDialog($event)"]//md-icon[contains(., "undo")]
+   Click Element Through Tooltips  xpath=//md-dialog-content//table//tr[@class="ng-scope"]//td[contains(., "Roll Back Concept ${BROWSER} De")]
+   Click Element Through Tooltips  xpath=//button[@ng-click="ctrl.saveConcept()"]//md-icon[contains(., "save")]
+
+Click on the first search result
+    Click Element Through Tooltips   xpath=//a[@class='fdz-search-result'][1]
