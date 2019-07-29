@@ -361,7 +361,7 @@ public class ExceptionTranslator {
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ErrorListDto handleShadowUpdateNotAllowedException() {
-    ErrorDto errorDto = new ErrorDto(null, "global.error.shadow-update-not-allowed", null, null);
+    ErrorDto errorDto = new ErrorDto(null, "global.error.shadow-save-not-allowed", null, null);
     ErrorListDto errorListDto = new ErrorListDto();
     errorListDto.add(errorDto);
     return errorListDto;

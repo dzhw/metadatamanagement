@@ -307,7 +307,7 @@ public class QuestionResourceTest extends AbstractTest {
     mockMvc.perform(put(API_QUESTIONS_URI + "/" + question.getId())
         .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-save-not-allowed")));
   }
 
   @Test

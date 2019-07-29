@@ -5,7 +5,6 @@ import java.time.ZoneId;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 
@@ -29,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 public abstract class GenericDomainObjectResourceController
     <T extends AbstractRdcDomainObject, S extends CrudService<T>> {
 
-  private final CrudService<T> crudService;
+  protected final CrudService<T> crudService;
 
   /**
    * Retrieve the {@link AbstractRdcDomainObject} and set the cache header.
@@ -69,11 +68,10 @@ public abstract class GenericDomainObjectResourceController
    * @param domainObject The {@link AbstractRdcDomainObject} to be saved.
    */
   public ResponseEntity<?> putDomainObject(T domainObject) {
-    if (domainObject.getVersion() == null || StringUtils.isEmpty(domainObject.getId())) {
-      T createdObject = crudService.create(domainObject);
-      return ResponseEntity.created(buildLocationHeaderUri(createdObject)).build();
+    T persisted = crudService.save(domainObject);
+    if (persisted.getVersion() == 0) {
+      return ResponseEntity.created(buildLocationHeaderUri(persisted)).build();
     }
-    crudService.save(domainObject);
     return ResponseEntity.noContent().build();
   }
 

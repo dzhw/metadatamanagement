@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.regex.Pattern;
 
 import org.springframework.core.env.Environment;
@@ -44,12 +42,8 @@ public class DoiBuilder {
         return "10.21249/DZHW:" + stripVersionSuffix(study.getDataAcquisitionProjectId()) + ":"
             + release.getVersion();
       } else {
-        if (LocalDate.now().isAfter(LocalDate.of(2019, Month.MAY, 31))) {
-          return "10.17889/DZHW:" + stripVersionSuffix(study.getDataAcquisitionProjectId()) + ":"
-              + release.getVersion();
-        }
-        return "10.5072/DZHW:" + stripVersionSuffix(study.getDataAcquisitionProjectId()) + ":"
-            + release.getVersion();
+        return "10.17889/DZHW:" + stripVersionSuffix(study.getDataAcquisitionProjectId()) + ":"
+            + release.getVersion();        
       }
     }
     return null;

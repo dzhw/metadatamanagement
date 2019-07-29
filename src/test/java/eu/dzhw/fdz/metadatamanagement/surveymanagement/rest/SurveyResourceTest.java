@@ -378,7 +378,7 @@ public class SurveyResourceTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(survey))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-save-not-allowed")));
   }
 
   @Test

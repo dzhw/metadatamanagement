@@ -280,7 +280,7 @@ public class InstrumentResourceControllerTest extends AbstractTest {
     mockMvc.perform(put(API_INSTRUMENTS_URI + "/" + instrument.getId())
         .content(TestUtil.convertObjectToJsonBytes(instrument)).contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-save-not-allowed")));
 
   }
 

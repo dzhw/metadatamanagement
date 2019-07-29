@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRate
 public class SurveyResponseRateImageShadowCopyDataSource
     extends AbstractAttachmentShadowCopyDataSource<SurveyResponseRateImageMetadata> {
 
-  private static final String RATE_IMAGE_PATTERN = "/surveys/.+/.+_responserate_*";
+  private static final String RATE_IMAGE_PATTERN = "/surveys/sur((?!attachments).)*responserate.*";
 
   /**
    * Create a new instance.
