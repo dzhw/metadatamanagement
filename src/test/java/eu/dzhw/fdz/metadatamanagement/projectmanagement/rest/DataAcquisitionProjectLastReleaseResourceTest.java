@@ -91,12 +91,14 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
-
+    project.setVersion(0L);
+    
     // update the study with the given id
     project.setHasBeenReleasedBefore(true);
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
+    project.setVersion(1L);
 
     // update the study again with the given id
     project.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
@@ -134,6 +136,7 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
 
+    project.setVersion(0L);
     // Assert that the last version is null
     Release lastRelease = this.versionsService.findLastRelease(project.getId());
     assertNull(lastRelease);

@@ -186,7 +186,7 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
         .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
-
+    relatedPublication.setVersion(0L);
     relatedPublication.setDoi("Another DOI");
 
     // update the related publication with the given id

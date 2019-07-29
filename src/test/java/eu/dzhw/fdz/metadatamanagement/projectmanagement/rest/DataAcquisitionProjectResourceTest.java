@@ -163,14 +163,15 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
-
+    project.setVersion(0L);
+    
     // update the project
     mockMvc
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().is2xxSuccessful());
-
+    
     // load the project with the complete projection
     mockMvc
         .perform(

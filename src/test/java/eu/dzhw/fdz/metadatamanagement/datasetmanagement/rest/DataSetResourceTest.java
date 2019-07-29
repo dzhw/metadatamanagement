@@ -304,7 +304,7 @@ public class DataSetResourceTest extends AbstractTest {
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet("issue1991", "test", 1);
     dataSet.setId(dataSet.getId() + "-1.0.0");
 
-    dataSetRepository.save(dataSet);
+    dataSet = dataSetRepository.save(dataSet);
 
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
         .content(TestUtil.convertObjectToJsonBytes(dataSet))
