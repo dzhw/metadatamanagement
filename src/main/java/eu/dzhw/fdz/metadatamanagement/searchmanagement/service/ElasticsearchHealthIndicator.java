@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health.Builder;
 import org.springframework.stereotype.Component;
@@ -11,6 +10,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchU
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
 import io.searchbox.indices.Stats;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -20,18 +20,12 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class ElasticsearchHealthIndicator extends AbstractHealthIndicator {
 
   private final JestClient jestClient;
 
   private final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-
-  @Autowired
-  public ElasticsearchHealthIndicator(JestClient jestClient,
-      ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository) {
-    this.jestClient = jestClient;
-    this.elasticsearchUpdateQueueItemRepository = elasticsearchUpdateQueueItemRepository;
-  }
 
   @Override
   protected void doHealthCheck(Builder builder) throws Exception {

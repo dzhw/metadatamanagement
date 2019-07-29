@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest.errors;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author René Reitmann
  * @author Daniel Katzberg
  */
-public class ErrorListDto {
+public class ErrorListDto implements Serializable {
+
+  private static final long serialVersionUID = 3522368688720531808L;
+  
   /* A List for ErrorDtos */
   private List<ErrorDto> errorDtos = new ArrayList<>();
   

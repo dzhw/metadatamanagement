@@ -54,6 +54,12 @@ location
 
    The location URI of the result of the task.
 
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Task
+
 state
 ^^^^^
 

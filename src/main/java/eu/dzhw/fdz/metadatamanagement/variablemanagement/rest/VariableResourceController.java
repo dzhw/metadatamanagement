@@ -1,19 +1,20 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.GenericShadowableDomainObjectResourceController;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
+import java.net.URI;
+
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
+import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
+import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
  * Variable REST Controller which overrides default spring data rest methods.
@@ -21,57 +22,40 @@ import java.net.URI;
  * @author René Reitmann
  */
 @RepositoryRestController
-public class VariableResourceController 
-    extends GenericShadowableDomainObjectResourceController<Variable, VariableRepository> {
+public class VariableResourceController extends GenericDomainObjectResourceController
+    <Variable, CrudService<Variable>> {
 
-  @Autowired
-  public VariableResourceController(VariableRepository variableRepository,
-                                    ApplicationEventPublisher applicationEventPublisher) {
-    super(variableRepository, applicationEventPublisher);
+  public VariableResourceController(CrudService<Variable> crudService) {
+    super(crudService);
   }
 
-  /**
-   * Override default get by id since it does not set cache headers correctly.
-   * 
-   * @param id a Variable id
-   * @return the Variable or not found
-   */
-  @RequestMapping(method = RequestMethod.GET, value = "/variables/{id:.+}")
-  public ResponseEntity<Variable> findVariable(@PathVariable String id) {
-    return super.findDomainObject(id);
+  @Override
+  @GetMapping(value = "/variables/{id:.+}")
+  public ResponseEntity<Variable> getDomainObject(@PathVariable String id) {
+    return super.getDomainObject(id);
   }
 
-  /**
-   * Override default post to prevent clients from creating shadow copies.
-   * @param variable Variable
-   */
-  @RequestMapping(method = RequestMethod.POST, value = "/variables")
-  public ResponseEntity<?> postVariable(@Valid @RequestBody Variable variable) {
+ 
+  @Override
+  @PostMapping(value = "/variables")
+  public ResponseEntity<?> postDomainObject(@RequestBody Variable variable) {
     return super.postDomainObject(variable);
   }
 
-  /**
-   * Override default put to prevent clients from creating shadow copies.
-   * @param id Variable id
-   * @param variable Variable
-   */
-  @RequestMapping(method = RequestMethod.PUT, value = "/variables/{id:.+}")
-  public ResponseEntity<?> putVariable(@PathVariable String id,
-                                       @Valid @RequestBody Variable variable) {
-    return super.putDomainObject(id, variable);
+  @Override
+  @PutMapping(value = "/variables/{id:.+}")
+  public ResponseEntity<?> putDomainObject(@RequestBody Variable domainObject) {
+    return super.putDomainObject(domainObject);
   }
 
-  /**
-   * Override default delete to prevent clients from creating shadow copies.
-   * @param id Variable id
-   */
-  @RequestMapping(method = RequestMethod.DELETE, value = "/variables/{id:.+}")
-  public ResponseEntity<?> deleteVariable(@PathVariable String id) {
+  @Override
+  @DeleteMapping("/variables/{id:.+}")
+  public ResponseEntity<?> deleteDomainObject(@PathVariable String id) {
     return super.deleteDomainObject(id);
   }
 
   @Override
   protected URI buildLocationHeaderUri(Variable domainObject) {
-    return null;
+    return UriComponentsBuilder.fromPath("/api/variables/" + domainObject.getId()).build().toUri();
   }
 }

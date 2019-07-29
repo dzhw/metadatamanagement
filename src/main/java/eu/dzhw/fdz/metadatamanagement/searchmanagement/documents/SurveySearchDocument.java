@@ -31,6 +31,9 @@ import lombok.ToString;
 @Getter
 @Setter
 public class SurveySearchDocument extends Survey implements SearchDocumentInterface {
+
+  private static final long serialVersionUID = -3963249178909573553L;
+  
   private StudySubDocument study = null;
   private StudyNestedDocument nestedStudy = null;
   private List<DataSetSubDocument> dataSets = 

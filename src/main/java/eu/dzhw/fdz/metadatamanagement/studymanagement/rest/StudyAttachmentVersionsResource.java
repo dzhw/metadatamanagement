@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyAttachmentVersionsService;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for retrieving previous version of the 
@@ -22,10 +22,10 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyAttachmentVer
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class StudyAttachmentVersionsResource {
   
-  @Autowired
-  private StudyAttachmentVersionsService studyAttachmentVersionsService;
+  private final StudyAttachmentVersionsService studyAttachmentVersionsService;
     
   /**
    * Get the previous 10 versions of the study attachment metadata.

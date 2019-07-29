@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.conceptmanagement.rest;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.service.ConceptVersionsService;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for retrieving previous version of a {@link Concept}.
@@ -21,10 +21,10 @@ import eu.dzhw.fdz.metadatamanagement.conceptmanagement.service.ConceptVersionsS
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class ConceptVersionsResource {
   
-  @Autowired
-  private ConceptVersionsService conceptVersionsService;
+  private final ConceptVersionsService conceptVersionsService;
     
   /**
    * Get the previous 5 versions of the {@link Concept}.

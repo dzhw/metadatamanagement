@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: javax.validation.constraints NotEmpty
 
 .. java:import:: javax.validation.constraints NotNull
@@ -16,7 +18,7 @@ OrderedStudy
 .. java:package:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain
    :noindex:
 
-.. java:type:: @Data @ApiModel public class OrderedStudy
+.. java:type:: @Data @ApiModel public class OrderedStudy implements Serializable
 
    Partial \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study`\  which is part of a \ :java:ref:`Product`\ . It is a copy of the \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study`\  attributes which is made when the \ :java:ref:`Customer`\  places the orders.
 
@@ -37,6 +39,12 @@ id
    :outertype: OrderedStudy
 
    The id of the \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study`\ . Must not be empty.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: OrderedStudy
 
 title
 ^^^^^

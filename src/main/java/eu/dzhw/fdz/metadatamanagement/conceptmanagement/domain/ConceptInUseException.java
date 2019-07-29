@@ -1,8 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain;
 
-import lombok.Getter;
-
 import java.util.Set;
+
+import lombok.Getter;
 
 /**
  * Thrown if a delete attempt was made while the Concept is referenced by an instance of
@@ -11,6 +11,8 @@ import java.util.Set;
  */
 public class ConceptInUseException extends RuntimeException {
 
+  private static final long serialVersionUID = -6974472294658484192L;
+  
   @Getter
   private final Set<String> instrumentIds;
   @Getter

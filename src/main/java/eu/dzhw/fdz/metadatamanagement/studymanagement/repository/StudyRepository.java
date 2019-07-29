@@ -20,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySub
  *
  * @author Daniel Katzberg
  */
-@RepositoryRestResource(path = "/studies")
+@RepositoryRestResource(path = "/studies", excerptProjection = IdAndVersionProjection.class)
 @JaversSpringDataAuditable
 public interface StudyRepository extends BaseRepository<Study, String>, StudyRepositoryCustom {
 
@@ -56,8 +56,7 @@ public interface StudyRepository extends BaseRepository<Study, String>, StudyRep
   boolean existsByStudySeries(I18nString studySeries);
 
   @RestResource(exported = false)
-  Stream<Study> streamByDataAcquisitionProjectIdAndShadowIsFalse(
-      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
+  Stream<Study> streamByDataAcquisitionProjectIdAndShadowIsFalse(String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
   Stream<Study> streamByDataAcquisitionProjectIdAndSuccessorIdIsNullAndShadowIsTrue(
@@ -74,6 +73,6 @@ public interface StudyRepository extends BaseRepository<Study, String>, StudyRep
   Stream<IdAndVersionProjection> streamIdsByMasterIdIn(Collection<String> dataSetIds);
 
   @RestResource(exported = false)
-  List<IdAndVersionProjection> deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+  Stream<Study> findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
       String dataAcquisitionProjectId);
 }

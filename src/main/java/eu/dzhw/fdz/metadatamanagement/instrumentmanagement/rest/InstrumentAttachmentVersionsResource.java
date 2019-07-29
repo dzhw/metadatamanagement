@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.rest;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentAttachmentVersionsService;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for retrieving previous version of the {@link InstrumentAttachmentMetadata}
@@ -22,10 +22,10 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentAtt
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class InstrumentAttachmentVersionsResource {
   
-  @Autowired
-  private InstrumentAttachmentVersionsService instrumentAttachmentVersionsService;
+  private final InstrumentAttachmentVersionsService instrumentAttachmentVersionsService;
     
   /**
    * Get the previous 10 versions of the instrument attachment metadata.

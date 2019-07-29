@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import com.github.zafarkhaja.semver.ParseException;
@@ -12,6 +11,7 @@ import com.github.zafarkhaja.semver.Version;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Ensure that a {@link Release} contains a valid semantic version
@@ -19,11 +19,11 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionP
  * 
  * @author René Reitmann
  */
+@RequiredArgsConstructor
 public class ValidSemanticVersionValidator implements 
     ConstraintValidator<ValidSemanticVersion, DataAcquisitionProject> {
   
-  @Autowired
-  private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
+  private final DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
 
   /*
    * (non-Javadoc)

@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.websocket;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -12,7 +11,7 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import org.springframework.stereotype.Controller;
 
 import eu.dzhw.fdz.metadatamanagement.usermanagement.websocket.dto.MessageDto;
-import io.micrometer.core.annotation.Timed;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -22,9 +21,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Controller
 @Slf4j
+@RequiredArgsConstructor
 public class UserMessagesController {
-  @Autowired
-  private TokenStore tokenStore;
+  
+  private final TokenStore tokenStore;
 
   /**
    * Send the given message to all users after checking the authorization of the user.
@@ -35,7 +35,6 @@ public class UserMessagesController {
    */
   @MessageMapping("/user-messages")
   @SendTo("/topic/user-messages")
-  @Timed
   public MessageDto sendMessageToAllUsers(MessageDto message, 
       @Header("access_token") String accessToken) throws Exception {
     OAuth2AccessToken oauth2accessToken = tokenStore.readAccessToken(accessToken);

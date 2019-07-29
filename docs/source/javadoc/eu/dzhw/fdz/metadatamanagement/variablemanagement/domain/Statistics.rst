@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: javax.validation.constraints Size
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
@@ -16,7 +18,7 @@ Statistics
 .. java:package:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Statistics
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Statistics implements Serializable
 
    Descriptive metrics of this \ :java:ref:`Variable`\ .
 
@@ -109,6 +111,12 @@ mode
    :outertype: Statistics
 
    The mode is the value (\ :java:ref:`ValidResponse`\ ) that appears most often.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Statistics
 
 skewness
 ^^^^^^^^

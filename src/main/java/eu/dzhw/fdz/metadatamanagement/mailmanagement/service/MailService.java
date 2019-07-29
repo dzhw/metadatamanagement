@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
@@ -28,6 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.TaskErrorNotification;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -37,21 +37,18 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class MailService {
-  @Autowired
-  private JHipsterProperties jhipsterProperties;
+  
+  private final JHipsterProperties jhipsterProperties;
 
-  @Autowired
-  private JavaMailSenderImpl javaMailSender;
+  private final JavaMailSenderImpl javaMailSender;
 
-  @Autowired
-  private MessageSource messageSource;
+  private final MessageSource messageSource;
 
-  @Autowired
-  private SpringTemplateEngine templateEngine;
+  private final SpringTemplateEngine templateEngine;
 
-  @Autowired
-  private Environment env;
+  private final Environment env;
 
   @Value("${metadatamanagement.server.context-root}")
   private String baseUrl;

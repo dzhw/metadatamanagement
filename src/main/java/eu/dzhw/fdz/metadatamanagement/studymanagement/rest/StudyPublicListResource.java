@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.validation.constraints.Max;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyListService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -32,10 +32,10 @@ import lombok.extern.slf4j.Slf4j;
 @Validated
 @Api(value = "Study List Resource",
     description = "Endpoint for retrieving released studies.")
+@RequiredArgsConstructor
 public class StudyPublicListResource {
 
-  @Autowired
-  private StudyListService studylistService;
+  private final StudyListService studylistService;
 
   /**
    * Request a pageble list of released studies.

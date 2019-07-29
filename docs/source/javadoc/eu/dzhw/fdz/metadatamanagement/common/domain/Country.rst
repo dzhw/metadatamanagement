@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Data
@@ -8,7 +10,7 @@ Country
 .. java:package:: eu.dzhw.fdz.metadatamanagement.common.domain
    :noindex:
 
-.. java:type:: @Data @AllArgsConstructor public class Country
+.. java:type:: @Data @AllArgsConstructor public class Country implements Serializable
 
    Represents a country with it's 2-letter country code and it's display name in german and english.
 
@@ -30,5 +32,11 @@ en
 ^^
 
 .. java:field:: private String en
+   :outertype: Country
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
    :outertype: Country
 

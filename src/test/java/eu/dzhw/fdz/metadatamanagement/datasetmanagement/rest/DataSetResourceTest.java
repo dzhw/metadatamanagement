@@ -121,7 +121,6 @@ public class DataSetResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one data set documents
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
 
@@ -245,7 +244,6 @@ public class DataSetResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there are no more data set documents
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
   }
 
@@ -284,7 +282,6 @@ public class DataSetResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one data set documents
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
 
@@ -307,13 +304,13 @@ public class DataSetResourceTest extends AbstractTest {
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet("issue1991", "test", 1);
     dataSet.setId(dataSet.getId() + "-1.0.0");
 
-    dataSetRepository.save(dataSet);
+    dataSet = dataSetRepository.save(dataSet);
 
     mockMvc.perform(put(API_DATASETS_URI + "/" + dataSet.getId())
         .content(TestUtil.convertObjectToJsonBytes(dataSet))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-save-not-allowed")));
   }
 
   @Test

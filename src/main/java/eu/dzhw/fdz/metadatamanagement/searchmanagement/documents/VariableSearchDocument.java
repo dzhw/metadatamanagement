@@ -31,6 +31,9 @@ import lombok.ToString;
 @Getter
 @Setter
 public class VariableSearchDocument extends Variable implements SearchDocumentInterface {
+
+  private static final long serialVersionUID = 9175808841240756548L;
+  
   private DataSetSubDocument dataSet = null;
   private DataSetNestedDocument nestedDataSet = null;
   private StudySubDocument study = null;

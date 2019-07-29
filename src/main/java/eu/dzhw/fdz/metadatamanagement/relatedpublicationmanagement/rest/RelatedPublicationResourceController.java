@@ -1,15 +1,20 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.net.URI;
+
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
+import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 
 /**
  * RelatedPublication REST Controller which overrides default spring data rest methods.
@@ -17,24 +22,41 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.Re
  * @author René Reitmann
  */
 @RepositoryRestController
-public class RelatedPublicationResourceController 
-    extends GenericDomainObjectResourceController<RelatedPublication, 
-    RelatedPublicationRepository> {
+public class RelatedPublicationResourceController extends
+    GenericDomainObjectResourceController<RelatedPublication, CrudService<RelatedPublication>> {
 
-  @Autowired
-  public RelatedPublicationResourceController(
-      RelatedPublicationRepository relatedPublicationRepository) {
-    super(relatedPublicationRepository);
+  public RelatedPublicationResourceController(CrudService<RelatedPublication> crudService) {
+    super(crudService);
   }
 
-  /**
-   * Override default get by id since it does not set cache headers correctly.
-   * 
-   * @param id a RelatedPublication id
-   * @return the RelatedPublication or not found
-   */
-  @RequestMapping(method = RequestMethod.GET, value = "/related-publications/{id:.+}")
-  public ResponseEntity<RelatedPublication> findRelatedPublication(@PathVariable String id) {
-    return super.findDomainObject(id);
+  @Override
+  @GetMapping(value = "/related-publications/{id:.+}")
+  public ResponseEntity<RelatedPublication> getDomainObject(@PathVariable String id) {
+    return super.getDomainObject(id);
+  }
+
+
+  @Override
+  @PostMapping(value = "/related-publications")
+  public ResponseEntity<?> postDomainObject(@RequestBody RelatedPublication relatedPublication) {
+    return super.postDomainObject(relatedPublication);
+  }
+
+  @Override
+  @PutMapping(value = "/related-publications/{id:.+}")
+  public ResponseEntity<?> putDomainObject(@RequestBody RelatedPublication relatedPublication) {
+    return super.putDomainObject(relatedPublication);
+  }
+
+  @Override
+  @DeleteMapping("/related-publications/{id:.+}")
+  public ResponseEntity<?> deleteDomainObject(@PathVariable String id) {
+    return super.deleteDomainObject(id);
+  }
+
+  @Override
+  protected URI buildLocationHeaderUri(RelatedPublication domainObject) {
+    return UriComponentsBuilder.fromPath("/api/related-publications/" + domainObject.getId())
+        .build().toUri();
   }
 }

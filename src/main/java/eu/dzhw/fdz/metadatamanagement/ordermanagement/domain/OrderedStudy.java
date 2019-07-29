@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -19,7 +21,9 @@ import lombok.Data;
     description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
     + "fdz/metadatamanagement/ordermanagement/domain/OrderedStudy.html'>here</a> "
     + "for further details.")
-public class OrderedStudy {
+public class OrderedStudy implements Serializable {
+
+  private static final long serialVersionUID = 5959657930630887807L;
 
   /**
    * The id of the {@link eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study}.

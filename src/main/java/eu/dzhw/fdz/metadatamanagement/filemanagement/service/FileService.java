@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -20,6 +19,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * This service handles the download of generic files from the GridFS / MongoDB.
  * 
@@ -27,13 +28,12 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
+@RequiredArgsConstructor
 public class FileService {
 
-  @Autowired
-  private GridFsOperations gridfsOperations;
+  private final GridFsOperations gridfsOperations;
 
-  @Autowired
-  private MongoOperations mongoOperations;
+  private final MongoOperations mongoOperations;
 
   @Value("${metadatamanagement.server.instance-index}")
   private Integer instanceId;

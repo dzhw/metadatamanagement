@@ -98,6 +98,12 @@ language
 
    The language of the attachments content. Must not be empty and must be specified as ISO 639 language code.
 
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: ConceptAttachmentMetadata
+
 title
 ^^^^^
 

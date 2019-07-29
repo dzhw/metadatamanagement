@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.actuate.mongo.MongoHealthIndicator;
@@ -18,14 +17,12 @@ import lombok.extern.slf4j.Slf4j;
 @Component("mongoHealthIndicator")
 @Slf4j
 public class TimedMongoHealthIndicator extends MongoHealthIndicator {
-
-  @Autowired
   public TimedMongoHealthIndicator(MongoTemplate mongoTemplate) {
     super(mongoTemplate);
   }
   
   @Override
-  @Timed
+  @Timed("mongo_health_check")
   protected void doHealthCheck(Health.Builder builder) throws Exception {
     try {
       super.doHealthCheck(builder);      

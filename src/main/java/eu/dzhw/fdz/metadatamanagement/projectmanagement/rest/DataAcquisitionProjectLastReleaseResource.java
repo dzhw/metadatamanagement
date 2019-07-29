@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for retrieving previous version of the data acquisition project domain object.
@@ -18,10 +18,10 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionP
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class DataAcquisitionProjectLastReleaseResource {
   
-  @Autowired
-  private DataAcquisitionProjectVersionsService projectVersionsService;
+  private final DataAcquisitionProjectVersionsService projectVersionsService;
   
   /**
    * Get the last released version number of a project.

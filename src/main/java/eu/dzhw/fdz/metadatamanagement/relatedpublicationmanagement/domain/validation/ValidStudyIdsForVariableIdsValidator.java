@@ -6,22 +6,21 @@ import java.util.stream.Collectors;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Ensure that a related publication is linked to the study of a variable.
  * 
  * @author René Reitmann
  */
+@RequiredArgsConstructor
 public class ValidStudyIdsForVariableIdsValidator
     implements ConstraintValidator<ValidStudyIdsForVariableIds, RelatedPublication> {
 
-  @Autowired
-  private VariableRepository variableRepository;
+  private final VariableRepository variableRepository;
 
   private String messageKey;
 

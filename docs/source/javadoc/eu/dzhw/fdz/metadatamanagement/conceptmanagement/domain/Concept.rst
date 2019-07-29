@@ -120,6 +120,12 @@ originalLanguages
 
    The original languages of the definition of the concept as ISO 639 code. Must not be empty.
 
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Concept
+
 tags
 ^^^^
 

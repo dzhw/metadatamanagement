@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.zafarkhaja.semver.Version;
@@ -34,6 +33,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This service handles the post-validation of projects. It checks the foreign keys and references
@@ -44,29 +44,22 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
  *
  */
 @Service
+@RequiredArgsConstructor
 public class PostValidationService {
 
-  /* Repositories for loading data from the repository */
-  @Autowired
-  private VariableRepository variableRepository;
+  private final VariableRepository variableRepository;
 
-  @Autowired
-  private SurveyRepository surveyRepository;
+  private final SurveyRepository surveyRepository;
 
-  @Autowired
-  private DataSetRepository dataSetRepository;
+  private final DataSetRepository dataSetRepository;
 
-  @Autowired
-  private InstrumentRepository instrumentRepository;
+  private final InstrumentRepository instrumentRepository;
 
-  @Autowired
-  private QuestionRepository questionRepository;
+  private final QuestionRepository questionRepository;
 
-  @Autowired
-  private StudyRepository studyRepository;
+  private final StudyRepository studyRepository;
 
-  @Autowired
-  private DataAcquisitionProjectRepository projectRepository;
+  private final DataAcquisitionProjectRepository projectRepository;
 
   /**
    * This method handles the complete post validation of a project.

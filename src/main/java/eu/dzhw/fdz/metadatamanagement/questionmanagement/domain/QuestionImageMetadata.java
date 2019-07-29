@@ -1,5 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.springframework.data.annotation.Id;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -15,13 +23,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.Id;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 /**
  * The metadata for one question images. One question image displays the question in one language
@@ -34,6 +35,8 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Builder
 public class QuestionImageMetadata extends AbstractShadowableRdcDomainObject {
+  
+  private static final long serialVersionUID = -7871010892709327957L;
 
   @Id
   @Setter(AccessLevel.NONE)

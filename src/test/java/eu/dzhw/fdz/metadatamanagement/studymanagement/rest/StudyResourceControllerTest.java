@@ -69,7 +69,6 @@ public class StudyResourceControllerTest extends AbstractTest {
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
-    elasticsearchAdminService.recreateAllIndices();
   }
 
   @After
@@ -77,6 +76,7 @@ public class StudyResourceControllerTest extends AbstractTest {
     dataAcquisitionProjectRepository.deleteAll();
     studyRepository.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
+    elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
   }
   
@@ -204,7 +204,7 @@ public class StudyResourceControllerTest extends AbstractTest {
     mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
         .content(TestUtil.convertObjectToJsonBytes(study)).contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-save-not-allowed")));
   }
 
   @Test
@@ -216,7 +216,7 @@ public class StudyResourceControllerTest extends AbstractTest {
     mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
         .content(TestUtil.convertObjectToJsonBytes(study)).contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-save-not-allowed")));
   }
 
   @Test

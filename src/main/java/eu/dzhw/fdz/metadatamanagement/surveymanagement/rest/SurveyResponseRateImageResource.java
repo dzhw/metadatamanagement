@@ -6,7 +6,6 @@ import java.net.URISyntaxException;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -22,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRateImageMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyResponseRateImageService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.RequiredArgsConstructor;
 
 /**
  * REST controller for uploading an survey image.
@@ -30,10 +30,10 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  */
 @Controller
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class SurveyResponseRateImageResource {
 
-  @Autowired
-  private SurveyResponseRateImageService surveyResponseRateImageService;
+  private final SurveyResponseRateImageService surveyResponseRateImageService;
   
   /**
    * REST method for for uploading an image.

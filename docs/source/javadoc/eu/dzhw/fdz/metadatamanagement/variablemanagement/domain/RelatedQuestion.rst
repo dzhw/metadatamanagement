@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: javax.validation.constraints NotEmpty
 
 .. java:import:: javax.validation.constraints Size
@@ -28,7 +30,7 @@ RelatedQuestion
 .. java:package:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder public class RelatedQuestion
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder public class RelatedQuestion implements Serializable
 
    A related question is a \ :java:ref:`Question`\  which has been asked to generate the values of a \ :java:ref:`Variable`\ . It contains the ids of the \ :java:ref:`Instrument`\  and the \ :java:ref:`Question`\  as well as all Strings of the \ :java:ref:`Question`\  which are related to this \ :java:ref:`Variable`\ .
 
@@ -73,4 +75,10 @@ relatedQuestionStrings
    :outertype: RelatedQuestion
 
    All Strings (concatenated) of this \ :java:ref:`Question`\  which "belong" to this \ :java:ref:`Variable`\ . These Strings typically overlap with String from other \ :java:ref:`Variable`\ s of the same \ :java:ref:`Question`\ .
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: RelatedQuestion
 

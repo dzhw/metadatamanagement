@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest;
 
+import java.net.URI;
 import java.time.ZoneId;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -7,53 +8,87 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 
+import com.mongodb.client.MongoDatabase;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
-import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
+import lombok.RequiredArgsConstructor;
 
 /**
- * RestController which overrides Spring Datas default caching headers.
- *
+ * REST Controller managing CRUD access to our {@link AbstractRdcDomainObject} stored in
+ * {@link MongoDatabase}.
+ * 
  * @author René Reitmann
  *
- * @param <T> The domainObject's class
- * @param <S> The corresponding repository
+ * @param <T> The concrete type of the domain object.
+ * @param <S> The CRUD service implementation of the domain object.
  */
-public abstract class GenericDomainObjectResourceController<T extends AbstractRdcDomainObject,
-    S extends BaseRepository<T, String>> {
+@RequiredArgsConstructor
+public abstract class GenericDomainObjectResourceController
+    <T extends AbstractRdcDomainObject, S extends CrudService<T>> {
 
-  protected S repository;
-
-  /**
-   * Create resource controller.
-   *
-   * @param repository The repository managing the domain objects being versioned.
-   */
-  public GenericDomainObjectResourceController(S repository) {
-    this.repository = repository;
-  }
+  protected final CrudService<T> crudService;
 
   /**
-   * Find the domain object and return it with the right caching directives.
-   *
-   * @param id The id of the domain object
-   *
-   * @return The http response
+   * Retrieve the {@link AbstractRdcDomainObject} and set the cache header.
+   * 
+   * @param id the id of the {@link AbstractRdcDomainObject}.
+   * @return the {@link AbstractRdcDomainObject} or 404
    */
-  protected ResponseEntity<T> findDomainObject(String id) {
-    Optional<T> optional = repository.findById(id);
-
+  public ResponseEntity<T> getDomainObject(String id) {
+    Optional<T> optional = crudService.read(id);
     if (!optional.isPresent()) {
       return ResponseEntity.notFound().build();
+    } else {
+      T domainObject = optional.get();
+      return ResponseEntity.ok()
+          .cacheControl(CacheControl.maxAge(0, TimeUnit.DAYS).mustRevalidate().cachePublic())
+          .eTag(domainObject.getVersion().toString()).lastModified(domainObject
+              .getLastModifiedDate().atZone(ZoneId.of("GMT")).toInstant().toEpochMilli())
+          .body(domainObject);
     }
-    return wrapInResponseEntity(optional.get());
   }
 
-  protected ResponseEntity<T> wrapInResponseEntity(T entity) {
-    return ResponseEntity.ok()
-        .cacheControl(CacheControl.maxAge(0, TimeUnit.DAYS).mustRevalidate().cachePublic())
-        .eTag(entity.getVersion().toString())
-        .lastModified(
-            entity.getLastModifiedDate().atZone(ZoneId.of("GMT")).toInstant().toEpochMilli())
-        .body(entity);
+  /**
+   * Create the given {@link AbstractRdcDomainObject}. For {@link AbstractShadowableRdcDomainObject}
+   * only masters can be created.
+   * 
+   * @param domainObject The {@link AbstractRdcDomainObject} to be created.
+   */
+  public ResponseEntity<?> postDomainObject(T domainObject) {
+    T saved = crudService.create(domainObject);
+    return ResponseEntity.created(buildLocationHeaderUri(saved)).build();
   }
+
+  /**
+   * Save or create the given {@link AbstractRdcDomainObject}.
+   * {@link AbstractShadowableRdcDomainObject} may only be saved if they are masters.
+   * 
+   * @param domainObject The {@link AbstractRdcDomainObject} to be saved.
+   */
+  public ResponseEntity<?> putDomainObject(T domainObject) {
+    T persisted = crudService.save(domainObject);
+    if (persisted.getVersion() == 0) {
+      return ResponseEntity.created(buildLocationHeaderUri(persisted)).build();
+    }
+    return ResponseEntity.noContent().build();
+  }
+
+  /**
+   * Delete the {@link AbstractRdcDomainObject} under the given id.
+   * {@link AbstractShadowableRdcDomainObject} may only be deleted if they are masters.
+   * 
+   * @param id The id of the {@link AbstractRdcDomainObject}
+   */
+  public ResponseEntity<?> deleteDomainObject(String id) {
+    Optional<T> optional = crudService.read(id);
+    if (optional.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+    crudService.delete(optional.get());
+    return ResponseEntity.noContent().build();
+  }
+
+  protected abstract URI buildLocationHeaderUri(T domainObject);
 }

@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 
@@ -22,22 +21,27 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 public interface DataAcquisitionProjectRepository
     extends BaseRepository<DataAcquisitionProject, String>, DataAcquisitionProjectRepositoryCustom {
 
-  List<DataAcquisitionProject> findByIdLikeOrderByIdAsc(@Param("id") String id);
+  @RestResource(exported = false)
+  List<DataAcquisitionProject> findByIdLikeOrderByIdAsc(String id);
 
+  @RestResource(exported = false)
   List<DataAcquisitionProject> findByIdLikeAndShadowIsFalseAndSuccessorIdIsNull(String id);
 
+  @RestResource(exported = true)
   List<DataAcquisitionProject>
       findAllByConfigurationPublishersContainsOrConfigurationDataProvidersContainsAndShadowIsFalse(
       @Param("login") String publishers, @Param("login") String dataProviders);
 
+  @RestResource(exported = true)
   List<DataAcquisitionProject> findAllByConfigurationPublishersContainsAndShadowIsFalse(
       @Param("login") String publishers);
 
+  @RestResource(exported = true)
   List<DataAcquisitionProject> findAllByConfigurationDataProvidersContainsAndShadowIsFalse(
       @Param("login") String dataProviders);
 
   @RestResource(exported = false)
-  Stream<DataAcquisitionProject> streamByIdAndShadowIsFalse(@Param("id") String id);
+  Stream<DataAcquisitionProject> streamByIdAndShadowIsFalse(String id);
 
   @RestResource(exported = false)
   Stream<DataAcquisitionProject> streamByIdAndShadowIsTrueAndSuccessorIdIsNull(
@@ -45,7 +49,7 @@ public interface DataAcquisitionProjectRepository
 
   @RestResource(exported = false)
   Stream<DataAcquisitionProject> streamByIdAndShadowIsTrue(String dataAcquisitionProjectId);
-
+  
   @RestResource(exported = false)
-  List<IdAndVersionProjection> deleteByIdAndShadowIsTrueAndSuccessorIdIsNull(String id);
+  Stream<DataAcquisitionProject> findByIdAndShadowIsTrueAndSuccessorIdIsNull(String id);
 }

@@ -13,7 +13,6 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.projectman
    DaraUpdateQueueItem
    DataAcquisitionProject
    FreeResourceTypes
-   ProjectReleasedEvent
    ProjectState
    Release
    Requirements

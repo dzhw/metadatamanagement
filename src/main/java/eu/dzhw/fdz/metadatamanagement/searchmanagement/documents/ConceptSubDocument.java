@@ -27,6 +27,9 @@ import lombok.ToString;
 @Setter
 public class ConceptSubDocument extends AbstractRdcDomainObject
     implements ConceptSubDocumentProjection {
+  
+  private static final long serialVersionUID = 8783547432896846685L;
+
   private String id;
   
   private String doi;

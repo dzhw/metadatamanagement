@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: javax.validation.constraints Email
 
 .. java:import:: javax.validation.constraints NotEmpty
@@ -18,7 +20,7 @@ Customer
 .. java:package:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel public class Customer
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel public class Customer implements Serializable
 
    Details of a customer who has ordered \ :java:ref:`Product`\ s.
 
@@ -39,4 +41,10 @@ name
    :outertype: Customer
 
    Name of the customer as given in the shopping cart. Must not be empty.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Customer
 

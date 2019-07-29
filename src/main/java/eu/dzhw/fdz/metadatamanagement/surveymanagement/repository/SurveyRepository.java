@@ -20,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.Survey
  * 
  * @author Daniel Katzberg
  */
-@RepositoryRestResource(path = "/surveys")
+@RepositoryRestResource(path = "/surveys", excerptProjection = IdAndVersionProjection.class)
 @JaversSpringDataAuditable
 public interface SurveyRepository extends BaseRepository<Survey, String> {
 
@@ -58,7 +58,7 @@ public interface SurveyRepository extends BaseRepository<Survey, String> {
 
   @RestResource(exported = false)
   List<IdAndNumberSurveyProjection> findSurveyNumbersByDataAcquisitionProjectId(
-      @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
+      String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
   Stream<Survey> streamByDataAcquisitionProjectIdAndShadowIsFalse(String dataAcquisitionProjectId);
@@ -78,6 +78,6 @@ public interface SurveyRepository extends BaseRepository<Survey, String> {
   Stream<IdAndVersionProjection> streamIdsByMasterIdIn(Collection<String> surveyIds);
 
   @RestResource(exported = false)
-  List<IdAndVersionProjection> deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+  Stream<Survey> findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
       String dataAcquisitionProjectId);
 }

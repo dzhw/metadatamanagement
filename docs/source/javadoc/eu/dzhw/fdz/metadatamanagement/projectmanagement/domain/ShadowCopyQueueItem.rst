@@ -1,3 +1,11 @@
+.. java:import:: java.time LocalDateTime
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
 
 .. java:import:: lombok AllArgsConstructor
@@ -7,14 +15,6 @@
 .. java:import:: lombok EqualsAndHashCode
 
 .. java:import:: lombok NoArgsConstructor
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: org.springframework.data.mongodb.core.mapping Document
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: java.time LocalDateTime
 
 ShadowCopyQueueItem
 ===================
@@ -43,6 +43,12 @@ id
    :outertype: ShadowCopyQueueItem
 
    Queue item id.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: ShadowCopyQueueItem
 
 shadowCopyVersion
 ^^^^^^^^^^^^^^^^^

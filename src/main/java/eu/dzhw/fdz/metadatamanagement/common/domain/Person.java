@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.common.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
 
 import org.javers.core.metamodel.annotation.ValueObject;
@@ -17,7 +19,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @ValueObject
-public class Person {
+public class Person implements Serializable {
+
+  private static final long serialVersionUID = 1594224585287945999L;
 
   /**
    * The first name of the person.

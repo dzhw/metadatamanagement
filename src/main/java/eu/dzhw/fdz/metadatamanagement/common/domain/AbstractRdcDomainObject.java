@@ -1,20 +1,25 @@
 package eu.dzhw.fdz.metadatamanagement.common.domain;
 
-import lombok.Data;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
 
-import java.time.LocalDateTime;
+import lombok.Data;
 
 /**
  * Base class for all rdc domain objects. All domain objects inherit the fields from this base
  * class.
  */
 @Data
-public abstract class AbstractRdcDomainObject {
+public abstract class AbstractRdcDomainObject implements Serializable {
+  
+  private static final long serialVersionUID = 3133436703243893299L;
+
   /**
    * Number which is incremented on each save of this object.
    */

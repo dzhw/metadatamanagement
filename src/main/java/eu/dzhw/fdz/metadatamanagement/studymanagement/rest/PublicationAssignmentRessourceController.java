@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,18 +9,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationService;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationManagementService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for managing the assignment of {@link RelatedPublication}s to {@link Study}s.
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class PublicationAssignmentRessourceController {
-  @Autowired
-  private RelatedPublicationService relatedPublicationService;
+  
+  private final RelatedPublicationManagementService relatedPublicationService;
 
   /**
    * Assign the given publication to the given study.

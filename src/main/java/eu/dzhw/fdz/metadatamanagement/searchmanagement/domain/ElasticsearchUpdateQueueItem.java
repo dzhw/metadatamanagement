@@ -39,6 +39,8 @@ import lombok.ToString;
 @Builder
 public class ElasticsearchUpdateQueueItem extends AbstractRdcDomainObject {
 
+  private static final long serialVersionUID = 183445984586471812L;
+
   /* Domain Object Attributes */
   @Id
   private String id;
