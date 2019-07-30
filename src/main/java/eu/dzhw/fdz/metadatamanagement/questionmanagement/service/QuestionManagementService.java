@@ -212,4 +212,9 @@ public class QuestionManagementService implements CrudService<Question> {
     // TODO check project access rights
     return crudHelper.createMaster(question);
   }
+
+  @Override
+  public Optional<Question> readSearchDocument(String id) {
+    return crudHelper.readSearchDocument(id);
+  }
 }

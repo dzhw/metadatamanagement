@@ -216,4 +216,9 @@ public class VariableManagementService implements CrudService<Variable> {
   public Optional<Variable> read(String id) {
     return crudHelper.read(id);
   }
+
+  @Override
+  public Optional<Variable> readSearchDocument(String id) {
+    return crudHelper.readSearchDocument(id);
+  }
 }

@@ -22,6 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 
 /**
@@ -34,15 +35,16 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 public class TaskResourceController
     extends GenericDomainObjectResourceController<Task, TaskManagementService> {
   private final UserService userService;
-  
+
   private final TaskManagementService taskService;
 
   /**
    * Construct the controller.
    */
-  public TaskResourceController(CrudService<Task> crudService, UserService userService,
+  public TaskResourceController(CrudService<Task> crudService,
+      UserInformationProvider userInformationProvider, UserService userService,
       TaskManagementService taskService) {
-    super(crudService);
+    super(crudService, userInformationProvider);
     this.userService = userService;
     this.taskService = taskService;
   }

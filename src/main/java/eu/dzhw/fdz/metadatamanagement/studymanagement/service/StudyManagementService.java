@@ -227,4 +227,9 @@ public class StudyManagementService implements CrudService<Study> {
     // TODO check project access rights
     return crudHelper.createMaster(study);
   }
+
+  @Override
+  public Optional<Study> readSearchDocument(String id) {
+    return crudHelper.readSearchDocument(id);
+  }
 }

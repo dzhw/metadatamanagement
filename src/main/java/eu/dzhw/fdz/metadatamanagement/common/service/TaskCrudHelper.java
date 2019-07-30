@@ -17,6 +17,6 @@ public class TaskCrudHelper extends GenericDomainObjectCrudHelper<Task, TaskRepo
   public TaskCrudHelper(TaskRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService) {
-    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, null);
+    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, null, null, null);
   }
 }

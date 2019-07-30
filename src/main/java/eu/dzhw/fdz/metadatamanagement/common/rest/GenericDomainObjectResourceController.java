@@ -13,6 +13,7 @@ import com.mongodb.client.MongoDatabase;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -28,7 +29,9 @@ import lombok.RequiredArgsConstructor;
 public abstract class GenericDomainObjectResourceController
     <T extends AbstractRdcDomainObject, S extends CrudService<T>> {
 
-  protected final CrudService<T> crudService;
+  private final CrudService<T> crudService;
+  
+  private final UserInformationProvider userInformationProvider;
 
   /**
    * Retrieve the {@link AbstractRdcDomainObject} and set the cache header.
@@ -37,7 +40,15 @@ public abstract class GenericDomainObjectResourceController
    * @return the {@link AbstractRdcDomainObject} or 404
    */
   public ResponseEntity<T> getDomainObject(String id) {
-    Optional<T> optional = crudService.read(id);
+    Optional<T> optional = null;
+    if (userInformationProvider.isUserAnonymous()) {
+      optional = crudService.readSearchDocument(id);
+      if (optional.isEmpty()) {
+        optional = crudService.read(id);
+      }
+    } else {
+      optional = crudService.read(id);
+    }
     if (!optional.isPresent()) {
       return ResponseEntity.notFound().build();
     } else {

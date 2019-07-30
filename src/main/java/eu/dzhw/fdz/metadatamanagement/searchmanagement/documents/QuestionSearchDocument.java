@@ -32,6 +32,9 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
 
   private static final long serialVersionUID = -869861030740857451L;
   
+  static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION =
+      new String[] {"nested*", "variables", "configuration", "guiLabels", "*Publications"};
+  
   private StudySubDocument study = null;
   private StudyNestedDocument nestedStudy = null;
   private InstrumentSubDocument instrument = null;

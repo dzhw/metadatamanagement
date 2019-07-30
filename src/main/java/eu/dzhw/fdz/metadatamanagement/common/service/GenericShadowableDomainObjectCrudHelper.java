@@ -1,14 +1,24 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
+import java.util.Optional;
+
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.context.ApplicationEventPublisher;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopySaveNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.ExcludeFieldsHelper;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SearchDocumentInterface;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import io.searchbox.client.JestClient;
+import io.searchbox.core.Search;
 
 /**
  * CRUD Service Helper for {@link AbstractShadowableRdcDomainObject}.
@@ -22,12 +32,19 @@ public class GenericShadowableDomainObjectCrudHelper
     <T extends AbstractShadowableRdcDomainObject, S extends BaseRepository<T, String>>
     extends GenericDomainObjectCrudHelper<T, S> {
 
+  private UserInformationProvider userInformationProvider;
+
+  /**
+   * Construct the helper.
+   */
   public GenericShadowableDomainObjectCrudHelper(S repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      DomainObjectChangesProvider<T> domainObjectChangesProvider) {
+      DomainObjectChangesProvider<T> domainObjectChangesProvider, JestClient jestClient,
+      Class<? extends T> searchDocumentClass, UserInformationProvider userInformationProvider) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService,
-        domainObjectChangesProvider);
+        domainObjectChangesProvider, jestClient, searchDocumentClass);
+    this.userInformationProvider = userInformationProvider;
   }
 
   /**
@@ -135,5 +152,35 @@ public class GenericShadowableDomainObjectCrudHelper
   public void delete(T domainObject) {
     throw new IllegalAccessError(
         "Services of shadowable domain objects must not call this directly");
+  }
+
+  /**
+   * Find the {@link SearchDocumentInterface} which corresponds to the
+   * {@link AbstractRdcDomainObject}. Public users (anonymous users) only get the latest shadow.
+   * 
+   * @param id The id of the domain object.
+   * @return An optional domain object.
+   */
+  @Override
+  public Optional<T> readSearchDocument(String id) {
+    if (elasticsearchType == null) {
+      return Optional.empty();
+    }
+    if (id.matches("^.*-\\d+.\\d+.\\d+$")) {
+      // explicit get by id containing version
+      return super.readSearchDocument(id);
+    }
+    if (!userInformationProvider.isUserAnonymous()) {
+      return super.readSearchDocument(id);
+    }
+    SearchSourceBuilder builder = new SearchSourceBuilder();
+    builder.fetchSource(null,
+        ExcludeFieldsHelper.getFieldsToExcludeOnDeserialization(searchDocumentClass));
+    builder.query(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("shadow", true))
+        .should(QueryBuilders.termQuery("masterId", id)).should(QueryBuilders.termQuery("id", id))
+        .minimumShouldMatch(1).mustNot(QueryBuilders.existsQuery("successorId"))).size(1);
+    Search search =
+        new Search.Builder(builder.toString()).addIndex(elasticsearchType.name()).build();
+    return super.executeSearch(search);
   }
 }

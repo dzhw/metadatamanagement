@@ -269,4 +269,9 @@ public class ConceptManagementService implements CrudService<Concept> {
   public Concept create(Concept concept) {
     return crudHelper.create(concept);
   }
+
+  @Override
+  public Optional<Concept> readSearchDocument(String id) {
+    return crudHelper.readSearchDocument(id);
+  }
 }

@@ -15,6 +15,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Study REST Controller which overrides default spring data rest methods.
@@ -22,20 +25,24 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
  * @author René Reitmann
  */
 @RepositoryRestController
-public class StudyResourceController extends GenericDomainObjectResourceController
-    <Study, CrudService<Study>> {
+@Api(value = "Study Resource", description = "Endpoints used by the MDM to manage studies.")
+public class StudyResourceController
+    extends GenericDomainObjectResourceController<Study, CrudService<Study>> {
 
-  public StudyResourceController(CrudService<Study> crudService) {
-    super(crudService);
+  public StudyResourceController(CrudService<Study> crudService,
+      UserInformationProvider userInformationProvider) {
+    super(crudService, userInformationProvider);
   }
 
   @Override
+  @ApiOperation("Get the study. Public users will get the latest version of the study."
+      + " If the id is postfixed with the version number it will return exactly the "
+      + "requested version, if available.")
   @GetMapping(value = "/studies/{id:.+}")
   public ResponseEntity<Study> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);
   }
 
- 
   @Override
   @PostMapping(value = "/studies")
   public ResponseEntity<?> postDomainObject(@RequestBody Study study) {

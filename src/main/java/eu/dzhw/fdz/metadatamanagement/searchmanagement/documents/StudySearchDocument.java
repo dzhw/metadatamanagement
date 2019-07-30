@@ -33,55 +33,51 @@ import lombok.ToString;
 public class StudySearchDocument extends Study implements SearchDocumentInterface {
 
   private static final long serialVersionUID = -4015837106569277626L;
-  
-  private List<DataSetSubDocument> dataSets = 
-      new ArrayList<>();
+
+  static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION = new String[] {"nested*",
+      "variables", "questions", "configuration", "guiLabels", "*Publications"};
+
+  private List<DataSetSubDocument> dataSets = new ArrayList<>();
   private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();
-  
-  private List<VariableSubDocument> variables = 
-      new ArrayList<>();
+
+  private List<VariableSubDocument> variables = new ArrayList<>();
   private List<VariableNestedDocument> nestedVariables = new ArrayList<>();
-  
+
   private List<RelatedPublicationSubDocument> relatedPublications = new ArrayList<>();
 
-  private List<RelatedPublicationNestedDocument> nestedRelatedPublications =
-      new ArrayList<>();
-  
-  private List<SurveySubDocument> surveys = 
-      new ArrayList<>();
+  private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
+
+  private List<SurveySubDocument> surveys = new ArrayList<>();
   private List<SurveyNestedDocument> nestedSurveys = new ArrayList<>();
-  
-  private List<QuestionSubDocument> questions = 
-      new ArrayList<>();
+
+  private List<QuestionSubDocument> questions = new ArrayList<>();
   private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
-  
-  private List<InstrumentSubDocument> instruments = 
-      new ArrayList<>();
+
+  private List<InstrumentSubDocument> instruments = new ArrayList<>();
   private List<InstrumentNestedDocument> nestedInstruments = new ArrayList<>();
-  
-  private List<RelatedPublicationSubDocument> seriesPublications = 
-      new ArrayList<>();
-  
-  private List<ConceptSubDocument> concepts = 
-      new ArrayList<>();
+
+  private List<RelatedPublicationSubDocument> seriesPublications = new ArrayList<>();
+
+  private List<ConceptSubDocument> concepts = new ArrayList<>();
   private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
-      
+
   private Release release = null;
 
   private Configuration configuration = null;
-  
+
   private I18nString surveyDataType;
-  
+
   private Integer numberOfWaves;
-  
+
   private String doi;
-  
+
   private I18nString guiLabels = StudyDetailsGuiLabels.GUI_LABELS;
-  
+
   private I18nString completeTitle;
 
   /**
    * Construct the search document with all related subdocuments.
+   * 
    * @param study The study to be searched for
    * @param dataSets all data sets available in this study
    * @param variables all variables available in this study
@@ -92,28 +88,23 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
    * @param configuration the project configuration
    */
   @SuppressWarnings("CPD-START")
-  public StudySearchDocument(Study study,
-                             List<DataSetSubDocumentProjection> dataSets,
-                             List<VariableSubDocumentProjection> variables,
-                             List<RelatedPublicationSubDocumentProjection> relatedPublications,
-                             List<SurveySubDocumentProjection> surveys,
-                             List<QuestionSubDocumentProjection> questions,
-                             List<InstrumentSubDocumentProjection> instruments,
-                             List<RelatedPublicationSubDocumentProjection> seriesPublications,
-                             List<ConceptSubDocumentProjection> concepts,
-                             Release release,
-                             String doi,
-                             Configuration configuration) {
+  public StudySearchDocument(Study study, List<DataSetSubDocumentProjection> dataSets,
+      List<VariableSubDocumentProjection> variables,
+      List<RelatedPublicationSubDocumentProjection> relatedPublications,
+      List<SurveySubDocumentProjection> surveys, List<QuestionSubDocumentProjection> questions,
+      List<InstrumentSubDocumentProjection> instruments,
+      List<RelatedPublicationSubDocumentProjection> seriesPublications,
+      List<ConceptSubDocumentProjection> concepts, Release release, String doi,
+      Configuration configuration) {
     super(study);
     if (dataSets != null) {
-      this.dataSets = dataSets.stream()
-          .map(DataSetSubDocument::new).collect(Collectors.toList());
+      this.dataSets = dataSets.stream().map(DataSetSubDocument::new).collect(Collectors.toList());
       this.nestedDataSets =
           dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
     }
     if (variables != null) {
-      this.variables = variables.stream()
-          .map(VariableSubDocument::new).collect(Collectors.toList());
+      this.variables =
+          variables.stream().map(VariableSubDocument::new).collect(Collectors.toList());
       this.nestedVariables =
           variables.stream().map(VariableNestedDocument::new).collect(Collectors.toList());
     }
@@ -124,35 +115,32 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
           .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     if (surveys != null) {
-      this.surveys = surveys.stream()
-          .map(SurveySubDocument::new).collect(Collectors.toList());
+      this.surveys = surveys.stream().map(SurveySubDocument::new).collect(Collectors.toList());
       this.nestedSurveys =
           surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
       this.surveyDataType = generateSurveyDataType(surveys);
       this.numberOfWaves = generateNumberOfWaves(surveys);
     }
     if (questions != null) {
-      this.questions = questions.stream()
-          .map(question -> new QuestionSubDocument(question)).collect(Collectors.toList());
-      this.nestedQuestions = questions.stream()
-          .map(question -> new QuestionNestedDocument(question))
+      this.questions = questions.stream().map(question -> new QuestionSubDocument(question))
           .collect(Collectors.toList());
+      this.nestedQuestions = questions.stream()
+          .map(question -> new QuestionNestedDocument(question)).collect(Collectors.toList());
     }
     if (instruments != null) {
-      this.instruments = instruments.stream()
-          .map(InstrumentSubDocument::new).collect(Collectors.toList());
-      this.nestedInstruments = instruments.stream().map(InstrumentNestedDocument::new)
-          .collect(Collectors.toList());
+      this.instruments =
+          instruments.stream().map(InstrumentSubDocument::new).collect(Collectors.toList());
+      this.nestedInstruments =
+          instruments.stream().map(InstrumentNestedDocument::new).collect(Collectors.toList());
     }
     if (seriesPublications != null) {
-      this.seriesPublications = seriesPublications.stream()
-          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+      this.seriesPublications = seriesPublications.stream().map(RelatedPublicationSubDocument::new)
+          .collect(Collectors.toList());
     }
     if (concepts != null) {
-      this.concepts = concepts.stream()
-          .map(concept -> new ConceptSubDocument(concept)).collect(Collectors.toList());
-      this.nestedConcepts = concepts.stream()
-          .map(concept -> new ConceptNestedDocument(concept))
+      this.concepts = concepts.stream().map(concept -> new ConceptSubDocument(concept))
+          .collect(Collectors.toList());
+      this.nestedConcepts = concepts.stream().map(concept -> new ConceptNestedDocument(concept))
           .collect(Collectors.toList());
     }
     this.release = release;
@@ -165,45 +153,47 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
             + " (" + study.getId() + ")")
         .build();
   }
-  
+
   /**
-   * Check the wave number of every survey. 
+   * Check the wave number of every survey.
+   * 
    * @param surveys All Survey Sub Document Projections.
    * @return The highest (max) wave number.
    */
   private Integer generateNumberOfWaves(List<SurveySubDocumentProjection> surveys) {
     Integer numberOfWaves = 0;
-    
+
     for (SurveySubDocumentProjection survey : surveys) {
       if (survey.getWave() > numberOfWaves) {
         numberOfWaves = survey.getWave();
       }
     }
-    
+
     return numberOfWaves;
   }
 
   /**
    * Check the Data Type of every Survey.
+   * 
    * @param surveys All Survey Sub Document Projections.
-   * @return If all Data Type of the Survey are equal, return the Data Type. If the surveys have 
-   *     different Data Type, return the Mixed Method Data Type. 
+   * @return If all Data Type of the Survey are equal, return the Data Type. If the surveys have
+   *         different Data Type, return the Mixed Method Data Type.
    */
   private I18nString generateSurveyDataType(List<SurveySubDocumentProjection> surveys) {
-    
+
     I18nString surveyDataType = null;
-    
+
     for (SurveySubDocumentProjection survey : surveys) {
       if (surveyDataType == null) {
         surveyDataType = survey.getDataType();
         continue;
       }
-      
+
       if (survey.getDataType() != null && !surveyDataType.equals(survey.getDataType())) {
         return SurveyDataTypes.MIXED_METHODS;
       }
     }
-    
+
     return surveyDataType;
   }
 }

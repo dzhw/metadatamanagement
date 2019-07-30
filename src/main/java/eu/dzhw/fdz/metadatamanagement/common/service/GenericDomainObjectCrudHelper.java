@@ -1,10 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.event.AfterCreateEvent;
@@ -14,6 +17,7 @@ import org.springframework.data.rest.core.event.BeforeCreateEvent;
 import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeSaveEvent;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository.ConceptRepository;
@@ -21,12 +25,18 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.ExcludeFieldsHelper;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SearchDocumentInterface;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import io.searchbox.client.JestClient;
+import io.searchbox.core.Search;
+import io.searchbox.core.SearchResult;
+import io.searchbox.core.SearchResult.Hit;
 
 /**
  * Component which implements CRUD functions for all {@link AbstractRdcDomainObject}s.
@@ -49,8 +59,12 @@ public class GenericDomainObjectCrudHelper
       Collections.unmodifiableList(Arrays.asList("createdDate", "createdBy", "version"));
 
   protected final ElasticsearchType elasticsearchType;
-  
+
   private final DomainObjectChangesProvider<T> domainObjectChangesProvider;
+
+  protected final Class<? extends T> searchDocumentClass;
+
+  protected final JestClient jestClient;
 
   /**
    * Create the CRUD service.
@@ -60,12 +74,15 @@ public class GenericDomainObjectCrudHelper
   public GenericDomainObjectCrudHelper(S repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      DomainObjectChangesProvider<T> domainObjectChangesProvider) {
+      DomainObjectChangesProvider<T> domainObjectChangesProvider, JestClient jestClient,
+      Class<? extends T> searchDocumentClass) {
     this.repository = repository;
     this.applicationEventPublisher = applicationEventPublisher;
     this.elasticsearchUpdateQueueService = elasticsearchUpdateQueueService;
     this.elasticsearchType = computeElasticsearchType(repository);
     this.domainObjectChangesProvider = domainObjectChangesProvider;
+    this.jestClient = jestClient;
+    this.searchDocumentClass = searchDocumentClass;
   }
 
   private ElasticsearchType computeElasticsearchType(S repository) {
@@ -110,7 +127,7 @@ public class GenericDomainObjectCrudHelper
     if (domainObjectChangesProvider != null) {
       domainObjectChangesProvider.put(null, domainObject);
     }
-    applicationEventPublisher.publishEvent(new BeforeCreateEvent(domainObject));    
+    applicationEventPublisher.publishEvent(new BeforeCreateEvent(domainObject));
     // insert is not captured by javers!
     T persisted = repository.save(domainObject);
     if (elasticsearchType != null) {
@@ -182,5 +199,40 @@ public class GenericDomainObjectCrudHelper
    */
   public Optional<T> read(String id) {
     return repository.findById(id);
+  }
+
+  /**
+   * Find the {@link SearchDocumentInterface} which corresponds to the
+   * {@link AbstractRdcDomainObject}.
+   * 
+   * @param id The id of the domain object.
+   * @return An optional domain object.
+   */
+  public Optional<T> readSearchDocument(String id) {
+    if (elasticsearchType == null) {
+      return Optional.empty();
+    }
+    SearchSourceBuilder builder = new SearchSourceBuilder();
+    builder.fetchSource(null,
+        ExcludeFieldsHelper.getFieldsToExcludeOnDeserialization(searchDocumentClass));
+    builder.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("id", id))).size(1);
+    Search search =
+        new Search.Builder(builder.toString()).addIndex(elasticsearchType.name()).build();
+    return executeSearch(search);
+  }
+
+  @SuppressFBWarnings("BC_UNCONFIRMED_CAST_OF_RETURN_VALUE")
+  protected Optional<T> executeSearch(Search search) {
+    try {
+      SearchResult searchResult = jestClient.execute(search);
+      Hit<? extends T, Void> hit = searchResult.getFirstHit(searchDocumentClass);
+      if (hit != null) {
+        return Optional.of(hit.source);
+      } else {
+        return Optional.empty();
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

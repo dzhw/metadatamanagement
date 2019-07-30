@@ -15,6 +15,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Instrument REST Controller which overrides default spring data rest methods.
@@ -22,14 +25,20 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
  * @author René Reitmann
  */
 @RepositoryRestController
+@Api(value = "Instrument Resource",
+    description = "Endpoints used by the MDM to manage instruments.")
 public class InstrumentResourceController
     extends GenericDomainObjectResourceController<Instrument, CrudService<Instrument>> {
 
-  public InstrumentResourceController(CrudService<Instrument> crudService) {
-    super(crudService);
+  public InstrumentResourceController(CrudService<Instrument> crudService,
+      UserInformationProvider userInformationProvider) {
+    super(crudService, userInformationProvider);
   }
 
   @Override
+  @ApiOperation("Get the instrument. Public users will get the latest version of the instrument."
+      + " If the id is postfixed with the version number it will return exactly the "
+      + "requested version, if available.")
   @GetMapping(value = "/instruments/{id:.+}")
   public ResponseEntity<Instrument> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);

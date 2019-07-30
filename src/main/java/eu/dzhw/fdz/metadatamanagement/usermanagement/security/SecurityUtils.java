@@ -2,13 +2,15 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
 
 import java.util.Collection;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 
 /**
  * Utility class for Spring Security.
@@ -94,5 +96,17 @@ public final class SecurityUtils {
   public static boolean isUserInRole(String authority, User user) {
     return user.getAuthorities().stream()
         .anyMatch(userAuthority -> userAuthority.getName().equals(authority));
+  }
+  
+  /**
+   * Check whether the user doing the current request has been authenticated anonymously.
+   * @return true if the user has been authenticated anonymously.
+   */
+  public static boolean isUserAnonymous() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+      return true;
+    }
+    return false;
   }
 }
