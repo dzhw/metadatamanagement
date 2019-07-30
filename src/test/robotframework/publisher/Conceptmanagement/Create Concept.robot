@@ -35,7 +35,7 @@ Create Concepts by Publisher
     Get back to german home page
     Click on concept tab
     Assert created concept under concept list
-    Run Keyword if  '${BROWSER}' == 'chrome'   Attach documents to the concept  #upload attachment is only possible in chrome
+    Run Keyword If    '${BROWSER}' == 'chrome'   Attach documents to the concept  #upload attachment is only possible in chrome
     Delete Concept
 
 *** Keywords ***
@@ -43,6 +43,7 @@ Open Concept Create Page
     Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
 
 Add Another Author
+
     Click Element Through Tooltips    xpath=//md-card/descendant::button[md-icon[text()='add']]
 
 Move Second Author To Place One
@@ -86,7 +87,8 @@ Assert gra2005_W1_Questionnaire in the attachment
     Page Should Contain Element    xpath=//a[@ng-href="/public/files/concepts/con-Concept-RDC-ID-007_${BROWSER}$/attachments/gra2005_MethodReport_de.pdf"]
 
 Attach documents to the concept
-    Click Element Through Tooltips    xpath=//a[contains(., "RDC-ID-007_${BROWSER}")]//following::button[md-icon[text()="mode_edit"]]
+    Search for  Test Konzepte_RDC-ID-007_${BROWSER}
+    Click Element Through Tooltips    xpath=//a[@aria-label="Klicken, um das Konzept zu bearbeiten"]//md-icon[text()="mode_edit"]
     Click Element Through Tooltips    xpath=//md-card-actions[@ng-if="!ctrl.createMode"]//button//md-icon[text()="add"]
     Upload concept attchment file
     Select concept data type
