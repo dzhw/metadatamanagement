@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Dataprovider assign a concept to an instrument and assert it under the instrument. It also assert the concept is assigned to a study and survey. Finally the concept is unassigned from the instrument.
+Documentation   Dataprovider assign a concept to an instrument and assert it under the instrument. Prerequisite to havce "Test Konzept ${BROWSER} Publisher" concepts in the system.
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
