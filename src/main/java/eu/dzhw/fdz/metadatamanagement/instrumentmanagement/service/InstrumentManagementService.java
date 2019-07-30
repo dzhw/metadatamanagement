@@ -250,4 +250,9 @@ public class InstrumentManagementService implements CrudService<Instrument> {
     // TODO check project access rights
     return crudHelper.createMaster(instrument);
   }
+
+  @Override
+  public Optional<Instrument> readSearchDocument(String id) {
+    return crudHelper.readSearchDocument(id);
+  }
 }

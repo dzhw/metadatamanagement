@@ -22,6 +22,12 @@ AbstractShadowableRdcDomainObject
 
 Fields
 ------
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: AbstractShadowableRdcDomainObject
+
 shadow
 ^^^^^^
 

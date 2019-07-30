@@ -279,4 +279,9 @@ public class SurveyManagementService implements CrudService<Survey> {
     // TODO check project access rights
     return crudHelper.createMaster(survey);
   }
+
+  @Override
+  public Optional<Survey> readSearchDocument(String id) {
+    return crudHelper.readSearchDocument(id);
+  }
 }

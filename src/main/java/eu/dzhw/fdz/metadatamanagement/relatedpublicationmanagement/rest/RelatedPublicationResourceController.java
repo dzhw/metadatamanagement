@@ -15,6 +15,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * RelatedPublication REST Controller which overrides default spring data rest methods.
@@ -22,14 +25,18 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
  * @author René Reitmann
  */
 @RepositoryRestController
+@Api(value = "Publication Resource",
+    description = "Endpoints used by the MDM to manage publications.")
 public class RelatedPublicationResourceController extends
     GenericDomainObjectResourceController<RelatedPublication, CrudService<RelatedPublication>> {
 
-  public RelatedPublicationResourceController(CrudService<RelatedPublication> crudService) {
-    super(crudService);
+  public RelatedPublicationResourceController(CrudService<RelatedPublication> crudService,
+      UserInformationProvider userInformationProvider) {
+    super(crudService, userInformationProvider);
   }
 
   @Override
+  @ApiOperation("Get the publication.")
   @GetMapping(value = "/related-publications/{id:.+}")
   public ResponseEntity<RelatedPublication> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);

@@ -265,4 +265,9 @@ public class DataSetManagementService implements CrudService<DataSet> {
     // TODO check project access rights
     return crudHelper.createMaster(dataSet);
   }
+
+  @Override
+  public Optional<DataSet> readSearchDocument(String id) {
+    return crudHelper.readSearchDocument(id);
+  }
 }

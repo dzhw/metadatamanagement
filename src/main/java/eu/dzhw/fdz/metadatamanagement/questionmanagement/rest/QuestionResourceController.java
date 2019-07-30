@@ -15,6 +15,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Question REST Controller which overrides default spring data rest methods.
@@ -22,20 +25,25 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
  * @author René Reitmann
  */
 @RepositoryRestController
-public class QuestionResourceController extends GenericDomainObjectResourceController
-    <Question, CrudService<Question>> {
+@Api(value = "Question Resource", description = "Endpoints used by the MDM to manage questions.")
+public class QuestionResourceController
+    extends GenericDomainObjectResourceController<Question, CrudService<Question>> {
 
-  public QuestionResourceController(CrudService<Question> crudService) {
-    super(crudService);
+  public QuestionResourceController(CrudService<Question> crudService,
+      UserInformationProvider userInformationProvider) {
+    super(crudService, userInformationProvider);
   }
 
   @Override
+  @ApiOperation("Get the question. Public users will get the latest version of the question."
+      + " If the id is postfixed with the version number it will return exactly the "
+      + "requested version, if available.")
   @GetMapping(value = "/questions/{id:.+}")
   public ResponseEntity<Question> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);
   }
 
- 
+
   @Override
   @PostMapping(value = "/questions")
   public ResponseEntity<?> postDomainObject(@RequestBody Question question) {

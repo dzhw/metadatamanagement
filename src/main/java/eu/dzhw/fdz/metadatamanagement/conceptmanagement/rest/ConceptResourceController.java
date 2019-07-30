@@ -22,6 +22,9 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptInUseException;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Concept REST Controller which overrides default spring data rest methods.
@@ -29,20 +32,23 @@ import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptInUseExcep
  * @author René Reitmann
  */
 @RepositoryRestController
-public class ConceptResourceController extends GenericDomainObjectResourceController
-    <Concept, CrudService<Concept>> {
+@Api(value = "Concept Resource", description = "Endpoints used by the MDM to manage concepts.")
+public class ConceptResourceController
+    extends GenericDomainObjectResourceController<Concept, CrudService<Concept>> {
 
-  public ConceptResourceController(CrudService<Concept> crudService) {
-    super(crudService);
+  public ConceptResourceController(CrudService<Concept> crudService,
+      UserInformationProvider userInformationProvider) {
+    super(crudService, userInformationProvider);
   }
 
   @Override
+  @ApiOperation("Get the concept.")
   @GetMapping(value = "/concepts/{id:.+}")
   public ResponseEntity<Concept> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);
   }
 
- 
+
   @Override
   @PostMapping(value = "/concepts")
   public ResponseEntity<?> postDomainObject(@RequestBody Concept concept) {
@@ -73,14 +79,16 @@ public class ConceptResourceController extends GenericDomainObjectResourceContro
     ErrorListDto errorListDto = new ErrorListDto();
 
     if (!exception.getInstrumentIds().isEmpty()) {
-      ErrorDto usedByInstruments = new ErrorDto(null, "concept-management.error."
-          + "concept.in-use.instruments", exception.getInstrumentIds(), null);
+      ErrorDto usedByInstruments =
+          new ErrorDto(null, "concept-management.error." + "concept.in-use.instruments",
+              exception.getInstrumentIds(), null);
       errorListDto.add(usedByInstruments);
     }
 
     if (!exception.getQuestionIds().isEmpty()) {
-      ErrorDto usedByQuestions = new ErrorDto(null, "concept-management.error."
-          + "concept.in-use.questions", exception.getQuestionIds(), null);
+      ErrorDto usedByQuestions =
+          new ErrorDto(null, "concept-management.error." + "concept.in-use.questions",
+              exception.getQuestionIds(), null);
       errorListDto.add(usedByQuestions);
     }
     return errorListDto;

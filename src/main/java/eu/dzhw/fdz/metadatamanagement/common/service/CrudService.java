@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SearchDocumentInterface;
 
 /**
  * Service interface for all services doing CRUD operations on {@link AbstractRdcDomainObject}s.
@@ -17,6 +18,15 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
  */
 @Validated
 public interface CrudService<T extends AbstractRdcDomainObject> {
+  /**
+   * Find the {@link SearchDocumentInterface} which corresponds to the
+   * {@link AbstractRdcDomainObject}.
+   * 
+   * @param id The id of the domain object.
+   * @return An optional domain object.
+   */
+  Optional<T> readSearchDocument(String id);
+  
   /**
    * Retrieve the {@link AbstractRdcDomainObject} by id.
    * 

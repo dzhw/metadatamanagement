@@ -15,6 +15,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * DataSet REST Controller which overrides default spring data rest methods.
@@ -22,20 +25,25 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
  * @author René Reitmann
  */
 @RepositoryRestController
-public class DataSetResourceController extends GenericDomainObjectResourceController
-    <DataSet, CrudService<DataSet>> {
+@Api(value = "Dataset Resource", description = "Endpoints used by the MDM to manage questions.")
+public class DataSetResourceController
+    extends GenericDomainObjectResourceController<DataSet, CrudService<DataSet>> {
 
-  public DataSetResourceController(CrudService<DataSet> crudService) {
-    super(crudService);
+  public DataSetResourceController(CrudService<DataSet> crudService,
+      UserInformationProvider userInformationProvider) {
+    super(crudService, userInformationProvider);
   }
 
   @Override
+  @ApiOperation("Get the dataset. Public users will get the latest version of the dataset."
+      + " If the id is postfixed with the version number it will return exactly the "
+      + "requested version, if available.")
   @GetMapping(value = "/data-sets/{id:.+}")
   public ResponseEntity<DataSet> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);
   }
 
- 
+
   @Override
   @PostMapping(value = "/data-sets")
   public ResponseEntity<?> postDomainObject(@RequestBody DataSet dataSet) {

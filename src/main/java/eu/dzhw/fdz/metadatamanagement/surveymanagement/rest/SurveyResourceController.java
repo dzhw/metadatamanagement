@@ -15,6 +15,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Survey REST Controller which overrides default spring data rest methods.
@@ -22,20 +25,25 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
  * @author René Reitmann
  */
 @RepositoryRestController
-public class SurveyResourceController extends GenericDomainObjectResourceController
-    <Survey, CrudService<Survey>> {
+@Api(value = "Survey Resource", description = "Endpoints used by the MDM to manage surveys.")
+public class SurveyResourceController
+    extends GenericDomainObjectResourceController<Survey, CrudService<Survey>> {
 
-  public SurveyResourceController(CrudService<Survey> crudService) {
-    super(crudService);
+  public SurveyResourceController(CrudService<Survey> crudService,
+      UserInformationProvider userInformationProvider) {
+    super(crudService, userInformationProvider);
   }
 
   @Override
+  @ApiOperation("Get the survey. Public users will get the latest version of the survey."
+      + " If the id is postfixed with the version number it will return exactly the "
+      + "requested version, if available.")
   @GetMapping(value = "/surveys/{id:.+}")
   public ResponseEntity<Survey> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);
   }
 
- 
+
   @Override
   @PostMapping(value = "/surveys")
   public ResponseEntity<?> postDomainObject(@RequestBody Survey survey) {

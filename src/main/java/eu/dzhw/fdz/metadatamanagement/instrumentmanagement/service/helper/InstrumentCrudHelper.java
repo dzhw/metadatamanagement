@@ -7,7 +7,10 @@ import eu.dzhw.fdz.metadatamanagement.common.service.GenericShadowableDomainObje
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentChangesProvider;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.InstrumentSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import io.searchbox.client.JestClient;
 
 /**
  * Component which implements CRUD functions for all {@link Instrument}s.
@@ -17,11 +20,16 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 @Component
 public class InstrumentCrudHelper
     extends GenericShadowableDomainObjectCrudHelper<Instrument, InstrumentRepository> {
+  /**
+   * Construct the helper.
+   */
   public InstrumentCrudHelper(InstrumentRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      InstrumentChangesProvider instrumentChangesProvider) {
+      InstrumentChangesProvider instrumentChangesProvider, JestClient jestClient,
+      UserInformationProvider userInformationProvider) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService,
-        instrumentChangesProvider);
+        instrumentChangesProvider, jestClient, InstrumentSearchDocument.class,
+        userInformationProvider);
   }
 }

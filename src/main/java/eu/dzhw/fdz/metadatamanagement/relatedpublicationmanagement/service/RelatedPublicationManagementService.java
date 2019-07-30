@@ -221,4 +221,10 @@ public class RelatedPublicationManagementService implements CrudService<RelatedP
   public RelatedPublication create(RelatedPublication publication) {
     return crudHelper.create(publication);
   }
+
+
+  @Override
+  public Optional<RelatedPublication> readSearchDocument(String id) {
+    return crudHelper.readSearchDocument(id);
+  }
 }

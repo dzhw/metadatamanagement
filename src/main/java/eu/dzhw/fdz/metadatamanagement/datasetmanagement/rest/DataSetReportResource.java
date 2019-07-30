@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,7 +45,7 @@ import lombok.RequiredArgsConstructor;
 public class DataSetReportResource {
 
   private final DataSetReportService dataSetReportService;
-  
+
   private final DataSetAttachmentService dataSetAttachmentService;
 
   private final MailService mailService;
@@ -120,8 +124,16 @@ public class DataSetReportResource {
       throws IOException {
     Optional<User> user = userService.getUserWithAuthoritiesByLogin(onBehalfOf);
     if (user.isPresent()) {
+      User userInstance = user.get();
+      // switch to on behalf user for correct modification names
+      Collection<? extends GrantedAuthority> currentAuthorities =
+          SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+          userInstance.getLogin(), userInstance.getPassword(), currentAuthorities);
+      SecurityContextHolder.getContext().setAuthentication(authentication);
       dataSetAttachmentService.attachDataSetReport(dataSetId, reportFile);
       mailService.sendDataSetReportGeneratedMail(user.get(), dataSetId, sender);
+      SecurityContextHolder.getContext().setAuthentication(null);
       return ResponseEntity.ok().build();
     } else {
       return ResponseEntity.badRequest()

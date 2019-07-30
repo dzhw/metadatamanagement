@@ -7,7 +7,10 @@ import eu.dzhw.fdz.metadatamanagement.common.service.GenericShadowableDomainObje
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetChangesProvider;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import io.searchbox.client.JestClient;
 
 /**
  * Component which implements CRUD functions for all {@link DataSet}s.
@@ -20,8 +23,9 @@ public class DataSetCrudHelper
   public DataSetCrudHelper(DataSetRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      DataSetChangesProvider dataSetChangesProvider) {
+      DataSetChangesProvider dataSetChangesProvider, JestClient jestClient,
+      UserInformationProvider userInformationProvider) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService,
-        dataSetChangesProvider);
+        dataSetChangesProvider, jestClient, DataSetSearchDocument.class, userInformationProvider);
   }
 }

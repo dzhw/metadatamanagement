@@ -188,4 +188,9 @@ public class TaskManagementService implements CrudService<Task> {
     domainObject.setState(TaskState.RUNNING);
     return crudHelper.create(domainObject);
   }
+
+  @Override
+  public Optional<Task> readSearchDocument(String id) {
+    return crudHelper.readSearchDocument(id);
+  }
 }

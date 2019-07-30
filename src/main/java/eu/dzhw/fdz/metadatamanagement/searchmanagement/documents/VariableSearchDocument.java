@@ -34,6 +34,9 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
 
   private static final long serialVersionUID = 9175808841240756548L;
   
+  static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION =
+      new String[] {"nested*", "configuration", "guiLabels", "*Publications"};
+  
   private DataSetSubDocument dataSet = null;
   private DataSetNestedDocument nestedDataSet = null;
   private StudySubDocument study = null;

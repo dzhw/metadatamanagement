@@ -8,6 +8,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 
 /**
  * Component which implements CRUD functions for all {@link DataAcquisitionProjectCrudHelper}s.
@@ -16,12 +17,14 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
  */
 @Component
 public class DataAcquisitionProjectCrudHelper extends
-    GenericShadowableDomainObjectCrudHelper<DataAcquisitionProject, 
-      DataAcquisitionProjectRepository> {
+    GenericShadowableDomainObjectCrudHelper
+    <DataAcquisitionProject, DataAcquisitionProjectRepository> {
   public DataAcquisitionProjectCrudHelper(DataAcquisitionProjectRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      DataAcquisitionProjectChangesProvider changesProvider) {
-    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, changesProvider);
+      DataAcquisitionProjectChangesProvider changesProvider,
+      UserInformationProvider userInformationProvider) {
+    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, changesProvider,
+        null, null, userInformationProvider);
   }
 }

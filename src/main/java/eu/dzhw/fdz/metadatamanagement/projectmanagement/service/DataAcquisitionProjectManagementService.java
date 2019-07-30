@@ -254,4 +254,9 @@ public class DataAcquisitionProjectManagementService
   public DataAcquisitionProject create(DataAcquisitionProject domainObject) {
     return crudHelper.createMaster(domainObject);
   }
+
+  @Override
+  public Optional<DataAcquisitionProject> readSearchDocument(String id) {
+    return crudHelper.readSearchDocument(id);
+  }
 }

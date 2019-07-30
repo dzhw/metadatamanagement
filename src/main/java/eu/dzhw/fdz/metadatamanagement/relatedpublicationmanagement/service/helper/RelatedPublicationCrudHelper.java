@@ -7,7 +7,9 @@ import eu.dzhw.fdz.metadatamanagement.common.service.GenericDomainObjectCrudHelp
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedPublicationSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
+import io.searchbox.client.JestClient;
 
 /**
  * Component which implements CRUD functions for all {@link RelatedPublication}s.
@@ -20,7 +22,8 @@ public class RelatedPublicationCrudHelper
   public RelatedPublicationCrudHelper(RelatedPublicationRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      RelatedPublicationChangesProvider changesProvider) {
-    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, changesProvider);
+      RelatedPublicationChangesProvider changesProvider, JestClient jestClient) {
+    super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, changesProvider,
+        jestClient, RelatedPublicationSearchDocument.class);
   }
 }

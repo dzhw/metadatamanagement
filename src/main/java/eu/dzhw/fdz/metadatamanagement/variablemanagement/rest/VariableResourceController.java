@@ -14,7 +14,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Variable REST Controller which overrides default spring data rest methods.
@@ -22,20 +25,25 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
  * @author René Reitmann
  */
 @RepositoryRestController
-public class VariableResourceController extends GenericDomainObjectResourceController
-    <Variable, CrudService<Variable>> {
+@Api(value = "Variable Resource", description = "Endpoints used by the MDM to manage variables.")
+public class VariableResourceController
+    extends GenericDomainObjectResourceController<Variable, CrudService<Variable>> {
 
-  public VariableResourceController(CrudService<Variable> crudService) {
-    super(crudService);
+  public VariableResourceController(CrudService<Variable> crudService,
+      UserInformationProvider userInformationProvider) {
+    super(crudService, userInformationProvider);
   }
 
   @Override
+  @ApiOperation("Get the variable. Public users will get the latest version of the variables."
+      + " If the id is postfixed with the version number it will return exactly the "
+      + "requested version, if available.")
   @GetMapping(value = "/variables/{id:.+}")
   public ResponseEntity<Variable> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);
   }
 
- 
+
   @Override
   @PostMapping(value = "/variables")
   public ResponseEntity<?> postDomainObject(@RequestBody Variable variable) {
