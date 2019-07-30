@@ -1,6 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.conceptmanagement.rest;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -37,7 +39,6 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchU
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
-@WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class ConceptResourceControllerTest extends AbstractTest {
   private static final String API_CONCEPT_URI = "/api/concepts";
 
@@ -66,8 +67,7 @@ public class ConceptResourceControllerTest extends AbstractTest {
 
   @Before
   public void setup() {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-      .build();
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
   @After
@@ -81,38 +81,41 @@ public class ConceptResourceControllerTest extends AbstractTest {
   }
 
   @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateConcept() throws IOException, Exception {
     Concept concept = UnitTestCreateDomainObjectUtils.buildConcept();
 
     // create the concept with the given id
     mockMvc.perform(put(API_CONCEPT_URI + "/" + concept.getId())
-      .content(TestUtil.convertObjectToJsonBytes(concept)).contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().isCreated());
+        .content(TestUtil.convertObjectToJsonBytes(concept))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
     // read the concept under the new url
-    mockMvc.perform(get(API_CONCEPT_URI + "/" + concept.getId()))
-      .andExpect(status().isOk());
+    mockMvc.perform(get(API_CONCEPT_URI + "/" + concept.getId())).andExpect(status().isOk());
   }
 
   @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateConceptWithWrongId() throws IOException, Exception {
     Concept concept = UnitTestCreateDomainObjectUtils.buildConcept();
     concept.setId("hurz");
 
     // create the concept with the given id
-    mockMvc.perform(put(API_CONCEPT_URI + "/" + concept.getId())
-      .content(TestUtil.convertObjectToJsonBytes(concept)))
-      .andExpect(status().is4xxClientError());
+    mockMvc
+        .perform(put(API_CONCEPT_URI + "/" + concept.getId())
+            .content(TestUtil.convertObjectToJsonBytes(concept)))
+        .andExpect(status().is4xxClientError());
   }
 
   @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testUpdateConcept() throws IOException, Exception {
     Concept concept = UnitTestCreateDomainObjectUtils.buildConcept();
 
     // create the concept with the given id
     mockMvc.perform(put(API_CONCEPT_URI + "/" + concept.getId())
-      .content(TestUtil.convertObjectToJsonBytes(concept)).contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().isCreated());
+        .content(TestUtil.convertObjectToJsonBytes(concept))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
     List<Person> authors = new ArrayList<>();
     authors.add(UnitTestCreateDomainObjectUtils.buildPerson("Another", null, "Author"));
@@ -121,37 +124,36 @@ public class ConceptResourceControllerTest extends AbstractTest {
     concept.setVersion(0L);
     // update the concept with the given id
     mockMvc.perform(put(API_CONCEPT_URI + "/" + concept.getId())
-      .content(TestUtil.convertObjectToJsonBytes(concept)).contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().is2xxSuccessful());
+        .content(TestUtil.convertObjectToJsonBytes(concept))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().is2xxSuccessful());
 
     // read the concept under the new url
-    mockMvc.perform(get(API_CONCEPT_URI + "/" + concept.getId()))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.id", is(concept.getId())))
-      .andExpect(jsonPath("$.version", is(1)))
-      .andExpect(jsonPath("$.authors[0].firstName", is("Another")))
-      .andExpect(jsonPath("$.authors[0].lastName", is("Author")));
+    mockMvc.perform(get(API_CONCEPT_URI + "/" + concept.getId())).andExpect(status().isOk())
+        .andExpect(jsonPath("$.id", is(concept.getId()))).andExpect(jsonPath("$.version", is(1)))
+        .andExpect(jsonPath("$.authors[0].firstName", is("Another")))
+        .andExpect(jsonPath("$.authors[0].lastName", is("Author")));
   }
 
   @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testDeleteConcept() throws IOException, Exception {
     Concept concept = UnitTestCreateDomainObjectUtils.buildConcept();
 
     // create the project with the given id
     mockMvc.perform(put(API_CONCEPT_URI + "/" + concept.getId())
-      .content(TestUtil.convertObjectToJsonBytes(concept)).contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().isCreated());
+        .content(TestUtil.convertObjectToJsonBytes(concept))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
     // delete the project under the new url
     mockMvc.perform(delete(API_CONCEPT_URI + "/" + concept.getId()))
-      .andExpect(status().is2xxSuccessful());
+        .andExpect(status().is2xxSuccessful());
 
     // ensure it is really deleted
-    mockMvc.perform(get(API_CONCEPT_URI + "/" + concept.getId()))
-      .andExpect(status().isNotFound());
+    mockMvc.perform(get(API_CONCEPT_URI + "/" + concept.getId())).andExpect(status().isNotFound());
   }
 
   @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testDeleteUsedConceptByQuestion() throws Exception {
     Concept conceptInQuestion = UnitTestCreateDomainObjectUtils.buildConcept();
     conceptRepository.save(conceptInQuestion);
@@ -159,17 +161,18 @@ public class ConceptResourceControllerTest extends AbstractTest {
     question.setConceptIds(Collections.singletonList(conceptInQuestion.getId()));
 
     mockMvc.perform(put("/api/questions/" + question.getId())
-      .content(TestUtil.convertObjectToJsonBytes(question)).contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().is2xxSuccessful());
+        .content(TestUtil.convertObjectToJsonBytes(question))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().is2xxSuccessful());
 
     mockMvc.perform(delete(API_CONCEPT_URI + "/" + conceptInQuestion.getId()))
-      .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message",
-        is("concept-management.error.concept.in-use.questions")))
-      .andExpect(jsonPath("$.errors[0].invalidValue[0]", is(question.getId())));
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message",
+            is("concept-management.error.concept.in-use.questions")))
+        .andExpect(jsonPath("$.errors[0].invalidValue[0]", is(question.getId())));
   }
 
   @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testDeleteUsedConceptByInstrument() throws Exception {
     Concept conceptInInstrument = UnitTestCreateDomainObjectUtils.buildConcept();
     conceptInInstrument.setId("con-conceptid2$");
@@ -178,13 +181,25 @@ public class ConceptResourceControllerTest extends AbstractTest {
     instrument.setConceptIds(Collections.singletonList(conceptInInstrument.getId()));
 
     mockMvc.perform(put("/api/instruments/" + instrument.getId())
-      .content(TestUtil.convertObjectToJsonBytes(instrument)).contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().is2xxSuccessful());
+        .content(TestUtil.convertObjectToJsonBytes(instrument))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().is2xxSuccessful());
 
     mockMvc.perform(delete(API_CONCEPT_URI + "/" + conceptInInstrument.getId()))
-      .andExpect(status().isBadRequest())
-      .andExpect(jsonPath("$.errors[0].message",
-        is("concept-management.error.concept.in-use.instruments")))
-      .andExpect(jsonPath("$.errors[0].invalidValue[0]", is(instrument.getId())));
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message",
+            is("concept-management.error.concept.in-use.instruments")))
+        .andExpect(jsonPath("$.errors[0].invalidValue[0]", is(instrument.getId())));
+  }
+
+  @Test
+  public void testGetConceptAsPublicUser() throws Exception {
+    Concept concept = UnitTestCreateDomainObjectUtils.buildConcept();
+    conceptRepository.save(concept);
+
+    elasticsearchAdminService.recreateAllIndices();
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
+
+    mockMvc.perform(get(API_CONCEPT_URI + "/" + concept.getId())).andExpect(status().isOk())
+        .andExpect(jsonPath("$.completeTitle").exists());
   }
 }

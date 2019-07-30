@@ -176,9 +176,9 @@ public class GenericShadowableDomainObjectCrudHelper
     SearchSourceBuilder builder = new SearchSourceBuilder();
     builder.fetchSource(null,
         ExcludeFieldsHelper.getFieldsToExcludeOnDeserialization(searchDocumentClass));
-    builder.query(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("shadow", true))
-        .should(QueryBuilders.termQuery("masterId", id)).should(QueryBuilders.termQuery("id", id))
-        .minimumShouldMatch(1).mustNot(QueryBuilders.existsQuery("successorId"))).size(1);
+    builder.query(QueryBuilders.constantScoreQuery(QueryBuilders.boolQuery()
+        .must(QueryBuilders.termQuery("shadow", true)).must(QueryBuilders.termQuery("masterId", id))
+        .mustNot(QueryBuilders.existsQuery("successorId")))).size(1);
     Search search =
         new Search.Builder(builder.toString()).addIndex(elasticsearchType.name()).build();
     return super.executeSearch(search);

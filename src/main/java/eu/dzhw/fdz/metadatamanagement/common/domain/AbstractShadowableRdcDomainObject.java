@@ -16,6 +16,8 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = false)
 public abstract class AbstractShadowableRdcDomainObject extends AbstractRdcDomainObject {
 
+  private static final long serialVersionUID = 8006229461938445620L;
+
   /**
    * The document id which is the successor to this shadow copy.
    */

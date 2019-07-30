@@ -215,7 +215,10 @@ public class GenericDomainObjectCrudHelper
     SearchSourceBuilder builder = new SearchSourceBuilder();
     builder.fetchSource(null,
         ExcludeFieldsHelper.getFieldsToExcludeOnDeserialization(searchDocumentClass));
-    builder.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("id", id))).size(1);
+    builder
+        .query(QueryBuilders
+            .constantScoreQuery(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("id", id))))
+        .size(1);
     Search search =
         new Search.Builder(builder.toString()).addIndex(elasticsearchType.name()).build();
     return executeSearch(search);
