@@ -529,8 +529,8 @@
                 <configuration>
                     <rules>
                         <requireMavenVersion>
-                            <message>You are running an older version of Maven. Our app requires at least Maven 3.0</message>
-                            <version>[3.3.9,)</version>
+                            <message>You are running an older version of Maven. Our app requires at least Maven 3.6.1</message>
+                            <version>[3.6.1,)</version>
                         </requireMavenVersion>
                         <requireJavaVersion>
                             <message>You are running an older version of Java. Our app requires at least JDK ${java.version}</message>
