@@ -119,6 +119,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class Variable extends AbstractShadowableRdcDomainObject {
+
+  private static final long serialVersionUID = -2425155869960913542L;
+
   /**
    * The id of the variable which uniquely identifies the variable in this application.
    * 

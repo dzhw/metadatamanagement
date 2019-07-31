@@ -54,6 +54,12 @@ projectId
 
    The id of the \ :java:ref:`DataAcquisitionProject`\  which needs to be sent to \ `da|ra <https://www.da-ra.de/home/>`_\ . Must not be empty and there must be at most one update queue item in the database for any project.
 
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: DaraUpdateQueueItem
+
 updateStartedAt
 ^^^^^^^^^^^^^^^
 

@@ -74,6 +74,12 @@ products
 
    List of data \ :java:ref:`Product`\ s the customer want to order. Must not be empty.
 
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Order
+
 state
 ^^^^^
 

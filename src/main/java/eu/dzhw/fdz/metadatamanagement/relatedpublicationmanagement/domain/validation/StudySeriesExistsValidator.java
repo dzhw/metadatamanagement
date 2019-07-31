@@ -3,21 +3,20 @@ package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.valid
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Validator which ensures that there is a study with the given study series.
  * 
  * @author René Reitmann
  */
+@RequiredArgsConstructor
 public class StudySeriesExistsValidator 
     implements ConstraintValidator<StudySeriesExists, I18nString> {
 
-  @Autowired
-  private StudyRepository studyRepository;
+  private final StudyRepository studyRepository;
   
   /*
    * (non-Javadoc)

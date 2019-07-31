@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,16 +24,17 @@ import org.springframework.web.util.UriUtils;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.RequiredArgsConstructor;
 
 /**
  * REST controller for uploading an instrument attachment.
  */
 @Controller
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class InstrumentAttachmentResource {
 
-  @Autowired
-  private InstrumentAttachmentService instrumentAttachmentService;
+  private final InstrumentAttachmentService instrumentAttachmentService;
 
   /**
    * REST method for for uploading an instrument attachment.

@@ -25,6 +25,9 @@ import lombok.ToString;
 @Setter
 public class DataSetSubDocument extends AbstractRdcDomainObject
     implements DataSetSubDocumentProjection {
+  
+  private static final long serialVersionUID = -8248418426807103732L;
+
   private String id;
   
   private String dataAcquisitionProjectId;

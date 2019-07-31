@@ -27,6 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -48,6 +49,9 @@ public class StudyVersionsResourceTest extends AbstractTest {
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
   
   @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
+  
+  @Autowired
   private JaversService javersService;
   
   private MockMvc mockMvc;
@@ -63,6 +67,7 @@ public class StudyVersionsResourceTest extends AbstractTest {
     dataAcquisitionProjectRepository.deleteAll();
     studyRepository.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
+    elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
   }
   

@@ -1,16 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import com.mongodb.client.gridfs.model.GridFSFile;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+
 import org.javers.core.Javers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -19,35 +14,30 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
+import com.mongodb.client.gridfs.model.GridFSFile;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper.SurveyAttachmentFilenameBuilder;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing attachments for surveys.
- *
  */
 @Service
+@RequiredArgsConstructor
 public class SurveyAttachmentService {
 
-  @Autowired
-  private GridFsOperations operations;
+  private final GridFsOperations operations;
 
-  @Autowired
-  private MongoTemplate mongoTemplate;
+  private final MongoTemplate mongoTemplate;
 
-  @Autowired
-  private Javers javers;
+  private final Javers javers;
 
-  @Autowired
-  private ShadowCopyService<SurveyAttachmentMetadata> shadowCopyService;
-
-  @Autowired
-  private SurveyAttachmentMetadataShadowCopyDataSource shadowCopyDatasource;
-
-  @Autowired
-  private AttachmentMetadataHelper<SurveyAttachmentMetadata> attachmentMetadataHelper;
+  private final AttachmentMetadataHelper<SurveyAttachmentMetadata> attachmentMetadataHelper;
 
   /**
    * Save the attachment for a survey.
@@ -159,15 +149,5 @@ public class SurveyAttachmentService {
     String currentUser = SecurityUtils.getCurrentUserLogin();
     this.operations.delete(fileQuery);
     javers.commitShallowDelete(currentUser, metadata);
-  }
-
-  /**
-   * Create shadow copies for {@link SurveyAttachmentMetadata} on project release.
-   * @param projectReleasedEvent Released project event
-   */
-  @EventListener
-  public void onProjectReleasedEvent(ProjectReleasedEvent projectReleasedEvent) {
-    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        projectReleasedEvent.getPreviousReleaseVersion(), shadowCopyDatasource);
   }
 }

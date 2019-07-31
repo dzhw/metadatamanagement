@@ -180,6 +180,12 @@ sampleSize
 
    The sample size is the number of participant which took part in the survey. Must not be empty and must not be negative.
 
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Survey
+
 studyId
 ^^^^^^^
 

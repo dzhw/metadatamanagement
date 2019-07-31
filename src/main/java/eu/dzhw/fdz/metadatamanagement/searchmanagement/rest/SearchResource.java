@@ -83,6 +83,7 @@ public class SearchResource {
     }
     // prevent throwing exception on error codes
     restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
+      @Override
       protected boolean hasError(HttpStatus statusCode) {
           return false;
       }
@@ -149,10 +150,8 @@ public class SearchResource {
     log.debug("REST request to process update queue for type: " + type);
     if (type != null) {
       elasticsearchUpdateQueueService.processQueueItems(type);
-      elasticsearchAdminService.refreshIndex(type);
     } else {
       elasticsearchUpdateQueueService.processAllQueueItems();
-      elasticsearchAdminService.refreshAllIndices();
     }
     return ResponseEntity.ok()
       .build();

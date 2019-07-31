@@ -1,25 +1,23 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.JsonObject;
-
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.ExcludeFieldsHelper;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
 import io.searchbox.client.JestClient;
-import io.searchbox.client.JestResult;
 import io.searchbox.core.Search;
-import lombok.extern.slf4j.Slf4j;
+import io.searchbox.core.SearchResult;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Service to get released studies out of elastic search.
@@ -27,13 +25,11 @@ import lombok.extern.slf4j.Slf4j;
  * @author tgehrke
  *
  */
-@Slf4j
 @Service
+@RequiredArgsConstructor
 public class StudyListService {
-  @Autowired
-  private JestClient jestClient;
-  
-  private static final String[] studyFields = getFieldsFromStudy();
+
+  private final JestClient jestClient;
 
   /**
    * Request released studies sort by title (DE) with a pagination defined by page and size.
@@ -43,45 +39,25 @@ public class StudyListService {
    * @return a list of searched study documents wrapped in a page object.
    * @throws IOException if search failed
    */
-  public Page<Study> loadStudies(int page, int size) throws IOException {
+  public Page<StudySearchDocument> loadStudies(int page, int size) throws IOException {
     SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 
-    sourceBuilder.fetchSource(studyFields, null);
-    sourceBuilder.query(QueryBuilders.boolQuery()
-        .filter(QueryBuilders.existsQuery("release"))
-        .filter(QueryBuilders.termQuery("shadow", true))
-        .mustNot(QueryBuilders.existsQuery("successorId")))
+    sourceBuilder.fetchSource(null,
+        ExcludeFieldsHelper.getFieldsToExcludeOnDeserialization(StudySearchDocument.class));
+    sourceBuilder
+        .query(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("shadow", true))
+            .mustNot(QueryBuilders.existsQuery("successorId")))
         .from(page * size).size(size).sort("title.de", SortOrder.ASC);
     Search search = new Search.Builder(sourceBuilder.toString()).addIndex("studies").build();
-    JestResult searchResult = jestClient.execute(search);
-    List<Study> hits = searchResult.getSourceAsObjectList(Study.class);
-    long total;
-    try {
-      JsonObject jsonObject = searchResult.getJsonObject();
-      String asString = jsonObject.get("hits").getAsJsonObject().get("total").getAsString();
-      total = Long.parseLong(asString);
-    } catch (Exception e) {
-      log.warn("failed to get total number of elements from search result", e);
-      total = 0;
-    }
+    SearchResult searchResult = jestClient.execute(search);
+    List<StudySearchDocument> hits = searchResult.getHits(StudySearchDocument.class).stream()
+        .map(hit -> hit.source).collect(Collectors.toList());
+    long total = searchResult.getTotal();
 
     PageRequest pageRequest = PageRequest.of(page, size);
-    Page<Study> resultPage = new PageImpl<Study>(hits, pageRequest, total);
+    Page<StudySearchDocument> resultPage =
+        new PageImpl<StudySearchDocument>(hits, pageRequest, total);
 
     return resultPage;
-  }
-
-  /**
-   * returns the array of fields from {@link Study} as Sting.
-   * 
-   * @return the fields
-   */
-  private static String[] getFieldsFromStudy() {
-    Field[] asList = Study.class.getDeclaredFields();
-    String[] fieldsAsString = new String[asList.length];
-    for (int i = 0; i < asList.length; i++) {
-      fieldsAsString[i] = asList[i].getName();
-    }
-    return fieldsAsString;
   }
 }

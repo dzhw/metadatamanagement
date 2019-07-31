@@ -188,6 +188,12 @@ questionText
 
    The question the \ :java:ref:`Survey`\ s participant was asked. It must be specified in at least one language and it must not contain more than 2048 characters.
 
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Question
+
 studyId
 ^^^^^^^
 

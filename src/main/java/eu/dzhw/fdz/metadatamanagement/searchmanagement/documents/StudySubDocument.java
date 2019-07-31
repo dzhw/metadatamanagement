@@ -26,6 +26,9 @@ import lombok.ToString;
 @Setter
 public class StudySubDocument extends AbstractRdcDomainObject
     implements StudySubDocumentProjection {
+
+  private static final long serialVersionUID = -8641253155035394262L;
+
   private String id;
   
   private String dataAcquisitionProjectId;

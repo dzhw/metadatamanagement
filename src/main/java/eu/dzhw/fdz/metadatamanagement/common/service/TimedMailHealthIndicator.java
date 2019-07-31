@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health.Builder;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.actuate.mail.MailHealthIndicator;
@@ -19,12 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TimedMailHealthIndicator extends MailHealthIndicator {
 
-  @Autowired
   public TimedMailHealthIndicator(JavaMailSenderImpl mailSender) {
     super(mailSender);
   }
   
-  @Timed
+  @Override
+  @Timed("mail_health_check")
   protected void doHealthCheck(Builder builder) throws Exception {
     try {
       super.doHealthCheck(builder);      

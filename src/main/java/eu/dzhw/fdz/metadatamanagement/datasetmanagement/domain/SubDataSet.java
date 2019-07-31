@@ -1,5 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain;
 
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.javers.core.metamodel.annotation.ValueObject;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
@@ -10,12 +19,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.javers.core.metamodel.annotation.ValueObject;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Set;
 
 /**
  * A subdataset is part of a {@link DataSet} and describes the concrete analyzable file which is
@@ -26,7 +29,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @ValueObject
-public class SubDataSet {
+public class SubDataSet implements Serializable {
+
+  private static final long serialVersionUID = -818891534073744110L;
 
   /**
    * The filename of the subdataset without extension.

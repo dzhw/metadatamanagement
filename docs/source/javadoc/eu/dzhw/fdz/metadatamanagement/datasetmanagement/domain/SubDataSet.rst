@@ -1,3 +1,15 @@
+.. java:import:: java.io Serializable
+
+.. java:import:: java.util Set
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Size
+
+.. java:import:: org.javers.core.metamodel.annotation ValueObject
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringNotEmpty
@@ -18,23 +30,13 @@
 
 .. java:import:: lombok NoArgsConstructor
 
-.. java:import:: org.javers.core.metamodel.annotation ValueObject
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Size
-
-.. java:import:: java.util Set
-
 SubDataSet
 ==========
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValueObject public class SubDataSet
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValueObject public class SubDataSet implements Serializable
 
    A subdataset is part of a \ :java:ref:`DataSet`\  and describes the concrete analyzable file which is accessible by a given access way.
 
@@ -87,4 +89,10 @@ numberOfObservations
    :outertype: SubDataSet
 
    The number of rows (observations or episodes) which are present in this subdataset. Must not be empty.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: SubDataSet
 

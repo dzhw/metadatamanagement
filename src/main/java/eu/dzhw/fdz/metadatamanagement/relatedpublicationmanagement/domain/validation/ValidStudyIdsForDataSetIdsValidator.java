@@ -6,22 +6,21 @@ import java.util.stream.Collectors;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Ensure that a related publication is linked to the study of a DataSet.
  * 
  * @author René Reitmann
  */
+@RequiredArgsConstructor
 public class ValidStudyIdsForDataSetIdsValidator
     implements ConstraintValidator<ValidStudyIdsForDataSetIds, RelatedPublication> {
 
-  @Autowired
-  private DataSetRepository dataSetRepository;
+  private final DataSetRepository dataSetRepository;
 
   private String messageKey;
 

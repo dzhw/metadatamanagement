@@ -1,3 +1,13 @@
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
+
+.. java:import:: org.javers.core.metamodel.annotation Entity
+
+.. java:import:: org.springframework.data.annotation Id
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
@@ -31,16 +41,6 @@
 .. java:import:: lombok Setter
 
 .. java:import:: lombok ToString
-
-.. java:import:: org.javers.core.metamodel.annotation Entity
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
 
 InstrumentAttachmentMetadata
 ============================
@@ -125,6 +125,12 @@ masterId
    :outertype: InstrumentAttachmentMetadata
 
    The master id of the instrument attachment metadata.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: InstrumentAttachmentMetadata
 
 type
 ^^^^

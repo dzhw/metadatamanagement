@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 import javax.annotation.PostConstruct;
 
 import org.javers.core.Javers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
@@ -22,7 +21,6 @@ public class SurveyVersionsService
   /**
    * Construct the service.
    */
-  @Autowired
   public SurveyVersionsService(Javers javers, SurveyRepository surveyRepository,
       MetadataManagementProperties metadataManagementProperties) {
     super(Survey.class, javers, surveyRepository, metadataManagementProperties);

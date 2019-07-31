@@ -1,19 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
-import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderAlreadyCompletedException;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.projection.IdAndVersionOrderProjection;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.service.OrderService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.ResponseHeader;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.net.URI;
+import java.time.ZoneId;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.http.CacheControl;
@@ -30,11 +23,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.time.ZoneId;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
+import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderAlreadyCompletedException;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.projection.IdAndVersionOrderProjection;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.service.OrderService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ResponseHeader;
+import lombok.RequiredArgsConstructor;
 
 /**
  * REST controller for ordering data products.
@@ -42,15 +44,14 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @Api(value = "Order Resource",
     description = "Endpoints used by the MDM and the DLP to manage orders.")
+@RequiredArgsConstructor
 public class OrderResource {
-  @Autowired
-  private OrderRepository orderRepository;
 
-  @Autowired
-  private OrderService orderService;
+  private final OrderRepository orderRepository;
 
-  @Autowired
-  private ProjectionFactory projectionFactory;
+  private final OrderService orderService;
+
+  private final ProjectionFactory projectionFactory;
 
   @Value("${metadatamanagement.server.context-root}")
   private String baseUrl;

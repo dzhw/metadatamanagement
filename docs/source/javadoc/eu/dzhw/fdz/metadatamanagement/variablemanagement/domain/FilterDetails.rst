@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: javax.validation.constraints NotEmpty
 
 .. java:import:: javax.validation.constraints Size
@@ -26,7 +28,7 @@ FilterDetails
 .. java:package:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder public class FilterDetails
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder public class FilterDetails implements Serializable
 
    Filter details of a \ :java:ref:`Variable`\  describe the condition which must have evaluated to true before a participant was asked a \ :java:ref:`Question`\  resulting in this \ :java:ref:`Variable`\ . All participants for which the conditions evaluates to false will have a \ :java:ref:`Missing`\  in this \ :java:ref:`Variable`\ .
 
@@ -55,4 +57,10 @@ expressionLanguage
    :outertype: FilterDetails
 
    The name of the language in which the expression was given. Must not be empty and must be one of \ :java:ref:`FilterExpressionLanguages`\ .
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: FilterDetails
 

@@ -1,7 +1,7 @@
 .. _questions:
 
-Fragen (questions) [1]_
-=======================
+Fragen (questions)
+==================
 
 **Übersicht**
 
@@ -24,7 +24,7 @@ ZOFAR, dem Datenerhebungssystem den DZHW, durchgeführt wurden, direkt
 aus dem System heraus extrahiert werden (siehe **Questions (ZOFAR)**),
 müssen Daten aus allen anderweitig durchgeführten Befragungen – sowohl
 andere Onlinebefragungen als auch PAPI-Befragungen – manuell erfasst
-werden (siehe **Questions (manuell)**). Im Folgenden werden beide
+werden (siehe **Questions (manuell bzw. handcrafted)**). Im Folgenden werden beide
 Vorgehensweisen schrittweise beschrieben.
 
 Fragestruktur
@@ -50,7 +50,8 @@ meist "erkennbare" Nummerierung. Es wird zwischen fünf Fragetypen differenziert
 
 Questions (manuell bzw. handcrafted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Um json Dateien zu erzeugen muss zuerst einmal eine Exceltabelle ausgefüllt
+
+Um json Dateien zu erzeugen muss zunächst eine Exceltabelle ausgefüllt
 werden. Die Exceltabelle hat die beiden Tabellenblätter questions und images.
 Spaltennamen und Ausfüllanweisungen sind im nächsten Abschnitt zu finden.
 
@@ -103,6 +104,12 @@ Tabelle 3: Ausfüllanweisungen für die Excel-Tabelle "questions"
 | instrumentNumber       | Ja                    | Nummer des             |
 |                        |                       | Instruments            |
 +------------------------+-----------------------+------------------------+
+| successorNumbers       | Nein                  | Fragenummern der       |
+|                        |                       | nachfolgenden          |
+|                        |                       | Frage(n) (Angabe in    |
+|                        |                       | einer Zeile durch      |
+|                        |                       | Komma getrennt)        |
++------------------------+-----------------------+------------------------+
 | questionsText.de/en    | Ja                    | „Übergreifender“       |
 |                        |                       | Fragetext, bei         |
 |                        |                       | Itembatterien oder     |
@@ -150,12 +157,6 @@ Tabelle 3: Ausfüllanweisungen für die Excel-Tabelle "questions"
 |                        |                       | aus Instrument         |
 |                        |                       | entnehmbar)            |
 +------------------------+-----------------------+------------------------+
-| successorNumbers       | Nein                  | Fragenummern der       |
-|                        |                       | nachfolgenden          |
-|                        |                       | Frage(n) (Angabe in    |
-|                        |                       | einer Zeile durch      |
-|                        |                       | Komma getrennt)        |
-+------------------------+-----------------------+------------------------+
 | technicalRepresentati\ | x\*                   | Herkunft des           |
 | on.type                |                       | Codeschnipsels (z. B.  |
 |                        |                       | „ZOFAR-Question        |
@@ -191,7 +192,7 @@ Tabelle 3: Ausfüllanweisungen für die Excel-Tabelle "questions"
 | conceptIds             | Nein                  | Liste von IDs von      |
 |                        |                       | Konzepten im MDM       |
 |                        |                       | (Angabe in einer Zeile,|
-|                        |                       | durch Komma getrennt.) |                     |
+|                        |                       | durch Komma getrennt.) |                     
 +------------------------+-----------------------+------------------------+
 
 x\* = nur, wenn technicalRepresentation vorhanden (wird dann automatisch
@@ -213,7 +214,11 @@ Tabellenblatt 2 ist nur auszufüllen falls es Bilder zu den Fragen gibt.
 |                        | ausfüllen?**         | eintragen?**          |
 +------------------------+----------------------+-----------------------+
 | fileName               | Ja                   | Dateiname des Bildes  |
-|                        |                      | (z.B. „1.1_1.png“)    |
+|                        |                      | (z.B. „1.1_1.png“) Das|
+|                        |                      | Bild wird dann in     |
+|                        |                      | "./Bilder/png/ins" +  |
+|                        |                      | "{instrumentNumber}/" |
+|                        |                      | erwartet.             |
 +------------------------+----------------------+-----------------------+
 | questionNumber         | Ja                   | Dem Bild zugeordnete  |
 |                        |                      | Fragenummer           |
@@ -248,11 +253,12 @@ Tabellenblatt 2 ist nur auszufüllen falls es Bilder zu den Fragen gibt.
 
 Mit dem zweiten Tabellenblatt *images* erfassen Sie Informationen zu den
 Fragebildern, welche Sie für jede Frage mit hochladen können. Falls Bilder
-vorhanden sind, müssen diese im Png Format vorliegen. Die Fragebilder können
+vorhanden sind, müssen diese im PNG-Format im Unterverzeichnis 
+"./Bilder/png/ins{instrumentNumber}" vorliegen. Die Fragebilder können
 z.B. mit Ragtime
 extrahiert werden, sofern der Fragebogen auch mit Ragtime erstellt
 wurde. Ansonsten lassen sich die Fragebilder auch aus einer PDF-Datei
-erstellen. [2]_ Anleitung für beiden Varianten finden Sie unter
+erstellen. Anleitung für beiden Varianten finden Sie unter
 :ref:`bilderfassung_ragtime-label` und :ref:`bilderfassung_pdf-label`.
 
 Die fertig ausgefüllte Excel-Datei sowie ggfs. die Bilder zu den Fragen
@@ -262,62 +268,20 @@ lädt die Metadaten für die Fragenebene dann selbst ins MDM.
 
 Generierung der json Dateien mit R
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Doku befindet sich im Aufbau und ist nur für FDZ-MitarbeiterInnen relevant.
 
-Momentan liegen die Question-Exceldateien der Projekte, sowie die Skripte
-zur Erzeugung der json Dateien im Verzeichnis
-``\\faust\Abt4\FDZ\Querschnittsaufgaben\Metadaten\Erzeugen``.
-Der Aufbau ist wie folgt::
-
-   |-- Projekte
-      |-- projectName
-         |-- questions
-            |-- out
-            |-- projectName.xlsx
-   |-- Skripte
-      |-- question-generation.R
-      |-- sort-images.R
-      |-- R
-         |-- question-generation_main.R
-         |-- utils
-            |-- question-generation_functions.R
-
-
-Um json Dateien für ein neues Projekt zu erzeugen, muss zuerst ein
-Projektordner angelegt werden. Außerdem muss die Question-Exceltabelle des
-Projektes ausgefüllt werden (z.B. projectName.xlsx mit den beiden
-Tabellenblätter questions und images). Außerdem muss der Ordner out angelegt
-werden. Danach question-generation.R öffnen und bei project den Projektnamen
-anpassen, z.B. ``project <- "gra2005"``. Das Skript z.B. mit Strg+a ->
-Strg+Enter ausführen. Im Ordner out sind nun die json Dateien für den
-Import in der vorgegebenen Ordnerstruktur zu finden.
-
-**Einsortierung der Bilder in die Ordnerstruktur**
-
-Nun müssen die Bilder noch in die Ordnerstruktur eingepflegt werden.
-Dafür kann das R-Skript sort-images.R verwendet werden.
-Die pngs zu den Fragen (es können auch mehrere pngs zu einer Frage vorliegen)
-und das Tabellenblatt images der Exceltabelle werden dafür benötigt.
-Nähere Erklärungen zur Sortierung der Bilder sind im R-Skript selbst zu finden.
-
-Die fertigen jsons und Bilder können nun zu Github ins jeweilige
-``$projectname-metadata-repository`` kopiert werden.
+Zur Generierung der JSON-Dateien muss R mindestens in Version 3.6.1 installiert sein.
+Außerdem muss das von uns entwickelte R-Paket questionMetadataPreparation installiert sein.
+Sie finden die Doku zur Installation und zur Benutzung hier: https://dzhw.github.io/questionMetadataPreparation/
+Für die Generierung der JSON-Dateien finden Sie die Dokumentation hier: https://dzhw.github.io/questionMetadataPreparation/reference/convert_handcrafted_questionnaires_to_mdm_format.html
 
 Questions (Zofar)
 ~~~~~~~~~~~~~~~~~
 
 Bei Onlinebefragungen mit Zofar können die Metadaten für Fragen
 automatisch extrahiert werden (.jsons + .pngs).
+Allerdings müssen die von Zofar bereitgestellten JSON-Files noch angepasst werden, da sie sonst nicht mit dem MDM
+kompatibel sind. Hierfür werden diese zunächst in eine Excel-Datei und Fragebilddateien überführt, händisch angepasst und dann mit der Funktion
+convert_handcrafted_questionnaires_to_mdm_format in MDM-kompatible JSONS überführt.
 
-Der Prozess befindet sich gerade im Aufbau...
-
-
-.. [1]
-   Metadaten auf Fragenebene sind erst ab der 2. Dokumentationsstufe
-   gefordert. Die Erläuterungen zu den drei verschiedenen
-   Dokumentationsstandards finden Sie in den Dokumenten `„Anforderungen
-   an Daten und Dokumentation im FDZ des
-   DZHW“ <file:///\\faust\Abtuebergreifend\Projekte\FDZ\Allgemeine%20Materialien\Dokumentation>`__.
-.. [2]
-   Bitte beachten Sie, die dokumenteigenen Metadaten der PDF-Dateien
-   vorab zu löschen (vgl.  :ref:`Anhänge`).
+Eine Dokumentation zur Konvertierung in Excel+Bilddateien finden Sie hier:
+https://dzhw.github.io/questionMetadataPreparation/reference/convert_zofar_export_to_handcrafted_questionnaire.html

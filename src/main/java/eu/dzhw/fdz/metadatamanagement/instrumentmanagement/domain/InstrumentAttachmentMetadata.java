@@ -1,5 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.data.annotation.Id;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -17,12 +24,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.javers.core.metamodel.annotation.Entity;
-import org.springframework.data.annotation.Id;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 /**
  * Metadata which will be stored with each attachment of a {@link Instrument}.
@@ -35,6 +36,9 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 @Builder
 public class InstrumentAttachmentMetadata extends AbstractShadowableRdcDomainObject {
+  
+  private static final long serialVersionUID = -2708314412008289447L;
+
   /**
    * The id of the attachment. Holds the complete path which can be used to download the file.
    */

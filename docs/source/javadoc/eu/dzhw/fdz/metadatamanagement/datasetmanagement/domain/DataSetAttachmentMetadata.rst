@@ -1,3 +1,15 @@
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
+
+.. java:import:: javax.validation.constraints Size
+
+.. java:import:: org.javers.core.metamodel.annotation Entity
+
+.. java:import:: org.springframework.data.annotation Id
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
@@ -29,18 +41,6 @@
 .. java:import:: lombok Setter
 
 .. java:import:: lombok ToString
-
-.. java:import:: org.javers.core.metamodel.annotation Entity
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
-
-.. java:import:: javax.validation.constraints Size
 
 DataSetAttachmentMetadata
 =========================
@@ -122,6 +122,12 @@ masterId
 ^^^^^^^^
 
 .. java:field:: @Setter private String masterId
+   :outertype: DataSetAttachmentMetadata
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
    :outertype: DataSetAttachmentMetadata
 
 title

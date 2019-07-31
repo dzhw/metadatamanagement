@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.domain;
 
+import java.io.Serializable;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -27,7 +29,9 @@ import java.util.Set;
 @ApiModel(
     description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
     + "fdz/metadatamanagement/ordermanagement/domain/Product.html'>here</a> for further details.")
-public class Product {
+public class Product implements Serializable {
+  
+  private static final long serialVersionUID = -1403870156469073381L;
 
   /**
    * The id of the {@link DataAcquisitionProject} in which this product was generated.

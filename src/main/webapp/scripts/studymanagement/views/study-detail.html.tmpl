@@ -84,7 +84,7 @@
                     </div>
                     <div class="fdz-add-bottom-margin">
                         <span style="font-weight: bold;">{{'study-management.detail.label.version' | translate }}:</span>
-                        <span>{{ctrl.study.release?ctrl.study.release.version: ('study-management.detail.not-yet-released' | translate)}}</span>
+                        <span>{{ctrl.study.release?ctrl.study.release.version + ' (' + ('study-management.detail.label.published-at' | translate) + ' ' + (ctrl.study.release.firstDate + 'Z' | date:'mediumDate') + ')': ('study-management.detail.not-yet-released' | translate)}}</span>
                     </div>
                     <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.study.annotations">
                         <span style="font-weight: bold;">{{'study-management.detail.label.annotations' | translate }}:</span>

@@ -3,19 +3,18 @@ package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.valid
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Validator which ensures that there is a data set with the given id.
  * 
  * @author René Reitmann
  */
+@RequiredArgsConstructor
 public class DataSetExistsValidator implements ConstraintValidator<DataSetExists, String> {
 
-  @Autowired
-  private DataSetRepository dataSetRepository;
+  private final DataSetRepository dataSetRepository;
   
   /*
    * (non-Javadoc)

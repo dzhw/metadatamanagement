@@ -22,6 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
@@ -38,9 +39,13 @@ public class DeleteAllVariablesResourceControllerTest extends AbstractTest {
   private MockMvc mockMvc;
 
   @Autowired
-  VariableRepository variableRepo;
+  private VariableRepository variableRepo;
+  
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
 
   @Autowired
   private JaversService javersService;
@@ -56,6 +61,7 @@ public class DeleteAllVariablesResourceControllerTest extends AbstractTest {
     variableRepo.deleteAll();
     javersService.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
+    elasticsearchAdminService.recreateAllIndices();
   }
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)

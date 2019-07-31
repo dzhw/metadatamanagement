@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -21,7 +22,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
-public class Distribution {
+public class Distribution implements Serializable {
+
+  private static final long serialVersionUID = 6571480614469651201L;
 
   /**
    * The total absolute number of {@link ValidResponse}s and {@link Missing}s.

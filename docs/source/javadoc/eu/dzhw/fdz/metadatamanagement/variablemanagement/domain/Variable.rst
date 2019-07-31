@@ -276,6 +276,12 @@ scaleLevel
 
    The scale level (or level of measurement) classifies the nature of information within the values assigned to this variable (\ :java:ref:`ValidResponse`\ s). It determines which mathematical operations can be performed with the values. It must be one of \ :java:ref:`ScaleLevels`\  and must not be empty. If the data type of this variable is \ :java:ref:`DataTypes.DATE`\  then the ScaleLevel must be \ :java:ref:`ScaleLevels.ORDINAL`\ .
 
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Variable
+
 storageType
 ^^^^^^^^^^^
 

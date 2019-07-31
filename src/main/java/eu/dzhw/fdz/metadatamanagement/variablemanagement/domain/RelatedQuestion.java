@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -24,7 +26,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
-public class RelatedQuestion {
+public class RelatedQuestion implements Serializable {
+
+  private static final long serialVersionUID = -5868644595350586301L;
 
   /**
    * The number of the {@link Instrument} of this {@link Question}.

@@ -62,6 +62,7 @@ public class SearchResourceTest extends AbstractTest {
     surveyRepository.deleteAll();
     variableRepository.deleteAll();
     javersService.deleteAll();
+    elasticsearchAdminService.recreateAllIndices();
     UnitTestUserManagementUtils.logout();
   }
 
@@ -101,8 +102,6 @@ public class SearchResourceTest extends AbstractTest {
     // test recreation of all elasticsearch indices with previously created variable
     mockMvc.perform(post("/api/search/recreate"))
       .andExpect(status().isOk());
-
-    elasticsearchAdminService.refreshAllIndices();
 
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }

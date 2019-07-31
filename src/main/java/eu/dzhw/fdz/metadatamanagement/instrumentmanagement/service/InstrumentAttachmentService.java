@@ -1,16 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 
-import com.mongodb.client.gridfs.model.GridFSFile;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+
 import org.javers.core.Javers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -19,10 +14,15 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
+import com.mongodb.client.gridfs.model.GridFSFile;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.helper.InstrumentAttachmentFilenameBuilder;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing attachments for instruments.
@@ -30,56 +30,49 @@ import java.util.regex.Pattern;
  * @author René Reitmann
  */
 @Service
+@RequiredArgsConstructor
 public class InstrumentAttachmentService {
 
-  @Autowired
-  private GridFsOperations operations;
-  
-  @Autowired
-  private MongoTemplate mongoTemplate;
-  
-  @Autowired
-  private Javers javers;
+  private final GridFsOperations operations;
 
-  @Autowired
-  private InstrumentAttachmentMetadataShadowCopyDataSource shadowCopyDataSource;
+  private final MongoTemplate mongoTemplate;
 
-  @Autowired
-  private ShadowCopyService<InstrumentAttachmentMetadata> shadowCopyService;
+  private final Javers javers;
 
-  @Autowired
-  private AttachmentMetadataHelper<InstrumentAttachmentMetadata> metadataAttachmentMetadataHelper;
+  private final AttachmentMetadataHelper<InstrumentAttachmentMetadata> attachmentMetadataHelper;
 
   /**
-   * Save the attachment for an instrument. 
+   * Save the attachment for an instrument.
+   * 
    * @param metadata The metadata of the attachment.
    * @return The GridFs filename.
    * @throws IOException thrown when the input stream cannot be closed
    */
-  public String createInstrumentAttachment(MultipartFile multipartFile, 
+  public String createInstrumentAttachment(MultipartFile multipartFile,
       InstrumentAttachmentMetadata metadata) throws IOException {
     if (metadata.isShadow()) {
       throw new ShadowCopyCreateNotAllowedException();
     }
 
     String currentUser = SecurityUtils.getCurrentUserLogin();
-    metadataAttachmentMetadataHelper.initAttachmentMetadata(metadata, currentUser);
+    attachmentMetadataHelper.initAttachmentMetadata(metadata, currentUser);
     metadata.generateId();
     metadata.setMasterId(metadata.getId());
     String filename = InstrumentAttachmentFilenameBuilder.buildFileName(metadata);
-    metadataAttachmentMetadataHelper.writeAttachmentMetadata(multipartFile, filename, metadata,
+    attachmentMetadataHelper.writeAttachmentMetadata(multipartFile, filename, metadata,
         currentUser);
     return filename;
   }
 
   /**
    * Update the metadata of the attachment.
+   * 
    * @param metadata The new metadata.
    */
   public void updateAttachmentMetadata(InstrumentAttachmentMetadata metadata) {
     String filePath = InstrumentAttachmentFilenameBuilder.buildFileName(metadata.getInstrumentId(),
         metadata.getFileName());
-    metadataAttachmentMetadataHelper.updateAttachmentMetadata(metadata, filePath);
+    attachmentMetadataHelper.updateAttachmentMetadata(metadata, filePath);
   }
 
   /**
@@ -89,9 +82,8 @@ public class InstrumentAttachmentService {
    */
   public void deleteAllByInstrumentId(String instrumentId) {
     String currentUser = SecurityUtils.getCurrentUserLogin();
-    Query query = new Query(GridFsCriteria.whereFilename()
-        .regex("^" + Pattern
-            .quote(InstrumentAttachmentFilenameBuilder.buildFileNamePrefix(instrumentId))));
+    Query query = new Query(GridFsCriteria.whereFilename().regex("^"
+        + Pattern.quote(InstrumentAttachmentFilenameBuilder.buildFileNamePrefix(instrumentId))));
     Iterable<GridFSFile> files = this.operations.find(query);
     files.forEach(file -> {
       InstrumentAttachmentMetadata metadata =
@@ -103,21 +95,21 @@ public class InstrumentAttachmentService {
     });
     this.operations.delete(query);
   }
-  
+
   /**
    * Load all metadata objects from gridfs (ordered by indexInInstrument).
+   * 
    * @param instrumentId The id of the instrument.
    * @return A list of metadata.
    */
   public List<InstrumentAttachmentMetadata> findAllByInstrument(String instrumentId) {
-    Query query = new Query(GridFsCriteria.whereFilename()
-        .regex("^" + Pattern
-            .quote(InstrumentAttachmentFilenameBuilder.buildFileNamePrefix(instrumentId))));
+    Query query = new Query(GridFsCriteria.whereFilename().regex("^"
+        + Pattern.quote(InstrumentAttachmentFilenameBuilder.buildFileNamePrefix(instrumentId))));
     query.with(new Sort(Sort.Direction.ASC, "metadata.indexInInstrument"));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<InstrumentAttachmentMetadata> result = new ArrayList<>();
     files.forEach(gridfsFile -> {
-      result.add(mongoTemplate.getConverter().read(InstrumentAttachmentMetadata.class, 
+      result.add(mongoTemplate.getConverter().read(InstrumentAttachmentMetadata.class,
           gridfsFile.getMetadata()));
     });
     return result;
@@ -163,11 +155,5 @@ public class InstrumentAttachmentService {
     String currentUser = SecurityUtils.getCurrentUserLogin();
     this.operations.delete(fileQuery);
     javers.commitShallowDelete(currentUser, metadata);
-  }
-
-  @EventListener
-  public void onProjectReleasedEvent(ProjectReleasedEvent projectReleasedEvent) {
-    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        projectReleasedEvent.getPreviousReleaseVersion(), shadowCopyDataSource);
   }
 }

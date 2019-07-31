@@ -9,7 +9,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
  *
  */
 public interface SearchDocumentInterface {
-
   I18nString getGuiLabels();
 
   I18nString getCompleteTitle();

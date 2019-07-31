@@ -106,6 +106,12 @@ masterId
 .. java:field:: @Setter private String masterId
    :outertype: SurveyAttachmentMetadata
 
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: SurveyAttachmentMetadata
+
 surveyId
 ^^^^^^^^
 

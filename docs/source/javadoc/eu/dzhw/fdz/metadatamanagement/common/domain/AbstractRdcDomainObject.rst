@@ -1,4 +1,6 @@
-.. java:import:: lombok Data
+.. java:import:: java.io Serializable
+
+.. java:import:: java.time LocalDateTime
 
 .. java:import:: org.springframework.data.annotation CreatedBy
 
@@ -10,7 +12,7 @@
 
 .. java:import:: org.springframework.data.annotation Version
 
-.. java:import:: java.time LocalDateTime
+.. java:import:: lombok Data
 
 AbstractRdcDomainObject
 =======================
@@ -18,7 +20,7 @@ AbstractRdcDomainObject
 .. java:package:: eu.dzhw.fdz.metadatamanagement.common.domain
    :noindex:
 
-.. java:type:: @Data public abstract class AbstractRdcDomainObject
+.. java:type:: @Data public abstract class AbstractRdcDomainObject implements Serializable
 
    Base class for all rdc domain objects. All domain objects inherit the fields from this base class.
 
@@ -55,6 +57,12 @@ lastModifiedDate
    :outertype: AbstractRdcDomainObject
 
    The date and time when this object was last saved.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: AbstractRdcDomainObject
 
 version
 ^^^^^^^

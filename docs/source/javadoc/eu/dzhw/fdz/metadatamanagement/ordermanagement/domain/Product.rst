@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: javax.validation Valid
 
 .. java:import:: javax.validation.constraints NotEmpty
@@ -28,7 +30,7 @@ Product
 .. java:package:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel public class Product
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel public class Product implements Serializable
 
    Data Product which can be ordered by a customer.
 
@@ -59,6 +61,12 @@ dataFormats
    :outertype: Product
 
    The available data formats of the study. It must not be empty.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Product
 
 study
 ^^^^^

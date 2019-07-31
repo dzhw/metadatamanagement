@@ -1,14 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
 
-import com.mongodb.DBObject;
-import com.mongodb.gridfs.GridFS;
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
-import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,17 +24,17 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
+import com.mongodb.DBObject;
+import com.mongodb.gridfs.GridFS;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 public class QuestionImageResourceTest extends AbstractTest {
 
@@ -40,6 +43,9 @@ public class QuestionImageResourceTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
 
   @Autowired
   private JaversService javersService;
@@ -63,6 +69,7 @@ public class QuestionImageResourceTest extends AbstractTest {
     this.elasticsearchUpdateQueueItemRepository.deleteAll();
     this.javersService.deleteAll();
     this.gridFs.getFileList().iterator().forEachRemaining(gridFs::remove);
+    this.elasticsearchAdminService.recreateAllIndices();
   }
 
   @Test

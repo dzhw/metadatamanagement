@@ -88,7 +88,6 @@ public class VariableResourceControllerTest extends AbstractTest {
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
-    elasticsearchAdminService.recreateAllIndices();
   }
 
   @After
@@ -97,6 +96,7 @@ public class VariableResourceControllerTest extends AbstractTest {
     surveyRepository.deleteAll();
     variableRepository.deleteAll();
     queueService.clearQueue();
+    elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
   }
 
@@ -119,7 +119,6 @@ public class VariableResourceControllerTest extends AbstractTest {
     queueService.processAllQueueItems();
     
     // check that there is one variable search document
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
 
     // check that auditing attributes have been set
@@ -614,7 +613,6 @@ public class VariableResourceControllerTest extends AbstractTest {
       .andExpect(status().isNotFound());
 
     // check that there are no variable search documents anymore
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
   }
 
@@ -657,7 +655,6 @@ public class VariableResourceControllerTest extends AbstractTest {
     queueService.processAllQueueItems();
     
     // check that the variable search documents have been updated
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), is(1.0));    
   }
 
@@ -811,7 +808,6 @@ public class VariableResourceControllerTest extends AbstractTest {
       .andExpect(status().isNotFound());
 
     // check that there are no variable search documents anymore
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
   }
 
@@ -888,7 +884,7 @@ public class VariableResourceControllerTest extends AbstractTest {
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())
         .content(TestUtil.convertObjectToJsonBytes(variable)).contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-save-not-allowed")));
 
   }
 

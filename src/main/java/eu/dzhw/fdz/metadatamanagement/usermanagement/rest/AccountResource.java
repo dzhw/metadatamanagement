@@ -1,17 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.KeyAndPasswordDto;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,10 +17,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Locale;
+import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.KeyAndPasswordDto;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * REST controller for managing the current user's account.
@@ -33,15 +35,14 @@ import java.util.Locale;
 @RestController
 @RequestMapping("/api")
 @Slf4j
+@RequiredArgsConstructor
 public class AccountResource {
-  @Autowired
-  private UserRepository userRepository;
 
-  @Autowired
-  private UserService userService;
+  private final UserRepository userRepository;
 
-  @Autowired
-  private MailService mailService;
+  private final UserService userService;
+
+  private final MailService mailService;
 
   /**
    * Register the user.

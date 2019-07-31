@@ -9,20 +9,21 @@ import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraintvalidation.SupportedValidationTarget;
 import javax.validation.constraintvalidation.ValidationTarget;
 
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Requirements;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Validate {@link DataAcquisitionProject} save attempt.
  */
 @SupportedValidationTarget(ValidationTarget.PARAMETERS)
+@RequiredArgsConstructor
 public class ValidDataAcquisitionProjectSaveValidator
     implements ConstraintValidator<ValidDataAcquisitionProjectSave, DataAcquisitionProject> {
 
@@ -39,8 +40,7 @@ public class ValidDataAcquisitionProjectSaveValidator
   private static final String CREATE_PROJECT_NOT_ALLOWED = "data-acquisition-project-"
       + "management.error.create.unauthorized";
 
-  @Autowired
-  private DataAcquisitionProjectRepository repository;
+  private final DataAcquisitionProjectRepository repository;
 
   @Override
   public void initialize(ValidDataAcquisitionProjectSave constraintAnnotation) {

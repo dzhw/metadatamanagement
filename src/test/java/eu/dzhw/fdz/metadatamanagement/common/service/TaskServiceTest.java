@@ -21,7 +21,7 @@ import freemarker.template.TemplateNotFoundException;
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class TaskServiceTest extends AbstractTest {
   @Autowired
-  private TaskService taskService;
+  private TaskManagementService taskService;
   @Autowired
   private TaskRepository taskRepo;
   @Autowired

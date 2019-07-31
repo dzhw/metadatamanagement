@@ -352,7 +352,7 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static Release buildRelease() {
-    return Release.builder().version("1.0.0").date(LocalDateTime.now()).build();
+    return Release.builder().version("1.0.0").lastDate(LocalDateTime.now()).build();
   }
 
   public static FilterDetails buildFilterDetails() {

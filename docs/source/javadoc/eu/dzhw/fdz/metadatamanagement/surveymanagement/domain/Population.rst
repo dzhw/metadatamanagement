@@ -1,3 +1,15 @@
+.. java:import:: java.io Serializable
+
+.. java:import:: java.util List
+
+.. java:import:: javax.validation Valid
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: org.javers.core.metamodel.annotation ValueObject
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringEntireNotEmpty
@@ -16,23 +28,13 @@
 
 .. java:import:: lombok NoArgsConstructor
 
-.. java:import:: org.javers.core.metamodel.annotation ValueObject
-
-.. java:import:: javax.validation Valid
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: java.util List
-
 Population
 ==========
 
 .. java:package:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValueObject public class Population
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValueObject public class Population implements Serializable
 
    Details of the population of a \ :java:ref:`Survey`\ .
 
@@ -53,6 +55,12 @@ geographicCoverages
    :outertype: Population
 
    A list of geographic coverages. Must contain at least one entry.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Population
 
 unit
 ^^^^

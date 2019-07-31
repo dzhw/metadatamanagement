@@ -5,6 +5,8 @@ package eu.dzhw.fdz.metadatamanagement.common.domain;
  */
 public class ImmutableI18nString extends I18nString {
 
+  private static final long serialVersionUID = -348100501159179531L;
+
   public ImmutableI18nString() {
     super();
   }

@@ -14,6 +14,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 @Document(collection = "elasticsearch_indices_version")
 public class ElasticsearchIndicesVersion extends AbstractRdcDomainObject {
 
+  private static final long serialVersionUID = -1696218588160145652L;
+  
   //the version string of our elasticsearch indices
   private String id;
 

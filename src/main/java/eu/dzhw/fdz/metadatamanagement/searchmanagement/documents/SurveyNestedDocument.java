@@ -21,6 +21,8 @@ import lombok.ToString;
 @Setter
 public class SurveyNestedDocument extends AbstractNestedSubDocument {
 
+  private static final long serialVersionUID = -3409570990605982760L;
+
   private String id;
 
   private I18nString title;

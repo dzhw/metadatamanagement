@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 import javax.annotation.PostConstruct;
 
 import org.javers.core.Javers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
@@ -19,10 +18,10 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 @Service
 public class DataSetVersionsService
     extends GenericDomainObjectVersionsService<DataSet, DataSetRepository> {
+  
   /**
    * Construct the service.
    */
-  @Autowired
   public DataSetVersionsService(Javers javers, DataSetRepository dataSetRepository,
       MetadataManagementProperties metadataManagementProperties) {
     super(DataSet.class, javers, dataSetRepository, metadataManagementProperties);

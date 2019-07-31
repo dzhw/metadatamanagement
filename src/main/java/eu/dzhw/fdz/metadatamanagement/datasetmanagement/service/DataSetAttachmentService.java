@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.javers.core.Javers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -22,40 +20,31 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.helper.DataSetAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing attachments for data sets.
  *
+ * @author René Reitmann
  */
 @Service
+@RequiredArgsConstructor
 public class DataSetAttachmentService {
 
-  @Autowired
-  private GridFsOperations operations;
+  private final GridFsOperations operations;
 
-  @Autowired
-  private MongoTemplate mongoTemplate;
+  private final MongoTemplate mongoTemplate;
 
-  @Autowired
-  private Javers javers;
+  private final Javers javers;
 
-  @Autowired
-  private DataSetRepository dataSetRepository;
+  private final DataSetRepository dataSetRepository;
 
-  @Autowired
-  private DataSetAttachmentMetadataShadowCopyDataSource shadowCopyDataSource;
-
-  @Autowired
-  private ShadowCopyService<DataSetAttachmentMetadata> shadowCopyService;
-
-  @Autowired
-  private AttachmentMetadataHelper<DataSetAttachmentMetadata> attachmentMetadataHelper;
+  private final AttachmentMetadataHelper<DataSetAttachmentMetadata> attachmentMetadataHelper;
 
   /**
    * Save the attachment for a data set.
@@ -198,16 +187,5 @@ public class DataSetAttachmentService {
         .language("de").indexInDataSet(0).build();
     deleteByDataSetIdAndFilename(dataSetId, metadata.getFileName());
     createDataSetAttachment(reportFile, metadata);
-  }
-
-  /**
-   * Create shadow copies for {@link DataSetAttachmentMetadata} on project release.
-   * 
-   * @param projectReleasedEvent Released project event
-   */
-  @EventListener
-  public void onProjectReleasedEvent(ProjectReleasedEvent projectReleasedEvent) {
-    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        projectReleasedEvent.getPreviousReleaseVersion(), shadowCopyDataSource);
   }
 }
