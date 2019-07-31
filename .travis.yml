@@ -38,6 +38,10 @@ jobs:
         - export CXX=g++-4.9
         - export NODE_OPTIONS=--max-old-space-size=4096
         - export MAVEN_OPTS=-Dorg.slf4j.simpleLogger.log.pl.project13.maven.git=WARN
+        - wget https://archive.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.zip
+        - unzip -qq apache-maven-3.6.1-bin.zip
+        - export M2_HOME=$PWD/apache-maven-3.6.1
+        - export PATH=$M2_HOME/bin:$PATH
         - sudo apt-get -y install python-pip python-dev --allow-unauthenticated
         - pip install git+https://github.com/dzhw/javasphinx.git --user
         - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 12.4.0
@@ -51,6 +55,10 @@ jobs:
         - export CXX=g++-4.9
         - export NODE_OPTIONS=--max-old-space-size=4096
         - export MAVEN_OPTS=-Dorg.slf4j.simpleLogger.log.pl.project13.maven.git=WARN
+        - wget https://archive.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.zip
+        - unzip -qq apache-maven-3.6.1-bin.zip
+        - export M2_HOME=$PWD/apache-maven-3.6.1
+        - export PATH=$M2_HOME/bin:$PATH
         - sudo apt-get -y install python-pip python-dev --allow-unauthenticated
         - pip install git+https://github.com/dzhw/javasphinx.git --user
         - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 12.4.0
