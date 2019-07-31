@@ -61,7 +61,7 @@ public class StudyAttachmentShadowCopyServiceTest extends AbstractTest {
 
   @Before
   public void setup() {
-    release = new Release("1.0.0", LocalDateTime.now());
+    release = new Release("1.0.0", LocalDateTime.now(), null);
 
     dataAcquisitionProject = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProject.setId(PROJECT_ID);

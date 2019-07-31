@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp')
         .postValidate(project.id, release.version).then(function() {
           var compareForBeta = $scope.bowser
           .compareVersions(['1.0.0', release.version]);
-          release.date = new Date().toISOString();
+          release.lastDate = new Date().toISOString();
           project.release = release;
           project.hasBeenReleasedBefore = true;
 

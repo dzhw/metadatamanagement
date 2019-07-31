@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -194,13 +195,8 @@ public class DataAcquisitionProjectManagementService
     }
   }
 
-  private boolean isProjectRelease(String dataAcquisitionProjectId) {
-    DataAcquisitionProject oldProject =
-        changesProvider.getOldDataAcquisitionProject(dataAcquisitionProjectId);
-
-    DataAcquisitionProject newProject =
-        changesProvider.getNewDataAcquisitionProject(dataAcquisitionProjectId);
-
+  private boolean isProjectBeingReleased(DataAcquisitionProject oldProject,
+      DataAcquisitionProject newProject) {
     if (oldProject != null && newProject != null) {
       Release oldRelease = oldProject.getRelease();
       Release newRelease = newProject.getRelease();
@@ -235,11 +231,21 @@ public class DataAcquisitionProjectManagementService
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
       AuthoritiesConstants.ADMIN})
   public DataAcquisitionProject save(DataAcquisitionProject project) {
+    DataAcquisitionProject oldProject = crudHelper.read(project.getId()).orElse(null);
+    if (isProjectBeingReleased(oldProject, project)) {
+      Optional<DataAcquisitionProject> previousRelease = acquisitionProjectRepository
+          .findById(project.getMasterId() + "-" + project.getRelease().getVersion());
+      if (previousRelease.isPresent()) {
+        project.getRelease().setFirstDate(previousRelease.get().getRelease().getFirstDate());
+      } else {
+        project.getRelease().setFirstDate(LocalDateTime.now());
+      }
+    }
     project = crudHelper.saveMaster(project);
 
     final String projectId = project.getId();
 
-    if (isProjectRelease(projectId)) {
+    if (isProjectBeingReleased(oldProject, project)) {
       shadowCopyQueueItemService.createShadowCopyTask(projectId, project.getRelease().getVersion());
     } else {
       sendPublishersDataProvidersChangedMails(projectId);

@@ -258,7 +258,7 @@ public class StudyResourceControllerTest extends AbstractTest {
     // now fake a shadow
     project.setId(project.getId() + "-1.0.0");
     project.setVersion(null);
-    project.setRelease(new Release("1.0.0", LocalDateTime.now()));
+    project.setRelease(new Release("1.0.0", LocalDateTime.now(), null));
     project = dataAcquisitionProjectRepository.save(project);
     study.setId(study.getId() + "-1.0.0");
     study.setDataAcquisitionProjectId(project.getId());
@@ -285,7 +285,7 @@ public class StudyResourceControllerTest extends AbstractTest {
     // now fake a second shadow
     project.setId(project.getMasterId() + "-2.0.0");
     project.setVersion(null);
-    project.setRelease(new Release("2.0.0", LocalDateTime.now()));
+    project.setRelease(new Release("2.0.0", LocalDateTime.now(), null));
     project = dataAcquisitionProjectRepository.save(project);
     study.setId(study.getMasterId() + "-2.0.0");
     study.setDataAcquisitionProjectId(project.getId());

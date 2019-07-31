@@ -57,7 +57,7 @@ public class DataSetShadowCopyServiceTest extends AbstractTest {
 
   @Before
   public void setUp() {
-    release = new Release("1.0.0", LocalDateTime.now());
+    release = new Release("1.0.0", LocalDateTime.now(), null);
     DataAcquisitionProject releasedProject =
         UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     releasedProject.setRelease(release);

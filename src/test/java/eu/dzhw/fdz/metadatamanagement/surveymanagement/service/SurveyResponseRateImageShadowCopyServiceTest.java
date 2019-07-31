@@ -57,7 +57,7 @@ public class SurveyResponseRateImageShadowCopyServiceTest extends AbstractTest {
 
   @Before
   public void setup() {
-    release = new Release("1.0.0", LocalDateTime.now());
+    release = new Release("1.0.0", LocalDateTime.now(), null);
   }
 
   @After
