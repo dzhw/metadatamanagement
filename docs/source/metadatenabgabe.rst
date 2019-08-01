@@ -241,7 +241,7 @@ im PDF- oder Excel-Format vorliegen (Details dazu finden Sie in den jeweils
 relevanten Kapiteln zu den einzelnen Ebenen) und zudem nach bestimmten
 Richtlinien benannt werden. Für die Anhänge im PDF-Format gilt es darüber hinaus
 zu beachten, dass dokumenteigene Metadaten wie Autor und Titel der
-PDF-Datei korrekt gepflegt werden. Eine Anleitung finden Sie hier:
+PDF-Datei gelöscht werden. Eine Anleitung finden Sie hier:
 https://helpx.adobe.com/acrobat/using/pdf-properties-metadata.html
 
 
@@ -768,7 +768,7 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
 
 -  die Daten wurden auf Richtigkeit überprüft
 
-☐ Metadaten sind korrekt im PDF eingetragen (vgl. :ref:`Anhänge`)
+☐ Metadaten sind im PDF gelöscht (vgl. :ref:`Anhänge`)
 
 ☐ Nicht benötigte Zeilen entfernt (falls Fragen oder Variablen abgegeben werden)
 
@@ -804,7 +804,7 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
 
 .. [3]
    Bitte beachten Sie, die dokumenteigenen Metadaten bei PDF-Dateien
-   vorab zu korrigieren (vgl.  :ref:`Anhänge`).
+   vorab zu löschen (vgl.  :ref:`Anhänge`).
 
 .. [4]
    Filterführungsdiagramme sind erst ab der 2. Dokumentationsstufe
@@ -813,12 +813,12 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
    an Daten und Dokumentation im FDZ des
    DZHW“ <file:///\\faust\Abtuebergreifend\Projekte\FDZ\Allgemeine%20Materialien\Dokumentation>`__.
    Sie erhalten das Dokument auf Anfrage.
-   
+
 .. [5]
    Bitte beachten Sie, die dokumenteigenen Metadaten der PDF-Dateien
-   vorab zu korrigieren (vgl. :ref:`Anhänge`).
+   vorab zu löschen (vgl. :ref:`Anhänge`).
 
 
 .. [6]
    Bitte beachten Sie, die dokumenteigenen Metadaten bei PDF-Dateien
-   vorab zu korrigieren (vgl.  :ref:`Anhänge`).
+   vorab zu löschen (vgl.  :ref:`Anhänge`).
