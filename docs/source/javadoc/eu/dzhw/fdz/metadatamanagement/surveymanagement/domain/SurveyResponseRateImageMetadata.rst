@@ -1,3 +1,11 @@
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: javax.validation.constraints Pattern
+
+.. java:import:: org.springframework.data.annotation Id
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractShadowableRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.util Patterns
@@ -21,14 +29,6 @@
 .. java:import:: lombok Setter
 
 .. java:import:: lombok ToString
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: javax.validation.constraints Pattern
 
 SurveyResponseRateImageMetadata
 ===============================
@@ -81,6 +81,12 @@ masterId
    :outertype: SurveyResponseRateImageMetadata
 
    The master id of the survey response rate image metadata.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: SurveyResponseRateImageMetadata
 
 surveyId
 ^^^^^^^^

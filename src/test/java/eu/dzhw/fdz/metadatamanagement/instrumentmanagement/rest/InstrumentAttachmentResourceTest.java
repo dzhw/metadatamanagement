@@ -31,6 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAtta
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 public class InstrumentAttachmentResourceTest extends AbstractTest {
@@ -45,6 +46,9 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
   
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
   
   @Autowired
   private JaversService javersService;
@@ -62,6 +66,7 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
     this.instrumentRepository.deleteAll();
     this.instrumentAttachmentService.deleteAll();
     this.elasticsearchUpdateQueueItemRepository.deleteAll();
+    this.elasticsearchAdminService.recreateAllIndices();
     this.javersService.deleteAll();
   }
 

@@ -151,7 +151,6 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
               question.successors = successors;
               question.studyId = StudyIdBuilderService
                 .buildStudyId(question.dataAcquisitionProjectId);
-              question.imageType = 'PNG';
               resolve(new QuestionResource(question));
             } catch (e) {
               JobLoggingService.error({
@@ -287,20 +286,23 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   questionImageMetadata.questionId = question.id;
                   questionImageMetadata.fileName = image.name;
                   questionImageMetadata.imageType = 'PNG';
-                  questionImageMetadata.resolution = {};
-
-                  // Get image file dimensions
-                  getImageDimensions(image)
-                  .then(function(dimensions) {
-                    questionImageMetadata.resolution.widthX = dimensions.width;
-                    questionImageMetadata.resolution.heightY =
-                      dimensions.height;
+                  if (questionImageMetadata.resolution) {
                     resolve(questionImageMetadata);
-                  }).catch(function(error) {
-                    console.log('Unable to detect image dimensions:' + error);
-                    resolve(questionImageMetadata);
-                  });
-
+                  } else {
+                    questionImageMetadata.resolution = {};
+                    // Get image file dimensions
+                    getImageDimensions(image)
+                    .then(function(dimensions) {
+                      questionImageMetadata.resolution.widthX =
+                        dimensions.width;
+                      questionImageMetadata.resolution.heightY =
+                        dimensions.height;
+                      resolve(questionImageMetadata);
+                    }).catch(function(error) {
+                      console.log('Unable to detect image dimensions:' + error);
+                      resolve(questionImageMetadata);
+                    });
+                  }
                 } catch (e) {
                   JobLoggingService.error({
                     message: 'question-management.log-messages.' +

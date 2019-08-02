@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.common.websocket;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.scheduling.annotation.Async;
@@ -14,6 +13,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import eu.dzhw.fdz.metadatamanagement.common.config.WebSocketConfig;
 import eu.dzhw.fdz.metadatamanagement.common.websocket.domain.ActiveWebsocketSession;
 import eu.dzhw.fdz.metadatamanagement.common.websocket.repository.ActiveWebSocketSessionRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class WebSocketConnectionListener {
   
   private static final String BROWSER = "browser";
@@ -30,8 +31,7 @@ public class WebSocketConnectionListener {
   private static final String CLIENT_OS = "client-os";
   private static final String CLIENT_OS_VERSION = "client-os-version";
   
-  @Autowired
-  private ActiveWebSocketSessionRepository activeWebSocketSessionRepository;
+  private final ActiveWebSocketSessionRepository activeWebSocketSessionRepository;
   
   /**
    * React on new web socket connections. 

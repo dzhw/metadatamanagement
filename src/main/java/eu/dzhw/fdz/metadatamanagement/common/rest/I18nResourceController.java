@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Country;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Language;
 import eu.dzhw.fdz.metadatamanagement.common.service.LanguagesProvider;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.CountryCodeProvider;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper.CountryCodeProvider;
 
 /**
  * Provides valid country and language data known to the backend.

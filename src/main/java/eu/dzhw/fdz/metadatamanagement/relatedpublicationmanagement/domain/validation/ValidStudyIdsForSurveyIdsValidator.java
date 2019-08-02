@@ -6,22 +6,21 @@ import java.util.stream.Collectors;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Ensure that a related publication is linked to the study of a survey.
  * 
  * @author René Reitmann
  */
+@RequiredArgsConstructor
 public class ValidStudyIdsForSurveyIdsValidator
     implements ConstraintValidator<ValidStudyIdsForSurveyIds, RelatedPublication> {
 
-  @Autowired
-  private SurveyRepository surveyRepository;
+  private final SurveyRepository surveyRepository;
 
   private String messageKey;
 

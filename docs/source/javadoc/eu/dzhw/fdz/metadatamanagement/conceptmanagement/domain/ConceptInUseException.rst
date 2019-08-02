@@ -1,6 +1,6 @@
-.. java:import:: lombok Getter
-
 .. java:import:: java.util Set
+
+.. java:import:: lombok Getter
 
 ConceptInUseException
 =====================
@@ -24,5 +24,11 @@ questionIds
 ^^^^^^^^^^^
 
 .. java:field:: @Getter private final Set<String> questionIds
+   :outertype: ConceptInUseException
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
    :outertype: ConceptInUseException
 

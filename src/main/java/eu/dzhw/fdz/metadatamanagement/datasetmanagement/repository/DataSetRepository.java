@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.IdAnd
  * 
  * @author Daniel Katzberg *
  */
-@RepositoryRestResource(path = "/data-sets")
+@RepositoryRestResource(path = "/data-sets", excerptProjection = IdAndVersionProjection.class)
 @JaversSpringDataAuditable
 public interface DataSetRepository
     extends BaseRepository<DataSet, String>, DataSetRepositoryCustom {
@@ -89,6 +89,6 @@ public interface DataSetRepository
   Stream<IdAndVersionProjection> streamIdsByMasterIdIn(Collection<String> dataSetIds);
 
   @RestResource(exported = false)
-  List<IdAndVersionProjection> deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+  Stream<DataSet> findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
       String dataAcquisitionProjectId);
 }

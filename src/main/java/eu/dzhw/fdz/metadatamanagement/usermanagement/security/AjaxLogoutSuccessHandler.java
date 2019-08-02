@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -15,17 +14,19 @@ import org.springframework.security.web.authentication.AbstractAuthenticationTar
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * Spring Security logout handler, specialized for Ajax requests.
  */
 @Component
+@RequiredArgsConstructor
 public class AjaxLogoutSuccessHandler extends AbstractAuthenticationTargetUrlRequestHandler
     implements LogoutSuccessHandler {
 
   public static final String BEARER_AUTHENTICATION = "Bearer ";
 
-  @Autowired
-  private TokenStore tokenStore;
+  private final TokenStore tokenStore;
 
   @Override
   public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,

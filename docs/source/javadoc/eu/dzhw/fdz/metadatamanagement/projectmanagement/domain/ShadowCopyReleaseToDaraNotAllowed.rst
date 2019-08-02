@@ -8,3 +8,11 @@ ShadowCopyReleaseToDaraNotAllowed
 
    Thrown if client attempts to release a shadowed project to dara.
 
+Fields
+------
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: ShadowCopyReleaseToDaraNotAllowed
+

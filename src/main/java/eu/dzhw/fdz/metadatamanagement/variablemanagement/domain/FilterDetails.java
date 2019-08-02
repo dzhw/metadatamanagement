@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -23,7 +25,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
-public class FilterDetails {
+public class FilterDetails implements Serializable {
+
+  private static final long serialVersionUID = 801116537746296203L;
 
   /**
    * A technical expression describing the condition which must have evaluated to true. The

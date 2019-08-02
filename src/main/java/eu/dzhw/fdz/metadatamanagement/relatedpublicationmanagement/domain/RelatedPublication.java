@@ -55,6 +55,8 @@ import lombok.ToString;
 @Builder
 public class RelatedPublication extends AbstractRdcDomainObject {
 
+  private static final long serialVersionUID = -7754758901246743458L;
+  
   @Id
   @JestId
   @NotEmpty(message = "related-publication-management.error.related-publication.id.not-empty")

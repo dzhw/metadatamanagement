@@ -28,6 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
@@ -42,6 +43,9 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
 
   @Autowired
   private JaversService javersService;
@@ -60,6 +64,7 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
+    elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
   }
 
@@ -86,12 +91,14 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
-
+    project.setVersion(0L);
+    
     // update the study with the given id
     project.setHasBeenReleasedBefore(true);
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
+    project.setVersion(1L);
 
     // update the study again with the given id
     project.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
@@ -129,6 +136,7 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
 
+    project.setVersion(0L);
     // Assert that the last version is null
     Release lastRelease = this.versionsService.findLastRelease(project.getId());
     assertNull(lastRelease);

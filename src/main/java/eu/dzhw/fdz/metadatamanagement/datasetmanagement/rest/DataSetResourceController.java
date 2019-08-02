@@ -1,20 +1,24 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.GenericShadowableDomainObjectResourceController;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
+import java.net.URI;
+
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
+import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
+import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * DataSet REST Controller which overrides default spring data rest methods.
@@ -22,50 +26,41 @@ import java.net.URI;
  * @author René Reitmann
  */
 @RepositoryRestController
+@Api(value = "Dataset Resource", description = "Endpoints used by the MDM to manage questions.")
+@RequestMapping("/api")
 public class DataSetResourceController
-    extends GenericShadowableDomainObjectResourceController<DataSet, DataSetRepository> {
+    extends GenericDomainObjectResourceController<DataSet, CrudService<DataSet>> {
 
-  @Autowired
-  public DataSetResourceController(DataSetRepository dataSetRepository, ApplicationEventPublisher
-      applicationEventPublisher) {
-    super(dataSetRepository, applicationEventPublisher);
+  public DataSetResourceController(CrudService<DataSet> crudService,
+      UserInformationProvider userInformationProvider) {
+    super(crudService, userInformationProvider);
   }
 
-  /**
-   * Override default get by id since it does not set cache headers correctly.
-   *
-   * @param id a dataSet id
-   * @return the dataSet or not found
-   */
-  @RequestMapping(method = RequestMethod.GET, value = "/data-sets/{id:.+}")
-  public ResponseEntity<DataSet> findDataSet(@PathVariable String id) {
-    return super.findDomainObject(id);
+  @Override
+  @ApiOperation("Get the dataset. Public users will get the latest version of the dataset."
+      + " If the id is postfixed with the version number it will return exactly the "
+      + "requested version, if available.")
+  @GetMapping(value = "/data-sets/{id:.+}")
+  public ResponseEntity<DataSet> getDomainObject(@PathVariable String id) {
+    return super.getDomainObject(id);
   }
 
-  /**
-   * Override default put by id to prevent updates on shadow copies.
-   * @param id Data set id
-   */
-  @RequestMapping(method = RequestMethod.PUT, value = "/data-sets/{id:.+}")
-  public ResponseEntity<?> update(@PathVariable String id, @Valid @RequestBody DataSet dataSet) {
-    return super.putDomainObject(id, dataSet);
-  }
 
-  /**
-   * Override default post to prevent creating shadow copies by a client.
-   * @param dataSet DataSet to create
-   */
-  @RequestMapping(method = RequestMethod.POST, value = "/data-sets")
-  public ResponseEntity<DataSet> create(@Valid @RequestBody DataSet dataSet) {
+  @Override
+  @PostMapping(value = "/data-sets")
+  public ResponseEntity<?> postDomainObject(@RequestBody DataSet dataSet) {
     return super.postDomainObject(dataSet);
   }
 
-  /**
-   * Override default delete to prevent deleting shadow copies.
-   * @param id Id of the data set to delete
-   */
-  @RequestMapping(method = RequestMethod.DELETE, value = "/data-sets/{id:.+}")
-  public ResponseEntity<Void> delete(@PathVariable String id) {
+  @Override
+  @PutMapping(value = "/data-sets/{id:.+}")
+  public ResponseEntity<?> putDomainObject(@RequestBody DataSet dataSet) {
+    return super.putDomainObject(dataSet);
+  }
+
+  @Override
+  @DeleteMapping("/data-sets/{id:.+}")
+  public ResponseEntity<?> deleteDomainObject(@PathVariable String id) {
     return super.deleteDomainObject(id);
   }
 

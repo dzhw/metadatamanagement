@@ -1,17 +1,18 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
-import com.mongodb.gridfs.GridFS;
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
-import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyAttachmentFilenameBuilder;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,18 +26,20 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import com.mongodb.gridfs.GridFS;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper.SurveyAttachmentFilenameBuilder;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 public class SurveyAttachmentResourceTest extends AbstractTest {
   @Autowired
@@ -47,6 +50,9 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
   
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
   
   @Autowired
   private JaversService javersService;
@@ -69,6 +75,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
   public void cleanUp() {
     this.surveyRepository.deleteAll();
     this.elasticsearchUpdateQueueItemRepository.deleteAll();
+    this.elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
     this.gridFs.getFileList().iterator().forEachRemaining(gridFs::remove);
   }
@@ -215,7 +222,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(metadata))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-save-not-allowed")));
   }
 
   @Test

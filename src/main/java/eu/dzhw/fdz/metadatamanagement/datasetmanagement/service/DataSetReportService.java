@@ -40,7 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
-import eu.dzhw.fdz.metadatamanagement.common.service.TaskService;
+import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -59,6 +59,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -68,34 +69,26 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class DataSetReportService {
 
-  @Autowired
-  private FileService fileService;
+  private final FileService fileService;
 
-  @Autowired
-  private DataSetRepository dataSetRepository;
+  private final DataSetRepository dataSetRepository;
 
-  @Autowired
-  private VariableRepository variableRepository;
+  private final VariableRepository variableRepository;
 
-  @Autowired
-  private QuestionRepository questionRepository;
+  private final QuestionRepository questionRepository;
 
-  @Autowired
-  private StudyRepository studyRepository;
+  private final StudyRepository studyRepository;
 
-  @Autowired
-  private InstrumentRepository instrumentRepository;
+  private final InstrumentRepository instrumentRepository;
 
-  @Autowired
-  private TaskService taskService;
+  private final TaskManagementService taskService;
 
-  @Autowired
-  private Environment environment;
+  private final Environment environment;
 
-  @Autowired
-  private MetadataManagementProperties metadataManagementProperties;
+  private final MetadataManagementProperties metadataManagementProperties;
 
   @Autowired(required = false)
   private CloudFoundryClient cloudFoundryClient;

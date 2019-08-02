@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.CacheControl;
@@ -32,6 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -42,18 +42,16 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api")
 @Slf4j
+@RequiredArgsConstructor
 public class UserResource {
-  @Autowired
-  private UserRepository userRepository;
+  
+  private final UserRepository userRepository;
 
-  @Autowired
-  private AuthorityRepository authorityRepository;
+  private final AuthorityRepository authorityRepository;
 
-  @Autowired
-  private MongoDbTokenStore tokenStore;
+  private final MongoDbTokenStore tokenStore;
 
-  @Autowired
-  private UserService userService;
+  private final UserService userService;
 
   /**
    * Updates an existing User.

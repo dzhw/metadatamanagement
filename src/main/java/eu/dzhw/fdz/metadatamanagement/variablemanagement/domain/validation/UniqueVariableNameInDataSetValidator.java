@@ -5,23 +5,22 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Validates the name of a variable.
  * 
  */
+@RequiredArgsConstructor
 public class UniqueVariableNameInDataSetValidator implements
     ConstraintValidator<UniqueVariableNameInDataSet, Variable> {
   
-  @Autowired
-  private VariableRepository variableRepository;
-
+  private final VariableRepository variableRepository;
 
   /*
    * (non-Javadoc)

@@ -3,19 +3,18 @@ package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.valid
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Validator which ensures that there is an instrument with the given id.
  * 
  * @author René Reitmann
  */
+@RequiredArgsConstructor
 public class InstrumentExistsValidator implements ConstraintValidator<InstrumentExists, String> {
 
-  @Autowired
-  private InstrumentRepository instrumentRepository;
+  private final InstrumentRepository instrumentRepository;
   
   /*
    * (non-Javadoc)

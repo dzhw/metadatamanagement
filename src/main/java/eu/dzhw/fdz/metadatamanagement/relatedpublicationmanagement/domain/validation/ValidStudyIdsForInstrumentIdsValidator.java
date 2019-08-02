@@ -6,22 +6,21 @@ import java.util.stream.Collectors;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Ensure that a related publication is linked to the study of a instrument.
  * 
  * @author René Reitmann
  */
+@RequiredArgsConstructor
 public class ValidStudyIdsForInstrumentIdsValidator implements 
     ConstraintValidator<ValidStudyIdsForInstrumentIds, RelatedPublication> {
 
-  @Autowired
-  private InstrumentRepository instrumentRepository;
+  private final InstrumentRepository instrumentRepository;
   
   private String messageKey;
   

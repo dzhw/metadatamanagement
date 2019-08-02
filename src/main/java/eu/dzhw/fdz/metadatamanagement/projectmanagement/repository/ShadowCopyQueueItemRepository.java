@@ -1,17 +1,18 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.repository;
 
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueItem;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueItem;
 
 /**
  * Spring Data MongoDB repository for {@link ShadowCopyQueueItem}.
  */
 @Repository
-public interface ShadowCopyQueueItemRepository extends MongoRepository<ShadowCopyQueueItem, String>,
-    ShadowCopyQueueRepositoryCustom {
+public interface ShadowCopyQueueItemRepository
+    extends BaseRepository<ShadowCopyQueueItem, String>, ShadowCopyQueueRepositoryCustom {
 
   Optional<ShadowCopyQueueItem> findByDataAcquisitionProjectIdAndShadowCopyVersion(
       String dataAcquisitionProjectId, String shadowCopyVersion);

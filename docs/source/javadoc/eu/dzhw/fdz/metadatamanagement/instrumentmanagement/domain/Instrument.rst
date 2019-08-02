@@ -136,6 +136,12 @@ number
 
    The number of the instrument. Must not be empty and must be unique within the \ :java:ref:`DataAcquisitionProject`\ .
 
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Instrument
+
 studyId
 ^^^^^^^
 

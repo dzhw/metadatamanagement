@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.common.websocket;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health.Builder;
 import org.springframework.core.env.Environment;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Component;
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.websocket.repository.ActiveWebSocketSessionRepository;
 import io.micrometer.core.annotation.Timed;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class MessageBrokerHealthIndicator extends AbstractHealthIndicator {
 
   private final SimpMessagingTemplate messagingTemplate;
@@ -28,23 +29,8 @@ public class MessageBrokerHealthIndicator extends AbstractHealthIndicator {
 
   private final ActiveWebSocketSessionRepository activeWebSocketSessionRepository;
 
-  /**
-   * Create the health indicator.
-   * 
-   * @param messagingTemplate the messaging template for pinging the broker.
-   * @param env the environment for getting the active profiles
-   * @param activeWebSocketSessionRepository the repository for counting the active sessions
-   */
-  @Autowired
-  public MessageBrokerHealthIndicator(SimpMessagingTemplate messagingTemplate, Environment env,
-      ActiveWebSocketSessionRepository activeWebSocketSessionRepository) {
-    this.messagingTemplate = messagingTemplate;
-    this.env = env;
-    this.activeWebSocketSessionRepository = activeWebSocketSessionRepository;
-  }
-
   @Override
-  @Timed
+  @Timed("message_broker_health_check")
   protected void doHealthCheck(Builder builder) throws Exception {
     try {
       if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {

@@ -57,6 +57,8 @@ import lombok.ToString;
 @Builder
 public class Survey extends AbstractShadowableRdcDomainObject {
 
+  private static final long serialVersionUID = -4940386697318232867L;
+
   /**
    * The id of the survey which uniquely identifies the survey in this application.
    */

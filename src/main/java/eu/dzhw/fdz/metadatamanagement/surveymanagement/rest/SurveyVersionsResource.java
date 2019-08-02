@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyVersionsService;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for retrieving previous version of the {@link Survey} domain object.
@@ -21,10 +21,10 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyVersionsSer
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class SurveyVersionsResource {
   
-  @Autowired
-  private SurveyVersionsService surveyVersionsService;
+  private final SurveyVersionsService surveyVersionsService;
     
   /**
    * Get the previous 5 versions of the survey.

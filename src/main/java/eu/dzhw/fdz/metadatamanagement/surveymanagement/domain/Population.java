@@ -1,5 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.javers.core.metamodel.annotation.ValueObject;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
@@ -9,12 +18,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.javers.core.metamodel.annotation.ValueObject;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * Details of the population of a {@link Survey}.
@@ -24,7 +27,10 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @ValueObject
-public class Population {
+public class Population implements Serializable {
+
+  private static final long serialVersionUID = -562722196150317326L;
+
   /**
    * A description of the population.
    * It must be specified in all languages and it must not contain more than 2048

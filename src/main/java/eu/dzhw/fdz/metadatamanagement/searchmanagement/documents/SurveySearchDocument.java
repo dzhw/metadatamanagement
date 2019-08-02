@@ -31,35 +31,36 @@ import lombok.ToString;
 @Getter
 @Setter
 public class SurveySearchDocument extends Survey implements SearchDocumentInterface {
+
+  private static final long serialVersionUID = -3963249178909573553L;
+
+  static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION = new String[] {"nested*",
+      "variables", "questions", "configuration", "guiLabels", "*Publications", "concepts"};
+
   private StudySubDocument study = null;
   private StudyNestedDocument nestedStudy = null;
-  private List<DataSetSubDocument> dataSets = 
-      new ArrayList<>();
+  private List<DataSetSubDocument> dataSets = new ArrayList<>();
   private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();
-  private List<VariableSubDocument> variables =
-      new ArrayList<>();
+  private List<VariableSubDocument> variables = new ArrayList<>();
   private List<VariableNestedDocument> nestedVariables = new ArrayList<>();
-  private List<RelatedPublicationSubDocument> relatedPublications = 
-      new ArrayList<>();
+  private List<RelatedPublicationSubDocument> relatedPublications = new ArrayList<>();
   private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
-  private List<InstrumentSubDocument> instruments = 
-      new ArrayList<>();
+  private List<InstrumentSubDocument> instruments = new ArrayList<>();
   private List<InstrumentNestedDocument> nestedInstruments = new ArrayList<>();
-  private List<QuestionSubDocument> questions = 
-      new ArrayList<>();
+  private List<QuestionSubDocument> questions = new ArrayList<>();
   private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
-  private List<ConceptSubDocument> concepts = 
-      new ArrayList<>();
+  private List<ConceptSubDocument> concepts = new ArrayList<>();
   private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
   private Release release = null;
   private Configuration configuration;
-  
+
   private I18nString guiLabels = SurveyDetailsGuiLabels.GUI_LABELS;
-  
+
   private I18nString completeTitle;
 
   /**
    * Construct the search document with all related subdocuments.
+   * 
    * @param survey the survey to be searched for
    * @param study the study containing this survey
    * @param dataSets the data sets available for this survey
@@ -71,31 +72,25 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
    * @param configuration the project configuration
    */
   @SuppressWarnings("CPD-START")
-  public SurveySearchDocument(Survey survey,
-                              StudySubDocumentProjection study,
-                              List<DataSetSubDocumentProjection> dataSets,
-                              List<VariableSubDocumentProjection> variables,
-                              List<RelatedPublicationSubDocumentProjection> relatedPublications,
-                              List<InstrumentSubDocumentProjection> instruments,
-                              List<QuestionSubDocumentProjection> questions,
-                              List<ConceptSubDocumentProjection> concepts,
-                              Release release,
-                              String doi,
-                              Configuration configuration) {
+  public SurveySearchDocument(Survey survey, StudySubDocumentProjection study,
+      List<DataSetSubDocumentProjection> dataSets, List<VariableSubDocumentProjection> variables,
+      List<RelatedPublicationSubDocumentProjection> relatedPublications,
+      List<InstrumentSubDocumentProjection> instruments,
+      List<QuestionSubDocumentProjection> questions, List<ConceptSubDocumentProjection> concepts,
+      Release release, String doi, Configuration configuration) {
     super(survey);
     if (study != null) {
       this.study = new StudySubDocument(study, doi);
       this.nestedStudy = new StudyNestedDocument(study);
     }
     if (dataSets != null) {
-      this.dataSets = dataSets.stream()
-          .map(DataSetSubDocument::new).collect(Collectors.toList());
+      this.dataSets = dataSets.stream().map(DataSetSubDocument::new).collect(Collectors.toList());
       this.nestedDataSets =
           dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
     }
     if (variables != null) {
-      this.variables = variables.stream()
-          .map(VariableSubDocument::new).collect(Collectors.toList());
+      this.variables =
+          variables.stream().map(VariableSubDocument::new).collect(Collectors.toList());
       this.nestedVariables =
           variables.stream().map(VariableNestedDocument::new).collect(Collectors.toList());
     }
@@ -106,23 +101,21 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
           .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     if (instruments != null) {
-      this.instruments = instruments.stream()
-          .map(InstrumentSubDocument::new).collect(Collectors.toList());
-      this.nestedInstruments = instruments.stream().map(InstrumentNestedDocument::new)
-          .collect(Collectors.toList());
+      this.instruments =
+          instruments.stream().map(InstrumentSubDocument::new).collect(Collectors.toList());
+      this.nestedInstruments =
+          instruments.stream().map(InstrumentNestedDocument::new).collect(Collectors.toList());
     }
     if (questions != null) {
-      this.questions = questions.stream()
-          .map(question -> new QuestionSubDocument(question)).collect(Collectors.toList());
-      this.nestedQuestions = questions.stream()
-          .map(question -> new QuestionNestedDocument(question))
+      this.questions = questions.stream().map(question -> new QuestionSubDocument(question))
           .collect(Collectors.toList());
+      this.nestedQuestions = questions.stream()
+          .map(question -> new QuestionNestedDocument(question)).collect(Collectors.toList());
     }
     if (concepts != null) {
-      this.concepts = concepts.stream()
-          .map(concept -> new ConceptSubDocument(concept)).collect(Collectors.toList());
-      this.nestedConcepts = concepts.stream()
-          .map(concept -> new ConceptNestedDocument(concept))
+      this.concepts = concepts.stream().map(concept -> new ConceptSubDocument(concept))
+          .collect(Collectors.toList());
+      this.nestedConcepts = concepts.stream().map(concept -> new ConceptNestedDocument(concept))
           .collect(Collectors.toList());
     }
     this.release = release;

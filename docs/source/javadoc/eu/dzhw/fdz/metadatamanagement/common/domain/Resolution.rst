@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: javax.validation.constraints NotNull
 
 .. java:import:: org.javers.core.metamodel.annotation ValueObject
@@ -16,7 +18,7 @@ Resolution
 .. java:package:: eu.dzhw.fdz.metadatamanagement.common.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValueObject public class Resolution
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValueObject public class Resolution implements Serializable
 
    Representation of the resolution of images.
 
@@ -29,6 +31,12 @@ heightY
    :outertype: Resolution
 
    The height in pixel.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Resolution
 
 widthX
 ^^^^^^

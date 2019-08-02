@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.studymanagement.rest;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyVersionsService;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for retrieving previous version of the study domain object.
@@ -21,10 +21,10 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyVersionsServi
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class StudyVersionsResource {
-  
-  @Autowired
-  private StudyVersionsService studyVersionsService;
+
+  private final StudyVersionsService studyVersionsService;
     
   /**
    * Get the previous 5 versions of the study.

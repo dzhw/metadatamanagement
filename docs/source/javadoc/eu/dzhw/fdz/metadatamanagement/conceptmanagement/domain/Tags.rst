@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: java.util Set
 
 .. java:import:: javax.validation.constraints NotEmpty
@@ -12,7 +14,7 @@ Tags
 .. java:package:: eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain
    :noindex:
 
-.. java:type:: @Data @NoArgsConstructor public class Tags
+.. java:type:: @Data @NoArgsConstructor public class Tags implements Serializable
 
    Contains tags associated with a concept.
 
@@ -33,4 +35,10 @@ en
    :outertype: Tags
 
    English tags. At least one tag must be provided.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Tags
 

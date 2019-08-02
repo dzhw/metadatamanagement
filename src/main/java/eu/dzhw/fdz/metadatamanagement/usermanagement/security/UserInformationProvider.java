@@ -15,4 +15,9 @@ public interface UserInformationProvider {
    * Checks if the currently authenticated user has the provided role.
    */
   boolean isUserInRole(@NotEmpty String role);
+
+  /**
+   * Checks if the currently authenticated user has been authenticated anonymously.
+   */
+  boolean isUserAnonymous();
 }

@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetVersionsService;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for retrieving previous version of the dataSet domain object.
@@ -21,10 +21,10 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetVersionsS
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class DataSetVersionsResource {
 
-  @Autowired
-  private DataSetVersionsService dataSetVersionsService;
+  private final DataSetVersionsService dataSetVersionsService;
 
   /**
    * Get the previous 5 versions of the dataSet.

@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.Size;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -27,7 +29,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
-public class GenerationDetails {
+public class GenerationDetails implements Serializable {
+
+  private static final long serialVersionUID = -3981980315577871905L;
 
   /**
    * A description of this generation rule.

@@ -146,6 +146,12 @@ masterId
 
    The master id of the study. The master id must not be empty, must be of the form \ ``stu-{{dataAcquisitionProjectId}}$``\  and the master id must not contain more than 512 characters.
 
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Study
+
 sponsor
 ^^^^^^^
 
