@@ -5,6 +5,8 @@ package eu.dzhw.fdz.metadatamanagement.common.service;
  */
 public class DuplicateFilenameException extends RuntimeException {
 
+  private static final long serialVersionUID = -162875553599970465L;
+
   /**
    * Create a new exception.
    * @param filename Name of the duplicate file

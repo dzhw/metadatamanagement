@@ -1,3 +1,17 @@
+.. java:import:: java.util List
+
+.. java:import:: javax.validation Valid
+
+.. java:import:: javax.validation.constraints NotEmpty
+
+.. java:import:: javax.validation.constraints NotNull
+
+.. java:import:: org.springframework.data.annotation Id
+
+.. java:import:: org.springframework.data.mongodb.core.index Indexed
+
+.. java:import:: org.springframework.data.mongodb.core.mapping Document
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain AbstractRdcDomainObject
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain Counter
@@ -15,20 +29,6 @@
 .. java:import:: lombok NoArgsConstructor
 
 .. java:import:: lombok ToString
-
-.. java:import:: org.springframework.data.annotation Id
-
-.. java:import:: org.springframework.data.mongodb.core.index Indexed
-
-.. java:import:: org.springframework.data.mongodb.core.mapping Document
-
-.. java:import:: javax.validation Valid
-
-.. java:import:: javax.validation.constraints NotEmpty
-
-.. java:import:: javax.validation.constraints NotNull
-
-.. java:import:: java.util List
 
 Order
 =====
@@ -81,6 +81,12 @@ products
    :outertype: Order
 
    List of data \ :java:ref:`Product`\ s the \ :java:ref:`Customer`\  want to order.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Order
 
 state
 ^^^^^

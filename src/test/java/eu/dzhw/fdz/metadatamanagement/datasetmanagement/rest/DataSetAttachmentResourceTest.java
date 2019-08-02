@@ -36,8 +36,9 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentFilenameBuilder;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.helper.DataSetAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
@@ -50,6 +51,9 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
 
   @Autowired
   private JaversService javersService;
@@ -72,6 +76,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
   public void cleanUp() {
     this.dataSetRepository.deleteAll();
     this.elasticsearchUpdateQueueItemRepository.deleteAll();
+    this.elasticsearchAdminService.recreateAllIndices();
     this.javersService.deleteAll();
     gridFs.getFileList().iterator().forEachRemaining(gridFs::remove);
   }
@@ -221,7 +226,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(metadata))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-save-not-allowed")));
   }
 
   @Test

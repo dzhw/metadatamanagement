@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -21,7 +23,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @ValueObject
-public class TechnicalRepresentation {
+public class TechnicalRepresentation implements Serializable {
+
+  private static final long serialVersionUID = 5361313820939313016L;
+
   /**
    * The type of the technical representation. E.g. "zofar".
    * 

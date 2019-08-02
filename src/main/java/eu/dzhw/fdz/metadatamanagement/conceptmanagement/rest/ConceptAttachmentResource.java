@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,16 +24,17 @@ import org.springframework.web.util.UriUtils;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.service.ConceptAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.RequiredArgsConstructor;
 
 /**
  * REST controller for uploading an concept attachment.
  */
 @Controller
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class ConceptAttachmentResource {
 
-  @Autowired
-  private ConceptAttachmentService conceptAttachmentService;
+  private final ConceptAttachmentService conceptAttachmentService;
 
   /**
    * REST method for for uploading an concept attachment.

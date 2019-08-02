@@ -24,6 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 public class DeleteAllDateSetsResourceControllerTest extends AbstractTest {
@@ -38,9 +39,13 @@ public class DeleteAllDateSetsResourceControllerTest extends AbstractTest {
   private MockMvc mockMvc;
 
   @Autowired
-  DataSetRepository dataSetRepo;
+  private DataSetRepository dataSetRepo;
+  
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
 
   @Autowired
   private JaversService javersService;
@@ -56,6 +61,7 @@ public class DeleteAllDateSetsResourceControllerTest extends AbstractTest {
     dataSetRepo.deleteAll();
     javersService.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
+    elasticsearchAdminService.recreateAllIndices();
   }
 
   @Test

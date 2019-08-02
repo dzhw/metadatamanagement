@@ -59,6 +59,8 @@ import lombok.ToString;
 @ValidShadowId(message = "question-management.error.question.id.pattern")
 public class Question extends AbstractShadowableRdcDomainObject {
 
+  private static final long serialVersionUID = -415874241616502840L;
+
   /**
    * The id of the question which uniquely identifies the question in this application.
    */

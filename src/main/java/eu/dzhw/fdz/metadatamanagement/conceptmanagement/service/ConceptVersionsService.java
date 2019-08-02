@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.conceptmanagement.service;
 import javax.annotation.PostConstruct;
 
 import org.javers.core.Javers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
@@ -12,7 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository.ConceptRepository;
 
 /**
- * Service responsible for retrieving an initializing the concept history.
+ * Service responsible for retrieving and initializing the concept history.
  * 
  * @author René Reitmann
  */
@@ -22,7 +21,6 @@ public class ConceptVersionsService
   /**
    * Construct the service.
    */
-  @Autowired
   public ConceptVersionsService(Javers javers, ConceptRepository conceptRepository,
       MetadataManagementProperties metadataManagementProperties) {
     super(Concept.class, javers, conceptRepository, metadataManagementProperties);

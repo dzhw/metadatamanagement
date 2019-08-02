@@ -27,7 +27,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -79,34 +78,27 @@ public class AccountResourceTest extends AbstractTest {
     MockitoAnnotations.initMocks(this);
     when(mockMailService.sendActivationEmail(any(User.class))).thenReturn(null);
 
-    AccountResource accountResource = new AccountResource();
-    ReflectionTestUtils.setField(accountResource, "userRepository", userRepository);
-    ReflectionTestUtils.setField(accountResource, "userService", userService);
-    ReflectionTestUtils.setField(accountResource, "mailService", mockMailService);
+    AccountResource accountResource =
+        new AccountResource(userRepository, userService, mockMailService);
 
-    AccountResource accountUserMockResource = new AccountResource();
-    ReflectionTestUtils.setField(accountUserMockResource, "userRepository", userRepository);
-    ReflectionTestUtils.setField(accountUserMockResource, "userService", mockUserService);
-    ReflectionTestUtils.setField(accountUserMockResource, "mailService", mockMailService);
+    AccountResource accountUserMockResource =
+        new AccountResource(userRepository, mockUserService, mockMailService);
 
-    this.restMvc = MockMvcBuilders.standaloneSetup(accountResource)
-      .build();
-    this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource)
-      .build();
+    this.restMvc = MockMvcBuilders.standaloneSetup(accountResource).build();
+    this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource).build();
   }
 
   @After
   public void cleanUp() {
     UnitTestUserManagementUtils.logout();
-    //assert that all tests remove their users!
+    // assert that all tests remove their users!
     assertThat(userRepository.count()).isEqualTo(4);
   }
 
   @Test
   public void testNonAuthenticatedUser() throws Exception {
     restUserMockMvc.perform(get("/api/authenticate").accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
-      .andExpect(content().string(""));
+        .andExpect(status().isOk()).andExpect(content().string(""));
   }
 
   @Test
@@ -114,10 +106,8 @@ public class AccountResourceTest extends AbstractTest {
     restUserMockMvc.perform(get("/api/authenticate").with(request -> {
       request.setRemoteUser("test");
       return request;
-    })
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
-      .andExpect(content().string("test"));
+    }).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        .andExpect(content().string("test"));
   }
 
   @Test
@@ -127,13 +117,13 @@ public class AccountResourceTest extends AbstractTest {
     when(mockUserService.getUserWithAuthorities()).thenReturn(Optional.of(user));
 
     restUserMockMvc.perform(get("/api/account").accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
-      .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-      .andExpect(jsonPath("$.login").value("test"))
-      .andExpect(jsonPath("$.firstName").value("john"))
-      .andExpect(jsonPath("$.lastName").value("Doe"))
-      .andExpect(jsonPath("$.email").value("john.doe@testmail.test"))
-      .andExpect(jsonPath("$.authorities").value(AuthoritiesConstants.USER));
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(jsonPath("$.login").value("test"))
+        .andExpect(jsonPath("$.firstName").value("john"))
+        .andExpect(jsonPath("$.lastName").value("Doe"))
+        .andExpect(jsonPath("$.email").value("john.doe@testmail.test"))
+        .andExpect(jsonPath("$.authorities").value(AuthoritiesConstants.USER));
   }
 
   @Test
@@ -154,8 +144,8 @@ public class AccountResourceTest extends AbstractTest {
 
     // Assert
     this.restMvc
-      .perform(get("/api/activate?key=testActivateTrue").accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk());
+        .perform(get("/api/activate?key=testActivateTrue").accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
 
     // Delete
     user.setActivated(true);
@@ -175,8 +165,7 @@ public class AccountResourceTest extends AbstractTest {
 
     // Assert
     this.restMvc.perform(post("/api/account/reset-password/init").accept(MediaType.TEXT_PLAIN)
-      .content(user.getEmail()))
-      .andExpect(status().isOk());
+        .content(user.getEmail())).andExpect(status().isOk());
 
     this.userRepository.delete(user);
   }
@@ -194,8 +183,7 @@ public class AccountResourceTest extends AbstractTest {
 
     // Assert
     this.restMvc.perform(post("/api/account").contentType(MediaType.APPLICATION_JSON)
-      .content(TestUtil.convertObjectToJsonBytes(dto)))
-      .andExpect(status().isOk());
+        .content(TestUtil.convertObjectToJsonBytes(dto))).andExpect(status().isOk());
   }
 
   @Test
@@ -208,9 +196,10 @@ public class AccountResourceTest extends AbstractTest {
     // Act
 
     // Assert
-    this.restMvc.perform(post("/api/account").contentType(MediaType.APPLICATION_JSON)
-      .content(TestUtil.convertObjectToJsonBytes(dto)))
-      .andExpect(status().is5xxServerError());
+    this.restMvc
+        .perform(post("/api/account").contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(dto)))
+        .andExpect(status().is5xxServerError());
   }
 
   @Test
@@ -230,8 +219,7 @@ public class AccountResourceTest extends AbstractTest {
 
     // Assert
     this.restMvc.perform(post("/api/account/reset-password/init").accept(MediaType.TEXT_PLAIN)
-      .content("john.doe@jhipter.com"))
-      .andExpect(status().is4xxClientError());
+        .content("john.doe@jhipter.com")).andExpect(status().is4xxClientError());
 
     this.userRepository.delete(user);
   }
@@ -245,8 +233,7 @@ public class AccountResourceTest extends AbstractTest {
     user.setActivationKey("testActivateTrue");
     user.setActivated(true);
     user.setResetKey("ActivationKey");
-    user.setResetDate(LocalDateTime.now()
-      .minusHours(1L));
+    user.setResetDate(LocalDateTime.now().minusHours(1L));
     this.userRepository.save(user);
 
     KeyAndPasswordDto dto = new KeyAndPasswordDto();
@@ -256,10 +243,9 @@ public class AccountResourceTest extends AbstractTest {
     // Act
 
     // Assert
-    this.restMvc
-      .perform(post("/api/account/reset-password/finish").contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.convertObjectToJsonBytes(dto)))
-      .andExpect(status().isOk());
+    this.restMvc.perform(post("/api/account/reset-password/finish")
+        .contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(dto)))
+        .andExpect(status().isOk());
 
     this.userRepository.delete(user);
   }
@@ -273,8 +259,7 @@ public class AccountResourceTest extends AbstractTest {
     user.setActivationKey("testActivateTrue");
     user.setActivated(true);
     user.setResetKey("ActivationKey");
-    user.setResetDate(LocalDateTime.now()
-      .minusHours(1L));
+    user.setResetDate(LocalDateTime.now().minusHours(1L));
     this.userRepository.save(user);
 
     KeyAndPasswordDto dto = new KeyAndPasswordDto();
@@ -285,9 +270,9 @@ public class AccountResourceTest extends AbstractTest {
 
     // Assert
     this.restMvc
-      .perform(post("/api/account/reset-password/finish").contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.convertObjectToJsonBytes(dto)))
-      .andExpect(status().is4xxClientError());
+        .perform(post("/api/account/reset-password/finish").contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(dto)))
+        .andExpect(status().is4xxClientError());
 
     this.userRepository.delete(user);
   }
@@ -299,9 +284,9 @@ public class AccountResourceTest extends AbstractTest {
     // Act
 
     // Assert
-    this.restMvc.perform(post("/api/account/change-password").accept(MediaType.APPLICATION_JSON)
-      .content("password"))
-      .andExpect(status().isOk());
+    this.restMvc.perform(
+        post("/api/account/change-password").accept(MediaType.APPLICATION_JSON).content("password"))
+        .andExpect(status().isOk());
   }
 
   @Test
@@ -311,9 +296,10 @@ public class AccountResourceTest extends AbstractTest {
     // Act
 
     // Assert
-    this.restMvc.perform(post("/api/account/change-password").accept(MediaType.APPLICATION_JSON)
-      .content("no"))
-      .andExpect(status().is4xxClientError());
+    this.restMvc
+        .perform(
+            post("/api/account/change-password").accept(MediaType.APPLICATION_JSON).content("no"))
+        .andExpect(status().is4xxClientError());
   }
 
   @Test
@@ -321,7 +307,7 @@ public class AccountResourceTest extends AbstractTest {
     when(mockUserService.getUserWithAuthorities()).thenReturn(Optional.empty());
 
     restUserMockMvc.perform(get("/api/account").accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isInternalServerError());
+        .andExpect(status().isInternalServerError());
   }
 
   @Test
@@ -333,16 +319,14 @@ public class AccountResourceTest extends AbstractTest {
         "joe@example.com", // e-mail
         true, // activated
         "en", // langKey
-        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
-        false);
+        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)), false);
 
     restMvc.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
-      .content(TestUtil.convertObjectToJsonBytes(u)))
-      .andExpect(status().isCreated());
+        .content(TestUtil.convertObjectToJsonBytes(u))).andExpect(status().isCreated());
 
     Optional<User> user = userRepository.findOneByLogin("joe");
     assertThat(user.isPresent()).isTrue();
-    
+
     userRepository.deleteByEmail(u.getEmail());
   }
 
@@ -355,12 +339,10 @@ public class AccountResourceTest extends AbstractTest {
         "funky@example.com", // e-mail
         true, // activated
         "en", // langKey
-        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
-        false);
+        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)), false);
 
     restUserMockMvc.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
-      .content(TestUtil.convertObjectToJsonBytes(u)))
-      .andExpect(status().isBadRequest());
+        .content(TestUtil.convertObjectToJsonBytes(u))).andExpect(status().isBadRequest());
 
     Optional<User> user = userRepository.findOneByEmail("funky@example.com");
     assertThat(user.isPresent()).isFalse();
@@ -375,12 +357,10 @@ public class AccountResourceTest extends AbstractTest {
         "invalid", // e-mail <-- invalid
         true, // activated
         "en", // langKey
-        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
-        false);
+        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)), false);
 
     restUserMockMvc.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
-      .content(TestUtil.convertObjectToJsonBytes(u)))
-      .andExpect(status().isBadRequest());
+        .content(TestUtil.convertObjectToJsonBytes(u))).andExpect(status().isBadRequest());
 
     Optional<User> user = userRepository.findOneByLogin("bob");
     assertThat(user.isPresent()).isFalse();
@@ -396,8 +376,7 @@ public class AccountResourceTest extends AbstractTest {
         "alice@example.com", // e-mail
         true, // activated
         "en", // langKey
-        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
-        false);
+        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)), false);
 
     // Duplicate login, different e-mail
     UserDto dup = new UserDto(u.getLogin(), u.getPassword(), u.getLogin(), u.getLastName(),
@@ -405,17 +384,17 @@ public class AccountResourceTest extends AbstractTest {
 
     // Good user
     restMvc.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
-      .content(TestUtil.convertObjectToJsonBytes(u)))
-      .andExpect(status().isCreated());
+        .content(TestUtil.convertObjectToJsonBytes(u))).andExpect(status().isCreated());
 
     // Duplicate login
-    restMvc.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
-      .content(TestUtil.convertObjectToJsonBytes(dup)))
-      .andExpect(status().is4xxClientError());
+    restMvc
+        .perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(dup)))
+        .andExpect(status().is4xxClientError());
 
     Optional<User> userDup = userRepository.findOneByEmail("alicejr@example.com");
     assertThat(userDup.isPresent()).isFalse();
-    
+
     userRepository.deleteByEmail(u.getEmail());
   }
 
@@ -429,8 +408,7 @@ public class AccountResourceTest extends AbstractTest {
         "john@example.com", // e-mail
         true, // activated
         "en", // langKey
-        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)),
-        false);
+        new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)), false);
 
     // Duplicate e-mail, different login
     UserDto dup = new UserDto("johnjr", u.getPassword(), u.getLogin(), u.getLastName(),
@@ -438,17 +416,17 @@ public class AccountResourceTest extends AbstractTest {
 
     // Good user
     restMvc.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
-      .content(TestUtil.convertObjectToJsonBytes(u)))
-      .andExpect(status().isCreated());
+        .content(TestUtil.convertObjectToJsonBytes(u))).andExpect(status().isCreated());
 
     // Duplicate e-mail
-    restMvc.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
-      .content(TestUtil.convertObjectToJsonBytes(dup)))
-      .andExpect(status().is4xxClientError());
+    restMvc
+        .perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(dup)))
+        .andExpect(status().is4xxClientError());
 
     Optional<User> userDup = userRepository.findOneByLogin("johnjr");
     assertThat(userDup.isPresent()).isFalse();
-    
+
     userRepository.deleteByEmail(u.getEmail());
   }
 
@@ -461,20 +439,19 @@ public class AccountResourceTest extends AbstractTest {
         "badguy@example.com", // e-mail
         true, // activated
         "en", // langKey
-        new HashSet<>(Arrays.asList(AuthoritiesConstants.ADMIN)), // <-- only admin should be able to
-        false                                                    // do that
+        new HashSet<>(Arrays.asList(AuthoritiesConstants.ADMIN)), // <-- only admin should be able
+                                                                  // to
+        false // do that
     );
 
     restMvc.perform(post("/api/register").contentType(TestUtil.APPLICATION_JSON_UTF8)
-      .content(TestUtil.convertObjectToJsonBytes(u)))
-      .andExpect(status().isCreated());
+        .content(TestUtil.convertObjectToJsonBytes(u))).andExpect(status().isCreated());
 
     Optional<User> userDup = userRepository.findOneByLogin("badguy");
     assertThat(userDup.isPresent()).isTrue();
-    assertThat(userDup.get()
-      .getAuthorities()).hasSize(1)
+    assertThat(userDup.get().getAuthorities()).hasSize(1)
         .containsExactly(authorityRepository.findById(AuthoritiesConstants.USER).get());
-    
+
     userRepository.deleteByEmail(u.getEmail());
   }
 }

@@ -1,31 +1,28 @@
 package eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository;
 
-import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.springframework.data.mongodb.core.query.Criteria.where;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
+
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Default implementation of {@link ConceptRepositoryCustom}.
  */
 @Component
+@RequiredArgsConstructor
 public class ConceptRepositoryCustomImpl implements ConceptRepositoryCustom {
 
-  private MongoTemplate mongoTemplate;
-
-  @Autowired
-  public ConceptRepositoryCustomImpl(MongoTemplate mongoTemplate) {
-    this.mongoTemplate = mongoTemplate;
-  }
+  private final MongoTemplate mongoTemplate;
 
   @Override
   public Set<String> findQuestionIdsByConceptId(String conceptId) {

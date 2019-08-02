@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.HandlerMapping;
 
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
+import lombok.RequiredArgsConstructor;
 
 /**
  * REST controller for downloading generic files from the GridFS / MongoDB.
@@ -26,10 +26,10 @@ import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
  */
 @Controller
 @RequestMapping(value = "/public")
+@RequiredArgsConstructor
 public class FileResource {
 
-  @Autowired
-  private FileService fileService;
+  private final FileService fileService;
 
   /**
    * Download a file from the GridFS / MongoDB by a given filename.

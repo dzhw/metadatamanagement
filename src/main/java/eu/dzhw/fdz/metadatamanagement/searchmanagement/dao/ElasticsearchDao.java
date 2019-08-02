@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao;
 import java.io.IOException;
 import java.util.Collection;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.JsonObject;
@@ -21,11 +20,12 @@ import io.searchbox.core.Count;
 import io.searchbox.core.CountResult;
 import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.DeleteIndex;
+import io.searchbox.indices.Flush;
 import io.searchbox.indices.IndicesExists;
-import io.searchbox.indices.Refresh;
 import io.searchbox.indices.mapping.GetMapping;
 import io.searchbox.indices.mapping.PutMapping;
 import io.searchbox.indices.settings.GetSettings;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -35,9 +35,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class ElasticsearchDao {
-  @Autowired
-  private JestClient jestClient;
+
+  private final JestClient jestClient;
 
   /**
    * Create an index with the given settings as json.
@@ -92,7 +93,7 @@ public class ElasticsearchDao {
   public JsonObject getMapping(String index, String type) {
     JestResult result = execute(new GetMapping.Builder().addIndex(index).addType(type).build());
     if (!result.isSucceeded()) {
-      log.warn("Unable to get mapping for index " + index + " and type " + type + ": "
+      log.error("Unable to get mapping for index " + index + " and type " + type + ": "
           + result.getErrorMessage());
       return null;
     }
@@ -110,13 +111,15 @@ public class ElasticsearchDao {
   }
 
   /**
-   * Refresh the given indices synchronously.
-   * @param indices the indices to refresh.
+   * Flush the given indices synchronously.
+   * 
+   * @param indices the indices to flush.
    */
-  public void refresh(Collection<String> indices) {
-    JestResult result = execute(new Refresh.Builder().addIndices(indices).build());
+  public void flush(Collection<String> indices) {
+    JestResult result = execute(new Flush.Builder().waitIfOngoing(true).addIndices(indices)
+        .ignoreUnavailable(true).build());
     if (!result.isSucceeded()) {
-      log.warn("Unable to refresh indices " + indices + ": " + result.getErrorMessage());
+      log.error("Unable to flush indices " + indices + ": " + result.getErrorMessage());
     }
   }
 
@@ -131,7 +134,7 @@ public class ElasticsearchDao {
       throw new ElasticsearchIndexDeleteException(index, result.getErrorMessage());
     }
   }
-  
+
   /**
    * Count all documents in all indices.
    * 
@@ -141,9 +144,10 @@ public class ElasticsearchDao {
     CountResult result = (CountResult) execute(new Count.Builder().build());
     return result.getCount();
   }
-  
+
   /**
    * Execute a bulk of operations.
+   * 
    * @param bulk The bulk to be executed.
    */
   public void executeBulk(Bulk bulk) {

@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -65,11 +64,8 @@ public class UserResourceTest extends AbstractTest {
 
   @Before
   public void setup() {
-    UserResource userResource = new UserResource();
-    ReflectionTestUtils.setField(userResource, "userRepository", this.userRepository);
-    ReflectionTestUtils.setField(userResource, "userService", this.userService);
-    ReflectionTestUtils.setField(userResource, "authorityRepository", this.authorityRepository);
-    ReflectionTestUtils.setField(userResource, "tokenStore", this.tokenStore);
+    UserResource userResource =
+        new UserResource(userRepository, authorityRepository, tokenStore, userService);
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
         .setCustomArgumentResolvers(pageableArgumentResolver).build();
   }
@@ -178,12 +174,13 @@ public class UserResourceTest extends AbstractTest {
         .andExpect(status().isOk()).andExpect(content().json("[]"));
 
   }
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testGetUserPublic() throws Exception{
+  public void testGetUserPublic() throws Exception {
     restUserMockMvc.perform(get("/api/users/unknown/public").accept(MediaType.APPLICATION_JSON))
-    .andExpect(status().isNotFound());
+        .andExpect(status().isNotFound());
     restUserMockMvc.perform(get("/api/users/admin/public").accept(MediaType.APPLICATION_JSON))
-    .andExpect(status().isOk()).andExpect(jsonPath("$.login").value("admin"));
+        .andExpect(status().isOk()).andExpect(jsonPath("$.login").value("admin"));
   }
 }

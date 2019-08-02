@@ -1,6 +1,8 @@
 
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -20,7 +22,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
-public class Missing {
+public class Missing implements Serializable {
+
+  private static final long serialVersionUID = 8249191232912836595L;
 
   /**
    * A (unique in this {@link Variable}) code for this missing.

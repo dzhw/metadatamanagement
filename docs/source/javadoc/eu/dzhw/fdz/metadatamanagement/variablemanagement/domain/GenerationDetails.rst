@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: javax.validation.constraints Size
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
@@ -26,7 +28,7 @@ GenerationDetails
 .. java:package:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain
    :noindex:
 
-.. java:type:: @NotEmptyGenerationDetailsDescriptionOrRule @RuleExpressionLanguageAndRuleFilledOrEmpty @NoArgsConstructor @Data @AllArgsConstructor @Builder public class GenerationDetails
+.. java:type:: @NotEmptyGenerationDetailsDescriptionOrRule @RuleExpressionLanguageAndRuleFilledOrEmpty @NoArgsConstructor @Data @AllArgsConstructor @Builder public class GenerationDetails implements Serializable
 
    Generation details describe how a \ :java:ref:`Variable`\  was generated from one or more input \ :java:ref:`Variable`\ s.
 
@@ -55,4 +57,10 @@ ruleExpressionLanguage
    :outertype: GenerationDetails
 
    The language which was used to describe this rule. Must be one of \ :java:ref:`RuleExpressionLanguages`\ .
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: GenerationDetails
 

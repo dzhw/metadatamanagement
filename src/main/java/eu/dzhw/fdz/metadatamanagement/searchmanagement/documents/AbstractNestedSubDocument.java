@@ -10,5 +10,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
  * @author René Reitmann
  */
 public abstract class AbstractNestedSubDocument extends AbstractRdcDomainObject {
+
+  private static final long serialVersionUID = 7854049962838516299L;
+
   public abstract I18nString getCompleteTitle();
 }

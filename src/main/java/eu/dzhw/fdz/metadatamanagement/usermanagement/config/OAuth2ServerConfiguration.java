@@ -52,15 +52,19 @@ public class OAuth2ServerConfiguration {
           // disable csrf protection for api
           .csrf().ignoringAntMatchers("/api/**", "/management/**").and().authorizeRequests()
           .antMatchers("/api/authenticate").permitAll().antMatchers("/api/register").permitAll()
-          .antMatchers("/api/orders/**").permitAll()
+          .antMatchers("/api/orders/**", "/public/files/**", "/api/variables/**", "/api/surveys/**",
+              "/api/i18n/**", "/api/instruments/**", "/api/data-sets/**", "/api/questions/**",
+              "/api/studies/**", "/api/concepts/**", "/api/study-serieses/**",
+              "/api/related-publications/**", "/api/data-acquisition-projects/**/releases")
+          .permitAll()
           // enable basic http for /api
           .and().authorizeRequests().antMatchers("/api/**").authenticated().and().httpBasic().and()
-          .authorizeRequests().antMatchers("/management/info").permitAll()
-          .and().authorizeRequests().antMatchers("/management/metrics").permitAll()
-          .and().authorizeRequests().antMatchers("/management/prometheus").permitAll()
-          .antMatchers("/management/health/**").permitAll()
-          .antMatchers("/management/**").hasAuthority("ROLE_ADMIN").and().sessionManagement()
-          .sessionCreationPolicy(SessionCreationPolicy.STATELESS).enableSessionUrlRewriting(false);
+          .authorizeRequests().antMatchers("/management/info").permitAll().and().authorizeRequests()
+          .antMatchers("/management/metrics").permitAll().and().authorizeRequests()
+          .antMatchers("/management/prometheus").permitAll().antMatchers("/management/health/**")
+          .permitAll().antMatchers("/management/**").hasAuthority("ROLE_ADMIN").and()
+          .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+          .enableSessionUrlRewriting(false);
 
       // Enforce HTTPS when the request comes through a proxy/load balancer
       http.requiresChannel().requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)

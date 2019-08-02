@@ -142,6 +142,12 @@ number
 
    The number of the dataset. Must not be empty and must be unique within the \ :java:ref:`DataAcquisitionProject`\ .
 
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: DataSet
+
 studyId
 ^^^^^^^
 

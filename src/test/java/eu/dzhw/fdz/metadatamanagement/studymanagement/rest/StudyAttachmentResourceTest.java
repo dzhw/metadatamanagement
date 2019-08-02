@@ -34,10 +34,11 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyAttachmentFilenameBuilder;
+import eu.dzhw.fdz.metadatamanagement.studymanagement.service.helper.StudyAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 public class StudyAttachmentResourceTest extends AbstractTest {
@@ -49,6 +50,9 @@ public class StudyAttachmentResourceTest extends AbstractTest {
   
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
+  
+  @Autowired
+  private ElasticsearchAdminService elasticsearchAdminService;
   
   @Autowired
   private JaversService javersService;
@@ -71,6 +75,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
   public void cleanUp() {
     this.studyRepository.deleteAll();
     this.elasticsearchUpdateQueueItemRepository.deleteAll();
+    this.elasticsearchAdminService.recreateAllIndices();
     this.javersService.deleteAll();
     this.gridFs.getFileList().iterator().forEachRemaining(gridFs::remove);
   }
@@ -219,7 +224,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(metadata))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-save-not-allowed")));
   }
 
   @Test

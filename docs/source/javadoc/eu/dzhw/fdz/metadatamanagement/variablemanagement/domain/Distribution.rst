@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: java.util List
 
 .. java:import:: javax.validation Valid
@@ -24,7 +26,7 @@ Distribution
 .. java:package:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Distribution
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Distribution implements Serializable
 
    A distribution contains the descriptives of a \ :java:ref:`Variable`\  meaning its \ :java:ref:`ValidResponse`\ s, \ :java:ref:`Missing`\ s and \ :java:ref:`Statistics`\ .
 
@@ -45,6 +47,12 @@ missings
    :outertype: Distribution
 
    List of \ :java:ref:`Missing`\ s of this \ :java:ref:`Variable`\ . Must not contain more than 7000 entries and the code of the \ :java:ref:`Missing`\ s must be unique.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Distribution
 
 statistics
 ^^^^^^^^^^

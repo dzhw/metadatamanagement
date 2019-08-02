@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.searchmanagement.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueItem;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Custom repository for retrieving locked and unlocked queue items.
@@ -21,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType
  * @author René Reitmann
  */
 @Component
+@RequiredArgsConstructor
 public class ElasticsearchUpdateQueueItemRepositoryImpl
     implements ElasticsearchUpdateQueueItemRepositoryCustom {
 
@@ -30,8 +31,7 @@ public class ElasticsearchUpdateQueueItemRepositoryImpl
   // number of queue items to be processed in one batch
   private static final int BULK_SIZE = 25;
 
-  @Autowired
-  private MongoOperations mongoOperations;
+  private final MongoOperations mongoOperations;
 
   @Override
   public void lockAllUnlockedOrExpiredItems(LocalDateTime updateStartedAt, String updateStartedBy) {

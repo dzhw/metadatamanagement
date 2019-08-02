@@ -8,8 +8,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
@@ -17,10 +15,12 @@ import org.springframework.stereotype.Component;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchIndicesVersion;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchIndicesVersionRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -32,18 +32,16 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Profile("!" + Constants.SPRING_PROFILE_UNITTEST)
 @Slf4j
+@RequiredArgsConstructor
 public class ElasticsearchIndicesInitializer {
-  @Autowired
-  private ResourceLoader resourceLoader;
   
-  @Autowired
-  private ElasticsearchAdminService elasticsearchAdminService;
+  private final ResourceLoader resourceLoader;
   
-  @Autowired
-  private ElasticsearchIndicesVersionRepository indicesVersionRepository;
+  private final ElasticsearchAdminService elasticsearchAdminService;
   
-  @Autowired
-  private MetadataManagementProperties metadataManagementProperties;
+  private final ElasticsearchIndicesVersionRepository indicesVersionRepository;
+  
+  private final MetadataManagementProperties metadataManagementProperties;
   
   private JsonParser jsonParser = new JsonParser();
   

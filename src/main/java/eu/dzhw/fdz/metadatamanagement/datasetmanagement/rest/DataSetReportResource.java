@@ -5,14 +5,17 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
-import eu.dzhw.fdz.metadatamanagement.common.service.TaskService;
+import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
@@ -31,28 +34,25 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import freemarker.template.TemplateException;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This Resource handles the filling of the tex template and the upload of the compiled file.
  */
 @Controller
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class DataSetReportResource {
 
-  @Autowired
-  private DataSetReportService dataSetReportService;
+  private final DataSetReportService dataSetReportService;
 
-  @Autowired
-  private DataSetAttachmentService dataSetAttachmentService;
+  private final DataSetAttachmentService dataSetAttachmentService;
 
-  @Autowired
-  private MailService mailService;
+  private final MailService mailService;
 
-  @Autowired
-  private UserService userService;
+  private final UserService userService;
 
-  @Autowired
-  private TaskService taskService;
+  private final TaskManagementService taskService;
 
   @Value("${metadatamanagement.projectmanagement.email}")
   private String sender;
@@ -124,8 +124,16 @@ public class DataSetReportResource {
       throws IOException {
     Optional<User> user = userService.getUserWithAuthoritiesByLogin(onBehalfOf);
     if (user.isPresent()) {
+      User userInstance = user.get();
+      // switch to on behalf user for correct modification names
+      Collection<? extends GrantedAuthority> currentAuthorities =
+          SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+          userInstance.getLogin(), userInstance.getPassword(), currentAuthorities);
+      SecurityContextHolder.getContext().setAuthentication(authentication);
       dataSetAttachmentService.attachDataSetReport(dataSetId, reportFile);
       mailService.sendDataSetReportGeneratedMail(user.get(), dataSetId, sender);
+      SecurityContextHolder.getContext().setAuthentication(null);
       return ResponseEntity.ok().build();
     } else {
       return ResponseEntity.badRequest()

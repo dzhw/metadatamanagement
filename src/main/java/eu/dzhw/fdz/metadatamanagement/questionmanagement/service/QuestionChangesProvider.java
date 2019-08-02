@@ -1,40 +1,37 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.RequestScope;
-
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
+
+import eu.dzhw.fdz.metadatamanagement.common.service.DomainObjectChangesProvider;
+import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+
 /**
- * Tracks a {@link Question} before and after saving it through the repository
- * and provides access to some changes.
+ * Tracks a {@link Question} before and after saving it through the repository and provides access
+ * to some changes.
  */
 @Component
 @RequestScope
-public class QuestionChangesProvider {
-
-  private Map<String, Question> oldQuestions = new HashMap<>();
-  private Map<String, Question> newQuestions = new HashMap<>();
-
+public class QuestionChangesProvider extends DomainObjectChangesProvider<Question> {
   /**
    * Gets the removed concept ids of a question.
+   * 
    * @param questionId Question id
    * @return Removed concept ids
    */
   public Set<String> getRemovedConceptIds(String questionId) {
-    Question oldQuestion = oldQuestions.get(questionId);
+    Question oldQuestion = oldDomainObjects.get(questionId);
 
     if (oldQuestion == null) {
       return Collections.emptySet();
     }
 
-    Question newQuestion = newQuestions.get(questionId);
+    Question newQuestion = newDomainObjects.get(questionId);
 
     if (newQuestion == null) {
       return Collections.emptySet();
@@ -54,15 +51,5 @@ public class QuestionChangesProvider {
 
     return oldConceptIds.stream().filter(conceptId -> !newConceptIds.contains(conceptId))
         .collect(Collectors.toSet());
-  }
-
-  protected void put(Question oldQuestion, Question newQuestion) {
-    if (oldQuestion != null) {
-      oldQuestions.put(oldQuestion.getId(), oldQuestion);
-    }
-
-    if (newQuestion != null) {
-      newQuestions.put(newQuestion.getId(), newQuestion);
-    }
   }
 }

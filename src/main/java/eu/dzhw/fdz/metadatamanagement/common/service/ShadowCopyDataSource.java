@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 
 /**
- * Provides domain objects for {@link ShadowCopyService} which are used to create shadow copies.
+ * Provides domain objects for {@link ShadowCopyHelper} which are used to create shadow copies.
  * 
  * @param <T> The domain object to be copied.
  */
@@ -63,4 +63,10 @@ public interface ShadowCopyDataSource<T extends AbstractShadowableRdcDomainObjec
    * @param version The current version of the project.
    */
   void deleteExistingShadowCopies(String projectId, String version);
+
+  /**
+   * Index all shadow copies for both versions.
+   */
+  void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
+      String previousVersion);
 }

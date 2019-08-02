@@ -34,6 +34,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class ConceptAttachmentMetadata extends AbstractRdcDomainObject {
+
+  private static final long serialVersionUID = -3238212286047012095L;
+
   /**
    * The id of the attachment. Holds the complete path which can be used to download the file.
    */

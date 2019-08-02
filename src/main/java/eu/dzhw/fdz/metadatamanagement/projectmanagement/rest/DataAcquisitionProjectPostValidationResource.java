@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationErrorsDto;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.PostValidationService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -28,9 +28,10 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api")
 @Slf4j
+@RequiredArgsConstructor
 public class DataAcquisitionProjectPostValidationResource {
-  @Autowired
-  private PostValidationService postValidationService;
+  
+  private final PostValidationService postValidationService;
 
   /**
    * Validate project by id.

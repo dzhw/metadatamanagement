@@ -6,11 +6,10 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This validator checks the number of a data set within a project. The data set number has to be 
@@ -19,11 +18,11 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
  * @author Daniel Katzberg
  *
  */
+@RequiredArgsConstructor
 public class UniqueDataSetNumberInProjectValidator
     implements ConstraintValidator<UniqueDatasetNumberInProject, DataSet> {
 
-  @Autowired
-  private DataSetRepository dataSetRepository;
+  private final DataSetRepository dataSetRepository;
 
   /*
    * (non-Javadoc)

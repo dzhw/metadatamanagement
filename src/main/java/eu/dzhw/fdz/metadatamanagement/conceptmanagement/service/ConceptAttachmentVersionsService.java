@@ -10,7 +10,6 @@ import org.javers.core.Javers;
 import org.javers.core.metamodel.object.CdoSnapshot;
 import org.javers.repository.jql.QueryBuilder;
 import org.javers.shadow.Shadow;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
@@ -24,6 +23,7 @@ import com.mongodb.gridfs.GridFSDBFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptAttachmentMetadata;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -33,30 +33,17 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ConceptAttachmentVersionsService {
-  private Javers javers;
+  private final Javers javers;
 
-  private GridFS gridFs;
+  private final GridFS gridFs;
 
-  private GridFsOperations operations;
+  private final GridFsOperations operations;
 
-  private MongoTemplate mongoTemplate;
+  private final MongoTemplate mongoTemplate;
 
-  private MetadataManagementProperties metadataManagementProperties;
-
-  /**
-   * Construct the service.
-   */
-  @Autowired
-  public ConceptAttachmentVersionsService(Javers javers, GridFsOperations operations,
-      MongoTemplate mongoTemplate, MetadataManagementProperties metadataManagementProperties,
-      GridFS gridFs) {
-    this.javers = javers;
-    this.operations = operations;
-    this.mongoTemplate = mongoTemplate;
-    this.metadataManagementProperties = metadataManagementProperties;
-    this.gridFs = gridFs;
-  }
+  private final MetadataManagementProperties metadataManagementProperties;
 
   /**
    * Init Javers with all current concept attachments if there are no concept attachment commits in

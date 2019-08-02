@@ -3,19 +3,18 @@ package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.valid
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Validator which ensures that there is an variable with the given id.
  * 
  * @author René Reitmann
  */
+@RequiredArgsConstructor
 public class VariableExistsValidator implements ConstraintValidator<VariableExists, String> {
 
-  @Autowired
-  private VariableRepository variableRepository;
+  private final VariableRepository variableRepository;
   
   /*
    * (non-Javadoc)

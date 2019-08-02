@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.BsonDocument;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Implementation of custom methods on the studies collection.
@@ -16,11 +16,11 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
  * @author René Reitmann
  */
 @Component
+@RequiredArgsConstructor
 public class StudyRepositoryImpl implements StudyRepositoryCustom {
   private static final String COLLECTION = "studies";
   
-  @Autowired
-  private MongoTemplate mongoTemplate;
+  private final MongoTemplate mongoTemplate;
   
   @Override
   public List<I18nString> findAllStudySerieses() {
