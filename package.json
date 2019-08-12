@@ -6,6 +6,8 @@
   "dependencies": {},
   "devDependencies": {
     "browser-sync": "^2.26.7",
+    "clean-css": ">=4.1.11",
+    "diff": ">=3.5.0",
     "event-stream": "4.0.1",
     "grunt": "1.0.4",
     "grunt-angular-templates": "1.1.0",
