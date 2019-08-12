@@ -6,28 +6,32 @@
 * LICENSE file in the root directory of this source tree.
 */
 
-
 'use strict';
 
+/* global PlotlyGeoAssets:false */
+
 var mapboxgl = require('mapbox-gl');
+var d3 = require('d3');
 
 var Fx = require('../../components/fx');
 var Lib = require('../../lib');
 var Registry = require('../../registry');
+var Axes = require('../cartesian/axes');
 var dragElement = require('../../components/dragelement');
 var prepSelect = require('../cartesian/select').prepSelect;
 var selectOnClick = require('../cartesian/select').selectOnClick;
 var constants = require('./constants');
-var layoutAttributes = require('./layout_attributes');
 var createMapboxLayer = require('./layers');
 
-function Mapbox(opts) {
-    this.id = opts.id;
-    this.gd = opts.gd;
-    this.container = opts.container;
-    this.isStatic = opts.staticPlot;
+function Mapbox(gd, id) {
+    this.id = id;
+    this.gd = gd;
 
-    var fullLayout = opts.fullLayout;
+    var fullLayout = gd._fullLayout;
+    var context = gd._context;
+
+    this.container = fullLayout._glcontainer.node();
+    this.isStatic = context.staticPlot;
 
     // unique id for this Mapbox instance
     this.uid = fullLayout._uid + '-' + this.id;
@@ -44,13 +48,10 @@ function Mapbox(opts) {
     this.styleObj = null;
     this.traceHash = {};
     this.layerList = [];
+    this.belowLookup = {};
 }
 
 var proto = Mapbox.prototype;
-
-module.exports = function createMapbox(opts) {
-    return new Mapbox(opts);
-};
 
 proto.plot = function(calcData, fullLayout, promises) {
     var self = this;
@@ -82,7 +83,6 @@ proto.plot = function(calcData, fullLayout, promises) {
 
 proto.createMap = function(calcData, fullLayout, resolve, reject) {
     var self = this;
-    var gd = self.gd;
     var opts = fullLayout[self.id];
 
     // store style id and URL or object
@@ -105,13 +105,14 @@ proto.createMap = function(calcData, fullLayout, resolve, reject) {
         preserveDrawingBuffer: self.isStatic,
 
         doubleClickZoom: false,
-        boxZoom: false
-    });
+        boxZoom: false,
 
-    // clear navigation container
-    var className = constants.controlContainerClassName;
-    var controlContainer = self.div.getElementsByClassName(className)[0];
-    self.div.removeChild(controlContainer);
+        attributionControl: false
+    })
+    .addControl(new mapboxgl.AttributionControl({
+        compact: true
+    }));
+
 
     // make sure canvas does not inherit left and top css
     map._canvas.style.left = '0px';
@@ -119,125 +120,57 @@ proto.createMap = function(calcData, fullLayout, resolve, reject) {
 
     self.rejectOnError(reject);
 
-    map.once('load', function() {
+    if(!self.isStatic) {
+        self.initFx(calcData, fullLayout);
+    }
+
+    var promises = [];
+
+    promises.push(new Promise(function(resolve) {
+        map.once('load', resolve);
+    }));
+
+    promises = promises.concat(self.fetchMapData(calcData, fullLayout));
+
+    Promise.all(promises).then(function() {
+        self.fillBelowLookup(calcData, fullLayout);
         self.updateData(calcData);
         self.updateLayout(fullLayout);
         self.resolveOnRender(resolve);
-    });
+    }).catch(reject);
+};
 
-    if(self.isStatic) return;
+proto.fetchMapData = function(calcData) {
+    var promises = [];
 
-    var wheeling = false;
+    function fetch(url) {
+        return new Promise(function(resolve, reject) {
+            d3.json(url, function(err, d) {
+                if(err) {
+                    delete PlotlyGeoAssets[url];
+                    var msg = err.status === 404 ?
+                        ('GeoJSON at URL "' + url + '" does not exist.') :
+                        ('Unexpected error while fetching from ' + url);
+                    return reject(new Error(msg));
+                }
 
-    // keep track of pan / zoom in user layout and emit relayout event
-    map.on('moveend', function(eventData) {
-        if(!self.map) return;
+                PlotlyGeoAssets[url] = d;
+                resolve(d);
+            });
+        });
+    }
 
-        // 'moveend' gets triggered by map.setCenter, map.setZoom,
-        // map.setBearing and map.setPitch.
-        //
-        // Here, we make sure that state updates amd 'plotly_relayout'
-        // are triggered only when the 'moveend' originates from a
-        // mouse target (filtering out API calls) to not
-        // duplicate 'plotly_relayout' events.
+    for(var i = 0; i < calcData.length; i++) {
+        var trace = calcData[i][0].trace;
+        var url = trace.geojson;
 
-        if(eventData.originalEvent || wheeling) {
-            var optsNow = gd._fullLayout[self.id];
-            Registry.call('_storeDirectGUIEdit', gd.layout, gd._fullLayout._preGUI, self.getViewEdits(optsNow));
-
-            var viewNow = self.getView();
-            optsNow._input.center = optsNow.center = viewNow.center;
-            optsNow._input.zoom = optsNow.zoom = viewNow.zoom;
-            optsNow._input.bearing = optsNow.bearing = viewNow.bearing;
-            optsNow._input.pitch = optsNow.pitch = viewNow.pitch;
-
-            gd.emit('plotly_relayout', self.getViewEdits(viewNow));
+        if(typeof url === 'string' && !PlotlyGeoAssets[url]) {
+            PlotlyGeoAssets[url] = 'pending';
+            promises.push(fetch(url));
         }
-        wheeling = false;
-    });
-
-    map.on('wheel', function() {
-        wheeling = true;
-    });
-
-    map.on('mousemove', function(evt) {
-        var bb = self.div.getBoundingClientRect();
-
-        // some hackery to get Fx.hover to work
-        evt.clientX = evt.point.x + bb.left;
-        evt.clientY = evt.point.y + bb.top;
-
-        evt.target.getBoundingClientRect = function() { return bb; };
-
-        self.xaxis.p2c = function() { return evt.lngLat.lng; };
-        self.yaxis.p2c = function() { return evt.lngLat.lat; };
-
-        Fx.hover(gd, evt, self.id);
-    });
-
-    function unhover() {
-        Fx.loneUnhover(fullLayout._toppaper);
     }
 
-    map.on('dragstart', unhover);
-    map.on('zoomstart', unhover);
-
-    function emitUpdate() {
-        var viewNow = self.getView();
-        gd.emit('plotly_relayouting', self.getViewEdits(viewNow));
-    }
-
-    map.on('drag', emitUpdate);
-    map.on('zoom', emitUpdate);
-
-    map.on('dblclick', function() {
-        var optsNow = gd._fullLayout[self.id];
-        Registry.call('_storeDirectGUIEdit', gd.layout, gd._fullLayout._preGUI, self.getViewEdits(optsNow));
-
-        var viewInitial = self.viewInitial;
-        map.setCenter(convertCenter(viewInitial.center));
-        map.setZoom(viewInitial.zoom);
-        map.setBearing(viewInitial.bearing);
-        map.setPitch(viewInitial.pitch);
-
-        var viewNow = self.getView();
-        optsNow._input.center = optsNow.center = viewNow.center;
-        optsNow._input.zoom = optsNow.zoom = viewNow.zoom;
-        optsNow._input.bearing = optsNow.bearing = viewNow.bearing;
-        optsNow._input.pitch = optsNow.pitch = viewNow.pitch;
-
-        gd.emit('plotly_doubleclick', null);
-        gd.emit('plotly_relayout', self.getViewEdits(viewNow));
-    });
-
-    // define event handlers on map creation, to keep one ref per map,
-    // so that map.on / map.off in updateFx works as expected
-    self.clearSelect = function() {
-        gd._fullLayout._zoomlayer.selectAll('.select-outline').remove();
-    };
-
-    /**
-     * Returns a click handler function that is supposed
-     * to handle clicks in pan mode.
-     */
-    self.onClickInPanFn = function(dragOptions) {
-        return function(evt) {
-            var clickMode = gd._fullLayout.clickmode;
-
-            if(clickMode.indexOf('select') > -1) {
-                selectOnClick(evt.originalEvent, gd, [self.xaxis], [self.yaxis], self.id, dragOptions);
-            }
-
-            if(clickMode.indexOf('event') > -1) {
-                // TODO: this does not support right-click. If we want to support it, we
-                // would likely need to change mapbox to use dragElement instead of straight
-                // mapbox event binding. Or perhaps better, make a simple wrapper with the
-                // right mousedown, mousemove, and mouseup handlers just for a left/right click
-                // pie would use this too.
-                Fx.click(gd, evt.originalEvent);
-            }
-        };
-    };
+    return promises;
 };
 
 proto.updateMap = function(calcData, fullLayout, resolve, reject) {
@@ -247,34 +180,137 @@ proto.updateMap = function(calcData, fullLayout, resolve, reject) {
 
     self.rejectOnError(reject);
 
+    var promises = [];
     var styleObj = getStyleObj(opts.style);
 
     if(self.styleObj.id !== styleObj.id) {
         self.styleObj = styleObj;
         map.setStyle(styleObj.style);
 
-        map.once('styledata', function() {
-            // need to rebuild trace layers on reload
-            // to avoid 'lost event' errors
-            self.traceHash = {};
-            self.updateData(calcData);
-            self.updateLayout(fullLayout);
-            self.resolveOnRender(resolve);
-        });
-    } else {
+        // need to rebuild trace layers on reload
+        // to avoid 'lost event' errors
+        self.traceHash = {};
+
+        promises.push(new Promise(function(resolve) {
+            map.once('styledata', resolve);
+        }));
+    }
+
+    promises = promises.concat(self.fetchMapData(calcData, fullLayout));
+
+    Promise.all(promises).then(function() {
+        self.fillBelowLookup(calcData, fullLayout);
         self.updateData(calcData);
         self.updateLayout(fullLayout);
         self.resolveOnRender(resolve);
+    }).catch(reject);
+};
+
+proto.fillBelowLookup = function(calcData, fullLayout) {
+    var opts = fullLayout[this.id];
+    var layers = opts.layers;
+    var i, val;
+
+    var belowLookup = this.belowLookup = {};
+    var hasTraceAtTop = false;
+
+    for(i = 0; i < calcData.length; i++) {
+        var trace = calcData[i][0].trace;
+        var _module = trace._module;
+
+        if(typeof trace.below === 'string') {
+            val = trace.below;
+        } else if(_module.getBelow) {
+            // 'smart' default that depend the map's base layers
+            val = _module.getBelow(trace, this);
+        }
+
+        if(val === '') {
+            hasTraceAtTop = true;
+        }
+
+        belowLookup['trace-' + trace.uid] = val || '';
     }
+
+    for(i = 0; i < layers.length; i++) {
+        var item = layers[i];
+
+        if(typeof item.below === 'string') {
+            val = item.below;
+        } else if(hasTraceAtTop) {
+            // if one or more trace(s) set `below:''` and
+            // layers[i].below is unset,
+            // place layer below traces
+            val = 'traces';
+        } else {
+            val = '';
+        }
+
+        belowLookup['layout-' + i] = val;
+    }
+
+    // N.B. If multiple layers have the 'below' value,
+    // we must clear the stashed 'below' field in order
+    // to make `traceHash[k].update()` and `layerList[i].update()`
+    // remove/add the all those layers to have preserve
+    // the correct layer ordering
+    var val2list = {};
+    var k, id;
+
+    for(k in belowLookup) {
+        val = belowLookup[k];
+        if(val2list[val]) {
+            val2list[val].push(k);
+        } else {
+            val2list[val] = [k];
+        }
+    }
+
+    for(val in val2list) {
+        var list = val2list[val];
+        if(list.length > 1) {
+            for(i = 0; i < list.length; i++) {
+                k = list[i];
+                if(k.indexOf('trace-') === 0) {
+                    id = k.split('trace-')[1];
+                    if(this.traceHash[id]) {
+                        this.traceHash[id].below = null;
+                    }
+                } else if(k.indexOf('layout-') === 0) {
+                    id = k.split('layout-')[1];
+                    if(this.layerList[id]) {
+                        this.layerList[id].below = null;
+                    }
+                }
+            }
+        }
+    }
+};
+
+var traceType2orderIndex = {
+    choroplethmapbox: 0,
+    densitymapbox: 1,
+    scattermapbox: 2
 };
 
 proto.updateData = function(calcData) {
     var traceHash = this.traceHash;
     var traceObj, trace, i, j;
 
+    // Need to sort here by trace type here,
+    // in case traces with different `type` have the same
+    // below value, but sorting we ensure that
+    // e.g. choroplethmapbox traces will be below scattermapbox traces
+    var calcDataSorted = calcData.slice().sort(function(a, b) {
+        return (
+            traceType2orderIndex[a[0].trace.type] -
+            traceType2orderIndex[b[0].trace.type]
+        );
+    });
+
     // update or create trace objects
-    for(i = 0; i < calcData.length; i++) {
-        var calcTrace = calcData[i];
+    for(i = 0; i < calcDataSorted.length; i++) {
+        var calcTrace = calcDataSorted[i];
 
         trace = calcTrace[0].trace;
         traceObj = traceHash[trace.uid];
@@ -369,6 +405,149 @@ proto.createFramework = function(fullLayout) {
     };
 
     self.updateFramework(fullLayout);
+
+    // mock axis for hover formatting
+    self.mockAxis = {
+        type: 'linear',
+        showexponent: 'all',
+        exponentformat: 'B'
+    };
+    Axes.setConvert(self.mockAxis, fullLayout);
+};
+
+proto.initFx = function(calcData, fullLayout) {
+    var self = this;
+    var gd = self.gd;
+    var map = self.map;
+
+    var wheeling = false;
+
+    // keep track of pan / zoom in user layout and emit relayout event
+    map.on('moveend', function(evt) {
+        if(!self.map) return;
+
+        var fullLayoutNow = gd._fullLayout;
+
+        // 'moveend' gets triggered by map.setCenter, map.setZoom,
+        // map.setBearing and map.setPitch.
+        //
+        // Here, we make sure that state updates amd 'plotly_relayout'
+        // are triggered only when the 'moveend' originates from a
+        // mouse target (filtering out API calls) to not
+        // duplicate 'plotly_relayout' events.
+
+        if(evt.originalEvent || wheeling) {
+            var optsNow = fullLayoutNow[self.id];
+            Registry.call('_storeDirectGUIEdit', gd.layout, fullLayoutNow._preGUI, self.getViewEdits(optsNow));
+
+            var viewNow = self.getView();
+            optsNow._input.center = optsNow.center = viewNow.center;
+            optsNow._input.zoom = optsNow.zoom = viewNow.zoom;
+            optsNow._input.bearing = optsNow.bearing = viewNow.bearing;
+            optsNow._input.pitch = optsNow.pitch = viewNow.pitch;
+
+            gd.emit('plotly_relayout', self.getViewEdits(viewNow));
+        }
+        wheeling = false;
+
+        if(fullLayoutNow._rehover) {
+            fullLayoutNow._rehover();
+        }
+    });
+
+    map.on('wheel', function() {
+        wheeling = true;
+    });
+
+    map.on('mousemove', function(evt) {
+        var bb = self.div.getBoundingClientRect();
+
+        // some hackery to get Fx.hover to work
+        evt.clientX = evt.point.x + bb.left;
+        evt.clientY = evt.point.y + bb.top;
+
+        evt.target.getBoundingClientRect = function() { return bb; };
+
+        self.xaxis.p2c = function() { return evt.lngLat.lng; };
+        self.yaxis.p2c = function() { return evt.lngLat.lat; };
+
+        gd._fullLayout._rehover = function() {
+            if(gd._fullLayout._hoversubplot === self.id) {
+                Fx.hover(gd, evt, self.id);
+            }
+        };
+
+        Fx.hover(gd, evt, self.id);
+        gd._fullLayout._hoversubplot = self.id;
+    });
+
+    function unhover() {
+        Fx.loneUnhover(fullLayout._hoverlayer);
+    }
+
+    map.on('dragstart', unhover);
+    map.on('zoomstart', unhover);
+
+    map.on('mouseout', function() {
+        gd._fullLayout._hoversubplot = null;
+    });
+
+    function emitUpdate() {
+        var viewNow = self.getView();
+        gd.emit('plotly_relayouting', self.getViewEdits(viewNow));
+    }
+
+    map.on('drag', emitUpdate);
+    map.on('zoom', emitUpdate);
+
+    map.on('dblclick', function() {
+        var optsNow = gd._fullLayout[self.id];
+        Registry.call('_storeDirectGUIEdit', gd.layout, gd._fullLayout._preGUI, self.getViewEdits(optsNow));
+
+        var viewInitial = self.viewInitial;
+        map.setCenter(convertCenter(viewInitial.center));
+        map.setZoom(viewInitial.zoom);
+        map.setBearing(viewInitial.bearing);
+        map.setPitch(viewInitial.pitch);
+
+        var viewNow = self.getView();
+        optsNow._input.center = optsNow.center = viewNow.center;
+        optsNow._input.zoom = optsNow.zoom = viewNow.zoom;
+        optsNow._input.bearing = optsNow.bearing = viewNow.bearing;
+        optsNow._input.pitch = optsNow.pitch = viewNow.pitch;
+
+        gd.emit('plotly_doubleclick', null);
+        gd.emit('plotly_relayout', self.getViewEdits(viewNow));
+    });
+
+    // define event handlers on map creation, to keep one ref per map,
+    // so that map.on / map.off in updateFx works as expected
+    self.clearSelect = function() {
+        gd._fullLayout._zoomlayer.selectAll('.select-outline').remove();
+    };
+
+    /**
+     * Returns a click handler function that is supposed
+     * to handle clicks in pan mode.
+     */
+    self.onClickInPanFn = function(dragOptions) {
+        return function(evt) {
+            var clickMode = gd._fullLayout.clickmode;
+
+            if(clickMode.indexOf('select') > -1) {
+                selectOnClick(evt.originalEvent, gd, [self.xaxis], [self.yaxis], self.id, dragOptions);
+            }
+
+            if(clickMode.indexOf('event') > -1) {
+                // TODO: this does not support right-click. If we want to support it, we
+                // would likely need to change mapbox to use dragElement instead of straight
+                // mapbox event binding. Or perhaps better, make a simple wrapper with the
+                // right mousedown, mousemove, and mouseup handlers just for a left/right click
+                // pie would use this too.
+                Fx.click(gd, evt.originalEvent);
+            }
+        };
+    };
 };
 
 proto.updateFx = function(fullLayout) {
@@ -513,6 +692,40 @@ proto.setOptions = function(id, methodName, opts) {
     }
 };
 
+proto.getMapLayers = function() {
+    return this.map.getStyle().layers;
+};
+
+// convenience wrapper that first check in 'below' references
+// a layer that exist and then add the layer to the map,
+proto.addLayer = function(opts, below) {
+    var map = this.map;
+
+    if(typeof below === 'string') {
+        if(below === '') {
+            map.addLayer(opts, below);
+            return;
+        }
+
+        var mapLayers = this.getMapLayers();
+        for(var i = 0; i < mapLayers.length; i++) {
+            if(below === mapLayers[i].id) {
+                map.addLayer(opts, below);
+                return;
+            }
+        }
+
+        Lib.warn([
+            'Trying to add layer with *below* value',
+            below,
+            'referencing a layer that does not exist',
+            'or that does not yet exist.'
+        ].join(' '));
+    }
+
+    map.addLayer(opts);
+};
+
 // convenience method to project a [lon, lat] array to pixel coords
 proto.project = function(v) {
     return this.map.project(new mapboxgl.LngLat(v[0], v[1]));
@@ -546,8 +759,6 @@ proto.getViewEdits = function(cont) {
 };
 
 function getStyleObj(val) {
-    var styleValues = layoutAttributes.style.values;
-    var styleDflt = layoutAttributes.style.dflt;
     var styleObj = {};
 
     if(Lib.isPlainObject(val)) {
@@ -555,12 +766,17 @@ function getStyleObj(val) {
         styleObj.style = val;
     } else if(typeof val === 'string') {
         styleObj.id = val;
-        styleObj.style = (styleValues.indexOf(val) !== -1) ?
-             convertStyleVal(val) :
-             val;
+
+        if(constants.styleValuesMapbox.indexOf(val) !== -1) {
+            styleObj.style = convertStyleVal(val);
+        } else if(constants.stylesNonMapbox[val]) {
+            styleObj.style = constants.stylesNonMapbox[val];
+        } else {
+            styleObj.style = val;
+        }
     } else {
-        styleObj.id = styleDflt;
-        styleObj.style = convertStyleVal(styleDflt);
+        styleObj.id = constants.styleValueDflt;
+        styleObj.style = convertStyleVal(constants.styleValueDflt);
     }
 
     styleObj.transition = {duration: 0, delay: 0};
@@ -576,3 +792,5 @@ function convertStyleVal(val) {
 function convertCenter(center) {
     return [center.lon, center.lat];
 }
+
+module.exports = Mapbox;

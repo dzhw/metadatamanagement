@@ -346,12 +346,12 @@
 
   /** Used to test pseudo private map caches. */
   var mapCaches = (function() {
-    var MapCache = _.memoize.Cache;
+    var MapCache = (_.memoize || lodashStable.memoize).Cache;
     var result = {
       'Hash': new MapCache().__data__.hash.constructor,
       'MapCache': MapCache
     };
-    _.isMatchWith({ 'a': 1 }, { 'a': 1 }, function() {
+    (_.isMatchWith || lodashStable.isMatchWith)({ 'a': 1 }, { 'a': 1 }, function() {
       var stack = lodashStable.last(arguments);
       result.ListCache = stack.__data__.constructor;
       result.Stack = stack.constructor;
@@ -4711,6 +4711,17 @@
 
       var actual = _.defaultsDeep({ 'a': ['abc'] }, { 'a': 'abc' });
       assert.deepEqual(actual.a, ['abc']);
+    });
+
+    QUnit.test('should not indirectly merge `Object` properties', function(assert) {
+      assert.expect(1);
+
+      _.defaultsDeep({}, { 'constructor': { 'a': 1 } });
+
+      var actual = 'a' in Object;
+      delete Object.a;
+
+      assert.notOk(actual);
     });
   }());
 
@@ -15280,18 +15291,21 @@
     });
 
     QUnit.test('should provide `stack` to `customizer`', function(assert) {
-      assert.expect(1);
+      assert.expect(4);
 
-      var actual;
+      var actual = [];
 
-      _.mergeWith({}, { 'a': { 'b': 2 } }, function() {
-        actual = _.last(arguments);
+      _.mergeWith({}, { 'z': 1, 'a': { 'b': 2 } }, function() {
+        actual.push(_.last(arguments));
       });
 
-      assert.ok(isNpm
-        ? actual.constructor.name == 'Stack'
-        : actual instanceof mapCaches.Stack
-      );
+      assert.strictEqual(actual.length, 3);
+      _.each(actual, function(a) {
+        assert.ok(isNpm
+          ? a.constructor.name == 'Stack'
+          : a instanceof mapCaches.Stack
+        );
+      });
     });
 
     QUnit.test('should overwrite primitives with source object clones', function(assert) {
@@ -19806,6 +19820,72 @@
           actual = lodashStable.map(results, lodashStable.isNaN);
 
       assert.deepEqual(actual, expected);
+    });
+
+    QUnit.test('`_.' + methodName + '` should return `Infinity` given `Infinity` regardless of `precision`', function(assert) {
+      assert.expect(6);
+
+      var actual = func(Infinity);
+      assert.strictEqual(actual, Infinity);
+
+      actual = func(Infinity, 0);
+      assert.strictEqual(actual, Infinity);
+
+      actual = func(Infinity, 2);
+      assert.strictEqual(actual, Infinity);
+
+      actual = func(Infinity, -2);
+      assert.strictEqual(actual, Infinity);
+
+      actual = func(Infinity, 2);
+      assert.strictEqual(actual, isFloor ? Infinity : Infinity);
+
+      actual = func(Infinity, 2);
+      assert.strictEqual(actual, isCeil ? Infinity : Infinity);
+    });
+
+    QUnit.test('`_.' + methodName + '` should return `-Infinity` given `-Infinity` regardless of `precision`', function(assert) {
+      assert.expect(6);
+
+      var actual = func(-Infinity);
+      assert.strictEqual(actual, -Infinity);
+
+      actual = func(-Infinity, 0);
+      assert.strictEqual(actual, -Infinity);
+
+      actual = func(-Infinity, 2);
+      assert.strictEqual(actual, -Infinity);
+
+      actual = func(-Infinity, -2);
+      assert.strictEqual(actual, -Infinity);
+
+      actual = func(-Infinity, 2);
+      assert.strictEqual(actual, isFloor ? -Infinity : -Infinity);
+
+      actual = func(-Infinity, 2);
+      assert.strictEqual(actual, isCeil ? -Infinity : -Infinity);
+    });
+
+    QUnit.test('`_.' + methodName + '` should return `NaN` given `NaN` regardless of `precision`', function(assert) {
+      assert.expect(6);
+
+      var actual = func(NaN);
+      assert.deepEqual(actual, NaN);
+
+      actual = func(NaN, 0);
+      assert.deepEqual(actual, NaN);
+
+      actual = func(NaN, 2);
+      assert.deepEqual(actual, NaN);
+
+      actual = func(NaN, -2);
+      assert.deepEqual(actual, NaN);
+
+      actual = func(NaN, 2);
+      assert.deepEqual(actual, isFloor ? NaN : NaN);
+
+      actual = func(NaN, 2);
+      assert.deepEqual(actual, isCeil ? NaN : NaN);
     });
   });
 
@@ -25401,7 +25481,7 @@
       assert.expect(2);
 
       var largeWordLen = 50000,
-          largeWord = 'A'.repeat(largeWordLen),
+          largeWord = _.repeat('A', largeWordLen),
           maxMs = 1000,
           startTime = lodashStable.now();
 
