@@ -36,7 +36,8 @@ fi
 if [ -z ${COVERALLS_TOKEN} ]; then
   mvn --no-transfer-progress -P${PROFILE} clean package
 else
-  mvn --no-transfer-progress -P${PROFILE} clean -DrepoToken=$COVERALLS_TOKEN package coveralls:report
+  #mvn --no-transfer-progress -P${PROFILE} clean -DrepoToken=$COVERALLS_TOKEN package coveralls:report
+  mvn --no-transfer-progress -P${PROFILE} clean package
 fi
 if [ $? -ne 0 ]; then
     echo "Maven build failed!"
