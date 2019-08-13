@@ -49,6 +49,8 @@ jobs:
         - npm install -g grunt-cli
       script:
         - ./deploy/build.sh unused $TRAVIS_BRANCH $COVERALLS_TOKEN
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
     - stage: build and deploy
       name: "Build and Deploy to PWS"
       install:
@@ -71,6 +73,8 @@ jobs:
         - sudo netstat -pelnut
       script:
         - ./deploy/build-and-deploy.sh unused $CI_DEPLOY_USERNAME $CI_DEPLOY_PASSWORD $TRAVIS_BRANCH $COVERALLS_TOKEN $TRAVIS_EVENT_TYPE
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
     - stage: e2e smoketests
       name: "Chrome Smoketest"
       install:
