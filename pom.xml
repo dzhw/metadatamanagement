@@ -635,32 +635,6 @@
                     </arguments>
                 </configuration>
             </plugin>
-            <!-- report code coverage to coveralls -->
-            <plugin>
-                <groupId>org.eluder.coveralls</groupId>
-                <artifactId>coveralls-maven-plugin</artifactId>
-                <version>4.3.0</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>javax.xml.bind</groupId>
-                        <artifactId>jaxb-api</artifactId>
-                        <version>2.3.1</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <serviceName>My Travis</serviceName>
-                    <jacocoReports>
-                        <jacocoReport>${project.testresult.directory}/coverage/jacoco/jacoco.xml</jacocoReport>
-                    </jacocoReports>
-                    <coberturaReports>
-                        <coberturaReport>${project.testresult.directory}/coverage/report-cobertura/cobertura.xml</coberturaReport>
-                    </coberturaReports>
-                    <sourceDirectories>
-                        <sourceDirectory>${project.basedir}</sourceDirectory>
-                    </sourceDirectories>
-                    <scanForSources>true</scanForSources>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
