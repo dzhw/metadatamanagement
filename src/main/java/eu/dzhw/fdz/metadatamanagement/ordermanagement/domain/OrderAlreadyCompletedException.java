@@ -6,6 +6,8 @@ package eu.dzhw.fdz.metadatamanagement.ordermanagement.domain;
  */
 public class OrderAlreadyCompletedException extends IllegalArgumentException {
 
+  private static final long serialVersionUID = 7119098297634858881L;
+
   /**
    * Creates a new exception.
    */

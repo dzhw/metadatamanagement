@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -13,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DaraUpdateQueueItem;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Implementation of the Dara Update Queue Item Repository.
@@ -21,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DaraUpdateQueueIt
  *
  */
 @Component
+@RequiredArgsConstructor
 public class DaraUpdateQueueItemRepositoryImpl implements DaraUpdateQueueItemRepositoryCustom {
 
   //update lock is valid for 10 minutes
@@ -30,8 +31,7 @@ public class DaraUpdateQueueItemRepositoryImpl implements DaraUpdateQueueItemRep
   //number of queue items to be processed in one batch
   private static final int BULK_SIZE = 5;
 
-  @Autowired
-  private MongoOperations mongoOperations;
+  private final MongoOperations mongoOperations;
   
   /*
    * (non-Javadoc)

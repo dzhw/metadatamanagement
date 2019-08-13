@@ -1,5 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.data.annotation.Id;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -16,13 +24,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.javers.core.metamodel.annotation.Entity;
-import org.springframework.data.annotation.Id;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 /**
  * Metadata which will be stored with each attachment of a {@link DataSet}.
@@ -35,6 +36,9 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Builder
 public class DataSetAttachmentMetadata extends AbstractShadowableRdcDomainObject {
+
+  private static final long serialVersionUID = 4092063953336360313L;
+
   /**
    * The id of the attachment. Holds the complete path which can be used to download the file.
    */

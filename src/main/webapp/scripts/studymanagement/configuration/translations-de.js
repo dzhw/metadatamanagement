@@ -35,7 +35,8 @@ angular.module('metadatamanagementApp').config(
               'maxNumberOfEpisodes': 'Episoden',
               'surveyed-in': 'Enthält Daten aus diesen Erhebungen'
             },
-            'doi': 'DOI'
+            'doi': 'DOI',
+            'published-at': 'veröffentlicht am'
           },
           'attachments': {
             'table-title': 'Materialien zu der Studie',

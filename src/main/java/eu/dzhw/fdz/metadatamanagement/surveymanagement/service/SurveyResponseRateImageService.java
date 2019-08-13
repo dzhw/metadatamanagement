@@ -1,24 +1,22 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
-import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
-import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyService;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ProjectReleasedEvent;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRateImageMetadata;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
+import java.io.IOException;
+import java.util.Optional;
+
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Optional;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRateImageMetadata;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Service for creating and updating survey images. Used for updating images in mongo
@@ -26,22 +24,14 @@ import java.util.Optional;
  * @author Daniel Katzberg
  */
 @Service
+@RequiredArgsConstructor
 public class SurveyResponseRateImageService {
 
-  @Autowired
-  private GridFsOperations operations;
-  
-  @Autowired
-  private SurveyResponseRateImageMetadataShadowCopyDataSource shadowCopyDataSource;
+  private final GridFsOperations operations;
+ 
+  private final SurveyRepository surveyRepository;
 
-  @Autowired
-  private ShadowCopyService<SurveyResponseRateImageMetadata> shadowCopyService;
-
-  @Autowired
-  private SurveyRepository surveyRepository;
-
-  @Autowired
-  private AttachmentMetadataHelper<SurveyResponseRateImageMetadata> attachmentMetadataHelper;
+  private final AttachmentMetadataHelper<SurveyResponseRateImageMetadata> attachmentMetadataHelper;
 
   /**
    * This method save an image into GridFS/MongoDB based on a byteArrayOutputStream.
@@ -109,16 +99,6 @@ public class SurveyResponseRateImageService {
     Query queryEn = new Query(GridFsCriteria.whereFilename()
         .is("/surveys/" + surveyId + "/" + this.getResponseRateFileNameEnglish(surveyId)));
     this.operations.delete(queryEn);
-  }
-
-  /**
-   * Create shadow copies for {@link SurveyResponseRateImageMetadata} on project release.
-   * @param projectReleasedEvent Released project event
-   */
-  @EventListener
-  public void onProjectReleasedEvent(ProjectReleasedEvent projectReleasedEvent) {
-    shadowCopyService.createShadowCopies(projectReleasedEvent.getDataAcquisitionProject(),
-        projectReleasedEvent.getPreviousReleaseVersion(), shadowCopyDataSource);
   }
   
   /**

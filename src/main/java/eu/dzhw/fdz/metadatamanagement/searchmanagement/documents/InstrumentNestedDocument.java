@@ -22,6 +22,9 @@ import lombok.ToString;
 @Getter
 @Setter
 public class InstrumentNestedDocument extends AbstractNestedSubDocument {
+
+  private static final long serialVersionUID = 2575112956356021554L;
+
   private String id;
 
   private I18nString description;

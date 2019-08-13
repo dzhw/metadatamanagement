@@ -3,19 +3,18 @@ package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.valid
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Validator which ensures that there is a question with the given id.
  * 
  * @author René Reitmann
  */
+@RequiredArgsConstructor
 public class QuestionExistsValidator implements ConstraintValidator<QuestionExists, String> {
 
-  @Autowired
-  private QuestionRepository questionRepository;
+  private final QuestionRepository questionRepository;
   
   /*
    * (non-Javadoc)

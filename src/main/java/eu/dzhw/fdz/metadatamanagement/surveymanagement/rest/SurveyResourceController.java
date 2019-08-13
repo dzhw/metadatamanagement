@@ -1,20 +1,24 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.GenericShadowableDomainObjectResourceController;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
+import java.net.URI;
+
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
+import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
+import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Survey REST Controller which overrides default spring data rest methods.
@@ -22,57 +26,46 @@ import java.net.URI;
  * @author René Reitmann
  */
 @RepositoryRestController
-public class SurveyResourceController 
-    extends GenericShadowableDomainObjectResourceController<Survey, SurveyRepository> {
+@Api(value = "Survey Resource", description = "Endpoints used by the MDM to manage surveys.")
+@RequestMapping("/api")
+public class SurveyResourceController
+    extends GenericDomainObjectResourceController<Survey, CrudService<Survey>> {
 
-  @Autowired
-  public SurveyResourceController(SurveyRepository surveyRepository,
-                                  ApplicationEventPublisher applicationEventPublisher) {
-    super(surveyRepository, applicationEventPublisher);
+  public SurveyResourceController(CrudService<Survey> crudService,
+      UserInformationProvider userInformationProvider) {
+    super(crudService, userInformationProvider);
   }
 
-  /**
-   * Override default get by id since it does not set cache headers correctly.
-   * 
-   * @param id a survey id
-   * @return the survey or not found
-   */
-  @RequestMapping(method = RequestMethod.GET, value = "/surveys/{id:.+}")
-  public ResponseEntity<Survey> findSurvey(@PathVariable String id) {
-    return super.findDomainObject(id); 
+  @Override
+  @ApiOperation("Get the survey. Public users will get the latest version of the survey."
+      + " If the id is postfixed with the version number it will return exactly the "
+      + "requested version, if available.")
+  @GetMapping(value = "/surveys/{id:.+}")
+  public ResponseEntity<Survey> getDomainObject(@PathVariable String id) {
+    return super.getDomainObject(id);
   }
 
-  /**
-   * Override default post to prevent clients from creating shadow copies.
-   * @param survey Survey
-   */
-  @RequestMapping(method = RequestMethod.POST, value = "/surveys")
-  public ResponseEntity<?> postSurvey(@Valid @RequestBody Survey survey) {
+
+  @Override
+  @PostMapping(value = "/surveys")
+  public ResponseEntity<?> postDomainObject(@RequestBody Survey survey) {
     return super.postDomainObject(survey);
   }
 
-  /**
-   * Override default put to prevent creating or updating shadow copies.
-   * @param id Survey id
-   * @param survey Survey
-   */
-  @RequestMapping(method = RequestMethod.PUT, value = "/surveys/{id:.+}")
-  public ResponseEntity<?> putSurvey(@PathVariable String id, @Valid @RequestBody Survey survey) {
-    return super.putDomainObject(id, survey);
+  @Override
+  @PutMapping(value = "/surveys/{id:.+}")
+  public ResponseEntity<?> putDomainObject(@RequestBody Survey survey) {
+    return super.putDomainObject(survey);
   }
 
-  /**
-   * Override default delete to prevent clients from deleting shadow copies.
-   * @param id Survey id
-   */
-  @RequestMapping(method = RequestMethod.DELETE, value = "/surveys/{id:.+}")
-  public ResponseEntity<?> deleteSurvey(@PathVariable String id) {
+  @Override
+  @DeleteMapping("/surveys/{id:.+}")
+  public ResponseEntity<?> deleteDomainObject(@PathVariable String id) {
     return super.deleteDomainObject(id);
   }
 
   @Override
   protected URI buildLocationHeaderUri(Survey domainObject) {
-    return UriComponentsBuilder.fromPath("/api/surveys/" + domainObject.getId()).build()
-        .toUri();
+    return UriComponentsBuilder.fromPath("/api/surveys/" + domainObject.getId()).build().toUri();
   }
 }

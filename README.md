@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=master)](https://travis-ci.org/dzhw/metadatamanagement) [![Documentation Status](https://readthedocs.org/projects/metadatamanagement/badge/?version=latest)](https://metadatamanagement.readthedocs.io/de/latest/?badge=latest) [![Sauce Test Status](https://saucelabs.com/buildstatus/rreitmann)](https://saucelabs.com/u/rreitmann)
 [![Known Vulnerabilities](https://snyk.io/test/github/dzhw/metadatamanagement/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/dzhw/metadatamanagement?targetFile=pom.xml
-)[![Coverage Status](https://coveralls.io/repos/dzhw/metadatamanagement/badge.svg?branch=master&service=github)](https://coveralls.io/github/dzhw/metadatamanagement?branch=master) [![Mergify Status](https://gh.mergify.io/badges/dzhw/metadatamanagement.png?style=cut)](https://mergify.io)
+)[![codecov](https://codecov.io/gh/dzhw/metadatamanagement/branch/development/graph/badge.svg)](https://codecov.io/gh/dzhw/metadatamanagement)[![Mergify Status](https://gh.mergify.io/badges/dzhw/metadatamanagement.png?style=cut)](https://mergify.io)
 [![DOI](https://zenodo.org/badge/39431147.svg)](https://zenodo.org/badge/latestdoi/39431147)
 
 [![Sauce Build Matrix](https://saucelabs.com/browser-matrix/rreitmann.svg)](https://saucelabs.com/u/rreitmann)
@@ -17,8 +17,8 @@ Please checkout the development branch before starting to code and create a new 
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
-1. Java: You need to install java 8 sdk on your system. On Ubuntu you should use [SDKMAN!][]
-2. Maven: You need to install maven 3 on your system. On Ubuntu you should use [SDKMAN!][]
+1. Java: You need to install java 11 sdk on your system. On Ubuntu you should use [SDKMAN!][]
+2. Maven: You need to install maven 3.6.1 or above on your system. On Ubuntu you should use [SDKMAN!][]
 3. [Node.js][]: Node.js (latest) and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][]
 
 We use [Grunt][] as our client build system. Install the grunt command-line tool globally with:

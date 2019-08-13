@@ -60,6 +60,8 @@ import lombok.ToString;
 @ValidShadowId(message = "data-set-management.error.data-set.id.pattern")
 public class DataSet extends AbstractShadowableRdcDomainObject {
 
+  private static final long serialVersionUID = 8454546047986299035L;
+
   /**
    * The id of the dataset which uniquely identifies the dataset in this application.
    */

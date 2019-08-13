@@ -24,6 +24,9 @@ import lombok.ToString;
 @Data
 @Builder
 public class Task extends AbstractRdcDomainObject {
+  
+  private static final long serialVersionUID = -363741437715597872L;
+
   /**
    * The id or task number of the task.
    */

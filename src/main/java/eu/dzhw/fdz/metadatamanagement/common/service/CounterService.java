@@ -4,13 +4,13 @@ import static org.springframework.data.mongodb.core.FindAndModifyOptions.options
 import static org.springframework.data.mongodb.core.query.Query.query;
 
 import org.apache.commons.lang3.NotImplementedException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Counter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Service which generates sequence numbers as in (good) old JPA times.
@@ -18,9 +18,10 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.Counter;
  * @author René Reitmann
  */
 @Service
+@RequiredArgsConstructor
 public class CounterService {
-  @Autowired
-  private MongoOperations mongo;
+  
+  private final MongoOperations mongo;
 
   /**
    * Return the next sequence number of the given sequence.

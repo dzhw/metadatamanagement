@@ -19,7 +19,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.cloudfoundry.client.CloudFoundryClient;
+import org.cloudfoundry.client.v3.tasks.CreateTaskRequest;
+import org.cloudfoundry.operations.CloudFoundryOperations;
+import org.cloudfoundry.operations.applications.ApplicationSummary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.loader.tools.RunProcess;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -27,18 +34,19 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.DatasetReportTask;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
-import eu.dzhw.fdz.metadatamanagement.common.service.TaskService;
+import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
@@ -51,40 +59,42 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * This service fill tex templates with data and put it into the gridfs / mongodb.
+ * This service fills tex templates with data and put it into the gridfs / mongodb.
  *
  * @author Daniel Katzberg
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class DataSetReportService {
 
-  @Autowired
-  private FileService fileService;
+  private final FileService fileService;
 
-  @Autowired
-  private DataSetRepository dataSetRepository;
+  private final DataSetRepository dataSetRepository;
 
-  @Autowired
-  private VariableRepository variableRepository;
+  private final VariableRepository variableRepository;
 
-  @Autowired
-  private QuestionRepository questionRepository;
+  private final QuestionRepository questionRepository;
 
-  @Autowired
-  private StudyRepository studyRepository;
+  private final StudyRepository studyRepository;
 
-  @Autowired
-  private InstrumentRepository instrumentRepository;
+  private final InstrumentRepository instrumentRepository;
 
-  @Autowired
-  private DataAcquisitionProjectVersionsService projectVersionsService;
+  private final TaskManagementService taskService;
 
-  @Autowired
-  private TaskService taskService;
+  private final Environment environment;
+
+  private final MetadataManagementProperties metadataManagementProperties;
+
+  @Autowired(required = false)
+  private CloudFoundryClient cloudFoundryClient;
+
+  @Autowired(required = false)
+  private CloudFoundryOperations cloudFoundryOperations;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -123,18 +133,19 @@ public class DataSetReportService {
    * This service method will receive a tex template as a string and an id of a data set. With this
    * id, the service will load the data set for receiving all depending information, which are
    * needed for filling of the tex template with data.
-   * 
+   *
+   * @param zipTmpFilePath The path to uploaded zip file
    * @param originalName the original name of multipartfile
    * @param dataSetId An id of the data set.
    * @param task the task to update the status of the pro
-   * @param zipTmpFilePath The path to uploaded zip file
-   * 
+   * @param version The version of the report as it is displayed in the title.
+   *
    * @throws TemplateException Handles templates exceptions.
    * @throws IOException Handles IO Exception for the template.
    */
   @Async
-  public void generateReport(Path zipTmpFilePath, String originalName, String dataSetId,
-      Task task) {
+  public void generateReport(Path zipTmpFilePath, String originalName, String dataSetId, Task task,
+      String version) {
     log.debug("Start generating report for {} and datasetId {}", originalName, dataSetId);
     try {
       // Configuration, based on Freemarker Version 2.3.23
@@ -171,7 +182,7 @@ public class DataSetReportService {
         String texVariableFileStr = ZipUtil.readFileFromZip(pathToVariableTexFile);
 
         // Load data for template only once
-        Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId);
+        Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId, version);
         try {
           String variableListFilledStr = this.fillTemplate(texVariableListFileStr,
               templateConfiguration, dataForTemplate, KEY_VARIABLELIST);
@@ -224,7 +235,7 @@ public class DataSetReportService {
 
   /**
    * Checks for all files which are included for the tex template.
-   * 
+   *
    * @param zipFileSystem The zip file as file system
    * @return True if all files are included. False min one file is missing.
    */
@@ -301,17 +312,18 @@ public class DataSetReportService {
   /**
    * This method load all needed objects from the db for filling the tex template.
    *
-   * @param dataSetId An id of the data acquision project id.
+   * @param dataSetId the id of the dataset.
+   * @param version The version of the report as it is displayed in the title.
    * @return A HashMap with all data for the template filling. The Key is the name of the Object,
    *         which is used in the template.
    */
-  private Map<String, Object> loadDataForTemplateFilling(String dataSetId) {
+  private Map<String, Object> loadDataForTemplateFilling(String dataSetId, String version) {
 
     // Create Map for the template
     Map<String, Object> dataForTemplate = new HashMap<>();
 
     // Create Information for the latex template.
-    dataForTemplate = this.addStudyAndDataSetAndLastRelease(dataForTemplate, dataSetId);
+    dataForTemplate = this.addStudyAndDataSetAndLastRelease(dataForTemplate, dataSetId, version);
     dataForTemplate = this.createVariableDependingMaps(dataForTemplate);
 
     return dataForTemplate;
@@ -323,27 +335,25 @@ public class DataSetReportService {
    *
    * @param dataForTemplate The map for the template with all added objects before this method.
    * @param dataSetId The id of the used data set; Root Element of the report.
+   * @param version The version of the report as it is displayed in the title.
    * @return The map for the template as fluent result. Added some created elements within this
    *         method.
    */
   private Map<String, Object> addStudyAndDataSetAndLastRelease(Map<String, Object> dataForTemplate,
-      String dataSetId) {
+      String dataSetId, String version) {
     // Get DataSet and check the valid result
     DataSet dataSet = this.dataSetRepository.findById(dataSetId).orElse(null);
     Study study;
-    Release lastRelease;
 
     if (dataSet != null) {
       study = this.studyRepository.findById(dataSet.getStudyId()).orElse(null);
-      lastRelease = projectVersionsService.findLastRelease(dataSet.getDataAcquisitionProjectId());
     } else {
       study = null;
-      lastRelease = null;
     }
 
     dataForTemplate.put("study", study);
     dataForTemplate.put("dataSet", dataSet);
-    dataForTemplate.put("lastRelease", lastRelease);
+    dataForTemplate.put("version", version);
 
     return dataForTemplate;
   }
@@ -355,7 +365,7 @@ public class DataSetReportService {
    * variable has (key is variable.id) firstTenValues: The first ten isAMissing values for one tex
    * template layout. (key is variable.id) lastTenValues: The last ten isAMissing values for one tex
    * template layout. (key is variable.id)
-   * 
+   *
    * @param dataForTemplate The map for the template with all added objects before this method.
    * @return The map for the template as fluent result. Added some created elements within this
    *         method.
@@ -454,5 +464,38 @@ public class DataSetReportService {
 
       return variable.getId();
     }
+  }
+
+  /**
+   * Start the container which builds the report. Either via cloudfoundry or locally via docker.
+   *
+   * @param dataSetId The id of the dataSet for which the report will be generated.
+   * @param version The version of the dataset report.
+   * @param onBehalfOf The name of the user which wants to generate the report.
+   * @throws IOException in case the local task cannot be started
+   */
+  public void startDataSetReportTask(String dataSetId, String version, String onBehalfOf)
+      throws IOException {
+    if (environment.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {
+      log.debug("Starting docker container from image dataset-report-task...");
+      RunProcess dataSetReportTaskContainer = new RunProcess(
+          "src/main/resources/bin/run-dataset-report-task.sh", dataSetId, version, onBehalfOf);
+      dataSetReportTaskContainer.run(false);
+    } else {
+      DatasetReportTask taskProperties = metadataManagementProperties.getDatasetReportTask();
+      log.debug("Starting cloudfoundry task {}...", taskProperties.getAppName());
+      cloudFoundryClient.tasks().create(CreateTaskRequest.builder()
+          .name(dataSetId + " for " + onBehalfOf)
+          .applicationId(getApplicationId(taskProperties.getAppName()))
+          .command(String.format(taskProperties.getStartCommand(), dataSetId, version, onBehalfOf))
+          .diskInMb(taskProperties.getDiskSizeInMb()).memoryInMb(taskProperties.getMemorySizeInMb())
+          .build()).block();
+    }
+  }
+
+  private String getApplicationId(String name) {
+    return cloudFoundryOperations.applications().list()
+        .filter(application -> application.getName().equalsIgnoreCase(name))
+        .map(ApplicationSummary::getId).single().block();
   }
 }

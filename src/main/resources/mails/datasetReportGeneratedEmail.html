@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="#{email.dataset-report-generated.title(${dataSetId})}">Datensatzreport
+	zu Datensatz erfolgreich erzeugt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+a {
+	text-decoration: none;
+	color: #006AB2;
+}
+
+body {
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+	color: black;
+}
+</style>
+</head>
+<body
+	style="font-family: Roboto, 'Helvetica Neue', sans-serif; color: black;">
+	<p th:text="#{email.dataset-report-generated.greeting(${user.login})}">
+		Liebe(r) rreitmann,</p>
+	<p>
+	<span th:text="#{email.dataset-report-generated.text}">Ihr
+		Datensatzreport wurde erfolgreich erzeugt und kann, wenn Sie
+		angemeldet sind, hier betrachted werden:</span>
+	<br />
+	<a th:href="@{|${baseUrl}/#!/${user.langKey}/data-sets/${dataSetId}|}"
+		th:text="#{email.dataset-report-generated.link(${dataSetId})}">Datensatzdetails
+		im MDM</a>
+	</p>
+	<p>
+		<span th:text="#{email.order.created.regards}">Grüße,</span> <br /> <em
+			th:text="#{email.signature}">Ihr FDZ-Team</em>
+	</p>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.surveymanagement.domain;
 
+import java.io.Serializable;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
@@ -16,7 +18,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class GeographicCoverage {
+public class GeographicCoverage implements Serializable {
+
+  private static final long serialVersionUID = -1832250913323007347L;
 
   /**
    * ISO 3166-1 alpha-2 country code.

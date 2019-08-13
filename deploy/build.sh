@@ -18,11 +18,7 @@ if [ -z ${PROFILE} ]; then
   exit -1
 fi
 echo "Going to run maven build with profile: ${PROFILE}"
-if [ -z ${COVERALLS_TOKEN} ]; then
-  mvn -P${PROFILE} clean package
-else
-  mvn -P${PROFILE} clean -DrepoToken=$COVERALLS_TOKEN package coveralls:report
-fi
+mvn --no-transfer-progress -P${PROFILE} clean package
 if [ $? -ne 0 ]; then
     echo "Maven build failed!"
     exit -1

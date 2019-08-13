@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Optional;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,19 @@ import freemarker.template.TemplateNotFoundException;
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class TaskServiceTest extends AbstractTest {
   @Autowired
-  private TaskService taskService;
+  private TaskManagementService taskService;
   @Autowired
   private TaskRepository taskRepo;
   @Autowired
-  CounterService counterService;
+  private CounterService counterService;
 
   @Before
   public void setUp() throws Exception {}
+  
+  @After
+  public void teardown() throws Exception {
+    taskRepo.deleteAll();
+  }
 
   @Test
   public void testCreateTask() {
@@ -62,7 +68,7 @@ public class TaskServiceTest extends AbstractTest {
     Task taskForDone = taskRepo.insert(Task.builder().id(id).state(TaskState.RUNNING).build());
     Task result = taskService.handleTaskDone(taskForDone, resultLocation);
     assertEquals(id, result.getId());
-    assertEquals(resultLocation, result.getLocation());
+    assertEquals("/public/files" + resultLocation, result.getLocation());
     assertEquals(TaskState.DONE, result.getState());
     assertNull(result.getErrorList());
 

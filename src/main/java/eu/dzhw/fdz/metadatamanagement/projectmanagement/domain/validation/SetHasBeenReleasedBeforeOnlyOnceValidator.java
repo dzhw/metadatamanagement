@@ -3,20 +3,19 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Ensure that there is enough information to display a histogram
  * for ratio variables.
  */
+@RequiredArgsConstructor
 public class SetHasBeenReleasedBeforeOnlyOnceValidator
     implements ConstraintValidator<SetHasBeenReleasedBeforeOnlyOnce, DataAcquisitionProject> {
 
-  @Autowired
-  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+  private final DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
   
   /*
    * (non-Javadoc)

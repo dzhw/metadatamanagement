@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.rest;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentVersionsService;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for retrieving previous version of the instrument domain object.
@@ -21,10 +21,10 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentVer
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class InstrumentVersionsResource {
 
-  @Autowired
-  private InstrumentVersionsService instrumentVersionsService;
+  private final InstrumentVersionsService instrumentVersionsService;
 
   /**
    * Get the previous 5 versions of the instrument.

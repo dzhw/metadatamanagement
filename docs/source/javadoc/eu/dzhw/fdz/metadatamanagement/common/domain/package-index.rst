@@ -20,8 +20,9 @@ Common domain objects which can be used in all other subdomains of this applicat
    Resolution
    ShadowCopyCreateNotAllowedException
    ShadowCopyDeleteNotAllowedException
-   ShadowCopyUpdateNotAllowedException
+   ShadowCopySaveNotAllowedException
    Task
    Task-TaskState
    Task-TaskType
+   TaskErrorNotification
 

@@ -24,11 +24,6 @@ angular.module('metadatamanagementApp').config(
           'sub-data-set': {
             'unknown-data-set-number': 'Der Subdatensatz aus der Zeile {{index}} in dem Arbeitsblatt "subDataSets" des Excel Dokumentes verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.',
             'citation-success-copy-to-clipboard': 'Die Zitation wurde erfolgreich in die Zwischenablage kopiert.'
-          },
-          'tex': {
-            'upload-terminated': 'Upload von Tex Template beendet!',
-            'saved': 'Tex Dokument erfolgreich erzeugt!',
-            'cancelled': 'Erzeugen von Tex Dokument Abgebrochen!'
           }
         },
         'home': {
@@ -98,7 +93,7 @@ angular.module('metadatamanagementApp').config(
             'true': 'Klicken zum maximieren',
             'false': 'Klicken zum minimieren'
           },
-          'generate-variable-report-tooltip': 'Klicken, um einen Datensatzreport zu erzeugen',
+          'generate-dataset-report-tooltip': 'Klicken, um den Datensatzreport für diesen Datensatz zu erzeugen',
           'not-released-toast': 'Der Datensatz "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
           'tooltips': {
             'data-sets': {
@@ -124,12 +119,10 @@ angular.module('metadatamanagementApp').config(
               'one': 'Klicken, um die Studie dieses Datensatzes anzuzeigen'
             },
             'get-data-set-tooltip': 'Klicken, um Informationen zum Datenzugang zu erhalten'
-          }
+          },
+          'report-generation-started-toast': 'Der Datensatzreport wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.'
         },
         'error': {
-          'files-in-template-zip-incomplete': 'Die bereitgestellten Dateien für die Erzeugung eines Datensatzreports sind unvollständig. Es fehlte die Datei: {{invalidValue}}',
-          'tex-template-error': 'Die Generierung eines Datensatzreports war nicht erfolgreich. Folgender Fehler trat auf: {{invalidValue}}',
-          'io-error': 'Ein Serverfehler ist aufgetreten. Der Report konnte nicht erzeugt werden.',
           'data-set': {
             'unique-data-set-number-in-project': 'Die Nummer des Datensatzes in innerhalb der Studie nicht eindeutig.',
             'id': {
@@ -309,6 +302,24 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'all-data-sets-deleted-toast': 'Alle Datensätze des Datenaufbereitungsprojekts "{{id}}" wurden gelöscht.'
+          },
+          'create-report': {
+            'title': 'Datensatzreport erzeugen',
+            'version': 'Version des Datensatzreports',
+            'error': {
+              'version': {
+                'not-empty': 'Die Version darf nicht leer sein.',
+                'pattern': 'Die Version muss von der Form "major.minor.patch" (z.B. "1.0.0") sein.',
+                'size': 'Die Version darf nicht länger als 32 Zeichen sein.'
+              }
+            },
+            'hints': {
+              'version': 'Geben Sie die Versionsnummer an, die auf der Titelseite des Datensatzreports angezeigt werden soll.'
+            },
+            'tooltip': {
+              'cancel': 'Klicken, um das Erzeugen des Datensatzreports abzubrechen.',
+              'ok': 'Klicken, um das Erzeugen des Datensatzreports zu starten.'
+            }
           }
         }
       //jscs:enable

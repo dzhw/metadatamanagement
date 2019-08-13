@@ -130,6 +130,12 @@ questionIds
 .. java:field:: @Indexed private List<String> questionIds
    :outertype: RelatedPublication
 
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: RelatedPublication
+
 sourceLink
 ^^^^^^^^^^
 

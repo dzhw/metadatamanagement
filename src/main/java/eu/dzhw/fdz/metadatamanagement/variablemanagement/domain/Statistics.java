@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.Size;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
@@ -15,7 +17,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
-public class Statistics {
+public class Statistics implements Serializable {
+
+  private static final long serialVersionUID = 3546740788424870277L;
 
   /**
    * The arithmetic mean of the values ({@link ValidResponse}s) of this {@link Variable}.

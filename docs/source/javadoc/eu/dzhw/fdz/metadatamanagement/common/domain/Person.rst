@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: javax.validation.constraints NotEmpty
 
 .. java:import:: org.javers.core.metamodel.annotation ValueObject
@@ -16,7 +18,7 @@ Person
 .. java:package:: eu.dzhw.fdz.metadatamanagement.common.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValueObject public class Person
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValueObject public class Person implements Serializable
 
    A representation of a person.
 
@@ -45,4 +47,10 @@ middleName
    :outertype: Person
 
    The middle name of the person.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Person
 

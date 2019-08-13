@@ -6,7 +6,6 @@
 * LICENSE file in the root directory of this source tree.
 */
 
-
 'use strict';
 
 var Lib = require('../../lib');
@@ -16,6 +15,8 @@ var fontAttrs = require('../font_attributes');
 var textposition = require('../../traces/scatter/attributes').textposition;
 var overrideAll = require('../../plot_api/edit_types').overrideAll;
 var templatedArray = require('../../plot_api/plot_template').templatedArray;
+
+var constants = require('./constants');
 
 var fontAttr = fontAttrs({
     description: [
@@ -38,18 +39,38 @@ var attrs = module.exports = overrideAll({
         description: [
             'Sets the mapbox access token to be used for this mapbox map.',
             'Alternatively, the mapbox access token can be set in the',
-            'configuration options under `mapboxAccessToken`.'
+            'configuration options under `mapboxAccessToken`.',
+            'Note that accessToken are only required when `style`',
+            '(e.g with values :', constants.styleValuesMapbox.join(', '), ')',
+            'and/or a layout layer references the Mapbox server.'
         ].join(' ')
     },
     style: {
         valType: 'any',
-        values: ['basic', 'streets', 'outdoors', 'light', 'dark', 'satellite', 'satellite-streets'],
-        dflt: 'basic',
+        values: constants.styleValuesMapbox.concat(constants.styleValuesNonMapbox),
+        dflt: constants.styleValueDflt,
         role: 'style',
         description: [
-            'Sets the Mapbox map style.',
-            'Either input one of the default Mapbox style names or the URL to a custom style',
-            'or a valid Mapbox style JSON.'
+            'Defines the map layers that are rendered by default below the trace layers defined in `data`,',
+            'which are themselves by default rendered below the layers defined in `layout.mapbox.layers`.',
+            '',
+            'These layers can be defined either explicitly as a Mapbox Style object which can contain multiple',
+            'layer definitions that load data from any public or private Tile Map Service (TMS or XYZ) or Web Map Service (WMS)',
+            'or implicitly by using one of the built-in style objects which use WMSes which do not require any',
+            'access tokens, or by using a default Mapbox style or custom Mapbox style URL, both of',
+            'which require a Mapbox access token',
+            '',
+            'Note that Mapbox access token can be set in the `accesstoken` attribute',
+            'or in the `mapboxAccessToken` config option.',
+            '',
+            'Mapbox Style objects are of the form described in the Mapbox GL JS documentation available at',
+            'https://docs.mapbox.com/mapbox-gl-js/style-spec',
+            '',
+            'The built-in plotly.js styles objects are:', constants.styleValuesNonMapbox.join(', '),
+            '',
+            'The built-in Mapbox styles are:', constants.styleValuesMapbox.join(', '),
+            '',
+            'Mapbox style URLs are of the form: mapbox://mapbox.mapbox-<name>-<version>'
         ].join(' ')
     },
 
@@ -100,12 +121,12 @@ var attrs = module.exports = overrideAll({
         },
         sourcetype: {
             valType: 'enumerated',
-            values: ['geojson', 'vector'],
+            values: ['geojson', 'vector', 'raster', 'image'],
             dflt: 'geojson',
             role: 'info',
             description: [
-                'Sets the source type for this layer.',
-                'Support for *raster*, *image* and *video* source types is coming soon.'
+                'Sets the source type for this layer,',
+                'that is the type of the layer data.'
             ].join(' ')
         },
 
@@ -114,9 +135,11 @@ var attrs = module.exports = overrideAll({
             role: 'info',
             description: [
                 'Sets the source data for this layer (mapbox.layer.source).',
-                'Source can be either a URL,',
-                'a geojson object (with `sourcetype` set to *geojson*)',
-                'or an array of tile URLS (with `sourcetype` set to *vector*).'
+                'When `sourcetype` is set to *geojson*, `source` can be a URL to a GeoJSON',
+                'or a GeoJSON object.',
+                'When `sourcetype` is set to *vector* or *raster*, `source` can be a URL or',
+                'an array of tile URLs.',
+                'When `sourcetype` is set to *image*, `source` can be a URL to an image.'
             ].join(' ')
         },
 
@@ -130,23 +153,46 @@ var attrs = module.exports = overrideAll({
             ].join(' ')
         },
 
+        sourceattribution: {
+            valType: 'string',
+            role: 'info',
+            description: [
+                'Sets the attribution for this source.'
+            ].join(' ')
+        },
+
         type: {
             valType: 'enumerated',
-            values: ['circle', 'line', 'fill', 'symbol'],
+            values: ['circle', 'line', 'fill', 'symbol', 'raster'],
             dflt: 'circle',
             role: 'info',
             description: [
-                'Sets the layer type (mapbox.layer.type).',
-                'Support for *raster*, *background* types is coming soon.',
-                'Note that *line* and *fill* are not compatible with Point',
-                'GeoJSON geometries.'
+                'Sets the layer type,',
+                'that is the how the layer data set in `source` will be rendered',
+                'With `sourcetype` set to *geojson*, the following values are allowed:',
+                '*circle*, *line*, *fill* and *symbol*.',
+                'but note that *line* and *fill* are not compatible with Point',
+                'GeoJSON geometries.',
+                'With `sourcetype` set to *vector*, the following values are allowed:',
+                ' *circle*, *line*, *fill* and *symbol*.',
+                'With `sourcetype` set to *raster* or `*image*`, only the *raster* value is allowed.'
+            ].join(' ')
+        },
+
+        coordinates: {
+            valType: 'any',
+            role: 'info',
+            description: [
+                'Sets the coordinates array contains [longitude, latitude] pairs',
+                'for the image corners listed in clockwise order:',
+                'top left, top right, bottom right, bottom left.',
+                'Only has an effect for *image* `sourcetype`.'
             ].join(' ')
         },
 
         // attributes shared between all types
         below: {
             valType: 'string',
-            dflt: '',
             role: 'info',
             description: [
                 'Determines if the layer will be inserted',

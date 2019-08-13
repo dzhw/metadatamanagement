@@ -71,7 +71,6 @@ public class SurveyResourceTest extends AbstractTest {
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
-    elasticsearchAdminService.recreateAllIndices();
   }
 
   @After
@@ -79,6 +78,7 @@ public class SurveyResourceTest extends AbstractTest {
     rdcProjectRepository.deleteAll();
     surveyRepository.deleteAll();
     elasticsearchUpdateQueueService.clearQueue();
+    elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
   }
 
@@ -104,7 +104,6 @@ public class SurveyResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one survey document
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
   
@@ -290,7 +289,6 @@ public class SurveyResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there are no more survey documents
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
   }
 
@@ -328,7 +326,6 @@ public class SurveyResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one survey documents
-    elasticsearchAdminService.refreshAllIndices();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
   }
 
@@ -381,7 +378,7 @@ public class SurveyResourceTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(survey))
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-update-not-allowed")));
+        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-save-not-allowed")));
   }
 
   @Test

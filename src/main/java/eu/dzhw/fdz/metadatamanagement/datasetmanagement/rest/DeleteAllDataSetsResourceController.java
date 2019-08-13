@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetService;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetManagementService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for deleting data sets of a data acquisition project.
@@ -20,9 +20,10 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class DeleteAllDataSetsResourceController {
-  @Autowired
-  private DataSetService dataSetService;
+ 
+  private final DataSetManagementService dataSetService;
 
   /**
    * delete all data sets from data acquisition project.

@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,16 +24,17 @@ import org.springframework.web.util.UriUtils;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.RequiredArgsConstructor;
 
 /**
  * REST controller for uploading an study attachment.
  */
 @Controller
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class StudyAttachmentResource {
 
-  @Autowired
-  private StudyAttachmentService studyAttachmentService;
+  private final StudyAttachmentService studyAttachmentService;
 
   /**
    * REST method for for uploading an study attachment.

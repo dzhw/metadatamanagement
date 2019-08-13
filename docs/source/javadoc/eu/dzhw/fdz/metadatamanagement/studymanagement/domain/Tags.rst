@@ -1,10 +1,12 @@
-.. java:import:: lombok Data
+.. java:import:: java.io Serializable
 
-.. java:import:: lombok NoArgsConstructor
+.. java:import:: java.util Set
 
 .. java:import:: javax.validation.constraints NotEmpty
 
-.. java:import:: java.util Set
+.. java:import:: lombok Data
+
+.. java:import:: lombok NoArgsConstructor
 
 Tags
 ====
@@ -12,7 +14,7 @@ Tags
 .. java:package:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain
    :noindex:
 
-.. java:type:: @Data @NoArgsConstructor public class Tags
+.. java:type:: @Data @NoArgsConstructor public class Tags implements Serializable
 
    Contains tags associated with a study.
 
@@ -33,4 +35,10 @@ en
    :outertype: Tags
 
    English tags (optional).
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: Tags
 

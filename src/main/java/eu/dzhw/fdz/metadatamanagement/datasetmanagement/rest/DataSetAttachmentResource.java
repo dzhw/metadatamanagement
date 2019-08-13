@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,16 +24,17 @@ import org.springframework.web.util.UriUtils;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import lombok.RequiredArgsConstructor;
 
 /**
  * REST controller for uploading an data sets attachment.
  */
 @Controller
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class DataSetAttachmentResource {
 
-  @Autowired
-  private DataSetAttachmentService dataSetAttachmentService;
+  private final DataSetAttachmentService dataSetAttachmentService;
 
   /**
    * REST method for for uploading an dataSet attachment.

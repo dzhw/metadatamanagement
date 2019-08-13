@@ -8,3 +8,11 @@ OrderAlreadyCompletedException
 
    Orders with \ :java:ref:`OrderState.ORDERED`\  must not be updated. This exception should be thrown whenever an update attempt is made on such orders.
 
+Fields
+------
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: OrderAlreadyCompletedException
+

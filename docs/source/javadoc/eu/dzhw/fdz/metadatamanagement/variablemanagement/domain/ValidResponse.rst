@@ -1,3 +1,5 @@
+.. java:import:: java.io Serializable
+
 .. java:import:: javax.validation.constraints NotEmpty
 
 .. java:import:: javax.validation.constraints NotNull
@@ -24,7 +26,7 @@ ValidResponse
 .. java:package:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain
    :noindex:
 
-.. java:type:: @Data @NoArgsConstructor @AllArgsConstructor @Builder public class ValidResponse
+.. java:type:: @Data @NoArgsConstructor @AllArgsConstructor @Builder public class ValidResponse implements Serializable
 
    A valid response represents one observation of a \ :java:ref:`Variable`\  and its frequency.
 
@@ -53,6 +55,12 @@ relativeFrequency
    :outertype: ValidResponse
 
    The quotient from absoluteFrequency and \ :java:ref:`Distribution`\ .totalAbsoluteFrequency. Must not be empty.
+
+serialVersionUID
+^^^^^^^^^^^^^^^^
+
+.. java:field:: private static final long serialVersionUID
+   :outertype: ValidResponse
 
 validRelativeFrequency
 ^^^^^^^^^^^^^^^^^^^^^^

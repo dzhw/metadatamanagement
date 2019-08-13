@@ -22,7 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.In
  * @author Daniel Katzberg
  *
  */
-@RepositoryRestResource(path = "/instruments")
+@RepositoryRestResource(path = "/instruments", excerptProjection = IdAndVersionProjection.class)
 @JaversSpringDataAuditable
 public interface InstrumentRepository extends BaseRepository<Instrument, String> {
 
@@ -99,6 +99,6 @@ public interface InstrumentRepository extends BaseRepository<Instrument, String>
   List<IdAndVersionProjection> findIdsByConceptIdsContaining(String id);
 
   @RestResource(exported = false)
-  List<IdAndVersionProjection> deleteByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+  Stream<Instrument> findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
       String dataAcquisitionProjectId);
 }

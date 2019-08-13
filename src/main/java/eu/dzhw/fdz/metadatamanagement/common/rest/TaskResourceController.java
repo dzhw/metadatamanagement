@@ -1,28 +1,52 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.net.URI;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
-import eu.dzhw.fdz.metadatamanagement.common.repository.TaskRepository;
+import eu.dzhw.fdz.metadatamanagement.common.domain.TaskErrorNotification;
+import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
+import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 
 /**
- * Rest controller to request task status.
+ * Task REST Controller.
  * 
- * @author tgehrke
- *
+ * @author René Reitmann
  */
 @RestController
 @RequestMapping("/api")
 public class TaskResourceController
-    extends GenericDomainObjectResourceController<Task, TaskRepository> {
-  @Autowired
-  public TaskResourceController(TaskRepository taskRepo) {
-    super(taskRepo);
+    extends GenericDomainObjectResourceController<Task, TaskManagementService> {
+  private final UserService userService;
+
+  private final TaskManagementService taskService;
+
+  /**
+   * Construct the controller.
+   */
+  public TaskResourceController(CrudService<Task> crudService,
+      UserInformationProvider userInformationProvider, UserService userService,
+      TaskManagementService taskService) {
+    super(crudService, userInformationProvider);
+    this.userService = userService;
+    this.taskService = taskService;
   }
 
   /**
@@ -31,8 +55,38 @@ public class TaskResourceController
    * @param taskId the Id of the task.
    * @return the task object.
    */
+  @Override
   @GetMapping("/tasks/{taskId}")
-  public ResponseEntity<Task> getTaskStatus(@PathVariable String taskId) {
-    return super.findDomainObject(taskId);
+  public ResponseEntity<Task> getDomainObject(@PathVariable String taskId) {
+    return super.getDomainObject(taskId);
+  }
+
+  /**
+   * Notify admins and optionally the user for whom the task was executed about an error.
+   * 
+   * @param errorNotification A valid {@link TaskErrorNotification} object.
+   */
+  @PostMapping("/tasks/error-notification")
+  @Secured(value = {AuthoritiesConstants.TASK_USER})
+  public ResponseEntity<?> getTaskStatus(
+      @RequestBody @Valid TaskErrorNotification errorNotification) {
+    if (StringUtils.isEmpty(errorNotification.getOnBehalfOf())) {
+      taskService.handleErrorNotification(errorNotification, null);
+    } else {
+      Optional<User> user =
+          userService.getUserWithAuthoritiesByLogin(errorNotification.getOnBehalfOf());
+      if (user.isPresent()) {
+        taskService.handleErrorNotification(errorNotification, user.get());
+      } else {
+        return ResponseEntity.badRequest()
+            .body("User with name '" + errorNotification.getOnBehalfOf() + "' does not exist!");
+      }
+    }
+    return ResponseEntity.ok().build();
+  }
+
+  @Override
+  protected URI buildLocationHeaderUri(Task domainObject) {
+    return UriComponentsBuilder.fromPath("/api/tasks/" + domainObject.getId()).build().toUri();
   }
 }

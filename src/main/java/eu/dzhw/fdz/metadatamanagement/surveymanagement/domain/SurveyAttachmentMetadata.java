@@ -34,6 +34,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject {
+
+  private static final long serialVersionUID = 4120776761095347391L;
+
   /**
    * The id of the attachment. Holds the complete path which can be used to download the file.
    */

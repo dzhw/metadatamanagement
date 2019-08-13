@@ -1,4 +1,5 @@
 'use strict';
+/*globals Promise */
 
 var JSZipUtils = {};
 // just use the responseText with xhr1, response with xhr2.
@@ -24,7 +25,7 @@ function createActiveXHR() {
 }
 
 // Create the request object
-var createXHR = window.ActiveXObject ?
+var createXHR = (typeof window !== "undefined" && window.ActiveXObject) ?
     /* Microsoft failed to properly
      * implement the XMLHttpRequest in IE7 (can't request local files),
      * so we use the ActiveXObject when it is available
@@ -38,8 +39,38 @@ var createXHR = window.ActiveXObject ?
     createStandardXHR;
 
 
+/**
+ * @param  {string} path    The path to the resource to GET.
+ * @param  {function|{callback: function, progress: function}} options
+ * @return {Promise|undefined} If no callback is passed then a promise is returned
+ */
+JSZipUtils.getBinaryContent = function (path, options) {
+    var promise, resolve, reject;
+    var callback;
 
-JSZipUtils.getBinaryContent = function(path, callback) {
+    if (!options) {
+        options = {};
+    }
+
+    // backward compatible callback
+    if (typeof options === "function") {
+        callback = options;
+        options = {};
+    } else if (typeof options.callback === 'function') {
+        // callback inside options object
+        callback = options.callback;
+    }
+
+    if (!callback && typeof Promise !== "undefined") {
+        promise = new Promise(function (_resolve, _reject) {
+            resolve = _resolve;
+            reject = _reject;
+        });
+    } else {
+        resolve = function (data) { callback(null, data); };
+        reject = function (err) { callback(err, null); };
+    }
+
     /*
      * Here is the tricky part : getting the data.
      * In firefox/chrome/opera/... setting the mimeType to 'text/plain; charset=x-user-defined'
@@ -55,7 +86,6 @@ JSZipUtils.getBinaryContent = function(path, callback) {
      * the responseType attribute : http://bugs.jquery.com/ticket/11461
      */
     try {
-
         var xhr = createXHR();
 
         xhr.open('GET', path, true);
@@ -70,30 +100,42 @@ JSZipUtils.getBinaryContent = function(path, callback) {
             xhr.overrideMimeType("text/plain; charset=x-user-defined");
         }
 
-        xhr.onreadystatechange = function(evt) {
-            var file, err;
+        xhr.onreadystatechange = function (event) {
             // use `xhr` and not `this`... thanks IE
             if (xhr.readyState === 4) {
                 if (xhr.status === 200 || xhr.status === 0) {
-                    file = null;
-                    err = null;
                     try {
-                        file = JSZipUtils._getBinaryFromXHR(xhr);
-                    } catch(e) {
-                        err = new Error(e);
+                        resolve(JSZipUtils._getBinaryFromXHR(xhr));
+                    } catch(err) {
+                        reject(new Error(err));
                     }
-                    callback(err, file);
                 } else {
-                    callback(new Error("Ajax error for " + path + " : " + this.status + " " + this.statusText), null);
+                    reject(new Error("Ajax error for " + path + " : " + this.status + " " + this.statusText));
                 }
             }
         };
 
+        if(options.progress) {
+            xhr.onprogress = function(e) {
+                options.progress({
+                    path: path,
+                    originalEvent: e,
+                    percent: e.loaded / e.total * 100,
+                    loaded: e.loaded,
+                    total: e.total
+                });
+            };
+        }
+
         xhr.send();
 
     } catch (e) {
-        callback(new Error(e), null);
+        reject(new Error(e), null);
     }
+
+    // returns a promise or undefined depending on whether a callback was
+    // provided
+    return promise;
 };
 
 // export
