@@ -1,10 +1,10 @@
-/* globals _ */
+/* globals _, bowser */
 'use strict';
 
 angular.module('metadatamanagementApp').controller('AttachmentDialogController',
   function(dialogConfig, isoLanguages, CommonDialogsService, LanguageService,
             SimpleMessageToastService, $scope, $mdDialog) {
-
+    $scope.bowser = bowser;
     var ctrl = this;
     var isInitialisingSelectedLanguage = false;
     var uploadFile = dialogConfig.uploadCallback;
