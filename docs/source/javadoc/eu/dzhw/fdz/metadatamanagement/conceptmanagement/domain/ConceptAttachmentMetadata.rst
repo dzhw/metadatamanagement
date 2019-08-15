@@ -107,7 +107,7 @@ serialVersionUID
 title
 ^^^^^
 
-.. java:field:: @Size private String title
+.. java:field:: @NotEmpty @Size private String title
    :outertype: ConceptAttachmentMetadata
 
    An optional title of this attachment in the attachments' language. It must not contain more than 2048 characters.

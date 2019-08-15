@@ -5,14 +5,22 @@ angular.module('metadatamanagementApp')
   .controller('ConceptEditOrCreateController',
     function(entity, PageTitleService, $document, $timeout,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-      ConceptResource, ConceptSearchService, $scope,
-      ElasticSearchAdminService, $mdDialog, $transitions,
-      CommonDialogsService, LanguageService,
-      ConceptAttachmentResource, $q) {
+      ConceptResource, ConceptSearchService, $scope, $q,
+      ElasticSearchAdminService, $transitions,
+      CommonDialogsService, LanguageService, ConceptAttachmentUploadService,
+      ConceptAttachmentResource, AttachmentDialogService,
+      ConceptAttachmentVersionsResource, ChoosePreviousVersionService,
+      ConceptVersionsResource) {
 
       var ctrl = this;
 
       ctrl.conceptTagSearch = ConceptSearchService.findTags;
+
+      var conceptAttachmentTypes = [
+        {de: 'Dokumentation', en: 'Documentation'},
+        {de: 'Instrument', en: 'Instrument'},
+        {de: 'Sonstiges', en: 'Other'}
+      ];
 
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
@@ -120,6 +128,28 @@ angular.module('metadatamanagementApp')
         }, 500);
       };
 
+      var getDialogLabels = function() {
+        return {
+          createTitle: {
+            key: 'concept-management.detail.attachments.create-title',
+            params: {
+              conceptId: ctrl.concept.id
+            }
+          },
+          editTitle: {
+            key: 'concept-management.detail.attachments.edit-title',
+            params: {
+              conceptId: ctrl.concept.id
+            }
+          },
+          hints: {
+            file: {
+              key: 'concept-management.detail.attachments.hints.filename'
+            }
+          }
+        };
+      };
+
       ctrl.moveCurrentAuthorUp = function() {
         var a = ctrl.concept.authors[ctrl.currentAuthorIndex - 1];
         ctrl.concept.authors[ctrl.currentAuthorIndex - 1] =
@@ -192,33 +222,67 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.openRestorePreviousVersionDialog = function(event) {
-        $mdDialog.show({
-            controller: 'ChoosePreviousConceptVersionController',
-            templateUrl: 'scripts/conceptmanagement/' +
-              'views/choose-previous-concept-version.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              conceptId: ctrl.concept.id
+        var getVersions = function(id, limit, skip) {
+          return ConceptVersionsResource.get({
+            id: id,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var dialogConfig = {
+          domainId: ctrl.concept.id,
+          getPreviousVersionsCallback: getVersions,
+          labels: {
+            title: {
+              key: 'concept-management.edit.choose-previous-version.' +
+                  'title',
+              params: {
+                conceptId: ctrl.concept.id
+              }
             },
-            targetEvent: event
-          })
-          .then(function(conceptWrapper) {
-            ctrl.concept = new ConceptResource(conceptWrapper.concept);
-            if (conceptWrapper.isCurrentVersion) {
-              $scope.conceptForm.$setPristine();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'concept-management.edit.current-version-restored-toast', {
-                  conceptId: ctrl.concept.id
-                });
-            } else {
-              $scope.conceptForm.$setDirty();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'concept-management.edit.previous-version-restored-toast', {
-                  conceptId: ctrl.concept.id
-                });
+            text: {
+              key: 'concept-management.edit.choose-previous-version.text'
+            },
+            cancelTooltip: {
+              key: 'concept-management.edit.choose-previous-version.' +
+                  'cancel-tooltip'
+            },
+            noVersionsFound: {
+              key: 'concept-management.edit.choose-previous-version.' +
+                  'no-versions-found',
+              params: {
+                conceptId: ctrl.concept.id
+              }
+            },
+            deleted: {
+              key: 'concept-management.edit.choose-previous-version.' +
+                  'concept-deleted'
             }
-          });
+          },
+          versionLabelAttribute: 'title'
+        };
+
+        ChoosePreviousVersionService.showDialog(dialogConfig, event)
+            .then(function(wrapper) {
+              ctrl.concept = new ConceptResource(
+                wrapper.selection);
+              if (wrapper.isCurrentVersion) {
+                $scope.conceptForm.$setPristine();
+                SimpleMessageToastService.openSimpleMessageToast(
+                  'concept-management.edit.current-version-restored-toast',
+                  {
+                    conceptId: ctrl.concept.id
+                  });
+              } else {
+                $scope.conceptForm.$setDirty();
+                SimpleMessageToastService.openSimpleMessageToast(
+                  'concept-management.edit.previous-version-restored-toast',
+                  {
+                    conceptId: ctrl.concept.id
+                  });
+              }
+            });
       };
 
       $scope.registerConfirmOnDirtyHook = function() {
@@ -263,20 +327,41 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.editAttachment = function(attachment, event) {
-        $mdDialog.show({
-          controller: 'ConceptAttachmentEditOrCreateController',
-          controllerAs: 'ctrl',
-          templateUrl: 'scripts/conceptmanagement/' +
-            'views/concept-attachment-edit-or-create.html.tmpl',
-          clickOutsideToClose: false,
-          fullscreen: true,
-          locals: {
-            conceptAttachmentMetadata: attachment
-          },
-          targetEvent: event
-        }).then(function() {
-          ctrl.loadAttachments();
-        });
+        var upload = function(file, newAttachmentMetadata) {
+          var metadata = _.extend(attachment, newAttachmentMetadata);
+          return ConceptAttachmentUploadService.uploadAttachment(file,
+              metadata);
+        };
+
+        var labels = getDialogLabels();
+        labels.editTitle.params.filename = attachment.fileName;
+
+        var getAttachmentVersions = function(id, filename, limit, skip) {
+          return ConceptAttachmentVersionsResource.get({
+            conceptId: id,
+            filename: filename,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var createConceptAttachmentResource = function(attachmentWrapper) {
+          return new ConceptAttachmentResource(attachmentWrapper
+              .studyAttachment);
+        };
+
+        var dialogConfig = {
+          attachmentMetadata: attachment,
+          attachmentTypes: conceptAttachmentTypes,
+          uploadCallback: upload,
+          labels: labels,
+          attachmentDomainIdAttribute: 'conceptId',
+          getAttachmentVersionsCallback: getAttachmentVersions,
+          createAttachmentResource: createConceptAttachmentResource
+        };
+
+        AttachmentDialogService.showDialog(dialogConfig, event)
+            .then(ctrl.loadAttachments);
       };
 
       ctrl.getNextIndexInConcept = function() {
@@ -289,23 +374,27 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.addAttachment = function(event) {
-        $mdDialog.show({
-          controller: 'ConceptAttachmentEditOrCreateController',
-          controllerAs: 'ctrl',
-          templateUrl: 'scripts/conceptmanagement/' +
-            'views/concept-attachment-edit-or-create.html.tmpl',
-          clickOutsideToClose: false,
-          fullscreen: true,
-          locals: {
-            conceptAttachmentMetadata: {
-              indexInConcept: ctrl.getNextIndexInConcept(),
-              conceptId: ctrl.concept.id
-            }
-          },
-          targetEvent: event
-        }).then(function() {
-          ctrl.loadAttachments(true);
-        });
+        var upload = function(file, attachmentMetadata) {
+          var metadata = _.extend({}, attachmentMetadata, {
+            conceptId: ctrl.concept.id,
+            indexInConcept: ctrl.getNextIndexInConcept()
+          });
+          return ConceptAttachmentUploadService.uploadAttachment(file,
+              metadata);
+        };
+
+        var dialogConfig = {
+          attachmentMetadata: null,
+          attachmentTypes: conceptAttachmentTypes,
+          uploadCallback: upload,
+          labels: getDialogLabels()
+        };
+
+        AttachmentDialogService
+            .showDialog(dialogConfig, event)
+            .then(function() {
+              ctrl.loadAttachments(true);
+            });
       };
 
       ctrl.moveAttachmentUp = function() {

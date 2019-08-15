@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
+import eu.dzhw.fdz.metadatamanagement.common.repository.TaskRepository;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository.ConceptRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
@@ -80,8 +81,9 @@ public abstract class AbstractTest {
 
   @Autowired
   private Javers javers;
+
   @Autowired
-  private SurveyRepository taskRepository;
+  private TaskRepository taskRepository;
 
   @After
   public void ensureAllDataStoresHaveBeenCleanedUp() {

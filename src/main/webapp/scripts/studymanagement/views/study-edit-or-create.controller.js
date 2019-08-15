@@ -6,15 +6,44 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, $document, $timeout,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       CurrentProjectService, StudyIdBuilderService, StudyResource, $scope,
-      ElasticSearchAdminService, $mdDialog, $transitions,
+      ElasticSearchAdminService, $transitions,
       CommonDialogsService, LanguageService, StudySearchService,
       StudyAttachmentResource, $q, CleanJSObjectService,
-      DataAcquisitionProjectResource, ProjectUpdateAccessService) {
+      DataAcquisitionProjectResource, ProjectUpdateAccessService,
+      AttachmentDialogService, StudyAttachmentUploadService,
+      StudyAttachmentVersionsResource, ChoosePreviousVersionService,
+      StudyVersionsResource) {
 
       var ctrl = this;
       var studySeriesCache = {};
       var sponsorsCache = {};
       var institutionCache = {};
+      var attachmentTypes = [
+        {de: 'Daten- und Methodenbericht', en: 'Method Report'},
+        {de: 'Sonstiges', en: 'Other'}
+      ];
+
+      var getDialogLabels = function() {
+        return {
+          createTitle: {
+            key: 'study-management.detail.attachments.create-title',
+            params: {
+              studyId: ctrl.study.id
+            }
+          },
+          editTitle: {
+            key: 'study-management.detail.attachments.edit-title',
+            params: {
+              studyId: ctrl.study.id
+            }
+          },
+          hints: {
+            file: {
+              key: 'study-management.detail.attachments.hints.filename'
+            }
+          }
+        };
+      };
 
       ctrl.findTags = StudySearchService.findTags;
 
@@ -268,31 +297,59 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.openRestorePreviousVersionDialog = function(event) {
-        $mdDialog.show({
-            controller: 'ChoosePreviousStudyVersionController',
-            templateUrl: 'scripts/studymanagement/' +
-              'views/choose-previous-study-version.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              studyId: ctrl.study.id
+        var getVersions = function(id, limit, skip) {
+          return StudyVersionsResource.get({
+            id: id,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var dialogConfig = {
+          domainId: ctrl.study.id,
+          getPreviousVersionsCallback: getVersions,
+          labels: {
+            title: {
+              key: 'study-management.edit.choose-previous-version.title',
+              params: {
+                studyId: ctrl.study.id
+              }
             },
-            targetEvent: event
-          })
-          .then(function(studyWrapper) {
-            ctrl.study = new StudyResource(studyWrapper.study);
-            if (studyWrapper.isCurrentVersion) {
+            text: {
+              key: 'study-management.edit.choose-previous-version.text'
+            },
+            cancelTooltip: {
+              key: 'study-management.edit.choose-previous-version.' +
+                  'cancel-tooltip'
+            },
+            noVersionsFound: {
+              key: 'study-management.edit.choose-previous-version.' +
+                  'no-versions-found',
+              params: {
+                studyId: ctrl.study.id
+              }
+            },
+            deleted: {
+              key: 'study-management.edit.choose-previous-version.study-deleted'
+            }
+          }
+        };
+
+        ChoosePreviousVersionService.showDialog(dialogConfig, event)
+          .then(function(wrapper) {
+            ctrl.study = new StudyResource(wrapper.selection);
+            if (wrapper.isCurrentVersion) {
               $scope.studyForm.$setPristine();
               SimpleMessageToastService.openSimpleMessageToast(
-                'study-management.edit.current-version-restored-toast', {
-                  studyId: ctrl.study.id
-                });
+                  'study-management.edit.current-version-restored-toast', {
+                    studyId: ctrl.study.id
+                  });
             } else {
               $scope.studyForm.$setDirty();
               SimpleMessageToastService.openSimpleMessageToast(
-                'study-management.edit.previous-version-restored-toast', {
-                  studyId: ctrl.study.id
-                });
+                  'study-management.edit.previous-version-restored-toast', {
+                    studyId: ctrl.study.id
+                  });
             }
           });
       };
@@ -389,20 +446,40 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.editAttachment = function(attachment, event) {
-        $mdDialog.show({
-          controller: 'StudyAttachmentEditOrCreateController',
-          controllerAs: 'ctrl',
-          templateUrl: 'scripts/studymanagement/' +
-            'views/study-attachment-edit-or-create.html.tmpl',
-          clickOutsideToClose: false,
-          fullscreen: true,
-          locals: {
-            studyAttachmentMetadata: attachment
-          },
-          targetEvent: event
-        }).then(function() {
-          ctrl.loadAttachments();
-        });
+
+        var upload = function(file, newAttachmentMetadata) {
+          var metadata = _.extend(attachment, newAttachmentMetadata);
+          return StudyAttachmentUploadService.uploadAttachment(file, metadata);
+        };
+
+        var labels = getDialogLabels();
+        labels.editTitle.params.filename = attachment.fileName;
+
+        var getAttachmentVersions = function(id, filename, limit, skip) {
+          return StudyAttachmentVersionsResource.get({
+                studyId: id,
+                filename: filename,
+                limit: limit,
+                skip: skip
+              }).$promise;
+        };
+
+        var createStudyAttachmentResource = function(attachmentWrapper) {
+          return new StudyAttachmentResource(attachmentWrapper.studyAttachment);
+        };
+
+        var dialogConfig = {
+          attachmentMetadata: attachment,
+          attachmentTypes: attachmentTypes,
+          uploadCallback: upload,
+          attachmentDomainIdAttribute: 'studyId',
+          getAttachmentVersionsCallback: getAttachmentVersions,
+          createAttachmentResource: createStudyAttachmentResource,
+          labels: labels
+        };
+
+        AttachmentDialogService.showDialog(dialogConfig, event)
+          .then(ctrl.loadAttachments);
       };
 
       ctrl.getNextIndexInStudy = function() {
@@ -415,24 +492,28 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.addAttachment = function(event) {
-        $mdDialog.show({
-          controller: 'StudyAttachmentEditOrCreateController',
-          controllerAs: 'ctrl',
-          templateUrl: 'scripts/studymanagement/' +
-            'views/study-attachment-edit-or-create.html.tmpl',
-          clickOutsideToClose: false,
-          fullscreen: true,
-          locals: {
-            studyAttachmentMetadata: {
-              indexInStudy: ctrl.getNextIndexInStudy(),
-              studyId: ctrl.study.id,
-              dataAcquisitionProjectId: ctrl.study.dataAcquisitionProjectId
-            }
-          },
-          targetEvent: event
-        }).then(function() {
-          ctrl.loadAttachments(true);
-        });
+
+        var upload = function(file, attachmentMetadata) {
+          var metadata = _.extend({}, attachmentMetadata, {
+            studyId: ctrl.study.id,
+            dataAcquisitionProjectId: ctrl.study.dataAcquisitionProjectId,
+            indexInStudy: ctrl.getNextIndexInStudy()
+          });
+          return StudyAttachmentUploadService.uploadAttachment(file, metadata);
+        };
+
+        var dialogConfig = {
+          attachmentMetadata: null,
+          attachmentTypes: attachmentTypes,
+          uploadCallback: upload,
+          labels: getDialogLabels()
+        };
+
+        AttachmentDialogService
+          .showDialog(dialogConfig, event)
+          .then(function() {
+            ctrl.loadAttachments(true);
+          });
       };
 
       ctrl.moveAttachmentUp = function() {

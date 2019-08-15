@@ -26,8 +26,8 @@ angular.module('metadatamanagementApp')
       };
 
       var versionFromUrl = $stateParams.version;
-      var activeProject;
       var ctrl = this;
+      var activeProject;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.projectIsCurrentlyReleased = true;
@@ -85,6 +85,7 @@ angular.module('metadatamanagementApp')
           }).$promise.then(function(project) {
             ctrl.projectIsCurrentlyReleased = (project.release != null);
             ctrl.assigneeGroup = project.assigneeGroup;
+            activeProject = project;
           });
         }
 

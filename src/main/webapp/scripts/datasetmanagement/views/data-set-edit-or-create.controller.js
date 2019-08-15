@@ -11,8 +11,9 @@ angular.module('metadatamanagementApp')
       CommonDialogsService, LanguageService, AvailableDataSetNumbersResource,
       DataSetAttachmentResource, $q, StudyIdBuilderService, SearchDao,
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
-      DataFormatsResource) {
-
+      AttachmentDialogService, DataSetAttachmentUploadService,
+      DataSetAttachmentVersionsResource, ChoosePreviousVersionService,
+      DataSetVersionsResource, DataFormatsResource) {
       var ctrl = this;
       ctrl.surveyChips = [];
       ctrl.availableDataFormats = DataFormatsResource.query();
@@ -196,6 +197,28 @@ angular.module('metadatamanagementApp')
         }
       };
 
+      var getDialogLabels = function() {
+        return {
+          createTitle: {
+            key: 'data-set-management.detail.attachments.create-title',
+            params: {
+              dataSetId: ctrl.dataSet.id
+            }
+          },
+          editTitle: {
+            key: 'data-set-management.detail.attachments.edit-title',
+            params: {
+              dataSetId: ctrl.dataSet.id
+            }
+          },
+          hints: {
+            file: {
+              key: 'data-set-management.detail.attachments.hints.filename'
+            }
+          }
+        };
+      };
+
       ctrl.allAccessWays = ['download-cuf', 'download-suf',
         'remote-desktop-suf', 'onsite-suf'];
       $scope.$watch('ctrl.dataSet.subDataSets', function() {
@@ -324,37 +347,68 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.openRestorePreviousVersionDialog = function(event) {
-        $mdDialog.show({
-            controller: 'ChoosePreviousDataSetVersionController',
-            templateUrl: 'scripts/datasetmanagement/' +
-              'views/choose-previous-data-set-version.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              dataSetId: ctrl.dataSet.id
+        var getVersions = function(id, limit, skip) {
+          return DataSetVersionsResource.get({
+            id: id,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var dialogConfig = {
+          domainId: ctrl.dataSet.id,
+          getPreviousVersionsCallback: getVersions,
+          labels: {
+            title: {
+              key: 'data-set-management.edit.choose-previous-version.' +
+                  'title',
+              params: {
+                dataSetId: ctrl.dataSet.id
+              }
             },
-            targetEvent: event
-          })
-          .then(function(dataSetWrapper) {
-            ctrl.dataSet = new DataSetResource(
-              dataSetWrapper.dataSet);
-            ctrl.initSurveyChips();
-            if (dataSetWrapper.isCurrentVersion) {
-              $scope.dataSetForm.$setPristine();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'data-set-management.edit.current-version-restored-toast',
-                {
-                  dataSetId: ctrl.dataSet.id
-                });
-            } else {
-              $scope.dataSetForm.$setDirty();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'data-set-management.edit.previous-version-restored-toast',
-                {
-                  dataSetId: ctrl.dataSet.id
-                });
+            text: {
+              key: 'data-set-management.edit.choose-previous-version.text'
+            },
+            cancelTooltip: {
+              key: 'data-set-management.edit.choose-previous-version.' +
+                  'cancel-tooltip'
+            },
+            noVersionsFound: {
+              key: 'data-set-management.edit.choose-previous-version.' +
+                  'no-versions-found',
+              params: {
+                dataSetId: ctrl.dataSet.id
+              }
+            },
+            deleted: {
+              key: 'data-set-management.edit.choose-previous-version.' +
+                  'data-set-deleted'
             }
-          });
+          },
+          versionLabelAttribute: 'description'
+        };
+
+        ChoosePreviousVersionService.showDialog(dialogConfig, event)
+            .then(function(wrapper) {
+              ctrl.dataSet = new DataSetResource(
+                wrapper.selection);
+              ctrl.initSurveyChips();
+              if (wrapper.isCurrentVersion) {
+                $scope.dataSetForm.$setPristine();
+                SimpleMessageToastService.openSimpleMessageToast(
+                  'data-set-management.edit.current-version-restored-toast',
+                  {
+                    dataSetId: ctrl.dataSet.id
+                  });
+              } else {
+                $scope.dataSetForm.$setDirty();
+                SimpleMessageToastService.openSimpleMessageToast(
+                  'data-set-management.edit.previous-version-restored-toast',
+                  {
+                    dataSetId: ctrl.dataSet.id
+                  });
+              }
+            });
       };
 
       $scope.registerConfirmOnDirtyHook = function() {
@@ -397,20 +451,40 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.editAttachment = function(attachment, event) {
-        $mdDialog.show({
-            controller: 'DataSetAttachmentEditOrCreateController',
-            controllerAs: 'ctrl',
-            templateUrl: 'scripts/datasetmanagement/' +
-              'views/data-set-attachment-edit-or-create.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              dataSetAttachmentMetadata: attachment
-            },
-            targetEvent: event
-          }).then(function() {
-          ctrl.loadAttachments();
-        });
+        var upload = function(file, newAttachmentMetadata) {
+          var metadata = _.extend(attachment, newAttachmentMetadata);
+          return DataSetAttachmentUploadService.uploadAttachment(file,
+              metadata);
+        };
+
+        var labels = getDialogLabels();
+        labels.editTitle.params.filename = attachment.fileName;
+
+        var getAttachmentVersions = function(id, filename, limit, skip) {
+          return DataSetAttachmentVersionsResource.get({
+            dataSetId: id,
+            filename: filename,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var createDataSetAttachmentResource = function(attachmentWrapper) {
+          return new DataSetAttachmentResource(attachmentWrapper
+              .studyAttachment);
+        };
+
+        var dialogConfig = {
+          attachmentMetadata: attachment,
+          uploadCallback: upload,
+          labels: labels,
+          attachmentDomainIdAttribute: 'dataSetId',
+          getAttachmentVersionsCallback: getAttachmentVersions,
+          createAttachmentResource: createDataSetAttachmentResource
+        };
+
+        AttachmentDialogService.showDialog(dialogConfig, event)
+            .then(ctrl.loadAttachments);
       };
 
       ctrl.getNextIndexInDataSet = function() {
@@ -423,26 +497,28 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.addAttachment = function(event) {
-        $mdDialog.show({
-            controller: 'DataSetAttachmentEditOrCreateController',
-            controllerAs: 'ctrl',
-            templateUrl: 'scripts/datasetmanagement/' +
-              'views/data-set-attachment-edit-or-create.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              dataSetAttachmentMetadata: {
-                indexInDataSet: ctrl.getNextIndexInDataSet(),
-                dataSetId: ctrl.dataSet.id,
-                dataSetNumber: ctrl.dataSet.number,
-                dataAcquisitionProjectId:
-                  ctrl.dataSet.dataAcquisitionProjectId
-              }
-            },
-            targetEvent: event
-          }).then(function() {
-          ctrl.loadAttachments(true);
-        });
+        var upload = function(file, attachmentMetadata) {
+          var metadata = _.extend({}, attachmentMetadata, {
+            dataSetId: ctrl.dataSet.id,
+            dataSetNumber: ctrl.dataSet.number,
+            dataAcquisitionProjectId: ctrl.dataSet.dataAcquisitionProjectId,
+            indexInDataSet: ctrl.getNextIndexInDataSet()
+          });
+          return DataSetAttachmentUploadService.uploadAttachment(file,
+              metadata);
+        };
+
+        var dialogConfig = {
+          attachmentMetadata: null,
+          uploadCallback: upload,
+          labels: getDialogLabels()
+        };
+
+        AttachmentDialogService
+            .showDialog(dialogConfig, event)
+            .then(function() {
+              ctrl.loadAttachments(true);
+            });
       };
 
       ctrl.moveAttachmentUp = function() {

@@ -19,10 +19,8 @@ angular.module('metadatamanagementApp').config(
             'duplicate-survey-number': 'Die Nummer ({{ number }}) der Erhebung aus der Exceldatei aus dem Arbeitsblatt "surveys" in der Zeile {{ index }} wurde bereits verwendet.'
           },
           'survey-attachment': {
-            'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert.',
             'missing-survey-number': 'Das Attachment einer Erhebung aus der Exceldatei aus dem Arbeitsblatt "attachments" in der Zeile {{ index }} hat keine Erhebungsnummer und wurde daher nicht gespeichert.',
-            'missing-filename': 'Das Attachment einer Erhebung aus der Exceldatei aus dem Arbeitsblatt "attachments" in der Zeile {{index}} hat keinen Dateinamen und wurde daher nicht gespeichert.',
-            'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
+            'missing-filename': 'Das Attachment einer Erhebung aus der Exceldatei aus dem Arbeitsblatt "attachments" in der Zeile {{index}} hat keinen Dateinamen und wurde daher nicht gespeichert.'
           }
         },
         'detail': {
@@ -62,37 +60,14 @@ angular.module('metadatamanagementApp').config(
             'add-attachment-tooltip': 'Klicken, um einen neue Datei zu dieser Erhebung hinzuzufügen.',
             'edit-title': 'Datei "{{ filename }}" von Erhebung "{{ surveyId }}" bearbeiten',
             'create-title': 'Neue Datei zu Erhebung "{{ surveyId }}" hinzufügen',
-            'cancel-tooltip': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
-            'save-tooltip': 'Klicken, um die Datei zu speichern.',
-            'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
-            'attachment-has-validation-errors-toast': 'Die Datei wurde nicht gespeichert, weil es noch ungültige Felder gibt.',
             'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
             'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
             'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
             'previous-version-restored-toast': 'Die ältere Version der Metadaten von Datei "{{ filename }}" kann jetzt gespeichert werden.',
-            'choose-previous-version': {
-              'title': 'Ältere Version der Metadaten zu Datei "{{ filename }}" wiederherstellen',
-              'text': 'Wählen Sie eine ältere Version der Metadaten zu Datei "{{ filename }}" aus, die wiederhergestellt werden soll:',
-              'attachment-description': 'Beschreibung (auf Deutsch)',
-              'lastModified': 'Geändert',
-              'lastModifiedBy': 'von',
-              'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Metadaten auszuwählen zurückzukehren.',
-              'current-version-tooltip': 'Dies ist die aktuelle Version!',
-              'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
-              'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
-              'attachment-deleted': 'Metadaten wurden gelöscht!',
-              'no-versions-found': 'Es wurden keine älteren Versionen der Metadaten gefunden.'
-            },
             'language-not-found': 'Keine gültige Sprache gefunden!',
             'save-survey-before-adding-attachment': 'Die Erhebung muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
             'hints': {
-              'filename': 'Wählen Sie eine Datei aus, die Sie der Erhebung hinzufügen wollen.',
-              'language': 'Wählen Sie die Sprache, die in der Datei verwendet wurde, aus.',
-              'title': 'Geben Sie den Titel der Datei in der Dokumentensprache ein.',
-              'description': {
-                'de': 'Geben Sie eine Beschreibung dieser Datei auf Deutsch ein.',
-                'en': 'Geben Sie eine Beschreibung dieser Datei auf Englisch ein.'
-              }
+              'filename': 'Wählen Sie eine Datei aus, die Sie der Erhebung hinzufügen wollen.'
             }
           },
           'title': '{{ title }} ({{ surveyId }})',
@@ -197,36 +172,6 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'Die Beschreibung der Grundgesamtheit muss in beiden Sprachen vorliegen.',
               'i18n-string-size': 'Die Maximallänge des Beschreibung der Grundgesamtheit ist 2048 Zeichen.'
             }
-          },
-          'survey-attachment-metadata': {
-            'survey-id': {
-              'not-empty': 'Die ID der zugehörigen Erhebung darf nicht leer sein.'
-            },
-            'survey-number': {
-              'not-null': 'Die Nummer der zugehörigen Erhebung darf nicht leer sein.'
-            },
-            'project-id': {
-              'not-empty': 'Die ID des zugehörigen Datenaufbereitungsprojektes darf nicht leer sein.'
-            },
-            'description': {
-              'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 512 Zeichen sein.',
-              'i18n-string-not-empty': 'Die Beschreibung muss in mindestens einer Sprache vorhanden sein.'
-            },
-            'title': {
-              'not-null': 'Der Title des Attachments darf nicht leer sein.',
-              'string-size': 'Der Title des Attachments muss angegeben werden und darf nicht länger als 2048 Zeichen sein.'
-            },
-            'language': {
-              'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
-              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.',
-              'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
-            },
-            'filename': {
-              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.',
-              'not-unique': 'Es gibt bereits ein Attachment mit diesem Dateinamen.',
-              'not-valid': 'Der Dateiname ist ungültig.'
-            }
           }
         },
         'edit': {
@@ -257,16 +202,10 @@ angular.module('metadatamanagementApp').config(
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieser Erhebung wieder herzustellen.',
           'save-tooltip': 'Klicken, um die Erhebung zu speichern.',
           'choose-previous-version': {
-            'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
-            'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
             'title': 'Ältere Version der Erhebung {{ surveyId }} wiederherstellen',
             'text': 'Wählen Sie eine ältere Version der Erhebung aus, die wiederhergestellt werden soll:',
             'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Erhebung auszuwählen zurückzukehren.',
             'no-versions-found': 'Es wurden keine älteren Versionen der Erhebung {{ surveyId }} gefunden.',
-            'survey-title': 'Titel',
-            'lastModified': 'Geändert',
-            'lastModifiedBy': 'von',
-            'current-version-tooltip': 'Dies ist die aktuelle Version!',
             'survey-deleted': 'Die Erhebung wurde gelöscht!'
           },
           'choose-survey-number': {

@@ -19,8 +19,6 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'data-set-attachment': {
-            'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert.',
-            'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!',
             'unknown-data-set-number': 'Ein Attachment der Datensätze aus der Zeile {{index}} des Arbeitsblattes "attachments" im Excel Dokument verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.'
           },
           'sub-data-set': {
@@ -85,37 +83,14 @@ angular.module('metadatamanagementApp').config(
             'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Datensatz hinzuzufügen.',
             'edit-title': 'Datei "{{ filename }}" von Datensatz "{{ dataSetId }}" bearbeiten',
             'create-title': 'Neue Datei zu Datensatz "{{ dataSetId }}" hinzufügen',
-            'cancel-tooltip': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
-            'save-tooltip': 'Klicken, um die Datei zu speichern.',
-            'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
-            'attachment-has-validation-errors-toast': 'Die Datei wurde nicht gespeichert, weil es noch ungültige Felder gibt.',
             'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
             'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
             'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
             'previous-version-restored-toast': 'Die ältere Version der Metadaten von Datei "{{ filename }}" kann jetzt gespeichert werden.',
-            'choose-previous-version': {
-              'title': 'Ältere Version der Metadaten zu Datei "{{ filename }}" wiederherstellen',
-              'text': 'Wählen Sie eine ältere Version der Metadaten zu Datei "{{ filename }}" aus, die wiederhergestellt werden soll:',
-              'attachment-title': 'Titel',
-              'lastModified': 'Geändert',
-              'lastModifiedBy': 'von',
-              'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Metadaten auszuwählen zurückzukehren.',
-              'current-version-tooltip': 'Dies ist die aktuelle Version!',
-              'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
-              'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
-              'attachment-deleted': 'Metadaten wurden gelöscht!',
-              'no-versions-found': 'Es wurden keine älteren Versionen der Metadaten gefunden.'
-            },
             'language-not-found': 'Keine gültige Sprache gefunden!',
             'save-data-set-before-adding-attachment': 'Der Datensatz muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
             'hints': {
-              'filename': 'Wählen Sie eine Datei aus, die Sie dem Datensatz hinzufügen wollen.',
-              'language': 'Wählen Sie die Sprache, die in der Datei verwendet wurde, aus.',
-              'description': {
-                'de': 'Geben Sie eine Beschreibung dieser Datei auf Deutsch ein.',
-                'en': 'Geben Sie eine Beschreibung dieser Datei auf Englisch ein.'
-              },
-              'title': 'Geben Sie den Titel der Datei in der Dokumentensprache ein.'
+              'filename': 'Wählen Sie eine Datei aus, die Sie dem Datensatz hinzufügen wollen.'
             }
           },
           'title': '{{ description }} ({{ dataSetId }})',
@@ -203,34 +178,6 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Der Typ des Datensatzes darf nicht leer sein!'
             }
           },
-          'data-set-attachment-metadata': {
-            'data-set-id': {
-              'not-empty': 'Die ID des zugehörigen Datensatzes darf nicht leer sein.'
-            },
-            'data-set-number': {
-              'not-null': 'Die Nummer des zugehörigen Datensatzes darf nicht leer sein.'
-            },
-            'project-id': {
-              'not-empty': 'Die ID des zugehörigen Datenaufbereitungsprojektes darf nicht leer sein.'
-            },
-            'description': {
-              'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 512 Zeichen sein.',
-              'i18n-string-not-empty': 'Die Beschreibung darf nicht leer sein.'
-            },
-            'title': {
-              'not-null': 'Der Title des Attachments darf nicht leer sein.',
-              'string-size': 'Der Title des Attachments muss angegeben werden und darf nicht länger als 2048 Zeichen sein.'
-            },
-            'language': {
-              'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
-              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
-            },
-            'filename': {
-              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.',
-              'not-unique': 'Es gibt bereits ein Attachment mit diesem Dateinamen.'
-            }
-          },
           'sub-data-set': {
             'name': {
               'not-empty': 'Der Name eines Subdatensatz darf nicht leer sein!',
@@ -291,16 +238,10 @@ angular.module('metadatamanagementApp').config(
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Datensatzes wieder herzustellen.',
           'save-tooltip': 'Klicken, um den Datensatz zu speichern.',
           'choose-previous-version': {
-            'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
-            'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
             'title': 'Ältere Version des Datensatzes {{ dataSetId }} wiederherstellen',
             'text': 'Wählen Sie eine ältere Version des Datensatzes aus, die wiederhergestellt werden soll:',
-            'cancel-tooltip': 'Klicken, um ohne eine ältere Version des Datensatzes auszuwählen zurückzukehren.',
+            'cancel-tooltip': 'Klicken, um, ohne eine ältere Version des Datensatzes auszuwählen, zurückzukehren.',
             'no-versions-found': 'Es wurden keine älteren Versionen des Datensatzes {{ dataSetId }} gefunden.',
-            'data-set-description': 'Beschreibung',
-            'lastModified': 'Geändert',
-            'lastModifiedBy': 'von',
-            'current-version-tooltip': 'Dies ist die aktuelle Version!',
             'data-set-deleted': 'Der Datensatz wurde gelöscht!'
           },
           'choose-data-set-number': {

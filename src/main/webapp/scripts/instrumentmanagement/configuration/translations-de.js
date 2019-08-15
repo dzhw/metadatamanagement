@@ -16,11 +16,9 @@ angular.module('metadatamanagementApp').config(
             'duplicate-instrument-number': 'Die Nummer ({{ number }}) des Instrumentes aus der Exceldatei aus dem Arbeitsblatt "instruments" in der Zeile {{ index }} wurde bereits verwendet.'
           },
           'instrument-attachment': {
-            'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert:',
             'missing-instrument-number': 'Das Instrument Attachment aus dem Exceldocument aus dem Arbeitsblatt "attachments" in der Zeile {{ index }} hat keine Instrumentnummer und wurde daher nicht gespeichert.',
             'unknown-instrument-number': 'Die Nummer des Instrumentes des Attachments aus der Exceldatei in dem Arbeitsblatt "attachments" in der Zeile {{index}} gibt es nicht. Das Attachment wurde daher nicht gespeichert.',
-            'missing-filename': 'Das Attachment eines Instrumentes aus der Exceldatei aus dem Arbeitsblatt "attachments" in der Zeile {{index}} hat keinen Dateinamen und wurde daher nicht gespeichert.',
-            'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
+            'missing-filename': 'Das Attachment eines Instrumentes aus der Exceldatei aus dem Arbeitsblatt "attachments" in der Zeile {{index}} hat keinen Dateinamen und wurde daher nicht gespeichert.'
           }
         },
         'home': {
@@ -55,37 +53,14 @@ angular.module('metadatamanagementApp').config(
             'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Instrument hinzuzufügen.',
             'edit-title': 'Datei "{{ filename }}" von Instrument "{{ instrumentId }}" bearbeiten',
             'create-title': 'Neue Datei zu Instrument "{{ instrumentId }}" hinzufügen',
-            'cancel-tooltip': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
-            'save-tooltip': 'Klicken, um die Datei zu speichern.',
-            'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
-            'attachment-has-validation-errors-toast': 'Die Datei wurde nicht gespeichert, weil es noch ungültige Felder gibt.',
             'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
             'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
             'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
             'previous-version-restored-toast': 'Die ältere Version der Metadaten von Datei "{{ filename }}" kann jetzt gespeichert werden.',
-            'choose-previous-version': {
-              'title': 'Ältere Version der Metadaten zu Datei "{{ filename }}" wiederherstellen',
-              'text': 'Wählen Sie eine ältere Version der Metadaten zu Datei "{{ filename }}" aus, die wiederhergestellt werden soll:',
-              'attachment-description': 'Beschreibung (auf Deutsch)',
-              'lastModified': 'Geändert',
-              'lastModifiedBy': 'von',
-              'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Metadaten auszuwählen zurückzukehren.',
-              'current-version-tooltip': 'Dies ist die aktuelle Version!',
-              'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
-              'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
-              'attachment-deleted': 'Metadaten wurden gelöscht!',
-              'no-versions-found': 'Es wurden keine älteren Versionen der Metadaten gefunden.'
-            },
             'language-not-found': 'Keine gültige Sprache gefunden!',
             'save-instrument-before-adding-attachment': 'Das Instrument muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
             'hints': {
-              'filename': 'Wählen Sie eine Datei aus, die Sie dem Instrument hinzufügen wollen.',
-              'language': 'Wählen Sie die Sprache, die in der Datei verwendet wurde, aus.',
-              'type': 'Wählen Sie den Typ der Datei aus.',
-              'description': {
-                'de': 'Geben Sie eine Beschreibung dieser Datei auf Deutsch ein.',
-                'en': 'Geben Sie eine Beschreibung dieser Datei auf Englisch ein.'
-              }
+              'filename': 'Wählen Sie eine Datei aus, die Sie dem Instrument hinzufügen wollen.'
             }
           },
           'page-title': '{{ description }} ({{ instrumentId }})',
@@ -109,7 +84,7 @@ angular.module('metadatamanagementApp').config(
             'concepts': {
               'one': 'Klicken, um das Konzept, welches mit diesem Instrument gemessen wurde, anzuzeigen',
               'many': 'Klicken, um alle Konzepte, die mit diesem Instrument gemessen wurden, anzuzeigen'
-            },
+            }
           }
         },
         'error': {
@@ -152,35 +127,6 @@ angular.module('metadatamanagementApp').config(
             },
             'valid-instrument-id-pattern': 'Die FDZ-ID des Instruments hat nicht die folgende Form: "ins-" + {ProjektId} + "-" + "ins" + {Nummer} + "$" .'
           },
-          'instrument-attachment-metadata': {
-            'instrument-id': {
-              'not-empty': 'Die ID des zugehörigen Instrumentes darf nicht leer sein.'
-            },
-            'instrument-number': {
-              'not-null': 'Die Nummer des zugehörigen Instrumentes darf nicht leer sein.'
-            },
-            'project-id': {
-              'not-empty': 'Die ID des zugehörigen Datenaufbereitungsprojektes darf nicht leer sein.'
-            },
-            'type': {
-              'not-null': 'Der Typ des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Der Typ muss in beiden Sprachen angegeben werden und darf nicht länger als 32 Zeichen sein.',
-              'valid-type': 'Der Typ muss einer der folgenden Werte sein: Fragebogen, Filterführungsdiagramm, Variablenfragebogen, Sonstige.'
-            },
-            'description': {
-              'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 512 Zeichen sein.',
-              'i18n-string-not-empty': 'Die Beschreibung darf nicht leer sein.'
-            },
-            'language': {
-              'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
-              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
-            },
-            'filename': {
-              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.',
-              'not-unique': 'Es gibt bereits ein Attachment mit diesem Dateinamen.'
-            }
-          },
           'post-validation': {
             'instrument-has-invalid-survey-id': 'Das Instrument {{id}} referenziert eine unbekannte Erhebung ({{toBereferenzedId}}).',
             'no-instruments': 'Es sind keine Instrumente vorhanden.'
@@ -206,16 +152,11 @@ angular.module('metadatamanagementApp').config(
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Instruments wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Instrument zu speichern.',
           'choose-previous-version': {
-            'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
-            'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
             'title': 'Ältere Version des Instruments {{ instrumentId }} wiederherstellen',
             'text': 'Wählen Sie eine ältere Version des Instruments aus, das wiederhergestellt werden soll:',
             'cancel-tooltip': 'Klicken, um ohne eine ältere Version des Instruments auszuwählen zurückzukehren.',
             'no-versions-found': 'Es wurden keine älteren Versionen des Instruments {{ instrumentId }} gefunden.',
             'instrument-description': 'Beschreibung',
-            'lastModified': 'Geändert',
-            'lastModifiedBy': 'von',
-            'current-version-tooltip': 'Dies ist die aktuelle Version!',
             'instrument-deleted': 'Das Instrument wurde gelöscht!'
           },
           'choose-instrument-number': {
