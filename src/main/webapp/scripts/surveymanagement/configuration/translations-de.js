@@ -172,36 +172,6 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'Die Beschreibung der Grundgesamtheit muss in beiden Sprachen vorliegen.',
               'i18n-string-size': 'Die Maximallänge des Beschreibung der Grundgesamtheit ist 2048 Zeichen.'
             }
-          },
-          'survey-attachment-metadata': {
-            'survey-id': {
-              'not-empty': 'Die ID der zugehörigen Erhebung darf nicht leer sein.'
-            },
-            'survey-number': {
-              'not-null': 'Die Nummer der zugehörigen Erhebung darf nicht leer sein.'
-            },
-            'project-id': {
-              'not-empty': 'Die ID des zugehörigen Datenaufbereitungsprojektes darf nicht leer sein.'
-            },
-            'description': {
-              'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 512 Zeichen sein.',
-              'i18n-string-not-empty': 'Die Beschreibung muss in mindestens einer Sprache vorhanden sein.'
-            },
-            'title': {
-              'not-null': 'Der Title des Attachments darf nicht leer sein.',
-              'string-size': 'Der Title des Attachments muss angegeben werden und darf nicht länger als 2048 Zeichen sein.'
-            },
-            'language': {
-              'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
-              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.',
-              'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
-            },
-            'filename': {
-              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.',
-              'not-unique': 'Es gibt bereits ein Attachment mit diesem Dateinamen.',
-              'not-valid': 'Der Dateiname ist ungültig.'
-            }
           }
         },
         'edit': {

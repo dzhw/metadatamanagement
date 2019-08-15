@@ -14,7 +14,8 @@ angular.module('metadatamanagementApp').config(
           'no-versions-found': 'There are no previous versions of {{ id }}.',
           'previous-page-tooltip': 'Click to show more recent versions.',
           'text': 'Choose a previous version which shall be restored:',
-          'title': 'Restore Previous Version of {{ id }}'
+          'title': 'Title',
+          'description': 'Description'
         }
         //jscs:enable
       };

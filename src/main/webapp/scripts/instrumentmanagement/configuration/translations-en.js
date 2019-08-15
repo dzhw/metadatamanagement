@@ -126,35 +126,6 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                     },
                     'valid-instrument-id-pattern': 'The RDC-ID of the Instrument is not valid for the Pattern: "ins-" + {DataAcquisitionProjectId} + "-" + "ins" + {Number} + "$".'
                 },
-                'instrument-attachment-metadata': {
-                    'instrument-id': {
-                        'not-empty': 'The ID of the corresponding Instrument must not be empty.'
-                    },
-                    'instrument-number': {
-                        'not-null': 'The Number of the corresponding Instrument must not be empty.'
-                    },
-                    'project-id': {
-                        'not-empty': 'The ID of the Data Acquisition Project must not be empty!'
-                    },
-                    'type': {
-                        'not-null': 'The type of the attachment must not be empty!',
-                        'i18n-string-size': 'The type is mandatory in both languages and must not contain more than 32 characters.',
-                        'valid-type': 'The type must be one of the following: Questionnaire, Question Flow, Variable Questionnaire, Other.'
-                    },
-                    'description': {
-                        'not-null': 'The description of the attachment must not be empty!',
-                        'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 512 characters.',
-                        'i18n-string-not-empty': 'The description must not be empty!'
-                    },
-                    'language': {
-                        'not-null': 'The language of the attachment must not be empty!',
-                        'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'
-                    },
-                    'filename': {
-                        'not-empty': 'The filename of the attachment must not be empty!',
-                        'not-unique': 'There is already an attachment with this name!'
-                    }
-                },
                 'post-validation': {
                     'instrument-has-invalid-survey-id': 'The Instrument {{id}} references an unknown Survey ({{toBereferenzedId}}).',
                     'no-instruments': 'There are no instruments in this project.'

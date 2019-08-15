@@ -12,7 +12,8 @@ angular.module('metadatamanagementApp')
       DataSetAttachmentResource, $q, StudyIdBuilderService, SearchDao,
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
       AttachmentDialogService, DataSetAttachmentUploadService,
-      DataSetAttachmentVersionsResource) {
+      DataSetAttachmentVersionsResource, ChoosePreviousVersionService,
+      DataSetVersionsResource) {
       var ctrl = this;
       ctrl.surveyChips = [];
       var updateToolbarHeaderAndPageTitle = function() {
@@ -345,37 +346,68 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.openRestorePreviousVersionDialog = function(event) {
-        $mdDialog.show({
-            controller: 'ChoosePreviousDataSetVersionController',
-            templateUrl: 'scripts/datasetmanagement/' +
-              'views/choose-previous-data-set-version.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              dataSetId: ctrl.dataSet.id
+        var getVersions = function(id, limit, skip) {
+          return DataSetVersionsResource.get({
+            id: id,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var dialogConfig = {
+          domainId: ctrl.dataSet.id,
+          getPreviousVersionsCallback: getVersions,
+          labels: {
+            title: {
+              key: 'data-set-management.edit.choose-previous-version.' +
+                  'title',
+              params: {
+                dataSetId: ctrl.dataSet.id
+              }
             },
-            targetEvent: event
-          })
-          .then(function(dataSetWrapper) {
-            ctrl.dataSet = new DataSetResource(
-              dataSetWrapper.dataSet);
-            ctrl.initSurveyChips();
-            if (dataSetWrapper.isCurrentVersion) {
-              $scope.dataSetForm.$setPristine();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'data-set-management.edit.current-version-restored-toast',
-                {
-                  dataSetId: ctrl.dataSet.id
-                });
-            } else {
-              $scope.dataSetForm.$setDirty();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'data-set-management.edit.previous-version-restored-toast',
-                {
-                  dataSetId: ctrl.dataSet.id
-                });
+            text: {
+              key: 'data-set-management.edit.choose-previous-version.text'
+            },
+            cancelTooltip: {
+              key: 'data-set-management.edit.choose-previous-version.' +
+                  'cancel-tooltip'
+            },
+            noVersionsFound: {
+              key: 'data-set-management.edit.choose-previous-version.' +
+                  'no-versions-found',
+              params: {
+                dataSetId: ctrl.dataSet.id
+              }
+            },
+            deleted: {
+              key: 'data-set-management.edit.choose-previous-version.' +
+                  'data-set-deleted'
             }
-          });
+          },
+          versionLabelAttribute: 'description'
+        };
+
+        ChoosePreviousVersionService.showDialog(dialogConfig, event)
+            .then(function(wrapper) {
+              ctrl.dataSet = new DataSetResource(
+                wrapper.selection);
+              ctrl.initSurveyChips();
+              if (wrapper.isCurrentVersion) {
+                $scope.dataSetForm.$setPristine();
+                SimpleMessageToastService.openSimpleMessageToast(
+                  'data-set-management.edit.current-version-restored-toast',
+                  {
+                    dataSetId: ctrl.dataSet.id
+                  });
+              } else {
+                $scope.dataSetForm.$setDirty();
+                SimpleMessageToastService.openSimpleMessageToast(
+                  'data-set-management.edit.previous-version-restored-toast',
+                  {
+                    dataSetId: ctrl.dataSet.id
+                  });
+              }
+            });
       };
 
       $scope.registerConfirmOnDirtyHook = function() {

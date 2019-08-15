@@ -32,7 +32,8 @@ angular.module('metadatamanagementApp').config(
             'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
           },
           'title': {
-            'maxlength': 'Der Titel des Attachments darf nicht länger als 2048 Zeichen sein.'
+            'maxlength': 'Der Titel des Attachments darf nicht länger als 2048 Zeichen sein.',
+            'not-empty': 'Der Titel des Attachments darf nicht leer sein.'
           }
         },
         'hint': {
@@ -53,7 +54,7 @@ angular.module('metadatamanagementApp').config(
           'title': 'Titel'
         },
         'tooltip': {
-          'cancel': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
+          'cancel': 'Klicken, um den Dialog, ohne zu speichern, zu schließen.',
           'change-file': 'Klicken, um eine Datei auszuwählen.',
           'previous-version': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
           'save': 'Klicken, um die Datei zu speichern.'

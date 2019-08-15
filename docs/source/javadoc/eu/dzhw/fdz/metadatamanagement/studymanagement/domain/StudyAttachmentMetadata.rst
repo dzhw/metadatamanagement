@@ -129,10 +129,10 @@ studyId
 title
 ^^^^^
 
-.. java:field:: @Size private String title
+.. java:field:: @NotEmpty @Size private String title
    :outertype: StudyAttachmentMetadata
 
-   An optional title of this attachment in the attachments' language. It must not contain more than 2048 characters.
+   An optional title of this attachment in the attachments' language. Must not be empty and it must not contain more than 2048 characters.
 
 type
 ^^^^

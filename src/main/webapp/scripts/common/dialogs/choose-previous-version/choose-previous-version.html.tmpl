@@ -1,4 +1,4 @@
-<md-dialog aria-label="{{labels.title.key | translate:labels.title.params }}" layout="column" style="-ms-flex: auto;">
+<md-dialog aria-label="{{labels.title.key | translate:labels.title.params }}" layout="column" style="-ms-flex: auto;" flex="50">
     <md-toolbar>
         <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
             <h2 class="fdz-truncate-string">
@@ -17,9 +17,9 @@
         <table md-autofocus fdz-table ng-if="versions && versions.length > 0" style="width: 100%; -ms-flex: auto;" flex>
             <thead>
                 <tr>
-                    <th style="max-width: 600px;">{{labels.title.key | translate:labels.title.params }}
+                    <th style="max-width: 600px;">{{'choose-previous-version.' + versionLabelAttribute | translate}}
                         <md-tooltip hide-gt-xs md-direction="right">
-                            {{labels.title.key | translate:labels.title.params }}
+                            {{'choose-previous-version.' + versionLabelAttribute | translate}}
                         </md-tooltip>
                     </th>
                     <th>{{'choose-previous-version.lastModified' | translate }}
@@ -61,7 +61,7 @@
         <md-button class="md-raised" ng-click="closeDialog()">
             <span>{{'global.entity.action.cancel' | translate}}</span>
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
-                {{'choose-previous-version.cancel-tooltip' | translate }}
+                {{labels.cancelTooltip.key | translate:labels.cancelTooltip.params }}
             </md-tooltip>
         </md-button>
     </md-dialog-actions>

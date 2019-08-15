@@ -171,34 +171,6 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The Type of a Data Set must not be empty!'
             }
           },
-          'data-set-attachment-metadata': {
-            'data-set-id': {
-              'not-empty': 'The ID of the corresponding Data Set must not be empty.'
-            },
-            'data-set-number': {
-              'not-null': 'The Number of the corresponding Data Set must not be empty.'
-            },
-            'project-id': {
-              'not-empty': 'The ID of the Data Acquisition Project must not be empty!'
-            },
-            'description': {
-              'not-null': 'The description of the attachment must not be empty!',
-              'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 512 characters.',
-              'i18n-string-not-empty': 'The description must not be empty!'
-            },
-            'title': {
-              'not-null': 'The title of the attachment must not be empty!',
-              'string-size': 'The title of the attachment is mandatory and must not contain more than 2048 characters.'
-            },
-            'language': {
-              'not-null': 'The language of the attachment must not be empty!',
-              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!'
-            },
-            'filename': {
-              'not-empty': 'The filename of the attachment must not be empty!',
-              'not-unique': 'There is already an attachment with this name!'
-            }
-          },
           'sub-data-set': {
             'name': {
               'not-empty': 'The Name of a Subdataset must not be empty!',
@@ -255,16 +227,10 @@ angular.module('metadatamanagementApp').config(
             'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this data set.',
             'save-tooltip': 'Click to save this data set.',
             'choose-previous-version': {
-              'next-page-tooltip': 'Click to show older versions.',
-              'previous-page-tooltip': 'Click to show more recent versions.',
               'title': 'Restore Previous Version of Data Set {{ dataSetId }}',
               'text': 'Choose a previous version of this data set which shall be restored:',
               'cancel-tooltip': 'Click to return without choosing a previous data set version.',
               'no-versions-found': 'There are no previous versions of data set {{ dataSetId }}.',
-              'data-set-description': 'Description',
-              'lastModified': 'Modified',
-              'lastModifiedBy': 'by',
-              'current-version-tooltip': 'This is the current version!',
               'data-set-deleted': 'The data set has been deleted!'
             },
             'choose-data-set-number': {

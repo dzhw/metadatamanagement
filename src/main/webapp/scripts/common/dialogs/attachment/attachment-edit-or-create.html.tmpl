@@ -87,11 +87,12 @@
           </div>
           <div layout="row" ng-if="ctrl.excludedMetadataFields.indexOf('title') === -1">
             <md-input-container flex style="margin-right: 8px; -ms-flex:auto;" md-is-error="!attachmentForm.title.$valid && (attachmentForm.title.$dirty || attachmentForm.title.$touched)">
-              <label>{{'attachment.label.title' | translate}} ({{'global.in' | translate}} {{ctrl.selectedLanguage.displayLanguage[ctrl.currentLanguage]?ctrl.selectedLanguage.displayLanguage[ctrl.currentLanguage]:'?'}})</label>
-              <textarea rows="4" md-maxlength="2048" ng-model="ctrl.attachmentMetadata.title" name="title"></textarea>
+              <label class="fdz-input-required">{{'attachment.label.title' | translate}} ({{'global.in' | translate}} {{ctrl.selectedLanguage.displayLanguage[ctrl.currentLanguage]?ctrl.selectedLanguage.displayLanguage[ctrl.currentLanguage]:'?'}})</label>
+              <textarea fdz-required rows="4" md-maxlength="2048" ng-model="ctrl.attachmentMetadata.title" name="title"></textarea>
               <div ng-if="!attachmentForm.title.$dirty && !attachmentForm.title.$touched" class="fdz-input-hint">{{'attachment.hint.title' | translate}}</div>
               <div ng-messages="attachmentForm.title.$error" multiple>
                 <div ng-message="md-maxlength">{{'attachment.error.title.maxlength' | translate}}</div>
+                <div ng-message="fdz-required">{{'attachment.error.title.not-empty' | translate}}</div>
               </div>
             </md-input-container>
           </div>

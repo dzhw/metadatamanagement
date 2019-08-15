@@ -175,37 +175,6 @@ angular.module('metadatamanagementApp').config(
                 'not-empty': 'Die FDZ - ID des Projektes darf bei der Studie nicht leer sein!'
               }
             }
-          },
-          'study-attachment-metadata': {
-            'study-id': {
-              'not-empty': 'Die ID der zugehörigen Studie darf nicht leer sein.'
-            },
-            'project-id': {
-              'not-empty': 'Die ID des zugehörigen Datenaufbereitungsprojektes darf nicht leer sein.'
-            },
-            'type': {
-              'not-null': 'Der Typ des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Der Typ muss in beiden Sprachen angegeben werden und darf nicht länger als 32 Zeichen sein.',
-              'valid-type': 'Der Typ muss einer der folgenden Werte sein: Daten- und Methodenbericht, Sonstiges.'
-            },
-            'description': {
-              'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 512 Zeichen sein.',
-              'i18n-string-not-empty': 'Die Beschreibung muss in mindestens einer Sprache vorhanden sein.'
-            },
-            'title': {
-              'string-size': 'Der Title des Attachments darf nicht länger als 2048 Zeichen sein.'
-            },
-            'language': {
-              'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
-              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.',
-              'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
-            },
-            'filename': {
-              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.',
-              'not-unique': 'Es gibt bereits ein Attachment mit diesem Dateinamen.',
-              'not-valid': 'Der Dateiname ist ungültig.'
-            }
           }
         },
         'edit': {

@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').config(
           'attachment-description': 'Beschreibung (auf Deutsch)',
           'lastModified': 'Geändert',
           'lastModifiedBy': 'von',
-          'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Metadaten auszuwählen zurückzukehren.',
+          'cancel-tooltip': 'Klicken, um, ohne eine ältere Version der Metadaten auszuwählen, zurückzukehren.',
           'current-version-tooltip': 'Dies ist die aktuelle Version!',
           'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
           'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',

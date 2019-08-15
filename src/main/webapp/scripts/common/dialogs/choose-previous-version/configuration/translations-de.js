@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').config(
       var translations = {
         //jscs:disable
         'choose-previous-version': {
-          'cancel-tooltip': 'Klicken, um ohne eine ältere Version auszuwählen zurückzukehren.',
+          'cancel-tooltip': 'Klicken, um, ohne eine ältere Version auszuwählen, zurückzukehren.',
           'current-version-tooltip': 'Dies ist die aktuelle Version!',
           'deleted': 'Gelöscht',
           'lastModified': 'Geändert',
@@ -14,8 +14,8 @@ angular.module('metadatamanagementApp').config(
           'no-versions-found': 'Es wurden keine älteren Versionen von {{ id }} gefunden.',
           'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
           'text': 'Wählen Sie eine ältere Version aus, die wiederhergestellt werden soll:',
-          'title': 'Ältere Version von {{ id }} wiederherstellen'
-
+          'title': 'Titel',
+          'description': 'Beschreibung'
         }
         //jscs:enable
       };

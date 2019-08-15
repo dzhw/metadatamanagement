@@ -133,34 +133,6 @@ angular.module('metadatamanagementApp').config(
               'instruments': 'The concept cannot be deleted, because it is referenced by the following instruments: {{ids}}.',
               'questions': 'The concept cannot be deleted, because it is referenced by the following questions: {{ids}}.'
             }
-          },
-          'concept-attachment-metadata': {
-            'concept-id': {
-              'not-empty': 'The ID of the corresponding concept must not be empty.'
-            },
-            'type': {
-              'not-null': 'The type of the attachment must not be empty!',
-              'i18n-string-size': 'The type is mandatory in both languages and must not contain more than 32 characters.',
-              'valid-type': 'The type must be one of the following: Documentation, Instrument, Other.'
-            },
-            'description': {
-              'not-null': 'The description of the attachment must not be empty!',
-              'i18n-string-size': 'The description must be specified in at least one language and must not contain more than 512 characters.',
-              'i18n-string-not-empty': 'The description must not be empty for at least one language.'
-            },
-            'title': {
-              'string-size': 'The title of the attachment must not contain more than 2048 characters.'
-            },
-            'language': {
-              'not-null': 'The language of the attachment must not be empty!',
-              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!',
-              'not-valid': 'Please select a supported language.'
-            },
-            'filename': {
-              'not-empty': 'The filename of the attachment must not be empty!',
-              'not-unique': 'There is already an attachment with this name!',
-              'not-valid': 'The filename is invalid.'
-            }
           }
         },
         'edit': {
@@ -190,16 +162,11 @@ angular.module('metadatamanagementApp').config(
           'add-author-tooltip': 'Click to add a new author to this concept.',
           'delete-author-tooltip': 'Click to remove the author from this concept.',
           'choose-previous-version': {
-            'next-page-tooltip': 'Click to show older versions.',
-            'previous-page-tooltip': 'Click to show more recent versions.',
             'title': 'Restore Previous Version of Concept {{ conceptId }}',
             'text': 'Choose a previous version of this concept which shall be restored:',
             'cancel-tooltip': 'Click to return without choosing a previous concept version.',
             'no-versions-found': 'There are no previous versions of concept {{ conceptId }}.',
-            'concept-title': 'Title',
-            'lastModified': 'Modified',
-            'lastModifiedBy': 'by',
-            'current-version-tooltip': 'This is the current version!'
+            'concept-deleted': 'The concept has been deleted!'
           },
           'hints': {
             'id': 'Specify the ID of this concept in our RDC.',

@@ -6,10 +6,11 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, $document, $timeout,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       ConceptResource, ConceptSearchService, $scope, $q,
-      ElasticSearchAdminService, $mdDialog, $transitions,
+      ElasticSearchAdminService, $transitions,
       CommonDialogsService, LanguageService, ConceptAttachmentUploadService,
       ConceptAttachmentResource, AttachmentDialogService,
-      ConceptAttachmentVersionsResource) {
+      ConceptAttachmentVersionsResource, ChoosePreviousVersionService,
+      ConceptVersionsResource) {
 
       var ctrl = this;
 
@@ -221,33 +222,67 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.openRestorePreviousVersionDialog = function(event) {
-        $mdDialog.show({
-            controller: 'ChoosePreviousConceptVersionController',
-            templateUrl: 'scripts/conceptmanagement/' +
-              'views/choose-previous-concept-version.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              conceptId: ctrl.concept.id
+        var getVersions = function(id, limit, skip) {
+          return ConceptVersionsResource.get({
+            id: id,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var dialogConfig = {
+          domainId: ctrl.concept.id,
+          getPreviousVersionsCallback: getVersions,
+          labels: {
+            title: {
+              key: 'concept-management.edit.choose-previous-version.' +
+                  'title',
+              params: {
+                conceptId: ctrl.concept.id
+              }
             },
-            targetEvent: event
-          })
-          .then(function(conceptWrapper) {
-            ctrl.concept = new ConceptResource(conceptWrapper.concept);
-            if (conceptWrapper.isCurrentVersion) {
-              $scope.conceptForm.$setPristine();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'concept-management.edit.current-version-restored-toast', {
-                  conceptId: ctrl.concept.id
-                });
-            } else {
-              $scope.conceptForm.$setDirty();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'concept-management.edit.previous-version-restored-toast', {
-                  conceptId: ctrl.concept.id
-                });
+            text: {
+              key: 'concept-management.edit.choose-previous-version.text'
+            },
+            cancelTooltip: {
+              key: 'concept-management.edit.choose-previous-version.' +
+                  'cancel-tooltip'
+            },
+            noVersionsFound: {
+              key: 'concept-management.edit.choose-previous-version.' +
+                  'no-versions-found',
+              params: {
+                conceptId: ctrl.concept.id
+              }
+            },
+            deleted: {
+              key: 'concept-management.edit.choose-previous-version.' +
+                  'concept-deleted'
             }
-          });
+          },
+          versionLabelAttribute: 'title'
+        };
+
+        ChoosePreviousVersionService.showDialog(dialogConfig, event)
+            .then(function(wrapper) {
+              ctrl.concept = new ConceptResource(
+                wrapper.selection);
+              if (wrapper.isCurrentVersion) {
+                $scope.conceptForm.$setPristine();
+                SimpleMessageToastService.openSimpleMessageToast(
+                  'concept-management.edit.current-version-restored-toast',
+                  {
+                    conceptId: ctrl.concept.id
+                  });
+              } else {
+                $scope.conceptForm.$setDirty();
+                SimpleMessageToastService.openSimpleMessageToast(
+                  'concept-management.edit.previous-version-restored-toast',
+                  {
+                    conceptId: ctrl.concept.id
+                  });
+              }
+            });
       };
 
       $scope.registerConfirmOnDirtyHook = function() {

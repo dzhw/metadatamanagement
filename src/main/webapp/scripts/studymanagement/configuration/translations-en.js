@@ -175,37 +175,6 @@ angular.module('metadatamanagementApp').config(
                 'not-empty': 'The RDC-ID of the Data Acquisition Project for the Study must not be empty!'
               }
             }
-          },
-          'study-attachment-metadata': {
-            'study-id': {
-              'not-empty': 'The ID of the corresponding Study must not be empty.'
-            },
-            'project-id': {
-              'not-empty': 'The ID of the Data Acquisition Project must not be empty!'
-            },
-            'type': {
-              'not-null': 'The type of the attachment must not be empty!',
-              'i18n-string-size': 'The type is mandatory in both languages and must not contain more than 32 characters.',
-              'valid-type': 'The type must be one of the following: Method Report, Other.'
-            },
-            'description': {
-              'not-null': 'The description of the attachment must not be empty!',
-              'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 512 characters.',
-              'i18n-string-not-empty': 'The description must not be empty at least for one language.'
-            },
-            'title': {
-              'string-size': 'The title of the attachment must not contain more than 2048 characters.'
-            },
-            'language': {
-              'not-null': 'The language of the attachment must not be empty!',
-              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!',
-              'not-valid': 'Please select a supported language.'
-            },
-            'filename': {
-              'not-empty': 'The filename of the attachment must not be empty!',
-              'not-unique': 'There is already an attachment with this name!',
-              'not-valid': 'The filename is invalid.'
-            }
           }
         },
         'edit': {
