@@ -826,8 +826,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('builddev', ['createJavaSourceCodeFromTranslations',
-    'test', 'htmlangular:default',
-    'htmlangular:index', 'clean:dist',
+    'test', 'clean:dist',
     'wiredep:app', 'ngconstant:dev',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
@@ -835,8 +834,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('buildtest', ['createJavaSourceCodeFromTranslations',
-    'test', 'htmlangular:default',
-    'htmlangular:index', 'clean:dist',
+    'test', 'clean:dist',
     'wiredep:app', 'ngconstant:test',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
@@ -844,8 +842,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('buildprod', ['createJavaSourceCodeFromTranslations',
-    'test', 'htmlangular:default',
-    'htmlangular:index', 'clean:dist',
+    'test', 'clean:dist',
     'wiredep:app', 'ngconstant:prod',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
@@ -854,8 +851,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('buildlocalminified', [
     'createJavaSourceCodeFromTranslations',
-    'test', 'htmlangular:default',
-    'htmlangular:index', 'clean:dist',
+    'test', 'clean:dist',
     'wiredep:app', 'ngconstant:local',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',

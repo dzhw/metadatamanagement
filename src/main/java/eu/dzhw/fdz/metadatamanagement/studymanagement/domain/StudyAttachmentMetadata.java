@@ -55,7 +55,7 @@ public class StudyAttachmentMetadata extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the {@link Study} to which this attachment belongs.
-   * 
+   *
    * Must not be empty.
    */
   @NotEmpty(message =
@@ -65,7 +65,7 @@ public class StudyAttachmentMetadata extends AbstractShadowableRdcDomainObject {
   /**
    * The id of the {@link DataAcquisitionProject} to which the {@link Study} of this attachment
    * belongs.
-   * 
+   *
    * Must not be empty.
    */
   @NotEmpty(message =
@@ -75,7 +75,7 @@ public class StudyAttachmentMetadata extends AbstractShadowableRdcDomainObject {
   /**
    * The index in the {@link Study} of this attachment. Used for sorting the attachments of this
    * {@link Study}.
-   * 
+   *
    * Must not be empty.
    */
   @NotNull(message =
@@ -84,16 +84,18 @@ public class StudyAttachmentMetadata extends AbstractShadowableRdcDomainObject {
 
   /**
    * An optional title of this attachment in the attachments' language.
-   * 
-   * It must not contain more than 2048 characters.
+   *
+   * Must not be empty and it must not contain more than 2048 characters.
    */
+  @NotEmpty(message =
+      "study-management.error.study-attachment-metadata.title.not-null")
   @Size(max = StringLengths.LARGE, message =
       "study-management.error.study-attachment-metadata.title.string-size")
   private String title;
 
   /**
    * A description for this attachment.
-   * 
+   *
    * It must be specified in at least one language and it must not contain more than 512 characters.
    */
   @NotNull(message =
@@ -106,7 +108,7 @@ public class StudyAttachmentMetadata extends AbstractShadowableRdcDomainObject {
 
   /**
    * The type of the attachment.
-   * 
+   *
    * Must be one of {@link StudyAttachmentTypes} and must not be empty.
    */
   @NotNull(message =
@@ -119,7 +121,7 @@ public class StudyAttachmentMetadata extends AbstractShadowableRdcDomainObject {
 
   /**
    * The filename of the attachment.
-   * 
+   *
    * Must not be empty and must contain only (german) alphanumeric characters and "_" and "-" and
    * ".".
    */
@@ -132,7 +134,7 @@ public class StudyAttachmentMetadata extends AbstractShadowableRdcDomainObject {
 
   /**
    * The language of the attachments content.
-   * 
+   *
    * Must not be empty and must be specified as ISO 639 language code.
    */
   @NotNull(message =

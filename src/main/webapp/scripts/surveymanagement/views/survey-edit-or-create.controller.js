@@ -10,7 +10,10 @@ angular.module('metadatamanagementApp')
       CommonDialogsService, LanguageService, AvailableSurveyNumbersResource,
       SurveyAttachmentResource, $q, StudyIdBuilderService, moment,
       SurveyResponseRateImageUploadService, SurveySearchService, $log,
-      DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService) {
+      DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
+      AttachmentDialogService, SurveyAttachmentUploadService,
+      SurveyAttachmentVersionsResource, SurveyVersionsResource,
+      ChoosePreviousVersionService) {
       var ctrl = this;
       var surveyMethodCache = {};
       var updateToolbarHeaderAndPageTitle = function() {
@@ -180,6 +183,28 @@ angular.module('metadatamanagementApp')
         }
       };
 
+      var getDialogLabels = function() {
+        return {
+          createTitle: {
+            key: 'survey-management.detail.attachments.create-title',
+            params: {
+              surveyId: ctrl.survey.id
+            }
+          },
+          editTitle: {
+            key: 'survey-management.detail.attachments.edit-title',
+            params: {
+              surveyId: ctrl.survey.id
+            }
+          },
+          hints: {
+            file: {
+              key: 'survey-management.detail.attachments.hints.filename'
+            }
+          }
+        };
+      };
+
       ctrl.saveSurvey = function() {
         if ($scope.surveyForm.$valid) {
           if (angular.isUndefined(ctrl.survey.masterId)) {
@@ -232,36 +257,65 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.openRestorePreviousVersionDialog = function(event) {
-        $mdDialog.show({
-            controller: 'ChoosePreviousSurveyVersionController',
-            templateUrl: 'scripts/surveymanagement/' +
-              'views/choose-previous-survey-version.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              surveyId: ctrl.survey.id
+        var getVersions = function(id, limit, skip) {
+          return SurveyVersionsResource.get({
+            id: id,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var dialogConfig = {
+          domainId: ctrl.survey.id,
+          getPreviousVersionsCallback: getVersions,
+          labels: {
+            title: {
+              key: 'survey-management.edit.choose-previous-version.title',
+              params: {
+                surveyId: ctrl.survey.id
+              }
             },
-            targetEvent: event
-          })
-          .then(function(surveyWrapper) {
-            ctrl.survey = new SurveyResource(surveyWrapper.survey);
-            $scope.responseRateInitializing = true;
-            if (surveyWrapper.isCurrentVersion) {
-              $scope.surveyForm.$setPristine();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'survey-management.edit.current-version-restored-toast',
-                {
-                  surveyId: ctrl.survey.id
-                });
-            } else {
-              $scope.surveyForm.$setDirty();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'survey-management.edit.previous-version-restored-toast',
-                {
-                  surveyId: ctrl.survey.id
-                });
+            text: {
+              key: 'survey-management.edit.choose-previous-version.text'
+            },
+            cancelTooltip: {
+              key: 'survey-management.edit.choose-previous-version.' +
+                  'cancel-tooltip'
+            },
+            noVersionsFound: {
+              key: 'survey-management.edit.choose-previous-version.' +
+                  'no-versions-found',
+              params: {
+                surveyId: ctrl.survey.id
+              }
+            },
+            deleted: {
+              key: 'survey-management.edit.choose-previous-version.' +
+                  'survey-deleted'
             }
-          });
+          }
+        };
+
+        ChoosePreviousVersionService.showDialog(dialogConfig, event)
+            .then(function(wrapper) {
+              ctrl.survey = new SurveyResource(wrapper.selection);
+              $scope.responseRateInitializing = true;
+              if (wrapper.isCurrentVersion) {
+                $scope.surveyForm.$setPristine();
+                SimpleMessageToastService.openSimpleMessageToast(
+                    'survey-management.edit.current-version-restored-toast',
+                    {
+                      surveyId: ctrl.survey.id
+                    });
+              } else {
+                $scope.surveyForm.$setDirty();
+                SimpleMessageToastService.openSimpleMessageToast(
+                    'survey-management.edit.previous-version-restored-toast',
+                    {
+                      surveyId: ctrl.survey.id
+                    });
+              }
+            });
       };
 
       $scope.registerConfirmOnDirtyHook = function() {
@@ -304,20 +358,39 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.editAttachment = function(attachment, event) {
-        $mdDialog.show({
-            controller: 'SurveyAttachmentEditOrCreateController',
-            controllerAs: 'ctrl',
-            templateUrl: 'scripts/surveymanagement/' +
-              'views/survey-attachment-edit-or-create.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              surveyAttachmentMetadata: attachment
-            },
-            targetEvent: event
-          }).then(function() {
-          ctrl.loadAttachments();
-        });
+        var upload = function(file, newAttachmentMetadata) {
+          var metadata = _.extend(attachment, newAttachmentMetadata);
+          return SurveyAttachmentUploadService.uploadAttachment(file, metadata);
+        };
+
+        var labels = getDialogLabels();
+        labels.editTitle.params.filename = attachment.fileName;
+
+        var getAttachmentVersions = function(id, filename, limit, skip) {
+          return SurveyAttachmentVersionsResource.get({
+            surveyId: id,
+            filename: filename,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var createSurveyAttachmentResource = function(attachmentWrapper) {
+          return new SurveyAttachmentResource(attachmentWrapper
+              .studyAttachment);
+        };
+
+        var dialogConfig = {
+          attachmentMetadata: attachment,
+          attachmentDomainIdAttribute: 'surveyId',
+          getAttachmentVersionsCallback: getAttachmentVersions,
+          uploadCallback: upload,
+          createAttachmentResource: createSurveyAttachmentResource,
+          labels: labels
+        };
+
+        AttachmentDialogService.showDialog(dialogConfig, event)
+          .then(ctrl.loadAttachments);
       };
 
       ctrl.getNextIndexInSurvey = function() {
@@ -330,25 +403,27 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.addAttachment = function(event) {
-        $mdDialog.show({
-            controller: 'SurveyAttachmentEditOrCreateController',
-            controllerAs: 'ctrl',
-            templateUrl: 'scripts/surveymanagement/' +
-              'views/survey-attachment-edit-or-create.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              surveyAttachmentMetadata: {
-                indexInSurvey: ctrl.getNextIndexInSurvey(),
-                surveyId: ctrl.survey.id,
-                surveyNumber: ctrl.survey.number,
-                dataAcquisitionProjectId: ctrl.survey.dataAcquisitionProjectId
-              }
-            },
-            targetEvent: event
-          }).then(function() {
-          ctrl.loadAttachments(true);
-        });
+        var upload = function(file, attachmentMetadata) {
+          var metadata = _.extend({}, attachmentMetadata, {
+            surveyId: ctrl.survey.id,
+            surveyNumber: ctrl.survey.number,
+            dataAcquisitionProjectId: ctrl.survey.dataAcquisitionProjectId,
+            indexInSurvey: ctrl.getNextIndexInSurvey()
+          });
+          return SurveyAttachmentUploadService.uploadAttachment(file, metadata);
+        };
+
+        var dialogConfig = {
+          attachmentMetadata: null,
+          uploadCallback: upload,
+          labels: getDialogLabels()
+        };
+
+        AttachmentDialogService
+          .showDialog(dialogConfig, event)
+          .then(function() {
+            ctrl.loadAttachments(true);
+          });
       };
 
       ctrl.moveAttachmentUp = function() {

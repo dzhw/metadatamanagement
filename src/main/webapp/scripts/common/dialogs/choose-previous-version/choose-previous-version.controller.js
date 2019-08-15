@@ -2,9 +2,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('ChoosePreviousConceptVersionController',
-    function(ConceptVersionsResource, conceptId, $scope, $mdDialog,
-      LanguageService, $translate) {
+  .controller('ChoosePreviousVersionController',
+    function(getPreviousVersionsCallback, domainId, labels, $scope, $mdDialog,
+             versionLabelAttribute, LanguageService, $translate) {
       $scope.bowser = bowser;
       $scope.currentPage = {
         number: 0,
@@ -13,17 +13,16 @@ angular.module('metadatamanagementApp')
       };
       $scope.currentLanguage = LanguageService.getCurrentInstantly();
       $scope.translationParams = {
-        conceptId: conceptId
+        id: domainId
       };
+      $scope.labels = labels;
+      $scope.versionLabelAttribute = versionLabelAttribute;
 
-      $scope.getConceptVersions = function() {
-        ConceptVersionsResource.get({
-          id: conceptId,
-          limit: $scope.currentPage.limit,
-          skip: $scope.currentPage.skip
-        }).$promise.then(
-            function(concepts) {
-              $scope.concepts = concepts;
+      $scope.getVersions = function() {
+        getPreviousVersionsCallback(domainId, $scope.currentPage.limit,
+            $scope.currentPage.skip).then(
+            function(versions) {
+              $scope.versions = versions;
             });
       };
 
@@ -31,21 +30,21 @@ angular.module('metadatamanagementApp')
         $mdDialog.cancel();
       };
 
-      $scope.select = function(concept, index) {
-        if (!concept.tags) {
-          concept.tags = {
+      $scope.select = function(domainObject, index) {
+        if (!domainObject.tags) {
+          domainObject.tags = {
             de: [],
             en: []
           };
         }
-        if (!concept.tags.de) {
-          concept.tags.de = [];
+        if (!domainObject.tags.de) {
+          domainObject.tags.de = [];
         }
-        if (!concept.tags.en) {
-          concept.tags.en = [];
+        if (!domainObject.tags.en) {
+          domainObject.tags.en = [];
         }
         $mdDialog.hide({
-          concept: concept,
+          selection: domainObject,
           isCurrentVersion: $scope.isCurrentVersion(index)
         });
       };
@@ -53,15 +52,15 @@ angular.module('metadatamanagementApp')
       $scope.nextPage = function() {
         $scope.currentPage.number++;
         $scope.currentPage.skip = ($scope.currentPage.limit *
-          $scope.currentPage.number);
-        $scope.getConceptVersions();
+            $scope.currentPage.number);
+        $scope.getVersions();
       };
 
       $scope.previousPage = function() {
         $scope.currentPage.number--;
         $scope.currentPage.skip = ($scope.currentPage.limit *
-          $scope.currentPage.number);
-        $scope.getConceptVersions();
+            $scope.currentPage.number);
+        $scope.getVersions();
       };
 
       $scope.isCurrentVersion = function(index) {
@@ -71,10 +70,9 @@ angular.module('metadatamanagementApp')
       $scope.getVersionTitle = function(index) {
         if ($scope.isCurrentVersion(index)) {
           return $translate.instant(
-            'concept-management' +
-            '.edit.choose-previous-version.current-version-tooltip');
+              'choose-previous-version.current-version-tooltip');
         }
       };
 
-      $scope.getConceptVersions();
+      $scope.getVersions();
     });
