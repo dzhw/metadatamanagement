@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     Publisher Create concept and check the details of the concept. Eventually publisher delete the concept.
+Force Tags        noslowpoke
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot

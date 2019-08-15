@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     Prerequisite to have this "Referenced Concept ${BROWSER} De" in the system. This test case check this concept referenced with an instrument can not be deleted.
+Force Tags        noslowpoke
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
@@ -26,5 +27,3 @@ Assert concept can not be deleted toast message
 
 Close The Toast Message
    Click Element Through Tooltips  xpath=//button[@ng-click="closeToast()"]//following::md-icon[contains(.,"close")]
-
-
