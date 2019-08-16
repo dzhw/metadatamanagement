@@ -256,7 +256,8 @@ Die Abgabe von Metadaten für die einzelnen Ebenen
 Studie (study)
 ~~~~~~~~~~~~~~
 
-**Übersicht**
+Übersicht
+^^^^^^^^^
 
 Anhand der Informationen, die Sie bzgl. Ihrer Studie im MDM erfassen,
 wird dort später eine Übersichtsseite erstellt, die im Folgenden am
@@ -363,6 +364,8 @@ Eingabemaske („Materialien zu der Studie“) nicht bearbeiten können.
    :name: studienebene_eingabemaske_mitarbeiter
 
    Eingabemaske auf Studienebene, Abschnitt "Projektmitarbeiter(innen)"
+
+**Materialien zur Studie**
 
 Im vierten und letzten Abschnitt der Eingabemaske können Sie Materialien
 zur Studie ablegen. Dazu klicken Sie auf den blauen Plus-Button (s.
