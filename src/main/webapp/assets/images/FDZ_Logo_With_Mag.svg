@@ -9,7 +9,7 @@
 	.st3{clip-path:url(#SVGID_6_);fill:#0069B4;}
 	.st4{clip-path:url(#SVGID_8_);fill:#0069B4;}
 	.st5{clip-path:url(#SVGID_10_);}
-	.st7{clip-path:url(#SVGID_10_);mask:url(#SVGID_11_);}
+	.st7{clip-path:url(#SVGID_10_);-webkit-mask:url(#SVGID_11_);mask:url(#SVGID_11_);}
 	.st8{opacity:0.3;clip-path:url(#SVGID_15_);}
 	.st9{clip-path:url(#SVGID_10_);fill:#EF7900;}
 	.st10{clip-path:url(#SVGID_10_);fill:none;stroke:#706F6F;stroke-width:3;stroke-miterlimit:10;}
