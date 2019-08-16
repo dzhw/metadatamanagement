@@ -8,7 +8,6 @@ Resource          ../../resources/home_page_resource.robot
 
 *** Test Cases ***
 Create Concepts by Publisher
-    #[Tags]  chromeonly
     Get Back to german home page
     Click on concept tab
     Open Concept Create Page
@@ -65,7 +64,7 @@ Upload concept attchment file
     Press Key   xpath=//input[@type='file' and @ngf-select="ctrl.upload($file)"][1]   ${CURDIR}/data/gra2005_MethodReport_de.pdf  # data folder contains the PDF file
 
 Select concept data type
-    Click Element Through Tooltips   xpath=//md-select[@ng-model="ctrl.conceptAttachmentMetadata.type"]
+    Click Element Through Tooltips   xpath=//md-select[@ng-model="ctrl.attachmentMetadata.type"]
     Click Element Through Tooltips   xpath=//md-select-menu//md-option[contains(., "Dokumentation")]
 
 Select a language for concept attachment
@@ -76,10 +75,10 @@ Select a Titel of the attachment
     Input Text   xpath=//textarea[@name="title"]  Thiis is a titel text for concept attachment
 
 Write attachment description in de and en
-    Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.conceptAttachmentMetadata.description.de"]
-    Input Text   xpath=//md-input-container//input[@ng-model="ctrl.conceptAttachmentMetadata.description.de"]   Dataset Description De
-    Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.conceptAttachmentMetadata.description.en"]
-    Input Text   xpath=//md-input-container//input[@ng-model="ctrl.conceptAttachmentMetadata.description.en"]   Dataset Description En
+    Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.attachmentMetadata.description.de"]
+    Input Text   xpath=//md-input-container//input[@ng-model="ctrl.attachmentMetadata.description.de"]   Dataset Description De
+    Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.attachmentMetadata.description.en"]
+    Input Text   xpath=//md-input-container//input[@ng-model="ctrl.attachmentMetadata.description.en"]   Dataset Description En
 
 Save Changes for concept attachment
     Click Element Through Tooltips    xpath=//div[@class="fdz-fab-button-container layout-column"]//button//md-icon[contains(., "save")]
