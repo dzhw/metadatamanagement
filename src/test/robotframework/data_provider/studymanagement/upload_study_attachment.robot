@@ -35,7 +35,7 @@ Upload study file
     Press Key   xpath=//input[@type='file' and @ngf-select="ctrl.upload($file)"][1]   ${CURDIR}/data/gra2005_MethodReport_de.pdf  # data folder contains the PDF file
 
 Select study data type
-    Click Element Through Tooltips   xpath=//md-select[@ng-model="ctrl.studyAttachmentMetadata.type"]
+    Click Element Through Tooltips   xpath=//md-select[@ng-model="ctrl.attachmentMetadata.type"]
     Click Element Through Tooltips   xpath=//md-select-menu//md-option[contains(., "Sonstiges")]
 
 Select a language
@@ -47,10 +47,10 @@ Write Title in selected laguage
     Input Text    xpath=//textarea[@name="title"]    Title in German Language for Study
 
 Write study description in de and en
-    Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.studyAttachmentMetadata.description.de"]
-    Input Text   xpath=//md-input-container//input[@ng-model="ctrl.studyAttachmentMetadata.description.de"]   Study Description De
-    Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.studyAttachmentMetadata.description.en"]
-    Input Text   xpath=//md-input-container//input[@ng-model="ctrl.studyAttachmentMetadata.description.en"]   Study Description En
+    Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.attachmentMetadata.description.de"]
+    Input Text   xpath=//md-input-container//input[@ng-model="ctrl.attachmentMetadata.description.de"]   Study Description De
+    Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.attachmentMetadata.description.en"]
+    Input Text   xpath=//md-input-container//input[@ng-model="ctrl.attachmentMetadata.description.en"]   Study Description En
 
 Save Changes for study attachment
     Click Element Through Tooltips    xpath=//div[@class="fdz-fab-button-container layout-column"]//button//md-icon[contains(., "save")]
