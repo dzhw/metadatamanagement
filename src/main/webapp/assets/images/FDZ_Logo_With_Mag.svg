@@ -9,7 +9,6 @@
 	.st3{clip-path:url(#SVGID_6_);fill:#0069B4;}
 	.st4{clip-path:url(#SVGID_8_);fill:#0069B4;}
 	.st5{clip-path:url(#SVGID_10_);}
-	.st7{clip-path:url(#SVGID_10_);-webkit-mask-image:url(#SVGID_11_);mask:url(#SVGID_11_);}
 	.st8{opacity:0.3;clip-path:url(#SVGID_15_);}
 	.st9{clip-path:url(#SVGID_10_);fill:#EF7900;}
 	.st10{clip-path:url(#SVGID_10_);fill:none;stroke:#706F6F;stroke-width:3;stroke-miterlimit:10;}
@@ -184,14 +183,13 @@ OvCnhX+deFPCv868KeFf514U8K/zrwp4V/nXhTwr/OvCnhX+deFPCv8AOvCnhX+deFPCv868KeFf
 				</g>
 			</g>
 		</mask>
-		<g class="st7">
+		<g mask="url(#SVGID_11_)">
 			<g>
 				<defs>
-					<rect id="SVGID_14_" x="78.6" y="-1" width="161.8" height="162.7"/>
+					<clipPath id="SVGID_15_">
+						<rect id="SVGID_14_" x="78.6" y="-1" width="161.8" height="162.7"/>
+					</clipPath>
 				</defs>
-				<clipPath id="SVGID_15_">
-					<use xlink:href="#SVGID_14_"/>
-				</clipPath>
 				<rect x="78.6" y="-1" class="st8" width="161.8" height="162.7"/>
 			</g>
 		</g>
