@@ -35,7 +35,7 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
         });
       } else {
         if ($document.find('[data-translate="data-acquisition' +
-          '-project-management.outdated-version-alert"').length > 0) {
+          '-project-management.outdated-version-alert"]').length > 0) {
           $mdToast.hide();
         }
       }

@@ -49,7 +49,7 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
 
   /**
    * The id of the {@link Survey} to which this attachment belongs.
-   * 
+   *
    * Must not be empty.
    */
   @NotEmpty(message =
@@ -59,7 +59,7 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
   /**
    * The id of the {@link DataAcquisitionProject} to which the {@link Survey} of this attachment
    * belongs.
-   * 
+   *
    * Must not be empty.
    */
   @NotEmpty(message =
@@ -68,7 +68,7 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
 
   /**
    * A description for this attachment.
-   * 
+   *
    * It must be specified in at least one language and it must not contain more than 512 characters.
    */
   @NotNull(message =
@@ -81,10 +81,10 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
 
   /**
    * A title of this attachment in the attachments' language.
-   * 
-   * It must not contain more than 2048 characters.
+   *
+   * Must not be empty and it must not contain more than 2048 characters.
    */
-  @NotNull(message =
+  @NotEmpty(message =
       "survey-management.error.survey-attachment-metadata.title.not-null")
   @Size(max = StringLengths.LARGE, message =
       "survey-management.error.survey-attachment-metadata.title.string-size")
@@ -92,7 +92,7 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
 
   /**
    * The language of the attachments content.
-   * 
+   *
    * Must not be empty and must be specified as ISO 639 language code.
    */
   @NotNull(message =
@@ -103,7 +103,7 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
 
   /**
    * The filename of the attachment.
-   * 
+   *
    * Must not be empty and must contain only (german) alphanumeric characters and "_" and "-" and
    * ".".
    */
@@ -116,7 +116,7 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
 
   /**
    * The number of the {@link Survey} to which this attachment belongs.
-   * 
+   *
    * Must not be empty.
    */
   @NotNull(message =
@@ -126,7 +126,7 @@ public class SurveyAttachmentMetadata extends AbstractShadowableRdcDomainObject 
   /**
    * The index in the {@link Survey} of this attachment. Used for sorting the attachments of this
    * {@link Survey}.
-   * 
+   *
    * Must not be empty.
    */
   @NotNull(message =

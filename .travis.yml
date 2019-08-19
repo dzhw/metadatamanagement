@@ -48,7 +48,9 @@ jobs:
         - npm install -g bower
         - npm install -g grunt-cli
       script:
-        - ./deploy/build.sh unused $TRAVIS_BRANCH $COVERALLS_TOKEN
+        - ./deploy/build.sh unused $TRAVIS_BRANCH
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
     - stage: build and deploy
       name: "Build and Deploy to PWS"
       install:
@@ -70,7 +72,9 @@ jobs:
         - sudo apt-get install cf-cli -y --allow-unauthenticated
         - sudo netstat -pelnut
       script:
-        - ./deploy/build-and-deploy.sh unused $CI_DEPLOY_USERNAME $CI_DEPLOY_PASSWORD $TRAVIS_BRANCH $COVERALLS_TOKEN $TRAVIS_EVENT_TYPE
+        - ./deploy/build-and-deploy.sh unused $CI_DEPLOY_USERNAME $CI_DEPLOY_PASSWORD $TRAVIS_BRANCH $TRAVIS_EVENT_TYPE
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
     - stage: e2e smoketests
       name: "Chrome Smoketest"
       install:
@@ -96,6 +100,12 @@ jobs:
       script:
         - export PYTHONWARNINGS="ignore"
         - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:ie --include smoketest --exclude firefoxonly --exclude chromeonly --exclude noslowpoke ./src/test/robotframework
+    - name: "Safari Smoketest"
+      install:
+        - ./src/test/robotframework/setup.sh
+      script:
+        - export PYTHONWARNINGS="ignore"
+        - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:safari --include smoketest --exclude firefoxonly --exclude chromeonly ./src/test/robotframework
     - stage: nightly e2e tests publicuser
       name: "Nightly Chrome Tests (Public User)"
       install:
@@ -121,6 +131,12 @@ jobs:
       script:
         - export PYTHONWARNINGS="ignore"
         - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --include publicuserNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
+    - name: "Nightly Safari Tests (Public User)"
+      install:
+        - ./src/test/robotframework/setup.sh
+      script:
+        - export PYTHONWARNINGS="ignore"
+        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publicuserNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
     - stage: nightly e2e tests dataprovider
       name: "Nightly Chrome Tests (Dataprovider)"
       install:

@@ -172,6 +172,18 @@ var configAttributes = {
             'to their autorange values.'
         ].join(' ')
     },
+    doubleClickDelay: {
+        valType: 'number',
+        dflt: 300,
+        min: 0,
+        description: [
+            'Sets the delay for registering a double-click in ms.',
+            'This is the time interval (in ms) between first mousedown and',
+            '2nd mouseup to constitute a double-click.',
+            'This setting propagates to all on-subplot double clicks',
+            '(except for geo and mapbox) and on-legend double clicks.'
+        ].join(' ')
+    },
 
     showAxisDragHandles: {
         valType: 'boolean',
@@ -255,6 +267,15 @@ var configAttributes = {
             'Note that this button can (depending on `plotlyServerURL`) send your data',
             'to an external server. However that server does not persist your data',
             'until you arrive at the Chart Studio and explicitly click "Save".'
+        ].join(' ')
+    },
+    showEditInChartStudio: {
+        valType: 'boolean',
+        dflt: false,
+        description: [
+            'Same as `showSendToCloud`, but use a pencil icon instead of a floppy-disk.',
+            'Note that if both `showSendToCloud` and `showEditInChartStudio` are turned,',
+            'only `showEditInChartStudio` will be honored.'
         ].join(' ')
     },
     modeBarButtonsToRemove: {

@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Optional;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,15 @@ public class TaskServiceTest extends AbstractTest {
   @Autowired
   private TaskRepository taskRepo;
   @Autowired
-  CounterService counterService;
+  private CounterService counterService;
 
   @Before
   public void setUp() throws Exception {}
+  
+  @After
+  public void teardown() throws Exception {
+    taskRepo.deleteAll();
+  }
 
   @Test
   public void testCreateTask() {

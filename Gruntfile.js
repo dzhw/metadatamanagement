@@ -856,6 +856,7 @@ module.exports = function(grunt) {
     'createJavaSourceCodeFromTranslations',
     'test', 'htmlangular:default',
     'htmlangular:index', 'clean:dist',
+    'test', 'clean:dist',
     'wiredep:app', 'ngconstant:local',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',

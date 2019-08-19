@@ -10,19 +10,17 @@ angular.module('metadatamanagementApp').config(
             'saved': 'Survey with RDC-ID {{ id }} was saved successfully!',
             'not-saved': 'Survey with RDC-ID {{ id }} has not been saved!',
             'missing-number': 'Survey from the Excel document in the worksheet "surveys" in the line {{ index }} does not contain a Number and has not been saved!',
+            'upload-terminated': 'Finished upload of {{ totalSurveys }} Surveys, {{ totalImages }} Images and {{totalAttachments}} Attachments with {{ totalErrors }} errors.',
             'unable-to-upload-image-file': 'Image file "{{ file }}" could not be uploaded!',
             'unable-to-read-image-file': 'Image file "{{ file }}" could not be read!',
-            'upload-terminated': 'Finished upload of {{ totalSurveys }} Surveys, {{ totalImages }} Images and {{totalAttachments}} Attachments with {{ totalErrors }} errors.',
-            'unable-to-delete': 'The Surveys could not be deleted!',
             'image-file-not-found': 'Image file "{{ file }}" could not be found!',
-            'duplicate-survey-number': 'The number ({{ number }}) of Survey from the Excel document in the worksheet "surveys" in the line {{ index }} has already been used.',
-            'cancelled': 'Surveys upload cancelled!'
+            'unable-to-delete': 'The Surveys could not be deleted!',
+            'cancelled': 'Surveys upload cancelled!',
+            'duplicate-survey-number': 'The number ({{ number }}) of Survey from the Excel document in the worksheet "surveys" in the line {{ index }} has already been used.'
           },
           'survey-attachment': {
-            'not-saved': 'Attachment "{{ id }}" has not been saved.',
             'missing-survey-number': 'Attachment of a survey from the Excel document in the worksheet "attachments" in the line {{ index }} does not have an survey number and has not been saved.',
-            'missing-filename': 'Attachment of a survey from the Excel document in the worksheet "attachments" in the line {{ index }} does not have a filename and has not been saved.',
-            'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
+            'missing-filename': 'Attachment of a survey from the Excel document in the worksheet "attachments" in the line {{ index }} does not have a filename and has not been saved.'
           }
         },
         'detail': {
@@ -35,13 +33,13 @@ angular.module('metadatamanagementApp').config(
             'unit': 'Survey Unit',
             'geographic-coverage': 'Geographic Coverage',
             'geographic-coverages': 'Geographic Coverages',
-            'survey-method': 'Survey Method',
             'data-type': 'Survey Data Type',
+            'survey-method': 'Survey Method',
             'sample': 'Sampling Procedure',
+            'annotations': 'Annotations',
             'grossSampleSize': 'Gross Sample Size',
             'sampleSize': 'Net Sample Size',
             'responseRate': 'Response Rate',
-            'annotations': 'Annotations',
             'attachments': {
               'title': 'Title',
               'description': 'Description',
@@ -62,37 +60,14 @@ angular.module('metadatamanagementApp').config(
             'add-attachment-tooltip': 'Click to add a new document to this survey.',
             'edit-title': 'Modify Document "{{ filename }}" of Survey "{{ surveyId }}"',
             'create-title': 'Add new Document to Survey "{{ surveyId }}"',
-            'cancel-tooltip': 'Click to close this dialog without saving.',
-            'save-tooltip': 'Click to save this document.',
             'change-file-tooltip': 'Click to choose a file.',
-            'attachment-saved-toast': 'Document "{{ filename }}" has been saved.',
-            'attachment-has-validation-errors-toast': 'The document has not been saved because there are invalid fields.',
             'open-choose-previous-version-tooltip': 'Click to restore a previous version of the metadata.',
             'current-version-restored-toast': 'Current version of the metadata for document "{{ filename }}" has been restored.',
             'previous-version-restored-toast': 'Previous version of the metadata for document "{{ filename }}" can be saved now.',
-            'choose-previous-version': {
-              'title': 'Restore Previous Version of the Metadata for Document "{{ filename }}"',
-              'text': 'Choose a previous version of the metadata for document "{{ filename }}" which shall be restored:',
-              'attachment-description': 'Description (in English)',
-              'lastModified': 'Modified',
-              'lastModifiedBy': 'by',
-              'cancel-tooltip': 'Click to return without choosing a previous metadata version.',
-              'current-version-tooltip': 'This is the current version!',
-              'next-page-tooltip': 'Click to show older versions.',
-              'previous-page-tooltip': 'Click to more recent versions.',
-              'attachment-deleted': 'Metadata has been deleted!',
-              'no-versions-found': 'There are no previous versions of the metadata.'
-            },
             'language-not-found': 'No valid language found!',
             'save-survey-before-adding-attachment': 'The Survey has to be saved to enable attaching documents.',
             'hints': {
-              'filename': 'Choose a file which you want to attach to the survey.',
-              'language': 'Select the language which has been used in the file.',
-              'title': 'Enter the title of the file in the language of the file.',
-              'description': {
-                'de': 'Please enter a description for the file in German.',
-                'en': 'Please enter a description for the file in English.'
-              }
+              'filename': 'Choose a file which you want to attach to the survey.'
             }
           },
           'title': '{{ title }} ({{ surveyId }})',
@@ -196,36 +171,6 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The description of the Population must not be empty!',
               'i18n-string-not-empty': 'The description of the population must not be empty for both languages.',
               'i18n-string-size': 'The max length of the population description is 2048 signs.'
-            }
-          },
-          'survey-attachment-metadata': {
-            'survey-id': {
-              'not-empty': 'The ID of the corresponding Survey must not be empty.'
-            },
-            'survey-number': {
-              'not-null': 'The Number of the corresponding Survey must not be empty.'
-            },
-            'project-id': {
-              'not-empty': 'The ID of the Data Acquisition Project must not be empty!'
-            },
-            'description': {
-              'not-null': 'The description of the attachment must not be empty!',
-              'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 512 characters.',
-              'i18n-string-not-empty': 'The description must not be empty at least for one language.'
-            },
-            'title': {
-              'not-null': 'The title of the attachment must not be empty!',
-              'string-size': 'The title of the attachment is mandatory and must not contain more than 2048 characters.'
-            },
-            'language': {
-              'not-null': 'The language of the attachment must not be empty!',
-              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!',
-              'not-valid': 'Please select a supported language.'
-            },
-            'filename': {
-              'not-empty': 'The filename of the attachment must not be empty!',
-              'not-unique': 'There is already an attachment with this name!',
-              'not-valid': 'The filename is invalid.'
             }
           }
         },

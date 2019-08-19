@@ -36,38 +36,14 @@ angular.module('metadatamanagementApp').config(
             'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Konzept hinzuzufügen.',
             'edit-title': 'Datei "{{ filename }}" von Konzept "{{ conceptId }}" bearbeiten',
             'create-title': 'Neue Datei zu Konzept "{{ conceptId }}" hinzufügen',
-            'cancel-tooltip': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
-            'save-tooltip': 'Klicken, um die Datei zu speichern.',
-            'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
-            'attachment-has-validation-errors-toast': 'Die Datei wurde nicht gespeichert, weil es noch ungültige Felder gibt.',
             'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
             'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
             'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
             'previous-version-restored-toast': 'Die ältere Version der Metadaten von Datei "{{ filename }}" kann jetzt gespeichert werden.',
-            'choose-previous-version': {
-              'title': 'Ältere Version der Metadaten zu Datei "{{ filename }}" wiederherstellen',
-              'text': 'Wählen Sie eine ältere Version der Metadaten zu Datei "{{ filename }}" aus, die wiederhergestellt werden soll:',
-              'attachment-description': 'Beschreibung (auf Deutsch)',
-              'lastModified': 'Geändert',
-              'lastModifiedBy': 'von',
-              'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Metadaten auszuwählen zurückzukehren.',
-              'current-version-tooltip': 'Dies ist die aktuelle Version!',
-              'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
-              'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
-              'attachment-deleted': 'Metadaten wurden gelöscht!',
-              'no-versions-found': 'Es wurden keine älteren Versionen der Metadaten gefunden.'
-            },
             'language-not-found': 'Keine gültige Sprache gefunden!',
             'save-concept-before-adding-attachment': 'Das Konzept muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
             'hints': {
-              'filename': 'Wählen Sie eine Datei aus, die Sie dem Konzept hinzufügen wollen.',
-              'type': 'Wählen Sie den Typ der Datei aus.',
-              'language': 'Wählen Sie die Sprache, die in der Datei verwendet wurde, aus.',
-              'title': 'Geben Sie den Titel der Datei in der Dokumentensprache ein.',
-              'description': {
-                'de': 'Geben Sie eine Beschreibung dieser Datei auf Deutsch ein.',
-                'en': 'Geben Sie eine Beschreibung dieser Datei auf Englisch ein.'
-              }
+              'filename': 'Wählen Sie eine Datei aus, die Sie dem Konzept hinzufügen wollen.'
             }
           },
           'title': '{{ title }} ({{ conceptId }})',
@@ -102,17 +78,13 @@ angular.module('metadatamanagementApp').config(
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',
           'tag-tooltip': 'Klicken, um Konzepte mit diesem Tag zu suchen',
-          'tags': 'Tags',
+          'tags': 'Tags'
         },
         'log-messages': {
           'concept': {
             'saved': 'Konzept mit FDZ-ID {{ id }} erfolgreich gespeichert!',
             'not-saved': 'Konzept mit FDZ-ID {{ id }} wurde nicht gespeichert:',
             'unable-to-delete': 'Das Konzept konnte nicht gelöscht werden!'
-          },
-          'concept-attachment': {
-            'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert:',
-            'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
           }
         },
         'error': {
@@ -154,34 +126,6 @@ angular.module('metadatamanagementApp').config(
               'instruments': 'Das Konzept kann nicht gelöscht werden, weil es durch die folgenden Instrumente referenziert wird: {{ids}}.',
               'questions': 'Das Konzept kann nicht gelöscht werden, weil es durch die folgenden Fragen referenziert wird: {{ids}}.'
             }
-          },
-          'concept-attachment-metadata': {
-            'concept-id': {
-              'not-empty': 'Die ID des zugehörigen Konzepts darf nicht leer sein.'
-            },
-            'type': {
-              'not-null': 'Der Typ des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Der Typ muss in beiden Sprachen angegeben werden und darf nicht länger als 32 Zeichen sein.',
-              'valid-type': 'Der Typ muss einer der folgenden Werte sein: Dokumentation, Instrument, Sonstiges.'
-            },
-            'description': {
-              'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 512 Zeichen sein.',
-              'i18n-string-not-empty': 'Die Beschreibung muss in mindestens einer Sprache vorhanden sein.'
-            },
-            'title': {
-              'string-size': 'Der Title des Attachments darf nicht länger als 2048 Zeichen sein.'
-            },
-            'language': {
-              'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
-              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.',
-              'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
-            },
-            'filename': {
-              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.',
-              'not-unique': 'Es gibt bereits ein Attachment mit diesem Dateinamen.',
-              'not-valid': 'Der Dateiname ist ungültig.'
-            }
           }
         },
         'edit': {
@@ -191,7 +135,7 @@ angular.module('metadatamanagementApp').config(
           'error-on-save-toast': 'Ein Fehler trat beim Speichern von Konzept {{conceptId}} auf!',
           'concept-has-validation-errors-toast': 'Das Konzept wurde nicht gespeichert, weil es noch ungültige Felder gibt!',
           'previous-version-restored-toast': 'Die ältere Version von Konzept {{ conceptId }} kann jetzt gespeichert werden.',
-          'current-version-restored-toast': 'Die aktuelle Version von Konzept {{ conceptyId }} wurde wiederhergestellt.',
+          'current-version-restored-toast': 'Die aktuelle Version von Konzept {{ conceptId }} wurde wiederhergestellt.',
           'not-authorized-toast': 'Sie sind nicht berechtigt Konzepte zu bearbeiten oder anzulegen!',
           'concept-deleted-toast': 'Das Konzept {{ id }} wurde gelöscht.',
           'label': {
@@ -210,16 +154,11 @@ angular.module('metadatamanagementApp').config(
           'add-author-tooltip': 'Klicken, um einen neuen Autor diesem Konzept hinzuzufügen.',
           'delete-author-tooltip': 'Klicken, um den ausgewählten Autor dieses Konzept zu löschen.',
           'choose-previous-version': {
-            'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
-            'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
             'title': 'Ältere Version des Konzepts {{ conceptId }} wiederherstellen',
             'text': 'Wählen Sie eine ältere Konzeptversion aus, die wiederhergestellt werden soll:',
             'cancel-tooltip': 'Klicken, um, ohne eine ältere Konzeptversion auszuwählen, zurückzukehren.',
             'no-versions-found': 'Es wurden keine älteren Versionen von Konzept {{ conceptId }} gefunden.',
-            'concept-title': 'Titel',
-            'lastModified': 'Geändert',
-            'lastModifiedBy': 'von',
-            'current-version-tooltip': 'Dies ist die aktuelle Version!'
+            'concept-deleted': 'Das Konzept wurd gelöscht!'
           },
           'hints': {
             'id': 'Geben Sie die ID dieses Konzeptes in unserem FDZ an.',

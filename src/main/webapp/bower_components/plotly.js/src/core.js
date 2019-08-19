@@ -9,7 +9,7 @@
 'use strict';
 
 // package version injected by `npm run preprocess`
-exports.version = '1.48.3';
+exports.version = '1.49.1';
 
 // inject promise polyfill
 require('es6-promise').polyfill();
@@ -66,7 +66,7 @@ register([
 ]);
 
 // plot icons
-exports.Icons = require('../build/ploticon');
+exports.Icons = require('./fonts/ploticon');
 
 // unofficial 'beta' plot methods, use at your own risk
 exports.Plots = require('./plots/plots');
