@@ -51,38 +51,14 @@ angular.module('metadatamanagementApp').config(
             'add-attachment-tooltip': 'Klicken, um einen neue Datei zu dieser Studie hinzuzufügen.',
             'edit-title': 'Datei "{{ filename }}" von Studie "{{ studyId }}" bearbeiten',
             'create-title': 'Neue Datei zu Studie "{{ studyId }}" hinzufügen',
-            'cancel-tooltip': 'Klicken, um den Dialog ohne zu speichern zu schließen.',
-            'save-tooltip': 'Klicken, um die Datei zu speichern.',
-            'attachment-saved-toast': 'Datei "{{ filename }}" wurde gespeichert.',
-            'attachment-has-validation-errors-toast': 'Die Datei wurde nicht gespeichert, weil es noch ungültige Felder gibt.',
             'change-file-tooltip': 'Klicken, um eine Datei auszuwählen.',
             'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version der Metadaten wiederherzustellen.',
             'current-version-restored-toast': 'Die aktuelle Version der Metadaten von Datei "{{ filename }}" wurde wiederhergestellt.',
             'previous-version-restored-toast': 'Die ältere Version der Metadaten von Datei "{{ filename }}" kann jetzt gespeichert werden.',
-            'choose-previous-version': {
-              'title': 'Ältere Version der Metadaten zu Datei "{{ filename }}" wiederherstellen',
-              'text': 'Wählen Sie eine ältere Version der Metadaten zu Datei "{{ filename }}" aus, die wiederhergestellt werden soll:',
-              'attachment-description': 'Beschreibung (auf Deutsch)',
-              'lastModified': 'Geändert',
-              'lastModifiedBy': 'von',
-              'cancel-tooltip': 'Klicken, um ohne eine ältere Version der Metadaten auszuwählen zurückzukehren.',
-              'current-version-tooltip': 'Dies ist die aktuelle Version!',
-              'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
-              'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
-              'attachment-deleted': 'Metadaten wurden gelöscht!',
-              'no-versions-found': 'Es wurden keine älteren Versionen der Metadaten gefunden.'
-            },
             'language-not-found': 'Keine gültige Sprache gefunden!',
             'save-study-before-adding-attachment': 'Die Studie muss erst gespeichert werden, bevor Materialien hinzugefügt werden können.',
             'hints': {
-              'filename': 'Wählen Sie eine Datei aus, die Sie der Studie hinzufügen wollen.',
-              'type': 'Wählen Sie den Typ der Datei aus.',
-              'language': 'Wählen Sie die Sprache, die in der Datei verwendet wurde, aus.',
-              'title': 'Geben Sie den Titel der Datei in der Dokumentensprache ein.',
-              'description': {
-                'de': 'Geben Sie eine Beschreibung dieser Datei auf Deutsch ein.',
-                'en': 'Geben Sie eine Beschreibung dieser Datei auf Englisch ein.'
-              }
+              'filename': 'Wählen Sie eine Datei aus, die Sie der Studie hinzufügen wollen.'
             }
           },
           'data-set': {
@@ -145,10 +121,6 @@ angular.module('metadatamanagementApp').config(
             'unable-to-delete': 'Die Studie konnte nicht gelöscht werden!',
             'upload-terminated': 'Upload von {{ total }} Studie  und {{ attachments }} Attachments mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
             'cancelled': 'Upload der Studie Abgebrochen!'
-          },
-          'study-attachment': {
-            'not-saved': 'Attachment "{{ id }}" wurde nicht gespeichert:',
-            'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
           }
         },
         'error': {
@@ -203,37 +175,6 @@ angular.module('metadatamanagementApp').config(
                 'not-empty': 'Die FDZ - ID des Projektes darf bei der Studie nicht leer sein!'
               }
             }
-          },
-          'study-attachment-metadata': {
-            'study-id': {
-              'not-empty': 'Die ID der zugehörigen Studie darf nicht leer sein.'
-            },
-            'project-id': {
-              'not-empty': 'Die ID des zugehörigen Datenaufbereitungsprojektes darf nicht leer sein.'
-            },
-            'type': {
-              'not-null': 'Der Typ des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Der Typ muss in beiden Sprachen angegeben werden und darf nicht länger als 32 Zeichen sein.',
-              'valid-type': 'Der Typ muss einer der folgenden Werte sein: Daten- und Methodenbericht, Sonstiges.'
-            },
-            'description': {
-              'not-null': 'Die Beschreibung des Attachments darf nicht leer sein.',
-              'i18n-string-size': 'Die Beschreibung muss in mindestens einer Sprache angegeben werden und darf nicht länger als 512 Zeichen sein.',
-              'i18n-string-not-empty': 'Die Beschreibung muss in mindestens einer Sprache vorhanden sein.'
-            },
-            'title': {
-              'string-size': 'Der Title des Attachments darf nicht länger als 2048 Zeichen sein.'
-            },
-            'language': {
-              'not-null': 'Die Sprache des Attachments darf nicht leer sein.',
-              'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.',
-              'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
-            },
-            'filename': {
-              'not-empty': 'Der Dateiname des Attachments darf nicht leer sein.',
-              'not-unique': 'Es gibt bereits ein Attachment mit diesem Dateinamen.',
-              'not-valid': 'Der Dateiname ist ungültig.'
-            }
           }
         },
         'edit': {
@@ -267,10 +208,7 @@ angular.module('metadatamanagementApp').config(
             'text': 'Wählen Sie eine ältere Studienversion aus, die wiederhergestellt werden soll:',
             'cancel-tooltip': 'Klicken, um ohne eine ältere Studienversion auszuwählen zurückzukehren.',
             'no-versions-found': 'Es wurden keine älteren Versionen von Studie {{ studyId }} gefunden.',
-            'study-title': 'Titel',
-            'lastModified': 'Geändert',
-            'lastModifiedBy': 'von',
-            'current-version-tooltip': 'Dies ist die aktuelle Version!'
+            'study-deleted': 'Die Studie wurde gelöscht!'
           },
           'hints': {
             'title': {

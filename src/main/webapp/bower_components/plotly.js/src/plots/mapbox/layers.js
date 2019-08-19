@@ -10,15 +10,16 @@
 
 var Lib = require('../../lib');
 var convertTextOpts = require('./convert_text_opts');
+var constants = require('./constants');
 
-function MapboxLayer(mapbox, index) {
-    this.mapbox = mapbox;
-    this.map = mapbox.map;
+function MapboxLayer(subplot, index) {
+    this.subplot = subplot;
 
-    this.uid = mapbox.uid + '-' + 'layer' + index;
+    this.uid = subplot.uid + '-' + index;
+    this.index = index;
 
-    this.idSource = this.uid + '-source';
-    this.idLayer = this.uid + '-layer';
+    this.idSource = 'source-' + this.uid;
+    this.idLayer = constants.layoutLayerPrefix + this.uid;
 
     // some state variable to check if a remove/add step is needed
     this.sourceType = null;
@@ -65,12 +66,12 @@ proto.needsNewSource = function(opts) {
 proto.needsNewLayer = function(opts) {
     return (
         this.layerType !== opts.type ||
-        this.below !== opts.below
+        this.below !== this.subplot.belowLookup['layout-' + this.index]
     );
 };
 
 proto.updateSource = function(opts) {
-    var map = this.map;
+    var map = this.subplot.map;
 
     if(map.getSource(this.idSource)) map.removeSource(this.idSource);
 
@@ -85,14 +86,33 @@ proto.updateSource = function(opts) {
 };
 
 proto.updateLayer = function(opts) {
-    var map = this.map;
+    var subplot = this.subplot;
     var convertedOpts = convertOpts(opts);
 
+    var below = this.subplot.belowLookup['layout-' + this.index];
+    var _below;
+
+    if(below === 'traces') {
+        var mapLayers = subplot.getMapLayers();
+
+        // find id of first plotly trace layer
+        for(var i = 0; i < mapLayers.length; i++) {
+            var layerId = mapLayers[i].id;
+            if(typeof layerId === 'string' &&
+                layerId.indexOf(constants.traceLayerPrefix) === 0
+            ) {
+                _below = layerId;
+                break;
+            }
+        }
+    } else {
+        _below = below;
+    }
+
     this.removeLayer();
-    this.layerType = opts.type;
 
     if(isVisible(opts)) {
-        map.addLayer({
+        subplot.addLayer({
             id: this.idLayer,
             source: this.idSource,
             'source-layer': opts.sourcelayer || '',
@@ -101,27 +121,30 @@ proto.updateLayer = function(opts) {
             maxzoom: opts.maxzoom,
             layout: convertedOpts.layout,
             paint: convertedOpts.paint
-        }, opts.below);
+        }, _below);
     }
+
+    this.layerType = opts.type;
+    this.below = below;
 };
 
 proto.updateStyle = function(opts) {
     if(isVisible(opts)) {
         var convertedOpts = convertOpts(opts);
-        this.mapbox.setOptions(this.idLayer, 'setLayoutProperty', convertedOpts.layout);
-        this.mapbox.setOptions(this.idLayer, 'setPaintProperty', convertedOpts.paint);
+        this.subplot.setOptions(this.idLayer, 'setLayoutProperty', convertedOpts.layout);
+        this.subplot.setOptions(this.idLayer, 'setPaintProperty', convertedOpts.paint);
     }
 };
 
 proto.removeLayer = function() {
-    var map = this.map;
+    var map = this.subplot.map;
     if(map.getLayer(this.idLayer)) {
         map.removeLayer(this.idLayer);
     }
 };
 
-proto.dispose = function dispose() {
-    var map = this.map;
+proto.dispose = function() {
+    var map = this.subplot.map;
     map.removeLayer(this.idLayer);
     map.removeSource(this.idSource);
 };
@@ -131,7 +154,7 @@ function isVisible(opts) {
 
     return opts.visible && (
         Lib.isPlainObject(source) ||
-        (typeof source === 'string' && source.length > 0)
+        ((typeof source === 'string' || Array.isArray(source)) && source.length > 0)
     );
 }
 
@@ -193,7 +216,10 @@ function convertOpts(opts) {
             break;
     }
 
-    return { layout: layout, paint: paint };
+    return {
+        layout: layout,
+        paint: paint
+    };
 }
 
 function convertSourceOpts(opts) {
@@ -206,14 +232,23 @@ function convertSourceOpts(opts) {
         field = 'data';
     } else if(sourceType === 'vector') {
         field = typeof source === 'string' ? 'url' : 'tiles';
+    } else if(sourceType === 'raster') {
+        field = 'tiles';
+        sourceOpts.tileSize = 256;
+    } else if(sourceType === 'image') {
+        field = 'url';
+        sourceOpts.coordinates = opts.coordinates;
     }
 
     sourceOpts[field] = source;
+
+    if(opts.sourceattribution) sourceOpts.attribution = opts.sourceattribution;
+
     return sourceOpts;
 }
 
-module.exports = function createMapboxLayer(mapbox, index, opts) {
-    var mapboxLayer = new MapboxLayer(mapbox, index);
+module.exports = function createMapboxLayer(subplot, index, opts) {
+    var mapboxLayer = new MapboxLayer(subplot, index);
 
     mapboxLayer.update(opts);
 

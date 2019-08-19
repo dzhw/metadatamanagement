@@ -6,14 +6,22 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, $timeout,
       $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
       CurrentProjectService, InstrumentIdBuilderService, InstrumentResource,
-      $scope, SurveyIdBuilderService,
+      $scope, SurveyIdBuilderService, AttachmentDialogService,
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
       CommonDialogsService, LanguageService, AvailableInstrumentNumbersResource,
       InstrumentAttachmentResource, $q, StudyIdBuilderService, SearchDao,
-      DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService) {
+      DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
+      InstrumentAttachmentUploadService, InstrumentAttachmentVersionsResource,
+      ChoosePreviousVersionService, InstrumentVersionsResource) {
       var ctrl = this;
       ctrl.surveyChips = [];
       ctrl.conceptChips = [];
+      var instrumentAttachmentTypes = [
+        {de: 'Fragebogen', en: 'Questionnaire'},
+        {de: 'Filterführungsdiagramm', en: 'Question Flow'},
+        {de: 'Variablenfragebogen', en: 'Variable Questionnaire'},
+        {de: 'Sonstige', en: 'Other'}
+      ];
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageTitleService.setPageTitle(
@@ -68,6 +76,28 @@ angular.module('metadatamanagementApp')
         SimpleMessageToastService.openAlertMessageToast(
           'instrument-management.edit.choose-unreleased-project-toast');
         redirectToSearchView();
+      };
+
+      var getDialogLabels = function() {
+        return {
+          createTitle: {
+            key: 'instrument-management.detail.attachments.create-title',
+            params: {
+              instrumentId: ctrl.instrument.id
+            }
+          },
+          editTitle: {
+            key: 'instrument-management.detail.attachments.edit-title',
+            params: {
+              instrumentId: ctrl.instrument.id
+            }
+          },
+          hints: {
+            file: {
+              key: 'instrument-management.detail.attachments.hints.filename'
+            }
+          }
+        };
       };
 
       ctrl.initSurveyChips = function() {
@@ -241,38 +271,71 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.openRestorePreviousVersionDialog = function(event) {
-        $mdDialog.show({
-            controller: 'ChoosePreviousInstrumentVersionController',
-            templateUrl: 'scripts/instrumentmanagement/' +
-              'views/choose-previous-instrument-version.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              instrumentId: ctrl.instrument.id
+        var getVersions = function(id, limit, skip) {
+          return InstrumentVersionsResource.get({
+            id: id,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var dialogConfig = {
+          domainId: ctrl.instrument.id,
+          getPreviousVersionsCallback: getVersions,
+          labels: {
+            title: {
+              key: 'instrument-management.edit.choose-previous-version.' +
+                  'instrument-description',
+              params: {
+                instrumentId: ctrl.instrument.id
+              }
             },
-            targetEvent: event
-          })
-          .then(function(instrumentWrapper) {
-            ctrl.instrument = new InstrumentResource(
-              instrumentWrapper.instrument);
-            ctrl.initSurveyChips();
-            ctrl.initConceptChips();
-            if (instrumentWrapper.isCurrentVersion) {
-              $scope.instrumentForm.$setPristine();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'instrument-management.edit.current-version-restored-toast',
-                {
-                  instrumentId: ctrl.instrument.id
-                });
-            } else {
-              $scope.instrumentForm.$setDirty();
-              SimpleMessageToastService.openSimpleMessageToast(
-                'instrument-management.edit.previous-version-restored-toast',
-                {
-                  instrumentId: ctrl.instrument.id
-                });
+            text: {
+              key: 'instrument-management.edit.choose-previous-version.text'
+            },
+            cancelTooltip: {
+              key: 'instrument-management.edit.choose-previous-version.' +
+                  'cancel-tooltip'
+            },
+            noVersionsFound: {
+              key: 'instrument-management.edit.choose-previous-version.' +
+                  'no-versions-found',
+              params: {
+                instrumentId: ctrl.instrument.id
+              }
+            },
+            deleted: {
+              key: 'instrument-management.edit.choose-previous-version.' +
+                  'instrument-deleted'
             }
-          });
+          },
+          versionLabelAttribute: 'description'
+        };
+
+        ChoosePreviousVersionService.showDialog(dialogConfig, event)
+            .then(function(wrapper) {
+              ctrl.instrument = new InstrumentResource(
+                  wrapper.selection);
+              ctrl.initSurveyChips();
+              ctrl.initConceptChips();
+              if (wrapper.isCurrentVersion) {
+                $scope.instrumentForm.$setPristine();
+                SimpleMessageToastService.openSimpleMessageToast(
+                    'instrument-management.edit.current-version-' +
+                    'restored-toast',
+                    {
+                      instrumentId: ctrl.instrument.id
+                    });
+              } else {
+                $scope.instrumentForm.$setDirty();
+                SimpleMessageToastService.openSimpleMessageToast(
+                    'instrument-management.edit.previous-version-' +
+                    'restored-toast',
+                    {
+                      instrumentId: ctrl.instrument.id
+                    });
+              }
+            });
       };
 
       $scope.registerConfirmOnDirtyHook = function() {
@@ -315,20 +378,43 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.editAttachment = function(attachment, event) {
-        $mdDialog.show({
-            controller: 'InstrumentAttachmentEditOrCreateController',
-            controllerAs: 'ctrl',
-            templateUrl: 'scripts/instrumentmanagement/' +
-              'views/instrument-attachment-edit-or-create.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              instrumentAttachmentMetadata: attachment
-            },
-            targetEvent: event
-          }).then(function() {
-          ctrl.loadAttachments();
-        });
+
+        var upload = function(file, newAttachmentMetadata) {
+          var metadata = _.extend(attachment, newAttachmentMetadata);
+          return InstrumentAttachmentUploadService.uploadAttachment(file,
+              metadata);
+        };
+
+        var labels = getDialogLabels();
+        labels.editTitle.params.filename = attachment.fileName;
+
+        var getAttachmentVersions = function(id, filename, limit, skip) {
+          return InstrumentAttachmentVersionsResource.get({
+            instrumentId: id,
+            filename: filename,
+            limit: limit,
+            skip: skip
+          }).$promise;
+        };
+
+        var createInstrumentAttachmentResource = function(attachmentWrapper) {
+          return new InstrumentAttachmentResource(attachmentWrapper
+              .studyAttachment);
+        };
+
+        var dialogConfig = {
+          attachmentMetadata: attachment,
+          attachmentTypes: instrumentAttachmentTypes,
+          uploadCallback: upload,
+          labels: labels,
+          exclude: ['title'],
+          attachmentDomainIdAttribute: 'instrumentId',
+          getAttachmentVersionsCallback: getAttachmentVersions,
+          createAttachmentResource: createInstrumentAttachmentResource
+        };
+
+        AttachmentDialogService.showDialog(dialogConfig, event)
+            .then(ctrl.loadAttachments);
       };
 
       ctrl.getNextIndexInInstrument = function() {
@@ -341,26 +427,30 @@ angular.module('metadatamanagementApp')
       };
 
       ctrl.addAttachment = function(event) {
-        $mdDialog.show({
-            controller: 'InstrumentAttachmentEditOrCreateController',
-            controllerAs: 'ctrl',
-            templateUrl: 'scripts/instrumentmanagement/' +
-              'views/instrument-attachment-edit-or-create.html.tmpl',
-            clickOutsideToClose: false,
-            fullscreen: true,
-            locals: {
-              instrumentAttachmentMetadata: {
-                indexInInstrument: ctrl.getNextIndexInInstrument(),
-                instrumentId: ctrl.instrument.id,
-                instrumentNumber: ctrl.instrument.number,
-                dataAcquisitionProjectId:
-                  ctrl.instrument.dataAcquisitionProjectId
-              }
-            },
-            targetEvent: event
-          }).then(function() {
-          ctrl.loadAttachments(true);
-        });
+        var upload = function(file, attachmentMetadata) {
+          var metadata = _.extend({}, attachmentMetadata, {
+            instrumentId: ctrl.instrument.id,
+            instrumentNumber: ctrl.instrument.number,
+            dataAcquisitionProjectId: ctrl.instrument.dataAcquisitionProjectId,
+            indexInInstrument: ctrl.getNextIndexInInstrument()
+          });
+          return InstrumentAttachmentUploadService.uploadAttachment(file,
+              metadata);
+        };
+
+        var dialogConfig = {
+          attachmentMetadata: null,
+          attachmentTypes: instrumentAttachmentTypes,
+          uploadCallback: upload,
+          labels: getDialogLabels(),
+          exclude: ['title']
+        };
+
+        AttachmentDialogService
+            .showDialog(dialogConfig, event)
+            .then(function() {
+              ctrl.loadAttachments(true);
+            });
       };
 
       ctrl.moveAttachmentUp = function() {

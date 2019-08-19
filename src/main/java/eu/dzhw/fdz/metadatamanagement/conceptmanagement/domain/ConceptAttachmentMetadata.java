@@ -67,6 +67,8 @@ public class ConceptAttachmentMetadata extends AbstractRdcDomainObject {
    *
    * It must not contain more than 2048 characters.
    */
+  @NotEmpty(message =
+      "concept-management.error.concept-attachment-metadata.title.not-null")
   @Size(max = StringLengths.LARGE, message =
       "concept-management.error.concept-attachment-metadata.title.string-size")
   private String title;

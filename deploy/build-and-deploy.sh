@@ -9,7 +9,6 @@ PROFILE="$1"
 USERNAME="$2"
 PASSWORD="$3"
 TRAVIS_BRANCH="$4"
-COVERALLS_TOKEN="$5"
 if [ -n "${TRAVIS_BRANCH}" ]; then
   PROFILE="dev"
 fi
@@ -33,11 +32,7 @@ if [ $? -ne 0 ]; then
     echo "cf login failed!"
     exit -1
 fi
-if [ -z ${COVERALLS_TOKEN} ]; then
-  mvn --no-transfer-progress -P${PROFILE} clean package
-else
-  mvn --no-transfer-progress -P${PROFILE} clean -DrepoToken=$COVERALLS_TOKEN package coveralls:report
-fi
+mvn --no-transfer-progress -P${PROFILE} clean package
 if [ $? -ne 0 ]; then
     echo "Maven build failed!"
     exit -1

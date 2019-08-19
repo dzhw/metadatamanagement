@@ -13,11 +13,11 @@ angular.module('metadatamanagementApp').config(
             'institution': 'Institution',
             'authors': 'Authors',
             'sponsors': 'Sponsored by',
+            'version': 'Version',
             'surveyDesign': 'Survey Design',
             'annotations': 'Annotations',
             'wave': 'Waves',
             'survey-data-type': 'Survey Data Type',
-            'version': 'Version',
             'title': 'Title',
             'dataAvailability': 'Data Availability',
             'attachments': {
@@ -51,39 +51,15 @@ angular.module('metadatamanagementApp').config(
             'add-attachment-tooltip': 'Click to add a new document to this study.',
             'edit-title': 'Modify Document "{{ filename }}" of Study "{{ studyId }}"',
             'create-title': 'Add new Document to Study "{{ studyId }}"',
-            'cancel-tooltip': 'Click to close this dialog without saving.',
-            'save-tooltip': 'Click to save this document.',
             'change-file-tooltip': 'Click to choose a file.',
-            'attachment-saved-toast': 'Document "{{ filename }}" has been saved.',
-            'attachment-has-validation-errors-toast': 'The document has not been saved because there are invalid fields.',
             'open-choose-previous-version-tooltip': 'Click to restore a previous version of the metadata.',
             'current-version-restored-toast': 'Current version of the metadata for document "{{ filename }}" has been restored.',
             'previous-version-restored-toast': 'Previous version of the metadata for document "{{ filename }}" can be saved now.',
-            'choose-previous-version': {
-              'title': 'Restore Previous Version of the Metadata for Document "{{ filename }}"',
-              'text': 'Choose a previous version of the metadata for document "{{ filename }}" which shall be restored:',
-              'attachment-description': 'Description (in English)',
-              'lastModified': 'Modified',
-              'lastModifiedBy': 'by',
-              'cancel-tooltip': 'Click to return without choosing a previous metadata version.',
-              'current-version-tooltip': 'This is the current version!',
-              'next-page-tooltip': 'Click to show older versions.',
-              'previous-page-tooltip': 'Click to more recent versions.',
-              'attachment-deleted': 'Metadata has been deleted!',
-              'no-versions-found': 'There are no previous versions of the metadata.'
-            },
             'language-not-found': 'No valid language found!',
             'save-study-before-adding-attachment': 'The Study has to be saved to enable attaching documents.',
             'hints': {
-              'filename': 'Choose a file which you want to attach to the study.',
-              'type': 'Choose the type of the file.',
-              'language': 'Select the language which has been used in the file.',
-              'title': 'Enter the title of the file in the language of the file.',
-              'description': {
-                'de': 'Please enter a description for the file in German.',
-                'en': 'Please enter a description for the file in English.'
+              'filename': 'Choose a file which you want to attach to the study.'
               }
-            }
           },
           'data-set': {
             'card-title': 'Available Data Sets'
@@ -145,10 +121,6 @@ angular.module('metadatamanagementApp').config(
             'unable-to-delete': 'The study could not be deleted!',
             'upload-terminated': 'Finished upload of {{ total }} Study and {{ attachments }} Attachments with {{ warnings }} warnings and {{ errors }} errors.',
             'cancelled': 'Study upload cancelled!'
-          },
-          'study-attachment': {
-            'not-saved': 'Attachment "{{ id }}" has not been saved:',
-            'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
           }
         },
         'error': {
@@ -203,37 +175,6 @@ angular.module('metadatamanagementApp').config(
                 'not-empty': 'The RDC-ID of the Data Acquisition Project for the Study must not be empty!'
               }
             }
-          },
-          'study-attachment-metadata': {
-            'study-id': {
-              'not-empty': 'The ID of the corresponding Study must not be empty.'
-            },
-            'project-id': {
-              'not-empty': 'The ID of the Data Acquisition Project must not be empty!'
-            },
-            'type': {
-              'not-null': 'The type of the attachment must not be empty!',
-              'i18n-string-size': 'The type is mandatory in both languages and must not contain more than 32 characters.',
-              'valid-type': 'The type must be one of the following: Method Report, Other.'
-            },
-            'description': {
-              'not-null': 'The description of the attachment must not be empty!',
-              'i18n-string-size': 'The description is mandatory and must in at least one language and must not contain more than 512 characters.',
-              'i18n-string-not-empty': 'The description must not be empty at least for one language.'
-            },
-            'title': {
-              'string-size': 'The title of the attachment must not contain more than 2048 characters.'
-            },
-            'language': {
-              'not-null': 'The language of the attachment must not be empty!',
-              'not-supported': 'The language of the attachment must be a two-letter abbreviation according to ISO 639-1!',
-              'not-valid': 'Please select a supported language.'
-            },
-            'filename': {
-              'not-empty': 'The filename of the attachment must not be empty!',
-              'not-unique': 'There is already an attachment with this name!',
-              'not-valid': 'The filename is invalid.'
-            }
           }
         },
         'edit': {
@@ -261,16 +202,11 @@ angular.module('metadatamanagementApp').config(
           'add-author-tooltip': 'Click to add a new author to this study.',
           'delete-author-tooltip': 'Click to remove the author from this study.',
           'choose-previous-version': {
-            'next-page-tooltip': 'Click to show older versions.',
-            'previous-page-tooltip': 'Click to show more recent versions.',
             'title': 'Restore Previous Version of Study {{ studyId }}',
             'text': 'Choose a previous version of this study which shall be restored:',
             'cancel-tooltip': 'Click to return without choosing a previous study version.',
             'no-versions-found': 'There are no previous versions of study {{ studyId }}.',
-            'study-title': 'Title',
-            'lastModified': 'Modified',
-            'lastModifiedBy': 'by',
-            'current-version-tooltip': 'This is the current version!'
+            'study-deleted': 'The study has been deleted!'
           },
           'hints': {
             'title': {

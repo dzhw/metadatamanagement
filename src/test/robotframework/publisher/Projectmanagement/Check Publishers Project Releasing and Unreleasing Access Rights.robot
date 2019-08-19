@@ -59,7 +59,7 @@ Get back to home page and deselect project
   Click Element Through Tooltips    xpath=//md-sidenav//project-navbar-module//button[@aria-label="Clear Input"]
 
 Verify The Released Project is Available under The Study Tab
-  Sleep  30s  #We need explicit sleep to ensure the project is available under the study tab
+  Sleep  60s  #We need explicit sleep to ensure the project is available under the study tab
   Publisher Logout   #explicit logout
   Click on study tab
   Wait Until Page Contains Element  xpath=//md-card-header-text//span[contains(.,"stu-robotprojectrelease4${BROWSER}$")]  5s

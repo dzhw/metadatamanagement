@@ -24,7 +24,6 @@ Select Item and Put in The Cart
    @{MD_ACCESSWAYNAMES}   Create List    download-suf  remote-desktop-suf   onsite-suf   download-cuf
    :FOR  ${INDEX}  IN RANGE  0   4
    \  Click On Add Shopping Cart Icon
-   \  Assert Study Input is Disabled
    \  Select Access Way for the Datasets from The List   @{MD_ACCESSWAYNAMES}[${INDEX}]
    \  Select Version of the Datasets from The List   1.0.1
    \  Check The Close Button is Available
@@ -41,9 +40,6 @@ Delete an Item
 
 Click On Add Shopping Cart Icon
    Click Element Through Tooltips   xpath=//md-icon[contains(., 'add_shopping_cart')]
-
-Assert Study Input is Disabled
-   Element Should Be Disabled    xpath=//input[@name='studyTitle']
 
 Select Access Way for the Datasets from The List
    [Arguments]   ${accesswayname}

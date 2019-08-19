@@ -35,7 +35,7 @@ Upload instrument file
     Press Key   xpath=//input[@type='file' and @ngf-select="ctrl.upload($file)"][1]   ${CURDIR}/data/gra2005_W1_Questionnaire_de.pdf  # data folder contains the PDF file
 
 Select instrument data type
-    Click Element Through Tooltips   xpath=//md-select[@ng-model="ctrl.instrumentAttachmentMetadata.type"]
+    Click Element Through Tooltips   xpath=//md-select[@ng-model="ctrl.attachmentMetadata.type"]
     Click Element Through Tooltips   xpath=//md-select-menu//md-option[contains(., "Fragebogen")]
 
 Select a language
@@ -43,10 +43,10 @@ Select a language
     Input Text    xpath=//md-input-container//input[@name="language2"]   Deutsch
 
 Write instrument description in de and en
-    Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.instrumentAttachmentMetadata.description.de"]
-    Input Text   xpath=//md-input-container//input[@ng-model="ctrl.instrumentAttachmentMetadata.description.de"]   Dataset Description De
-    Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.instrumentAttachmentMetadata.description.en"]
-    Input Text   xpath=//md-input-container//input[@ng-model="ctrl.instrumentAttachmentMetadata.description.en"]   Dataset Description En
+    Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.attachmentMetadata.description.de"]
+    Input Text   xpath=//md-input-container//input[@ng-model="ctrl.attachmentMetadata.description.de"]   Dataset Description De
+    Clear Element Text   xpath=//md-input-container//input[@ng-model="ctrl.attachmentMetadata.description.en"]
+    Input Text   xpath=//md-input-container//input[@ng-model="ctrl.attachmentMetadata.description.en"]   Dataset Description En
 
 Save Changes for instrument attachment
     Click Element Through Tooltips    xpath=//div[@class="fdz-fab-button-container layout-column"]//button//md-icon[contains(., "save")]
@@ -57,4 +57,3 @@ Assert gra2005_W1_Questionnaire in the attachment
 Delete instrument with uploaded document
     Click Element Through Tooltips    xpath=//button[md-icon[text()='delete_forever']]
     Click Element Through Tooltips    xpath=//button[text()='Ja']
-
