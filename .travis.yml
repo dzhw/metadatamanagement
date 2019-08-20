@@ -162,6 +162,12 @@ jobs:
       script:
         - export PYTHONWARNINGS="ignore"
         - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --include dataproviderNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
+    - name: "Nightly Safari Tests (Dataprovider)"
+      install:
+        - ./src/test/robotframework/setup.sh
+      script:
+        - export PYTHONWARNINGS="ignore"
+        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include dataproviderNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTlocalonly ./src/test/robotframework
     - stage: nightly e2e tests publisher
       name: "Nightly Chrome Tests (Publisher)"
       install:
@@ -187,6 +193,12 @@ jobs:
       script:
         - export PYTHONWARNINGS="ignore"
         - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --include publisherNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
+    - name: "Nightly Safari Tests (Publisher)"
+      install:
+        - ./src/test/robotframework/setup.sh
+      script:
+        - export PYTHONWARNINGS="ignore"
+        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publisherNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTlocalonly ./src/test/robotframework
 notifications:
   email:
     recipients:

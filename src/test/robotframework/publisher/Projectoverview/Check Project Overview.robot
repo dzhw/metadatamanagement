@@ -24,7 +24,7 @@ Assert Table Head Has All Columns Names
    \  Page Should Contain Element   xpath=//table[@class="table-striped table-hover ng-scope fdz-table-wide"]//thead//tr//th[contains(., "${MD_TH}")]
 
 Assert Project robotprojectrelease4chrome-firefox-edge's Version and Assigned Group
-   @{MD_PROJECTS}    Create List   robotprojectrelease4chrome  robotprojectrelease4firefox   robotprojectrelease4edge
+   @{MD_PROJECTS}    Create List   robotprojectrelease4chrome  robotprojectrelease4firefox   robotprojectrelease4edge   robotprojectrelease4safari
    :FOR   ${MD_PJ}   IN  @{MD_PROJECTS}
    \  Page Should Contain Element  xpath=//table[@class="table-striped table-hover ng-scope fdz-table-wide"]//tbody//tr//td[contains(., "nicht freigegeben")]
    \  Page Should Contain Element  xpath=//table[@class="table-striped table-hover ng-scope fdz-table-wide"]//tbody//tr//td//span[contains(., "Publisher")]
@@ -40,4 +40,3 @@ Click on Next Button
 Click on Previous Button
    Click Element Through Tooltips   xpath=//ul//li[@class="pagination-prev ng-scope"]//a[contains(., "Zurück")]
    Sleep  1s
-
