@@ -14,6 +14,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueIt
 public interface ShadowCopyQueueItemRepository
     extends BaseRepository<ShadowCopyQueueItem, String>, ShadowCopyQueueRepositoryCustom {
 
-  Optional<ShadowCopyQueueItem> findByDataAcquisitionProjectIdAndShadowCopyVersion(
-      String dataAcquisitionProjectId, String shadowCopyVersion);
+  Optional<ShadowCopyQueueItem> findByDataAcquisitionProjectIdAndReleaseVersion(
+      String dataAcquisitionProjectId, String version);
 }

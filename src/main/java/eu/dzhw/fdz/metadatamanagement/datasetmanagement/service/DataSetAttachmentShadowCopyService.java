@@ -31,7 +31,7 @@ public class DataSetAttachmentShadowCopyService
   @EventListener
   public void onShadowCopyingStarted(ShadowCopyingStartedEvent shadowCopyingStartedEvent) {
     super.createShadowCopies(shadowCopyingStartedEvent.getDataAcquisitionProjectId(),
-        shadowCopyingStartedEvent.getReleaseVersion(),
+        shadowCopyingStartedEvent.getRelease(),
         shadowCopyingStartedEvent.getPreviousReleaseVersion());
   }
 }

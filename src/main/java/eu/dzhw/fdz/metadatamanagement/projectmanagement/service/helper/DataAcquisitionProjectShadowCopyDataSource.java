@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -29,12 +30,13 @@ public class DataAcquisitionProjectShadowCopyDataSource
   }
 
   @Override
-  public DataAcquisitionProject createShadowCopy(DataAcquisitionProject source, String version) {
-    String derivedId = source.getId() + "-" + version;
+  public DataAcquisitionProject createShadowCopy(DataAcquisitionProject source, Release release) {
+    String derivedId = source.getId() + "-" + release.getVersion();
     DataAcquisitionProject copy = crudHelper.read(derivedId)
         .orElseGet(DataAcquisitionProject::new);
     BeanUtils.copyProperties(source, copy, "version");
     copy.setId(derivedId);
+    copy.setRelease(release);
     return copy;
   }
 

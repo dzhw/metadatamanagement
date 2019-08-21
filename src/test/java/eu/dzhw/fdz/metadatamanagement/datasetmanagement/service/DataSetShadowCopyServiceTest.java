@@ -80,7 +80,7 @@ public class DataSetShadowCopyServiceTest extends AbstractTest {
         UnitTestCreateDomainObjectUtils.buildDataSet(PROJECT_ID, SURVEY_ID, SURVEY_NUMBER);
     dataSetRepository.save(master);
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(), null);
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(), null);
 
     List<DataSet> result = dataSetRepository.findAll();
 
@@ -104,7 +104,7 @@ public class DataSetShadowCopyServiceTest extends AbstractTest {
     DataSet shadow = createShadow(master, release.getVersion());
     dataSetRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     long count = dataSetRepository.count();
@@ -124,7 +124,7 @@ public class DataSetShadowCopyServiceTest extends AbstractTest {
 
     dataSetRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     List<DataSet> result =
@@ -153,7 +153,7 @@ public class DataSetShadowCopyServiceTest extends AbstractTest {
     shadow = dataSetRepository.save(shadow);
     release.setVersion("1.0.1");
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     Optional<DataSet> persistedShadow = dataSetRepository.findById(shadow.getId());

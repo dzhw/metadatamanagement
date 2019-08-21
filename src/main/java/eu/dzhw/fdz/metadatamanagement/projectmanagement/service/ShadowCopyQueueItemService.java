@@ -62,20 +62,20 @@ public class ShadowCopyQueueItemService {
    * Create a new shadow copy queue item.
    * 
    * @param dataAcquisitionProjectId Id of project for which a shadow copy should be created
-   * @param shadowCopyVersion The shadow copy version
+   * @param release The release object of the project which has been released.
    */
-  public void createShadowCopyTask(String dataAcquisitionProjectId, String shadowCopyVersion) {
+  public void createShadowCopyTask(String dataAcquisitionProjectId, Release release) {
     ShadowCopyQueueItem queueItem = new ShadowCopyQueueItem();
 
     Optional<ShadowCopyQueueItem> taskItem =
-        shadowCopyQueueItemRepository.findByDataAcquisitionProjectIdAndShadowCopyVersion(
-            dataAcquisitionProjectId, shadowCopyVersion);
+        shadowCopyQueueItemRepository.findByDataAcquisitionProjectIdAndReleaseVersion(
+            dataAcquisitionProjectId, release.getVersion());
 
     taskItem.ifPresent(
         shadowCopyQueueItem -> shadowCopyQueueItemRepository.delete(shadowCopyQueueItem));
 
     queueItem.setDataAcquisitionProjectId(dataAcquisitionProjectId);
-    queueItem.setShadowCopyVersion(shadowCopyVersion);
+    queueItem.setRelease(release);
     queueItem.setCreatedBy(SecurityUtils.getCurrentUserLogin());
     shadowCopyQueueItemRepository.save(queueItem);
   }
@@ -94,16 +94,16 @@ public class ShadowCopyQueueItemService {
       try {
         setupSecurityContext(task);
         String dataAcquisitionProjectId = task.getDataAcquisitionProjectId();
-        String currentReleaseVersion = task.getShadowCopyVersion();
+        Release release = task.getRelease();
         Optional<DataAcquisitionProject> dataAcquisitionProjectOpt =
             dataAcquisitionProjectRepository.findById(dataAcquisitionProjectId);
         if (dataAcquisitionProjectOpt.isPresent()) {
           DataAcquisitionProject dataAcquisitionProject = dataAcquisitionProjectOpt.get();
           String previousReleaseVersion =
-              getPreviousReleaseVersion(dataAcquisitionProject, currentReleaseVersion);
-          emitShadowCopyingStartedEvent(dataAcquisitionProject, currentReleaseVersion,
+              getPreviousReleaseVersion(dataAcquisitionProject, release.getVersion());
+          emitShadowCopyingStartedEvent(dataAcquisitionProject, release,
               previousReleaseVersion);
-          emitShadowCopyingEndedEvent(dataAcquisitionProject, currentReleaseVersion,
+          emitShadowCopyingEndedEvent(dataAcquisitionProject, release,
               previousReleaseVersion);
         } else {
           log.warn("A shadow copy task was scheduled for project {}, but it could not be found!",
@@ -118,9 +118,9 @@ public class ShadowCopyQueueItemService {
   }
 
   private void emitShadowCopyingEndedEvent(DataAcquisitionProject dataAcquisitionProject,
-      String currentReleaseVersion, String previousReleaseVersion) {
+      Release release, String previousReleaseVersion) {
     this.applicationEventPublisher.publishEvent(new ShadowCopyingEndedEvent(this,
-        dataAcquisitionProject.getId(), currentReleaseVersion, previousReleaseVersion));
+        dataAcquisitionProject.getId(), release, previousReleaseVersion));
   }
 
   private void setupSecurityContext(ShadowCopyQueueItem shadowCopyQueueItem) {
@@ -167,8 +167,8 @@ public class ShadowCopyQueueItemService {
   }
 
   private void emitShadowCopyingStartedEvent(DataAcquisitionProject dataAcquisitionProject,
-      String currentReleaseVersion, String previousReleaseVersion) {
+      Release release, String previousReleaseVersion) {
     this.applicationEventPublisher.publishEvent(new ShadowCopyingStartedEvent(this,
-        dataAcquisitionProject.getId(), currentReleaseVersion, previousReleaseVersion));
+        dataAcquisitionProject.getId(), release, previousReleaseVersion));
   }
 }

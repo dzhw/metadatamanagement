@@ -12,6 +12,7 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.gridfs.GridFS;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.AbstractAttachmentShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRateImageMetadata;
 
 /**
@@ -28,13 +29,13 @@ public class SurveyResponseRateImageShadowCopyDataSource
    */
   public SurveyResponseRateImageShadowCopyDataSource(GridFsOperations gridFsOperations,
       GridFS gridFs, MongoTemplate mongoTemplate) {
-    super(gridFsOperations,gridFs,mongoTemplate,SurveyResponseRateImageMetadata.class);
+    super(gridFsOperations, gridFs, mongoTemplate, SurveyResponseRateImageMetadata.class);
   }
 
   @Override
   public SurveyResponseRateImageMetadata createShadowCopy(SurveyResponseRateImageMetadata source,
-                                                          String version) {
-    String derivedId = deriveId(source, version);
+      Release release) {
+    String derivedId = deriveId(source, release.getVersion());
 
     Query query = new Query(GridFsCriteria.whereMetaData("_id").is(derivedId));
     GridFSFile gridFsFile = this.gridFsOperations.findOne(query);
@@ -50,15 +51,15 @@ public class SurveyResponseRateImageShadowCopyDataSource
       BeanUtils.copyProperties(source, copy);
     }
 
-    copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
-    copy.setSurveyId(source.getSurveyId() + "-" + version);
+    copy.setDataAcquisitionProjectId(
+        source.getDataAcquisitionProjectId() + "-" + release.getVersion());
+    copy.setSurveyId(source.getSurveyId() + "-" + release.getVersion());
     copy.generateId();
     return copy;
   }
 
   private String deriveId(SurveyResponseRateImageMetadata source, String version) {
-    return String.format("/surveys/%s-%s/%s", source.getSurveyId(),
-        version, source.getFileName());
+    return String.format("/surveys/%s-%s/%s", source.getSurveyId(), version, source.getFileName());
   }
 
   @Override
@@ -78,19 +79,17 @@ public class SurveyResponseRateImageShadowCopyDataSource
 
   @Override
   protected String getPredecessorId(SurveyResponseRateImageMetadata attachment,
-                                    String previousVersion) {
+      String previousVersion) {
     String masterId = attachment.getMasterId();
     String suffix = "/" + attachment.getFileName();
     int index = masterId.lastIndexOf(suffix);
     StringBuilder builder = new StringBuilder();
-    builder.append(masterId, 0, index)
-        .append("-").append(previousVersion)
+    builder.append(masterId, 0, index).append("-").append(previousVersion)
         .append(masterId.substring(index));
     return builder.toString();
   }
 
   private String createFilePath(SurveyResponseRateImageMetadata metadata) {
-    return String.format("/surveys/%s/%s", metadata.getSurveyId(),
-        metadata.getFileName());
+    return String.format("/surveys/%s/%s", metadata.getSurveyId(), metadata.getFileName());
   }
 }

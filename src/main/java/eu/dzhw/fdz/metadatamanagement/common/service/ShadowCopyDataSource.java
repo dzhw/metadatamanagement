@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 
 /**
  * Provides domain objects for {@link ShadowCopyHelper} which are used to create shadow copies.
@@ -15,6 +16,7 @@ public interface ShadowCopyDataSource<T extends AbstractShadowableRdcDomainObjec
   /**
    * Returns the master objects which are used to derive shadow copies from. Consumers are expected
    * to close the stream.
+   * 
    * @param dataAcquisitionProjectId Project id used to find master objects
    * @return List of master objects
    */
@@ -22,14 +24,17 @@ public interface ShadowCopyDataSource<T extends AbstractShadowableRdcDomainObjec
 
   /**
    * Create a copy of the given object.
-   * @param source       The object source to copy
-   * @param version The version to use as part of the id for the copied object
+   * 
+   * @param source The object source to copy
+   * @param release The release object containing the version to use as part of the id for the
+   *        copied object
    * @return Copied object
    */
-  T createShadowCopy(T source, String version);
+  T createShadowCopy(T source, Release release);
 
   /**
    * Find the predecessor of the given shadow copy.
+   * 
    * @param shadowCopy Shadow copy for which the predecessor should be found
    * @param previousVersion The previous version of the project
    * @return Predecessor of the given shadow copy if existing
@@ -43,6 +48,7 @@ public interface ShadowCopyDataSource<T extends AbstractShadowableRdcDomainObjec
 
   /**
    * Save the (new) shadow copy.
+   * 
    * @param shadowCopy New shadow copy to save
    */
   void saveShadowCopy(T shadowCopy);
@@ -50,12 +56,13 @@ public interface ShadowCopyDataSource<T extends AbstractShadowableRdcDomainObjec
   /**
    * Find shadow copies where the master has been deleted between the last and the current project
    * release.
+   * 
    * @param projectId Project id
    * @param previousVersion Previous project release version
    * @return Stream of shadow copies with deleted masters
    */
   Stream<T> findShadowCopiesWithDeletedMasters(String projectId, String previousVersion);
-  
+
   /**
    * Delete all shadow copies. Only the shadow copies of the current version can be deleted.
    * 

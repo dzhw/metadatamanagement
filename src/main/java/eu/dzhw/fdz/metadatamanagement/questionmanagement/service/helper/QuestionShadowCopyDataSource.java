@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
@@ -26,7 +27,7 @@ public class QuestionShadowCopyDataSource implements ShadowCopyDataSource<Questi
   private final QuestionRepository questionRepository;
 
   private final QuestionCrudHelper crudHelper;
-  
+
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   @Override
@@ -36,15 +37,16 @@ public class QuestionShadowCopyDataSource implements ShadowCopyDataSource<Questi
   }
 
   @Override
-  public Question createShadowCopy(Question source, String version) {
-    String derivedId = source.getId() + "-" + version;
+  public Question createShadowCopy(Question source, Release release) {
+    String derivedId = source.getId() + "-" + release.getVersion();
     Question copy = crudHelper.read(derivedId).orElseGet(Question::new);
     BeanUtils.copyProperties(source, copy, "version");
     copy.setId(derivedId);
-    copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
-    copy.setStudyId(source.getStudyId() + "-" + version);
-    copy.setInstrumentId(source.getInstrumentId() + "-" + version);
-    copy.setSuccessors(createDerivedSuccessorIds(source.getSuccessors(), version));
+    copy.setDataAcquisitionProjectId(
+        source.getDataAcquisitionProjectId() + "-" + release.getVersion());
+    copy.setStudyId(source.getStudyId() + "-" + release.getVersion());
+    copy.setInstrumentId(source.getInstrumentId() + "-" + release.getVersion());
+    copy.setSuccessors(createDerivedSuccessorIds(source.getSuccessors(), release.getVersion()));
     return copy;
   }
 
@@ -87,10 +89,10 @@ public class QuestionShadowCopyDataSource implements ShadowCopyDataSource<Questi
     String oldProjectId = projectId + "-" + version;
     try (Stream<Question> questions = questionRepository
         .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
-      questions.forEach(crudHelper::deleteShadow); 
+      questions.forEach(crudHelper::deleteShadow);
     }
   }
-  
+
   @Override
   public void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
       String previousVersion) {
@@ -98,7 +100,7 @@ public class QuestionShadowCopyDataSource implements ShadowCopyDataSource<Questi
       return questionRepository
           .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + releaseVersion);
     }, ElasticsearchType.questions);
-    if (!StringUtils.isEmpty(previousVersion)) {      
+    if (!StringUtils.isEmpty(previousVersion)) {
       elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
         return questionRepository
             .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + previousVersion);

@@ -246,7 +246,7 @@ public class DataAcquisitionProjectManagementService
     final String projectId = project.getId();
 
     if (isProjectBeingReleased(oldProject, project)) {
-      shadowCopyQueueItemService.createShadowCopyTask(projectId, project.getRelease().getVersion());
+      shadowCopyQueueItemService.createShadowCopyTask(projectId, project.getRelease());
     } else {
       sendPublishersDataProvidersChangedMails(projectId);
       sendAssigneeGroupChangedMails(project);

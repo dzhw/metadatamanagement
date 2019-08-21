@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -34,13 +35,14 @@ public class SurveyShadowCopyDataSource implements ShadowCopyDataSource<Survey> 
   }
 
   @Override
-  public Survey createShadowCopy(Survey source, String version) {
-    String derivedId = source.getId() + "-" + version;
+  public Survey createShadowCopy(Survey source, Release release) {
+    String derivedId = source.getId() + "-" + release.getVersion();
     Survey copy = crudHelper.read(derivedId).orElseGet(Survey::new);
     BeanUtils.copyProperties(source, copy, "version");
     copy.setId(derivedId);
-    copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
-    copy.setStudyId(source.getStudyId() + "-" + version);
+    copy.setDataAcquisitionProjectId(
+        source.getDataAcquisitionProjectId() + "-" + release.getVersion());
+    copy.setStudyId(source.getStudyId() + "-" + release.getVersion());
     return copy;
   }
 
