@@ -75,7 +75,7 @@ public class InstrumentShadowCopyServiceTest extends AbstractTest {
     Instrument master = UnitTestCreateDomainObjectUtils.buildInstrument(PROJECT_ID);
     instrumentRepository.save(master);
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(), null);
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(), null);
 
     List<Instrument> result = instrumentRepository.findAll();
 
@@ -98,7 +98,7 @@ public class InstrumentShadowCopyServiceTest extends AbstractTest {
     Instrument shadow = createShadow(master, release.getVersion());
     instrumentRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     long count = instrumentRepository.count();
@@ -117,7 +117,7 @@ public class InstrumentShadowCopyServiceTest extends AbstractTest {
 
     instrumentRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     List<Instrument> result = instrumentRepository.findAll().stream().filter(Instrument::isShadow)
@@ -145,7 +145,7 @@ public class InstrumentShadowCopyServiceTest extends AbstractTest {
     shadow = instrumentRepository.save(shadow);
     release.setVersion("1.0.1");
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     Optional<Instrument> persistedShadow = instrumentRepository.findById(shadow.getId());

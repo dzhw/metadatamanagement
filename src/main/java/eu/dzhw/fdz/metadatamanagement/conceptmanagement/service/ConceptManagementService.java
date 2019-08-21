@@ -224,7 +224,7 @@ public class ConceptManagementService implements CrudService<Concept> {
   @EventListener
   public void onShadowCopyingEnded(ShadowCopyingEndedEvent shadowCopyingEndedEvent) {
     String projectId = shadowCopyingEndedEvent.getDataAcquisitionProjectId() + "-"
-        + shadowCopyingEndedEvent.getReleaseVersion();
+        + shadowCopyingEndedEvent.getRelease().getVersion();
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
       Set<String> conceptIds = new HashSet<>();
       instrumentRepository.streamByDataAcquisitionProjectId(projectId).forEach(instrument -> {

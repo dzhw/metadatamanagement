@@ -73,7 +73,7 @@ public class SurveyResponseRateImageShadowCopyServiceTest extends AbstractTest {
     DataAcquisitionProject dataAcquisitionProject = createDataAcquisitionProject();
     release.setVersion("1.0.1");
     shadowCopyService.createShadowCopies(dataAcquisitionProject.getId(),
-        dataAcquisitionProject.getRelease().getVersion(), "1.0.0");
+        dataAcquisitionProject.getRelease(), "1.0.0");
 
     String shadowFileName = createFileName(release.getVersion());
 
@@ -110,7 +110,7 @@ public class SurveyResponseRateImageShadowCopyServiceTest extends AbstractTest {
     release.setVersion("1.0.1");
 
     shadowCopyService.createShadowCopies(dataAcquisitionProject.getId(),
-        dataAcquisitionProject.getRelease().getVersion(), "1.0.0");
+        dataAcquisitionProject.getRelease(), "1.0.0");
 
     Query predecessorQuery = new Query(GridFsCriteria.whereFilename().is(createFileName("1.0.0")));
     GridFSFile predecessorFile = gridFsOperations.findOne(predecessorQuery);
@@ -137,7 +137,7 @@ public class SurveyResponseRateImageShadowCopyServiceTest extends AbstractTest {
     release.setVersion("1.0.1");
 
     shadowCopyService.createShadowCopies(dataAcquisitionProject.getId(),
-        dataAcquisitionProject.getRelease().getVersion(), "1.0.0");
+        dataAcquisitionProject.getRelease(), "1.0.0");
 
     Query shadowCopyQuery = new Query(GridFsCriteria.whereFilename().is(createFileName("1.0.0")));
     GridFSFile shadowCopyFile = gridFsOperations.findOne(shadowCopyQuery);
@@ -154,7 +154,7 @@ public class SurveyResponseRateImageShadowCopyServiceTest extends AbstractTest {
     createTestFileForSurveyRateImage(master);
     DataAcquisitionProject dataAcquisitionProject = createDataAcquisitionProject();
     shadowCopyService.createShadowCopies(dataAcquisitionProject.getId(),
-        dataAcquisitionProject.getRelease().getVersion(), "1.0.0");
+        dataAcquisitionProject.getRelease(), "1.0.0");
 
     Query masterQuery = new Query(GridFsCriteria.whereFilename().is(createFileName("")));
     GridFSFile masterFile = gridFsOperations.findOne(masterQuery);

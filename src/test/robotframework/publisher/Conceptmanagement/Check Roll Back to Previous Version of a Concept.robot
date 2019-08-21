@@ -6,7 +6,7 @@ Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
 
 *** Test Cases ***
-Check already used concept can not be deleted
+Check roll back concept changes
     Get Back to german home page
     Click on concept tab
     Concept Roll Back

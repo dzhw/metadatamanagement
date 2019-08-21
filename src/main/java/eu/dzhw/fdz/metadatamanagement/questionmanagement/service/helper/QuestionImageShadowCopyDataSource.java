@@ -12,6 +12,7 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.gridfs.GridFS;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.AbstractAttachmentShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
 
 /**
@@ -26,16 +27,15 @@ public class QuestionImageShadowCopyDataSource
   /**
    * Create a new instance.
    */
-  public QuestionImageShadowCopyDataSource(GridFsOperations gridFsOperations,
-                                                   GridFS gridFs, MongoTemplate mongoTemplate) {
+  public QuestionImageShadowCopyDataSource(GridFsOperations gridFsOperations, GridFS gridFs,
+      MongoTemplate mongoTemplate) {
     super(gridFsOperations, gridFs, mongoTemplate, QuestionImageMetadata.class);
   }
 
   @Override
-  public QuestionImageMetadata createShadowCopy(QuestionImageMetadata source,
-                                                String version) {
+  public QuestionImageMetadata createShadowCopy(QuestionImageMetadata source, Release release) {
 
-    String derivedId = deriveId(source, version);
+    String derivedId = deriveId(source, release.getVersion());
 
     Query query = new Query(GridFsCriteria.whereMetaData("_id").is(derivedId));
     GridFSFile gridFsFile = this.gridFsOperations.findOne(query);
@@ -50,8 +50,9 @@ public class QuestionImageShadowCopyDataSource
       BeanUtils.copyProperties(source, copy, "version");
     }
 
-    copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
-    copy.setQuestionId(source.getQuestionId() + "-" + version);
+    copy.setDataAcquisitionProjectId(
+        source.getDataAcquisitionProjectId() + "-" + release.getVersion());
+    copy.setQuestionId(source.getQuestionId() + "-" + release.getVersion());
     copy.generateId();
     return copy;
   }
@@ -68,8 +69,8 @@ public class QuestionImageShadowCopyDataSource
 
   @Override
   protected String getPredecessorFileName(QuestionImageMetadata predecessor) {
-    return String.format(QUESTION_IMAGE_PATH_FORMAT,
-        predecessor.getQuestionId(), predecessor.getFileName());
+    return String.format(QUESTION_IMAGE_PATH_FORMAT, predecessor.getQuestionId(),
+        predecessor.getFileName());
   }
 
   @Override
@@ -83,8 +84,7 @@ public class QuestionImageShadowCopyDataSource
     String masterId = attachment.getMasterId();
     int index = masterId.lastIndexOf("/images/");
     StringBuilder builder = new StringBuilder();
-    builder.append(masterId, 0, index)
-        .append("-").append(previousVersion)
+    builder.append(masterId, 0, index).append("-").append(previousVersion)
         .append(masterId.substring(index));
     return builder.toString();
   }

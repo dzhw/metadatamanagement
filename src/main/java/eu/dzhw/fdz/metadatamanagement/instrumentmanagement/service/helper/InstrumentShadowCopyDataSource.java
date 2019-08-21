@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
   private final InstrumentCrudHelper crudHelper;
 
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-  
+
   @Override
   public Stream<Instrument> getMasters(String dataAcquisitionProjectId) {
     return instrumentRepository
@@ -36,14 +37,15 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
   }
 
   @Override
-  public Instrument createShadowCopy(Instrument source, String version) {
-    String derivedId = source.getId() + "-" + version;
+  public Instrument createShadowCopy(Instrument source, Release release) {
+    String derivedId = source.getId() + "-" + release.getVersion();
     Instrument copy = crudHelper.read(derivedId).orElseGet(Instrument::new);
     BeanUtils.copyProperties(source, copy, "version");
     copy.setId(derivedId);
-    copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
-    copy.setStudyId(source.getStudyId() + "-" + version);
-    copy.setSurveyIds(createDerivedSurveyIds(source.getSurveyIds(), version));
+    copy.setDataAcquisitionProjectId(
+        source.getDataAcquisitionProjectId() + "-" + release.getVersion());
+    copy.setStudyId(source.getStudyId() + "-" + release.getVersion());
+    copy.setSurveyIds(createDerivedSurveyIds(source.getSurveyIds(), release.getVersion()));
     return copy;
   }
 
@@ -97,7 +99,7 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
       return instrumentRepository
           .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + releaseVersion);
     }, ElasticsearchType.instruments);
-    if (!StringUtils.isEmpty(previousVersion)) {      
+    if (!StringUtils.isEmpty(previousVersion)) {
       elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
         return instrumentRepository
             .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + previousVersion);

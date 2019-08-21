@@ -8,9 +8,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.context.event.EventListener;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+
+import com.github.zafarkhaja.semver.Version;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
@@ -20,6 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DataAcquisitionProjectCrudHelper;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -53,6 +57,8 @@ public class DataAcquisitionProjectManagementService
   private final ShadowCopyQueueItemService shadowCopyQueueItemService;
 
   private final DataAcquisitionProjectCrudHelper crudHelper;
+
+  private final DataAcquisitionProjectVersionsService projectVersionsService;
 
   /**
    * Searches for {@link DataAcquisitionProject} items for the given id. The result may be limited
@@ -246,7 +252,7 @@ public class DataAcquisitionProjectManagementService
     final String projectId = project.getId();
 
     if (isProjectBeingReleased(oldProject, project)) {
-      shadowCopyQueueItemService.createShadowCopyTask(projectId, project.getRelease().getVersion());
+      shadowCopyQueueItemService.createShadowCopyTask(projectId, project.getRelease());
     } else {
       sendPublishersDataProvidersChangedMails(projectId);
       sendAssigneeGroupChangedMails(project);
@@ -264,5 +270,32 @@ public class DataAcquisitionProjectManagementService
   @Override
   public Optional<DataAcquisitionProject> readSearchDocument(String id) {
     return crudHelper.readSearchDocument(id);
+  }
+
+  /**
+   * Notify all {@link AuthoritiesConstants.RELEASE_MANAGER}'s about the new major release.
+   * 
+   * @param shadowCopyingEndedEvent Emitted by {@link ShadowCopyQueueItemService}.
+   */
+  @EventListener
+  public void onShadowCopyingEnded(ShadowCopyingEndedEvent shadowCopyingEndedEvent) {
+    if (shadowCopyingEndedEvent.isRerelease()) {
+      // do not send mails for rereleases
+      return;
+    }
+    Version currentVersion = Version.valueOf(shadowCopyingEndedEvent.getRelease().getVersion());
+    Release previousRelease = projectVersionsService.findPreviousRelease(
+        shadowCopyingEndedEvent.getDataAcquisitionProjectId(),
+        shadowCopyingEndedEvent.getRelease());
+    if (previousRelease == null && currentVersion.getMajorVersion() > 0
+        || previousRelease != null && currentVersion.getMajorVersion() > Version
+            .valueOf(previousRelease.getVersion()).getMajorVersion()) {
+      // a new major release has been shadow copied
+      List<User> releaseManagers = userRepository
+          .findAllByAuthoritiesContaining(new Authority(AuthoritiesConstants.RELEASE_MANAGER));
+      mailService.sendMailOnNewMajorProjectRelease(releaseManagers,
+          shadowCopyingEndedEvent.getDataAcquisitionProjectId(),
+          shadowCopyingEndedEvent.getRelease());
+    }
   }
 }

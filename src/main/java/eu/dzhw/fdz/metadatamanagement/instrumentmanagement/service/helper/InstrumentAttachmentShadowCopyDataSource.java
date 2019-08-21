@@ -13,6 +13,7 @@ import com.mongodb.gridfs.GridFS;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.AbstractAttachmentShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 
 /**
  * Provides data for creating shadow copies of {@link InstrumentAttachmentMetadata}.
@@ -24,16 +25,16 @@ public class InstrumentAttachmentShadowCopyDataSource
   /**
    * Create a new instance.
    */
-  public InstrumentAttachmentShadowCopyDataSource(GridFsOperations gridFsOperations,
-      GridFS gridFs, MongoTemplate mongoTemplate) {
-    super(gridFsOperations, gridFs,mongoTemplate, InstrumentAttachmentMetadata.class);
+  public InstrumentAttachmentShadowCopyDataSource(GridFsOperations gridFsOperations, GridFS gridFs,
+      MongoTemplate mongoTemplate) {
+    super(gridFsOperations, gridFs, mongoTemplate, InstrumentAttachmentMetadata.class);
   }
 
   @Override
   public InstrumentAttachmentMetadata createShadowCopy(InstrumentAttachmentMetadata source,
-      String version) {
+      Release release) {
 
-    String derivedId = deriveId(source, version);
+    String derivedId = deriveId(source, release.getVersion());
 
     Query query = new Query(GridFsCriteria.whereMetaData("_id").is(derivedId));
     GridFSFile gridFsFile = this.gridFsOperations.findOne(query);
@@ -48,8 +49,9 @@ public class InstrumentAttachmentShadowCopyDataSource
       BeanUtils.copyProperties(source, copy, "version");
     }
 
-    copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
-    copy.setInstrumentId(source.getInstrumentId() + "-" + version);
+    copy.setDataAcquisitionProjectId(
+        source.getDataAcquisitionProjectId() + "-" + release.getVersion());
+    copy.setInstrumentId(source.getInstrumentId() + "-" + release.getVersion());
     copy.generateId();
     return copy;
   }
@@ -66,8 +68,8 @@ public class InstrumentAttachmentShadowCopyDataSource
 
   @Override
   protected String getPredecessorFileName(InstrumentAttachmentMetadata predecessor) {
-    return InstrumentAttachmentFilenameBuilder
-        .buildFileName(predecessor.getInstrumentId(), predecessor.getFileName());
+    return InstrumentAttachmentFilenameBuilder.buildFileName(predecessor.getInstrumentId(),
+        predecessor.getFileName());
   }
 
   @Override

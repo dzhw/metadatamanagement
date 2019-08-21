@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="'New Major Release for Project ' + ${projectId} + ' (' + ${release.getVersion()} + ')'">New Major Release for Project</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+a {
+	text-decoration: none;
+	color: #006AB2;
+}
+
+body {
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+	color: black;
+}
+</style>
+</head>
+<body>
+	<p>Dear Release Managers,</p>
+	<p>
+		<span>Project "</span><a th:href="@{|${baseUrl}/#!/de/projects/${projectId}|}" th:text="|${projectId}|">project</a><span>" has been released. The new version is </span><span th:text="${release.getVersion()}"></span><span>.</span>
+	</p>
+	<p>
+		<span>Since this is a major release, you have to enter additional information into the following system:</span>
+		<br>
+		<a href="https://www.dzhw.eu/dbadmin">https://www.dzhw.eu/dbadmin</a>
+	</p>
+	<p>
+		<span>Regards,</span> <br />
+		<em>Your MDM-Team</em>
+	</p>
+</body>
+</html>

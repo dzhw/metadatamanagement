@@ -30,7 +30,7 @@ public class QuestionImageShadowCopyService extends ShadowCopyHelper<QuestionIma
   @EventListener
   public void onShadowCopyingStarted(ShadowCopyingStartedEvent shadowCopyingStartedEvent) {
     super.createShadowCopies(shadowCopyingStartedEvent.getDataAcquisitionProjectId(),
-        shadowCopyingStartedEvent.getReleaseVersion(),
+        shadowCopyingStartedEvent.getRelease(),
         shadowCopyingStartedEvent.getPreviousReleaseVersion());
   }
 }
