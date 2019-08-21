@@ -99,12 +99,13 @@ public class ShadowCopyQueueItemService {
             dataAcquisitionProjectRepository.findById(dataAcquisitionProjectId);
         if (dataAcquisitionProjectOpt.isPresent()) {
           DataAcquisitionProject dataAcquisitionProject = dataAcquisitionProjectOpt.get();
+          Optional<DataAcquisitionProject> existingShadow = dataAcquisitionProjectRepository
+              .findById(dataAcquisitionProjectId + "-" + release.getVersion());
           String previousReleaseVersion =
-              getPreviousReleaseVersion(dataAcquisitionProject, release.getVersion());
-          emitShadowCopyingStartedEvent(dataAcquisitionProject, release,
-              previousReleaseVersion);
-          emitShadowCopyingEndedEvent(dataAcquisitionProject, release,
-              previousReleaseVersion);
+              getPreviousReleaseVersion(dataAcquisitionProject, release);
+          emitShadowCopyingStartedEvent(dataAcquisitionProject, release, previousReleaseVersion);
+          emitShadowCopyingEndedEvent(dataAcquisitionProject, release, previousReleaseVersion,
+              existingShadow.isPresent());
         } else {
           log.warn("A shadow copy task was scheduled for project {}, but it could not be found!",
               dataAcquisitionProjectId);
@@ -118,9 +119,9 @@ public class ShadowCopyQueueItemService {
   }
 
   private void emitShadowCopyingEndedEvent(DataAcquisitionProject dataAcquisitionProject,
-      Release release, String previousReleaseVersion) {
+      Release release, String previousReleaseVersion, boolean isRerelease) {
     this.applicationEventPublisher.publishEvent(new ShadowCopyingEndedEvent(this,
-        dataAcquisitionProject.getId(), release, previousReleaseVersion));
+        dataAcquisitionProject.getId(), release, previousReleaseVersion, isRerelease));
   }
 
   private void setupSecurityContext(ShadowCopyQueueItem shadowCopyQueueItem) {
@@ -142,17 +143,7 @@ public class ShadowCopyQueueItemService {
   }
 
   private String getPreviousReleaseVersion(DataAcquisitionProject dataAcquisitionProject,
-      String currentReleaseVersion) {
-    Release currentRelease = null;
-    if (dataAcquisitionProject.getRelease() != null
-        && dataAcquisitionProject.getRelease().getVersion().equals(currentReleaseVersion)) {
-      currentRelease = dataAcquisitionProject.getRelease();
-    } else {
-      currentRelease =
-          dataAcquisitionProjectVersionsService.findLastRelease(dataAcquisitionProject.getId());
-    }
-    assert currentRelease.getVersion().equals(currentReleaseVersion);
-
+      Release currentRelease) {
     Release previousRelease = dataAcquisitionProjectVersionsService
         .findPreviousRelease(dataAcquisitionProject.getId(), currentRelease);
     String previousVersion;

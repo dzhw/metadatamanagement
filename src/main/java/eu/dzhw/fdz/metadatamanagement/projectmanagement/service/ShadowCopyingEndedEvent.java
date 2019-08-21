@@ -20,6 +20,8 @@ public class ShadowCopyingEndedEvent extends ApplicationEvent {
   private String previousReleaseVersion;
 
   private Release release;
+  
+  private boolean isRerelease;
 
   /**
    * Create a new event instance.
@@ -28,12 +30,14 @@ public class ShadowCopyingEndedEvent extends ApplicationEvent {
    * @param dataAcquisitionProjectId id of the released project
    * @param release the version which has been released
    * @param previousReleaseVersion the previous version or null
+   * @param isRerelease true if the project has been released with this version before
    */
   public ShadowCopyingEndedEvent(Object source, String dataAcquisitionProjectId,
-      Release release, String previousReleaseVersion) {
+      Release release, String previousReleaseVersion, boolean isRerelease) {
     super(source);
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
     this.previousReleaseVersion = previousReleaseVersion;
     this.release = release;
+    this.isRerelease = isRerelease;
   }
 }

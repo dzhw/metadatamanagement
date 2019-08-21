@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').controller('EditUserController',
     DataAcquisitionProjectRepositoryClient, $q) {
     $scope.user = user;
     $scope.authorities = ['ROLE_USER', 'ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER',
-      'ROLE_ADMIN'];
+      'ROLE_ADMIN', 'ROLE_RELEASE_MANAGER'];
     LanguageService.getAll().then(function(languages) {
       $scope.languages = languages;
     });
