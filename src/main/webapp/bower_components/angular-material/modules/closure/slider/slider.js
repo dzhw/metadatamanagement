@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.19
+ * v1.1.20
  */
 goog.provide('ngmaterial.components.slider');
 goog.require('ngmaterial.core');
@@ -656,7 +656,7 @@ function SliderDirective($$rAF, $window, $mdAria, $mdUtil, $mdConstant, $mdThemi
       var size = vertical ? sliderDimensions.height : sliderDimensions.width;
       var calc = (position - offset) / size;
 
-      if (!vertical && $mdUtil.bidi() === 'rtl') {
+      if (!vertical && $mdUtil.isRtl(attr)) {
         calc = 1 - calc;
       }
 

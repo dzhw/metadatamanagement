@@ -10,6 +10,35 @@ https://github.com/plotly/plotly.js/compare/vX.Y.Z...master
 where X.Y.Z is the semver of most recent plotly.js release.
 
 
+## [1.49.4] -- 2019-08-22
+
+### Fixed
+- Fix access token validation logic for custom mapbox style URLs
+  (regression introduced in 1.49.0) [#4144]
+- Fix rendering of cartesian ticks under `mirror: 'all'` [#4140]
+
+
+## [1.49.3] -- 2019-08-20
+
+### Fixed
+- Fix graphs with `visible: false` `sankey` traces [#4123]
+- Fix `scattergl` with `mode: 'text'` and `text` arrays longer
+  than the coordinates arrays [#4125, #4126]
+- Fix `rangeslider` positioning when left margin is pushed
+  by other component [#4127]
+
+
+## [1.49.2] -- 2019-08-13
+
+### Fixed
+- Fix gl3d hover behavior when multiple points share identical position [#4096]
+- Fix `mapbox-gl@1.1.1` dependency version listing in `package.json` [#4094]
+- Fix decimal and thousands separator declaration for Italian (`it`) locale [#4122]
+- Fix `indicator` `steps` attribute declaration [#4115]
+- Performance fix - use `Axes.prepTicks` (not `Axes.calcTicks`) for `indicator`
+  number and delta formatting [#4099]
+
+
 ## [1.49.1] -- 2019-07-31
 
 ### Fixed
