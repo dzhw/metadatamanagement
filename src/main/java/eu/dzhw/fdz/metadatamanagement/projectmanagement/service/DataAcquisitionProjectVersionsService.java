@@ -2,7 +2,11 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 
@@ -60,27 +64,35 @@ public class DataAcquisitionProjectVersionsService extends
    * Get the previous release of a data acquisition project. The release before currentRelease.
    * 
    * @param id the id of the data acquisition project.
-   * @param currentRelease get the release saved before this release
+   * @param currentRelease get the release saved before this release, if null will return the
+   *        current release
    * @return the previous release or null
    */
   public Release findPreviousRelease(String id, Release currentRelease) {
-    // Find last changes
-    List<Shadow<Release>> shadows =
-        javers.findShadows(QueryBuilder.byValueObjectId(id, DataAcquisitionProject.class, "release")
-            .withChangedProperty("version").limit(2).build());
-
-    if (shadows.isEmpty()) {
-      return null;
-    } else {
+    try (Stream<Shadow<Release>> shadows = javers.findShadowsAndStream(
+        QueryBuilder.byValueObjectId(id, DataAcquisitionProject.class, "release")
+            .withChangedProperty("version").build());) {
       if (currentRelease == null) {
-        return shadows.get(0).get();
-      }
-      for (Shadow<Release> shadow : shadows) {
-        if (!shadow.get().getVersion().equals(currentRelease.getVersion())) {
-          return shadow.get();
+        Optional<Shadow<Release>> optional = shadows.findFirst();
+        if (optional.isPresent()) {
+          return optional.get().get();
+        } else {
+          return null;
         }
+      } else {
+        final AtomicBoolean currentVersionFound = new AtomicBoolean(false);
+        final AtomicReference<Release> previousRelease = new AtomicReference<>();
+        shadows.takeWhile(shadow -> previousRelease.get() == null).forEach(shadow -> {
+          Release release = shadow.get();
+          if (currentVersionFound.get()) {
+            previousRelease.set(release);
+          }
+          if (release.getVersion().equals(currentRelease.getVersion())) {
+            currentVersionFound.set(true);
+          }
+        });
+        return previousRelease.get();
       }
-      return null;
     }
   }
 
@@ -88,12 +100,14 @@ public class DataAcquisitionProjectVersionsService extends
    * Find all release stamps (limited to 100 results) for the given project id.
    *
    * @param id the project id
+   * @param noBeta boolean indicating if beta release shall be skipped or not 
    * @return List of all releases (max 100 entries).
    */
-  public List<Release> findAllReleases(String id, Boolean noBeta) {
+  public List<Release> findAllReleases(String id, boolean noBeta) {
     // Find all version changes
     List<Shadow<Release>> shadows =
-        javers.findShadows(QueryBuilder.byValueObjectId(id, DataAcquisitionProject.class, "release")
+        javers.findShadows(QueryBuilder.byValueObjectId(
+            id, DataAcquisitionProject.class, "release")
             .withChangedProperty("version").limit(100).build());
 
     if (shadows.isEmpty()) {
