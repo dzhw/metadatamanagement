@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.20
+ * v1.1.19
  */
 goog.provide('ngmaterial.components.datepicker');
 goog.require('ngmaterial.components.icon');
@@ -2312,7 +2312,8 @@ angular.module('material.components.datepicker', [
           '<input ' +
             (ariaLabelValue ? 'aria-label="' + ariaLabelValue + '" ' : '') +
             'class="md-datepicker-input" ' +
-            'aria-haspopup="dialog" ' +
+            'aria-haspopup="true" ' +
+            'aria-expanded="{{ctrl.isCalendarOpen}}" ' +
             'ng-focus="ctrl.setFocused(true)" ' +
             'ng-blur="ctrl.setFocused(false)"> ' +
             triangleButton +
@@ -2527,7 +2528,7 @@ angular.module('material.components.datepicker', [
     this.isFocused = false;
 
     /** @type {boolean} */
-    this.isDisabled = undefined;
+    this.isDisabled;
     this.setDisabled($element[0].disabled || angular.isString($attrs.disabled));
 
     /** @type {boolean} Whether the date-picker's calendar pane is open. */
@@ -2536,7 +2537,7 @@ angular.module('material.components.datepicker', [
     /** @type {boolean} Whether the calendar should open when the input is focused. */
     this.openOnFocus = $attrs.hasOwnProperty('mdOpenOnFocus');
 
-    /** @type {Object} Instance of the mdInputContainer controller */
+    /** @final */
     this.mdInputContainer = null;
 
     /**
@@ -2850,9 +2851,9 @@ angular.module('material.components.datepicker', [
   };
 
   /**
-   * Check to see if the input is valid, as the validation should fail if the model is invalid.
+   * Check to see if the input is valid as the validation should fail if the model is invalid
    *
-   * @param {string} inputString
+   * @param {String} inputString
    * @param {Date} parsedDate
    * @return {boolean} Whether the input is valid
    */

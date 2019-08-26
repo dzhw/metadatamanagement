@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.20
+ * v1.1.19
  */
 goog.provide('ngmaterial.components.autocomplete');
 goog.require('ngmaterial.components.icon');
@@ -50,15 +50,6 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
       inputModelCtrl       = null,
       debouncedOnResize    = $mdUtil.debounce(onWindowResize),
       mode                 = MODE_VIRTUAL; // default
-
-  /**
-   * The root document element. This is used for attaching a top-level click handler to
-   * close the options panel when a click outside said panel occurs. We use `documentElement`
-   * instead of body because, when scrolling is disabled, some browsers consider the body element
-   * to be completely off the screen and propagate events directly to the html element.
-   * @type {!Object} angular.JQLite
-   */
-  ctrl.documentElement = angular.element(document.documentElement);
 
   // Public Exported Variables with handlers
   defineProperty('hidden', handleHiddenChange, true);
@@ -375,8 +366,8 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
 
   /**
    * Handles changes to the `hidden` property.
-   * @param {boolean} hidden
-   * @param {boolean} oldHidden
+   * @param hidden
+   * @param oldHidden
    */
   function handleHiddenChange (hidden, oldHidden) {
     if (!hidden && oldHidden) {
@@ -389,10 +380,8 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
       if (elements) {
         $mdUtil.disableScrollAround(elements.ul);
         enableWrapScroll = disableElementScrollEvents(angular.element(elements.wrap));
-        ctrl.documentElement.on('click', handleClickOutside);
       }
     } else if (hidden && !oldHidden) {
-      ctrl.documentElement.off('click', handleClickOutside);
       $mdUtil.enableScrolling();
 
       if (enableWrapScroll) {
@@ -400,15 +389,6 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
         enableWrapScroll = null;
       }
     }
-  }
-
-  /**
-   * Handling click events that bubble up to the document is required for closing the dropdown
-   * panel on click outside of the panel on iOS.
-   * @param {Event} $event
-   */
-  function handleClickOutside($event) {
-    ctrl.hidden = true;
   }
 
   /**
@@ -583,7 +563,7 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
 
   /**
    * Force blur on input element
-   * @param {boolean} forceBlur
+   * @param forceBlur
    */
   function doBlur(forceBlur) {
     if (forceBlur) {
@@ -877,12 +857,8 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
 
   /**
    * Clears the searchText value and selected item.
-   * @param {Event} $event
    */
-  function clearValue ($event) {
-    if ($event) {
-      $event.stopPropagation();
-    }
+  function clearValue () {
     clearSelectedItem();
     clearSearchText();
   }
@@ -1500,15 +1476,9 @@ function MdAutocomplete ($$mdSvgRegistry) {
         }
 
         scope.mdMode = getRepeatMode(attrs.mdMode);
-
-        // Stop click events from bubbling up to the document and triggering a flicker of the
-        // options panel while still supporting ng-click to be placed on md-autocomplete.
-        element.on('click', function(event) {
-          event.stopPropagation();
-        });
       };
     },
-    template: function (element, attr) {
+    template:     function (element, attr) {
       var noItemsTemplate = getNoItemsTemplate(),
           itemTemplate    = getItemTemplate(),
           leftover        = element.html(),
