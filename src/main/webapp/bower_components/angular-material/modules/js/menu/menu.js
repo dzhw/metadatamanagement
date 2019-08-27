@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.20
+ * v1.1.19
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -1046,7 +1046,7 @@ function MenuProvider($$interimElementProvider) {
           throw new Error('Invalid target mode "' + positionMode.top + '" specified for md-menu on Y axis.');
       }
 
-      var rtl = $mdUtil.isRtl(el);
+      var rtl = ($mdUtil.bidi() === 'rtl');
 
       switch (positionMode.left) {
         case 'target':

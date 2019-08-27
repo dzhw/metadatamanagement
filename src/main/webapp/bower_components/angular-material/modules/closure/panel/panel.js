@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.20
+ * v1.1.19
  */
 goog.provide('ngmaterial.components.panel');
 goog.require('ngmaterial.components.backdrop');
@@ -2551,7 +2551,7 @@ function MdPanelPosition($injector) {
   this._$window = $injector.get('$window');
 
   /** @private {boolean} */
-  this._isRTL = $injector.get('$mdUtil').isRtl();
+  this._isRTL = $injector.get('$mdUtil').bidi() === 'rtl';
 
   /** @private @const {!angular.$mdConstant} */
   this._$mdConstant = $injector.get('$mdConstant');
@@ -3381,7 +3381,7 @@ MdPanelAnimation.prototype.animateOpen = function(panelEl) {
 
       var openScale = animator.calculateZoomToOrigin(
               panelEl, this._openFrom) || '';
-      openFrom = animator.toTransformCss(panelTransform + ' ' + openScale);
+      openFrom = animator.toTransformCss(openScale + ' ' + panelTransform);
       break;
 
     case MdPanelAnimation.animation.FADE:
@@ -3446,7 +3446,7 @@ MdPanelAnimation.prototype.animateClose = function(panelEl) {
 
       var closeScale = animator.calculateZoomToOrigin(
               panelEl, this._closeTo) || '';
-      closeTo = animator.toTransformCss(panelTransform + ' ' + closeScale);
+      closeTo = animator.toTransformCss(closeScale + ' ' + panelTransform);
       break;
 
     case MdPanelAnimation.animation.FADE:

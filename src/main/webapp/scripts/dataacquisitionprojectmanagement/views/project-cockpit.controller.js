@@ -5,8 +5,8 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
   function($scope, $state, $location, $transitions, Principal,
            PageTitleService, LanguageService, ToolbarHeaderService,
            CurrentProjectService, projectDeferred, CommonDialogsService,
-           ProjectSaveService) {
-
+           ProjectSaveService, blockUI) {
+    blockUI.start();
     var unregisterTransitionHook;
     var pageTitleKey = 'data-acquisition-project-management.project' +
       '-cockpit.title';
@@ -38,16 +38,22 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $state.loadStarted = true;
 
-    var initializing = true;
+    $scope.initializing = true;
+    var projectId = $state.params.id;
     $scope.$on('current-project-changed',
       function(event, changedProject) { // jshint ignore:line
-        if (changedProject && !initializing) {
+        if (changedProject && !$scope.initializing) {
           $location.url('/' + LanguageService.getCurrentInstantly() +
             '/projects/' + changedProject.id);
           PageTitleService.setPageTitle(pageTitleKey,
             {projectId: changedProject.id});
+          if (changedProject.id === projectId) {
+            $scope.project = _.assignIn({}, changedProject);
+          }
+        } else if (!changedProject) {
+          $scope.project = null;
         }
-        initializing = false;
+        $scope.initializing = false;
       });
 
     $scope.$on('project-saved', function() {
@@ -55,7 +61,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     });
 
     $scope.$watch('project', function(newVal, oldVal) {
-      if (oldVal !== undefined && newVal !== oldVal &&
+      if (oldVal != null && newVal !== oldVal &&
           !ProjectSaveService.getSaving()) {
         $scope.changed = true;
         $scope.$broadcast('project-changed');
@@ -92,11 +98,11 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
         CurrentProjectService.setCurrentProject(project);
 
-        // setProjectRequirementsDisabled(project);
-
         registerConfirmOnDirtyHook();
       }).finally(function() {
-      $scope.loadStarted = false;
+      $state.loadStarted = false;
+      $scope.initializing = false;
+      blockUI.stop();
     });
 
     $scope.shareButtonShown = false;
@@ -104,13 +110,15 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $scope.$watchCollection(function() {
       return $location.search();
     }, function(newValue) {
-      $scope.selectedTab.index = (function() {
-        switch (newValue.tab) {
-          case 'status': return 0;
-          case 'config': return 1;
-          default: return 0;
-        }
-      })();
+      if (newValue && newValue.tab) {
+        $scope.selectedTab.index = (function() {
+          switch (newValue.tab) {
+            case 'status': return 0;
+            case 'config': return 1;
+            default: return 0;
+          }
+        })();
+      }
     });
 
     $scope.onTabSelect = function(tab) {

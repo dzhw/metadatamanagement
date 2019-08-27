@@ -2,7 +2,7 @@
  * AngularJS Material Design
  * https://github.com/angular/material
  * @license MIT
- * v1.1.20
+ * v1.1.19
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -657,7 +657,7 @@ function SliderDirective($$rAF, $window, $mdAria, $mdUtil, $mdConstant, $mdThemi
       var size = vertical ? sliderDimensions.height : sliderDimensions.width;
       var calc = (position - offset) / size;
 
-      if (!vertical && $mdUtil.isRtl(attr)) {
+      if (!vertical && $mdUtil.bidi() === 'rtl') {
         calc = 1 - calc;
       }
 
