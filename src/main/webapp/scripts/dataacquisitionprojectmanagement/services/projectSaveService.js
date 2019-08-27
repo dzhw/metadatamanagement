@@ -23,6 +23,9 @@ angular.module('metadatamanagementApp').service(
     var prepareProjectForSave = function(project,
                                          assigneeGroupMessage,
                                          newAssigneeGroup) {
+      if (!project) {
+        return null;
+      }
       if (!project.configuration) {
         project.configuration = {};
       }
@@ -36,6 +39,9 @@ angular.module('metadatamanagementApp').service(
     };
 
     var saveProject = function(project) {
+        if (!project) {
+          return $q.resolve();
+        }
         setSaving();
         return $q(function(resolve, reject) {
             return DataAcquisitionProjectResource.save(
