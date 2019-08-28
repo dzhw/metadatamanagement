@@ -90,7 +90,6 @@ Edit Project Title and Check it does not appear under study when unreleased
   Sleep  10s
   Publisher Logout
   Click on study tab
-  Reload Page
   Search for  Test Project Release Study ${BROWSER} DE
   Wait Until Page Contains Element  xpath=//md-card-header-text//span[contains(. ,"Test Project Release Study ${BROWSER} DE")]  10s
 
@@ -105,7 +104,6 @@ Check Edited Project appears under study when released
   Sleep  90s  #We need explicit sleep to ensure the project is available under the study tab
   Publisher Logout   #explicit logout
   Click on study tab
-  Reload Page
   Search for  Test Project Release Study ${BROWSER} DE Edit_786
   Wait Until Page Contains Element  xpath=//md-card-header-text//span[contains(. ,"Test Project Release Study ${BROWSER} DE Edit_786")]  10s
 
@@ -131,7 +129,6 @@ Restore The Previous Project Version and Publish Again
 Verify The Re-Released Previous Project is Available under The Study Tab
   Publisher Logout
   Click on study tab
-  Reload Page
   Search for  Test Project Release Study ${BROWSER} DE
   Wait Until Page Contains Element  xpath=//md-card-header-text//span[contains(. ,"Test Project Release Study ${BROWSER} DE")]  10s
 

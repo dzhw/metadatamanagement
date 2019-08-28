@@ -58,6 +58,10 @@ angular.module('metadatamanagementApp')
         });
       });
 
+      $scope.$on('user-logged-out', function() {
+        $scope.selectedFilters = [];
+      });
+
       $scope.onOneFilterChanged = function() {
         $scope.filterChangedCallback();
       };
