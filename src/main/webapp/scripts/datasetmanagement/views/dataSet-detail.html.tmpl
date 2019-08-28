@@ -320,7 +320,7 @@
         </md-card>
     </div>
     <div class="fdz-fab-button-container" layout="column">
-        <md-button ng-if="ctrl.isAuthenticated() && ctrl.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])" class="md-accent md-fab" ng-click="ctrl.generateDataSetReport()">
+        <md-button ng-if="!ctrl.projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="md-accent md-fab" ng-click="ctrl.generateDataSetReport()">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'data-set-management.detail.generate-dataset-report-tooltip' | translate}}
             </md-tooltip>

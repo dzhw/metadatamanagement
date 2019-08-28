@@ -71,12 +71,9 @@ angular.module('metadatamanagementApp')
       });
 
       entity.promise.then(function(result) {
-
-        if (!Principal.loginName()) {
-          var fetchFn = StudySearchService.findShadowByIdAndVersion
-            .bind(null, result.masterId);
-          OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
-        }
+        var fetchFn = StudySearchService.findShadowByIdAndVersion
+          .bind(null, result.masterId);
+        OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
 
         if (Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
@@ -147,7 +144,7 @@ angular.module('metadatamanagementApp')
              survey titles */
           DataSetSearchService.findByStudyId(result.id,
             ['id', 'number', 'description', 'type', 'surveys',
-              'maxNumberOfObservations', 'accessWays',
+              'maxNumberOfObservations', 'accessWays', 'shadow',
               'dataAcquisitionProjectId', 'masterId', 'release.version'])
             .then(function(dataSets) {
               ctrl.dataSets = dataSets.hits.hits;

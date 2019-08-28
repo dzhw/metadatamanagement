@@ -51,7 +51,7 @@ angular.module('metadatamanagementApp')
           entity: ['$q', '$stateParams', 'StudySearchService', 'Principal',
             'SimpleMessageToastService', function($q, $stateParams,
                 StudySearchService, Principal, SimpleMessageToastService) {
-              if (Principal.loginName()) {
+              if (Principal.loginName() && !$stateParams.version) {
                 return StudySearchService.findOneById($stateParams.id);
               } else {
                 var deferred = $q.defer();
