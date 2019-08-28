@@ -184,8 +184,11 @@ angular.module('metadatamanagementApp')
           DeleteMetadataService.deleteAllOfType(ctrl.project, ctrl.type);
         };
 
-        ctrl.goToSearch = function(type) {
-          $state.go('search', {type: type});
+        ctrl.edit = function(type) {
+          if (ProjectUpdateAccessService.isUpdateAllowed(
+            ctrl.project, type, true)) {
+            $state.go('search', {type: type});
+          }
         };
       }
     };
