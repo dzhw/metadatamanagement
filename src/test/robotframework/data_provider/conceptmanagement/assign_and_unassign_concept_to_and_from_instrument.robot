@@ -21,7 +21,7 @@ Assign and Unassign concept to and from an instrument
 
 *** Keywords ***
 Click on Instrument Edit Button
-   Click Element Through Tooltips  xpath=//md-card[@type="instruments"]//button[@ng-click="ctrl.goToSearch(ctrl.searchState)"]//span[text()="Bearbeiten"]
+   Click Element Through Tooltips  xpath=//md-card[@type="instruments"]//button[@ng-click="ctrl.edit(ctrl.searchState)"]//span[text()="Bearbeiten"]
    Click Element Through Tooltips  xpath=//button[md-icon[text()="mode_edit"]]
 
 Assign Concept to an Instrument
