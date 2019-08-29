@@ -42,11 +42,9 @@ angular.module('metadatamanagementApp')
       DataSetSearchService.findByStudyId(result.studyId).then(function(result) {
         $scope.dataSets = result.hits.hits;
       });
-      if (!Principal.loginName()) {
-        var fetchFn = VariableSearchService.findShadowByIdAndVersion
-          .bind(null, result.masterId);
-        OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
-      }
+      var fetchFn = VariableSearchService.findShadowByIdAndVersion
+        .bind(null, result.masterId);
+      OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
       var currenLanguage = LanguageService.getCurrentInstantly();
       var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
       PageTitleService.setPageTitle('variable-management.detail.title', {
@@ -67,8 +65,7 @@ angular.module('metadatamanagementApp')
         'studyIsPresent': CleanJSObjectService.
         isNullOrEmpty(result.study) ? false : true,
         'projectId': result.dataAcquisitionProjectId,
-        'version': Principal.loginName() ? null : _.get(result,
-          'release.version')
+        'version': result.shadow ? _.get(result, 'release.version') : null
       });
       if (result.release || Principal.hasAnyAuthority(['ROLE_PUBLISHER',
           'ROLE_DATA_PROVIDER'])) {
@@ -100,7 +97,7 @@ angular.module('metadatamanagementApp')
         var previousIndexInDataSet = result.indexInDataSet - 1;
         VariableSearchService.findByDataSetIdAndIndexInDataSet(result.dataSetId,
           previousIndexInDataSet, ['id', 'label', 'name', 'dataType',
-            'scaleLevel', 'surveys', 'masterId', 'release'])
+            'scaleLevel', 'surveys', 'masterId', 'release', 'shadow'])
           .then(function(resultPreviousVariable) {
             $scope.previousVariables = resultPreviousVariable.hits.hits;
           });
@@ -109,7 +106,7 @@ angular.module('metadatamanagementApp')
         var nextIndexInDataSet = result.indexInDataSet + 1;
         VariableSearchService.findByDataSetIdAndIndexInDataSet(result.dataSetId,
           nextIndexInDataSet, ['id', 'label', 'name', 'dataType',
-            'scaleLevel', 'surveys', 'masterId', 'release'])
+            'scaleLevel', 'surveys', 'masterId', 'release', 'shadow'])
           .then(function(resultNextVariable) {
             $scope.nextVariables = resultNextVariable.hits.hits;
           });

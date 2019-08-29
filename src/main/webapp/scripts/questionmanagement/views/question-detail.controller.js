@@ -43,11 +43,10 @@ angular.module('metadatamanagementApp')
       ];
 
       entity.promise.then(function(result) {
-        if (!Principal.loginName()) {
-          var fetchFn = QuestionSearchService.findShadowByIdAndVersion
-            .bind(null, result.masterId);
-          OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
-        }
+        var fetchFn = QuestionSearchService.findShadowByIdAndVersion
+          .bind(null, result.masterId);
+        OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
+
         var title = {
           questionNumber: result.number,
           questionId: result.id
@@ -71,8 +70,7 @@ angular.module('metadatamanagementApp')
           'studyIsPresent': CleanJSObjectService.
           isNullOrEmpty(result.study) ? false : true,
           'projectId': result.dataAcquisitionProjectId,
-          'version': Principal.loginName() ? null : _.get(result,
-            'release.version')
+          'version': result.shadow ? _.get(result, 'release.version') : null
         });
         if (result.dataSets) {
           ctrl.accessWays = [];
@@ -84,7 +82,7 @@ angular.module('metadatamanagementApp')
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.question = result;
           QuestionSearchService.findAllPredeccessors(ctrl.question.id, ['id',
-            'instrumentNumber', 'questionText', 'type', 'masterId',
+            'instrumentNumber', 'questionText', 'type', 'masterId', 'shadow',
             'number', 'dataAcquisitionProjectId', 'instrument.description',
             'release'],
             0, 100)
@@ -96,7 +94,7 @@ angular.module('metadatamanagementApp')
           if (ctrl.question.successors) {
             QuestionSearchService.findAllSuccessors(ctrl.question.successors,
               ['id', 'instrumentNumber', 'questionText', 'type',
-              'number', 'dataAcquisitionProjectId', 'masterId',
+              'number', 'dataAcquisitionProjectId', 'masterId', 'shadow',
               'instrument.description', 'release'], 0, 100)
             .then(function(successors) {
               ctrl.successors = successors.hits.hits;

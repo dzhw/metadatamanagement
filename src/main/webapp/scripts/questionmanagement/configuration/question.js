@@ -25,7 +25,7 @@ angular.module('metadatamanagementApp')
         resolve: {
           entity: ['$stateParams', 'QuestionSearchService', 'Principal',
           function($stateParams, QuestionSearchService, Principal) {
-              if (Principal.loginName()) {
+              if (Principal.loginName() && !$stateParams.version) {
                 return QuestionSearchService.findOneById($stateParams.id);
               } else {
                 return QuestionSearchService.findShadowByIdAndVersion(

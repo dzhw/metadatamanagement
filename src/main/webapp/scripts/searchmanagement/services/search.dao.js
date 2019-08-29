@@ -286,25 +286,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
       });
     };
 
-    var applyFetchOnlyMasterDataFilter = function(query, elasticSearchType) {
-      if (!_.includes(['related_publications', 'concepts'],
-        elasticSearchType)) {
-        var masterFilterCriteria = {
-          'bool': {
-            'must': [{
-              'term': {'shadow': false}
-            }]
-          }
-        };
-        var masterFilter = _.get(query, 'body.query.bool.filter');
-        if (_.isArray(masterFilter)) {
-          query.body.query.bool.filter.push(masterFilterCriteria);
-        } else {
-          _.set(query, 'body.query.bool.filter[0]', masterFilterCriteria);
-        }
-      }
-    };
-
     var applyFetchDataWhereUserIsDataProviderFilter = function(query,
       elasticSearchType) {
       if (_.includes(['related_publications', 'concepts'], elasticSearchType)) {
@@ -387,7 +368,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         query.body._source = ['id', 'number', 'questionText', 'title',
           'description', 'type', 'year', 'sourceReference', 'authors',
           'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
-          'sample',
+          'sample', 'shadow',
           'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
           'population', 'release',
           'instrumentNumber', 'instrument.description', 'surveys.title',
@@ -473,7 +454,17 @@ angular.module('metadatamanagementApp').service('SearchDao',
           });
         }
 
-        if (dataAcquisitionProjectId) {
+        var filterToUse;
+
+        if (_.includes(['related_publications', 'concepts'],
+        elasticsearchType)) {
+          filterToUse = stripVersionSuffixFromFilters(filter);
+        } else {
+          filterToUse = filter;
+        }
+
+        if (dataAcquisitionProjectId &&
+          !SearchHelperService.containsDomainObjectFilter(filterToUse)) {
           studyId = StudyIdBuilderService
             .buildStudyId(dataAcquisitionProjectId);
           if (!query.body.query.bool.filter) {
@@ -501,15 +492,6 @@ angular.module('metadatamanagementApp').service('SearchDao',
           query.body.query.bool.filter.push(boolFilter);
         }
 
-        var filterToUse;
-
-        if (_.includes(['related_publications', 'concepts'],
-          elasticsearchType)) {
-          filterToUse = stripVersionSuffixFromFilters(filter);
-        } else {
-          filterToUse = filter;
-        }
-
         if (!CleanJSObjectService.isNullOrEmpty(filterToUse)) {
           if (!query.body.query.bool.filter) {
             query.body.query.bool.filter = SearchHelperService
@@ -522,7 +504,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
 
         if (Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
-          applyFetchOnlyMasterDataFilter(query, elasticsearchType);
+          applyFetchLatestShadowCopyFilter(query, elasticsearchType,
+            filterToUse);
           return ElasticSearchClient.search(query);
         } else {
           applyFetchDataWhereUserIsDataProviderFilter(query, elasticsearchType);
