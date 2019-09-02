@@ -79,7 +79,7 @@ public class SurveyAttachmentShadowCopyServiceTest extends AbstractTest {
     createTestFileForAttachment(master);
 
     shadowCopyService.createShadowCopies(dataAcquisitionProject.getId(),
-        dataAcquisitionProject.getRelease().getVersion(), null);
+        dataAcquisitionProject.getRelease(), null);
 
     GridFSFile gridFsFile = gridFsOperations.findOne(
         new Query(GridFsCriteria.whereMetaData("dataAcquisitionProjectId").is(PROJECT_ID + "-1.0.0")
@@ -119,7 +119,7 @@ public class SurveyAttachmentShadowCopyServiceTest extends AbstractTest {
     createTestFileForAttachment(shadow);
 
     shadowCopyService.createShadowCopies(dataAcquisitionProject.getId(),
-        dataAcquisitionProject.getRelease().getVersion(), "1.0.0");
+        dataAcquisitionProject.getRelease(), "1.0.0");
 
     List<DBObject> files = new ArrayList<>();
     gridFs.getFileList().iterator().forEachRemaining(files::add);
@@ -152,7 +152,7 @@ public class SurveyAttachmentShadowCopyServiceTest extends AbstractTest {
     release.setVersion("1.0.1");
 
     shadowCopyService.createShadowCopies(dataAcquisitionProject.getId(),
-        dataAcquisitionProject.getRelease().getVersion(), "1.0.0");
+        dataAcquisitionProject.getRelease(), "1.0.0");
 
     GridFSFile gridFsFile = gridFsOperations.findOne(
         new Query(GridFsCriteria.whereMetaData("dataAcquisitionProjectId").is(PROJECT_ID + "-1.0.0")
@@ -186,7 +186,7 @@ public class SurveyAttachmentShadowCopyServiceTest extends AbstractTest {
     release.setVersion("1.0.1");
 
     shadowCopyService.createShadowCopies(dataAcquisitionProject.getId(),
-        dataAcquisitionProject.getRelease().getVersion(), "1.0.0");
+        dataAcquisitionProject.getRelease(), "1.0.0");
 
     Query shadowQuery = new Query(GridFsCriteria.whereFilename()
         .is("/surveys/sur-the-dataacquisition-project-id-sy1$-1.0.0/attachments/filename.txt"));

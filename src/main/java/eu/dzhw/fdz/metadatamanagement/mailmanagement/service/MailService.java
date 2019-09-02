@@ -26,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.TaskErrorNotification;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class MailService {
-  
+
   private final JHipsterProperties jhipsterProperties;
 
   private final JavaMailSenderImpl javaMailSender;
@@ -57,7 +58,9 @@ public class MailService {
       String content, boolean isMultipart, boolean isHtml) {
     log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
         isMultipart, isHtml, to, subject, content);
-
+    if (to.length < 1) {
+      log.warn("No recipients specified for email!");
+    }
     // Prepare message using a Spring helper
     MimeMessage mimeMessage = javaMailSender.createMimeMessage();
     try {
@@ -345,5 +348,28 @@ public class MailService {
         adminAddresses.toArray(new String[adminAddresses.size()]), null, subject, content, false,
         true);
 
+  }
+
+  /**
+   * Send a mail to all release managers when the project is released with a new major version.
+   * 
+   * @param releaseManagers List of ROLE_RELEASE_MANAGER
+   * @param dataAcquisitionProjectId the id of the project which has been released
+   * @param release the release object containing the version
+   */
+  public void sendMailOnNewMajorProjectRelease(List<User> releaseManagers,
+      String dataAcquisitionProjectId, Release release) {
+    log.debug("Sending 'new major project release' mail");
+    Context context = new Context();
+    context.setVariable("projectId", dataAcquisitionProjectId);
+    context.setVariable("release", release);
+    context.setVariable("baseUrl", baseUrl);
+    String content = templateEngine.process("newMajorProjectRelease", context);
+    String subject = "New Major Release for Project \"" + dataAcquisitionProjectId + "\" ("
+        + release.getVersion() + ")";
+    List<String> emailAddresses =
+        releaseManagers.stream().map(User::getEmail).collect(Collectors.toList());
+    sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null, subject,
+        content, false, true);
   }
 }

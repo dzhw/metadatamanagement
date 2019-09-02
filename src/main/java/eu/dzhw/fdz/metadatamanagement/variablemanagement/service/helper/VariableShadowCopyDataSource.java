@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
@@ -25,9 +26,9 @@ import lombok.RequiredArgsConstructor;
 public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variable> {
 
   private final VariableRepository variableRepository;
-  
+
   private final VariableCrudHelper crudHelper;
-  
+
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   @Override
@@ -37,18 +38,21 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
   }
 
   @Override
-  public Variable createShadowCopy(Variable source, String version) {
-    String derivedId = source.getId() + "-" + version;
+  public Variable createShadowCopy(Variable source, Release release) {
+    String derivedId = source.getId() + "-" + release.getVersion();
     Variable copy = crudHelper.read(derivedId).orElseGet(Variable::new);
     BeanUtils.copyProperties(source, copy, "version", "surveyIds", "relatedQuestions",
         "relatedVariables");
     copy.setId(derivedId);
-    copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
-    copy.setDataSetId(source.getDataSetId() + "-" + version);
-    copy.setStudyId(source.getStudyId() + "-" + version);
-    copy.setSurveyIds(createDerivedSurveyIds(source.getSurveyIds(), version));
-    copy.setRelatedQuestions(createDerivedRelatedQuestions(source.getRelatedQuestions(), version));
-    copy.setRelatedVariables(createDerivedRelatedVariables(source.getRelatedVariables(), version));
+    copy.setDataAcquisitionProjectId(
+        source.getDataAcquisitionProjectId() + "-" + release.getVersion());
+    copy.setDataSetId(source.getDataSetId() + "-" + release.getVersion());
+    copy.setStudyId(source.getStudyId() + "-" + release.getVersion());
+    copy.setSurveyIds(createDerivedSurveyIds(source.getSurveyIds(), release.getVersion()));
+    copy.setRelatedQuestions(
+        createDerivedRelatedQuestions(source.getRelatedQuestions(), release.getVersion()));
+    copy.setRelatedVariables(
+        createDerivedRelatedVariables(source.getRelatedVariables(), release.getVersion()));
     return copy;
   }
 
@@ -115,10 +119,10 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
     String oldProjectId = projectId + "-" + version;
     try (Stream<Variable> variables = variableRepository
         .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
-      variables.forEach(crudHelper::deleteShadow); 
+      variables.forEach(crudHelper::deleteShadow);
     }
   }
-  
+
   @Override
   public void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
       String previousVersion) {
@@ -126,7 +130,7 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
       return variableRepository
           .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + releaseVersion);
     }, ElasticsearchType.variables);
-    if (!StringUtils.isEmpty(previousVersion)) {      
+    if (!StringUtils.isEmpty(previousVersion)) {
       elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
         return variableRepository
             .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + previousVersion);

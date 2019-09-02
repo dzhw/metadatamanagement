@@ -38,10 +38,10 @@ public class ShadowCopyQueueItem extends AbstractRdcDomainObject {
   private String dataAcquisitionProjectId;
 
   /**
-   * The version that should be created.
+   * The release object of the project which has been released.
    */
   @NotNull
-  private String shadowCopyVersion;
+  private Release release;
 
   /**
    * Start time of the copy process.

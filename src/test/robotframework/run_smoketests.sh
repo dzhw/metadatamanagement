@@ -31,3 +31,9 @@ if [ $? -ne 0 ]; then
     echo "E2E test with Edge failed!"
     exit -1
 fi
+echo "Smoke Testing E2E with Safari:"
+robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:safari --include smoketest --exclude firefoxonly --exclude chromeonly ./src/test/robotframework
+if [ $? -ne 0 ]; then
+    echo "E2E test with Safari failed!"
+    exit -1
+fi

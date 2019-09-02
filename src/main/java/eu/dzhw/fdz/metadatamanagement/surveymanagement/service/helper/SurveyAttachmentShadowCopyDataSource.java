@@ -12,6 +12,7 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.gridfs.GridFS;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.AbstractAttachmentShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 
 /**
@@ -24,17 +25,16 @@ public class SurveyAttachmentShadowCopyDataSource
   /**
    * Create a new instance.
    */
-  public SurveyAttachmentShadowCopyDataSource(GridFsOperations gridFsOperations,
-                                                      GridFS gridFs,
-                                                      MongoTemplate mongoTemplate) {
+  public SurveyAttachmentShadowCopyDataSource(GridFsOperations gridFsOperations, GridFS gridFs,
+      MongoTemplate mongoTemplate) {
     super(gridFsOperations, gridFs, mongoTemplate, SurveyAttachmentMetadata.class);
   }
 
   @Override
   public SurveyAttachmentMetadata createShadowCopy(SurveyAttachmentMetadata source,
-                                                   String version) {
+      Release release) {
 
-    String derivedId = deriveId(source, version);
+    String derivedId = deriveId(source, release.getVersion());
 
     Query query = new Query(GridFsCriteria.whereMetaData("_id").is(derivedId));
     GridFSFile gridFsFile = this.gridFsOperations.findOne(query);
@@ -49,8 +49,9 @@ public class SurveyAttachmentShadowCopyDataSource
       BeanUtils.copyProperties(source, copy, "version");
     }
 
-    copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
-    copy.setSurveyId(source.getSurveyId() + "-" + version);
+    copy.setDataAcquisitionProjectId(
+        source.getDataAcquisitionProjectId() + "-" + release.getVersion());
+    copy.setSurveyId(source.getSurveyId() + "-" + release.getVersion());
     copy.generateId();
     return copy;
   }
@@ -67,8 +68,8 @@ public class SurveyAttachmentShadowCopyDataSource
 
   @Override
   protected String getPredecessorFileName(SurveyAttachmentMetadata predecessor) {
-    return SurveyAttachmentFilenameBuilder.buildFileName(
-        predecessor.getSurveyId(), predecessor.getFileName());
+    return SurveyAttachmentFilenameBuilder.buildFileName(predecessor.getSurveyId(),
+        predecessor.getFileName());
   }
 
   @Override

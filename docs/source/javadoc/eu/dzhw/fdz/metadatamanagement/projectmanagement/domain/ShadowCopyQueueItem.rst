@@ -44,19 +44,19 @@ id
 
    Queue item id.
 
+release
+^^^^^^^
+
+.. java:field:: @NotNull private Release release
+   :outertype: ShadowCopyQueueItem
+
+   The release object of the project which has been released.
+
 serialVersionUID
 ^^^^^^^^^^^^^^^^
 
 .. java:field:: private static final long serialVersionUID
    :outertype: ShadowCopyQueueItem
-
-shadowCopyVersion
-^^^^^^^^^^^^^^^^^
-
-.. java:field:: @NotNull private String shadowCopyVersion
-   :outertype: ShadowCopyQueueItem
-
-   The version that should be created.
 
 updateStartedAt
 ^^^^^^^^^^^^^^^

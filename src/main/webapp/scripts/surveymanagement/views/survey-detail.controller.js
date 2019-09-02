@@ -38,11 +38,10 @@ angular.module('metadatamanagementApp')
       ];
 
       entity.promise.then(function(survey) {
-        if (!Principal.loginName()) {
-          var fetchFn = SurveySearchService.findShadowByIdAndVersion
-            .bind(null, survey.masterId);
-          OutdatedVersionNotifier.checkVersionAndNotify(survey, fetchFn);
-        }
+        var fetchFn = SurveySearchService.findShadowByIdAndVersion
+          .bind(null, survey.masterId);
+        OutdatedVersionNotifier.checkVersionAndNotify(survey, fetchFn);
+
         if (Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
@@ -68,8 +67,7 @@ angular.module('metadatamanagementApp')
           'studyIsPresent': CleanJSObjectService.isNullOrEmpty(survey.study) ?
             false : true,
           'projectId': survey.dataAcquisitionProjectId,
-          'version': Principal.loginName() ? null : _.get(survey,
-            'release.version')
+          'version': survey.shadow ? _.get(survey, 'release.version') : null
         });
         if (survey.dataSets) {
           ctrl.accessWays = [];

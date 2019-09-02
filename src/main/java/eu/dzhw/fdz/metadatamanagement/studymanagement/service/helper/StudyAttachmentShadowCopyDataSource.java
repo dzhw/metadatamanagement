@@ -12,6 +12,7 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.gridfs.GridFS;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.AbstractAttachmentShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 
 /**
@@ -24,16 +25,15 @@ public class StudyAttachmentShadowCopyDataSource
   /**
    * Create a new instance.
    */
-  public StudyAttachmentShadowCopyDataSource(GridFsOperations gridFsOperations,
-      GridFS gridFs, MongoTemplate mongoTemplate) {
+  public StudyAttachmentShadowCopyDataSource(GridFsOperations gridFsOperations, GridFS gridFs,
+      MongoTemplate mongoTemplate) {
     super(gridFsOperations, gridFs, mongoTemplate, StudyAttachmentMetadata.class);
   }
 
   @Override
-  public StudyAttachmentMetadata createShadowCopy(StudyAttachmentMetadata source,
-                                                    String version) {
+  public StudyAttachmentMetadata createShadowCopy(StudyAttachmentMetadata source, Release release) {
 
-    String derivedId = deriveId(source, version);
+    String derivedId = deriveId(source, release.getVersion());
 
     Query query = new Query(GridFsCriteria.whereMetaData("_id").is(derivedId));
     GridFSFile gridFsFile = this.gridFsOperations.findOne(query);
@@ -48,15 +48,16 @@ public class StudyAttachmentShadowCopyDataSource
       BeanUtils.copyProperties(source, copy, "version");
     }
 
-    copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
-    copy.setStudyId(source.getStudyId() + "-" + version);
+    copy.setDataAcquisitionProjectId(
+        source.getDataAcquisitionProjectId() + "-" + release.getVersion());
+    copy.setStudyId(source.getStudyId() + "-" + release.getVersion());
     copy.generateId();
     return copy;
   }
 
   private String deriveId(StudyAttachmentMetadata source, String version) {
-    return String.format("/public/files/studies/%s-%s/attachments/%s", source.getStudyId(),
-        version, source.getFileName());
+    return String.format("/public/files/studies/%s-%s/attachments/%s", source.getStudyId(), version,
+        source.getFileName());
   }
 
   @Override
@@ -66,8 +67,8 @@ public class StudyAttachmentShadowCopyDataSource
 
   @Override
   protected String getPredecessorFileName(StudyAttachmentMetadata predecessor) {
-    return StudyAttachmentFilenameBuilder
-        .buildFileName(predecessor.getStudyId(), predecessor.getFileName());
+    return StudyAttachmentFilenameBuilder.buildFileName(predecessor.getStudyId(),
+        predecessor.getFileName());
   }
 
   @Override

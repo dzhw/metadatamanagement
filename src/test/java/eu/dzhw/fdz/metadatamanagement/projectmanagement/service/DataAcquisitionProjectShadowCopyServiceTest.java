@@ -59,7 +59,7 @@ public class DataAcquisitionProjectShadowCopyServiceTest extends AbstractTest {
 
     master.setRelease(release);
 
-    shadowCopyService.createShadowCopies(master.getId(), master.getRelease().getVersion(), null);
+    shadowCopyService.createShadowCopies(master.getId(), master.getRelease(), null);
 
     List<DataAcquisitionProject> result = projectRepository.findAll();
 
@@ -85,7 +85,7 @@ public class DataAcquisitionProjectShadowCopyServiceTest extends AbstractTest {
 
     master.setRelease(release);
 
-    shadowCopyService.createShadowCopies(master.getId(), master.getRelease().getVersion(), "1.0.0");
+    shadowCopyService.createShadowCopies(master.getId(), master.getRelease(), "1.0.0");
 
     long count = projectRepository.count();
     assertThat(count, equalTo(2L));
@@ -104,7 +104,7 @@ public class DataAcquisitionProjectShadowCopyServiceTest extends AbstractTest {
 
     projectRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(master.getId(), master.getRelease().getVersion(), "1.0.0");
+    shadowCopyService.createShadowCopies(master.getId(), master.getRelease(), "1.0.0");
 
     List<DataAcquisitionProject> result = projectRepository.findAll().stream()
         .filter(DataAcquisitionProject::isShadow).collect(Collectors.toList());
@@ -132,7 +132,7 @@ public class DataAcquisitionProjectShadowCopyServiceTest extends AbstractTest {
     release.setVersion("1.0.1");
     master.setRelease(release);
 
-    shadowCopyService.createShadowCopies(master.getId(), master.getRelease().getVersion(), "1.0.0");
+    shadowCopyService.createShadowCopies(master.getId(), master.getRelease(), "1.0.0");
 
     Optional<DataAcquisitionProject> persistedShadow = projectRepository.findById(shadow.getId());
 

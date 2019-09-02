@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import lombok.RequiredArgsConstructor;
@@ -35,14 +36,15 @@ public class DataSetShadowCopyDataSource implements ShadowCopyDataSource<DataSet
   }
 
   @Override
-  public DataSet createShadowCopy(DataSet source, String version) {
-    String derivedId = source.getId() + "-" + version;
+  public DataSet createShadowCopy(DataSet source, Release release) {
+    String derivedId = source.getId() + "-" + release.getVersion();
     DataSet copy = crudHelper.read(derivedId).orElseGet(DataSet::new);
     BeanUtils.copyProperties(source, copy, "version");
     copy.setId(derivedId);
-    copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
-    copy.setStudyId(source.getStudyId() + "-" + version);
-    copy.setSurveyIds(createDerivedSurveyIds(source.getSurveyIds(), version));
+    copy.setDataAcquisitionProjectId(
+        source.getDataAcquisitionProjectId() + "-" + release.getVersion());
+    copy.setStudyId(source.getStudyId() + "-" + release.getVersion());
+    copy.setSurveyIds(createDerivedSurveyIds(source.getSurveyIds(), release.getVersion()));
     return copy;
   }
 
@@ -95,7 +97,7 @@ public class DataSetShadowCopyDataSource implements ShadowCopyDataSource<DataSet
       return dataSetRepository
           .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + releaseVersion);
     }, ElasticsearchType.data_sets);
-    if (!StringUtils.isEmpty(previousVersion)) {      
+    if (!StringUtils.isEmpty(previousVersion)) {
       elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
         return dataSetRepository
             .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + previousVersion);

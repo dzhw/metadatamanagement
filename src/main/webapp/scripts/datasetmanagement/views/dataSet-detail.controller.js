@@ -54,11 +54,9 @@ angular.module('metadatamanagementApp')
           });
         }
 
-        if (!Principal.loginName()) {
-          var fetchFn = DataSetSearchService.findShadowByIdAndVersion
-            .bind(null, result.masterId);
-          OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
-        }
+        var fetchFn = DataSetSearchService.findShadowByIdAndVersion
+          .bind(null, result.masterId);
+        OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
 
         var currentLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currentLanguage === 'de' ? 'en' : 'de';
@@ -77,8 +75,7 @@ angular.module('metadatamanagementApp')
           'studyIsPresent': CleanJSObjectService.isNullOrEmpty(result.study) ?
             false : true,
           'projectId': result.dataAcquisitionProjectId,
-          'version': Principal.loginName() ? null : _.get(result,
-            'release.version')
+          'version': result.shadow ? _.get(result, 'release.version') : null
         });
         if (result.release || Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {

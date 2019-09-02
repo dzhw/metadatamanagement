@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -25,19 +26,19 @@ public class ShadowCopyHelper<T extends AbstractShadowableRdcDomainObject> {
    * {@link ShadowCopyDataSource}.
    * 
    * @param dataAcquisitionProjectId id of the project being shadow copied
-   * @param releaseVersion The version of the shadow copies being created
+   * @param release The release object containing the version of the shadow copies being created
    * @param previousVersion The previous version of the project or {@code null} if this
    */
-  public void createShadowCopies(String dataAcquisitionProjectId, String releaseVersion,
+  public void createShadowCopies(String dataAcquisitionProjectId, Release release,
       String previousVersion) {
     boolean hasPreviousVersion = StringUtils.hasText(previousVersion);
 
     // we might release with the same version, therefore delete all existing shadows
-    shadowCopyDataSource.deleteExistingShadowCopies(dataAcquisitionProjectId, releaseVersion);
+    shadowCopyDataSource.deleteExistingShadowCopies(dataAcquisitionProjectId, release.getVersion());
 
     try (Stream<T> masters = shadowCopyDataSource.getMasters(dataAcquisitionProjectId)) {
 
-      masters.map(master -> shadowCopyDataSource.createShadowCopy(master, releaseVersion))
+      masters.map(master -> shadowCopyDataSource.createShadowCopy(master, release))
           .forEach(shadowCopy -> {
             if (hasPreviousVersion) {
               Optional<T> opt =

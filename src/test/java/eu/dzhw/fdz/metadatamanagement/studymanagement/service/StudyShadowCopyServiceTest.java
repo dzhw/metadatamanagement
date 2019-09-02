@@ -75,7 +75,7 @@ public class StudyShadowCopyServiceTest extends AbstractTest {
     Study master = UnitTestCreateDomainObjectUtils.buildStudy(PROJECT_ID);
     studyRepository.save(master);
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(), null);
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(), null);
 
     List<Study> result = studyRepository.findAll();
 
@@ -98,7 +98,7 @@ public class StudyShadowCopyServiceTest extends AbstractTest {
     Study shadow = createShadow(master, release.getVersion());
     studyRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     long count = studyRepository.count();
@@ -117,7 +117,7 @@ public class StudyShadowCopyServiceTest extends AbstractTest {
 
     studyRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     List<Study> result =
@@ -145,7 +145,7 @@ public class StudyShadowCopyServiceTest extends AbstractTest {
     shadow = studyRepository.save(shadow);
     release.setVersion("1.0.1");
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     Optional<Study> persistedShadow = studyRepository.findById(shadow.getId());
