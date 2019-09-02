@@ -40,7 +40,7 @@
 				<span>{{'data-acquisition-project-management.project-cockpit.config.delete' | translate}}</span>
 				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">{{ctrl.deleteTooltip | translate}}</md-tooltip>
 			</md-button>
-			<md-button style="margin: 0 4px;" class="md-raised" ng-click="ctrl.goToSearch(ctrl.searchState)" ng-disabled="!(ctrl.counts[ctrl.searchState]) || ctrl.isProjectReleased()" ng-if="ctrl.type !== 'variables' && ctrl.type !== 'questions' && ctrl.type !== 'studies' && ctrl.type !== 'publications'">
+			<md-button style="margin: 0 4px;" class="md-raised" ng-click="ctrl.edit(ctrl.searchState)" ng-disabled="!(ctrl.counts[ctrl.searchState]) || ctrl.isProjectReleased()" ng-if="ctrl.type !== 'variables' && ctrl.type !== 'questions' && ctrl.type !== 'studies' && ctrl.type !== 'publications'">
 				<span>{{'data-acquisition-project-management.project-cockpit.config.edit' | translate}}</span>
 				<md-tooltip md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">{{ctrl.editTooltip | translate}}</md-tooltip>
 			</md-button>

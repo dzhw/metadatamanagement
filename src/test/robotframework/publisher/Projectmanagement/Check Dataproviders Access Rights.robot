@@ -69,7 +69,7 @@ Ensure Create Button is Restricted
 Ensure Upload Button is Restricted
     [Arguments]  ${metadataname}
     Click Element Through Tooltips  xpath=//md-card[@type="${metadataname}"]//button[contains(.,"Hochladen")]
-    @{MD_BROWSERS}    Create List   edge  firefox   chrome
+    @{MD_BROWSERS}    Create List   edge  firefox   chrome  safari
     :FOR   ${MD_BR}   IN  @{MD_BROWSERS}
     \  Run Keyword If  '${BROWSER}' == '${MD_BR}'  Close The Toast Message  ${TOAST_MSSG}
     Run Keyword if  '${BROWSER}' == 'ie'  Close The Toast Message for Upload Button in IE   #in IE toast mesaage is different
@@ -85,6 +85,7 @@ Ensure Upload Button is Restricted From The List
     :FOR   ${MD_DT}   IN  @{MD_ITEMS}
     \   Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//button[contains(.,"Hochladen")]
     \   Run Keyword if  '${BROWSER}' == 'chrome'  Close The Toast Message  ${TOAST_MSSG}
+    \   Run Keyword if  '${BROWSER}' == 'safari'  Close The Toast Message  ${TOAST_MSSG}
     \   Run Keyword if  '${BROWSER}' == 'firefox'  Close The Toast Message  ${TOAST_MSSG}
     \   Run Keyword if  '${BROWSER}' == 'edge'  Close The Toast Message  ${TOAST_MSSG}
     \   Run Keyword if  '${BROWSER}' == 'ie'  Close The Toast Message for Upload Button in IE   #in IE toast mesaage is different

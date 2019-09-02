@@ -30,7 +30,7 @@ public class DataSetShadowCopyService extends ShadowCopyHelper<DataSet> {
   @EventListener
   public void onShadowCopyingStarted(ShadowCopyingStartedEvent shadowCopyingStartedEvent) {
     super.createShadowCopies(shadowCopyingStartedEvent.getDataAcquisitionProjectId(),
-        shadowCopyingStartedEvent.getReleaseVersion(),
+        shadowCopyingStartedEvent.getRelease(),
         shadowCopyingStartedEvent.getPreviousReleaseVersion());
   }
   
@@ -42,7 +42,7 @@ public class DataSetShadowCopyService extends ShadowCopyHelper<DataSet> {
   @EventListener
   public void onShadowCopyingEnded(ShadowCopyingEndedEvent shadowCopyingEndedEvent) {
     super.updateElasticsearch(shadowCopyingEndedEvent.getDataAcquisitionProjectId(),
-        shadowCopyingEndedEvent.getReleaseVersion(),
+        shadowCopyingEndedEvent.getRelease().getVersion(),
         shadowCopyingEndedEvent.getPreviousReleaseVersion());
   }
 }

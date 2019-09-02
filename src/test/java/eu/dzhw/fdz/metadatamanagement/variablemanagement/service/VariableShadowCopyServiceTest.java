@@ -76,7 +76,7 @@ public class VariableShadowCopyServiceTest extends AbstractTest {
     Variable master = buildVariable();
     variableRepository.save(master);
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(), null);
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(), null);
 
     List<Variable> result = variableRepository.findAll();
 
@@ -99,7 +99,7 @@ public class VariableShadowCopyServiceTest extends AbstractTest {
     Variable shadow = createShadow(master, release.getVersion());
     variableRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     long count = variableRepository.count();
@@ -118,7 +118,7 @@ public class VariableShadowCopyServiceTest extends AbstractTest {
 
     variableRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     List<Variable> result = variableRepository.findAll().stream().filter(Variable::isShadow)
@@ -146,7 +146,7 @@ public class VariableShadowCopyServiceTest extends AbstractTest {
     shadow = variableRepository.save(shadow);
     release.setVersion("1.0.1");
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     Optional<Variable> persistedShadow = variableRepository.findById(shadow.getId());

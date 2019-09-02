@@ -324,7 +324,7 @@ angular.module('metadatamanagementApp').factory(
       }
     };
 
-    var applyOnlyMasterDataFilter = function(query) {
+    var applyOnlyMasterDataFilter = function(query, filter) {
       var masterFilter = {
         'bool': {
           'must': [{
@@ -332,7 +332,9 @@ angular.module('metadatamanagementApp').factory(
           }]
         }
       };
-      pushToFilterArray(query, masterFilter);
+      if (!containsDomainObjectFilter(filter)) {
+        pushToFilterArray(query, masterFilter);
+      }
     };
 
     var applyShadowCopyFilter = function(query, filter) {
@@ -353,7 +355,7 @@ angular.module('metadatamanagementApp').factory(
 
     var addShadowCopyFilter = function(query, filter) {
       if (Principal.loginName()) {
-        applyOnlyMasterDataFilter(query);
+        applyOnlyMasterDataFilter(query, filter);
       } else {
         applyShadowCopyFilter(query, filter);
       }
@@ -443,6 +445,7 @@ angular.module('metadatamanagementApp').factory(
     };
 
     return {
+      containsDomainObjectFilter: containsDomainObjectFilter,
       createTermFilters: createTermFilters,
       removeIrrelevantFilters: removeIrrelevantFilters,
       getAvailableFilters: getAvailableFilters,

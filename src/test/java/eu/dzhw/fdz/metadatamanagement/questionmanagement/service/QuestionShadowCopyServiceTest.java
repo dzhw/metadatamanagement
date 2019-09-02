@@ -81,7 +81,7 @@ public class QuestionShadowCopyServiceTest extends AbstractTest {
         UnitTestCreateDomainObjectUtils.buildQuestion(PROJECT_ID, INSTRUMENT_NUMBER, INSTRUMENT_ID);
     questionRepository.save(master);
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(), null);
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(), null);
 
     List<Question> result = questionRepository.findAll();
 
@@ -105,7 +105,7 @@ public class QuestionShadowCopyServiceTest extends AbstractTest {
     Question shadow = createShadow(master, release.getVersion());
     questionRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     long count = questionRepository.count();
@@ -125,7 +125,7 @@ public class QuestionShadowCopyServiceTest extends AbstractTest {
 
     questionRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     List<Question> result = questionRepository.findAll().stream().filter(Question::isShadow)
@@ -154,7 +154,7 @@ public class QuestionShadowCopyServiceTest extends AbstractTest {
     shadow = questionRepository.save(shadow);
     release.setVersion("1.0.1");
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     Optional<Question> persistedShadow = questionRepository.findById(shadow.getId());

@@ -15,9 +15,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       }
     };
     var appendReleaseVersionToSurveys = function(surveys, version) {
-      if (!version) {
-        return surveys;
-      }
       var clones = _.cloneDeep(surveys);
       return clones.map(function(survey) {
         survey.version = version;

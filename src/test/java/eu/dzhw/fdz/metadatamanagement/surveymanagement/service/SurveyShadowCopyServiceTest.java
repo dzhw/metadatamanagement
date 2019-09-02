@@ -78,7 +78,7 @@ public class SurveyShadowCopyServiceTest extends AbstractTest {
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(PROJECT_ID);
     surveyRepository.save(survey);
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(), null);
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(), null);
 
     List<Survey> result = surveyRepository.findAll();
 
@@ -102,7 +102,7 @@ public class SurveyShadowCopyServiceTest extends AbstractTest {
     Survey shadow = createShadow(master, release.getVersion());
     surveyRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     long count = surveyRepository.count();
@@ -121,7 +121,7 @@ public class SurveyShadowCopyServiceTest extends AbstractTest {
 
     surveyRepository.saveAll(Arrays.asList(master, shadow));
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     List<Survey> result =
@@ -149,7 +149,7 @@ public class SurveyShadowCopyServiceTest extends AbstractTest {
     shadow = surveyRepository.save(shadow);
     release.setVersion("1.0.1");
 
-    shadowCopyService.createShadowCopies(project.getId(), project.getRelease().getVersion(),
+    shadowCopyService.createShadowCopies(project.getId(), project.getRelease(),
         "1.0.0");
 
     Optional<Survey> persistedShadow = surveyRepository.findById(shadow.getId());

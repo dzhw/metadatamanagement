@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
-  function($state, SimpleMessageToastService, $document, $mdToast) {
+  function($state, SimpleMessageToastService, $document, $mdToast, Principal) {
 
     var createHref = function(item) {
       return $state.href($state.current.name, {
@@ -14,7 +14,17 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
         });
     };
 
-    var showMessage = function(href, oldVersion, newVersion) {
+    var createMasterRef = function(item) {
+      return $state.href($state.current.name, {
+          id: item.masterId,
+          version: null
+        },
+        {
+          absolute: false
+        });
+    };
+
+    var showPublicUserMessage = function(href, oldVersion, newVersion) {
       var messageParams = {
         href: href,
         oldVersion: oldVersion,
@@ -22,20 +32,34 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
       };
       SimpleMessageToastService.openAlertMessageToast('data-acquisition' +
         '-project-management.outdated-version-alert', messageParams);
+    };
 
+    var showLoggedInUserMessage = function(href, version) {
+      var messageParams = {
+        href: href,
+        version: version
+      };
+      SimpleMessageToastService.openAlertMessageToast('data-acquisition' +
+        '-project-management.not-master-alert', messageParams);
     };
 
     var checkVersionAndNotify = function(item, fetchFn) {
-      if (angular.isDefined(item.successorId)) {
+      if (Principal.loginName() && item.shadow) {
+        var version = _.get(item, 'release.version');
+        var href = createMasterRef(item);
+        showLoggedInUserMessage(href, version);
+      } else if (item.shadow && angular.isDefined(item.successorId)) {
         fetchFn().promise.then(function(result) {
           var oldVersion = _.get(item, 'release.version');
           var newVersion = _.get(result, 'release.version');
           var href = createHref(result);
-          showMessage(href, oldVersion, newVersion);
+          showPublicUserMessage(href, oldVersion, newVersion);
         });
       } else {
         if ($document.find('[data-translate="data-acquisition' +
-          '-project-management.outdated-version-alert"]').length > 0) {
+          '-project-management.outdated-version-alert"]').length > 0 ||
+          $document.find('[data-translate="data-acquisition' +
+            '-project-management.not-master-alert"]').length > 0) {
           $mdToast.hide();
         }
       }

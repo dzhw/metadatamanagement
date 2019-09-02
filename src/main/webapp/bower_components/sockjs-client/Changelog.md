@@ -1,3 +1,13 @@
+1.4.0
+==
+ * Add `timeout` option to set a minimum transport timeout. Fixes #403
+ * Update dev deps to fix security warnings from `npm audit`
+ * Guard against null `this._transport` in `debug` statement. Fixes #448
+
+1.3.0
+==
+ * Revert `debug` to `^3` because v4 starts using ES6. Fixes #457
+
 1.2.0
 ==
  * Update all outdated dependencies

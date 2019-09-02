@@ -13,6 +13,7 @@ import com.mongodb.gridfs.GridFS;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.AbstractAttachmentShadowCopyDataSource;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 
 /**
  * Provides data for creating shadow copies of {@link DataSetAttachmentMetadata}.
@@ -24,17 +25,15 @@ public class DataSetAttachmentShadowCopyDataSource
   /**
    * Create a new instance.
    */
-  public DataSetAttachmentShadowCopyDataSource(GridFsOperations gridFsOperations,
-                                                       GridFS gridFs,
-                                                       MongoTemplate mongoTemplate) {
-    super(gridFsOperations,gridFs, mongoTemplate, DataSetAttachmentMetadata.class);
+  public DataSetAttachmentShadowCopyDataSource(GridFsOperations gridFsOperations, GridFS gridFs,
+      MongoTemplate mongoTemplate) {
+    super(gridFsOperations, gridFs, mongoTemplate, DataSetAttachmentMetadata.class);
   }
 
   @Override
   public DataSetAttachmentMetadata createShadowCopy(DataSetAttachmentMetadata source,
-                                                   String version) {
-
-    String derivedId = deriveId(source, version);
+      Release release) {
+    String derivedId = deriveId(source, release.getVersion());
 
     Query query = new Query(GridFsCriteria.whereMetaData("_id").is(derivedId));
     GridFSFile gridFsFile = this.gridFsOperations.findOne(query);
@@ -49,8 +48,9 @@ public class DataSetAttachmentShadowCopyDataSource
       BeanUtils.copyProperties(source, copy, "version");
     }
 
-    copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
-    copy.setDataSetId(source.getDataSetId() + "-" + version);
+    copy.setDataAcquisitionProjectId(
+        source.getDataAcquisitionProjectId() + "-" + release.getVersion());
+    copy.setDataSetId(source.getDataSetId() + "-" + release.getVersion());
     copy.generateId();
     return copy;
   }

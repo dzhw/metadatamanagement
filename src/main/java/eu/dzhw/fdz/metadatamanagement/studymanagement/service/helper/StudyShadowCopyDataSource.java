@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.ShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
@@ -22,9 +23,9 @@ import lombok.RequiredArgsConstructor;
 public class StudyShadowCopyDataSource implements ShadowCopyDataSource<Study> {
 
   private final StudyRepository studyRepository;
-  
+
   private final StudyCrudHelper crudHelper;
-  
+
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   @Override
@@ -34,12 +35,13 @@ public class StudyShadowCopyDataSource implements ShadowCopyDataSource<Study> {
   }
 
   @Override
-  public Study createShadowCopy(Study source, String version) {
-    String derivedId = source.getId() + "-" + version;
+  public Study createShadowCopy(Study source, Release release) {
+    String derivedId = source.getId() + "-" + release.getVersion();
     Study copy = crudHelper.read(derivedId).orElseGet(Study::new);
     BeanUtils.copyProperties(source, copy, "version");
     copy.setId(derivedId);
-    copy.setDataAcquisitionProjectId(source.getDataAcquisitionProjectId() + "-" + version);
+    copy.setDataAcquisitionProjectId(
+        source.getDataAcquisitionProjectId() + "-" + release.getVersion());
     return copy;
   }
 
@@ -76,10 +78,10 @@ public class StudyShadowCopyDataSource implements ShadowCopyDataSource<Study> {
     String oldProjectId = projectId + "-" + version;
     try (Stream<Study> studies = studyRepository
         .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
-      studies.forEach(crudHelper::deleteShadow); 
+      studies.forEach(crudHelper::deleteShadow);
     }
   }
-  
+
   @Override
   public void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
       String previousVersion) {
@@ -87,7 +89,7 @@ public class StudyShadowCopyDataSource implements ShadowCopyDataSource<Study> {
       return studyRepository
           .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + releaseVersion);
     }, ElasticsearchType.studies);
-    if (!StringUtils.isEmpty(previousVersion)) {      
+    if (!StringUtils.isEmpty(previousVersion)) {
       elasticsearchUpdateQueueService.enqueueUpsertsAsync(() -> {
         return studyRepository
             .streamIdsByDataAcquisitionProjectId(dataAcquisitionProjectId + "-" + previousVersion);

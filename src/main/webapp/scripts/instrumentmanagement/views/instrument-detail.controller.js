@@ -42,11 +42,10 @@ angular.module('metadatamanagementApp')
 
       //Wait for instrument Promise
       entity.promise.then(function(result) {
-        if (!Principal.loginName()) {
-          var fetchFn = InstrumentSearchService.findShadowByIdAndVersion
-            .bind(null, result.masterId);
-          OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
-        }
+        var fetchFn = InstrumentSearchService.findShadowByIdAndVersion
+          .bind(null, result.masterId);
+        OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
+
         if (Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
@@ -67,8 +66,7 @@ angular.module('metadatamanagementApp')
           'studyIsPresent': CleanJSObjectService.isNullOrEmpty(result.study) ?
             false : true,
           'projectId': result.dataAcquisitionProjectId,
-          'version': Principal.loginName() ? null : _.get(result,
-            'release.version')
+          'version': result.shadow ? _.get(result, 'release.version') : null
         });
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
