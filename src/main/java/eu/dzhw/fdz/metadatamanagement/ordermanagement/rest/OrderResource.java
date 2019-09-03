@@ -2,6 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.ordermanagement.rest;
 
 import java.net.URI;
 import java.time.ZoneId;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -79,12 +81,14 @@ public class OrderResource {
     order = orderService.create(order);
 
     return ResponseEntity
-        .created(UriComponentsBuilder.fromUriString(getDlpUrl(order.getId())).build().toUri())
+        .created(UriComponentsBuilder
+            .fromUriString(getDlpUrl(order.getId(), order.getLanguageKey())).build().toUri())
         .body(projectionFactory.createProjection(IdAndVersionOrderProjection.class, order));
   }
 
   /**
    * Override default get by id since it does not set cache headers correctly.
+   * 
    * @param id a order id
    * @return the Order or not found
    */
@@ -117,44 +121,46 @@ public class OrderResource {
       responseHeaders = @ResponseHeader(name = "Location", response = URI.class,
           description = "URL to which the client should go now."))})
   public ResponseEntity<IdAndVersionOrderProjection> updateOrder(@PathVariable String id,
-                                                          @RequestBody @Valid Order order) {
+      @RequestBody @Valid Order order) {
     Optional<Order> optional = orderService.update(id, order);
     if (optional.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
     String destinationUrl;
     if (order.getClient().equals(OrderClient.MDM)) {
-      destinationUrl = getDlpUrl(id);
+      destinationUrl = getDlpUrl(id, order.getLanguageKey());
     } else {
-      destinationUrl = baseUrl + "/#!/" + order.getLanguageKey() + "/shopping-cart/"
-          + order.getId();
+      destinationUrl =
+          baseUrl + "/#!/" + order.getLanguageKey() + "/shopping-cart/" + order.getId();
     }
 
     Order persistedOrder = optional.get();
 
     return ResponseEntity.status(HttpStatus.OK)
-        .location(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri())
-        .body(projectionFactory.createProjection(IdAndVersionOrderProjection.class,
-            persistedOrder));
+        .location(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri()).body(
+            projectionFactory.createProjection(IdAndVersionOrderProjection.class, persistedOrder));
   }
 
   /**
    * Generate a DLP url for the given order id.
+   * 
    * @param orderId Order Id
+   * @param language the language of the order
    * @return URL as string
    */
-  private String getDlpUrl(String orderId) {
-    return UriComponentsBuilder.fromHttpUrl(dlpUrl)
-        .queryParam("mdm_order_id", orderId)
-        .toUriString();
+  private String getDlpUrl(String orderId, String language) {
+    Map<String, String> pathVariables = new HashMap<>();
+    pathVariables.put("language", language);
+    return UriComponentsBuilder.fromHttpUrl(dlpUrl).queryParam("mdm_order_id", orderId)
+        .buildAndExpand(pathVariables).toUriString();
   }
 
   @ExceptionHandler(OrderAlreadyCompletedException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ErrorListDto handleOrderAlreadyCompletedException() {
-    ErrorDto errorDto = new ErrorDto(null, "order-management.error."
-        + "order-already-completed", null, null);
+    ErrorDto errorDto =
+        new ErrorDto(null, "order-management.error." + "order-already-completed", null, null);
     ErrorListDto errorListDto = new ErrorListDto();
     errorListDto.add(errorDto);
     return errorListDto;

@@ -54,7 +54,7 @@ metadatamanagement:
     username: ${vcap.services.dara.credentials.username}
     password: ${vcap.services.dara.credentials.password}
   dlp:
-    endpoint: https://dzhw-dlp.elementsystems.io/de/form/data-usage-application
+    endpoint: https://dzhw-dlp.elementsystems.io/{language}/form/data-usage-application
   rabbitmq:
     uri: ${vcap.services.rabbitmq.credentials.uri}
   websockets:

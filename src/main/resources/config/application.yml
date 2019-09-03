@@ -101,7 +101,7 @@ metadatamanagement:
   projectmanagement:
     email: reitmann@dzhw.eu
   dlp:
-    endpoint: http://fakedlpendpoint.de
+    endpoint: http://fakedlpendpoint.de/{language}/hurz
   dataset-report-task:
     app-name: dataset-report-task
     disk-size-in-mb: 2048
