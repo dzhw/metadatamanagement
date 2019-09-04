@@ -39,6 +39,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ResponseHeader;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * REST controller for ordering data products.
@@ -47,6 +48,7 @@ import lombok.RequiredArgsConstructor;
 @Api(value = "Order Resource",
     description = "Endpoints used by the MDM and the DLP to manage orders.")
 @RequiredArgsConstructor
+@Slf4j
 public class OrderResource {
 
   private final OrderRepository orderRepository;
@@ -73,7 +75,7 @@ public class OrderResource {
           description = "URL to which the client should go now.")})})
   @ResponseStatus(value = HttpStatus.CREATED)
   public ResponseEntity<IdAndVersionOrderProjection> createOrder(@RequestBody @Valid Order order) {
-
+    log.debug("Create new order: {}", order);
     if (order.getClient() != OrderClient.MDM) {
       return ResponseEntity.badRequest().build();
     }
@@ -122,6 +124,7 @@ public class OrderResource {
           description = "URL to which the client should go now."))})
   public ResponseEntity<IdAndVersionOrderProjection> updateOrder(@PathVariable String id,
       @RequestBody @Valid Order order) {
+    log.debug("Update order: {}", order);
     Optional<Order> optional = orderService.update(id, order);
     if (optional.isEmpty()) {
       return ResponseEntity.notFound().build();
