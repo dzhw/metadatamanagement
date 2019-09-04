@@ -240,7 +240,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         } else {
           orderFn = OrderResource.save;
         }
-
+        order.client = 'MDM';
         orderFn(requestParams, order,
           function(responseData, headerGetter) {
             ShoppingCartService.completeOrder();

@@ -109,6 +109,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
             _displayProductAlreadyInShoppingCart(product);
           } else {
             order.products.push(product);
+            order.client = 'MDM';
             OrderResource.update(order).$promise
               .then(function(response) {
                   _setOrderVersion(response.version);
@@ -135,6 +136,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
           });
 
           if (removed.length > 0) {
+            order.client = 'MDM';
             OrderResource.update(order).$promise
               .then(function(response) {
                   _setOrderVersion(response.version);
@@ -149,6 +151,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var _clearProductsFromExistingOrder = function() {
       OrderResource.get({id: orderId}).$promise.then(function(order) {
         order.products = [];
+        order.client = 'MDM';
         return OrderResource.update(order).$promise
           .then(function(response) {
             _setOrderVersion(response.version);
