@@ -137,4 +137,25 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
       }, ElasticsearchType.variables);
     }
   }
+  
+  @Override
+  public void hideExistingShadowCopies(String projectId, String version) {
+    setHiddenState(projectId, version, true);
+  }
+
+  private void setHiddenState(String projectId, String version, boolean hidden) {
+    String shadowId = projectId + "-" + version;
+    try (Stream<Variable> variables =
+        variableRepository.findByDataAcquisitionProjectIdAndShadowIsTrue(shadowId)) {
+      variables.forEach(shadow -> {
+        shadow.setHidden(hidden);
+        crudHelper.saveShadow(shadow);
+      });
+    }
+  }
+
+  @Override
+  public void unhideExistingShadowCopies(String projectId, String version) {
+    setHiddenState(projectId, version, false);
+  }
 }

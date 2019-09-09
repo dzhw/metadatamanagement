@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationEvent;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueItem.Action;
 import lombok.Getter;
 
 /**
@@ -22,6 +23,8 @@ public class ShadowCopyingEndedEvent extends ApplicationEvent {
   private Release release;
   
   private boolean isRerelease;
+  
+  private Action action;
 
   /**
    * Create a new event instance.
@@ -33,11 +36,12 @@ public class ShadowCopyingEndedEvent extends ApplicationEvent {
    * @param isRerelease true if the project has been released with this version before
    */
   public ShadowCopyingEndedEvent(Object source, String dataAcquisitionProjectId,
-      Release release, String previousReleaseVersion, boolean isRerelease) {
+      Release release, String previousReleaseVersion, boolean isRerelease, Action action) {
     super(source);
     this.dataAcquisitionProjectId = dataAcquisitionProjectId;
     this.previousReleaseVersion = previousReleaseVersion;
     this.release = release;
     this.isRerelease = isRerelease;
+    this.action = action;
   }
 }

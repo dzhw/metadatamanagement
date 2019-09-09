@@ -30,7 +30,7 @@ public abstract class GenericDomainObjectResourceController
     <T extends AbstractRdcDomainObject, S extends CrudService<T>> {
 
   private final CrudService<T> crudService;
-  
+
   private final UserInformationProvider userInformationProvider;
 
   /**
@@ -53,6 +53,10 @@ public abstract class GenericDomainObjectResourceController
       return ResponseEntity.notFound().build();
     } else {
       T domainObject = optional.get();
+      if (AbstractShadowableRdcDomainObject.class.isAssignableFrom(domainObject.getClass())
+          && ((AbstractShadowableRdcDomainObject) domainObject).isHidden()) {
+        return ResponseEntity.notFound().build();
+      }
       return ResponseEntity.ok()
           .cacheControl(CacheControl.maxAge(0, TimeUnit.DAYS).mustRevalidate().cachePublic())
           .eTag(domainObject.getVersion().toString()).lastModified(domainObject
