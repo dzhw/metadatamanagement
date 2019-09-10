@@ -187,19 +187,20 @@ angular.module('metadatamanagementApp').config(
           },
           'versions': {
             'header': 'Liste aller Projektversionen (Schattenkopien):',
+            'no-shadows': 'Das Projekt wurde noch nicht freigegeben.',
             'confirm-hide' : {
-              'title': 'Freigabe von Version {{version}} des Projektes {{id}} zurücknehmen?',
-              'content': 'Sind Sie sicher, dass Sie die Freigabe der Version {{version}} des Projektes {{id}} zurücknehmen möchten? Datennutzer können diese Version dann nicht mehr sehen.'
+              'title': 'Freigegebene Version {{version}} des Projektes {{id}} verstecken?',
+              'content': 'Sind Sie sicher, dass Sie die freigegebene Version {{version}} des Projektes {{id}} verstecken möchten? Datennutzer können diese Version dann nicht mehr sehen.'
             },
             'confirm-unhide' : {
-              'title': 'Version {{version}} des Projektes {{id}} wieder freigeben?',
-              'content': 'Sind Sie sicher, dass Sie die Version {{version}} des Projektes {{id}} wieder freigeben möchten? Datennutzer können diese Version dann wieder sehen.'
+              'title': 'Version {{version}} des Projektes {{id}} wieder für alle sichtbar machen?',
+              'content': 'Sind Sie sicher, dass Sie die Version {{version}} des Projektes {{id}} wieder für alle Nutzer sichtbar machen möchten?'
             },
             'hiding-toast': 'Die Version {{version}} des Projektes {{id}} wird in ca. 10 Minuten nur noch für angemeldete Benutzer sichtbar sein!',
             'unhiding-toast': 'Die Version {{version}} des Projektes {{id}} wird in ca. 10 Minuten wieder für alle Benutzer sichtbar sein!',
             'button': {
-              'hide-shadow': 'Diese Version ist aktuell freigeben. Klicken Sie hier, um die Freigabe zurückzunehmen!',
-              'unhide-shadow': 'Diese Version ist aktuell nicht für alle Benutzer freigegeben. Klicken Sie hier, um die Version wieder freizugeben!'
+              'hide-shadow': 'Diese Version ist aktuell für alle Benutzer sichtbar. Klicken Sie hier, um die Version zu verstecken!',
+              'unhide-shadow': 'Diese Version ist aktuell nicht für alle Benutzer sichtbar. Klicken Sie hier, um die Version wieder sichtbar zu machen!'
             }
           }
         },
@@ -227,8 +228,9 @@ angular.module('metadatamanagementApp').config(
             'current': 'Klicken, um die Projekte auf Seite {{number}} anzuzeigen'
           }
         },
-        'outdated-version-alert': 'Sie betrachten eine veraltete Version ({{oldVersion}}). <a href="{{href}}">Hier geht es zur aktuellen Version ({{newVersion}})!</a>',
-        'not-master-alert': 'Sie betrachten eine Schattenkopie ({{version}}). <a href="{{href}}">Hier geht es zur aktuellen Version!</a>'
+        'outdated-version-alert': 'Sie betrachten eine veraltete Version ({{oldVersion}}) dieser Seite. <a href="{{href}}">Hier geht es zur aktuellen Version ({{newVersion}}).</a>',
+        'outdated-version-not-found-alert': 'Ihr Link verweist auf eine ältere Version ({{oldVersion}}) dieser Seite. Hier wird die aktuelle Version ({{newVersion}}) dargestellt.',
+        'not-master-alert': 'Sie betrachten eine {{hidden?"<u>versteckte</u>":""}} Schattenkopie ({{version}}). <a href="{{href}}">Hier geht es zur aktuellen Version!</a>'
       }
       //jscs:enable
     };

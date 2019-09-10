@@ -2,6 +2,29 @@
 
 angular.module('metadatamanagementApp')
   .config(function($stateProvider, $urlRouterProvider) {
+    var loadShadowCopy = function(QuestionSearchService,
+      SimpleMessageToastService, id, version) {
+        var loadLatestShadowCopyFallback = function() {
+          return QuestionSearchService.findShadowByIdAndVersion(id, null)
+          .promise.then(function(result) {
+            if (result) {
+              return result;
+            } else {
+              SimpleMessageToastService.openAlertMessageToast(
+                'question-management.detail.not-found', {id: id});
+              return null;
+            }
+          });
+        };
+        return QuestionSearchService.findShadowByIdAndVersion(id, version)
+          .promise.then(function(result) {
+            if (result) {
+              return result;
+            } else {
+              return loadLatestShadowCopyFallback();
+            }
+          });
+      };
     $urlRouterProvider.when('/de/questions/', '/de/error');
     $urlRouterProvider.when('/en/questions/', '/en/error');
     $stateProvider
@@ -24,15 +47,19 @@ angular.module('metadatamanagementApp')
         },
         resolve: {
           entity: ['$stateParams', 'QuestionSearchService', 'Principal',
-          function($stateParams, QuestionSearchService, Principal) {
-              if (Principal.loginName() && !$stateParams.version) {
-                return QuestionSearchService.findOneById($stateParams.id);
-              } else {
-                return QuestionSearchService.findShadowByIdAndVersion(
-                  $stateParams.id, $stateParams.version);
-              }
+          'SimpleMessageToastService', '$q',
+          function($stateParams, QuestionSearchService, Principal,
+            SimpleMessageToastService, $q) {
+            if (Principal.loginName() && !$stateParams.version) {
+              return QuestionSearchService.findOneById($stateParams.id);
+            } else {
+              var deferred = $q.defer();
+              loadShadowCopy(QuestionSearchService,
+                SimpleMessageToastService, $stateParams.id,
+                $stateParams.version).then(deferred.resolve, deferred.reject);
+              return deferred;
             }
-          ]
+          }]
         }
       });
   });

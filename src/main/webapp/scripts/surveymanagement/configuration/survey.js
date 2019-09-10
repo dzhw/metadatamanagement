@@ -2,6 +2,30 @@
 
 angular.module('metadatamanagementApp')
   .config(function($stateProvider, $urlRouterProvider) {
+    var loadShadowCopy = function(SurveySearchService,
+      SimpleMessageToastService, id, version) {
+        var loadLatestShadowCopyFallback = function() {
+          return SurveySearchService.findShadowByIdAndVersion(id, null).promise
+        .then(function(result) {
+            if (result) {
+              return result;
+            } else {
+              SimpleMessageToastService.openAlertMessageToast(
+                'survey-management.detail.not-found', {id: id});
+              return null;
+            }
+          });
+        };
+        return SurveySearchService.findShadowByIdAndVersion(id, version).promise
+          .then(function(result) {
+            if (result) {
+              return result;
+            } else {
+              return loadLatestShadowCopyFallback();
+            }
+          });
+      };
+
     $urlRouterProvider.when('/de/surveys/', '/de/error');
     $urlRouterProvider.when('/en/surveys/', '/en/error');
     $stateProvider
@@ -24,12 +48,17 @@ angular.module('metadatamanagementApp')
         },
         resolve: {
           entity: ['$stateParams', 'SurveySearchService', 'Principal',
-            function($stateParams, SurveySearchService, Principal) {
+              'SimpleMessageToastService', '$q',
+            function($stateParams, SurveySearchService, Principal,
+              SimpleMessageToastService, $q) {
               if (Principal.loginName() && !$stateParams.version) {
                 return SurveySearchService.findOneById($stateParams.id);
               } else {
-                return SurveySearchService.findShadowByIdAndVersion(
-                  $stateParams.id, $stateParams.version);
+                var deferred = $q.defer();
+                loadShadowCopy(SurveySearchService,
+                  SimpleMessageToastService, $stateParams.id,
+                  $stateParams.version).then(deferred.resolve, deferred.reject);
+                return deferred;
               }
             }
           ]

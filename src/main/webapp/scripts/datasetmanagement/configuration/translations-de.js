@@ -87,7 +87,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'title': '{{ description }} ({{ dataSetId }})',
-          'not-found': 'Die id {{id}} referenziert auf einen unbekannten Datensatz',
+          'not-found': 'Die id {{id}} referenziert auf einen unbekannten Datensatz.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Datensätze.',
           'content': {
             'true': 'Klicken zum maximieren',

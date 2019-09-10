@@ -27,10 +27,11 @@
         <md-divider></md-divider>
       </div>
     </md-list>
-    <div ng-if="ctrl.page" layout="column" layout-align="start center">
+    <div ng-if="ctrl.shadows && ctrl.shadows.length && ctrl.page.totalElements > ctrl.page.size" layout="column" layout-align="start center">
       <ul uib-pagination template-url="scripts/common/pagination/custom-uib-pagination.html.tmpl" boundary-link-numbers="true" next-text="{{'global.pagination.next'|translate}}" previous-text="{{'global.pagination.previous'|translate}}"
         total-items="ctrl.page.totalElements" ng-model="ctrl.page.number" ng-change="ctrl.onPageChanged()" items-per-page="ctrl.page.size" class="pagination-sm" style="margin: 10px 0;">
       </ul>
     </div>
+		<div ng-if="!ctrl.shadows || !ctrl.shadows.length" class="layout-margin">{{'data-acquisition-project-management.project-cockpit.versions.no-shadows' | translate}}</div>
   </md-card>
 </div>

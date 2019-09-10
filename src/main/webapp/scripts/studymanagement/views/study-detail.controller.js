@@ -25,7 +25,6 @@ angular.module('metadatamanagementApp')
         }
       };
 
-      var versionFromUrl = $stateParams.version;
       var ctrl = this;
       var activeProject;
       ctrl.isAuthenticated = Principal.isAuthenticated;
@@ -140,7 +139,7 @@ angular.module('metadatamanagementApp')
               _.set(survey, 'release.version', result.release.version);
             });
           }
-          /* We need to load search the dataSets cause the contain needed
+          /* We need to load the dataSet search docs cause they contain needed
              survey titles */
           DataSetSearchService.findByStudyId(result.id,
             ['id', 'number', 'description', 'type', 'surveys',
@@ -150,19 +149,6 @@ angular.module('metadatamanagementApp')
               ctrl.dataSets = dataSets.hits.hits;
             });
           ctrl.loadAttachments();
-
-          if (result.release && versionFromUrl) {
-            if (bowser.compareVersions(
-              [versionFromUrl, result.release.version]) === -1) {
-              SimpleMessageToastService.openAlertMessageToast(
-                'study-management.detail.old-version',
-                {
-                  title: result.title[LanguageService.getCurrentInstantly()],
-                  versionFromUrl: versionFromUrl,
-                  actualVersion: result.release.version
-                });
-            }
-          }
         } else {
           SimpleMessageToastService.openAlertMessageToast(
             'study-management.detail.not-released-toast', {id: result.id}
