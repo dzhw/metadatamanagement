@@ -53,7 +53,8 @@ public abstract class GenericDomainObjectResourceController
       return ResponseEntity.notFound().build();
     } else {
       T domainObject = optional.get();
-      if (AbstractShadowableRdcDomainObject.class.isAssignableFrom(domainObject.getClass())
+      if (userInformationProvider.isUserAnonymous()
+          && AbstractShadowableRdcDomainObject.class.isAssignableFrom(domainObject.getClass())
           && ((AbstractShadowableRdcDomainObject) domainObject).isHidden()) {
         return ResponseEntity.notFound().build();
       }

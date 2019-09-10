@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.rest;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -20,9 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
 import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueItem.Action;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowHidingNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowUnhidingNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectManagementService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyQueueItemService;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -36,6 +40,8 @@ import lombok.RequiredArgsConstructor;
 public class DataAcquisitionProjectShadowsResource {
 
   private final DataAcquisitionProjectManagementService dataAcquisitionProjectManagementService;
+
+  private final ShadowCopyQueueItemService shadowCopyQueueItemService;
 
   /**
    * Get the previous 5 versions of the data acquisition project.
@@ -100,6 +106,23 @@ public class DataAcquisitionProjectShadowsResource {
     }
 
     return ResponseEntity.accepted().build();
+  }
+
+  /**
+   * Get the current action which is currently performed for the given shadow.
+   * 
+   * @param id The master id of the project
+   * @param version the version of the project
+   * 
+   * @return The current action, or empty response.
+   */
+  @GetMapping("/data-acquisition-projects/{id}/shadows/{version}/action")
+  public ResponseEntity<Map<String, Action>> getCurrentAction(@PathVariable String id,
+      @PathVariable String version) {
+    Action action = shadowCopyQueueItemService.findCurrentAction(id, version);
+    Map<String, Action> result = new HashMap<>();
+    result.put("action", action);
+    return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(result);
   }
 
   /**

@@ -148,7 +148,8 @@ angular.module('metadatamanagementApp').config(
           },
           'tabs': {
             'status': 'Status',
-            'config': 'Settings'
+            'config': 'Settings',
+            'versions': 'Versions'
           },
           'requirements': {
             'header': 'Expected Metadata',
@@ -184,6 +185,23 @@ angular.module('metadatamanagementApp').config(
           'takeback-dialog': {
             'title': 'Take back project',
             'text': 'Do you really want to withdraw this project from the data provider group?'
+          },
+          'versions': {
+            'header': 'List of all Project Versions (Shadow Copies):',
+            'confirm-hide' : {
+              'title': 'Revoke release of version {{version}} of the project {{id}}?',
+              'content': 'Are you sure you want to revoke the release of version {{version}} of the project {{id}}? Data users will no longer be able to see this version.'
+            },
+            'confirm-unhide' : {
+              'title': 'Release version {{version}} of the project {{id}} again?',
+              'content': 'Are you sure you want to release the version {{version}} of the project {{id}} again? Data users will then be able to see this version again.'
+            },
+            'hiding-toast': 'The version {{version}} of the project {{id}} will be visible only for registered users in about 10 minutes!',
+            'unhiding-toast': 'The version {{version}} of the project {{id}} will be visible again for all users in about 10 minutes!',
+            'button': {
+              'hide-shadow': 'This version is currently released. Click here to revoke the release!',
+              'unhide-shadow': 'This version is currently not released for all users. Click here to release the version again!'
+            }
           }
         },
         'project-overview': {

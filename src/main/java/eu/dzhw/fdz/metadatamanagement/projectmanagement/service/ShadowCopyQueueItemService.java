@@ -205,4 +205,21 @@ public class ShadowCopyQueueItemService {
     this.applicationEventPublisher.publishEvent(new ShadowCopyingStartedEvent(this,
         dataAcquisitionProject.getId(), release, previousReleaseVersion, action));
   }
+
+  /**
+   * Get the action which is currently performed for the given shadow identified by the given
+   * params.
+   * 
+   * @param dataAcquisitionProjectId masterId of the project
+   * @param version the version of the project
+   * @return The current action if the shadow is still in the queue.
+   */
+  public Action findCurrentAction(String dataAcquisitionProjectId, String version) {
+    Optional<ShadowCopyQueueItem> queueItem = shadowCopyQueueItemRepository
+        .findByDataAcquisitionProjectIdAndReleaseVersion(dataAcquisitionProjectId, version);
+    if (queueItem.isPresent()) {
+      return queueItem.get().getAction();
+    }
+    return null;
+  }
 }

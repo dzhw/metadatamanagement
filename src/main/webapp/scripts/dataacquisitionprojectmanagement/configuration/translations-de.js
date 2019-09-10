@@ -147,7 +147,8 @@ angular.module('metadatamanagementApp').config(
           },
           'tabs': {
             'status': 'Status',
-            'config': 'Einstellungen'
+            'config': 'Einstellungen',
+            'versions': 'Versionen'
           },
           'requirements': {
             'header': 'Erwartete Metadaten',
@@ -183,6 +184,23 @@ angular.module('metadatamanagementApp').config(
           'takeback-dialog': {
             'title': 'Projekt zurückziehen',
             'text': 'Möchten Sie das Projekt wirklich von der Gruppe Datengeber zurückziehen?'
+          },
+          'versions': {
+            'header': 'Liste aller Projektversionen (Schattenkopien):',
+            'confirm-hide' : {
+              'title': 'Freigabe von Version {{version}} des Projektes {{id}} zurücknehmen?',
+              'content': 'Sind Sie sicher, dass Sie die Freigabe der Version {{version}} des Projektes {{id}} zurücknehmen möchten? Datennutzer können diese Version dann nicht mehr sehen.'
+            },
+            'confirm-unhide' : {
+              'title': 'Version {{version}} des Projektes {{id}} wieder freigeben?',
+              'content': 'Sind Sie sicher, dass Sie die Version {{version}} des Projektes {{id}} wieder freigeben möchten? Datennutzer können diese Version dann wieder sehen.'
+            },
+            'hiding-toast': 'Die Version {{version}} des Projektes {{id}} wird in ca. 10 Minuten nur noch für angemeldete Benutzer sichtbar sein!',
+            'unhiding-toast': 'Die Version {{version}} des Projektes {{id}} wird in ca. 10 Minuten wieder für alle Benutzer sichtbar sein!',
+            'button': {
+              'hide-shadow': 'Diese Version ist aktuell freigeben. Klicken Sie hier, um die Freigabe zurückzunehmen!',
+              'unhide-shadow': 'Diese Version ist aktuell nicht für alle Benutzer freigegeben. Klicken Sie hier, um die Version wieder freizugeben!'
+            }
           }
         },
         'project-overview': {

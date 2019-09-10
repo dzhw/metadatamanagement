@@ -314,9 +314,12 @@ public class DataAcquisitionProjectManagementService
         break;
       case HIDE:
       case UNHIDE:
-        daraService
-            .registerOrUpdateProjectToDara(shadowCopyingEndedEvent.getDataAcquisitionProjectId()
-                + "-" + shadowCopyingEndedEvent.getRelease().getVersion());
+        if (Version.valueOf(shadowCopyingEndedEvent.getRelease().getVersion())
+            .greaterThanOrEqualTo(Version.valueOf("1.0.0"))) {
+          daraService
+              .registerOrUpdateProjectToDara(shadowCopyingEndedEvent.getDataAcquisitionProjectId()
+                  + "-" + shadowCopyingEndedEvent.getRelease().getVersion());
+        }
         break;
       default:
         throw new IllegalArgumentException(
