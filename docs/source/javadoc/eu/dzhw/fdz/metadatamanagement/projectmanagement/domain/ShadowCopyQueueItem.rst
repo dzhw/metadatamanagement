@@ -28,13 +28,21 @@ ShadowCopyQueueItem
 
 Fields
 ------
+action
+^^^^^^
+
+.. java:field:: @NotNull private Action action
+   :outertype: ShadowCopyQueueItem
+
+   The action which will be performed for the shadow copies.
+
 dataAcquisitionProjectId
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. java:field:: @NotNull private String dataAcquisitionProjectId
    :outertype: ShadowCopyQueueItem
 
-   Project id for which a shadow copy should be created.
+   Project id for which a shadow copy should be created or hidden or unhidden.
 
 id
 ^^

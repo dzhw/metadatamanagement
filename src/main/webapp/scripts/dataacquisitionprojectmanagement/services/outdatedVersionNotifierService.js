@@ -1,8 +1,9 @@
-/* globals _ */
+/* globals _, bowser */
 'use strict';
 
 angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
-  function($state, SimpleMessageToastService, $document, $mdToast, Principal) {
+  function($state, SimpleMessageToastService, $document, $mdToast, Principal,
+    $location) {
 
     var createHref = function(item) {
       return $state.href($state.current.name, {
@@ -34,20 +35,22 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
         '-project-management.outdated-version-alert', messageParams);
     };
 
-    var showLoggedInUserMessage = function(href, version) {
+    var showLoggedInUserMessage = function(href, version, hidden) {
       var messageParams = {
         href: href,
-        version: version
+        version: version,
+        hidden: hidden
       };
       SimpleMessageToastService.openAlertMessageToast('data-acquisition' +
         '-project-management.not-master-alert', messageParams);
     };
 
     var checkVersionAndNotify = function(item, fetchFn) {
+      var versionFromUrl = $location.search().version;
       if (Principal.loginName() && item.shadow) {
         var version = _.get(item, 'release.version');
         var href = createMasterRef(item);
-        showLoggedInUserMessage(href, version);
+        showLoggedInUserMessage(href, version, item.hidden);
       } else if (item.shadow && angular.isDefined(item.successorId)) {
         fetchFn().promise.then(function(result) {
           var oldVersion = _.get(item, 'release.version');
@@ -55,11 +58,22 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
           var href = createHref(result);
           showPublicUserMessage(href, oldVersion, newVersion);
         });
+      } else if (item.shadow && versionFromUrl && bowser.compareVersions(
+        [versionFromUrl, item.release.version]) === -1) {
+        SimpleMessageToastService.openAlertMessageToast('data-acquisition' +
+            '-project-management.outdated-version-not-found-alert',
+          {
+            oldVersion: versionFromUrl,
+            newVersion: item.release.version
+          });
       } else {
         if ($document.find('[data-translate="data-acquisition' +
           '-project-management.outdated-version-alert"]').length > 0 ||
           $document.find('[data-translate="data-acquisition' +
-            '-project-management.not-master-alert"]').length > 0) {
+            '-project-management.not-master-alert"]').length > 0 ||
+            $document.find('[data-translate="data-acquisition' +
+            '-project-management.outdated-version-not-found-alert"]')
+              .length > 0) {
           $mdToast.hide();
         }
       }

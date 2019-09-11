@@ -32,8 +32,7 @@ public class DataAcquisitionProjectShadowCopyDataSource
   @Override
   public DataAcquisitionProject createShadowCopy(DataAcquisitionProject source, Release release) {
     String derivedId = source.getId() + "-" + release.getVersion();
-    DataAcquisitionProject copy = crudHelper.read(derivedId)
-        .orElseGet(DataAcquisitionProject::new);
+    DataAcquisitionProject copy = crudHelper.read(derivedId).orElseGet(DataAcquisitionProject::new);
     BeanUtils.copyProperties(source, copy, "version");
     copy.setId(derivedId);
     copy.setRelease(release);
@@ -82,7 +81,27 @@ public class DataAcquisitionProjectShadowCopyDataSource
   @Override
   public void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
       String previousVersion) {
-    throw new IllegalAccessError(
-        "DataAcquisitionProjects are currently not indexed in elasticsearch");
+    // there is currently no elasticsearch index for projects
+  }
+
+  @Override
+  public void hideExistingShadowCopies(String projectId, String version) {
+    setHiddenState(projectId, version, true);
+  }
+
+  private void setHiddenState(String projectId, String version, boolean hidden) {
+    String shadowId = projectId + "-" + version;
+    try (Stream<DataAcquisitionProject> projects =
+        dataAcquisitionProjectRepository.streamByIdAndShadowIsTrue(shadowId)) {
+      projects.forEach(shadow -> {
+        shadow.setHidden(hidden);
+        crudHelper.saveShadow(shadow);
+      });
+    }
+  }
+
+  @Override
+  public void unhideExistingShadowCopies(String projectId, String version) {
+    setHiddenState(projectId, version, false);
   }
 }

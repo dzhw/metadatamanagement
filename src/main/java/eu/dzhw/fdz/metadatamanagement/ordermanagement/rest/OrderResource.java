@@ -90,7 +90,7 @@ public class OrderResource {
 
   /**
    * Override default get by id since it does not set cache headers correctly.
-   * 
+   *
    * @param id a order id
    * @return the Order or not found
    */
@@ -146,7 +146,7 @@ public class OrderResource {
 
   /**
    * Generate a DLP url for the given order id.
-   * 
+   *
    * @param orderId Order Id
    * @param language the language of the order
    * @return URL as string
@@ -161,9 +161,9 @@ public class OrderResource {
   @ExceptionHandler(OrderAlreadyCompletedException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  ErrorListDto handleOrderAlreadyCompletedException() {
-    ErrorDto errorDto =
-        new ErrorDto(null, "order-management.error." + "order-already-completed", null, null);
+  protected ErrorListDto handleOrderAlreadyCompletedException() {
+    ErrorDto errorDto = new ErrorDto(null, "order-management.error."
+        + "order-already-completed", null, null);
     ErrorListDto errorListDto = new ErrorListDto();
     errorListDto.add(errorDto);
     return errorListDto;

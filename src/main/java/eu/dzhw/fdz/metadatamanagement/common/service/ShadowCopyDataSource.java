@@ -76,4 +76,18 @@ public interface ShadowCopyDataSource<T extends AbstractShadowableRdcDomainObjec
    */
   void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
       String previousVersion);
+  
+  /**
+   * Hide the shadow copies of the given version.
+   * @param projectId The id of the project.
+   * @param version The version of the project to be hidden.
+   */
+  void hideExistingShadowCopies(String projectId, String version);
+  
+  /**
+   * Unhide the shadow copies of the given version.
+   * @param projectId The id of the project.
+   * @param version The version of the project to be hidden.
+   */
+  void unhideExistingShadowCopies(String projectId, String version);
 }

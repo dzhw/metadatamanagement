@@ -184,6 +184,7 @@ try {
           if (config.url.indexOf('_search') !== -1 ||
              (config.url.indexOf('/api/data-acquisition-projects/') !== -1 &&
                 config.method === 'GET' &&
+                config.url.indexOf('/shadows') === -1 &&
                 config.url.indexOf('/releases') === -1) ||
               config.url.indexOf('/api/users/findUserWithRole') !== -1 ||
               (config.url.indexOf('/api/concepts/') !== -1 &&
