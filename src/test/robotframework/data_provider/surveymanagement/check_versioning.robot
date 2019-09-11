@@ -23,7 +23,7 @@ Click Submit Button
     Click Element Through Tooltips    xpath=//button[@type='submit']
 
 Click Restore Dialogue
-    Click Element Through Tooltips    xpath=//button[md-icon[text()='undo']]
+    Click Element Through Tooltips    xpath=//button[md-icon[text()='history']]
 
 Cancel Restore Dialoge
     Click Element Through Tooltips    xpath=//button[span[text()='Abbrechen']]

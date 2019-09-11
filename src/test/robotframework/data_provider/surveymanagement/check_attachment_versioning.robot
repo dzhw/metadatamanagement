@@ -30,4 +30,4 @@ Revise to second latest version
     Click Element Through Tooltips    xpath=//md-dialog//table//tr[2]
 
 Click Attachment Restore Dialogue
-    Click Element Through Tooltips    xpath=//form//button[md-icon[text()='undo']]
+    Click Element Through Tooltips    xpath=//form//button[md-icon[text()='history']]
