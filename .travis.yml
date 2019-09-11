@@ -19,17 +19,17 @@ addons:
       - g++-4.9
 stages:
     - name: build
-      if: NOT (branch =~ /^saikotitis.*$/ || branch =~ /^(development|master|test)$/)
+      if: NOT branch =~ /^(development|master|test)$/
     - name: build and deploy
       if: branch =~ /^(development|master|test)$/
     - name: e2e smoketests
-      if: type = cron || branch =~ /^saikotitis.*$/
+      if: type = cron
     - name: nightly e2e tests publicuser
-      if: type = cron || branch =~ /^saikotitis.*$/
+      if: type = cron
     - name: nightly e2e tests dataprovider
-      if: type = cron || branch =~ /^saikotitis.*$/
+      if: type = cron
     - name: nightly e2e tests publisher
-      if: type = cron || branch =~ /^saikotitis.*$/
+      if: type = cron
 jobs:
   include:
     - stage: build
@@ -202,5 +202,4 @@ jobs:
 notifications:
   email:
     recipients:
-      - secure: "oyEkjrcti+bTYz/TLA6tw6F6aTpeiWxMGyAsKOyYxYCjWw8sNsagiqzzLxcIdqy62ETCKmkGrYlJr1dofPT27j4pQgSuPT9EWkaviNfFG6AllGkW4+N6RdpMw3gXr0O/qtpy2LdXr1D8cP8Pji4V9DKriPkOMcE7tlBUHTCuDlchheenqszKpWBhQGtSipR0dDGo9AyhmbfUu9mnyl73A8Xi2XegKeie5J0JZzuiacwjbVZXO8JexyYN06rFpcyMIkdTUq4JHMENenszqYmZ4/P8QIymdxY/rBsNRXVl2vIXoFtOkIA+fjcPj6CuOxlGrs6+C5BvGc951uaicwFHDeZ15Csx2YpTTuqjNclgUYffGvaqwlUDrQhQ45paxYTqqLzStdbNJBaQEw8Oh3P6BdUKldDv93Y6ydkOeQlLBNS/+F1irNo8HtzUmHew3aF9unNAB1BD6x5jFlGUrO/xXra0RWiVD2p/q97cF8iEHyqlodRCtBFMZ+5F13fYbVPaIzwPWPgysvc0eDBE2W+hUPip7em/9pehhaVbhcy5fvmesHlMsmQc0UK/Rimfl2y3RXobGMNbyZheGWn+HJHn4K2Vy3D05AUPRn1z+XHh0H8i8L9M15JgvHq4hQVZtpyUbq1bgHcKFezB8v32Sd22bBMHXHbDe3h1hnlW7I3U+V8="
-      - secure: "l0q3avI4nJTwPKKfJldH/SdmeHB1grxsRiM/x2TX3bQE5JfYdureNVNAi85JXBiq/BilURWPNq+jYO+qJQRP4h5mwywJLmFy1JRWyfirglbu0fuC3NuB29qszhJ4ZVazoQM6Q46htXtignrDwABzn4sro20ns6L44ATBHT+npJmbVnfTTyWnhrGjJDlzp8uqNy//TbXWHMIVPgnCPv1w+9IdFxIIRbiVkSCRGkQMHxq4lMMqsg5x+wcyPnQYY+oLw2jx962lJQ2kXpD5yBTI22/0Kv9UxMXS4wYCPbhYeOF3xf4gVeTa1WSm0JjQRA/xI/o3lEPIp+FYubF+bpC+gOND1triu7mfn1VSbLr22xxYaevOzGDwc1dlEkm5wepakt6JyvzjCijafsi3rd6KhJ3QXXIvOeKFnmutaOR3zwBibeNuFDsc9nqd6dI+oQpKhmO3DVBZv/ftIccWZBHV7Z1N2F+GzKIpH3iE+cMjDIxRAQykql0p17/Bu2TvBUebnbMXiT8zKRnrFu6CHnOh3KroQl3KktNDqhVkcVLin4EP0RH9RjUds1M6N7den9IUJk49KF4gYtkPNEtdGekqv9BubAwc02XfseeEuyxK4t2f1xBPBLnzLgqqxkK5ZB1evJZ7oC8ShG9wyOCYjoJVEfwxOKJJ27dBjZWi5QX+n7M="
+      - secure: "rCV85HWYYl5lzvMatGA8h3O3t522tbxuSKIF3H6drTewXW17IRMuKaeBehF71Dva5vReIK6oLRx0YlAZK/SOZzY9+TDWwXFv7QeyDq/0c0cUaI9UX3wbf0puX9AZAIflNpkrc+NmV1vXci8A/MyZAfZFxKGJqE8wn1mGQnzJCD5D1sbcCXSrnQA0fOyyFq6ugr4vyIRY4iiu008WMFqP6V58dlxC3PJax3rPugXTUNzOHU1qiHdTA17R4q47hsmdJGtCNsAjemo+/D+w8nWp+DJokHsYv/SSngB5GprKv22vXiZWy3wnqjagvOfPHYZGfMYEtc7kMylOmrxrjx15cQiyIncJQKjabYCDQ2lkjjNS1bZTnobe/CHy+IkWxT/qiV/miDLOI0Tm6B6OQGJRhJoErBjRSnihZZo9fg8YVRJdApG3ZoWmuXwwOTi41rsHRdhClKzJzmSO+7paea7CPaobzvn54n2Lu1azp05GNG1hlxtNVlp7r7xh+e+W0JHj9trFmXq+vkO7nQtS3rtnnWnz8xqDBqXE3xWtRD0tiG0f9qev7AiMo+UTWEsvXuXI68ywHThppO2rHFN6RntLNgAwFzwwGBG0U4AblljYV7zT56f1xiEaAbe77Fyryi6uFTX7wJPLBLKfylWwt9vLgcDon/plVRuDivEvwBdgwQ8="
