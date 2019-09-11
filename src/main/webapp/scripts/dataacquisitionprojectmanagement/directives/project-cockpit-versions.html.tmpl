@@ -10,14 +10,14 @@
             <md-icon md-font-set="material-icons" class="material-icons" role="img" aria-hidden="true" style="color: black; font-size: 22px;">launch</md-icon>
           </a>
           <span flex></span>
-					<md-progress-circular ng-if="shadow.inProgress" md-mode="indeterminate" md-diameter="25"></md-progress-circular>
-          <md-button ng-if="!shadow.hidden" ng-disabled="shadow.inProgress || !shadow.successorId || ctrl.isShadowStateChangeDisabled()" class="md-icon-button md-primary" ng-click="ctrl.hide(shadow, $event)">
+					<md-progress-circular ng-if="shadow.inProgress" md-mode="indeterminate" md-diameter="25" style="margin-right: 15px;"></md-progress-circular>
+          <md-button ng-if="!shadow.hidden && !shadow.inProgress" ng-disabled="shadow.inProgress || !shadow.successorId || ctrl.isShadowStateChangeDisabled()" class="md-icon-button md-primary" ng-click="ctrl.hide(shadow, $event)">
             <md-icon md-font-set="material-icons" class="material-icons" role="img">visibility_on</md-icon>
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'data-acquisition-project-management.project-cockpit.versions.button.hide-shadow' | translate}}
             </md-tooltip>
           </md-button>
-          <md-button ng-if="shadow.hidden" ng-disabled="shadow.inProgress || ctrl.isShadowStateChangeDisabled()" class="md-icon-button md-primary" ng-click="ctrl.unhide(shadow, $event)">
+          <md-button ng-if="shadow.hidden && !shadow.inProgress" ng-disabled="shadow.inProgress || ctrl.isShadowStateChangeDisabled()" class="md-icon-button md-primary" ng-click="ctrl.unhide(shadow, $event)">
             <md-icon md-font-set="material-icons" class="material-icons" role="img">visibility_off</md-icon>
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'data-acquisition-project-management.project-cockpit.versions.button.unhide-shadow' | translate}}
