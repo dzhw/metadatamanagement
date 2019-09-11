@@ -1289,3 +1289,7 @@ geographic-coverage {
     display: none;
     visibility: hidden;
 }
+
+.md-button[disabled] {
+    pointer-events: none;
+}

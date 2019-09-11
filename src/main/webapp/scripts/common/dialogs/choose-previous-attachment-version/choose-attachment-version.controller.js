@@ -18,8 +18,9 @@ angular.module('metadatamanagementApp')
           };
 
           $scope.getAttachmentVersions = function() {
-            getAttachmentVersionsCallback(domainId, filename, $scope.limit,
-                $scope.skip).then(
+            getAttachmentVersionsCallback(domainId, filename,
+                $scope.currentPage.limit,
+                $scope.currentPage.skip).then(
                 function(attachments) {
                   $scope.attachments = attachments;
                 });
