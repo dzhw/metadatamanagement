@@ -195,13 +195,13 @@ angular.module('metadatamanagementApp').config(
             },
             'confirm-unhide' : {
               'title': 'Make version {{version}} of the project {{id}} available again?',
-              'content': 'Are you sure you want to make version {{version}} of the project {{id}} availabl for all users again? Data users will then be able to see this version again.'
+              'content': 'Are you sure you want to make version {{version}} of the project {{id}} available for all users again? Data users will then be able to see this version again.'
             },
             'hiding-toast': 'The version {{version}} of the project {{id}} will be visible only for registered users in about 10 minutes!',
             'unhiding-toast': 'The version {{version}} of the project {{id}} will be visible again for all users in about 10 minutes!',
             'button': {
               'hide-shadow': 'This version is currently visible for all users. Click here to hide this version!',
-              'unhide-shadow': 'This version is currently not visible for all users. Click here to make it availabe for all users!'
+              'unhide-shadow': 'This version is currently not visible for all users. Click here to make it available for all users!'
             }
           }
         },

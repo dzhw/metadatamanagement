@@ -1284,3 +1284,7 @@ geographic-coverage {
       }
     }
 }
+
+.md-button[disabled] {
+    pointer-events: none;
+}
