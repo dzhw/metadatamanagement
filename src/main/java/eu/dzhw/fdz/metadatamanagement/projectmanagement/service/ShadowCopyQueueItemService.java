@@ -20,7 +20,9 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueIt
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueItem.Action;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueItemRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -30,34 +32,22 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ShadowCopyQueueItemService {
 
   private String jvmId = ManagementFactory.getRuntimeMXBean().getName();
 
-  private ApplicationEventPublisher applicationEventPublisher;
+  private final ApplicationEventPublisher applicationEventPublisher;
 
-  private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
+  private final DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
 
-  private ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
+  private final ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
 
-  private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
+  private final DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
 
-  private UserDetailsService userDetailsService;
+  private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
-  /**
-   * Create a new instance.
-   */
-  public ShadowCopyQueueItemService(ApplicationEventPublisher applicationEventPublisher,
-      DataAcquisitionProjectRepository dataAcquisitionProjectRepository,
-      ShadowCopyQueueItemRepository shadowCopyQueueItemRepository,
-      DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService,
-      UserDetailsService userDetailsService) {
-    this.applicationEventPublisher = applicationEventPublisher;
-    this.dataAcquisitionProjectRepository = dataAcquisitionProjectRepository;
-    this.shadowCopyQueueItemRepository = shadowCopyQueueItemRepository;
-    this.dataAcquisitionProjectVersionsService = dataAcquisitionProjectVersionsService;
-    this.userDetailsService = userDetailsService;
-  }
+  private final UserDetailsService userDetailsService;
 
   /**
    * Create a new shadow copy queue item.
@@ -153,6 +143,7 @@ public class ShadowCopyQueueItemService {
           log.warn("A shadow copy task was scheduled for project {}, but it could not be found!",
               dataAcquisitionProjectId);
         }
+        elasticsearchUpdateQueueService.processAllQueueItems();
         shadowCopyQueueItemRepository.delete(task);
       } finally {
         clearSecurityContext();
