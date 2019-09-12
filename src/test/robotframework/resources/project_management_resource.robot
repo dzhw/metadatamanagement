@@ -27,12 +27,12 @@ Discard Changes No
 
 Assign a dataprovider
    [Arguments]   ${dataprovidername}
-   Input Text  xpath=//md-card[@group='dataProviders']//following::input[@type='search']  ${dataprovidername}
+   Input Text  xpath=//md-card[@group='dataProviders']//input[@type='search']  ${dataprovidername}
    Click Element Through Tooltips  xpath=//md-virtual-repeat-container//span[text()='${dataprovidername}']
 
 Assign a publisher
    [Arguments]   ${publishername}
-   Input Text  xpath=//md-card[@group='publishers']//following::input[@type='search']  ${publishername}
+   Input Text  xpath=//md-card[@group='publishers']//input[@type='search']  ${publishername}
    Click Element Through Tooltips  xpath=//md-virtual-repeat-container//span[text()='${publishername}']
 
 Assign to publisher

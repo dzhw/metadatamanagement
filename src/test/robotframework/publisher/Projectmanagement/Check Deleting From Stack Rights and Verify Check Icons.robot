@@ -15,11 +15,11 @@ Check Deleting The Last Dataprovider and Publisher From Stack is Not Possible
    Assign Dataprovider From List
    Click Element Through Tooltips   xpath=//md-card[@group='dataProviders']//md-list-item//div//strong[contains(.,'dataprovidertest1')]//following::md-icon[contains(.,'delete_forever')]
    Click Element Through Tooltips   xpath=//md-card[@group='dataProviders']//md-list-item//div//strong[contains(.,'dataprovidertest2')]//following::md-icon[contains(.,'delete_forever')]
-   Run Keyword And Ignore Error  '${BROWSER}' == 'ie'   Page Should Contain Element  xpath=//md-card[@group='dataProviders']//md-list-item//div//strong[contains(.,'dataprovider')]//following::button[@disabled='disabled']
+   Run Keyword And Ignore Error  Page Should Contain Element  xpath=//md-card[@group='dataProviders']//md-list-item[1]//button[@disabled='disabled']//md-icon[contains(.,'delete_forever')]
    Assign Publisher From List
    Click Element Through Tooltips   xpath=//md-card[@group='publishers']//md-list-item//div//strong[contains(.,'publishertest1')]//following::md-icon[contains(.,'delete_forever')]
    Click Element Through Tooltips   xpath=//md-card[@group='publishers']//md-list-item//div//strong[contains(.,'publishertest2')]//following::md-icon[contains(.,'delete_forever')]
-   Run Keyword And Ignore Error  '${BROWSER}' == 'ie'  xpath=//md-card[@group='publishers']//md-list-item//div//strong[contains(.,'publisher')]//following::button[@disabled='disabled']
+   Run Keyword And Ignore Error  Page Should Contain Element  xpath=//md-card[@group='publishers']//md-list-item[1]//button[@disabled='disabled']//md-icon[contains(.,'delete_forever')]
 
 Check The Sentiments of Metadata
    Select Survey Checkbox
