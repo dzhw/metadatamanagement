@@ -17,10 +17,10 @@ Concept Roll Back
    Run Keyword if  '${BROWSER}' == 'chrome'  Sleep  3s  #chrome is too fast
    Click on the first search result
    Click Element Through Tooltips  xpath=//button[@ng-click="ctrl.conceptEdit()"]//md-icon[contains(., "mode_edit")]
-   Click Element Through Tooltips  xpath=//button[@ng-click="ctrl.openRestorePreviousVersionDialog($event)"]//md-icon[contains(., "undo")]
+   Click Element Through Tooltips  xpath=//button[@ng-click="ctrl.openRestorePreviousVersionDialog($event)"]//md-icon[contains(., "history")]
    Click Element Through Tooltips  xpath=//md-dialog-content//table//tr//td[contains(., "Roll Back Concept ${BROWSER} De_Rollback")]
    Click Element Through Tooltips  xpath=//button[@ng-click="ctrl.saveConcept()"]//md-icon[contains(., "save")]
-   Click Element Through Tooltips  xpath=//button[@ng-click="ctrl.openRestorePreviousVersionDialog($event)"]//md-icon[contains(., "undo")]
+   Click Element Through Tooltips  xpath=//button[@ng-click="ctrl.openRestorePreviousVersionDialog($event)"]//md-icon[contains(., "history")]
    Click Element Through Tooltips  xpath=//md-dialog-content//table//tr[@class="ng-scope"]//td[contains(., "Roll Back Concept ${BROWSER} De")]
    Click Element Through Tooltips  xpath=//button[@ng-click="ctrl.saveConcept()"]//md-icon[contains(., "save")]
 

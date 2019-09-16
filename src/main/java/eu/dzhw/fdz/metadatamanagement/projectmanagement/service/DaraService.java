@@ -1,3 +1,4 @@
+
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import java.io.IOException;
@@ -257,35 +258,34 @@ public class DaraService {
   private Map<String, Object> getDataForTemplate(DataAcquisitionProject project) {
 
     Map<String, Object> dataForTemplate = new HashMap<>();
-    String projectId = project.getId();
 
     // Get Project Information
     dataForTemplate.put("dataAcquisitionProject", project);
 
     // Get Study Information
-    Study study = this.studyRepository.findOneByDataAcquisitionProjectId(projectId);
+    Study study = this.studyRepository.findOneByDataAcquisitionProjectId(project.getId());
     dataForTemplate.put("study", study);
 
     String availabilityControlled = AVAILABILITY_CONTROLLED_NOT_AVAILABLE;
-    if (study.getDataAvailability().equals(DataAvailabilities.AVAILABLE)) {
+    if (!study.isHidden() && study.getDataAvailability().equals(DataAvailabilities.AVAILABLE)) {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
     }
-    
+
     Release release = project.getRelease();
     if (release == null) {
-      release = dataAcquisitionProjectVersionsService.findLastRelease(project.getId()); 
+      release = dataAcquisitionProjectVersionsService.findLastRelease(project.getMasterId());
     }
 
     String doi = doiBuilder.buildStudyDoi(study, release);
     dataForTemplate.put("doi", doi);
 
-    String previousDoi = doiBuilder.buildStudyDoi(study, dataAcquisitionProjectVersionsService
-        .findPreviousRelease(project.getId(), release));
+    String previousDoi = doiBuilder.buildStudyDoi(study,
+        dataAcquisitionProjectVersionsService.findPreviousRelease(project.getMasterId(), release));
     dataForTemplate.put("previousDoi", previousDoi);
 
     // Get Surveys Information
     List<Survey> surveys =
-        this.surveyRepository.findByDataAcquisitionProjectIdOrderByNumber(projectId);
+        this.surveyRepository.findByDataAcquisitionProjectIdOrderByNumber(project.getId());
     dataForTemplate.put("surveys", surveys);
 
     dataForTemplate.put("surveyUnits", concatenateUnits(surveys));
@@ -295,7 +295,7 @@ public class DaraService {
     dataForTemplate.put("surveySamplesMap", concatenateSurveySamplesByLanguage(surveys));
 
     // Get Datasets Information
-    List<DataSet> dataSets = this.dataSetRepository.findByDataAcquisitionProjectId(projectId);
+    List<DataSet> dataSets = this.dataSetRepository.findByDataAcquisitionProjectId(project.getId());
     dataForTemplate.put("dataSets", dataSets);
     HashMap<String, Long> dataSetNumberOfVariablesMap = new HashMap<>();
 
@@ -307,7 +307,7 @@ public class DaraService {
 
     // Get Related Publications
     List<RelatedPublication> relatedPublications =
-        this.relatedPublicationRepository.findByStudyIdsContaining(study.getId());
+        this.relatedPublicationRepository.findByStudyIdsContaining(study.getMasterId());
     dataForTemplate.put("relatedPublications", relatedPublications);
 
     // Add Date
@@ -332,8 +332,7 @@ public class DaraService {
 
   private String concatenateUnits(List<Survey> surveys) {
     return String.join("; ", surveys.stream()
-        .map(survey -> survey.getPopulation().getUnit().getDe())
-        .collect(Collectors.toSet()));
+        .map(survey -> survey.getPopulation().getUnit().getDe()).collect(Collectors.toSet()));
   }
 
   private Map<String, List<String>> computeSurveyToCollectionModesMap(List<Survey> surveys) {
@@ -372,17 +371,15 @@ public class DaraService {
 
   private Set<GeographicCoverage> deduplicateGeographicCoverages(List<Survey> surveys) {
     return surveys.stream()
-        .flatMap(survey -> survey.getPopulation().getGeographicCoverages()
-            .stream()).collect(Collectors.toSet());
+        .flatMap(survey -> survey.getPopulation().getGeographicCoverages().stream())
+        .collect(Collectors.toSet());
 
   }
 
   private Map<String, String> concatenateSurveySamplesByLanguage(List<Survey> surveys) {
-    Set<I18nString> samples = surveys.stream()
-        .map(Survey::getSample)
-        .collect(Collectors.toSet());
+    Set<I18nString> samples = surveys.stream().map(Survey::getSample).collect(Collectors.toSet());
 
-    Map<String,String> samplesGroupedByLanguage = new HashMap<>();
+    Map<String, String> samplesGroupedByLanguage = new HashMap<>();
     String german = samples.stream().map(I18nString::getDe).collect(Collectors.joining("; "));
     samplesGroupedByLanguage.put("de", german);
     String english = samples.stream().map(I18nString::getEn).collect(Collectors.joining("; "));

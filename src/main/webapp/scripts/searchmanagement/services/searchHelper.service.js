@@ -342,6 +342,9 @@ angular.module('metadatamanagementApp').factory(
         'bool': {
           'must': [{
             'term': {'shadow': true}
+          },
+          {
+            'term': {'hidden': false}
           }]
         }
       };
@@ -415,6 +418,14 @@ angular.module('metadatamanagementApp').factory(
           }
         }
       };
+
+      if (!Principal.loginName()) {
+        query.body.query.constant_score.filter.bool.must.push({
+          'term': {
+            'hidden': false
+          }
+        });
+      }
 
       if (version) {
         query.body.query.constant_score.filter.bool.must.push({

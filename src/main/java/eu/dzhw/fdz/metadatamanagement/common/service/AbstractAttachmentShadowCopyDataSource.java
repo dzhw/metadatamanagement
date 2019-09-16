@@ -166,6 +166,31 @@ public abstract class AbstractAttachmentShadowCopyDataSource
   @Override
   public void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
       String previousVersion) {
-    throw new IllegalAccessError("Attachment indexing has not yet been implemented!");
+    // there is currently no elasticsearch index for attachments
+  }
+  
+  @Override
+  public void hideExistingShadowCopies(String projectId, String version) {
+    setHiddenState(projectId, version, true);
+  }
+  
+  @Override
+  public void unhideExistingShadowCopies(String projectId, String version) {
+    setHiddenState(projectId, version, false);
+  }
+
+  private void setHiddenState(String projectId, String version, boolean hidden) {
+    String shadowId = projectId + "-" + version;
+    Query query =
+        new Query(GridFsCriteria.whereMetaData("dataAcquisitionProjectId").is(shadowId)
+            .andOperator(GridFsCriteria.whereFilename().regex(getMasterFileNamePattern()),
+                GridFsCriteria.whereMetaData("shadow").is(true)));
+
+    try (Stream<T> attachments = convertIterableToStream(gridFsOperations.find(query))) {
+      attachments.forEach(attachment -> {
+        attachment.setHidden(hidden);
+        updatePredecessor(attachment);
+      });
+    }
   }
 }

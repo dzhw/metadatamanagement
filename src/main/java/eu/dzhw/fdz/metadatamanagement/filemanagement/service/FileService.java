@@ -19,6 +19,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.mongodb.client.gridfs.model.GridFSFile;
+
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -56,7 +58,12 @@ public class FileService {
    */
   @Nullable
   public GridFsResource findFile(String fileName) {
-    return this.gridfsOperations.getResource(fileName);
+    Query query = new Query(GridFsCriteria.whereFilename().is(fileName));
+    GridFSFile file = this.gridfsOperations.findOne(query);
+    if (file != null && !file.getMetadata().getBoolean("hidden", false)) {
+      return this.gridfsOperations.getResource(fileName);
+    }
+    return null;
   }
 
   /**

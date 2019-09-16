@@ -2,6 +2,30 @@
 
 angular.module('metadatamanagementApp')
   .config(function($stateProvider, $urlRouterProvider) {
+    var loadShadowCopy = function(InstrumentSearchService,
+      SimpleMessageToastService, id, version) {
+        var loadLatestShadowCopyFallback = function() {
+          return InstrumentSearchService.findShadowByIdAndVersion(id, null)
+          .promise.then(function(result) {
+            if (result) {
+              return result;
+            } else {
+              SimpleMessageToastService.openAlertMessageToast(
+                'instrument-management.detail.not-found', {id: id});
+              return null;
+            }
+          });
+        };
+        return InstrumentSearchService.findShadowByIdAndVersion(id, version)
+          .promise.then(function(result) {
+            if (result) {
+              return result;
+            } else {
+              return loadLatestShadowCopyFallback();
+            }
+          });
+      };
+
     $urlRouterProvider.when('/de/instruments/', '/de/error');
     $urlRouterProvider.when('/en/instruments/', '/en/error');
     $stateProvider
@@ -24,12 +48,17 @@ angular.module('metadatamanagementApp')
         },
         resolve: {
           entity: ['$stateParams', 'InstrumentSearchService', 'Principal',
-            function($stateParams, InstrumentSearchService, Principal) {
+            'SimpleMessageToastService', '$q',
+            function($stateParams, InstrumentSearchService, Principal,
+              SimpleMessageToastService, $q) {
               if (Principal.loginName() && !$stateParams.version) {
                 return InstrumentSearchService.findOneById($stateParams.id);
               } else {
-                return InstrumentSearchService.findShadowByIdAndVersion(
-                  $stateParams.id, $stateParams.version);
+                var deferred = $q.defer();
+                loadShadowCopy(InstrumentSearchService,
+                  SimpleMessageToastService, $stateParams.id,
+                  $stateParams.version).then(deferred.resolve, deferred.reject);
+                return deferred;
               }
             }
           ]

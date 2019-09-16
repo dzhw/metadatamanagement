@@ -63,6 +63,7 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                     }
                 },
                 'page-title': '{{ description }} ({{ instrumentId }})',
+                'not-found': 'The {{id}} references to an unknown Instrument.',
                 'not-released-toast': 'Instrument "{{ id }}" has not yet been released to all users!',
                 'tooltips': {
                     'surveys': {

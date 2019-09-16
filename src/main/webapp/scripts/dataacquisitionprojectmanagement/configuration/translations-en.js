@@ -148,7 +148,8 @@ angular.module('metadatamanagementApp').config(
           },
           'tabs': {
             'status': 'Status',
-            'config': 'Settings'
+            'config': 'Settings',
+            'versions': 'Versions'
           },
           'requirements': {
             'header': 'Expected Metadata',
@@ -184,6 +185,24 @@ angular.module('metadatamanagementApp').config(
           'takeback-dialog': {
             'title': 'Take back project',
             'text': 'Do you really want to withdraw this project from the data provider group?'
+          },
+          'versions': {
+            'header': 'List of all Project Versions (Shadow Copies):',
+            'no-shadows': 'The project has not been released yet.',
+            'confirm-hide' : {
+              'title': 'Hide {{version}} of the project {{id}}?',
+              'content': 'Are you sure you want to hide version {{version}} of the project {{id}} from the public user? Data users will no longer be able to see this version.'
+            },
+            'confirm-unhide' : {
+              'title': 'Make version {{version}} of the project {{id}} available again?',
+              'content': 'Are you sure you want to make version {{version}} of the project {{id}} available for all users again? Data users will then be able to see this version again.'
+            },
+            'hiding-toast': 'The version {{version}} of the project {{id}} will be visible only for registered users in about 10 minutes!',
+            'unhiding-toast': 'The version {{version}} of the project {{id}} will be visible again for all users in about 10 minutes!',
+            'button': {
+              'hide-shadow': 'This version is currently visible for all users. Click here to hide this version!',
+              'unhide-shadow': 'This version is currently not visible for all users. Click here to make it available for all users!'
+            }
           }
         },
         'project-overview': {
@@ -210,8 +229,9 @@ angular.module('metadatamanagementApp').config(
             'current': 'Click to show projects on page {{number}}'
           }
         },
-        'outdated-version-alert': 'This is an outdated document version ({{oldVersion}}). <a href="{{href}}">Click here to open the current version ({{newVersion}})!</a>',
-        'not-master-alert': 'This is a shadow copy ({{version}}). <a href="{{href}}">Click here to open the current version!</a>'
+        'outdated-version-alert': 'This is an outdated page version ({{oldVersion}}). <a href="{{href}}">Click here to open the current version ({{newVersion}})!</a>',
+        'outdated-version-not-found-alert': 'Your link refers to a former version ({{oldVersion}}) of this page. This is the current version ({{newVersion}}).',
+        'not-master-alert': 'This is a {{hidden?"<u>hidden</u>":""}} shadow copy ({{version}}). <a href="{{href}}">Click here to open the current version!</a>'
       }
       //jscs:enable
     };

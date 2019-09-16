@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDomainObject,
     S extends BaseRepository<T, String>> {
   protected Javers javers;
-  private S repository;
+  protected S repository;
   private MetadataManagementProperties metadataManagementProperties;
   private Class<T> domainObjectClass;
 

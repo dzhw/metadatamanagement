@@ -115,6 +115,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
           switch (newValue.tab) {
             case 'status': return 0;
             case 'config': return 1;
+            case 'versions': return 2;
             default: return 0;
           }
         })();
@@ -123,9 +124,8 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
 
     $scope.onTabSelect = function(tab) {
       $state.go('project-cockpit', {tab: tab});
-      if (tab === 'config') {
-        $scope.shareButtonShown = false;
-      } else if (tab === 'status') {
+      $scope.shareButtonShown = false;
+      if (tab === 'status') {
         $scope.shareButtonShown = true;
       }
     };
@@ -134,6 +134,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       switch ($state.params.tab) {
         case 'status': return 0;
         case 'config': return 1;
+        case 'versions': return 2;
         default: return 0;
       }
     })();

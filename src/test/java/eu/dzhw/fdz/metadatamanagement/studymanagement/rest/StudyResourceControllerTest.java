@@ -98,6 +98,23 @@ public class StudyResourceControllerTest extends AbstractTest {
     // read the study under the new url
     mockMvc.perform(get(API_STUDY_URI + "/" + study.getId())).andExpect(status().isOk());
   }
+  
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testCreateHiddenStudy() throws IOException, Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+
+    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
+    study.setHidden(true);
+    
+    // create the hidden study with the given id
+    mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
+        .content(TestUtil.convertObjectToJsonBytes(study)).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errors[0].message",
+            containsString("invalid-hidden-shadow")));
+  }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)

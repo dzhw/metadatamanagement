@@ -3,10 +3,14 @@ package eu.dzhw.fdz.metadatamanagement.common.service;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.springframework.context.event.EventListener;
 import org.springframework.util.StringUtils;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyQueueItemService;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyingEndedEvent;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyingStartedEvent;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -63,9 +67,56 @@ public class ShadowCopyHelper<T extends AbstractShadowableRdcDomainObject> {
     }
   }
 
-  public void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
+  private void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
       String previousVersion) {
     shadowCopyDataSource.updateElasticsearch(dataAcquisitionProjectId, releaseVersion,
         previousVersion);
+  }
+
+  private void hideExistingShadowCopies(String dataAcquisitionProjectId, String releaseVersion) {
+    shadowCopyDataSource.hideExistingShadowCopies(dataAcquisitionProjectId, releaseVersion);
+  }
+
+  private void unhideExistingShadowCopies(String dataAcquisitionProjectId, String version) {
+    shadowCopyDataSource.unhideExistingShadowCopies(dataAcquisitionProjectId, version);
+  }
+  
+  /**
+   * Create, hide or unhide shadow copies of current master domain objects on project release.
+   * 
+   * @param shadowCopyingStartedEvent Emitted by {@link ShadowCopyQueueItemService}
+   */
+  @EventListener
+  public void onShadowCopyingStarted(ShadowCopyingStartedEvent shadowCopyingStartedEvent) {
+    switch (shadowCopyingStartedEvent.getAction()) {
+      case CREATE:
+        this.createShadowCopies(shadowCopyingStartedEvent.getDataAcquisitionProjectId(),
+            shadowCopyingStartedEvent.getRelease(),
+            shadowCopyingStartedEvent.getPreviousReleaseVersion());
+        break;
+      case HIDE:
+        this.hideExistingShadowCopies(shadowCopyingStartedEvent.getDataAcquisitionProjectId(),
+            shadowCopyingStartedEvent.getRelease().getVersion());
+        break;
+      case UNHIDE:
+        this.unhideExistingShadowCopies(shadowCopyingStartedEvent.getDataAcquisitionProjectId(),
+            shadowCopyingStartedEvent.getRelease().getVersion());
+        break;
+      default:
+        throw new IllegalArgumentException(
+            shadowCopyingStartedEvent.getAction() + " has not been implemented yet!");
+    }
+  }
+  
+  /**
+   * Update elasticsearch (both predecessors and current shadows).
+   * 
+   * @param shadowCopyingEndedEvent Emitted by {@link ShadowCopyQueueItemService}
+   */
+  @EventListener
+  public void onShadowCopyingEnded(ShadowCopyingEndedEvent shadowCopyingEndedEvent) {
+    this.updateElasticsearch(shadowCopyingEndedEvent.getDataAcquisitionProjectId(),
+        shadowCopyingEndedEvent.getRelease().getVersion(),
+        shadowCopyingEndedEvent.getPreviousReleaseVersion());
   }
 }

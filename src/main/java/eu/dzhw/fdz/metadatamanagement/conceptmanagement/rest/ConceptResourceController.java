@@ -77,7 +77,7 @@ public class ConceptResourceController
   @ExceptionHandler(ConceptInUseException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  ErrorListDto handleConceptInUseException(ConceptInUseException exception) {
+  protected ErrorListDto handleConceptInUseException(ConceptInUseException exception) {
     ErrorListDto errorListDto = new ErrorListDto();
 
     if (!exception.getInstrumentIds().isEmpty()) {
