@@ -35,8 +35,8 @@
 					<strong>{{user.login}}</strong> (<a href="mailto:{{user.email}}">{{user.email}}</a>)
 				</div>
 				<span flex></span>
-				<md-button ng-disabled="ctrl.disabled || !ctrl.canDeleteUser(user)" class="md-icon-button md-primary" ng-click="ctrl.removeUser(user, ctrl.group)" aria-label="remove user">
-					<md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img" aria-hidden="true">delete_forever</md-icon>
+				<md-button ng-disabled="ctrl.disabled || !ctrl.canDeleteUser(user)" class="md-icon-button md-primary" ng-click="ctrl.removeUser(user, ctrl.group)">
+					<md-icon md-font-set="material-icons" class="ng-binding ng-scope material-icons" role="img">delete_forever</md-icon>
 					<md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
 						{{'data-acquisition-project-management.project-cockpit.button.remove-user' | translate}}
 					</md-tooltip>
