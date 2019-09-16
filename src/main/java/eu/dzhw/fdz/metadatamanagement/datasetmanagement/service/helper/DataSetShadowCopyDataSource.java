@@ -104,4 +104,25 @@ public class DataSetShadowCopyDataSource implements ShadowCopyDataSource<DataSet
       }, ElasticsearchType.data_sets);
     }
   }
+  
+  @Override
+  public void hideExistingShadowCopies(String projectId, String version) {
+    setHiddenState(projectId, version, true);
+  }
+  
+  private void setHiddenState(String projectId, String version, boolean hidden) {
+    String shadowId = projectId + "-" + version;
+    try (Stream<DataSet> dataSets =
+        dataSetRepository.streamByDataAcquisitionProjectIdAndShadowIsTrue(shadowId)) {
+      dataSets.forEach(shadow -> {
+        shadow.setHidden(hidden);
+        crudHelper.saveShadow(shadow);
+      });
+    }
+  }
+  
+  @Override
+  public void unhideExistingShadowCopies(String projectId, String version) {
+    setHiddenState(projectId, version, false);
+  }
 }

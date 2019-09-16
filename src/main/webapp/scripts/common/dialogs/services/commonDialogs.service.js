@@ -21,6 +21,18 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService',
       $cancelButton.focus();
     };
 
+    var showConfirmDialog = function(titleKey, titleParams, contentKey,
+      contentParams, targetEvent) {
+      var confirmDialog = $mdDialog.confirm({
+        onComplete: focusCancelButton
+      }).title($translate.instant(titleKey, titleParams)).textContent(
+        $translate.instant(contentKey, contentParams))
+        .ok($translate.instant('global.common-dialogs.yes'))
+        .cancel($translate.instant('global.common-dialogs.no'))
+        .targetEvent(targetEvent);
+      return $mdDialog.show(confirmDialog);
+    };
+
     var showConfirmOnDirtyDialog = function() {
       var confirmOnDirtyDialog = $mdDialog.confirm({
         onComplete: focusCancelButton,
@@ -79,6 +91,7 @@ angular.module('metadatamanagementApp').factory('CommonDialogsService',
     };
 
     return {
+      showConfirmDialog: showConfirmDialog,
       showConfirmOnDirtyDialog: showConfirmOnDirtyDialog,
       showConfirmFileDeletionDialog: showConfirmFileDeletionDialog,
       showConfirmFilenameChangedDialog: showConfirmFilenameChangedDialog,

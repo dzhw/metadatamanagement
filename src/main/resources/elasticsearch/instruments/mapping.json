@@ -55,6 +55,10 @@
 				"type": "boolean",
 				"copy_to": "all"
 			},
+			"hidden": {
+				"type": "boolean",
+				"copy_to": "all"
+			},
 			"completeTitle": {
 				"type": "object",
 				"properties": {

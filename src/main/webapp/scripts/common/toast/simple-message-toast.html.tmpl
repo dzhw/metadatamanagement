@@ -4,7 +4,7 @@
             <span data-translate="{{elem.messageId}}" data-translate-values="{{elem.messageParams}}"></span>
         </p>
     </div>
-    <md-button aria-label="{{'global.buttons.close' | translate}}" ng-click="closeToast()">
+    <md-button ng-click="closeToast()">
         <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'global.toast.tooltip.close' | translate}}
         </md-tooltip>

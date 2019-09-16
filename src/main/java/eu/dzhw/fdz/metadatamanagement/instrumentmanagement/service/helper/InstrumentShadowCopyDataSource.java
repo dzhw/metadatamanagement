@@ -106,4 +106,25 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
       }, ElasticsearchType.instruments);
     }
   }
+  
+  @Override
+  public void hideExistingShadowCopies(String projectId, String version) {
+    setHiddenState(projectId, version, true);
+  }
+  
+  private void setHiddenState(String projectId, String version, boolean hidden) {
+    String shadowId = projectId + "-" + version;
+    try (Stream<Instrument> instruments =
+        instrumentRepository.streamByDataAcquisitionProjectIdAndShadowIsTrue(shadowId)) {
+      instruments.forEach(shadow -> {
+        shadow.setHidden(hidden);
+        crudHelper.saveShadow(shadow);
+      });
+    }
+  }
+  
+  @Override
+  public void unhideExistingShadowCopies(String projectId, String version) {
+    setHiddenState(projectId, version, false);
+  }
 }

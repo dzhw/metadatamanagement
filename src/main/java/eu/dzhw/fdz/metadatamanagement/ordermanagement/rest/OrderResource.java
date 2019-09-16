@@ -144,7 +144,7 @@ public class OrderResource {
   @ExceptionHandler(OrderAlreadyCompletedException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  ErrorListDto handleOrderAlreadyCompletedException() {
+  protected ErrorListDto handleOrderAlreadyCompletedException() {
     ErrorDto errorDto = new ErrorDto(null, "order-management.error."
         + "order-already-completed", null, null);
     ErrorListDto errorListDto = new ErrorListDto();

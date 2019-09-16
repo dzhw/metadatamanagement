@@ -1,4 +1,4 @@
-/* global _, $ */
+/* global _, $, bowser */
 
 'use strict';
 
@@ -21,6 +21,7 @@ angular.module('metadatamanagementApp')
         this.group = $scope.group;
         this.isPublisher = $scope.isPublisher;
         this.project = $scope.project;
+        $scope.bowser = bowser;
       },
       link: function($scope, elem, attrs, ctrl) { // jshint ignore:line
         ctrl.disabled = !ctrl.isPublisher &&

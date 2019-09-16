@@ -48,7 +48,7 @@ Click Study Save Button
   Click Element Through Tooltips  xpath=//button[@type="submit"]//md-icon[contains(. , "save")]
 
 Click Restore Button
-  Click Element Through Tooltips  xpath=//div[@ng-if="ctrl.study.id"]//button[@type="button"]//md-icon[contains(.,"undo")]
+  Click Element Through Tooltips  xpath=//div[@ng-if="ctrl.study.id"]//button[@type="button"]//md-icon[contains(.,"history")]
 
 Revise to second latest version
   Click Element Through Tooltips  xpath=//md-dialog//table//tbody//tr[2]//td

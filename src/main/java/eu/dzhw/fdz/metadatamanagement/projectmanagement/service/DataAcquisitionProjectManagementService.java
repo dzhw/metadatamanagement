@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
@@ -9,9 +10,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.context.event.EventListener;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.github.zafarkhaja.semver.Version;
 
@@ -21,6 +25,8 @@ import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.AssigneeGroup;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowHidingNotAllowedException;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowUnhidingNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DataAcquisitionProjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
@@ -29,6 +35,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -59,6 +66,8 @@ public class DataAcquisitionProjectManagementService
   private final DataAcquisitionProjectCrudHelper crudHelper;
 
   private final DataAcquisitionProjectVersionsService projectVersionsService;
+
+  private final DaraService daraService;
 
   /**
    * Searches for {@link DataAcquisitionProject} items for the given id. The result may be limited
@@ -252,7 +261,7 @@ public class DataAcquisitionProjectManagementService
     final String projectId = project.getId();
 
     if (isProjectBeingReleased(oldProject, project)) {
-      shadowCopyQueueItemService.createShadowCopyTask(projectId, project.getRelease());
+      shadowCopyQueueItemService.scheduleShadowCopyCreation(projectId, project.getRelease());
     } else {
       sendPublishersDataProvidersChangedMails(projectId);
       sendAssigneeGroupChangedMails(project);
@@ -276,26 +285,96 @@ public class DataAcquisitionProjectManagementService
    * Notify all {@link AuthoritiesConstants.RELEASE_MANAGER}'s about the new major release.
    * 
    * @param shadowCopyingEndedEvent Emitted by {@link ShadowCopyQueueItemService}.
+   * @throws TemplateException thrown if template processing for dara's xml fails
+   * @throws IOException thrown if IO errors occur during template processing
    */
   @EventListener
-  public void onShadowCopyingEnded(ShadowCopyingEndedEvent shadowCopyingEndedEvent) {
-    if (shadowCopyingEndedEvent.isRerelease()) {
-      // do not send mails for rereleases
-      return;
+  public void onShadowCopyingEnded(ShadowCopyingEndedEvent shadowCopyingEndedEvent)
+      throws IOException, TemplateException {
+    switch (shadowCopyingEndedEvent.getAction()) {
+      case CREATE:
+        if (shadowCopyingEndedEvent.isRerelease()) {
+          // do not send mails for rereleases
+          return;
+        }
+        Version currentVersion = Version.valueOf(shadowCopyingEndedEvent.getRelease().getVersion());
+        Release previousRelease = projectVersionsService.findPreviousRelease(
+            shadowCopyingEndedEvent.getDataAcquisitionProjectId(),
+            shadowCopyingEndedEvent.getRelease());
+        if (previousRelease == null && currentVersion.getMajorVersion() > 0
+            || previousRelease != null && currentVersion.getMajorVersion() > Version
+                .valueOf(previousRelease.getVersion()).getMajorVersion()) {
+          // a new major release has been shadow copied
+          List<User> releaseManagers = userRepository
+              .findAllByAuthoritiesContaining(new Authority(AuthoritiesConstants.RELEASE_MANAGER));
+          mailService.sendMailOnNewMajorProjectRelease(releaseManagers,
+              shadowCopyingEndedEvent.getDataAcquisitionProjectId(),
+              shadowCopyingEndedEvent.getRelease());
+        }
+        break;
+      case HIDE:
+      case UNHIDE:
+        if (Version.valueOf(shadowCopyingEndedEvent.getRelease().getVersion())
+            .greaterThanOrEqualTo(Version.valueOf("1.0.0"))) {
+          daraService
+              .registerOrUpdateProjectToDara(shadowCopyingEndedEvent.getDataAcquisitionProjectId()
+                  + "-" + shadowCopyingEndedEvent.getRelease().getVersion());
+        }
+        break;
+      default:
+        throw new IllegalArgumentException(
+            shadowCopyingEndedEvent.getAction() + " has not been implemented yet!");
     }
-    Version currentVersion = Version.valueOf(shadowCopyingEndedEvent.getRelease().getVersion());
-    Release previousRelease = projectVersionsService.findPreviousRelease(
-        shadowCopyingEndedEvent.getDataAcquisitionProjectId(),
-        shadowCopyingEndedEvent.getRelease());
-    if (previousRelease == null && currentVersion.getMajorVersion() > 0
-        || previousRelease != null && currentVersion.getMajorVersion() > Version
-            .valueOf(previousRelease.getVersion()).getMajorVersion()) {
-      // a new major release has been shadow copied
-      List<User> releaseManagers = userRepository
-          .findAllByAuthoritiesContaining(new Authority(AuthoritiesConstants.RELEASE_MANAGER));
-      mailService.sendMailOnNewMajorProjectRelease(releaseManagers,
-          shadowCopyingEndedEvent.getDataAcquisitionProjectId(),
-          shadowCopyingEndedEvent.getRelease());
+  }
+
+  /**
+   * Load a page containing all shadow copies of the given master.
+   * 
+   * @param masterId project id of the master
+   * @param pageable pageable for paging and sorting
+   * @return all shadows of the given master, may be empty
+   */
+  public Page<DataAcquisitionProject> findAllShadows(String masterId, Pageable pageable) {
+    return crudHelper.findAllShadows(masterId, pageable);
+  }
+
+  /**
+   * Hide the given shadow copy of a project.
+   * 
+   * @param shadowProject The shadow to be hidden.
+   * @throws ShadowHidingNotAllowedException thrown if the given project cannot be hidden
+   */
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.ADMIN})
+  public void hideShadows(DataAcquisitionProject shadowProject)
+      throws ShadowHidingNotAllowedException {
+    if (!shadowProject.isShadow()) {
+      throw new ShadowHidingNotAllowedException("Master projects cannot be hidden!");
     }
+    if (StringUtils.isEmpty(shadowProject.getSuccessorId())) {
+      throw new ShadowHidingNotAllowedException("Shadows without successor cannot be hidden!");
+    }
+    if (shadowProject.isHidden()) {
+      throw new ShadowHidingNotAllowedException("Project is already hidden!");
+    }
+    shadowCopyQueueItemService.scheduleShadowCopyHiding(shadowProject.getMasterId(),
+        shadowProject.getRelease());
+  }
+
+  /**
+   * Unhide the given shadow, thus make it visible for public users.
+   * 
+   * @param shadowProject The shadow copy of a project.
+   * @throws ShadowUnhidingNotAllowedException Thrown if the project is already unhidden.
+   */
+  @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER,
+      AuthoritiesConstants.ADMIN})
+  public void unhideShadows(DataAcquisitionProject shadowProject)
+      throws ShadowUnhidingNotAllowedException {
+    if (!shadowProject.isHidden()) {
+      throw new ShadowUnhidingNotAllowedException("Project shadow is already unhidden!");
+    }
+    shadowCopyQueueItemService.scheduleShadowCopyUnhiding(shadowProject.getMasterId(),
+        shadowProject.getRelease());
   }
 }

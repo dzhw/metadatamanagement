@@ -2,6 +2,30 @@
 
 angular.module('metadatamanagementApp')
   .config(function($stateProvider, $urlRouterProvider) {
+    var loadShadowCopy = function(DataSetSearchService,
+      SimpleMessageToastService, id, version) {
+        var loadLatestShadowCopyFallback = function() {
+          return DataSetSearchService.findShadowByIdAndVersion(id, null)
+          .promise.then(function(result) {
+            if (result) {
+              return result;
+            } else {
+              SimpleMessageToastService.openAlertMessageToast(
+                'data-set-management.detail.not-found', {id: id});
+              return null;
+            }
+          });
+        };
+        return DataSetSearchService.findShadowByIdAndVersion(id, version)
+          .promise.then(function(result) {
+            if (result) {
+              return result;
+            } else {
+              return loadLatestShadowCopyFallback();
+            }
+          });
+      };
+
     $urlRouterProvider.when('/de/data-sets/', '/de/error');
     $urlRouterProvider.when('/en/data-sets/', '/en/error');
     $stateProvider
@@ -23,13 +47,18 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'DataSetSearchService', 'Principal',
-            function($stateParams, DataSetSearchService, Principal) {
+          entity: ['$stateParams', 'DataSetSearchService', 'Principal', '$q',
+            'SimpleMessageToastService',
+            function($stateParams, DataSetSearchService, Principal, $q,
+              SimpleMessageToastService) {
               if (Principal.loginName() && !$stateParams.version) {
                 return DataSetSearchService.findOneById($stateParams.id);
               } else {
-                return DataSetSearchService.findShadowByIdAndVersion(
-                  $stateParams.id, $stateParams.version);
+                var deferred = $q.defer();
+                loadShadowCopy(DataSetSearchService,
+                  SimpleMessageToastService, $stateParams.id,
+                  $stateParams.version).then(deferred.resolve, deferred.reject);
+                return deferred;
               }
             }
           ]

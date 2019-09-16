@@ -97,4 +97,25 @@ public class SurveyShadowCopyDataSource implements ShadowCopyDataSource<Survey> 
       }, ElasticsearchType.surveys);
     }
   }
+  
+  @Override
+  public void hideExistingShadowCopies(String projectId, String version) {
+    setHiddenState(projectId, version, true);
+  }
+
+  private void setHiddenState(String projectId, String version, boolean hidden) {
+    String shadowId = projectId + "-" + version;
+    try (Stream<Survey> surveys =
+        surveyRepository.streamByDataAcquisitionProjectIdAndShadowIsTrue(shadowId)) {
+      surveys.forEach(shadow -> {
+        shadow.setHidden(hidden);
+        crudHelper.saveShadow(shadow);
+      });
+    }
+  }
+
+  @Override
+  public void unhideExistingShadowCopies(String projectId, String version) {
+    setHiddenState(projectId, version, false);
+  }
 }

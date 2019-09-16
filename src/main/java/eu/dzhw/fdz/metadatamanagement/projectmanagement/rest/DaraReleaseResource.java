@@ -60,7 +60,7 @@ public class DaraReleaseResource {
   @ExceptionHandler(ShadowCopyReleaseToDaraNotAllowed.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  ErrorListDto handleShadowCopyReleaseToDaraNotAllowed() {
+  protected ErrorListDto handleShadowCopyReleaseToDaraNotAllowed() {
     ErrorDto errorDto = new ErrorDto(null, "project-management.error."
         + "shadow-copy-release-to-dara-not-allowed", null, null);
     ErrorListDto errorListDto = new ErrorListDto();

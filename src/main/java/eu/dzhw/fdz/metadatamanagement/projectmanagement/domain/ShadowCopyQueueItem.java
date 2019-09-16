@@ -32,7 +32,7 @@ public class ShadowCopyQueueItem extends AbstractRdcDomainObject {
   private String id;
 
   /**
-   * Project id for which a shadow copy should be created.
+   * Project id for which a shadow copy should be created or hidden or unhidden.
    */
   @NotNull
   private String dataAcquisitionProjectId;
@@ -47,4 +47,17 @@ public class ShadowCopyQueueItem extends AbstractRdcDomainObject {
    * Start time of the copy process.
    */
   private LocalDateTime updateStartedAt;
+  
+  /**
+   * The action which will be performed for the shadow copies.
+   */
+  @NotNull
+  private Action action;
+  
+  /**
+   * The action which will be performed for the shadows. 
+   */
+  public enum Action {
+    CREATE, HIDE, UNHIDE
+  }
 }

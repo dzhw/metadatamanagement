@@ -1251,6 +1251,10 @@ geographic-coverage {
     }
 }
 
+.fdz-odd-row {
+    background-color: #f9f9f9;
+}
+
 .egg-confused {
     position: absolute;
     z-index: 999999;
@@ -1279,4 +1283,8 @@ geographic-coverage {
         opacity: 1;
       }
     }
+}
+
+.md-button[disabled] {
+    pointer-events: none;
 }
