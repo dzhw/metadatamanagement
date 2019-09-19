@@ -8,8 +8,7 @@ angular.module('metadatamanagementApp')
       var createQueryObject = function(type) {
         type = type || 'related_publications';
         return {
-          index: type,
-          type: type
+          index: type
         };
       };
 

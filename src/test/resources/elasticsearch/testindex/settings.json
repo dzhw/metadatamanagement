@@ -2,6 +2,7 @@
 	"index" : {
 		"number_of_shards": "1",    
     	"number_of_replicas": "0",
+    	"max_ngram_diff": "2",
     	"analysis": {
     		"filter": {
         		"german_stop": {

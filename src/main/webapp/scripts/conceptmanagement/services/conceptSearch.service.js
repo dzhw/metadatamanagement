@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp').factory('ConceptSearchService',
     var createQueryObject = function(type) {
       type = type || 'concepts';
       return {
-        index: type,
-        type: type
+        index: type
       };
     };
 

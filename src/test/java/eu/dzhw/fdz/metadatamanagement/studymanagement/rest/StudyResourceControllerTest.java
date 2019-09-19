@@ -299,12 +299,20 @@ public class StudyResourceControllerTest extends AbstractTest {
         .andExpect(jsonPath("$.release.version", equalTo("1.0.0")))
         .andExpect(jsonPath("$.completeTitle").exists()).andExpect(jsonPath("$.doi").exists());
 
+    // set successor of old shadows
+    project.setSuccessorId(project.getMasterId() + "-2.0.0");
+    project = dataAcquisitionProjectRepository.save(project);
+    study.setSuccessorId(study.getMasterId() + "-2.0.0");
+    study = studyRepository.save(study);
+    
     // now fake a second shadow
     project.setId(project.getMasterId() + "-2.0.0");
+    project.setSuccessorId(null);
     project.setVersion(null);
     project.setRelease(new Release("2.0.0", LocalDateTime.now(), null));
     project = dataAcquisitionProjectRepository.save(project);
     study.setId(study.getMasterId() + "-2.0.0");
+    study.setSuccessorId(null);
     study.setDataAcquisitionProjectId(project.getId());
     study.setVersion(null);
     study = studyRepository.save(study);

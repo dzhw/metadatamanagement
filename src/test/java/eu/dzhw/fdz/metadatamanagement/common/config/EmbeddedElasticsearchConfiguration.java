@@ -1,7 +1,7 @@
 /**
  *
  */
-package eu.dzhw.fdz.metadatamanagement.common.unittesthelper.config;
+package eu.dzhw.fdz.metadatamanagement.common.config;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import pl.allegro.tech.embeddedelasticsearch.EmbeddedElastic;
+import pl.allegro.tech.embeddedelasticsearch.JavaHomeOption;
 import pl.allegro.tech.embeddedelasticsearch.PopularProperties;
 
 /**
@@ -32,13 +32,11 @@ public class EmbeddedElasticsearchConfiguration {
   public EmbeddedElastic embeddedElastic() throws IOException, InterruptedException {
     final EmbeddedElastic embeddedElastic = EmbeddedElastic.builder()
         .withElasticVersion(properties.getElasticsearch().getVersion())
-        .withEsJavaOpts("-Xms128m -Xmx512m")
-        .withSetting(PopularProperties.HTTP_PORT, 19234)
+        .withJavaHome(JavaHomeOption.inheritTestSuite())
+        .withEsJavaOpts("-Xms128m -Xmx512m").withSetting(PopularProperties.HTTP_PORT, 19234)
         .withSetting(PopularProperties.CLUSTER_NAME, "metadatamanagement-test")
         .withInstallationDirectory(new File("target/elasticsearch"))
-        .withStartTimeout(2, TimeUnit.MINUTES)
-        .build()
-        .start();
+        .withStartTimeout(2, TimeUnit.MINUTES).build().start();
 
     return embeddedElastic;
   }

@@ -161,7 +161,7 @@ public class ElasticsearchUpdateQueueService {
       // check if there are more locked items to process
       lockedItems = queueItemRepository.findOldestLockedItems(jvmId, updateStart);
     }
-    elasticsearchDao.flush(List.of(ElasticsearchType.names()));
+    elasticsearchDao.refresh(List.of(ElasticsearchType.names()));
     log.info("Finished processing of ElasticsearchUpdateQueue...");
   }
 
@@ -214,9 +214,8 @@ public class ElasticsearchUpdateQueueService {
    * @return true if an action has been added to the bulkBuilder
    */
   private boolean addDeleteAction(ElasticsearchUpdateQueueItem lockedItem, Builder bulkBuilder) {
-    bulkBuilder.addAction(
-        new Delete.Builder(lockedItem.getDocumentId()).index(lockedItem.getDocumentType().name())
-            .type(lockedItem.getDocumentType().name()).build());
+    bulkBuilder.addAction(new Delete.Builder(lockedItem.getDocumentId())
+        .index(lockedItem.getDocumentType().name()).build());
     return true;
   }
 
@@ -299,9 +298,8 @@ public class ElasticsearchUpdateQueueService {
       ConceptSearchDocument searchDocument = new ConceptSearchDocument(concept, studySubDocuments,
           nestedStudyDocuments, questions, instruments, surveys, dataSets, variables);
 
-      bulkBuilder
-          .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
-              .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      bulkBuilder.addAction(new Index.Builder(searchDocument)
+          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
       return true;
     }
     return false;
@@ -351,9 +349,8 @@ public class ElasticsearchUpdateQueueService {
           new InstrumentSearchDocument(instrument, study, surveys, questions, variables, dataSets,
               relatedPublications, concepts, release, doi, configuration);
 
-      bulkBuilder
-          .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
-              .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      bulkBuilder.addAction(new Index.Builder(searchDocument)
+          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
       return true;
     }
     return false;
@@ -409,9 +406,8 @@ public class ElasticsearchUpdateQueueService {
           new RelatedPublicationSearchDocument(relatedPublication, studySubDocuments,
               nestedStudyDocuments, questions, instruments, surveys, dataSets, variables);
 
-      bulkBuilder
-          .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
-              .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      bulkBuilder.addAction(new Index.Builder(searchDocument)
+          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
       return true;
     }
     return false;
@@ -466,9 +462,8 @@ public class ElasticsearchUpdateQueueService {
           new DataSetSearchDocument(dataSet, study, variableProjections, relatedPublications,
               surveys, instruments, questions, concepts, release, doi, configuration);
 
-      bulkBuilder
-          .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
-              .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      bulkBuilder.addAction(new Index.Builder(searchDocument)
+          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
       return true;
     }
     return false;
@@ -506,9 +501,8 @@ public class ElasticsearchUpdateQueueService {
           new SurveySearchDocument(survey, study, dataSets, variables, relatedPublications,
               instruments, questions, concepts, release, doi, configuration);
 
-      bulkBuilder
-          .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
-              .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      bulkBuilder.addAction(new Index.Builder(searchDocument)
+          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
       return true;
     }
     return false;
@@ -580,9 +574,8 @@ public class ElasticsearchUpdateQueueService {
           new VariableSearchDocument(variable, dataSet, study, relatedPublications, surveys,
               instruments, questions, concepts, release, doi, configuration);
 
-      bulkBuilder
-          .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
-              .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      bulkBuilder.addAction(new Index.Builder(searchDocument)
+          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
       return true;
     }
     return false;
@@ -632,9 +625,8 @@ public class ElasticsearchUpdateQueueService {
           new QuestionSearchDocument(question, study, instrument, surveys, variables, dataSets,
               relatedPublications, concepts, release, doi, configuration);
 
-      bulkBuilder
-          .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
-              .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      bulkBuilder.addAction(new Index.Builder(searchDocument)
+          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
       return true;
     }
     return false;
@@ -681,9 +673,8 @@ public class ElasticsearchUpdateQueueService {
           new StudySearchDocument(study, dataSets, variables, relatedPublications, surveys,
               questions, instruments, seriesPublications, concepts, release, doi, configuration);
 
-      bulkBuilder
-          .addAction(new Index.Builder(searchDocument).index(lockedItem.getDocumentType().name())
-              .type(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      bulkBuilder.addAction(new Index.Builder(searchDocument)
+          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
       return true;
     }
     return false;
@@ -709,7 +700,7 @@ public class ElasticsearchUpdateQueueService {
       // check if there are more locked items to process
       lockedItems = queueItemRepository.findOldestLockedItemsByType(jvmId, updateStart, type);
     }
-    elasticsearchDao.flush(List.of(type.name()));
+    elasticsearchDao.refresh(List.of(type.name()));
     log.debug("Finished processing of ElasticsearchUpdateQueue for type: " + type.name());
   }
 

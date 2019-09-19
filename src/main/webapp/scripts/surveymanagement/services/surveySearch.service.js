@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       var createQueryObject = function(type) {
         type = type || 'surveys';
         return {
-          index: type,
-          type: type
+          index: type
         };
       };
 
@@ -56,7 +55,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
           SearchHelperService.createShadowByIdAndVersionQuery(id, version));
         var deferred = $q.defer();
         ElasticSearchClient.search(query).then(function(result) {
-          if (result.hits.total === 1) {
+          if (result.hits.hits.length === 1) {
             deferred.resolve(result.hits.hits[0]._source);
           } else {
             return deferred.resolve(null);

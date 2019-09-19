@@ -31,7 +31,6 @@ public class ElasticsearchDaoTest extends AbstractTest {
 
   public static final String TEST_INDEX = "hurz";
   private static final String NUMBER_OF_REPLICAS = "number_of_replicas";
-  private static final String TEST_TYPE = "variables";
 
   @Autowired
   private ElasticsearchDao elasticsearchDao;
@@ -88,7 +87,7 @@ public class ElasticsearchDaoTest extends AbstractTest {
     // Arrange
 
     // Act
-    JsonObject jsonObject = elasticsearchDao.getMapping(TEST_INDEX, TEST_TYPE);
+    JsonObject jsonObject = elasticsearchDao.getMapping(TEST_INDEX);
 
     // Assert
     assertThat(jsonObject, is(nullValue()));

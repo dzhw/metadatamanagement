@@ -309,9 +309,9 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'should': [{
                 'term': {'configuration.dataProviders': loginName}
               }, {
-                'type': {'value': 'concepts'}
+                'term': {'_index': 'concepts'}
               }, {
-                'type': {'value': 'related_publications'}
+                'term': {'_index': 'related_publications'}
               }]
             }
           };
@@ -356,13 +356,13 @@ angular.module('metadatamanagementApp').service('SearchDao',
         var studyId;
 
         query.index = elasticsearchType;
+        query.track_total_hits = true;
         if (!elasticsearchType) {
           //search in all indices
           query.index = ['studies', 'variables', 'surveys', 'data_sets',
             'instruments', 'related_publications', 'questions', 'concepts'
           ];
         }
-        query.type = elasticsearchType;
         query.body = {};
         //use source filtering for returning only required attributes
         query.body._source = ['id', 'number', 'questionText', 'title',
@@ -436,7 +436,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           query.body.aggs = {
             'countByType': {
               'terms': {
-                'field': '_type'
+                'field': '_index'
               }
             }
           };

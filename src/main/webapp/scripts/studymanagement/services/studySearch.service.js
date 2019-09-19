@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
     var createQueryObject = function(type) {
       type = type || 'studies';
       return {
-        index: type,
-        type: type
+        index: type
       };
     };
 
@@ -56,7 +55,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         SearchHelperService.createShadowByIdAndVersionQuery(id, version));
       var deferred = $q.defer();
       ElasticSearchClient.search(query).then(function(result) {
-        if (result.hits.total === 1) {
+        if (result.hits.hits.length === 1) {
           deferred.resolve(result.hits.hits[0]._source);
         } else {
           return deferred.resolve(null);

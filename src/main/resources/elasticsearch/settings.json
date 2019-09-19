@@ -1,5 +1,6 @@
 {
 	"index": {
+		"max_ngram_diff": 31,
 		"analysis": {
 			"tokenizer": {
 				"ngrams_tokenizer": {
