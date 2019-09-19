@@ -396,7 +396,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
 
         aggregation.aggs.label.filter.bool.must[0]
         .match[prefix + 'completeTitle.' + language] =  {
-          'query': searchText,
+          'query': searchText || '',
           'operator': 'AND',
           'minimum_should_match': '100%',
           'zero_terms_query': 'ALL'

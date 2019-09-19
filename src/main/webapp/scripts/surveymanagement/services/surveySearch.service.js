@@ -192,7 +192,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
 
         query.body.query.bool.must[0].match
           ['surveyMethod.' + language + '.ngrams'] = {
-          'query': searchText,
+          'query': searchText || '',
           'operator': 'AND',
           'minimum_should_match': '100%',
           'zero_terms_query': 'ALL'
@@ -287,7 +287,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
 
         aggregation.aggs.title.filter.bool.must[0]
         .match[prefix + 'completeTitle.' + language] =  {
-          'query': searchText,
+          'query': searchText || '',
           'operator': 'AND',
           'minimum_should_match': '100%',
           'zero_terms_query': 'ALL'

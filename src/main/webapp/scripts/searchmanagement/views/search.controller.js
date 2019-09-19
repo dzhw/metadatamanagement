@@ -443,17 +443,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.search();
     };
 
-    $scope.$on('upload-completed', function() {
-      //wait for 1 seconds until refresh
-      //in order to wait for elasticsearch reindex
-      $timeout($scope.search, 2000);
-    });
+    $scope.$on('upload-completed', $scope.search);
 
-    $scope.$on('deletion-completed', function() {
-      //wait for 1 seconds until refresh
-      //in order to wait for elasticsearch reindex
-      $timeout($scope.search, 2000);
-    });
+    $scope.$on('deletion-completed', $scope.search);
 
     $scope.tabs = filterActiveTabs(tabs);
 

@@ -115,7 +115,7 @@ angular.module('metadatamanagementApp').factory('ConceptSearchService',
 
       aggregation.aggs.title.filter.bool.must[0]
         .match[prefix + 'completeTitle.' + language] =  {
-          'query': searchText,
+          'query': searchText || '',
           'operator': 'AND',
           'minimum_should_match': '100%',
           'zero_terms_query': 'ALL'
@@ -180,7 +180,7 @@ angular.module('metadatamanagementApp').factory('ConceptSearchService',
       _.set(query, 'body.query.bool.must[0].match', {});
       _.set(query, 'body.query.bool.filter.term.shadow', false);
       query.body.query.bool.must[0].match['tags.' + language + '.ngrams'] = {
-        'query': searchText,
+        'query': searchText || '',
         'operator': 'AND',
         'minimum_should_match': '100%',
         'zero_terms_query': 'ALL'
