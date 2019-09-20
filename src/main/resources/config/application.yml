@@ -48,7 +48,7 @@ spring:
       cloudfoundry:
         discovery:
           enabled: false
-          
+
 
 logging:
   level:
@@ -95,7 +95,7 @@ javers:
 
 metadatamanagement:
   elasticsearch:
-    version: 6.3.2
+    version: 7.3.2
   ordermanagement:
     email: reitmann@dzhw.eu
   projectmanagement:

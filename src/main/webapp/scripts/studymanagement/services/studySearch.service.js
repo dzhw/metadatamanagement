@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
     var createQueryObject = function(type) {
       type = type || 'studies';
       return {
-        index: type,
-        type: type
+        index: type
       };
     };
 
@@ -56,7 +55,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         SearchHelperService.createShadowByIdAndVersionQuery(id, version));
       var deferred = $q.defer();
       ElasticSearchClient.search(query).then(function(result) {
-        if (result.hits.total === 1) {
+        if (result.hits.hits.length === 1) {
           deferred.resolve(result.hits.hits[0]._source);
         } else {
           return deferred.resolve(null);
@@ -109,7 +108,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
       query.body.query.bool.must[0].match
         [prefix + fieldName + language + '.ngrams'] = {
-        'query': searchText,
+        'query': searchText || '',
         'operator': 'AND',
         'minimum_should_match': '100%',
         'zero_terms_query': 'ALL'
@@ -213,7 +212,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
       aggregation.aggs.title.filter.bool.must[0]
         .match[prefix + 'completeTitle.' + language] = {
-        'query': searchText,
+        'query': searchText || '',
         'operator': 'AND',
         'minimum_should_match': '100%',
         'zero_terms_query': 'ALL'
@@ -302,7 +301,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
       query.body.query.bool.must[0].match
         ['sponsor.' + language + '.ngrams'] = {
-        'query': searchText,
+        'query': searchText || '',
         'operator': 'AND',
         'minimum_should_match': '100%',
         'zero_terms_query': 'ALL'
@@ -379,7 +378,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
       query.body.query.bool.must[0].match
         ['institution.' + language + '.ngrams'] = {
-        'query': searchText,
+        'query': searchText || '',
         'operator': 'AND',
         'minimum_should_match': '100%',
         'zero_terms_query': 'ALL'

@@ -34,7 +34,7 @@
         <search-filter-panel current-elasticsearch-type="tabs[searchParams.selectedTabIndex].elasticSearchType" current-language="currentLanguage" current-search-params="searchParams" filter-changed-callback="onFilterChanged" bowser="bowser" is-searching="isSearching"></search-filter-panel>
     </md-card>
     <div flex>
-        <div ng-repeat="result in searchResult" ng-switch="result._type" class="fdz-fade-in">
+        <div ng-repeat="result in searchResult" ng-switch="result._index" class="fdz-fade-in">
             <variable-search-result ng-switch-when="variables" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></variable-search-result>
             <survey-search-result ng-switch-when="surveys" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="computeSearchResultIndex($index)"></survey-search-result>
             <question-search-result ng-switch-when="questions" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></question-search-result>

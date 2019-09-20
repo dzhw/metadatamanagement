@@ -8,8 +8,7 @@ angular.module('metadatamanagementApp')
       var createQueryObject = function(type) {
         type = type || 'related_publications';
         return {
-          index: type,
-          type: type
+          index: type
         };
       };
 
@@ -218,7 +217,7 @@ angular.module('metadatamanagementApp')
 
         aggregation.aggs.title.filter.bool.must[0]
         .match[prefix + 'completeTitle.de'] =  {
-          'query': searchText,
+          'query': searchText || '',
           'operator': 'AND',
           'minimum_should_match': '100%',
           'zero_terms_query': 'ALL'

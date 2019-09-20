@@ -54,7 +54,7 @@ public class MetadataManagementProperties {
   @Getter
   @Setter
   public static class Elasticsearch {
-    private String version = "6.3.2";
+    private String version = "7.3.2";
   }
 
   /**
@@ -80,7 +80,7 @@ public class MetadataManagementProperties {
   public static class ElasticsearchAngularClient {
     // default connection url
     private String url = "http://localhost:9200";
-    private String apiVersion = "5.1";
+    private String apiVersion = "7.3";
     private String logLevel = "trace";
     private Integer pageSize = 10;
   }

@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').directive('previousSearchResult',
                 .getPreviousSearchResultIndex();
 
               var state = SearchTypeToDetailsStateMapper
-                .getDetailStateUrl(data.hits.hits[0]._type);
+                .getDetailStateUrl(data.hits.hits[0]._index);
               var id = scope.previousSearchResult.masterId ?
                 scope.previousSearchResult.masterId : scope
                   .previousSearchResult.id;

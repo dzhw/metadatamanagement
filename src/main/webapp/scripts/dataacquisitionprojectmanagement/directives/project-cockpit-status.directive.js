@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
     SearchDao, ProjectUpdateAccessService,
     SimpleMessageToastService, Principal, ProjectSaveService,
     DataAcquisitionProjectPostValidationService,
-    $mdDialog, $translate, CurrentProjectService, $timeout,
+    $mdDialog, $translate, CurrentProjectService,
     ProjectReleaseService, $q, $rootScope) {
     return {
       restrict: 'E',
@@ -168,15 +168,11 @@ angular.module('metadatamanagementApp')
         setTypeCounts(ctrl.project.id);
 
         $scope.$on('upload-completed', function() {
-          $timeout(function() {
-            setTypeCounts(ctrl.project.id);
-          }, 2000);
+          setTypeCounts(ctrl.project.id);
         });
 
         $scope.$on('deletion-completed', function() {
-          $timeout(function() {
-            setTypeCounts(ctrl.project.id);
-          }, 2000);
+          setTypeCounts(ctrl.project.id);
         });
 
         ctrl.toggleReleaseProject = function() {

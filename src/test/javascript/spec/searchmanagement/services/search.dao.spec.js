@@ -48,7 +48,6 @@ describe("search.dao.js", function() {
 
     expect(capturedQuery.preference).toEqual(clientId);
     expect(capturedQuery.index).toEqual(elasticSearchType);
-    expect(capturedQuery.type).toEqual(elasticSearchType);
     expect(capturedQuery.body._source).toBeDefined();
     expect(capturedQuery.body.sort).toBeDefined();
     expect(capturedQuery.body.from).toEqual((page - 1) * pageSize);
@@ -128,7 +127,7 @@ describe("search.dao.js", function() {
 
   it('should add a type clause if an elasticsearch type is not provided', function() {
     SearchDao.search(searchTerm, page, dataAcquisitionProjectId, filter, null, pageSize);
-    expect(capturedQuery.body.aggs.countByType.terms.field).toEqual('_type')
+    expect(capturedQuery.body.aggs.countByType.terms.field).toEqual('_index')
   });
 
   it('should not add a type clause if an elasticsearch type is provided', function() {

@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       var createQueryObject = function(type) {
         type = type || 'surveys';
         return {
-          index: type,
-          type: type
+          index: type
         };
       };
 
@@ -56,7 +55,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
           SearchHelperService.createShadowByIdAndVersionQuery(id, version));
         var deferred = $q.defer();
         ElasticSearchClient.search(query).then(function(result) {
-          if (result.hits.total === 1) {
+          if (result.hits.hits.length === 1) {
             deferred.resolve(result.hits.hits[0]._source);
           } else {
             return deferred.resolve(null);
@@ -193,7 +192,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
 
         query.body.query.bool.must[0].match
           ['surveyMethod.' + language + '.ngrams'] = {
-          'query': searchText,
+          'query': searchText || '',
           'operator': 'AND',
           'minimum_should_match': '100%',
           'zero_terms_query': 'ALL'
@@ -288,7 +287,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
 
         aggregation.aggs.title.filter.bool.must[0]
         .match[prefix + 'completeTitle.' + language] =  {
-          'query': searchText,
+          'query': searchText || '',
           'operator': 'AND',
           'minimum_should_match': '100%',
           'zero_terms_query': 'ALL'

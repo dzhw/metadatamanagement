@@ -259,7 +259,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.pageObject.size, $scope.searchParams.sortBy)
         .then(function(data) {
           $scope.searchResult = data.hits.hits;
-          $scope.pageObject.totalHits = data.hits.total;
+          $scope.pageObject.totalHits = data.hits.total.value;
           //Count information by aggregations
           $scope.tabs.forEach(function(tab) {
             if ($scope.tabs[
@@ -278,7 +278,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
               tab.count = null;
             }
             $scope.tabs[$scope.searchParams.selectedTabIndex].count =
-              data.hits.total;
+              data.hits.total.value;
           });
           $scope.isSearching--;
         }, function() {
@@ -443,17 +443,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.search();
     };
 
-    $scope.$on('upload-completed', function() {
-      //wait for 1 seconds until refresh
-      //in order to wait for elasticsearch reindex
-      $timeout($scope.search, 2000);
-    });
+    $scope.$on('upload-completed', $scope.search);
 
-    $scope.$on('deletion-completed', function() {
-      //wait for 1 seconds until refresh
-      //in order to wait for elasticsearch reindex
-      $timeout($scope.search, 2000);
-    });
+    $scope.$on('deletion-completed', $scope.search);
 
     $scope.tabs = filterActiveTabs(tabs);
 
