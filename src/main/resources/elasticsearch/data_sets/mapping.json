@@ -152,10 +152,10 @@
 							"analyzer": "ngrams",
 							"norms": false
 						}
-					},
-					"dataFormats": {
-						"type": "keyword"
 					}
+				},
+				"dataFormats": {
+					"type": "keyword"
 				}
 			}
 		},
