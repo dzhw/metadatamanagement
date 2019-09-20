@@ -32,7 +32,7 @@
     "angular-material": "1.1.19",
     "angular-block-ui": "^0.2.2",
     "lodash": "^4.17.15",
-    "plotly.js": "1.49.4 ",
+    "plotly.js": "1.49.5",
     "highlightjs": "^9.12.0",
     "angular-highlightjs": "^0.7.1",
     "js-beautify": "^1.10.2",
