@@ -12,7 +12,7 @@ services:
     volumes:
       - ./data/mongodb/db:/data/mongodb/db
       - ./data/mongodb/logs:/data/mongodb/logs
-    command: mongod --smallfiles
+    command: mongod
     ports:
       - "27017:27017"
   elasticsearch:
