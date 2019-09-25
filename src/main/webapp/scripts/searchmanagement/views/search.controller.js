@@ -285,7 +285,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           // Safari fix
           $timeout(function() {
             angular.element('body').append('<div id=fdz-safari-fix></div>');
-            $timeout(function () {
+            $timeout(function() {
               angular.element('#fdz-safari-fix').remove();
             });
           }, 100);
