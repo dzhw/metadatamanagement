@@ -39,7 +39,7 @@ Before starting the app on your local machine you need to start the following Do
 
 Make sure that you have read-write-access on the ***data*** directory (in your project directory) for Elasticsearch.
 
-Alternatively you can run
+***Alternatively*** you can run
 
     docker-compose up
     # for later use once the containers are created
