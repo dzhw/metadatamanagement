@@ -29,6 +29,9 @@ h3 {
         width: 100%;
     }
 }
+html, body {
+  overflow: hidden;
+}
 
 body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -1288,3 +1291,4 @@ geographic-coverage {
 .md-button[disabled] {
     pointer-events: none;
 }
+
