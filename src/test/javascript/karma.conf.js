@@ -11,7 +11,6 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      // bower:js
       'node_modules/jquery/dist/jquery.js',
       'node_modules/angular/angular.js',
       'node_modules/angular-aria/angular-aria.js',
@@ -77,7 +76,6 @@ module.exports = function(config) {
       'node_modules/angular-recaptcha/release/angular-recaptcha.js',
       'node_modules/jsonformatter/dist/json-formatter.js',
       'node_modules/angular-mocks/angular-mocks.js',
-      // endbower
 
       'src/main/webapp/scripts/app.js',
       'src/main/webapp/scripts/**/*.js',
