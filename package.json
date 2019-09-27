@@ -30,6 +30,7 @@
     "angular-translate-interpolation-messageformat": "^2.18.1",
     "angular-translate-storage-cookie": "^2.18.1",
     "angular-ui-router": "^1.0.22",
+    "blob-polyfill": "^4.0.20190430",
     "bootstrap-sass": "^3.4.1",
     "bowser": "^2.6.1",
     "cheet.js": "^0.3.3",
