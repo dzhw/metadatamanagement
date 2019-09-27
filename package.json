@@ -56,6 +56,7 @@
     "stomp-websocket": "^2.3.4-next"
   },
   "devDependencies": {
+    "angular-mocks": "^1.7.8",
     "browser-sync": "^2.26.7",
     "clean-css": ">=4.2.1",
     "diff": ">=4.0.1",
