@@ -38,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Override
   public void configure(WebSecurity web) throws Exception {
-    web.ignoring().antMatchers("/scripts/**/*.{js,html}").antMatchers("/bower_components/**")
+    web.ignoring().antMatchers("/scripts/**/*.{js,html}").antMatchers("/node_modules/**")
         .antMatchers("/websocket/**").antMatchers("/i18n/**").antMatchers("/assets/**")
         .antMatchers("/api/register").antMatchers("/api/activate")
         .antMatchers("/api/account/reset-password/init")
