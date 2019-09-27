@@ -740,7 +740,7 @@
                                 </goals>
                                 <configuration>
                                     <skipTests>true</skipTests>
-                                    <bowerInstallArgs>install</bowerInstallArgs>
+                                    <bowerInstallArgs>--version</bowerInstallArgs>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>createJavaSourceCodeFromTranslations</buildArgs>
                                 </configuration>
@@ -778,7 +778,7 @@
                                 </goals>
                                 <configuration>
                                     <skipTests>true</skipTests>
-                                    <bowerInstallArgs>install</bowerInstallArgs>
+                                    <bowerInstallArgs>--version</bowerInstallArgs>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>buildlocalminified</buildArgs>
                                 </configuration>
@@ -833,7 +833,7 @@
                                 </goals>
                                 <configuration>
                                     <skipTests>true</skipTests>
-                                    <bowerInstallArgs>install</bowerInstallArgs>
+                                    <bowerInstallArgs>--version</bowerInstallArgs>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>builddev</buildArgs>
                                 </configuration>
@@ -887,7 +887,7 @@
                                 </goals>
                                 <configuration>
                                     <skipTests>true</skipTests>
-                                    <bowerInstallArgs>install</bowerInstallArgs>
+                                    <bowerInstallArgs>--version</bowerInstallArgs>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>buildtest</buildArgs>
                                 </configuration>
@@ -941,7 +941,7 @@
                                 </goals>
                                 <configuration>
                                     <skipTests>true</skipTests>
-                                    <bowerInstallArgs>install</bowerInstallArgs>
+                                    <bowerInstallArgs>--version</bowerInstallArgs>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>buildprod</buildArgs>
                                 </configuration>
