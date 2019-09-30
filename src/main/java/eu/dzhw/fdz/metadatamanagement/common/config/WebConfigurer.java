@@ -90,6 +90,7 @@ public class WebConfigurer implements ServletContextInitializer, WebMvcConfigure
     staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/manifest.json");
     staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/assets/*");
     staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
+    staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/node_modules/*");
     staticResourcesProductionFilter.setAsyncSupported(true);
   }
 
@@ -111,13 +112,13 @@ public class WebConfigurer implements ServletContextInitializer, WebMvcConfigure
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
     cachingHttpHeadersFilter.setAsyncSupported(true);
   }
-  
+
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {
       registry
         .addResourceHandler("/node_modules/**")
-        .addResourceLocations("file:node_modules/"); 
+        .addResourceLocations("file:node_modules/");
     }
   }
 }

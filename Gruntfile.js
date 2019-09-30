@@ -511,10 +511,8 @@ module.exports = function(grunt) {
             expand: true,
             dot: true,
             flatten: true,
-            cwd: 'src/main/webapp',
             dest: 'src/main/webapp/assets/styles/fonts',
             src: [
-              // 'bower_components/bootstrap-sass/assets/fonts/bootstrap/*.*'
               'node_modules/bootstrap-sass/assets/fonts/bootstrap/*.*'
             ]
           }]
@@ -524,10 +522,8 @@ module.exports = function(grunt) {
             expand: true,
             dot: true,
             flatten: true,
-            cwd: 'src/main/webapp',
             dest: '<%= yeoman.dist %>/assets/styles/fonts',
             src: [
-              // 'bower_components/bootstrap-sass/assets/fonts/bootstrap/*.*'
               'node_modules/bootstrap-sass/assets/fonts/bootstrap/*.*'
             ]
           }, {
@@ -535,7 +531,6 @@ module.exports = function(grunt) {
             dot: true,
             flatten: true,
             cwd: 'src/main/webapp',
-            // src: ['bower_components/katex/dist/fonts/*.*'],
             src: ['../../../node_modules/katex/dist/fonts/*.*'],
             dest: '<%= yeoman.dist %>/assets/styles/fonts'
           }]
