@@ -559,7 +559,9 @@ angular.module('metadatamanagementApp')
         //The fields of study series are undefined
         //at the moment of the first initial Call
         if (!$scope.studyForm.studySeriesDe ||
-            !$scope.studyForm.studySeriesEn) {
+            !$scope.studyForm.studySeriesEn ||
+            !ctrl.study ||
+            !ctrl.study.studySeries) {
           return;
         }
 

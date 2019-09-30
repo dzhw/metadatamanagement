@@ -202,11 +202,10 @@ public class ElasticsearchAdminService {
     if (elasticsearchDao.exists(type.name())) {
       elasticsearchDao.delete(type.name());
       // deleting is asynchronous and thus searchly complains if we create the new index to early
-      elasticsearchDao.flush(Arrays.asList(type.name()));
+      elasticsearchDao.refresh(Arrays.asList(type.name()));
     }
     elasticsearchDao.createIndex(type.name(), loadSettings());
-    elasticsearchDao.putMapping(type.name(), type.name(), 
-          loadMapping(type.name()));
+    elasticsearchDao.putMapping(type.name(), loadMapping(type.name()));
   }
   
   /**

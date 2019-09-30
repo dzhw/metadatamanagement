@@ -7,8 +7,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
     var createQueryObject = function(type) {
       type = type || 'questions';
       return {
-        index: type,
-        type: type
+        index: type
       };
     };
 
@@ -72,7 +71,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
         SearchHelperService.createShadowByIdAndVersionQuery(id, version));
       var deferred = $q.defer();
       ElasticSearchClient.search(query).then(function(result) {
-        if (result.hits.total === 1) {
+        if (result.hits.hits.length === 1) {
           deferred.resolve(result.hits.hits[0]._source);
         } else {
           return deferred.resolve(null);
@@ -225,7 +224,7 @@ angular.module('metadatamanagementApp').factory('QuestionSearchService',
 
       aggregation.aggs.title.filter.bool.must[0]
       .match[prefix + 'completeTitle.' + language] =  {
-        'query': searchText,
+        'query': searchText || '',
         'operator': 'AND',
         'minimum_should_match': '100%',
         'zero_terms_query': 'ALL'

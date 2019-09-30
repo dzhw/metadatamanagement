@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').directive('nextSearchResult',
                 .getNextSearchResultIndex();
 
               var state = SearchTypeToDetailsStateMapper
-                .getDetailStateUrl(data.hits.hits[0]._type);
+                .getDetailStateUrl(data.hits.hits[0]._index);
               var id = scope.nextSearchResult.masterId ?
                 scope.nextSearchResult.masterId : scope.nextSearchResult.id;
 

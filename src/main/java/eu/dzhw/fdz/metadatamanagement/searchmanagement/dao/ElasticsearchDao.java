@@ -20,8 +20,8 @@ import io.searchbox.core.Count;
 import io.searchbox.core.CountResult;
 import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.DeleteIndex;
-import io.searchbox.indices.Flush;
 import io.searchbox.indices.IndicesExists;
+import io.searchbox.indices.Refresh;
 import io.searchbox.indices.mapping.GetMapping;
 import io.searchbox.indices.mapping.PutMapping;
 import io.searchbox.indices.settings.GetSettings;
@@ -73,13 +73,12 @@ public class ElasticsearchDao {
    * Create or update the mapping for the given type.
    * 
    * @param index the name of the index holding the type
-   * @param type the type for which the mapping is generated
    * @param mapping the mapping json
    */
-  public void putMapping(String index, String type, JsonObject mapping) {
-    JestResult result = execute(new PutMapping.Builder(index, type, mapping).build());
+  public void putMapping(String index, JsonObject mapping) {
+    JestResult result = execute(new PutMapping.Builder(index, null, mapping).build());
     if (!result.isSucceeded()) {
-      throw new ElasticsearchPutMappingException(index, type, result.getErrorMessage());
+      throw new ElasticsearchPutMappingException(index, result.getErrorMessage());
     }
   }
 
@@ -87,14 +86,12 @@ public class ElasticsearchDao {
    * Get the mapping for the given type.
    * 
    * @param index the name of the index
-   * @param type the type for which the mapping is returned
    * @return the mapping json
    */
-  public JsonObject getMapping(String index, String type) {
-    JestResult result = execute(new GetMapping.Builder().addIndex(index).addType(type).build());
+  public JsonObject getMapping(String index) {
+    JestResult result = execute(new GetMapping.Builder().addIndex(index).addType("_doc").build());
     if (!result.isSucceeded()) {
-      log.error("Unable to get mapping for index " + index + " and type " + type + ": "
-          + result.getErrorMessage());
+      log.error("Unable to get mapping for index " + index + ": " + result.getErrorMessage());
       return null;
     }
     return result.getJsonObject().getAsJsonObject(index).getAsJsonObject("mappings");
@@ -111,15 +108,15 @@ public class ElasticsearchDao {
   }
 
   /**
-   * Flush the given indices synchronously.
+   * Refresh the given indices synchronously.
    * 
-   * @param indices the indices to flush.
+   * @param indices the indices to refresh.
    */
-  public void flush(Collection<String> indices) {
-    JestResult result = execute(new Flush.Builder().waitIfOngoing(true).addIndices(indices)
-        .ignoreUnavailable(true).build());
+  public void refresh(Collection<String> indices) {
+    JestResult result =
+        execute(new Refresh.Builder().addIndices(indices).ignoreUnavailable(true).build());
     if (!result.isSucceeded()) {
-      log.error("Unable to flush indices " + indices + ": " + result.getErrorMessage());
+      log.error("Unable to refresh indices " + indices + ": " + result.getErrorMessage());
     }
   }
 

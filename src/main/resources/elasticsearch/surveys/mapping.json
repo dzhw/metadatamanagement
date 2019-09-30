@@ -1,794 +1,792 @@
 {
-	"surveys": {
-		"dynamic_templates": [
-			{
-				"default_mapping": {
-					"match": "*",
-					"mapping": {
-						"index": false,
-						"copy_to": "all"
+	"dynamic_templates": [
+		{
+			"default_mapping": {
+				"match": "*",
+				"mapping": {
+					"index": false,
+					"copy_to": "all"
+				}
+			}
+		}
+	],
+	"properties": {
+		"all": {
+			"type": "text",
+			"index": true,
+			"analyzer": "ngrams",
+			"norms": false
+		},
+		"id": {
+			"type": "keyword",
+			"copy_to": "all",
+			"fields": {
+				"ngrams": {
+					"type": "text",
+					"analyzer": "ngrams",
+					"norms": false
+				}
+			}
+		},
+		"successorId": {
+			"type": "keyword",
+			"copy_to": "all",
+			"fields": {
+				"ngrams": {
+					"type": "text",
+					"analyzer": "ngrams",
+					"norms": false
+				}
+			}
+		},
+		"masterId": {
+			"type": "keyword",
+			"copy_to": "all",
+			"fields": {
+				"ngrams": {
+					"type": "text",
+					"analyzer": "ngrams",
+					"norms": false
+				}
+			}
+		},
+		"shadow": {
+			"type": "boolean",
+			"copy_to": "all"
+		},
+		"hidden": {
+			"type": "boolean",
+			"copy_to": "all"
+		},
+		"completeTitle": {
+			"type": "object",
+			"properties": {
+				"de": {
+					"type": "text",
+					"analyzer": "ngrams",
+					"norms": false
+				},
+				"en": {
+					"type": "text",
+					"analyzer": "ngrams",
+					"norms": false
+				}
+			}
+		},
+		"configuration": {
+			"type": "object",
+			"properties": {
+				"publishers": {
+					"type": "keyword"
+				},
+				"dataProviders": {
+					"type": "keyword"
+				}
+			}
+		},
+		"lastModifiedDate": {
+			"type": "date"
+		},
+		"lastModifiedBy": {
+			"type": "keyword",
+			"copy_to": "all"
+		},
+		"createdDate": {
+			"type": "date"
+		},
+		"createdBy": {
+			"type": "keyword",
+			"copy_to": "all"
+		},
+		"dataAcquisitionProjectId": {
+			"type": "keyword",
+			"copy_to": "all"
+		},
+		"studyId": {
+			"type": "keyword",
+			"copy_to": "all"
+		},
+		"number": {
+			"type": "integer"
+		},
+		"surveyMethod": {
+			"type": "object",
+			"properties": {
+				"de": {
+					"type": "keyword",
+					"copy_to": "all",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"en": {
+					"type": "keyword",
+					"copy_to": "all",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
 					}
 				}
 			}
-		],
-		"properties": {
-			"all": {
-				"type": "text",
-				"index": true,
-				"analyzer": "ngrams",
-				"norms": false
-			},
-			"id": {
-				"type": "keyword",
-				"copy_to": "all",
-				"fields": {
-					"ngrams": {
-						"type": "text",
-						"analyzer": "ngrams",
-						"norms": false
-					}
-				}
-			},
-			"successorId": {
-				"type": "keyword",
-				"copy_to": "all",
-				"fields": {
-					"ngrams": {
-						"type": "text",
-						"analyzer": "ngrams",
-						"norms": false
-					}
-				}
-			},
-			"masterId": {
-				"type": "keyword",
-				"copy_to": "all",
-				"fields": {
-					"ngrams": {
-						"type": "text",
-						"analyzer": "ngrams",
-						"norms": false
-					}
-				}
-			},
-			"shadow": {
-				"type": "boolean",
-				"copy_to": "all"
-			},
-			"hidden": {
-				"type": "boolean",
-				"copy_to": "all"
-			},
-			"completeTitle": {
-				"type": "object",
-				"properties": {
-					"de": {
-						"type": "text",
-						"analyzer": "ngrams",
-						"norms": false
-					},
-					"en": {
-						"type": "text",
-						"analyzer": "ngrams",
-						"norms": false
-					}
-				}
-			},
-			"configuration": {
-				"type":"object",
-				"properties": {
-					"publishers": {
-						"type":"keyword"
-					},
-					"dataProviders":{
-						"type":"keyword"
-					}
-				}
-			},
-			"lastModifiedDate": {
-				"type": "date"
-			},
-			"lastModifiedBy": {
-				"type": "keyword",
-				"copy_to": "all"
-			},
-			"createdDate": {
-				"type": "date"
-			},
-			"createdBy": {
-				"type": "keyword",
-				"copy_to": "all"
-			},
-			"dataAcquisitionProjectId": {
-				"type": "keyword",
-				"copy_to": "all"
-			},
-			"studyId": {
-				"type": "keyword",
-				"copy_to": "all"
-			},
-			"number": {
-				"type": "integer"
-			},
-			"surveyMethod": {
-				"type": "object",
-				"properties": {
-					"de": {
-						"type": "keyword",
-						"copy_to": "all",
-						"norms": false,
-						"fields": {
-							"ngrams": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
+		},
+		"title": {
+			"type": "object",
+			"properties": {
+				"de": {
+					"type": "keyword",
+					"copy_to": "all",
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
 						}
-					},
-					"en": {
-						"type": "keyword",
-						"copy_to": "all",
-						"norms": false,
-						"fields": {
-							"ngrams": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
+					}
+				},
+				"en": {
+					"type": "keyword",
+					"copy_to": "all",
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
 						}
 					}
 				}
-			},
-			"title": {
-				"type": "object",
-				"properties": {
-					"de": {
-						"type": "keyword",
-						"copy_to": "all",
-						"fields": {
-							"ngrams": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
+			}
+		},
+		"dataType": {
+			"type": "object",
+			"properties": {
+				"de": {
+					"type": "keyword",
+					"index": false,
+					"copy_to": "all",
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
 						}
-					},
-					"en": {
-						"type": "keyword",
-						"copy_to": "all",
-						"fields": {
-							"ngrams": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
+					}
+				},
+				"en": {
+					"type": "keyword",
+					"index": false,
+					"copy_to": "all",
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
 						}
 					}
 				}
-			},
-			"dataType": {
-				"type": "object",
-				"properties": {
-					"de": {
-						"type": "keyword",
-						"index": false,
-						"copy_to": "all",
-						"fields": {
-							"ngrams": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
-						}
-					},
-					"en": {
-						"type": "keyword",
-						"index": false,
-						"copy_to": "all",
-						"fields": {
-							"ngrams": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
-						}
-					}
-				}
-			},
-			"population": {
-				"type": "object",
-				"properties": {
-					"description": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"index": false,
-								"copy_to": "all",
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
+			}
+		},
+		"population": {
+			"type": "object",
+			"properties": {
+				"description": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "text",
+							"index": false,
+							"copy_to": "all",
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
 								}
-							},
-							"en": {
-								"type": "text",
-								"index": false,
-								"copy_to": "all",
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
+							}
+						},
+						"en": {
+							"type": "text",
+							"index": false,
+							"copy_to": "all",
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
 								}
 							}
 						}
 					}
 				}
-			},
-			"sample": {
-				"type": "object",
-				"properties": {
-					"de": {
-						"type": "text",
-						"index": false,
-						"copy_to": "all",
-						"fields": {
-							"ngrams": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
+			}
+		},
+		"sample": {
+			"type": "object",
+			"properties": {
+				"de": {
+					"type": "text",
+					"index": false,
+					"copy_to": "all",
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
 						}
-					},
-					"en": {
-						"type": "text",
-						"index": false,
-						"copy_to": "all",
-						"fields": {
-							"ngrams": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
+					}
+				},
+				"en": {
+					"type": "text",
+					"index": false,
+					"copy_to": "all",
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
 						}
 					}
 				}
-			},
-			"study": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "keyword",
-						"copy_to": [
-							"all"
-						]
-					},
-					"studySeries": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "keyword",
-								"copy_to": "all",
-								"norms": false,
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
-							},
-							"en": {
-								"type": "keyword",
-								"copy_to": "all",
-								"norms": false,
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
+			}
+		},
+		"study": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "keyword",
+					"copy_to": [
+						"all"
+					]
+				},
+				"studySeries": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword",
+							"copy_to": "all",
+							"norms": false,
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
 								}
 							}
-						}
-					},
-					"institution": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "keyword",
-								"copy_to": "all",
-								"norms": false,
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
-							},
-							"en": {
-								"type": "keyword",
-								"copy_to": "all",
-								"norms": false,
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
-							}
-						}
-					},
-					"sponsor": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "keyword",
-								"copy_to": "all",
-								"norms": false,
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
-							},
-							"en": {
-								"type": "keyword",
-								"copy_to": "all",
-								"norms": false,
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
-							}
-						}
-					},
-					"tags": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false,
-								"copy_to": "all"
-							},
-							"en": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false,
-								"copy_to": "all"
-							}
-						}
-					}
-				}
-			},
-			"nestedStudy": {
-				"type": "nested",
-				"properties": {
-					"completeTitle": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							},
-							"en": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
-						}
-					},
-					"id": {
-						"type": "keyword"
-					},
-					"masterId": {
-						"type": "keyword"
-					},
-					"shadow": {
-						"type": "keyword"
-					},
-					"successorId": {
-						"type": "keyword"
-					},
-					"title": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "keyword"
-							},
-							"en": {
-								"type": "keyword"
-							}
-						}
-					}
-				}
-			},
-			"relatedPublications": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "keyword",
-						"copy_to": "all"
-					}
-				}
-			},
-			"nestedRelatedPublications": {
-				"type": "nested",
-				"properties": {
-					"id": {
-						"type": "keyword"
-					},
-					"language": {
-						"type": "keyword"
-					},
-					"title": {
-						"type": "keyword"
-					},
-					"completeTitle": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							},
-							"en": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
-						}
-					}
-				}
-			},
-			"dataSets": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "keyword",
-						"copy_to": "all"
-					}
-				}
-			},
-			"nestedDataSets": {
-				"type": "nested",
-				"properties": {
-					"id": {
-						"type": "keyword"
-					},
-					"masterId": {
-						"type": "keyword"
-					},
-					"shadow": {
-						"type": "keyword"
-					},
-					"successorId": {
-						"type": "keyword"
-					},
-					"surveyIds": {
-						"type": "keyword"
-					},
-					"completeTitle": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							},
-							"en": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
-						}
-					},
-					"description": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "keyword"
-							},
-							"en": {
-								"type": "keyword"
-							}
-						}
-					}
-				}
-			},
-			"variables": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "keyword",
-						"copy_to": "all"
-					}
-				}
-			},
-			"nestedVariables": {
-				"type": "nested",
-				"properties": {
-					"id": {
-						"type": "keyword"
-					},
-					"masterId": {
-						"type": "keyword"
-					},
-					"shadow": {
-						"type": "keyword"
-					},
-					"successorId": {
-						"type": "keyword"
-					},
-					"dataSetId": {
-						"type": "keyword"
-					},
-					"surveyIds": {
-						"type": "keyword"
-					},
-					"completeTitle": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							},
-							"en": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
-						}
-					},
-					"label": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "keyword"
-							},
-							"en": {
-								"type": "keyword"
-							}
-						}
-					}
-				}
-			},
-			"instruments": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "keyword",
-						"copy_to": "all"
-					},
-					"surveyIds": {
-						"type": "keyword",
-						"index": false
-					}
-				}
-			},
-			"nestedInstruments": {
-				"type": "nested",
-				"properties": {
-					"id": {
-						"type": "keyword"
-					},
-					"masterId": {
-						"type": "keyword"
-					},
-					"shadow": {
-						"type": "keyword"
-					},
-					"successorId": {
-						"type": "keyword"
-					},
-					"surveyIds": {
-						"type": "keyword"
-					},
-					"completeTitle": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							},
-							"en": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
-						}
-					},
-					"description": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "keyword"
-							},
-							"en": {
-								"type": "keyword"
-							}
-						}
-					}
-				}
-			},
-			"questions": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "keyword",
-						"copy_to": "all"
-					}
-				}
-			},
-			"nestedQuestions" : {
-				"type": "nested",
-				"properties": {
-					"id": {
-						"type": "keyword"
-					},
-					"masterId": {
-						"type": "keyword"
-					},
-					"shadow": {
-						"type": "keyword"
-					},
-					"successorId": {
-						"type": "keyword"
-					},
-					"instrumentId": {
-						"type": "keyword"
-					},
-					"number": {
-						"type": "keyword"
-					},
-					"completeTitle": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							},
-							"en": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							}
-						}
-					},
-					"questionText": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "keyword"
-							},
-							"en": {
-								"type": "keyword"
-							}
-						}
-					}
-				}
-			},
-			"concepts": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "keyword",
-						"copy_to": [
-							"all"
-						]
-					},
-					"title": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "keyword",
-								"copy_to": "all",
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
-							},
-							"en": {
-								"type": "keyword",
-								"copy_to": "all",
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
-							}
-						}
-					},
-					"tags": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "keyword",
-								"copy_to": "all",
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
-								}
-							},
-							"en": {
-								"type": "keyword",
-								"copy_to": "all",
-								"fields": {
-									"ngrams": {
-										"type": "text",
-										"analyzer": "ngrams",
-										"norms": false
-									}
+						},
+						"en": {
+							"type": "keyword",
+							"copy_to": "all",
+							"norms": false,
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
 								}
 							}
 						}
 					}
-				}
-			},
-			"nestedConcepts": {
-				"type": "nested",
-				"properties": {
-					"id": {
-						"type": "keyword"
-					},
-					"completeTitle": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
-							},
-							"en": {
-								"type": "text",
-								"analyzer": "ngrams",
-								"norms": false
+				},
+				"institution": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword",
+							"copy_to": "all",
+							"norms": false,
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
+								}
+							}
+						},
+						"en": {
+							"type": "keyword",
+							"copy_to": "all",
+							"norms": false,
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
+								}
 							}
 						}
-					},
-					"title": {
-						"type": "object",
-						"properties": {
-							"de": {
-								"type": "keyword"
-							},
-							"en": {
-								"type": "keyword"
+					}
+				},
+				"sponsor": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword",
+							"copy_to": "all",
+							"norms": false,
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
+								}
+							}
+						},
+						"en": {
+							"type": "keyword",
+							"copy_to": "all",
+							"norms": false,
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
+								}
+							}
+						}
+					}
+				},
+				"tags": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false,
+							"copy_to": "all"
+						},
+						"en": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false,
+							"copy_to": "all"
+						}
+					}
+				}
+			}
+		},
+		"nestedStudy": {
+			"type": "nested",
+			"properties": {
+				"completeTitle": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						},
+						"en": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"id": {
+					"type": "keyword"
+				},
+				"masterId": {
+					"type": "keyword"
+				},
+				"shadow": {
+					"type": "keyword"
+				},
+				"successorId": {
+					"type": "keyword"
+				},
+				"title": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword"
+						},
+						"en": {
+							"type": "keyword"
+						}
+					}
+				}
+			}
+		},
+		"relatedPublications": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "keyword",
+					"copy_to": "all"
+				}
+			}
+		},
+		"nestedRelatedPublications": {
+			"type": "nested",
+			"properties": {
+				"id": {
+					"type": "keyword"
+				},
+				"language": {
+					"type": "keyword"
+				},
+				"title": {
+					"type": "keyword"
+				},
+				"completeTitle": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						},
+						"en": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				}
+			}
+		},
+		"dataSets": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "keyword",
+					"copy_to": "all"
+				}
+			}
+		},
+		"nestedDataSets": {
+			"type": "nested",
+			"properties": {
+				"id": {
+					"type": "keyword"
+				},
+				"masterId": {
+					"type": "keyword"
+				},
+				"shadow": {
+					"type": "keyword"
+				},
+				"successorId": {
+					"type": "keyword"
+				},
+				"surveyIds": {
+					"type": "keyword"
+				},
+				"completeTitle": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						},
+						"en": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"description": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword"
+						},
+						"en": {
+							"type": "keyword"
+						}
+					}
+				}
+			}
+		},
+		"variables": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "keyword",
+					"copy_to": "all"
+				}
+			}
+		},
+		"nestedVariables": {
+			"type": "nested",
+			"properties": {
+				"id": {
+					"type": "keyword"
+				},
+				"masterId": {
+					"type": "keyword"
+				},
+				"shadow": {
+					"type": "keyword"
+				},
+				"successorId": {
+					"type": "keyword"
+				},
+				"dataSetId": {
+					"type": "keyword"
+				},
+				"surveyIds": {
+					"type": "keyword"
+				},
+				"completeTitle": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						},
+						"en": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"label": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword"
+						},
+						"en": {
+							"type": "keyword"
+						}
+					}
+				}
+			}
+		},
+		"instruments": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "keyword",
+					"copy_to": "all"
+				},
+				"surveyIds": {
+					"type": "keyword",
+					"index": false
+				}
+			}
+		},
+		"nestedInstruments": {
+			"type": "nested",
+			"properties": {
+				"id": {
+					"type": "keyword"
+				},
+				"masterId": {
+					"type": "keyword"
+				},
+				"shadow": {
+					"type": "keyword"
+				},
+				"successorId": {
+					"type": "keyword"
+				},
+				"surveyIds": {
+					"type": "keyword"
+				},
+				"completeTitle": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						},
+						"en": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"description": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword"
+						},
+						"en": {
+							"type": "keyword"
+						}
+					}
+				}
+			}
+		},
+		"questions": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "keyword",
+					"copy_to": "all"
+				}
+			}
+		},
+		"nestedQuestions": {
+			"type": "nested",
+			"properties": {
+				"id": {
+					"type": "keyword"
+				},
+				"masterId": {
+					"type": "keyword"
+				},
+				"shadow": {
+					"type": "keyword"
+				},
+				"successorId": {
+					"type": "keyword"
+				},
+				"instrumentId": {
+					"type": "keyword"
+				},
+				"number": {
+					"type": "keyword"
+				},
+				"completeTitle": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						},
+						"en": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"questionText": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword"
+						},
+						"en": {
+							"type": "keyword"
+						}
+					}
+				}
+			}
+		},
+		"concepts": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "keyword",
+					"copy_to": [
+						"all"
+					]
+				},
+				"title": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword",
+							"copy_to": "all",
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
+								}
+							}
+						},
+						"en": {
+							"type": "keyword",
+							"copy_to": "all",
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
+								}
+							}
+						}
+					}
+				},
+				"tags": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword",
+							"copy_to": "all",
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
+								}
+							}
+						},
+						"en": {
+							"type": "keyword",
+							"copy_to": "all",
+							"fields": {
+								"ngrams": {
+									"type": "text",
+									"analyzer": "ngrams",
+									"norms": false
+								}
 							}
 						}
 					}
 				}
-			},
-			"release": {
-				"type": "object",
-				"properties": {
-					"version": {
-						"type": "keyword"
+			}
+		},
+		"nestedConcepts": {
+			"type": "nested",
+			"properties": {
+				"id": {
+					"type": "keyword"
+				},
+				"completeTitle": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						},
+						"en": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
 					}
+				},
+				"title": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "keyword"
+						},
+						"en": {
+							"type": "keyword"
+						}
+					}
+				}
+			}
+		},
+		"release": {
+			"type": "object",
+			"properties": {
+				"version": {
+					"type": "keyword"
 				}
 			}
 		}

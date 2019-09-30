@@ -12,11 +12,11 @@ services:
     volumes:
       - ./data/mongodb/db:/data/mongodb/db
       - ./data/mongodb/logs:/data/mongodb/logs
-    command: mongod --smallfiles
+    command: mongod
     ports:
       - "27017:27017"
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.2
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
