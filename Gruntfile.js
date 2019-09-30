@@ -554,6 +554,14 @@ module.exports = function(grunt) {
             cwd: '.tmp/assets/images',
             dest: '<%= yeoman.dist %>/assets/images',
             src: ['generated/*']
+          }, {
+            expand: true,
+            dest: '<%= yeoman.dist %>',
+            src: [
+              'node_modules/angular-i18n/angular-locale_de.js',
+              'node_modules/angular-i18n/angular-locale_en.js',
+              'node_modules/sockjs-client/dist/sockjs.min.js'
+            ]
           }]
         }
       },
