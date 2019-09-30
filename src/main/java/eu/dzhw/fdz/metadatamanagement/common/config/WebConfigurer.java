@@ -16,6 +16,8 @@ import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerF
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.filter.CachingHttpHeadersFilter;
 import eu.dzhw.fdz.metadatamanagement.common.rest.filter.StaticResourcesProductionFilter;
@@ -26,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Configuration
 @Slf4j
-public class WebConfigurer implements ServletContextInitializer,
+public class WebConfigurer implements ServletContextInitializer, WebMvcConfigurer,
     WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
   @Autowired
   private Environment env;
@@ -88,6 +90,7 @@ public class WebConfigurer implements ServletContextInitializer,
     staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/manifest.json");
     staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/assets/*");
     staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
+    staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/node_modules/*");
     staticResourcesProductionFilter.setAsyncSupported(true);
   }
 
@@ -104,9 +107,18 @@ public class WebConfigurer implements ServletContextInitializer,
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/index.html");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/robots.txt");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/manifest.json");
-    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/bower_components/*");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/node_modules/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/assets/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
     cachingHttpHeadersFilter.setAsyncSupported(true);
+  }
+
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {
+      registry
+        .addResourceHandler("/node_modules/**")
+        .addResourceLocations("file:node_modules/");
+    }
   }
 }

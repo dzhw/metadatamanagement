@@ -160,7 +160,7 @@ try {
 
         tmhDynamicLocaleProvider
           .localeLocationPattern(
-            'bower_components/angular-i18n/angular-locale_{{locale}}.js');
+            '../../node_modules/angular-i18n/angular-locale_{{locale}}.js');
         tmhDynamicLocaleProvider.useStorage('$cookies');
         tmhDynamicLocaleProvider.storageKey('NG_TRANSLATE_LANG_KEY');
 

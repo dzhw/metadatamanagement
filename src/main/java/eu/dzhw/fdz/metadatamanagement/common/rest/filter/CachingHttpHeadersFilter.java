@@ -56,7 +56,7 @@ public class CachingHttpHeadersFilter implements Filter {
         httpResponse.setHeader(HttpHeaders.PRAGMA, "no-cache");
         httpResponse.setDateHeader(HttpHeaders.EXPIRES, LAST_MODIFIED);
       } else {
-        if (requestUri.endsWith("index.html") || requestUri.contains("bower_components")
+        if (requestUri.endsWith("index.html") || requestUri.contains("node_modules")
             || requestUri.endsWith("robots.txt") || requestUri.endsWith("manifest.json")) {
           // index.html can be cached but must be revalidated
           httpResponse.setHeader(HttpHeaders.CACHE_CONTROL, "max-age=0, must-revalidate, public");
