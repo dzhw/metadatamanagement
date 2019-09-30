@@ -917,7 +917,7 @@
                     <plugin>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <warSourceExcludes>/index.html,%regex[bower_components/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
+                            <warSourceExcludes>/index.html,%regex[node_modules/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -971,7 +971,7 @@
                     <plugin>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <warSourceExcludes>/index.html,%regex[bower_components/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
+                            <warSourceExcludes>/index.html,%regex[node_modules/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
                         </configuration>
                     </plugin>
                 </plugins>

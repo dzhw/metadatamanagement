@@ -536,7 +536,7 @@ module.exports = function(grunt) {
             flatten: true,
             cwd: 'src/main/webapp',
             // src: ['bower_components/katex/dist/fonts/*.*'],
-            src: ['node_modules/katex/dist/fonts/*.*'],
+            src: ['../../../node_modules/katex/dist/fonts/*.*'],
             dest: '<%= yeoman.dist %>/assets/styles/fonts'
           }]
         },
