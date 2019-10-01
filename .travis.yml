@@ -44,7 +44,7 @@ jobs:
         - export PATH=$M2_HOME/bin:$PATH
         - sudo apt-get -y install python-pip python-dev --allow-unauthenticated
         - pip install git+https://github.com/dzhw/javasphinx.git --user
-        - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 12.4.0
+        - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 12.11.0
         - npm install -g bower
         - npm install -g grunt-cli
       script:
@@ -63,7 +63,7 @@ jobs:
         - export PATH=$M2_HOME/bin:$PATH
         - sudo apt-get -y install python-pip python-dev --allow-unauthenticated
         - pip install git+https://github.com/dzhw/javasphinx.git --user
-        - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 12.4.0
+        - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 12.11.0
         - npm install -g bower
         - npm install -g grunt-cli
         - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
