@@ -44,9 +44,11 @@
                           </md-tooltip>
                       </a>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.institution">
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.institutions">
                         <span style="font-weight: bold;">{{'study-management.detail.label.institution' | translate }}:</span>
-                        <span display-i18n-string="ctrl.study.institution"></span>
+                        <span ng-repeat="institution in ctrl.study.institutions">
+                          {{institution[currentLanguage]}}{{!$last?';':''}}
+                        </span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.study.authors">
                         <span style="font-weight: bold;">{{'study-management.detail.label.authors' | translate }}:</span>

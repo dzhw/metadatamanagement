@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').config(
             'study': 'Study',
             'studies': 'Studies',
             'studySeries': 'Study Series',
-            'institution': 'Institution',
+            'institution': 'Institution(s)',
             'authors': 'Authors',
             'sponsors': 'Sponsored by',
             'version': 'Version',

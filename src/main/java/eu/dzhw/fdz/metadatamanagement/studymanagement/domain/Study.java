@@ -55,7 +55,7 @@ import lombok.ToString;
 @Builder
 @ApiModel(
     description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
-    + "fdz/metadatamanagement/studymanagement/domain/Study.html'>here</a> for further details.")
+        + "fdz/metadatamanagement/studymanagement/domain/Study.html'>here</a> for further details.")
 @ValidShadowId(message = "study-management.error.study.id.pattern")
 public class Study extends AbstractShadowableRdcDomainObject implements StudySubDocumentProjection {
 
@@ -108,8 +108,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
   /**
    * A description of the study.
    *
-   * It must be specified in German and English and it must not contain more than 2048
-   * characters.
+   * It must be specified in German and English and it must not contain more than 2048 characters.
    */
   @NotNull(message = "study-management.error.study.description.not-null")
   @I18nStringSize(max = StringLengths.LARGE,
@@ -119,16 +118,17 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
   private I18nString description;
 
   /**
-   * The name of the institution which has performed this study.
+   * The names of the institutions which have performed this study.
    *
    * It must be specified in German and English and it must not contain more than 512 characters.
    */
-  @NotNull(message = "study-management.error.study.institution.not-null")
-  @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "study-management.error.study.institution.i18n-string-size")
-  @I18nStringEntireNotEmpty(
-      message = "study-management.error.study.institution.i18n-string-entire-not-empty")
-  private I18nString institution;
+  @NotEmpty(message = "study-management.error.study.institutions.not-null")
+  // TODO move validation to list entries
+  //  @I18nStringSize(max = StringLengths.MEDIUM,
+  //      message = "study-management.error.study.institution.i18n-string-size") 
+  //  @I18nStringEntireNotEmpty(
+  //      message = "study-management.error.study.institution.i18n-string-entire-not-empty")
+  private List<I18nString> institutions;
 
   /**
    * The name of the series of studies to which this study belongs..

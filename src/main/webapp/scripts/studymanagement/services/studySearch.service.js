@@ -348,13 +348,13 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         'aggs': {
           'institutionDe': {
             'terms': {
-              'field': 'institution.de',
+              'field': 'institutions.de',
               'size': 100
             },
             'aggs': {
               'institutionEn': {
                 'terms': {
-                  'field': 'institution.en',
+                  'field': 'institutions.en',
                   'size': 100
                 }
               }
@@ -377,7 +377,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       };
 
       query.body.query.bool.must[0].match
-        ['institution.' + language + '.ngrams'] = {
+        ['institutions.' + language + '.ngrams'] = {
         'query': searchText || '',
         'operator': 'AND',
         'minimum_should_match': '100%',
@@ -430,7 +430,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         type,
         queryTerm,
         dataAcquisitionProjectId,
-        'institution'
+        'institutions'
       );
 
       return GenericFilterOptionsSearchService.findFilterOptions(searchConfig);
