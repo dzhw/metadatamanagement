@@ -17,7 +17,7 @@ import javax.validation.Payload;
  */
 @Documented
 @Constraint(validatedBy = {I18nStringEntireNotEmptyValidator.class})
-@Target({ElementType.FIELD})
+@Target({ElementType.FIELD, ElementType.TYPE_USE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface I18nStringEntireNotEmpty {
   
@@ -36,4 +36,16 @@ public @interface I18nStringEntireNotEmpty {
    * This method contains the payload.
    */
   Class<? extends Payload>[]payload() default {};
+  
+  /**
+   * Defines several {@link I18nStringEntireNotEmpty} annotations on the same element.
+   *
+   * @see I18nStringEntireNotEmpty
+   */
+  @Target({ElementType.TYPE, ElementType.TYPE_USE})
+  @Retention(RetentionPolicy.RUNTIME)
+  @Documented
+  @interface List {
+    I18nStringEntireNotEmpty[] value();
+  }
 }

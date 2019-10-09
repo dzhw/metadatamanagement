@@ -274,6 +274,33 @@
 				}
 			}
 		},
+		"nestedInstitutions": {
+			"type": "nested",
+			"properties": {
+				"de": {
+					"type": "keyword",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"en": {
+					"type": "keyword",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				}
+			}
+		},
 		"authors": {
 			"type": "object",
 			"properties": {

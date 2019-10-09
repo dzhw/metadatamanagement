@@ -338,7 +338,7 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
     };
 
     var findInstitutions = function(searchText, filter, language,
-                                    ignoreAuthorization) {
+                                    ignoreAuthorization, excludedInstitutions) {
       ignoreAuthorization = ignoreAuthorization || false;
       language = language || LanguageService.getCurrentInstantly();
       var query = createQueryObject();
@@ -346,16 +346,34 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       query.size = 0;
       query.body = {
         'aggs': {
-          'institutionDe': {
-            'terms': {
-              'field': 'institutions.de',
-              'size': 100
+          'institutions': {
+            'nested': {
+              'path': 'nestedInstitutions'
             },
             'aggs': {
-              'institutionEn': {
-                'terms': {
-                  'field': 'institutions.en',
-                  'size': 100
+              'filtered': {
+                'filter': {
+                  'bool': {
+                    'must': [{
+                      'match': {}
+                    }]
+                  }
+                },
+                'aggs': {
+                  'institutionDe': {
+                    'terms': {
+                      'field': 'nestedInstitutions.de',
+                      'size': 100
+                    },
+                    'aggs': {
+                      'institutionEn': {
+                        'terms': {
+                          'field': 'nestedInstitutions.en',
+                          'size': 100
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -365,9 +383,6 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
 
       query.body.query = {
         'bool': {
-          'must': [{
-            'match': {}
-          }],
           'filter': {
             'term': {
               'shadow': false
@@ -376,13 +391,27 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
         }
       };
 
-      query.body.query.bool.must[0].match
-        ['institutions.' + language + '.ngrams'] = {
+      query.body.aggs.institutions.aggs.filtered.filter.bool.must[0].match
+        ['nestedInstitutions.' + language + '.ngrams'] = {
         'query': searchText || '',
         'operator': 'AND',
         'minimum_should_match': '100%',
         'zero_terms_query': 'ALL'
       };
+
+      if (excludedInstitutions && excludedInstitutions.length > 0) {
+        query.body.aggs.institutions.aggs.filtered.filter.bool.must_not = [];
+        excludedInstitutions.forEach(function(institution) {
+          if (institution) {
+            query.body.aggs.institutions.aggs.filtered.filter.bool.must_not
+              .push({
+              'term': {
+                'nestedInstitutions.de': institution.de
+              }
+            });
+          }
+        });
+      }
 
       if (termFilters) {
         query.body.query.bool.filter = termFilters;
@@ -395,14 +424,15 @@ angular.module('metadatamanagementApp').factory('StudySearchService',
       return ElasticSearchClient.search(query).then(function(result) {
         var institutions = [];
         var institutionElement = {};
-        result.aggregations.institutionDe.buckets.forEach(function(bucket) {
-          institutionElement = {
-            'de': bucket.key,
-            'en': bucket.institutionEn.buckets[0].key
-          };
-          institutionElement.count = bucket.doc_count;
-          institutions.push(institutionElement);
-        });
+        result.aggregations.institutions.filtered.institutionDe.buckets.forEach(
+          function(bucket) {
+            institutionElement = {
+              'de': bucket.key,
+              'en': bucket.institutionEn.buckets[0].key
+            };
+            institutionElement.count = bucket.doc_count;
+            institutions.push(institutionElement);
+          });
         return institutions;
       });
     };
