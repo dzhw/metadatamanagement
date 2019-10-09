@@ -37,15 +37,19 @@
         </person>
       </creator>
     </#list>
+    <#if study.institutions??>
+    <#list study.institutions as institution>
     <creator>
       <institution>
-        <#if study.institution.de??>
-          <institutionName>${study.institution.de}</institutionName>
+        <#if institution.de??>
+          <institutionName>${institution.de}</institutionName>
           <#else>
-            <institutionName>${study.institution.en}</institutionName>
+            <institutionName>${institution.en}</institutionName>
         </#if>
       </institution>
     </creator>
+    </#list>
+    </#if>
   </creators>
   <dataURLs>
     <dataURL>

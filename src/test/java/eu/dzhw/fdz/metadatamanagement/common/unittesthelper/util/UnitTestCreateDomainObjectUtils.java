@@ -101,11 +101,13 @@ public class UnitTestCreateDomainObjectUtils {
     tags.setDe(new HashSet<String>(Arrays.asList("Test-Tag")));
     List<Person> authors = new ArrayList<>();
     authors.add(buildPerson("Test", null, "Authors"));
+    List<I18nString> institutions =
+        Arrays.asList(I18nString.builder().de("Institution De").en("Institution En").build());
 
     String studyId = UnitTestCreateValidIds.buildStudyId(projectId);
     Study study = Study.builder().id(studyId).authors(authors)
         .description(I18nString.builder().de("Description De").en("Description En").build())
-        .institution(I18nString.builder().de("Institution De").en("Institution En").build())
+        .institutions(institutions)
         .studySeries(I18nString.builder().de("Study Series De").en("Study Series En").build())
         .sponsor(I18nString.builder().de("Sponsor De").en("Sponsor En").build())
         .title(I18nString.builder().de("Titel De").en("Title En").build())
@@ -472,16 +474,11 @@ public class UnitTestCreateDomainObjectUtils {
     tags.setEn(new HashSet<String>(Arrays.asList("Test-Tag")));
     List<Person> authors = new ArrayList<>();
     authors.add(buildPerson("Test", null, "Authors"));
-    Set<String> originalLanguages = Sets.asSet("de","en");
+    Set<String> originalLanguages = Sets.asSet("de", "en");
 
-    return Concept.builder()
-        .id("con-conceptid$")
+    return Concept.builder().id("con-conceptid$")
         .description(I18nString.builder().de("Beschreibung").en("Description").build())
-        .title(I18nString.builder().de("Titel").en("Title").build())
-        .tags(tags)
-        .originalLanguages(originalLanguages)
-        .authors(authors)
-        .citationHint("Hurz")
-        .build();
+        .title(I18nString.builder().de("Titel").en("Title").build()).tags(tags)
+        .originalLanguages(originalLanguages).authors(authors).citationHint("Hurz").build();
   }
 }

@@ -56,7 +56,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     registry.addEndpoint("/websocket")
         .setAllowedOrigins(properties.getWebsockets().getAllowedOrigins().toArray(new String[0]))
         .withSockJS().setSessionCookieNeeded(false)
-        .setClientLibraryUrl("/bower_components/sockjs-client/dist/sockjs.min.js")
+        .setClientLibraryUrl("/node_modules/sockjs-client/dist/sockjs.min.js")
         .setInterceptors(websocketHandshakeInterceptor());
   }
 

@@ -11,7 +11,7 @@
 
     <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.92-SNAPSHOT</version>
+    <version>1.0.93-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -740,7 +740,7 @@
                                 </goals>
                                 <configuration>
                                     <skipTests>true</skipTests>
-                                    <bowerInstallArgs>install</bowerInstallArgs>
+                                    <bowerInstallArgs>--version</bowerInstallArgs>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>createJavaSourceCodeFromTranslations</buildArgs>
                                 </configuration>
@@ -778,7 +778,7 @@
                                 </goals>
                                 <configuration>
                                     <skipTests>true</skipTests>
-                                    <bowerInstallArgs>install</bowerInstallArgs>
+                                    <bowerInstallArgs>--version</bowerInstallArgs>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>buildlocalminified</buildArgs>
                                 </configuration>
@@ -833,7 +833,7 @@
                                 </goals>
                                 <configuration>
                                     <skipTests>true</skipTests>
-                                    <bowerInstallArgs>install</bowerInstallArgs>
+                                    <bowerInstallArgs>--version</bowerInstallArgs>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>builddev</buildArgs>
                                 </configuration>
@@ -887,7 +887,7 @@
                                 </goals>
                                 <configuration>
                                     <skipTests>true</skipTests>
-                                    <bowerInstallArgs>install</bowerInstallArgs>
+                                    <bowerInstallArgs>--version</bowerInstallArgs>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>buildtest</buildArgs>
                                 </configuration>
@@ -917,7 +917,7 @@
                     <plugin>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <warSourceExcludes>/index.html,%regex[bower_components/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
+                            <warSourceExcludes>/index.html,%regex[node_modules/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -941,7 +941,7 @@
                                 </goals>
                                 <configuration>
                                     <skipTests>true</skipTests>
-                                    <bowerInstallArgs>install</bowerInstallArgs>
+                                    <bowerInstallArgs>--version</bowerInstallArgs>
                                     <buildTool>grunt</buildTool>
                                     <buildArgs>buildprod</buildArgs>
                                 </configuration>
@@ -971,7 +971,7 @@
                     <plugin>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <warSourceExcludes>/index.html,%regex[bower_components/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
+                            <warSourceExcludes>/index.html,%regex[node_modules/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
                         </configuration>
                     </plugin>
                 </plugins>

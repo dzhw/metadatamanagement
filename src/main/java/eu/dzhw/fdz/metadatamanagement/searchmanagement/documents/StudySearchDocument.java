@@ -61,6 +61,8 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
   private List<ConceptSubDocument> concepts = new ArrayList<>();
   private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
 
+  private List<I18nString> nestedInstitutions = new ArrayList<>();
+  
   private Release release = null;
 
   private Configuration configuration = null;
@@ -143,6 +145,7 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
       this.nestedConcepts = concepts.stream().map(concept -> new ConceptNestedDocument(concept))
           .collect(Collectors.toList());
     }
+    this.nestedInstitutions = study.getInstitutions();
     this.release = release;
     this.configuration = configuration;
     this.doi = doi;

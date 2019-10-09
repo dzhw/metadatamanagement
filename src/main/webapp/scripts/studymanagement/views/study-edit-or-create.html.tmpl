@@ -67,38 +67,6 @@
                     </md-autocomplete>
                 </div>
                 <div layout-gt-sm="row" layout="column" style="-ms-flex:auto">
-                    <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="institutionDe" md-input-maxlength="512" ng-required="true" md-floating-label="{{'study-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false"
-                      md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentInstitution" md-search-text="ctrl.study.institution.de" md-items="item in searchInstitutions(ctrl.study.institution.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true"
-                      md-is-error="!studyForm.institutionDe.$valid && (studyForm.institutionDe.$dirty studyForm.institutionDe.$touched)" md-selected-item-change="studyForm.$setDirty()">
-                        <md-item-template>
-                            <span class="md-title" style="font-size: 14px;" md-highlight-text="ctrl.study.institution.de" md-highlight-flags="ig">{{item.de}}</span>
-                        </md-item-template>
-                        <md-not-found>
-                            {{'search-management.filter.institution-filter.not-found' | translate}}
-                        </md-not-found>
-                        <div ng-if="!studyForm.institutionDe.$dirty && !studyForm.institutionDe.$touched" class="fdz-input-hint">{{'study-management.edit.hints.institution.de' | translate}}</div>
-                        <div ng-messages="studyForm.institutionDe.$error" multiple>
-                            <div ng-message="required">{{'study-management.error.study.institution.i18n-string-entire-not-empty' | translate}}</div>
-                            <div ng-message="maxlength">{{'study-management.error.study.institution.i18n-string-size' | translate}}</div>
-                        </div>
-                    </md-autocomplete>
-                    <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="institutionEn" md-input-maxlength="512" ng-required="true" md-floating-label="{{'study-management.detail.label.institution' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false"
-                      md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentInstitution" md-search-text="ctrl.study.institution.en" md-items="item in searchInstitutions(ctrl.study.institution.en, 'en')" md-item-text="item.en" md-clear-button="true" md-no-cache="true"
-                      md-is-error="!studyForm.institutionEn.$valid && (studyForm.institutionEn.$dirty || studyForm.institutionEn.$touched)" md-selected-item-change="studyForm.$setDirty()">
-                        <md-item-template>
-                            <span class="md-title" style="font-size: 14px;" md-highlight-text="ctrl.study.institution.en" md-highlight-flags="ig">{{item.en}}</span>
-                        </md-item-template>
-                        <md-not-found>
-                            {{'search-management.filter.institution-filter.not-found' | translate}}
-                        </md-not-found>
-                        <div ng-if="!studyForm.institutionEn.$dirty && !studyForm.institutionEn.$touched" class="fdz-input-hint">{{'study-management.edit.hints.institution.en' | translate}}</div>
-                        <div ng-messages="studyForm.institutionEn.$error" multiple>
-                            <div ng-message="required">{{'study-management.error.study.institution.i18n-string-entire-not-empty' | translate}}</div>
-                            <div ng-message="maxlength">{{'study-management.error.study.institution.i18n-string-size' | translate}}</div>
-                        </div>
-                    </md-autocomplete>
-                </div>
-                <div layout-gt-sm="row" layout="column" style="-ms-flex:auto">
                     <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="sponsorDe" md-input-maxlength="512" ng-required="true" md-floating-label="{{'study-management.detail.label.sponsors' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false" md-select-on-match="true" md-match-case-insensitive="true"
                       md-selected-item="ctrl.currentSponsor" md-search-text="ctrl.study.sponsor.de" md-items="item in searchSponsors(ctrl.study.sponsor.de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true" md-is-error="!studyForm.sponsorDe.$valid && (studyForm.sponsorDe.$dirty studyForm.sponsorDe.$touched)" md-selected-item-change="studyForm.$setDirty()">
                         <md-item-template>
@@ -173,6 +141,75 @@
                     <div flex="50"></div>
                 </div>
             </md-card-content>
+        </md-card>
+        <md-card>
+            <md-card-header>
+                <md-card-header-text>
+                    <h2 class="md-title">{{'study-management.detail.label.institutions' | translate }}</h2>
+                </md-card-header-text>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
+                <div id="move-institution-container" layout="row" ng-repeat="institution in ctrl.currentInstitutions track by $index">
+                    <md-button ng-if="ctrl.study.institutions.length > 1" class="md-primary md-icon-button" ng-click="ctrl.deleteInstitution($index)" style="margin-top: 18px; margin-left: 0px;">
+                        <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                            {{'study-management.edit.delete-institution-tooltip' | translate}}
+                        </md-tooltip>
+                        <md-icon md-font-set="material-icons">delete_forever</md-icon>
+                    </md-button>
+                    <div ng-if="ctrl.study.institutions.length <= 1" style="margin-left: 16px;"></div>
+                    <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="institutionDe_{{$index}}" md-input-maxlength="512" ng-required="true" md-floating-label="{{'study-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})" md-min-length="0" md-require-match="false"
+                      md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentInstitutions[$index]" md-search-text="ctrl.study.institutions[$index].de" md-items="item in searchInstitutions(ctrl.study.institutions[$index].de, 'de')" md-item-text="item.de" md-clear-button="true" md-no-cache="true"
+                      md-is-error="!studyForm['institutionDe_' + $index].$valid && (studyForm['institutionDe_' + $index].$dirty || studyForm['institutionDe_' + $index].$touched)" md-selected-item-change="studyForm.$setDirty()" ng-blur="ctrl.deleteCurrentInstitution($event)" ng-focus="ctrl.setCurrentInstitution($index,$event)">
+                        <md-item-template>
+                            <span class="md-title" style="font-size: 14px;" md-highlight-text="ctrl.study.institutions[$parent.$index].de" md-highlight-flags="ig">{{item.de}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            {{'search-management.filter.institution-filter.not-found' | translate}}
+                        </md-not-found>
+                        <div ng-if="!studyForm['institutionDe_' + $parent.$index].$dirty && !studyForm['institutionDe_' + $parent.$index].$touched" class="fdz-input-hint">{{'study-management.edit.hints.institution.de' | translate}}</div>
+                        <div ng-messages="studyForm['institutionDe_' + $parent.$index].$error" multiple>
+                            <div ng-message="required">{{'study-management.error.study.institution.i18n-string-entire-not-empty' | translate}}</div>
+                            <div ng-message="maxlength">{{'study-management.error.study.institution.i18n-string-size' | translate}}</div>
+                        </div>
+                    </md-autocomplete>
+                    <md-autocomplete md-delay="250" flex="50" style="-ms-flex:auto" md-input-name="institutionEn_{{$index}}" md-input-maxlength="512" ng-required="true" md-floating-label="{{'study-management.detail.label.institution' | translate}} ({{'global.in-english' | translate}})" md-min-length="0" md-require-match="false"
+                      md-select-on-match="true" md-match-case-insensitive="true" md-selected-item="ctrl.currentInstitutions[$index]" md-search-text="ctrl.study.institutions[$index].en" md-items="item in searchInstitutions(ctrl.study.institutions[$index].en, 'en')" md-item-text="item.en" md-clear-button="true" md-no-cache="true"
+                      md-is-error="!studyForm['institutionEn_' + $index].$valid && (studyForm['institutionEn_' + $index].$dirty || studyForm['institutionEn_' + $index].$touched)" md-selected-item-change="studyForm.$setDirty()" ng-blur="ctrl.deleteCurrentInstitution($event)" ng-focus="ctrl.setCurrentInstitution($index,$event)">
+                        <md-item-template>
+                            <span class="md-title" style="font-size: 14px;" md-highlight-text="ctrl.study.institutions[$parent.$index].en" md-highlight-flags="ig">{{item.en}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            {{'search-management.filter.institution-filter.not-found' | translate}}
+                        </md-not-found>
+                        <div ng-if="!studyForm['institutionEn_' + $parent.$index].$dirty && !studyForm['institutionEn_' + $parent.$index].$touched" class="fdz-input-hint">{{'study-management.edit.hints.institution.en' | translate}}</div>
+                        <div ng-messages="studyForm['institutionEn_' + $parent.$index].$error" multiple>
+                            <div ng-message="required">{{'study-management.error.study.institution.i18n-string-entire-not-empty' | translate}}</div>
+                            <div ng-message="maxlength">{{'study-management.error.study.institution.i18n-string-size' | translate}}</div>
+                        </div>
+                    </md-autocomplete>
+                </div>
+            </md-card-content>
+            <md-card-actions style="margin-top: 0px; margin-bottom: 12px;" layout="row" layout-align="begin center">
+                <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addInstitution()" style="margin-left: 6px;">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                        {{'study-management.edit.add-institution-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">add</md-icon>
+                </md-button>
+                <md-button id="move-institution-up-button" ng-disabled="ctrl.currentInstitutionIndex == null || ctrl.currentInstitutionIndex === 0" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveCurrentInstitutionUp()">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                        {{'study-management.edit.move-institution-up-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+                </md-button>
+                <md-button id="move-institution-down-button" ng-disabled="ctrl.currentInstitutionIndex == null || ctrl.currentInstitutionIndex === ctrl.study.institutions.length - 1" class="md-primary md-raised md-icon-button" ng-click="ctrl.moveCurrentInstitutionDown()">
+                    <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                        {{'study-management.edit.move-institution-down-tooltip' | translate}}
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
+                </md-button>
+            </md-card-actions>
         </md-card>
         <md-card>
             <md-card-header>

@@ -33,8 +33,7 @@ angular.module('metadatamanagementApp')
       var language = LanguageService.getCurrentInstantly();
 
       var query = {
-        index: type,
-        type: type
+        index: type
       };
       query.size = 0;
       var termFilters = createTermFilters(searchConfig.filter,

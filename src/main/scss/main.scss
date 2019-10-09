@@ -17,7 +17,7 @@ $state-warning-border: $brand-warning !default;
 $state-danger-text: $brand-danger !default;
 $state-danger-bg: #F5D0D0 !default;
 $state-danger-border: $brand-danger !default; // bower:scss
- @import "bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+ @import "../../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
  // endbower
 h1,
 h2,
@@ -28,6 +28,9 @@ h3 {
     img[src$=".svg"] {
         width: 100%;
     }
+}
+html, body {
+  overflow: hidden;
 }
 
 body {
@@ -1293,3 +1296,4 @@ geographic-coverage {
 .md-button[disabled] {
     pointer-events: none;
 }
+
