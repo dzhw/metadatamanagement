@@ -21,7 +21,7 @@ public interface StudySubDocumentProjection
 
   I18nString getTitle();
 
-  I18nString getInstitution();
+  List<I18nString> getInstitutions();
 
   I18nString getSponsor();
 

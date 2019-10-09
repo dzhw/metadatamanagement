@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp')
       var ctrl = this;
       var studySeriesCache = {};
       var sponsorsCache = {};
-      var institutionCache = {};
+      ctrl.currentInstitutions = [];
       var attachmentTypes = [
         {de: 'Daten- und Methodenbericht', en: 'Method Report'},
         {de: 'Sonstiges', en: 'Other'}
@@ -102,8 +102,8 @@ angular.module('metadatamanagementApp')
           } else {
             ctrl.study = study;
             ctrl.currentStudySeries = study.studySeries;
-            ctrl.currentInstitution = study.institution;
             ctrl.currentSponsor = study.sponsor;
+            ctrl.currentInstitutions = angular.copy(ctrl.study.institutions);
             ctrl.loadAttachments();
             updateToolbarHeaderAndPageTitle();
             $scope.registerConfirmOnDirtyHook();
@@ -143,8 +143,13 @@ angular.module('metadatamanagementApp')
                       authors: [{
                         firstName: '',
                         lastName: ''
+                      }],
+                      institutions: [{
+                        de: '',
+                        en: ''
                       }]
                     });
+                    ctrl.currentInstitutions = new Array(1);
                     updateToolbarHeaderAndPageTitle();
                     $scope.registerConfirmOnDirtyHook();
                   });
@@ -248,6 +253,82 @@ angular.module('metadatamanagementApp')
         $scope.studyForm.$setDirty();
       };
 
+      ctrl.deleteInstitution = function(index) {
+        ctrl.study.institutions.splice(index, 1);
+        ctrl.currentInstitutions.splice(index, 1);
+        $scope.studyForm.$setDirty();
+      };
+
+      ctrl.addInstitution = function() {
+        ctrl.currentInstitutions.push(null);
+        $timeout(function() {
+          $document.find('input[name="institutionDe_' +
+              (ctrl.study.institutions.length - 1) + '"]')
+            .focus();
+        }, 200);
+      };
+
+      ctrl.setCurrentInstitution = function(index, event) {
+        ctrl.currentInstitutionInputName = event.target.name;
+        ctrl.currentInstitutionIndex = index;
+      };
+
+      ctrl.deleteCurrentInstitution = function(event) {
+        if (timeoutActive) {
+          $timeout.cancel(timeoutActive);
+        }
+        timeoutActive = $timeout(function() {
+          timeoutActive = false;
+          // msie workaround: inputs unfocus on button mousedown
+          if (document.activeElement &&
+            $(document.activeElement).parents('#move-institution-container')
+              .length) {
+            return;
+          }
+          if (event.relatedTarget && (
+              event.relatedTarget.id === 'move-institution-up-button' ||
+              event.relatedTarget.id === 'move-institution-down-button')) {
+            return;
+          }
+          delete ctrl.currentInstitutionIndex;
+          timeoutActive = null;
+        }, 500);
+      };
+
+      ctrl.moveCurrentInstitutionUp = function() {
+        var a = ctrl.study.institutions[ctrl.currentInstitutionIndex - 1];
+        ctrl.study.institutions[ctrl.currentInstitutionIndex - 1] =
+          ctrl.study.institutions[ctrl.currentInstitutionIndex];
+        ctrl.study.institutions[ctrl.currentInstitutionIndex] = a;
+        a = ctrl.currentInstitutions[ctrl.currentInstitutionIndex - 1];
+        ctrl.currentInstitutions[ctrl.currentInstitutionIndex - 1] =
+          ctrl.currentInstitutions[ctrl.currentInstitutionIndex];
+        ctrl.currentInstitutions[ctrl.currentInstitutionIndex] = a;
+        ctrl.currentInstitutionInputName = ctrl.currentInstitutionInputName
+          .replace('_' + ctrl.currentInstitutionIndex,
+            '_' + (ctrl.currentInstitutionIndex - 1));
+        $document.find('input[name="' + ctrl.currentInstitutionInputName + '"]')
+          .focus();
+        $scope.studyForm.$setDirty();
+      };
+
+      ctrl.moveCurrentInstitutionDown = function() {
+        var a = ctrl.study.institutions[ctrl.currentInstitutionIndex + 1];
+        ctrl.study.institutions[ctrl.currentInstitutionIndex + 1] =
+          ctrl.study.institutions[ctrl.currentInstitutionIndex];
+        ctrl.study.institutions[ctrl.currentInstitutionIndex] = a;
+        a = ctrl.currentInstitutions[ctrl.currentInstitutionIndex + 1];
+        ctrl.currentInstitutions[ctrl.currentInstitutionIndex + 1] =
+          ctrl.currentInstitutions[ctrl.currentInstitutionIndex];
+        ctrl.currentInstitutions[ctrl.currentInstitutionIndex] = a;
+        ctrl.currentInstitutionInputName = ctrl.currentInstitutionInputName
+          .replace('_' + ctrl.currentInstitutionIndex,
+            '_' + (ctrl.currentInstitutionIndex + 1));
+        $document.find('input[name="' + ctrl.currentInstitutionInputName + '"]')
+          .focus();
+        $scope.studyForm.$setDirty();
+      };
+
       ctrl.saveStudy = function() {
         if ($scope.studyForm.$valid) {
           if (angular.isUndefined(ctrl.study.masterId)) {
@@ -338,6 +419,16 @@ angular.module('metadatamanagementApp')
         ChoosePreviousVersionService.showDialog(dialogConfig, event)
           .then(function(wrapper) {
             ctrl.study = new StudyResource(wrapper.selection);
+            if (ctrl.study.institutions && ctrl.study.institutions.length > 0) {
+              ctrl.currentInstitutions = angular.copy(ctrl.study.institutions);
+            } else {
+              ctrl.currentInstitutions = [];
+              if (ctrl.study.institution) {
+                ctrl.currentInstitutions.push(ctrl.study.institution);
+              } else {
+                ctrl.currentInstitutions.push(null);
+              }
+            }
             if (wrapper.isCurrentVersion) {
               $scope.studyForm.$setPristine();
               SimpleMessageToastService.openSimpleMessageToast(
@@ -399,18 +490,10 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.searchInstitutions = function(searchText, language) {
-        if (searchText === institutionCache.searchText &&
-          language === institutionCache.language) {
-          return institutionCache.searchResult;
-        }
-
         //Search Call to Elasticsearch
         return StudySearchService.findInstitutions(searchText, {},
-            language, true)
+            language, true, ctrl.currentInstitutions)
           .then(function(institutions) {
-            institutionCache.searchText = searchText;
-            institutionCache.language = language;
-            institutionCache.searchResult = institutions;
             return institutions;
           });
       };
