@@ -56,7 +56,7 @@ Choose In Aufbereitung as Data Availibility
     Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'In Aufbereitung')]
 
 Add Another Author
-    Click Element Through Tooltips    xpath=//md-card/descendant::button[md-icon[text()='add']]
+    Click Element Through Tooltips    xpath=//md-card//button[contains(@aria-label,'Mitarbeiter') and contains(@aria-label,'hinzuzufügen')]
 
 Move Second Author To Place One
     Click Element Through Tooltips    xpath=//md-card/descendant::button[md-icon[text()='keyboard_arrow_up']]
