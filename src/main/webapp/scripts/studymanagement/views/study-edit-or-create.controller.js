@@ -422,12 +422,11 @@ angular.module('metadatamanagementApp')
             if (ctrl.study.institutions && ctrl.study.institutions.length > 0) {
               ctrl.currentInstitutions = angular.copy(ctrl.study.institutions);
             } else {
-              ctrl.currentInstitutions = [];
-              if (ctrl.study.institution) {
-                ctrl.currentInstitutions.push(ctrl.study.institution);
-              } else {
-                ctrl.currentInstitutions.push(null);
-              }
+              ctrl.currentInstitutions = new Array(1);
+              ctrl.study.institutions = [{
+                de: '',
+                en: ''
+              }];
             }
             if (wrapper.isCurrentVersion) {
               $scope.studyForm.$setPristine();
