@@ -47,7 +47,6 @@ module.exports = function(grunt) {
     .initConfig({
       yeoman: {
         // configurable paths
-        app: require('./bower.json').appPath || 'app',
         dist: 'src/main/webapp/dist'
       },
       watch: {
@@ -65,10 +64,10 @@ module.exports = function(grunt) {
             spawn: false,
           },
         },
-        bower: {
-          files: ['bower.json'],
-          tasks: ['wiredep']
-        },
+        // bower: {
+        //   files: ['bower.json'],
+        //   tasks: ['wiredep']
+        // },
         ngconstant: {
           files: ['Gruntfile.js', 'pom.xml'],
           tasks: ['ngconstant:local']
@@ -81,41 +80,6 @@ module.exports = function(grunt) {
       autoprefixer: {
         // src and dest is configured in a subtask called "generated" by
         // usemin
-      },
-      wiredep: {
-        app: {
-          src: ['src/main/webapp/index.html', 'src/main/scss/main.scss'],
-          exclude: [/angular-i18n/, // localizations are loaded
-            // dynamically
-            'bower_components/bootstrap/', // Exclude Bootstrap
-            // LESS as
-            // we use bootstrap-sass
-          ],
-          // remove ../webapp/bower_components/
-          // from paths of injected sass files
-          ignorePath: /\.\.\/webapp\/bower_components\//
-        },
-        test: {
-          src: 'src/test/javascript/karma.conf.js',
-          exclude: [/angular-i18n/, /angular-scenario/],
-          ignorePath: /\.\.\/\.\.\//, // remove ../ from paths
-          // of injected
-          // javascripts
-          devDependencies: true,
-          fileTypes: {
-            js: {
-              // jscs:disable
-              block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
-              // jscs:enable
-              detect: {
-                js: /'(.*\.js)'/gi
-              },
-              replace: {
-                js: '\'src/{{filePath}}\','
-              }
-            }
-          }
-        }
       },
       htmlangular: {
         default: {
@@ -414,7 +378,7 @@ module.exports = function(grunt) {
       },
       sass: {
         options: {
-          includePaths: ['src/main/webapp/bower_components'],
+          // includePaths: ['src/main/webapp/bower_components'],
           implementation: sass
         },
         server: {
@@ -547,10 +511,9 @@ module.exports = function(grunt) {
             expand: true,
             dot: true,
             flatten: true,
-            cwd: 'src/main/webapp',
             dest: 'src/main/webapp/assets/styles/fonts',
             src: [
-              'bower_components/bootstrap-sass/assets/fonts/bootstrap/*.*'
+              'node_modules/bootstrap-sass/assets/fonts/bootstrap/*.*'
             ]
           }]
         },
@@ -559,17 +522,16 @@ module.exports = function(grunt) {
             expand: true,
             dot: true,
             flatten: true,
-            cwd: 'src/main/webapp',
             dest: '<%= yeoman.dist %>/assets/styles/fonts',
             src: [
-              'bower_components/bootstrap-sass/assets/fonts/bootstrap/*.*'
+              'node_modules/bootstrap-sass/assets/fonts/bootstrap/*.*'
             ]
           }, {
             expand: true,
             dot: true,
             flatten: true,
             cwd: 'src/main/webapp',
-            src: ['bower_components/katex/dist/fonts/*.*'],
+            src: ['../../../node_modules/katex/dist/fonts/*.*'],
             dest: '<%= yeoman.dist %>/assets/styles/fonts'
           }]
         },
@@ -587,6 +549,14 @@ module.exports = function(grunt) {
             cwd: '.tmp/assets/images',
             dest: '<%= yeoman.dist %>/assets/images',
             src: ['generated/*']
+          }, {
+            expand: true,
+            dest: '<%= yeoman.dist %>',
+            src: [
+              'node_modules/angular-i18n/angular-locale_de.js',
+              'node_modules/angular-i18n/angular-locale_en.js',
+              'node_modules/sockjs-client/dist/sockjs.min.js'
+            ]
           }]
         }
       },
@@ -810,7 +780,7 @@ module.exports = function(grunt) {
     });
 
   grunt.registerTask('serve', ['createJavaSourceCodeFromTranslations',
-    'clean:server', 'wiredep', 'ngconstant:local',
+    'clean:server', 'ngconstant:local',
     'sass:server', 'copy:localfonts', 'browserSync', 'watch'
   ]);
 
@@ -821,14 +791,14 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('test', ['clean:server',
-    'ngconstant:local', 'sass:server', 'wiredep:test', 'karma',
+    'ngconstant:local', 'sass:server', 'karma',
     'jshint', 'jscs'
   ]);
 
   grunt.registerTask('builddev', ['createJavaSourceCodeFromTranslations',
     'test', /*'htmlangular:default',
     'htmlangular:index',*/ 'clean:dist',
-    'wiredep:app', 'ngconstant:dev',
+    'ngconstant:dev',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
@@ -837,7 +807,7 @@ module.exports = function(grunt) {
   grunt.registerTask('buildtest', ['createJavaSourceCodeFromTranslations',
     'test', /*'htmlangular:default',
     'htmlangular:index',*/ 'clean:dist',
-    'wiredep:app', 'ngconstant:test',
+    'ngconstant:test',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
@@ -846,7 +816,7 @@ module.exports = function(grunt) {
   grunt.registerTask('buildprod', ['createJavaSourceCodeFromTranslations',
     'test', /*'htmlangular:default',
     'htmlangular:index',*/ 'clean:dist',
-    'wiredep:app', 'ngconstant:prod',
+    'ngconstant:prod',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
@@ -857,7 +827,7 @@ module.exports = function(grunt) {
     'test', /*'htmlangular:default',
     'htmlangular:index',*/ 'clean:dist',
     'test', 'clean:dist',
-    'wiredep:app', 'ngconstant:local',
+    'ngconstant:local',
     'useminPrepare', 'ngtemplates', 'svgmin',
     'concat', 'copy:fonts', 'copy:dist', 'ngAnnotate', 'cssmin',
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
@@ -865,7 +835,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('buildlocal', ['createJavaSourceCodeFromTranslations',
     'test', 'clean:dist', 'copy:localfonts',
-    'wiredep:app', 'ngconstant:local', 'ngAnnotate'
+    'ngconstant:local', 'ngAnnotate'
   ]);
 
   grunt.registerTask('default', ['serve']);

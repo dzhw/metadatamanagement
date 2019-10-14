@@ -17,8 +17,8 @@ Create Study by Publisher
     Input Text    name=studySeriesDe    Roboter Studien ${BROWSER}
     Input Text    name=studySeriesEn    Robot Studies ${BROWSER}
     Choose Panel As Survey Design
-    Input Text    name=institutionDe    DZHW ${BROWSER}
-    Input Text    name=institutionEn    DZHW ${BROWSER}
+    Input Text    name=institutionDe_0    DZHW ${BROWSER}
+    Input Text    name=institutionEn_0    DZHW ${BROWSER}
     Input Text    name=sponsorDe    BMBF ${BROWSER}
     Input Text    name=sponsorEn    BMBF ${BROWSER}
     Input Text    name=annotationsDe    Diese Studie wurde von Robot automatisch erstellt.
@@ -56,7 +56,7 @@ Choose In Aufbereitung as Data Availibility
     Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'In Aufbereitung')]
 
 Add Another Author
-    Click Element Through Tooltips    xpath=//md-card/descendant::button[md-icon[text()='add']]
+    Click Element Through Tooltips    xpath=//md-card//button[contains(@aria-label,'Mitarbeiter') and contains(@aria-label,'hinzuzufügen')]
 
 Move Second Author To Place One
     Click Element Through Tooltips    xpath=//md-card/descendant::button[md-icon[text()='keyboard_arrow_up']]

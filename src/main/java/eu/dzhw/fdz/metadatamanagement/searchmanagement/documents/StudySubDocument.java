@@ -33,7 +33,7 @@ public class StudySubDocument extends AbstractRdcDomainObject
   
   private String dataAcquisitionProjectId;
   
-  private I18nString institution;
+  private List<I18nString> institutions;
   
   private I18nString sponsor;
   
