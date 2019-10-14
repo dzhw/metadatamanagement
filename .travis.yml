@@ -1,205 +1,249 @@
-# don't use container based infrastructure cause we need sudo
 sudo: required
 language: java
 os:
-  - linux
+- linux
 jdk:
-  - openjdk11
+- openjdk11
 python:
-  - "2.7"
+- '2.7'
 cache:
   directories:
-  - $HOME/.m2
-  - ./node_modules
+  - "$HOME/.m2"
+  - "./node_modules"
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
     packages:
-      - g++-4.9
+    - g++-4.9
 stages:
-    - name: build
-      if: NOT branch =~ /^(development|master|test)$/
-    - name: build and deploy
-      if: branch =~ /^(development|master|test)$/
-    - name: e2e smoketests
-      if: type = cron
-    - name: nightly e2e tests publicuser
-      if: type = cron
-    - name: nightly e2e tests dataprovider
-      if: type = cron
-    - name: nightly e2e tests publisher
-      if: type = cron
+- name: build
+  if: NOT branch =~ /^(development|master|test)$/
+- name: build and deploy
+  if: branch =~ /^(development|master|test)$/
+- name: e2e smoketests
+  if: type = cron
+- name: nightly e2e tests publicuser
+  if: type = cron
+- name: nightly e2e tests dataprovider
+  if: type = cron
+- name: nightly e2e tests publisher
+  if: type = cron
 jobs:
   include:
-    - stage: build
-      name: "Client & Server Build"
-      install:
-        - export CXX=g++-4.9
-        - export NODE_OPTIONS=--max-old-space-size=4096
-        - export MAVEN_OPTS=-Dorg.slf4j.simpleLogger.log.pl.project13.maven.git=WARN
-        - wget https://archive.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.zip
-        - unzip -qq apache-maven-3.6.1-bin.zip
-        - export M2_HOME=$PWD/apache-maven-3.6.1
-        - export PATH=$M2_HOME/bin:$PATH
-        - sudo apt-get -y install python-pip python-dev --allow-unauthenticated
-        - pip install git+https://github.com/dzhw/javasphinx.git --user
-        - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 12.4.0
-        - npm install -g bower
-        - npm install -g grunt-cli
-      script:
-        - ./deploy/build.sh unused $TRAVIS_BRANCH
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
-    - stage: build and deploy
-      name: "Build and Deploy to PWS"
-      install:
-        - export CXX=g++-4.9
-        - export NODE_OPTIONS=--max-old-space-size=4096
-        - export MAVEN_OPTS=-Dorg.slf4j.simpleLogger.log.pl.project13.maven.git=WARN
-        - wget https://archive.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.zip
-        - unzip -qq apache-maven-3.6.1-bin.zip
-        - export M2_HOME=$PWD/apache-maven-3.6.1
-        - export PATH=$M2_HOME/bin:$PATH
-        - sudo apt-get -y install python-pip python-dev --allow-unauthenticated
-        - pip install git+https://github.com/dzhw/javasphinx.git --user
-        - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install 12.4.0
-        - npm install -g bower
-        - npm install -g grunt-cli
-        - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
-        - echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-        - sudo apt-get update -qq
-        - sudo apt-get install cf-cli -y --allow-unauthenticated
-        - sudo netstat -pelnut
-      script:
-        - ./deploy/build-and-deploy.sh unused $CI_DEPLOY_USERNAME $CI_DEPLOY_PASSWORD $TRAVIS_BRANCH $TRAVIS_EVENT_TYPE
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
-    - stage: e2e smoketests
-      name: "Chrome Smoketest"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include smoketest --exclude firefoxonly ./src/test/robotframework
-    - name: "Firefox Smoketest"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include smoketest --exclude chromeonly ./src/test/robotframework
-    - name: "Edge Smoketest"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:edge --include smoketest --exclude firefoxonly --exclude chromeonly --exclude noslowpoke ./src/test/robotframework
-    - name: "IE11 Smoketest"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:ie --include smoketest --exclude firefoxonly --exclude chromeonly --exclude noslowpoke ./src/test/robotframework
-    - name: "Safari Smoketest"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v USE_SAUCELABS:TRUE -v BROWSER:safari --include smoketest --exclude firefoxonly --exclude chromeonly ./src/test/robotframework
-    - stage: nightly e2e tests publicuser
-      name: "Nightly Chrome Tests (Public User)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include publicuserNOTsmoketestNOTfirefoxonlyNOTlocalonly ./src/test/robotframework
-    - name: "Nightly Firefox Tests (Public User)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include publicuserNOTsmoketestNOTchromeonlyNOTlocalonly ./src/test/robotframework
-    - name: "Nightly IE11 Tests (Public User)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publicuserNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
-    - name: "Nightly Edge Tests (Public User)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --include publicuserNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
-    - name: "Nightly Safari Tests (Public User)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publicuserNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
-    - stage: nightly e2e tests dataprovider
-      name: "Nightly Chrome Tests (Dataprovider)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include dataproviderNOTsmoketestNOTfirefoxonlyNOTlocalonly ./src/test/robotframework
-    - name: "Nightly Firefox Tests (Dataprovider)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include dataproviderNOTsmoketestNOTchromeonlyNOTlocalonly ./src/test/robotframework
-    - name: "Nightly IE11 Tests (Dataprovider)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include dataproviderNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
-    - name: "Nightly Edge Tests (Dataprovider)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --include dataproviderNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
-    - name: "Nightly Safari Tests (Dataprovider)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include dataproviderNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTlocalonly ./src/test/robotframework
-    - stage: nightly e2e tests publisher
-      name: "Nightly Chrome Tests (Publisher)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include publisherNOTsmoketestNOTfirefoxonlyNOTlocalonly ./src/test/robotframework
-    - name: "Nightly Firefox Tests (Publisher)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include publisherNOTsmoketestNOTchromeonlyNOTlocalonly ./src/test/robotframework
-    - name: "Nightly IE11 Tests (Publisher)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publisherNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
-    - name: "Nightly Edge Tests (Publisher)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --include publisherNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
-    - name: "Nightly Safari Tests (Publisher)"
-      install:
-        - ./src/test/robotframework/setup.sh
-      script:
-        - export PYTHONWARNINGS="ignore"
-        - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publisherNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTlocalonly ./src/test/robotframework
+  - stage: build
+    name: Client & Server Build
+    install:
+    - export CXX=g++-4.9
+    - export NODE_OPTIONS=--max-old-space-size=4096
+    - export MAVEN_OPTS=-Dorg.slf4j.simpleLogger.log.pl.project13.maven.git=WARN
+    - wget https://archive.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.zip
+    - unzip -qq apache-maven-3.6.1-bin.zip
+    - export M2_HOME=$PWD/apache-maven-3.6.1
+    - export PATH=$M2_HOME/bin:$PATH
+    - sudo apt-get -y install python-pip python-dev --allow-unauthenticated
+    - pip install git+https://github.com/dzhw/javasphinx.git --user
+    - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd
+      ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh
+      && nvm install 12.11.0
+    - npm install -g bower
+    - npm install -g grunt-cli
+    script:
+    - "./deploy/build.sh unused $TRAVIS_BRANCH"
+    after_success:
+    - bash <(curl -s https://codecov.io/bash)
+  - stage: build and deploy
+    name: Build and Deploy to PWS
+    install:
+    - export CXX=g++-4.9
+    - export NODE_OPTIONS=--max-old-space-size=4096
+    - export MAVEN_OPTS=-Dorg.slf4j.simpleLogger.log.pl.project13.maven.git=WARN
+    - wget https://archive.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.zip
+    - unzip -qq apache-maven-3.6.1-bin.zip
+    - export M2_HOME=$PWD/apache-maven-3.6.1
+    - export PATH=$M2_HOME/bin:$PATH
+    - sudo apt-get -y install python-pip python-dev --allow-unauthenticated
+    - pip install git+https://github.com/dzhw/javasphinx.git --user
+    - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd
+      ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh
+      && nvm install 12.11.0
+    - npm install -g bower
+    - npm install -g grunt-cli
+    - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key
+      | sudo apt-key add -
+    - echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+    - sudo apt-get update -qq
+    - sudo apt-get install cf-cli -y --allow-unauthenticated
+    - sudo netstat -pelnut
+    script:
+    - "./deploy/build-and-deploy.sh unused $CI_DEPLOY_USERNAME $CI_DEPLOY_PASSWORD
+      $TRAVIS_BRANCH $TRAVIS_EVENT_TYPE"
+    after_success:
+    - bash <(curl -s https://codecov.io/bash)
+  - stage: e2e smoketests
+    name: Chrome Smoketest
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v
+      USE_SAUCELABS:TRUE -v BROWSER:chrome --include smoketest --exclude firefoxonly
+      ./src/test/robotframework
+  - name: Firefox Smoketest
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v
+      USE_SAUCELABS:TRUE -v BROWSER:firefox --include smoketest --exclude chromeonly
+      ./src/test/robotframework
+  - name: Edge Smoketest
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v
+      USE_SAUCELABS:TRUE -v BROWSER:edge --include smoketest --exclude firefoxonly
+      --exclude chromeonly --exclude noslowpoke ./src/test/robotframework
+  - name: IE11 Smoketest
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v
+      USE_SAUCELABS:TRUE -v BROWSER:ie --include smoketest --exclude firefoxonly --exclude
+      chromeonly --exclude noslowpoke ./src/test/robotframework
+  - name: Safari Smoketest
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs -v
+      USE_SAUCELABS:TRUE -v BROWSER:safari --include smoketest --exclude firefoxonly
+      --exclude chromeonly ./src/test/robotframework
+  - stage: nightly e2e tests publicuser
+    name: Nightly Chrome Tests (Public User)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome
+      -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include publicuserNOTsmoketestNOTfirefoxonlyNOTlocalonly
+      ./src/test/robotframework
+  - name: Nightly Firefox Tests (Public User)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox
+      -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include publicuserNOTsmoketestNOTchromeonlyNOTlocalonly
+      ./src/test/robotframework
+  - name: Nightly IE11 Tests (Public User)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11
+      -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publicuserNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly
+      ./src/test/robotframework
+  - name: Nightly Edge Tests (Public User)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge
+      -v USE_SAUCELABS:TRUE -v BROWSER:edge --include publicuserNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly
+      ./src/test/robotframework
+  - name: Nightly Safari Tests (Public User)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari
+      -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publicuserNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly
+      ./src/test/robotframework
+  - stage: nightly e2e tests dataprovider
+    name: Nightly Chrome Tests (Dataprovider)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome
+      -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include dataproviderNOTsmoketestNOTfirefoxonlyNOTlocalonly
+      ./src/test/robotframework
+  - name: Nightly Firefox Tests (Dataprovider)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox
+      -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include dataproviderNOTsmoketestNOTchromeonlyNOTlocalonly
+      ./src/test/robotframework
+  - name: Nightly IE11 Tests (Dataprovider)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11
+      -v USE_SAUCELABS:TRUE -v BROWSER:ie --include dataproviderNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly
+      ./src/test/robotframework
+  - name: Nightly Edge Tests (Dataprovider)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge
+      -v USE_SAUCELABS:TRUE -v BROWSER:edge --include dataproviderNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly
+      ./src/test/robotframework
+  - name: Nightly Safari Tests (Dataprovider)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari
+      -v USE_SAUCELABS:TRUE -v BROWSER:safari --include dataproviderNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTlocalonly
+      ./src/test/robotframework
+  - stage: nightly e2e tests publisher
+    name: Nightly Chrome Tests (Publisher)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome
+      -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include publisherNOTsmoketestNOTfirefoxonlyNOTlocalonly
+      ./src/test/robotframework
+  - name: Nightly Firefox Tests (Publisher)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox
+      -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include publisherNOTsmoketestNOTchromeonlyNOTlocalonly
+      ./src/test/robotframework
+  - name: Nightly IE11 Tests (Publisher)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11
+      -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publisherNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly
+      ./src/test/robotframework
+  - name: Nightly Edge Tests (Publisher)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge
+      -v USE_SAUCELABS:TRUE -v BROWSER:edge --include publisherNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly
+      ./src/test/robotframework
+  - name: Nightly Safari Tests (Publisher)
+    install:
+    - "./src/test/robotframework/setup.sh"
+    script:
+    - export PYTHONWARNINGS="ignore"
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari
+      -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publisherNOTsmoketestNOTfirefoxonlyNOTchromeonlyNOTlocalonly
+      ./src/test/robotframework
 notifications:
-  email:
-    recipients:
-      - secure: "rCV85HWYYl5lzvMatGA8h3O3t522tbxuSKIF3H6drTewXW17IRMuKaeBehF71Dva5vReIK6oLRx0YlAZK/SOZzY9+TDWwXFv7QeyDq/0c0cUaI9UX3wbf0puX9AZAIflNpkrc+NmV1vXci8A/MyZAfZFxKGJqE8wn1mGQnzJCD5D1sbcCXSrnQA0fOyyFq6ugr4vyIRY4iiu008WMFqP6V58dlxC3PJax3rPugXTUNzOHU1qiHdTA17R4q47hsmdJGtCNsAjemo+/D+w8nWp+DJokHsYv/SSngB5GprKv22vXiZWy3wnqjagvOfPHYZGfMYEtc7kMylOmrxrjx15cQiyIncJQKjabYCDQ2lkjjNS1bZTnobe/CHy+IkWxT/qiV/miDLOI0Tm6B6OQGJRhJoErBjRSnihZZo9fg8YVRJdApG3ZoWmuXwwOTi41rsHRdhClKzJzmSO+7paea7CPaobzvn54n2Lu1azp05GNG1hlxtNVlp7r7xh+e+W0JHj9trFmXq+vkO7nQtS3rtnnWnz8xqDBqXE3xWtRD0tiG0f9qev7AiMo+UTWEsvXuXI68ywHThppO2rHFN6RntLNgAwFzwwGBG0U4AblljYV7zT56f1xiEaAbe77Fyryi6uFTX7wJPLBLKfylWwt9vLgcDon/plVRuDivEvwBdgwQ8="
+  slack:
+    secure: ZKX6G3hY9XvrgDpgpZ5DuKaJ77EvS6bzyd0yROE1rliezY9u66CpAkPO0B3eN+bcXEVMILv2Ye581JjysSUntBFKn0hZnxXedioeAeIRADlhuPpbVI2hP6Lwi6ZsdZ2wbsXpP3Fc0deQVRSuLxlInC+Zwf+ui3uEnSfAWbvwHZWpx72+a8P2xC22Z9S40vyvm0XcyBPGqwYVoqwnRMBtUvxdTJzKuU9t5Sx+PFuRIt/xvoe8CQyn/50Pn9IgFkqdD/sDgpwK9QYy3xVJpIPZGM2YPh2NaRWu2YnJhOfLt8ZFvEnzwBmGJfTS7udZgXLMZdvW91Mh0RYPZTctYXLz0tpEe6xFYy7fpSMQ80NWL5hoib3ElCqc/+qMibTD1P+A4ZXGlt0DcENc2MNPDaBlQSorNuelsXGj2DhMBDJiiBYZJs9vi9k5+AJbcxEufTgngLV+YU5N/8btG2d0dHLROCa+e7atS0lErnM+Eb9yujuXBW/KbJzeorEZWOIISkbRY8YIpMgwB+GlSFjPSprruUAaHO+aTtIMSYMA7zAivCW+/xZiT2gjw+YCJfYPrgYZ36/CINZnX40Oe4g29+IOnUaCJt+3Bm4OTGCgYv8SpAAxoWpP260UyAI61BFS3gFQNP6trIkkuap9HWGdbfxsz0NgODT28M81KW0ixP9Gtl4=
