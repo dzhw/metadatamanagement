@@ -305,20 +305,23 @@ public class MailService {
    * 
    * @param user The user who has started the report generation.
    * @param dataSetId The id of the {@link DataSet} for which the report has been generated.
+   * @param language The language in which the report has been generated.
    * @param sender The sender of the email.
    */
   @Async
-  public void sendDataSetReportGeneratedMail(User user, String dataSetId, String sender) {
+  public void sendDataSetReportGeneratedMail(User user, String dataSetId, String language,
+      String sender) {
     log.debug("Sending 'dataset report generated' mail");
     Locale locale = Locale.forLanguageTag(user.getLangKey());
     Context context = new Context(locale);
     context.setVariable("user", user);
     context.setVariable("dataSetId", dataSetId);
     context.setVariable("locale", locale);
+    context.setVariable("language", language);
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("datasetReportGeneratedEmail", context);
     String subject = messageSource.getMessage("email.dataset-report-generated.title",
-        new Object[] {dataSetId}, locale);
+        new Object[] {dataSetId, language}, locale);
     sendEmail(sender, new String[] {user.getEmail()}, null, null, subject, content, false, true);
   }
 

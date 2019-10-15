@@ -26,6 +26,15 @@
                     <div ng-message="pattern">{{'data-set-management.create-report.error.version.pattern' | translate }}</div>
                 </div>
             </md-input-container>
+            <md-input-container class="md-block" md-is-error="!reportForm.languages.$valid && (reportForm.languages.$dirty || reportForm.languages.$touched)" style="margin-top: 0px;">
+              <md-checkbox ng-model="ctrl.german" name="languages">
+                {{'data-set-management.create-report.languages.in-german' | translate }}
+              </md-checkbox>
+              <md-checkbox ng-model="ctrl.english" name="languages">
+                {{'data-set-management.create-report.languages.in-english' | translate }}
+              </md-checkbox>
+              <div ng-if="!reportForm.languages.$dirty && !reportForm.language.$touched" class="fdz-input-hint">{{'data-set-management.create-report.hints.languages' | translate}}</div>
+            </md-input-container>
         </md-dialog-content>
         <md-dialog-actions layout="row" style="padding: 0 1.5em 1em 0;">
             <md-button class="md-raised" ng-click="ctrl.cancel()">

@@ -11,6 +11,16 @@ angular.module('metadatamanagementApp')
     };
 
     ctrl.ok = function() {
-      $mdDialog.hide(ctrl.version);
+      var languages = [];
+      if (ctrl.german) {
+        languages.push('de');
+      }
+      if (ctrl.english) {
+        languages.push('en');
+      }
+      $mdDialog.hide({
+        version: ctrl.version,
+        languages: languages
+      });
     };
   });

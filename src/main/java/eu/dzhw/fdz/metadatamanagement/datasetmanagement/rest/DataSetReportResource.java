@@ -6,6 +6,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -62,14 +63,18 @@ public class DataSetReportResource {
    * 
    * @param dataSetId The id of the {@link DataSet} for which we need to generate the report.
    * @param version The version of the report.
+   * @param languages List of languages for which the report needs to be generated. Currently only
+   *        de, en.
    * @return ok if the generation has been started successfully.
    * @throws IOException If the external task cannot be started.
    */
   @PostMapping(value = "/data-sets/{dataSetId}/report/generate/{version:.+}")
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> startReportGeneration(@PathVariable("dataSetId") String dataSetId,
-      @PathVariable("version") String version, HttpServletRequest request) throws IOException {
-    dataSetReportService.startDataSetReportTask(dataSetId, version,
+      @PathVariable("version") String version, HttpServletRequest request,
+      @RequestParam(name = "languages", defaultValue = "de") List<String> languages)
+      throws IOException {
+    dataSetReportService.startDataSetReportTask(dataSetId, version, languages,
         request.getUserPrincipal().getName());
     return ResponseEntity.ok().build();
   }
@@ -111,17 +116,18 @@ public class DataSetReportResource {
    * Upload the generated dataset report and attach it to the given {@link DataSet}.
    *
    * @param reportFile The pdf report to attach to the given {@link DataSet}
+   * @param language The language of the report. Currently supports only 'de' or 'en'.
    * @param dataSetId The id of the {@link DataSet} to which this file shall be attached.
    * @param onBehalfOf Username of the MDM user who will receive an email, when the report has been
    *        successfully attached.
    * @return 200 if attaching succeeded.
    * @throws IOException Thrown if the multipart file cannot be read.
    */
-  @PostMapping(value = "/data-sets/{dataSetId}/report")
+  @PostMapping(value = "/data-sets/{dataSetId}/report/{language}")
   @Secured(value = {AuthoritiesConstants.TASK_USER})
   public ResponseEntity<?> uploadReport(@RequestParam("file") MultipartFile reportFile,
-      @PathVariable("dataSetId") String dataSetId, @RequestParam("onBehalfOf") String onBehalfOf)
-      throws IOException {
+      @PathVariable("dataSetId") String dataSetId, @RequestParam("onBehalfOf") String onBehalfOf,
+      @PathVariable("language") String language) throws IOException {
     Optional<User> user = userService.getUserWithAuthoritiesByLogin(onBehalfOf);
     if (user.isPresent()) {
       User userInstance = user.get();
@@ -131,8 +137,8 @@ public class DataSetReportResource {
       UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
           userInstance.getLogin(), userInstance.getPassword(), currentAuthorities);
       SecurityContextHolder.getContext().setAuthentication(authentication);
-      dataSetAttachmentService.attachDataSetReport(dataSetId, reportFile);
-      mailService.sendDataSetReportGeneratedMail(user.get(), dataSetId, sender);
+      dataSetAttachmentService.attachDataSetReport(dataSetId, language, reportFile);
+      mailService.sendDataSetReportGeneratedMail(user.get(), dataSetId, language, sender);
       SecurityContextHolder.getContext().setAuthentication(null);
       return ResponseEntity.ok().build();
     } else {
