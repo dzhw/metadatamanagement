@@ -41,6 +41,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var writeSearchParamsToLocation = function() {
       var locationSearch = {};
       locationSearch.page = '' + $scope.options.pageObject.page;
+      locationSearch.size = '' + $scope.options.pageObject.size;
       try {
         locationSearch.type = $scope.tabs[
           $scope.searchParams.selectedTabIndex].elasticSearchType;
@@ -68,6 +69,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       var locationSearch = $location.search();
       if (CleanJSObjectService.isNullOrEmpty(locationSearch)) {
         $scope.options.pageObject.page = 1;
+        $scope.options.pageObject.size = 10;
         $scope.searchParams = {
           query: '',
           selectedTabIndex: 0
@@ -77,6 +79,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $scope.options.pageObject.page = parseInt(locationSearch.page);
         } else {
           $scope.options.pageObject.page = 1;
+        }
+        if (locationSearch.size != null) {
+          $scope.options.pageObject.size = parseInt(locationSearch.size);
+        } else {
+          $scope.options.pageObject.size = 10;
         }
         if (locationSearch.query) {
           $scope.searchParams.query = locationSearch.query;

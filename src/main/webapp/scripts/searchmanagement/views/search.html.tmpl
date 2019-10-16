@@ -33,7 +33,7 @@
     <md-card ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType" style="margin-bottom: 0px;">
         <search-filter-panel current-elasticsearch-type="tabs[searchParams.selectedTabIndex].elasticSearchType" current-language="currentLanguage" current-search-params="searchParams" filter-changed-callback="onFilterChanged" bowser="bowser" is-searching="isSearching"></search-filter-panel>
     </md-card>
-  <div ng-if="options.pageObject.totalHits && options.pageObject.totalHits > options.pageObject.size" layout="row" layout-align="center">
+  <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center">
     <fdz-paginator  options="options"
                     on-update="onPageChanged(event = $event, option = $option)"
                     template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
@@ -50,7 +50,7 @@
             <instrument-search-result ng-switch-when="instruments" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></instrument-search-result>
             <concept-search-result ng-switch-when="concepts" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></concept-search-result>
         </div>
-        <div ng-if="options.pageObject.totalHits && options.pageObject.totalHits > options.pageObject.size" layout="row" layout-align="center">
+        <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center">
             <fdz-paginator  options="options"
                             on-update="onPageChanged(event = $event, option = $option)"
                             template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
