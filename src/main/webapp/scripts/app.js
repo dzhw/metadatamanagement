@@ -6,7 +6,7 @@ try {
   app = angular
     .module(
       'metadatamanagementApp', ['LocalStorageModule', 'tmh.dynamicLocale',
-        'pascalprecht.translate',
+        'pascalprecht.translate', 'fdzPaginatorModule',
         'ui.bootstrap', // for modal dialogs
         'elasticsearch', 'hljs', 'ngclipboard',
         'ngResource', 'ui.router', 'ngCookies', 'ngAria',

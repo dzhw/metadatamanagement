@@ -306,7 +306,10 @@ angular.module('metadatamanagementApp').config(
         },
         'pagination': {
           'next': 'Weiter',
-          'previous': 'Zurück'
+          'previous': 'Zurück',
+          'of': 'von',
+          'sort': 'Sortiert nach',
+          'items': 'Einträge pro Seite'
         },
         'joblogging': {
           'protocol-dialog': {

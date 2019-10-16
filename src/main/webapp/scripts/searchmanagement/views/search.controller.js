@@ -40,7 +40,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     // write the searchParams object to the location with the correct types
     var writeSearchParamsToLocation = function() {
       var locationSearch = {};
-      locationSearch.page = '' + $scope.pageObject.page;
+      locationSearch.page = '' + $scope.options.pageObject.page;
       try {
         locationSearch.type = $scope.tabs[
           $scope.searchParams.selectedTabIndex].elasticSearchType;
@@ -67,16 +67,16 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var readSearchParamsFromLocation = function() {
       var locationSearch = $location.search();
       if (CleanJSObjectService.isNullOrEmpty(locationSearch)) {
-        $scope.pageObject.page = 1;
+        $scope.options.pageObject.page = 1;
         $scope.searchParams = {
           query: '',
           selectedTabIndex: 0
         };
       } else {
         if (locationSearch.page != null) {
-          $scope.pageObject.page = parseInt(locationSearch.page);
+          $scope.options.pageObject.page = parseInt(locationSearch.page);
         } else {
-          $scope.pageObject.page = 1;
+          $scope.options.pageObject.page = 1;
         }
         if (locationSearch.query) {
           $scope.searchParams.query = locationSearch.query;
@@ -111,10 +111,18 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if (!$scope.currentProject) {
         $scope.currentProject = undefined;
       }
-      $scope.pageObject = {
-        totalHits: 0,
-        size: 5,
-        page: 1
+      // fdz-paginator options object
+      $scope.options = {
+        sortObject: {
+          selected: 'Relevance',
+          options: ['Relevance']
+        },
+        pageObject: {
+          options: [10, 20, 50],
+          totalHits: 0,
+          size: 10,
+          page: 1
+        }
       };
       $scope.searchParams = {
         query: '',
@@ -253,14 +261,14 @@ angular.module('metadatamanagementApp').controller('SearchController',
       SearchResultNavigatorService.setCurrentSearchParams(
         $scope.searchParams, projectId,
         getSelectedMetadataType(),
-        $scope.pageObject);
-      SearchDao.search($scope.searchParams.query, $scope.pageObject.page,
+        $scope.options.pageObject);
+      SearchDao.search($scope.searchParams.query, $scope.options.pageObject.page,
         projectId, $scope.searchParams.filter,
         getSelectedMetadataType(),
-        $scope.pageObject.size, $scope.searchParams.sortBy)
+        $scope.options.pageObject.size, $scope.searchParams.sortBy)
         .then(function(data) {
           $scope.searchResult = data.hits.hits;
-          $scope.pageObject.totalHits = data.hits.total.value;
+          $scope.options.pageObject.totalHits = data.hits.total.value;
           //Count information by aggregations
           $scope.tabs.forEach(function(tab) {
             if ($scope.tabs[
@@ -290,7 +298,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
             });
           }, 100);
         }, function() {
-          $scope.pageObject.totalHits = 0;
+          $scope.options.pageObject.totalHits = 0;
           $scope.searchResult = {};
           $scope.tabs.forEach(function(tab) {
             tab.count = null;
@@ -371,7 +379,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           } else {
             $scope.currentProject = undefined;
           }
-          $scope.pageObject.page = 1;
+          $scope.options.pageObject.page = 1;
           writeSearchParamsToLocation();
           if (!selectedTabChangeIsBeingHandled) {
             $scope.search();
@@ -413,7 +421,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
       queryChangeIsBeingHandled = true;
       $timeout(function() {
-        $scope.pageObject.page = 1;
+        $scope.options.pageObject.page = 1;
         delete $scope.searchParams.sortBy;
         writeSearchParamsToLocation();
         $scope.search();
@@ -433,7 +441,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
                   .elasticSearchType,
                 $scope.searchParams.filter);
             $scope.searchParams.sortBy = undefined;
-            $scope.pageObject.page = 1;
+            $scope.options.pageObject.page = 1;
             writeSearchParamsToLocation();
             if (!currentProjectChangeIsBeingHandled) {
               $scope.search();
@@ -462,14 +470,14 @@ angular.module('metadatamanagementApp').controller('SearchController',
     };
 
     $scope.onFilterChanged = function() {
-      $scope.pageObject.page = 1;
+      $scope.options.pageObject.page = 1;
       writeSearchParamsToLocation();
       $scope.search();
     };
 
     $scope.computeSearchResultIndex = function($index) {
       return $index + 1 +
-        (($scope.pageObject.page - 1) * $scope.pageObject.size);
+        (($scope.options.pageObject.page - 1) * $scope.options.pageObject.size);
     };
 
     $scope.loadStudyForProject = function() {

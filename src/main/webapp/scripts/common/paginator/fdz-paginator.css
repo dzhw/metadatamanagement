@@ -1,0 +1,33 @@
+fdz-paginator {
+  display: flex;
+  width: 100%;
+  margin:8px;
+}
+
+.fdz-paginator {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.fdz-paginator__container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.fdz-paginator__button {
+  min-width: 24px;
+  min-height: 24px;
+  line-height: 24px;
+  padding: 8px;
+  margin: 0 8px;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.fdz-paginator__label {
+  margin-right: 16px;
+}
