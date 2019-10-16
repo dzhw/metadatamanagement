@@ -245,7 +245,7 @@
 				}
 			}
 		},
-		"institution": {
+		"institutions": {
 			"type": "object",
 			"properties": {
 				"de": {
@@ -263,6 +263,33 @@
 				"en": {
 					"type": "keyword",
 					"copy_to": "all",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				}
+			}
+		},
+		"nestedInstitutions": {
+			"type": "nested",
+			"properties": {
+				"de": {
+					"type": "keyword",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"en": {
+					"type": "keyword",
 					"norms": false,
 					"fields": {
 						"ngrams": {

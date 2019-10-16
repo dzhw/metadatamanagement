@@ -11,6 +11,7 @@ angular.module('metadatamanagementApp').config(
             'studies': 'Studien',
             'studySeries': 'Studienreihe',
             'institution': 'Erhebende Institution',
+            'institutions': 'Erhebende Institution(en)',
             'authors': 'Projektmitarbeiter(innen)',
             'sponsors': 'Gefördert von',
             'version': 'Version',
@@ -200,6 +201,10 @@ angular.module('metadatamanagementApp').config(
           'move-author-down-tooltip': 'Klicken, um den ausgewählten Mitarbeiter nach unten zu verschieben.',
           'add-author-tooltip': 'Klicken, um einen neuen Mitarbeiter dieser Studie hinzuzufügen.',
           'delete-author-tooltip': 'Klicken, um den Projektmitarbeiter aus dieser Studie zu löschen.',
+          'move-institution-up-tooltip': 'Klicken, um die ausgewählte Institution nach oben zu verschieben.',
+          'move-institution-down-tooltip': 'Klicken, um die ausgewählte Institution nach unten zu verschieben.',
+          'add-institution-tooltip': 'Klicken, um eine weitere Instituion dieser Studie hinzuzufügen.',
+          'delete-institution-tooltip': 'Klicken, um die Instituion aus dieser Studie zu entfernen.',
           'choose-previous-version': {
             'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
             'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',

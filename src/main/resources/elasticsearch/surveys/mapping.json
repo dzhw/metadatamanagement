@@ -295,7 +295,7 @@
 						}
 					}
 				},
-				"institution": {
+				"institutions": {
 					"type": "object",
 					"properties": {
 						"de": {

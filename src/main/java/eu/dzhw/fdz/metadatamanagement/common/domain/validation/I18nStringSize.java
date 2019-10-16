@@ -18,7 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
  */
 @Documented
 @Constraint(validatedBy = {I18nStringSizeValidator.class})
-@Target({ElementType.FIELD})
+@Target({ElementType.FIELD, ElementType.TYPE_USE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface I18nStringSize {
   
@@ -51,4 +51,18 @@ public @interface I18nStringSize {
    * @return size the element must be equal or higher to.
    */
   int min() default 0;
+  
+  /**
+   * Defines several {@link I18nStringSize} annotations on the same element.
+   *
+   * @see I18nStringSize
+   */
+  @Target({ElementType.TYPE, ElementType.TYPE_USE})
+  @Retention(RetentionPolicy.RUNTIME)
+  @Documented
+  @interface List {
+    I18nStringSize[] value();
+  }
 }
+
+

@@ -25,8 +25,8 @@ Publisher Create But Can Not Delete Study When Publisher is Ready
    Input Text    name=studySeriesDe    Roboter Studien ${BROWSER}
    Input Text    name=studySeriesEn    Robot Studies ${BROWSER}
    Choose Panel As Survey Design
-   Input Text    name=institutionDe    DZHW ${BROWSER}
-   Input Text    name=institutionEn    DZHW ${BROWSER}
+   Input Text    name=institutionDe_0    DZHW ${BROWSER}
+   Input Text    name=institutionEn_0    DZHW ${BROWSER}
    Input Text    name=sponsorDe    BMBF ${BROWSER}
    Input Text    name=sponsorEn    BMBF ${BROWSER}
    Input Text    name=annotationsDe    Diese Studie wurde von Robot automatisch erstellt.

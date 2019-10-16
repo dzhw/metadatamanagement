@@ -130,13 +130,13 @@ id
 
    The id of the study which uniquely identifies the study in this application.
 
-institution
-^^^^^^^^^^^
+institutions
+^^^^^^^^^^^^
 
-.. java:field:: @NotNull @I18nStringSize @I18nStringEntireNotEmpty private I18nString institution
+.. java:field:: @NotEmpty private List<I18nString> institutions
    :outertype: Study
 
-   The name of the institution which has performed this study. It must be specified in German and English and it must not contain more than 512 characters.
+   The names of the institutions which have performed this study. It must be specified in German and English and it must not contain more than 512 characters.
 
 masterId
 ^^^^^^^^
