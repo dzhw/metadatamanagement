@@ -11,23 +11,6 @@
     <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
         <ul style="padding: 0px; margin: 0px;">
             <li class="fdz-navbar-menu">
-                <md-button ng-disabled="changeLanguageButtonDisabled" lang="en" id="changeLanguageToEn" ng-click="changeLanguage('en')" ng-if="currentLanguage!='en'" class="fdz-navbar-button">
-                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                        {{'global.toolbar.buttons.change-language' | translate}}
-                    </md-tooltip>
-                    <md-icon md-font-set="material-icons">language</md-icon>
-                    <span style="white-space: pre;">{{'global.menu.show-english-pages' | translate}}</span>
-                </md-button>
-                <md-button ng-disabled="changeLanguageButtonDisabled" lang="de" id="changeLanguageToDe" ng-click="changeLanguage('de')" ng-if="currentLanguage!='de'" class="fdz-navbar-button">
-                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                        {{'global.toolbar.buttons.change-language' | translate}}
-                    </md-tooltip>
-                    <md-icon md-font-set="material-icons">language</md-icon>
-                    <span style="white-space: pre;">{{'global.menu.show-german-pages' | translate}}</span>
-                </md-button>
-                <md-divider></md-divider>
-            </li>
-            <li class="fdz-navbar-menu">
               <md-button id="feedBackButton" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="openDialog()" target="_blank">
                 <md-icon md-font-set="material-icons">email</md-icon>
                 <span data-translate="global.navbar-feedback.title">Feedback</span>

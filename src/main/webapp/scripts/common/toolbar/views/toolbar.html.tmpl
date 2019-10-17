@@ -62,6 +62,20 @@
                 </md-button>
             </div>
         </div>
+      <md-button
+        lang="en"
+        id="changeLanguageToEn"
+        ng-click="changeLanguage('en')"
+        ng-if="currentLanguage!='en'">
+        <span>EN</span>
+      </md-button>
+      <md-button
+        lang="de"
+        id="changeLanguageToDe"
+        ng-click="changeLanguage('de')"
+        ng-if="currentLanguage!='de'">
+        <span>DE</span>
+      </md-button>
         <md-button
           ng-if="!isAuthenticated()"
           class="md-icon-button fdz-secondary"
