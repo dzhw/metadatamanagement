@@ -1,0 +1,51 @@
+
+$brand-primary: #fff;
+$brand-primary-light: #fff;
+$brand-primary-dark: #ccc;
+$brand-primary-text: #000;
+
+$brand-secondary: #0071bc;
+$brand-secondary-light:#589fef;
+$brand-secondary-dark:#00468b;
+$brand-secondary-text:#fff;
+
+$brand-third:  rgb(247,168,57);
+
+.fdz-toolbar {
+  color: $brand-primary-text;
+  background: $brand-primary;
+}
+
+.fdz-primary {
+  color: $brand-primary;
+}
+
+.fdz-secondary {
+  color: $brand-secondary;
+}
+
+.fdz-third {
+  color: $brand-third;
+}
+
+.fdz-headline {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.fdz-footer {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px;
+  color: rgba(0,0,0,0.57);
+
+  & a {
+    color: rgba(0,0,0,0.57);
+    margin: 0 8px;
+  }
+}
+
+

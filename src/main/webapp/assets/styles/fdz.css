@@ -1,0 +1,27 @@
+.fdz-toolbar {
+  color: #000;
+  background: #fff; }
+
+.fdz-primary {
+  color: #fff; }
+
+.fdz-secondary {
+  color: #0071bc; }
+
+.fdz-third {
+  color: #f7a839; }
+
+.fdz-headline {
+  padding-left: 16px;
+  padding-right: 16px; }
+
+.fdz-footer {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.57); }
+  .fdz-footer a {
+    color: rgba(0, 0, 0, 0.57);
+    margin: 0 8px; }
