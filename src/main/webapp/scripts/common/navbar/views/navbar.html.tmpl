@@ -123,20 +123,6 @@
             </li>
         </ul>
         <div layout="column" style="margin: 1em;" layout-align="start center" flex layout-padding>
-          <a id="dzhw-link" ng-href="{{currentLanguage==='de'?'https://www.dzhw.eu/':'http://www.dzhw.eu/en/index_html'}}" target="_blank">
-            <img ng-if="currentLanguage == 'de'" alt="{{'global.logos.dzhw-alt-text'|translate}}" src="./assets/images/DZHW_Logo_de.svg" class="dzhw_logo"/>
-            <img ng-if="currentLanguage == 'en'" alt="{{'global.logos.dzhw-alt-text'|translate}}" src="./assets/images/DZHW_Logo_en.svg" class="dzhw_logo"/>
-            <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'global.logos.dzhw-tooltip'|translate}}
-            </md-tooltip>
-         </a>
-         <a id="bmbf-link" ng-href="{{currentLanguage==='de'?'https://www.bmbf.de/':'https://www.bmbf.de/en/index.html'}}" target="_blank">
-           <img ng-if="currentLanguage == 'de'" alt="{{'global.logos.bmbf-alt-text'|translate}}" src="./assets/images/logo-bmbf-de.svg" class="bmbf_logo"/>
-           <img ng-if="currentLanguage == 'en'" alt="{{'global.logos.bmbf-alt-text'|translate}}" src="./assets/images/logo-bmbf-en.svg" class="bmbf_logo"/>
-           <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'global.logos.bmbf-tooltip'|translate}}
-           </md-tooltip>
-        </a>
         <a ng-if="ENV === 'dev' || ENV === 'local'" href="https://saucelabs.com/u/rreitmann" target="_blank">
           <img alt="Testing Powered by Sauce Labs" src="./assets/images/sauce_labs.svg" class="saucelabs_logo"/>
           <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
