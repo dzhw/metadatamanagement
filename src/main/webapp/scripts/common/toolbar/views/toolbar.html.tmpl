@@ -1,6 +1,12 @@
-<md-toolbar md-whiteframe="4">
-    <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon" ng-cloak>{{ENV}}</div>
+<md-toolbar md-whiteframe="4" class="fdz-toolbar">
+    <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon" style="z-index: 999" ng-cloak>{{ENV}}</div>
+
     <div class="md-toolbar-tools" layout="row">
+      <md-button ui-sref="search">
+        <img src="assets/images/Logo_FDZ_v1.svg"
+             alt="{{'global.rdc-alt-text'|translate}}"
+             style="height:24px;">
+      </md-button>
         <md-button class="md-icon-button" hide-gt-md ng-click="toggleLeft()">
             <md-icon md-font-set="material-icons">menu</md-icon>
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -56,12 +62,28 @@
                 </md-button>
             </div>
         </div>
-        <md-button id="shoppingCartButton" ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')" class="md-icon-button" ui-sref="shoppingCart">
+        <md-button
+          ng-if="!isAuthenticated()"
+          class="md-icon-button fdz-secondary"
+          ui-sref="login({lang:currentLanguage})">
+            <md-icon md-font-set="material-icons">account_circle</md-icon>
+        </md-button>
+      <md-button
+        ng-if="isAuthenticated()"
+        class="md-icon-button md-accent"
+        ng-click="logout()">
+            <md-icon md-font-set="material-icons">account_circle</md-icon>
+        </md-button>
+      <md-button
+        id="shoppingCartButton"
+        ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')"
+        class="md-icon-button"
+        ui-sref="shoppingCart">
             <md-icon md-font-set="material-icons">shopping_cart</md-icon>
-            <span ng-if="productsCount" class="fdz-shopping-cart-count">{{productsCount}}</span>
-            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'shopping-cart.buttons.open-cart-tooltip' | translate}}
-            </md-tooltip>
+<!--            <span ng-if="productsCount" class="fdz-shopping-cart-count">{{productsCount}}</span>-->
+<!--            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">-->
+<!--                {{'shopping-cart.buttons.open-cart-tooltip' | translate}}-->
+<!--            </md-tooltip>-->
         </md-button>
     </div>
 </md-toolbar>
