@@ -1,4 +1,4 @@
-<md-sidenav md-component-id="SideNavBar" id="SideNavBar" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4" layout="column">
+<md-sidenav md-component-id="SideNavBar" ng-class="{'md-locked-open':isAuthenticated() == true}" id="SideNavBar" md-whiteframe="4" layout="column">
     <md-toolbar style="background-color: white;">
         <md-button ng-if="$mdMedia('gt-md')" class="md-accent md-raised fdz-skip-navigation" ng-click="focusContent()">
             {{'global.menu.skip-navigation'|translate}}
@@ -10,16 +10,6 @@
     <md-divider></md-divider>
     <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
         <ul style="padding: 0px; margin: 0px;">
-            <li class="fdz-navbar-menu">
-              <md-button id="feedBackButton" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="openDialog()" target="_blank">
-                <md-icon md-font-set="material-icons">email</md-icon>
-                <span data-translate="global.navbar-feedback.title">Feedback</span>
-                <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                  {{'global.tooltips.navbar-feedback'|translate}}
-                </md-tooltip>
-              </md-button>
-              <md-divider></md-divider>
-            </li>
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER">
                 <project-navbar-module></project-navbar-module>
                 <md-divider></md-divider>
@@ -44,16 +34,6 @@
                 </md-button>
                 <md-divider></md-divider>
             </li>
-            <li class="fdz-navbar-menu">
-               <md-button class="fdz-navbar-button" href="https://metadatamanagement.readthedocs.io/de/stable/" target="_blank">
-                   <md-icon md-font-set="material-icons">library_books</md-icon>
-                   <span data-translate="global.menu.documentation">Documentation</span>
-                   <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                       {{'global.tooltips.navbar-documentation' | translate}}
-                   </md-tooltip>
-               </md-button>
-               <md-divider></md-divider>
-           </li>
             </li>
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-authority="ROLE_ADMIN">
                 <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAdminMenu()">
@@ -99,26 +79,6 @@
                         </md-button>
                     </li>
                 </ul>
-                <md-divider></md-divider>
-            </li>
-            <li class="fdz-navbar-menu">
-                <md-button class="fdz-navbar-button" href="{{currentLanguage === 'de' ? 'https://fdz.dzhw.eu/datennutzung/index_html' : 'https://fdz.dzhw.eu/en/datennutzung/index_html'}}" target="_blank">
-                    <md-icon md-font-set="material-icons">get_app</md-icon>
-                    <span data-translate="global.menu.data-access">Data Accessx</span>
-                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                        {{'data-set-management.detail.tooltips.get-data-set-tooltip' | translate}}
-                    </md-tooltip>
-                </md-button>
-                <md-divider></md-divider>
-            </li>
-            <li class="fdz-navbar-menu">
-                <md-button ui-sref="disclosure" ui-sref-active="fdz-navbar-button-active" class="fdz-navbar-button" ng-click="close()">
-                    <md-icon md-font-set="material-icons">mail_outline</md-icon>
-                    <span data-translate="global.menu.disclosure">Disclosure</span>
-                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                        {{'global.toolbar.buttons.disclosure-tooltip'|translate}}
-                    </md-tooltip>
-                </md-button>
                 <md-divider></md-divider>
             </li>
         </ul>

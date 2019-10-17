@@ -2,17 +2,17 @@
     <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon" style="z-index: 999" ng-cloak>{{ENV}}</div>
 
     <div class="md-toolbar-tools" layout="row">
+      <md-button class="md-icon-button" hide-gt-md ng-click="toggleLeft()">
+        <md-icon md-font-set="material-icons">menu</md-icon>
+        <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'global.toolbar.buttons.open-menu-tooltip' | translate}}
+        </md-tooltip>
+      </md-button>
       <md-button ui-sref="search">
         <img src="assets/images/Logo_FDZ_v1.svg"
              alt="{{'global.rdc-alt-text'|translate}}"
              style="height:24px;">
       </md-button>
-        <md-button class="md-icon-button" hide-gt-md ng-click="toggleLeft()">
-            <md-icon md-font-set="material-icons">menu</md-icon>
-            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'global.toolbar.buttons.open-menu-tooltip' | translate}}
-            </md-tooltip>
-        </md-button>
         <div layout="row" layout-align="start center" flex>
             <div ng-repeat="item in toolbarHeaderItems">
                 <md-button style="max-width: 250px; transition: unset;" ng-class="{'md-accent': $first && SearchResultNavigatorService.getSearchIndex() != null, 'hide-xs': $mdMedia('xs') && !$first, 'hide-sm': $mdMedia('sm') && !$first, 'md-icon-button': $mdMedia('xs')}" class="md-primary md-raised fdz-toolbar-button" ng-if="!$last && !item.notFound && item.state" ui-sref="{{item.state}}">
