@@ -491,8 +491,8 @@ public class DataSetReportService {
       cloudFoundryClient.tasks()
           .create(CreateTaskRequest.builder().name(dataSetId + " for " + onBehalfOf)
               .applicationId(getApplicationId(taskProperties.getAppName()))
-              .command(String.format(taskProperties.getStartCommand(), dataSetId,
-                  StringUtils.join(languages, ","), version, onBehalfOf))
+              .command(String.format(taskProperties.getStartCommand(), dataSetId, version,
+                  StringUtils.join(languages, ","), onBehalfOf))
               .diskInMb(taskProperties.getDiskSizeInMb())
               .memoryInMb(taskProperties.getMemorySizeInMb()).build())
           .block();
