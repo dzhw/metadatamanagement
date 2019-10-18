@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.cloudfoundry.client.CloudFoundryClient;
 import org.cloudfoundry.client.v3.tasks.CreateTaskRequest;
 import org.cloudfoundry.operations.CloudFoundryOperations;
@@ -468,7 +467,8 @@ public class DataSetReportService {
   }
 
   /**
-   * Start the container which builds the report. Either via cloudfoundry or locally via docker.
+   * Start one container per language which builds the report. Either via cloudfoundry or locally
+   * via docker.
    *
    * @param dataSetId The id of the dataSet for which the report will be generated.
    * @param languages The languages in which we need to generate the report. Currently supported
@@ -477,25 +477,27 @@ public class DataSetReportService {
    * @param onBehalfOf The name of the user which wants to generate the report.
    * @throws IOException in case the local task cannot be started
    */
-  public void startDataSetReportTask(String dataSetId, String version, List<String> languages,
+  public void startDataSetReportTasks(String dataSetId, String version, List<String> languages,
       String onBehalfOf) throws IOException {
-    if (environment.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {
-      log.debug("Starting docker container from image dataset-report-task...");
-      RunProcess dataSetReportTaskContainer =
-          new RunProcess("src/main/resources/bin/run-dataset-report-task.sh", dataSetId, version,
-              StringUtils.join(languages, ","), onBehalfOf);
-      dataSetReportTaskContainer.run(false);
-    } else {
-      DatasetReportTask taskProperties = metadataManagementProperties.getDatasetReportTask();
-      log.debug("Starting cloudfoundry task {}...", taskProperties.getAppName());
-      cloudFoundryClient.tasks()
-          .create(CreateTaskRequest.builder().name(dataSetId + " for " + onBehalfOf)
-              .applicationId(getApplicationId(taskProperties.getAppName()))
-              .command(String.format(taskProperties.getStartCommand(), dataSetId, version,
-                  StringUtils.join(languages, ","), onBehalfOf))
-              .diskInMb(taskProperties.getDiskSizeInMb())
-              .memoryInMb(taskProperties.getMemorySizeInMb()).build())
-          .block();
+    for (String language : languages) {
+      if (environment.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {
+        log.debug("Starting docker container from image dataset-report-task...");
+        RunProcess dataSetReportTaskContainer =
+            new RunProcess("src/main/resources/bin/run-dataset-report-task.sh", dataSetId, version,
+                language, onBehalfOf);
+        dataSetReportTaskContainer.run(false);
+      } else {
+        DatasetReportTask taskProperties = metadataManagementProperties.getDatasetReportTask();
+        log.debug("Starting cloudfoundry task {}...", taskProperties.getAppName());
+        cloudFoundryClient.tasks()
+            .create(CreateTaskRequest.builder().name(dataSetId + " for " + onBehalfOf)
+                .applicationId(getApplicationId(taskProperties.getAppName()))
+                .command(String.format(taskProperties.getStartCommand(), dataSetId, version,
+                    language, onBehalfOf))
+                .diskInMb(taskProperties.getDiskSizeInMb())
+                .memoryInMb(taskProperties.getMemorySizeInMb()).build())
+            .block();
+      }
     }
   }
 
