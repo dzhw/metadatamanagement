@@ -1,12 +1,12 @@
 <div class="fdz-paginator">
     <md-input-container class="fdz-paginator__container">
-        <span class="fdz-paginator__label">Sort by:</span>
+        <span class="fdz-paginator__label">{{'global.pagination.sort'|translate}}</span>
         <md-select
                 class=""
                 ng-change="$ctrl.onUpdate({$event: '', $option: $ctrl.options})"
                 ng-disabled="$ctrl.options.sortObject.options.length <= 1"
                 ng-model="$ctrl.options.sortObject.selected"
-                aria-label="Sort by:">
+                aria-label="{{'global.pagination.sort'|translate}}">
             <md-option
                     ng-repeat="item in $ctrl.options.sortObject.options"
                     ng-selected="$ctrl.options.sortObject.selected == item"
@@ -15,13 +15,13 @@
         </md-select>
     </md-input-container>
     <md-input-container class="fdz-paginator__container">
-        <span class="fdz-paginator__label">Items per page:</span>
+        <span class="fdz-paginator__label">{{'global.pagination.items'|translate}}</span>
         <md-select
                 class=""
                 ng-change="$ctrl.pageSize()"
                 ng-model="$ctrl.options.pageObject.size"
                 ng-disabled="$ctrl.options.pageObject.options.length <= 1"
-                aria-label="Items per Page">
+                aria-label="{{'global.pagination.items'|translate}}">
             <md-option
                     ng-repeat="item in $ctrl.options.pageObject.options"
                     ng-selected="$ctrl.options.pageObject.size == item"
@@ -30,7 +30,7 @@
         </md-select>
     </md-input-container>
     <div class="fdz-paginator__container">
-        <span class="fdz-paginator__label">{{$ctrl.calculateCurrentPage()}} von {{$ctrl.options.pageObject.totalHits}}</span>
+        <span class="fdz-paginator__label">{{$ctrl.calculateCurrentPage()}} {{'global.pagination.of'|translate}} {{$ctrl.options.pageObject.totalHits}}</span>
         <md-button
                 class="fdz-paginator__button"
                 ng-click="$ctrl.previous();"
