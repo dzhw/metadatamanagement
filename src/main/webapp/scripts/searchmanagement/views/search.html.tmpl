@@ -33,12 +33,13 @@
     <md-card ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType" style="margin-bottom: 0px;">
         <search-filter-panel current-elasticsearch-type="tabs[searchParams.selectedTabIndex].elasticSearchType" current-language="currentLanguage" current-search-params="searchParams" filter-changed-callback="onFilterChanged" bowser="bowser" is-searching="isSearching"></search-filter-panel>
     </md-card>
-  <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center">
+  <md-card ng-if="options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
     <fdz-paginator  options="options"
                     on-update="onPageChanged(event = $event, option = $option)"
-                    template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
+                    template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"
+                    style="margin: 0 16px;"></fdz-paginator>
     </md-card-content>
-  </div>
+  </md-card>
     <div flex>
         <div ng-repeat="result in searchResult" ng-switch="result._index" class="fdz-fade-in">
             <variable-search-result ng-switch-when="variables" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></variable-search-result>
@@ -50,12 +51,13 @@
             <instrument-search-result ng-switch-when="instruments" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></instrument-search-result>
             <concept-search-result ng-switch-when="concepts" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></concept-search-result>
         </div>
-        <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center">
+        <md-card ng-if="options.pageObject.totalHits" layout="row" layout-align="center">
             <fdz-paginator  options="options"
                             on-update="onPageChanged(event = $event, option = $option)"
-                            template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
+                            template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"
+                            style="margin: 0 16px;"></fdz-paginator>
             </md-card-content>
-        </div>
+        </md-card>
       <div ng-if="options.pageObject.totalHits === 0 && !isSearching" class="fdz-fade-in">
           <md-card>
                 <md-card-content>
