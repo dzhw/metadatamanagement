@@ -140,3 +140,4 @@ Desktop.ini
 /docs/build/
 /docs/source/_static/.directory
 .vscode/launch.json
+/src/main/scss/material-components
