@@ -68,7 +68,7 @@ public class TaskResourceController
    */
   @PostMapping("/tasks/error-notification")
   @Secured(value = {AuthoritiesConstants.TASK_USER})
-  public ResponseEntity<?> getTaskStatus(
+  public ResponseEntity<?> reportTaskError(
       @RequestBody @Valid TaskErrorNotification errorNotification) {
     if (StringUtils.isEmpty(errorNotification.getOnBehalfOf())) {
       taskService.handleErrorNotification(errorNotification, null);
