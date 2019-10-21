@@ -1,0 +1,98 @@
+@mixin md-nav-bar-primary {
+  > .md-nav-bar {
+    background-color: $primary-color;
+    .md-button._md-nav-button {
+      & {
+        color: $primary-100;
+      }
+      &.md-active, &.md-focused {
+        color: $primary-contrast;
+      }
+      &.md-focused {
+        background: $primary-contrast-01;
+      }
+    }
+  }
+}
+
+@mixin md-nav-bar-warn {
+  > .md-nav-bar {
+    background-color: $warn-color;
+    .md-button._md-nav-button {
+      & {
+        color: $warn-color;
+      }
+      &.md-active, &.md-focused {
+        color: $warn-contrast;
+      }
+      &.md-focused {
+        background: $warn-contrast-01;
+      }
+    }
+  }
+}
+
+@mixin md-nav-bar-accent {
+  > .md-nav-bar {
+    background-color: $accent-color;
+    .md-button._md-nav-button {
+      & {
+        color: $accent-A100;
+      }
+      &.md-active, &.md-focused {
+        color: $accent-contrast;
+      }
+      &.md-focused {
+        background: $accent-contrast-01;
+      }
+    }
+    md-nav-ink-bar {
+      color: $primary-600-1;
+      background: $primary-600-1;
+    }
+  }
+}
+
+.fdz-theme md-nav-bar {
+
+  .md-nav-bar {
+    background-color: transparent;
+    border-color: $foreground-4;
+  }
+
+  .md-button._md-nav-button {
+    &.md-unselected {
+      color: $foreground-2;
+    }
+    &[disabled] {
+      color: $foreground-3;
+    }
+  }
+
+  md-nav-ink-bar {
+    color: $accent-color;
+    background: $accent-color;
+  }
+
+  &.md-accent {
+    @include md-nav-bar-accent();
+  }
+
+  &.md-warn {
+    @include md-nav-bar-warn();
+  }
+
+  &.md-primary {
+    @include md-nav-bar-primary();
+  }
+}
+
+md-toolbar > .fdz-theme md-nav-bar {
+  @include md-nav-bar-primary();
+}
+md-toolbar.md-accent > .fdz-theme md-nav-bar {
+  @include md-nav-bar-accent();
+}
+md-toolbar.md-warn > .fdz-theme md-nav-bar {
+  @include md-nav-bar-warn();
+}

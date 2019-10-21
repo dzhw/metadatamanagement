@@ -1,0 +1,32 @@
+// Colors
+$primary-color: $brand-primary;
+$primary-100: Red;
+$primary-contrast: $brand-secondary;
+$primary-contrast-01: Red;
+$primary-contrast-026: $brand-secondary;
+
+$background-default: $brand-bg;
+$background-500-02: $brand-primary-dark;
+
+
+$warn-color: $brand-third;
+$warn-contrast: $brand-primary-text;
+$warn-contrast-01: $brand-primary-text;
+
+
+$foreground-1: $brand-primary-text;
+$foreground-2: Red;
+$foreground-3: Red;
+$foreground-4: Red;
+
+$accent-color: $brand-third;
+$accent-A100: Red;
+$accent-contrast: $brand-primary-text;
+$accent-contrast-01: Red;
+$primary-600-1: Red;
+
+// Imports
+@import "button-theme";
+@import "navBar-theme";
+@import "toolbar-theme";
+@import "content-theme";

@@ -107,10 +107,10 @@ ui-view:focus {
     pointer-events: none;
     position: absolute;
     padding: 5px 0;
-    width: 200px;
+    width: 100px;
     /* top left of the page */
-    top: 16px;
-    left: 50%;
+    top: 0;
+    left: calc(50% - 50px);
     text-align: center;
     overflow: hidden;
     //-webkit-transform: rotate(315deg);
@@ -754,12 +754,12 @@ pre {
     z-index: 50 !important;
 }
 
-a:focus,
-button:focus {
-    outline: 0 !important;
-    outline-offset: 0 !important;
-    border: 1px solid $brand-warning !important;
-}
+//a:focus,
+//button:focus {
+//    outline: 0 !important;
+//    outline-offset: 0 !important;
+//    border: 1px solid $brand-warning !important;
+//}
 
 .fdz-content:focus {
     background-color: rgba(158, 158, 158, 0.2) !important;

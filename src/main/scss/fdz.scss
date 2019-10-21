@@ -1,3 +1,21 @@
+//'grey': {
+//'50': '#fafafa',
+//'100': '#f5f5f5',
+//'200': '#eeeeee',
+//'300': '#e0e0e0',
+//'400': '#bdbdbd',
+//'500': '#9e9e9e',
+//'600': '#757575',
+//'700': '#616161',
+//'800': '#424242',
+//'900': '#212121',
+//'A100': '#ffffff',
+//'A200': '#000000',
+//'A400': '#303030',
+//'A700': '#616161',
+//'contrastDefaultColor': 'dark',
+//'contrastLightColors': '600 700 800 900 A200 A400 A700'
+
 
 $brand-primary: #fff;
 $brand-primary-light: #fff;
@@ -10,6 +28,10 @@ $brand-secondary-dark:#00468b;
 $brand-secondary-text:#fff;
 
 $brand-third:  rgb(247,168,57);
+
+$brand-bg: #E6E6E6;
+@import "material-components/index";
+
 
 .fdz-toolbar {
   color: $brand-primary-text;
@@ -32,7 +54,9 @@ $brand-third:  rgb(247,168,57);
   padding-left: 16px;
   padding-right: 16px;
 }
-
+.fdz-logo {
+  height: 24px;
+}
 .fdz-footer {
   display: flex;
   flex-flow: wrap;

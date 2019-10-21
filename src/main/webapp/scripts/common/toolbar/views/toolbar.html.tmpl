@@ -1,86 +1,88 @@
-<md-toolbar md-whiteframe="4" class="fdz-toolbar">
+<md-toolbar md-whiteframe="4" class="">
     <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon" style="z-index: 999" ng-cloak>{{ENV}}</div>
 
     <div class="md-toolbar-tools" layout="row">
-      <md-button class="md-icon-button" hide-gt-md ng-click="toggleLeft()">
+      <md-button class="md-icon-button fdz-secondary" hide-gt-md ng-if="isAuthenticated()" ng-click="toggleLeft()">
         <md-icon md-font-set="material-icons">menu</md-icon>
         <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'global.toolbar.buttons.open-menu-tooltip' | translate}}
         </md-tooltip>
       </md-button>
-      <md-button ui-sref="search">
+      <md-button ui-sref="search" aria-label="Logo. Go to search">
         <img src="assets/images/Logo_FDZ_v1.svg"
              alt="{{'global.rdc-alt-text'|translate}}"
-             style="height:24px;">
+            class="fdz-logo">
       </md-button>
         <div layout="row" layout-align="start center" flex>
-            <div ng-repeat="item in toolbarHeaderItems">
-                <md-button style="max-width: 250px; transition: unset;" ng-class="{'md-accent': $first && SearchResultNavigatorService.getSearchIndex() != null, 'hide-xs': $mdMedia('xs') && !$first, 'hide-sm': $mdMedia('sm') && !$first, 'md-icon-button': $mdMedia('xs')}" class="md-primary md-raised fdz-toolbar-button" ng-if="!$last && !item.notFound && item.state" ui-sref="{{item.state}}">
-                    <md-icon ng-if="item.iconType === 'font' && item.icon !== 'search'" md-font-set="material-icons">{{item.icon}}</md-icon>
-                    <md-icon ng-if="item.iconType === 'font' && item.icon === 'search' && $mdMedia('xs')" md-font-set="material-icons">{{item.icon}}</md-icon>
-                    <md-icon ng-if="item.iconType === 'svg'" md-svg-icon="{{item.icon}}"></md-icon>
-                    <span hide-xs class="fdz-truncate-string">{{item.type | translate}}</span>
-                    <span hide-xs class="fdz-truncate-string" ng-if="item.tabName">({{item.tabName | translate}})</span>
-                    <span hide-xs class="fdz-truncate-string" ng-if="item.id">{{item.id}}</span>
-                    <span hide-xs class="fdz-truncate-string" ng-if="item.number">{{item.number}}</span>
-                    <span hide-xs class="fdz-truncate-string" ng-if="item.numbers">{{item.numbers}}</span>
-                    <span hide-xs class="fdz-truncate-string" ng-if="item.projectId">{{item.projectId}}</span>
-                    <span hide-xs class="fdz-truncate-string" ng-if="item.name">{{item.name}}</span>
-                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                      <span ng-if="item.tabName" translate='{{item.tooltip}}' translate-value-tabname="{{item.tabName | translate}}"></span>
-                      <span ng-if="item.id" translate='{{item.tooltip}}' translate-value-param="{{item.id}}"></span>
-                      <span ng-if="item.number" translate='{{item.tooltip}}' translate-value-param="{{item.number}}"></span>
-                      <span ng-if="item.numbers" translate='{{item.tooltip}}' translate-value-param="{{item.numbers}}"></span>
-                      <span ng-if="item.projectId" translate='{{item.tooltip}}' translate-value-param="{{item.projectId}}"></span>
-                      <span ng-if="item.name" translate='{{item.tooltip}}' translate-value-param="{{item.name}}"></span>
-                    </md-tooltip>
-                </md-button>
-                <md-button class="fdz-truncate-string" ng-if="item.notFound" ng-class="{'hide-xs': $mdMedia('xs'), 'hide-sm': $mdMedia('sm') && !$first}" disabled="true" style="max-width: 250px; margin-left: 2px; color: rgba(255,255,255,0.87);">
-                    <md-icon ng-if="item.iconType == 'font'" md-font-set="material-icons" style="color: rgba(255,255,255,0.87);">{{item.icon}}</md-icon>
-                    <md-icon ng-if="item.iconType == 'svg'" md-svg-icon="{{item.icon}}" style="fill: rgba(255,255,255,0.87);"></md-icon>
-                    {{item.type | translate}}
-                    <span class="fdz-truncate-string">{{item.notFound}}</span>
-                </md-button>
-                <md-icon md-font-set="material-icons" ng-class="{'hide-xs': $mdMedia('xs'), 'hide-sm': $mdMedia('sm') && !$first}" ng-if="!$last">forward</md-icon>
-                <md-button class="fdz-truncate-string" ng-if="$last && !item.notFound" ng-disabled="!item.enableLastItem" ng-class="{'md-raised': item.enableLastItem, 'md-primary': item.enableLastItem, 'fdz-toolbar-button': item.enableLastItem}" style="max-width: 250px; margin-left: 2px; color: rgba(255,255,255,0.87);" ui-sref="{{item.state}}" ng-href="javascript:void(0);">
-                    <md-icon ng-if="item.iconType == 'font' && item.icon !== 'search'" md-font-set="material-icons" style="color: rgba(255,255,255,0.87);" aria-label="">{{item.icon}}</md-icon>
-                    <md-icon ng-if="item.iconType == 'svg'" md-svg-icon="{{item.icon}}" style="fill: rgba(255,255,255,0.87);"></md-icon>
-                    {{item.type | translate}}
-                    <span class="fdz-truncate-string" ng-if="item.tabName">({{item.tabName | translate}})</span>
-                    <span class="fdz-truncate-string" ng-if="item.id">{{item.id}}</span>
-                    <span class="fdz-truncate-string" ng-if="item.number">{{item.number}}</span>
-                    <span class="fdz-truncate-string" ng-if="item.projectId">{{item.projectId}}</span>
-                    <span class="fdz-truncate-string" ng-if="item.name">{{item.name}}</span>
-                    <md-tooltip ng-if="item.enableLastItem" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                      <span ng-if="item.tabName" translate='{{item.tooltip}}' translate-value-tabname="{{item.tabName | translate}}"></span>
-                      <span ng-if="item.id" translate='{{item.tooltip}}' translate-value-param="{{item.id}}"></span>
-                      <span ng-if="item.number" translate='{{item.tooltip}}' translate-value-param="{{item.number}}"></span>
-                      <span ng-if="item.numbers" translate='{{item.tooltip}}' translate-value-param="{{item.numbers}}"></span>
-                      <span ng-if="item.projectId" translate='{{item.tooltip}}' translate-value-param="{{item.projectId}}"></span>
-                      <span ng-if="item.name" translate='{{item.tooltip}}' translate-value-param="{{item.name}}"></span>
-                    </md-tooltip>
-                </md-button>
-            </div>
+<!--            <div ng-repeat="item in toolbarHeaderItems">-->
+<!--                <md-button style="max-width: 250px; transition: unset;" ng-class="{'md-accent': $first && SearchResultNavigatorService.getSearchIndex() != null, 'hide-xs': $mdMedia('xs') && !$first, 'hide-sm': $mdMedia('sm') && !$first, 'md-icon-button': $mdMedia('xs')}" class="md-primary md-raised fdz-toolbar-button" ng-if="!$last && !item.notFound && item.state" ui-sref="{{item.state}}">-->
+<!--                    <md-icon ng-if="item.iconType === 'font' && item.icon !== 'search'" md-font-set="material-icons">{{item.icon}}</md-icon>-->
+<!--                    <md-icon ng-if="item.iconType === 'font' && item.icon === 'search' && $mdMedia('xs')" md-font-set="material-icons">{{item.icon}}</md-icon>-->
+<!--                    <md-icon ng-if="item.iconType === 'svg'" md-svg-icon="{{item.icon}}"></md-icon>-->
+<!--                    <span hide-xs class="fdz-truncate-string">{{item.type | translate}}</span>-->
+<!--                    <span hide-xs class="fdz-truncate-string" ng-if="item.tabName">({{item.tabName | translate}})</span>-->
+<!--                    <span hide-xs class="fdz-truncate-string" ng-if="item.id">{{item.id}}</span>-->
+<!--                    <span hide-xs class="fdz-truncate-string" ng-if="item.number">{{item.number}}</span>-->
+<!--                    <span hide-xs class="fdz-truncate-string" ng-if="item.numbers">{{item.numbers}}</span>-->
+<!--                    <span hide-xs class="fdz-truncate-string" ng-if="item.projectId">{{item.projectId}}</span>-->
+<!--                    <span hide-xs class="fdz-truncate-string" ng-if="item.name">{{item.name}}</span>-->
+<!--                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">-->
+<!--                      <span ng-if="item.tabName" translate='{{item.tooltip}}' translate-value-tabname="{{item.tabName | translate}}"></span>-->
+<!--                      <span ng-if="item.id" translate='{{item.tooltip}}' translate-value-param="{{item.id}}"></span>-->
+<!--                      <span ng-if="item.number" translate='{{item.tooltip}}' translate-value-param="{{item.number}}"></span>-->
+<!--                      <span ng-if="item.numbers" translate='{{item.tooltip}}' translate-value-param="{{item.numbers}}"></span>-->
+<!--                      <span ng-if="item.projectId" translate='{{item.tooltip}}' translate-value-param="{{item.projectId}}"></span>-->
+<!--                      <span ng-if="item.name" translate='{{item.tooltip}}' translate-value-param="{{item.name}}"></span>-->
+<!--                    </md-tooltip>-->
+<!--                </md-button>-->
+<!--                <md-button class="fdz-truncate-string" ng-if="item.notFound" ng-class="{'hide-xs': $mdMedia('xs'), 'hide-sm': $mdMedia('sm') && !$first}" disabled="true" style="max-width: 250px; margin-left: 2px; color: rgba(255,255,255,0.87);">-->
+<!--                    <md-icon ng-if="item.iconType == 'font'" md-font-set="material-icons" style="color: rgba(255,255,255,0.87);">{{item.icon}}</md-icon>-->
+<!--                    <md-icon ng-if="item.iconType == 'svg'" md-svg-icon="{{item.icon}}" style="fill: rgba(255,255,255,0.87);"></md-icon>-->
+<!--                    {{item.type | translate}}-->
+<!--                    <span class="fdz-truncate-string">{{item.notFound}}</span>-->
+<!--                </md-button>-->
+<!--                <md-icon md-font-set="material-icons" ng-class="{'hide-xs': $mdMedia('xs'), 'hide-sm': $mdMedia('sm') && !$first}" ng-if="!$last">forward</md-icon>-->
+<!--                <md-button class="fdz-truncate-string" ng-if="$last && !item.notFound" ng-disabled="!item.enableLastItem" ng-class="{'md-raised': item.enableLastItem, 'md-primary': item.enableLastItem, 'fdz-toolbar-button': item.enableLastItem}" style="max-width: 250px; margin-left: 2px; color: rgba(255,255,255,0.87);" ui-sref="{{item.state}}" ng-href="javascript:void(0);">-->
+<!--                    <md-icon ng-if="item.iconType == 'font' && item.icon !== 'search'" md-font-set="material-icons" style="color: rgba(255,255,255,0.87);" aria-label="">{{item.icon}}</md-icon>-->
+<!--                    <md-icon ng-if="item.iconType == 'svg'" md-svg-icon="{{item.icon}}" style="fill: rgba(255,255,255,0.87);"></md-icon>-->
+<!--                    {{item.type | translate}}-->
+<!--                    <span class="fdz-truncate-string" ng-if="item.tabName">({{item.tabName | translate}})</span>-->
+<!--                    <span class="fdz-truncate-string" ng-if="item.id">{{item.id}}</span>-->
+<!--                    <span class="fdz-truncate-string" ng-if="item.number">{{item.number}}</span>-->
+<!--                    <span class="fdz-truncate-string" ng-if="item.projectId">{{item.projectId}}</span>-->
+<!--                    <span class="fdz-truncate-string" ng-if="item.name">{{item.name}}</span>-->
+<!--                    <md-tooltip ng-if="item.enableLastItem" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">-->
+<!--                      <span ng-if="item.tabName" translate='{{item.tooltip}}' translate-value-tabname="{{item.tabName | translate}}"></span>-->
+<!--                      <span ng-if="item.id" translate='{{item.tooltip}}' translate-value-param="{{item.id}}"></span>-->
+<!--                      <span ng-if="item.number" translate='{{item.tooltip}}' translate-value-param="{{item.number}}"></span>-->
+<!--                      <span ng-if="item.numbers" translate='{{item.tooltip}}' translate-value-param="{{item.numbers}}"></span>-->
+<!--                      <span ng-if="item.projectId" translate='{{item.tooltip}}' translate-value-param="{{item.projectId}}"></span>-->
+<!--                      <span ng-if="item.name" translate='{{item.tooltip}}' translate-value-param="{{item.name}}"></span>-->
+<!--                    </md-tooltip>-->
+<!--                </md-button>-->
+<!--            </div>-->
         </div>
       <md-button
         lang="en"
         id="changeLanguageToEn"
         ng-click="changeLanguage('en')"
-        ng-if="currentLanguage!='en'">
+        ng-if="currentLanguage!='en'"
+        class="fdz-secondary md-icon-button">
         <span>EN</span>
       </md-button>
       <md-button
         lang="de"
         id="changeLanguageToDe"
         ng-click="changeLanguage('de')"
-        ng-if="currentLanguage!='de'">
+        ng-if="currentLanguage!='de'"
+        class="fdz-secondary md-icon-button">
         <span>DE</span>
       </md-button>
         <md-button
           ng-if="!isAuthenticated()"
           class="md-icon-button fdz-secondary"
           ui-sref="login({lang:currentLanguage})">
-            <md-icon md-font-set="material-icons">account_circle</md-icon>
+            <md-icon class="fdz-secondary" md-font-set="material-icons">account_circle</md-icon>
         </md-button>
       <md-button
         ng-if="isAuthenticated()"
@@ -90,9 +92,9 @@
         </md-button>
       <md-button
         id="shoppingCartButton"
-        ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')"
-        class="md-icon-button"
+        class="md-icon-button fdz-secondary"
         ui-sref="shoppingCart">
+<!--        ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')"-->
             <md-icon md-font-set="material-icons">shopping_cart</md-icon>
 <!--            <span ng-if="productsCount" class="fdz-shopping-cart-count">{{productsCount}}</span>-->
 <!--            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">-->
