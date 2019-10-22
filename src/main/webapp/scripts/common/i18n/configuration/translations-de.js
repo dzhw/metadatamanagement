@@ -311,6 +311,9 @@ angular.module('metadatamanagementApp').config(
           'sort': 'Sortiert nach',
           'items': 'Einträge pro Seite'
         },
+        'sort':  {
+          'relevance': 'Relevanz'
+        },
         'joblogging': {
           'protocol-dialog': {
             'title': 'Protokoll',

@@ -10,7 +10,7 @@
             <md-option
                     ng-repeat="item in $ctrl.options.sortObject.options"
                     ng-selected="$ctrl.options.sortObject.selected == item"
-                    ng-value="item">{{item}}
+                    ng-value="item">{{'global.sort.' + item | translate}}
             </md-option>
         </md-select>
     </md-input-container>

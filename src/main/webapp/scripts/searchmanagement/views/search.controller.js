@@ -58,13 +58,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       } else {
         delete locationSearch['sort-by'];
       }
-
-      // Bug: The changes in locationSearch.size are not assigned
-      // to the URL when _.assign is used.
-      //_.assign(locationSearch, $scope.searchParams.filter);
-      if ($scope.searchParams.filter) {
-        locationSearch.filter = $scope.searchParams.filter;
-      }
+      _.assign(locationSearch, $scope.searchParams.filter);
       locationChanged = !angular.equals($location.search(),
         locationSearch);
       $location.search(locationSearch);
@@ -99,8 +93,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
         } else {
           $scope.searchParams.query = '';
         }
-        $scope.searchParams.filter = _.omit(locationSearch, ['page', 'type',
-          'query', 'sort-by'
+        $scope.searchParams.filter = _.omit(locationSearch, ['page', 'size',
+          'type', 'query', 'sort-by'
         ]);
         $scope.searchParams.sortBy = locationSearch['sort-by'];
         var indexToSelect = _.findIndex($scope.tabs,
@@ -130,8 +124,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       // fdz-paginator options object
       $scope.options = {
         sortObject: {
-          selected: 'Relevance',
-          options: ['Relevance']
+          selected: 'relevance',
+          options: ['relevance']
         },
         pageObject: {
           options: [10, 20, 50],
