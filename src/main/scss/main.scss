@@ -1292,11 +1292,6 @@ geographic-coverage {
     pointer-events: none;
 }
 
-.fdz-show {
-  display: flex;
-}
-@media only screen and (max-width: 650px) {
-  .fdz-show {
-    display: none;
-  }
+.fdz-paginator__select {
+    margin-bottom: 2px;
 }

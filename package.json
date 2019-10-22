@@ -38,7 +38,7 @@
     "elasticsearch-browser": "https://github.com/elastic/bower-elasticsearch-js/archive/v16.4.0.tar.gz",
     "es5-shim": "4.5.13",
     "es6-shim": "0.35.5",
-    "fdz-paginator": "1.0.8",
+    "fdz-paginator": "^1.0.9",
     "highlightjs": "9.12.0",
     "hyphenator.js": "https://github.com/mnater/Hyphenator/archive/5.3.0.tar.gz",
     "jquery": "3.4.1",

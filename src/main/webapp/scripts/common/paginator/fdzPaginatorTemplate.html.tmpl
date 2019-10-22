@@ -3,7 +3,7 @@
     <span class="fdz-paginator__label">{{'global.pagination.sort'|translate}}</span>
     <md-select
       aria-label="{{'global.pagination.sort'|translate}}"
-      class=""
+      class="fdz-paginator__select"
       ng-change="$ctrl.onUpdate({$event: '', $option: $ctrl.options})"
       ng-disabled="$ctrl.options.sortObject.options.length <= 1"
       ng-model="$ctrl.options.sortObject.selected">
@@ -15,11 +15,11 @@
     </md-select>
   </md-input-container>
   <div class="fdz-paginator__container">
-    <md-input-container class="fdz-paginator__container" style="margin-right: 16px;">
+    <md-input-container class="fdz-paginator__container">
       <span class="fdz-paginator__label">{{'global.pagination.items'|translate}}</span>
       <md-select
         aria-label="{{'global.pagination.items'|translate}}"
-        class=""
+        class="fdz-paginator__select"
         ng-change="$ctrl.pageSize()"
         ng-disabled="$ctrl.options.pageObject.options.length <= 1"
         ng-model="$ctrl.options.pageObject.size">
@@ -30,11 +30,12 @@
         </md-option>
       </md-select>
     </md-input-container>
-    <div class="fdz-paginator__container">
+    <md-input-container class="fdz-paginator__container">
       <span class="fdz-paginator__label">{{$ctrl.options.pageObject.size*($ctrl.options.pageObject.page-1)+1}} - {{$ctrl.calculateCurrentPage()}} {{'global.pagination.of'|translate}} {{$ctrl.options.pageObject.totalHits}}</span>
       <md-button
         class="fdz-paginator__button"
         ng-click="$ctrl.previous();"
+        du-smooth-scroll="top"
         ng-disabled="$ctrl.options.pageObject.page <= 1">
         <md-icon
           class="md-primary"
@@ -44,13 +45,14 @@
       <md-button
         class="fdz-paginator__button"
         ng-click="$ctrl.next();"
+        du-smooth-scroll="top"
         ng-disabled="$ctrl.options.pageObject.page >= ($ctrl.options.pageObject.totalHits / $ctrl.options.pageObject.size)">
         <md-icon
           class="md-primary"
           md-font-set="material-icons">keyboard_arrow_right
         </md-icon>
       </md-button>
-    </div>
+    </md-input-container>
   </div>
 </div>
 

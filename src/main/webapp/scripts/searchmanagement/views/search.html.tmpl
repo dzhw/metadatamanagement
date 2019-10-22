@@ -37,7 +37,7 @@
     <fdz-paginator  options="options"
                     on-update="onPageChanged(event = $event, option = $option)"
                     template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"
-                    style="margin: 0 16px;"></fdz-paginator>
+                    style="width:100%;"></fdz-paginator>
     </md-card-content>
   </md-card>
     <div flex>
@@ -55,7 +55,7 @@
             <fdz-paginator  options="options"
                             on-update="onPageChanged(event = $event, option = $option)"
                             template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"
-                            style="margin: 0 16px;"></fdz-paginator>
+                            style="width:100%;"></fdz-paginator>
             </md-card-content>
         </md-card>
       <div ng-if="options.pageObject.totalHits === 0 && !isSearching" class="fdz-fade-in">
