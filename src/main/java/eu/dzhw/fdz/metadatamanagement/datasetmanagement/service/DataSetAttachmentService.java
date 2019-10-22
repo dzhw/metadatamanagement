@@ -167,24 +167,47 @@ public class DataSetAttachmentService {
   /**
    * Attach the given file as data set report to the data set.
    * 
+   * @param language The language of the report.
    * @param dataSetId The id of a {@link DataSet}.
    * @param reportFile The pdf file.
    * @throws IOException Thrown if the multipart file cannot be read.
    */
-  public void attachDataSetReport(String dataSetId, MultipartFile reportFile) throws IOException {
+  public void attachDataSetReport(String dataSetId, String language, MultipartFile reportFile)
+      throws IOException {
     DataSet dataSet = dataSetRepository.findById(dataSetId).get();
-    DataSetAttachmentMetadata metadata = DataSetAttachmentMetadata.builder().dataSetId(dataSetId)
-        .dataAcquisitionProjectId(dataSet.getDataAcquisitionProjectId())
-        .dataSetNumber(dataSet.getNumber())
-        .fileName("dsreport-"
-            + dataSet.getDataAcquisitionProjectId() + "-ds" + dataSet.getNumber() + ".pdf")
-        .title("Datensatzreport:\n" + dataSet.getDescription().getDe())
-        .description(new I18nString(
-            "Codebook/Variablenreport/Datensatzreport von \"" + dataSet.getDescription().getDe()
-                + "\"",
-            "Codebook/Variable Report/Dataset Report of \"" + dataSet.getDescription().getEn()
-                + "\""))
-        .language("de").indexInDataSet(0).build();
+    DataSetAttachmentMetadata metadata = null;
+    switch (language) {
+      case "de":
+        metadata = DataSetAttachmentMetadata.builder().dataSetId(dataSetId)
+            .dataAcquisitionProjectId(dataSet.getDataAcquisitionProjectId())
+            .dataSetNumber(dataSet.getNumber())
+            .fileName("dsreport-" + dataSet.getDataAcquisitionProjectId() + "-ds"
+                + dataSet.getNumber() + ".pdf")
+            .title("Datensatzreport:\n" + dataSet.getDescription().getDe())
+            .description(new I18nString(
+                "Codebook/Variablenreport/Datensatzreport von \"" + dataSet.getDescription().getDe()
+                    + "\"",
+                "Codebook/Variable Report/Dataset Report of \"" + dataSet.getDescription().getEn()
+                    + "\""))
+            .language("de").indexInDataSet(0).build();
+        break;
+      case "en":
+        metadata = DataSetAttachmentMetadata.builder().dataSetId(dataSetId)
+            .dataAcquisitionProjectId(dataSet.getDataAcquisitionProjectId())
+            .dataSetNumber(dataSet.getNumber())
+            .fileName("dsreport-" + dataSet.getDataAcquisitionProjectId() + "-ds"
+                + dataSet.getNumber() + "_en.pdf")
+            .title("Dataset Report:\n" + dataSet.getDescription().getEn())
+            .description(new I18nString(
+                "Codebook/Variablenreport/Datensatzreport von \"" + dataSet.getDescription().getDe()
+                    + "\"",
+                "Codebook/Variable Report/Dataset Report of \"" + dataSet.getDescription().getEn()
+                    + "\""))
+            .language("en").indexInDataSet(0).build();
+        break;
+      default:
+        throw new IllegalArgumentException("Unsupported language '" + language + "'!");
+    }
     deleteByDataSetIdAndFilename(dataSetId, metadata.getFileName());
     createDataSetAttachment(reportFile, metadata);
   }

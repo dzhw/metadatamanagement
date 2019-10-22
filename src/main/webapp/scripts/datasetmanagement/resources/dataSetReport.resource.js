@@ -7,7 +7,8 @@ angular.module('metadatamanagementApp')
       version: '@version'
     }, {
       'startGeneration': {
-        method: 'POST'
+        method: 'POST',
+        params: {languages: '@languages'}
       }
     });
   });

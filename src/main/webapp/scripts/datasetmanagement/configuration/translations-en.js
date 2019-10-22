@@ -284,6 +284,10 @@ angular.module('metadatamanagementApp').config(
         'create-report': {
           'title': 'Generate Dataset Report',
           'version': 'Version of the Report',
+          'languages': {
+            'in-german': 'German',
+            'in-english': 'English'
+          },
           'error': {
             'version': {
               'not-empty': 'The version must not be empty.',
@@ -292,7 +296,8 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'hints': {
-            'version': 'Specify the version number to be displayed on the title page of the dataset report.'
+            'version': 'Specify the version number to be displayed on the title page of the dataset report.',
+            'languages': 'Specify at least one language in which the report shall be generated.'
           },
           'tooltip': {
             'cancel': 'Click to cancel the generation of the report',
