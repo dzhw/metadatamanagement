@@ -269,8 +269,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.searchParams, projectId,
         getSelectedMetadataType(),
         $scope.options.pageObject);
-      SearchDao.search($scope.searchParams.query, $scope.options.pageObject.page,
-        projectId, $scope.searchParams.filter,
+      SearchDao.search($scope.searchParams.query,
+        $scope.options.pageObject.page, projectId, $scope.searchParams.filter,
         getSelectedMetadataType(),
         $scope.options.pageObject.size, $scope.searchParams.sortBy)
         .then(function(data) {
