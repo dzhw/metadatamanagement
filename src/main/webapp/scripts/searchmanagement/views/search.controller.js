@@ -58,7 +58,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
       } else {
         delete locationSearch['sort-by'];
       }
-      _.assign(locationSearch, $scope.searchParams.filter);
+
+      // Bug: The changes in locationSearch.size are not assigned
+      // to the URL when _.assign is used.
+      //_.assign(locationSearch, $scope.searchParams.filter);
+      if ($scope.searchParams.filter) {
+        locationSearch.filter = $scope.searchParams.filter;
+      }
       locationChanged = !angular.equals($location.search(),
         locationSearch);
       $location.search(locationSearch);
@@ -72,6 +78,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.options.pageObject.size = 10;
         $scope.searchParams = {
           query: '',
+          size: $scope.options.pageObject.size,
           selectedTabIndex: 0
         };
       } else {
@@ -82,8 +89,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
         }
         if (locationSearch.size != null) {
           $scope.options.pageObject.size = parseInt(locationSearch.size);
+          $scope.searchParams.size = $scope.options.pageObject.size;
         } else {
           $scope.options.pageObject.size = 10;
+          $scope.searchParams.size = $scope.options.pageObject.size;
         }
         if (locationSearch.query) {
           $scope.searchParams.query = locationSearch.query;
@@ -133,6 +142,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
       $scope.searchParams = {
         query: '',
+        size: $scope.options.pageObject.size,
         selectedTabIndex: 0
       };
       readSearchParamsFromLocation();
