@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:text="#{email.dataset-report-generated.title(${dataSetId})}">Datensatzreport
+<title th:text="#{email.dataset-report-generated.title(${dataSetId},${language})}">Datensatzreport
 	zu Datensatz erfolgreich erzeugt</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <style>
@@ -21,7 +21,7 @@ body {
 	<p th:text="#{email.dataset-report-generated.greeting(${user.login})}">
 		Liebe(r) rreitmann,</p>
 	<p>
-	<span th:text="#{email.dataset-report-generated.text}">Ihr
+	<span th:text="#{email.dataset-report-generated.text(${language})}">Ihr
 		Datensatzreport wurde erfolgreich erzeugt und kann, wenn Sie
 		angemeldet sind, hier betrachted werden:</span>
 	<br />
