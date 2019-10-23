@@ -1,10 +1,6 @@
-<md-sidenav md-component-id="SideNavBar" md-is-locked-open="$mdMedia('gt-md') && isAuthenticated()" id="SideNavBar" md-whiteframe="4" layout="column">
-<!--<md-sidenav md-component-id="SideNavBar" ng-class="{'md-locked-open':isAuthenticated() == true}" id="SideNavBar" md-whiteframe="4" layout="column">-->
-    <md-toolbar>
-        <md-button
-          ng-if="$mdMedia('gt-md')"
-          class="md-accent md-raised fdz-skip-navigation"
-          ng-click="focusContent()">
+<md-sidenav md-component-id="SideNavBar" ng-class="{'md-locked-open':isAuthenticated() == true}" id="SideNavBar" md-whiteframe="4" layout="column">
+    <md-toolbar style="background-color: white;">
+        <md-button ng-if="$mdMedia('gt-md')" class="md-accent md-raised fdz-skip-navigation" ng-click="focusContent()">
             {{'global.menu.skip-navigation'|translate}}
             <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'global.menu.skip-navigation-tooltip'|translate}}
