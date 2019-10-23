@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp').config(
   function($stateProvider) {
     $stateProvider.state('search', {
       parent: 'site',
-      url: '/search?{page}{type}{data-set}' +
+      url: '/search?{page}{size}{type}{data-set}' +
       '{instrument}{panel-identifier}{derived-variables-identifier}{survey}' +
       '{study}{variable}{question}{related-publication}{access-way}{query}' +
       '{study-series-de}{study-series-en}{concept}',

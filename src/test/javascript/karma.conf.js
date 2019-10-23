@@ -76,6 +76,7 @@ module.exports = function(config) {
       'node_modules/angular-recaptcha/release/angular-recaptcha.js',
       'node_modules/jsonformatter/dist/json-formatter.js',
       'node_modules/angular-mocks/angular-mocks.js',
+      'node_modules/fdz-paginator/dest/fdz-paginator.js',
 
       'src/main/webapp/scripts/app.js',
       'src/main/webapp/scripts/**/*.js',
