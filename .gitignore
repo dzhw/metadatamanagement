@@ -140,5 +140,3 @@ Desktop.ini
 /docs/build/
 /docs/source/_static/.directory
 .vscode/launch.json
-/src/main/scss/lib/not-edited/
-/src/main/scss/material-components/not-edited
