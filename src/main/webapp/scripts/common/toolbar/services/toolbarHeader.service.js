@@ -150,7 +150,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       item: {
         'type': translationStringsMap.search.type,
         'tooltip': translationStringsMap.search.translateString,
-        'state': 'search({"page": 1})',
+        'state': 'search({"page": 1, "size": 10})',
         'tabName': 'search-management.tabs.all',
         'iconType': translationStringsMap.search.iconType,
         'icon': translationStringsMap.search.icon
