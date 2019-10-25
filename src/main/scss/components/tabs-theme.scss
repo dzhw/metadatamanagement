@@ -88,7 +88,7 @@
     text-transform: none;
     &[disabled] {
       &, md-icon {
-        color: $foreground-4;
+        color: $background-300;
       }
     }
     &.md-active, &.md-focused {

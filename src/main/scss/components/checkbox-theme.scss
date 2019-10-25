@@ -8,7 +8,7 @@
   }
 
   &.md-checked.md-focused .md-container:before {
-    background-color: $accent-color-026;
+    background-color: $accent-color;
   ;
   }
 
@@ -17,7 +17,7 @@
   }
 
   &.md-checked .md-ink-ripple {
-    color: $accent-color-087;
+    color: $accent-color;
   }
 
   &:not(.md-checked) .md-icon {
@@ -25,11 +25,11 @@
   }
 
   &.md-checked .md-icon {
-    background-color: $accent-color-087;
+    background-color: $accent-color;
   }
 
   &.md-checked .md-icon:after {
-    border-color: $accent-contrast-087;
+    border-color: $accent-contrast;
   }
 
   &:not([disabled]) {
@@ -39,7 +39,7 @@
 
     &.md-warn {
       .md-ripple {
-        color: $warn-600;
+        color: $warn-color;
       }
 
       .md-ink-ripple {
@@ -55,11 +55,11 @@
       }
 
       &.md-checked .md-icon {
-        background-color: $warn-color-087;
+        background-color: $warn-color;
       }
 
       &.md-checked.md-focused:not([disabled]) .md-container:before {
-        background-color: $warn-color-026;
+        background-color: $warn-color;
       }
 
       &.md-checked .md-icon:after {
