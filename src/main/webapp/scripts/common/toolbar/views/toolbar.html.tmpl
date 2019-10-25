@@ -84,12 +84,24 @@
           class="md-icon-button"
           ui-sref="login({lang:currentLanguage})">
             <md-icon class="fdz-secondary" md-font-set="material-icons">account_circle</md-icon>
+          <md-tooltip
+            md-direction="left"
+            md-autohide="true"
+            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'global.toolbar.buttons.login-tooltip' | translate}}
+          </md-tooltip>
         </md-button>
       <md-button
         ng-if="isAuthenticated()"
         class="md-icon-button md-accent"
         ng-click="logout()">
             <md-icon md-font-set="material-icons">account_circle</md-icon>
+            <md-tooltip
+              md-direction="left"
+              md-autohide="true"
+              md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'global.toolbar.buttons.logout-tooltip' | translate : '{username:"' + identity.login + '"}'}}
+        </md-tooltip>
         </md-button>
       <md-button
         id="shoppingCartButton"
