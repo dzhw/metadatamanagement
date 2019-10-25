@@ -1,37 +1,131 @@
-//'grey': {
-//'50': '#fafafa',
-//'100': '#f5f5f5',
-//'200': '#eeeeee',
-//'300': '#e0e0e0',
-//'400': '#bdbdbd',
-//'500': '#9e9e9e',
-//'600': '#757575',
-//'700': '#616161',
-//'800': '#424242',
-//'900': '#212121',
-//'A100': '#ffffff',
-//'A200': '#000000',
-//'A400': '#303030',
-//'A700': '#616161',
-//'contrastDefaultColor': 'dark',
-//'contrastLightColors': '600 700 800 900 A200 A400 A700'
+// Brand colors HEX
+//$brand-primary-50:  #FFFFFF; // Default
+//$brand-primary-100: #FAFAFA;
+//$brand-primary-200: #f5f5f5;
+//$brand-primary-300: #f0f0f0;
+//$brand-primary-400: #DEDEDE;
+//$brand-primary-500: #c2c2c2;
+//$brand-primary-600: #979797;
+//$brand-primary-700: #818181;
+//$brand-primary-800: #606060;
+//$brand-primary-900: #3c3c3c;
+//
+//$brand-secondary-50:  #e0f4fe;
+//$brand-secondary-100: #b2e3fd;
+//$brand-secondary-200: #7ed0fb;
+//$brand-secondary-300: #4abef7;
+//$brand-secondary-400: #20b0f6;
+//$brand-secondary-500: #00a2f3;
+//$brand-secondary-600: #0095e4;
+//$brand-secondary-700: #0082d0;
+//$brand-secondary-800: #0071bc; // Default
+//$brand-secondary-900: #03519a;
+//
+//$brand-third-50:  #fffde8;
+//$brand-third-100: #fff8c7;
+//$brand-third-200: #fff4a2;
+//$brand-third-300: #ffef7e;
+//$brand-third-400: #ffea62;
+//$brand-third-500: #fde548;
+//$brand-third-600: #fed647;
+//$brand-third-700: #fbbf40;
+//$brand-third-800: #f7a839; // Default
+//$brand-third-900: #f0812d;
+//
+//$background-50:  #FFFFFF; // Default
+//$background-100: #FAFAFA;
+//$background-200: #f5f5f5;
+//$background-300: #f0f0f0;
+//$background-400: #DEDEDE;
+//$background-500: #c2c2c2;
+//$background-600: #979797;
+//$background-700: #818181;
+//$background-800: #606060;
+//$background-900: #3c3c3c;
 
+// Brand colors RGBA
+$brand-primary: rgba(255, 255, 255, 1);
+$brand-primary-026: rgba(255, 255, 255, 0.26);
+$brand-primary-05: rgba(255, 255, 255, 0.5);
+$brand-primary-087: rgba(255, 255, 255, 0.87);
+$brand-primary-50: rgba(255, 255, 255, 1); // Default
+$brand-primary-100: rgba(250, 250, 250, 1);
+$brand-primary-200: rgba(245, 245, 245, 1);
+$brand-primary-200-038: rgba(245, 245, 245, 0.38);
+$brand-primary-300: rgba(240, 240, 240, 1);
+$brand-primary-400: rgba(222, 222, 222, 1);
+$brand-primary-500: rgba(194, 194, 194, 1);
+$brand-primary-500-contrast: $brand-primary;
+$brand-primary-600: rgba(151, 151, 151, 1);
+$brand-primary-700: rgba(129, 129, 129, 1);
+$brand-primary-800: rgba(96, 96, 96, 1);
+$brand-primary-900: rgba(60, 60, 60, 1);
 
-$brand-primary: #fff;
+$brand-secondary: rgba(0, 113, 188, 1);
+$brand-secondary-01: rgba(0, 113, 188, 0.1);
+$brand-secondary-026: rgba(0, 113, 188, 0.26);
+$brand-secondary-087: rgba(0, 113, 188, 0.87);
+$brand-secondary-01: rgba(0, 113, 188, 0.1);
+$brand-secondary-50: rgba(224, 244, 254, 1);
+$brand-secondary-100: rgba(178, 227, 253, 1);
+$brand-secondary-200: rgba(126, 208, 251, 1);
+$brand-secondary-200-038: rgba(126, 208, 251, 0.38);
+$brand-secondary-300: rgba(74, 190, 247, 1);
+$brand-secondary-400: rgba(32, 176, 246, 1);
+$brand-secondary-500: rgba(0, 162, 243, 1);
+$brand-secondary-500-06: rgba(0, 162, 243, 0.6);
+// TODO: Check contrast color
+$brand-secondary-500-contrast: $brand-primary;
+$brand-secondary-600: rgba(0, 149, 228, 1);
+$brand-secondary-700: rgba(0, 130, 208, 1);
+$brand-secondary-800: rgba(0, 113, 188, 1); // Default
+$brand-secondary-900: rgba(3, 81, 154, 1);
+
+$brand-third-50: rgba(255, 253, 232, 1);
+$brand-third-100: rgba(255, 248, 199, 1);
+$brand-third-200: rgba(255, 244, 162, 1);
+$brand-third-300: rgba(255, 239, 126, 1);
+$brand-third-400: rgba(255, 234, 98, 1);
+$brand-third-500: rgba(253, 229, 72, 1);
+$brand-third-600: rgba(254, 214, 71, 1);
+$brand-third-700: rgba(251, 191, 64, 1);
+$brand-third-800: rgba(247, 168, 57, 1); // Default
+$brand-third-900: rgba(240, 129, 45, 1);
+
+$brand-background-50:  rgba(255, 255, 255, 1); // Default
+$brand-background-100: rgba(250, 250, 250, 1);
+$brand-background-200: rgba(245, 245, 245, 1);
+$brand-background-300: rgba(240, 240, 240, 1);
+$brand-background-400: rgba(222, 222, 222, 1);
+$brand-background-500: rgba(194, 194, 194, 1);
+$brand-background-500-018: rgba(194, 194, 194, 0.18);
+$brand-background-500-02: rgba(194, 194, 194, 0.2);
+$brand-background-500-032: rgba(194, 194, 194, 0.32);
+$brand-background-600: rgba(151, 151, 151, 1);
+$brand-background-600-032: rgba(151, 151, 151, 0.32);
+$brand-background-700: rgba(129, 129, 129, 1);
+$brand-background-800: rgba(96, 96, 96, 1);
+$brand-background-900: rgba(60, 60, 60, 1);
+$brand-background-900-00: rgba(60, 60, 60, 0);
+$brand-background-900-01: rgba(60, 60, 60, 0.1);
+
+$brand-primary: $brand-primary-50;
 $brand-primary-light: #fff;
 $brand-primary-dark: #ccc;
 $brand-primary-text: #000;
 
-$brand-secondary: #0071bc;
+$brand-secondary: $brand-secondary-800;
 $brand-secondary-light:#589fef;
 $brand-secondary-dark:#00468b;
 $brand-secondary-text:#fff;
 
-$brand-third:  rgb(247,168,57);
+$brand-third: $brand-third-800;
 
 $brand-bg: #E6E6E6;
-@import "material-components/index";
 
+@import "components/index";
+// Weird CSS
+@import "components/will-be-deleted/will-be-deleted";
 
 .fdz-toolbar {
   color: $brand-primary-text;

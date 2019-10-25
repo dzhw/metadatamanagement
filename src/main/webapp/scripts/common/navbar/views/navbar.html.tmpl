@@ -1,15 +1,15 @@
-<md-sidenav md-component-id="SideNavBar" md-is-locked-open="$mdMedia('gt-md') && isAuthenticated()" id="SideNavBar" md-whiteframe="4" layout="column">
-    <md-toolbar style="background-color: white;">
+<md-sidenav md-component-id="SideNavBar" md-is-locked-open="$mdMedia('gt-md') && isAuthenticated()" id="SideNavBar" md-whiteframe="1" layout="column">
+<!--    <md-toolbar>-->
         <md-button ng-if="$mdMedia('gt-md')" class="md-accent md-raised fdz-skip-navigation" ng-click="focusContent()">
             {{'global.menu.skip-navigation'|translate}}
             <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'global.menu.skip-navigation-tooltip'|translate}}
             </md-tooltip>
         </md-button>
-    </md-toolbar>
+<!--    </md-toolbar>-->
     <md-divider></md-divider>
     <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
-        <ul style="padding: 0px; margin: 0px;">
+        <ul style="padding: 0px; margin: 0px;overflow:hidden;">
             <li class="fdz-navbar-menu" ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER">
                 <project-navbar-module></project-navbar-module>
                 <md-divider></md-divider>

@@ -1,0 +1,26 @@
+.ribbon {
+  /* positioning */
+  pointer-events: none;
+  position: absolute;
+  padding: 4px 0;
+  width: 100px;
+  /* top left of the page */
+  top: 5px;
+  left: calc(50% - 50px);
+  text-align: center;
+  overflow: hidden;
+  /* effects with some shadow */
+  //box-shadow: 0 0 0 3px #C91630, 0 0 20px -3px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0 0 #ffffff, 0 0 5px rgba(0, 0, 0, 0.3);
+  /* looks */
+  background-color: #C91630;
+  color: #ffffff;
+  //font-size: 13px;
+  //font-weight: bold;
+  text-transform: capitalize;
+  /* ribbon effects */
+  //border: 2px dotted #ffffff;
+  /* webkit antialias fix */
+  -webkit-backface-visibility: hidden;
+  z-index: 2000;
+}

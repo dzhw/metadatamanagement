@@ -25,6 +25,11 @@
     <link rel="apple-touch-icon" href="assets/images/webapp/180-Gesamte-App.png" sizes="180x180">
     <link rel="apple-touch-icon" href="assets/images/webapp/196-Gesamte-App.png" sizes="196x196">
 
+  <!-- build:css assets/styles/main.css -->
+  <link rel="stylesheet" href="assets/styles/main.css">
+  <link rel="stylesheet" href="assets/styles/fdz.css">
+  <!-- endbuild -->
+
     <!-- build:css assets/styles/vendor.css -->
     <link rel="stylesheet" href="../../../node_modules/nvd3/build/nv.d3.css" />
     <link rel="stylesheet" href="../../../node_modules/angular-material/angular-material.css" />
@@ -35,10 +40,7 @@
     <link rel="stylesheet" href="../../../node_modules/jsonformatter/dist/json-formatter.css" />
     <!-- endbuild -->
 
-  <!-- build:css assets/styles/main.css -->
-  <link rel="stylesheet" href="assets/styles/main.css">
-  <link rel="stylesheet" href="assets/styles/fdz.css">
-  <!-- endbuild -->
+
 </head>
 
 <body data-layout="column" class="fdz-theme">
@@ -74,7 +76,7 @@
 
     <fdz-navbar data-ng-cloak></fdz-navbar>
 
-        <md-content data-md-scroll-y data-layout="column" flex du-scroll-container>
+        <md-content data-md-scroll-y data-layout="column" flex du-scroll-container class="fdz-theme">
           <div id="top"></div>
           <div data-flex="noshrink" data-layout="column" class="fdz-content" tabindex="-1">
             <ui-view name="content" data-flex="noshrink" tabindex="-1" data-layout="column"></ui-view>

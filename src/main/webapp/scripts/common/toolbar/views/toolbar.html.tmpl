@@ -1,5 +1,5 @@
-<md-toolbar md-whiteframe="4" class="">
-    <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon" style="z-index: 999" ng-cloak>{{ENV}}</div>
+<md-toolbar md-whiteframe="1" class="">
+    <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon md-body-2" style="z-index: 999" ng-cloak>{{ENV}}</div>
 
     <div class="md-toolbar-tools" layout="row">
       <md-button class="md-icon-button fdz-secondary" hide-gt-md ng-if="isAuthenticated()" ng-click="toggleLeft()">
@@ -67,7 +67,7 @@
         id="changeLanguageToEn"
         ng-click="changeLanguage('en')"
         ng-if="currentLanguage!='en'"
-        class="fdz-secondary md-icon-button">
+        class="md-icon-button">
         <span>EN</span>
       </md-button>
       <md-button
@@ -75,12 +75,12 @@
         id="changeLanguageToDe"
         ng-click="changeLanguage('de')"
         ng-if="currentLanguage!='de'"
-        class="fdz-secondary md-icon-button">
+        class="md-icon-button">
         <span>DE</span>
       </md-button>
         <md-button
           ng-if="!isAuthenticated()"
-          class="md-icon-button fdz-secondary"
+          class="md-icon-button"
           ui-sref="login({lang:currentLanguage})">
             <md-icon class="fdz-secondary" md-font-set="material-icons">account_circle</md-icon>
         </md-button>
