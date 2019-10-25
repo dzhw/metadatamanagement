@@ -2,10 +2,10 @@
 
   &:not([disabled]) {
     &:hover {
-      background-color: $background-500-02;
+      background-color: $background-300;
     }
     &.md-focused {
-      background-color: $background-500-02;
+      background-color: $background-300;
     }
     &.md-icon-button:hover {
       background-color: transparent;
@@ -39,16 +39,16 @@
           color: $primary-contrast;
         }
         &:hover {
-          background-color: $background-500-02;
+          background-color: $background-300;
         }
         &.md-focused {
-          background-color: $background-500-02;
+          background-color: $background-300;
         }
       }
     }
     &:not([disabled]) {
       md-icon {
-        color: $primary-color;
+        color: $primary-contrast;
       }
     }
   }
@@ -160,7 +160,7 @@
 .fdz-theme ._md {
   a:not(.md-button) {
     &.md-primary {
-      color: $primary-color;
+      color: $primary-contrast;
 
       &:hover {
         color: $primary-700;

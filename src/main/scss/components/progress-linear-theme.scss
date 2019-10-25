@@ -1,10 +1,10 @@
-md-progress-linear.md-THEME_NAME-theme {
+.fdz-theme md-progress-linear {
   .md-container {
     background-color: $primary-100;
   }
 
   .md-bar {
-    background-color: $primary-color;
+    background-color: $primary-contrast;
   }
 
   &.md-warn {

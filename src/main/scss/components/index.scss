@@ -1,3 +1,5 @@
+// TODO: Get rid of the double color assignments and remove unused colors
+
 // Colors
 $primary-color: $brand-primary;
 $primary-color-01: $brand-primary;
@@ -8,7 +10,7 @@ $primary-contrast: $brand-secondary;
 $primary-contrast-01: $brand-secondary-01;
 $primary-contrast-026: $brand-secondary;
 $primary-contrast-087: $brand-secondary;
-$primary-100: $brand-secondary-100;
+$primary-100: $brand-secondary-50;
 $primary-200-038: $brand-secondary-200-038;
 $primary-500: $brand-secondary;
 $primary-500-06: $brand-secondary-500;
@@ -133,3 +135,4 @@ $accent-A700: $brand-third-900;
 // fdz-components
 @import "ribbon-theme";
 @import "splash-theme";
+@import "will-be-deleted/search-result-theme";

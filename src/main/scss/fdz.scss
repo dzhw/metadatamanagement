@@ -1,3 +1,8 @@
+//TODO:
+// After color correction move these colors to
+// the component templates to get rid of the
+// index.css color definition.
+
 // Brand colors HEX
 //$brand-primary-50:  #FFFFFF; // Default
 //$brand-primary-100: #FAFAFA;
@@ -44,7 +49,7 @@
 //$background-900: #3c3c3c;
 
 // Brand colors RGBA
-$brand-primary: rgba(255, 255, 255, 1);
+$brand-primary: rgba(255, 255, 255, 0.87);
 $brand-primary-026: rgba(255, 255, 255, 0.26);
 $brand-primary-05: rgba(255, 255, 255, 0.5);
 $brand-primary-087: rgba(255, 255, 255, 0.87);
@@ -148,9 +153,20 @@ $brand-bg: #E6E6E6;
   padding-left: 16px;
   padding-right: 16px;
 }
+
+// START LOGO
 .fdz-logo {
+  margin-right: 0;
+}
+.fdz-logo:hover {
+  background-color: rgba(0, 0, 0, 0)!important;
+}
+
+.fdz-logo > img {
   height: 24px;
 }
+// END LOGO
+
 .fdz-footer {
   display: flex;
   flex-flow: wrap;
