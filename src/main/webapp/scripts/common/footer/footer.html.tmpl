@@ -1,0 +1,20 @@
+<footer class="fdz-footer">
+  <div>
+    <span>&copy;2019 Deutsches Zentrum für Hochschul- und Wissenschaftsforschung GmbH</span>
+  </div>
+  <div>
+    <a href="{{currentLanguage === 'de' ? 'https://fdz.dzhw.eu/datennutzung/index_html' : 'https://fdz.dzhw.eu/en/datennutzung/index_html'}}"
+       target="_blank">
+      <span data-translate="global.menu.data-access">Data Access</span>
+    </a>
+    <a ng-click="openDialog()">
+      <span data-translate="global.navbar-feedback.title">Feedback</span>
+    </a>
+    <a href="https://metadatamanagement.readthedocs.io/de/stable/" target="_blank">
+      <span data-translate="global.menu.documentation">Documentation</span>
+    </a>
+    <a ui-sref="disclosure">
+      <span data-translate="global.menu.disclosure">Disclosure</span>
+    </a>
+  </div>
+</footer>
