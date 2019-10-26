@@ -1302,11 +1302,6 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 .fdz-search-result:focus,
 .fdz-search-result:hover {
-  color: black;
-  text-decoration: none; }
-
-.fdz-search-result:focus,
-.fdz-search-result:hover {
   background-color: rgba(158, 158, 158, 0.2); }
 
 .fdz-search-filter-component md-input-container {
@@ -1347,40 +1342,38 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   display: block;
   line-height: 1.5; }
 
-.fdz-previous-search-result,
-.fdz-next-search-result {
-  position: fixed !important;
-  top: 50% !important;
-  width: 40px !important;
-  z-index: 50 !important; }
+.fdz-theme .md-button.md-fab.fdz-previous-search-result, .fdz-theme .md-button.md-fab.fdz-next-search-result {
+  position: fixed;
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  z-index: 50; }
 
-.fdz-previous-search-result {
-  margin-left: -20px !important;
-  transition: margin-left 0.25s !important;
-  padding-right: 1px !important;
-  border-bottom-left-radius: 0 !important;
-  border-top-left-radius: 0 !important; }
+.fdz-theme .md-button.md-fab.fdz-previous-search-result {
+  margin-left: -20px;
+  transition: margin-left 0.25s;
+  padding-right: 1px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0; }
 
-.fdz-previous-search-result > md-icon {
+.fdz-theme .md-button.md-fab.fdz-previous-search-result > md-icon {
   margin-left: 8px; }
 
-.fdz-previous-search-result:focus,
-.fdz-previous-search-result:hover {
-  margin-left: 0px !important; }
+.fdz-theme .md-button.md-fab.fdz-previous-search-result:focus, .fdz-theme .md-button.md-fab.fdz-previous-search-result:hover {
+  margin-left: 0px; }
 
-.fdz-next-search-result {
+.fdz-theme .md-button.md-fab.fdz-next-search-result {
   right: -20px;
-  margin-right: 0 !important;
-  padding-left: 1px !important;
-  transition: right 0.25s !important;
-  border-bottom-right-radius: 0 !important;
-  border-top-right-radius: 0 !important; }
+  margin-right: 0;
+  padding-left: 1px;
+  transition: right 0.25s;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0; }
 
-.fdz-next-search-result > md-icon {
+.fdz-theme .md-button.md-fab.fdz-next-search-result > md-icon {
   margin-right: 8px; }
 
-.fdz-next-search-result:focus,
-.fdz-next-search-result:hover {
+.fdz-theme .md-button.md-fab.fdz-next-search-result:focus, .fdz-theme .md-button.md-fab.fdz-next-search-result:hover {
   right: 0; }
 
 .fdz-fade-in.ng-enter {
