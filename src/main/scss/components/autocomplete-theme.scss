@@ -20,9 +20,9 @@
   }
 }
 .fdz-theme md-autocomplete {
-  background: $background-hue-1;
+  background: $primary-color;
   &[disabled]:not([md-floating-label]) {
-    background: $background-hue-2;
+    background: $background-300;
   }
   button {
     md-icon {

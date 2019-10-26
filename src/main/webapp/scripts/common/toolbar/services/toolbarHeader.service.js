@@ -1,6 +1,7 @@
 /*global _*/
 'use strict';
 
+// TODO: Move factory to the appropiate location
 angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
   function($rootScope, $log) {
     var stripVersionSuffix = function(id) {

@@ -140,32 +140,44 @@ $brand-bg: #E6E6E6;
 .fdz-primary {
   color: $brand-primary;
 }
+.fdz-text {
+  color: $brand-background-600;
+}
 
 .fdz-secondary {
   color: $brand-secondary;
 }
 
 .fdz-third {
-  color: $brand-third;
+  color: $brand-third!important;
 }
 
 .fdz-headline {
-  padding-left: 16px;
-  padding-right: 16px;
+  //padding-left: 16px;
+  //padding-right: 16px;
 }
 
 // START LOGO
 .fdz-logo {
-  margin-right: 0;
+  //margin-right: 16px;
 }
 .fdz-logo:hover {
   background-color: rgba(0, 0, 0, 0)!important;
 }
 
 .fdz-logo > img {
-  height: 24px;
+  height: 32px;
 }
 // END LOGO
+
+.fdz-nav {
+  justify-content: space-between;
+}
+// START breadcrumbs
+.fdz-breadcrumbs {
+  display: flex;
+  margin: 16px 8px 8px 8px;
+}
 
 .fdz-footer {
   display: flex;

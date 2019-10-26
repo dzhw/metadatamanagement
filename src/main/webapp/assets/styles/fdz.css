@@ -109,7 +109,7 @@
 .fdz-theme md-autocomplete {
   background: white; }
   .fdz-theme md-autocomplete[disabled]:not([md-floating-label]) {
-    background: rgba(5, 153, 0, 0.93); }
+    background: #f0f0f0; }
   .fdz-theme md-autocomplete button md-icon path {
     fill: #979797; }
   .fdz-theme md-autocomplete button:after {
@@ -2022,24 +2022,27 @@ geographic-coverage {
 .fdz-primary {
   color: white; }
 
+.fdz-text {
+  color: #979797; }
+
 .fdz-secondary {
   color: #0071bc; }
 
 .fdz-third {
-  color: #f7a839; }
-
-.fdz-headline {
-  padding-left: 16px;
-  padding-right: 16px; }
-
-.fdz-logo {
-  margin-right: 0; }
+  color: #f7a839 !important; }
 
 .fdz-logo:hover {
   background-color: rgba(0, 0, 0, 0) !important; }
 
 .fdz-logo > img {
-  height: 24px; }
+  height: 32px; }
+
+.fdz-nav {
+  justify-content: space-between; }
+
+.fdz-breadcrumbs {
+  display: flex;
+  margin: 16px 8px 8px 8px; }
 
 .fdz-footer {
   display: flex;

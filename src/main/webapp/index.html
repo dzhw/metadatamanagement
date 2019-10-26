@@ -78,6 +78,9 @@
 
         <md-content data-md-scroll-y data-layout="column" flex du-scroll-container class="fdz-theme">
           <div id="top"></div>
+<!--          <div class="fdz-breadcrumbs">-->
+            <fdz-breadcrumbs items="toolbarHeaderItems"></fdz-breadcrumbs>
+<!--          </div>-->
           <div data-flex="noshrink" data-layout="column" class="fdz-content" tabindex="-1">
             <ui-view name="content" data-flex="noshrink" tabindex="-1" data-layout="column"></ui-view>
 
@@ -298,6 +301,7 @@
     <script src="scripts/common/i18n/directives/languagepicker/language-picker.directive.js"></script>
     <script src="scripts/common/i18n/directives/languagepicker/configuration/translations-de.js"></script>
     <script src="scripts/common/i18n/directives/languagepicker/configuration/translations-en.js"></script>
+    <script src="scripts/common/breadcrumbs/breadcrumbs.component.js"></script>
 
     <script src="scripts/filemanagement/resources/file.resource.js"></script>
     <script src="scripts/filemanagement/services/zipReader.service.js"></script>

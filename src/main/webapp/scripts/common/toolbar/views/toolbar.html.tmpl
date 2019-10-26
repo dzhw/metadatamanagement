@@ -1,7 +1,8 @@
 <md-toolbar md-whiteframe="1" class="">
     <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon md-body-2" style="z-index: 999" ng-cloak>{{ENV}}</div>
 
-    <div class="md-toolbar-tools" layout="row">
+    <nav class="fdz-nav md-toolbar-tools" layout="row">
+      <div>
       <md-button class="md-icon-button fdz-secondary" hide-gt-md ng-if="isAuthenticated()" ng-click="toggleLeft()">
         <md-icon md-font-set="material-icons">menu</md-icon>
         <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -14,7 +15,8 @@
         <img src="assets/images/Logo_FDZ_v1.svg"
              alt="{{'global.rdc-alt-text'|translate}}">
       </md-button>
-        <div layout="row" layout-align="start center" flex>
+      </div>
+<!--        <div layout="row" layout-align="start center" flex>-->
 <!--            <div ng-repeat="item in toolbarHeaderItems">-->
 <!--                <md-button style="max-width: 250px; transition: unset;" ng-class="{'md-accent': $first && SearchResultNavigatorService.getSearchIndex() != null, 'hide-xs': $mdMedia('xs') && !$first, 'hide-sm': $mdMedia('sm') && !$first, 'md-icon-button': $mdMedia('xs')}" class="md-primary md-raised fdz-toolbar-button" ng-if="!$last && !item.notFound && item.state" ui-sref="{{item.state}}">-->
 <!--                    <md-icon ng-if="item.iconType === 'font' && item.icon !== 'search'" md-font-set="material-icons">{{item.icon}}</md-icon>-->
@@ -62,7 +64,7 @@
 <!--                    </md-tooltip>-->
 <!--                </md-button>-->
 <!--            </div>-->
-        </div>
+<div>
       <md-button
         lang="en"
         id="changeLanguageToEn"
@@ -104,15 +106,30 @@
         </md-tooltip>
         </md-button>
       <md-button
+        ng-if="!productsCount"
+        class="md-icon-button"
+        ui-sref="shoppingCart">
+            <md-icon md-font-set="material-icons">shopping_cart</md-icon>
+        <md-tooltip
+          md-autohide="true"
+          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'shopping-cart.buttons.open-cart-tooltip' | translate}}
+        </md-tooltip>
+        </md-button>
+      <md-button
+        ng-if="productsCount"
         id="shoppingCartButton"
-        class="md-icon-button fdz-secondary"
+        class="md-icon-button md-accent"
         ui-sref="shoppingCart">
 <!--        ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')"-->
-            <md-icon md-font-set="material-icons">shopping_cart</md-icon>
+            <md-icon class="" md-font-set="material-icons">shopping_cart</md-icon>
 <!--            <span ng-if="productsCount" class="fdz-shopping-cart-count">{{productsCount}}</span>-->
-<!--            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">-->
-<!--                {{'shopping-cart.buttons.open-cart-tooltip' | translate}}-->
-<!--            </md-tooltip>-->
+            <md-tooltip
+              md-autohide="true"
+              md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'shopping-cart.buttons.open-cart-tooltip' | translate}}
+            </md-tooltip>
         </md-button>
-    </div>
+</div>
+    </nav>
 </md-toolbar>
