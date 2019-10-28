@@ -26,14 +26,17 @@
                     <div ng-message="pattern">{{'data-set-management.create-report.error.version.pattern' | translate }}</div>
                 </div>
             </md-input-container>
-            <md-input-container class="md-block" md-is-error="!reportForm.languages.$valid && (reportForm.languages.$dirty || reportForm.languages.$touched)" style="margin-top: 0px;">
-              <md-checkbox ng-model="ctrl.german" name="languages">
+            <md-input-container class="md-block" md-is-error="!reportForm.german.$valid && (reportForm.german.$dirty || reportForm.german.$touched || reportForm.english.$dirty || reportForm.english.$touched)" style="margin-top: 0px;">
+              <md-checkbox style="margin: 0 18px 0 0" ng-model="ctrl.german" name="german" ng-change="ctrl.validateLanguages()">
                 {{'data-set-management.create-report.languages.in-german' | translate }}
               </md-checkbox>
-              <md-checkbox ng-model="ctrl.english" name="languages">
+              <md-checkbox style="margin: 0 18px 0 0" ng-model="ctrl.english" name="english" ng-change="ctrl.validateLanguages()">
                 {{'data-set-management.create-report.languages.in-english' | translate }}
               </md-checkbox>
-              <div ng-if="!reportForm.languages.$dirty && !reportForm.language.$touched" class="fdz-input-hint">{{'data-set-management.create-report.hints.languages' | translate}}</div>
+              <div ng-if="!reportForm.german.$dirty && !reportForm.english.$dirty && !reportForm.german.$touched && !reportForm.english.$touched" class="fdz-input-hint">{{'data-set-management.create-report.hints.languages' | translate}}</div>
+              <div ng-messages="reportForm.german.$error">
+                  <div ng-message="not-empty">{{'data-set-management.create-report.error.languages.not-empty' | translate}}</div>
+              </div>
             </md-input-container>
         </md-dialog-content>
         <md-dialog-actions layout="row" style="padding: 0 1.5em 1em 0;">

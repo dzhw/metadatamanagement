@@ -74,7 +74,7 @@ public class DataSetReportResource {
       @PathVariable("version") String version, HttpServletRequest request,
       @RequestParam(name = "languages", defaultValue = "de") List<String> languages)
       throws IOException {
-    dataSetReportService.startDataSetReportTask(dataSetId, version, languages,
+    dataSetReportService.startDataSetReportTasks(dataSetId, version, languages,
         request.getUserPrincipal().getName());
     return ResponseEntity.ok().build();
   }

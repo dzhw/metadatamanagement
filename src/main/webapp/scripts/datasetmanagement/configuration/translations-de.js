@@ -281,6 +281,9 @@ angular.module('metadatamanagementApp').config(
                 'not-empty': 'Die Version darf nicht leer sein.',
                 'pattern': 'Die Version muss von der Form "major.minor.patch" (z.B. "1.0.0") sein.',
                 'size': 'Die Version darf nicht länger als 32 Zeichen sein.'
+              },
+              'languages': {
+                'not-empty': 'Sie müssen mindestens eine Sprache auswählen!',
               }
             },
             'hints': {
