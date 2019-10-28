@@ -29,6 +29,7 @@ angular.module('metadatamanagementApp').config(
             'register-tooltip': 'Click to register',
             'open-menu-tooltip': 'Click to open the menu',
             'disclosure-tooltip': 'Click to show the disclosure',
+            'dataprotection-tooltip': 'Click to show the data protection statement',
             'administration-tooltip': {
               'false': 'Click to open menu "Administration"',
               'true': 'Click to close menu "Administration"'
@@ -150,6 +151,7 @@ angular.module('metadatamanagementApp').config(
           'language': 'Language',
           'data-access': 'Data Access',
           'disclosure': 'Disclosure',
+          'dataprotection': 'Data Protection',
           'notepad': 'Notepad',
           'documentation': 'Documentation',
           'usage-info': 'Information for Data Providers',
