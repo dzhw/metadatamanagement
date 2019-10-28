@@ -225,7 +225,7 @@
 .fdz-theme ._md a:not(.md-button).md-warn {
   color: #f7a839; }
   .fdz-theme ._md a:not(.md-button).md-warn:hover {
-    color: #f0812d; }
+    color: #d91835; }
 
 .fdz-theme md-autocomplete {
   background: white; }
@@ -247,10 +247,10 @@
   .fdz-theme md-autocomplete.md-accent md-progress-linear .md-bar {
     background-color: #f7a839; }
   .fdz-theme md-autocomplete.md-warn md-input-container.md-input-focused .md-input {
-    border-color: #f0812d; }
+    border-color: #d91835; }
   .fdz-theme md-autocomplete.md-warn md-input-container.md-input-focused label,
   .fdz-theme md-autocomplete.md-warn md-input-container.md-input-focused md-icon {
-    color: #f0812d; }
+    color: #d91835; }
   .fdz-theme md-autocomplete.md-warn md-progress-linear .md-container {
     background-color: #F69F24; }
   .fdz-theme md-autocomplete.md-warn md-progress-linear .md-bar {
@@ -476,9 +476,9 @@
     .md-accent .fdz-theme .md-datepicker-input-container.md-datepicker-focused {
       border-bottom-color: #f7a839; }
     .md-warn .fdz-theme .md-datepicker-input-container.md-datepicker-focused {
-      border-bottom-color: #f0812d; }
+      border-bottom-color: #d91835; }
   .fdz-theme .md-datepicker-input-container.md-datepicker-invalid {
-    border-bottom-color: #f0812d; }
+    border-bottom-color: #d91835; }
 
 .fdz-theme .md-datepicker-calendar-pane {
   border-color: white; }
@@ -493,7 +493,7 @@
   color: #f7a839; }
 
 .fdz-theme .md-datepicker-open.md-warn .md-datepicker-calendar-icon, .md-warn .fdz-theme .md-datepicker-open .md-datepicker-calendar-icon {
-  color: #f0812d; }
+  color: #d91835; }
 
 .fdz-theme .md-datepicker-calendar {
   background: white; }
@@ -557,13 +557,13 @@
   color: rgba(0, 0, 0, 0.38); }
 
 .fdz-theme md-input-container label.md-required:after {
-  color: #f0812d; }
+  color: #d91835; }
 
 .fdz-theme md-input-container:not(.md-input-focused):not(.md-input-invalid) label.md-required:after {
   color: rgba(0, 0, 0, 0.54); }
 
 .fdz-theme md-input-container .md-input-messages-animation, .fdz-theme md-input-container .md-input-message-animation {
-  color: #f0812d; }
+  color: #d91835; }
   .fdz-theme md-input-container .md-input-messages-animation .md-char-counter, .fdz-theme md-input-container .md-input-message-animation .md-char-counter {
     color: black; }
 
@@ -605,19 +605,19 @@
   color: #f7a839; }
 
 .fdz-theme md-input-container:not(.md-input-invalid).md-input-focused.md-warn .md-input {
-  border-color: #f0812d; }
+  border-color: #d91835; }
 
 .fdz-theme md-input-container:not(.md-input-invalid).md-input-focused.md-warn label,
 .fdz-theme md-input-container:not(.md-input-invalid).md-input-focused.md-warn md-icon {
-  color: #f0812d; }
+  color: #d91835; }
 
 .fdz-theme md-input-container.md-input-invalid .md-input {
-  border-color: #f0812d; }
+  border-color: #d91835; }
 
 .fdz-theme md-input-container.md-input-invalid label,
 .fdz-theme md-input-container.md-input-invalid .md-input-message-animation,
 .fdz-theme md-input-container.md-input-invalid .md-char-counter {
-  color: #f0812d; }
+  color: #d91835; }
 
 .fdz-theme md-input-container .md-input[disabled],
 [disabled] .fdz-theme md-input-container .md-input {
@@ -922,8 +922,8 @@ md-input-container.md-input-focused:not(.md-input-has-value) .fdz-theme md-selec
     color: #0071bc; }
 
 md-input-container.md-input-invalid .fdz-theme md-select .md-select-value {
-  color: #f0812d !important;
-  border-bottom-color: #f0812d !important; }
+  color: #d91835 !important;
+  border-bottom-color: #d91835 !important; }
 
 md-input-container.md-input-invalid .fdz-theme md-select.md-no-underline .md-select-value {
   border-bottom-color: transparent !important; }
@@ -934,9 +934,9 @@ md-input-container:not(.md-input-invalid).md-input-focused.md-accent .md-select-
     color: #f7a839; }
 
 md-input-container:not(.md-input-invalid).md-input-focused.md-warn .md-select-value {
-  border-color: #f0812d; }
+  border-color: #d91835; }
   md-input-container:not(.md-input-invalid).md-input-focused.md-warn .md-select-value span {
-    color: #f0812d; }
+    color: #d91835; }
 
 .fdz-theme md-select[disabled] .md-select-value {
   border-bottom-color: transparent;
@@ -948,14 +948,14 @@ md-input-container:not(.md-input-invalid).md-input-focused.md-warn .md-select-va
   .fdz-theme md-select .md-select-value.md-select-placeholder {
     color: rgba(0, 0, 0, 0.38); }
   .fdz-theme md-select .md-select-value span:first-child:after {
-    color: #f0812d; }
+    color: #d91835; }
 
 .fdz-theme md-select.md-no-underline .md-select-value {
   border-bottom-color: transparent !important; }
 
 .fdz-theme md-select.ng-invalid.ng-touched .md-select-value {
-  color: #f0812d !important;
-  border-bottom-color: #f0812d !important; }
+  color: #d91835 !important;
+  border-bottom-color: #d91835 !important; }
 
 .fdz-theme md-select.ng-invalid.ng-touched.md-no-underline .md-select-value {
   border-bottom-color: transparent !important; }

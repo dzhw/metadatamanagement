@@ -124,6 +124,9 @@ $brand-third: $brand-third-800;
 
 $brand-bg: #E6E6E6;
 
+//$brand-error: #C91630;
+$brand-error: rgb(217, 24, 53);
+
 // Colors
 $primary-color: $brand-primary;
 $primary-color-01: $brand-primary;
@@ -177,7 +180,7 @@ $warn-contrast: $brand-primary-text;
 $warn-contrast-01: $brand-primary-text;
 $warn-100: #F69F24;
 $warn-600: #F69F24;
-$warn-700: $brand-third-900;
+$warn-700: $brand-error;
 
 $foreground-1: rgba(0,0,0,1);
 $foreground-1-087: rgba(0,0,0,0.87);
