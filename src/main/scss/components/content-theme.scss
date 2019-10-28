@@ -1,6 +1,13 @@
 .fdz-theme md-content {
   color: $foreground-1;
   background-color: $brand-background-300;
+
+  &.content-center {
+    align-items: center;
+    & > * {
+      max-width: 1000px;
+    }
+  }
 }
 
 

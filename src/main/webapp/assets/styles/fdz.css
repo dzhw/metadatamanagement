@@ -450,6 +450,10 @@
 .fdz-theme md-content {
   color: black;
   background-color: #f0f0f0; }
+  .fdz-theme md-content.content-center {
+    align-items: center; }
+    .fdz-theme md-content.content-center > * {
+      max-width: 1000px; }
 
 /** Theme styles for mdDatepicker. */
 .fdz-theme .md-datepicker-input {
@@ -1501,6 +1505,9 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 .fdz-theme .md-button.md-fab.fdz-next-search-result:focus, .fdz-theme .md-button.md-fab.fdz-next-search-result:hover {
   right: 0; }
+
+fdz-breadcrumbs {
+  width: 100%; }
 
 .fdz-breadcrumbs {
   display: flex;
