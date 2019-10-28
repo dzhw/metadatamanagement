@@ -29,6 +29,7 @@ angular.module('metadatamanagementApp').config(
             'register-tooltip': 'Klicken, um sich zu registrieren',
             'open-menu-tooltip': 'Klicken, um das Navigationsmenü zu öffnen',
             'disclosure-tooltip': 'Klicken, um das Impressum anzuzeigen',
+            'dataprotection-tooltip': 'Klicken, um die Datenschutzhinweise anzuzeigen',
             'administration-tooltip': {
               'false': 'Klicken, um das Menü "Administration" zu öffnen',
               'true': 'Klicken, um das Menü "Administration" zu schließen'
@@ -150,6 +151,7 @@ angular.module('metadatamanagementApp').config(
           'language': 'Sprache',
           'data-access': 'Datenzugang',
           'disclosure': 'Impressum',
+          'dataprotection': 'Datenschutz',
           'notepad': 'Merkzettel',
           'documentation': 'Dokumentation',
           'usage-info': 'Hinweise für Datengeber',
@@ -306,7 +308,13 @@ angular.module('metadatamanagementApp').config(
         },
         'pagination': {
           'next': 'Weiter',
-          'previous': 'Zurück'
+          'previous': 'Zurück',
+          'of': 'von',
+          'sort': 'Sortiert nach',
+          'items': 'Einträge pro Seite'
+        },
+        'sort':  {
+          'relevance': 'Relevanz'
         },
         'joblogging': {
           'protocol-dialog': {

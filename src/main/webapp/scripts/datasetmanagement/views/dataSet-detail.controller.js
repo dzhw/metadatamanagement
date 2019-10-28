@@ -135,10 +135,11 @@ angular.module('metadatamanagementApp')
             'views/create-report-dialog.html.tmpl',
           clickOutsideToClose: false,
           fullscreen: true
-        }).then(function(version) {
+        }).then(function(result) {
           DataSetReportResource.startGeneration({
             dataSetId: ctrl.dataSet.id,
-            version: version}).$promise.then(function() {
+            version: result.version,
+            languages: result.languages}).$promise.then(function() {
               SimpleMessageToastService.openSimpleMessageToast(
                 'data-set-management.detail.report-generation-started-toast');
             });

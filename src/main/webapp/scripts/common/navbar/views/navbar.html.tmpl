@@ -201,6 +201,16 @@
                 </md-button>
                 <md-divider></md-divider>
             </li>
+            <li class="fdz-navbar-menu">
+                <md-button class="fdz-navbar-button" href="{{currentLanguage === 'de' ? 'https://www.dzhw.eu/gmbh/datenschutz/index_html' : 'https://www.dzhw.eu/en/gmbh/datenschutz/index_html'}}" target="_blank">
+                    <md-icon md-font-set="material-icons">security</md-icon>
+                    <span data-translate="global.menu.dataprotection">security</span>
+                    <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                        {{'global.toolbar.buttons.dataprotection-tooltip'|translate}}
+                    </md-tooltip>
+                </md-button>
+                <md-divider></md-divider>
+            </li>
         </ul>
         <div layout="column" style="margin: 1em;" layout-align="start center" flex layout-padding>
           <a id="dzhw-link" ng-href="{{currentLanguage==='de'?'https://www.dzhw.eu/':'http://www.dzhw.eu/en/index_html'}}" target="_blank">

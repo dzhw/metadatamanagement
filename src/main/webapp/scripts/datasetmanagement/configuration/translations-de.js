@@ -272,15 +272,23 @@ angular.module('metadatamanagementApp').config(
           'create-report': {
             'title': 'Datensatzreport erzeugen',
             'version': 'Version des Datensatzreports',
+            'languages': {
+              'in-german': 'Deutsch',
+              'in-english': 'Englisch'
+            },
             'error': {
               'version': {
                 'not-empty': 'Die Version darf nicht leer sein.',
                 'pattern': 'Die Version muss von der Form "major.minor.patch" (z.B. "1.0.0") sein.',
                 'size': 'Die Version darf nicht länger als 32 Zeichen sein.'
+              },
+              'languages': {
+                'not-empty': 'Sie müssen mindestens eine Sprache auswählen!',
               }
             },
             'hints': {
-              'version': 'Geben Sie die Versionsnummer an, die auf der Titelseite des Datensatzreports angezeigt werden soll.'
+              'version': 'Geben Sie die Versionsnummer an, die auf der Titelseite des Datensatzreports angezeigt werden soll.',
+              'languages': 'Wählen Sie mindestens eine Sprache aus in der der Report erzeugt werden soll.'
             },
             'tooltip': {
               'cancel': 'Klicken, um das Erzeugen des Datensatzreports abzubrechen.',
