@@ -84,6 +84,12 @@
     }
   }
 
+  &.md-small {
+    font-size: 12px;
+    line-height: inherit;
+    text-transform: none;
+  }
+
   &.md-warn {
     color: $warn-color;
 

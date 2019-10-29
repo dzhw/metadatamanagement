@@ -37,21 +37,21 @@
   padding-right: 0; }
 
 .ma0 {
-  margin: 0; }
+  margin: 0 !important; }
 
 .mv0 {
-  margin-top: 0;
-  margin-bottom: 0; }
+  margin-top: 0 !important;
+  margin-bottom: 0 !important; }
 
 .mt0 {
-  margin-top: 0; }
+  margin-top: 0 !important; }
 
 .mb0 {
-  margin-bottom: 0; }
+  margin-bottom: 0 !important; }
 
 .mh0 {
-  margin-left: 0;
-  margin-right: 0; }
+  margin-left: 0 !important;
+  margin-right: 0 !important; }
 
 .list {
   list-style-type: none; }
@@ -172,6 +172,11 @@
   .fdz-theme .md-button.md-raised:not([disabled]).md-focused {
     background-color: whitesmoke; }
 
+.fdz-theme .md-button.md-small {
+  font-size: 12px;
+  line-height: inherit;
+  text-transform: none; }
+
 .fdz-theme .md-button.md-warn {
   color: #f7a839; }
   .fdz-theme .md-button.md-warn.md-raised, .fdz-theme .md-button.md-warn.md-fab {
@@ -270,7 +275,7 @@
 .fdz-theme md-backdrop {
   background-color: rgba(60, 60, 60, 0); }
   .fdz-theme md-backdrop.md-opaque {
-    background-color: rgba(60, 60, 60, 0.1); }
+    background-color: rgba(194, 194, 194, 0.32); }
 
 /** Theme styles for mdCalendar. */
 .fdz-theme .md-calendar {
@@ -312,8 +317,7 @@
   .fdz-theme md-card .md-card-image {
     border-radius: 2px 2px 0 0; }
   .fdz-theme md-card md-card-header md-card-avatar md-icon {
-    color: #0071bc;
-    background-color: white; }
+    color: #0071bc; }
   .fdz-theme md-card md-card-header md-card-header-text .md-subhead {
     color: rgba(0, 0, 0, 0.38); }
   .fdz-theme md-card md-card-title md-card-title-text:not(:only-child) .md-subhead {
@@ -450,10 +454,13 @@
 .fdz-theme md-content {
   color: black;
   background-color: #f0f0f0; }
-  .fdz-theme md-content.content-center {
+  .fdz-theme md-content .fdz-cc {
+    display: flex;
+    flex-flow: column;
     align-items: center; }
-    .fdz-theme md-content.content-center > * {
-      max-width: 1000px; }
+    .fdz-theme md-content .fdz-cc > * {
+      max-width: 1000px;
+      width: 100%; }
 
 /** Theme styles for mdDatepicker. */
 .fdz-theme .md-datepicker-input {
@@ -508,10 +515,14 @@
 .fdz-theme .md-datepicker-open .md-datepicker-input-container {
   background: white; }
 
+.fdz-theme .md-dialog-container {
+  background-color: rgba(0, 0, 0, 0.54); }
+
 .fdz-theme md-dialog {
   border-radius: 4px;
-  background-color: white;
   color: black; }
+  .fdz-theme md-dialog md-toolbar {
+    color: black !important; }
   .fdz-theme md-dialog.md-content-overflow .md-actions, .fdz-theme md-dialog.md-content-overflow md-dialog-actions {
     border-top-color: rgba(0, 0, 0, 0.12); }
 
@@ -1327,7 +1338,7 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 .fdz-theme md-toolbar:not(.md-menu-toolbar) {
   background-color: white;
   color: #0071bc;
-  z-index: 999; }
+  z-index: 30; }
   .fdz-theme md-toolbar:not(.md-menu-toolbar) md-icon {
     color: #0071bc;
     fill: #0071bc; }
@@ -1351,7 +1362,8 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 .fdz-theme .md-panel.md-tooltip {
   color: white;
-  background-color: #818181; }
+  background-color: #818181;
+  font-size: 12px; }
 
 .fdz-search-result-actions-container {
   position: absolute !important;
@@ -1507,11 +1519,16 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   right: 0; }
 
 fdz-breadcrumbs {
-  width: 100%; }
+  display: flex;
+  justify-content: center; }
+  fdz-breadcrumbs > * {
+    max-width: 1000px; }
 
 .fdz-breadcrumbs {
   display: flex;
-  margin: 16px 8px 8px 8px; }
+  margin: 16px 8px 8px 8px;
+  padding-left: 8px;
+  width: 100%; }
 
 .fdz-footer {
   display: flex;
@@ -2117,14 +2134,16 @@ md-toast.md-accent > .md-toast-content {
 .fdz-project-status-overview-metadata-status-table-cell {
   min-height: 28px; }
 
-.fdz-tag-link-container a {
-  font-weight: normal;
-  min-height: auto;
-  min-width: auto;
-  padding: 0.2em 0.6em;
-  font-size: 100% !important; }
-  .fdz-tag-link-container a:not(:last-child) {
-    margin-right: 8px; }
+.fdz-tag-link-container {
+  width: 100%; }
+  .fdz-tag-link-container a {
+    font-weight: normal;
+    min-height: auto;
+    min-width: auto;
+    padding: 0.2em 0.6em;
+    font-size: 100% !important; }
+    .fdz-tag-link-container a:not(:last-child) {
+      margin-right: 8px; }
 
 geographic-coverage-list {
   display: block; }

@@ -106,7 +106,7 @@
         </md-tooltip>
         </md-button>
       <md-button
-        ng-if="!productsCount"
+        ng-if="!productsCount && !isAuthenticated()"
         class="md-icon-button"
         ui-sref="shoppingCart">
             <md-icon md-font-set="material-icons">shopping_cart</md-icon>
@@ -117,7 +117,7 @@
         </md-tooltip>
         </md-button>
       <md-button
-        ng-if="productsCount"
+        ng-if="productsCount  && !isAuthenticated()"
         id="shoppingCartButton"
         class="md-icon-button md-accent"
         ui-sref="shoppingCart">

@@ -1,7 +1,11 @@
 'use strict';
 
 var FooterComponent = {
-  templateUrl: 'scripts/common/footer/footer.html.tmpl'
+  templateUrl: 'scripts/common/footer/footer.html.tmpl',
+  controller: 'footerController',
+  bindings: {
+    lang: '<'
+  }
 };
 
 angular

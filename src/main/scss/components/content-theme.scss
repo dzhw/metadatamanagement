@@ -2,12 +2,17 @@
   color: $foreground-1;
   background-color: $brand-background-300;
 
-  &.content-center {
+  & .fdz-cc {
+    display: flex;
+    flex-flow: column;
     align-items: center;
     & > * {
-      max-width: 1000px;
+      max-width: $content-width;
+      width: 100%;
     }
   }
+
+
 }
 
 

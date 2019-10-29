@@ -1,7 +1,7 @@
 .fdz-theme md-toolbar:not(.md-menu-toolbar) {
   background-color: $primary-color;
   color: $primary-contrast;
-  z-index: 999;
+  z-index: 30;
 
   md-icon {
     color: $primary-contrast;
