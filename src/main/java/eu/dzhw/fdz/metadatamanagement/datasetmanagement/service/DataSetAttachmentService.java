@@ -112,7 +112,7 @@ public class DataSetAttachmentService {
   public List<DataSetAttachmentMetadata> findAllByDataSet(String dataSetId) {
     Query query = new Query(GridFsCriteria.whereFilename().regex(
         "^" + Pattern.quote(DataSetAttachmentFilenameBuilder.buildFileNamePrefix(dataSetId))));
-    query.with(new Sort(Sort.Direction.ASC, "metadata.indexInDataSet"));
+    query.with(Sort.by(Sort.Direction.ASC, "metadata.indexInDataSet"));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<DataSetAttachmentMetadata> result = new ArrayList<>();
     files.forEach(gridfsFile -> {

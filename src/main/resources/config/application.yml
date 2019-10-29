@@ -19,6 +19,8 @@ spring:
         default-page-size: 10
         return-body-on-create: false
         return-body-on-update: false
+      mongodb:
+        auto-index-creation: true
     messages:
         basename: classpath:/i18n/messages
     mvc:
@@ -89,7 +91,9 @@ management:
       enabled: false
     refresh:
       enabled: false
-
+    ping:
+      enabled: false
+      
 javers:
   algorithm: levenshtein_distance
 

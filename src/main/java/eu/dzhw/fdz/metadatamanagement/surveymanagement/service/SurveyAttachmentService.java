@@ -92,7 +92,7 @@ public class SurveyAttachmentService {
   public List<SurveyAttachmentMetadata> findAllBySurvey(String surveyId) {
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^" + Pattern.quote(SurveyAttachmentFilenameBuilder.buildFileNamePrefix(surveyId))));
-    query.with(new Sort(Sort.Direction.ASC, "metadata.indexInSurvey"));
+    query.with(Sort.by(Sort.Direction.ASC, "metadata.indexInSurvey"));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<SurveyAttachmentMetadata> result = new ArrayList<>();
     files.forEach(gridfsFile -> {

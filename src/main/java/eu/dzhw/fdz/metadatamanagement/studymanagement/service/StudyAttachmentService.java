@@ -103,7 +103,7 @@ public class StudyAttachmentService {
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^" + Pattern.quote(
             StudyAttachmentFilenameBuilder.buildFileNamePrefix(studyId))));
-    query.with(new Sort(Sort.Direction.ASC, "metadata.indexInStudy"));
+    query.with(Sort.by(Sort.Direction.ASC, "metadata.indexInStudy"));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<StudyAttachmentMetadata> result = new ArrayList<>();
     files.forEach(gridfsFile -> {

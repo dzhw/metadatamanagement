@@ -12,13 +12,12 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Enable swagger for all API endpoints.
  */
 @Configuration
-@EnableSwagger2
+// @EnableSwagger2
 @Import({BeanValidatorPluginsConfiguration.class})
 public class SwaggerConfiguration {
 
