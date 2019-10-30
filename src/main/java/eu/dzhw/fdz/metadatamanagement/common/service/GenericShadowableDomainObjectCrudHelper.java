@@ -135,7 +135,7 @@ public class GenericShadowableDomainObjectCrudHelper
     if (!domainObject.isShadow()) {
       throw new IllegalArgumentException("Expected a shadow copy for deleting.");
     }
-    repository.delete(domainObject);
+    repository.deleteById(domainObject.getId());
     if (elasticsearchType != null) {
       elasticsearchUpdateQueueService.enqueue(domainObject.getId(), this.elasticsearchType,
           ElasticsearchUpdateQueueAction.DELETE);
