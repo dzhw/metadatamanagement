@@ -1395,6 +1395,11 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   color: black;
   text-decoration: none; }
 
+.fdz-search-result:focus {
+  color: black;
+  text-decoration: none;
+  outline-color: #f7a839; }
+
 .fdz-search-filter-component md-input-container {
   margin: 0; }
 
@@ -2056,7 +2061,7 @@ md-toast.md-accent > .md-toast-content {
     height: 4px;
     width: 4px; }
   ::-webkit-scrollbar-thumb {
-    background-color: white;
+    background-color: #f7a839;
     min-height: 2em;
     border-radius: 8px; } }
 
