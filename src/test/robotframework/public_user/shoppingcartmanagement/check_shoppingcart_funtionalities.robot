@@ -72,7 +72,7 @@ Close The Toast Message
    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
 
 Check The Links
-    @{MD_DATALINKS}   Create List    Variablen   Datens
+    @{MD_DATALINKS}   Create List    Variablen   Datensätze
     :FOR   ${MD_LK}   IN  @{MD_DATALINKS}
     \   Click Element Through Tooltips   xpath=//a[contains(., '${MD_LK}')]
     \   Go Back
