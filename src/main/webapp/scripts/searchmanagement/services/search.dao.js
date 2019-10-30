@@ -373,8 +373,18 @@ angular.module('metadatamanagementApp').service('SearchDao',
           'population', 'release',
           'instrumentNumber', 'instrument.description', 'surveys.title',
           'language', 'subDataSets', 'accessWays', 'maxNumberOfObservations',
-          'masterId'
+          'masterId', 'surveyDataType', 'surveyDesign'
         ];
+        // query.body._source=['id', 'number', 'questionText', 'title',
+        //   'description', 'type', 'year', 'sourceReference', 'authors',
+        //   'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
+        //   'sample', 'shadow',
+        //   'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
+        //   'population', 'release',
+        //   'instrumentNumber', 'instrument.description', 'surveys.title',
+        //   'language', 'subDataSets', 'accessWays', 'maxNumberOfObservations',
+        //   'masterId'
+        // ];
 
         query.body.sort = SearchHelperService
           .createSortByCriteria(elasticsearchType);

@@ -1,4 +1,5 @@
 .fdz-theme md-sidenav {
+  z-index: 20;
   &, md-content {
     background-color: $background-hue-1;
   }

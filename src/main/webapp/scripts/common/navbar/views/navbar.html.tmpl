@@ -1,4 +1,4 @@
-<md-sidenav md-component-id="SideNavBar" md-is-locked-open="$mdMedia('gt-md') && isAuthenticated()" id="SideNavBar" md-whiteframe="1" layout="column">
+<md-sidenav md-component-id="SideNavBar" md-is-locked-open="$mdMedia('gt-md')" id="SideNavBar" md-whiteframe="1" layout="column">
 <!--    <md-toolbar>-->
         <md-button ng-if="$mdMedia('gt-md')" class="md-accent md-raised fdz-skip-navigation" ng-click="focusContent()">
             {{'global.menu.skip-navigation'|translate}}
@@ -7,6 +7,7 @@
             </md-tooltip>
         </md-button>
 <!--    </md-toolbar>-->
+    <fdz-search></fdz-search>
     <md-divider></md-divider>
     <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
         <ul style="padding: 0px; margin: 0px;overflow:hidden;">
