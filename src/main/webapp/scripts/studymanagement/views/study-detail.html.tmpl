@@ -70,9 +70,9 @@
                         <span style="font-weight: bold;">{{'study-management.detail.label.wave' | translate }}:</span>
                         <span>{{ctrl.study.numberOfWaves}}</span>
                     </div>
-                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.surveyDataType">
+                    <div class="fdz-add-bottom-margin" ng-if="ctrl.study.surveyDataTypes && ctrl.study.surveyDataTypes.length > 0">
                         <span style="font-weight: bold;">{{'study-management.detail.label.survey-data-type' | translate }}:</span>
-                        <span display-i18n-string="ctrl.study.surveyDataType" fdz-hyphenate></span>
+                        <span ng-repeat="dataType in ctrl.study.surveyDataTypes">{{dataType[currentLanguage]}}{{!$last?'; ':''}}</span>
                     </div>
                     <div class="fdz-add-bottom-margin" ng-if="ctrl.study.doi || ctrl.isBetaRelease(ctrl.study)">
                         <span style="font-weight: bold;">{{'study-management.detail.label.doi' | translate }}:</span>
