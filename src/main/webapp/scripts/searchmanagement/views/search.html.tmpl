@@ -1,39 +1,41 @@
 <div class="fdz-cc">
 <div flex layout="column" ng-switch="isAuthenticated()" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="isDropZoneDisabled">
-<!--    <md-card style="margin-bottom: 0px; display: block;">-->
-<!--        <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height md-border-bottom>-->
-<!--            <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">-->
-<!--                <md-tab-label>-->
-<!--                    <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>-->
-<!--                    <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>-->
-<!--                        <span ng-if="tab.group && currentProject && !currentProject.released && hasAnyAuthority(['ROLE_PUBLISHER','ROLE_DATA_PROVIDER']) && tab.group !== 'concepts'" ng-switch="getSentimentValue(tab.group)">-->
-<!--                            <span ng-switch-when="0">-->
-<!--                                <md-icon md-svg-src="assets/images/icons/clipboard.svg"></md-icon>-->
-<!--                            </span>-->
-<!--                            <span ng-switch-when="1">-->
-<!--                                <md-icon md-svg-src="assets/images/icons/clipboard-check.svg"></md-icon>-->
-<!--                            </span>-->
-<!--                            <span ng-switch-when="2">-->
-<!--                                <md-icon md-svg-src="assets/images/icons/clipboard-double-check.svg"></md-icon>-->
-<!--                            </span>-->
-<!--                        </span>-->
-<!--                    <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.msie || bowser.msedge || bowser.mobile || bowser.tablet ? -100 : 100001">{{tab.title+'-tooltip'|translate}}</md-tooltip>-->
-<!--                </md-tab-label>-->
-<!--            </md-tab>-->
-<!--        </md-tabs>-->
-<!--        <form role="search" ng-submit="hideMobileKeyboard($event)">-->
-<!--            <md-input-container class="fdz-search-input">-->
-<!--                <label>{{tabs[searchParams.selectedTabIndex].inputLabel|translate}}</label>-->
-<!--                <md-icon md-font-set="material-icons">search</md-icon>-->
-<!--                <input id="query" type="search" ng-model="searchParams.query" ng-model-options="{debounce: 250}" autocomplete="off" tabindex="0" fdz-clear-input md-select-on-focus>-->
-<!--            </md-input-container>-->
-<!--            <input type="submit" ng-hide="true">-->
-<!--        </form>-->
-<!--        <md-progress-linear ng-if="!tabs[searchParams.selectedTabIndex].elasticSearchType" md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>-->
-<!--    </md-card>-->
-<!--    <md-card ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType" style="margin-bottom: 0px;">-->
-<!--        <search-filter-panel current-elasticsearch-type="tabs[searchParams.selectedTabIndex].elasticSearchType" current-language="currentLanguage" current-search-params="searchParams" filter-changed-callback="onFilterChanged" bowser="bowser" is-searching="isSearching"></search-filter-panel>-->
-<!--    </md-card>-->
+  <div ng-if="isAuthenticated()">
+    <md-card style="margin-bottom: 0px; display: block;">
+        <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height md-border-bottom>
+            <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
+                <md-tab-label>
+                    <md-icon ng-if="tab.icon" md-svg-icon="{{tab.icon}}"></md-icon>
+                    <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
+                        <span ng-if="tab.group && currentProject && !currentProject.released && hasAnyAuthority(['ROLE_PUBLISHER','ROLE_DATA_PROVIDER']) && tab.group !== 'concepts'" ng-switch="getSentimentValue(tab.group)">
+                            <span ng-switch-when="0">
+                                <md-icon md-svg-src="assets/images/icons/clipboard.svg"></md-icon>
+                            </span>
+                            <span ng-switch-when="1">
+                                <md-icon md-svg-src="assets/images/icons/clipboard-check.svg"></md-icon>
+                            </span>
+                            <span ng-switch-when="2">
+                                <md-icon md-svg-src="assets/images/icons/clipboard-double-check.svg"></md-icon>
+                            </span>
+                        </span>
+                    <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.msie || bowser.msedge || bowser.mobile || bowser.tablet ? -100 : 100001">{{tab.title+'-tooltip'|translate}}</md-tooltip>
+                </md-tab-label>
+            </md-tab>
+        </md-tabs>
+        <form role="search" ng-submit="hideMobileKeyboard($event)">
+            <md-input-container class="fdz-search-input">
+                <label>{{tabs[searchParams.selectedTabIndex].inputLabel|translate}}</label>
+                <md-icon md-font-set="material-icons">search</md-icon>
+                <input id="query" type="search" ng-model="searchParams.query" ng-model-options="{debounce: 250}" autocomplete="off" tabindex="0" fdz-clear-input md-select-on-focus>
+            </md-input-container>
+            <input type="submit" ng-hide="true">
+        </form>
+        <md-progress-linear ng-if="!tabs[searchParams.selectedTabIndex].elasticSearchType" md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>
+    </md-card>
+    <md-card ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType" style="margin-bottom: 0px;">
+        <search-filter-panel current-elasticsearch-type="tabs[searchParams.selectedTabIndex].elasticSearchType" current-language="currentLanguage" current-search-params="searchParams" filter-changed-callback="onFilterChanged" bowser="bowser" is-searching="isSearching"></search-filter-panel>
+    </md-card>
+  </div>
   <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
     <fdz-paginator  options="options"
                     on-update="onPageChanged(event = $event, option = $option)"
@@ -42,14 +44,14 @@
   </div>
     <div flex>
         <div ng-repeat="result in searchResult" ng-switch="result._index" class="fdz-fade-in">
-<!--            <variable-search-result ng-switch-when="variables" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></variable-search-result>-->
-<!--            <survey-search-result ng-switch-when="surveys" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="computeSearchResultIndex($index)"></survey-search-result>-->
-<!--            <question-search-result ng-switch-when="questions" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></question-search-result>-->
-<!--            <dataset-search-result ng-switch-when="data_sets" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="computeSearchResultIndex($index)"></dataset-search-result>-->
+            <variable-search-result ng-if="isAuthenticated()" ng-switch-when="variables" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></variable-search-result>
+            <survey-search-result ng-if="isAuthenticated()" ng-switch-when="surveys" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="computeSearchResultIndex($index)"></survey-search-result>
+            <question-search-result ng-if="isAuthenticated()" ng-switch-when="questions" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></question-search-result>
+            <dataset-search-result ng-if="isAuthenticated()" ng-switch-when="data_sets" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="computeSearchResultIndex($index)"></dataset-search-result>
             <study-search-result ng-switch-when="studies" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></study-search-result>
-<!--            <related-publication-search-result ng-switch-when="related_publications" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></related-publication-search-result>-->
-<!--            <instrument-search-result ng-switch-when="instruments" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></instrument-search-result>-->
-<!--            <concept-search-result ng-switch-when="concepts" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></concept-search-result>-->
+            <related-publication-search-result ng-if="isAuthenticated()" ng-switch-when="related_publications" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></related-publication-search-result>
+            <instrument-search-result ng-if="isAuthenticated()" ng-switch-when="instruments" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></instrument-search-result>
+            <concept-search-result ng-if="isAuthenticated()" ng-switch-when="concepts" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></concept-search-result>
         </div>
         <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center">
             <fdz-paginator  options="options"
