@@ -5,14 +5,6 @@ angular.module('metadatamanagementApp').config(
     var translations = {
       //jscs:disable
       'administration': {
-        'configuration': {
-          'title': 'Spring Configuration',
-          'filter': 'Filter (by prefix)',
-          'table': {
-            'prefix': 'Prefix',
-            'properties': 'Properties'
-          }
-        },
         'health': {
           'title': 'Availability of External Services',
           'refresh-button': 'Refresh',
