@@ -1,25 +1,31 @@
-<md-card>
-  <a class="fdz-search-result"
-    ui-sref="studyDetail({id: searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: ''})">
-    <md-card-header class="fdz-card-header-border">
-      <md-card-header-text class="fdz-truncate-string">
-        <div class="md-title fdz-truncate-string">
+<md-card class="fdz-search-result">
+
+    <md-card-header>
+      <md-card-header-text>
+        <div class="md-title">
+          <a ui-sref="studyDetail({id: searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: ''})">
           <span display-i18n-string="searchResult.title"></span>
+          </a>
         </div>
-        <div class="md-subhead fdz-truncate-string">
-                    <span ng-repeat="author in searchResult.authors">
-                    <span>{{author.lastName}}, </span>
-                    <span ng-if="!author.middleName">{{author.firstName}}{{!$last?';':''}}</span>
-                    <span ng-if="author.middleName">{{author.firstName}} {{author.middleName}}{{!$last?';':''}}</span>
-                    </span>
+        <div class="md-subhead">
+          <span ng-if="searchResult.surveyPeriod.start">
+            {{'study-management.detail.label.survey-period' | translate }}: {{(searchResult.surveyPeriod.start | date:'mediumDate')}} - {{(searchResult.surveyPeriod.end | date:'mediumDate')}}
+          </span>
+          <span ng-if="searchResult.surveyDataTypes.length > 0">
+            {{'study-management.detail.label.survey-data-type' | translate }}: {{searchResult.surveyDataTypes[0][currentLanguage]}}
+          </span>
         </div>
       </md-card-header-text>
     </md-card-header>
-    <md-card-content>
-      <div class="fdz-text-block fdz-multiline-property" display-i18n-string="searchResult.description" fdz-hyphenate
-           limit-to="256"></div>
+    <md-card-content
+      ng-text-truncate="searchResult.description[currentLanguage]"
+      ng-tt-chars-threshold="256"
+      ng-tt-more-label="{{'global.more' | translate}}"
+      ng-tt-less-label="{{'global.less' | translate}}">
     </md-card-content>
-  </a>
+  <md-card-actions layout="row" layout-align="start center">
+    <a class="md-small md-primary" ng-if="searchQuery" ui-sref="studyDetail({id: searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: '', 'query': searchQuery})">Suche {{searchQuery}} im Datenpaket</a>
+  </md-card-actions>
   <div class="fdz-search-result-actions-container" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
        ng-if="!projectIsCurrentlyReleased">
     <md-button class="md-icon-button md-primary" ng-click="studyEdit()">

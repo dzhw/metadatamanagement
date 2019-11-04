@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
       templateUrl: 'scripts/searchmanagement/directives/' +
         'study-search-result.html.tmpl',
       scope: {
+        searchQuery: '<',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',

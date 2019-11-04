@@ -19,6 +19,7 @@ angular.module('metadatamanagementApp').config(
             'annotations': 'Anmerkungen',
             'wave': 'Wellen',
             'survey-data-type': 'Erhebungsdatentyp',
+            'survey-period': 'Erhebungszeitraum',
             'title': 'Titel',
             'dataAvailability': 'Datenverfügbarkeit',
             'attachments': {

@@ -1,0 +1,63 @@
+.fdz-theme .fdz-search-result {
+  & a {
+    color: $primary-contrast;
+    //text-decoration: none;
+    cursor: pointer;
+  }
+  & a:focus {
+    outline-color: $accent-color;
+  }
+
+  & md-card-header {
+    //border-bottom: 1px $foreground-4 solid;
+    & md-card-header-text,
+    & md-card-header-text .md-title,
+    & md-card-header-text .md-subhead > * {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  & .md-subhead {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-between;
+  }
+
+  & md-card-content {
+    display: block;
+    padding: 0 16px;
+    text-align: justify;
+    //white-space: pre-line;
+    & .btn-link {
+      font-weight: 400;
+      color: $primary-contrast;
+      border-radius: 0;
+    }
+  }
+
+  & md-card-actions > a {
+    margin: 8px;
+  }
+}
+
+.fdz-search-result__link {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.fdz-search-result__link:focus,
+.fdz-search-result__link:hover {
+  background-color: rgba(158, 158, 158, 0.2);
+}
+.fdz-search-result__link:hover {
+  color: black;
+  text-decoration: none;
+}
+.fdz-search-result__link:focus {
+  color: black;
+  text-decoration: none;
+  outline-color: $accent-color;
+}

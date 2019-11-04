@@ -14,6 +14,8 @@ angular.module('metadatamanagementApp').config(
         'in-german': 'in German',
         'in': 'in',
         'in-english': 'in English',
+        'more': 'more',
+        'less': 'less',
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {

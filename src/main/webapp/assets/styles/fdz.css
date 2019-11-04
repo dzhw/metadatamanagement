@@ -1380,31 +1380,6 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   background-color: white !important;
   border-bottom-left-radius: 4px !important; }
 
-.fdz-search-result-icon {
-  width: 40px;
-  height: 40px;
-  color: white;
-  background-color: transparent;
-  padding: 0; }
-
-.fdz-search-result {
-  color: black;
-  text-decoration: none;
-  cursor: pointer; }
-
-.fdz-search-result:focus,
-.fdz-search-result:hover {
-  background-color: rgba(158, 158, 158, 0.2); }
-
-.fdz-search-result:hover {
-  color: black;
-  text-decoration: none; }
-
-.fdz-search-result:focus {
-  color: black;
-  text-decoration: none;
-  outline-color: #f7a839; }
-
 .fdz-search-filter-component md-input-container {
   margin: 0; }
 
@@ -1442,6 +1417,55 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 .fdz-search-filter-items .item-metadata {
   display: block;
   line-height: 1.5; }
+
+.fdz-theme .fdz-search-result a {
+  color: #0071bc;
+  cursor: pointer; }
+
+.fdz-theme .fdz-search-result a:focus {
+  outline-color: #f7a839; }
+
+.fdz-theme .fdz-search-result md-card-header md-card-header-text,
+.fdz-theme .fdz-search-result md-card-header md-card-header-text .md-title,
+.fdz-theme .fdz-search-result md-card-header md-card-header-text .md-subhead > * {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }
+
+.fdz-theme .fdz-search-result .md-subhead {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between; }
+
+.fdz-theme .fdz-search-result md-card-content {
+  display: block;
+  padding: 0 16px;
+  text-align: justify; }
+  .fdz-theme .fdz-search-result md-card-content .btn-link {
+    font-weight: 400;
+    color: #0071bc;
+    border-radius: 0; }
+
+.fdz-theme .fdz-search-result md-card-actions > a {
+  margin: 8px; }
+
+.fdz-search-result__link {
+  color: black;
+  text-decoration: none;
+  cursor: pointer; }
+
+.fdz-search-result__link:focus,
+.fdz-search-result__link:hover {
+  background-color: rgba(158, 158, 158, 0.2); }
+
+.fdz-search-result__link:hover {
+  color: black;
+  text-decoration: none; }
+
+.fdz-search-result__link:focus {
+  color: black;
+  text-decoration: none;
+  outline-color: #f7a839; }
 
 .ribbon {
   /* positioning */

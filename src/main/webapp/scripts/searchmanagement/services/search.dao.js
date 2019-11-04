@@ -373,7 +373,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
           'population', 'release',
           'instrumentNumber', 'instrument.description', 'surveys.title',
           'language', 'subDataSets', 'accessWays', 'maxNumberOfObservations',
-          'masterId', 'surveyDataType', 'surveyDesign'
+          'masterId', 'surveyDataTypes', 'surveyDesign', 'surveyPeriod'
         ];
         // query.body._source=['id', 'number', 'questionText', 'title',
         //   'description', 'type', 'year', 'sourceReference', 'authors',
