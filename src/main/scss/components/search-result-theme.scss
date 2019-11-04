@@ -26,8 +26,6 @@
   }
 
   & md-card-content {
-    display: block;
-    padding: 0 16px;
     text-align: justify;
     //white-space: pre-line;
     & .btn-link {
@@ -38,7 +36,7 @@
   }
 
   & md-card-actions > a {
-    margin: 8px;
+    margin: 0 8px 16px 8px;
   }
 }
 

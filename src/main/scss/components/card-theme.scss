@@ -4,7 +4,7 @@ $card-border-radius: 2px !default;
   color: $foreground-1;
   background-color: $background-hue-1;
   border-radius: $card-border-radius;
-
+  position: relative;
   .md-card-image {
     border-radius: $card-border-radius $card-border-radius 0 0;
   }
@@ -32,5 +32,9 @@ $card-border-radius: 2px !default;
         }
       }
     }
+  }
+  md-card-content {
+    display: block;
+    padding: 0 16px 16px 16px;
   }
 }

@@ -316,7 +316,8 @@
 .fdz-theme md-card {
   color: black;
   background-color: white;
-  border-radius: 2px; }
+  border-radius: 2px;
+  position: relative; }
   .fdz-theme md-card .md-card-image {
     border-radius: 2px 2px 0 0; }
   .fdz-theme md-card md-card-header md-card-avatar md-icon {
@@ -325,6 +326,9 @@
     color: rgba(0, 0, 0, 0.38); }
   .fdz-theme md-card md-card-title md-card-title-text:not(:only-child) .md-subhead {
     color: rgba(0, 0, 0, 0.54); }
+  .fdz-theme md-card md-card-content {
+    display: block;
+    padding: 0 16px 16px 16px; }
 
 .fdz-theme md-checkbox .md-ripple {
   color: #f0812d; }
@@ -1375,7 +1379,6 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   top: 0px !important;
   right: 8px !important;
   padding-top: 8px !important;
-  padding-bottom: 8px !important;
   z-index: 0 !important;
   background-color: white !important;
   border-bottom-left-radius: 4px !important; }
@@ -1438,8 +1441,6 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   justify-content: space-between; }
 
 .fdz-theme .fdz-search-result md-card-content {
-  display: block;
-  padding: 0 16px;
   text-align: justify; }
   .fdz-theme .fdz-search-result md-card-content .btn-link {
     font-weight: 400;
@@ -1447,7 +1448,7 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
     border-radius: 0; }
 
 .fdz-theme .fdz-search-result md-card-actions > a {
-  margin: 8px; }
+  margin: 0 8px 16px 8px; }
 
 .fdz-search-result__link {
   color: black;
