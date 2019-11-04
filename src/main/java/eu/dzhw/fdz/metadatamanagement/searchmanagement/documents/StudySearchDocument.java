@@ -1,10 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
@@ -69,6 +71,8 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
 
   private List<I18nString> surveyDataTypes;
 
+  private Period surveyPeriod;
+
   private Integer numberOfWaves;
 
   private String doi;
@@ -122,6 +126,7 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
           surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
       this.surveyDataTypes = generateSurveyDataTypes(surveys);
       this.numberOfWaves = generateNumberOfWaves(surveys);
+      this.surveyPeriod = generateSurveyPeriod(surveys);
     }
     if (questions != null) {
       this.questions = questions.stream().map(question -> new QuestionSubDocument(question))
@@ -155,6 +160,15 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
         .en((study.getTitle().getEn() != null ? study.getTitle().getEn() : study.getTitle().getDe())
             + " (" + study.getId() + ")")
         .build();
+  }
+
+  private Period generateSurveyPeriod(List<SurveySubDocumentProjection> surveys) {
+    Period surveyPeriod = new Period();
+    surveyPeriod.setStart(surveys.stream().map(SurveySubDocumentProjection::getFieldPeriod)
+        .map(Period::getStart).min(LocalDate::compareTo).orElse(null));
+    surveyPeriod.setEnd(surveys.stream().map(SurveySubDocumentProjection::getFieldPeriod)
+        .map(Period::getEnd).max(LocalDate::compareTo).orElse(null));
+    return surveyPeriod;
   }
 
   /**

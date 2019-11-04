@@ -462,7 +462,7 @@
     flex-flow: column;
     align-items: center; }
     .fdz-theme md-content .fdz-cc > * {
-      max-width: 1000px;
+      max-width: 1200px;
       width: 100%; }
 
 /** Theme styles for mdDatepicker. */
@@ -1400,6 +1400,11 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   color: black;
   text-decoration: none; }
 
+.fdz-search-result:focus {
+  color: black;
+  text-decoration: none;
+  outline-color: #f7a839; }
+
 .fdz-search-filter-component md-input-container {
   margin: 0; }
 
@@ -1468,8 +1473,8 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   display: none;
   width: 100%;
   height: 100vh;
-  background-color: #006AB2;
-  color: white; }
+  background-color: white;
+  color: black; }
 
 .fdz-splash .fdz-app-title {
   padding: 8px;
@@ -1487,7 +1492,8 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 .fdz-splash progress {
   height: 1em;
-  width: 10em; }
+  width: 10em;
+  color: #0071bc; }
 
 .fdz-theme .md-button.md-fab.fdz-previous-search-result, .fdz-theme .md-button.md-fab.fdz-next-search-result {
   position: fixed;
@@ -1527,7 +1533,7 @@ fdz-breadcrumbs {
   display: flex;
   justify-content: center; }
   fdz-breadcrumbs > * {
-    max-width: 1000px; }
+    max-width: 1200px; }
 
 .fdz-breadcrumbs {
   display: flex;
@@ -1662,12 +1668,10 @@ style for datapackage
   min-height: 1.4em; }
 
 .fdz-navbar-menu {
-  width: 100%;
-  border-left: 5px solid #0071bc; }
+  width: 100%; }
 
 .fdz-navbar-menu-accent {
-  width: 100%;
-  border-left: 5px solid #F69F24; }
+  width: 100%; }
 
 .fdz-navbar-menu-items {
   padding: 0;
@@ -2108,7 +2112,7 @@ md-toast.md-accent > .md-toast-content {
     height: 4px;
     width: 4px; }
   ::-webkit-scrollbar-thumb {
-    background-color: white;
+    background-color: #f7a839;
     min-height: 2em;
     border-radius: 8px; } }
 
@@ -2248,7 +2252,8 @@ geographic-coverage {
   background-color: rgba(0, 0, 0, 0) !important; }
 
 .fdz-logo > img {
-  height: 32px; }
+  margin-top: 15px;
+  height: 50px; }
 
 .fdz-nav {
   justify-content: space-between; }

@@ -35,7 +35,11 @@
   color: black;
   text-decoration: none;
 }
-
+.fdz-search-result:focus {
+  color: black;
+  text-decoration: none;
+  outline-color: $accent-color;
+}
 // Sidebar
 .fdz-search-filter-component md-input-container {
   margin: 0;

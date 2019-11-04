@@ -104,12 +104,10 @@ style for datapackage
 
 .fdz-navbar-menu {
   width: 100%;
-  border-left: 5px solid $brand-secondary;
 }
 
 .fdz-navbar-menu-accent {
   width: 100%;
-  border-left: 5px solid $brand-warning;
 }
 
 .fdz-navbar-menu-items {
@@ -667,7 +665,7 @@ md-toast.md-accent > .md-toast-content {
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: $brand-primary;
+    background-color: $accent-color;
     min-height: 2em;
     border-radius: 8px;
   }
