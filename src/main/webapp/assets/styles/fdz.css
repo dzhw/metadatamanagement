@@ -459,7 +459,7 @@
     flex-flow: column;
     align-items: center; }
     .fdz-theme md-content .fdz-cc > * {
-      max-width: 1200px;
+      max-width: 1000px;
       width: 100%; }
 
 /** Theme styles for mdDatepicker. */
@@ -1468,8 +1468,8 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   display: none;
   width: 100%;
   height: 100vh;
-  background-color: white;
-  color: black; }
+  background-color: #006AB2;
+  color: white; }
 
 .fdz-splash .fdz-app-title {
   padding: 8px;
@@ -1487,8 +1487,7 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 .fdz-splash progress {
   height: 1em;
-  width: 10em;
-  color: #0071bc; }
+  width: 10em; }
 
 .fdz-theme .md-button.md-fab.fdz-previous-search-result, .fdz-theme .md-button.md-fab.fdz-next-search-result {
   position: fixed;
@@ -1528,7 +1527,7 @@ fdz-breadcrumbs {
   display: flex;
   justify-content: center; }
   fdz-breadcrumbs > * {
-    max-width: 1200px; }
+    max-width: 1000px; }
 
 .fdz-breadcrumbs {
   display: flex;
