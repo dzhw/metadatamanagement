@@ -130,7 +130,7 @@ angular.module('metadatamanagementApp').config(
             'title': 'Metadatamanagement (MDM) - Data Search for Higher Education Research and Science Studies'
           },
           'account': {
-            'main': 'Access for Data Providers',
+            'main': 'Account Details ({{username}})',
             'settings': 'Edit Account',
             'password': 'Change Password',
             'sessions': 'Sessions'

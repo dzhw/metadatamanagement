@@ -1,0 +1,95 @@
+.fdz-theme md-input-container {
+  .md-input {
+    @include input-placeholder-color($foreground-3-038);
+    color: $foreground-1;
+    border-color: $foreground-4;
+  }
+
+  > md-icon {
+    color: $foreground-1;
+  }
+
+  label,
+  .md-placeholder {
+    color: $foreground-3;
+  }
+
+  label.md-required:after {
+    color: $warn-700
+  }
+
+  &:not(.md-input-focused):not(.md-input-invalid) label.md-required:after {
+    color: $foreground-2;
+  }
+
+  .md-input-messages-animation, .md-input-message-animation {
+    color: $warn-700;
+    .md-char-counter {
+      color: $foreground-1;
+    }
+  }
+
+  &.md-input-focused {
+    .md-input {
+      @include input-placeholder-color($foreground-3-038);
+    }
+  }
+
+  &:not(.md-input-invalid) {
+    &.md-input-has-value {
+      label {
+        color: $foreground-2;
+      }
+    }
+    &.md-input-focused,
+    &.md-input-resized {
+      .md-input {
+        border-color: $primary-contrast;
+      }
+    }
+
+    &.md-input-focused {
+      label,
+      md-icon {
+        color: $primary-contrast;
+      }
+      &.md-accent {
+        .md-input {
+          border-color: $accent-color;
+        }
+        label,
+        md-icon {
+          color: $accent-color;
+        }
+      }
+      &.md-warn {
+        .md-input {
+          border-color: $warn-700;
+        }
+        label,
+        md-icon {
+          color: $warn-700;
+        }
+      }
+    }
+  }
+  &.md-input-invalid {
+    .md-input {
+      border-color: $warn-700;
+    }
+    label,
+    .md-input-message-animation,
+    .md-char-counter {
+      color: $warn-700;
+    }
+  }
+  .md-input {
+    &[disabled],
+    [disabled] & {
+      border-bottom-color: transparent;
+      color: $foreground-3;
+      background-image: linear-gradient(to right, $foreground-3 0%, $foreground-3 33%, transparent 0%);
+      background-image: -ms-linear-gradient(left, transparent 0%, $foreground-3 100%);
+    }
+  }
+}

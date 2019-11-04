@@ -269,6 +269,8 @@ try {
             'hue-3': '400'
           });
 
+        // $mdThemingProvider.disableTheming(true);
+
         $qProvider.errorOnUnhandledRejections(false);
 
         $provide.decorator('$state', function($delegate, $stateParams) {

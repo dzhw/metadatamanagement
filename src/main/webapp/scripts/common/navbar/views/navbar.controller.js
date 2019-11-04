@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').controller('NavbarController',
   function($scope, Principal, $mdSidenav, $document, $timeout,
-           LanguageService, Auth, $state, FdzFeedbackDialogService,
+           LanguageService, Auth, $state,
            WelcomeDialogService) {
 
     $scope.isAuthenticated = Principal.isAuthenticated;
@@ -25,11 +25,6 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       $scope.changeLanguageButtonDisabled = false;
       $scope.logoutButtonDisabled = false;
     });
-
-    $scope.openDialog = function() {
-      var openByNavbarFeedbackButton = true;
-      FdzFeedbackDialogService.showDialog(openByNavbarFeedbackButton);
-    };
 
     //Functions for toggling buttons.
     $scope.toggleAccountMenu = function() {

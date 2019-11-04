@@ -1,0 +1,19 @@
+.fdz-theme md-progress-circular {
+
+  path {
+    stroke: $primary-contrast;
+  }
+
+  &.md-warn {
+    path {
+      stroke: $warn-color;
+    }
+  }
+
+  &.md-accent {
+    path {
+      stroke: $accent-color;
+    }
+  }
+
+}
