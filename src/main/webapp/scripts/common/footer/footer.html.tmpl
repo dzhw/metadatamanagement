@@ -1,12 +1,23 @@
 <footer class="fdz-footer">
-  <div class="content">
-    <div>
+  <div layout="column" layout-align="center center" layout-gt-md="row" layout-align-gt-md="space-between stretch">
+    <div layout="column" layout-align="end center">
+      <div>
       <a href="{{$ctrl.lang === 'de' ? 'https://www.dzhw.eu/index_html' : 'https://www.dzhw.eu/en/index_html'}}"
-         target="_blank">
+        target="_blank">
         <span>&copy;2019 Deutsches Zentrum für Hochschul- und Wissenschaftsforschung GmbH</span>
       </a>
     </div>
-    <div>
+    </div>
+    <div class="logo" layout="row" layout-align="center center">
+      <a class="dzhw" ng-href="{{$ctrl.lang==='de'?'https://www.dzhw.eu/':'http://www.dzhw.eu/en/index_html'}}" target="_blank">
+        <img src="assets/images/DZHW_Logo_{{$ctrl.lang}}.svg" alt="{{'global.logos.dzhw-alt-text'|translate}}">
+      </a>
+      <a class="bmbf" ng-href="{{$ctrl.lang==='de'?'https://www.bmbf.de/':'https://www.bmbf.de/en/index.html'}}" target="_blank">
+        <img src="assets/images/logo-bmbf-{{$ctrl.lang}}.svg" alt="{{'global.logos.bmbf-alt-text'|translate}}">
+      </a>
+    </div>
+    <div layout="column" layout-align="end center">
+      <div>
       <a
         href="{{$ctrl.lang === 'de' ? 'https://fdz.dzhw.eu/datennutzung/index_html' : 'https://fdz.dzhw.eu/en/datennutzung/index_html'}}"
         target="_blank">
@@ -27,9 +38,6 @@
         <span data-translate="global.menu.dataprotection">security</span>
       </a>
     </div>
-  </div>
-  <div class="logo">
-    <img class="dzhw" src="assets/images/DZHW_Logo_{{$ctrl.lang}}.svg" alt="">
-    <img class="bmbf" src="assets/images/logo-bmbf-{{$ctrl.lang}}.svg" alt="">
+    </div>
   </div>
 </footer>

@@ -1,19 +1,6 @@
 .fdz-footer {
-  //display: flex;
   padding: 16px;
   color: rgba(0, 0, 0, 0.57);
-
-  & > .content {
-    display: flex;
-    flex-flow: wrap;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-
-    & div {
-      margin: 8px 0;
-    }
-  }
 
   & a {
     color: rgba(0, 0, 0, 0.57);
@@ -21,23 +8,11 @@
   }
 
   & .logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 16px;
-
     .dzhw,
     .bmbf {
       height: auto;
       width: 120px;
       margin: 0 16px
     }
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .fdz-footer > .content {
-    justify-content: space-between;
   }
 }
