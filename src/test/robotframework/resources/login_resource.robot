@@ -7,17 +7,13 @@ Variables         ../common_variables.yaml
 
 *** Keywords ***
 Login as dataprovider
-    ${visible}=  Run Keyword And Return Status    Element Should Be Visible   xpath=//*[@id = 'login']
-    Run Keyword If    not ${visible}    Click Element Through Tooltips    xpath=//*[@id = 'account-menu-toggle']
-    Click Element Through Tooltips    xpath=//*[@id = 'login']
+    Click Element Through Tooltips    xpath=//a[contains(@aria-label,'anzumelden')]
     Input Text    id=username    dataprovider
     Input Password    id=password    dataprovider
     Click Element Through Tooltips    xpath=//button[@type='submit']
 
 Login as publisher
-    ${visible}=  Run Keyword And Return Status    Element Should Be Visible   xpath=//*[@id = 'login']
-    Run Keyword If    not ${visible}    Click Element Through Tooltips    xpath=//*[@id = 'account-menu-toggle']
-    Click Element Through Tooltips    xpath=//*[@id = 'login']
+    Click Element Through Tooltips    xpath=//a[contains(@aria-label,'anzumelden')]
     Input Text    id=username    publisher
     Input Password    id=password    publisher
     Click Element Through Tooltips    xpath=//button[@type='submit']

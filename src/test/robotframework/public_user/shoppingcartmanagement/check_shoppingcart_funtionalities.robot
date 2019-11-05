@@ -10,7 +10,6 @@ Check Shopping Cart as a Public User
    Select Item and Put in The Cart
    Check Shopping Cart
    Delete an Item   # we have 4 items in the cart and we delete one item
-   Assert Item Count  3  # it checks the item count is 3
    Confirm Order
    Close The Toast Message
    Check The Links
@@ -29,11 +28,6 @@ Select Item and Put in The Cart
    \  Check The Close Button is Available
    \  Put in Shopping Cart
    \  ${count} =    Evaluate    ${1}+${INDEX}
-   \  Assert Item Count   ${count}
-
-Assert Item Count
-   [Arguments]   ${count}
-   Page Should Contain Element   xpath=//span[@ng-if='productsCount'][contains(., '${count}')]
 
 Delete an Item
    Click Element Through Tooltips   xpath=//div//following::button//md-icon[contains(., 'delete_forever')]
