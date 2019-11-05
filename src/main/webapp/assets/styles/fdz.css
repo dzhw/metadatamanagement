@@ -1525,7 +1525,8 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 fdz-breadcrumbs {
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+  flex: 0 0 auto; }
   fdz-breadcrumbs > * {
     max-width: 1000px; }
 

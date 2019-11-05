@@ -1,6 +1,7 @@
 fdz-breadcrumbs {
   display: flex;
   justify-content: center;
+  flex: 0 0 auto;
   & > * {
     max-width: $content-width;
   }
