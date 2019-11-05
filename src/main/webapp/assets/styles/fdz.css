@@ -1541,7 +1541,14 @@ fdz-breadcrumbs {
   color: rgba(0, 0, 0, 0.57); }
   .fdz-footer a {
     color: rgba(0, 0, 0, 0.57);
-    margin: 8px; }
+    padding: 8px; }
+  .fdz-footer .fdz-footer__link {
+    display: flex;
+    width: 100%; }
+    @media (min-width: 570px) {
+      .fdz-footer .fdz-footer__link {
+        width: auto;
+        display: inline-flex; } }
   .fdz-footer .logo .dzhw,
   .fdz-footer .logo .bmbf {
     height: auto;
