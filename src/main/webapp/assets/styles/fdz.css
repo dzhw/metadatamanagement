@@ -1525,7 +1525,8 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 fdz-breadcrumbs {
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+  flex: 0 0 auto; }
   fdz-breadcrumbs > * {
     max-width: 1000px; }
 
@@ -1536,15 +1537,34 @@ fdz-breadcrumbs {
   width: 100%; }
 
 .fdz-footer {
-  display: flex;
-  flex-flow: wrap;
-  justify-content: space-between;
-  align-items: center;
   padding: 16px;
   color: rgba(0, 0, 0, 0.57); }
+  .fdz-footer > .content {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%; }
+    .fdz-footer > .content div {
+      margin: 8px 0; }
   .fdz-footer a {
     color: rgba(0, 0, 0, 0.57);
-    margin: 0 8px; }
+    margin: 8px; }
+  .fdz-footer .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 16px; }
+    .fdz-footer .logo .dzhw,
+    .fdz-footer .logo .bmbf {
+      height: auto;
+      width: 120px;
+      margin: 0 16px; }
+
+@media screen and (min-width: 1024px) {
+  .fdz-footer > .content {
+    justify-content: space-between; } }
 
 .fdz-fade-in.ng-enter {
   -webkit-transition: 1s;
