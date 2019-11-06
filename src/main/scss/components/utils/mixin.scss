@@ -67,6 +67,8 @@
   }
 }
 
+// Mixin media query
+// Usage: @include rwd(1400)
 @mixin rwd($screen) {
   @media (min-width: $screen+'px') {
     @content;

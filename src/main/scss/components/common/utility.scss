@@ -70,4 +70,10 @@
 .underline    { text-decoration: underline; }
 .no-underline { text-decoration: none; }
 
+// White Space
+.ws-normal { white-space: normal; }
+.nowrap { white-space: nowrap; }
+.pre { white-space: pre; }
+
+
 .hide-validation-error .md-errors-spacer { display: none; }
