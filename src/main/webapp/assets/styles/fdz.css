@@ -1557,7 +1557,8 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 fdz-breadcrumbs {
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+  flex: 0 0 auto; }
   fdz-breadcrumbs > * {
     max-width: 1000px; }
 
@@ -1568,15 +1569,23 @@ fdz-breadcrumbs {
   width: 100%; }
 
 .fdz-footer {
-  display: flex;
-  flex-flow: wrap;
-  justify-content: space-between;
-  align-items: center;
   padding: 16px;
   color: rgba(0, 0, 0, 0.57); }
   .fdz-footer a {
     color: rgba(0, 0, 0, 0.57);
-    margin: 0 8px; }
+    padding: 8px; }
+  .fdz-footer .fdz-footer__link {
+    display: flex;
+    width: 100%; }
+    @media (min-width: 570px) {
+      .fdz-footer .fdz-footer__link {
+        width: auto;
+        display: inline-flex; } }
+  .fdz-footer .logo .dzhw,
+  .fdz-footer .logo .bmbf {
+    height: auto;
+    width: 120px;
+    margin: 0 16px; }
 
 .fdz-theme .fdz-search {
   position: relative;

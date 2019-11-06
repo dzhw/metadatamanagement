@@ -85,7 +85,7 @@
           <div data-flex="noshrink" data-layout="column" class="fdz-content" tabindex="-1">
             <ui-view name="content" data-flex="noshrink" tabindex="-1" data-layout="column"></ui-view>
 
-            <fdz-footer lang="currentLanguage"></fdz-footer>
+            <fdz-footer lang="currentLanguage" ng-if="!bowser.msie"></fdz-footer>
           </div>
         </md-content>
     </main>

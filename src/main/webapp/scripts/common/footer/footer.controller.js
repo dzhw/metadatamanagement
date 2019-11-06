@@ -10,4 +10,3 @@ var CTRL = function(FdzFeedbackDialogService) {
 angular
   .module('metadatamanagementApp')
   .controller('footerController', CTRL);
-
