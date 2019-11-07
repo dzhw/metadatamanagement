@@ -4,7 +4,17 @@
 
   & a {
     color: rgba(0, 0, 0, 0.57);
-    margin: 8px;
+    padding: 8px;
+  }
+
+  .fdz-footer__link {
+    display: flex;
+    width: 100%;
+
+    @include rwd(570) {
+      width: auto;
+      display: inline-flex;
+    }
   }
 
   & .logo {
