@@ -1277,7 +1277,7 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   .fdz-theme md-tabs .md-tab[disabled], .fdz-theme md-tabs .md-tab[disabled] md-icon {
     color: #f0f0f0; }
   .fdz-theme md-tabs .md-tab.md-active, .fdz-theme md-tabs .md-tab.md-active md-icon, .fdz-theme md-tabs .md-tab.md-focused, .fdz-theme md-tabs .md-tab.md-focused md-icon {
-    color: #0071bc; }
+    color: black; }
   .fdz-theme md-tabs .md-tab.md-focused {
     background: white; }
   .fdz-theme md-tabs .md-tab .md-ripple-container {
