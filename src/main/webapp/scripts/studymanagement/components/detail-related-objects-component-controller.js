@@ -144,7 +144,7 @@ var CTRL = function(
     locationChanged = !angular.equals($location.search(),
       locationSearch);
     // Todo: Find solution for breadcrumbs error when selecting a tab
-    // Changed from $location.search to $location.replace
+    // Quick fix: The change from $location.search to $location.replace
     // Negative: We can not link to the selected tab in the details page
     $location.replace(locationSearch);
   };

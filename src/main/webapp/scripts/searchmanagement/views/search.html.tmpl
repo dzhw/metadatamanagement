@@ -23,10 +23,10 @@
             </md-tab>
         </md-tabs>
         <form role="search" ng-submit="hideMobileKeyboard($event)">
-            <md-input-container class="fdz-search-input">
+            <md-input-container class="fdz-search-input mb0">
                 <label>{{tabs[searchParams.selectedTabIndex].inputLabel|translate}}</label>
                 <md-icon md-font-set="material-icons">search</md-icon>
-                <input id="query" type="search" ng-model="searchParams.query" ng-model-options="{debounce: 250}" autocomplete="off" tabindex="0" fdz-clear-input md-select-on-focus>
+                <input id="query" type="search" ng-model="searchParams.query" ng-model-options="{debounce: 250}" autocomplete="off" tabindex="0" fdz-clear-input md-select-on-focus  style="margin-bottom:24px;">
             </md-input-container>
             <input type="submit" ng-hide="true">
         </form>
@@ -36,36 +36,94 @@
         <search-filter-panel current-elasticsearch-type="tabs[searchParams.selectedTabIndex].elasticSearchType" current-language="currentLanguage" current-search-params="searchParams" filter-changed-callback="onFilterChanged" bowser="bowser" is-searching="isSearching"></search-filter-panel>
     </md-card>
   </div>
-  <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
+  <md-card ng-if="isAuthenticated()" class="mb0">
+    <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
+      <fdz-paginator  options="options"
+                      on-update="onPageChanged(event = $event, option = $option)"
+                      template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"
+                      style="width:100%;"></fdz-paginator>
+    </div>
+  </md-card>
+  <div ng-if="options.pageObject.totalHits && !isAuthenticated()" layout="row" layout-align="center" style="margin-bottom: 0px;">
     <fdz-paginator  options="options"
-                    on-update="onPageChanged(event = $event, option = $option)"
-                    template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"
-                    style="width:100%;"></fdz-paginator>
+                  on-update="onPageChanged(event = $event, option = $option)"
+                  template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"
+                  style="width:100%;"></fdz-paginator>
   </div>
-    <div flex>
+  <div flex>
         <div ng-repeat="result in searchResult" ng-switch="result._index" class="fdz-fade-in">
-            <variable-search-result ng-if="isAuthenticated()" ng-switch-when="variables" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></variable-search-result>
-            <survey-search-result ng-if="isAuthenticated()" ng-switch-when="surveys" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="computeSearchResultIndex($index)"></survey-search-result>
-            <question-search-result ng-if="isAuthenticated()" ng-switch-when="questions" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></question-search-result>
-            <dataset-search-result ng-if="isAuthenticated()" ng-switch-when="data_sets" search-result="result._source" current-language="currentLanguage" bowser="bowser" add-margin="$mdMedia('gt-sm')" search-result-index="computeSearchResultIndex($index)"></dataset-search-result>
-            <study-search-result ng-switch-when="studies" search-query="searchParams.query" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></study-search-result>
-            <related-publication-search-result ng-if="isAuthenticated()" ng-switch-when="related_publications" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></related-publication-search-result>
-            <instrument-search-result ng-if="isAuthenticated()" ng-switch-when="instruments" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></instrument-search-result>
-            <concept-search-result ng-if="isAuthenticated()" ng-switch-when="concepts" search-result="result._source" current-language="currentLanguage" bowser="bowser" search-result-index="computeSearchResultIndex($index)"></concept-search-result>
+            <variable-search-result
+              ng-if="isAuthenticated()"
+              ng-switch-when="variables"
+              search-result="result._source"
+              current-language="currentLanguage"
+              bowser="bowser"
+              search-result-index="computeSearchResultIndex($index)"></variable-search-result>
+            <survey-search-result
+              ng-if="isAuthenticated()"
+              ng-switch-when="surveys"
+              search-result="result._source"
+              current-language="currentLanguage"
+              bowser="bowser"
+              add-margin="$mdMedia('gt-sm')"
+              search-result-index="computeSearchResultIndex($index)"></survey-search-result>
+            <question-search-result
+              ng-if="isAuthenticated()"
+              ng-switch-when="questions"
+              search-result="result._source"
+              current-language="currentLanguage"
+              bowser="bowser"
+              search-result-index="computeSearchResultIndex($index)"></question-search-result>
+            <dataset-search-result
+              ng-if="isAuthenticated()"
+              ng-switch-when="data_sets"
+              search-result="result._source"
+              current-language="currentLanguage"
+              bowser="bowser"
+              add-margin="$mdMedia('gt-sm')"
+              search-result-index="computeSearchResultIndex($index)"></dataset-search-result>
+            <study-search-result
+              bowser="bowser"
+              current-language="currentLanguage"
+              ng-switch-when="studies"
+              search-query="searchParams.query"
+              search-result="result._source"
+              search-result-index="computeSearchResultIndex($index)"></study-search-result>
+            <related-publication-search-result
+              ng-if="isAuthenticated()"
+              ng-switch-when="related_publications"
+              search-result="result._source"
+              current-language="currentLanguage"
+              bowser="bowser"
+              search-result-index="computeSearchResultIndex($index)"></related-publication-search-result>
+            <instrument-search-result
+              ng-if="isAuthenticated()"
+              ng-switch-when="instruments"
+              search-result="result._source"
+              current-language="currentLanguage"
+              bowser="bowser"
+              search-result-index="computeSearchResultIndex($index)"></instrument-search-result>
+            <concept-search-result
+              ng-if="isAuthenticated()"
+              ng-switch-when="concepts"
+              search-result="result._source"
+              current-language="currentLanguage"
+              bowser="bowser"
+              search-result-index="computeSearchResultIndex($index)"></concept-search-result>
         </div>
-        <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center">
-            <fdz-paginator  options="options"
-                            on-update="onPageChanged(event = $event, option = $option)"
-                            template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"
-                            style="width:100%;"></fdz-paginator>
-        </div>
-      <div ng-if="options.pageObject.totalHits === 0 && !isSearching" class="fdz-fade-in">
-          <md-card>
-                <md-card-content>
-                    <p>{{tabs[searchParams.selectedTabIndex].noResultsText|translate}}</p>
-                </md-card-content>
-            </md-card>
-        </div>
+    <md-card ng-if="isAuthenticated()">
+      <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
+        <fdz-paginator  options="options"
+                        on-update="onPageChanged(event = $event, option = $option)"
+                        template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"
+                        style="width:100%;"></fdz-paginator>
+      </div>
+    </md-card>
+    <div ng-if="options.pageObject.totalHits && !isAuthenticated()" layout="row" layout-align="center" style="margin-bottom: 0px;">
+      <fdz-paginator  options="options"
+                      on-update="onPageChanged(event = $event, option = $option)"
+                      template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"
+                      style="width:100%;"></fdz-paginator>
     </div>
   <div ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="fdz-fab-button-container" layout="column">
         <div layout="row" layout-align="end center">
