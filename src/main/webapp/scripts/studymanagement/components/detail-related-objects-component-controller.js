@@ -143,7 +143,10 @@ var CTRL = function(
     _.assign(locationSearch, $scope.searchParams.filter);
     locationChanged = !angular.equals($location.search(),
       locationSearch);
-    $location.search(locationSearch);
+    // Todo: Find solution for breadcrumbs error when selecting a tab
+    // Changed from $location.search to $location.replace
+    // Negative: We can not link to the selected tab in the details page
+    $location.replace(locationSearch);
   };
 
   // read the searchParams object from the location with the correct types
