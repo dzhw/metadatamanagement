@@ -16,6 +16,10 @@ angular.module('metadatamanagementApp').config(
         'in-english': 'in English',
         'more': 'more',
         'less': 'less',
+        'search-component': {
+          'search': 'Search',
+          'delete': 'Delete'
+        },
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {

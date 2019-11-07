@@ -45,13 +45,13 @@
             <md-button
               class="md-small md-primary"
               ng-if="!searchParams.query">
-              Suchen
+              {{'global.search-component.search' | translate}}
             </md-button>
             <md-button
               class="md-small md-primary"
-              ng-click="searchParams.query = ''"
-              ng-if="searchParams.query">
-              Löschen
+              ng-if="searchParams.query"
+              ng-click="searchParams.query = ''">
+              {{'global.search-component.delete' | translate}}
             </md-button>
           </md-input-container>
           <input ng-hide="true" type="submit">
