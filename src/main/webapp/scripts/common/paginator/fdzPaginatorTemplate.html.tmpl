@@ -35,7 +35,6 @@
       <md-button
         class="fdz-paginator__button"
         ng-click="$ctrl.previous();"
-        du-smooth-scroll="top"
         ng-disabled="$ctrl.options.pageObject.page <= 1">
         <md-icon
           class="md-primary"
@@ -45,7 +44,6 @@
       <md-button
         class="fdz-paginator__button"
         ng-click="$ctrl.next();"
-        du-smooth-scroll="top"
         ng-disabled="$ctrl.options.pageObject.page >= ($ctrl.options.pageObject.totalHits / $ctrl.options.pageObject.size)">
         <md-icon
           class="md-primary"

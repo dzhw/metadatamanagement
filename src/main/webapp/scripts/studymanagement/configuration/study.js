@@ -32,7 +32,8 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('studyDetail', {
         parent: 'site',
-        url: '/studies/{id}?,{version}, {query}',
+        url: '/studies/{id}?,{version}, {query}, {study}',
+        reloadOnSearch: false,
         data: {
           authorities: []
         },

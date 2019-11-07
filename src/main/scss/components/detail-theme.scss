@@ -10,6 +10,9 @@ $card-border-radius: 2px !default;
               0px 1px 1px 0px rgba(0, 0, 0, 0.14),
               0px 2px 1px -1px rgba(0, 0, 0, 0.12);
 
+  &:last-child {
+    padding-bottom: 16px;
+  }
   .fdz-detail__header {
     padding: 16px;
   }
@@ -36,6 +39,10 @@ $card-border-radius: 2px !default;
       margin: auto;
       display: inline-flex;
       justify-content: center;
+
+      md-icon {
+        color: $primary-contrast;
+      }
     }
 
     md-card-content {
@@ -54,6 +61,9 @@ $card-border-radius: 2px !default;
         margin: 16px 0;
       }
 
+      & md-tabs {
+        margin-top: 16px;
+      }
       md-list-item,
       md-list-item::before {
         min-height: auto;
@@ -88,6 +98,32 @@ $card-border-radius: 2px !default;
             width: auto;
           }
         }
+      }
+    }
+  }
+  .fdz-detail-search-container {
+    .fdz-detail-search-item-container > * .fdz-search-result {
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      border-bottom-color: $foreground-4;
+    }
+    .fdz-detail-search-item-container > *:last-child .fdz-search-result{
+      border: none;
+    }
+  }
+
+  survey-search-result,
+  dataset-search-result {
+    md-card-content > div > div {
+      margin-right: unset;
+      @include rwd(960) {
+        margin-right: 6px;
+      }
+    }
+    md-card-content > div > div ~ div {
+      margin-left: unset;
+      @include rwd(960) {
+        margin-left: 6px;
       }
     }
   }
