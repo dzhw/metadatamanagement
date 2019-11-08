@@ -1,0 +1,95 @@
+<md-card>
+<md-divider></md-divider>
+  <md-card-header>
+    <md-card-header-text>
+      <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+    </md-card-header-text>
+    <md-button
+      aria-label="md-card collapsed = {{$ctrl.collapsed}}}"
+      class="md-card-collapsible-button"
+      ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <md-list>
+        <md-list-item ng-if="$ctrl.options.population">
+          <h5>{{'survey-management.detail.label.population' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.population.description"
+            fdz-hyphenate></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.population.unit">
+          <h5>{{'survey-management.detail.label.unit' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.population.unit"
+            fdz-hyphenate></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.dataType">
+          <h5>{{'survey-management.detail.label.data-type' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.dataType"
+            fdz-hyphenate></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.sample">
+          <h5>{{'survey-management.detail.label.sample' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.sample"
+            fdz-hyphenate></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.surveyMethod">
+          <h5>{{'survey-management.detail.label.survey-method' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.surveyMethod"
+            fdz-hyphenate></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.fieldPeriod">
+          <h5>{{'survey-management.detail.label.field-period' | translate }}:</h5>
+          <span
+            class="md-secondary">
+            {{$ctrl.options.fieldPeriod.start | date}} - {{$ctrl.options.fieldPeriod.end | date}}
+          </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.grossSampleSize">
+          <h5>{{'survey-management.detail.label.grossSampleSize' | translate }}:</h5>
+          <span
+            class="md-secondary">n = {{$ctrl.options.grossSampleSize | number}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.sampleSize">
+          <h5>{{'survey-management.detail.label.sampleSize' | translate }}:</h5>
+          <span
+            class="md-secondary">n = {{$ctrl.options.sampleSize | number}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.responseRate">
+          <h5>{{'survey-management.detail.label.responseRate' | translate }}:</h5>
+          <span
+            class="md-secondary">{{$ctrl.options.responseRate | number}}%</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.annotations">
+          <h5>{{'survey-management.detail.label.annotations' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.annotations"
+            fdz-hyphenate></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.isSimpleGeographicCoverage($ctrl.options.population.geographicCoverages)">
+          <h5>{{'survey-management.detail.label.geographic-coverage' | translate }}:</h5>
+          <span
+            class="md-secondary">{{$ctrl.getCountryName($ctrl.options.population.geographicCoverages[0])}}</span>
+        </md-list-item>
+
+
+
+
+
+      </md-list>
+    </md-card-content>
+  </div>
+</md-card>

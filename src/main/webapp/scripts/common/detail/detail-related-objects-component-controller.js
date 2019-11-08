@@ -147,6 +147,7 @@ var CTRL = function(
     // Quick fix: The change from $location.search to $location.replace
     // Negative: We can not link to the selected tab in the details page
     $location.replace(locationSearch);
+    // $location.search(locationSearch);
   };
 
   // read the searchParams object from the location with the correct types
