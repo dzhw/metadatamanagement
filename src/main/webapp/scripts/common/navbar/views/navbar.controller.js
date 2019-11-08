@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('NavbarController',
-  function($scope, Principal, $mdSidenav, $document, $timeout,
+  function($scope, $rootScope, Principal, $mdSidenav, $document, $timeout,
            LanguageService, Auth, $state,
            WelcomeDialogService) {
 
@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.isProjectMenuOpen = false;
     $scope.isAdminMenuOpen = false;
     $scope.isAccountMenuOpen = false;
-
+    $scope.stateName = $scope.$parent.toState.name;
     $scope.changeLanguageButtonDisabled = false;
     $scope.logoutButtonDisabled = false;
 
@@ -25,7 +25,9 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       $scope.changeLanguageButtonDisabled = false;
       $scope.logoutButtonDisabled = false;
     });
-
+    $scope.$watch('$parent.toState.name', function() {
+      $scope.stateName = $scope.$parent.toState.name;
+    });
     //Functions for toggling buttons.
     $scope.toggleAccountMenu = function() {
       $scope.isAccountMenuOpen = !$scope.isAccountMenuOpen;

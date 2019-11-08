@@ -3,7 +3,10 @@
   ng-submit="hideMobileKeyboard($event)"
   md-whiteframe="1"
   role="search">
-  <md-input-container class="fdz-search__input hide-validation-error" md-no-float>
+  <md-input-container
+    ng-if="$ctrl.name === 'search'"
+    class="fdz-search__input hide-validation-error"
+    md-no-float>
     <md-icon md-font-set="material-icons">search</md-icon>
     <input
       autocomplete="off"
@@ -11,6 +14,30 @@
       md-select-on-focus
       ng-model="searchParams.query"
       ng-model-options="{debounce: 250}"
+      placeholder="{{'search-management.detail.search'|translate}}"
+      tabindex="0"
+      type="search">
+    <md-button
+      class="md-small md-primary"
+      ng-if="!searchParams.query">
+      {{'global.search-component.search' | translate}}
+    </md-button>
+    <md-button
+      class="md-small md-primary"
+      ng-if="searchParams.query"
+      ng-click="searchParams.query = ''">
+      {{'global.search-component.delete' | translate}}
+    </md-button>
+  </md-input-container>
+  <md-input-container
+    ng-if="$ctrl.name != 'search'"
+    class="fdz-search__input hide-validation-error"
+    md-no-float>
+    <md-icon md-font-set="material-icons">search</md-icon>
+    <input
+      autocomplete="off"
+      id="query"
+      md-select-on-focus
       placeholder="{{'search-management.detail.search'|translate}}"
       tabindex="0"
       type="search">

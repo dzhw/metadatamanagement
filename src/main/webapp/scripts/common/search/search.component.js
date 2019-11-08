@@ -2,7 +2,8 @@
 
 var SearchComponent = {
   bindings: {
-    items: '<'
+    // items: '<',
+    name: '<'
   },
   // TODO: Change from search-management ctrl to the component ctrl
   controller: 'SearchController',
