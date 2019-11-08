@@ -23,8 +23,8 @@ angular.module('metadatamanagementApp')
       ctrl.dataNotAvailable = false;
       ctrl.isStudyQueryResolved = false;
 
-      if (angular.isUndefined(ctrl.study.surveyDataType) || angular.isUndefined(
-        ctrl.study.dataSets)) {
+      if (angular.isUndefined(ctrl.study.surveyDataTypes) ||
+        angular.isUndefined(ctrl.study.dataSets)) {
         StudySearchService.findOneById(ctrl.study.id).promise
           .then(function(study) {
           ctrl.study = study;
@@ -89,7 +89,7 @@ angular.module('metadatamanagementApp')
           dataFormats: extractDataFormats(ctrl.study, ctrl.selectedAccessWay),
           study: {
             id: ctrl.study.id,
-            surveyDataType: ctrl.study.surveyDataType,
+            surveyDataTypes: ctrl.study.surveyDataTypes,
             title: ctrl.study.title
           }
         });

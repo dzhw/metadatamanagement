@@ -1,22 +1,24 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.validation;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import javax.validation.Constraint;
+import javax.validation.Payload;
+
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
+
 /**
- * Validates that given value for {@code surveyDataType} matches one of
- * {@link eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDataTypes}.
+ * Validates that given values for {@code surveyDataTypes} matches one of {@link DataTypes}.
  */
 @Documented
-@Constraint(validatedBy = {ValidSurveyDataTypeValidator.class})
+@Constraint(validatedBy = {ValidSurveyDataTypesValidator.class})
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidSurveyDataType {
+public @interface ValidSurveyDataTypes {
 
   /**
    * Defines the default error message.

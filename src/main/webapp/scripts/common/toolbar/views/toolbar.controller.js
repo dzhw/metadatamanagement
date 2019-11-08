@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp').controller(
   'ToolbarController',
   function($scope, $mdSidenav, ShoppingCartService, Principal,
-           SearchResultNavigatorService) {
+           SearchResultNavigatorService, LanguageService, Auth, $state) {
     //Toggle Function
     $scope.toggleLeft = function() {
       $mdSidenav('SideNavBar').toggle();
@@ -11,6 +11,20 @@ angular.module('metadatamanagementApp').controller(
 
     $scope.isAuthenticated = Principal.isAuthenticated;
     $scope.hasAuthority = Principal.hasAuthority;
+
+    //Set Languages
+    $scope.changeLanguage = function(languageKey) {
+      LanguageService.setCurrent(languageKey);
+    };
+
+    //Goto Logout Page
+    $scope.logout = function() {
+      Auth.logout();
+      $state.go('search', {
+        lang: LanguageService.getCurrentInstantly()
+      });
+      // $scope.close();
+    };
 
     $scope.productsCount = ShoppingCartService.count();
     $scope.$on('shopping-cart-changed',

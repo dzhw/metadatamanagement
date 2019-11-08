@@ -1,5 +1,7 @@
 .. java:import:: java.io Serializable
 
+.. java:import:: java.util List
+
 .. java:import:: javax.validation.constraints NotEmpty
 
 .. java:import:: javax.validation.constraints NotNull
@@ -8,7 +10,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation I18nStringEntireNotEmpty
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.validation ValidSurveyDataType
+.. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain DataTypes
 
 .. java:import:: io.swagger.annotations ApiModel
 
@@ -56,13 +58,13 @@ studySeries
 
    The name of the series of studies to which this study belongs. May be null.
 
-surveyDataType
-^^^^^^^^^^^^^^
+surveyDataTypes
+^^^^^^^^^^^^^^^
 
-.. java:field:: @NotNull @ValidSurveyDataType private I18nString surveyDataType
+.. java:field:: @NotEmpty private List<I18nString> surveyDataTypes
    :outertype: OrderedStudy
 
-   One of \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDataTypes`\ . Must not be \ ``null``\ .
+   List of \ :java:ref:`DataTypes`\ . Must not be empty.
 
 title
 ^^^^^

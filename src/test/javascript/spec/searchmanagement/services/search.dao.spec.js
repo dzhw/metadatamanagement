@@ -234,8 +234,8 @@ describe("search.dao.js", function() {
       expect(findQueryItem(capturedQuery, buildPredicate('title.en.ngrams', searchTerm))).toBeDefined();
       expect(findQueryItem(capturedQuery, buildPredicate('surveyDesign.de.ngrams', searchTerm))).toBeDefined();
       expect(findQueryItem(capturedQuery, buildPredicate('surveyDesign.en.ngrams', searchTerm))).toBeDefined();
-      expect(findQueryItem(capturedQuery, buildPredicate('surveyDataType.de.ngrams', searchTerm))).toBeDefined();
-      expect(findQueryItem(capturedQuery, buildPredicate('surveyDataType.en.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('surveyDataTypes.de.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('surveyDataTypes.en.ngrams', searchTerm))).toBeDefined();
       expect(findQueryItem(capturedQuery, buildPredicate('id.ngrams', searchTerm))).toBeDefined();
       expect(findQueryItem(capturedQuery, buildPredicate('authors.firstName.ngrams', searchTerm))).toBeDefined();
       expect(findQueryItem(capturedQuery, buildPredicate('authors.middleName.ngrams', searchTerm))).toBeDefined();

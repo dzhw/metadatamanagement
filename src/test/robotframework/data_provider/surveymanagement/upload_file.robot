@@ -38,7 +38,7 @@ Save Response Rate Changes
     Click Element Through Tooltips    xpath=//md-card//button[contains(.,'save')]
 
 Get To Survey Page
-    Click Element Through Tooltips    xpath=//md-toolbar//a[span[text()='1']]
+    Click Element Through Tooltips    xpath=//fdz-breadcrumbs//a[contains(@ui-sref,'surveyDetail')]
 
 Upload Response Response Rate
     Choose File    xpath=//input[@type='file'][@ngf-select='ctrl.saveResponseRateImageDe($file)'][1]    ${CURDIR}/data/1_responserate_de.svg

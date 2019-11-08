@@ -1,13 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.validation.ValidSurveyDataType;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -49,12 +50,12 @@ public class OrderedStudy implements Serializable {
   private I18nString annotations;
 
   /**
-   * One of {@link eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDataTypes}. Must not
-   * be {@code null}.
+   * List of {@link DataTypes}.
+   * 
+   * Must not be empty.
    */
-  @NotNull
-  @ValidSurveyDataType
-  private I18nString surveyDataType;
+  @NotEmpty
+  private List<I18nString> surveyDataTypes;
   
   /**
    * The name of the series of studies to which this study belongs. May be null.
