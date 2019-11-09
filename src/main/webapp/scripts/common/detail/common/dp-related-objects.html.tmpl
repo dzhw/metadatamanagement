@@ -14,8 +14,8 @@
   </md-card-header>
   <div ng-if="!$ctrl.collapsed">
     <md-card-content>
-      <md-tabs md-border-bottom md-dynamic-height md-selected="searchParams.selectedTabIndex">
-        <md-tab md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled" ng-repeat="tab in tabs">
+      <md-tabs md-border-bottom md-dynamic-height md-selected="$ctrl.searchParams.selectedTabIndex">
+        <md-tab md-on-select="$ctrl.onSelectedTabChanged()" ng-disabled="tab.disabled" ng-repeat="tab in $ctrl.tabs">
           <md-tab-label>
             <span>{{tab.title|translate}} {{tab.count != null? '(' + tab.count + ')' : ''}}</span>
             <md-tooltip md-autohide="true" md-direction="top"
@@ -29,7 +29,7 @@
         <form
           class="fdz-search"
           md-whiteframe="1"
-          ng-submit="hideMobileKeyboard($event)"
+          ng-submit="$ctrl.hideMobileKeyboard($event)"
           role="search">
           <md-input-container class="fdz-search__input hide-validation-error" md-no-float>
             <md-icon md-font-set="material-icons">search</md-icon>
@@ -37,33 +37,33 @@
               autocomplete="off"
               id="query"
               md-select-on-focus
-              ng-model="searchParams.query"
+              ng-model="$ctrl.searchParams.query"
               ng-model-options="{debounce: 250}"
               placeholder="{{'search-management.detail.search'|translate}}"
               tabindex="0"
               type="search">
             <md-button
               class="md-small md-primary"
-              ng-if="!searchParams.query">
+              ng-if="!$ctrl.searchParams.query">
               {{'global.search-component.search' | translate}}
             </md-button>
             <md-button
               class="md-small md-primary"
-              ng-if="searchParams.query"
-              ng-click="searchParams.query = ''">
+              ng-if="$ctrl.searchParams.query"
+              ng-click="$ctrl.searchParams.query = ''">
               {{'global.search-component.delete' | translate}}
             </md-button>
           </md-input-container>
           <input ng-hide="true" type="submit">
           <md-progress-linear md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>
         </form>
-        <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
-          <fdz-paginator  options="options"
-                          on-update="onPageChanged(event = $event, option = $option)"
+        <div ng-if="$ctrl.options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
+          <fdz-paginator  options="$ctrl.options"
+                          on-update="$ctrl.onPageChanged(event = $event, option = $option)"
                           template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
         </div>
         <div class="flex fdz-detail-search-item-container">
-          <div ng-repeat="result in searchResult" ng-switch="result._index" class="fdz-fade-in">
+          <div ng-repeat="result in $ctrl.searchResult" ng-switch="result._index" class="fdz-fade-in">
             <study-search-result
               ng-switch-when="studies"
               search-result="result._source"
@@ -116,9 +116,9 @@
               search-result-index="computeSearchResultIndex($index)"></concept-search-result>
           </div>
       </div>
-      <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
-        <fdz-paginator  options="options"
-                        on-update="onPageChanged(event = $event, option = $option)"
+      <div ng-if="$ctrl.options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
+        <fdz-paginator  options="$ctrl.options"
+                        on-update="$ctrl.onPageChanged(event = $event, option = $option)"
                         template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
       </div>
     </md-card-content>

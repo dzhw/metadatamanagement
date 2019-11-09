@@ -13,6 +13,7 @@ function Controller(
   $ctrl.onSelectedTabChanged = onSelectedTabChanged;
   $ctrl.search = search;
 
+  $ctrl.options = {};
   $ctrl.searchResult = {};
 
   var queryChangedOnInit = false;
@@ -20,8 +21,6 @@ function Controller(
   var locationChanged = false;
   var selectedTabChangeIsBeingHandled = false;
   var queryChangeIsBeingHandled = false;
-
-  //Information for the different tabs
   var tabs = [{
     title: 'search-management.tabs.studies',
     inputLabel: 'search-management.input-label.studies',
@@ -111,6 +110,34 @@ function Controller(
     noResultsText: 'search-management.no-results-text.concepts',
     group: 'concepts'
   }];
+  $ctrl.$onInit = function() {
+    tabChangedOnInitFlag = true;
+    queryChangedOnInit = true;
+    $ctrl.tabs = tabsFilter($ctrl.options);
+
+    // fdz-paginator options object
+    $ctrl.options = {
+      sortObject: {
+        selected: 'relevance',
+        options: ['relevance']
+      },
+      pageObject: {
+        options: [10, 20, 50],
+        totalHits: 0,
+        size: 10,
+        page: 1
+      }
+    };
+    $ctrl.searchParams = {
+      query: '',
+      size: $ctrl.options.pageObject.size,
+      selectedTabIndex: 0
+    };
+    readSearchParamsFromLocation();
+    // writeSearchParamsToLocation();
+    console.log($ctrl.options);
+    $ctrl.search();
+  };
 
   function tabsFilter(data) {
     var relatedObjects = [];
@@ -230,7 +257,8 @@ function Controller(
         $ctrl.isSearching--;
         // Safari fix
         $timeout(function() {
-          angular.element('body').append('<div id=fdz-safari-fix></div>');
+          angular.element('body')
+            .append('<div id=fdz-safari-fix></div>');
           $timeout(function() {
             angular.element('#fdz-safari-fix').remove();
           });
@@ -245,36 +273,6 @@ function Controller(
         $ctrl.isSearching--;
       });
   }
-
-  $ctrl.$onInit = function() {
-    tabChangedOnInitFlag = true;
-    queryChangedOnInit = true;
-    $ctrl.tabs = tabsFilter($ctrl.options);
-
-    // fdz-paginator options object
-    $ctrl.options = {
-      sortObject: {
-        selected: 'relevance',
-        options: ['relevance']
-      },
-      pageObject: {
-        options: [10, 20, 50],
-        totalHits: 0,
-        size: 10,
-        page: 1
-      }
-    };
-    $ctrl.searchParams = {
-      query: '',
-      size: $ctrl.options.pageObject.size,
-      selectedTabIndex: 0
-    };
-
-    readSearchParamsFromLocation();
-    // writeSearchParamsToLocation();
-    console.log($ctrl.options);
-    $ctrl.search();
-  };
 
   function onSelectedTabChanged() {
     if (!selectedTabChangeIsBeingHandled && !queryChangeIsBeingHandled) {

@@ -2,7 +2,6 @@
 
 var RelatedObjectsComponent = {
   controller: 'RelatedObjectsController',
-  // controller: 'SearchController',
   bindings: {
     lang: '<',
     options: '<',
