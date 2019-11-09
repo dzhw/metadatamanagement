@@ -4,7 +4,8 @@
 
 var CTRL = function(
     $scope, $location, SearchDao, $timeout,
-    SearchResultNavigatorService, CleanJSObjectService, SearchHelperService
+    SearchResultNavigatorService, CleanJSObjectService, SearchHelperService,
+    ToolbarHeaderService, $state
 ) {
 
   var queryChangedOnInit = false;
@@ -212,7 +213,6 @@ var CTRL = function(
       getSelectedMetadataType(),
       $scope.options.pageObject.size, $scope.searchParams.sortBy)
       .then(function(data) {
-        console.log(data.hits.hits);
         // $scope.searchParams.filter
         $scope.searchResult = data.hits.hits;
         $scope.options.pageObject.totalHits = data.hits.total.value;
@@ -261,7 +261,7 @@ var CTRL = function(
     };
 
     readSearchParamsFromLocation();
-    writeSearchParamsToLocation();
+    // writeSearchParamsToLocation();
     $scope.search();
   };
 
@@ -276,7 +276,6 @@ var CTRL = function(
               $scope.tabs[$scope.searchParams.selectedTabIndex]
                 .elasticSearchType,
               $scope.searchParams.filter);
-          console.log($scope.searchParams.filter);
           $scope.searchParams.sortBy = undefined;
           $scope.options.pageObject.page = 1;
           writeSearchParamsToLocation();
@@ -314,25 +313,25 @@ var CTRL = function(
   };
 
   // watch for location changes not triggered by our code
-  // $scope.$watchCollection(function() {
-  //   return $location.search();
-  // }, function(newValue, oldValue) {
-  //   ToolbarHeaderService.updateToolbarHeader({
-  //     'stateName': $state.current.name,
-  //     'tabName': 'study-management.detail.label.study',
-  //     'searchUrl': $location.absUrl(),
-  //     'searchParams': $location.search()
-  //   });
-  //   if (newValue !== oldValue && !locationChanged) {
-  //     readSearchParamsFromLocation();
-  //     // type changes are already handled by $scope.onSelectedTabChanged
-  //     if (newValue.type === oldValue.type) {
-  //       $scope.search();
-  //     }
-  //   } else {
-  //     locationChanged = false;
-  //   }
-  // });
+  $scope.$watchCollection(function() {
+    return $location.search();
+  }, function(newValue, oldValue) {
+    ToolbarHeaderService.updateToolbarHeader({
+      'stateName': $state.current.name,
+      'tabName': 'study-management.detail.label.study',
+      'searchUrl': $location.absUrl(),
+      'searchParams': $location.search()
+    });
+    if (newValue !== oldValue && !locationChanged) {
+      readSearchParamsFromLocation();
+      // type changes are already handled by $scope.onSelectedTabChanged
+      if (newValue.type === oldValue.type) {
+        $scope.search();
+      }
+    } else {
+      locationChanged = false;
+    }
+  });
 };
 
 angular

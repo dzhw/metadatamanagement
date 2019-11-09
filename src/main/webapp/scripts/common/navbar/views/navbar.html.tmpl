@@ -5,10 +5,44 @@
                 {{'global.menu.skip-navigation-tooltip'|translate}}
             </md-tooltip>
         </md-button>
-    <fdz-search name="stateName"></fdz-search>
+    <fdz-search ng-if="stateName === 'search'"></fdz-search>
+  <form
+    ng-if="stateName != 'search'"
+    class="fdz-search"
+    ng-submit="hideMobileKeyboard($event)"
+    md-whiteframe="1"
+    role="search">
+    <md-input-container
+      class="fdz-search__input hide-validation-error"
+      md-no-float>
+      <md-icon md-font-set="material-icons">search</md-icon>
+      <input
+        autocomplete="off"
+        id="query"
+        md-select-on-focus
+        ng-model="searchParams.query"
+        ng-model-options="{debounce: 250}"
+        placeholder="{{'search-management.detail.search'|translate}}"
+        tabindex="0"
+        type="search">
+      <md-button
+        class="md-small md-primary"
+        ng-if="!searchParams.query">
+        {{'global.search-component.search' | translate}}
+      </md-button>
+      <md-button
+        class="md-small md-primary"
+        ng-if="searchParams.query"
+        ng-click="searchParams.query = ''">
+        {{'global.search-component.delete' | translate}}
+      </md-button>
+    </md-input-container>
+    <input ng-hide="true" type="submit">
+    <md-progress-linear md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>
+  </form>
     <md-divider></md-divider>
     <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
-        <ul style="padding: 0px; margin: 0px;overflow:hidden;">
+        <ul ng-if="isAuthenticated()" style="padding: 0px; margin: 0px;overflow:hidden;">
           <li class="fdz-navbar-menu">
             <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" id="account-menu-toggle">
               <md-icon md-font-set="material-icons">supervisor_account</md-icon>

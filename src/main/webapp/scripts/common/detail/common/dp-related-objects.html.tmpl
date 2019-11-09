@@ -64,6 +64,12 @@
         </div>
         <div class="flex fdz-detail-search-item-container">
           <div ng-repeat="result in searchResult" ng-switch="result._index" class="fdz-fade-in">
+            <study-search-result
+              ng-switch-when="studies"
+              search-result="result._source"
+              current-language="$ctrl.lang"
+              bowser="bowser"
+              search-result-index="computeSearchResultIndex($index)"></study-search-result>
             <variable-search-result
               ng-switch-when="variables"
               search-result="result._source"

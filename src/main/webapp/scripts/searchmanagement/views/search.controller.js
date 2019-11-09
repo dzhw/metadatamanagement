@@ -323,6 +323,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.$watchCollection(function() {
       return $location.search();
     }, function(newValue, oldValue) {
+      // if ($state.current.name != 'search') {
+      //   return;
+      // }
       ToolbarHeaderService.updateToolbarHeader({
         'stateName': $state.current.name,
         'tabName': $scope.tabs[$scope.searchParams.selectedTabIndex].title,

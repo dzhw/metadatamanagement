@@ -26,7 +26,7 @@ angular.module('metadatamanagementApp')
       ctrl.survey = null;
       ctrl.attachments = null;
       ctrl.study = null;
-      ctrl.questionCount = null;
+      // ctrl.questionCount = null;
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
@@ -96,11 +96,10 @@ angular.module('metadatamanagementApp')
                 ctrl.attachments = attachments;
               }
             });
-
-          // ctrl.counts.surveysCount = result.surveys.length;
-          // if (ctrl.counts.surveysCount === 1) {
-          //   ctrl.survey = result.surveys[0];
-          // }
+          ctrl.counts.surveysCount = result.surveys.length;
+          if (ctrl.counts.surveysCount === 1) {
+            ctrl.survey = result.surveys[0];
+          }
 
           ctrl.study = result.study;
 
