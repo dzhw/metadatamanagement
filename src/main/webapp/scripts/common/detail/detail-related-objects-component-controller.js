@@ -2,18 +2,24 @@
 
 'use strict';
 
-var CTRL = function(
+function Controller(
     $scope, $location, SearchDao, $timeout,
     SearchResultNavigatorService, CleanJSObjectService, SearchHelperService,
     ToolbarHeaderService, $state
 ) {
+  var $ctrl = this;
+  $ctrl.computeSearchResultIndex = computeSearchResultIndex;
+  $ctrl.onPageChanged = onPageChanged;
+  $ctrl.onSelectedTabChanged = onSelectedTabChanged;
+  $ctrl.search = search;
+
+  $ctrl.searchResult = {};
 
   var queryChangedOnInit = false;
   var tabChangedOnInitFlag = false;
   var locationChanged = false;
   var selectedTabChangeIsBeingHandled = false;
   var queryChangeIsBeingHandled = false;
-  var relatedObjects = [];
 
   //Information for the different tabs
   var tabs = [{
@@ -106,7 +112,8 @@ var CTRL = function(
     group: 'concepts'
   }];
 
-  var tabsFilter = function(data) {
+  function tabsFilter(data) {
+    var relatedObjects = [];
     tabs.forEach(function(tab, index) {
       var prop = tab.group + 'Count';
       if (data.hasOwnProperty(prop)) {
@@ -114,33 +121,36 @@ var CTRL = function(
         relatedObjects.push(tabs[index]);
       }
     });
-  };
-  var getSelectedMetadataType = function() {
-    return $scope.tabs[$scope.searchParams.selectedTabIndex]
+    return relatedObjects;
+  }
+
+  function getSelectedMetadataType() {
+    return $ctrl.tabs[$ctrl.searchParams.selectedTabIndex]
       .elasticSearchType;
-  };
+  }
+
   // write the searchParams object to the location with the correct types
-  var writeSearchParamsToLocation = function() {
+  function writeSearchParamsToLocation() {
     var locationSearch = {};
-    locationSearch.page = '' + $scope.options.pageObject.page;
-    locationSearch.size = '' + $scope.options.pageObject.size;
+    locationSearch.page = '' + $ctrl.options.pageObject.page;
+    locationSearch.size = '' + $ctrl.options.pageObject.size;
     try {
-      locationSearch.type = $scope.tabs[
-        $scope.searchParams.selectedTabIndex].elasticSearchType;
+      locationSearch.type = $ctrl.tabs[
+        $ctrl.searchParams.selectedTabIndex].elasticSearchType;
     } catch (e) {
-      $scope.searchParams.selectedTabIndex = 0;
-      locationSearch.type = $scope.tabs[
-        $scope.searchParams.selectedTabIndex].elasticSearchType;
+      $ctrl.searchParams.selectedTabIndex = 0;
+      locationSearch.type = $ctrl.tabs[
+        $ctrl.searchParams.selectedTabIndex].elasticSearchType;
     }
-    if ($scope.searchParams.query && $scope.searchParams.query !== '') {
-      locationSearch.query = $scope.searchParams.query;
+    if ($ctrl.searchParams.query && $ctrl.searchParams.query !== '') {
+      locationSearch.query = $ctrl.searchParams.query;
     }
-    if ($scope.searchParams.sortBy && $scope.searchParams.sortBy !== '') {
-      locationSearch['sort-by'] = $scope.searchParams.sortBy;
+    if ($ctrl.searchParams.sortBy && $ctrl.searchParams.sortBy !== '') {
+      locationSearch['sort-by'] = $ctrl.searchParams.sortBy;
     } else {
       delete locationSearch['sort-by'];
     }
-    _.assign(locationSearch, $scope.searchParams.filter);
+    _.assign(locationSearch, $ctrl.searchParams.filter);
     locationChanged = !angular.equals($location.search(),
       locationSearch);
     // Todo: Find solution for breadcrumbs error when selecting a tab
@@ -148,75 +158,76 @@ var CTRL = function(
     // Negative: We can not link to the selected tab in the details page
     // $location.replace(locationSearch);
     $location.search(locationSearch);
-  };
+  }
 
   // read the searchParams object from the location with the correct types
-  var readSearchParamsFromLocation = function() {
+  function readSearchParamsFromLocation() {
     var locationSearch = $location.search();
     if (CleanJSObjectService.isNullOrEmpty(locationSearch)) {
-      $scope.options.pageObject.page = 1;
-      $scope.options.pageObject.size = 10;
-      $scope.searchParams = {
+      $ctrl.options.pageObject.page = 1;
+      $ctrl.options.pageObject.size = 10;
+      $ctrl.searchParams = {
         query: '',
-        size: $scope.options.pageObject.size,
+        size: $ctrl.options.pageObject.size,
         selectedTabIndex: 0
       };
     } else {
       if (locationSearch.page != null) {
-        $scope.options.pageObject.page = parseInt(locationSearch.page);
+        $ctrl.options.pageObject.page = parseInt(locationSearch.page);
       } else {
-        $scope.options.pageObject.page = 1;
+        $ctrl.options.pageObject.page = 1;
       }
       if (locationSearch.size != null) {
-        $scope.options.pageObject.size = parseInt(locationSearch.size);
-        $scope.searchParams.size = $scope.options.pageObject.size;
+        $ctrl.options.pageObject.size = parseInt(locationSearch.size);
+        $ctrl.searchParams.size = $ctrl.options.pageObject.size;
       } else {
-        $scope.options.pageObject.size = 10;
-        $scope.searchParams.size = $scope.options.pageObject.size;
+        $ctrl.options.pageObject.size = 10;
+        $ctrl.searchParams.size = $ctrl.options.pageObject.size;
       }
       if (locationSearch.query) {
-        $scope.searchParams.query = locationSearch.query;
+        $ctrl.searchParams.query = locationSearch.query;
       } else {
-        $scope.searchParams.query = '';
+        $ctrl.searchParams.query = '';
       }
-      $scope.searchParams.filter = _.omit(locationSearch, ['page', 'size',
+      $ctrl.searchParams.filter = _.omit(locationSearch, ['page', 'size',
         'type', 'query', 'sort-by'
       ]);
-      $scope.searchParams.sortBy = locationSearch['sort-by'];
-      var indexToSelect = _.findIndex($scope.tabs,
+      $ctrl.searchParams.sortBy = locationSearch['sort-by'];
+      var indexToSelect = _.findIndex($ctrl.tabs,
         function(tab) {
           return tab.elasticSearchType === locationSearch.type;
         });
       if (indexToSelect < 0) {
-        $scope.searchParams.selectedTabIndex = 0;
+        $ctrl.searchParams.selectedTabIndex = 0;
       } else {
-        $scope.searchParams.selectedTabIndex = indexToSelect;
+        $ctrl.searchParams.selectedTabIndex = indexToSelect;
       }
     }
-  };
+  }
 
-  $scope.computeSearchResultIndex = function($index) {
+  // Paginator method
+  function computeSearchResultIndex($index) {
     return $index + 1 +
-      (($scope.options.pageObject.page - 1) * $scope.options.pageObject.size);
-  };
+      (($ctrl.options.pageObject.page - 1) * $ctrl.options.pageObject.size);
+  }
 
   //Search function
-  $scope.search = function() {
+  function search() {
     var projectId = _.get($scope, 'currentProject.id');
-    $scope.isSearching++;
+    $ctrl.isSearching++;
     SearchResultNavigatorService.setCurrentSearchParams(
-      $scope.searchParams, projectId,
+      $ctrl.searchParams, projectId,
       getSelectedMetadataType(),
-      $scope.options.pageObject);
-    SearchDao.search($scope.searchParams.query,
-      $scope.options.pageObject.page, projectId, $scope.searchParams.filter,
+      $ctrl.options.pageObject);
+    SearchDao.search($ctrl.searchParams.query,
+      $ctrl.options.pageObject.page, projectId, $ctrl.searchParams.filter,
       getSelectedMetadataType(),
-      $scope.options.pageObject.size, $scope.searchParams.sortBy)
+      $ctrl.options.pageObject.size, $ctrl.searchParams.sortBy)
       .then(function(data) {
-        // $scope.searchParams.filter
-        $scope.searchResult = data.hits.hits;
-        $scope.options.pageObject.totalHits = data.hits.total.value;
-        $scope.isSearching--;
+        // $ctrl.searchParams.filter
+        $ctrl.searchResult = data.hits.hits;
+        $ctrl.options.pageObject.totalHits = data.hits.total.value;
+        $ctrl.isSearching--;
         // Safari fix
         $timeout(function() {
           angular.element('body').append('<div id=fdz-safari-fix></div>');
@@ -225,24 +236,23 @@ var CTRL = function(
           });
         }, 100);
       }, function() {
-        $scope.options.pageObject.totalHits = 0;
-        $scope.searchResult = {};
-        $scope.tabs.forEach(function(tab) {
+        $ctrl.options.pageObject.totalHits = 0;
+        $ctrl.searchResult = {};
+        $ctrl.tabs.forEach(function(tab) {
           tab.count = null;
         });
-        $scope.tabs[$scope.searchParams.selectedTabIndex].count = 0;
-        $scope.isSearching--;
+        $ctrl.tabs[$ctrl.searchParams.selectedTabIndex].count = 0;
+        $ctrl.isSearching--;
       });
-  };
+  }
 
-  this.$onInit = function() {
-    tabsFilter(this.options);
+  $ctrl.$onInit = function() {
     tabChangedOnInitFlag = true;
     queryChangedOnInit = true;
-    $scope.tabs = relatedObjects;
-    $scope.searchResult = {};
+    $ctrl.tabs = tabsFilter($ctrl.options);
+
     // fdz-paginator options object
-    $scope.options = {
+    $ctrl.options = {
       sortObject: {
         selected: 'relevance',
         options: ['relevance']
@@ -254,38 +264,45 @@ var CTRL = function(
         page: 1
       }
     };
-    $scope.searchParams = {
+    $ctrl.searchParams = {
       query: '',
-      size: $scope.options.pageObject.size,
+      size: $ctrl.options.pageObject.size,
       selectedTabIndex: 0
     };
 
     readSearchParamsFromLocation();
     // writeSearchParamsToLocation();
-    $scope.search();
+    console.log($ctrl.options);
+    $ctrl.search();
   };
 
-  $scope.onSelectedTabChanged = function() {
+  function onSelectedTabChanged() {
     if (!selectedTabChangeIsBeingHandled && !queryChangeIsBeingHandled) {
       //prevent multiple tab change handlers caused by logout
       selectedTabChangeIsBeingHandled = true;
       $timeout(function() {
         if (!tabChangedOnInitFlag) {
-          $scope.searchParams.filter = SearchHelperService
+          $ctrl.searchParams.filter = SearchHelperService
             .removeIrrelevantFilters(
-              $scope.tabs[$scope.searchParams.selectedTabIndex]
+              $ctrl.tabs[$ctrl.searchParams.selectedTabIndex]
                 .elasticSearchType,
-              $scope.searchParams.filter);
-          $scope.searchParams.sortBy = undefined;
-          $scope.options.pageObject.page = 1;
+              $ctrl.searchParams.filter);
+          $ctrl.searchParams.sortBy = undefined;
+          $ctrl.options.pageObject.page = 1;
           writeSearchParamsToLocation();
-          $scope.search();
+          $ctrl.search();
         }
         tabChangedOnInitFlag = false;
         selectedTabChangeIsBeingHandled = false;
       });
     }
-  };
+  }
+
+  function onPageChanged() {
+    writeSearchParamsToLocation();
+    $ctrl.search();
+  }
+
   $scope.$watch('searchParams.query', function() {
     if (queryChangedOnInit) {
       queryChangedOnInit = false;
@@ -296,21 +313,13 @@ var CTRL = function(
     }
     queryChangeIsBeingHandled = true;
     $timeout(function() {
-      $scope.options.pageObject.page = 1;
-      delete $scope.searchParams.sortBy;
+      $ctrl.options.pageObject.page = 1;
+      delete $ctrl.searchParams.sortBy;
       writeSearchParamsToLocation();
-      $scope.search();
+      $ctrl.search();
       queryChangeIsBeingHandled = false;
     });
   });
-  $scope.computeSearchResultIndex = function($index) {
-    return $index + 1 +
-      (($scope.options.pageObject.page - 1) * $scope.options.pageObject.size);
-  };
-  $scope.onPageChanged = function() {
-    writeSearchParamsToLocation();
-    $scope.search();
-  };
 
   // watch for location changes not triggered by our code
   $scope.$watchCollection(function() {
@@ -326,14 +335,14 @@ var CTRL = function(
       readSearchParamsFromLocation();
       // type changes are already handled by $scope.onSelectedTabChanged
       if (newValue.type === oldValue.type) {
-        $scope.search();
+        $ctrl.search();
       }
     } else {
       locationChanged = false;
     }
   });
-};
+}
 
 angular
   .module('metadatamanagementApp')
-  .controller('RelatedObjectsController', CTRL);
+  .controller('RelatedObjectsController', Controller);
