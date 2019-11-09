@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.isProjectMenuOpen = false;
     $scope.isAdminMenuOpen = false;
     $scope.isAccountMenuOpen = false;
-    $scope.stateName = $scope.$parent.toState.name;
+
     $scope.changeLanguageButtonDisabled = false;
     $scope.logoutButtonDisabled = false;
 
@@ -25,9 +25,15 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       $scope.changeLanguageButtonDisabled = false;
       $scope.logoutButtonDisabled = false;
     });
-    $scope.$watch('$parent.toState.name', function() {
-      $scope.stateName = $scope.$parent.toState.name;
-    });
+    this.$onInit = function() {
+      if ($scope.$parent.toState.hasOwnProperty('name')) {
+        $scope.stateName = 'search';
+      }
+      $scope.$watch('$parent.toState.name', function() {
+        $scope.stateName = $scope.$parent.toState.name;
+      });
+    };
+
     //Functions for toggling buttons.
     $scope.toggleAccountMenu = function() {
       $scope.isAccountMenuOpen = !$scope.isAccountMenuOpen;

@@ -2,7 +2,7 @@
   <md-card-header>
     <md-card-header-text>
       <a
-        ui-sref="dataSetDetail({id: searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: ''})">
+        ui-sref="dataSetDetail({id: searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: '', dataset: searchResult.id})">
         <div class="md-title">
           <span display-i18n-string="searchResult.description"></span>
         </div>

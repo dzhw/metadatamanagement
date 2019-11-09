@@ -82,6 +82,7 @@ $card-border-radius: 2px !default;
         .md-secondary-container {
           display: flex;
           margin: 0;
+          flex-shrink: unset;
           flex-flow: wrap;
         }
 
@@ -95,7 +96,7 @@ $card-border-radius: 2px !default;
         }
         @include rwd(920) {
           .md-secondary-container {
-            width: auto;
+            max-width: 100%;
           }
         }
       }
@@ -126,5 +127,21 @@ $card-border-radius: 2px !default;
         margin-left: 6px;
       }
     }
+  }
+  & .fdz-overlay-outer-box {
+    padding: 8px;
+  }
+
+  & .questions .fdz-search-result {
+    margin: 0;
+  }
+  & .questions .fdz-search-result md-card-header,
+  & .questions .fdz-search-result md-card-content {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  & #diagramContainer {
+    margin-top: 16px;
   }
 }

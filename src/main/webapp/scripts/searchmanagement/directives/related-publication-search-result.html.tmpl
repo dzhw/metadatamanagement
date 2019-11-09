@@ -2,7 +2,7 @@
   <md-card-header>
     <md-card-header-text>
       <a
-        ui-sref="relatedPublicationDetail({id:searchResult.id, 'search-result-index': searchResultIndex})">
+        ui-sref="relatedPublicationDetail({id:searchResult.id, 'search-result-index': searchResultIndex, related_publications: searchResult.id})">
         <div class="md-title" lang="{{searchResult.language}}">{{searchResult.title}}</div>
       </a>
       <md-tooltip md-autohide="true" md-direction="top" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

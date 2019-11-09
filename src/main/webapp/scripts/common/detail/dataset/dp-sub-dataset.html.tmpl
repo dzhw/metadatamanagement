@@ -1,0 +1,114 @@
+<md-card>
+<md-divider></md-divider>
+  <md-card-header>
+    <md-card-header-text>
+      <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+    </md-card-header-text>
+    <md-button
+      aria-label="md-card collapsed = {{$ctrl.collapsed}}}"
+      class="md-card-collapsible-button"
+      ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+    <table fdz-table class="mh16 mb16 fdz-table-wide">
+      <thead>
+      <tr>
+        <th>{{'data-set-management.detail.label.sub-data-sets.accessWay' | translate }}
+          <md-tooltip hide-gt-xs md-direction="right">
+            {{'data-set-management.detail.label.sub-data-sets.accessWay' | translate }}
+          </md-tooltip>
+        </th>
+        <th class="fdz-table-absorbing-column">{{'data-set-management.detail.label.sub-data-sets.description' |
+          translate }}
+          <md-tooltip hide-gt-xs md-direction="right">
+            {{'data-set-management.detail.label.sub-data-sets.description' | translate }}
+          </md-tooltip>
+        </th>
+        <th>{{'data-set-management.detail.label.sub-data-sets.name' | translate }}
+          <md-tooltip hide-gt-xs md-direction="right">
+            {{'data-set-management.detail.label.sub-data-sets.name' | translate }}
+          </md-tooltip>
+        </th>
+        <th>{{'variable-management.detail.label.variables' | translate }}
+          <md-tooltip hide-gt-xs md-direction="right">
+            {{'variable-management.detail.label.variables' | translate }}
+          </md-tooltip>
+        </th>
+        <th>{{'data-set-management.detail.label.sub-data-sets.numberOfAnalyzedVariables' | translate }}
+          <md-tooltip hide-gt-xs md-direction="right">
+            {{'data-set-management.detail.label.sub-data-sets.numberOfAnalyzedVariables' | translate }}
+          </md-tooltip>
+        </th>
+        <th>{{(ctrl.dataSet.type.en !== 'Spell
+          Data'?'data-set-management.detail.label.sub-data-sets.numberOfObservations' :
+          'data-set-management.detail.label.sub-data-sets.numberOfEpisodes')| translate }}
+          <md-tooltip hide-gt-xs md-direction="right">
+            {{(ctrl.dataSet.type.en !== 'Spell
+            Data'?'data-set-management.detail.label.sub-data-sets.numberOfObservations' :
+            'data-set-management.detail.label.sub-data-sets.numberOfEpisodes')| translate }}
+          </md-tooltip>
+        </th>
+        <th>
+          {{'data-set-management.detail.label.sub-data-sets.citation' | translate }}
+          <md-tooltip hide-gt-xs md-direction="right">
+            {{'data-set-management.detail.label.sub-data-sets.citation' | translate }}
+          </md-tooltip>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="row in $ctrl.options.dataSet.subDataSets">
+        <td class="fdz-table-nowrap">{{row.accessWay}}</td>
+        <td class="fdz-text-block" display-i18n-string="row.description" fdz-hyphenate></td>
+        <td class="fdz-table-nowrap">{{row.name}}&nbsp;</td>
+        <td ng-class="{'fdz-table-number' : $ctrl.options.counts.variablesCount > 0}">
+          <div class="fdz-truncate-string" ng-if="$ctrl.options.counts.variablesCount == 0">
+            {{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}
+          </div>
+          <div ng-if="$ctrl.options.counts.variablesCount == 1 && $ctrl.options.variable">
+            <a ui-sref="variableDetail({'id': $ctrl.options.variable.id})">
+              {{$ctrl.options.counts.variablesCount}}
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'data-set-management.detail.tooltips.variables.one' | translate}}
+              </md-tooltip>
+            </a>
+          </div>
+          <div ng-if="$ctrl.options.counts.variablesCount > 1">
+            <a ui-sref="search({'type': 'variables', 'data-set': $ctrl.options.dataSet.id, 'study': $ctrl.options.dataSet.studyId})">
+              {{$ctrl.options.counts.variablesCount| number: 0}}
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'data-set-management.detail.tooltips.variables.many' | translate}}
+              </md-tooltip>
+            </a>
+          </div>
+        </td>
+        <td ng-class="{'fdz-table-number' : $ctrl.options.counts[row.name] > 0}"><span ng-if="$ctrl.options.counts[row.name] == 0">{{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}</span>
+          <a ng-if="$ctrl.options.counts[row.name] > 0"
+             ui-sref="search({'type': 'variables', 'data-set':$ctrl.options.dataSet.id, 'study': $ctrl.options.dataSet.studyId, 'access-way': row.accessWay})">
+            {{$ctrl.options.counts[row.name] | number: 0}}&nbsp;<md-tooltip md-autohide="true"
+                                                                   md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'data-set-management.detail.label.sub-data-sets.numberOfAnalyzedVariables-tooltip' | translate}}
+          </md-tooltip>
+          </a>
+        </td>
+        <td class="fdz-table-number">{{row.numberOfObservations | number: 0}}&nbsp;</td>
+        <td style="padding-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
+          <md-button class="md-icon-button md-primary" ng-click="$ctrl.options.openDialog(row, $event)"
+                     ng-disabled="!row.citationHint">
+            <md-icon md-svg-icon="assets/images/icons/citate.svg"></md-icon>
+            <md-tooltip md-autohide="true" md-direction="left"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-set-management.detail.label.sub-data-sets.citate-tooltipp'|translate}}
+            </md-tooltip>
+          </md-button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    </md-card-content>
+  </div>
+</md-card>

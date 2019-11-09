@@ -3,9 +3,8 @@
 'use strict';
 
 var CTRL = function(
-    $scope, $rootScope, SearchHelperService, $location, SearchDao, $timeout,
-    SearchResultNavigatorService, CleanJSObjectService, ToolbarHeaderService,
-    $state
+    $scope, $location, SearchDao, $timeout,
+    SearchResultNavigatorService, CleanJSObjectService, SearchHelperService
 ) {
 
   var queryChangedOnInit = false;
@@ -146,8 +145,8 @@ var CTRL = function(
     // Todo: Find solution for breadcrumbs error when selecting a tab
     // Quick fix: The change from $location.search to $location.replace
     // Negative: We can not link to the selected tab in the details page
-    $location.replace(locationSearch);
-    // $location.search(locationSearch);
+    // $location.replace(locationSearch);
+    $location.search(locationSearch);
   };
 
   // read the searchParams object from the location with the correct types
@@ -213,6 +212,8 @@ var CTRL = function(
       getSelectedMetadataType(),
       $scope.options.pageObject.size, $scope.searchParams.sortBy)
       .then(function(data) {
+        console.log(data.hits.hits);
+        // $scope.searchParams.filter
         $scope.searchResult = data.hits.hits;
         $scope.options.pageObject.totalHits = data.hits.total.value;
         $scope.isSearching--;
@@ -275,6 +276,7 @@ var CTRL = function(
               $scope.tabs[$scope.searchParams.selectedTabIndex]
                 .elasticSearchType,
               $scope.searchParams.filter);
+          console.log($scope.searchParams.filter);
           $scope.searchParams.sortBy = undefined;
           $scope.options.pageObject.page = 1;
           writeSearchParamsToLocation();
@@ -302,6 +304,14 @@ var CTRL = function(
       queryChangeIsBeingHandled = false;
     });
   });
+  $scope.computeSearchResultIndex = function($index) {
+    return $index + 1 +
+      (($scope.options.pageObject.page - 1) * $scope.options.pageObject.size);
+  };
+  $scope.onPageChanged = function() {
+    writeSearchParamsToLocation();
+    $scope.search();
+  };
 
   // watch for location changes not triggered by our code
   // $scope.$watchCollection(function() {

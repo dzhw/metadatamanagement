@@ -22,6 +22,7 @@ angular.module('metadatamanagementApp')
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
+      ctrl.counts = {};
       ctrl.survey = null;
       ctrl.attachments = null;
       ctrl.study = null;
@@ -96,25 +97,25 @@ angular.module('metadatamanagementApp')
               }
             });
 
-          ctrl.surveyCount = result.surveys.length;
-          if (ctrl.surveyCount === 1) {
-            ctrl.survey = result.surveys[0];
-          }
+          // ctrl.counts.surveysCount = result.surveys.length;
+          // if (ctrl.counts.surveysCount === 1) {
+          //   ctrl.survey = result.surveys[0];
+          // }
 
           ctrl.study = result.study;
 
-          ctrl.questionCount = result.questions.length;
-          if (ctrl.questionCount === 1) {
+          ctrl.counts.questionsCount = result.questions.length;
+          if (ctrl.counts.questionsCount === 1) {
             ctrl.question = result.questions[0];
           }
 
-          ctrl.publicationCount = result.relatedPublications.length;
-          if (ctrl.publicationCount === 1) {
+          ctrl.counts.publicationsCount = result.relatedPublications.length;
+          if (ctrl.counts.publicationsCount === 1) {
             ctrl.relatedPublication = result.relatedPublications[0];
           }
 
-          ctrl.conceptsCount = result.concepts.length;
-          if (ctrl.conceptsCount === 1) {
+          ctrl.counts.conceptsCount = result.concepts.length;
+          if (ctrl.counts.conceptsCount === 1) {
             ctrl.concept = result.concepts[0];
           }
         } else {

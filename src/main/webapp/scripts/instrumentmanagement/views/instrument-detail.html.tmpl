@@ -1,6 +1,31 @@
 <div ng-if="ctrl.instrument.id">
   <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
   <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
+  <div class="fdz-cc" ng-if="!isAuthenticated()">
+    <div>
+      <div class="fdz-detail">
+        <div class="fdz-detail__header">
+          <h1 class="md-headline" display-i18n-string="ctrl.instrument.title" fdz-hyphenate></h1>
+        </div>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.instrument"
+          template-url="scripts/common/detail/instrument/dp-detail.html.tmpl"></fdz-detail>
+        <fdz-related-objects
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.counts"
+          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.attachments"
+          template-url="scripts/common/detail/instrument/dp-attachments.html.tmpl"></fdz-detail>
+      </div>
+    </div>
+  </div>
+
   <div class="fdz-cc">
     <div layout="row" layout-margin style="margin-bottom: 0px;">
       <h1 class="md-headline fdz-headline">

@@ -1700,6 +1700,7 @@ fdz-breadcrumbs {
       .fdz-theme .fdz-detail md-card md-card-content md-list-item .md-secondary-container {
         display: flex;
         margin: 0;
+        flex-shrink: unset;
         flex-flow: wrap; }
       @media (min-width: 700px) {
         .fdz-theme .fdz-detail md-card md-card-content md-list-item h5 {
@@ -1708,7 +1709,7 @@ fdz-breadcrumbs {
           width: 50%; } }
       @media (min-width: 920px) {
         .fdz-theme .fdz-detail md-card md-card-content md-list-item .md-secondary-container {
-          width: auto; } }
+          max-width: 100%; } }
   .fdz-theme .fdz-detail .fdz-detail-search-container .fdz-detail-search-item-container > * .fdz-search-result {
     border-bottom-width: 1px;
     border-bottom-style: solid;
@@ -1729,6 +1730,16 @@ fdz-breadcrumbs {
       .fdz-theme .fdz-detail survey-search-result md-card-content > div > div ~ div,
       .fdz-theme .fdz-detail dataset-search-result md-card-content > div > div ~ div {
         margin-left: 6px; } }
+  .fdz-theme .fdz-detail .fdz-overlay-outer-box {
+    padding: 8px; }
+  .fdz-theme .fdz-detail .questions .fdz-search-result {
+    margin: 0; }
+  .fdz-theme .fdz-detail .questions .fdz-search-result md-card-header,
+  .fdz-theme .fdz-detail .questions .fdz-search-result md-card-content {
+    padding-right: 0;
+    padding-left: 0; }
+  .fdz-theme .fdz-detail #diagramContainer {
+    margin-top: 16px; }
 
 .fdz-table-wide {
   width: fit-content;
