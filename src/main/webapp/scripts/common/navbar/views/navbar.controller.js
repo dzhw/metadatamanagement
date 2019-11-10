@@ -7,7 +7,6 @@ angular.module('metadatamanagementApp').controller('NavbarController',
            WelcomeDialogService) {
 
     $scope.isAuthenticated = Principal.isAuthenticated;
-
     //For toggle buttons
     $scope.isProjectMenuOpen = false;
     $scope.isAdminMenuOpen = false;
@@ -25,14 +24,6 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       $scope.changeLanguageButtonDisabled = false;
       $scope.logoutButtonDisabled = false;
     });
-    this.$onInit = function() {
-      if ($scope.$parent.toState.hasOwnProperty('name')) {
-        $scope.stateName = 'search';
-      }
-      $scope.$watch('$parent.toState.name', function() {
-        $scope.stateName = $scope.$parent.toState.name;
-      });
-    };
 
     //Functions for toggling buttons.
     $scope.toggleAccountMenu = function() {
@@ -85,5 +76,11 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       return $mdSidenav('SideNavBar').isLockedOpen();
     }, function() {
       fixTextareaHeight();
+    }, true);
+
+    $scope.$watch(function() {
+      return $rootScope.toStateName;
+    }, function() {
+      $scope.stateName = $rootScope.toStateName;
     }, true);
   });

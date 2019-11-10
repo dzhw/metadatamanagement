@@ -12,6 +12,7 @@ function Controller(
   $ctrl.onPageChanged = onPageChanged;
   $ctrl.onSelectedTabChanged = onSelectedTabChanged;
   $ctrl.search = search;
+  $ctrl.$onInit = init;
 
   $ctrl.options = {};
   $ctrl.searchResult = {};
@@ -110,7 +111,8 @@ function Controller(
     noResultsText: 'search-management.no-results-text.concepts',
     group: 'concepts'
   }];
-  $ctrl.$onInit = function() {
+
+  function init() {
     tabChangedOnInitFlag = true;
     queryChangedOnInit = true;
     $ctrl.tabs = tabsFilter($ctrl.options);
@@ -135,9 +137,8 @@ function Controller(
     };
     readSearchParamsFromLocation();
     // writeSearchParamsToLocation();
-    console.log($ctrl.options);
     $ctrl.search();
-  };
+  }
 
   function tabsFilter(data) {
     var relatedObjects = [];
