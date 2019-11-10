@@ -38,11 +38,7 @@ Save Changes
     Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='save']]
 
 Publisher Logout
-    ${url} =    Get Location
-    Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'abmelden')]
-    Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'logout')]
+    Click Element Through Tooltips    xpath=//md-icon[contains(.,'account_circle')]
 
 Data Provider Logout
-    ${url} =    Get Location
-    Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'abmelden')]
-    Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'logout')]
+    Click Element Through Tooltips    xpath=//md-icon[contains(.,'account_circle')]
