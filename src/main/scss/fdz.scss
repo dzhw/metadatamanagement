@@ -1,0 +1,49 @@
+
+
+@import "components/index";
+// Weird CSS
+@import "components/will-be-deleted/will-be-deleted";
+
+.fdz-toolbar {
+  color: $brand-primary-text;
+  background: $brand-primary;
+}
+
+.fdz-primary {
+  color: $brand-primary;
+}
+.fdz-text {
+  color: $brand-background-600;
+}
+
+.fdz-secondary {
+  color: $brand-secondary;
+}
+
+.fdz-third {
+  color: $brand-third!important;
+}
+
+.fdz-headline {
+  //padding-left: 16px;
+  //padding-right: 16px;
+}
+
+// START LOGO
+.fdz-logo {
+  padding: 10px 10px 10px 0;
+}
+.fdz-logo:hover,
+.fdz-logo:active {
+  background-color: rgba(0, 0, 0, 0)!important;
+}
+
+.fdz-logo > img {
+  margin-top: 15px;
+  height: 50px;
+}
+// END LOGO
+
+.fdz-nav {
+  justify-content: space-between;
+}

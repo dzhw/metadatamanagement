@@ -1,0 +1,192 @@
+.fdz-theme .md-button {
+
+  &:not([disabled]) {
+    &:hover {
+      background-color: $background-300;
+    }
+    &.md-focused {
+      background-color: $background-300;
+    }
+    &.md-icon-button:hover {
+      background-color: transparent;
+    }
+  }
+
+  &.md-fab {
+    background-color: $accent-color;
+    color: $accent-contrast;
+    md-icon {
+      color: $accent-contrast;
+    }
+    &:not([disabled]) {
+      &:hover {
+        background-color: $accent-A700;
+      }
+      &.md-focused {
+        background-color: $accent-A700;
+      }
+    }
+  }
+
+  &.md-primary {
+    color: $brand-secondary;
+    &.md-raised,
+    &.md-fab {
+      color: $primary-contrast;
+      background-color: $primary-color;
+      &:not([disabled]) {
+        md-icon {
+          color: $primary-contrast;
+        }
+        &:hover {
+          background-color: $background-300;
+        }
+        &.md-focused {
+          background-color: $background-300;
+        }
+      }
+    }
+    &:not([disabled]) {
+      md-icon {
+        color: $primary-contrast;
+      }
+    }
+  }
+  &.md-fab {
+    background-color: $accent-color;
+    color: $accent-contrast;
+    &:not([disabled]) {
+      .md-icon {
+        color: $accent-contrast;
+      }
+      &:hover {
+        background-color: $accent-A700;
+      }
+      &.md-focused {
+        background-color: $accent-A700;
+      }
+    }
+  }
+
+  &.md-raised {
+    color: $background-900;
+    background-color: $background-50;
+    &:not([disabled]) {
+      md-icon {
+        color: $background-900;
+      }
+      &:hover {
+        background-color: $background-50;
+      }
+      &.md-focused {
+        background-color: $background-200;
+      }
+    }
+  }
+
+  &.md-small {
+    font-size: 12px;
+    line-height: inherit;
+    text-transform: none;
+  }
+
+  &.md-warn {
+    color: $warn-color;
+
+    &.md-raised,
+    &.md-fab {
+      color: $warn-contrast;
+      background-color: $warn-color;
+      &:not([disabled]) {
+        md-icon {
+          color: $warn-contrast;
+        }
+        &:hover {
+          background-color: $warn-600;
+        }
+        &.md-focused {
+          background-color: $warn-600;
+        }
+      }
+    }
+    &:not([disabled]) {
+      md-icon {
+        color: $warn-color;
+      }
+    }
+  }
+
+  &.md-accent {
+    color: $accent-color;
+    &.md-raised,
+    &.md-fab {
+      color: $accent-contrast;
+      background-color: $accent-color;
+      &:not([disabled]) {
+        md-icon {
+          color: $accent-contrast;
+        }
+        &:hover {
+          background-color: $accent-A700;
+        }
+        &.md-focused {
+          background-color: $accent-A700;
+        }
+      }
+    }
+    &:not([disabled]) {
+      md-icon {
+        color: $accent-color;
+      }
+    }
+  }
+
+  &[disabled],
+  &.md-raised[disabled],
+  &.md-fab[disabled],
+  &.md-accent[disabled],
+  &.md-warn[disabled] {
+    color: $foreground-3;
+    cursor: default;
+
+    md-icon {
+      color: $foreground-3;
+    }
+  }
+  &.md-raised[disabled],
+  &.md-fab[disabled] {
+    background-color: $background-300;
+  }
+  &[disabled] {
+    background-color: transparent;
+  }
+}
+
+
+.fdz-theme ._md {
+  a:not(.md-button) {
+    &.md-primary {
+      color: $primary-contrast;
+
+      &:hover {
+        color: $primary-700;
+      }
+    }
+
+    &.md-accent {
+      color: $accent-color;
+
+      &:hover {
+        color: $accent-A700;
+      }
+    }
+
+    &.md-warn {
+      color: $warn-color;
+
+      &:hover {
+        color: $warn-700;
+      }
+    }
+  }
+}

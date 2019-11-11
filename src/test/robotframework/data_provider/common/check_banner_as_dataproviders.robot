@@ -7,6 +7,7 @@ Resource          ../../resources/check_url_resource.robot
 
 *** Test Cases ***
 Check for Dataproviders Welcome Banner Appears
+   Pass Execution If    '${BROWSER}' == 'ie'    Footer not visible on IE
    Data Provider Logout   # explicit logout to sync with suite setup
    Login as dataprovidertest
    Assert Welcome Text After Login
@@ -30,9 +31,7 @@ Assert Checkbox Dont Show Again is Available
    Page Should Contain Element   xpath=//md-checkbox//div[contains(. , ' Nicht mehr anzeigen')]
 
 Login as dataprovidertest
-   ${visible}=  Run Keyword And Return Status    Element Should Be Visible   xpath=//*[@id = 'login']
-   Run Keyword If    not ${visible}    Click Element Through Tooltips    xpath=//*[@id = 'account-menu-toggle']
-   Click Element Through Tooltips    xpath=//*[@id = 'login']
+   Click Element Through Tooltips    xpath=//a[contains(@aria-label,'anzumelden')]
    Input Text    id=username    dataprovidertest
    Input Password    id=password    dataprovidertest
    Click Element Through Tooltips    xpath=//button[@type='submit']
@@ -45,5 +44,5 @@ Click on Information for Data Providers Link
 
 Dataprovidertest Provider Logout
     ${url} =    Get Location
-    Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'abmelden')]
-    Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'logout')]
+    Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(@aria-label,'abzumelden')]
+    Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'sign out')]

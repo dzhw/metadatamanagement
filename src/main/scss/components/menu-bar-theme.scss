@@ -1,0 +1,49 @@
+.fdz-theme md-menu-bar {
+  & > button.md-button {
+    color: $foreground-1;
+    border-radius: 2px;
+  }
+
+  md-menu > button {
+    color: $foreground-1;
+  }
+
+  md-menu.md-open > button, md-menu > button:focus {
+    outline: none;
+    background-color: $background-500-018;
+  }
+
+  &.md-open:not(.md-keyboard-mode) md-menu:hover > button {
+    background-color: $background-500-018;
+  }
+
+  &:not(.md-keyboard-mode):not(.md-open) {
+    md-menu button:hover,
+    md-menu button:focus {
+      background: transparent;
+    }
+  }
+}
+
+.fdz-theme md-menu-content {
+  .md-menu > .md-button:after {
+    color: $foreground-2;
+  }
+
+  .md-menu.md-open > .md-button {
+    background-color: $background-500-018;
+  }
+}
+
+.fdz-theme md-toolbar .md-menu-toolbar {
+  background-color: $background-hue-1;
+  color: $foreground-1;
+  md-toolbar-filler {
+    background-color: $primary-color;
+    color: $primary-contrast;
+    md-icon {
+      color: $primary-contrast;
+    }
+  }
+
+}

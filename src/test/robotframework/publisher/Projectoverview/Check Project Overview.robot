@@ -21,17 +21,17 @@ Click on Project Overview Button
 Assert Table Head Has All Columns Names
    @{MD_THEADERS}    Create List   Projekt  Aktuelle Version   Zugewiesene Gruppe  Studie  Erhebungen  Instrumente   Datensätze   Fragen  Variablen
    :FOR   ${MD_TH}   IN  @{MD_THEADERS}
-   \  Page Should Contain Element   xpath=//table[@class="table-striped table-hover ng-scope fdz-table-wide"]//thead//tr//th[contains(., "${MD_TH}")]
+   \  Page Should Contain Element   xpath=//table//thead//tr//th[contains(., "${MD_TH}")]
 
 Assert Project robotprojectrelease4chrome-firefox-edge's Version and Assigned Group
    @{MD_PROJECTS}    Create List   robotprojectrelease4chrome  robotprojectrelease4firefox   robotprojectrelease4edge   robotprojectrelease4safari
    :FOR   ${MD_PJ}   IN  @{MD_PROJECTS}
-   \  Page Should Contain Element  xpath=//table[@class="table-striped table-hover ng-scope fdz-table-wide"]//tbody//tr//td[contains(., "nicht freigegeben")]
-   \  Page Should Contain Element  xpath=//table[@class="table-striped table-hover ng-scope fdz-table-wide"]//tbody//tr//td//span[contains(., "Publisher")]
+   \  Page Should Contain Element  xpath=//table//tbody//tr//td[contains(., "nicht freigegeben")]
+   \  Page Should Contain Element  xpath=//table//tbody//tr//td//span[contains(., "Publisher")]
 
 Assert Project robotprojectrelease4ie's Version and Assigned Group
-   Page Should Contain Element  xpath=//table[@class="table-striped table-hover ng-scope fdz-table-wide"]//tbody//tr//td[contains(., "nicht freigegeben")]
-   Page Should Contain Element  xpath=//table[@class="table-striped table-hover ng-scope fdz-table-wide"]//tbody//tr//td//span[contains(., "Publisher")]
+   Page Should Contain Element  xpath=//table//tbody//tr//td[contains(., "nicht freigegeben")]
+   Page Should Contain Element  xpath=//table//tbody//tr//td//span[contains(., "Publisher")]
 
 Click on Next Button
    Click Element Through Tooltips   xpath=//ul//li[@class="pagination-next ng-scope"]//a[contains(., "Weiter")]

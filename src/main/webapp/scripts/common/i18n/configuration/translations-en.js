@@ -36,7 +36,6 @@ angular.module('metadatamanagementApp').config(
             },
             'user-management-tooltip': 'Click to open the User Management',
             'health-tooltip': 'Click to check the availability of the external services',
-            'configuration-tooltip': 'Click to show the Spring Configuration',
             'logs-tooltip': 'Click to change loglevel',
             'settings-tooltip': 'Click to change your account details',
             'password-tooltip': 'Click to change your password'
@@ -131,7 +130,7 @@ angular.module('metadatamanagementApp').config(
             'title': 'Metadatamanagement (MDM) - Data Search for Higher Education Research and Science Studies'
           },
           'account': {
-            'main': 'Access for Data Providers',
+            'main': 'Account Details ({{username}})',
             'settings': 'Edit Account',
             'password': 'Change Password',
             'sessions': 'Sessions'
@@ -140,7 +139,6 @@ angular.module('metadatamanagementApp').config(
             'main': 'Administration',
             'user-management': 'User Management',
             'health': 'External Services',
-            'configuration': 'Spring Configuration',
             'logs': 'Loglevel',
             'apidocs': 'API',
             'database': 'Database'

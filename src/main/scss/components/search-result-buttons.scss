@@ -1,0 +1,48 @@
+.fdz-theme .md-button {
+
+  &.md-fab {
+    &.fdz-previous-search-result,
+    &.fdz-next-search-result {
+      position: fixed;
+      top: 50%;
+      width: 40px;
+      height: 40px;
+      z-index: 50;
+    }
+
+    &.fdz-previous-search-result {
+          margin-left: -20px;
+          transition: margin-left 0.25s;
+          padding-right: 1px;
+          border-bottom-left-radius: 0;
+          border-top-left-radius: 0;
+    }
+
+    &.fdz-previous-search-result > md-icon {
+      margin-left: 8px;
+    }
+
+    &.fdz-previous-search-result:focus,
+    &.fdz-previous-search-result:hover {
+      margin-left: 0px;
+    }
+
+    &.fdz-next-search-result {
+      right: -20px;
+      margin-right: 0;
+      padding-left: 1px;
+      transition: right 0.25s;
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    &.fdz-next-search-result > md-icon {
+      margin-right: 8px;
+    }
+
+    &.fdz-next-search-result:focus,
+    &.fdz-next-search-result:hover {
+      right: 0;
+    }
+  }
+}
