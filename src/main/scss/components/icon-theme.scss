@@ -1,0 +1,16 @@
+.fdz-theme md-icon {
+  color: $foreground-2;
+
+  &.md-primary {
+    color: $brand-secondary;
+  }
+
+  &.md-accent {
+    color: $accent-color;
+  }
+
+  &.md-warn {
+    color: $warn-color;
+  }
+}
+

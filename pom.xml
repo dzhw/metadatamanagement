@@ -11,12 +11,12 @@
 
     <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.94</version>
+    <version>1.0.95</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
     <properties>
-        <elasticsearch.version>7.3.2</elasticsearch.version>
+        <elasticsearch.version>7.4.0</elasticsearch.version>
         <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
         <java.version>11</java.version>
         <jest.version>6.3.1</jest.version>

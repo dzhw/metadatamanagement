@@ -37,8 +37,8 @@ Click on Publication Edit Button
    Click Element Through Tooltips    xpath=//md-card[@type="publications"]//button[@ng-disabled="ctrl.isProjectReleased()"]//span[text()="Bearbeiten"]
 
 Assign a publication to the project
-    Clear Element Text   xpath=//md-card[@class="ng-scope _md"]//input[@type="search"]
-    Input Text  xpath=//md-card[@class="ng-scope _md"]//input[@type="search"]   The labour market's requirement profiles for higher education graduates
+    Clear Element Text   xpath=//md-card//input[@type="search"]
+    Input Text  xpath=//md-card//input[@type="search"]   The labour market's requirement profiles for higher education graduates
     Click Element Through Tooltips   xpath=//div//ul//li//span//span[contains(., "The labour market's requirement profiles for higher education graduates")]
 
 Unassign the publication from the project
@@ -63,4 +63,3 @@ Get back to home page and deselect project
 
 Delete the publication from the study
     Click Element Through Tooltips    xpath=//button[@ng-click="ctrl.removePublication(publication)"]//md-icon[contains(.,"delete_forever")]
-
