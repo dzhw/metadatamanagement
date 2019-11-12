@@ -16,6 +16,7 @@ function Controller(
 
   $ctrl.options = {};
   $ctrl.searchResult = {};
+  $ctrl.placeHolder = '';
 
   var queryChangedOnInit = false;
   var tabChangedOnInitFlag = false;
@@ -23,17 +24,6 @@ function Controller(
   var selectedTabChangeIsBeingHandled = false;
   var queryChangeIsBeingHandled = false;
   var tabs = [{
-    title: 'search-management.tabs.studies',
-    inputLabel: 'search-management.input-label.studies',
-    icon: 'assets/images/icons/study.svg',
-    elasticSearchType: 'studies',
-    count: null,
-    uploadFunction: null,
-    disabled: false,
-    visibleForPublicUser: true,
-    noResultsText: 'search-management.no-results-text.studies',
-    group: 'studies'
-  }, {
     title: 'search-management.tabs.surveys',
     inputLabel: 'search-management.input-label.surveys',
     icon: 'assets/images/icons/survey.svg',
@@ -130,6 +120,7 @@ function Controller(
         page: 1
       }
     };
+    $ctrl.placeHolder = $ctrl.tabs[0].title;
     $ctrl.searchParams = {
       query: '',
       size: $ctrl.options.pageObject.size,
@@ -300,6 +291,8 @@ function Controller(
       selectedTabChangeIsBeingHandled = true;
       $timeout(function() {
         if (!tabChangedOnInitFlag) {
+          $ctrl.placeHolder = $ctrl.tabs[$ctrl.searchParams.selectedTabIndex]
+            .title;
           $ctrl.searchParams.filter = SearchHelperService
             .removeIrrelevantFilters(
               $ctrl.tabs[$ctrl.searchParams.selectedTabIndex]
@@ -322,7 +315,6 @@ function Controller(
   }
 
   $scope.$watch('$ctrl.searchParams.query', function() {
-    console.log('TEST');
     if (queryChangedOnInit) {
       queryChangedOnInit = false;
       return;
@@ -344,12 +336,6 @@ function Controller(
   $scope.$watchCollection(function() {
     return $location.search();
   }, function(newValue, oldValue) {
-    // ToolbarHeaderService.updateToolbarHeader({
-    //   'stateName': $state.current.name,
-    //   'tabName': 'study-management.detail.label.study',
-    //   'searchUrl': $location.absUrl(),
-    //   'searchParams': $location.search()
-    // });
     if (newValue !== oldValue && !locationChanged) {
       readSearchParamsFromLocation();
       // type changes are already handled by $scope.onSelectedTabChanged
