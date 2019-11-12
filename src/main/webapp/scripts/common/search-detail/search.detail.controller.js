@@ -1,21 +1,21 @@
 'use strict';
 
-function Controller($scope, $state, LanguageService, $location) {
+function Controller($state, LanguageService, $location) {
   var $ctrl = this;
   $ctrl.query = '';
+  $ctrl.submit = submit;
 
-  $scope.$watch('$ctrl.query', function(newValue, oldValue) {
-    if (newValue !== oldValue) {
-      var searchObject = $location.search();
-
-      $state.go('search', {
-        lang: LanguageService.getCurrentInstantly(),
-        query: $ctrl.query
-        // ,
-        // size: parseInt(searchObject.pageObject.size)
-      });
+  function submit() {
+    var searchObject = $location.search();
+    var paramsObject = {
+      lang: LanguageService.getCurrentInstantly(),
+      query: $ctrl.query
+    };
+    if (searchObject.hasOwnProperty('size')) {
+      paramsObject.size = parseInt(searchObject.size);
     }
-  });
+    $state.go('search', paramsObject);
+  }
 }
 angular
   .module('metadatamanagementApp')

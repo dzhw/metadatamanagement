@@ -1,6 +1,5 @@
 <form
   class="fdz-search"
-  ng-submit="hideMobileKeyboard($event)"
   md-whiteframe="1"
   role="search">
   <md-input-container
@@ -12,22 +11,13 @@
       id="query"
       md-select-on-focus
       ng-model="$ctrl.query"
-      ng-model-options="{debounce: 250}"
       placeholder="{{'search-management.detail.search'|translate}}"
       tabindex="0"
       type="search">
     <md-button
       class="md-small md-primary"
-      ng-if="!searchParams.query">
+      ng-click="$ctrl.submit() && hideMobileKeyboard($event)">
       {{'global.search-component.search' | translate}}
     </md-button>
-    <md-button
-      class="md-small md-primary"
-      ng-if="searchParams.query"
-      ng-click="searchParams.query = ''">
-      {{'global.search-component.delete' | translate}}
-    </md-button>
   </md-input-container>
-  <input ng-hide="true" type="submit">
-  <md-progress-linear md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>
 </form>
