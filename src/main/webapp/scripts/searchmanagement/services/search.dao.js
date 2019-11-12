@@ -351,7 +351,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
                        filter, elasticsearchType, pageSize, idsToExclude,
-                       aggregations) {
+                       aggregations, newFilters) {
         var query = {};
         query.preference = clientId;
         var studyId;
@@ -506,6 +506,9 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
         SearchHelperService.addAggregations(query, elasticsearchType,
           aggregations);
+
+        SearchHelperService.addNewFilters(query, elasticsearchType,
+          newFilters);
 
         if (Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
           applyFetchLatestShadowCopyFilter(query, elasticsearchType,

@@ -42,6 +42,41 @@ angular.module('metadatamanagementApp').factory(
       }
     };
 
+    var filterMapping = {
+      'studies': {
+        'study-series': {
+          attribute: 'studySeries',
+          i18n: true,
+          concatMultipleWithOr: true
+        },
+        'survey-data-types': {
+          attribute: 'surveyDataTypes',
+          i18n: true,
+          concatMultipleWithOr: false
+        },
+        'tags': {
+          attribute: 'tags',
+          i18n: true,
+          concatMultipleWithOr: false
+        },
+        'concepts': {
+          attribute: 'concepts.title',
+          i18n: true,
+          concatMultipleWithOr: false
+        },
+        'sponsor': {
+          attribute: 'sponsor',
+          i18n: true,
+          concatMultipleWithOr: true
+        },
+        'institutions': {
+          attribute: 'institutions',
+          i18n: true,
+          concatMultipleWithOr: false
+        }
+      }
+    };
+
     var keyMapping = {
       'studies': {
         'study-series-de': 'studySeries.de',
@@ -516,6 +551,57 @@ angular.module('metadatamanagementApp').factory(
       }
     };
 
+    var addNewFilters = function(query, elasticsearchType, newFilters) {
+      var currentLanguage = LanguageService.getCurrentInstantly();
+      if (newFilters && _.keys(newFilters).length > 0) {
+        var allFilters = {
+          bool: {
+            must: []
+          }
+        };
+        _.keys(newFilters).forEach(function(filterKey) {
+          var filterConfig = _.get(
+            filterMapping, elasticsearchType + '.' + filterKey);
+          var attributeFilter;
+          var filterArray;
+          if (filterConfig.concatMultipleWithOr) {
+            attributeFilter = {
+              bool: {
+                should: [],
+                minimum_should_match: 1
+              }
+            };
+            filterArray = attributeFilter.bool.should;
+          } else {
+            attributeFilter = {
+              bool: {
+                must: []
+              }
+            };
+            filterArray = attributeFilter.bool.must;
+          }
+          newFilters[filterKey].forEach(function(filterValue) {
+            var filter = {
+              term: {
+              }
+            };
+            if (filterConfig.i18n) {
+              filter.term[filterConfig.attribute + '.' + currentLanguage] =
+                filterValue;
+            } else {
+              filter.term[filterConfig.attribute] = filterValue;
+            }
+            filterArray.push(filter);
+          });
+          allFilters.bool.must.push(attributeFilter);
+        });
+        if (!query.body.query.bool.filter) {
+          query.body.query.bool.filter = [];
+        }
+        query.body.query.bool.filter.push(allFilters);
+      }
+    };
+
     return {
       containsDomainObjectFilter: containsDomainObjectFilter,
       createTermFilters: createTermFilters,
@@ -528,7 +614,8 @@ angular.module('metadatamanagementApp').factory(
       addShadowCopyFilter: addShadowCopyFilter,
       addNestedShadowCopyFilter: addNestedShadowCopyFilter,
       addQuery: addQuery,
-      addAggregations: addAggregations
+      addAggregations: addAggregations,
+      addNewFilters: addNewFilters
     };
   }
 );

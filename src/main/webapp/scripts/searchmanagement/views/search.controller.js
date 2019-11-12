@@ -276,7 +276,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       SearchDao.search($scope.searchParams.query,
         $scope.options.pageObject.page, projectId, $scope.searchParams.filter,
         getSelectedMetadataType(),
-        $scope.options.pageObject.size, null)
+        $scope.options.pageObject.size)
         .then(function(data) {
           $scope.searchResult = data.hits.hits;
           $scope.options.pageObject.totalHits = data.hits.total.value;
