@@ -146,6 +146,8 @@ angular.module('metadatamanagementApp')
             ctrl.variable = result.variables[0];
           }
           ctrl.instrument = result.instrument;
+          ctrl.counts.instrumentsCount = result.instrument.length;
+
           ctrl.counts.publicationsCount = result.relatedPublications.length;
           if (ctrl.counts.publicationsCount === 1) {
             ctrl.relatedPublication = result.relatedPublications[0];

@@ -18,9 +18,9 @@
         <question-search-result bowser="bowser" current-language="$ctrl.lang"
                                 search-result="successor._source"></question-search-result>
       </div>
-      <div layout="row" layout-align="center center" layout-padding ng-if="$ctrl.length == 0">
+      <p ng-if="$ctrl.length == 0">
         {{'question-management.detail.no-predecessors' | translate}}
-      </div>
+      </p>
     </md-card-content>
   </div>
 </md-card>

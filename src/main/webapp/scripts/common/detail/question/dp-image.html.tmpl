@@ -17,7 +17,7 @@
       <div class="fdz-overlay-outer-box">
         <div class="fdz-overlay-inner-box-top" ng-if="$ctrl.options.imageLanguages.length > 1">
           <md-menu>
-            <md-button class="md-fab md-mini md-primary" ng-click="$mdMenu.open($event)">
+            <md-button class="md-icon-button md-primary" ng-click="$mdMenu.open($event)">
               <md-tooltip md-autohide="true" md-direction="left"
                           md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'question-management.detail.change-image-language-tooltip' | translate}}
@@ -48,8 +48,8 @@
             </div>
           </div>
         </div>
-        <div class="fdz-overlay-inner-box-bottom">
-          <md-button class="md-fab md-mini md-primary"
+        <div class="fdz-button-wrapper">
+          <md-button class="md-icon-button md-primary"
                      ng-href="{{$ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].id}}"
                      target="_blank">
             <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>

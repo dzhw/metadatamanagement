@@ -24,6 +24,17 @@ function Controller(
   var selectedTabChangeIsBeingHandled = false;
   var queryChangeIsBeingHandled = false;
   var tabs = [{
+    title: 'search-management.tabs.studies',
+    inputLabel: 'search-management.input-label.studies',
+    icon: 'assets/images/icons/study.svg',
+    elasticSearchType: 'studies',
+    count: null,
+    uploadFunction: null,
+    disabled: false,
+    visibleForPublicUser: true,
+    noResultsText: 'search-management.no-results-text.studies',
+    group: 'studies'
+  }, {
     title: 'search-management.tabs.surveys',
     inputLabel: 'search-management.input-label.surveys',
     icon: 'assets/images/icons/survey.svg',

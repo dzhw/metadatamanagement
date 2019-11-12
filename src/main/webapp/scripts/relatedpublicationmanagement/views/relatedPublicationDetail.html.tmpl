@@ -12,16 +12,22 @@
           lang="currentLanguage"
           options="ctrl.relatedPublication"
           template-url="scripts/common/detail/publication/dp-detail.html.tmpl"></fdz-detail>
-<!--        <fdz-related-objects-->
-<!--          collapsed="false"-->
-<!--          lang="currentLanguage"-->
-<!--          options="ctrl.counts"-->
-<!--          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>-->
+        <fdz-related-objects
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.counts"
+          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+        <fdz-detail
+          ng-if="ctrl.relatedPublication.publicationAbstract"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.relatedPublication"
+          template-url="scripts/common/detail/publication/dp-description.html.tmpl"></fdz-detail>
       </div>
     </div>
   </div>
 
-  <div class="fdz-cc">
+  <div class="fdz-cc" ng-if="!isAuthenticated()">
     <div layout="row" layout-margin style="margin-bottom: 0px;">
       <h1 class="md-headline fdz-headline">
         <span fdz-hyphenate lang="{{ctrl.relatedPublication.language}}">{{ctrl.relatedPublication.title}}</span>
