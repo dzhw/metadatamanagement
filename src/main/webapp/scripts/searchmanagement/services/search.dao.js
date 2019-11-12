@@ -350,7 +350,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
-                       filter, elasticsearchType, pageSize, idsToExclude) {
+                       filter, elasticsearchType, pageSize, idsToExclude,
+                       aggregations) {
         var query = {};
         query.preference = clientId;
         var studyId;
@@ -502,6 +503,9 @@ angular.module('metadatamanagementApp').service('SearchDao',
                 .createTermFilters(elasticsearchType, filterToUse));
           }
         }
+
+        SearchHelperService.addAggregations(query, elasticsearchType,
+          aggregations);
 
         if (Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
           applyFetchLatestShadowCopyFilter(query, elasticsearchType,

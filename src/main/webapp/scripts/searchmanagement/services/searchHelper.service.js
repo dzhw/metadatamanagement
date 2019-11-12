@@ -3,9 +3,44 @@
 
 angular.module('metadatamanagementApp').factory(
   'SearchHelperService',
-  function(CleanJSObjectService, Principal) {
+  function(CleanJSObjectService, Principal, LanguageService) {
     var domainObjectFilterNames = ['study', 'survey', 'data-set', 'instrument',
       'variable', 'question'];
+
+    var aggregationMapping = {
+      'studies': {
+        'study-series': {
+          attribute: 'studySeries',
+          i18n: true,
+          min_doc_count: 0
+        },
+        'survey-data-types': {
+          attribute: 'surveyDataTypes',
+          i18n: true,
+          min_doc_count: 0
+        },
+        'tags': {
+          attribute: 'tags',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'concepts': {
+          attribute: 'concepts.title',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'sponsor': {
+          attribute: 'sponsor',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'institutions': {
+          attribute: 'institutions',
+          i18n: true,
+          min_doc_count: 1
+        }
+      }
+    };
 
     var keyMapping = {
       'studies': {
@@ -455,6 +490,32 @@ angular.module('metadatamanagementApp').factory(
       }
     };
 
+    var addAggregations = function(query, elasticsearchType, aggregations) {
+      var currentLanguage = LanguageService.getCurrentInstantly();
+      if (aggregations && aggregations.length > 0) {
+        query.body.aggs = {};
+        aggregations.forEach(function(attribute) {
+          var aggregationConfig = _.get(aggregationMapping,
+            elasticsearchType + '.' + attribute);
+          if (aggregationConfig) {
+            var aggregation = {
+              terms: {
+                size: 100,
+                min_doc_count: aggregationConfig.min_doc_count
+              }
+            };
+            if (aggregationConfig.i18n) {
+              aggregation.terms.field = aggregationConfig.attribute +
+              '.' + currentLanguage;
+            } else {
+              aggregation.terms.field = aggregationConfig.attribute;
+            }
+            _.set(query.body.aggs, attribute, aggregation);
+          }
+        });
+      }
+    };
+
     return {
       containsDomainObjectFilter: containsDomainObjectFilter,
       createTermFilters: createTermFilters,
@@ -466,7 +527,8 @@ angular.module('metadatamanagementApp').factory(
       addFilter: addFilter,
       addShadowCopyFilter: addShadowCopyFilter,
       addNestedShadowCopyFilter: addNestedShadowCopyFilter,
-      addQuery: addQuery
+      addQuery: addQuery,
+      addAggregations: addAggregations
     };
   }
 );
