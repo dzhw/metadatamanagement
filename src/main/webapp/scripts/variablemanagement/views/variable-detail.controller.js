@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('VariableDetailController', function($scope, entity,
+  .controller('VariableDetailController', function(entity,
     QuestionSearchService, VariableSearchService, Principal,
     SimpleMessageToastService, PageTitleService, LanguageService,
     CleanJSObjectService, $state, ToolbarHeaderService,
