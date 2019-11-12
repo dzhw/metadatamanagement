@@ -145,7 +145,7 @@ function Controller(
     tabs.forEach(function(tab, index) {
       var prop = tab.group + 'Count';
       if (data.hasOwnProperty(prop)) {
-        tabs[index].count = data[prop];
+        // tabs[index].count = data[prop];
         relatedObjects.push(tabs[index]);
       }
     });
@@ -255,6 +255,25 @@ function Controller(
         // $ctrl.searchParams.filter
         $ctrl.searchResult = data.hits.hits;
         $ctrl.options.pageObject.totalHits = data.hits.total.value;
+        $ctrl.tabs.forEach(function(tab) {
+          if ($ctrl.tabs[
+              $ctrl.searchParams.selectedTabIndex].elasticSearchType ===
+            undefined) {
+            tab.count = 0;
+            data.aggregations.countByType.buckets.forEach(
+              function(bucket) {
+                if (bucket.key === tab.elasticSearchType) {
+                  // jscs:disable
+                  tab.count = bucket.doc_count;
+                  // jscs:enable
+                }
+              });
+          } else {
+            tab.count = null;
+          }
+        });
+        $ctrl.tabs[$ctrl.searchParams.selectedTabIndex].count =
+          data.hits.total.value;
         $ctrl.isSearching--;
         // Safari fix
         $timeout(function() {
@@ -302,7 +321,8 @@ function Controller(
     $ctrl.search();
   }
 
-  $scope.$watch('searchParams.query', function() {
+  $scope.$watch('$ctrl.searchParams.query', function() {
+    console.log('TEST');
     if (queryChangedOnInit) {
       queryChangedOnInit = false;
       return;
@@ -324,12 +344,12 @@ function Controller(
   $scope.$watchCollection(function() {
     return $location.search();
   }, function(newValue, oldValue) {
-    ToolbarHeaderService.updateToolbarHeader({
-      'stateName': $state.current.name,
-      'tabName': 'study-management.detail.label.study',
-      'searchUrl': $location.absUrl(),
-      'searchParams': $location.search()
-    });
+    // ToolbarHeaderService.updateToolbarHeader({
+    //   'stateName': $state.current.name,
+    //   'tabName': 'study-management.detail.label.study',
+    //   'searchUrl': $location.absUrl(),
+    //   'searchParams': $location.search()
+    // });
     if (newValue !== oldValue && !locationChanged) {
       readSearchParamsFromLocation();
       // type changes are already handled by $scope.onSelectedTabChanged

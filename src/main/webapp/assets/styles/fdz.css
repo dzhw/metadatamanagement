@@ -1655,6 +1655,8 @@ fdz-breadcrumbs {
     padding-bottom: 16px; }
   .fdz-theme .fdz-detail .fdz-detail__header {
     padding: 16px; }
+  .fdz-theme .fdz-detail .fdz-detail__header + fdz-detail > md-card {
+    margin-top: 0; }
   .fdz-theme .fdz-detail md-card {
     margin: 16px 8px;
     box-shadow: none; }
@@ -1694,12 +1696,15 @@ fdz-breadcrumbs {
       display: flex;
       flex-flow: wrap;
       align-items: baseline; }
+      .fdz-theme .fdz-detail md-card md-card-content md-list-item.fdz-code {
+        align-items: center; }
       .fdz-theme .fdz-detail md-card md-card-content md-list-item h5 {
         display: flex;
         width: 100%; }
       .fdz-theme .fdz-detail md-card md-card-content md-list-item .md-secondary-container {
         display: flex;
         margin: 0;
+        width: 100%;
         flex-shrink: unset;
         flex-flow: wrap; }
       @media (min-width: 700px) {
@@ -1740,6 +1745,13 @@ fdz-breadcrumbs {
     padding-left: 0; }
   .fdz-theme .fdz-detail #diagramContainer {
     margin-top: 16px; }
+  .fdz-theme .fdz-detail .fdz-button-wrapper {
+    display: flex;
+    justify-content: flex-end; }
+  .fdz-theme .fdz-detail .fdz-hidden-code,
+  .fdz-theme .fdz-detail .fdz-hidden-code > pre {
+    height: 52px;
+    overflow: hidden; }
 
 .fdz-table-wide {
   width: fit-content;
@@ -2016,9 +2028,6 @@ md-input-container label {
 .fdz-code-container {
   white-space: pre-wrap;
   overflow: hidden; }
-
-.fdz-hidden-code {
-  height: 52px; }
 
 .fdz-file-drop-accept {
   background-color: #28A745 !important; }

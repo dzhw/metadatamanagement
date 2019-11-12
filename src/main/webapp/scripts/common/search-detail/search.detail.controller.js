@@ -10,8 +10,9 @@ function Controller($scope, $state, LanguageService, $location) {
 
       $state.go('search', {
         lang: LanguageService.getCurrentInstantly(),
-        query: $ctrl.query,
-        size: parseInt(searchObject.size)
+        query: $ctrl.query
+        // ,
+        // size: parseInt(searchObject.pageObject.size)
       });
     }
   });

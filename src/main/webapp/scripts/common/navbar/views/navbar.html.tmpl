@@ -5,7 +5,7 @@
                 {{'global.menu.skip-navigation-tooltip'|translate}}
             </md-tooltip>
         </md-button>
-    <fdz-search ng-if="stateName === 'search'"></fdz-search>
+    <fdz-search ng-if="stateName === 'search' && !isAuthenticated()"></fdz-search>
     <fdz-search-detail ng-if="stateName != 'search'"></fdz-search-detail>
     <md-divider></md-divider>
     <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">

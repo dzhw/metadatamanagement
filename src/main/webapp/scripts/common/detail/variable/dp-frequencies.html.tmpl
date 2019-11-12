@@ -98,6 +98,21 @@
         </tr>
         </tbody>
       </table>
+      <div class="fdz-button-wrapper">
+        <md-button
+          class="md-icon-button md-primary md-button"
+          ng-click="$ctrl.options.toggleAllRowsVisible()"
+          ng-disabled="!$ctrl.options.variable.distribution.validResponses || $ctrl.options.variable.distribution.validResponses.length <= 10">
+          <md-tooltip
+            md-autohide="true"
+            md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001"
+            ng-hide="!$ctrl.options.variable.distribution.validResponses || $ctrl.options.variable.distribution.validResponses.length <= 10">
+            {{'variable-management.detail.show-complete-distribution-tooltip.' + $ctrl.options.notAllRowsVisible | translate }}
+          </md-tooltip>
+          <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg" ng-if="$ctrl.options.notAllRowsVisible"></md-icon>
+          <md-icon md-svg-src="/assets/images/icons/arrow-compress.svg" ng-if="!$ctrl.options.notAllRowsVisible"></md-icon>
+        </md-button>
+      </div>
     </md-card-content>
   </div>
 </md-card>

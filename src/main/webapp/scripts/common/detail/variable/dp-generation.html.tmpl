@@ -21,17 +21,16 @@
         </md-list-item>
       </md-list>
       <div ng-if="$ctrl.options.variable.generationDetails.rule">
-                    <span style="font-weight: bold; margin-right:0px;">{{'variable-management.detail.label.generation-details-rule' | translate }}
-                        ({{$ctrl.options.variable.generationDetails.ruleExpressionLanguage}}):
-                    </span>
-        <div class="fdz-overlay-outer-box">
+          <h5 style="font-weight: bold; margin-right:0px;">{{'variable-management.detail.label.generation-details-rule' | translate }}
+              ({{$ctrl.options.variable.generationDetails.ruleExpressionLanguage}}):
+          </h5>
           <div class="fdz-code-container"
                create-variable-links="{currentLanguage: $ctrl.lang, currentVariable: $ctrl.options.variable}"
                hljs hljs-language="{{$ctrl.options.variable.generationDetails.ruleExpressionLanguage}}"
                hljs-source="$ctrl.options.variable.generationDetails.rule"
                ng-class="{'fdz-hidden-code': $ctrl.options.generationCodeToggleFlag}"
                style="margin-top: 0.5em;"></div>
-          <div class="fdz-overlay-inner-box-top">
+          <div class="fdz-button-wrapper">
             <md-button
               class="md-icon-button md-primary"
               data-clipboard-text="{{$ctrl.options.variable.generationDetails.rule}}"
