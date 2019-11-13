@@ -4,7 +4,8 @@
 
 function Controller(
     $scope, $location, SearchDao, $timeout,
-    SearchResultNavigatorService, CleanJSObjectService, SearchHelperService
+    SearchResultNavigatorService, CleanJSObjectService,
+    SearchHelperService, localStorageService
 ) {
   var $ctrl = this;
   $ctrl.computeSearchResultIndex = computeSearchResultIndex;
@@ -12,6 +13,7 @@ function Controller(
   $ctrl.onSelectedTabChanged = onSelectedTabChanged;
   $ctrl.search = search;
   $ctrl.$onInit = init;
+  $ctrl.dataPacketFilter = {};
 
   $ctrl.options = {};
   $ctrl.searchResult = {};
@@ -137,8 +139,70 @@ function Controller(
       selectedTabIndex: 0
     };
     readSearchParamsFromLocation();
-    // writeSearchParamsToLocation();
+    writeSearchParamsToLocation();
     $ctrl.search();
+  }
+
+  // TODO: Fix this ugly function
+  // The use of a temp object is a few lines less than using the delete command
+  // to delete the unnecessary object properties.
+  function dataPacketObjects() {
+    var obj = localStorageService.get('dataPacket') || {};
+    var tmpObj = {};
+    var urlPath = _.takeRight($location.path().split('/'), 2);
+    switch (urlPath[0]) {
+      case 'studies':
+        obj = {};
+        obj.study = $ctrl.id;
+        break;
+      case 'surveys':
+        tmpObj.study = obj.study;
+        obj = {};
+        tmpObj.survey = $ctrl.id;
+        _.assign(obj, tmpObj);
+        break;
+      case 'instruments':
+        tmpObj.study = obj.study;
+        obj = {};
+        tmpObj.instrument = $ctrl.id;
+        _.assign(obj, tmpObj);
+        break;
+      case 'questions':
+        tmpObj.study = obj.study;
+        obj = {};
+        tmpObj.question = $ctrl.id;
+        _.assign(obj, tmpObj);
+        break;
+      case 'data-sets':
+        obj['data-set'] = $ctrl.id;
+        tmpObj.study = obj.study;
+        obj = {};
+        tmpObj['data-set'] = $ctrl.id;
+        _.assign(obj, tmpObj);
+        break;
+      case 'variables':
+        tmpObj.study = obj.study;
+        obj = {};
+        tmpObj.variable = $ctrl.id;
+        _.assign(obj, tmpObj);
+        break;
+      case 'publications':
+        tmpObj.study = obj.study;
+        obj = {};
+        tmpObj.related_publications = $ctrl.id;
+        _.assign(obj, tmpObj);
+        break;
+      case 'concepts':
+        obj.concept = $ctrl.id;
+        tmpObj.study = obj.study;
+        obj = {};
+        tmpObj.concept = $ctrl.id;
+        _.assign(obj, tmpObj);
+        break;
+    }
+    tmpObj = {};
+    localStorageService.set('dataPacket', obj);
+    console.log(obj);
   }
 
   function tabsFilter(data) {
@@ -238,6 +302,7 @@ function Controller(
 
   //Search function
   function search() {
+    dataPacketObjects();
     var projectId = _.get($scope, 'currentProject.id');
     $ctrl.isSearching++;
     console.log($ctrl.searchParams);
@@ -245,8 +310,9 @@ function Controller(
       $ctrl.searchParams, projectId,
       getSelectedMetadataType(),
       $ctrl.options.pageObject);
+    var filter = localStorageService.get('dataPacket') || {};
     SearchDao.search($ctrl.searchParams.query,
-      $ctrl.options.pageObject.page, projectId, $ctrl.searchParams.filter,
+      $ctrl.options.pageObject.page, projectId, filter,
       getSelectedMetadataType(),
       $ctrl.options.pageObject.size, $ctrl.searchParams.sortBy)
       .then(function(data) {
