@@ -63,12 +63,10 @@ angular.module('metadatamanagementApp')
           'questionNumber': result.number,
           'instrumentNumber': result.instrumentNumber,
           'instrumentId': result.instrumentId,
-          'instrumentIsPresent': CleanJSObjectService.
-          isNullOrEmpty(result.instrument) ? false : true,
+          'instrumentIsPresent': !CleanJSObjectService.isNullOrEmpty(result.instrument),
           'surveys': result.surveys,
           'studyId': result.studyId,
-          'studyIsPresent': CleanJSObjectService.
-          isNullOrEmpty(result.study) ? false : true,
+          'studyIsPresent': !CleanJSObjectService.isNullOrEmpty(result.study),
           'projectId': result.dataAcquisitionProjectId,
           'version': result.shadow ? _.get(result, 'release.version') : null
         });

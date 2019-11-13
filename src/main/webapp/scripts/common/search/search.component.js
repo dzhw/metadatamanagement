@@ -5,9 +5,7 @@ var SearchComponent = {
     // items: '<',
     name: '<'
   },
-  // TODO: Change from search-management ctrl to the component ctrl
   controller: 'SearchController',
-  // controller: 'searchController',
   templateUrl: 'scripts/common/search/search.html.tmpl'
 };
 

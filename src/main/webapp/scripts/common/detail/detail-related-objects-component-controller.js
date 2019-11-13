@@ -4,8 +4,7 @@
 
 function Controller(
     $scope, $location, SearchDao, $timeout,
-    SearchResultNavigatorService, CleanJSObjectService, SearchHelperService,
-    ToolbarHeaderService, $state
+    SearchResultNavigatorService, CleanJSObjectService, SearchHelperService
 ) {
   var $ctrl = this;
   $ctrl.computeSearchResultIndex = computeSearchResultIndex;
@@ -183,10 +182,6 @@ function Controller(
     _.assign(locationSearch, $ctrl.searchParams.filter);
     locationChanged = !angular.equals($location.search(),
       locationSearch);
-    // Todo: Find solution for breadcrumbs error when selecting a tab
-    // Quick fix: The change from $location.search to $location.replace
-    // Negative: We can not link to the selected tab in the details page
-    // $location.replace(locationSearch);
     $location.search(locationSearch);
   }
 
@@ -245,6 +240,7 @@ function Controller(
   function search() {
     var projectId = _.get($scope, 'currentProject.id');
     $ctrl.isSearching++;
+    console.log($ctrl.searchParams);
     SearchResultNavigatorService.setCurrentSearchParams(
       $ctrl.searchParams, projectId,
       getSelectedMetadataType(),
@@ -254,6 +250,7 @@ function Controller(
       getSelectedMetadataType(),
       $ctrl.options.pageObject.size, $ctrl.searchParams.sortBy)
       .then(function(data) {
+        console.log(data);
         // $ctrl.searchParams.filter
         $ctrl.searchResult = data.hits.hits;
         $ctrl.options.pageObject.totalHits = data.hits.total.value;

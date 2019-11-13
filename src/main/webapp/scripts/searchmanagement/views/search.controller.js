@@ -276,8 +276,18 @@ angular.module('metadatamanagementApp').controller('SearchController',
       SearchDao.search($scope.searchParams.query,
         $scope.options.pageObject.page, projectId, $scope.searchParams.filter,
         getSelectedMetadataType(),
-        $scope.options.pageObject.size)
+        $scope.options.pageObject.size,
+        null,
+        // Usage: ['study-series', ...]
+        null,
+        // Usage:
+        // {
+        //   'study-series': ['DZHW-Absolventenstudien','adf','asd'],
+        //   'sponsor': ['Bundesministerium für Bildung und Forschung (BMBF)']
+        // })
+        null)
         .then(function(data) {
+          console.log(data);
           $scope.searchResult = data.hits.hits;
           $scope.options.pageObject.totalHits = data.hits.total.value;
           //Count information by aggregations
