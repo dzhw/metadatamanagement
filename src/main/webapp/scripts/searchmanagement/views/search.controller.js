@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            PageTitleService, ToolbarHeaderService, SearchHelperService,
            SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
            $rootScope, ProjectStatusScoringService, DeleteMetadataService,
-           SimpleMessageToastService) {
+           SimpleMessageToastService, localStorageService) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -111,6 +111,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     // init the controller and its scope objects
     var init = function() {
+      localStorageService.remove('dataPacket');
       tabChangedOnInitFlag = true;
       queryChangedOnInit = true;
       $scope.tabs = _.filter($scope.tabs, function(tab) {

@@ -5,6 +5,7 @@ var RelatedObjectsComponent = {
   bindings: {
     lang: '<',
     options: '<',
+    id: '<',
     collapsed: '<'
   },
   templateUrl: function($attrs) {
