@@ -22,6 +22,7 @@ angular.module('metadatamanagementApp').config(
             'survey-period': 'Erhebungszeitraum',
             'title': 'Titel',
             'dataAvailability': 'Datenverfügbarkeit',
+            'tags': 'Schlagwörter',
             'attachments': {
               'type': 'Typ',
               'title': 'Titel',

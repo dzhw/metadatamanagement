@@ -21,11 +21,18 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var selectedTabChangeIsBeingHandled = false;
     var queryChangeIsBeingHandled = false;
 
+    var searchFilterAggregations = [
+      'study-series',
+      'survey-data-types',
+      'tags',
+      'concepts',
+      'sponsor',
+      'institutions'
+    ];
     var getSelectedMetadataType = function() {
       return $scope.tabs[$scope.searchParams.selectedTabIndex]
         .elasticSearchType;
     };
-
     $scope.isSearching = 0;
     $scope.isDropZoneDisabled = true;
 
@@ -114,6 +121,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
       localStorageService.remove('dataPacket');
       tabChangedOnInitFlag = true;
       queryChangedOnInit = true;
+      if (localStorageService.get('searchFilterMapping')) {
+        $scope.searchFilterMapping = localStorageService
+          .get('searchFilterMapping');
+      }
       $scope.tabs = _.filter($scope.tabs, function(tab) {
         return tab.visibleForPublicUser || Principal.isAuthenticated();
       });
@@ -265,6 +276,18 @@ angular.module('metadatamanagementApp').controller('SearchController',
       group: 'concepts'
     }];
 
+    function createDataPacketFilterObject(data) {
+      var dataPacketFilter = {
+        'study-series': data['study-series'].buckets,
+        'survey-data-types': data['survey-data-types'].buckets,
+        'tags': data.tags.buckets,
+        'concepts': data.concepts.buckets,
+        'sponsor': data.sponsor.buckets,
+        'institutions': data.institutions.buckets
+      };
+      $rootScope.$emit('onDataPacketFilterChange', dataPacketFilter);
+    }
+
     //Search function
     $scope.search = function() {
       var projectId = _.get($scope, 'currentProject.id');
@@ -279,16 +302,16 @@ angular.module('metadatamanagementApp').controller('SearchController',
         getSelectedMetadataType(),
         $scope.options.pageObject.size,
         null,
-        // Usage: ['study-series', ...]
-        null,
+        // Aggregations Usage: ['study-series', ...]
+        searchFilterAggregations,
         // Usage:
         // {
         //   'study-series': ['DZHW-Absolventenstudien','adf','asd'],
         //   'sponsor': ['Bundesministerium für Bildung und Forschung (BMBF)']
         // })
-        null)
+        $scope.searchFilterMapping)
         .then(function(data) {
-          console.log(data);
+          createDataPacketFilterObject(data.aggregations);
           $scope.searchResult = data.hits.hits;
           $scope.options.pageObject.totalHits = data.hits.total.value;
           //Count information by aggregations
@@ -334,9 +357,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.$watchCollection(function() {
       return $location.search();
     }, function(newValue, oldValue) {
-      // if ($state.current.name != 'search') {
-      //   return;
-      // }
       ToolbarHeaderService.updateToolbarHeader({
         'stateName': $state.current.name,
         'tabName': $scope.tabs[$scope.searchParams.selectedTabIndex].title,
@@ -389,6 +409,12 @@ angular.module('metadatamanagementApp').controller('SearchController',
         return tabs;
       }
     };
+
+    $rootScope.$on('onSearchFilterChange', function() {
+      readSearchParamsFromLocation();
+      $scope.searchFilterMapping = $scope.searchParams.filter;
+      $scope.search();
+    });
 
     $scope.$on('current-project-changed',
       function(event, currentProject) { // jshint ignore:line

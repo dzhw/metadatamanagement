@@ -13,7 +13,6 @@ function Controller(
   $ctrl.onSelectedTabChanged = onSelectedTabChanged;
   $ctrl.search = search;
   $ctrl.$onInit = init;
-  $ctrl.dataPacketFilter = {};
 
   $ctrl.options = {};
   $ctrl.searchResult = {};
@@ -143,9 +142,10 @@ function Controller(
     $ctrl.search();
   }
 
-  // TODO: Fix this ugly function
+  // TODO: Fix this ugly function (Maybe object literal)
   // The use of a temp object is a few lines less than using the delete command
-  // to delete the unnecessary object properties.
+  // to delete the unnecessary object properties. We could extract this object
+  // handling into a function.
   function dataPacketObjects() {
     var obj = localStorageService.get('dataPacket') || {};
     var tmpObj = {};
@@ -202,7 +202,6 @@ function Controller(
     }
     tmpObj = {};
     localStorageService.set('dataPacket', obj);
-    console.log(obj);
   }
 
   function tabsFilter(data) {
@@ -305,7 +304,6 @@ function Controller(
     dataPacketObjects();
     var projectId = _.get($scope, 'currentProject.id');
     $ctrl.isSearching++;
-    console.log($ctrl.searchParams);
     SearchResultNavigatorService.setCurrentSearchParams(
       $ctrl.searchParams, projectId,
       getSelectedMetadataType(),
@@ -316,7 +314,6 @@ function Controller(
       getSelectedMetadataType(),
       $ctrl.options.pageObject.size, $ctrl.searchParams.sortBy)
       .then(function(data) {
-        console.log(data);
         // $ctrl.searchParams.filter
         $ctrl.searchResult = data.hits.hits;
         $ctrl.options.pageObject.totalHits = data.hits.total.value;

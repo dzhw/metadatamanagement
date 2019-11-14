@@ -20,6 +20,14 @@ angular.module('metadatamanagementApp').config(
           'search': 'Search',
           'delete': 'Delete'
         },
+        'filter': {
+          'sponsors': 'Sponsors',
+          'institutions': 'Institutions',
+          'tags': 'Tags',
+          'study-series': 'Study Series',
+          'survey-data-types': 'Survey Data Type',
+          'unavailable': 'Not available'
+        },
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {

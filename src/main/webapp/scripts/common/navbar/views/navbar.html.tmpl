@@ -8,6 +8,10 @@
     <fdz-search ng-if="stateName === 'search' && !isAuthenticated()"></fdz-search>
     <fdz-search-detail ng-if="stateName != 'search'"></fdz-search-detail>
     <md-divider></md-divider>
+    <fdz-search-filter
+      ng-if="stateName === 'search' && !isAuthenticated()"
+      options="dataPacketFilter"
+      template-url="scripts/common/searchfilter/dp-search-filter.html.tmpl"></fdz-search-filter>
     <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
         <ul ng-if="isAuthenticated()" style="padding: 0px; margin: 0px;overflow:hidden;">
           <li class="fdz-navbar-menu">

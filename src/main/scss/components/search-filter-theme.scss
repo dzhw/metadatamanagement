@@ -1,0 +1,52 @@
+.fdz-theme .fdz-search-filter {
+  box-shadow: none;
+  margin: 0;
+
+  md-card-header {
+    padding: 16px;
+    //margin-bottom: 16px;
+  }
+
+  md-card-content {
+    padding: 0;
+
+    & .fdz-button-wrapper {
+      // TODO: The same class is in fdz-detail (detail-theme.scss)
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    & .fdz-filter-menu-list {
+      //margin-top: 16px;
+      padding: 16px;
+
+      .md-button {
+        margin-left: 0;
+        width: 100%;
+        max-width: none;
+        text-align: left;
+        text-transform: capitalize;
+      }
+    }
+
+    & .fdz-filter-list {
+      padding: 0 8px;
+
+      li md-checkbox {
+        .md-container {
+          position: unset;
+          transform: unset;
+          box-sizing: border-box;
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+        }
+        .md-label {
+          max-width: 225px;
+          white-space: normal;
+          vertical-align: top;
+        }
+      }
+    }
+  }
+}
