@@ -33,6 +33,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       return $scope.tabs[$scope.searchParams.selectedTabIndex]
         .elasticSearchType;
     };
+
     $scope.isSearching = 0;
     $scope.isDropZoneDisabled = true;
 
@@ -119,17 +120,15 @@ angular.module('metadatamanagementApp').controller('SearchController',
     // init the controller and its scope objects
     var init = function() {
       localStorageService.remove('dataPacket');
-      tabChangedOnInitFlag = true;
-      queryChangedOnInit = true;
-      if (localStorageService.get('searchFilterMapping')) {
-        $scope.searchFilterMapping = localStorageService
-          .get('searchFilterMapping');
-      }
       $scope.tabs = _.filter($scope.tabs, function(tab) {
         return tab.visibleForPublicUser || Principal.isAuthenticated();
       });
       $scope.searchResult = {};
       $scope.currentProject = CurrentProjectService.getCurrentProject();
+      if (Principal.isAuthenticated()) {
+        searchFilterAggregations = null;
+        $scope.searchFilterMapping = {};
+      }
       if (!$scope.currentProject) {
         $scope.currentProject = undefined;
       }
@@ -277,6 +276,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }];
 
     function createDataPacketFilterObject(data) {
+      if (Principal.isAuthenticated()) { return null; }
       var dataPacketFilter = {
         'study-series': data['study-series'].buckets,
         'survey-data-types': data['survey-data-types'].buckets,
@@ -286,6 +286,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         'institutions': data.institutions.buckets
       };
       $rootScope.$emit('onDataPacketFilterChange', dataPacketFilter);
+
     }
 
     //Search function

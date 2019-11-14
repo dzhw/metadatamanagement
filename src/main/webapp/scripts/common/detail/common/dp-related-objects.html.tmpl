@@ -115,6 +115,15 @@
               bowser="bowser"
               search-result-index="computeSearchResultIndex($index)"></concept-search-result>
           </div>
+          <div ng-if="!$ctrl.options.pageObject.totalHits" class="flex fdz-detail-search-item-container">
+            <md-card class="fdz-search-result">
+              <md-card-header>
+                <md-card-header-text>
+                  <span>{{ 'search-management.detail.noresult' | translate }}</span>
+                </md-card-header-text>
+              </md-card-header>
+            </md-card>
+          </div>
       </div>
       <div ng-if="$ctrl.options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
         <fdz-paginator  options="$ctrl.options"

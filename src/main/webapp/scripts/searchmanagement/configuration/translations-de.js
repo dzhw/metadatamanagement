@@ -22,7 +22,8 @@ angular.module('metadatamanagementApp').config(
           'delete-instruments': 'Sind Sie sicher, dass Sie alle Instrumente innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" mit den übergebenen Daten ersetzen möchten?',
         },
         'detail': {
-          'search': 'Datenpaketsuche'
+          'search': 'Datenpaketsuche',
+          'noresult': 'Keine Suchergebnisse gefunden.'
         },
         'buttons': {
           'refresh-tooltip': 'Klicken, um die Suche zu aktualisieren',

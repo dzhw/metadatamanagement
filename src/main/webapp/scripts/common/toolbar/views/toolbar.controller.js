@@ -22,8 +22,9 @@ angular.module('metadatamanagementApp').controller(
       Auth.logout();
       $state.go('search', {
         lang: LanguageService.getCurrentInstantly()
+      }, {
+        reload: true
       });
-      // $scope.close();
     };
 
     $scope.productsCount = ShoppingCartService.count();

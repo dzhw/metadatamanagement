@@ -5,7 +5,7 @@
 function Controller(
     $scope, $location, SearchDao, $timeout,
     SearchResultNavigatorService, CleanJSObjectService,
-    SearchHelperService
+    SearchHelperService, $state
 ) {
   var $ctrl = this;
   $ctrl.computeSearchResultIndex = computeSearchResultIndex;
@@ -200,16 +200,19 @@ function Controller(
     var locationSearch = {};
     locationSearch.page = '' + $ctrl.options.pageObject.page;
     locationSearch.size = '' + $ctrl.options.pageObject.size;
-    try {
-      locationSearch.type = $ctrl.tabs[
+    // try {
+    locationSearch.type = $ctrl.tabs[
         $ctrl.searchParams.selectedTabIndex].elasticSearchType;
-    } catch (e) {
-      $ctrl.searchParams.selectedTabIndex = 0;
-      locationSearch.type = $ctrl.tabs[
-        $ctrl.searchParams.selectedTabIndex].elasticSearchType;
-    }
+    // } catch (e) {
+    //   $ctrl.searchParams.selectedTabIndex = 0;
+    //   locationSearch.type = $ctrl.tabs[
+    //     $ctrl.searchParams.selectedTabIndex].elasticSearchType;
+    // }
     if ($ctrl.searchParams.query && $ctrl.searchParams.query !== '') {
       locationSearch.query = $ctrl.searchParams.query;
+    }
+    if ($ctrl.searchParams.version && $ctrl.searchParams.version !== '') {
+      locationSearch.version = $ctrl.searchParams.version;
     }
     if ($ctrl.searchParams.sortBy && $ctrl.searchParams.sortBy !== '') {
       locationSearch['sort-by'] = $ctrl.searchParams.sortBy;
@@ -219,12 +222,13 @@ function Controller(
     _.assign(locationSearch, $ctrl.searchParams.filter);
     locationChanged = !angular.equals($location.search(),
       locationSearch);
-    $location.search(locationSearch);
+    $location.search(locationSearch).replace();
   }
 
   // read the searchParams object from the location with the correct types
   function readSearchParamsFromLocation() {
     var locationSearch = $location.search();
+    console.log(locationSearch);
     if (CleanJSObjectService.isNullOrEmpty(locationSearch)) {
       $ctrl.options.pageObject.page = 1;
       $ctrl.options.pageObject.size = 10;
@@ -251,8 +255,13 @@ function Controller(
       } else {
         $ctrl.searchParams.query = '';
       }
+      if (locationSearch.version) {
+        $ctrl.searchParams.version = locationSearch.version;
+      } else {
+        $ctrl.searchParams.version = '';
+      }
       $ctrl.searchParams.filter = _.omit(locationSearch, ['page', 'size',
-        'type', 'query', 'sort-by'
+        'type', 'query', 'sort-by', 'version'
       ]);
       $ctrl.searchParams.sortBy = locationSearch['sort-by'];
       var indexToSelect = _.findIndex($ctrl.tabs,
@@ -277,7 +286,6 @@ function Controller(
   function search() {
     var projectId = _.get($scope, 'currentProject.id');
     $ctrl.isSearching++;
-    console.log($ctrl.searchParams);
     SearchResultNavigatorService.setCurrentSearchParams(
       $ctrl.searchParams, projectId,
       getSelectedMetadataType(),
@@ -288,8 +296,6 @@ function Controller(
       getSelectedMetadataType(),
       $ctrl.options.pageObject.size, $ctrl.searchParams.sortBy)
       .then(function(data) {
-        console.log(data);
-        // $ctrl.searchParams.filter
         $ctrl.searchResult = data.hits.hits;
         $ctrl.options.pageObject.totalHits = data.hits.total.value;
         $ctrl.tabs.forEach(function(tab) {
@@ -332,6 +338,7 @@ function Controller(
   }
 
   function onSelectedTabChanged() {
+    // var version = $ctrl.searchParams.filter.version;
     if (!selectedTabChangeIsBeingHandled && !queryChangeIsBeingHandled) {
       //prevent multiple tab change handlers caused by logout
       selectedTabChangeIsBeingHandled = true;
@@ -339,6 +346,7 @@ function Controller(
         if (!tabChangedOnInitFlag) {
           $ctrl.placeHolder = $ctrl.tabs[$ctrl.searchParams.selectedTabIndex]
             .title;
+
           $ctrl.searchParams.filter = SearchHelperService
             .removeIrrelevantFilters(
               $ctrl.tabs[$ctrl.searchParams.selectedTabIndex]
@@ -346,6 +354,7 @@ function Controller(
               $ctrl.searchParams.filter);
           $ctrl.searchParams.sortBy = undefined;
           $ctrl.options.pageObject.page = 1;
+          // $ctrl.searchParams.filter.version = version;
           writeSearchParamsToLocation();
           $ctrl.search();
         }
