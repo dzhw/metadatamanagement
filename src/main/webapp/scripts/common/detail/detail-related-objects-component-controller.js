@@ -5,7 +5,7 @@
 function Controller(
     $scope, $location, SearchDao, $timeout,
     SearchResultNavigatorService, CleanJSObjectService,
-    SearchHelperService, localStorageService
+    SearchHelperService
 ) {
   var $ctrl = this;
   $ctrl.computeSearchResultIndex = computeSearchResultIndex;
@@ -13,6 +13,7 @@ function Controller(
   $ctrl.onSelectedTabChanged = onSelectedTabChanged;
   $ctrl.search = search;
   $ctrl.$onInit = init;
+  $ctrl.dataPacketFilter = {};
 
   $ctrl.options = {};
   $ctrl.searchResult = {};
@@ -142,66 +143,39 @@ function Controller(
     $ctrl.search();
   }
 
-  // TODO: Fix this ugly function (Maybe object literal)
+  // TODO: Fix this ugly function
   // The use of a temp object is a few lines less than using the delete command
-  // to delete the unnecessary object properties. We could extract this object
-  // handling into a function.
-  function dataPacketObjects() {
-    var obj = localStorageService.get('dataPacket') || {};
-    var tmpObj = {};
+  // to delete the unnecessary object properties.
+  function getCurrentObjectFilter() {
+    var obj = {};
     var urlPath = _.takeRight($location.path().split('/'), 2);
     switch (urlPath[0]) {
       case 'studies':
-        obj = {};
         obj.study = $ctrl.id;
         break;
       case 'surveys':
-        tmpObj.study = obj.study;
-        obj = {};
-        tmpObj.survey = $ctrl.id;
-        _.assign(obj, tmpObj);
+        obj.survey = $ctrl.id;
         break;
       case 'instruments':
-        tmpObj.study = obj.study;
-        obj = {};
-        tmpObj.instrument = $ctrl.id;
-        _.assign(obj, tmpObj);
+        obj.instrument = $ctrl.id;
         break;
       case 'questions':
-        tmpObj.study = obj.study;
-        obj = {};
-        tmpObj.question = $ctrl.id;
-        _.assign(obj, tmpObj);
+        obj.question = $ctrl.id;
         break;
       case 'data-sets':
         obj['data-set'] = $ctrl.id;
-        tmpObj.study = obj.study;
-        obj = {};
-        tmpObj['data-set'] = $ctrl.id;
-        _.assign(obj, tmpObj);
         break;
       case 'variables':
-        tmpObj.study = obj.study;
-        obj = {};
-        tmpObj.variable = $ctrl.id;
-        _.assign(obj, tmpObj);
+        obj.variable = $ctrl.id;
         break;
       case 'publications':
-        tmpObj.study = obj.study;
-        obj = {};
-        tmpObj.related_publications = $ctrl.id;
-        _.assign(obj, tmpObj);
+        obj['related-publication'] = $ctrl.id;
         break;
       case 'concepts':
         obj.concept = $ctrl.id;
-        tmpObj.study = obj.study;
-        obj = {};
-        tmpObj.concept = $ctrl.id;
-        _.assign(obj, tmpObj);
         break;
     }
-    tmpObj = {};
-    localStorageService.set('dataPacket', obj);
+    return obj;
   }
 
   function tabsFilter(data) {
@@ -301,19 +275,20 @@ function Controller(
 
   //Search function
   function search() {
-    dataPacketObjects();
     var projectId = _.get($scope, 'currentProject.id');
     $ctrl.isSearching++;
+    console.log($ctrl.searchParams);
     SearchResultNavigatorService.setCurrentSearchParams(
       $ctrl.searchParams, projectId,
       getSelectedMetadataType(),
       $ctrl.options.pageObject);
-    var filter = localStorageService.get('dataPacket') || {};
+    var filter = getCurrentObjectFilter();
     SearchDao.search($ctrl.searchParams.query,
       $ctrl.options.pageObject.page, projectId, filter,
       getSelectedMetadataType(),
       $ctrl.options.pageObject.size, $ctrl.searchParams.sortBy)
       .then(function(data) {
+        console.log(data);
         // $ctrl.searchParams.filter
         $ctrl.searchResult = data.hits.hits;
         $ctrl.options.pageObject.totalHits = data.hits.total.value;
