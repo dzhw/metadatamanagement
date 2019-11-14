@@ -11,12 +11,12 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.study"
-          template-url="scripts/common/detail/study/dp-detail.html.tmpl"></fdz-detail>
+          template-url="scripts/studymanagement/templates/dp-detail.html.tmpl"></fdz-detail>
       <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.study.description"
-          template-url="scripts/common/detail/study/dp-description.html.tmpl"></fdz-detail>
+          template-url="scripts/studymanagement/templates/dp-description.html.tmpl"></fdz-detail>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
@@ -24,10 +24,11 @@
           id="ctrl.study.id"
           template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
       <fdz-detail
+        ng-if="ctrl.attachments && ctrl.attachments.length > 0"
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.attachments"
-          template-url="scripts/common/detail/study/dp-attachments.html.tmpl"></fdz-detail>
+          template-url="scripts/studymanagement/templates/dp-attachments.html.tmpl"></fdz-detail>
       </div>
     </div>
   </div>
