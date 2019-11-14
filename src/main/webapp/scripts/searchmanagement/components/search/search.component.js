@@ -6,7 +6,7 @@ var SearchComponent = {
     name: '<'
   },
   controller: 'SearchController',
-  templateUrl: 'scripts/common/search/search.html.tmpl'
+  templateUrl: 'scripts/searchmanagement/components/search/search.html.tmpl'
 };
 
 angular
