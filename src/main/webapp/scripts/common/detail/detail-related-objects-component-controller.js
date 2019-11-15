@@ -5,7 +5,7 @@
 function Controller(
     $scope, $location, SearchDao, $timeout,
     SearchResultNavigatorService, CleanJSObjectService,
-    SearchHelperService, $state
+    SearchHelperService
 ) {
   var $ctrl = this;
   $ctrl.computeSearchResultIndex = computeSearchResultIndex;
@@ -143,9 +143,6 @@ function Controller(
     $ctrl.search();
   }
 
-  // TODO: Fix this ugly function
-  // The use of a temp object is a few lines less than using the delete command
-  // to delete the unnecessary object properties.
   function getCurrentObjectFilter() {
     var obj = {};
     var urlPath = _.takeRight($location.path().split('/'), 2);
@@ -228,7 +225,6 @@ function Controller(
   // read the searchParams object from the location with the correct types
   function readSearchParamsFromLocation() {
     var locationSearch = $location.search();
-    console.log(locationSearch);
     if (CleanJSObjectService.isNullOrEmpty(locationSearch)) {
       $ctrl.options.pageObject.page = 1;
       $ctrl.options.pageObject.size = 10;

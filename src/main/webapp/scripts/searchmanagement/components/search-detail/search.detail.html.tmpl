@@ -7,6 +7,7 @@
     md-no-float>
     <md-icon md-font-set="material-icons">search</md-icon>
     <input
+      ng-keyup="$event.keyCode == 13 && $ctrl.submit() && hideMobileKeyboard($event)"
       autocomplete="off"
       id="query"
       md-select-on-focus

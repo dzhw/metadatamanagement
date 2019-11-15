@@ -60,7 +60,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-card-content>
+          <md-card-content class="pt16">
             <div class="fdz-add-bottom-margin" ng-if="ctrl.study.studySeries && currentLanguage === 'de'">
               <span style="font-weight: bold;">{{'study-management.detail.label.studySeries' | translate }}:</span>
               <a ui-sref="search({'type': 'studies', 'study-series-de': ctrl.study.studySeries.de})">
@@ -141,7 +141,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-card-content layout="column" layout-align="center start">
+          <md-card-content layout="column" layout-align="center start" class="pt16">
             <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
               <div class="fdz-truncate-string" flex ng-if="ctrl.counts.surveysCount == 0">
                 <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>

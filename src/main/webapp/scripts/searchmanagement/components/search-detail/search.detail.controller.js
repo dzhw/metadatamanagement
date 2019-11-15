@@ -1,10 +1,22 @@
 'use strict';
 
-function Controller($state, LanguageService, $location) {
+function Controller($rootScope, $state, LanguageService, $location) {
   var $ctrl = this;
   $ctrl.query = '';
   $ctrl.submit = submit;
+  $ctrl.$onInit = init;
 
+  function init() {
+    console.log($rootScope.searchQuery);
+    if ($rootScope.searchQuery) {
+      $ctrl.query = $rootScope.searchQuery;
+    }
+  }
+  $rootScope.$watch(function() {
+    return $rootScope.searchQuery;
+  }, function() {
+    $ctrl.query = $rootScope.searchQuery;
+  });
   function submit() {
     var searchObject = $location.search();
     var paramsObject = {

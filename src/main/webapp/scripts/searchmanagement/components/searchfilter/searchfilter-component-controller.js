@@ -142,7 +142,8 @@ var CTRL = function($rootScope, $location, CleanJSObjectService) {
     }
   }
 
-  $rootScope.$on('onDataPacketFilterChange', function(event, data) {
+  $rootScope.$on('onDataPacketFilterChange',
+    function(event, data) { // jshint ignore:line
     $ctrl.dataPacketFilter = data;
   });
 };

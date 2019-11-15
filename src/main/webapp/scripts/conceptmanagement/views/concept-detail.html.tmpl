@@ -66,7 +66,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-card-content>
+          <md-card-content class="pt16">
             <div class="fdz-add-bottom-margin" ng-if="ctrl.concept.title">
               <span style="font-weight: bold;">{{'concept-management.detail.label.title' | translate }}:</span>
               <span>{{ctrl.concept.title | displayI18nString}}</span>
@@ -112,7 +112,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-card-content layout="column" layout-align="center start">
+          <md-card-content class="pt16" layout="column" layout-align="center start">
             <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
               <div class="fdz-truncate-string" flex ng-if="ctrl.counts.studiesCount == 0">
                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
@@ -281,7 +281,7 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content>
+        <md-card-content class="pt16">
           <p class="fdz-text-block fdz-multiline-property" display-i18n-string="ctrl.concept.description"
              fdz-hyphenate></p>
         </md-card-content>

@@ -30,6 +30,7 @@ try {
         $rootScope.$mdMedia = $mdMedia;
         $rootScope.$state = $state;
         $rootScope.currentDate = new Date();
+        $rootScope.searchQuery = '';
         //prevent default browser actions for drag and drop
         $window.addEventListener('dragover', function(e) {
           e = e || event;

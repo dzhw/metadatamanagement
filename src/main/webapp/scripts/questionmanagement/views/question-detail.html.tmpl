@@ -63,7 +63,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-card-content>
+          <md-card-content class="pt16">
             <div class="fdz-add-bottom-margin" ng-if="ctrl.question.number">
               <span style="font-weight: bold;">{{'question-management.detail.label.number' | translate }}:</span>
               <span>{{ctrl.question.number}}</span>
@@ -106,7 +106,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-card-content layout="column" layout-align="center start">
+          <md-card-content layout="column" layout-align="center start" class="pt16">
             <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
               <div class="fdz-truncate-string" flex ng-if="!ctrl.study">
                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
@@ -268,7 +268,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-card-content read-element-size style="padding: 0px;">
+          <md-card-content read-element-size class="pt16">
             <div class="fdz-overlay-outer-box">
               <div class="fdz-overlay-inner-box-top" ng-if="ctrl.imageLanguages.length > 1">
                 <md-menu>
@@ -318,6 +318,7 @@
             <md-divider
               ng-if="ctrl.question.instrument.type != 'PAPI' || ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].containsAnnotations"></md-divider>
             <md-card-content
+              class="pt16"
               layout="column"
               ng-if="ctrl.question.instrument.type != 'PAPI' || ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].containsAnnotations">
               <div class="fdz-text-block" ng-class="{'fdz-add-bottom-margin': ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].containsAnnotations}"
@@ -349,7 +350,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-content style="background-color:white;">
+          <md-card-content class="pt16">
             <div ng-repeat="predecessor in ctrl.predecessors" style="width: 100%;">
               <question-search-result bowser="bowser" current-language="currentLanguage"
                                       search-result="predecessor._source"></question-search-result>
@@ -357,7 +358,7 @@
             <div layout="row" layout-align="center center" layout-padding ng-if="ctrl.predecessors.length == 0">
               {{'question-management.detail.no-predecessors' | translate}}
             </div>
-          </md-content>
+          </md-card-content>
         </md-card>
       </div>
       <div flex-gt-sm="50" layout="column">
@@ -368,7 +369,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-content style="background-color:white;">
+          <md-card-content class="pt16">
             <div ng-repeat="successor in ctrl.successors" style="width: 100%;">
               <question-search-result bowser="bowser" current-language="currentLanguage"
                                       search-result="successor._source"></question-search-result>
@@ -376,7 +377,7 @@
             <div layout="row" layout-align="center center" layout-padding ng-if="ctrl.successors.length == 0">
               {{'question-management.detail.no-successors' | translate }}
             </div>
-          </md-content>
+          </md-card-content>
         </md-card>
       </div>
     </div>
@@ -389,7 +390,7 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content>
+        <md-card-content class="pt16">
           <div class="fdz-overlay-outer-box">
             <div class="fdz-code-container" hljs
                  hljs-language="{{ctrl.question.technicalRepresentation.language}}" hljs-source="ctrl.technicalRepresentationBeauty" ng-class="{'fdz-hidden-code': ctrl.representationCodeToggleFlag}"

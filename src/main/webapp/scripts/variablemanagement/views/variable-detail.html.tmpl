@@ -71,7 +71,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-card-content>
+          <md-card-content class="pt16">
             <div class="fdz-add-bottom-margin" ng-if="ctrl.variable.name">
               <span style="font-weight: bold;">{{'variable-management.detail.label.name' | translate }}:</span>
               <span>{{ctrl.variable.name}}</span>
@@ -149,7 +149,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-card-content layout="column">
+          <md-card-content class="pt16" layout="column">
             <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
               <div class="fdz-truncate-string" flex ng-if="!ctrl.study">
                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
@@ -361,7 +361,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-card-content ng-cloak="true">
+          <md-card-content class="pt16" ng-cloak="true">
             <div>
               <div class="fdz-add-bottom-margin" ng-if="ctrl.variable.distribution.validResponses">
                 {{'variable-management.detail.label.statistics.validResponses' | translate}}:
@@ -529,7 +529,7 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content>
+        <md-card-content class="pt16">
           <div class="fdz-add-bottom-margin fdz-text-block">
                     <span style="font-weight: bold;">{{'variable-management.detail.label.generation-details-description' | translate }}:
                     </span>
@@ -584,7 +584,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-content style="background-color:white;">
+          <md-card-content class="pt16">
             <div ng-repeat="previous in ctrl.previousVariables" style="width: 100%;">
               <variable-search-result bowser="bowser" current-language="ctrl.lang"
                                       search-result="previous._source"></variable-search-result>
@@ -604,7 +604,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-content style="background-color:white;">
+          <md-card-content class="pt16">
             <div ng-repeat="next in ctrl.nextVariables" style="width: 100%;">
               <variable-search-result bowser="bowser" current-language="ctrl.lang"
                                       search-result="next._source"></variable-search-result>

@@ -5,7 +5,7 @@ var SearchComponent = {
     // items: '<',
     name: '<'
   },
-  controller: 'SearchController',
+  controller: 'DataPacketSearchController',
   templateUrl: 'scripts/searchmanagement/components/search/search.html.tmpl'
 };
 
