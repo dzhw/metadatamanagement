@@ -144,33 +144,21 @@ function Controller(
   }
 
   function getCurrentObjectFilter() {
+    var objMapper = {
+      'studies': 'study',
+      'surveys': 'survey',
+      'instruments': 'instrument',
+      'questions': 'question',
+      'data-sets': 'data-set',
+      'variables': 'variable',
+      'publications': 'related-publication',
+      'concepts': 'concept'
+    };
     var obj = {};
     var urlPath = _.takeRight($location.path().split('/'), 2);
-    switch (urlPath[0]) {
-      case 'studies':
-        obj.study = $ctrl.id;
-        break;
-      case 'surveys':
-        obj.survey = $ctrl.id;
-        break;
-      case 'instruments':
-        obj.instrument = $ctrl.id;
-        break;
-      case 'questions':
-        obj.question = $ctrl.id;
-        break;
-      case 'data-sets':
-        obj['data-set'] = $ctrl.id;
-        break;
-      case 'variables':
-        obj.variable = $ctrl.id;
-        break;
-      case 'publications':
-        obj['related-publication'] = $ctrl.id;
-        break;
-      case 'concepts':
-        obj.concept = $ctrl.id;
-        break;
+
+    if (objMapper.hasOwnProperty(urlPath[0])) {
+      obj[objMapper[urlPath[0]]] = $ctrl.id;
     }
     return obj;
   }
