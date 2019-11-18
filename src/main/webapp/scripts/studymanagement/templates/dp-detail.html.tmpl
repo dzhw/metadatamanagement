@@ -27,11 +27,11 @@
           </a>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.institutions">
-          <h5>{{'study-management.detail.label.authors' | translate }}:</h5>
+          <h5>{{'study-management.detail.label.institutions' | translate }}:</h5>
           <span
             class="md-secondary"
             ng-repeat="institution in $ctrl.options.institutions">
-            {{institution[currentLanguage]}}{{!$last?';':''}}
+            {{institution[$ctrl.lang]}}{{!$last?';':''}}
           </span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.sponsor">
