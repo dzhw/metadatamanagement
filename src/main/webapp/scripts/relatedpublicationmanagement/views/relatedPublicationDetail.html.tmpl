@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <div class="fdz-cc" ng-if="!isAuthenticated()">
+  <div class="fdz-cc" ng-if="isAuthenticated()">
     <div layout="row" layout-margin style="margin-bottom: 0px;">
       <h1 class="md-headline fdz-headline">
         <span fdz-hyphenate lang="{{ctrl.relatedPublication.language}}">{{ctrl.relatedPublication.title}}</span>

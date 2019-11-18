@@ -14,7 +14,7 @@
 		</md-card-header-text>
 	</md-card-header>
 	<md-divider></md-divider>
-	<md-card-content>
+	<md-card-content class="pt16">
 		<md-checkbox
 			ng-model="ctrl.project.configuration[ctrl.type+'State'].dataProviderReady"
 			ng-disabled="!((ctrl.isRequired() && ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup === 'PUBLISHER') || (ctrl.isRequired() && ctrl.isAssignedDataProvider() && ctrl.project.assigneeGroup === 'DATA_PROVIDER')) || ctrl.isProjectReleased()"
