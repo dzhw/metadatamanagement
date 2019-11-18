@@ -7,7 +7,6 @@ function Controller($rootScope, $state, LanguageService, $location) {
   $ctrl.$onInit = init;
 
   function init() {
-    console.log($rootScope.searchQuery);
     if ($rootScope.searchQuery) {
       $ctrl.query = $rootScope.searchQuery;
     }

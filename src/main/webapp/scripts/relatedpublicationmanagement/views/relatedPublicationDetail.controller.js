@@ -23,7 +23,6 @@ angular.module('metadatamanagementApp')
       ];
       entity.promise.then(function(result) {
         ctrl.relatedPublication = result;
-        console.log(result);
         // We need this for the tab creation
         ctrl.counts = {};
         ctrl.counts.dataSetsCount = 0;

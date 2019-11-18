@@ -13,7 +13,6 @@ var CTRL = function($location, $rootScope) {
   }
 
   function change() {
-    console.log('change');
     var searchObject = $location.search();
     var paramsObject = {
       query: $ctrl.query

@@ -28,7 +28,6 @@ var CTRL = function(DataAcquisitionProjectReleasesResource,
     if ($ctrl.options.dataAvailability.en === 'In preparation') {
       $ctrl.noFinalRelease = true;
     }
-    console.log($ctrl.dataAcquisitionProjectId);
     DataAcquisitionProjectReleasesResource.get(
       {
         id: ProjectReleaseService.stripVersionSuffix(

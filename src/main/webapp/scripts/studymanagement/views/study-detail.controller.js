@@ -14,7 +14,6 @@ angular.module('metadatamanagementApp')
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 
-      console.log('registerCurrentSearchResult');
       SearchResultNavigatorService.registerCurrentSearchResult();
 
       var getTags = function(study) {

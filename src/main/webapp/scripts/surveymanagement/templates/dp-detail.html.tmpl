@@ -15,74 +15,74 @@
   <div ng-if="!$ctrl.collapsed">
     <md-card-content>
       <md-list>
-        <md-list-item ng-if="$ctrl.options.population">
+        <md-list-item ng-if="$ctrl.options.survey.population">
           <h5>{{'survey-management.detail.label.population' | translate }}:</h5>
           <span
             class="md-secondary"
-            display-i18n-string="$ctrl.options.population.description"
+            display-i18n-string="$ctrl.options.survey.population.description"
             fdz-hyphenate></span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.population.unit">
+        <md-list-item ng-if="$ctrl.options.survey.population.unit">
           <h5>{{'survey-management.detail.label.unit' | translate }}:</h5>
           <span
             class="md-secondary"
-            display-i18n-string="$ctrl.options.population.unit"
+            display-i18n-string="$ctrl.options.survey.population.unit"
             fdz-hyphenate></span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.dataType">
+        <md-list-item ng-if="$ctrl.options.survey.dataType">
           <h5>{{'survey-management.detail.label.data-type' | translate }}:</h5>
           <span
             class="md-secondary"
-            display-i18n-string="$ctrl.options.dataType"
+            display-i18n-string="$ctrl.options.survey.dataType"
             fdz-hyphenate></span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.sample">
+        <md-list-item ng-if="$ctrl.options.survey.sample">
           <h5>{{'survey-management.detail.label.sample' | translate }}:</h5>
           <span
             class="md-secondary"
-            display-i18n-string="$ctrl.options.sample"
+            display-i18n-string="$ctrl.options.survey.sample"
             fdz-hyphenate></span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.surveyMethod">
+        <md-list-item ng-if="$ctrl.options.survey.surveyMethod">
           <h5>{{'survey-management.detail.label.survey-method' | translate }}:</h5>
           <span
             class="md-secondary"
-            display-i18n-string="$ctrl.options.surveyMethod"
+            display-i18n-string="$ctrl.options.survey.surveyMethod"
             fdz-hyphenate></span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.fieldPeriod">
+        <md-list-item ng-if="$ctrl.options.survey.fieldPeriod">
           <h5>{{'survey-management.detail.label.field-period' | translate }}:</h5>
           <span
             class="md-secondary">
-            {{$ctrl.options.fieldPeriod.start | date}} - {{$ctrl.options.fieldPeriod.end | date}}
+            {{$ctrl.options.survey.fieldPeriod.start | date}} - {{$ctrl.options.survey.fieldPeriod.end | date}}
           </span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.grossSampleSize">
+        <md-list-item ng-if="$ctrl.options.survey.grossSampleSize">
           <h5>{{'survey-management.detail.label.grossSampleSize' | translate }}:</h5>
           <span
-            class="md-secondary">n = {{$ctrl.options.grossSampleSize | number}}</span>
+            class="md-secondary">n = {{$ctrl.options.survey.grossSampleSize | number}}</span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.sampleSize">
+        <md-list-item ng-if="$ctrl.options.survey.sampleSize">
           <h5>{{'survey-management.detail.label.sampleSize' | translate }}:</h5>
           <span
-            class="md-secondary">n = {{$ctrl.options.sampleSize | number}}</span>
+            class="md-secondary">n = {{$ctrl.options.survey.sampleSize | number}}</span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.responseRate">
+        <md-list-item ng-if="$ctrl.options.survey.responseRate != null">
           <h5>{{'survey-management.detail.label.responseRate' | translate }}:</h5>
           <span
-            class="md-secondary">{{$ctrl.options.responseRate | number}}%</span>
+            class="md-secondary">{{$ctrl.options.survey.responseRate | number}}%</span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.annotations">
+        <md-list-item ng-if="$ctrl.options.survey.annotations">
           <h5>{{'survey-management.detail.label.annotations' | translate }}:</h5>
           <span
             class="md-secondary"
-            display-i18n-string="$ctrl.options.annotations"
+            display-i18n-string="$ctrl.options.survey.annotations"
             fdz-hyphenate></span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.isSimpleGeographicCoverage($ctrl.options.population.geographicCoverages)">
+        <md-list-item ng-if="$ctrl.options.isSimpleGeographicCoverage($ctrl.options.survey.population.geographicCoverages) != null">
           <h5>{{'survey-management.detail.label.geographic-coverage' | translate }}:</h5>
           <span
-            class="md-secondary">{{$ctrl.getCountryName($ctrl.options.population.geographicCoverages[0])}}</span>
+            class="md-secondary">{{$ctrl.options.getCountryName($ctrl.options.survey.population.geographicCoverages[0])}}</span>
         </md-list-item>
 
 
