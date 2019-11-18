@@ -11,18 +11,21 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.isProjectMenuOpen = false;
     $scope.isAdminMenuOpen = false;
     $scope.isAccountMenuOpen = false;
-
-    $scope.changeLanguageButtonDisabled = false;
     $scope.logoutButtonDisabled = false;
+    $scope.currentLanguage = LanguageService.getCurrentInstantly();
 
     $scope.$on('domain-object-editing-started', function() {
-      $scope.changeLanguageButtonDisabled = true;
       $scope.logoutButtonDisabled = true;
     });
 
     $scope.$on('domain-object-editing-stopped', function() {
-      $scope.changeLanguageButtonDisabled = false;
       $scope.logoutButtonDisabled = false;
+    });
+
+    $rootScope.$on('onStudyLoaded',
+      function(event, args) { // jshint ignore:line
+      $scope.study = args.study;
+      $scope.accessWays = args.accessWays;
     });
 
     //Functions for toggling buttons.
@@ -42,11 +45,6 @@ angular.module('metadatamanagementApp').controller('NavbarController',
 
     $scope.focusContent = function() {
       $document.find('.fdz-content')[0].focus();
-    };
-
-    //Set Languages
-    $scope.changeLanguage = function(languageKey) {
-      LanguageService.setCurrent(languageKey);
     };
 
     //Goto Logout Page

@@ -2,7 +2,12 @@
   background-color: $primary-color;
   color: $primary-contrast;
   z-index: 30;
-
+  & .md-button {
+    margin: 0;
+    @include rwd(320) {
+      margin: unset;
+    }
+  }
   md-icon {
     color: $primary-contrast;
     fill: $primary-contrast;

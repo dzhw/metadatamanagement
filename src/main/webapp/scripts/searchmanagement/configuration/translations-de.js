@@ -23,7 +23,10 @@ angular.module('metadatamanagementApp').config(
         },
         'detail': {
           'search': 'Datenpaketsuche',
-          'noresult': 'Keine Suchergebnisse gefunden.'
+          'noresult': 'Keine Suchergebnisse gefunden.',
+          'versions': 'Versionen',
+          'access-ways': 'Zugangswege',
+          'cart': 'Zur Beantragung vormerken'
         },
         'buttons': {
           'refresh-tooltip': 'Klicken, um die Suche zu aktualisieren',

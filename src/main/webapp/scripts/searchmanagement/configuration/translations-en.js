@@ -23,7 +23,10 @@ angular.module('metadatamanagementApp').config(
         },
         'detail': {
           'search': 'Data Search',
-          'noresult': 'No search results found.'
+          'noresult': 'No search results found.',
+          'versions': 'Versions',
+          'access-ways': 'Access ways',
+          'cart': 'Note for application'
         },
         'buttons': {
           'refresh-tooltip': 'Click to refresh the search results',
