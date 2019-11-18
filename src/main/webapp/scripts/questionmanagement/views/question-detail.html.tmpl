@@ -36,6 +36,12 @@
           lang="currentLanguage"
           options="ctrl.successors"
           template-url="scripts/questionmanagement/templates/dp-next-question.html.tmpl"></fdz-detail>
+        <fdz-detail
+          ng-if="ctrl.question.technicalRepresentation"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl"
+          template-url="scripts/questionmanagement/templates/dp-generation.html.tmpl"></fdz-detail>
       </div>
     </div>
   </div>

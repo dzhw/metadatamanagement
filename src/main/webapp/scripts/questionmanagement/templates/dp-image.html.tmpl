@@ -15,7 +15,9 @@
   <div ng-if="!$ctrl.collapsed">
     <md-card-content read-element-size style="padding: 0px;">
       <div class="fdz-overlay-outer-box">
-        <div class="fdz-overlay-inner-box-top" ng-if="$ctrl.options.imageLanguages.length > 1">
+        <div class="fdz-overlay-inner-box-top"
+             ng-if="$ctrl.options.imageLanguages.length > 1"
+             style="top: unset; bottom: 50px; right: 8px; position: absolute; z-index: 20;">
           <md-menu>
             <md-button class="md-icon-button md-primary" ng-click="$mdMenu.open($event)">
               <md-tooltip md-autohide="true" md-direction="left"
@@ -28,7 +30,7 @@
               <md-menu-item ng-repeat="language in $ctrl.options.imageLanguages">
                 <md-button md-prevent-menu-close="md-prevent-menu-close"
                            ng-click="$ctrl.options.changeCurrentImageLanguage(language)">{{language |
-                  displayIsoLanguage:currentLanguage}}
+                  displayIsoLanguage:$ctrl.lang}}
                 </md-button>
               </md-menu-item>
             </md-menu-content>
@@ -48,7 +50,7 @@
             </div>
           </div>
         </div>
-        <div class="fdz-button-wrapper">
+        <div class="fdz-button-wrapper image">
           <md-button class="md-icon-button md-primary"
                      ng-href="{{$ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].id}}"
                      target="_blank">
@@ -65,7 +67,7 @@
       <md-card-content
         layout="column"
         ng-if="$ctrl.options.question.instrument.type != 'PAPI' || $ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].containsAnnotations">
-        <div class="fdz-text-block" ng-class="{'fdz-add-bottom-margin': $ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].containsAnnotations}"
+        <div class="fdz-text-block mt16" ng-class="{'fdz-add-bottom-margin': $ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].containsAnnotations}"
              ng-if="$ctrl.options.question.instrument.type != 'PAPI'">
           <span style="font-weight: bold;">{{'question-management.detail.label.resolution' | translate }}: </span>
           <span ng-if="$ctrl.options.currentImageIndex < $ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage].length">{{$ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].resolution.widthX}} x {{$ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].resolution.heightY}}</span>

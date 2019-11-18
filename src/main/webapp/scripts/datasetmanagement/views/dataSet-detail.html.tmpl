@@ -24,6 +24,7 @@
           options="ctrl"
           template-url="scripts/datasetmanagement/templates/dp-sub-dataset.html.tmpl"></fdz-detail>
         <fdz-detail
+          ng-if="ctrl.attachments"
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.attachments"

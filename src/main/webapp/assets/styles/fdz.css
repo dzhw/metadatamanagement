@@ -1763,11 +1763,21 @@ fdz-breadcrumbs {
   .fdz-theme .fdz-detail .questions .fdz-search-result md-card-content {
     padding-right: 0;
     padding-left: 0; }
+  .fdz-theme .fdz-detail .fdz-questions > .questions .fdz-search-result {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(0, 0, 0, 0.12); }
+  .fdz-theme .fdz-detail .fdz-questions > .questions:last-child .fdz-search-result {
+    border: none; }
   .fdz-theme .fdz-detail #diagramContainer {
     margin-top: 16px; }
   .fdz-theme .fdz-detail .fdz-button-wrapper {
     display: flex;
     justify-content: flex-end; }
+    .fdz-theme .fdz-detail .fdz-button-wrapper .image {
+      position: absolute;
+      right: 16px;
+      bottom: 16px; }
   .fdz-theme .fdz-detail .fdz-hidden-code,
   .fdz-theme .fdz-detail .fdz-hidden-code > pre {
     height: 52px;

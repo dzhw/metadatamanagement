@@ -148,14 +148,26 @@ $card-border-radius: 2px !default;
     padding-right: 0;
     padding-left: 0;
   }
-
+  & .fdz-questions > .questions .fdz-search-result {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: $foreground-4;
+  }
+  & .fdz-questions > .questions:last-child .fdz-search-result{
+    border: none;
+  }
   & #diagramContainer {
     margin-top: 16px;
   }
 
-  & .fdz-button-wrapper {
+  & .fdz-button-wrapper{
     display: flex;
     justify-content: flex-end;
+    & .image {
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+    }
   }
 
 
