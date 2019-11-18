@@ -31,7 +31,8 @@ angular.module('metadatamanagementApp').config(
             'year': 'Erscheinungsjahr',
             'source-reference': 'Referenz',
             'abstract-source': 'Quelle',
-            'studySerieses': 'Studienreihen'
+            'studySerieses': 'Studienreihen',
+            'annotations': 'Anmerkungen'
           },
           'abstract': 'Abstract',
           'title': '{{ title }} ({{publicationId}})',
@@ -114,7 +115,7 @@ angular.module('metadatamanagementApp').config(
               'size': 'Die Maximallänge des Titels der Publikation ist 2048 Zeichen.'
             },
             'authors': {
-              'size': 'Die Maximallänge der Autor(inn)en der Publication ist 2048 Zeichen.',
+              'size': 'Die Maximallänge der Autor(inn)en der Publikation ist 2048 Zeichen.',
               'not-empty': 'Die Autoren der Publikation darf nicht leer sein!'
             },
             'year': {
@@ -127,6 +128,9 @@ angular.module('metadatamanagementApp').config(
             'language': {
               'not-null': 'Die Sprache der Publikation darf nicht leer sein!',
               'not-supported': 'Die Sprache muss eine gültige zweibuchstabige Abkürzung gemäß ISO 639-1 sein.'
+            },
+            'annotations': {
+              'size': 'Die Maximallänge der Anmerkungen zur Publikation ist 2048 Zeichen.'
             }
           },
           'post-validation': {

@@ -53,7 +53,11 @@ angular.module('metadatamanagementApp')
             language: data.language,
             studySerieses: getStudySerieses(
               CleanJSObjectService.parseAndTrim(data['studySerieses.de']),
-              availableStudySerieses)
+              availableStudySerieses),
+            annotations: {
+              en: data['annotations.en'],
+              de: data['annotations.de']
+            }
           };
           var cleanedRelatedPublicationObject = CleanJSObjectService
             .removeEmptyJsonObjects(relatedPublicationObj);
