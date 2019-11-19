@@ -106,7 +106,7 @@ angular.module('metadatamanagementApp').config(
             'question': 'Click to show question {{param}}',
             'variable': 'Click to show variable {{param}}',
             'study': 'Click to show study {{param}}',
-            'data-packet': 'Click to show data packet {{param}}',
+            'data-packet': 'Click to show data package {{param}}',
             'instrument': 'Click to show instrument {{param}}',
             'publication': 'Click to show publication {{param}}',
             'concept': 'Click to show concept {{param}}'
