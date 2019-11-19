@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            PageTitleService, ToolbarHeaderService, SearchHelperService,
            SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
            $rootScope, ProjectStatusScoringService, DeleteMetadataService,
-           SimpleMessageToastService, localStorageService) {
+           SimpleMessageToastService) {
 
     var queryChangedOnInit = false;
     var tabChangedOnInitFlag = false;
@@ -119,7 +119,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     // init the controller and its scope objects
     var init = function() {
-      localStorageService.remove('dataPacket');
       $scope.tabs = _.filter($scope.tabs, function(tab) {
         return tab.visibleForPublicUser || Principal.isAuthenticated();
       });
@@ -277,6 +276,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     function createDataPacketFilterContent(data, prop) {
       _.map(data.all.filtered[prop].buckets, function(val1, i1) {
+        data.all.filtered[prop].buckets[i1].doc_count = 0;
         _.find(data[prop].buckets, function(val2, i2) {
           if (val1.key === val2.key) {
             data.all.filtered[prop].buckets[i1].doc_count = data[prop]
