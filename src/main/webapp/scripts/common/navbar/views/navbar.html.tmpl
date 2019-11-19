@@ -12,10 +12,7 @@
       options="dataPacketFilter"
       template-url="scripts/searchmanagement/components/searchfilter/dp-search-filter.html.tmpl"></fdz-search-filter>
     <fdz-data-packet
-      ng-if="study && stateName != 'search' && !isAuthenticated()"
-      lang="currentLanguage"
-      options="study"
-      access="accessWays"></fdz-data-packet>
+      ng-if="!isAuthenticated()"></fdz-data-packet>
     <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
         <ul ng-if="isAuthenticated()" style="padding: 0px; margin: 0px;overflow:hidden;">
           <li class="fdz-navbar-menu">

@@ -2,12 +2,11 @@
 
 var Component = {
   bindings: {
-    lang: '<',
-    options: '<',
-    access: '<'
+    lang: '<'
   },
   controller: 'DataPacketController',
-  templateUrl: 'scripts/searchmanagement/components/detail/detail.html.tmpl'
+  templateUrl:
+    'scripts/searchmanagement/components/configurator/detail.html.tmpl'
 };
 
 angular

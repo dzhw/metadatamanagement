@@ -21,6 +21,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var selectedTabChangeIsBeingHandled = false;
     var queryChangeIsBeingHandled = false;
 
+    var registerScope = null;
+
     var searchFilterAggregations = [
       'study-series',
       'survey-data-types',
@@ -432,7 +434,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
     };
 
-    $rootScope.$on('onSearchFilterChange', function() {
+    registerScope = $rootScope.$on('onSearchFilterChange', function() {
       readSearchParamsFromLocation();
       $scope.searchFilterMapping = $scope.searchParams.filter;
       $scope.search();
@@ -654,5 +656,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
         });
       }
     };
+
+    $scope.$onDestroy = function() {
+      //unregister rootScope event by calling the return function
+      registerScope();
+    };
+
     init();
   });

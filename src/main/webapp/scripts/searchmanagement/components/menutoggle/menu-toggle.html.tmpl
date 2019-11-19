@@ -20,6 +20,7 @@
   <li ng-repeat="item in $ctrl.options">
     <md-checkbox
       ng-checked="$ctrl.exists(item.key, $ctrl.property)"
+      md-no-ink=""
       ng-click="$ctrl.toggleFilterItem(item.key, $ctrl.property)">
       {{ item.key }} ({{ item.doc_count }})
     </md-checkbox>
