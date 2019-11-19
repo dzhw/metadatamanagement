@@ -12,12 +12,12 @@ angular.module('metadatamanagementApp').factory(
         'study-series': {
           attribute: 'studySeries',
           i18n: true,
-          min_doc_count: 0
+          min_doc_count: 1
         },
         'survey-data-types': {
           attribute: 'surveyDataTypes',
           i18n: true,
-          min_doc_count: 0
+          min_doc_count: 1
         },
         'tags': {
           attribute: 'tags',
@@ -528,7 +528,40 @@ angular.module('metadatamanagementApp').factory(
     var addAggregations = function(query, elasticsearchType, aggregations) {
       var currentLanguage = LanguageService.getCurrentInstantly();
       if (aggregations && aggregations.length > 0) {
-        query.body.aggs = {};
+        query.body.aggs = {
+          all: {
+            global: {},
+            aggs: {
+              filtered: {
+                aggs: {}
+              }
+            }
+          }
+        };
+
+        if (!Principal.loginName()) {
+          var shadowCopyFilter = {
+            'bool': {
+              'must': [{
+                'term': {'shadow': true}
+              },{
+                'term': {'hidden': false}
+              }]
+            }
+          };
+          _.set(shadowCopyFilter, 'bool.must_not[0].exists.field',
+            'successorId');
+          _.set(query.body.aggs.all.aggs.filtered, 'filter', shadowCopyFilter);
+        } else {
+          var masterFilter = {
+            'bool': {
+              'must': [{
+                'term': {'shadow': false}
+              }]
+            }
+          };
+          _.set(query.body.aggs.all.aggs.filtered, 'filter', masterFilter);
+        }
         aggregations.forEach(function(attribute) {
           var aggregationConfig = _.get(aggregationMapping,
             elasticsearchType + '.' + attribute);
@@ -546,6 +579,8 @@ angular.module('metadatamanagementApp').factory(
               aggregation.terms.field = aggregationConfig.attribute;
             }
             _.set(query.body.aggs, attribute, aggregation);
+            _.set(query.body.aggs.all.aggs.filtered.aggs, attribute,
+              aggregation);
           }
         });
       }
