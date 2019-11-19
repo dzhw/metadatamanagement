@@ -275,15 +275,32 @@ angular.module('metadatamanagementApp').controller('SearchController',
       group: 'concepts'
     }];
 
+    function createDataPacketFilterContent(data, prop) {
+      _.map(data.all.filtered[prop].buckets, function(val1, i1) {
+        _.find(data[prop].buckets, function(val2, i2) {
+          if (val1.key === val2.key) {
+            data.all.filtered[prop].buckets[i1].doc_count = data[prop]
+              .buckets[i2].doc_count;
+          }
+        });
+      });
+      return data.all.filtered[prop].buckets;
+    }
     function createDataPacketFilterObject(data) {
       if (Principal.isAuthenticated()) { return null; }
       var dataPacketFilter = {
-        'study-series': data['study-series'].buckets,
-        'survey-data-types': data['survey-data-types'].buckets,
-        'tags': data.tags.buckets,
-        'concepts': data.concepts.buckets,
-        'sponsor': data.sponsor.buckets,
-        'institutions': data.institutions.buckets
+        'study-series': createDataPacketFilterContent(data,
+          'study-series'),
+        'survey-data-types': createDataPacketFilterContent(data,
+          'survey-data-types'),
+        'tags': createDataPacketFilterContent(data,
+          'tags'),
+        'concepts': createDataPacketFilterContent(data,
+          'concepts'),
+        'sponsor': createDataPacketFilterContent(data,
+          'sponsor'),
+        'institutions': createDataPacketFilterContent(data,
+          'institutions')
       };
       $rootScope.$emit('onDataPacketFilterChange', dataPacketFilter);
 
@@ -291,6 +308,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     //Search function
     $scope.search = function() {
+      $scope.searchFilterMapping = $scope.searchParams.filter;
       var projectId = _.get($scope, 'currentProject.id');
       $scope.isSearching++;
       $rootScope.$emit('onStartSearch');
