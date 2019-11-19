@@ -178,7 +178,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           this.item.tooltip = translationStringsMap.search.translateString;
           this.item.iconType = translationStringsMap.search.iconType;
           this.item.icon = translationStringsMap.search.icon;
-          if ( _.size(item.searchParams) > 1 ) {
+          if (_.size(item.searchParams) > 1) {
             this.item.tabName = item.tabName;
           } else {
             this.item.tabName = 'search-management.tabs.all';
