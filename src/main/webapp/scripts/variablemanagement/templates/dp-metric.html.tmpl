@@ -21,11 +21,11 @@
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.minimum != null">
           <h5>{{'variable-management.detail.label.statistics.minimum' | translate }}:</h5>
-          <span class="md-secondary">{{$ctrl.options.variable.distribution.minimum | formatResponse: $ctrl.options.variable}}</span>
+          <span class="md-secondary">{{$ctrl.options.variable.distribution.statistics.minimum | formatResponse: $ctrl.options.variable}}</span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.maximum != null">
           <h5>{{'variable-management.detail.label.statistics.maximum' | translate }}:</h5>
-          <span class="md-secondary">{{$ctrl.options.variable.distribution.maximum | formatResponse: $ctrl.options.variable}}</span>
+          <span class="md-secondary">{{$ctrl.options.variable.distribution.statistics.maximum | formatResponse: $ctrl.options.variable}}</span>
         </md-list-item>
         <h4 ng-if="$ctrl.options.checkCentralTendencyElements()">
           {{'variable-management.detail.label.central-tendency' | translate}}
@@ -33,7 +33,7 @@
         <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.meanValue != null">
           <h5>{{'variable-management.detail.label.statistics.mean-value' | translate }} <span katex>(\bar x)</span>:</h5>
           <span class="md-secondary">
-            {{$ctrl.options.variable.distribution.statistics.meanValue | formatResponse: $ctrl.options.variable}}
+            {{$ctrl.options.variable.distribution.statistics.meanValue | formatResponse: $ctrl.options.variable:true}}
           </span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.median != null">
@@ -51,7 +51,7 @@
         <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.standardDeviation != null">
           <h5>{{'variable-management.detail.label.statistics.standardDeviation' | translate }} <span katex>(h)</span>:</h5>
           <span class="md-secondary">
-            {{$ctrl.options.variable.distribution.statistics.standardDeviation | formatResponse: number:2}}
+            {{$ctrl.options.variable.distribution.statistics.standardDeviation | number:2}}
           </span>
         </md-list-item>
 
@@ -61,13 +61,13 @@
         <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.skewness != null">
           <h5>{{'variable-management.detail.label.statistics.skewness' | translate }} <span katex>(h)</span>:</h5>
           <span class="md-secondary">
-            {{$ctrl.options.variable.distribution.statistics.skewness | formatResponse: number:2}}
+            {{$ctrl.options.variable.distribution.statistics.skewness | number:2}}
           </span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.kurtosis != null">
             <h5>{{'variable-management.detail.label.statistics.kurtosis' | translate }} <span katex>(h)</span>:</h5>
             <span class="md-secondary">
-              {{$ctrl.options.variable.distribution.statistics.kurtosis | formatResponse: number:2}}
+              {{$ctrl.options.variable.distribution.statistics.kurtosis | number:2}}
             </span>
         </md-list-item>
         </md-list>
