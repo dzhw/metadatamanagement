@@ -48,6 +48,9 @@ angular.module('metadatamanagementApp')
             controllerAs: 'ctrl'
           }
         },
+        onExit: function($rootScope, $timeout) {
+            $rootScope.$emit('onDataPackageChange', {});
+        },
         resolve: {
           entity: ['$q', '$stateParams', 'StudySearchService', 'Principal',
             'SimpleMessageToastService', function($q, $stateParams,

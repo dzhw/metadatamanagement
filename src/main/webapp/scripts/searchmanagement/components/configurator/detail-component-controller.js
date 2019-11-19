@@ -146,6 +146,8 @@ function CTRL($scope,
         $ctrl.studyIdVersion.masterId = args.masterId;
         $ctrl.studyIdVersion.version = args.version;
         init();
+      } else {
+        $ctrl.studyIdVersion = {};
       }
     });
 
