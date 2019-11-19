@@ -111,6 +111,9 @@
               bowser="bowser"
               search-result-index="computeSearchResultIndex($index)"></concept-search-result>
         </div>
+         <div class="fdz-no-result" ng-if="searchResult.length === 0">
+           <p>{{ 'search-management.no-results-text.all' | translate }}</p>
+         </div>
     <md-card ng-if="isAuthenticated()">
       <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
         <fdz-paginator  options="options"
