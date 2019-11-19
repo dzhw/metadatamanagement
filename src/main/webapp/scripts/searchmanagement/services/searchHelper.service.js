@@ -615,19 +615,26 @@ angular.module('metadatamanagementApp').factory(
             };
             filterArray = attributeFilter.bool.must;
           }
-          newFilters[filterKey].forEach(function(filterValue) {
+
+          var createFilter = function(filterValue) {
             var filter = {
               term: {
               }
             };
             if (filterConfig.i18n) {
               filter.term[filterConfig.attribute + '.' + currentLanguage] =
-                filterValue;
+              filterValue;
             } else {
               filter.term[filterConfig.attribute] = filterValue;
             }
             filterArray.push(filter);
-          });
+          };
+
+          if (Array.isArray(newFilters[filterKey])) {
+            newFilters[filterKey].forEach(createFilter);
+          } else {
+            createFilter(newFilters[filterKey]);
+          }
           allFilters.bool.must.push(attributeFilter);
         });
         if (!query.body.query.bool.filter) {
