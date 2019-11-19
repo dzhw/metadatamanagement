@@ -1948,7 +1948,7 @@ tr:focus {
         width: 20px;
         height: 20px; }
       .fdz-theme .fdz-search-filter md-card-content .fdz-filter-list li md-checkbox .md-label {
-        max-width: 220px;
+        max-width: 250px;
         white-space: normal;
         vertical-align: top; }
 
@@ -1984,7 +1984,8 @@ tr:focus {
         word-wrap: break-word; }
     @media (min-width: 375px) {
       .fdz-theme .fdz-data-packet md-list-item {
-        flex-flow: row; }
+        flex-flow: row;
+        align-items: baseline; }
         .fdz-theme .fdz-data-packet md-list-item h5 {
           width: 40%; }
         .fdz-theme .fdz-data-packet md-list-item .md-secondary-container {

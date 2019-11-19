@@ -172,7 +172,6 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         return _.cloneDeep(this.item);
       },
       set: function(item) {
-        console.log(item);
         if (isAuthenticated()) {
           this.item.type = translationStringsMap.search.type;
           this.item.tooltip = translationStringsMap.search.translateString;

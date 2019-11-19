@@ -6,7 +6,7 @@
             </md-tooltip>
         </md-button>
     <fdz-search ng-if="stateName === 'search' && !isAuthenticated()"></fdz-search>
-    <fdz-search-detail ng-if="stateName != 'search'"></fdz-search-detail>
+    <fdz-search-detail ng-if="stateName != 'search' && !isAuthenticated()"></fdz-search-detail>
     <fdz-search-filter
       ng-if="stateName === 'search' && !isAuthenticated()"
       options="dataPacketFilter"

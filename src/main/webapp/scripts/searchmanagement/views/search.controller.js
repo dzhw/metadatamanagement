@@ -293,6 +293,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.search = function() {
       var projectId = _.get($scope, 'currentProject.id');
       $scope.isSearching++;
+      $rootScope.$emit('onStartSearch');
       $scope.setDropZoneDisabled();
       SearchResultNavigatorService.setCurrentSearchParams(
         $scope.searchParams, projectId,
@@ -336,6 +337,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
               data.hits.total.value;
           });
           $scope.isSearching--;
+          $rootScope.$emit('onStopSearch');
           // Safari fix
           $timeout(function() {
             angular.element('body').append('<div id=fdz-safari-fix></div>');
@@ -351,6 +353,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           });
           $scope.tabs[$scope.searchParams.selectedTabIndex].count = 0;
           $scope.isSearching--;
+          $rootScope.$emit('onStopSearch');
         });
     };
 

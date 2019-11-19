@@ -21,6 +21,7 @@ angular.module('metadatamanagementApp').config(
           'delete': 'Delete'
         },
         'filter': {
+          'clear-filter': 'Clear filter',
           'sponsors': 'Sponsors',
           'institutions': 'Institutions',
           'tags': 'Tags',
