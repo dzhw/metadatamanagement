@@ -3,7 +3,11 @@
 
 // TODO: Move factory to the appropiate location
 angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
-  function($rootScope, $log) {
+  function($rootScope, $log, Principal) {
+    var isAuthenticated = false;
+    Principal.identity().then(function() {
+      isAuthenticated = Principal.isAuthenticated;
+    });
     var stripVersionSuffix = function(id) {
       if (!id) {
         return id;
@@ -69,6 +73,10 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         'iconType': 'font',
         'icon': 'search'
       },
+      'dataPacketSearch': {
+        'type': 'search-management.detail.dataPacketSearch',
+        'translateString': 'global.tooltips.toolbarHeader.data-packet'
+      },
       'shoppingCart': {
         'type': 'shopping-cart.title'
       },
@@ -89,6 +97,10 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         'translateString': 'global.tooltips.toolbarHeader.study',
         'iconType': 'svg',
         'icon': 'assets/images/icons/study.svg'
+      },
+      'dataPacketDetail': {
+        'type': 'study-management.detail.label.dataPacket',
+        'translateString': 'global.tooltips.toolbarHeader.data-packet',
       },
       'surveyDetail': {
         'type': 'survey-management.detail.label.survey',
@@ -160,14 +172,21 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         return _.cloneDeep(this.item);
       },
       set: function(item) {
-        this.item.type = translationStringsMap.search.type;
-        this.item.tooltip = translationStringsMap.search.translateString;
-        this.item.iconType = translationStringsMap.search.iconType;
-        this.item.icon = translationStringsMap.search.icon;
-        if (_.size(item.searchParams) > 1) {
-          this.item.tabName = item.tabName;
+        console.log(item);
+        if (isAuthenticated()) {
+          this.item.type = translationStringsMap.search.type;
+          this.item.tooltip = translationStringsMap.search.translateString;
+          this.item.iconType = translationStringsMap.search.iconType;
+          this.item.icon = translationStringsMap.search.icon;
+          if ( _.size(item.searchParams) > 1 ) {
+            this.item.tabName = item.tabName;
+          } else {
+            this.item.tabName = 'search-management.tabs.all';
+          }
         } else {
-          this.item.tabName = 'search-management.tabs.all';
+          this.item.type = translationStringsMap.dataPacketSearch.type;
+          this.item.tooltip = translationStringsMap
+            .dataPacketSearch.translateString;
         }
         this.item.state = 'search(' + JSON.stringify(item.searchParams) +
         ')';
@@ -189,7 +208,13 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           stateParams.version = item.version;
         }
         studyItem.state = 'studyDetail(' + JSON.stringify(stateParams) + ')';
-        studyItem.tooltip = translationStringsMap.studyDetail.translateString;
+        if (isAuthenticated()) {
+          studyItem.tooltip = translationStringsMap.studyDetail.translateString;
+        } else {
+          studyItem.tooltip = translationStringsMap
+            .dataPacketDetail.translateString;
+          studyItem.type = translationStringsMap.dataPacketDetail.type;
+        }
         studyItem.projectId = stripVersionSuffix(item.projectId);
         studyItem.enableLastItem = item.enableLastItem;
       } else {

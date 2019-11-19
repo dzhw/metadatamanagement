@@ -1,6 +1,7 @@
 'use strict';
 
 var BreadcrumbsComponent = {
+  controller: 'BreadcrumbController',
   bindings: {
     items: '<'
   },

@@ -10,6 +10,8 @@ angular.module('metadatamanagementApp').config(
             'study': 'Studie',
             'studies': 'Studien',
             'studySeries': 'Studienreihe',
+            'dataPacket': 'Datenpaket',
+            'dataPackets': 'Datenpakete',
             'institution': 'Erhebende Institution',
             'institutions': 'Erhebende Institution(en)',
             'authors': 'Projektmitarbeiter(innen)',

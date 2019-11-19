@@ -23,6 +23,7 @@ angular.module('metadatamanagementApp').config(
         },
         'detail': {
           'search': 'Data Search',
+          'dataPacketSearch': 'Data packet search',
           'noresult': 'No search results found.',
           'versions': 'Versions',
           'access-ways': 'Access ways',

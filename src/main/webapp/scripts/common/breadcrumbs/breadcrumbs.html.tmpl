@@ -3,7 +3,7 @@
     <a ng-if="!$last && !item.notFound && item.state"
        ui-sref="{{item.state}}">
       <span class="fdz-truncate-string" hide-xs>{{item.type | translate}}</span>
-      <span class="fdz-truncate-string" hide-xs ng-if="item.tabName">({{item.tabName | translate}})</span>
+      <span class="fdz-truncate-string" hide-xs ng-if="item.tabName && $ctrl.isAuthenticated()">({{item.tabName | translate}})</span>
       <span class="fdz-truncate-string" hide-xs ng-if="item.id">{{item.id}}</span>
       <span class="fdz-truncate-string" hide-xs ng-if="item.number">{{item.number}}</span>
       <span class="fdz-truncate-string" hide-xs ng-if="item.numbers">{{item.numbers}}</span>
@@ -32,7 +32,7 @@
        ng-if="$last && !item.notFound && item.enableLastItem"
        ui-sref="{{item.state}}">
       {{item.type | translate}}
-      <span class="fdz-truncate-string" ng-if="item.tabName">({{item.tabName | translate}})</span>
+      <span class="fdz-truncate-string" ng-if="item.tabName && $ctrl.isAuthenticated()">({{item.tabName | translate}})</span>
       <span class="fdz-truncate-string" ng-if="item.id">{{item.id}}</span>
       <span class="fdz-truncate-string" ng-if="item.number">{{item.number}}</span>
       <span class="fdz-truncate-string" ng-if="item.projectId">{{item.projectId}}</span>
@@ -55,7 +55,7 @@
           ng-if="$last && !item.notFound && item.enableLastItem === undefined"
           ui-sref="{{item.state}}">
       {{item.type | translate}}
-      <span class="fdz-truncate-string" ng-if="item.tabName">({{item.tabName | translate}})</span>
+      <span class="fdz-truncate-string" ng-if="item.tabName && $ctrl.isAuthenticated()">({{item.tabName | translate}})</span>
       <span class="fdz-truncate-string" ng-if="item.id">{{item.id}}</span>
       <span class="fdz-truncate-string" ng-if="item.number">{{item.number}}</span>
       <span class="fdz-truncate-string" ng-if="item.projectId">{{item.projectId}}</span>
