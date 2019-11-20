@@ -299,7 +299,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
     //Search function
     $scope.search = function() {
       console.log('search');
-      $scope.searchFilterMapping = $scope.searchParams.filter;
+      if (!Principal.isAuthenticated()) {
+        $scope.searchFilterMapping = $scope.searchParams.filter;
+      }
       var projectId = _.get($scope, 'currentProject.id');
       $scope.isSearching++;
       $rootScope.$emit('onStartSearch');

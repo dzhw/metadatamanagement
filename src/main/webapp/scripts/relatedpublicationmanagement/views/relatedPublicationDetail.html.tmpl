@@ -47,7 +47,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-card-content>
+          <md-card-content class="pt16">
             <div class="fdz-add-bottom-margin" ng-if="ctrl.relatedPublication.authors">
               <span
                 style="font-weight: bold;">{{'related-publication-management.detail.label.authors' | translate }}:</span>
@@ -97,7 +97,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-card-content>
+          <md-card-content class="pt16">
             <div layout="row" ng-init="studies = ctrl.relatedPublication.studies"
                  style="margin-bottom: 0.5em; width: 100%;">
               <div class="fdz-truncate-string" flex ng-if="studies.length === 0">
@@ -299,7 +299,7 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content>
+        <md-card-content class="pt16">
           <div class="fdz-add-bottom-margin fdz-text-block">
             <span class="fdz-multiline-property" fdz-hyphenate lang="{{ctrl.relatedPublication.language}}">{{ctrl.relatedPublication.publicationAbstract}}</span>
           </div>
