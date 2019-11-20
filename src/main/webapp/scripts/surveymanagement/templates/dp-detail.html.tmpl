@@ -67,7 +67,7 @@
           <span
             class="md-secondary">n = {{$ctrl.options.survey.sampleSize | number}}</span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.survey.responseRate != null">
+        <md-list-item ng-if="$ctrl.options.survey.responseRate">
           <h5>{{'survey-management.detail.label.responseRate' | translate }}:</h5>
           <span
             class="md-secondary">{{$ctrl.options.survey.responseRate | number}}%</span>

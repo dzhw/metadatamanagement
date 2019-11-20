@@ -114,8 +114,11 @@ function CTRL($scope,
     if (newVal !== oldVal) {
       var search = $location.search();
       search.version = $ctrl.selectedVersion;
-      $location.search(search);
-      // $state.go('studyDetail', search, {reload: true});
+      search.id = $ctrl.study.masterId;
+      search['search-result-index'] = null;
+      search.lang = $rootScope.currentLanguage;
+      //$location.search(search);
+      $state.go($state.current, search, {reload: true});
     }
   });
 

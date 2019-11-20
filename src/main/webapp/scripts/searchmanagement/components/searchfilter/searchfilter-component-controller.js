@@ -47,6 +47,7 @@ var CTRL = function($rootScope, $location, CleanJSObjectService) {
 
   function clearFilter() {
     $ctrl.searchParams.filter = {};
+    $ctrl.searchFilterMapping = {};
     writeSearchParamsToLocation();
     $rootScope.$emit('onSearchFilterChange');
   }

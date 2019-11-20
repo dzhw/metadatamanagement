@@ -46,7 +46,7 @@
         </md-list-item>
       </md-list>
         <div ng-if="$ctrl.options.variable.filterDetails">
-          <h5 style="font-weight: bold;">{{'variable-management.detail.label.input-filter' | translate }} ({{$ctrl.options.variable.filterDetails.expressionLanguage}}):</h5>
+          <h5>{{'variable-management.detail.label.input-filter' | translate }} ({{$ctrl.options.variable.filterDetails.expressionLanguage}}):</h5>
             <div class="fdz-code-container"
                  create-variable-links="{currentLanguage: $ctrl.lang, currentVariable: $ctrl.options.variable}"
                  hljs hljs-language="{{$ctrl.options.variable.filterDetails.expressionLanguage}}"
