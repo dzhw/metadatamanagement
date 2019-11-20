@@ -185,7 +185,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
   private I18nString surveyDesign;
 
   /**
-   * Arbitrary additional text for this instrument.
+   * Arbitrary additional text for this study.
    *
    * Must not contain more than 2048 characters.
    */

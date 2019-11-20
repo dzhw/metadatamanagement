@@ -71,5 +71,13 @@ gepflegt.
 |              | (2-Buchstaben Code   |                         |
 |              | nach ISO 639-1_      |                         |
 +--------------+----------------------+-------------------------+
+| annotations\ | Anmerkungen zur Pub\ | nein                    |
+| .de          | likation auf Deutsc\ |                         |
+|              | h                    |                         |
++--------------+----------------------+-------------------------+
+| annotations\ | Anmerkungen zur Pub\ | nein                    |
+| .en          | likation auf Englis\ |                         |
+|              | ch                   |                         |
++--------------+----------------------+-------------------------+
 
 .. _639-1: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes

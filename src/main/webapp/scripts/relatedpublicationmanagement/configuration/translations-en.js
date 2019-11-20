@@ -31,7 +31,8 @@ angular.module('metadatamanagementApp').config(
             'year': 'Year of publication',
             'source-reference': 'Reference',
             'abstract-source': 'Source',
-            'studySerieses': 'Study Serieses'
+            'studySerieses': 'Study Serieses',
+            'annotations': 'Annotations'
           },
           'abstract': 'Abstract',
           'title': '{{ title }} ({{publicationId}})',
@@ -127,6 +128,9 @@ angular.module('metadatamanagementApp').config(
             'language': {
               'not-null': 'The language of the Publication must not be empty!',
               'not-supported': 'The language of the Publication must be a two-letter abbreviation according to ISO 639-1!'
+            },
+            'annotations': {
+              'size': 'The max length of the annotations is 2048 signs.'
             }
           },
           'post-validation': {
