@@ -10,7 +10,7 @@ var CTRL = function(
     var openByNavbarFeedbackButton = true;
     FdzFeedbackDialogService.showDialog(openByNavbarFeedbackButton);
   };
-  $scope.$watch(function(){
+  $scope.$watch(function() {
     return $rootScope.currentLanguage;
   },
     function(newVal, oldVal) {
