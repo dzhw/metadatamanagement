@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.isAccountMenuOpen = false;
     $scope.logoutButtonDisabled = false;
     $scope.currentLanguage = LanguageService.getCurrentInstantly();
+    $scope.sidebarContent = $rootScope.sidebarContent;
 
     $scope.$on('domain-object-editing-started', function() {
       $scope.logoutButtonDisabled = true;
@@ -77,8 +78,8 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     }, true);
 
     $scope.$watch(function() {
-      return $rootScope.toStateName;
+      return $rootScope.sidebarContent;
     }, function() {
-      $scope.stateName = $rootScope.toStateName;
+      $scope.sidebarContent = $rootScope.sidebarContent;
     }, true);
   });
