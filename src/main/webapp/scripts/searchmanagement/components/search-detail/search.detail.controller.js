@@ -2,6 +2,7 @@
 
 function Controller($rootScope, $state, LanguageService, $location) {
   var $ctrl = this;
+  var registerScope = null;
   $ctrl.query = '';
   $ctrl.submit = submit;
   $ctrl.$onInit = init;
@@ -11,11 +12,7 @@ function Controller($rootScope, $state, LanguageService, $location) {
       $ctrl.query = $rootScope.searchQuery;
     }
   }
-  $rootScope.$watch(function() {
-    return $rootScope.searchQuery;
-  }, function() {
-    $ctrl.query = $rootScope.searchQuery;
-  });
+
   function submit() {
     var searchObject = $location.search();
     var paramsObject = {
@@ -27,6 +24,17 @@ function Controller($rootScope, $state, LanguageService, $location) {
     }
     $state.go('search', paramsObject);
   }
+
+  registerScope = $rootScope.$watch(function() {
+    return $rootScope.searchQuery;
+  }, function() {
+    $ctrl.query = $rootScope.searchQuery;
+  });
+
+  $ctrl.$onDestroy = function() {
+    //unregister rootScope event by calling the return function
+    registerScope();
+  };
 }
 angular
   .module('metadatamanagementApp')

@@ -127,7 +127,7 @@ function CTRL($scope,
   }, function(newVal, oldVal) {
     if (newVal !== oldVal) {
       var search = $location.search();
-      search.accessWay = $ctrl.selectedAccessWay;
+      search['access-way'] = $ctrl.selectedAccessWay;
       $location.search(search);
       // $state.go($state.current, search, {reload: true});
     }

@@ -31,6 +31,12 @@ try {
         $rootScope.$state = $state;
         $rootScope.currentDate = new Date();
         $rootScope.searchQuery = '';
+        $rootScope.sidebarContent = {
+          'search': true,
+          'filter': true,
+          'detailSearch': false,
+          'configurator': false
+        };
         //prevent default browser actions for drag and drop
         $window.addEventListener('dragover', function(e) {
           e = e || event;
@@ -60,6 +66,34 @@ try {
           if (Principal.isIdentityResolved()) {
             Auth.authorize();
           }
+
+          if (!Principal.isAuthenticated() &&
+            (trans.$to().name).indexOf('Detail') !== -1) {
+            $rootScope.sidebarContent = {
+              'search': false,
+              'filter': false,
+              'detailSearch': true,
+              'configurator': true
+            };
+            console.log('detail');
+          } else if (!Principal.isAuthenticated() &&
+            (trans.$to().name).indexOf('search') !== -1) {
+            $rootScope.sidebarContent = {
+              'search': true,
+              'filter': true,
+              'detailSearch': false,
+              'configurator': false
+            };
+            console.log('search');
+          } else {
+            $rootScope.sidebarContent = {
+              'search': false,
+              'filter': false,
+              'detailSearch': false,
+              'configurator': false
+            };
+          }
+
           // Update the language
           LanguageService.setCurrent($rootScope.toStateParams.lang);
           // an authenticated user can't access to login and
