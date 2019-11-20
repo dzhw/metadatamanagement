@@ -103,11 +103,11 @@ function CTRL($scope,
 
   $ctrl.addToShoppingCart = function() {
     ShoppingCartService.add({
-      dataAcquisitionProjectId: $ctrl.options.dataAcquisitionProjectId,
+      dataAcquisitionProjectId: $ctrl.study.dataAcquisitionProjectId,
       accessWay: $ctrl.selectedAccessWay,
       version: $ctrl.selectedVersion,
       study: {
-        id: $ctrl.options.id
+        id: $ctrl.study.id
       }
     });
   };

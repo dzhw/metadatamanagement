@@ -14,13 +14,18 @@ var CTRL = function($location, $rootScope) {
   }
 
   function change() {
+    console.log('change');
     var searchObject = $location.search();
-    var paramsObject = {
-      query: $ctrl.query
-    };
-    _.assign(searchObject, paramsObject);
-    $rootScope.searchQuery = $ctrl.query;
-    $location.search(paramsObject);
+    if ($ctrl.query === '' && searchObject.hasOwnProperty('query')) {
+      delete searchObject.query;
+    } else {
+      var paramsObject = {
+        query: $ctrl.query
+      };
+      _.assign(searchObject, paramsObject);
+      $rootScope.searchQuery = $ctrl.query;
+      $location.search(paramsObject);
+    }
   }
   $rootScope.$on('onStartSearch', function(event) { // jshint ignore:line
     $ctrl.isSearching = true;

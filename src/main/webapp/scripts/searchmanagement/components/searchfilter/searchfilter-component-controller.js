@@ -2,18 +2,12 @@
 
 'use strict';
 
-var CTRL = function($rootScope, $location, CleanJSObjectService) {
+var CTRL = function($rootScope, $location) {
   var $ctrl = this;
-
-  $ctrl.toggleFilterItem = toggleFilterItem;
-  $ctrl.exists = exists;
-  $ctrl.clearFilter = clearFilter;
+  var registerScope = null;
   $ctrl.dataPacketFilter = {};
   $ctrl.searchFilterMapping = {};
   $ctrl.searchParams = {};
-  $ctrl.options = {
-    pageObject: {}
-  };
   $ctrl.filterValues = [
     {
       name: 'global.filter.survey-data-types',
@@ -38,14 +32,20 @@ var CTRL = function($rootScope, $location, CleanJSObjectService) {
       property: 'institutions', collapsed: true
     }
   ];
+  $ctrl.toggleFilterItem = toggleFilterItem;
+  $ctrl.exists = exists;
+  $ctrl.clearFilter = clearFilter;
   $ctrl.$onInit = init;
 
   function init() {
+    console.log('filter init');
     readSearchParamsFromLocation();
     _.assign($ctrl.searchFilterMapping, $ctrl.searchParams.filter);
+    console.log($ctrl.searchFilterMapping);
   }
 
   function clearFilter() {
+    readSearchParamsFromLocation();
     $ctrl.searchParams.filter = {};
     $ctrl.searchFilterMapping = {};
     writeSearchParamsToLocation();
@@ -53,13 +53,17 @@ var CTRL = function($rootScope, $location, CleanJSObjectService) {
   }
 
   function toggleFilterItem(item, prop) {
+    readSearchParamsFromLocation();
+    console.log($ctrl.searchParams);
     if ($ctrl.searchFilterMapping &&
       $ctrl.searchFilterMapping.hasOwnProperty(prop) &&
       $ctrl.searchFilterMapping[prop].includes(item)) {
-
       $ctrl.searchFilterMapping[prop] = _.without(
         $ctrl.searchFilterMapping[prop], item
       );
+      if ($ctrl.searchFilterMapping[prop].length === 0) {
+        delete $ctrl.searchFilterMapping[prop];
+      }
     } else {
       if ($ctrl.searchFilterMapping &&
         $ctrl.searchFilterMapping.hasOwnProperty(prop)) {
@@ -70,8 +74,9 @@ var CTRL = function($rootScope, $location, CleanJSObjectService) {
       }
     }
     $ctrl.searchParams.filter = $ctrl.searchFilterMapping;
+    console.log($ctrl.searchParams.filter);
     writeSearchParamsToLocation();
-    $rootScope.$emit('onSearchFilterChange');
+    // $rootScope.$emit('onSearchFilterChange');
   }
 
   function exists(item, prop) {
@@ -83,15 +88,17 @@ var CTRL = function($rootScope, $location, CleanJSObjectService) {
   // write the searchParams object to the location with the correct types
   function writeSearchParamsToLocation() {
     var locationSearch = {};
-    locationSearch.page = '' + $ctrl.options.pageObject.page;
-    locationSearch.size = '' + $ctrl.options.pageObject.size;
-    if ($ctrl.searchParams.query && $ctrl.searchParams.query !== '') {
+    locationSearch.page = '' + $ctrl.searchParams.page;
+    locationSearch.size = '' + $ctrl.searchParams.size;
+    if ($ctrl.searchParams.query) {
       locationSearch.query = $ctrl.searchParams.query;
     }
-    if ($ctrl.searchParams.sortBy && $ctrl.searchParams.sortBy !== '') {
+    if ($ctrl.searchParams.type) {
+      locationSearch.type = $ctrl.searchParams.type;
+    }
+
+    if ($ctrl.searchParams.sortBy) {
       locationSearch['sort-by'] = $ctrl.searchParams.sortBy;
-    } else {
-      delete locationSearch['sort-by'];
     }
     _.assign(locationSearch, $ctrl.searchParams.filter);
 
@@ -100,53 +107,46 @@ var CTRL = function($rootScope, $location, CleanJSObjectService) {
 
   // read the searchParams object from the location with the correct types
   function readSearchParamsFromLocation() {
+    $ctrl.searchParams = {};
     var locationSearch = $location.search();
-    if (CleanJSObjectService.isNullOrEmpty(locationSearch)) {
-      $ctrl.options.pageObject.page = 1;
-      $ctrl.options.pageObject.size = 10;
-      $ctrl.searchParams = {
-        query: '',
-        size: $ctrl.options.pageObject.size,
-        selectedTabIndex: 0
-      };
-    } else {
-      if (locationSearch.page != null) {
-        $ctrl.options.pageObject.page = parseInt(locationSearch.page);
-      } else {
-        $ctrl.options.pageObject.page = 1;
-      }
-      if (locationSearch.size != null) {
-        $ctrl.options.pageObject.size = parseInt(locationSearch.size);
-        $ctrl.searchParams.size = $ctrl.options.pageObject.size;
-      } else {
-        $ctrl.options.pageObject.size = 10;
-        $ctrl.searchParams.size = $ctrl.options.pageObject.size;
-      }
-      if (locationSearch.query) {
+    console.log(locationSearch);
+    if (locationSearch.page != null) {
+      $ctrl.searchParams.page = parseInt(locationSearch.page);
+      delete locationSearch.page;
+    }
+    if (locationSearch.size != null) {
+      $ctrl.searchParams.size = parseInt(locationSearch.size);
+      delete locationSearch.size;
+    }
+    if (locationSearch.query) {
+      if (locationSearch.query !== '') {
         $ctrl.searchParams.query = locationSearch.query;
-      } else {
-        $ctrl.searchParams.query = '';
       }
-      $ctrl.searchParams.filter = _.omit(locationSearch, ['page', 'size',
-        'type', 'query', 'sort-by'
-      ]);
-      $ctrl.searchParams.sortBy = locationSearch['sort-by'];
-      var indexToSelect = _.findIndex($ctrl.tabs,
-        function(tab) {
-          return tab.elasticSearchType === locationSearch.type;
-        });
-      if (indexToSelect < 0) {
-        $ctrl.searchParams.selectedTabIndex = 0;
-      } else {
-        $ctrl.searchParams.selectedTabIndex = indexToSelect;
+      delete locationSearch.query;
+      if ($ctrl.searchParams.query === '') {
+        delete $ctrl.searchParams.query;
       }
     }
+    if (locationSearch.type) {
+      $ctrl.searchParams.type = locationSearch.type;
+      delete locationSearch.type;
+    }
+    if (locationSearch.selectedTabIndex) {
+      $ctrl.searchParams.selectedTabIndex = locationSearch.selectedTabIndex;
+      delete locationSearch.selectedTabIndex;
+    }
+    $ctrl.searchParams.filter = locationSearch;
   }
 
-  $rootScope.$on('onDataPacketFilterChange',
+  registerScope = $rootScope.$on('onDataPacketFilterChange',
     function(event, data) { // jshint ignore:line
-    $ctrl.dataPacketFilter = data;
-  });
+      $ctrl.dataPacketFilter = data;
+    });
+
+  $ctrl.$onDestroy = function() {
+    //unregister rootScope event by calling the return function
+    registerScope();
+  };
 };
 
 angular

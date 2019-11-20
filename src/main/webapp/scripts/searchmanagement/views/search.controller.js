@@ -37,7 +37,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     $scope.isSearching = 0;
     $scope.isDropZoneDisabled = true;
-
     // set the page title in toolbar and window.title
     PageTitleService.setPageTitle('global.menu.search.title');
     //Check the login status
@@ -299,6 +298,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     //Search function
     $scope.search = function() {
+      console.log('search');
       $scope.searchFilterMapping = $scope.searchParams.filter;
       var projectId = _.get($scope, 'currentProject.id');
       $scope.isSearching++;
@@ -347,6 +347,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           });
           $scope.isSearching--;
           $rootScope.$emit('onStopSearch');
+
           // Safari fix
           $timeout(function() {
             angular.element('body').append('<div id=fdz-safari-fix></div>');
@@ -365,27 +366,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $rootScope.$emit('onStopSearch');
         });
     };
-
-    // watch for location changes not triggered by our code
-    $scope.$watchCollection(function() {
-      return $location.search();
-    }, function(newValue, oldValue) {
-      ToolbarHeaderService.updateToolbarHeader({
-        'stateName': $state.current.name,
-        'tabName': $scope.tabs[$scope.searchParams.selectedTabIndex].title,
-        'searchUrl': $location.absUrl(),
-        'searchParams': $location.search()
-      });
-      if (newValue !== oldValue && !locationChanged) {
-        readSearchParamsFromLocation();
-        // type changes are already handled by $scope.onSelectedTabChanged
-        if (newValue.type === oldValue.type) {
-          $scope.search();
-        }
-      } else {
-        locationChanged = false;
-      }
-    });
 
     var filterActiveTabs = function(tabs) {
       var project = CurrentProjectService.getCurrentProject();
@@ -422,6 +402,27 @@ angular.module('metadatamanagementApp').controller('SearchController',
         return tabs;
       }
     };
+
+    // watch for location changes not triggered by our code
+    $scope.$watchCollection(function() {
+      return $location.search();
+    }, function(newValue, oldValue) {
+      ToolbarHeaderService.updateToolbarHeader({
+        'stateName': $state.current.name,
+        'tabName': $scope.tabs[$scope.searchParams.selectedTabIndex].title,
+        'searchUrl': $location.absUrl(),
+        'searchParams': $location.search()
+      });
+      if (newValue !== oldValue && !locationChanged) {
+        readSearchParamsFromLocation();
+        // type changes are already handled by $scope.onSelectedTabChanged
+        if (newValue.type === oldValue.type) {
+          $scope.search();
+        }
+      } else {
+        locationChanged = false;
+      }
+    });
 
     registerScope = $rootScope.$on('onSearchFilterChange', function() {
       readSearchParamsFromLocation();
@@ -475,24 +476,25 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.search();
     };
 
-    $scope.$watch('searchParams.query', function() {
-      if (queryChangedOnInit) {
-        queryChangedOnInit = false;
-        return;
-      }
-      if (selectedTabChangeIsBeingHandled) {
-        return;
-      }
-      queryChangeIsBeingHandled = true;
-      $timeout(function() {
-        $scope.options.pageObject.page = 1;
-        delete $scope.searchParams.sortBy;
-        writeSearchParamsToLocation();
-        $scope.search();
-        queryChangeIsBeingHandled = false;
+    if (Principal.isAuthenticated()) {
+      $scope.$watch('searchParams.query', function() {
+        if ( queryChangedOnInit ) {
+          queryChangedOnInit = false;
+          return;
+        }
+        if ( selectedTabChangeIsBeingHandled ) {
+          return;
+        }
+        queryChangeIsBeingHandled = true;
+        $timeout(function() {
+          $scope.options.pageObject.page = 1;
+          delete $scope.searchParams.sortBy;
+          writeSearchParamsToLocation();
+          $scope.search();
+          queryChangeIsBeingHandled = false;
+        });
       });
-    });
-
+    }
     $scope.onSelectedTabChanged = function() {
       if (!selectedTabChangeIsBeingHandled && !queryChangeIsBeingHandled) {
         //prevent multiple tab change handlers caused by logout

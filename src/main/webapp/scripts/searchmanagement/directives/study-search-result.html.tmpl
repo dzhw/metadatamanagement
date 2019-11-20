@@ -22,7 +22,7 @@
     ng-tt-less-label="{{'global.less' | translate}}"
     ng-tt-more-label="{{'global.more' | translate}}">
   </md-card-content>
-  <md-card-actions ng-if="searchQuery" layout="row" layout-align="start center">
+  <md-card-actions ng-if="searchQuery && !isAuthenticated()" layout="row" layout-align="start center">
     <a class="md-small md-primary"
        ng-if="!isAuthenticated()"
        ui-sref="studyDetail({id: searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: '', 'query': searchQuery})">
