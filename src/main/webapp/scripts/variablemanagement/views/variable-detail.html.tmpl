@@ -157,7 +157,7 @@
                 translate}}
               </div>
               <div class="fdz-truncate-string" flex ng-if="ctrl.study">
-                <a ui-sref="studyDetail({id: study.masterId, version: variable.shadow?variable.release.version:''})">
+                <a ui-sref="studyDetail({id: ctrl.study.masterId, version: ctrl.variable.shadow?ctrl.variable.release.version:''})">
                   <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
                   {{'study-management.detail.label.study' | translate }}: <span
                   display-i18n-string="ctrl.study.title"></span>
@@ -173,9 +173,9 @@
                 {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.unavailable' |
                 translate}}
               </div>
-              <div class="fdz-truncate-string" flex ng-if="counts.surveysCount == 1 && survey">
+              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey">
                 <a
-                  ui-sref="surveyDetail({'id': survey.masterId, version: variable.shadow?variable.release.version:''})">
+                  ui-sref="surveyDetail({'id': ctrl.survey.masterId, version: ctrl.variable.shadow?ctrl.variable.release.version:''})">
                   <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                   {{'survey-management.detail.label.survey' | translate }}: <span
                   display-i18n-string="ctrl.survey.title"></span>
@@ -186,7 +186,7 @@
               </div>
               <div class="fdz-truncate-string" flex ng-if="ctrl.counts.surveysCount > 1">
                 <a
-                  ui-sref="search({'type': 'surveys', 'variable':variable.id, 'study': variable.studyId, 'data-set': variable.dataSetId})">
+                  ui-sref="search({'type': 'surveys', 'variable':ctrl.variable.id, 'study': ctrl.variable.studyId, 'data-set': ctrl.variable.dataSetId})">
                   <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
                   {{'survey-management.detail.label.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
                   <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -203,10 +203,10 @@
               </div>
               <div class="fdz-truncate-string" flex ng-if="ctrl.dataSet">
                 <a
-                  ui-sref="dataSetDetail({id: dataSet.masterId, version: variable.shadow?variable.release.version:''})">
+                  ui-sref="dataSetDetail({id: ctrl.dataSet.masterId, version: ctrl.variable.shadow?ctrl.variable.release.version:''})">
                   <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
                   {{'data-set-management.detail.label.data-set' | translate }}: <span
-                  display-i18n-string="dataSet.description"></span>
+                  display-i18n-string="ctrl.dataSet.description"></span>
                   <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                     {{'variable-management.detail.tooltips.data-sets.one' | translate}}
                   </md-tooltip>
@@ -223,7 +223,7 @@
               </div>
               <div class="fdz-truncate-string" flex ng-if="ctrl.counts.questionsCount == 1 && ctrl.question">
                 <a
-                  ui-sref="questionDetail({'id': variable.nestedQuestions[0].masterId, version: variable.shadow?variable.release.version:''})">
+                  ui-sref="questionDetail({'id': ctrl.variable.nestedQuestions[0].masterId, version: ctrl.variable.shadow?ctrl.variable.release.version:''})">
                   <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
                   {{'question-management.detail.label.question' | translate }}: <span
                   display-i18n-string="ctrl.question.questionText"></span>
@@ -234,9 +234,9 @@
               </div>
               <div class="fdz-truncate-string" flex ng-if="counts.questionsCount > 1">
                 <a
-                  ui-sref="search({'type': 'questions', 'variable':variable.id, 'study': variable.studyId, 'data-set': variable.dataSetId})">
+                  ui-sref="search({'type': 'questions', 'variable':ctrl.variable.id, 'study': ctrl.variable.studyId, 'data-set': ctrl.variable.dataSetId})">
                   <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                  {{'question-management.detail.label.questions' | translate }}: ({{counts.questionsCount}})
+                  {{'question-management.detail.label.questions' | translate }}: ({{ctrl.counts.questionsCount}})
                   <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                     {{'variable-management.detail.tooltips.questions.many' | translate}}
                   </md-tooltip>
@@ -251,7 +251,7 @@
               </div>
               <div class="fdz-truncate-string" flex ng-if="ctrl.counts.variablesInPanel > 1">
                 <a
-                  ui-sref="search({'type': 'variables', 'panel-identifier':variable.panelIdentifier, 'study': variable.studyId, 'data-set': variable.dataSetId})">
+                  ui-sref="search({'type': 'variables', 'panel-identifier':ctrl.variable.panelIdentifier, 'study': ctrl.variable.studyId, 'data-set': ctrl.variable.dataSetId})">
                   <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
                   {{'variable-management.detail.label.variables-in-panel' | translate }}: ({{ctrl.counts.variablesInPanel}})
                   <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -268,9 +268,9 @@
               </div>
               <div class="fdz-truncate-string" flex ng-if="ctrl.counts.derivedVariables > 1">
                 <a
-                  ui-sref="search({'type': 'variables', 'derived-variables-identifier': variable.derivedVariablesIdentifier, 'study': variable.studyId, 'data-set': variable.dataSetId})">
+                  ui-sref="search({'type': 'variables', 'derived-variables-identifier': ctrl.variable.derivedVariablesIdentifier, 'study': ctrl.variable.studyId, 'data-set': ctrl.variable.dataSetId})">
                   <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                  {{'variable-management.detail.label.derived-variables' | translate }}: ({{counts.derivedVariables}})
+                  {{'variable-management.detail.label.derived-variables' | translate }}: ({{ctrl.counts.derivedVariables}})
                   <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                     {{'variable-management.detail.tooltips.variables.derived-variables' | translate}}
                   </md-tooltip>
@@ -283,8 +283,8 @@
                 {{'related-publication-management.detail.label.publications' | translate }}:
                 {{'global.messages.error.undocumented' | translate}}
               </div>
-              <div class="fdz-truncate-string" flex ng-if="counts.publicationsCount == 1">
-                <a ui-sref="relatedPublicationDetail({'id': relatedPublication.id})">
+              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.publicationsCount == 1">
+                <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
                   <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                   {{'related-publication-management.detail.label.publication' | translate }}:
                   {{ctrl.relatedPublication.title}}
@@ -295,7 +295,7 @@
               </div>
               <div class="fdz-truncate-string" flex ng-if="ctrl.counts.publicationsCount > 1">
                 <a
-                  ui-sref="search({'type': 'related_publications', 'variable':variable.id, 'study': variable.studyId, 'data-set': variable.dataSetId})">
+                  ui-sref="search({'type': 'related_publications', 'variable':ctrl.variable.id, 'study': ctrl.variable.studyId, 'data-set': ctrl.variable.dataSetId})">
                   <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
                   {{'related-publication-management.detail.label.publications' | translate }}:
                   ({{ctrl.counts.publicationsCount}})
@@ -323,7 +323,7 @@
               </div>
               <div class="fdz-truncate-string" flex ng-if="ctrl.counts.conceptsCount > 1">
                 <a
-                  ui-sref="search({'type': 'concepts', 'variable':variable.id, 'study': variable.studyId, 'data-set': variable.dataSetId})">
+                  ui-sref="search({'type': 'concepts', 'variable':ctrl.variable.id, 'study': ctrl.variable.studyId, 'data-set': ctrl.variable.dataSetId})">
                   <md-icon md-svg-src="/assets/images/icons/concept.svg"></md-icon>
                   {{'concept-management.detail.label.concepts' | translate }}: ({{ctrl.counts.conceptsCount}})
                   <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
