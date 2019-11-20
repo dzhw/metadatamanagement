@@ -32,8 +32,8 @@ try {
         $rootScope.currentDate = new Date();
         $rootScope.searchQuery = '';
         $rootScope.sidebarContent = {
-          'search': true,
-          'filter': true,
+          'search': false,
+          'filter': false,
           'detailSearch': false,
           'configurator': false
         };
@@ -65,33 +65,33 @@ try {
           $rootScope.toStateParams = trans.params();
           if (Principal.isIdentityResolved()) {
             Auth.authorize();
-          }
 
-          if (!Principal.isAuthenticated() &&
-            (trans.$to().name).indexOf('Detail') !== -1) {
-            $rootScope.sidebarContent = {
-              'search': false,
-              'filter': false,
-              'detailSearch': true,
-              'configurator': true
-            };
-          } else if (!Principal.isAuthenticated() &&
-            (trans.$to().name).indexOf('search') !== -1) {
-            $rootScope.sidebarContent = {
-              'search': true,
-              'filter': true,
-              'detailSearch': false,
-              'configurator': false
-            };
-          } else {
-            $rootScope.sidebarContent = {
-              'search': false,
-              'filter': false,
-              'detailSearch': false,
-              'configurator': false
-            };
+            if (!Principal.loginName() &&
+              (trans.$to().name).indexOf('Detail') !== -1) {
+              $rootScope.sidebarContent = {
+                'search': false,
+                'filter': false,
+                'detailSearch': true,
+                'configurator': true
+              };
+            } else if (!Principal.loginName() &&
+              (trans.$to().name).indexOf('search') !== -1) {
+              $rootScope.sidebarContent = {
+                'search': true,
+                'filter': true,
+                'detailSearch': false,
+                'configurator': false
+              };
+            }
+            if (Principal.loginName()) {
+              $rootScope.sidebarContent = {
+                'search': false,
+                'filter': false,
+                'detailSearch': false,
+                'configurator': false
+              };
+            }
           }
-
           // Update the language
           LanguageService.setCurrent($rootScope.toStateParams.lang);
           // an authenticated user can't access to login and

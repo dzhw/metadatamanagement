@@ -478,11 +478,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     if (Principal.isAuthenticated()) {
       $scope.$watch('searchParams.query', function() {
-        if ( queryChangedOnInit ) {
+        if (queryChangedOnInit) {
           queryChangedOnInit = false;
           return;
         }
-        if ( selectedTabChangeIsBeingHandled ) {
+        if (selectedTabChangeIsBeingHandled) {
           return;
         }
         queryChangeIsBeingHandled = true;
