@@ -24,8 +24,9 @@
   </md-card-content>
   <md-card-actions ng-if="searchQuery" layout="row" layout-align="start center">
     <a class="md-small md-primary"
-       ui-sref="studyDetail({id: searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: '', 'query': searchQuery})">Suche
-      {{searchQuery}} im Datenpaket</a>
+       ng-if="!isAuthenticated()"
+       ui-sref="studyDetail({id: searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: '', 'query': searchQuery})">
+      {{'search-management.search-result.dataPacketSearch' | translate:{searchQuery: searchQuery} }}</a>
   </md-card-actions>
   <div class="fdz-search-result-actions-container" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
        ng-if="!projectIsCurrentlyReleased">

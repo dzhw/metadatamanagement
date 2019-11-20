@@ -21,6 +21,9 @@ angular.module('metadatamanagementApp').config(
           'delete-instruments-title': 'Alle Instrumente ersetzen?',
           'delete-instruments': 'Sind Sie sicher, dass Sie alle Instrumente innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" mit den übergebenen Daten ersetzen möchten?',
         },
+        'search-result': {
+          'dataPacketSearch': 'Suche "{{ searchQuery }}" im Datenpaket'
+        },
         'detail': {
           'search': 'Datensuche',
           'dataPacketSearch': 'Datenpaketsuche',

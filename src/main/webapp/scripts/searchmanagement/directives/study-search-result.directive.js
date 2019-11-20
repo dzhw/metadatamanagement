@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
         bowser: '=',
         searchResultIndex: '='
       },
-      controller: function($scope, DataAcquisitionProjectResource,
+      controller: function($scope, $rootScope, DataAcquisitionProjectResource,
         Principal, ProjectUpdateAccessService, $state) {
         $scope.projectIsCurrentlyReleased = true;
         if (Principal
@@ -25,6 +25,7 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
             $scope.projectIsCurrentlyReleased = (project.release != null);
           });
         }
+        $scope.isAuthenticated = Principal.isAuthenticated;
         $scope.studyEdit = function() {
           if (ProjectUpdateAccessService.isUpdateAllowed(
             $scope.project,
@@ -35,6 +36,13 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
           }
         };
         $scope.isLoggedIn = Principal.loginName();
+        $scope.$watch(function() {
+          return $rootScope.currentLanguage;
+        }, function(newVal, oldVal) {
+          if (newVal !== oldVal) {
+            $scope.currentLanguage = $rootScope.currentLanguage;
+          }
+        });
       }
     };
   });

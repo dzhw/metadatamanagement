@@ -21,6 +21,9 @@ angular.module('metadatamanagementApp').config(
           'delete-instruments-title': 'Replace all Instruments?',
           'delete-instruments': 'Are you sure you want to replace all Instruments within the Data Acquisition Project with RDC-ID "{{ id }}"?'
         },
+        'search-result': {
+          'dataPacketSearch': 'Search "{{ searchQuery }}" in Data Package'
+        },
         'detail': {
           'search': 'Data Search',
           'dataPacketSearch': 'Data Package Search',
