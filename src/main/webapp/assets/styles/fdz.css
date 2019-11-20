@@ -1994,7 +1994,7 @@ tr:focus {
         .fdz-theme .fdz-data-packet md-list-item h5 {
           width: 40%; }
         .fdz-theme .fdz-data-packet md-list-item .md-secondary-container {
-          width: unset; } }
+          width: 200px; } }
     .fdz-theme .fdz-data-packet md-list-item .md-button {
       margin-left: 0;
       margin-top: 16px;

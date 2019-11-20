@@ -55,7 +55,9 @@ function CTRL($scope,
           if ($ctrl.version) {
             $ctrl.selectedVersion = $ctrl.version;
           } else {
-            $ctrl.selectedVersion = releases[0].version;
+            if (!$ctrl.selectedVersion) {
+              $ctrl.selectedVersion = releases[0].version;
+            }
           }
         } else {
           $ctrl.noFinalRelease = true;
@@ -89,7 +91,9 @@ function CTRL($scope,
           if (_.includes($ctrl.accessWays, 'not-accessible')) {
             $ctrl.variableNotAccessible = true;
           } else {
-            $ctrl.selectedAccessWay = $ctrl.accessWays[0];
+            if (!$ctrl.selectedAccessWay) {
+              $ctrl.selectedAccessWay = $ctrl.accessWays[0];
+            }
           }
         } else {
           $ctrl.noDataSets = true;
@@ -129,7 +133,6 @@ function CTRL($scope,
       var search = $location.search();
       search['access-way'] = $ctrl.selectedAccessWay;
       $location.search(search);
-      // $state.go($state.current, search, {reload: true});
     }
   });
 

@@ -274,7 +274,10 @@ function Controller(
       $ctrl.searchParams, projectId,
       getSelectedMetadataType(),
       $ctrl.options.pageObject);
+
     var filter = getCurrentObjectFilter();
+    _.assign(filter, $ctrl.searchParams.filter);
+
     SearchDao.search($ctrl.searchParams.query,
       $ctrl.options.pageObject.page, projectId, filter,
       getSelectedMetadataType(),

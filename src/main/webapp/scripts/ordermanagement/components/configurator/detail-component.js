@@ -3,7 +3,7 @@
 var Component = {
   controller: 'DataPacketController',
   templateUrl:
-    'scripts/searchmanagement/components/configurator/detail.html.tmpl'
+    'scripts/ordermanagement/components/configurator/detail.html.tmpl'
 };
 
 angular

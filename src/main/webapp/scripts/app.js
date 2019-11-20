@@ -75,7 +75,6 @@ try {
               'detailSearch': true,
               'configurator': true
             };
-            console.log('detail');
           } else if (!Principal.isAuthenticated() &&
             (trans.$to().name).indexOf('search') !== -1) {
             $rootScope.sidebarContent = {
@@ -84,7 +83,6 @@ try {
               'detailSearch': false,
               'configurator': false
             };
-            console.log('search');
           } else {
             $rootScope.sidebarContent = {
               'search': false,
