@@ -12,7 +12,6 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.isAdminMenuOpen = false;
     $scope.isAccountMenuOpen = false;
     $scope.logoutButtonDisabled = false;
-    $scope.currentLanguage = LanguageService.getCurrentInstantly();
     $scope.sidebarContent = $rootScope.sidebarContent;
 
     $scope.$on('domain-object-editing-started', function() {
