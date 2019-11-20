@@ -38,10 +38,8 @@ var CTRL = function($rootScope, $location) {
   $ctrl.$onInit = init;
 
   function init() {
-    console.log('filter init');
     readSearchParamsFromLocation();
     _.assign($ctrl.searchFilterMapping, $ctrl.searchParams.filter);
-    console.log($ctrl.searchFilterMapping);
   }
 
   function clearFilter() {
@@ -54,7 +52,6 @@ var CTRL = function($rootScope, $location) {
 
   function toggleFilterItem(item, prop) {
     readSearchParamsFromLocation();
-    console.log($ctrl.searchParams);
     if ($ctrl.searchFilterMapping &&
       $ctrl.searchFilterMapping.hasOwnProperty(prop) &&
       $ctrl.searchFilterMapping[prop].includes(item)) {
@@ -74,7 +71,6 @@ var CTRL = function($rootScope, $location) {
       }
     }
     $ctrl.searchParams.filter = $ctrl.searchFilterMapping;
-    console.log($ctrl.searchParams.filter);
     writeSearchParamsToLocation();
     // $rootScope.$emit('onSearchFilterChange');
   }
@@ -109,7 +105,6 @@ var CTRL = function($rootScope, $location) {
   function readSearchParamsFromLocation() {
     $ctrl.searchParams = {};
     var locationSearch = $location.search();
-    console.log(locationSearch);
     if (locationSearch.page != null) {
       $ctrl.searchParams.page = parseInt(locationSearch.page);
       delete locationSearch.page;

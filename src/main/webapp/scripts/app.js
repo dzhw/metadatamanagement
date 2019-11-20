@@ -65,33 +65,8 @@ try {
           $rootScope.toStateParams = trans.params();
           if (Principal.isIdentityResolved()) {
             Auth.authorize();
-
-            if (!Principal.loginName() &&
-              (trans.$to().name).indexOf('Detail') !== -1) {
-              $rootScope.sidebarContent = {
-                'search': false,
-                'filter': false,
-                'detailSearch': true,
-                'configurator': true
-              };
-            } else if (!Principal.loginName() &&
-              (trans.$to().name).indexOf('search') !== -1) {
-              $rootScope.sidebarContent = {
-                'search': true,
-                'filter': true,
-                'detailSearch': false,
-                'configurator': false
-              };
-            }
-            if (Principal.loginName()) {
-              $rootScope.sidebarContent = {
-                'search': false,
-                'filter': false,
-                'detailSearch': false,
-                'configurator': false
-              };
-            }
           }
+
           // Update the language
           LanguageService.setCurrent($rootScope.toStateParams.lang);
           // an authenticated user can't access to login and
@@ -122,6 +97,31 @@ try {
 
         $transitions.onSuccess({}, function(trans) {
           $rootScope.toStateName = trans.$to().name;
+          if (!Principal.loginName() &&
+            (trans.$to().name).indexOf('Detail') !== -1) {
+            $rootScope.sidebarContent = {
+              'search': false,
+              'filter': false,
+              'detailSearch': true,
+              'configurator': true
+            };
+          } else if (!Principal.loginName() &&
+            (trans.$to().name).indexOf('search') !== -1) {
+            $rootScope.sidebarContent = {
+              'search': true,
+              'filter': true,
+              'detailSearch': false,
+              'configurator': false
+            };
+          }
+          if (Principal.loginName()) {
+            $rootScope.sidebarContent = {
+              'search': false,
+              'filter': false,
+              'detailSearch': false,
+              'configurator': false
+            };
+          }
           // Remember previous state unless we've been redirected to login or
           // we've just
           // reset the state memory after logout. If we're redirected to
