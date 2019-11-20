@@ -62,6 +62,13 @@
               </a>
           </span>
         </md-list-item>
+        <md-list-item ng-if="$ctrl.options.annotations">
+          <h5>{{'related-publication-management.detail.label.annotations' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.annotations"
+            fdz-hyphenate></span>
+        </md-list-item>
     </md-card-content>
   </div>
 </md-card>
