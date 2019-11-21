@@ -117,6 +117,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     // init the controller and its scope objects
     var init = function() {
+      MessageBus.set('searchInit', {});
       $scope.tabs = _.filter($scope.tabs, function(tab) {
         return tab.visibleForPublicUser || Principal.isAuthenticated();
       });

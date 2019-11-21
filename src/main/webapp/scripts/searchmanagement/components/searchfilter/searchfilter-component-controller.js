@@ -39,6 +39,8 @@ var CTRL = function($scope, $location, MessageBus) {
   $ctrl.$onInit = init;
 
   function init() {
+    $ctrl.searchParams.filter = {};
+    $ctrl.searchFilterMapping = {};
     readSearchParamsFromLocation();
     _.assign($ctrl.searchFilterMapping, $ctrl.searchParams.filter);
   }
@@ -72,7 +74,6 @@ var CTRL = function($scope, $location, MessageBus) {
     }
     $ctrl.searchParams.filter = $ctrl.searchFilterMapping;
     writeSearchParamsToLocation();
-    // $rootScope.$emit('onSearchFilterChange');
   }
 
   function exists(item, prop) {
@@ -133,10 +134,12 @@ var CTRL = function($scope, $location, MessageBus) {
       return $ctrl.onDataPacketFilterChange;
     },
     function() {
-      var data = $ctrl.onDataPacketFilterChange
-        .get('onDataPacketFilterChange', true);
-      if (data) {
-        $ctrl.dataPacketFilter = data;
+      if ($ctrl.onDataPacketFilterChange.get('onDataPacketFilterChange')) {
+        $ctrl.dataPacketFilter = $ctrl.onDataPacketFilterChange
+          .get('onDataPacketFilterChange', true);
+      }
+      if ($ctrl.onDataPacketFilterChange.get('searchInit', true)) {
+        init();
       }
     }, true);
 };

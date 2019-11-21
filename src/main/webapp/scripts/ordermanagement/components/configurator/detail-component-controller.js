@@ -26,7 +26,6 @@ function CTRL($scope,
   // $ctrl.$onInit = init;
 
   function init() {
-    console.log('Config init');
     var search = $location.search();
     if (search['access-way'] && !$ctrl.selectedAccessWay) {
       $ctrl.selectedAccessWay = search['access-way'];
