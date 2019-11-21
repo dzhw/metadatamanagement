@@ -5,7 +5,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
-    function(entity, $state, ToolbarHeaderService,
+    function(entity, $state, ToolbarHeaderService, MessageBus,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
       QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
@@ -54,6 +54,13 @@ angular.module('metadatamanagementApp')
         if (_.isObject(result.instrument)) {
           title.instrumentDescription = result.instrument.
           description[$rootScope.currentLanguage];
+        }
+        if (!Principal.isAuthenticated()) {
+          MessageBus.set('onDataPackageChange',
+            {
+              masterId: result.study.masterId,
+              version: result.release.version
+            });
         }
         PageTitleService.
           setPageTitle('question-management.detail.title', title);

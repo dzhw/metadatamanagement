@@ -196,6 +196,9 @@ function Controller(
     if ($ctrl.searchParams.query && $ctrl.searchParams.query !== '') {
       locationSearch.query = $ctrl.searchParams.query;
     }
+    if ($ctrl.searchParams['access-way'] && $ctrl.searchParams['access-way'] !== '') {
+      locationSearch['access-way'] = $ctrl.searchParams['access-way'];
+    }
     if ($ctrl.searchParams.version && $ctrl.searchParams.version !== '') {
       locationSearch.version = $ctrl.searchParams.version;
     }
@@ -238,6 +241,9 @@ function Controller(
         $ctrl.searchParams.query = locationSearch.query;
       } else {
         $ctrl.searchParams.query = '';
+      }
+      if (locationSearch['access-way']) {
+        $ctrl.searchParams['access-way'] = locationSearch['access-way'];
       }
       if (locationSearch.version) {
         $ctrl.searchParams.version = locationSearch.version;
@@ -342,6 +348,7 @@ function Controller(
           $ctrl.searchParams.sortBy = undefined;
           $ctrl.options.pageObject.page = 1;
           // $ctrl.searchParams.filter.version = version;
+
           writeSearchParamsToLocation();
           $ctrl.search();
         }
@@ -356,7 +363,8 @@ function Controller(
     $ctrl.search();
   }
 
-  $scope.$watch('$ctrl.searchParams.query', function() {
+  $scope.$watch('$ctrl.searchParams.query', function(newVal, oldVal) {
+
     if (queryChangedOnInit) {
       queryChangedOnInit = false;
       return;
@@ -368,9 +376,11 @@ function Controller(
     $timeout(function() {
       $ctrl.options.pageObject.page = 1;
       delete $ctrl.searchParams.sortBy;
-      writeSearchParamsToLocation();
-      $ctrl.search();
-      queryChangeIsBeingHandled = false;
+      if (newVal !== oldVal) {
+        writeSearchParamsToLocation();
+        $ctrl.search();
+        queryChangeIsBeingHandled = false;
+      }
     });
   });
 

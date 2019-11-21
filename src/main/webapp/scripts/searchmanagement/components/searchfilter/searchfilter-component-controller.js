@@ -107,30 +107,27 @@ var CTRL = function($rootScope, $location) {
     var locationSearch = $location.search();
     if (locationSearch.page != null) {
       $ctrl.searchParams.page = parseInt(locationSearch.page);
-      delete locationSearch.page;
     }
     if (locationSearch.size != null) {
       $ctrl.searchParams.size = parseInt(locationSearch.size);
-      delete locationSearch.size;
     }
     if (locationSearch.query) {
       if (locationSearch.query !== '') {
         $ctrl.searchParams.query = locationSearch.query;
       }
-      delete locationSearch.query;
       if ($ctrl.searchParams.query === '') {
         delete $ctrl.searchParams.query;
       }
     }
     if (locationSearch.type) {
       $ctrl.searchParams.type = locationSearch.type;
-      delete locationSearch.type;
     }
     if (locationSearch.selectedTabIndex) {
       $ctrl.searchParams.selectedTabIndex = locationSearch.selectedTabIndex;
-      delete locationSearch.selectedTabIndex;
     }
-    $ctrl.searchParams.filter = locationSearch;
+    $ctrl.searchParams.filter = _.omit(locationSearch, ['page', 'size',
+      'type', 'query', 'sort-by'
+    ]);
   }
 
   registerScope = $rootScope.$on('onDataPacketFilterChange',

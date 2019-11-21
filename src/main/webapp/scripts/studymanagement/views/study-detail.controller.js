@@ -3,12 +3,20 @@
 
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
-    function(entity, PageTitleService, LanguageService, DataSetSearchService,
-             $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-             StudyAttachmentResource, SearchResultNavigatorService,
-             $stateParams, $rootScope, DataAcquisitionProjectResource,
-             ProductChooserDialogService, ProjectUpdateAccessService, $scope,
-             $timeout, OutdatedVersionNotifier, StudySearchService, $log,
+    function(entity,
+             MessageBus,
+             PageTitleService,
+             LanguageService, DataSetSearchService,
+             $state,
+             ToolbarHeaderService, Principal, SimpleMessageToastService,
+             StudyAttachmentResource,
+             SearchResultNavigatorService,
+             $stateParams,
+             $rootScope, DataAcquisitionProjectResource,
+             ProductChooserDialogService,
+             ProjectUpdateAccessService, $scope,
+             $timeout,
+             OutdatedVersionNotifier, StudySearchService, $log,
              blockUI) {
       blockUI.start();
       SearchResultNavigatorService
@@ -24,7 +32,6 @@ angular.module('metadatamanagementApp')
           return [];
         }
       };
-
       var ctrl = this;
       var activeProject;
       ctrl.isAuthenticated = Principal.isAuthenticated;
@@ -84,10 +91,13 @@ angular.module('metadatamanagementApp')
             activeProject = project;
           });
         }
-        $rootScope.$emit('onDataPackageChange', {
-          masterId: result.masterId,
-          version: result.release.version
-        });
+        if (!Principal.isAuthenticated()) {
+          MessageBus.set('onDataPackageChange',
+            {
+              masterId: result.masterId,
+              version: result.release.version
+            });
+        }
 
         PageTitleService.setPageTitle('study-management.detail.title', {
           title: result.title[LanguageService.getCurrentInstantly()],

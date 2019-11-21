@@ -48,13 +48,16 @@
         width: 40%;
       }
       .md-secondary-container {
-        width: 200px;
+        width: 190px;
+        overflow: hidden;
+        word-break: break-all;
       }
     }
     & .md-button {
       margin-left: 0;
       margin-top: 16px;
       text-transform: none;
+      width: 100%;
     }
   }
 

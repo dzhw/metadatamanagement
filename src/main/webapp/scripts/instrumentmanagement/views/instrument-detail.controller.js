@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('InstrumentDetailController',
-    function(entity, InstrumentAttachmentResource,
+    function(entity, InstrumentAttachmentResource, MessageBus,
              PageTitleService, LanguageService, $state, CleanJSObjectService,
              ToolbarHeaderService, Principal, SimpleMessageToastService,
              SearchResultNavigatorService, ProductChooserDialogService,
@@ -71,6 +71,13 @@ angular.module('metadatamanagementApp')
         });
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
+        if (!Principal.isAuthenticated()) {
+          MessageBus.set('onDataPackageChange',
+            {
+              masterId: result.study.masterId,
+              version: result.release.version
+            });
+        }
         PageTitleService.setPageTitle('instrument-management.' +
           'detail.page-title', {
           description: result.description[currenLanguage] ?

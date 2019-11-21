@@ -7,26 +7,30 @@ function CTRL($scope,
               $location,
               DataAcquisitionProjectReleasesResource,
               $state,
+              LanguageService,
               ProjectReleaseService,
               ShoppingCartService,
+              MessageBus,
               StudyResource,
               StudyAccessWaysResource) {
   var $ctrl = this;
-  var registerScope = null;
 
   $ctrl.studyIdVersion = {};
   $ctrl.study = {};
   $ctrl.accessWays = [];
-  $ctrl.lang = '';
-
+  $ctrl.lang = LanguageService.getCurrentInstantly();
+  $ctrl.onDataPackageChange = MessageBus;
   $ctrl.noDataSets = false;
   $ctrl.noFinalRelease = false;
   $ctrl.dataNotAvailable = false;
   // $ctrl.$onInit = init;
 
   function init() {
-    $ctrl.lang = $rootScope.currentLanguage;
+    console.log('Config init');
     var search = $location.search();
+    if (search['access-way'] && !$ctrl.selectedAccessWay) {
+      $ctrl.selectedAccessWay = search['access-way'];
+    }
     var createId = '';
     if ($ctrl.studyIdVersion.version &&
       search.version !== $ctrl.studyIdVersion.version) {
@@ -90,10 +94,6 @@ function CTRL($scope,
         if ($ctrl.accessWays.length > 0) {
           if (_.includes($ctrl.accessWays, 'not-accessible')) {
             $ctrl.variableNotAccessible = true;
-          } else {
-            if (!$ctrl.selectedAccessWay) {
-              $ctrl.selectedAccessWay = $ctrl.accessWays[0];
-            }
           }
         } else {
           $ctrl.noDataSets = true;
@@ -114,25 +114,23 @@ function CTRL($scope,
 
   $scope.$watch(function() {
     return $ctrl.selectedVersion;
-  }, function(newVal, oldVal) {
-    if (newVal !== oldVal) {
-      var search = $location.search();
+  }, function(newVal) {
+    var search = $location.search();
+    if (!newVal) { return; }
+    if (newVal !== search.version) {
       search.version = $ctrl.selectedVersion;
-      search.id = $ctrl.study.masterId;
-      search['search-result-index'] = null;
       search.lang = $rootScope.currentLanguage;
-      //$location.search(search);
       $state.go($state.current, search, {reload: true});
     }
   });
 
   $scope.$watch(function() {
     return $ctrl.selectedAccessWay;
-  }, function(newVal, oldVal) {
-    if (newVal !== oldVal) {
-      var search = $location.search();
+  }, function(newVal) {
+    var search = $location.search();
+    if (newVal !== search.accessWay) {
       search['access-way'] = $ctrl.selectedAccessWay;
-      $location.search(search);
+      $location.replace(search);
     }
   });
 
@@ -145,22 +143,17 @@ function CTRL($scope,
     }
   });
 
-  // Event
-  registerScope = $rootScope.$on('onDataPackageChange',
-    function(event, args) { // jshint ignore:line
-      if (args.masterId) {
-        $ctrl.studyIdVersion.masterId = args.masterId;
-        $ctrl.studyIdVersion.version = args.version;
+  $scope.$watch(function() {
+    return $ctrl.onDataPackageChange;
+  },
+    function() {
+      var data = $ctrl.onDataPackageChange.get('onDataPackageChange', true);
+      if (data) {
+        $ctrl.studyIdVersion.masterId = data.masterId;
+        $ctrl.studyIdVersion.version = data.version;
         init();
-      } else {
-        $ctrl.studyIdVersion = {};
       }
-    });
-
-  $ctrl.$onDestroy = function() {
-    //unregister rootScope event by calling the return function
-    registerScope();
-  };
+    }, true);
 }
 
 angular

@@ -2,8 +2,7 @@
   <md-card-header>
     <md-card-header-text>
       <span class="md-title"
-            display-i18n-string="$ctrl.study.title"
-            fdz-hyphenate></span>
+            display-i18n-string="$ctrl.study.title"></span>
     </md-card-header-text>
   </md-card-header>
   <md-card-content>
@@ -65,7 +64,11 @@
         </md-select>
       </md-list-item>
       <md-list-item>
-        <md-button ng-if="$ctrl.releases && !$ctrl.noFinalRelease && !$ctrl.noDataSets && !$ctrl.variableNotAccessible && !$ctrl.dataNotAvailable" class="md-small md-raised md-accent fdz-truncate-string" ng-cmd-list-itemck="$ctrl.addToShoppingCart()" ng-disabled="!$ctrl.selectedAccessWay || !$ctrl.selectedVersion">
+        <md-button
+          ng-if="$ctrl.releases && !$ctrl.noFinalRelease && !$ctrl.noDataSets && !$ctrl.variableNotAccessible && !$ctrl.dataNotAvailable"
+          class="md-small md-raised md-accent fdz-truncate-string"
+          ng-click="$ctrl.addToShoppingCart()"
+          ng-disabled="!$ctrl.selectedAccessWay || !$ctrl.selectedVersion">
           <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'shopping-cart.buttons.add-study-tooltip' | translate}}
           </md-tooltip>

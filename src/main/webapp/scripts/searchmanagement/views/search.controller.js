@@ -298,7 +298,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     //Search function
     $scope.search = function() {
-      console.log('search');
       if (!Principal.isAuthenticated()) {
         $scope.searchFilterMapping = $scope.searchParams.filter;
       }

@@ -15,11 +15,10 @@ var CTRL = function($scope, $location, $rootScope) {
     $ctrl.query = searchObject.query;
   }
 
-  // $location.search() return an empty object when called in a
+  // $location.search() returns an empty object when called in a
   // ng-change function. Therefore we use the queryString function to retrieve
   // the URL parameter
   function change() {
-    console.log('change');
     var params = queryString($location.url());
     if ($ctrl.query === '' && params.hasOwnProperty('query')) {
       delete params.query;

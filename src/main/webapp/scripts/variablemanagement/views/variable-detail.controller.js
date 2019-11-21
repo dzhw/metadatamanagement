@@ -4,11 +4,17 @@
 
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function(entity,
-    QuestionSearchService, VariableSearchService, Principal,
-    SimpleMessageToastService, PageTitleService, LanguageService,
-    CleanJSObjectService, $state, ToolbarHeaderService,
-    SearchResultNavigatorService, ProductChooserDialogService,
-    OutdatedVersionNotifier, $stateParams, blockUI) {
+    QuestionSearchService,
+    MessageBus,
+    VariableSearchService, Principal,
+    SimpleMessageToastService,
+    PageTitleService, LanguageService,
+    CleanJSObjectService,
+    $state, ToolbarHeaderService,
+    SearchResultNavigatorService,
+    ProductChooserDialogService,
+    OutdatedVersionNotifier,
+    $stateParams, blockUI) {
     blockUI.start();
     SearchResultNavigatorService
       .setSearchIndex($stateParams['search-result-index']);
@@ -55,12 +61,10 @@ angular.module('metadatamanagementApp')
         'name': result.name,
         'dataSetId': result.dataSetId,
         'dataSetNumber': result.dataSetNumber,
-        'dataSetIsPresent': CleanJSObjectService.
-        isNullOrEmpty(result.dataSet) ? false : true,
+        'dataSetIsPresent': !CleanJSObjectService.isNullOrEmpty(result.dataSet),
         'surveys': result.surveys,
         'studyId': result.studyId,
-        'studyIsPresent': CleanJSObjectService.
-        isNullOrEmpty(result.study) ? false : true,
+        'studyIsPresent': !CleanJSObjectService.isNullOrEmpty(result.study),
         'projectId': result.dataAcquisitionProjectId,
         'version': result.shadow ? _.get(result, 'release.version') : null
       });
@@ -156,6 +160,13 @@ angular.module('metadatamanagementApp')
             id: result.id
           }
         );
+      }
+      if (!Principal.isAuthenticated()) {
+        MessageBus.set('onDataPackageChange',
+          {
+            masterId: result.study.masterId,
+            version: result.release.version
+          });
       }
     }).finally(blockUI.stop);
     ctrl.isRowHidden = function(index) {

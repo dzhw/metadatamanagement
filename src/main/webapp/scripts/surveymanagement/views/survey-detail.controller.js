@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, LanguageService, CleanJSObjectService,
-             PageTitleService, $state, ToolbarHeaderService,
+             PageTitleService, $state, ToolbarHeaderService, MessageBus,
              SurveySearchService, SurveyAttachmentResource, Principal,
              SimpleMessageToastService, SearchResultNavigatorService,
              SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
@@ -59,6 +59,13 @@ angular.module('metadatamanagementApp')
             : survey.title[secondLanguage],
           surveyId: survey.id
         });
+        if (!Principal.isAuthenticated()) {
+          MessageBus.set('onDataPackageChange',
+            {
+              masterId: survey.study.masterId,
+              version: survey.release.version
+            });
+        }
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': survey.id,
