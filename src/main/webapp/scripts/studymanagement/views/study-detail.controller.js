@@ -118,7 +118,6 @@ angular.module('metadatamanagementApp')
         if (result.release || Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.study = result;
-          // $rootScope.$emit('onStudyLoaded', {state: true, id: result.id});
           ctrl.counts.surveysCount = result.surveys.length;
           if (ctrl.counts.surveysCount === 1) {
             ctrl.survey = result.surveys[0];

@@ -5,7 +5,7 @@
 /* The Controller for the search. It differs between tabs and a tab represent
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
-  function($scope, Principal, $location, $state, SearchDao,
+  function($scope, Principal, $location, $state, SearchDao, MessageBus,
            VariableUploadService, ProjectUpdateAccessService,
            QuestionUploadService, RelatedPublicationUploadService,
            CleanJSObjectService, CurrentProjectService, $timeout,
@@ -20,8 +20,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var currentProjectChangeIsBeingHandled = false;
     var selectedTabChangeIsBeingHandled = false;
     var queryChangeIsBeingHandled = false;
-
-    var registerScope = null;
 
     var searchFilterAggregations = [
       'study-series',
@@ -292,8 +290,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         'institutions': createDataPacketFilterContent(data,
           'institutions')
       };
-      $rootScope.$emit('onDataPacketFilterChange', dataPacketFilter);
-
+      MessageBus.set('onDataPacketFilterChange', dataPacketFilter);
     }
 
     //Search function
@@ -303,7 +300,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
       var projectId = _.get($scope, 'currentProject.id');
       $scope.isSearching++;
-      $rootScope.$emit('onStartSearch');
+      MessageBus.set('onStartSearch', {});
       $scope.setDropZoneDisabled();
       SearchResultNavigatorService.setCurrentSearchParams(
         $scope.searchParams, projectId,
@@ -347,7 +344,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
               data.hits.total.value;
           });
           $scope.isSearching--;
-          $rootScope.$emit('onStopSearch');
+          MessageBus.set('onStopSearch', {});
 
           // Safari fix
           $timeout(function() {
@@ -364,7 +361,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           });
           $scope.tabs[$scope.searchParams.selectedTabIndex].count = 0;
           $scope.isSearching--;
-          $rootScope.$emit('onStopSearch');
+          MessageBus.set('onStopSearch', {});
         });
     };
 
@@ -423,12 +420,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       } else {
         locationChanged = false;
       }
-    });
-
-    registerScope = $rootScope.$on('onSearchFilterChange', function() {
-      readSearchParamsFromLocation();
-      $scope.searchFilterMapping = $scope.searchParams.filter;
-      $scope.search();
     });
 
     $scope.$on('current-project-changed',
@@ -647,11 +638,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $state.go(createState);
         });
       }
-    };
-
-    $scope.$onDestroy = function() {
-      //unregister rootScope event by calling the return function
-      registerScope();
     };
 
     init();

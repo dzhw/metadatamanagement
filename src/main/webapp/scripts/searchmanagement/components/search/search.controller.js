@@ -2,10 +2,10 @@
 
 'use strict';
 
-var CTRL = function($scope, $location, $rootScope) {
+var CTRL = function($scope, $location, $rootScope, MessageBus) {
   var $ctrl = this;
-  var registerScope1;
-  var registerScope2;
+
+  $ctrl.searchEvent = MessageBus;
   $ctrl.isSearching = false;
   $ctrl.$onInit = init;
   $ctrl.change = change;
@@ -47,20 +47,18 @@ var CTRL = function($scope, $location, $rootScope) {
 
     return queryString;
   }
-  registerScope1 = $rootScope.$on('onStartSearch',
-    function(event) { // jshint ignore:line
-    $ctrl.isSearching = true;
-  });
-  registerScope2 = $rootScope.$on('onStopSearch',
-    function(event) { // jshint ignore:line
-    $ctrl.isSearching = false;
-  });
 
-  $scope.$onDestroy = function() {
-    //unregister rootScope event by calling the return function
-    registerScope1();
-    registerScope2();
-  };
+  $scope.$watch(function() {
+      return $ctrl.searchEvent;
+    },
+    function() {
+      if ($ctrl.searchEvent.get('onStartSearch', true)) {
+        $ctrl.isSearching = true;
+      }
+      if ($ctrl.searchEvent.get('onStopSearch', true)) {
+        $ctrl.isSearching = false;
+      }
+    }, true);
 };
 
 angular

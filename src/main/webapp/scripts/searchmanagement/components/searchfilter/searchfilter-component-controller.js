@@ -2,9 +2,10 @@
 
 'use strict';
 
-var CTRL = function($rootScope, $location) {
+var CTRL = function($scope, $location, MessageBus) {
   var $ctrl = this;
-  var registerScope = null;
+  // var registerScope = null;
+  $ctrl.onDataPacketFilterChange = MessageBus;
   $ctrl.dataPacketFilter = {};
   $ctrl.searchFilterMapping = {};
   $ctrl.searchParams = {};
@@ -47,7 +48,6 @@ var CTRL = function($rootScope, $location) {
     $ctrl.searchParams.filter = {};
     $ctrl.searchFilterMapping = {};
     writeSearchParamsToLocation();
-    $rootScope.$emit('onSearchFilterChange');
   }
 
   function toggleFilterItem(item, prop) {
@@ -129,16 +129,16 @@ var CTRL = function($rootScope, $location) {
       'type', 'query', 'sort-by'
     ]);
   }
-
-  registerScope = $rootScope.$on('onDataPacketFilterChange',
-    function(event, data) { // jshint ignore:line
-      $ctrl.dataPacketFilter = data;
-    });
-
-  $ctrl.$onDestroy = function() {
-    //unregister rootScope event by calling the return function
-    registerScope();
-  };
+  $scope.$watch(function() {
+      return $ctrl.onDataPacketFilterChange;
+    },
+    function() {
+      var data = $ctrl.onDataPacketFilterChange
+        .get('onDataPacketFilterChange', true);
+      if (data) {
+        $ctrl.dataPacketFilter = data;
+      }
+    }, true);
 };
 
 angular

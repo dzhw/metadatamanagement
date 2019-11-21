@@ -196,7 +196,8 @@ function Controller(
     if ($ctrl.searchParams.query && $ctrl.searchParams.query !== '') {
       locationSearch.query = $ctrl.searchParams.query;
     }
-    if ($ctrl.searchParams['access-way'] && $ctrl.searchParams['access-way'] !== '') {
+    if ($ctrl.searchParams['access-way'] &&
+      $ctrl.searchParams['access-way'] !== '') {
       locationSearch['access-way'] = $ctrl.searchParams['access-way'];
     }
     if ($ctrl.searchParams.version && $ctrl.searchParams.version !== '') {
