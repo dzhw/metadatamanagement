@@ -76,6 +76,7 @@
               ng-switch-when="studies"
               search-query="searchParams.query"
               search-result="result._source"
+              set-params="setCurrentSearchParams()"
               search-result-index="computeSearchResultIndex($index)"></study-search-result>
             <related-publication-search-result
               ng-if="isAuthenticated()"

@@ -5,12 +5,13 @@
 function Controller(
     $scope, $location, SearchDao, $timeout,
     SearchResultNavigatorService, CleanJSObjectService,
-    SearchHelperService
+    SearchHelperService, Principal
 ) {
   var $ctrl = this;
   $ctrl.computeSearchResultIndex = computeSearchResultIndex;
   $ctrl.onPageChanged = onPageChanged;
   $ctrl.onSelectedTabChanged = onSelectedTabChanged;
+  $ctrl.setCurrentSearchParams = setCurrentSearchParams;
   $ctrl.search = search;
   $ctrl.$onInit = init;
   $ctrl.dataPacketFilter = {};
@@ -185,14 +186,8 @@ function Controller(
     var locationSearch = {};
     locationSearch.page = '' + $ctrl.options.pageObject.page;
     locationSearch.size = '' + $ctrl.options.pageObject.size;
-    // try {
     locationSearch.type = $ctrl.tabs[
         $ctrl.searchParams.selectedTabIndex].elasticSearchType;
-    // } catch (e) {
-    //   $ctrl.searchParams.selectedTabIndex = 0;
-    //   locationSearch.type = $ctrl.tabs[
-    //     $ctrl.searchParams.selectedTabIndex].elasticSearchType;
-    // }
     if ($ctrl.searchParams.query && $ctrl.searchParams.query !== '') {
       locationSearch.query = $ctrl.searchParams.query;
     }
@@ -273,15 +268,24 @@ function Controller(
       (($ctrl.options.pageObject.page - 1) * $ctrl.options.pageObject.size);
   }
 
-  //Search function
-  function search() {
-    var projectId = _.get($scope, 'currentProject.id');
-    $ctrl.isSearching++;
+  function setCurrentSearchParams(projectId) {
+    console.log('releated-objects');
+    if (!projectId) {
+      projectId = _.get($scope, 'currentProject.id');
+    }
     SearchResultNavigatorService.setCurrentSearchParams(
       $ctrl.searchParams, projectId,
       getSelectedMetadataType(),
       $ctrl.options.pageObject);
+  }
 
+  //Search function
+  function search() {
+    var projectId = _.get($scope, 'currentProject.id');
+    $ctrl.isSearching++;
+    if (Principal.isAuthenticated()) {
+      setCurrentSearchParams(projectId);
+    }
     var filter = getCurrentObjectFilter();
     _.assign(filter, $ctrl.searchParams.filter);
 

@@ -26,6 +26,11 @@ function CTRL($scope,
   // $ctrl.$onInit = init;
 
   function init() {
+    // We need to remove the values of the "selected properties"
+    // due to previous and next buttons functionality.
+    $ctrl.selectedVersion = '';
+    $ctrl.selectedAccessWay = '';
+
     var search = $location.search();
     if (search['access-way'] && !$ctrl.selectedAccessWay) {
       $ctrl.selectedAccessWay = search['access-way'];
@@ -54,6 +59,7 @@ function CTRL($scope,
       .$promise.then(
       function(releases) {
         $ctrl.releases = releases;
+        console.log($ctrl.selectedVersion);
         if (releases.length > 0) {
           if ($ctrl.version) {
             $ctrl.selectedVersion = $ctrl.version;

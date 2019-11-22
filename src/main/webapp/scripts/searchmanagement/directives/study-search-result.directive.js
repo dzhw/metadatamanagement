@@ -11,31 +11,34 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
-        searchResultIndex: '='
+        searchResultIndex: '=',
+        setParams: '&'
       },
-      controller: function($scope, DataAcquisitionProjectResource,
+      controllerAs: '$ctrl',
+      bindToController: true,
+      controller: function(DataAcquisitionProjectResource,
         Principal, ProjectUpdateAccessService, $state) {
-        $scope.projectIsCurrentlyReleased = true;
+        this.projectIsCurrentlyReleased = true;
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
-            id: $scope.searchResult.dataAcquisitionProjectId
+            id: this.searchResult.dataAcquisitionProjectId
           }).$promise.then(function(project) {
-            $scope.project = project;
-            $scope.projectIsCurrentlyReleased = (project.release != null);
+            this.project = project;
+            this.projectIsCurrentlyReleased = (project.release != null);
           });
         }
-        $scope.isAuthenticated = Principal.isAuthenticated;
-        $scope.studyEdit = function() {
+        this.isAuthenticated = Principal.isAuthenticated;
+        this.studyEdit = function() {
           if (ProjectUpdateAccessService.isUpdateAllowed(
-            $scope.project,
+            this.project,
             'studies',
             true
           )) {
-            $state.go('studyEdit', {id: $scope.searchResult.id});
+            $state.go('studyEdit', {id: this.searchResult.id});
           }
         };
-        $scope.isLoggedIn = Principal.loginName();
+        this.isLoggedIn = Principal.loginName();
       }
     };
   });

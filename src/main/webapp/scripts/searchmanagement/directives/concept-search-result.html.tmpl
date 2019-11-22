@@ -2,7 +2,8 @@
   <md-card-header>
     <md-card-header-text>
       <a
-        ui-sref="conceptDetail({id: searchResult.id, 'search-result-index': searchResultIndex})">
+        ui-sref="conceptDetail({id: searchResult.id, 'search-result-index': searchResultIndex})"
+        ng-click="setParams()">
         <div class="md-title">
           <span display-i18n-string="searchResult.title"></span>
         </div>

@@ -293,6 +293,16 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
       MessageBus.set('onDataPacketFilterChange', dataPacketFilter);
     }
+    $scope.setCurrentSearchParams = function(projectId) {
+      console.log('releated-objects');
+      if (!projectId) {
+        projectId = _.get($scope, 'currentProject.id');
+      }
+      SearchResultNavigatorService.setCurrentSearchParams(
+        $scope.searchParams, projectId,
+        getSelectedMetadataType(),
+        $scope.options.pageObject);
+    };
 
     //Search function
     $scope.search = function() {
@@ -303,10 +313,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.isSearching++;
       MessageBus.set('onStartSearch', {});
       $scope.setDropZoneDisabled();
-      SearchResultNavigatorService.setCurrentSearchParams(
-        $scope.searchParams, projectId,
-        getSelectedMetadataType(),
-        $scope.options.pageObject);
+      if (Principal.isAuthenticated()) {
+        $scope.setCurrentSearchParams(projectId);
+      }
       SearchDao.search($scope.searchParams.query,
         $scope.options.pageObject.page, projectId, $scope.searchParams.filter,
         getSelectedMetadataType(),

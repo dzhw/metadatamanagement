@@ -2,35 +2,36 @@
   <md-card-header>
     <md-card-header-text>
       <div class="md-title">
-        <a ui-sref="studyDetail({id: searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: ''})">
-          <span display-i18n-string="searchResult.title"></span>
+        <a ui-sref="studyDetail({id: $ctrl.searchResult.masterId, 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: ''})"
+        ng-click="$ctrl.setParams()">
+          <span display-i18n-string="$ctrl.searchResult.title"></span>
         </a>
       </div>
       <div class="md-subhead">
-          <span ng-if="searchResult.surveyPeriod.start">
-            {{'study-management.detail.label.survey-period' | translate }}: {{(searchResult.surveyPeriod.start | date:'mediumDate')}} - {{(searchResult.surveyPeriod.end | date:'mediumDate')}}
+          <span ng-if="$ctrl.searchResult.surveyPeriod.start">
+            {{'study-management.detail.label.survey-period' | translate }}: {{($ctrl.searchResult.surveyPeriod.start | date:'mediumDate')}} - {{($ctrl.searchResult.surveyPeriod.end | date:'mediumDate')}}
           </span>
-        <span ng-if="searchResult.surveyDataTypes.length > 0">
-            {{'study-management.detail.label.survey-data-type' | translate }}: {{searchResult.surveyDataTypes[0][currentLanguage]}}
+        <span ng-if="$ctrl.searchResult.surveyDataTypes.length > 0">
+            {{'study-management.detail.label.survey-data-type' | translate }}: {{$ctrl.searchResult.surveyDataTypes[0][$ctrl.currentLanguage]}}
           </span>
       </div>
     </md-card-header-text>
   </md-card-header>
   <md-card-content
-    ng-text-truncate="searchResult.description[currentLanguage]"
+    ng-text-truncate="$ctrl.searchResult.description[$ctrl.currentLanguage]"
     ng-tt-chars-threshold="256"
     ng-tt-less-label="{{'global.less' | translate}}"
     ng-tt-more-label="{{'global.more' | translate}}">
   </md-card-content>
-  <md-card-actions ng-if="searchQuery && !isAuthenticated()" layout="row" layout-align="start center">
+  <md-card-actions ng-if="$ctrl.searchQuery && !$ctrl.isAuthenticated()" layout="row" layout-align="start center">
     <a class="md-small md-primary"
-       ng-if="!isAuthenticated()"
+       ng-if="!$ctrl.isAuthenticated()"
        ui-sref="studyDetail({id: searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: '', 'query': searchQuery})">
-      {{'search-management.search-result.dataPacketSearch' | translate:{searchQuery: searchQuery} }}</a>
+      {{'search-management.search-result.dataPacketSearch' | translate:{searchQuery: $ctrl.searchQuery} }}</a>
   </md-card-actions>
   <div class="fdz-search-result-actions-container" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
-       ng-if="!projectIsCurrentlyReleased">
-    <md-button class="md-icon-button md-primary" ng-click="studyEdit()">
+       ng-if="!$ctrl.projectIsCurrentlyReleased">
+    <md-button class="md-icon-button md-primary" ng-click="$ctrl.studyEdit()">
       <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.buttons.edit-study-tooltip' | translate}}
       </md-tooltip>

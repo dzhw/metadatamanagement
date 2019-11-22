@@ -10,10 +10,14 @@ angular.module('metadatamanagementApp').directive('questionSearchResult',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
-        searchResultIndex: '='
+        searchResultIndex: '=',
+        setParams: '&'
       },
       controller: function($scope, Principal) {
         $scope.isLoggedIn = Principal.loginName();
+        $scope.setCSRParams = function() {
+          $scope.setCurrentSearchParams();
+        };
       }
     };
   });

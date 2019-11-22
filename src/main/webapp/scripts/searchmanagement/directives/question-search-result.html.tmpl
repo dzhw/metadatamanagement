@@ -2,7 +2,8 @@
   <md-card-header>
     <md-card-header-text>
       <a
-        ui-sref="questionDetail({id:searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: ''})">
+        ui-sref="questionDetail({id:searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: ''})"
+        ng-click="setParams()">
         <div class="md-title">{{'question-management.detail.label.question' | translate}} {{searchResult.number}}: <span
           display-i18n-string="searchResult.instrument.description"></span>
         </div>
