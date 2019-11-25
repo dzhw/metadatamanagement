@@ -26,9 +26,6 @@ function CTRL($scope,
   // $ctrl.$onInit = init;
 
   function init() {
-    // We need to remove the values of the "selected properties"
-    // due to previous and next buttons functionality.
-    // $ctrl.selectedVersion = '';
     $ctrl.selectedAccessWay = '';
 
     var search = $location.search();
@@ -136,6 +133,9 @@ function CTRL($scope,
     var search = $location.search();
     if (newVal !== search.accessWay) {
       search['access-way'] = $ctrl.selectedAccessWay;
+      if (search['access-way'] === '') {
+        delete search['access-way'];
+      }
       $location.replace(search);
     }
   });
