@@ -90,12 +90,15 @@ angular.module('metadatamanagementApp')
           if (ctrl.counts.dataSetsCount === 1) {
             ctrl.dataSet = survey.dataSets[0];
           }
-          SurveySearchService.countBy('dataAcquisitionProjectId',
-            ctrl.survey.dataAcquisitionProjectId,
-            _.get(survey, 'release.version'))
-            .then(function(surveysCount) {
-              ctrl.counts.surveysCount = surveysCount.count;
-            });
+
+          if (!Principal.isAuthenticated()) {
+            SurveySearchService.countBy('dataAcquisitionProjectId',
+              ctrl.survey.dataAcquisitionProjectId,
+              _.get(survey, 'release.version'))
+              .then(function(surveysCount) {
+                ctrl.counts.surveysCount = surveysCount.count;
+              });
+          }
           ctrl.counts.instrumentsCount = survey.instruments.length;
           if (ctrl.counts.instrumentsCount === 1) {
             ctrl.instrument = survey.instruments[0];
