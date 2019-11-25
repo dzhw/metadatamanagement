@@ -5,7 +5,7 @@
 function Controller(
     $scope, $location, SearchDao, $timeout,
     SearchResultNavigatorService, CleanJSObjectService,
-    SearchHelperService, Principal
+    SearchHelperService
 ) {
   var $ctrl = this;
   $ctrl.computeSearchResultIndex = computeSearchResultIndex;
