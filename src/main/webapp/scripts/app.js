@@ -97,6 +97,12 @@ try {
 
         $transitions.onSuccess({}, function(trans) {
           $rootScope.toStateName = trans.$to().name;
+          $rootScope.sidebarContent = {
+            'search': false,
+            'filter': false,
+            'detailSearch': false,
+            'configurator': false
+          };
           if (!Principal.loginName() &&
             (trans.$to().name).indexOf('Detail') !== -1) {
             $rootScope.sidebarContent = {
