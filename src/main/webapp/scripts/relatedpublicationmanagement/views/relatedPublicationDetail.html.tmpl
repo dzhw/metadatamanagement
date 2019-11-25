@@ -53,6 +53,10 @@
                 </md-tooltip>
               </a>
             </div>
+            <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.relatedPublication.annotations">
+              <span style="font-weight: bold;">{{'related-publication-management.detail.label.annotations' | translate }}:</span>
+              <span class="fdz-multiline-property" display-i18n-string="ctrl.relatedPublication.annotations" fdz-hyphenate></span>
+            </div>
           </md-card-content>
         </md-card>
       </div>

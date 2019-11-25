@@ -109,6 +109,15 @@ public class RelatedPublication extends AbstractRdcDomainObject {
   @ValidIsoLanguage(message =
       "related-publication-management.error.related-publication.language.not-supported")
   private String language;
+  
+  /**
+   * Arbitrary additional text for this publication.
+   *
+   * Must not contain more than 2048 characters.
+   */
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "related-publication-management.error.related-publication.annotations.size")
+  private I18nString annotations;
 
   /* Foreign Keys */
   @Indexed
