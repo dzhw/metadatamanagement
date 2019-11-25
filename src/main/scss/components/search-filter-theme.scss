@@ -22,10 +22,11 @@
     }
 
     & .fdz-filter-menu-list {
-      padding: 16px 8px;
+      padding: 8px;
 
       .md-button {
         margin-left: 0;
+        margin-top: 0;
         width: 100%;
         max-width: none;
         text-align: left;
@@ -37,6 +38,7 @@
       padding: 0 8px;
 
       li md-checkbox {
+        margin-bottom: 8px;
         .md-container {
           position: unset;
           transform: unset;

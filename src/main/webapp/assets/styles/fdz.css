@@ -1936,26 +1936,29 @@ tr:focus {
       display: flex;
       justify-content: flex-end; }
     .fdz-theme .fdz-search-filter md-card-content .fdz-filter-menu-list {
-      padding: 16px 8px; }
+      padding: 8px; }
       .fdz-theme .fdz-search-filter md-card-content .fdz-filter-menu-list .md-button {
         margin-left: 0;
+        margin-top: 0;
         width: 100%;
         max-width: none;
         text-align: left;
         text-transform: capitalize; }
     .fdz-theme .fdz-search-filter md-card-content .fdz-filter-list {
       padding: 0 8px; }
-      .fdz-theme .fdz-search-filter md-card-content .fdz-filter-list li md-checkbox .md-container {
-        position: unset;
-        transform: unset;
-        box-sizing: border-box;
-        display: inline-block;
-        width: 20px;
-        height: 20px; }
-      .fdz-theme .fdz-search-filter md-card-content .fdz-filter-list li md-checkbox .md-label {
-        max-width: 250px;
-        white-space: normal;
-        vertical-align: top; }
+      .fdz-theme .fdz-search-filter md-card-content .fdz-filter-list li md-checkbox {
+        margin-bottom: 8px; }
+        .fdz-theme .fdz-search-filter md-card-content .fdz-filter-list li md-checkbox .md-container {
+          position: unset;
+          transform: unset;
+          box-sizing: border-box;
+          display: inline-block;
+          width: 20px;
+          height: 20px; }
+        .fdz-theme .fdz-search-filter md-card-content .fdz-filter-list li md-checkbox .md-label {
+          max-width: 250px;
+          white-space: normal;
+          vertical-align: top; }
 
 .fdz-theme .fdz-data-packet {
   box-shadow: none; }
