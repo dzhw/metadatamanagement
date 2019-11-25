@@ -1625,7 +1625,7 @@ fdz-breadcrumbs {
   position: relative;
   border: 1px rgba(0, 0, 0, 0.12) solid;
   border-radius: 2px;
-  margin: 16px;
+  margin: 16px 16px 8px 16px;
   padding: 4px; }
   .fdz-theme .fdz-search md-input-container.fdz-search__input {
     display: flex;
@@ -1936,7 +1936,7 @@ tr:focus {
       display: flex;
       justify-content: flex-end; }
     .fdz-theme .fdz-search-filter md-card-content .fdz-filter-menu-list {
-      padding: 16px; }
+      padding: 16px 8px; }
       .fdz-theme .fdz-search-filter md-card-content .fdz-filter-menu-list .md-button {
         margin-left: 0;
         width: 100%;
