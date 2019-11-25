@@ -273,6 +273,7 @@ function Controller(
     if (!projectId) {
       projectId = _.get($scope, 'currentProject.id');
     }
+
     SearchResultNavigatorService.setCurrentSearchParams(
       $ctrl.searchParams, projectId,
       getSelectedMetadataType(),
@@ -283,14 +284,11 @@ function Controller(
   function search() {
     var projectId = _.get($scope, 'currentProject.id');
     $ctrl.isSearching++;
-    if (Principal.isAuthenticated()) {
-      setCurrentSearchParams(projectId);
-    }
     var filter = getCurrentObjectFilter();
-    _.assign(filter, $ctrl.searchParams.filter);
+    _.assign($ctrl.searchParams.filter, filter);
 
     SearchDao.search($ctrl.searchParams.query,
-      $ctrl.options.pageObject.page, projectId, filter,
+      $ctrl.options.pageObject.page, projectId, $ctrl.searchParams.filter,
       getSelectedMetadataType(),
       $ctrl.options.pageObject.size, $ctrl.searchParams.sortBy)
       .then(function(data) {

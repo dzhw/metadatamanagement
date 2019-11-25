@@ -28,7 +28,7 @@ function CTRL($scope,
   function init() {
     // We need to remove the values of the "selected properties"
     // due to previous and next buttons functionality.
-    $ctrl.selectedVersion = '';
+    // $ctrl.selectedVersion = '';
     $ctrl.selectedAccessWay = '';
 
     var search = $location.search();
@@ -40,6 +40,7 @@ function CTRL($scope,
       search.version !== $ctrl.studyIdVersion.version) {
       createId = $ctrl.studyIdVersion.masterId + '-' +
         search.version;
+      $ctrl.selectedVersion = $ctrl.studyIdVersion.version;
     } else {
       createId = $ctrl.studyIdVersion.masterId + '-' +
         $ctrl.studyIdVersion.version;
