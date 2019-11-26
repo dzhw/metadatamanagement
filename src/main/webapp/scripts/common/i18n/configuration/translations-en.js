@@ -73,7 +73,7 @@ angular.module('metadatamanagementApp').config(
           'metadata': 'Metadata for the File',
           'file': 'File',
           'details': 'Details',
-          'related-objects': 'Related objects'
+          'related-objects': 'Related Objects'
         },
         'buttons': {
           'close': 'Close',

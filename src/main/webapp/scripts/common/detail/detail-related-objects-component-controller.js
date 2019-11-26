@@ -137,8 +137,11 @@ function Controller(
     $ctrl.searchParams = {
       query: '',
       size: $ctrl.options.pageObject.size,
-      selectedTabIndex: 0
+      selectedTabIndex: 0,
+      filter: {}
     };
+    // $ctrl.searchParams.filter['related-publication'] = $ctrl.id;
+
     readSearchParamsFromLocation();
     writeSearchParamsToLocation();
     $ctrl.search();
@@ -283,8 +286,12 @@ function Controller(
   function search() {
     var projectId = _.get($scope, 'currentProject.id');
     $ctrl.isSearching++;
+    console.log($ctrl.id);
+    if (!$ctrl.searchParams['filter']) {
+      $ctrl.searchParams['filter'] = {};
+    }
     var filter = getCurrentObjectFilter();
-    _.assign($ctrl.searchParams.filter, filter);
+    _.assign($ctrl.searchParams['filter'], filter);
 
     SearchDao.search($ctrl.searchParams.query,
       $ctrl.options.pageObject.page, projectId, $ctrl.searchParams.filter,

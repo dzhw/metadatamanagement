@@ -19,6 +19,11 @@
           id="ctrl.survey.id"
           template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
         <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl"
+          template-url="scripts/surveymanagement/templates/dp-response-rate-image.html.tmpl"></fdz-detail>
+        <fdz-detail
           ng-if="ctrl.attachments && ctrl.attachments.length > 0"
           collapsed="false"
           lang="currentLanguage"
