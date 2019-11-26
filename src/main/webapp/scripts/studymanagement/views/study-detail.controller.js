@@ -7,14 +7,14 @@ angular.module('metadatamanagementApp')
              MessageBus,
              PageTitleService,
              LanguageService, DataSetSearchService,
-             $state,
+             $state, $location,
              ToolbarHeaderService, Principal, SimpleMessageToastService,
              StudyAttachmentResource,
              SearchResultNavigatorService,
              $stateParams,
              $rootScope, DataAcquisitionProjectResource,
              ProjectUpdateAccessService, $scope,
-             $timeout,
+             $timeout, $document,
              OutdatedVersionNotifier, StudySearchService, $log,
              blockUI) {
       blockUI.start();
@@ -162,6 +162,12 @@ angular.module('metadatamanagementApp')
               ctrl.dataSets = dataSets.hits.hits;
             });
           ctrl.loadAttachments();
+
+          $timeout(function() {
+            if ($location.search().query) {
+              ctrl.scroll();
+            }
+          }, 500);
         } else {
           SimpleMessageToastService.openAlertMessageToast(
             'study-management.detail.not-released-toast', {id: result.id}
@@ -169,8 +175,17 @@ angular.module('metadatamanagementApp')
         }
 
         ctrl.studyTags = getTags(result);
+
       }, $log.error).finally(blockUI.stop);
 
+      ctrl.scroll = function() {
+        var element = $document[0].getElementById('related-objects');
+        if ($rootScope.bowser.msie) {
+          element.scrollIntoView(true);
+        } else {
+          element.scrollIntoView({behavior: 'smooth', inline: 'nearest'});
+        }
+      };
       ctrl.studyEdit = function() {
         if (ProjectUpdateAccessService
           .isUpdateAllowed(activeProject, 'studies', true)) {

@@ -1,4 +1,4 @@
-<md-card>
+<md-card id="related-objects">
   <md-divider></md-divider>
   <md-card-header>
     <md-card-header-text>
@@ -35,7 +35,7 @@
             <md-icon md-font-set="material-icons">search</md-icon>
             <input
               autocomplete="off"
-              id="query"
+              id="detailSearchQuery"
               md-select-on-focus
               ng-model="$ctrl.searchParams.query"
               ng-model-options="{debounce: 250}"
