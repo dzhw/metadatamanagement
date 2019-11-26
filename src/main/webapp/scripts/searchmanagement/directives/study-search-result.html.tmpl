@@ -26,7 +26,7 @@
   <md-card-actions ng-if="$ctrl.searchQuery && !$ctrl.isAuthenticated()" layout="row" layout-align="start center">
     <a class="md-small md-primary"
        ng-if="!$ctrl.isAuthenticated()"
-       ui-sref="studyDetail({id: $ctrl.searchResult.masterId, 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: '', 'query': searchQuery})">
+       ui-sref="studyDetail({id: $ctrl.searchResult.masterId, 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: '', 'query': $ctrl.searchQuery})">
       {{'search-management.search-result.dataPacketSearch' | translate:{searchQuery: $ctrl.searchQuery} }}</a>
   </md-card-actions>
   <div class="fdz-search-result-actions-container" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
