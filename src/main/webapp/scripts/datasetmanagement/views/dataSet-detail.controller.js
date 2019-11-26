@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
              LanguageService, $state, ToolbarHeaderService,
              CleanJSObjectService, SimpleMessageToastService,
              DataSetAttachmentResource, DataSetCitateDialogService,
-             SearchResultNavigatorService, ProductChooserDialogService,
+             SearchResultNavigatorService,
              DataAcquisitionProjectResource, OutdatedVersionNotifier,
              $stateParams, blockUI, $mdDialog) {
       blockUI.start();
@@ -144,14 +144,6 @@ angular.module('metadatamanagementApp')
                 'data-set-management.detail.report-generation-started-toast');
             });
         });
-      };
-
-      ctrl.addToShoppingCart = function(event) {
-        ProductChooserDialogService.showDialog(
-          ctrl.dataSet.dataAcquisitionProjectId, ctrl.dataSet.accessWays,
-          ctrl.dataSet.study,
-          ctrl.dataSet.release.version,
-          event);
       };
 
       ctrl.dataSetEdit = function() {

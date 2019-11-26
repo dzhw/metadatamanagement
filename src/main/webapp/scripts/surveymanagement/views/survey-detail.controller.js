@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
              SurveySearchService, SurveyAttachmentResource, Principal,
              SimpleMessageToastService, SearchResultNavigatorService,
              SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
-             DataAcquisitionProjectResource, ProductChooserDialogService,
+             DataAcquisitionProjectResource,
              ProjectUpdateAccessService, CountryCodesResource, $stateParams,
              blockUI) {
       blockUI.start();
@@ -134,13 +134,6 @@ angular.module('metadatamanagementApp')
           );
         }
       }).finally(blockUI.stop);
-
-      ctrl.addToShoppingCart = function(event) {
-        ProductChooserDialogService.showDialog(
-          ctrl.survey.dataAcquisitionProjectId, ctrl.accessWays,
-          ctrl.survey.study, ctrl.survey.release.version,
-          event);
-      };
 
       ctrl.surveyEdit = function() {
         if (ProjectUpdateAccessService

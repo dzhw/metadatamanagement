@@ -13,7 +13,6 @@ angular.module('metadatamanagementApp')
              SearchResultNavigatorService,
              $stateParams,
              $rootScope, DataAcquisitionProjectResource,
-             ProductChooserDialogService,
              ProjectUpdateAccessService, $scope,
              $timeout,
              OutdatedVersionNotifier, StudySearchService, $log,
@@ -171,13 +170,6 @@ angular.module('metadatamanagementApp')
 
         ctrl.studyTags = getTags(result);
       }, $log.error).finally(blockUI.stop);
-
-      ctrl.addToShoppingCart = function(event) {
-        ProductChooserDialogService.showDialog(
-          ctrl.study.dataAcquisitionProjectId, ctrl.accessWays, ctrl.study,
-          ctrl.study.release.version,
-          event);
-      };
 
       ctrl.studyEdit = function() {
         if (ProjectUpdateAccessService

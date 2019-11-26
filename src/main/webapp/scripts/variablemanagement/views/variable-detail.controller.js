@@ -12,7 +12,6 @@ angular.module('metadatamanagementApp')
     CleanJSObjectService,
     $state, ToolbarHeaderService,
     SearchResultNavigatorService,
-    ProductChooserDialogService,
     OutdatedVersionNotifier,
     $stateParams, blockUI) {
     blockUI.start();
@@ -220,12 +219,5 @@ angular.module('metadatamanagementApp')
       return ctrl.variable.distribution != null &&
         ctrl.variable.distribution.validResponses &&
         ctrl.variable.distribution.validResponses.length > 0;
-    };
-
-    ctrl.addToShoppingCart = function(event) {
-      ProductChooserDialogService.showDialog(
-        ctrl.variable.dataAcquisitionProjectId, ctrl.variable.accessWays,
-        ctrl.variable.study, ctrl.variable.release.version,
-        event);
     };
   });

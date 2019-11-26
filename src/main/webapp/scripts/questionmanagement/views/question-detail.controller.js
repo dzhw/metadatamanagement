@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
       QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
-      ProductChooserDialogService, OutdatedVersionNotifier, blockUI) {
+      OutdatedVersionNotifier, blockUI) {
       blockUI.start();
 
       SearchResultNavigatorService
@@ -185,11 +185,4 @@ angular.module('metadatamanagementApp')
         ctrl.representationCodeToggleFlag = !ctrl.representationCodeToggleFlag;
       };
 
-      ctrl.addToShoppingCart = function(event) {
-        ProductChooserDialogService.showDialog(
-          ctrl.question.dataAcquisitionProjectId, ctrl.accessWays,
-          ctrl.question.study,
-          ctrl.question.release.version,
-          event);
-      };
     });

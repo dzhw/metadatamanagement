@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
     function(entity, InstrumentAttachmentResource, MessageBus,
              PageTitleService, LanguageService, $state, CleanJSObjectService,
              ToolbarHeaderService, Principal, SimpleMessageToastService,
-             SearchResultNavigatorService, ProductChooserDialogService,
+             SearchResultNavigatorService,
              DataAcquisitionProjectResource, ProjectUpdateAccessService,
              InstrumentSearchService, OutdatedVersionNotifier, $stateParams,
              blockUI) {
@@ -130,14 +130,6 @@ angular.module('metadatamanagementApp')
           );
         }
       }).finally(blockUI.stop);
-
-      ctrl.addToShoppingCart = function(event) {
-        ProductChooserDialogService.showDialog(
-          ctrl.instrument.dataAcquisitionProjectId, ctrl.accessWays,
-          ctrl.instrument.study,
-          ctrl.instrument.release.version,
-          event);
-      };
 
       ctrl.instrumentEdit = function() {
         if (ProjectUpdateAccessService

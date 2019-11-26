@@ -399,12 +399,5 @@
       </md-tooltip>
       <md-icon md-font-set="material-icons">mode_edit</md-icon>
     </md-button>
-    <md-button class="md-fab md-raised md-accent" ng-click="ctrl.addToShoppingCart($event)"
-               ng-if="!ctrl.isAuthenticated() || ctrl.hasAuthority('ROLE_USER')">
-      <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'shopping-cart.buttons.add-study-tooltip' | translate}}
-      </md-tooltip>
-      <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
-    </md-button>
   </div>
 </div>
