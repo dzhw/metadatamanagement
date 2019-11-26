@@ -57,7 +57,6 @@ function CTRL($scope,
       .$promise.then(
       function(releases) {
         $ctrl.releases = releases;
-        console.log($ctrl.selectedVersion);
         if (releases.length > 0) {
           if ($ctrl.version) {
             $ctrl.selectedVersion = $ctrl.version;

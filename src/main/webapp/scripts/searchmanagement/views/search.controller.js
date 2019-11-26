@@ -294,7 +294,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       MessageBus.set('onDataPacketFilterChange', dataPacketFilter);
     }
     $scope.setCurrentSearchParams = function(projectId) {
-      console.log('releated-objects');
       if (!projectId) {
         projectId = _.get($scope, 'currentProject.id');
       }

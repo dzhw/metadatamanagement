@@ -269,7 +269,6 @@ function Controller(
   }
 
   function setCurrentSearchParams(projectId) {
-    console.log('releated-objects');
     if (!projectId) {
       projectId = _.get($scope, 'currentProject.id');
     }
