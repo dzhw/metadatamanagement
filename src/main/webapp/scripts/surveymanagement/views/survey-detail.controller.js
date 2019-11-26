@@ -24,6 +24,7 @@ angular.module('metadatamanagementApp')
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {};
       ctrl.projectIsCurrentlyReleased = true;
+      ctrl.responseRateImage = null;
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
 

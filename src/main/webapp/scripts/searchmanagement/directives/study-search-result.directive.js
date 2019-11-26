@@ -18,32 +18,32 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
       bindToController: true,
       controller: function(DataAcquisitionProjectResource,
         Principal, ProjectUpdateAccessService, $state) {
-        console.log(this.searchResult);
-        this.projectIsCurrentlyReleased = true;
-        this.$onInit = init;
+        var ctrl = this;
+        ctrl.projectIsCurrentlyReleased = true;
+        ctrl.$onInit = init;
 
         function init() {
           if (Principal
               .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
             DataAcquisitionProjectResource.get({
-              id: this.searchResult.dataAcquisitionProjectId
+              id: ctrl.searchResult.dataAcquisitionProjectId
             }).$promise.then(function(project) {
-              this.project = project;
-              this.projectIsCurrentlyReleased = (project.release != null);
+              ctrl.project = project;
+              ctrl.projectIsCurrentlyReleased = (project.release != null);
             });
           }
         }
-        this.isAuthenticated = Principal.isAuthenticated;
-        this.studyEdit = function() {
+        ctrl.isAuthenticated = Principal.isAuthenticated;
+        ctrl.studyEdit = function() {
           if (ProjectUpdateAccessService.isUpdateAllowed(
-            this.project,
+            ctrl.project,
             'studies',
             true
           )) {
-            $state.go('studyEdit', {id: this.searchResult.id});
+            $state.go('studyEdit', {id: ctrl.searchResult.id});
           }
         };
-        this.isLoggedIn = Principal.loginName();
+        ctrl.isLoggedIn = Principal.loginName();
       }
     };
   });
