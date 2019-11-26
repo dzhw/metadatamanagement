@@ -18,15 +18,20 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
       bindToController: true,
       controller: function(DataAcquisitionProjectResource,
         Principal, ProjectUpdateAccessService, $state) {
+        console.log(this.searchResult);
         this.projectIsCurrentlyReleased = true;
-        if (Principal
-            .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
-          DataAcquisitionProjectResource.get({
-            id: this.searchResult.dataAcquisitionProjectId
-          }).$promise.then(function(project) {
-            this.project = project;
-            this.projectIsCurrentlyReleased = (project.release != null);
-          });
+        this.$onInit = init;
+
+        function init() {
+          if (Principal
+              .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
+            DataAcquisitionProjectResource.get({
+              id: this.searchResult.dataAcquisitionProjectId
+            }).$promise.then(function(project) {
+              this.project = project;
+              this.projectIsCurrentlyReleased = (project.release != null);
+            });
+          }
         }
         this.isAuthenticated = Principal.isAuthenticated;
         this.studyEdit = function() {
