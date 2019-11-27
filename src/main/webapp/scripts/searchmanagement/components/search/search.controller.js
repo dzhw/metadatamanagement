@@ -12,7 +12,9 @@ var CTRL = function($scope, $location, $rootScope, MessageBus) {
 
   function init() {
     var searchObject = $location.search();
+
     $ctrl.query = searchObject.query;
+    $rootScope.searchQuery = $ctrl.query;
   }
 
   // $location.search() returns an empty object when called in a
@@ -23,7 +25,7 @@ var CTRL = function($scope, $location, $rootScope, MessageBus) {
     if ($ctrl.query === '' && params.hasOwnProperty('query')) {
       delete params.query;
     } else {
-      _.assign(params, {query: $ctrl.query});
+      _.assign(params, {query: $ctrl.query, page: 1});
     }
     $rootScope.searchQuery = $ctrl.query;
     $location.search(params);
@@ -59,6 +61,14 @@ var CTRL = function($scope, $location, $rootScope, MessageBus) {
         $ctrl.isSearching = false;
       }
     }, true);
+
+  $scope.$watch(function() { return $location.search().query; },
+    function(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        $ctrl.query = $location.search().query;
+        $rootScope.searchQuery = $ctrl.query;
+      }
+    });
 };
 
 angular
