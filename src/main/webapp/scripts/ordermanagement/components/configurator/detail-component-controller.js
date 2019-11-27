@@ -61,7 +61,8 @@ function CTRL($scope,
           if ($ctrl.version) {
             $ctrl.selectedVersion = $ctrl.version;
           } else {
-            if (!$ctrl.selectedVersion) {
+            if (!$ctrl.selectedVersion ||
+              $ctrl.selectedVersion !== releases[0].version) {
               $ctrl.selectedVersion = releases[0].version;
             }
           }
