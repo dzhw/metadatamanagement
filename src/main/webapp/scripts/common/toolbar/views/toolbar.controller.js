@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').controller(
   'ToolbarController',
-  function($scope, $mdSidenav, ShoppingCartService, Principal,
+  function($scope, $rootScope, $mdSidenav, ShoppingCartService, Principal,
            SearchResultNavigatorService, LanguageService, Auth, $state) {
     //Toggle Function
     $scope.toggleLeft = function() {
@@ -27,7 +27,9 @@ angular.module('metadatamanagementApp').controller(
         reload: true
       });
     };
-
+    $scope.resetQuery = function() {
+      $rootScope.searchQuery = '';
+    };
     $scope.productsCount = ShoppingCartService.count();
     $scope.$on('shopping-cart-changed',
       function(event, count) { // jshint ignore:line

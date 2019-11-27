@@ -42,6 +42,7 @@ var CTRL = function($scope, $location, MessageBus) {
     $ctrl.searchParams.filter = {};
     $ctrl.searchFilterMapping = {};
     readSearchParamsFromLocation();
+    checkCollapsible();
     _.assign($ctrl.searchFilterMapping, $ctrl.searchParams.filter);
   }
 
@@ -50,6 +51,14 @@ var CTRL = function($scope, $location, MessageBus) {
     $ctrl.searchParams.filter = {};
     $ctrl.searchFilterMapping = {};
     writeSearchParamsToLocation();
+  }
+  function checkCollapsible() {
+    var props = Object.keys($ctrl.searchParams.filter);
+    $ctrl.filterValues.forEach(function(item) {
+      if (_.includes(props, item.property)) {
+        item.collapsed = false;
+      }
+    });
   }
 
   function toggleFilterItem(item, prop) {
