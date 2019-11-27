@@ -555,7 +555,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.loadStudyForProject = function() {
       if ($scope.currentProject && !$scope.currentProject.release &&
         $scope.tabs[$scope.searchParams.selectedTabIndex]
-          .elasticSearchType === 'studies' ) {
+          .elasticSearchType === 'studies') {
         $rootScope.$broadcast('start-ignoring-404');
         StudyResource.get({
           id: StudyIdBuilderService.buildStudyId(
