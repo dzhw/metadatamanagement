@@ -88,7 +88,7 @@ annotations
 .. java:field:: @I18nStringSize private I18nString annotations
    :outertype: Study
 
-   Arbitrary additional text for this instrument. Must not contain more than 2048 characters.
+   Arbitrary additional text for this study. Must not contain more than 2048 characters.
 
 authors
 ^^^^^^^
