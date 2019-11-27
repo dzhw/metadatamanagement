@@ -106,6 +106,7 @@ var CTRL = function($scope, $location, MessageBus) {
     if ($ctrl.searchParams.sortBy) {
       locationSearch['sort-by'] = $ctrl.searchParams.sortBy;
     }
+    MessageBus.set('searchFilter', $ctrl.searchParams.filter);
     _.assign(locationSearch, $ctrl.searchParams.filter);
 
     $location.search(locationSearch);
@@ -138,6 +139,12 @@ var CTRL = function($scope, $location, MessageBus) {
     $ctrl.searchParams.filter = _.omit(locationSearch, ['page', 'size',
       'type', 'query', 'sort-by'
     ]);
+    if (_.isEmpty($ctrl.searchParams.filter)) {
+      var filter = MessageBus.get('searchFilter');
+      if (filter) {
+        $ctrl.searchParams.filter = filter;
+      }
+    }
   }
   $scope.$watch(function() {
       return $ctrl.onDataPacketFilterChange;

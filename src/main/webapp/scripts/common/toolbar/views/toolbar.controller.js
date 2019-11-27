@@ -3,7 +3,8 @@
 angular.module('metadatamanagementApp').controller(
   'ToolbarController',
   function($scope, $rootScope, $mdSidenav, ShoppingCartService, Principal,
-           SearchResultNavigatorService, LanguageService, Auth, $state) {
+           SearchResultNavigatorService, LanguageService, Auth, $state,
+           MessageBus) {
     //Toggle Function
     $scope.toggleLeft = function() {
       $mdSidenav('SideNavBar').toggle();
@@ -29,6 +30,7 @@ angular.module('metadatamanagementApp').controller(
     };
     $scope.resetQuery = function() {
       $rootScope.searchQuery = '';
+      MessageBus.remove('searchFilter');
     };
     $scope.productsCount = ShoppingCartService.count();
     $scope.$on('shopping-cart-changed',

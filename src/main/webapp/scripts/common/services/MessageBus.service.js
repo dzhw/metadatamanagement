@@ -24,6 +24,12 @@ function CTRL() {
     }
     return null;
   };
+  events.remove = function(eventName) {
+    var index = _.findIndex(events.messages, {event: eventName});
+    if (index !== -1) {
+      events.messages.splice(index, 1);
+    }
+  };
 
   return events;
 }
