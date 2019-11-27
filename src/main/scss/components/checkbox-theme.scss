@@ -7,9 +7,8 @@
     color: $background-600;
   }
 
-  &.md-checked.md-focused .md-container:before {
+  &.md-checked.md-focused .md-container {
     background-color: $accent-color;
-  ;
   }
 
   .md-ink-ripple {
@@ -58,7 +57,7 @@
         background-color: $warn-color;
       }
 
-      &.md-checked.md-focused:not([disabled]) .md-container:before {
+      &.md-checked.md-focused:not([disabled]) .md-container {
         background-color: $warn-color;
       }
 

@@ -32,6 +32,9 @@
       font-weight: 400;
       color: $primary-contrast;
       border-radius: 0;
+      &:focus {
+        outline-color: $accent-color;
+      }
     }
   }
 

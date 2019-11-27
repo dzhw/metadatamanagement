@@ -18,10 +18,10 @@ md-input-container {
 
   &.md-input-focused:not(.md-input-has-value) {
     .fdz-theme md-select .md-select-value {
-      color: $primary-contrast;
+      color: $accent-color;
 
       &.md-select-placeholder {
-        color: $primary-contrast;
+        color: $accent-color;
       }
     }
   }
@@ -96,7 +96,7 @@ md-input-container {
 
   &:not([disabled]):focus {
     .md-select-value {
-      border-bottom-color: $primary-color;
+      border-bottom-color: $accent-color;
       color: $foreground-1;
       &.md-select-placeholder {
         color: $foreground-1;
