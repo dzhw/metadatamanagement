@@ -44,8 +44,8 @@ function CTRL($scope,
     }
     if (createId) {
       loadStudy(createId);
-      loadAccessWays(createId);
     }
+    $ctrl.selectedVersion = search.version;
   }
   function loadVersion(id) {
     DataAcquisitionProjectReleasesResource.get(
@@ -57,18 +57,6 @@ function CTRL($scope,
       .$promise.then(
       function(releases) {
         $ctrl.releases = releases;
-        if (releases.length > 0) {
-          if ($ctrl.version) {
-            $ctrl.selectedVersion = $ctrl.version;
-          } else {
-            if (!$ctrl.selectedVersion ||
-              $ctrl.selectedVersion !== releases[0].version) {
-              $ctrl.selectedVersion = releases[0].version;
-            }
-          }
-        } else {
-          $ctrl.noFinalRelease = true;
-        }
       });
   }
 
@@ -86,6 +74,7 @@ function CTRL($scope,
             $ctrl.noFinalRelease = true;
           }
           loadVersion($ctrl.study.dataAcquisitionProjectId);
+          loadAccessWays(id);
         }
       });
   }

@@ -290,7 +290,6 @@ function Controller(
     }
     var filter = getCurrentObjectFilter();
     _.assign($ctrl.searchParams.filter, filter);
-
     SearchDao.search($ctrl.searchParams.query,
       $ctrl.options.pageObject.page, projectId, $ctrl.searchParams.filter,
       getSelectedMetadataType(),
@@ -318,6 +317,9 @@ function Controller(
         $ctrl.tabs[$ctrl.searchParams.selectedTabIndex].count =
           data.hits.total.value;
         $ctrl.isSearching--;
+
+        // We need to clear the filter object
+        $ctrl.searchParams.filter = {};
         // Safari fix
         $timeout(function() {
           angular.element('body')
@@ -346,7 +348,6 @@ function Controller(
         if (!tabChangedOnInitFlag) {
           $ctrl.placeHolder = $ctrl.tabs[$ctrl.searchParams.selectedTabIndex]
             .title;
-
           $ctrl.searchParams.filter = SearchHelperService
             .removeIrrelevantFilters(
               $ctrl.tabs[$ctrl.searchParams.selectedTabIndex]
@@ -355,7 +356,6 @@ function Controller(
           $ctrl.searchParams.sortBy = undefined;
           $ctrl.options.pageObject.page = 1;
           // $ctrl.searchParams.filter.version = version;
-
           writeSearchParamsToLocation();
           $ctrl.search();
         }
