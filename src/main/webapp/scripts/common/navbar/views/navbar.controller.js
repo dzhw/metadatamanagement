@@ -51,7 +51,10 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.logout = function() {
       Auth.logout();
       $state.go('search', {
-        lang: LanguageService.getCurrentInstantly()
+        lang: LanguageService.getCurrentInstantly(),
+        type: 'studies'
+      }, {
+        reload: true
       });
       $scope.close();
     };

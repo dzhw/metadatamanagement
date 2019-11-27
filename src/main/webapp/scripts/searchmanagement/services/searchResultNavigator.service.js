@@ -14,6 +14,9 @@ angular.module('metadatamanagementApp').factory(
 
     function setCurrentSearchParams(searchParams,
       projectId, elasticSearchType, pageObject) {
+      if (searchParams && !searchParams.hasOwnProperty('filter')) {
+        searchParams.filter = {};
+      }
       lastSearchParams = searchParams;
       lastProjectId = projectId;
       lastElasticSearchType = elasticSearchType;
@@ -37,7 +40,10 @@ angular.module('metadatamanagementApp').factory(
             currentSearchResultIndex + 1,
             lastProjectId, lastSearchParams.filter,
             lastElasticSearchType,
-            1, lastSearchParams.sortBy).then(function(data) {
+            1,
+            null,
+            null,
+            lastSearchParams.filter).then(function(data) {
               nextSearchResult.resolve(data);
             }).catch(function(error) {
               nextSearchResult.resolve(error);
@@ -48,7 +54,10 @@ angular.module('metadatamanagementApp').factory(
             currentSearchResultIndex - 1,
             lastProjectId, lastSearchParams.filter,
             lastElasticSearchType,
-            1, lastSearchParams.sortBy).then(function(data) {
+            1,
+            null,
+            null,
+            lastSearchParams.filter).then(function(data) {
               previousSearchResult.resolve(data);
             }).catch(function(error) {
               previousSearchResult.resolve(error);
