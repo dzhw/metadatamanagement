@@ -26,7 +26,7 @@ if [ $? -ne 0 ]; then
     echo "Maven build failed!"
     exit -1
 fi
-if [ "${TRAVIS_BRANCH}" = "rreitmann/aws-deployment" ]; then
+if [ "${TRAVIS_BRANCH}" = "'rreitmann/aws-deployment'" ]; then
   pip install --user awscli
   sudo apt-get -y install jq
   mkdir ~/.aws
