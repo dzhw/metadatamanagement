@@ -547,13 +547,14 @@
 
 .fdz-theme md-dialog {
   border-radius: 4px;
+  background-color: white;
   color: black; }
   .fdz-theme md-dialog md-toolbar {
     color: black !important; }
   .fdz-theme md-dialog.md-content-overflow .md-actions, .fdz-theme md-dialog.md-content-overflow md-dialog-actions {
     border-top-color: rgba(0, 0, 0, 0.12); }
 
-.fdz-theme md-divide {
+.fdz-theme md-divider {
   border-top-color: rgba(0, 0, 0, 0.12); }
 
 .fdz-theme .layout-row > md-divider,
