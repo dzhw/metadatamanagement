@@ -37,7 +37,7 @@ spring:
 metadatamanagement:
   server:
     instance-index: ${cf.instance.index}
-    context-root: https://metadatamanagement-dev.cfapps.io
+    context-root: https://metadatamanagement-dev-1894369791.eu-central-1.elb.amazonaws.com
   elasticsearch-client:
     url: ${vcap.services.elastic.credentials.sslUri}
     read-timeout: 60000
@@ -53,4 +53,4 @@ metadatamanagement:
     uri: ${vcap.services.rabbitmq.credentials.uri}
   websockets:
     allowed-origins:
-      - https://metadatamanagement-dev.cfapps.io
+      - https://metadatamanagement-dev-1894369791.eu-central-1.elb.amazonaws.com
