@@ -9,9 +9,9 @@
       id: '<',
       collapsed: '<'
     },
-    templateUrl: function($attrs) {
+    templateUrl: ['$attrs', function($attrs) {
       return $attrs.templateUrl;
-    }
+    }]
   };
 
   angular
