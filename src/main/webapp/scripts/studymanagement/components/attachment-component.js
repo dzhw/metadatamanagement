@@ -1,8 +1,13 @@
 (function() {
   'use strict';
 
-  var SearchfilterComponent = {
-    controller: 'SearchFilterController',
+  var Component = {
+    bindings: {
+      collapsed: '<',
+      title: '<',
+      options: '<',
+      lang: '<'
+    },
     templateUrl: function($attrs) {
       return $attrs.templateUrl;
     }
@@ -10,5 +15,6 @@
 
   angular
     .module('metadatamanagementApp')
-    .component('fdzSearchFilter', SearchfilterComponent);
+    .component('fdzAttachment', Component);
+
 })();

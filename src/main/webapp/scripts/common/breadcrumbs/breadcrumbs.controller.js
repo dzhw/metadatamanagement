@@ -1,16 +1,18 @@
-'use strict';
+(function() {
+  'use strict';
 
-function CTRL(Principal) {
-  var $ctrl = this;
-  $ctrl.$onInit = init;
+  function BreadcrumbController(Principal) {
+    var $ctrl = this;
+    $ctrl.$onInit = init;
 
-  function init() {
-    Principal.identity().then(function() {
-      $ctrl.isAuthenticated = Principal.isAuthenticated;
-    });
+    function init() {
+      Principal.identity().then(function() {
+        $ctrl.isAuthenticated = Principal.isAuthenticated;
+      });
+    }
   }
-}
 
-angular
-  .module('metadatamanagementApp')
-  .controller('BreadcrumbController', CTRL);
+  angular
+    .module('metadatamanagementApp')
+    .controller('BreadcrumbController', BreadcrumbController);
+})();

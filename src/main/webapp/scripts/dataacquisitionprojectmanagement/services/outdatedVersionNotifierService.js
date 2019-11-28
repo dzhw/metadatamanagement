@@ -58,10 +58,7 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
         if ($document.find('[data-translate="data-acquisition' +
           '-project-management.outdated-version-alert"]').length > 0 ||
           $document.find('[data-translate="data-acquisition' +
-            '-project-management.not-master-alert"]').length > 0 ||
-            $document.find('[data-translate="data-acquisition' +
-            '-project-management.outdated-version-not-found-alert"]')
-              .length > 0) {
+            '-project-management.not-master-alert"]').length > 0) {
           $mdToast.hide();
         }
       }
