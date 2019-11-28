@@ -197,7 +197,9 @@ function Controller(
     } else {
       delete locationSearch['sort-by'];
     }
-    _.assign(locationSearch, $ctrl.searchParams.filter);
+    _.assign(locationSearch, _.omit($ctrl.searchParams.filter,
+      'study', 'survey', 'concept', 'data-set', 'instrument',
+       'question', 'related-publication', 'variable'));
     locationChanged = !angular.equals($location.search(),
       locationSearch);
     $location.search(locationSearch).replace();
@@ -310,8 +312,6 @@ function Controller(
           data.hits.total.value;
         $ctrl.isSearching--;
 
-        // We need to clear the filter object
-        $ctrl.searchParams.filter = {};
         // Safari fix
         $timeout(function() {
           angular.element('body')
