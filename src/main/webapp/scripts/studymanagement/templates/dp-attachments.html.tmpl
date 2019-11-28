@@ -14,49 +14,39 @@
   </md-card-header>
   <div ng-if="!$ctrl.collapsed">
     <md-card-content>
-      <table fdz-table class="mh16 mb16">
-        <thead>
-        <tr>
-          <th class="fdz-table-third-absorbing-column">{{'study-management.detail.label.attachments.title' |
-            translate
-            }}
-            <md-tooltip hide-gt-xs md-direction="right">
-              {{'study-management.detail.label.attachments.title' | translate }}
-            </md-tooltip>
-          </th>
-          <th class="fdz-table-half-absorbing-column">{{'study-management.detail.label.attachments.description' |
-            translate }}
-            <md-tooltip hide-gt-xs md-direction="right">
-              {{'study-management.detail.label.attachments.description' | translate }}
-            </md-tooltip>
-          </th>
+      <fdz-attachment
+        ng-if="$ctrl.options.study && $ctrl.options.study.length > 0"
+        collapsed = false
+        title="'search-management.tabs.data-packages'"
+        lang="$ctrl.lang"
+        options="$ctrl.options.study"
+        template-url= "scripts/studymanagement/components/attachments.html.tmpl"
+      ></fdz-attachment>
+      <fdz-attachment
+        ng-if="$ctrl.options.surveys && $ctrl.options.surveys.length > 0"
+        collapsed = false
+        title="'search-management.tabs.surveys'"
+        lang="$ctrl.lang"
+        options="$ctrl.options.surveys"
+        template-url= "scripts/studymanagement/components/attachments.html.tmpl"
+      ></fdz-attachment>
+      <fdz-attachment
+        ng-if="$ctrl.options.instruments && $ctrl.options.instruments.length > 0"
+        collapsed = false
+        title="'search-management.tabs.instruments'"
+        lang="$ctrl.lang"
+        options="$ctrl.options.instruments"
+        template-url= "scripts/studymanagement/components/attachments-instrument.html.tmpl"
+      ></fdz-attachment>
+      <fdz-attachment
+        ng-if="$ctrl.options.dataSets && $ctrl.options.dataSets.length > 0"
+        collapsed = false
+        title="'search-management.tabs.data_sets'"
+        lang="$ctrl.lang"
+        options="$ctrl.options.dataSets"
+        template-url= "scripts/studymanagement/components/attachments.html.tmpl"
+      ></fdz-attachment>
 
-          <th>{{'study-management.detail.label.attachments.language' | translate }}
-            <md-tooltip hide-gt-xs md-direction="right">
-              {{'study-management.detail.label.attachments.language' | translate }}
-            </md-tooltip>
-          </th>
-          <th>{{'study-management.detail.label.attachments.file' | translate }}
-            <md-tooltip hide-gt-xs md-direction="right">
-              {{'study-management.detail.label.attachments.file' | translate }}
-            </md-tooltip>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="row in $ctrl.options">
-          <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
-          <td class="fdz-text-block" display-i18n-string="row.description" fdz-hyphenate></td>
-          <td>{{row.language | displayIsoLanguage: $ctrl.lang}}&nbsp;</td>
-          <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
-            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
-            </md-tooltip>
-          </a>&nbsp;
-          </td>
-        </tr>
-        </tbody>
-      </table>
     </md-card-content>
   </div>
 </md-card>
