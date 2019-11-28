@@ -1,4 +1,4 @@
-<md-card class="fdz-data-packet" ng-if="$ctrl.studyIdVersion.masterId && $ctrl.lang && $ctrl.accessWays">
+<md-card class="fdz-data-packet" ng-if="$ctrl.study && $ctrl.studyIdVersion.masterId && $ctrl.lang && $ctrl.accessWays">
   <md-card-header>
     <md-card-header-text>
       <a ui-sref="studyDetail({id: $ctrl.studyIdVersion.masterId, version: $ctrl.studyIdVersion.version})" class="md-title">
@@ -42,6 +42,7 @@
             class="md-secondary"
             name="version"
             ng-model="$ctrl.selectedVersion"
+            ng-disabled="$ctrl.disabled"
             aria-label="{{'search-management.detail.versions' | translate }}">
             <md-optgroup
               label="{{'shopping-cart.detail.label.available-versions' | translate}}">
@@ -58,6 +59,7 @@
           class="md-secondary"
           name="accessWay"
           ng-model="$ctrl.selectedAccessWay"
+          ng-disabled="$ctrl.disabled"
           aria-label="{{'search-management.detail.access-ways' | translate}}">
           <md-optgroup label="{{'shopping-cart.detail.label.available-access-ways' | translate}}">
             <md-option ng-repeat="item in $ctrl.accessWays" ng-value="item">{{item}}</md-option>

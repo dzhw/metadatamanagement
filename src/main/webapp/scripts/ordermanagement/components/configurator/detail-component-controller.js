@@ -7,6 +7,7 @@ function CTRL($scope,
               $location,
               DataAcquisitionProjectReleasesResource,
               $state,
+              $transitions,
               LanguageService,
               ProjectReleaseService,
               ShoppingCartService,
@@ -23,11 +24,10 @@ function CTRL($scope,
   $ctrl.noDataSets = false;
   $ctrl.noFinalRelease = false;
   $ctrl.dataNotAvailable = false;
-  // $ctrl.$onInit = init;
+  $ctrl.disabled = false;
 
   function init() {
     $ctrl.selectedAccessWay = '';
-
     var search = $location.search();
     if (search['access-way'] && !$ctrl.selectedAccessWay) {
       $ctrl.selectedAccessWay = search['access-way'];
@@ -76,6 +76,8 @@ function CTRL($scope,
           loadVersion($ctrl.study.dataAcquisitionProjectId);
           loadAccessWays(id);
         }
+      }, function() {
+        $ctrl.study = null;
       });
   }
   function loadAccessWays(id) {
@@ -103,7 +105,14 @@ function CTRL($scope,
       }
     });
   };
-
+  $transitions.onStart({}, function(trans) {
+    if (trans.$to().name === 'relatedPublicationDetail' ||
+      trans.$to().name === 'conceptDetail') {
+      $ctrl.disabled = true;
+    } else {
+      $ctrl.disabled = false;
+    }
+  });
   $scope.$watch(function() {
     return $ctrl.selectedVersion;
   }, function(newVal) {
