@@ -5,8 +5,7 @@ if [[ $0 != ./deploy/* ]]; then
   exit -1
 fi
 PROFILE="$1"
-TRAVIS_BRANCH="$4"
-COVERALLS_TOKEN="$5"
+TRAVIS_BRANCH="$2"
 if [ "${PROFILE}" = "unused" ]; then
   PROFILE="dev"
 fi
@@ -26,7 +25,7 @@ if [ $? -ne 0 ]; then
     echo "Maven build failed!"
     exit -1
 fi
-if [ "${TRAVIS_BRANCH}" = "'rreitmann/aws-deployment'" ]; then
+if [ "${TRAVIS_BRANCH}" = "rreitmann/aws-deployment" ]; then
   pip install --user awscli
   sudo apt-get -y install jq
   mkdir ~/.aws
@@ -35,5 +34,5 @@ if [ "${TRAVIS_BRANCH}" = "'rreitmann/aws-deployment'" ]; then
   echo "aws_access_key_id = $AWS_ACCESS_KEY_ID" >> ~/.aws/credentials
   $(aws ecr get-login --no-include-email --region eu-central-1 --profile mdm)
   mvn dockerfile:push dockerfile:push@push-image-latest
-  aws ecs list-services --cluster metadatamanagement-dev | jq -r ".serviceArns[]" | awk '{print "aws ecs update-service --cluster metadatamanagement-dev --force-new-deployment  --service \""$0"\""}' | sh
+  aws ecs list-services --cluster metadatamanagement-dev --profile mdm | jq -r ".serviceArns[]" | awk '{print "aws ecs update-service --cluster metadatamanagement-dev --profile mdm --force-new-deployment  --service \""$0"\""}' | sh
 fi
