@@ -13,7 +13,8 @@ function CTRL($scope,
               ShoppingCartService,
               MessageBus,
               StudyResource,
-              StudyAccessWaysResource) {
+              StudyAccessWaysResource,
+              StudySearchService) {
   var $ctrl = this;
 
   $ctrl.studyIdVersion = {};
@@ -33,19 +34,28 @@ function CTRL($scope,
       $ctrl.selectedAccessWay = search['access-way'];
     }
     var createId = '';
+    var version = '';
     if ($ctrl.studyIdVersion.version &&
       search.version !== $ctrl.studyIdVersion.version) {
       createId = $ctrl.studyIdVersion.masterId + '-' +
         search.version;
+      version = search.version;
       $ctrl.selectedVersion = $ctrl.studyIdVersion.version;
     } else {
       createId = $ctrl.studyIdVersion.masterId + '-' +
         $ctrl.studyIdVersion.version;
+      version = $ctrl.studyIdVersion.version;
     }
-    if (createId) {
-      loadStudy(createId);
+    findStudy($ctrl.studyIdVersion.masterId, version).then(function(value) {
+      // return value;
+      if (createId && value) {
+        loadStudy(createId);
+        $ctrl.selectedVersion = search.version;
+      } else {
+        $ctrl.study = null;
+      }
     }
-    $ctrl.selectedVersion = search.version;
+    );
   }
   function loadVersion(dataAcquisitionProjectId, id) {
     DataAcquisitionProjectReleasesResource.get(
@@ -95,6 +105,13 @@ function CTRL($scope,
       });
   }
 
+  function findStudy(id, version) {
+    return StudySearchService.findShadowByIdAndVersion(id, version).promise
+      .then(function(result) {
+        return !!result;
+      });
+  }
+
   $ctrl.addToShoppingCart = function() {
     ShoppingCartService.add({
       dataAcquisitionProjectId: $ctrl.study.dataAcquisitionProjectId,
@@ -106,12 +123,8 @@ function CTRL($scope,
     });
   };
   $transitions.onStart({}, function(trans) {
-    if (trans.$to().name === 'relatedPublicationDetail' ||
-      trans.$to().name === 'conceptDetail') {
-      $ctrl.disabled = true;
-    } else {
-      $ctrl.disabled = false;
-    }
+    $ctrl.disabled = trans.$to().name === 'relatedPublicationDetail' ||
+      trans.$to().name === 'conceptDetail';
   });
   $scope.$watch(function() {
     return $ctrl.selectedVersion;
