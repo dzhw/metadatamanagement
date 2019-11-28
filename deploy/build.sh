@@ -34,5 +34,14 @@ if [ "${TRAVIS_BRANCH}" = "rreitmann/aws-deployment" ]; then
   echo "aws_access_key_id = $AWS_ACCESS_KEY_ID" >> ~/.aws/credentials
   $(aws ecr get-login --no-include-email --region eu-central-1 --profile mdm)
   mvn -P${PROFILE} dockerfile:push dockerfile:push@push-image-latest
-  aws ecs list-services --cluster metadatamanagement-dev --profile mdm | jq -r ".serviceArns[]" | awk '{print "aws ecs update-service --cluster metadatamanagement-dev --profile mdm --force-new-deployment  --service \""$0"\""}' | sh
+  if [ $? -ne 0 ]; then
+      echo "Maven Docker push failed!"
+      exit -1
+  fi
+  aws ecs list-tasks --cluster metadatamanagement-dev --service metadatamanagement-dev --profile mdm | jq -r ".taskArns[]" | awk '{print "aws ecs stop-task --cluster metadatamanagement-dev --profile mdm --task \""$0"\""}' | sh
+  aws ecs list-tasks --cluster metadatamanagement-dev --service metadatamanagement-worker --profile mdm | jq -r ".taskArns[]" | awk '{print "aws ecs stop-task --cluster metadatamanagement-dev --profile mdm --task \""$0"\""}' | sh
+  if [ $? -ne 0 ]; then
+      echo "Task redeployment failed!"
+      exit -1
+  fi
 fi
