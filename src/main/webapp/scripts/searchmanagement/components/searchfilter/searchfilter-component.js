@@ -3,9 +3,9 @@
 
   var SearchfilterComponent = {
     controller: 'SearchFilterController',
-    templateUrl: function($attrs) {
+    templateUrl: ['$attrs', function($attrs) {
       return $attrs.templateUrl;
-    }
+    }]
   };
 
   angular
