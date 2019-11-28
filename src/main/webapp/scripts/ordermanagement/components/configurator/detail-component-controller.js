@@ -47,16 +47,17 @@ function CTRL($scope,
     }
     $ctrl.selectedVersion = search.version;
   }
-  function loadVersion(id) {
+  function loadVersion(dataAcquisitionProjectId, id) {
     DataAcquisitionProjectReleasesResource.get(
       {
         id: ProjectReleaseService.stripVersionSuffix(
-          id
+          dataAcquisitionProjectId
         )
       })
       .$promise.then(
       function(releases) {
         $ctrl.releases = releases;
+        loadAccessWays(id);
       });
   }
 
@@ -73,8 +74,7 @@ function CTRL($scope,
           if ($ctrl.study.dataAvailability.en === 'In preparation') {
             $ctrl.noFinalRelease = true;
           }
-          loadVersion($ctrl.study.dataAcquisitionProjectId);
-          loadAccessWays(id);
+          loadVersion($ctrl.study.dataAcquisitionProjectId, id);
         }
       }, function() {
         $ctrl.study = null;
