@@ -597,6 +597,9 @@ angular.module('metadatamanagementApp').factory(
         _.keys(newFilters).forEach(function(filterKey) {
           var filterConfig = _.get(
             filterMapping, elasticsearchType + '.' + filterKey);
+          if (!filterConfig) {
+            return;
+          }
           var attributeFilter;
           var filterArray;
           if (filterConfig.concatMultipleWithOr) {

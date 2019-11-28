@@ -26,20 +26,18 @@ function Controller(
   var selectedTabChangeIsBeingHandled = false;
   var queryChangeIsBeingHandled = false;
   var tabs = [{
-    title: 'search-management.tabs.studies',
-    inputLabel: 'search-management.input-label.studies',
-    icon: 'assets/images/icons/study.svg',
+    title: 'search-management.tabs.data-packages',
+    inputLabel: 'search-management.input-label.data-packages',
     elasticSearchType: 'studies',
     count: null,
     uploadFunction: null,
     disabled: false,
     visibleForPublicUser: true,
-    noResultsText: 'search-management.no-results-text.studies',
+    noResultsText: 'search-management.no-results-text.data-packages',
     group: 'studies'
   }, {
     title: 'search-management.tabs.surveys',
     inputLabel: 'search-management.input-label.surveys',
-    icon: 'assets/images/icons/survey.svg',
     elasticSearchType: 'surveys',
     count: null,
     uploadFunction: null,
@@ -50,7 +48,6 @@ function Controller(
   }, {
     title: 'search-management.tabs.instruments',
     inputLabel: 'search-management.input-label.instruments',
-    icon: 'assets/images/icons/instrument.svg',
     elasticSearchType: 'instruments',
     count: null,
     uploadFunction: null,
@@ -61,7 +58,6 @@ function Controller(
   }, {
     title: 'search-management.tabs.questions',
     inputLabel: 'search-management.input-label.questions',
-    icon: 'assets/images/icons/question.svg',
     elasticSearchType: 'questions',
     count: null,
     uploadFunction: null,
@@ -72,7 +68,6 @@ function Controller(
   }, {
     title: 'search-management.tabs.data_sets',
     inputLabel: 'search-management.input-label.data-sets',
-    icon: 'assets/images/icons/data-set.svg',
     elasticSearchType: 'data_sets',
     count: null,
     uploadFunction: null,
@@ -83,7 +78,6 @@ function Controller(
   }, {
     title: 'search-management.tabs.variables',
     inputLabel: 'search-management.input-label.variables',
-    icon: 'assets/images/icons/variable.svg',
     elasticSearchType: 'variables',
     count: null,
     uploadFunction: null,
@@ -94,7 +88,6 @@ function Controller(
   }, {
     title: 'search-management.tabs.related_publications',
     inputLabel: 'search-management.input-label.related-publications',
-    icon: 'assets/images/icons/related-publication.svg',
     elasticSearchType: 'related_publications',
     count: null,
     uploadFunction: null,
@@ -105,7 +98,6 @@ function Controller(
   }, {
     title: 'search-management.tabs.concepts',
     inputLabel: 'search-management.input-label.concepts',
-    icon: 'assets/images/icons/concept.svg',
     elasticSearchType: 'concepts',
     count: null,
     uploadFunction: null,
@@ -205,7 +197,9 @@ function Controller(
     } else {
       delete locationSearch['sort-by'];
     }
-    _.assign(locationSearch, $ctrl.searchParams.filter);
+    _.assign(locationSearch, _.omit($ctrl.searchParams.filter,
+      'study', 'survey', 'concept', 'data-set', 'instrument',
+       'question', 'related-publication', 'variable'));
     locationChanged = !angular.equals($location.search(),
       locationSearch);
     $location.search(locationSearch).replace();
@@ -290,7 +284,6 @@ function Controller(
     }
     var filter = getCurrentObjectFilter();
     _.assign($ctrl.searchParams.filter, filter);
-
     SearchDao.search($ctrl.searchParams.query,
       $ctrl.options.pageObject.page, projectId, $ctrl.searchParams.filter,
       getSelectedMetadataType(),
@@ -318,6 +311,7 @@ function Controller(
         $ctrl.tabs[$ctrl.searchParams.selectedTabIndex].count =
           data.hits.total.value;
         $ctrl.isSearching--;
+
         // Safari fix
         $timeout(function() {
           angular.element('body')
@@ -346,7 +340,6 @@ function Controller(
         if (!tabChangedOnInitFlag) {
           $ctrl.placeHolder = $ctrl.tabs[$ctrl.searchParams.selectedTabIndex]
             .title;
-
           $ctrl.searchParams.filter = SearchHelperService
             .removeIrrelevantFilters(
               $ctrl.tabs[$ctrl.searchParams.selectedTabIndex]
@@ -355,7 +348,6 @@ function Controller(
           $ctrl.searchParams.sortBy = undefined;
           $ctrl.options.pageObject.page = 1;
           // $ctrl.searchParams.filter.version = version;
-
           writeSearchParamsToLocation();
           $ctrl.search();
         }

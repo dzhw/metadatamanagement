@@ -7,6 +7,7 @@ function CTRL($scope,
               $location,
               DataAcquisitionProjectReleasesResource,
               $state,
+              $transitions,
               LanguageService,
               ProjectReleaseService,
               ShoppingCartService,
@@ -23,11 +24,10 @@ function CTRL($scope,
   $ctrl.noDataSets = false;
   $ctrl.noFinalRelease = false;
   $ctrl.dataNotAvailable = false;
-  // $ctrl.$onInit = init;
+  $ctrl.disabled = false;
 
   function init() {
     $ctrl.selectedAccessWay = '';
-
     var search = $location.search();
     if (search['access-way'] && !$ctrl.selectedAccessWay) {
       $ctrl.selectedAccessWay = search['access-way'];
@@ -44,31 +44,20 @@ function CTRL($scope,
     }
     if (createId) {
       loadStudy(createId);
-      loadAccessWays(createId);
     }
+    $ctrl.selectedVersion = search.version;
   }
-  function loadVersion(id) {
+  function loadVersion(dataAcquisitionProjectId, id) {
     DataAcquisitionProjectReleasesResource.get(
       {
         id: ProjectReleaseService.stripVersionSuffix(
-          id
+          dataAcquisitionProjectId
         )
       })
       .$promise.then(
       function(releases) {
         $ctrl.releases = releases;
-        if (releases.length > 0) {
-          if ($ctrl.version) {
-            $ctrl.selectedVersion = $ctrl.version;
-          } else {
-            if (!$ctrl.selectedVersion ||
-              $ctrl.selectedVersion !== releases[0].version) {
-              $ctrl.selectedVersion = releases[0].version;
-            }
-          }
-        } else {
-          $ctrl.noFinalRelease = true;
-        }
+        loadAccessWays(id);
       });
   }
 
@@ -85,8 +74,10 @@ function CTRL($scope,
           if ($ctrl.study.dataAvailability.en === 'In preparation') {
             $ctrl.noFinalRelease = true;
           }
-          loadVersion($ctrl.study.dataAcquisitionProjectId);
+          loadVersion($ctrl.study.dataAcquisitionProjectId, id);
         }
+      }, function() {
+        $ctrl.study = null;
       });
   }
   function loadAccessWays(id) {
@@ -114,7 +105,14 @@ function CTRL($scope,
       }
     });
   };
-
+  $transitions.onStart({}, function(trans) {
+    if (trans.$to().name === 'relatedPublicationDetail' ||
+      trans.$to().name === 'conceptDetail') {
+      $ctrl.disabled = true;
+    } else {
+      $ctrl.disabled = false;
+    }
+  });
   $scope.$watch(function() {
     return $ctrl.selectedVersion;
   }, function(newVal) {

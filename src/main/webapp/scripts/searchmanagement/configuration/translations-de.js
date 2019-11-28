@@ -81,6 +81,7 @@ angular.module('metadatamanagementApp').config(
           'surveys': 'Suchen Sie nach Erhebungen...',
           'data-sets': 'Suchen Sie nach Datensätzen...',
           'studies': 'Suchen Sie nach Studien...',
+          'data-packages': 'Suchen Sie nach Datenpakete...',
           'related-publications': 'Suchen Sie nach Publikationen...',
           'instruments': 'Suchen Sie nach Instrumenten...',
           'concepts': 'Suchen Sie nach Konzepten...'
@@ -92,6 +93,7 @@ angular.module('metadatamanagementApp').config(
           'surveys': 'Keine Erhebungen zu Ihrer Suchanfrage gefunden.',
           'data-sets': 'Keine Datensätze zu Ihrer Suchanfrage gefunden.',
           'studies': 'Keine Studien zu Ihrer Suchanfrage gefunden.',
+          'data-packages': 'Keine Datenpakete zu Ihrer Suchanfrage gefunden.',
           'related-publications': 'Keine Publikationen zu Ihrer Suchanfrage gefunden.',
           'instruments': 'Keine Instrumente zu Ihrer Suchanfrage gefunden.',
           'concepts': 'Keine Konzepte zu Ihrer Suchanfrage gefunden.',
@@ -111,6 +113,7 @@ angular.module('metadatamanagementApp').config(
           'data_sets-found': '{number} {number, plural, =0{Datensätze} =1{Datensatz} other{Datensätze}} gefunden.',
           'data_sets-tooltip': 'Klicken, um nach Datensätzen zu suchen',
           'studies': 'Studien',
+          'data-packages': 'Datenpakete',
           'studies-found': '{number} {number, plural, =0{Studien} =1{Studie} other{Studien}} gefunden.',
           'studies-tooltip': 'Klicken, um nach Studien zu suchen',
           'concepts': 'Konzepte',

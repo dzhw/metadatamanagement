@@ -2,8 +2,7 @@
 	<md-card-header>
 		<md-card-header-text layout="row" layout-align="space-between center" ng-if="ctrl.type.indexOf('fake') === -1">
 			<a ui-sref="search({type: ctrl.searchState})" class="md-headline" layout="row" layout-align="start center">
-				<md-icon ng-if="ctrl.icon" md-svg-icon="{{ctrl.icon}}" class="md-primary"></md-icon>
-				<span>&nbsp;{{'data-acquisition-project-management.project-cockpit.requirements.'+ctrl.type | translate}}&nbsp;</span>
+				<span>{{'data-acquisition-project-management.project-cockpit.requirements.'+ctrl.type | translate}}</span>
 				<span>({{ctrl.counts[ctrl.searchState]}})</span>
 			</a>
 			<div ng-switch="ctrl.getSentimentValue(ctrl.type)">
