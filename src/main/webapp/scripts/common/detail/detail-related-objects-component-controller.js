@@ -5,7 +5,7 @@
 function Controller(
     $scope, $location, SearchDao, $timeout,
     SearchResultNavigatorService, CleanJSObjectService,
-    SearchHelperService
+    SearchHelperService, $transitions
 ) {
   var $ctrl = this;
   $ctrl.computeSearchResultIndex = computeSearchResultIndex;
@@ -19,6 +19,7 @@ function Controller(
   $ctrl.options = {};
   $ctrl.searchResult = {};
   $ctrl.placeHolder = '';
+  $ctrl.disabled = false;
 
   var queryChangedOnInit = false;
   var tabChangedOnInitFlag = false;
@@ -396,6 +397,11 @@ function Controller(
     } else {
       locationChanged = false;
     }
+  });
+
+  $transitions.onStart({}, function(trans) {
+    $ctrl.disabled = trans.$to().name === 'relatedPublicationDetail' ||
+      trans.$to().name === 'conceptDetail';
   });
 }
 
