@@ -25,12 +25,13 @@ angular.module('metadatamanagementApp')
       link: function($scope, elem, attrs, ctrl) {
         $scope.$on('$destroy', function() {
           delete ctrl.shadows;
+          timers.forEach($timeout.cancel);
         });
-
+        var timers = [];
         var watchAction = function(shadow) {
           if (ctrl.shadows && _.findIndex(ctrl.shadows, function(s) {
             return s.id === shadow.id;}) > -1) {
-            $timeout(function() {
+            timers.push($timeout(function() {
               DataAcquisitionProjectShadowsActionResource.get({
                 id: shadow.masterId,
                 version: shadow.release.version
@@ -45,7 +46,7 @@ angular.module('metadatamanagementApp')
                   });
                 }
               });
-            }, 10000);
+            }, 10000));
           }
         };
 
