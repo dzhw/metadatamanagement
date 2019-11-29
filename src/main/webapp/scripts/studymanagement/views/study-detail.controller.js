@@ -52,29 +52,17 @@ angular.module('metadatamanagementApp')
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
       var bowser = $rootScope.bowser;
 
-      if (!Principal.isAuthenticated()) {
-        ctrl.loadAttachments = function() {
-          DataAcquisitionProjectAttachmentsResource.get({
-            id: ctrl.study.dataAcquisitionProjectId
-          }).$promise.then(
-            function(attachments) {
-              if (attachments) {
-                ctrl.attachments = attachments;
-              }
-            });
-        };
-      } else {
-        ctrl.loadAttachments = function() {
-          StudyAttachmentResource.findByStudyId({
-            studyId: ctrl.study.id
-          }).$promise.then(
-            function(attachments) {
-              if (attachments.length > 0) {
-                ctrl.attachments = attachments;
-              }
-            });
-        };
-      }
+      ctrl.loadAttachments = function() {
+        DataAcquisitionProjectAttachmentsResource.get({
+          id: ctrl.study.dataAcquisitionProjectId
+        }).$promise.then(
+          function(attachments) {
+            if (attachments) {
+              ctrl.attachments = attachments;
+            }
+          });
+      };
+
       ctrl.isBetaRelease = function(study) {
         if (study.release) {
           return bowser.compareVersions(['1.0.0', study.release.version]) === 1;
