@@ -50,4 +50,15 @@
       </div>
     </div>
   </div>
+
+  <div class="fdz-fab-button-container" layout="column">
+    <md-button class="md-fab md-raised md-accent" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
+               ng-click="ctrl.studyEdit()" ng-if="!ctrl.projectIsCurrentlyReleased">
+      <md-tooltip md-autohide="true" md-direction="left"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.buttons.edit-study-tooltip' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">mode_edit</md-icon>
+    </md-button>
+  </div>
 </div>
