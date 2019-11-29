@@ -26,6 +26,7 @@
     $ctrl.noDataSets = false;
     $ctrl.noFinalRelease = false;
     $ctrl.dataNotAvailable = false;
+    $ctrl.variableNotAccessible = false;
     $ctrl.disabled = false;
 
     function init() {
@@ -66,9 +67,13 @@
             dataAcquisitionProjectId
           )
         })
-        .$promise.then(
+        .$promise
+        .then(
         function(releases) {
           $ctrl.releases = releases;
+          if (releases.length === 0) {
+            $ctrl.noFinalRelease = true;
+          }
           loadAccessWays(id);
         });
     }
