@@ -1,4 +1,3 @@
-/* global _ */
 (function() {
 
   'use strict';
@@ -23,9 +22,9 @@
     $ctrl.accessWays = [];
     $ctrl.lang = LanguageService.getCurrentInstantly();
     $ctrl.onDataPackageChange = MessageBus;
-    $ctrl.noDataSets = false;
     $ctrl.noFinalRelease = false;
     $ctrl.dataNotAvailable = false;
+    $ctrl.variableNotAccessible = false;
     $ctrl.disabled = false;
 
     function init() {
@@ -66,14 +65,20 @@
             dataAcquisitionProjectId
           )
         })
-        .$promise.then(
+        .$promise
+        .then(
         function(releases) {
           $ctrl.releases = releases;
+          if (releases.length === 0) {
+            $ctrl.noFinalRelease = true;
+          }
           loadAccessWays(id);
         });
     }
 
     function loadStudy(id) {
+      $ctrl.dataNotAvailable = false;
+      $ctrl.noFinalRelease = false;
       StudyResource.get({id: id})
         .$promise
         .then(function(data) {
@@ -98,13 +103,6 @@
         .$promise
         .then(function(data) {
           $ctrl.accessWays = data;
-          if ($ctrl.accessWays.length > 0) {
-            if (_.includes($ctrl.accessWays, 'not-accessible')) {
-              $ctrl.variableNotAccessible = true;
-            }
-          } else {
-            $ctrl.noDataSets = true;
-          }
         });
     }
 
