@@ -4,7 +4,7 @@
   var Component = {
     bindings: {
       collapsed: '<',
-      title: '<',
+      headline: '<',
       options: '<',
       lang: '<'
     },

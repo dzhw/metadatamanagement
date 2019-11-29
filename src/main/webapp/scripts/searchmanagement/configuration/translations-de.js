@@ -113,7 +113,6 @@ angular.module('metadatamanagementApp').config(
           'data_sets-found': '{number} {number, plural, =0{Datensätze} =1{Datensatz} other{Datensätze}} gefunden.',
           'data_sets-tooltip': 'Klicken, um nach Datensätzen zu suchen',
           'studies': 'Studien',
-          'data-packages': 'Datenpakete',
           'studies-found': '{number} {number, plural, =0{Studien} =1{Studie} other{Studien}} gefunden.',
           'studies-tooltip': 'Klicken, um nach Studien zu suchen',
           'concepts': 'Konzepte',

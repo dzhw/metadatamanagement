@@ -2,7 +2,7 @@
   <md-divider></md-divider>
   <md-card-header>
     <md-card-header-text>
-      <h2 class="md-title">{{($ctrl.title) | translate}}</h2>
+      <h2 class="md-title">{{($ctrl.headline) | translate}}</h2>
     </md-card-header-text>
     <md-button
       aria-label="md-card collapsed = {{$ctrl.collapsed}}}"
@@ -19,26 +19,13 @@
         <tr>
           <th class="fdz-table-third-absorbing-column">{{'study-management.detail.label.attachments.title' |
             translate }}
-            <md-tooltip hide-gt-xs md-direction="right">
-              {{'study-management.detail.label.attachments.title' | translate }}
-            </md-tooltip>
           </th>
           <th class="fdz-table-half-absorbing-column">{{'study-management.detail.label.attachments.description' |
             translate }}
-            <md-tooltip hide-gt-xs md-direction="right">
-              {{'study-management.detail.label.attachments.description' | translate }}
-            </md-tooltip>
           </th>
-
           <th>{{'study-management.detail.label.attachments.language' | translate }}
-            <md-tooltip hide-gt-xs md-direction="right">
-              {{'study-management.detail.label.attachments.language' | translate }}
-            </md-tooltip>
           </th>
           <th>{{'study-management.detail.label.attachments.file' | translate }}
-            <md-tooltip hide-gt-xs md-direction="right">
-              {{'study-management.detail.label.attachments.file' | translate }}
-            </md-tooltip>
           </th>
         </tr>
         </thead>
