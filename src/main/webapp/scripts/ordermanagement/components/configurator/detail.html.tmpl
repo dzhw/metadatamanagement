@@ -1,4 +1,4 @@
-<md-card class="fdz-data-packet" ng-if="$ctrl.study && $ctrl.studyIdVersion.masterId && $ctrl.lang && $ctrl.accessWays">
+<md-card class="fdz-data-packet" ng-if="$ctrl.study && $ctrl.studyIdVersion.masterId && $ctrl.lang && $ctrl.accessWays && $ctrl.releases">
   <md-card-header>
     <md-card-header-text>
       <a ui-sref="studyDetail({id: $ctrl.studyIdVersion.masterId, version: $ctrl.studyIdVersion.version})" class="md-title">
@@ -22,7 +22,7 @@
             {{$ctrl.study.numberOfWaves}}
           </span>
       </md-list-item>
-      <md-list-item ng-if="dataType[$ctrl.lang]">
+      <md-list-item ng-if="$ctrl.study.surveyDataTypes">
         <h5>{{'study-management.detail.label.survey-data-type' | translate }}:</h5>
         <span
           class="md-secondary">

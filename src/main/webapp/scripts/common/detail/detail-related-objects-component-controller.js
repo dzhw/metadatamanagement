@@ -400,10 +400,12 @@
       }
     });
 
-    $transitions.onStart({}, function(trans) {
+    var unregisterTransitionHook = $transitions.onStart({}, function(trans) {
       $ctrl.disabled = trans.$to().name === 'relatedPublicationDetail' ||
         trans.$to().name === 'conceptDetail';
     });
+
+    $scope.$on('$destroy', unregisterTransitionHook);
   }
 
   angular

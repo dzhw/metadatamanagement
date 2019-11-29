@@ -13,10 +13,9 @@
                                 ShoppingCartService,
                                 MessageBus,
                                 StudyResource,
-                                StudyAccessWaysResource,
-                                StudySearchService) {
+                                StudyAccessWaysResource) {
     var $ctrl = this;
-
+    var initReady = false;
     $ctrl.studyIdVersion = {};
     $ctrl.study = {};
     $ctrl.accessWays = [];
@@ -28,34 +27,18 @@
     $ctrl.disabled = false;
 
     function init() {
-      $ctrl.selectedAccessWay = '';
       var search = $location.search();
-      if (search['access-way'] && !$ctrl.selectedAccessWay) {
+      if (search['access-way']) {
         $ctrl.selectedAccessWay = search['access-way'];
       }
-      var createId = '';
-      var version = '';
-      if ($ctrl.studyIdVersion.version &&
-        search.version !== $ctrl.studyIdVersion.version) {
-        createId = $ctrl.studyIdVersion.masterId + '-' +
-          search.version;
-        version = search.version;
-        $ctrl.selectedVersion = $ctrl.studyIdVersion.version;
-      } else {
-        createId = $ctrl.studyIdVersion.masterId + '-' +
-          $ctrl.studyIdVersion.version;
-        version = $ctrl.studyIdVersion.version;
+      if (!$ctrl.selectedAccessWay) {
+        $ctrl.selectedAccessWay = '';
       }
-      findStudy($ctrl.studyIdVersion.masterId, version).then(function(value) {
-          // return value;
-          if (createId && value) {
-            loadStudy(createId);
-            $ctrl.selectedVersion = search.version;
-          } else {
-            $ctrl.study = null;
-          }
-        }
-      );
+      var studyId = $ctrl.studyIdVersion.masterId + '-' +
+          $ctrl.studyIdVersion.version;
+      $ctrl.selectedVersion = $ctrl.studyIdVersion.version;
+      loadStudy(studyId);
+      initReady = true;
     }
 
     function loadVersion(dataAcquisitionProjectId, id) {
@@ -77,6 +60,7 @@
     }
 
     function loadStudy(id) {
+      $rootScope.$broadcast('start-ignoring-404');
       $ctrl.dataNotAvailable = false;
       $ctrl.noFinalRelease = false;
       StudyResource.get({id: id})
@@ -95,6 +79,8 @@
           }
         }, function() {
           $ctrl.study = null;
+        }).finally(function() {
+          $rootScope.$broadcast('stop-ignoring-404');
         });
     }
 
@@ -103,13 +89,6 @@
         .$promise
         .then(function(data) {
           $ctrl.accessWays = data;
-        });
-    }
-
-    function findStudy(id, version) {
-      return StudySearchService.findShadowByIdAndVersion(id, version).promise
-        .then(function(result) {
-          return !!result;
         });
     }
 
@@ -123,10 +102,13 @@
         }
       });
     };
-    $transitions.onStart({}, function(trans) {
+    var unregisterTransitionHook = $transitions.onStart({}, function(trans) {
       $ctrl.disabled = trans.$to().name === 'relatedPublicationDetail' ||
         trans.$to().name === 'conceptDetail';
     });
+
+    $scope.$on('$destroy', unregisterTransitionHook);
+
     $scope.$watch(function() {
       return $ctrl.selectedVersion;
     }, function(newVal) {
@@ -143,12 +125,12 @@
       return $ctrl.selectedAccessWay;
     }, function(newVal) {
       var search = $location.search();
-      if (newVal !== search.accessWay) {
+      if (initReady && newVal !== search['access-way']) {
         search['access-way'] = $ctrl.selectedAccessWay;
         if (search['access-way'] === '') {
           delete search['access-way'];
         }
-        $location.replace(search);
+        $location.search(search).replace();
       }
     });
 
