@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
              DataSetAttachmentResource, DataSetCitateDialogService,
              SearchResultNavigatorService,
              DataAcquisitionProjectResource, OutdatedVersionNotifier,
-             $stateParams, blockUI, $mdDialog) {
+             $stateParams, blockUI, $mdDialog, MessageBus) {
       blockUI.start();
 
       SearchResultNavigatorService
@@ -57,6 +57,14 @@ angular.module('metadatamanagementApp')
         var fetchFn = DataSetSearchService.findShadowByIdAndVersion
           .bind(null, result.masterId);
         OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
+
+        if (!Principal.isAuthenticated()) {
+          MessageBus.set('onDataPackageChange',
+            {
+              masterId: result.study.masterId,
+              version: result.release.version
+            });
+        }
 
         var currentLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currentLanguage === 'de' ? 'en' : 'de';
