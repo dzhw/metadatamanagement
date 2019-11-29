@@ -23,7 +23,6 @@
     $ctrl.accessWays = [];
     $ctrl.lang = LanguageService.getCurrentInstantly();
     $ctrl.onDataPackageChange = MessageBus;
-    $ctrl.noDataSets = false;
     $ctrl.noFinalRelease = false;
     $ctrl.dataNotAvailable = false;
     $ctrl.variableNotAccessible = false;
@@ -79,6 +78,8 @@
     }
 
     function loadStudy(id) {
+      $ctrl.dataNotAvailable = false;
+      $ctrl.noFinalRelease = false;
       StudyResource.get({id: id})
         .$promise
         .then(function(data) {
@@ -103,13 +104,6 @@
         .$promise
         .then(function(data) {
           $ctrl.accessWays = data;
-          if ($ctrl.accessWays.length > 0) {
-            if (_.includes($ctrl.accessWays, 'not-accessible')) {
-              $ctrl.variableNotAccessible = true;
-            }
-          } else {
-            $ctrl.noDataSets = true;
-          }
         });
     }
 
