@@ -9,7 +9,6 @@ angular.module('metadatamanagementApp')
              LanguageService, DataSetSearchService,
              $state, $location,
              ToolbarHeaderService, Principal, SimpleMessageToastService,
-             StudyAttachmentResource,
              SearchResultNavigatorService,
              $stateParams,
              DataAcquisitionProjectAttachmentsResource,
