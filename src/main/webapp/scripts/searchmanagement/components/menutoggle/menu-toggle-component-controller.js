@@ -1,12 +1,14 @@
-'use strict';
+(function() {
+  'use strict';
 
-var CTRL = function() {
-  this.$onInit = function() {
-    this.toggleFilterItem = this.parent.toggleFilterItem;
-    this.exists = this.parent.exists;
-  };
-};
+  function MenuToggleController() {
+    this.$onInit = function() {
+      this.toggleFilterItem = this.parent.toggleFilterItem;
+      this.exists = this.parent.exists;
+    };
+  }
 
-angular
-  .module('metadatamanagementApp')
-  .controller('MenuToggleController', CTRL);
+  angular
+    .module('metadatamanagementApp')
+    .controller('MenuToggleController', MenuToggleController);
+})();

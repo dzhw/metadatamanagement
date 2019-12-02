@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.javers.core.Javers;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
@@ -19,6 +20,7 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper.SurveyAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
@@ -103,6 +105,26 @@ public class SurveyAttachmentService {
   }
 
   /**
+   * Load all metadata objects from gridfs (ordered by surveyNumber and indexInSurvey).
+   * 
+   * @param dataAcquisitionProjectId The id of the {@link DataAcquisitionProject}.
+   * @return A list of metadata.
+   */
+  public List<SurveyAttachmentMetadata> findAllByProject(String dataAcquisitionProjectId) {
+    Query query = new Query(GridFsCriteria.whereFilename()
+        .regex(SurveyAttachmentFilenameBuilder.ALL_SURVEY_ATTACHMENTS).andOperator(
+            GridFsCriteria.whereMetaData("dataAcquisitionProjectId").is(dataAcquisitionProjectId)));
+    query.with(Sort.by(Order.asc("metadata.surveyNumber"), Order.asc("metadata.indexInSurvey")));
+    Iterable<GridFSFile> files = this.operations.find(query);
+    List<SurveyAttachmentMetadata> result = new ArrayList<>();
+    files.forEach(gridfsFile -> {
+      result.add(mongoTemplate.getConverter().read(SurveyAttachmentMetadata.class,
+          gridfsFile.getMetadata()));
+    });
+    return result;
+  }
+
+  /**
    * Delete all attachments of all surveys.
    */
   public void deleteAll() {
@@ -111,8 +133,8 @@ public class SurveyAttachmentService {
         .regex(SurveyAttachmentFilenameBuilder.ALL_SURVEY_ATTACHMENTS));
     Iterable<GridFSFile> files = this.operations.find(query);
     files.forEach(file -> {
-      SurveyAttachmentMetadata metadata = mongoTemplate.getConverter().read(
-          SurveyAttachmentMetadata.class, file.getMetadata());
+      SurveyAttachmentMetadata metadata =
+          mongoTemplate.getConverter().read(SurveyAttachmentMetadata.class, file.getMetadata());
       javers.commitShallowDelete(currentUser, metadata);
     });
     this.operations.delete(query);
@@ -120,11 +142,12 @@ public class SurveyAttachmentService {
 
   /**
    * Update the metadata of the attachment.
+   * 
    * @param metadata The new metadata.
    */
   public void updateAttachmentMetadata(SurveyAttachmentMetadata metadata) {
-    String filePath = SurveyAttachmentFilenameBuilder.buildFileName(
-        metadata.getSurveyId(), metadata.getFileName());
+    String filePath = SurveyAttachmentFilenameBuilder.buildFileName(metadata.getSurveyId(),
+        metadata.getFileName());
     attachmentMetadataHelper.updateAttachmentMetadata(metadata, filePath);
   }
 

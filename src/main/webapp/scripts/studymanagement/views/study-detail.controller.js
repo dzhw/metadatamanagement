@@ -9,9 +9,9 @@ angular.module('metadatamanagementApp')
              LanguageService, DataSetSearchService,
              $state, $location,
              ToolbarHeaderService, Principal, SimpleMessageToastService,
-             StudyAttachmentResource,
              SearchResultNavigatorService,
              $stateParams,
+             DataAcquisitionProjectAttachmentsResource,
              $rootScope, DataAcquisitionProjectResource,
              ProjectUpdateAccessService, $scope,
              $timeout, $document,
@@ -52,11 +52,11 @@ angular.module('metadatamanagementApp')
       var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {
-        StudyAttachmentResource.findByStudyId({
-          studyId: ctrl.study.id
+        DataAcquisitionProjectAttachmentsResource.get({
+          id: ctrl.study.dataAcquisitionProjectId
         }).$promise.then(
           function(attachments) {
-            if (attachments.length > 0) {
+            if (attachments) {
               ctrl.attachments = attachments;
             }
           });

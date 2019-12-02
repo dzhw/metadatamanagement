@@ -41,6 +41,15 @@
   & md-card-actions > a {
     margin: 0 8px 16px 8px;
   }
+
+  md-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin: -16px 8px 8px 8px;
+    .md-button {
+      min-width: unset;
+    }
+  }
 }
 
 .fdz-search-result__link {

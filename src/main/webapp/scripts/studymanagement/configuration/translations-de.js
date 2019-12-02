@@ -44,7 +44,7 @@ angular.module('metadatamanagementApp').config(
             'published-at': 'veröffentlicht am'
           },
           'attachments': {
-            'table-title': 'Materialien zu der Studie',
+            'table-title': 'Materialien zu dem Datenpaket',
             'attachment-deleted-toast': 'Datei "{{ filename }}" wurde gelöscht!',
             'delete-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu löschen!',
             'edit-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu bearbeiten.',

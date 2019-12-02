@@ -26,19 +26,29 @@
     <div class="fdz-text-block fdz-multiline-property" display-i18n-string="searchResult.description" fdz-hyphenate
          limit-to="256"></div>
   </md-card-content>
-
-  <div class="fdz-search-result-actions-container" data-has-any-authority="ROLE_PUBLISHER">
-    <md-button class="md-icon-button md-primary" ui-sref="conceptEdit({id: searchResult.id})">
-      <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+  <md-card-actions
+    data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER">
+    <md-button
+      class="md-primary"
+      ng-click="conceptEdit({id: searchResult.id})">
+      <md-tooltip
+        md-autohide="true"
+        md-direction="left"
+        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.buttons.edit-concept-tooltip' | translate}}
       </md-tooltip>
       <md-icon md-font-set="material-icons">mode_edit</md-icon>
     </md-button>
-    <md-button class="md-icon-button md-primary" ng-click="deleteConcept(searchResult.id)" style="margin-left: 0px;">
-      <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+    <md-button
+      class="md-primary"
+      ng-click="deleteConcept(searchResult.id)">
+      <md-tooltip
+        md-autohide="true"
+        md-direction="left"
+        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.buttons.delete-concept-tooltip' | translate}}
       </md-tooltip>
       <md-icon md-font-set="material-icons">delete_forever</md-icon>
     </md-button>
-  </div>
+  </md-card-actions>
 </md-card>

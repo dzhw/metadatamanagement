@@ -2,15 +2,11 @@
   'use strict';
 
   var Component = {
-    controller: 'MenuToggleController',
-    require: {
-      parent: '^fdzSearchFilter'
-    },
     bindings: {
+      collapsed: '<',
+      headline: '<',
       options: '<',
-      name: '<',
-      property: '<',
-      collapsed: '<'
+      lang: '<'
     },
     templateUrl: ['$attrs', function($attrs) {
       return $attrs.templateUrl;
@@ -19,5 +15,6 @@
 
   angular
     .module('metadatamanagementApp')
-    .component('fdzMenuToggle', Component);
+    .component('fdzAttachment', Component);
+
 })();

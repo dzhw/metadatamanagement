@@ -48,13 +48,17 @@ angular.module('metadatamanagementApp').controller('SearchController',
       var locationSearch = {};
       locationSearch.page = '' + $scope.options.pageObject.page;
       locationSearch.size = '' + $scope.options.pageObject.size;
-      try {
-        locationSearch.type = $scope.tabs[
-          $scope.searchParams.selectedTabIndex].elasticSearchType;
-      } catch (e) {
-        $scope.searchParams.selectedTabIndex = 0;
-        locationSearch.type = $scope.tabs[
-          $scope.searchParams.selectedTabIndex].elasticSearchType;
+      if (Principal.isAuthenticated()) {
+        try {
+          locationSearch.type = $scope.tabs[
+            $scope.searchParams.selectedTabIndex].elasticSearchType;
+        } catch (e) {
+          $scope.searchParams.selectedTabIndex = 0;
+          locationSearch.type = $scope.tabs[
+            $scope.searchParams.selectedTabIndex].elasticSearchType;
+        }
+      } else {
+        locationSearch.type = 'studies';
       }
       if ($scope.searchParams.query && $scope.searchParams.query !== '') {
         locationSearch.query = $scope.searchParams.query;
@@ -78,6 +82,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.options.pageObject.size = 10;
         $scope.searchParams = {
           query: '',
+          type: 'studies',
           size: $scope.options.pageObject.size,
           selectedTabIndex: 0
         };
@@ -145,6 +150,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
       $scope.searchParams = {
         query: '',
+        type: 'studies',
         size: $scope.options.pageObject.size,
         selectedTabIndex: 0
       };
@@ -152,7 +158,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       writeSearchParamsToLocation();
       $scope.loadStudyForProject();
       $scope.search();
-
     };
 
     $scope.uploadVariables = function(files) {
@@ -455,22 +460,22 @@ angular.module('metadatamanagementApp').controller('SearchController',
         });
       });
 
-    $scope.$on('user-logged-out', function() {
-      var currentType = $scope.tabs[$scope.searchParams.selectedTabIndex]
-        .elasticSearchType;
-      $scope.tabs = _.filter($scope.tabs, function(tab) {
-        return tab.visibleForPublicUser || Principal.isAuthenticated();
-      });
-      var indexToSelect = _.findIndex($scope.tabs,
-        function(tab) {
-          return tab.elasticSearchType === currentType;
-        });
-      if (indexToSelect < 0) {
-        $scope.searchParams.selectedTabIndex = 0;
-      } else {
-        $scope.searchParams.selectedTabIndex = indexToSelect;
-      }
-    });
+    // $scope.$on('user-logged-out', function() {
+    //   var currentType = $scope.tabs[$scope.searchParams.selectedTabIndex]
+    //     .elasticSearchType;
+    //   $scope.tabs = _.filter($scope.tabs, function(tab) {
+    //     return tab.visibleForPublicUser || Principal.isAuthenticated();
+    //   });
+    //   var indexToSelect = _.findIndex($scope.tabs,
+    //     function(tab) {
+    //       return tab.elasticSearchType === currentType;
+    //     });
+    //   if (indexToSelect < 0) {
+    //     $scope.searchParams.selectedTabIndex = 0;
+    //   } else {
+    //     $scope.searchParams.selectedTabIndex = indexToSelect;
+    //   }
+    // });
 
     $scope.onPageChanged = function() {
       writeSearchParamsToLocation();
@@ -495,32 +500,32 @@ angular.module('metadatamanagementApp').controller('SearchController',
           queryChangeIsBeingHandled = false;
         });
       });
-    }
-    $scope.onSelectedTabChanged = function() {
-      if (!selectedTabChangeIsBeingHandled && !queryChangeIsBeingHandled) {
-        //prevent multiple tab change handlers caused by logout
-        selectedTabChangeIsBeingHandled = true;
-        $timeout(function() {
-          if (!tabChangedOnInitFlag) {
-            $scope.searchParams.filter = SearchHelperService
-              .removeIrrelevantFilters(
-                $scope.tabs[$scope.searchParams.selectedTabIndex]
-                  .elasticSearchType,
-                $scope.searchParams.filter);
-            $scope.searchParams.sortBy = undefined;
-            $scope.options.pageObject.page = 1;
-            writeSearchParamsToLocation();
-            if (!currentProjectChangeIsBeingHandled) {
-              $scope.search();
-            }
-            $scope.loadStudyForProject();
-          }
-          tabChangedOnInitFlag = false;
-          selectedTabChangeIsBeingHandled = false;
-        });
-      }
-    };
 
+      $scope.onSelectedTabChanged = function() {
+        if (!selectedTabChangeIsBeingHandled && !queryChangeIsBeingHandled) {
+          //prevent multiple tab change handlers caused by logout
+          selectedTabChangeIsBeingHandled = true;
+          $timeout(function() {
+            if (!tabChangedOnInitFlag) {
+              $scope.searchParams.filter = SearchHelperService
+                .removeIrrelevantFilters(
+                  $scope.tabs[$scope.searchParams.selectedTabIndex]
+                    .elasticSearchType,
+                  $scope.searchParams.filter);
+              $scope.searchParams.sortBy = undefined;
+              $scope.options.pageObject.page = 1;
+              writeSearchParamsToLocation();
+              if (!currentProjectChangeIsBeingHandled) {
+                $scope.search();
+              }
+              $scope.loadStudyForProject();
+            }
+            tabChangedOnInitFlag = false;
+            selectedTabChangeIsBeingHandled = false;
+          });
+        }
+      };
+    }
     //Refresh function for the refresh button
     $scope.refresh = function() {
       $scope.search();

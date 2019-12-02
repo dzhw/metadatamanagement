@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
               return result;
             } else {
               SimpleMessageToastService.openAlertMessageToast(
-                'study-management.detail.not-found', {id: id});
+                'study-management.detail.not-found', {id: id}, 5000);
               return null;
             }
           });
