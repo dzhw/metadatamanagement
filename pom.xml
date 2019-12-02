@@ -102,38 +102,15 @@
             <artifactId>jest</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-bean-validators</artifactId>
-            <version>2.9.2</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-plugin-core</artifactId>
-                    <groupId>org.springframework.plugin</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-plugin-core</artifactId>
-                    <groupId>org.springframework.plugin</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-plugin-core</artifactId>
-                    <groupId>org.springframework.plugin</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+    		<groupId>org.springdoc</groupId>
+    		<artifactId>springdoc-openapi-ui</artifactId>
+    		<version>1.2.15</version>
+		</dependency>
+		<dependency>
+      		<groupId>org.springdoc</groupId>
+      		<artifactId>springdoc-openapi-data-rest</artifactId>
+      		<version>1.2.15</version>
+   		</dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>

@@ -17,8 +17,8 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceCon
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Survey REST Controller which overrides default spring data rest methods.
@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
  * @author René Reitmann
  */
 @RepositoryRestController
-@Api(value = "Survey Resource", description = "Endpoints used by the MDM to manage surveys.")
+@Tag(name = "Survey Resource", description = "Endpoints used by the MDM to manage surveys.")
 @RequestMapping("/api")
 public class SurveyResourceController
     extends GenericDomainObjectResourceController<Survey, CrudService<Survey>> {
@@ -37,7 +37,7 @@ public class SurveyResourceController
   }
 
   @Override
-  @ApiOperation("Get the survey. Public users will get the latest version of the survey."
+  @Operation(description = "Get the survey. Public users will get the latest version of the survey."
       + " If the id is postfixed with the version number it will return exactly the "
       + "requested version, if available.")
   @GetMapping(value = "/surveys/{id:.+}")

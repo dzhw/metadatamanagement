@@ -23,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
 import io.searchbox.annotations.JestId;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,7 +44,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-@ApiModel(
+@Schema(
     description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
         + "fdz/metadatamanagement/conceptmanagement/domain/Concept.html'>here</a>"
         + " for further details.")
