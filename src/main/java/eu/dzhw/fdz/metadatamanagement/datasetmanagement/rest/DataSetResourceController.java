@@ -38,7 +38,7 @@ public class DataSetResourceController
 
   @Override
   @Operation(
-      description = "Get the dataset. Public users will get the latest version of the dataset."
+      summary = "Get the dataset. Public users will get the latest version of the dataset."
           + " If the id is postfixed with the version number it will return exactly the "
           + "requested version, if available.")
   @GetMapping(value = "/data-sets/{id:.+}")

@@ -38,7 +38,7 @@ public class InstrumentResourceController
 
   @Override
   @Operation(
-      description = "Get the instrument. Public users will get the latest version of the"
+      summary = "Get the instrument. Public users will get the latest version of the"
           + " instrument."
           + " If the id is postfixed with the version number it will return exactly the "
           + "requested version, if available.")

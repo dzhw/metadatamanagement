@@ -38,7 +38,7 @@ public class RelatedPublicationResourceController extends
   }
 
   @Override
-  @Operation(description = "Get the publication.")
+  @Operation(summary = "Get the publication.")
   @GetMapping(value = "/related-publications/{id:.+}")
   public ResponseEntity<RelatedPublication> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);

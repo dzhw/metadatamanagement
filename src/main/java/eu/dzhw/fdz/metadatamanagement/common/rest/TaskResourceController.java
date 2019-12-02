@@ -24,6 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
+import io.swagger.v3.oas.annotations.Hidden;
 
 /**
  * Task REST Controller.
@@ -32,6 +33,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
  */
 @RestController
 @RequestMapping("/api")
+@Hidden
 public class TaskResourceController
     extends GenericDomainObjectResourceController<Task, TaskManagementService> {
   private final UserService userService;
@@ -57,6 +59,7 @@ public class TaskResourceController
    */
   @Override
   @GetMapping("/tasks/{taskId}")
+  @Hidden
   public ResponseEntity<Task> getDomainObject(@PathVariable String taskId) {
     return super.getDomainObject(taskId);
   }
@@ -67,6 +70,7 @@ public class TaskResourceController
    * @param errorNotification A valid {@link TaskErrorNotification} object.
    */
   @PostMapping("/tasks/error-notification")
+  @Hidden
   @Secured(value = {AuthoritiesConstants.TASK_USER})
   public ResponseEntity<?> reportTaskError(
       @RequestBody @Valid TaskErrorNotification errorNotification) {

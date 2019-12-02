@@ -37,7 +37,7 @@ public class StudyResourceController
   }
 
   @Override
-  @Operation(description = "Get the study. Public users will get the latest version of the study."
+  @Operation(summary = "Get the study. Public users will get the latest version of the study."
       + " If the id is postfixed with the version number it will return exactly the "
       + "requested version, if available.")
   @GetMapping(value = "/studies/{id:.+}")
