@@ -41,8 +41,15 @@
 // fdz-components
 // Extracted declarations from main.scss
 @import "will-be-deleted/search-result-theme";
+@import "search-result-theme";
 @import "ribbon-theme";
 @import "splash-theme";
 @import "search-result-buttons";
 @import "breadcrumbs-theme";
 @import "footer-theme";
+@import "search-theme";
+@import "detail-theme";
+@import "table-theme";
+@import "search-filter-theme";
+@import "dataPacket-theme";
+@import "tag-theme";

@@ -9,9 +9,9 @@ angular.module('metadatamanagementApp')
              LanguageService, $state, ToolbarHeaderService,
              CleanJSObjectService, SimpleMessageToastService,
              DataSetAttachmentResource, DataSetCitateDialogService,
-             SearchResultNavigatorService, ProductChooserDialogService,
+             SearchResultNavigatorService,
              DataAcquisitionProjectResource, OutdatedVersionNotifier,
-             $stateParams, blockUI, $mdDialog) {
+             $stateParams, blockUI, $mdDialog, MessageBus) {
       blockUI.start();
 
       SearchResultNavigatorService
@@ -57,6 +57,14 @@ angular.module('metadatamanagementApp')
         var fetchFn = DataSetSearchService.findShadowByIdAndVersion
           .bind(null, result.masterId);
         OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
+
+        if (!Principal.isAuthenticated()) {
+          MessageBus.set('onDataPackageChange',
+            {
+              masterId: result.study.masterId,
+              version: result.release.version
+            });
+        }
 
         var currentLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currentLanguage === 'de' ? 'en' : 'de';
@@ -144,14 +152,6 @@ angular.module('metadatamanagementApp')
                 'data-set-management.detail.report-generation-started-toast');
             });
         });
-      };
-
-      ctrl.addToShoppingCart = function(event) {
-        ProductChooserDialogService.showDialog(
-          ctrl.dataSet.dataAcquisitionProjectId, ctrl.dataSet.accessWays,
-          ctrl.dataSet.study,
-          ctrl.dataSet.release.version,
-          event);
       };
 
       ctrl.dataSetEdit = function() {

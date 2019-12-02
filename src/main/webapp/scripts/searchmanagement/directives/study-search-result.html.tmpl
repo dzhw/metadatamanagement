@@ -1,33 +1,41 @@
-<md-card style="position: relative;">
-    <a ui-sref="studyDetail({id: searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: ''})" class="fdz-search-result">
-        <md-card-header class="fdz-card-header-border">
-            <md-card-avatar>
-                <md-icon md-svg-src="/assets/images/icons/study.svg" class="fdz-search-result-icon"></md-icon>
-            </md-card-avatar>
-            <md-card-header-text class="fdz-truncate-string">
-                <div class="md-title fdz-truncate-string"><span display-i18n-string="searchResult.title"></span> <span class="label label-as-badge label-default">{{searchResult.masterId}}</span></div>
-                <div class="md-subhead fdz-truncate-string">
-                    <span ng-repeat="author in searchResult.authors">
-                    <span>{{author.lastName}}, </span>
-                    <span ng-if="!author.middleName">{{author.firstName}}{{!$last?';':''}}</span>
-                    <span ng-if="author.middleName">{{author.firstName}} {{author.middleName}}{{!$last?';':''}}</span>
-                    </span>
-                </div>
-            </md-card-header-text>
-        </md-card-header>
-        <md-card-content>
-            <div display-i18n-string="searchResult.description" limit-to="256" fdz-hyphenate class="fdz-text-block fdz-multiline-property"></div>
-        </md-card-content>
-        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-            {{'search-management.cards.study-tooltip' | translate: {id: searchResult.masterId} }}
-        </md-tooltip>
-    </a>
-    <div class="fdz-search-result-actions-container" ng-if="!projectIsCurrentlyReleased" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER">
-        <md-button class="md-icon-button md-primary" ng-click="studyEdit()" >
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'search-management.buttons.edit-study-tooltip' | translate}}
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">mode_edit</md-icon>
-        </md-button>
-    </div>
+<md-card class="fdz-search-result">
+  <md-card-header>
+    <md-card-header-text>
+      <div class="md-title">
+        <a ui-sref="studyDetail({id: $ctrl.searchResult.masterId, 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: ''})"
+        ng-click="$ctrl.setParams()">
+          <span display-i18n-string="$ctrl.searchResult.title"></span>
+        </a>
+      </div>
+      <div class="md-subhead">
+          <span ng-if="$ctrl.searchResult.surveyPeriod.start">
+            {{'study-management.detail.label.survey-period' | translate }}: {{($ctrl.searchResult.surveyPeriod.start | date:'mediumDate')}} - {{($ctrl.searchResult.surveyPeriod.end | date:'mediumDate')}}
+          </span>
+        <span ng-if="$ctrl.searchResult.surveyDataTypes.length > 0">
+            {{'study-management.detail.label.survey-data-type' | translate }}: {{$ctrl.searchResult.surveyDataTypes[0][$ctrl.currentLanguage]}}
+          </span>
+      </div>
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-content
+    ng-text-truncate="$ctrl.searchResult.description[$ctrl.currentLanguage]"
+    ng-tt-chars-threshold="256"
+    ng-tt-less-label="{{'global.less' | translate}}"
+    ng-tt-more-label="{{'global.more' | translate}}">
+  </md-card-content>
+  <md-card-actions ng-if="$ctrl.searchQuery && !$ctrl.isAuthenticated()" layout="row" layout-align="start center">
+    <a class="md-small md-primary"
+       ng-if="!$ctrl.isAuthenticated()"
+       ui-sref="studyDetail({id: $ctrl.searchResult.masterId, 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: '', 'query': $ctrl.searchQuery})">
+      {{'search-management.search-result.dataPacketSearch' | translate:{searchQuery: $ctrl.searchQuery} }}</a>
+  </md-card-actions>
+  <div class="fdz-search-result-actions-container" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
+       ng-if="!$ctrl.projectIsCurrentlyReleased">
+    <md-button class="md-icon-button md-primary" ng-click="$ctrl.studyEdit()">
+      <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.buttons.edit-study-tooltip' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">mode_edit</md-icon>
+    </md-button>
+  </div>
 </md-card>

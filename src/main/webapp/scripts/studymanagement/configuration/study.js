@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
               return result;
             } else {
               SimpleMessageToastService.openAlertMessageToast(
-                'study-management.detail.not-found', {id: id});
+                'study-management.detail.not-found', {id: id}, 5000);
               return null;
             }
           });
@@ -32,7 +32,9 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('studyDetail', {
         parent: 'site',
-        url: '/studies/{id}?,{version}',
+        url: '/studies/{id}?{version}{query}{page}{size}' +
+          '{access-way}{type}',
+        reloadOnSearch: false,
         data: {
           authorities: []
         },

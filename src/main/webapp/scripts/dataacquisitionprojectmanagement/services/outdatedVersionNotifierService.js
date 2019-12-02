@@ -5,16 +5,6 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
   function($state, SimpleMessageToastService, $document, $mdToast, Principal,
     $location) {
 
-    var createHref = function(item) {
-      return $state.href($state.current.name, {
-          id: item.masterId,
-          version: _.get(item, 'release.version')
-        },
-        {
-          absolute: false
-        });
-    };
-
     var createMasterRef = function(item) {
       return $state.href($state.current.name, {
           id: item.masterId,
@@ -25,9 +15,8 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
         });
     };
 
-    var showPublicUserMessage = function(href, oldVersion, newVersion) {
+    var showPublicUserMessage = function(oldVersion, newVersion) {
       var messageParams = {
-        href: href,
         oldVersion: oldVersion,
         newVersion: newVersion
       };
@@ -55,8 +44,7 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
         fetchFn().promise.then(function(result) {
           var oldVersion = _.get(item, 'release.version');
           var newVersion = _.get(result, 'release.version');
-          var href = createHref(result);
-          showPublicUserMessage(href, oldVersion, newVersion);
+          showPublicUserMessage(oldVersion, newVersion);
         });
       } else if (item.shadow && versionFromUrl && bowser.compareVersions(
         [versionFromUrl, item.release.version]) === -1) {
@@ -70,10 +58,7 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
         if ($document.find('[data-translate="data-acquisition' +
           '-project-management.outdated-version-alert"]').length > 0 ||
           $document.find('[data-translate="data-acquisition' +
-            '-project-management.not-master-alert"]').length > 0 ||
-            $document.find('[data-translate="data-acquisition' +
-            '-project-management.outdated-version-not-found-alert"]')
-              .length > 0) {
+            '-project-management.not-master-alert"]').length > 0) {
           $mdToast.hide();
         }
       }

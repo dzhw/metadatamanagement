@@ -1,0 +1,76 @@
+<md-card>
+<md-divider></md-divider>
+  <md-card-header>
+    <md-card-header-text>
+      <h2 class="md-title">{{'variable-management.detail.statistics.statistics' | translate }}</h2>
+    </md-card-header-text>
+    <md-button
+      aria-label="md-card collapsed = {{$ctrl.collapsed}}}"
+      class="md-card-collapsible-button"
+      ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <md-list>
+        <md-list-item ng-if="$ctrl.options.variable.distribution.validResponses">
+          <h5>{{'variable-management.detail.label.statistics.validResponses' | translate }}:</h5>
+          <span class="md-secondary">{{$ctrl.options.variable.distribution.validResponses.length}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.minimum != null">
+          <h5>{{'variable-management.detail.label.statistics.minimum' | translate }}:</h5>
+          <span class="md-secondary">{{$ctrl.options.variable.distribution.statistics.minimum | formatResponse: $ctrl.options.variable}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.maximum != null">
+          <h5>{{'variable-management.detail.label.statistics.maximum' | translate }}:</h5>
+          <span class="md-secondary">{{$ctrl.options.variable.distribution.statistics.maximum | formatResponse: $ctrl.options.variable}}</span>
+        </md-list-item>
+        <h4 ng-if="$ctrl.options.checkCentralTendencyElements()">
+          {{'variable-management.detail.label.central-tendency' | translate}}
+        </h4>
+        <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.meanValue != null">
+          <h5>{{'variable-management.detail.label.statistics.mean-value' | translate }} <span katex>(\bar x)</span>:</h5>
+          <span class="md-secondary">
+            {{$ctrl.options.variable.distribution.statistics.meanValue | formatResponse: $ctrl.options.variable:true}}
+          </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.median != null">
+          <h5>{{'variable-management.detail.label.statistics.median' | translate }} <span katex>(\tilde x)</span>:</h5>
+          <span class="md-secondary">{{$ctrl.options.variable.distribution.statistics.median | formatResponse: $ctrl.options.variable}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.mode != null">
+          <h5>{{'variable-management.detail.label.statistics.mode' | translate }} <span katex>(h)</span>:</h5>
+          <span class="md-secondary">{{$ctrl.options.variable.distribution.statistics.mode | formatResponse: $ctrl.options.variable}}</span>
+        </md-list-item>
+
+        <h4 ng-if="$ctrl.options.checkDispersionElements()">
+          {{'variable-management.detail.label.dispersion' | translate}}
+        </h4>
+        <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.standardDeviation != null">
+          <h5>{{'variable-management.detail.label.statistics.standardDeviation' | translate }} <span katex>(h)</span>:</h5>
+          <span class="md-secondary">
+            {{$ctrl.options.variable.distribution.statistics.standardDeviation | number:2}}
+          </span>
+        </md-list-item>
+
+        <h4 ng-if="$ctrl.options.checkDistributionElements()">
+          {{'variable-management.detail.label.distribution' | translate}}
+        </h4>
+        <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.skewness != null">
+          <h5>{{'variable-management.detail.label.statistics.skewness' | translate }} <span katex>(h)</span>:</h5>
+          <span class="md-secondary">
+            {{$ctrl.options.variable.distribution.statistics.skewness | number:2}}
+          </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.kurtosis != null">
+            <h5>{{'variable-management.detail.label.statistics.kurtosis' | translate }} <span katex>(h)</span>:</h5>
+            <span class="md-secondary">
+              {{$ctrl.options.variable.distribution.statistics.kurtosis | number:2}}
+            </span>
+        </md-list-item>
+        </md-list>
+    </md-card-content>
+  </div>
+</md-card>

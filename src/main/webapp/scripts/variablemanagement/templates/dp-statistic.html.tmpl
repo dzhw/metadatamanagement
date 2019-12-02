@@ -1,0 +1,22 @@
+<md-card>
+<md-divider></md-divider>
+  <md-card-header>
+    <md-card-header-text>
+      <h2 class="md-title">{{'variable-management.detail.statistics.graphics' | translate }}</h2>
+    </md-card-header-text>
+    <md-button
+      aria-label="md-card collapsed = {{$ctrl.collapsed}}}"
+      class="md-card-collapsible-button"
+      ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <div id="diagramContainer">
+        <diagram language="$ctrl.lang" ng-cloak variable="$ctrl.options"></diagram>
+      </div>
+    </md-card-content>
+  </div>
+</md-card>

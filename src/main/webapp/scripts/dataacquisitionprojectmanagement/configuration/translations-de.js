@@ -228,7 +228,7 @@ angular.module('metadatamanagementApp').config(
             'current': 'Klicken, um die Projekte auf Seite {{number}} anzuzeigen'
           }
         },
-        'outdated-version-alert': 'Sie betrachten eine veraltete Version ({{oldVersion}}) dieser Seite. <a href="{{href}}">Hier geht es zur aktuellen Version ({{newVersion}}).</a>',
+        'outdated-version-alert': 'Sie betrachten eine veraltete Version ({{oldVersion}}) dieser Seite. Wählen Sie die aktuelle Version ({{newVersion}}) im Seitenmenü.</a>',
         'outdated-version-not-found-alert': 'Ihr Link verweist auf eine ältere Version ({{oldVersion}}) dieser Seite. Hier wird die aktuelle Version ({{newVersion}}) dargestellt.',
         'not-master-alert': 'Sie betrachten eine {{hidden?"<u>versteckte</u>":""}} Schattenkopie ({{version}}). <a href="{{href}}">Hier geht es zur aktuellen Version!</a>'
       }

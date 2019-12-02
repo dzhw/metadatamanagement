@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.javers.core.Javers;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
@@ -21,6 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedEx
 import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.helper.InstrumentAttachmentFilenameBuilder;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 
@@ -106,6 +108,27 @@ public class InstrumentAttachmentService {
     Query query = new Query(GridFsCriteria.whereFilename().regex("^"
         + Pattern.quote(InstrumentAttachmentFilenameBuilder.buildFileNamePrefix(instrumentId))));
     query.with(Sort.by(Sort.Direction.ASC, "metadata.indexInInstrument"));
+    Iterable<GridFSFile> files = this.operations.find(query);
+    List<InstrumentAttachmentMetadata> result = new ArrayList<>();
+    files.forEach(gridfsFile -> {
+      result.add(mongoTemplate.getConverter().read(InstrumentAttachmentMetadata.class,
+          gridfsFile.getMetadata()));
+    });
+    return result;
+  }
+
+  /**
+   * Load all metadata objects from gridfs (ordered by instrumentNumber and indexInInstrument).
+   * 
+   * @param dataAcquisitionProjectId The id of the {@link DataAcquisitionProject}.
+   * @return A list of metadata.
+   */
+  public List<InstrumentAttachmentMetadata> findAllByProject(String dataAcquisitionProjectId) {
+    Query query = new Query(GridFsCriteria.whereFilename()
+        .regex(InstrumentAttachmentFilenameBuilder.ALL_INSTRUMENT_ATTACHMENTS).andOperator(
+            GridFsCriteria.whereMetaData("dataAcquisitionProjectId").is(dataAcquisitionProjectId)));
+    query.with(
+        Sort.by(Order.asc("metadata.instrumentNumber"), Order.asc("metadata.indexInInstrument")));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<InstrumentAttachmentMetadata> result = new ArrayList<>();
     files.forEach(gridfsFile -> {

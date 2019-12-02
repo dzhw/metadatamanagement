@@ -93,7 +93,8 @@
     }
     &.md-active, &.md-focused {
       &, md-icon {
-        color: $brand-secondary;
+        color: $foreground-1;
+        //color: $brand-secondary;
       }
     }
     &.md-focused {

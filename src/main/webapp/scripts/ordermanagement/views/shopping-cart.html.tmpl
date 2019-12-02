@@ -6,39 +6,39 @@
     </div>
     <div ng-if="ctrl.initComplete" ng-repeat="product in ctrl.products" class="fdz-fade-in">
         <md-card style="position: relative;">
-            <md-card-header class="fdz-card-header-border">
-                <md-card-avatar>
-                    <md-icon md-svg-src="/assets/images/icons/product.svg" class="fdz-search-result-icon"></md-icon>
-                </md-card-avatar>
+            <md-card-header>
                 <md-card-header-text class="fdz-truncate-string">
-                    <div class="md-title fdz-truncate-string"><a ui-sref="studyDetail({id: product.study.id, version: product.version})">
+                    <div class="md-title fdz-truncate-string">
+                      <a ui-sref="studyDetail({id: product.study.id, version: product.version, 'access-way': product.accessWay})">
                             {{ctrl.studies[product.study.id + '-' + product.version].title | displayI18nString}}
                             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                                 {{'shopping-cart.detail.study-tooltip' | translate}}
                             </md-tooltip>
                         </a>
                     </div>
-                    <div class="md-subhead fdz-truncate-string" style="color: black;"><span>{{product.accessWay}}, </span><span>{{'shopping-cart.detail.label.version' | translate }} {{product.version}}</span> <strong ng-if="!ctrl.isCurrentVersion(product)">{{'(' + ('shopping-cart.detail.label.not-current' | translate) + ')'}}</strong><span
+                    <div class="md-subhead fdz-truncate-string">
+                      <span>{{product.accessWay}}, </span><span>{{'shopping-cart.detail.label.version' | translate }} {{product.version}}</span> <strong ng-if="!ctrl.isCurrentVersion(product)">{{'(' + ('shopping-cart.detail.label.not-current' | translate) + ')'}}</strong><span
                           ng-if="ctrl.isCurrentVersion(product)">{{' (' + ('shopping-cart.detail.label.current' | translate) + ')'}}</span></div>
                 </md-card-header-text>
             </md-card-header>
-            <md-card-content ng-switch="ctrl.noShadowCopyAvailable[product.study.id + '-' + product.version]">
+          <md-divider></md-divider>
+            <md-card-content ng-switch="ctrl.noShadowCopyAvailable[product.study.id + '-' + product.version]" class="pt16">
                 <span>{{'shopping-cart.detail.label.this-data-product' | translate}}</span>
-                <a ui-sref="search({'type': 'studies', 'study-series-{{currentLanguage}}': ctrl.studies[product.study.id + '-' + product.version].studySeries[currentLanguage]})" ng-if="ctrl.studies[product.study.id + '-' + product.version].studySeries[currentLanguage]">{{'shopping-cart.detail.label.study-series' | translate:'{series:"'+ ctrl.studies[product.study.id + '-' + product.version].studySeries[currentLanguage] + '"}'}}
+                <a ui-sref="search({id: product.study.id, version: product.version, 'type': 'studies', 'study-series': ctrl.studies[product.study.id + '-' + product.version].studySeries[currentLanguage]})" ng-if="ctrl.studies[product.study.id + '-' + product.version].studySeries[currentLanguage]">{{'shopping-cart.detail.label.study-series' | translate:'{series:"'+ ctrl.studies[product.study.id + '-' + product.version].studySeries[currentLanguage] + '"}'}}
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'shopping-cart.detail.study-series-tooltip' | translate}}
                     </md-tooltip>
                 </a>
                 <span>{{'shopping-cart.detail.label.contains' | translate}}</span>
                 <span ng-switch-when="true">{{'shopping-cart.detail.label.variables' | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' + (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}</span>
-                <a ng-switch-default ui-sref="search({'type': 'variables', 'study': product.study.id + '-' + product.version, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.variables' | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' + (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}
+                <a ng-switch-default ui-sref="studyDetail({id: product.study.id, version: product.version, 'type': 'variables', 'access-way': product.accessWay})">{{'shopping-cart.detail.label.variables' | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' + (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'shopping-cart.detail.variables-tooltip' | translate}}
                     </md-tooltip>
                 </a>
                 <span>{{'shopping-cart.detail.label.in' | translate}}</span>
                 <span ng-switch-when="true">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}</span>
-                <a ng-switch-default ui-sref="search({'type': 'data_sets', 'study': product.study.id + '-' + product.version, 'access-way': product.accessWay})">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}
+                <a ng-switch-default ui-sref="studyDetail({id: product.study.id, version: product.version, 'type': 'data_sets', 'access-way': product.accessWay})">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                         {{'shopping-cart.detail.data-sets-tooltip' | translate}}
                     </md-tooltip>
@@ -59,7 +59,7 @@
         </md-card>
     </div>
     <md-card ng-if="ctrl.initComplete && ctrl.products && ctrl.products.length > 0" class="fdz-fade-in">
-        <md-card-content>
+        <md-card-content class="pt16">
             <p data-translate="shopping-cart.detail.explain-data-product"></p>
         </md-card-content>
     </md-card>
@@ -70,7 +70,7 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content style="padding-top: 0px;">
+        <md-card-content  class="pt16">
             <div flex layout-gt-sm="row" layout="column">
                 <md-input-container flex="50" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}" md-is-error="!customerForm.name.$valid && (customerForm.name.$dirty || customerForm.name.$touched)" style="margin-bottom: 0px;">
                     <label class="fdz-input-required">{{'shopping-cart.detail.label.customer-name' | translate}}</label>
@@ -112,7 +112,7 @@
         </md-card-content>
     </md-card>
     <md-card ng-if="ctrl.initComplete && !(ctrl.products && ctrl.products.length > 0)" class="fdz-fade-in">
-        <md-card-content layout-align="center center">
+        <md-card-content layout-align="center center" class="pt16">
             <p ng-if="ctrl.orderSaved" data-translate="shopping-cart.detail.order-placed-text"></p>
             <p data-translate="shopping-cart.detail.empty-cart-text"></p>
             <p ng-if="!ctrl.orderSaved" data-translate="shopping-cart.detail.explain-data-product"></p>

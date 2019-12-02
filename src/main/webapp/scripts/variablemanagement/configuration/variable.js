@@ -30,7 +30,8 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('variableDetail', {
         parent: 'site',
-        url: '/variables/{id}?{version}',
+        url: '/variables/{id}?{version}{query}{page}{size}',
+        reloadOnSearch: false,
         data: {
           authorities: []
         },
@@ -41,7 +42,8 @@ angular.module('metadatamanagementApp')
           'content@': {
             templateUrl: 'scripts/variablemanagement/views/' +
               'variable-detail.html.tmpl',
-            controller: 'VariableDetailController'
+            controller: 'VariableDetailController',
+            controllerAs: 'ctrl'
           }
         },
         resolve: {

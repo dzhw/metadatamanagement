@@ -1,7 +1,34 @@
 <div ng-if="ctrl.instrument.id">
   <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
   <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
-  <div class="fdz-cc">
+  <div class="fdz-cc" ng-if="!isAuthenticated()">
+    <div>
+      <div class="fdz-detail">
+        <div class="fdz-detail__header">
+          <h1 class="md-headline" display-i18n-string="ctrl.instrument.title" fdz-hyphenate></h1>
+        </div>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.instrument"
+          template-url="scripts/instrumentmanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+        <fdz-related-objects
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.counts"
+          id="ctrl.instrument.id"
+          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+        <fdz-detail
+          ng-if="ctrl.attachments"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.attachments"
+          template-url="scripts/instrumentmanagement/templates/dp-attachments.html.tmpl"></fdz-detail>
+      </div>
+    </div>
+  </div>
+
+  <div class="fdz-cc" ng-if="isAuthenticated()">
     <div layout="row" layout-margin style="margin-bottom: 0px;">
       <h1 class="md-headline fdz-headline">
         <span display-i18n-string="ctrl.instrument.description" fdz-hyphenate></span>
@@ -20,7 +47,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-card-content>
+          <md-card-content class="pt16">
             <div class="fdz-add-bottom-margin" ng-if="ctrl.instrument.title">
               <span style="font-weight: bold;">{{'instrument-management.detail.label.title' | translate }}:</span>
               <span display-i18n-string="ctrl.instrument.title" fdz-hyphenate></span>
@@ -50,7 +77,7 @@
             </md-card-header-text>
           </md-card-header>
           <md-divider></md-divider>
-          <md-card-content>
+          <md-card-content class="pt16">
             <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
               <div class="fdz-truncate-string" flex ng-if="!ctrl.study">
                 <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
@@ -242,13 +269,6 @@
         {{'search-management.buttons.edit-instrument-tooltip' | translate}}
       </md-tooltip>
       <md-icon md-font-set="material-icons">mode_edit</md-icon>
-    </md-button>
-    <md-button class="md-fab md-raised md-accent" ng-click="ctrl.addToShoppingCart($event)"
-               ng-if="!ctrl.isAuthenticated() || ctrl.hasAuthority('ROLE_USER')">
-      <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'shopping-cart.buttons.add-study-tooltip' | translate}}
-      </md-tooltip>
-      <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
     </md-button>
   </div>
 </div>

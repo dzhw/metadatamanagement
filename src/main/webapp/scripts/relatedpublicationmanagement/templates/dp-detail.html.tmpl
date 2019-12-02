@@ -1,0 +1,74 @@
+<md-card>
+<md-divider></md-divider>
+  <md-card-header>
+    <md-card-header-text>
+      <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+    </md-card-header-text>
+    <md-button
+      aria-label="md-card collapsed = {{$ctrl.collapsed}}}"
+      class="md-card-collapsible-button"
+      ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <md-list>
+        <md-list-item ng-if="$ctrl.options.authors">
+          <h5>{{'related-publication-management.detail.label.authors' | translate }}:</h5>
+          <span
+            class="md-secondary">{{$ctrl.options.authors}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.year">
+          <h5>{{'related-publication-management.detail.label.year' | translate }}:</h5>
+          <span
+            class="md-secondary">{{$ctrl.options.year}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.sourceReference">
+          <h5>{{'related-publication-management.detail.label.sourceReference' | translate }}:</h5>
+          <span
+            class="md-secondary" lang="{{$ctrl.options.language}}">{{$ctrl.options.sourceReference}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.doi">
+          <h5>{{'related-publication-management.detail.label.doi' | translate }}:</h5>
+          <span
+            class="md-secondary">
+            <a
+              ng-href="https://dx.doi.org/{{$ctrl.options.relatedPublication.doi}}"
+              target="_blank">
+              {{$ctrl.options.doi}}
+              <md-tooltip
+                md-autohide="true"
+                md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'related-publication-management.detail.doi-tooltip' | translate}}
+              </md-tooltip>
+            </a>
+          </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.sourceLink">
+          <h5>{{'related-publication-management.detail.label.sourceLink' | translate }}:</h5>
+          <span
+            class="md-secondary">
+            <a
+              class="fdz-truncate-string"
+              ng-href="{{$ctrl.options.sourceLink}}" style="display: block;"
+              target="_blank">{{$ctrl.options.sourceLink}}
+                <md-tooltip
+                  md-autohide="true"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'related-publication-management.detail.sourceLink-tooltip' | translate}}
+                </md-tooltip>
+              </a>
+          </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.annotations">
+          <h5>{{'related-publication-management.detail.label.annotations' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.annotations"
+            fdz-hyphenate></span>
+        </md-list-item>
+    </md-card-content>
+  </div>
+</md-card>

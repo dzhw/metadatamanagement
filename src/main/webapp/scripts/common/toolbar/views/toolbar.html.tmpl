@@ -1,143 +1,108 @@
-<md-toolbar md-whiteframe="1" class="">
-    <div ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" class="ribbon md-body-2" style="z-index: 999" ng-cloak>{{ENV}}</div>
+<md-toolbar class="" md-whiteframe="1">
+  <div class="ribbon md-body-2"
+       ng-cloak ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" style="z-index: 999">{{ENV}}
+  </div>
 
-    <nav class="fdz-nav md-toolbar-tools" layout="row">
-      <div>
-      <md-button class="md-icon-button fdz-secondary" hide-gt-md ng-if="isAuthenticated()" ng-click="toggleLeft()">
+  <nav class="fdz-nav md-toolbar-tools" layout="row">
+    <div>
+      <md-button class="md-icon-button fdz-secondary" hide-gt-md
+                 ng-click="toggleLeft()">
         <md-icon md-font-set="material-icons">menu</md-icon>
-        <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        <md-tooltip md-autohide="true"
+                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'global.toolbar.buttons.open-menu-tooltip' | translate}}
         </md-tooltip>
       </md-button>
       <md-button class="fdz-logo"
-                 ui-sref="search">
-        <img src="assets/images/FDZ_Logo_With_Mag.svg"
-             alt="{{'global.rdc-alt-text'|translate}}">
-        <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                 ui-sref="search"
+                 ui-sref-opts="{reload: true, notify: true}"
+                 ng-click="resetQuery()">
+        <img alt="{{'global.rdc-alt-text'|translate}}"
+             src="assets/images/FDZ_Logo_With_Mag.svg">
+        <span class="fdz-logo-text">fdz.DZHW</span>
+        <md-tooltip md-autohide="true" md-direction="right"
+                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'global.menu.back-to-search'|translate}}
         </md-tooltip>
       </md-button>
-      </div>
-<!--        <div layout="row" layout-align="start center" flex>-->
-<!--            <div ng-repeat="item in toolbarHeaderItems">-->
-<!--                <md-button style="max-width: 250px; transition: unset;" ng-class="{'md-accent': $first && SearchResultNavigatorService.getSearchIndex() != null, 'hide-xs': $mdMedia('xs') && !$first, 'hide-sm': $mdMedia('sm') && !$first, 'md-icon-button': $mdMedia('xs')}" class="md-primary md-raised fdz-toolbar-button" ng-if="!$last && !item.notFound && item.state" ui-sref="{{item.state}}">-->
-<!--                    <md-icon ng-if="item.iconType === 'font' && item.icon !== 'search'" md-font-set="material-icons">{{item.icon}}</md-icon>-->
-<!--                    <md-icon ng-if="item.iconType === 'font' && item.icon === 'search' && $mdMedia('xs')" md-font-set="material-icons">{{item.icon}}</md-icon>-->
-<!--                    <md-icon ng-if="item.iconType === 'svg'" md-svg-icon="{{item.icon}}"></md-icon>-->
-<!--                    <span hide-xs class="fdz-truncate-string">{{item.type | translate}}</span>-->
-<!--                    <span hide-xs class="fdz-truncate-string" ng-if="item.tabName">({{item.tabName | translate}})</span>-->
-<!--                    <span hide-xs class="fdz-truncate-string" ng-if="item.id">{{item.id}}</span>-->
-<!--                    <span hide-xs class="fdz-truncate-string" ng-if="item.number">{{item.number}}</span>-->
-<!--                    <span hide-xs class="fdz-truncate-string" ng-if="item.numbers">{{item.numbers}}</span>-->
-<!--                    <span hide-xs class="fdz-truncate-string" ng-if="item.projectId">{{item.projectId}}</span>-->
-<!--                    <span hide-xs class="fdz-truncate-string" ng-if="item.name">{{item.name}}</span>-->
-<!--                    <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">-->
-<!--                      <span ng-if="item.tabName" translate='{{item.tooltip}}' translate-value-tabname="{{item.tabName | translate}}"></span>-->
-<!--                      <span ng-if="item.id" translate='{{item.tooltip}}' translate-value-param="{{item.id}}"></span>-->
-<!--                      <span ng-if="item.number" translate='{{item.tooltip}}' translate-value-param="{{item.number}}"></span>-->
-<!--                      <span ng-if="item.numbers" translate='{{item.tooltip}}' translate-value-param="{{item.numbers}}"></span>-->
-<!--                      <span ng-if="item.projectId" translate='{{item.tooltip}}' translate-value-param="{{item.projectId}}"></span>-->
-<!--                      <span ng-if="item.name" translate='{{item.tooltip}}' translate-value-param="{{item.name}}"></span>-->
-<!--                    </md-tooltip>-->
-<!--                </md-button>-->
-<!--                <md-button class="fdz-truncate-string" ng-if="item.notFound" ng-class="{'hide-xs': $mdMedia('xs'), 'hide-sm': $mdMedia('sm') && !$first}" disabled="true" style="max-width: 250px; margin-left: 2px; color: rgba(255,255,255,0.87);">-->
-<!--                    <md-icon ng-if="item.iconType == 'font'" md-font-set="material-icons" style="color: rgba(255,255,255,0.87);">{{item.icon}}</md-icon>-->
-<!--                    <md-icon ng-if="item.iconType == 'svg'" md-svg-icon="{{item.icon}}" style="fill: rgba(255,255,255,0.87);"></md-icon>-->
-<!--                    {{item.type | translate}}-->
-<!--                    <span class="fdz-truncate-string">{{item.notFound}}</span>-->
-<!--                </md-button>-->
-<!--                <md-icon md-font-set="material-icons" ng-class="{'hide-xs': $mdMedia('xs'), 'hide-sm': $mdMedia('sm') && !$first}" ng-if="!$last">forward</md-icon>-->
-<!--                <md-button class="fdz-truncate-string" ng-if="$last && !item.notFound" ng-disabled="!item.enableLastItem" ng-class="{'md-raised': item.enableLastItem, 'md-primary': item.enableLastItem, 'fdz-toolbar-button': item.enableLastItem}" style="max-width: 250px; margin-left: 2px; color: rgba(255,255,255,0.87);" ui-sref="{{item.state}}" ng-href="javascript:void(0);">-->
-<!--                    <md-icon ng-if="item.iconType == 'font' && item.icon !== 'search'" md-font-set="material-icons" style="color: rgba(255,255,255,0.87);" aria-label="">{{item.icon}}</md-icon>-->
-<!--                    <md-icon ng-if="item.iconType == 'svg'" md-svg-icon="{{item.icon}}" style="fill: rgba(255,255,255,0.87);"></md-icon>-->
-<!--                    {{item.type | translate}}-->
-<!--                    <span class="fdz-truncate-string" ng-if="item.tabName">({{item.tabName | translate}})</span>-->
-<!--                    <span class="fdz-truncate-string" ng-if="item.id">{{item.id}}</span>-->
-<!--                    <span class="fdz-truncate-string" ng-if="item.number">{{item.number}}</span>-->
-<!--                    <span class="fdz-truncate-string" ng-if="item.projectId">{{item.projectId}}</span>-->
-<!--                    <span class="fdz-truncate-string" ng-if="item.name">{{item.name}}</span>-->
-<!--                    <md-tooltip ng-if="item.enableLastItem" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">-->
-<!--                      <span ng-if="item.tabName" translate='{{item.tooltip}}' translate-value-tabname="{{item.tabName | translate}}"></span>-->
-<!--                      <span ng-if="item.id" translate='{{item.tooltip}}' translate-value-param="{{item.id}}"></span>-->
-<!--                      <span ng-if="item.number" translate='{{item.tooltip}}' translate-value-param="{{item.number}}"></span>-->
-<!--                      <span ng-if="item.numbers" translate='{{item.tooltip}}' translate-value-param="{{item.numbers}}"></span>-->
-<!--                      <span ng-if="item.projectId" translate='{{item.tooltip}}' translate-value-param="{{item.projectId}}"></span>-->
-<!--                      <span ng-if="item.name" translate='{{item.tooltip}}' translate-value-param="{{item.name}}"></span>-->
-<!--                    </md-tooltip>-->
-<!--                </md-button>-->
-<!--            </div>-->
-<div>
+    </div>
+    <div>
       <md-button
-        lang="en"
-        id="changeLanguageToEn"
-        ng-click="changeLanguage('en')"
-        ng-if="currentLanguage!='en'"
-        class="md-icon-button">
-        <span>EN</span>
-        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-          {{'global.toolbar.buttons.change-language' | translate}}
-        </md-tooltip>
-      </md-button>
-      <md-button
-        lang="de"
-        id="changeLanguageToDe"
-        ng-click="changeLanguage('de')"
-        ng-if="currentLanguage!='de'"
-        class="md-icon-button">
-        <span>DE</span>
-        <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-          {{'global.toolbar.buttons.change-language' | translate}}
-        </md-tooltip>
-      </md-button>
-        <md-button
-          ng-if="!isAuthenticated()"
-          class="md-icon-button"
-          ui-sref="login({lang:currentLanguage})">
-            <md-icon class="fdz-secondary" md-font-set="material-icons">account_circle</md-icon>
-          <md-tooltip
-            md-direction="left"
-            md-autohide="true"
-            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-            {{'global.toolbar.buttons.login-tooltip' | translate}}
-          </md-tooltip>
-        </md-button>
-      <md-button
-        ng-if="isAuthenticated()"
-        class="md-icon-button md-accent"
-        ng-click="logout()">
-            <md-icon md-font-set="material-icons">account_circle</md-icon>
-            <md-tooltip
-              md-direction="left"
-              md-autohide="true"
-              md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'global.toolbar.buttons.logout-tooltip' | translate : '{username:"' + identity.login + '"}'}}
-        </md-tooltip>
-        </md-button>
-      <md-button
-        ng-if="!productsCount && !isAuthenticated()"
         class="md-icon-button"
+        id="changeLanguageToEn"
+        lang="en"
+        ng-click="changeLanguage('en')"
+        ng-if="currentLanguage!='en'">
+        <span>EN</span>
+        <md-tooltip md-autohide="true" md-direction="left"
+                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'global.toolbar.buttons.change-language' | translate}}
+        </md-tooltip>
+      </md-button>
+      <md-button
+        class="md-icon-button"
+        id="changeLanguageToDe"
+        lang="de"
+        ng-click="changeLanguage('de')"
+        ng-if="currentLanguage!='de'">
+        <span>DE</span>
+        <md-tooltip md-autohide="true" md-direction="left"
+                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'global.toolbar.buttons.change-language' | translate}}
+        </md-tooltip>
+      </md-button>
+      <md-button
+        class="md-icon-button"
+        ng-if="!isAuthenticated()"
+        ui-sref="login({lang:currentLanguage})">
+        <md-icon class="fdz-secondary" md-font-set="material-icons">
+          account_circle
+        </md-icon>
+        <md-tooltip
+          md-autohide="true"
+          md-direction="left"
+          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'global.toolbar.buttons.login-tooltip' | translate}}
+        </md-tooltip>
+      </md-button>
+      <md-button
+        class="md-icon-button md-accent"
+        ng-click="logout()"
+        ng-if="isAuthenticated()">
+        <md-icon md-font-set="material-icons">account_circle</md-icon>
+        <md-tooltip
+          md-autohide="true"
+          md-direction="left"
+          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'global.toolbar.buttons.logout-tooltip' | translate : '{username:"'
+          + identity.login + '"}'}}
+        </md-tooltip>
+      </md-button>
+      <md-button
+        class="md-icon-button"
+        ng-if="!productsCount && !isAuthenticated()"
         ui-sref="shoppingCart">
-            <md-icon md-font-set="material-icons">shopping_cart</md-icon>
+        <md-icon md-font-set="material-icons">shopping_cart</md-icon>
         <md-tooltip
           md-autohide="true"
           md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'shopping-cart.buttons.open-cart-tooltip' | translate}}
         </md-tooltip>
-        </md-button>
+      </md-button>
       <md-button
-        ng-if="productsCount  && !isAuthenticated()"
-        id="shoppingCartButton"
         class="md-icon-button md-accent"
+        id="shoppingCartButton"
+        ng-if="productsCount  && !isAuthenticated()"
         ui-sref="shoppingCart">
-<!--        ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')"-->
-            <md-icon class="" md-font-set="material-icons">shopping_cart</md-icon>
-<!--            <span ng-if="productsCount" class="fdz-shopping-cart-count">{{productsCount}}</span>-->
-            <md-tooltip
-              md-autohide="true"
-              md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'shopping-cart.buttons.open-cart-tooltip' | translate}}
-            </md-tooltip>
-        </md-button>
-</div>
-    </nav>
+        <!--        ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')"-->
+        <md-icon class="" md-font-set="material-icons">shopping_cart</md-icon>
+        <!--            <span ng-if="productsCount" class="fdz-shopping-cart-count">{{productsCount}}</span>-->
+        <md-tooltip
+          md-autohide="true"
+          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'shopping-cart.buttons.open-cart-tooltip' | translate}}
+        </md-tooltip>
+      </md-button>
+    </div>
+  </nav>
 </md-toolbar>

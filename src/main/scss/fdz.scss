@@ -32,18 +32,48 @@
 // START LOGO
 .fdz-logo {
   padding: 10px 10px 10px 0;
+  margin: 0;
+  @include rwd(320) {
+    margin: unset;
+  }
 }
+
 .fdz-logo:hover,
 .fdz-logo:active {
   background-color: rgba(0, 0, 0, 0)!important;
 }
 
 .fdz-logo > img {
+  display: none;
   margin-top: 15px;
   height: 50px;
+  @include rwd(375) {
+    display: block;
+  }
+}
+.fdz-logo > span {
+  display: block;
+  @include rwd(375) {
+    display: none;
+  }
 }
 // END LOGO
-
+.fdz-theme .md-toolbar-tools{
+  padding:0;
+  @include rwd(375) {
+    padding: 0 8px;
+  }
+}
 .fdz-nav {
   justify-content: space-between;
 }
+
+fdz-paginator {
+  width: 100%;
+}
+
+.md-button.fdz-small {
+  min-width: 36px;
+}
+
+

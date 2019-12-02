@@ -6,40 +6,13 @@
   top: 0px!important;
   right: 8px!important;
   padding-top: 8px!important;
-  padding-bottom: 8px!important;
+  //padding-bottom: 8px!important;
   z-index: 0!important;
   background-color: rgba(255, 255, 255, 1)!important;
   border-bottom-left-radius: 4px!important;
 }
 
-//cards
-.fdz-search-result-icon {
-  width: 40px;
-  height: 40px;
-  color: $brand-primary;
-  background-color: transparent;
-  padding: 0;
-}
 
-.fdz-search-result {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.fdz-search-result:focus,
-.fdz-search-result:hover {
-  background-color: rgba(158, 158, 158, 0.2);
-}
-.fdz-search-result:hover {
-  color: black;
-  text-decoration: none;
-}
-.fdz-search-result:focus {
-  color: black;
-  text-decoration: none;
-  outline-color: $accent-color;
-}
 // Sidebar
 .fdz-search-filter-component md-input-container {
   margin: 0;

@@ -1,27 +1,32 @@
-<md-card style="position: relative;">
-    <a ui-sref="variableDetail({'id': searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: ''})" class="fdz-search-result">
-        <md-card-header class="fdz-card-header-border">
-            <md-card-avatar>
-                <md-icon md-svg-src="/assets/images/icons/variable.svg" class="fdz-search-result-icon"></md-icon>
-            </md-card-avatar>
-            <md-card-header-text class="fdz-truncate-string">
-                <div class="md-title fdz-truncate-string"><span class="fdz-truncate-string" display-i18n-string="searchResult.label"></span> <span class="fdz-truncate-string label label-as-badge label-default">{{searchResult.masterId}}</span></div>
-                <div class="md-subhead fdz-truncate-string">{{searchResult.name}} ({{searchResult.dataType[currentLanguage]}}, {{searchResult.scaleLevel[currentLanguage]}})
-                </div>
-            </md-card-header-text>
-        </md-card-header>
-        <md-card-content>
-            <div layout="row">
-                <div flex layout="column">
-                    <span style="font-weight: bold;">{{'study-management.detail.label.data-set.surveyed-in' | translate}}:&nbsp;</span>
-                    <div class="fdz-truncate-string" ng-repeat="survey in searchResult.surveys">
-                        <span display-i18n-string="survey.title"></span>
-                    </div>
-                </div>
-            </div>
-        </md-card-content>
-        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-            {{'search-management.cards.variable-tooltip' | translate: {id: searchResult.masterId} }}
-        </md-tooltip>
-    </a>
+<md-card class="fdz-search-result">
+  <md-card-header>
+    <md-card-header-text>
+      <a
+        ui-sref="variableDetail({'id': searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: ''})"
+        ng-click="setParams()">
+        <div class="md-title">
+          <span display-i18n-string="searchResult.label"></span>
+        </div>
+      </a>
+      <md-tooltip md-autohide="true" md-direction="top" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.cards.variable-tooltip' | translate: {id: searchResult.masterId} }}
+      </md-tooltip>
+      <div class="md-subhead">
+        <div>{{searchResult.name}} ({{searchResult.dataType[currentLanguage]}},
+          {{searchResult.scaleLevel[currentLanguage]}})
+        </div>
+      </div>
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-content>
+    <div layout="row">
+      <div flex layout="column">
+        <span
+          style="font-weight: bold;">{{'study-management.detail.label.data-set.surveyed-in' | translate}}:&nbsp;</span>
+        <div class="fdz-truncate-string" ng-repeat="survey in searchResult.surveys">
+          <span display-i18n-string="survey.title"></span>
+        </div>
+      </div>
+    </div>
+  </md-card-content>
 </md-card>

@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
         currentLanguage: '=',
         bowser: '=',
         addMargin: '=',
-        searchResultIndex: '='
+        searchResultIndex: '=',
+        setParams: '&'
       },
       controller: function($scope, CommonDialogsService, DataSetResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
@@ -63,7 +64,6 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
             $state.go('dataSetEdit', {id: $scope.searchResult.id});
           }
         };
-
         $scope.isLoggedIn = Principal.loginName();
       }
     };

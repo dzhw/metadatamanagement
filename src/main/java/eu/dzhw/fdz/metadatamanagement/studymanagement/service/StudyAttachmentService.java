@@ -19,6 +19,7 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.service.helper.StudyAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
@@ -32,21 +33,22 @@ import lombok.RequiredArgsConstructor;
 public class StudyAttachmentService {
 
   private final GridFsOperations operations;
-  
+
   private final MongoTemplate mongoTemplate;
-  
+
   private final Javers javers;
 
   private final AttachmentMetadataHelper<StudyAttachmentMetadata> attachmentMetadataHelper;
 
   /**
-   * Save the attachment for a study. 
+   * Save the attachment for a study.
+   *
    * @param metadata The metadata of the attachment.
    * @return The GridFs filename.
    * @throws IOException thrown when the input stream cannot be closed
    */
-  public String createStudyAttachment(MultipartFile multipartFile,
-      StudyAttachmentMetadata metadata) throws IOException {
+  public String createStudyAttachment(MultipartFile multipartFile, StudyAttachmentMetadata metadata)
+      throws IOException {
 
     if (metadata.isShadow()) {
       throw new ShadowCopyCreateNotAllowedException();
@@ -65,27 +67,28 @@ public class StudyAttachmentService {
 
   /**
    * Update the metadata of the attachment.
+   *
    * @param metadata The new metadata.
    */
   public void updateAttachmentMetadata(StudyAttachmentMetadata metadata) {
-    String filePath = StudyAttachmentFilenameBuilder.buildFileName(metadata.getStudyId(),
-        metadata.getFileName());
+    String filePath =
+        StudyAttachmentFilenameBuilder.buildFileName(metadata.getStudyId(), metadata.getFileName());
     attachmentMetadataHelper.updateAttachmentMetadata(metadata, filePath);
   }
-  
+
   /**
    * Delete all attachments of the given study.
+   *
    * @param studyId the id of the study.
    */
   public void deleteAllByStudyId(String studyId) {
     String currentUser = SecurityUtils.getCurrentUserLogin();
     Query query = new Query(GridFsCriteria.whereFilename()
-        .regex("^" + Pattern.quote(
-            StudyAttachmentFilenameBuilder.buildFileNamePrefix(studyId))));
+        .regex("^" + Pattern.quote(StudyAttachmentFilenameBuilder.buildFileNamePrefix(studyId))));
     Iterable<GridFSFile> files = this.operations.find(query);
     files.forEach(file -> {
-      StudyAttachmentMetadata metadata = mongoTemplate.getConverter().read(
-          StudyAttachmentMetadata.class, file.getMetadata());
+      StudyAttachmentMetadata metadata =
+          mongoTemplate.getConverter().read(StudyAttachmentMetadata.class, file.getMetadata());
       if (metadata.isShadow()) {
         throw new ShadowCopyDeleteNotAllowedException();
       }
@@ -93,9 +96,10 @@ public class StudyAttachmentService {
     });
     this.operations.delete(query);
   }
-  
+
   /**
    * Load all metadata objects from gridfs (ordered by indexInStudy).
+   *
    * @param studyId The id of the study.
    * @return A list of metadata.
    */
@@ -107,13 +111,32 @@ public class StudyAttachmentService {
     Iterable<GridFSFile> files = this.operations.find(query);
     List<StudyAttachmentMetadata> result = new ArrayList<>();
     files.forEach(gridfsFile -> {
-      result.add(mongoTemplate.getConverter().read(StudyAttachmentMetadata.class, 
+      result.add(mongoTemplate.getConverter().read(StudyAttachmentMetadata.class,
           gridfsFile.getMetadata()));
     });
     return result;
   }
-  
-  
+
+  /**
+   * Load all metadata objects from gridfs (ordered by indexInStudy).
+   *
+   * @param dataAcquisitionProjectId The id of the {@link DataAcquisitionProject}.
+   * @return A list of metadata.
+   */
+  public List<StudyAttachmentMetadata> findAllByProject(String dataAcquisitionProjectId) {
+    Query query = new Query(GridFsCriteria.whereFilename()
+        .regex(StudyAttachmentFilenameBuilder.ALL_STUDY_ATTACHMENTS).andOperator(
+            GridFsCriteria.whereMetaData("dataAcquisitionProjectId").is(dataAcquisitionProjectId)));
+    query.with(Sort.by(Sort.Direction.ASC, "metadata.indexInStudy"));
+    Iterable<GridFSFile> files = this.operations.find(query);
+    List<StudyAttachmentMetadata> result = new ArrayList<>();
+    files.forEach(gridfsFile -> {
+      result.add(mongoTemplate.getConverter().read(StudyAttachmentMetadata.class,
+          gridfsFile.getMetadata()));
+    });
+    return result;
+  }
+
 
   /**
    * Delete all attachments of all studies.
@@ -124,8 +147,8 @@ public class StudyAttachmentService {
         .regex("^" + Pattern.quote("/studies/") + ".*" + Pattern.quote("/attachments/")));
     Iterable<GridFSFile> files = this.operations.find(query);
     files.forEach(file -> {
-      StudyAttachmentMetadata metadata = mongoTemplate.getConverter().read(
-          StudyAttachmentMetadata.class, file.getMetadata());
+      StudyAttachmentMetadata metadata =
+          mongoTemplate.getConverter().read(StudyAttachmentMetadata.class, file.getMetadata());
       if (metadata.isShadow()) {
         throw new ShadowCopyDeleteNotAllowedException();
       }
@@ -136,18 +159,19 @@ public class StudyAttachmentService {
 
   /**
    * Delete the attachment and its metadata from gridfs.
+   *
    * @param studyId The id of the study.
    * @param filename The filename of the attachment.
    */
   public void deleteByStudyIdAndFilename(String studyId, String filename) {
-    Query fileQuery = new Query(GridFsCriteria.whereFilename().is(
-        StudyAttachmentFilenameBuilder.buildFileName(studyId, filename)));
+    Query fileQuery = new Query(GridFsCriteria.whereFilename()
+        .is(StudyAttachmentFilenameBuilder.buildFileName(studyId, filename)));
     GridFSFile file = this.operations.findOne(fileQuery);
     if (file == null) {
       return;
     }
-    StudyAttachmentMetadata metadata = mongoTemplate.getConverter().read(
-        StudyAttachmentMetadata.class, file.getMetadata());
+    StudyAttachmentMetadata metadata =
+        mongoTemplate.getConverter().read(StudyAttachmentMetadata.class, file.getMetadata());
     if (metadata.isShadow()) {
       throw new ShadowCopyDeleteNotAllowedException();
     }

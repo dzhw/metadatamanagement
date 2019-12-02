@@ -4,11 +4,11 @@
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, LanguageService, CleanJSObjectService,
-             PageTitleService, $state, ToolbarHeaderService,
+             PageTitleService, $state, ToolbarHeaderService, MessageBus,
              SurveySearchService, SurveyAttachmentResource, Principal,
              SimpleMessageToastService, SearchResultNavigatorService,
              SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
-             DataAcquisitionProjectResource, ProductChooserDialogService,
+             DataAcquisitionProjectResource,
              ProjectUpdateAccessService, CountryCodesResource, $stateParams,
              blockUI) {
       blockUI.start();
@@ -24,6 +24,7 @@ angular.module('metadatamanagementApp')
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {};
       ctrl.projectIsCurrentlyReleased = true;
+      ctrl.responseRateImage = null;
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
 
@@ -59,6 +60,13 @@ angular.module('metadatamanagementApp')
             : survey.title[secondLanguage],
           surveyId: survey.id
         });
+        if (!Principal.isAuthenticated()) {
+          MessageBus.set('onDataPackageChange',
+            {
+              masterId: survey.study.masterId,
+              version: survey.release.version
+            });
+        }
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': survey.id,
@@ -83,12 +91,15 @@ angular.module('metadatamanagementApp')
           if (ctrl.counts.dataSetsCount === 1) {
             ctrl.dataSet = survey.dataSets[0];
           }
-          SurveySearchService.countBy('dataAcquisitionProjectId',
-            ctrl.survey.dataAcquisitionProjectId,
-            _.get(survey, 'release.version'))
-            .then(function(surveysCount) {
-              ctrl.counts.surveysCount = surveysCount.count;
-            });
+
+          if (!Principal.isAuthenticated()) {
+            SurveySearchService.countBy('dataAcquisitionProjectId',
+              ctrl.survey.dataAcquisitionProjectId,
+              _.get(survey, 'release.version'))
+              .then(function(surveysCount) {
+                ctrl.counts.surveysCount = surveysCount.count;
+              });
+          }
           ctrl.counts.instrumentsCount = survey.instruments.length;
           if (ctrl.counts.instrumentsCount === 1) {
             ctrl.instrument = survey.instruments[0];
@@ -124,13 +135,6 @@ angular.module('metadatamanagementApp')
           );
         }
       }).finally(blockUI.stop);
-
-      ctrl.addToShoppingCart = function(event) {
-        ProductChooserDialogService.showDialog(
-          ctrl.survey.dataAcquisitionProjectId, ctrl.accessWays,
-          ctrl.survey.study, ctrl.survey.release.version,
-          event);
-      };
 
       ctrl.surveyEdit = function() {
         if (ProjectUpdateAccessService

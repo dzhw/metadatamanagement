@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       url: '/search?{page}{size}{type}{data-set}' +
       '{instrument}{panel-identifier}{derived-variables-identifier}{survey}' +
       '{study}{variable}{question}{related-publication}{access-way}{query}' +
-      '{study-series-de}{study-series-en}{concept}',
+      '{study-series-de}{study-series-en}{concept}{study-series}{tags}',
       reloadOnSearch: false,
       data: {
         authorities: []
