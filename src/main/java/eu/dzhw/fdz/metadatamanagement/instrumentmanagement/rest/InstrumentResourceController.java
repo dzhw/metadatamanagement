@@ -38,7 +38,8 @@ public class InstrumentResourceController
 
   @Override
   @Operation(
-      description = "Get the instrument. Public users will get the latest version of the instrument."
+      description = "Get the instrument. Public users will get the latest version of the"
+          + " instrument."
           + " If the id is postfixed with the version number it will return exactly the "
           + "requested version, if available.")
   @GetMapping(value = "/instruments/{id:.+}")
