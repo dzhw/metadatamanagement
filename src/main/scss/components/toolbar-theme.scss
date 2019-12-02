@@ -42,3 +42,38 @@
     color: $warn-contrast;
   }
 }
+
+// START LOGO
+.fdz-logo {
+  padding: 10px 10px 10px 0;
+  margin: 0;
+  @include rwd(320) {
+    margin: unset;
+  }
+}
+
+.fdz-logo:hover,
+.fdz-logo:active {
+  background-color: rgba(0, 0, 0, 0)!important;
+}
+
+.fdz-logo > img {
+  //display: none;
+  margin-top: 15px;
+  height: 35px;
+  @include rwd(375) {
+    display: block;
+  }
+  @include rwd(959) {
+    display: block;
+    height: 50px;
+  }
+}
+// END LOGO
+
+.fdz-theme .md-toolbar-tools{
+  padding:0;
+  @include rwd(375) {
+    padding: 0 8px;
+  }
+}

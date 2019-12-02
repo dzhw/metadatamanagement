@@ -1416,6 +1416,34 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
     background-color: #f7a839;
     color: #000; }
 
+.fdz-logo {
+  padding: 10px 10px 10px 0;
+  margin: 0; }
+  @media (min-width: 320px) {
+    .fdz-logo {
+      margin: unset; } }
+
+.fdz-logo:hover,
+.fdz-logo:active {
+  background-color: rgba(0, 0, 0, 0) !important; }
+
+.fdz-logo > img {
+  margin-top: 15px;
+  height: 35px; }
+  @media (min-width: 375px) {
+    .fdz-logo > img {
+      display: block; } }
+  @media (min-width: 959px) {
+    .fdz-logo > img {
+      display: block;
+      height: 50px; } }
+
+.fdz-theme .md-toolbar-tools {
+  padding: 0; }
+  @media (min-width: 375px) {
+    .fdz-theme .md-toolbar-tools {
+      padding: 0 8px; } }
+
 .fdz-theme .md-panel.md-tooltip {
   color: white;
   background-color: #818181;
@@ -2553,37 +2581,6 @@ geographic-coverage {
 
 .fdz-third {
   color: #f7a839 !important; }
-
-.fdz-logo {
-  padding: 10px 10px 10px 0;
-  margin: 0; }
-  @media (min-width: 320px) {
-    .fdz-logo {
-      margin: unset; } }
-
-.fdz-logo:hover,
-.fdz-logo:active {
-  background-color: rgba(0, 0, 0, 0) !important; }
-
-.fdz-logo > img {
-  display: none;
-  margin-top: 15px;
-  height: 50px; }
-  @media (min-width: 375px) {
-    .fdz-logo > img {
-      display: block; } }
-
-.fdz-logo > span {
-  display: block; }
-  @media (min-width: 375px) {
-    .fdz-logo > span {
-      display: none; } }
-
-.fdz-theme .md-toolbar-tools {
-  padding: 0; }
-  @media (min-width: 375px) {
-    .fdz-theme .md-toolbar-tools {
-      padding: 0 8px; } }
 
 .fdz-nav {
   justify-content: space-between; }

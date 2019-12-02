@@ -1,4 +1,4 @@
-<md-toolbar class="" md-whiteframe="1">
+<md-toolbar md-whiteframe="1">
   <div class="ribbon md-body-2"
        ng-cloak ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" style="z-index: 999">{{ENV}}
   </div>
@@ -19,7 +19,6 @@
                  ng-click="resetQuery()">
         <img alt="{{'global.rdc-alt-text'|translate}}"
              src="assets/images/FDZ_Logo_With_Mag.svg">
-        <span class="fdz-logo-text">fdz.DZHW</span>
         <md-tooltip md-autohide="true" md-direction="right"
                     md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'global.menu.back-to-search'|translate}}
