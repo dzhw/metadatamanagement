@@ -11,7 +11,7 @@ fdz-breadcrumbs {
   margin: 16px 8px 8px 8px;
   width: 100%;
 
-  @include rwd(500) {
-    padding-left: 8px;
+  @include rwd(600) {
+    margin-left: 16px;
   }
 }

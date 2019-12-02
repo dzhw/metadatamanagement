@@ -110,6 +110,7 @@
               current-language="currentLanguage"
               bowser="bowser"
               search-result-index="computeSearchResultIndex($index)"></concept-search-result>
+            <md-divider ng-if="!$last"></md-divider>
         </div>
          <div class="fdz-no-result" ng-if="searchResult.length === 0">
            <p>{{ 'search-management.no-results-text.all' | translate }}</p>

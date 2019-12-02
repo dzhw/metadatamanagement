@@ -7,22 +7,26 @@
         <div class="fdz-detail__header">
           <h1 class="md-headline" display-i18n-string="ctrl.dataSet.description" fdz-hyphenate></h1>
         </div>
+        <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.dataSet"
           template-url="scripts/datasetmanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
           id="ctrl.dataSet.id"
           template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+        <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
           template-url="scripts/datasetmanagement/templates/dp-sub-dataset.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
         <fdz-detail
           ng-if="ctrl.attachments"
           collapsed="false"

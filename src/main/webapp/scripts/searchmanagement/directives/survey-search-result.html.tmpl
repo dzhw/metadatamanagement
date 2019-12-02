@@ -20,7 +20,7 @@
   <md-card-content>
     <div layout="column" layout-gt-sm="row">
       <div flex-gt-sm="50" layout="column"
-           ng-class="{'fdz-add-right-margin': addMargin, 'fdz-add-bottom-margin': !addMargin}">
+           ng-class="{'fdz-add-right-margin': !addMargin, 'fdz-add-bottom-margin': !addMargin}">
         <div class="fdz-text-block" ng-if="searchResult.population.description">
           <span style="font-weight: bold;">{{'survey-management.detail.label.population' | translate }}:</span>
           <span class="fdz-multiline-property" display-i18n-string="searchResult.population.description" fdz-hyphenate

@@ -22,6 +22,9 @@
 
 fdz-paginator {
   width: 100%;
+  @include rwd(600) {
+    padding-left: 8px;
+  }
 }
 
 .md-button.fdz-small {

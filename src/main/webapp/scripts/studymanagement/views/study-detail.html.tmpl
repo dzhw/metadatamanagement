@@ -5,20 +5,23 @@
     <div>
       <div class="fdz-detail">
         <div class="fdz-detail__header">
-          <h1 class="md-headline" display-i18n-string="ctrl.study.title" fdz-hyphenate></h1>
-          <json-content-dialog class="mb0" content="ctrl.study" exclude-fields="ctrl.jsonExcludes"
-                               header-title="ctrl.study.title" ng-if="ctrl.enableJsonView"></json-content-dialog>
+          <div>
+            <h1 class="md-headline" display-i18n-string="ctrl.study.title" fdz-hyphenate></h1>
+            <json-content-dialog class="mb0" content="ctrl.study" exclude-fields="ctrl.jsonExcludes"
+                                 header-title="ctrl.study.title" ng-if="ctrl.enableJsonView"></json-content-dialog>
+          </div>
+          <div class="fdz-tag-link-container" ng-if="ctrl.studyTags.length > 0">
+            <h5>Tags: </h5>
+            <a ng-repeat="tag in ctrl.studyTags"
+               ui-sref="search({type: 'studies', 'query': tag})">
+              <span>{{tag}}{{!$last?',&nbsp;':''}}</span>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'study-management.detail.tag-tooltip' | translate}}
+              </md-tooltip>
+            </a>
+          </div>
         </div>
-        <div class="fdz-tag-link-container" ng-if="ctrl.studyTags.length > 0">
-          <h5>Tags: </h5>
-          <a ng-repeat="tag in ctrl.studyTags"
-             ui-sref="search({type: 'studies', 'query': tag})">
-            <span>{{tag}}{{!$last?',&nbsp;':''}}</span>
-            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'study-management.detail.tag-tooltip' | translate}}
-            </md-tooltip>
-          </a>
-        </div>
+        <md-divider></md-divider>
         <fdz-detail
           ng-if="!isAuthenticated()"
           collapsed="false"
@@ -31,17 +34,20 @@
           lang="currentLanguage"
           options="ctrl"
           template-url="scripts/studymanagement/templates/dp-detail-auth.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.study.description"
           template-url="scripts/studymanagement/templates/dp-description.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
           id="ctrl.study.id"
           template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+        <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"

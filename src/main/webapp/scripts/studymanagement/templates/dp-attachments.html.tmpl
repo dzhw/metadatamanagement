@@ -1,5 +1,4 @@
 <md-card>
-  <md-divider></md-divider>
   <md-card-header>
     <md-card-header-text>
       <h2 class="md-title">{{'study-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>
@@ -14,6 +13,8 @@
   </md-card-header>
   <div ng-if="!$ctrl.collapsed">
     <md-card-content>
+      <md-divider
+        ng-if="$ctrl.options.study && $ctrl.options.study.length > 0"></md-divider>
       <fdz-attachment
         ng-if="$ctrl.options.study && $ctrl.options.study.length > 0"
         collapsed = false
@@ -22,6 +23,8 @@
         options="$ctrl.options.study"
         template-url= "scripts/studymanagement/components/attachments.html.tmpl"
       ></fdz-attachment>
+      <md-divider
+        ng-if="$ctrl.options.surveys && $ctrl.options.surveys.length > 0"></md-divider>
       <fdz-attachment
         ng-if="$ctrl.options.surveys && $ctrl.options.surveys.length > 0"
         collapsed = false
@@ -30,6 +33,8 @@
         options="$ctrl.options.surveys"
         template-url= "scripts/studymanagement/components/attachments.html.tmpl"
       ></fdz-attachment>
+      <md-divider
+        ng-if="$ctrl.options.instruments && $ctrl.options.instruments.length > 0"></md-divider>
       <fdz-attachment
         ng-if="$ctrl.options.instruments && $ctrl.options.instruments.length > 0"
         collapsed = false
@@ -38,6 +43,8 @@
         options="$ctrl.options.instruments"
         template-url= "scripts/studymanagement/components/attachments-instrument.html.tmpl"
       ></fdz-attachment>
+      <md-divider
+        ng-if="$ctrl.options.dataSets && $ctrl.options.dataSets.length > 0"></md-divider>
       <fdz-attachment
         ng-if="$ctrl.options.dataSets && $ctrl.options.dataSets.length > 0"
         collapsed = false

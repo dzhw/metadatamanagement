@@ -25,15 +25,24 @@
   .md-headline {
     font-size: 20px;
     line-height: 30px;
-    @include rwd(500) {
+    @include rwd(600) {
         font-size: 24px;
         line-height: 36px;
     }
   }
   .md-title {
     font-size: 18px;
-    @include rwd(500) {
+    @include rwd(600) {
      font-size: 20px;
     }
   }
+  .md-subtitle {
+    font-size: 16px;
+    color: $foreground-3;
+    @include rwd(600) {
+     font-size: 18px;
+    }
+  }
+
+
 }
