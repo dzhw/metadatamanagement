@@ -37,7 +37,7 @@ public class SurveyResourceController
   }
 
   @Override
-  @Operation(description = "Get the survey. Public users will get the latest version of the survey."
+  @Operation(summary = "Get the survey. Public users will get the latest version of the survey."
       + " If the id is postfixed with the version number it will return exactly the "
       + "requested version, if available.")
   @GetMapping(value = "/surveys/{id:.+}")

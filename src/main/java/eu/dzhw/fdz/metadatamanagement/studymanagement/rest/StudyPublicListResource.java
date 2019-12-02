@@ -45,7 +45,7 @@ public class StudyPublicListResource {
    *         paging.
    */
   @GetMapping(value = "/studies")
-  @Operation(description = "Get the paged list of currently released studies.")
+  @Operation(summary = "Get the paged list of currently released studies.")
   public ResponseEntity<Page<StudySearchDocument>> listStudies(
       @RequestParam(value = "page", defaultValue = "0") int page,
       @RequestParam(value = "size", defaultValue = "5") @Max(20) int size) {

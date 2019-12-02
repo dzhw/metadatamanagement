@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Instrument REST Controller which overrides default spring data rest methods.
- * 
+ *
  * @author René Reitmann
  */
 @RepositoryRestController
@@ -38,7 +38,7 @@ public class InstrumentResourceController
 
   @Override
   @Operation(
-      description = "Get the instrument. Public users will get the latest version of the"
+      summary = "Get the instrument. Public users will get the latest version of the"
           + " instrument."
           + " If the id is postfixed with the version number it will return exactly the "
           + "requested version, if available.")

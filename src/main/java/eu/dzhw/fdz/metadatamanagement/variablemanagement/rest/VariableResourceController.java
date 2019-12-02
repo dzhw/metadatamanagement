@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Variable REST Controller which overrides default spring data rest methods.
- * 
+ *
  * @author René Reitmann
  */
 @RepositoryRestController
@@ -38,7 +38,7 @@ public class VariableResourceController
 
   @Override
   @Operation(
-      description = "Get the variable. Public users will get the latest version of the variables."
+      summary = "Get the variable. Public users will get the latest version of the variables."
           + " If the id is postfixed with the version number it will return exactly the "
           + "requested version, if available.")
   @GetMapping(value = "/variables/{id:.+}")
