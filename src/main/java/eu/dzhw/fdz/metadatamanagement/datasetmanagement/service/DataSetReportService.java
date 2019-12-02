@@ -19,11 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cloudfoundry.client.CloudFoundryClient;
-import org.cloudfoundry.client.v3.tasks.CreateTaskRequest;
-import org.cloudfoundry.operations.CloudFoundryOperations;
-import org.cloudfoundry.operations.applications.ApplicationSummary;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.loader.tools.RunProcess;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
@@ -89,12 +84,6 @@ public class DataSetReportService {
   private final Environment environment;
 
   private final MetadataManagementProperties metadataManagementProperties;
-
-  @Autowired(required = false)
-  private CloudFoundryClient cloudFoundryClient;
-
-  @Autowired(required = false)
-  private CloudFoundryOperations cloudFoundryOperations;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -489,21 +478,15 @@ public class DataSetReportService {
       } else {
         DatasetReportTask taskProperties = metadataManagementProperties.getDatasetReportTask();
         log.debug("Starting cloudfoundry task {}...", taskProperties.getAppName());
-        cloudFoundryClient.tasks()
-            .create(CreateTaskRequest.builder().name(dataSetId + " for " + onBehalfOf)
-                .applicationId(getApplicationId(taskProperties.getAppName()))
-                .command(String.format(taskProperties.getStartCommand(), dataSetId, version,
-                    language, onBehalfOf))
-                .diskInMb(taskProperties.getDiskSizeInMb())
-                .memoryInMb(taskProperties.getMemorySizeInMb()).build())
-            .block();
+        // cloudFoundryClient.tasks()
+        // .create(CreateTaskRequest.builder().name(dataSetId + " for " + onBehalfOf)
+        // .applicationId(getApplicationId(taskProperties.getAppName()))
+        // .command(String.format(taskProperties.getStartCommand(), dataSetId, version,
+        // language, onBehalfOf))
+        // .diskInMb(taskProperties.getDiskSizeInMb())
+        // .memoryInMb(taskProperties.getMemorySizeInMb()).build())
+        // .block();
       }
     }
-  }
-
-  private String getApplicationId(String name) {
-    return cloudFoundryOperations.applications().list()
-        .filter(application -> application.getName().equalsIgnoreCase(name))
-        .map(ApplicationSummary::getId).single().block();
   }
 }
