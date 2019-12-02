@@ -1482,6 +1482,13 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 .fdz-theme .fdz-search-result md-card-actions > a {
   margin: 0 8px 16px 8px; }
 
+.fdz-theme .fdz-search-result md-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: -16px 8px 8px 8px; }
+  .fdz-theme .fdz-search-result md-card-actions .md-button {
+    min-width: unset; }
+
 .fdz-search-result__link {
   color: black;
   text-decoration: none;
@@ -1680,7 +1687,9 @@ fdz-breadcrumbs {
   .fdz-theme .fdz-detail:last-child {
     padding-bottom: 16px; }
   .fdz-theme .fdz-detail .fdz-detail__header {
-    padding: 16px; }
+    padding: 16px;
+    display: flex;
+    justify-content: space-between; }
   .fdz-theme .fdz-detail .fdz-detail__header + fdz-detail > md-card {
     margin-top: 0; }
   .fdz-theme .fdz-detail md-card {
@@ -2006,6 +2015,21 @@ tr:focus {
       margin-top: 16px;
       text-transform: none;
       width: 100%; }
+
+.fdz-tag-link-container {
+  display: flex;
+  align-items: baseline;
+  margin-top: -16px;
+  padding: 0 16px;
+  width: 100%; }
+  .fdz-tag-link-container h5 {
+    color: rgba(0, 0, 0, 0.38);
+    margin-right: 8px; }
+  .fdz-tag-link-container a {
+    font-weight: normal;
+    min-height: auto;
+    min-width: auto;
+    font-size: 100%; }
 
 .fdz-fade-in.ng-enter {
   -webkit-transition: 1s;
@@ -2472,17 +2496,6 @@ md-toast.md-accent > .md-toast-content {
 .fdz-project-status-overview-metadata-status-table-cell {
   min-height: 28px; }
 
-.fdz-tag-link-container {
-  width: 100%; }
-  .fdz-tag-link-container a {
-    font-weight: normal;
-    min-height: auto;
-    min-width: auto;
-    padding: 0.2em 0.6em;
-    font-size: 100% !important; }
-    .fdz-tag-link-container a:not(:last-child) {
-      margin-right: 8px; }
-
 geographic-coverage-list {
   display: block; }
   geographic-coverage-list md-card-content {
@@ -2562,3 +2575,6 @@ geographic-coverage {
 
 fdz-paginator {
   width: 100%; }
+
+.md-button.fdz-small {
+  min-width: 36px; }

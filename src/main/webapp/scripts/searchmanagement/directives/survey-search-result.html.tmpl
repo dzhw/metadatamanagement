@@ -5,7 +5,6 @@
         <a ui-sref="surveyDetail({id:searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: ''})"
            ng-click="setParams()">
           <span display-i18n-string="searchResult.title"></span>
-          {{searchResultIndex}}
         </a>
         <md-tooltip md-autohide="true" md-direction="top" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'search-management.cards.survey-tooltip' | translate: {id: searchResult.masterId} }}
@@ -40,21 +39,30 @@
       </div>
     </div>
   </md-card-content>
-
-
-  <div class="fdz-search-result-actions-container" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
-       ng-if="!projectIsCurrentlyReleased">
-    <md-button class="md-icon-button md-primary" ng-click="surveyEdit()" style="margin-right: 0px;">
-      <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+  <md-card-actions
+    data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
+    ng-if="!projectIsCurrentlyReleased">
+    <md-button
+      class="md-primary"
+      ng-click="surveyEdit()">
+      <md-tooltip
+        md-autohide="true"
+        md-direction="left"
+        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.buttons.edit-survey-tooltip' | translate}}
       </md-tooltip>
       <md-icon md-font-set="material-icons">mode_edit</md-icon>
     </md-button>
-    <md-button class="md-icon-button md-primary" ng-click="deleteSurvey(searchResult.id)" style="margin-left: 0px;">
-      <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+    <md-button
+      class="md-primary"
+      ng-click="deleteSurvey(searchResult.id)">
+      <md-tooltip
+        md-autohide="true"
+        md-direction="left"
+        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.buttons.delete-survey-tooltip' | translate}}
       </md-tooltip>
       <md-icon md-font-set="material-icons">delete_forever</md-icon>
     </md-button>
-  </div>
+  </md-card-actions>
 </md-card>

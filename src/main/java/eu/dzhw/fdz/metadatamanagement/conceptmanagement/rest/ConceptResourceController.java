@@ -24,8 +24,8 @@ import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptInUseException;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Concept REST Controller which overrides default spring data rest methods.
@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiOperation;
  * @author René Reitmann
  */
 @RepositoryRestController
-@Api(value = "Concept Resource", description = "Endpoints used by the MDM to manage concepts.")
+@Tag(name = "Concept Resource", description = "Endpoints used by the MDM to manage concepts.")
 @RequestMapping("/api")
 public class ConceptResourceController
     extends GenericDomainObjectResourceController<Concept, CrudService<Concept>> {
@@ -44,7 +44,7 @@ public class ConceptResourceController
   }
 
   @Override
-  @ApiOperation("Get the concept.")
+  @Operation(description = "Get the concept.")
   @GetMapping(value = "/concepts/{id:.+}")
   public ResponseEntity<Concept> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);

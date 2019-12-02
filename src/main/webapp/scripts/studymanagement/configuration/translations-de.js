@@ -106,7 +106,7 @@ angular.module('metadatamanagementApp').config(
               'many': 'Klicken, um die Instrumente dieser Studie anzuzeigen.'
             },
             'studies': {
-              'study-series': 'Klicken, um alle Studien aus der Studienreihe anzuzeigen.'
+              'study-series': 'Klicken, um alle Datenpakete aus der Studienreihe anzuzeigen.'
             },
             'concepts': {
               'one': 'Klicken, um das Konzept, welches in dieser Studie gemessen wurde, anzuzeigen',
@@ -114,7 +114,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',
-          'tag-tooltip': 'Klicken, um Studien mit diesem Tag zu suchen'
+          'tag-tooltip': 'Klicken, um Datenpakete mit diesem Tag zu suchen'
         },
         'log-messages': {
           'study': {
@@ -197,7 +197,7 @@ angular.module('metadatamanagementApp').config(
             'first-name': 'Vorname',
             'middle-name': 'Zweiter Vorname',
             'last-name': 'Nachname',
-            'tags': 'Tags (Schlüsselwörter) zur Studie'
+            'tags': 'Tags (Schlagwörter) zur Studie'
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieser Studie wieder herzustellen.',
           'save-tooltip': 'Klicken, um die Studie zu speichern.',

@@ -23,7 +23,6 @@
             </md-card-header>
           <md-divider></md-divider>
             <md-card-content ng-switch="ctrl.noShadowCopyAvailable[product.study.id + '-' + product.version]" class="pt16">
-              {{ctrl.studies[product.study.id + '-' + product.version].studySeries[currentLanguage]}}
                 <span>{{'shopping-cart.detail.label.this-data-product' | translate}}</span>
                 <a ui-sref="search({id: product.study.id, version: product.version, 'type': 'studies', 'study-series': ctrl.studies[product.study.id + '-' + product.version].studySeries[currentLanguage]})" ng-if="ctrl.studies[product.study.id + '-' + product.version].studySeries[currentLanguage]">{{'shopping-cart.detail.label.study-series' | translate:'{series:"'+ ctrl.studies[product.study.id + '-' + product.version].studySeries[currentLanguage] + '"}'}}
                     <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

@@ -65,7 +65,7 @@
           </md-optgroup>
         </md-select>
       </md-list-item>
-      <md-list-item>
+      <md-list-item ng-if="$ctrl.releases.length > 0 && $ctrl.accessWays.length > 0">
         <md-button
           class="md-small md-raised md-accent fdz-truncate-string"
           ng-click="$ctrl.addToShoppingCart()"

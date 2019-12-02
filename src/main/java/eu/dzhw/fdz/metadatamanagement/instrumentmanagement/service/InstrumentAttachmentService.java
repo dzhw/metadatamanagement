@@ -107,7 +107,7 @@ public class InstrumentAttachmentService {
   public List<InstrumentAttachmentMetadata> findAllByInstrument(String instrumentId) {
     Query query = new Query(GridFsCriteria.whereFilename().regex("^"
         + Pattern.quote(InstrumentAttachmentFilenameBuilder.buildFileNamePrefix(instrumentId))));
-    query.with(new Sort(Sort.Direction.ASC, "metadata.indexInInstrument"));
+    query.with(Sort.by(Sort.Direction.ASC, "metadata.indexInInstrument"));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<InstrumentAttachmentMetadata> result = new ArrayList<>();
     files.forEach(gridfsFile -> {

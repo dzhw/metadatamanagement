@@ -20,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projec
  * @author Daniel Katzberg
  *
  */
-@RepositoryRestResource(path = "/related-publications",
+@RepositoryRestResource(path = "related-publications",
     excerptProjection = IdAndVersionProjection.class)
 public interface RelatedPublicationRepository extends BaseRepository<RelatedPublication, String> {
   @RestResource(exported = false)
