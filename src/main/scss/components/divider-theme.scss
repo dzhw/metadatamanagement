@@ -1,0 +1,14 @@
+.fdz-theme md-divide {
+  border-top-color: $foreground-4;
+}
+
+.fdz-theme .layout-row,
+.fdz-theme .layout-xs-row, .fdz-theme .layout-gt-xs-row,
+.fdz-theme .layout-sm-row, .fdz-theme .layout-gt-sm-row,
+.fdz-theme .layout-md-row, .fdz-theme .layout-gt-md-row,
+.fdz-theme .layout-lg-row, .fdz-theme .layout-gt-lg-row,
+.fdz-theme .layout-xl-row {
+  & > md-divider {
+    border-right-color: $foreground-4;
+  }
+}

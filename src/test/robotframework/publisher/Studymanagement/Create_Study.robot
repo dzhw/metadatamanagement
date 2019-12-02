@@ -40,7 +40,7 @@ Create Study by Publisher
     Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input[@type="search"]   Deutsche Tags Schlüsselwörter
     Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input[@type="search"]   English Days Keyword
     Save Changes
-    Page Should Contain Element    xpath=//md-toolbar//a[contains(.,'robotsproject${BROWSER}')]
+    Page Should Contain Element    xpath=//fdz-breadcrumbs//span[contains(.,'robotsproject${BROWSER}')]
     Delete Robotsproject
 
 *** Keywords ***

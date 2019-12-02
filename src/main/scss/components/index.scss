@@ -1,0 +1,48 @@
+// Imports
+
+// General
+@import "common/variables";
+@import "common/colors";
+@import "common/utility";
+@import "utils/mixin";
+
+// Components
+@import "button-theme";
+@import "autocomplete-theme";
+@import "backdrop-theme";
+@import "calendar-theme";
+@import "card-theme";
+@import "checkbox-theme";
+@import "chips-theme";
+@import "content-theme";
+@import "datePicker-theme";
+@import "dialog-theme";
+@import "divider-theme";
+@import "icon-theme";
+@import "input-theme";
+@import "list-theme";
+@import "menu-bar-theme";
+@import "menu-theme";
+@import "navBar-theme";
+@import "panel-theme";
+@import "progress-circular-theme";
+@import "progress-linear-theme";
+@import "radio-button-theme";
+@import "select-theme";
+@import "sidenav-theme";
+@import "slider-theme";
+@import "subheader-theme";
+@import "switch-theme";
+@import "tabs-theme";
+@import "toast-theme";
+@import "toolbar-theme";
+@import "tooltip-theme";
+
+// fdz-components
+// Extracted declarations from main.scss
+@import "will-be-deleted/search-result-theme";
+@import "ribbon-theme";
+@import "splash-theme";
+@import "search-result-buttons";
+@import "breadcrumbs-theme";
+@import "footer-theme";

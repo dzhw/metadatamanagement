@@ -25,6 +25,11 @@
     <link rel="apple-touch-icon" href="assets/images/webapp/180-Gesamte-App.png" sizes="180x180">
     <link rel="apple-touch-icon" href="assets/images/webapp/196-Gesamte-App.png" sizes="196x196">
 
+  <!-- build:css assets/styles/main.css -->
+  <link rel="stylesheet" href="assets/styles/main.css">
+  <link rel="stylesheet" href="assets/styles/fdz.css">
+  <!-- endbuild -->
+
     <!-- build:css assets/styles/vendor.css -->
     <link rel="stylesheet" href="../../../node_modules/nvd3/build/nv.d3.css" />
     <link rel="stylesheet" href="../../../node_modules/angular-material/angular-material.css" />
@@ -35,12 +40,12 @@
     <link rel="stylesheet" href="../../../node_modules/jsonformatter/dist/json-formatter.css" />
     <link rel="stylesheet" href="../../../node_modules/fdz-paginator/dest/fdz-paginator.css" />
     <!-- endbuild -->
-    <!-- build:css assets/styles/main.css -->
-    <link rel="stylesheet" href="assets/styles/main.css">
-    <!-- endbuild -->
+
+
 </head>
 
-<body data-layout="row">
+<body data-layout="column" class="fdz-theme">
+<!--<body>-->
     <div class="fdz-splash" data-ng-cloak>
         <div class="fdz-bootstrap-error">
           <div class="fdz-no-js">
@@ -64,16 +69,26 @@
     <div style="position: fixed; bottom: 0; right: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2000; padding-top: 64px;" data-layout="column">
         <div data-flex id="toast-container"></div>
     </div>
+    <header>
+      <fdz-toolbar></fdz-toolbar>
+    </header>
+<!--    <main data-flex data-layout="column" data-ng-cloak data-block-ui="main" class="block-ui-main">-->
+    <main data-flex data-layout="row" data-ng-cloak data-block-ui="main" class="block-ui-main">
+
     <fdz-navbar data-ng-cloak></fdz-navbar>
-    <div role="main" data-flex data-layout="column" data-ng-cloak data-block-ui="main" class="block-ui-main">
-        <fdz-toolbar></fdz-toolbar>
-        <md-content data-md-scroll-y data-layout="column" flex du-scroll-container>
+
+        <md-content data-md-scroll-y data-layout="column" flex du-scroll-container class="fdz-theme content-center">
           <div id="top"></div>
+<!--          <div class="fdz-breadcrumbs">-->
+            <fdz-breadcrumbs items="toolbarHeaderItems"></fdz-breadcrumbs>
+<!--          </div>-->
           <div data-flex="noshrink" data-layout="column" class="fdz-content" tabindex="-1">
             <ui-view name="content" data-flex="noshrink" tabindex="-1" data-layout="column"></ui-view>
+
+            <fdz-footer lang="currentLanguage" ng-if="!bowser.msie"></fdz-footer>
           </div>
         </md-content>
-    </div>
+    </main>
     <!-- build:js scripts/vendor.js -->
     <script src="../../../node_modules/jquery/dist/jquery.js"></script>
     <script src="../../../node_modules/angular/angular.js"></script>
@@ -150,9 +165,6 @@
     <script src="scripts/administration/admin.js"></script>
     <script src="scripts/administration/configuration/translations-de.js"></script>
     <script src="scripts/administration/configuration/translations-en.js"></script>
-    <script src="scripts/administration/configuration/configuration.js"></script>
-    <script src="scripts/administration/configuration/configuration.controller.js"></script>
-    <script src="scripts/administration/configuration/configuration.service.js"></script>
     <script src="scripts/administration/health/health.js"></script>
     <script src="scripts/administration/health/health.controller.js"></script>
     <script src="scripts/administration/health/health.modal.controller.js"></script>
@@ -269,6 +281,9 @@
     <script src="scripts/common/i18n/directives/languagepicker/language-picker.directive.js"></script>
     <script src="scripts/common/i18n/directives/languagepicker/configuration/translations-de.js"></script>
     <script src="scripts/common/i18n/directives/languagepicker/configuration/translations-en.js"></script>
+    <script src="scripts/common/breadcrumbs/breadcrumbs.component.js"></script>
+    <script src="scripts/common/footer/footer.component.js"></script>
+    <script src="scripts/common/footer/footer.controller.js"></script>
 
     <script src="scripts/filemanagement/resources/file.resource.js"></script>
     <script src="scripts/filemanagement/services/zipReader.service.js"></script>

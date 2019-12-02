@@ -40,6 +40,7 @@ import freemarker.core.ParseException;
 
 /**
  * Controller advice to translate the server side exceptions to client-friendly json structures.
+ * 
  * @author Daniel Katzberg
  */
 @ControllerAdvice
@@ -65,7 +66,7 @@ public class ExceptionTranslator {
   }
 
   private ErrorListDto processFieldErrors(List<ObjectError> globalErrors,
-                                          List<FieldError> fieldErrors) {
+      List<FieldError> fieldErrors) {
 
     ErrorListDto errorListDto = new ErrorListDto();
 
@@ -240,6 +241,7 @@ public class ExceptionTranslator {
    * Handles {@link RepositoryConstraintViolationException}s by returning {@code 400 Bad Request}.
    * Introduces a custom dto for validation errors of spring data rest repositories. This is
    * necessary due to issue #706.
+   * 
    * @param exception the exception to handle.
    * @return 400 bad request
    */
@@ -271,6 +273,7 @@ public class ExceptionTranslator {
    * Handles {@link ConstraintViolationException}s by returning {@code 400 Bad Request}. Introduces
    * a custom dto for validation errors of spring data rest repositories. This is necessary due to
    * issue #706.
+   * 
    * @param exception the exception to handle.
    * @return 400 bad request
    */
@@ -283,7 +286,8 @@ public class ExceptionTranslator {
 
     for (ConstraintViolation<?> violation : exception.getConstraintViolations()) {
       String message = violation.getMessage();
-      errorListDto.add(new ErrorDto(violation.getRootBeanClass().getSimpleName(), message, null,
+      errorListDto.add(new ErrorDto(violation.getRootBeanClass().getSimpleName(), message,
+          violation.getInvalidValue(),
           ((PathImpl) violation.getPropertyPath()).getLeafNode().getName()));
     }
     return errorListDto;
@@ -332,16 +336,15 @@ public class ExceptionTranslator {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ErrorListDto handleDuplicateFilenameException(DuplicateFilenameException exception) {
     ErrorListDto errorListDto = new ErrorListDto();
-    ErrorDto error = new ErrorDto(null, "global.error.import.file-already-exists",
-        null, "filename");
+    ErrorDto error =
+        new ErrorDto(null, "global.error.import.file-already-exists", null, "filename");
     errorListDto.add(error);
     return errorListDto;
   }
 
   /**
-   * Handle {@link OptimisticLockingFailureException} thrown by attempts to
-   * save stale entities through a repository. Responds to client with status
-   * 400.
+   * Handle {@link OptimisticLockingFailureException} thrown by attempts to save stale entities
+   * through a repository. Responds to client with status 400.
    */
   @ExceptionHandler(OptimisticLockingFailureException.class)
   @ResponseBody
@@ -354,8 +357,8 @@ public class ExceptionTranslator {
   }
 
   /**
-   * Handle {@link ShadowCopySaveNotAllowedException} thrown by attempts to
-   * update a shadowed domain object.
+   * Handle {@link ShadowCopySaveNotAllowedException} thrown by attempts to update a shadowed domain
+   * object.
    */
   @ExceptionHandler(ShadowCopySaveNotAllowedException.class)
   @ResponseBody
@@ -368,8 +371,8 @@ public class ExceptionTranslator {
   }
 
   /**
-   * Handle {@link ShadowCopyCreateNotAllowedException} thrown by attempts to
-   * create a shadowed domain object.
+   * Handle {@link ShadowCopyCreateNotAllowedException} thrown by attempts to create a shadowed
+   * domain object.
    */
   @ExceptionHandler(ShadowCopyCreateNotAllowedException.class)
   @ResponseBody
@@ -382,8 +385,8 @@ public class ExceptionTranslator {
   }
 
   /**
-   * Handle {@link ShadowCopyDeleteNotAllowedException} thrown by attempts to
-   * delete a shadowed domain object.
+   * Handle {@link ShadowCopyDeleteNotAllowedException} thrown by attempts to delete a shadowed
+   * domain object.
    */
   @ExceptionHandler(ShadowCopyDeleteNotAllowedException.class)
   @ResponseBody

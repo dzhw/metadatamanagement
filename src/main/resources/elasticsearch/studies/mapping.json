@@ -129,7 +129,7 @@
 				}
 			}
 		},
-		"surveyDataType": {
+		"surveyDataTypes": {
 			"type": "object",
 			"properties": {
 				"de": {

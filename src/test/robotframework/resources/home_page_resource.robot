@@ -11,4 +11,4 @@ Change language to english
 Get back to german home page
   ${url} =  Get Location
   Run Keyword If   '/en/' in '${url}'    Click Element Through Tooltips  xpath=//*[@id = 'changeLanguageToDe']
-  Click Element Through Tooltips  xpath=//*[@id='SideNavBar']/md-toolbar/a
+  Click Element Through Tooltips  xpath=//a[contains(@aria-label, "zur Suche")]

@@ -7,17 +7,13 @@ Variables         ../common_variables.yaml
 
 *** Keywords ***
 Login as dataprovider
-    ${visible}=  Run Keyword And Return Status    Element Should Be Visible   xpath=//*[@id = 'login']
-    Run Keyword If    not ${visible}    Click Element Through Tooltips    xpath=//*[@id = 'account-menu-toggle']
-    Click Element Through Tooltips    xpath=//*[@id = 'login']
+    Click Element Through Tooltips    xpath=//a[contains(@aria-label,'anzumelden')]
     Input Text    id=username    dataprovider
     Input Password    id=password    dataprovider
     Click Element Through Tooltips    xpath=//button[@type='submit']
 
 Login as publisher
-    ${visible}=  Run Keyword And Return Status    Element Should Be Visible   xpath=//*[@id = 'login']
-    Run Keyword If    not ${visible}    Click Element Through Tooltips    xpath=//*[@id = 'account-menu-toggle']
-    Click Element Through Tooltips    xpath=//*[@id = 'login']
+    Click Element Through Tooltips    xpath=//a[contains(@aria-label,'anzumelden')]
     Input Text    id=username    publisher
     Input Password    id=password    publisher
     Click Element Through Tooltips    xpath=//button[@type='submit']
@@ -26,6 +22,7 @@ Create Project
     [Arguments]    ${projectname}
     Click Element Through Tooltips    xpath=//md-sidenav//button[md-icon[text()='add']]
     Input Text    name=id    ${projectname}
+    Run Keyword If    '${BROWSER}' == 'safari'  Sleep  1s
     Wait Until Keyword Succeeds    5s    0.5s    Page Should Contain Element    xpath=//button[@type='submit' and not(contains(@disabled, 'disabled'))]
     Click Element Through Tooltips    xpath=//button[@type='submit'][contains(.,'OK')]
     Sleep  3s
@@ -41,11 +38,7 @@ Save Changes
     Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='save']]
 
 Publisher Logout
-    ${url} =    Get Location
-    Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'abmelden')]
-    Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'logout')]
+    Click Element Through Tooltips    xpath=//md-icon[contains(.,'account_circle')]
 
 Data Provider Logout
-    ${url} =    Get Location
-    Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'abmelden')]
-    Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//button[contains(.,'logout')]
+    Click Element Through Tooltips    xpath=//md-icon[contains(.,'account_circle')]

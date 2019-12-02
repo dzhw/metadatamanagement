@@ -11,12 +11,16 @@
       </md-button>
     </div>
   </md-toolbar>
+  <md-divider></md-divider>
   <md-dialog-content>
-    <div class="md-dialog-content" data-translate="user-management.welcome-dialog.text-body" data-translate-values="{username: username, language: language}">
+    <div class="md-dialog-content" data-translate="user-management.welcome-dialog.text-body"
+         data-translate-values="{username: username, language: language}">
     </div>
   </md-dialog-content>
   <md-dialog-actions>
-    <md-checkbox ng-model="data.doNotShowAgain" ng-if="displayDeactivateDialogOption" aria-label="{{'user-management.welcome-dialog.do-not-show-again' | translate}}" class="fdz-no-margin-bottom">
+    <md-checkbox aria-label="{{'user-management.welcome-dialog.do-not-show-again' | translate}}" class="fdz-no-margin-bottom"
+                 ng-if="displayDeactivateDialogOption"
+                 ng-model="data.doNotShowAgain">
       {{'user-management.welcome-dialog.do-not-show-again' | translate}}
     </md-checkbox>
     <md-button class="md-primary md-raised" ng-click="closeDialog()">

@@ -5,7 +5,7 @@ Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
 
 *** Test Cases ***
-Search Tag and assret search results
+Search Tag and assert search results
     Click on study tab
     Search for    Deutsche Tags Schlüsselwörter
     Sleep  2s  # avoid failling in firefox and chrome, the are too fast

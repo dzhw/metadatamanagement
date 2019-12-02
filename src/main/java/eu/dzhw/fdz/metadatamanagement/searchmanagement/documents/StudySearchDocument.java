@@ -1,10 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
@@ -13,7 +15,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDataTypes;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
@@ -34,8 +36,8 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
 
   private static final long serialVersionUID = -4015837106569277626L;
 
-  static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION = new String[] {"nested*",
-      "variables", "questions", "configuration", "guiLabels", "*Publications"};
+  static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION = new String[] {"nested*", "variables",
+      "questions", "configuration", "guiLabels", "*Publications"};
 
   private List<DataSetSubDocument> dataSets = new ArrayList<>();
   private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();
@@ -62,12 +64,14 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
   private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
 
   private List<I18nString> nestedInstitutions = new ArrayList<>();
-  
+
   private Release release = null;
 
   private Configuration configuration = null;
 
-  private I18nString surveyDataType;
+  private List<I18nString> surveyDataTypes;
+
+  private Period surveyPeriod;
 
   private Integer numberOfWaves;
 
@@ -120,8 +124,9 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
       this.surveys = surveys.stream().map(SurveySubDocument::new).collect(Collectors.toList());
       this.nestedSurveys =
           surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
-      this.surveyDataType = generateSurveyDataType(surveys);
+      this.surveyDataTypes = generateSurveyDataTypes(surveys);
       this.numberOfWaves = generateNumberOfWaves(surveys);
+      this.surveyPeriod = generateSurveyPeriod(surveys);
     }
     if (questions != null) {
       this.questions = questions.stream().map(question -> new QuestionSubDocument(question))
@@ -157,6 +162,15 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
         .build();
   }
 
+  private Period generateSurveyPeriod(List<SurveySubDocumentProjection> surveys) {
+    Period surveyPeriod = new Period();
+    surveyPeriod.setStart(surveys.stream().map(SurveySubDocumentProjection::getFieldPeriod)
+        .map(Period::getStart).min(LocalDate::compareTo).orElse(null));
+    surveyPeriod.setEnd(surveys.stream().map(SurveySubDocumentProjection::getFieldPeriod)
+        .map(Period::getEnd).max(LocalDate::compareTo).orElse(null));
+    return surveyPeriod;
+  }
+
   /**
    * Check the wave number of every survey.
    * 
@@ -176,27 +190,13 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
   }
 
   /**
-   * Check the Data Type of every Survey.
+   * Create an aggregated list of the data types of all {@link Survey}s.
    * 
    * @param surveys All Survey Sub Document Projections.
-   * @return If all Data Type of the Survey are equal, return the Data Type. If the surveys have
-   *         different Data Type, return the Mixed Method Data Type.
+   * @return aggregated List of survey data types
    */
-  private I18nString generateSurveyDataType(List<SurveySubDocumentProjection> surveys) {
-
-    I18nString surveyDataType = null;
-
-    for (SurveySubDocumentProjection survey : surveys) {
-      if (surveyDataType == null) {
-        surveyDataType = survey.getDataType();
-        continue;
-      }
-
-      if (survey.getDataType() != null && !surveyDataType.equals(survey.getDataType())) {
-        return SurveyDataTypes.MIXED_METHODS;
-      }
-    }
-
-    return surveyDataType;
+  private List<I18nString> generateSurveyDataTypes(List<SurveySubDocumentProjection> surveys) {
+    return surveys.stream().map(SurveySubDocumentProjection::getDataType).distinct()
+        .collect(Collectors.toList());
   }
 }
