@@ -26,6 +26,7 @@
   }
 
   & md-card-content {
+    padding: 8px 0 0 0;
     text-align: justify;
     //white-space: pre-line;
     & .btn-link {
@@ -48,6 +49,13 @@
     margin: -16px 8px 8px 8px;
     .md-button {
       min-width: unset;
+    }
+  }
+  .md-card-seach-action {
+    margin: 8px 0 0 0;
+    justify-content: flex-start;
+    a {
+      margin: 0;
     }
   }
 }
@@ -75,4 +83,7 @@
     display: flex;
     margin: 16px 8px 8px 8px;
     width: 100%;
+  @include rwd(600) {
+    margin: 16px 8px 8px 16px;
+  }
 }

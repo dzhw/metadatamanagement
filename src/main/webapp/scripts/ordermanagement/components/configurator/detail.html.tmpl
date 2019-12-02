@@ -1,7 +1,7 @@
 <md-card class="fdz-data-packet" ng-if="$ctrl.study && $ctrl.studyIdVersion.masterId && $ctrl.lang && $ctrl.accessWays && $ctrl.releases">
   <md-card-header>
     <md-card-header-text>
-      <a ui-sref="studyDetail({id: $ctrl.studyIdVersion.masterId, version: $ctrl.studyIdVersion.version})" class="md-title">
+      <a ui-sref="studyDetail({id: $ctrl.studyIdVersion.masterId, version: $ctrl.studyIdVersion.version})" class="title">
       {{$ctrl.study.title[$ctrl.lang]}}
       </a>
     </md-card-header-text>
@@ -65,7 +65,7 @@
           </md-optgroup>
         </md-select>
       </md-list-item>
-      <md-list-item>
+      <md-list-item ng-if="$ctrl.releases.length > 0 && $ctrl.accessWays.length > 0">
         <md-button
           class="md-small md-raised md-accent fdz-truncate-string"
           ng-click="$ctrl.addToShoppingCart()"

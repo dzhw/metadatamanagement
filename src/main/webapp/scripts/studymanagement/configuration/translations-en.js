@@ -106,7 +106,7 @@ angular.module('metadatamanagementApp').config(
               'many': 'Click to show all instruments of this study'
             },
             'studies': {
-              'study-series': 'Click to show all studies of the study series.'
+              'study-series': 'Click to show all data packages of the study series.'
             },
             'concepts': {
               'one': 'Click to show the concept which has been measured in this study',
@@ -114,7 +114,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'doi-tooltip': 'Click to open the DOI in a new Tab',
-          'tag-tooltip': 'Click to search for studies with this tag'
+          'tag-tooltip': 'Click to search for data packages with this tag'
         },
         'log-messages': {
           'study': {

@@ -140,6 +140,10 @@
 .hide-validation-error .md-errors-spacer {
   display: none; }
 
+html,
+body {
+  min-width: 320px; }
+
 .fdz-theme a {
   color: #006AB2;
   text-decoration: none; }
@@ -179,6 +183,9 @@
   @media (min-width: 600px) {
     .fdz-theme .md-subtitle {
       font-size: 18px; } }
+
+.fdz-theme fdz-paginator {
+  margin: 0; }
 
 .fdz-theme md-sidenav {
   width: 320px;
@@ -1490,6 +1497,7 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   justify-content: space-between; }
 
 .fdz-theme .fdz-search-result md-card-content {
+  padding: 8px 0 0 0;
   text-align: justify; }
   .fdz-theme .fdz-search-result md-card-content .btn-link {
     font-weight: 400;
@@ -1507,6 +1515,12 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   margin: -16px 8px 8px 8px; }
   .fdz-theme .fdz-search-result md-card-actions .md-button {
     min-width: unset; }
+
+.fdz-theme .fdz-search-result .md-card-seach-action {
+  margin: 8px 0 0 0;
+  justify-content: flex-start; }
+  .fdz-theme .fdz-search-result .md-card-seach-action a {
+    margin: 0; }
 
 .fdz-search-result__link {
   color: black;
@@ -1530,6 +1544,9 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   display: flex;
   margin: 16px 8px 8px 8px;
   width: 100%; }
+  @media (min-width: 600px) {
+    .fdz-no-result {
+      margin: 16px 8px 8px 16px; } }
 
 .ribbon {
   /* positioning */
@@ -1629,7 +1646,7 @@ fdz-breadcrumbs {
   width: 100%; }
   @media (min-width: 600px) {
     .fdz-breadcrumbs {
-      margin-left: 16px; } }
+      margin-left: 8px; } }
 
 .fdz-theme .fdz-search {
   position: relative;
@@ -1749,6 +1766,9 @@ fdz-breadcrumbs {
 
 .fdz-theme #related-objects fdz-paginator {
   margin: 0; }
+  @media (min-width: 600px) {
+    .fdz-theme #related-objects fdz-paginator {
+      padding-left: 0; } }
 
 .fdz-theme #related-objects .fdz-detail-search-item-container md-card {
   margin: 0;
@@ -2016,6 +2036,11 @@ tr:focus {
     border-bottom-style: solid;
     border-bottom-color: rgba(0, 0, 0, 0.12);
     margin: 0; }
+    .fdz-theme .fdz-data-packet md-card-header .title {
+      font-size: 16px; }
+      @media (min-width: 600px) {
+        .fdz-theme .fdz-data-packet md-card-header .title {
+          font-size: 18px; } }
   .fdz-theme .fdz-data-packet md-list-item,
   .fdz-theme .fdz-data-packet md-list-item::before {
     min-height: auto; }

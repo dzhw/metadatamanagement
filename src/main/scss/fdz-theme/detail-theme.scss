@@ -108,6 +108,9 @@ $card-border-radius: 2px !default;
 
     fdz-paginator {
       margin: 0;
+      @include rwd(600) {
+        padding-left: 0;
+      }
     }
 
     .fdz-detail-search-item-container {
@@ -127,7 +130,6 @@ $card-border-radius: 2px !default;
 
   .fdz-theme .fdz-detail .fdz-attachment {
     padding: 16px 0;
-
     .fdz-table-wide,
     .fdz-table-rotated {
       margin: 0;
@@ -137,9 +139,6 @@ $card-border-radius: 2px !default;
 
   .fdz-theme .fdz-detail {
     md-card {
-      //box-shadow: none;
-      //margin: 0;
-
       md-card-content {
 
         & > p {
@@ -150,13 +149,6 @@ $card-border-radius: 2px !default;
             columns: 2;
           }
         }
-
-        //& .fdz-table-wide,
-        //.fdz-table-rotated {
-        //  margin: 16px 0;
-        //}
-
-
       }
     }
   }
