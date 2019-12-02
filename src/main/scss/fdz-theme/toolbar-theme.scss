@@ -72,6 +72,7 @@
 // END LOGO
 
 .fdz-theme .md-toolbar-tools{
+  justify-content: space-between;
   padding:0;
   @include rwd(375) {
     padding: 0 8px;

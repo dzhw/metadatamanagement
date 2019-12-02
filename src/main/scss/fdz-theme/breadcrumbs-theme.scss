@@ -9,6 +9,9 @@ fdz-breadcrumbs {
 .fdz-breadcrumbs {
   display: flex;
   margin: 16px 8px 8px 8px;
-  padding-left: 8px;
   width: 100%;
+
+  @include rwd(500) {
+    padding-left: 8px;
+  }
 }

@@ -1,28 +1,65 @@
 $card-border-radius: 2px !default;
 
-.fdz-theme .fdz-detail {
-  margin: 8px;
-  color: $foreground-1;
-  background-color: $background-hue-1;
-  border-radius: $card-border-radius;
-  position: relative;
-  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
-              0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-              0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+.fdz-theme {
+  .fdz-detail {
+    margin: 0;
+    position: relative;
+    padding: 8px;
+    color: $foreground-1;
+    background-color: $background-hue-1;
+    border-radius: $card-border-radius;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+                0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+                0px 2px 1px -1px rgba(0, 0, 0, 0.12);
 
-  &:last-child {
-    padding-bottom: 16px;
+    @include rwd(500) {
+      padding: 16px;
+    }
+    @include rwd(959) {
+      margin: 8px;
+    }
   }
 
   .fdz-detail__header {
-    padding: 16px;
     display: flex;
     justify-content: space-between;
-  }
 
-  .fdz-detail__header + fdz-detail > md-card {
-    margin-top: 0;
-  };
+  }
+}
+
+
+
+
+
+
+
+.fdz-theme .fdz-detail {
+
+
+  //&:last-child {
+  //  padding-bottom: 16px;
+  //}
+  //
+  //.fdz-detail__header {
+  //  //padding: 16px;
+  //  display: flex;
+  //  justify-content: space-between;
+  //  .md-headline {
+  //    font-size: 20px;
+  //    line-height: 30px;
+  //  }
+  //  @include rwd(700) {
+  //    .md-headline {
+  //      font-size: 24px;
+  //      line-height: 36px;
+  //    }
+  //  }
+  //}
+
+  //.fdz-detail__header + fdz-detail > md-card {
+  //  margin-top: 0;
+  //};
+
   md-card {
     margin: 16px 8px;
     box-shadow: none;
@@ -54,8 +91,8 @@ $card-border-radius: 2px !default;
     md-card-content {
 
       & > p {
-        margin-top: 16px;
-        margin-bottom: 16px;
+        margin-top: 0;
+        margin-bottom: 0;
 
         @include rwd(700) {
           columns: 2;

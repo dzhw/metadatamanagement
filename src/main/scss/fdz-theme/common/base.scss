@@ -1,0 +1,39 @@
+.fdz-theme {
+  // Links
+  a {
+    color: #006AB2;
+    text-decoration: none;
+  }
+
+  a:hover, a:focus {
+    text-decoration: underline;
+  }
+  a:hover {
+    color: #003c66;
+  }
+  a:focus {
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-color: $accent-color;
+    outline-offset: -2px;
+  }
+
+  // Headlines
+  h5 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .md-headline {
+    font-size: 20px;
+    line-height: 30px;
+    @include rwd(500) {
+        font-size: 24px;
+        line-height: 36px;
+    }
+  }
+  .md-title {
+    font-size: 18px;
+    @include rwd(500) {
+     font-size: 20px;
+    }
+  }
+}

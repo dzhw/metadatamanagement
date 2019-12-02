@@ -1,15 +1,19 @@
 // Imports
 
 // General
-@import "common/variables";
-@import "common/colors";
-@import "common/utility";
-@import "utils/mixin";
-@import "common/elements";
+@import "abstract/variables";
+@import "abstract/colors";
+@import "abstract/utility";
+@import "abstract/mixin";
+@import "common/base";
+
+// Layout
+@import "layout/sidenav-theme";
+@import "layout/footer-theme";
 
 // Components
 @import "button-theme";
-@import "autocomplete-theme";
+@import "components/md/autocomplete-theme";
 @import "backdrop-theme";
 @import "calendar-theme";
 @import "card-theme";
@@ -30,7 +34,6 @@
 @import "progress-linear-theme";
 @import "radio-button-theme";
 @import "select-theme";
-@import "sidenav-theme";
 @import "slider-theme";
 @import "subheader-theme";
 @import "switch-theme";
@@ -47,7 +50,6 @@
 @import "splash-theme";
 @import "search-result-buttons";
 @import "breadcrumbs-theme";
-@import "footer-theme";
 @import "search-theme";
 @import "detail-theme";
 @import "table-theme";

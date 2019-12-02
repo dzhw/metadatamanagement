@@ -1,19 +1,11 @@
 
 
-@import "components/index";
+@import "fdz-theme/index";
 // Weird CSS
-@import "components/will-be-deleted/will-be-deleted";
-
-.fdz-toolbar {
-  color: $brand-primary-text;
-  background: $brand-primary;
-}
+@import "fdz-theme/will-be-deleted/will-be-deleted";
 
 .fdz-primary {
   color: $brand-primary;
-}
-.fdz-text {
-  color: $brand-background-600;
 }
 
 .fdz-secondary {
@@ -23,16 +15,10 @@
 .fdz-third {
   color: $brand-third!important;
 }
-
-.fdz-headline {
-  //padding-left: 16px;
-  //padding-right: 16px;
+.fdz-text {
+  color: $brand-background-600;
 }
 
-
-.fdz-nav {
-  justify-content: space-between;
-}
 
 fdz-paginator {
   width: 100%;
