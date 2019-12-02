@@ -17,7 +17,7 @@ import io.swagger.v3.oas.models.info.Info;
 public class OpenApiConfiguration {
 
   /**
-   * Expose only the docs for the order API.
+   * Generate OpenAPI documentation.
    */
   @Bean
   public OpenAPI openApi() {
@@ -26,6 +26,10 @@ public class OpenApiConfiguration {
             .description("This is the UI of the OpenAPI 3 documentation of the MDM."));
   }
 
+  /**
+   * Hide undocumented API operations from documentation for dev, test and prod.
+   * @return A modified OpenAPI
+   */
   @Bean
   @Profile("!" + Constants.SPRING_PROFILE_LOCAL)
   public OpenApiCustomiser hideUndocumentedApiOperations() {
