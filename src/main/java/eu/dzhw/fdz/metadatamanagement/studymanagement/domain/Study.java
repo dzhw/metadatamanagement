@@ -123,9 +123,12 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
    * It must be specified in German and English and it must not contain more than 512 characters.
    */
   @NotEmpty(message = "study-management.error.study.institutions.not-null")
-  private List<@I18nStringSize(max = StringLengths.MEDIUM,
-      message = "study-management.error.study.institution.i18n-string-size") @I18nStringEntireNotEmpty(
-          message = "study-management.error.study.institution.i18n-string-entire-not-empty") I18nString> institutions;
+  private List<
+      @I18nStringSize(max = StringLengths.MEDIUM,
+        message = "study-management.error.study.institution.i18n-string-size") 
+      @I18nStringEntireNotEmpty(
+        message = "study-management.error.study.institution.i18n-string-entire-not-empty")
+      I18nString> institutions;
 
   /**
    * The name of the series of studies to which this study belongs..

@@ -1,4 +1,4 @@
-.. java:import:: io.swagger.annotations ApiModel
+.. java:import:: io.swagger.v3.oas.annotations.media Schema
 
 OrderClient
 ===========
@@ -6,7 +6,7 @@ OrderClient
 .. java:package:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain
    :noindex:
 
-.. java:type:: @ApiModel public enum OrderClient
+.. java:type:: @Schema public enum OrderClient
 
    Enum holding possible clients with write access to the orders.
 
