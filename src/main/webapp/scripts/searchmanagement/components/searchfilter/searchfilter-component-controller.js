@@ -77,6 +77,11 @@
       } else {
         if ($ctrl.searchFilterMapping &&
           $ctrl.searchFilterMapping.hasOwnProperty(prop)) {
+          if (!angular.isArray($ctrl.searchFilterMapping[prop])) {
+            var tmp = $ctrl.searchFilterMapping[prop];
+            $ctrl.searchFilterMapping[prop] = [];
+            $ctrl.searchFilterMapping[prop].push(tmp);
+          }
           $ctrl.searchFilterMapping[prop].push(item);
         } else {
           $ctrl.searchFilterMapping[prop] = [];
