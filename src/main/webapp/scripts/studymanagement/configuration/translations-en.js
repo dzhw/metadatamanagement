@@ -41,7 +41,8 @@ angular.module('metadatamanagementApp').config(
               'surveyed-in': 'Contains data from these surveys'
             },
             'doi': 'DOI',
-            'published-at': 'published at'
+            'published-at': 'published at',
+            'published': 'Published at'
           },
           'attachments': {
             'table-title': 'Documents related to the Data Package',

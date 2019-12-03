@@ -37,6 +37,15 @@ angular.module('metadatamanagementApp').controller(
       }
       MessageBus.remove('searchFilter');
     };
+    $scope.resetFilter = function() {
+      var search = $location.search();
+      var params = {};
+      params.type = search.type;
+      params.page = 1;
+      params.size = search.size;
+      $location.search(params);
+      MessageBus.remove('searchFilter');
+    };
     $scope.productsCount = ShoppingCartService.count();
     $scope.$on('shopping-cart-changed',
       function(event, count) { // jshint ignore:line
