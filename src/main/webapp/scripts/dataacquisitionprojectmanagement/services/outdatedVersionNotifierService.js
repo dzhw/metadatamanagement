@@ -2,18 +2,8 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
-  function($state, SimpleMessageToastService, $document, $mdToast, Principal,
+  function(SimpleMessageToastService, $document, $mdToast, Principal,
     $location) {
-
-    var createMasterRef = function(item) {
-      return $state.href($state.current.name, {
-          id: item.masterId,
-          version: null
-        },
-        {
-          absolute: false
-        });
-    };
 
     var showPublicUserMessage = function(oldVersion, newVersion) {
       var messageParams = {
