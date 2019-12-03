@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Counter;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +30,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-@ApiModel(
+@Schema(
     description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/" 
     + "fdz/metadatamanagement/ordermanagement/domain/Order.html'>here</a> for further details.")
 public class Order extends AbstractRdcDomainObject {

@@ -42,7 +42,7 @@ public class StudyAttachmentService {
 
   /**
    * Save the attachment for a study.
-   * 
+   *
    * @param metadata The metadata of the attachment.
    * @return The GridFs filename.
    * @throws IOException thrown when the input stream cannot be closed
@@ -67,7 +67,7 @@ public class StudyAttachmentService {
 
   /**
    * Update the metadata of the attachment.
-   * 
+   *
    * @param metadata The new metadata.
    */
   public void updateAttachmentMetadata(StudyAttachmentMetadata metadata) {
@@ -78,7 +78,7 @@ public class StudyAttachmentService {
 
   /**
    * Delete all attachments of the given study.
-   * 
+   *
    * @param studyId the id of the study.
    */
   public void deleteAllByStudyId(String studyId) {
@@ -99,14 +99,15 @@ public class StudyAttachmentService {
 
   /**
    * Load all metadata objects from gridfs (ordered by indexInStudy).
-   * 
+   *
    * @param studyId The id of the study.
    * @return A list of metadata.
    */
   public List<StudyAttachmentMetadata> findAllByStudy(String studyId) {
     Query query = new Query(GridFsCriteria.whereFilename()
-        .regex("^" + Pattern.quote(StudyAttachmentFilenameBuilder.buildFileNamePrefix(studyId))));
-    query.with(new Sort(Sort.Direction.ASC, "metadata.indexInStudy"));
+        .regex("^" + Pattern.quote(
+            StudyAttachmentFilenameBuilder.buildFileNamePrefix(studyId))));
+    query.with(Sort.by(Sort.Direction.ASC, "metadata.indexInStudy"));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<StudyAttachmentMetadata> result = new ArrayList<>();
     files.forEach(gridfsFile -> {
@@ -118,7 +119,7 @@ public class StudyAttachmentService {
 
   /**
    * Load all metadata objects from gridfs (ordered by indexInStudy).
-   * 
+   *
    * @param dataAcquisitionProjectId The id of the {@link DataAcquisitionProject}.
    * @return A list of metadata.
    */
@@ -158,7 +159,7 @@ public class StudyAttachmentService {
 
   /**
    * Delete the attachment and its metadata from gridfs.
-   * 
+   *
    * @param studyId The id of the study.
    * @param filename The filename of the attachment.
    */

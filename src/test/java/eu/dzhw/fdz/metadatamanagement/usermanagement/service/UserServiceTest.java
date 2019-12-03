@@ -66,7 +66,7 @@ public class UserServiceTest extends AbstractTest {
         "john.doe@localhost", "en-US");
     Optional<User> maybeUser = userService.requestPasswordReset("john.doe@localhost");
     assertThat(maybeUser.isPresent()).isFalse();
-    userRepository.delete(user);
+    userRepository.deleteById(user.getId());
   }
 
   @Test
@@ -87,7 +87,7 @@ public class UserServiceTest extends AbstractTest {
 
     assertThat(maybeUser.isPresent()).isFalse();
 
-    userRepository.delete(user);
+    userRepository.deleteById(user.getId());
   }
 
   @Test
@@ -103,7 +103,7 @@ public class UserServiceTest extends AbstractTest {
     userRepository.save(user);
     Optional<User> maybeUser = userService.completePasswordReset("johndoe2", user.getResetKey());
     assertThat(maybeUser.isPresent()).isFalse();
-    userRepository.delete(user);
+    userRepository.deleteById(user.getId());
   }
 
   @Test  
@@ -127,7 +127,7 @@ public class UserServiceTest extends AbstractTest {
     assertThat(maybeUser.get()
       .getPassword()).isNotEqualTo(oldPassword);
 
-    userRepository.delete(user);
+    userRepository.deleteById(user.getId());
   }
 
   @Test
