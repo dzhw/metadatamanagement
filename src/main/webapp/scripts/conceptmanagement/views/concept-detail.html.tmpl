@@ -6,6 +6,8 @@
       <div class="fdz-detail">
         <div class="fdz-detail__header">
           <h1 class="md-headline" display-i18n-string="ctrl.concept.title" fdz-hyphenate></h1>
+          <json-content-dialog class="mb0" content="ctrl.concept" exclude-fields="ctrl.jsonExcludes"
+                               header-title="ctrl.concept.title" ng-if="ctrl.enableJsonView"></json-content-dialog>
         </div>
         <fdz-detail
           collapsed="false"
@@ -37,5 +39,13 @@
           template-url="scripts/conceptmanagement/templates/dp-license.html.tmpl"></fdz-detail>
       </div>
     </div>
+  </div>
+  <div class="fdz-fab-button-container" layout="column">
+    <md-button class="md-fab md-raised md-accent" data-has-authority="ROLE_PUBLISHER" ng-click="ctrl.conceptEdit()">
+      <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.buttons.edit-concept-tooltip' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">mode_edit</md-icon>
+    </md-button>
   </div>
 </div>
