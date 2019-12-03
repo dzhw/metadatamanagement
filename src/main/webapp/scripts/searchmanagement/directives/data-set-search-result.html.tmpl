@@ -43,7 +43,7 @@
     data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
     ng-if="!projectIsCurrentlyReleased">
     <md-button
-      class="md-primary"
+      class="md-primary md-small"
       ng-click="dataSetEdit({id: searchResult.id})">
       <md-tooltip
         md-autohide="true"
@@ -51,10 +51,10 @@
         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.buttons.edit-data-set-tooltip' | translate}}
       </md-tooltip>
-      <md-icon md-font-set="material-icons">mode_edit</md-icon>
+      {{'global.entity.action.edit' | translate}}
     </md-button>
     <md-button
-      class="md-primary"
+      class="md-primary md-small"
       ng-click="deleteDataSet(searchResult.id)">
       <md-tooltip
         md-autohide="true"
@@ -62,7 +62,7 @@
         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.buttons.delete-data-set-tooltip' | translate}}
       </md-tooltip>
-      <md-icon md-font-set="material-icons">delete_forever</md-icon>
+      {{'global.entity.action.delete' | translate}}
     </md-button>
   </md-card-actions>
 </md-card>

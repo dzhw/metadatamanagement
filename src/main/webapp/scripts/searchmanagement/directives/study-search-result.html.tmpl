@@ -31,11 +31,11 @@
        ui-sref="studyDetail({id: $ctrl.searchResult.masterId, 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: '', 'query': $ctrl.searchQuery})">
       {{'search-management.search-result.dataPacketSearch' | translate:{searchQuery: $ctrl.searchQuery} }}</a>
   </md-card-actions>
-  <md-card-action
+  <md-card-actions
     data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
     ng-if="!$ctrl.projectIsCurrentlyReleased">
     <md-button
-      class="md-primary"
+      class="md-primary md-small"
       ng-click="$ctrl.studyEdit()">
       <md-tooltip
         md-autohide="true"
@@ -43,7 +43,7 @@
         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.buttons.edit-study-tooltip' | translate}}
       </md-tooltip>
-      <md-icon md-font-set="material-icons">mode_edit</md-icon>
+      {{'global.entity.action.edit' | translate}}
     </md-button>
-  </md-card-action>
+  </md-card-actions>
 </md-card>

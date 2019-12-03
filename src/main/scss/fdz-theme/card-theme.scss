@@ -56,4 +56,14 @@ $card-border-radius: 2px !default;
     display: block;
     padding: 16px 0 0 0;
   }
+
+  md-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+    .md-button {
+      min-width: unset;
+      margin: 0;
+    }
+  }
 }
