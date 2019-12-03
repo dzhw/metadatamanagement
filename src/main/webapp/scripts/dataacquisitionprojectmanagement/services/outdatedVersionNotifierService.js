@@ -24,9 +24,9 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
         '-project-management.outdated-version-alert', messageParams);
     };
 
-    var showLoggedInUserMessage = function(href, version, hidden) {
+    var showLoggedInUserMessage = function(id, version, hidden) {
       var messageParams = {
-        href: href,
+        id: id,
         version: version,
         hidden: hidden
       };
@@ -38,8 +38,8 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
       var versionFromUrl = $location.search().version;
       if (Principal.loginName() && item.shadow) {
         var version = _.get(item, 'release.version');
-        var href = createMasterRef(item);
-        showLoggedInUserMessage(href, version, item.hidden);
+        // var href = createMasterRef(item);
+        showLoggedInUserMessage(item.masterId, version, item.hidden);
       } else if (item.shadow && angular.isDefined(item.successorId)) {
         fetchFn().promise.then(function(result) {
           var oldVersion = _.get(item, 'release.version');

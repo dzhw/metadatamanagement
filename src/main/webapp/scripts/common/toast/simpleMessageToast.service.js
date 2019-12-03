@@ -51,7 +51,7 @@ angular.module('metadatamanagementApp').service('SimpleMessageToastService',
     function openAlertMessageToast(messageId, messageParams) {
       SynchronizedMdToast.show({
         controller: 'SimpleMessageToastController',
-        templateUrl: 'scripts/common/toast/simple-message-toast.html.tmpl',
+        templateUrl: 'scripts/common/toast/version-alert-toast.html.tmpl',
         hideDelay: 0,
         position: 'top right',
         parent: toastParent,
