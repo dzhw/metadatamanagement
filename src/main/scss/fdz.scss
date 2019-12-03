@@ -22,8 +22,24 @@
 
 fdz-paginator {
   width: 100%;
+  padding: 0 8px;
   @include rwd(600) {
-    padding-left: 8px;
+    padding: 0 16px;
+  }
+  .fdz-paginator__container {
+    margin: 0;
+  }
+  .fdz-paginator__container md-input-container {
+    padding: 0;
+  }
+  .fdz-paginator__container .fdz-paginator__container:first-child {
+    display: none;
+  }
+
+  @include rwd(400) {
+    .fdz-paginator__container .fdz-paginator__container:first-child {
+      display: flex;
+    }
   }
 }
 

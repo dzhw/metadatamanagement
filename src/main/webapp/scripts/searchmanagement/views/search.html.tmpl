@@ -50,7 +50,7 @@
                   style="width:100%;"></fdz-paginator>
   </div>
   <div flex>
-        <div ng-repeat="result in searchResult" ng-switch="result._index" class="fdz-fade-in">
+        <div ng-repeat="result in searchResult" ng-switch="result._index" class="fdz-fade-in fdz-dp-search-container">
             <variable-search-result
               ng-if="isAuthenticated()"
               ng-switch-when="variables"
@@ -110,7 +110,6 @@
               current-language="currentLanguage"
               bowser="bowser"
               search-result-index="computeSearchResultIndex($index)"></concept-search-result>
-            <md-divider ng-if="!$last"></md-divider>
         </div>
          <div class="fdz-no-result" ng-if="searchResult.length === 0">
            <p>{{ 'search-management.no-results-text.all' | translate }}</p>

@@ -43,10 +43,9 @@ $card-border-radius: 2px !default;
     }
   }
 
-  md-card {
+  .fdz-detail md-card {
     box-shadow: none;
     margin: 0;
-
 
     md-list {
       padding: 0;
@@ -137,7 +136,7 @@ $card-border-radius: 2px !default;
   }
 
 
-  .fdz-theme .fdz-detail {
+  .fdz-detail {
     md-card {
       md-card-content {
 
