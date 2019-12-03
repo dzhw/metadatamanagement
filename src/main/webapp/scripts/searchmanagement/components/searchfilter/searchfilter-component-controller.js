@@ -48,6 +48,7 @@
 
     function clearFilter() {
       readSearchParamsFromLocation();
+      $ctrl.searchParams.page = 1;
       $ctrl.searchParams.filter = {};
       $ctrl.searchFilterMapping = {};
       writeSearchParamsToLocation();
@@ -83,6 +84,7 @@
         }
       }
       $ctrl.searchParams.filter = $ctrl.searchFilterMapping;
+      $ctrl.searchParams.page = 1;
       writeSearchParamsToLocation();
     }
 
