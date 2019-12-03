@@ -279,7 +279,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       }
       return dataSetItem;
     };
-    var createRelatedSurveyItem = function(surveys, itemTyp, itemId) {
+    var createRelatedSurveyItem = function(surveys, itemTyp, itemId, studyId, version) {
       var stateParams = {};
       var surveyItem = {
         'iconType': translationStringsMap.surveyDetail.iconType,
@@ -300,7 +300,16 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       if (surveys.length > 1) {
         stateParams = {'type': 'surveys'};
         stateParams[itemTyp] = itemId;
-        surveyItem.state = 'search(' + JSON.stringify(stateParams) + ')';
+        if (studyId) {
+          var params = {id: stripVersionSuffix(studyId)};
+          if (version) {
+            params.version = version;
+          }
+          params.type = 'surveys';
+          surveyItem.state = 'studyDetail(' + JSON.stringify(params) + ')';
+        } else {
+          surveyItem.state = 'search(' + JSON.stringify(stateParams) + ')';
+        }
         surveyItem.type = translationStringsMap.surveyDetail.types;
         surveyItem.tooltip = translationStringsMap.surveyDetail.
         translateStrings;
@@ -420,7 +429,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           dataSetItem = createRelatedDataSetItem(item, 'data-set');
           surveyItem = createRelatedSurveyItem(
             appendReleaseVersionToSurveys(item.surveys, item.version),
-            'data-set', item.id);
+            'data-set', item.id, item.studyId, item.version);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
           surveyItem, dataSetItem);
           break;
@@ -442,7 +451,7 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           instrumentItem = createRelatedInstrumentItem(item, 'instrument');
           surveyItem = createRelatedSurveyItem(
             appendReleaseVersionToSurveys(item.surveys, item.version),
-            'instrument', item.id);
+            'instrument', item.id, item.studyId, item.version);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
             surveyItem, instrumentItem);
           break;
