@@ -12,12 +12,22 @@
         <div class="fdz-tag-link-container" ng-if="ctrl.studyTags.length > 0">
           <h5>{{'study-management.detail.label.tags' | translate}}: </h5>
           <a ng-repeat="tag in ctrl.studyTags"
+             ng-if="ctrl.isAuthenticated"
+             ui-sref="search({type: 'studies', 'query': tag})">
+            <span>{{tag}}{{!$last?',&nbsp;':''}}</span>
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'study-management.detail.tag-tooltip' | translate}}
+            </md-tooltip>
+          </a>
+          <a ng-repeat="tag in ctrl.studyTags"
+             ng-if="!ctrl.isAuthenticated"
              ui-sref="search({type: 'studies', 'tags': tag})">
             <span>{{tag}}{{!$last?',&nbsp;':''}}</span>
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'study-management.detail.tag-tooltip' | translate}}
             </md-tooltip>
           </a>
+
         </div>
         <fdz-detail
           ng-if="!isAuthenticated()"

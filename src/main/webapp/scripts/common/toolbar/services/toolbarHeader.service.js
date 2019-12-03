@@ -279,7 +279,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
       }
       return dataSetItem;
     };
-    var createRelatedSurveyItem = function(surveys, itemTyp, itemId, studyId, version) {
+    var createRelatedSurveyItem =
+      function(surveys, itemTyp, itemId, studyId, version) {
       var stateParams = {};
       var surveyItem = {
         'iconType': translationStringsMap.surveyDetail.iconType,
