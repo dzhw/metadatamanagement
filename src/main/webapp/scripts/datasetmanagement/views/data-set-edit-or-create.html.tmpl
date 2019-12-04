@@ -18,7 +18,7 @@
         <md-divider></md-divider>
         <md-card-content>
           <div layout="column" layout-gt-sm="row">
-            <md-input-container flex="50" md-is-error="!dataSetForm.descriptionDe.$valid && (dataSetForm.descriptionDe.$dirty || dataSetForm.descriptionDe.$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
+            <md-input-container flex="50" md-is-error="!dataSetForm.descriptionDe.$valid && (dataSetForm.descriptionDe.$dirty || dataSetForm.descriptionDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 style="-ms-flex:auto">
               <label class="fdz-input-required">{{'data-set-management.detail.label.description' | translate}}
                 ({{'global.in-german' | translate}})</label>
@@ -126,7 +126,7 @@
             <div flex="50"></div>
           </div>
           <div layout="column" layout-gt-sm="row">
-            <md-input-container flex="50" md-is-error="!dataSetForm.annotationsDe.$valid && (dataSetForm.annotationsDe.$dirty || dataSetForm.annotationsDe.$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
+            <md-input-container flex="50" md-is-error="!dataSetForm.annotationsDe.$valid && (dataSetForm.annotationsDe.$dirty || dataSetForm.annotationsDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 style="-ms-flex:auto">
               <label>{{'data-set-management.detail.label.annotations' | translate}} ({{'global.in-german' |
                 translate}})</label>
@@ -251,7 +251,7 @@
             </div>
             <div layout="column" layout-gt-sm="row" ng-style="{'margin-left': ctrl.dataSet.subDataSets.length === 1?'16px':'40px'}"
                  style="padding-right: 16px;">
-              <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsDescriptionDe_' + $index].$valid && (dataSetForm['subDataSetsDescriptionDe_' + $index].$dirty || dataSetForm['subDataSetsDescriptionDe_' + $index].$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
+              <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsDescriptionDe_' + $index].$valid && (dataSetForm['subDataSetsDescriptionDe_' + $index].$dirty || dataSetForm['subDataSetsDescriptionDe_' + $index].$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
                                   style="-ms-flex:auto">
                 <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.description' |
                   translate}} ({{'global.in-german' | translate}})</label>
@@ -296,7 +296,7 @@
             </div>
             <div layout="column" layout-gt-sm="row" ng-style="{'margin-left': ctrl.dataSet.subDataSets.length === 1?'16px':'40px'}"
                  style="padding-right: 16px;">
-              <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsCitationHintDe_' + $index].$valid && (dataSetForm['subDataSetsCitationHintDe_' + $index].$dirty || dataSetForm['subDataSetsCitationHintDe_' + $index].$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
+              <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsCitationHintDe_' + $index].$valid && (dataSetForm['subDataSetsCitationHintDe_' + $index].$dirty || dataSetForm['subDataSetsCitationHintDe_' + $index].$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
                                   style="-ms-flex:auto">
                 <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.citation-hint' |
                   translate}} ({{'global.in-german' | translate}})</label>
@@ -374,7 +374,7 @@
       </md-card>
     </div>
   </form>
-  <md-card class="fdz-reset-top-margin" ng-if="ctrl.dataSet.id">
+  <md-card class="mt0" ng-if="ctrl.dataSet.id">
     <md-card-header layout-align="center center">
       <md-card-header-text>
         <h2 class="md-title">{{'data-set-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>

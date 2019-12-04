@@ -20,7 +20,7 @@
           <div layout="column" layout-gt-sm="row" style="-ms-flex:auto">
             <md-input-container flex="50"
                                 md-is-error="!studyForm.titleDe.$valid && (studyForm.titleDe.$dirty || studyForm.titleDe.$touched)"
-                                ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
+                                ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 style="-ms-flex:auto">
               <label class="fdz-input-required">{{'study-management.detail.label.title' | translate}}
                 ({{'global.in-german' | translate}})</label>
@@ -211,7 +211,7 @@
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50"
                                 md-is-error="!studyForm.annotationsDe.$valid && (studyForm.annotationsDe.$dirty || studyForm.annotationsDe.$touched)"
-                                ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
+                                ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 style="-ms-flex:auto">
               <label>{{'study-management.detail.label.annotations' | translate}} ({{'global.in-german' |
                 translate}})</label>
@@ -407,7 +407,7 @@
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50"
                                 md-is-error="!studyForm.descriptionDe.$valid && (studyForm.descriptionDe.$dirty || studyForm.descriptionDe.$touched)"
-                                ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
+                                ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 style="-ms-flex:auto">
               <label class="fdz-input-required">{{'study-management.detail.description' | translate}}
                 ({{'global.in-german' | translate}})</label>
@@ -555,7 +555,7 @@
       </md-card>
     </div>
   </form>
-  <md-card class="fdz-reset-top-margin" ng-if="ctrl.study.id">
+  <md-card class="mt0" ng-if="ctrl.study.id">
     <md-card-header layout-align="center center">
       <md-card-header-text>
         <h2 class="md-title">{{'study-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>

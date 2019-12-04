@@ -1,50 +1,64 @@
+// Imports
+
+// General
+@import "fdz-theme/abstract/variables";
+@import "fdz-theme/abstract/colors";
+@import "fdz-theme/abstract/utility";
+@import "fdz-theme/abstract/mixin";
+@import "fdz-theme/common/base";
+
+// Layout
+@import "fdz-theme/layout/sidenav-theme";
+@import "fdz-theme/layout/footer-theme";
+
+// Material Components
+@import "fdz-theme/components/md/button-theme";
+@import "fdz-theme/components/md/autocomplete-theme";
+@import "fdz-theme/components/md/backdrop-theme";
+@import "fdz-theme/components/md/card-theme";
+@import "fdz-theme/components/md/checkbox-theme";
+@import "fdz-theme/components/md/chips-theme";
+@import "fdz-theme/components/md/content-theme";
+@import "fdz-theme/components/md/datePicker-theme";
+@import "fdz-theme/components/md/dialog-theme";
+@import "fdz-theme/components/md/divider-theme";
+@import "fdz-theme/components/md/icon-theme";
+@import "fdz-theme/components/md/input-theme";
+@import "fdz-theme/components/md/list-theme";
+@import "fdz-theme/components/md/menu-bar-theme";
+@import "fdz-theme/components/md/menu-theme";
+@import "fdz-theme/components/md/panel-theme";
+@import "fdz-theme/components/md/progress-circular-theme";
+@import "fdz-theme/components/md/progress-linear-theme";
+@import "fdz-theme/components/md/select-theme";
+@import "fdz-theme/components/md/slider-theme";
+@import "fdz-theme/components/md/subheader-theme";
+@import "fdz-theme/components/md/switch-theme";
+@import "fdz-theme/components/md/tabs-theme";
+@import "fdz-theme/components/md/toast-theme";
+@import "fdz-theme/components/md/toolbar-theme";
+@import "fdz-theme/components/md/tooltip-theme";
+
+// FDZ Components
+@import "fdz-theme/components/fdz/navBar-theme";
+@import "fdz-theme/components/fdz/calendar-theme";
+@import "fdz-theme/components/fdz/search-result-theme";
+@import "fdz-theme/components/fdz/ribbon-theme";
+@import "fdz-theme/components/md/splash-theme";
+@import "fdz-theme/components/fdz/search-result-buttons";
+@import "fdz-theme/components/fdz/breadcrumbs-theme";
+@import "fdz-theme/components/fdz/search-theme";
+@import "fdz-theme/components/fdz/detail-theme";
+@import "fdz-theme/components/fdz/table-theme";
+@import "fdz-theme/components/fdz/search-filter-theme";
+@import "fdz-theme/components/fdz/dataPacket-theme";
+@import "fdz-theme/components/fdz/paginator";
+@import "fdz-theme/components/fdz/geographic-coverage";
+@import "fdz-theme/components/fdz/image";
+@import "fdz-theme/components/fdz/fab-button";
 
 
-@import "fdz-theme/index";
 // Weird CSS
 @import "fdz-theme/will-be-deleted/will-be-deleted";
-
-.fdz-primary {
-  color: $brand-primary;
-}
-
-.fdz-secondary {
-  color: $brand-secondary;
-}
-
-.fdz-third {
-  color: $brand-third!important;
-}
-.fdz-text {
-  color: $brand-background-600;
-}
-
-
-fdz-paginator {
-  width: 100%;
-  padding: 0 8px;
-  @include rwd(600) {
-    padding: 0 16px;
-  }
-  .fdz-paginator__container {
-    margin: 0;
-  }
-  .fdz-paginator__container md-input-container {
-    padding: 0;
-  }
-  .fdz-paginator__container .fdz-paginator__container:first-child {
-    display: none;
-  }
-
-  @include rwd(400) {
-    .fdz-paginator__container .fdz-paginator__container:first-child {
-      display: flex;
-    }
-  }
-}
-
-.md-button.fdz-small {
-  min-width: 36px;
-}
 
 

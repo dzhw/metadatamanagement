@@ -18,7 +18,7 @@
         <md-divider></md-divider>
         <md-card-content>
           <div layout="column" layout-gt-sm="row">
-            <md-input-container flex="50" md-is-error="!instrumentForm.descriptionDe.$valid && (instrumentForm.descriptionDe.$dirty || instrumentForm.descriptionDe.$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
+            <md-input-container flex="50" md-is-error="!instrumentForm.descriptionDe.$valid && (instrumentForm.descriptionDe.$dirty || instrumentForm.descriptionDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 style="-ms-flex:auto;">
               <label class="fdz-input-required">{{'instrument-management.detail.label.description' | translate}}
                 ({{'global.in-german' | translate}})</label>
@@ -56,7 +56,7 @@
             </md-input-container>
           </div>
           <div layout="column" layout-gt-sm="row">
-            <md-input-container flex="50" md-is-error="!instrumentForm.titleDe.$valid && (instrumentForm.titleDe.$dirty || instrumentForm.titleDe.$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
+            <md-input-container flex="50" md-is-error="!instrumentForm.titleDe.$valid && (instrumentForm.titleDe.$dirty || instrumentForm.titleDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 style="-ms-flex:auto;">
               <label class="fdz-input-required">{{'instrument-management.detail.label.title' | translate}}
                 ({{'global.in-german' | translate}})</label>
@@ -94,7 +94,7 @@
             </md-input-container>
           </div>
           <div layout="column" layout-gt-sm="row">
-            <md-input-container flex="50" md-is-error="!instrumentForm.subtitleDe.$valid && (instrumentForm.subtitleDe.$dirty || instrumentForm.subtitleDe.$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
+            <md-input-container flex="50" md-is-error="!instrumentForm.subtitleDe.$valid && (instrumentForm.subtitleDe.$dirty || instrumentForm.subtitleDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 style="-ms-flex:auto;">
               <label>{{'instrument-management.detail.label.subtitle' | translate}} ({{'global.in-german' |
                 translate}})</label>
@@ -181,7 +181,7 @@
             <div flex="50"></div>
           </div>
           <div layout="column" layout-gt-sm="row">
-            <md-input-container flex="50" md-is-error="!instrumentForm.annotationsDe.$valid && (instrumentForm.annotationsDe.$dirty || instrumentForm.annotationsDe.$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
+            <md-input-container flex="50" md-is-error="!instrumentForm.annotationsDe.$valid && (instrumentForm.annotationsDe.$dirty || instrumentForm.annotationsDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 style="-ms-flex:auto;">
               <label>{{'instrument-management.detail.label.annotations' | translate}} ({{'global.in-german' |
                 translate}})</label>
@@ -248,7 +248,7 @@
       </md-card>
     </div>
   </form>
-  <md-card class="fdz-reset-top-margin" ng-if="ctrl.instrument.id">
+  <md-card class="mt0" ng-if="ctrl.instrument.id">
     <md-card-header layout-align="center center">
       <md-card-header-text>
         <h2 class="md-title">{{'instrument-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>

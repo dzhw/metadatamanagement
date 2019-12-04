@@ -18,7 +18,7 @@
         <md-divider></md-divider>
         <md-card-content>
           <div layout="column" layout-gt-sm="row">
-            <md-input-container flex="50" md-is-error="!surveyForm.titleDe.$valid && (surveyForm.titleDe.$dirty || surveyForm.titleDe.$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
+            <md-input-container flex="50" md-is-error="!surveyForm.titleDe.$valid && (surveyForm.titleDe.$dirty || surveyForm.titleDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 style="-ms-flex:auto">
               <label class="fdz-input-required">{{'survey-management.edit.label.title' | translate}}
                 ({{'global.in-german' | translate}})</label>
@@ -182,7 +182,7 @@
             <div flex="50"></div>
           </div>
           <div layout="column" layout-gt-sm="row">
-            <md-input-container flex="50" md-is-error="!surveyForm.populationDescriptionDe.$valid && (surveyForm.populationDescriptionDe.$dirty || surveyForm.populationDescriptionDe.$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
+            <md-input-container flex="50" md-is-error="!surveyForm.populationDescriptionDe.$valid && (surveyForm.populationDescriptionDe.$dirty || surveyForm.populationDescriptionDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 style="-ms-flex:auto">
               <label class="fdz-input-required">{{'survey-management.edit.label.population.description' | translate}}
                 ({{'global.in-german' | translate}})</label>
@@ -285,7 +285,7 @@
             <div flex="50"></div>
           </div>
           <div layout="column" layout-gt-sm="row">
-            <md-input-container flex="50" md-is-error="!surveyForm.annotationsDe.$valid && (surveyForm.annotationsDe.$dirty || surveyForm.annotationsDe.$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
+            <md-input-container flex="50" md-is-error="!surveyForm.annotationsDe.$valid && (surveyForm.annotationsDe.$dirty || surveyForm.annotationsDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 style="-ms-flex:auto">
               <label>{{'survey-management.detail.label.annotations' | translate}} ({{'global.in-german' |
                 translate}})</label>
@@ -327,7 +327,7 @@
   </form>
   <div layout="column" layout-gt-sm="row" ng-if="ctrl.survey.id">
     <div flex-gt-sm="50">
-      <md-card class="fdz-reset-top-margin">
+      <md-card class="mt0">
         <md-card-header>
           <md-card-header-text>
             <h2 class="md-title">{{'survey-management.detail.response-rate-information' | translate | fdzHyphenate }}
@@ -377,7 +377,7 @@
       </md-card>
     </div>
     <div flex-gt-sm="50">
-      <md-card class="fdz-reset-top-margin" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}">
+      <md-card class="mt0" ng-class="{'ml0': $mdMedia('gt-sm')}">
         <md-card-header>
           <md-card-header-text>
             <h2 class="md-title">{{'survey-management.detail.response-rate-information' | translate | fdzHyphenate }}
@@ -427,7 +427,7 @@
       </md-card>
     </div>
   </div>
-  <md-card class="fdz-reset-top-margin" ng-if="ctrl.survey.id">
+  <md-card class="mt0" ng-if="ctrl.survey.id">
     <md-card-header layout-align="center center">
       <md-card-header-text>
         <h2 class="md-title">{{'survey-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>

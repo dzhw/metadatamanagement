@@ -58,3 +58,64 @@ $card-border-radius: 2px !default;
     top: 27px;
   }
 }
+
+// Search tabs (Auth. User)
+md-tab-item:hover {
+  background-color: rgba(158, 158, 158, 0.2) !important;
+}
+
+.md-select-placeholder {
+  font-weight: bold;
+}
+
+.md-select-menu-ie11-fix {
+  max-height: 15em;
+}
+
+.fdz-select-header {
+  background-color: white;
+  padding-left: 10px;
+}
+
+.fdz-select-header md-input-container {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.fdz-select-header md-input-container.md-input-focused label,
+.fdz-select-header md-input-container.md-input-has-value label {
+  bottom: 65% !important;
+}
+
+.fdz-select-header .md-errors-spacer {
+  display: none;
+}
+
+.fdz-filter-select {
+  margin-left: 8px;
+  margin-right: 0;
+  margin-bottom: 24px;
+}
+
+md-input-container.fdz-filter-select.md-input-focused label,
+md-input-container.fdz-filter-select.md-input-has-value label {
+  bottom: 89% !important;
+}
+
+input::-ms-clear {
+  display: none;
+}
+.fdz-search-input {
+  display: block;
+  margin-left: 8px;
+  margin-right: 16px;
+  margin-bottom: 24px;
+}
+
+.fdz-search-input .md-errors-spacer {
+  display: none;
+}
+
+md-input-container label {
+  margin: 0px;
+}

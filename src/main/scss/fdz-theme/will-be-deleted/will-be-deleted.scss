@@ -1,3 +1,6 @@
+// TODO: Move classes to appropriate files
+//       Delete unused classes
+
 $brand-primary: #006AB2 !default;
 $brand-success: #28A745 !default;
 $brand-info: #028AA4 !default;
@@ -33,26 +36,7 @@ $state-danger-border: $brand-danger !default; // bower:scss
   font-size: 12px;
 }
 
-.fdz-search-result-label {
-  padding-right: 0.5em;
-}
 
-.fdz-inline-icon {
-  width: 20px;
-  height: 20px;
-  vertical-align: bottom;
-}
-
-.fdz-card-header-border {
-  border-bottom: 1px rgba(0,0,0,0.12) solid;
-  position: relative;
-  padding: 1em;
-}
-
-.fdz-svg-container > svg {
-  display: block;
-  margin: auto;
-}
 
 /*
 style for datapackage
@@ -62,118 +46,6 @@ style for datapackage
   text-transform: none;
 }
 
-.fdz-tab-heading {
-  margin: 0;
-  font-size: 1em;
-  font-weight: normal;
-  line-height: 24px;
-}
-
-.fdz-group {
-  margin: 1em;
-  display: block;
-}
-
-.fdz-group-text {
-  margin: 0;
-}
-
-.fdz-group-label {
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 20em;
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.428571429;
-  font-weight: bold;
-}
-
-.fdz-group-label::after {
-  content: ":";
-}
-
-.fdz-truncate-string {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.fdz-truncate-string .md-title {
-  min-height: 1.4em;
-}
-
-.fdz-navbar-menu {
-  width: 100%;
-}
-
-.fdz-navbar-menu-accent {
-  width: 100%;
-}
-
-.fdz-navbar-menu-items {
-  padding: 0;
-  margin: 0;
-  width: 100%;
-}
-
-.fdz-navbar-menu-toggle {
-  display: block;
-  padding: 0 0 0 1em;
-  margin: 0!important;
-  width: 100%;
-  height: 100%;
-  text-align: left;
-}
-
-.fdz-navbar-menu-toggle > span {
-  display: inline-block;
-  width: 80%;
-  text-transform: none!important;
-  text-align: left!important;
-}
-
-.fdz-navbar-button {
-  display: block;
-  margin: 0!important;
-  padding: 0 0 0 1em;
-  width: 100%;
-  height: 100%;
-  text-align: left!important;
-  text-transform: none!important;
-}
-
-.fdz-navbar-menu-items .fdz-navbar-button {
-  padding: 0 0 0 2em;
-}
-
-.fdz-navbar-button-active {
-  background-color: #E5F0F7;
-}
-
-.fdz-fab-button-container {
-  position: fixed;
-  bottom: 1em;
-  right: 1em;
-}
-
-md-dialog .fdz-fab-button-container {
-  position: absolute;
-}
-
-.fdz-search-input {
-  display: block;
-  margin-left: 8px;
-  margin-right: 16px;
-  margin-bottom: 24px;
-}
-
-.fdz-search-input .md-errors-spacer {
-  display: none;
-}
-
-md-input-container label {
-  margin: 0px;
-}
 
 .fdz-log-error-text {
   color: $brand-danger;
@@ -192,10 +64,6 @@ md-input-container label {
   color: #757575;
 }
 
-.fdz-code-container {
-  white-space: pre-wrap;
-  overflow: hidden;
-}
 
 .fdz-file-drop-accept {
   background-color: $brand-success !important;
@@ -217,64 +85,6 @@ md-input-container label {
 md-dialog h2 {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
-}
-
-
-.hljs {
-  background-color: inherit;
-}
-
-pre {
-  margin: 0;
-}
-
-.fdz-card-header-with-button {
-  padding-top: 1px;
-  padding-bottom: 1px;
-}
-
-.fdz-InfiniteScroll #vertical-container {
-  width: 100%;
-  min-height: 300px;
-}
-
-.fdz-repeated-item {
-  border-bottom: 1px solid #ddd;
-}
-
-.fdz-overlay-outer-box {
-  width: 100%;
-  display: block;
-  position: relative;
-}
-
-.fdz-overlay-outer-box .fdz-overlay-inner-box-top {
-  top: 0;
-  right: 0;
-  position: absolute;
-}
-
-.fdz-overlay-outer-box .fdz-overlay-inner-box-bottom {
-  bottom: 0;
-  right: 0;
-  position: absolute;
-}
-
-.fdz-fake-empty-card {
-  margin: 8px;
-  margin-bottom: 0px;
-}
-
-.fdz-reset-top-margin {
-  margin-top: 0;
-}
-
-.fdz-reset-left-margin {
-  margin-left: 0 !important;
-}
-
-.fdz-add-right-margin {
-  margin-right: 10px;
 }
 
 .fdz-add-bottom-margin {
@@ -315,71 +125,6 @@ pre {
   border: 1px solid $brand-warning !important;
 }
 
-md-tab-item:hover {
-  background-color: rgba(158, 158, 158, 0.2) !important;
-}
-
-.fdz-toolbar-button {
-  box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.26) !important;
-}
-
-
-.md-select-placeholder {
-  font-weight: bold;
-}
-
-.md-select-menu-ie11-fix {
-  max-height: 15em;
-}
-
-.fdz-select-header {
-  background-color: white;
-  padding-left: 10px;
-}
-
-.fdz-select-header md-input-container {
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
-
-.fdz-select-header md-input-container.md-input-focused label,
-.fdz-select-header md-input-container.md-input-has-value label {
-  bottom: 65% !important;
-}
-
-.fdz-select-header .md-errors-spacer {
-  display: none;
-}
-
-.fdz-filter-select {
-  margin-left: 8px;
-  margin-right: 0;
-  margin-bottom: 24px;
-}
-
-md-input-container.fdz-filter-select.md-input-focused label,
-md-input-container.fdz-filter-select.md-input-has-value label {
-  bottom: 89% !important;
-}
-
-input::-ms-clear {
-  display: none;
-}
-
-.fdz-hyphenate {
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-}
-
-.fdz-text-block {
-  text-align: justify;
-}
-
-.md-dialog-content-body {
-  white-space: pre-line;
-}
 
 
 
@@ -454,9 +199,7 @@ md-backdrop.md-dialog-backdrop {
   border-color: rgba(0,0,0,0.54) !important;
 }
 
-.fdz-multiline-property {
-  white-space: pre-line;
-}
+
 
 .highlight {
   background-color: $brand-warning;
@@ -523,18 +266,6 @@ md-toast.md-accent > .md-toast-content {
   }
 }
 
-.fdz-shopping-cart-count {
-  position: fixed;
-  top: 5px;
-  background: $brand-warning;
-  color: black;
-  border-radius: 50%;
-  max-width: 24px;
-  min-width: 24px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 .md-chips-messages {
   color: rgb(201,22,48);
@@ -549,14 +280,6 @@ md-toast.md-accent > .md-toast-content {
   overflow: hidden;
   margin-top: 0;
   padding-top: 5px;
-}
-
-.fdz-no-margin {
-  margin: 0
-}
-
-.fdz-no-margin-bottom {
-  margin-bottom: 0;
 }
 
 .fdz-no-select {
@@ -612,42 +335,11 @@ md-toast.md-accent > .md-toast-content {
   min-height: 28px;
 }
 
-
-geographic-coverage-list {
-  display: block;
-
-  md-card-content {
-    padding: 0;
-  }
-
-  ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-}
-
-geographic-coverage {
-  display: block;
-}
-
 .fdz-error {
   color: $brand-danger;
-}
-
-.fdz-plain-list {
-  list-style: none;
-  padding: 0;
-  li {
-    margin: 0;
-
-  }
 }
 
 .fdz-odd-row {
   background-color: #f9f9f9;
 }
 
-.md-button[disabled] {
-  pointer-events: none;
-}

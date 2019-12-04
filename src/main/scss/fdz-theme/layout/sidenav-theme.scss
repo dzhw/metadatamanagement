@@ -1,11 +1,11 @@
 .fdz-theme md-sidenav {
-  width: 320px;
-  max-width: 320px;
+  width: 100%;
+  max-width: 100%;
   z-index: 20;
 
-  @include rwd(375) {
-    width: 375px;
-    max-width: 375px;
+  @include rwd(400) {
+    width: 400px;
+    max-width: 400px;
   }
 
   &, md-content {

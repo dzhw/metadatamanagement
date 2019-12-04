@@ -69,22 +69,6 @@ ui-view:focus {
     }
 }
 
-.dzhw_logo {
-    width: 100%;
-    height: 90px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.bmbf_logo {
-    width: 100%;
-    height: 150px;
-    padding: 8px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
 
 .saucelabs_logo {
     width: 100%;
@@ -94,31 +78,6 @@ ui-view:focus {
     margin-right: auto;
 }
 
-
-
-.browserupgrade {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
-}
-
-.hero-unit {
-    margin: 50px auto 0;
-    width: 300px;
-    font-size: 18px;
-    font-weight: 200;
-    line-height: 30px;
-    background-color: #eee;
-    border-radius: 6px;
-    padding: 60px;
-}
-
-.hero-unit h1 {
-    font-size: 60px;
-    line-height: 1;
-    letter-spacing: -1px;
-}
 
 .error {
     color: white;
@@ -133,9 +92,7 @@ ui-view:focus {
     background-size: contain;
 }
 
-.pad {
-    padding: 10px;
-}
+
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .hipster {
@@ -143,14 +100,8 @@ ui-view:focus {
         background-size: contain;
     }
 }
-/* make sure browsers use the pointer cursor for anchors, even with no href */
-a:hover {
-    cursor: pointer;
-}
 
-.hand {
-    cursor: pointer;
-}
+
 
 #healthCheck .popover,
 #threadDump .popover {
@@ -225,15 +176,6 @@ project-cockpit-status {
     }
 }
 
-//.fdz-metadata-type-state-card {
-//    padding-bottom: 2px;
-//    display: block;
-//    min-width: 30%;
-//    @media screen and (max-width: 1600px) {
-//        min-width: 45%
-//    }
-//}
-
 .fdz-metadata-type-state-card.ng-hide:not(.ng-hide-animate) {
     visibility: hidden;
     opacity: 0;
@@ -251,86 +193,6 @@ release-status-badge {
 project-status-badge > span, release-status-badge > span {
     font-size: 1em !important;
 }
-
-//.fdz-released {
-//    color: #FFFFFF;
-//    background-color: #00CC66;
-//}
-//
-//.fdz-unreleased {
-//    background-color: $brand-danger;
-//}
-//
-//.fdz-welcome-dialog-image {
-//    display: block;
-//    margin: auto;
-//    border: 2px solid $brand-primary;
-//}
-//
-//@keyframes fade-highlight {
-//    0% {
-//        background: lighten($brand-primary, 50%);
-//    }
-//    100% {
-//        background: white;
-//    }
-//}
-//.fdz-project-user-list + md-list md-list-item {
-//    background: white;
-//    animation: fade-highlight 1s ease-out;
-//}
-//
-//.fdz-project-status-overview-metadata-status-table-cell {
-//    min-height: 28px;
-//}
-//
-//.fdz-tag-link-container {
-//    a {
-//      font-weight: normal;
-//      min-height: auto;
-//      min-width: auto;
-//      padding: 0.2em 0.6em;
-//      font-size: 100%!important;
-//      &:not(:last-child) {
-//        margin-right: 8px;
-//      }
-//    }
-//}
-//
-//geographic-coverage-list {
-//    display: block;
-//
-//    md-card-content {
-//        padding: 0;
-//    }
-//
-//    ul {
-//        padding: 0;
-//        margin: 0;
-//        list-style: none;
-//    }
-//}
-//
-//geographic-coverage {
-//    display: block;
-//}
-//
-//.fdz-error {
-//    color: $brand-danger;
-//}
-//
-//.fdz-plain-list {
-//    list-style: none;
-//    padding: 0;
-//    li {
-//        margin: 0;
-//
-//    }
-//}
-//
-//.fdz-odd-row {
-//    background-color: #f9f9f9;
-//}
 
 .egg-confused {
     position: absolute;
@@ -362,10 +224,5 @@ project-status-badge > span, release-status-badge > span {
     }
 }
 
-//.md-button[disabled] {
-//    pointer-events: none;
-//}
 
-.fdz-paginator__select {
-    margin-bottom: 2px;
-}
+
