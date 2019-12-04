@@ -22,18 +22,18 @@
       <div flex-gt-sm="50" layout="column"
            ng-class="{'mr10': !addMargin, 'fdz-add-bottom-margin': !addMargin}">
         <div class="fdz-text-block" ng-if="searchResult.population.description">
-          <span style="font-weight: bold;">{{'survey-management.detail.label.population' | translate }}:</span>
+          <span class="b">{{'survey-management.detail.label.population' | translate }}:</span>
           <span class="fdz-multiline-property" display-i18n-string="searchResult.population.description" fdz-hyphenate
                 limit-to="256"></span>
         </div>
       </div>
       <div flex-gt-sm="50" layout="column">
         <div ng-class="{'fdz-add-bottom-margin': !addMargin}" ng-if="searchResult.sample">
-          <span style="font-weight: bold;">{{'survey-management.detail.label.sample' | translate }}:</span>
+          <span class="b">{{'survey-management.detail.label.sample' | translate }}:</span>
           <span display-i18n-string="searchResult.sample" fdz-hyphenate></span>
         </div>
         <div ng-if="searchResult.fieldPeriod">
-          <span style="font-weight: bold;">{{'survey-management.detail.label.field-period' | translate }}:</span>
+          <span class="b">{{'survey-management.detail.label.field-period' | translate }}:</span>
           <span>{{searchResult.fieldPeriod.start | date}} - {{searchResult.fieldPeriod.end | date}}</span>
         </div>
       </div>

@@ -1,7 +1,7 @@
 <div class="fdz-cc">
   <form name="instrumentForm">
     <div ng-if="ctrl.instrument.id">
-      <div layout="row" layout-margin style="margin-bottom: 0px;">
+      <div layout="row" layout-margin class="mb0">
         <h1 class="md-headline" ng-if="ctrl.createMode">
           {{'instrument-management.edit.label.create-instrument' | translate}} <span
           class="label label-as-badge label-default">{{ctrl.instrument.id}}</span></h1>
@@ -19,7 +19,7 @@
         <md-card-content>
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!instrumentForm.descriptionDe.$valid && (instrumentForm.descriptionDe.$dirty || instrumentForm.descriptionDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
-                                style="-ms-flex:auto;">
+                                class="ms-flex">
               <label class="fdz-input-required">{{'instrument-management.detail.label.description' | translate}}
                 ({{'global.in-german' | translate}})</label>
               <input fdz-required="!ctrl.instrument.description.en" lang="de"
@@ -37,7 +37,7 @@
               </div>
             </md-input-container>
             <md-input-container flex="50" md-is-error="!instrumentForm.descriptionEn.$valid && (instrumentForm.descriptionEn.$dirty || instrumentForm.descriptionEn.$touched)"
-                                style="-ms-flex:auto;">
+                                class="ms-flex">
               <label class="fdz-input-required">{{'instrument-management.detail.label.description' | translate}}
                 ({{'global.in-english' | translate}})</label>
               <input fdz-required="!ctrl.instrument.description.de" lang="en"
@@ -57,7 +57,7 @@
           </div>
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!instrumentForm.titleDe.$valid && (instrumentForm.titleDe.$dirty || instrumentForm.titleDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
-                                style="-ms-flex:auto;">
+                                class="ms-flex">
               <label class="fdz-input-required">{{'instrument-management.detail.label.title' | translate}}
                 ({{'global.in-german' | translate}})</label>
               <input fdz-required="!ctrl.instrument.title.en" lang="de" md-maxlength="2048"
@@ -75,7 +75,7 @@
               </div>
             </md-input-container>
             <md-input-container flex="50" md-is-error="!instrumentForm.titleEn.$valid && (instrumentForm.titleEn.$dirty || instrumentForm.titleEn.$touched)"
-                                style="-ms-flex:auto;">
+                                class="ms-flex">
               <label class="fdz-input-required">{{'instrument-management.detail.label.title' | translate}}
                 ({{'global.in-english' | translate}})</label>
               <input fdz-required="!ctrl.instrument.title.de" lang="en" md-maxlength="2048"
@@ -95,7 +95,7 @@
           </div>
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!instrumentForm.subtitleDe.$valid && (instrumentForm.subtitleDe.$dirty || instrumentForm.subtitleDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
-                                style="-ms-flex:auto;">
+                                class="ms-flex">
               <label>{{'instrument-management.detail.label.subtitle' | translate}} ({{'global.in-german' |
                 translate}})</label>
               <input lang="de" md-maxlength="2048" md-no-asterisk name="subtitleDe"
@@ -110,7 +110,7 @@
               </div>
             </md-input-container>
             <md-input-container flex="50" md-is-error="!instrumentForm.subtitleEn.$valid && (instrumentForm.subtitleEn.$dirty || instrumentForm.subtitleEn.$touched)"
-                                style="-ms-flex:auto;">
+                                class="ms-flex">
               <label>{{'instrument-management.detail.label.subtitle' | translate}} ({{'global.in-english' |
                 translate}})</label>
               <input lang="en" md-maxlength="2048" md-no-asterisk name="subtitleEn"
@@ -127,7 +127,7 @@
           </div>
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!instrumentForm.type.$valid && (instrumentForm.type.$dirty || instrumentForm.type.$touched)"
-                                style="-ms-flex:auto;">
+                                class="ms-flex">
               <label>{{'instrument-management.detail.label.type' | translate}}</label>
               <md-select name="type" ng-model="ctrl.instrument.type" ng-model-options="{trackBy: '$value'}" required>
                 <md-option ng-repeat="type in ctrl.types" ng-value="type">{{type}}</md-option>
@@ -142,7 +142,7 @@
             <div flex="50"></div>
           </div>
           <div layout="column" layout-gt-sm="row">
-            <div flex="50" style="-ms-flex:auto;">
+            <div flex="50" class="ms-flex">
               <label style="color: rgba(0,0,0,0.38); margin: 0px;">{{'instrument-management.edit.label.surveys' |
                 translate}}</label>
               <md-chips md-autocomplete-snap="width" md-require-match="true" md-transform-chip="ctrl.transformChip($chip)"
@@ -151,7 +151,7 @@
                 <md-autocomplete flex md-delay="250" md-items="item in ctrl.searchSurveys(ctrl.searchText)" md-min-length="0" md-no-cache="true"
                                  md-search-text="ctrl.searchText" md-selected-item="ctrl.selectedItem"
                                  placeholder="{{'instrument-management.edit.hints.search-surveys' | translate}}"
-                                 style="-ms-flex:auto;">
+                                 class="ms-flex">
                   <md-item-template>
                             <span class="item-title fdz-truncate-string">
                               <span class="label label-as-badge label-default" md-highlight-flags="ig"
@@ -182,7 +182,7 @@
           </div>
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!instrumentForm.annotationsDe.$valid && (instrumentForm.annotationsDe.$dirty || instrumentForm.annotationsDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
-                                style="-ms-flex:auto;">
+                                class="ms-flex">
               <label>{{'instrument-management.detail.label.annotations' | translate}} ({{'global.in-german' |
                 translate}})</label>
               <textarea lang="de" md-maxlength="2048" md-no-asterisk name="annotationsDe"
@@ -197,7 +197,7 @@
               </div>
             </md-input-container>
             <md-input-container flex="50" md-is-error="!instrumentForm.annotationsEn.$valid && (instrumentForm.annotationsEn.$dirty || instrumentForm.annotationsEn.$touched)"
-                                style="-ms-flex:auto;">
+                                class="ms-flex">
               <label>{{'instrument-management.detail.label.annotations' | translate}} ({{'global.in-english' |
                 translate}})</label>
               <textarea lang="en" md-maxlength="2048" md-no-asterisk name="annotationsEn"
@@ -213,7 +213,7 @@
             </md-input-container>
           </div>
           <div layout="column" layout-gt-sm="row">
-            <div flex="50" style="-ms-flex:auto;">
+            <div flex="50" class="ms-flex">
               <label style="color: rgba(0,0,0,0.38); margin: 0px;">{{'instrument-management.edit.label.concepts' |
                 translate}}</label>
               <md-chips md-autocomplete-snap="width" md-require-match="true"
@@ -222,7 +222,7 @@
                 <md-autocomplete flex md-delay="250" md-items="item in ctrl.searchConcepts(ctrl.searchConceptText)" md-min-length="0" md-no-cache="true"
                                  md-search-text="ctrl.searchConceptText" md-selected-item="ctrl.selectedConcept"
                                  placeholder="{{'instrument-management.edit.hints.search-concepts' | translate}}"
-                                 style="-ms-flex:auto;">
+                                 class="ms-flex">
                   <md-item-template>
                             <span class="item-title fdz-truncate-string">
                               <span class="label label-as-badge label-default"
@@ -293,9 +293,9 @@
       <tr ng-class="{'fdz-selected-table-row': $index === ctrl.currentAttachmentIndex}" ng-click="ctrl.selectAttachment($index)"
           ng-init="translationParams = {filename: row.fileName}"
           ng-repeat="row in ctrl.attachments">
-        <td class="fdz-table-nowrap" style="padding-right: 0px;">
+        <td class="fdz-table-nowrap pr0">
           <md-radio-group class="md-primary" ng-model="ctrl.currentAttachmentIndex">
-            <md-radio-button ng-value="$index" style="margin-bottom: 0px;">
+            <md-radio-button ng-value="$index" class="mb0">
               <md-tooltip md-autohide="true" md-direction="right"
                           md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'instrument-management.detail.attachments.select-attachment-tooltip' | translate:translationParams }}
@@ -303,8 +303,8 @@
             </md-radio-button>
           </md-radio-group>
         </td>
-        <td class="fdz-table-nowrap" style="padding: 0px;">
-          <md-button class="md-primary md-icon-button" ng-click="ctrl.editAttachment(row, $event)" style="margin: 0px;">
+        <td class="fdz-table-nowrap pa0">
+          <md-button class="md-primary md-icon-button ma0" ng-click="ctrl.editAttachment(row, $event)">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'instrument-management.detail.attachments.edit-attachment-tooltip' | translate:translationParams }}
@@ -312,9 +312,8 @@
             <md-icon md-font-set="material-icons">mode_edit</md-icon>
           </md-button>
         </td>
-        <td class="fdz-table-nowrap" style="padding: 0px;">
-          <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteAttachment(row, $index)"
-                     style="margin: 0px;">
+        <td class="fdz-table-nowrap pa0">
+          <md-button class="md-primary md-icon-button ma0" ng-click="ctrl.deleteAttachment(row, $index)">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'instrument-management.detail.attachments.delete-attachment-tooltip' | translate:translationParams }}
@@ -325,7 +324,7 @@
         <td lang="{{row.language}}">{{row.type | displayI18nString}}&nbsp;</td>
         <td class="fdz-text-block" display-i18n-string="row.description" fdz-hyphenate></td>
         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
-        <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
+        <td class="nowrap"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
           <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
           </md-tooltip>

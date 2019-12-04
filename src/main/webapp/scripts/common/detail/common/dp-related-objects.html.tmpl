@@ -60,7 +60,7 @@
           <input ng-hide="true" type="submit">
           <md-progress-linear md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>
         </form>
-        <div ng-if="$ctrl.options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
+        <div ng-if="$ctrl.options.pageObject.totalHits" layout="row" layout-align="center" class="mb0">
           <fdz-paginator  options="$ctrl.options"
                           on-update="$ctrl.onPageChanged(event = $event, option = $option)"
                           template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
@@ -137,7 +137,7 @@
             </md-card>
           </div>
       </div>
-      <div ng-if="$ctrl.options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
+      <div ng-if="$ctrl.options.pageObject.totalHits" layout="row" layout-align="center" class="mb0">
         <fdz-paginator  options="$ctrl.options"
                         on-update="$ctrl.onPageChanged(event = $event, option = $option)"
                         template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>

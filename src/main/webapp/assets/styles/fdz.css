@@ -42,12 +42,22 @@
 .fdz-theme .pr0 {
   padding-right: 0; }
 
+.fdz-theme .pr16 {
+  padding-right: 16px; }
+
 .fdz-theme .ma0 {
   margin: 0; }
+
+.fdz-theme .ma8 {
+  margin: 8px; }
 
 .fdz-theme .mv0 {
   margin-top: 0;
   margin-bottom: 0; }
+
+.fdz-theme .mv8 {
+  margin-top: 8px;
+  margin-bottom: 8px; }
 
 .fdz-theme .mt0 {
   margin-top: 0; }
@@ -62,8 +72,15 @@
   margin-left: 0;
   margin-right: 0; }
 
+.fdz-theme .mh8 {
+  margin-left: 8px;
+  margin-right: 8px; }
+
 .fdz-theme .ml0 {
   margin-left: 0; }
+
+.fdz-theme .mr8 {
+  margin-right: 8px; }
 
 .fdz-theme .mr10 {
   margin-right: 10px; }
@@ -134,6 +151,12 @@
 .fdz-theme .no-underline {
   text-decoration: none; }
 
+.fdz-theme .normal {
+  font-weight: normal; }
+
+.fdz-theme .b {
+  font-weight: bold; }
+
 .fdz-theme .ws-normal {
   white-space: normal; }
 
@@ -142,6 +165,12 @@
 
 .fdz-theme .pre {
   white-space: pre; }
+
+.fdz-theme .pointer:hover {
+  cursor: pointer; }
+
+.fdz-theme .ms-flex {
+  -ms-flex: auto; }
 
 html,
 body {

@@ -62,15 +62,25 @@
   .pr0 {
     padding-right: 0;
   }
+  .pr16 {
+    padding-right: 16px;
+  }
 
   // Margin
   .ma0 {
     margin: 0;
   }
+  .ma8 {
+      margin: 8px;
+    }
 
   .mv0 {
     margin-top: 0;
     margin-bottom: 0;
+  }
+  .mv8 {
+    margin-top: 8px;
+    margin-bottom: 8px;
   }
 
   .mt0 {
@@ -89,11 +99,18 @@
     margin-left: 0;
     margin-right: 0;
   }
+  .mh8 {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
 
   .ml0 {
     margin-left: 0;
   }
 
+  .mr8 {
+    margin-right: 8px;
+  }
   .mr10 {
     margin-right: 10px;
   }
@@ -189,6 +206,9 @@
     text-decoration: none;
   }
 
+  // Font Weight
+  .normal { font-weight: normal; }
+  .b      { font-weight: bold; }
   // White Space
   .ws-normal {
     white-space: normal;
@@ -200,5 +220,15 @@
 
   .pre {
     white-space: pre;
+  }
+
+  // Cursor
+  .pointer:hover {
+    cursor: pointer;
+  }
+
+  // TODO: Check if this is necessary. Copied from style tags
+  .ms-flex {
+    -ms-flex:auto;
   }
 }

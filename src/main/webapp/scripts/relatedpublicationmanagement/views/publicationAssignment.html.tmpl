@@ -1,5 +1,5 @@
 <div class="fdz-cc">
-  <div layout="row" layout-margin style="margin-bottom: 0px;">
+  <div layout="row" layout-margin class="mb0">
     <h1 class="md-headline" style="margin-left: 0px;">
       <span data-translate="related-publication-management.assign.page-title"
             data-translate-values="{ projectId: ctrl.project.id}">Assign publications</span>
@@ -27,7 +27,7 @@
       </md-not-found>
     </md-autocomplete>
 
-    <md-list ng-if="ctrl.publications && ctrl.publications.length" style="padding: 0px;">
+    <md-list ng-if="ctrl.publications && ctrl.publications.length" class="pa0">
       <div ng-repeat="publication in ctrl.publications">
         <md-list-item layout="row" style="padding-right: 0px;">
           <div class="md-list-item-text fdz-truncate-string">

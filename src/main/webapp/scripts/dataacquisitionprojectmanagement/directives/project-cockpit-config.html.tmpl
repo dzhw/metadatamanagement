@@ -1,10 +1,10 @@
 <div>
 	<div layout-gt-sm="row" layout="column">
-	<div flex style="-ms-flex:auto;">
+	<div flex class="ms-flex">
 		<div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-publisher' | translate}}</div>
 		<user-list project="project" is-publisher="ctrl.isUserPublisher()" group="publishers"></user-list>
 	</div>
-	<div flex style="-ms-flex:auto;">
+	<div flex class="ms-flex">
 		<div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-data-provider' | translate}}</div>
 		<user-list project="project" is-publisher="ctrl.isUserPublisher()" group="dataProviders"></user-list>
 	</div>

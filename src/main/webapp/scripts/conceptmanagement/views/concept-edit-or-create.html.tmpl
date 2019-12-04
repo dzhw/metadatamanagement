@@ -1,7 +1,7 @@
 <div class="fdz-cc">
   <form name="conceptForm">
     <div ng-if="ctrl.concept.authors">
-      <div layout="row" layout-margin style="margin-bottom: 0px;">
+      <div layout="row" layout-margin class="mb0">
         <h1 class="md-headline" ng-if="ctrl.createMode">
           {{'concept-management.edit.label.create-concept' | translate}} <span
           class="label label-as-badge label-default">{{ctrl.concept.id}}</span></h1>
@@ -17,9 +17,9 @@
         </md-card-header>
         <md-divider></md-divider>
         <md-card-content>
-          <div layout="column" layout-gt-sm="row" style="-ms-flex:auto">
+          <div layout="column" layout-gt-sm="row" class="ms-flex">
             <md-input-container flex="50" md-is-error="!conceptForm.id.$valid && (conceptForm.id.$dirty || conceptForm.id.$touched)"
-                                style="-ms-flex:auto">
+                                class="ms-flex">
               <label class="fdz-input-required">{{'concept-management.edit.label.id' | translate}}</label>
               <input fdz-compose-concept-id fdz-required fdz-unique-concept-id="{{ctrl.createMode}}" md-maxlength="507"
                      md-no-asterisk name="id" ng-disabled="!ctrl.createMode" ng-model="ctrl.concept.id"
@@ -34,11 +34,11 @@
                 <div ng-message="uniqueConceptId">{{'concept-management.error.concept.id.not-unique' | translate}}</div>
               </div>
             </md-input-container>
-            <div flex="50" style="-ms-flex:auto"></div>
+            <div flex="50" class="ms-flex"></div>
           </div>
-          <div layout="column" layout-gt-sm="row" style="-ms-flex:auto">
+          <div layout="column" layout-gt-sm="row" class="ms-flex">
             <md-input-container flex="50" md-is-error="!conceptForm.titleDe.$valid && (conceptForm.titleDe.$dirty || conceptForm.titleDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
-                                style="-ms-flex:auto">
+                                class="ms-flex">
               <label class="fdz-input-required">{{'concept-management.detail.label.title' | translate}}
                 ({{'global.in-german' | translate}})</label>
               <input fdz-required lang="de" md-maxlength="512" md-no-asterisk name="titleDe"
@@ -56,7 +56,7 @@
               </div>
             </md-input-container>
             <md-input-container flex="50" md-is-error="!conceptForm.titleEn.$valid && (conceptForm.titleEn.$dirty || conceptForm.titleEn.$touched)"
-                                style="-ms-flex:auto">
+                                class="ms-flex">
               <label class="fdz-input-required">{{'concept-management.detail.label.title' | translate}}
                 ({{'global.in-english' | translate}})</label>
               <input fdz-required lang="en" md-maxlength="512" md-no-asterisk name="titleEn"
@@ -74,9 +74,9 @@
               </div>
             </md-input-container>
           </div>
-          <div layout="column" layout-gt-sm="row" style="-ms-flex:auto">
+          <div layout="column" layout-gt-sm="row" class="ms-flex">
             <md-input-container flex="50" md-is-error="!conceptForm.citationHint.$valid && (conceptForm.citationHint.$dirty || conceptForm.citationHint.$touched)"
-                                style="-ms-flex:auto">
+                                class="ms-flex">
               <label class="fdz-input-required">{{'concept-management.detail.label.citation-hint' | translate}}</label>
               <textarea fdz-required md-maxlength="2048" md-no-asterisk name="citationHint" ng-model="ctrl.concept.citationHint"
                         ng-trim="true" rows="4"></textarea>
@@ -91,11 +91,11 @@
                 </div>
               </div>
             </md-input-container>
-            <div flex="50" style="-ms-flex:auto"></div>
+            <div flex="50" class="ms-flex"></div>
           </div>
-          <div flex="100" flex-gt-sm="50" layout="column" layout-gt-sm="row" style="-ms-flex:auto">
+          <div flex="100" flex-gt-sm="50" layout="column" layout-gt-sm="row" class="ms-flex">
             <md-input-container flex="50" md-is-error="!conceptForm.doi.$valid && (conceptForm.doi.$dirty || conceptForm.doi.$touched)"
-                                style="-ms-flex:auto">
+                                class="ms-flex">
               <label>{{'concept-management.detail.label.doi' | translate}}</label>
               <input md-maxlength="512" name="doi" ng-model="ctrl.concept.doi">
               <div class="fdz-input-hint" ng-if="!conceptForm.doi.$dirty && !conceptForm.doi.$touched">
@@ -118,7 +118,7 @@
         <md-card-content>
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!conceptForm.descriptionDe.$valid && (conceptForm.descriptionDe.$dirty || conceptForm.descriptionDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
-                                style="-ms-flex:auto">
+                                class="ms-flex">
               <label class="fdz-input-required">{{'concept-management.detail.description' | translate}}
                 ({{'global.in-german' | translate}})</label>
               <textarea fdz-required lang="de" md-maxlength="2048" md-no-asterisk
@@ -136,7 +136,7 @@
               </div>
             </md-input-container>
             <md-input-container flex="50" md-is-error="!conceptForm.descriptionEn.$valid && (conceptForm.descriptionEn.$dirty || conceptForm.descriptionEn.$touched)"
-                                style="-ms-flex:auto">
+                                class="ms-flex">
               <label class="fdz-input-required">{{'concept-management.detail.description' | translate}}
                 ({{'global.in-english' | translate}})</label>
               <textarea fdz-required lang="en" md-maxlength="2048" md-no-asterisk
@@ -163,7 +163,7 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
+        <md-card-content class="pb0 pl0">
           <div id="move-container" layout="row" ng-repeat="person in ctrl.concept.authors track by $index">
             <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteAuthor($index)"
                        ng-if="ctrl.concept.authors.length > 1"
@@ -266,7 +266,7 @@
         <md-divider></md-divider>
         <md-card-content>
           <md-input-container md-is-error="!conceptForm.license.$valid && (conceptForm.license.$dirty || conceptForm.license.$touched)"
-                              style="-ms-flex:auto;width:100%">
+                              class="ms-flex w-100">
             <label>{{'concept-management.detail.label.license' | translate}}</label>
             <textarea md-maxlength="1048576" name="license" ng-model="ctrl.concept.license" ng-trim="true"
                       rows="4"></textarea>
@@ -342,9 +342,9 @@
       <tr ng-class="{'fdz-selected-table-row': $index === ctrl.currentAttachmentIndex}" ng-click="ctrl.selectAttachment($index)"
           ng-init="translationParams = {filename: row.fileName}"
           ng-repeat="row in ctrl.attachments">
-        <td class="fdz-table-nowrap" style="padding-right: 0px;">
+        <td class="fdz-table-nowrap pr0">
           <md-radio-group class="md-primary" ng-model="ctrl.currentAttachmentIndex">
-            <md-radio-button ng-value="$index" style="margin-bottom: 0px;">
+            <md-radio-button ng-value="$index" class="mb0">
               <md-tooltip md-autohide="true" md-direction="right"
                           md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'concept-management.detail.attachments.select-attachment-tooltip' | translate:translationParams }}
@@ -352,8 +352,8 @@
             </md-radio-button>
           </md-radio-group>
         </td>
-        <td class="fdz-table-nowrap" style="padding: 0px;">
-          <md-button class="md-primary md-icon-button" ng-click="ctrl.editAttachment(row, $event)" style="margin: 0px;">
+        <td class="fdz-table-nowrap pa0">
+          <md-button class="md-primary md-icon-button mb0" ng-click="ctrl.editAttachment(row, $event)">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'concept-management.detail.attachments.edit-attachment-tooltip' | translate:translationParams }}
@@ -361,9 +361,8 @@
             <md-icon md-font-set="material-icons">mode_edit</md-icon>
           </md-button>
         </td>
-        <td class="fdz-table-nowrap" style="padding: 0px;">
-          <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteAttachment(row, $index)"
-                     style="margin: 0px;">
+        <td class="fdz-table-nowrap pa0">
+          <md-button class="md-primary md-icon-button ma0" ng-click="ctrl.deleteAttachment(row, $index)">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'concept-management.detail.attachments.delete-attachment-tooltip' | translate:translationParams }}
@@ -375,7 +374,7 @@
         <td class="fdz-text-block" display-i18n-string="row.description" fdz-hyphenate></td>
         <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
-        <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
+        <td class="nowrap"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
           <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
           </md-tooltip>

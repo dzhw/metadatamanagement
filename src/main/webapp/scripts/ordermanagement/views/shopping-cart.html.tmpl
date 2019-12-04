@@ -1,8 +1,8 @@
 <div class="fdz-cc">
 <form name="customerForm" flex>
-    <div layout="row" style="margin-bottom: 0px;" layout-margin>
-        <h1 ng-if="!ctrl.orderSaved" class="md-headline" style="margin-left: 0px;">{{'shopping-cart.detail.table-title' | translate | fdzHyphenate }}</h1>
-        <h1 ng-if="ctrl.orderSaved" class="md-headline" style="margin-left: 0px;">{{'shopping-cart.detail.thank-you' | translate | fdzHyphenate }}</h1>
+    <div layout="row" class="mb0" layout-margin>
+        <h1 ng-if="!ctrl.orderSaved" class="md-headline mb0">{{'shopping-cart.detail.table-title' | translate | fdzHyphenate }}</h1>
+        <h1 ng-if="ctrl.orderSaved" class="md-headline mb0">{{'shopping-cart.detail.thank-you' | translate | fdzHyphenate }}</h1>
     </div>
     <div ng-if="ctrl.initComplete" ng-repeat="product in ctrl.products" class="fdz-fade-in">
         <md-card style="position: relative;">
@@ -44,7 +44,7 @@
                     </md-tooltip>
                 </a>
                 <div ng-if="ctrl.studies[product.study.id + '-' + product.version].annotations">
-                    <span style="font-weight: bold;">{{'shopping-cart.detail.label.annotations' | translate }}:&nbsp;</span>
+                    <span class="b">{{'shopping-cart.detail.label.annotations' | translate }}:&nbsp;</span>
                     <span fdz-hyphenate class="fdz-text-block fdz-multiline-property" lang="{{currentLanguage}}">{{ctrl.studies[product.study.id + '-' + product.version].annotations | displayI18nString}}</span>
                 </div>
             </md-card-content>
@@ -72,7 +72,7 @@
         <md-divider></md-divider>
         <md-card-content  class="pt16">
             <div flex layout-gt-sm="row" layout="column">
-                <md-input-container flex="50" ng-class="{'mr10': $mdMedia('gt-sm')}" md-is-error="!customerForm.name.$valid && (customerForm.name.$dirty || customerForm.name.$touched)" style="margin-bottom: 0px;">
+                <md-input-container flex="50" ng-class="{'mr10': $mdMedia('gt-sm')}" md-is-error="!customerForm.name.$valid && (customerForm.name.$dirty || customerForm.name.$touched)" class="mb0">
                     <label class="fdz-input-required">{{'shopping-cart.detail.label.customer-name' | translate}}</label>
                     <input ng-trim="true" md-maxlength="128" required ng-model="ctrl.customer.name" name="name" md-no-asterisk autocomplete="name">
                     <div ng-if="customerForm.name.$valid || !customerForm.name.$touched" class="fdz-input-hint">{{'shopping-cart.detail.hints.name' | translate}}</div>
@@ -81,7 +81,7 @@
                         <div ng-message="md-maxlength">{{'shopping-cart.error.customer.name.string-size' | translate}}</div>
                     </div>
                 </md-input-container>
-                <md-input-container flex="50" ng-class="{'mr10': $mdMedia('gt-sm')}" md-is-error="!customerForm.email.$valid && (customerForm.email.$dirty || customerForm.email.$touched)" style="margin-bottom: 0px;">
+                <md-input-container flex="50" ng-class="{'mr10': $mdMedia('gt-sm')}" md-is-error="!customerForm.email.$valid && (customerForm.email.$dirty || customerForm.email.$touched)" class="mb0">
                     <label class="fdz-input-required">{{'shopping-cart.detail.label.customer-email' | translate}}</label>
                     <input ng-trim="true" md-maxlength="128" required ng-model="ctrl.customer.email" name="email" type="email" md-no-asterisk autocomplete="email">
                     <div ng-if="customerForm.email.$valid || !customerForm.email.$touched" class="fdz-input-hint">{{'shopping-cart.detail.hints.email' | translate}}</div>

@@ -19,7 +19,7 @@
       <div flex-gt-sm="50" layout="column"
            ng-class="{'mr10': !addMargin, 'fdz-add-bottom-margin': !addMargin}">
         <span
-          style="font-weight: bold;">{{'study-management.detail.label.data-set.surveyed-in' | translate}}:&nbsp;</span>
+          class="b">{{'study-management.detail.label.data-set.surveyed-in' | translate}}:&nbsp;</span>
         <div layout="column">
           <div class="fdz-truncate-string" ng-repeat="survey in searchResult.surveys">
             <span display-i18n-string="survey.title"></span>
@@ -28,11 +28,11 @@
       </div>
       <div flex-gt-sm="50" layout="column">
         <div ng-class="{'fdz-add-bottom-margin': !addMargin}" ng-if="searchResult.accessWays">
-          <span style="font-weight: bold;">{{'study-management.detail.label.data-set.accessWays' | translate }}:</span>
+          <span class="b">{{'study-management.detail.label.data-set.accessWays' | translate }}:</span>
           <span>{{searchResult.accessWays.join(', ')}}</span>
         </div>
         <div ng-if="searchResult.maxNumberOfObservations">
-          <span style="font-weight: bold;">{{(searchResult.type.en !== 'Spell Data'?'study-management.detail.label.data-set.maxNumberOfObservations':'study-management.detail.label.data-set.maxNumberOfEpisodes')| translate }} <span
+          <span class="b">{{(searchResult.type.en !== 'Spell Data'?'study-management.detail.label.data-set.maxNumberOfObservations':'study-management.detail.label.data-set.maxNumberOfEpisodes')| translate }} <span
             katex>(max)</span>:&nbsp;</span>
           <span>{{searchResult.maxNumberOfObservations | number: 0}}</span>
         </div>

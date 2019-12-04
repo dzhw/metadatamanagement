@@ -56,7 +56,7 @@
           <input ng-hide="true" type="submit">
           <md-progress-linear md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>
         </form>
-        <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
+        <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center" class="mb0">
           <fdz-paginator  options="options"
                           on-update="onPageChanged(event = $event, option = $option)"
                           template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
@@ -109,7 +109,7 @@
               search-result-index="computeSearchResultIndex($index)"></concept-search-result>
           </div>
       </div>
-      <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center" style="margin-bottom: 0px;">
+      <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center" class="mb0">
         <fdz-paginator  options="options"
                         on-update="onPageChanged(event = $event, option = $option)"
                         template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
