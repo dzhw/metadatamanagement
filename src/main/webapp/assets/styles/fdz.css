@@ -1845,6 +1845,10 @@ md-input-container label {
     .fdz-theme .fdz-detail__header {
       padding: 16px; } }
 
+.fdz-theme .fdz-detail__header-text {
+  display: flex;
+  flex-flow: row; }
+
 .fdz-theme .fdz-tag-link-container {
   display: flex;
   align-items: baseline;
