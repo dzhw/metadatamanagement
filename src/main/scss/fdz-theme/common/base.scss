@@ -24,7 +24,10 @@ body {
     outline-color: $accent-color;
     outline-offset: -2px;
   }
-
+  a.md-button:hover,
+  a.md-button:focus {
+    text-decoration: none;
+  }
   // Headlines
   h5 {
     margin-top: 0;

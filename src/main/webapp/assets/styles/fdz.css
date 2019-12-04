@@ -192,6 +192,10 @@ body {
   outline-color: #f7a839;
   outline-offset: -2px; }
 
+.fdz-theme a.md-button:hover,
+.fdz-theme a.md-button:focus {
+  text-decoration: none; }
+
 .fdz-theme h5 {
   margin-top: 0;
   margin-bottom: 0; }
