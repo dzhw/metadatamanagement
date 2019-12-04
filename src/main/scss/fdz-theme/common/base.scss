@@ -7,8 +7,22 @@ body {
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   z-index: 0;
-  background-color: rgb(250,250,250);
+  background-color: rgb(250, 250, 250);
 }
+
+.ng-cloak,
+.x-ng-cloak,
+[data-ng-cloak],
+[ng-cloak],
+[ng\:cloak],
+[x-ng-cloak] {
+  display: none !important;
+}
+
+ui-view:focus {
+  outline: none;
+}
+
 
 .fdz-theme {
   // Links
@@ -31,11 +45,19 @@ body {
     outline-color: $accent-color;
     outline-offset: -2px;
   }
+
   a.md-button:hover,
   a.md-button:focus {
     text-decoration: none;
   }
+
   // Headlines
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+  }
+
   h5 {
     margin-top: 0;
     margin-bottom: 0;

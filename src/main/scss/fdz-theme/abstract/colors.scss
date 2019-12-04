@@ -1,50 +1,4 @@
 //TODO: Delete all unused vars and move them to variables.scss
-
-// Brand colors HEX
-//$brand-primary-50:  #FFFFFF; // Default
-//$brand-primary-100: #FAFAFA;
-//$brand-primary-200: #f5f5f5;
-//$brand-primary-300: #f0f0f0;
-//$brand-primary-400: #DEDEDE;
-//$brand-primary-500: #c2c2c2;
-//$brand-primary-600: #979797;
-//$brand-primary-700: #818181;
-//$brand-primary-800: #606060;
-//$brand-primary-900: #3c3c3c;
-//
-//$brand-secondary-50:  #e0f4fe;
-//$brand-secondary-100: #b2e3fd;
-//$brand-secondary-200: #7ed0fb;
-//$brand-secondary-300: #4abef7;
-//$brand-secondary-400: #20b0f6;
-//$brand-secondary-500: #00a2f3;
-//$brand-secondary-600: #0095e4;
-//$brand-secondary-700: #0082d0;
-//$brand-secondary-800: #0071bc; // Default
-//$brand-secondary-900: #03519a;
-//
-//$brand-third-50:  #fffde8;
-//$brand-third-100: #fff8c7;
-//$brand-third-200: #fff4a2;
-//$brand-third-300: #ffef7e;
-//$brand-third-400: #ffea62;
-//$brand-third-500: #fde548;
-//$brand-third-600: #fed647;
-//$brand-third-700: #fbbf40;
-//$brand-third-800: #f7a839; // Default
-//$brand-third-900: #f0812d;
-//
-//$background-50:  #FFFFFF; // Default
-//$background-100: #FAFAFA;
-//$background-200: #f5f5f5;
-//$background-300: #f0f0f0;
-//$background-400: #DEDEDE;
-//$background-500: #c2c2c2;
-//$background-600: #979797;
-//$background-700: #818181;
-//$background-800: #606060;
-//$background-900: #3c3c3c;
-
 // Brand colors RGBA
 $brand-primary: rgba(255, 255, 255, 0.87);
 $brand-primary-026: rgba(255, 255, 255, 0.26);
@@ -173,10 +127,10 @@ $background-hue-2: rgba(5, 153, 0, 0.93);
 $background-hue-3: rgba(5, 103, 0, 0.93);
 
 $warn-color: $brand-third;
-$warn-color-026: #fb0cff;
-$warn-color-05: #fb0cff;
-$warn-color-038: #fb0cff;
-$warn-color-087: #fb0cff;
+//$warn-color-026: #fb0cff;
+//$warn-color-05: #fb0cff;
+//$warn-color-038: #fb0cff;
+//$warn-color-087: #fb0cff;
 $warn-contrast: $brand-primary-text;
 $warn-contrast-01: $brand-primary-text;
 $warn-100: #F69F24;
@@ -193,13 +147,13 @@ $foreground-3-038: rgba(0,0,0,0.38);
 $foreground-4: rgba(0,0,0,0.12);
 
 $accent-color: $brand-third;
-$accent-color-05: #08fff2;
-$accent-color-026: #08fff2;
-$accent-color-087: #08fff2;
+//$accent-color-05: #08fff2;
+//$accent-color-026: #08fff2;
+//$accent-color-087: #08fff2;
 $accent-100: #08fff2;
 $accent-contrast: $brand-primary-text;
-$accent-contrast-01: #08fff2;
-$accent-contrast-087: #08fff2;
-$accent-A100: #08fff2;
-$accent-A200-02: #08fff2;
+//$accent-contrast-01: #08fff2;
+//$accent-contrast-087: #08fff2;
+//$accent-A100: #08fff2;
+//$accent-A200-02: #08fff2;
 $accent-A700: $brand-third-900;

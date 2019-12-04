@@ -18,9 +18,9 @@
   }
 
   &.md-accent {
-    .md-container {
-      background-color: $accent-100;
-    }
+    //.md-container {
+    //  background-color: $accent-100;
+    //}
 
     .md-bar {
       background-color: $accent-color;
@@ -44,13 +44,13 @@
         background: radial-gradient($warn-100 0%, $warn-100 16%, transparent 42%);
       }
     }
-    &.md-accent {
-      .md-bar1 {
-        background-color: $accent-100;
-      }
-      .md-dashed:before {
-        background: radial-gradient($accent-100 0%, $accent-100 16%, transparent 42%);
-      }
-    }
+    //&.md-accent {
+    //  //.md-bar1 {
+    //  //  background-color: $accent-100;
+    //  //}
+    //  .md-dashed:before {
+    //    background: radial-gradient($accent-100 0%, $accent-100 16%, transparent 42%);
+    //  }
+    //}
   }
 }

@@ -19,29 +19,15 @@ $state-danger-bg: #F5D0D0 !default;
 $state-danger-border: $brand-danger !default; // bower:scss
  @import "../../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
  // endbower
-h1,
-h2,
-h3 {
-    margin: 0;
-}
+
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     img[src$=".svg"] {
         width: 100%;
     }
 }
 
-ui-view:focus {
-    outline: none;
-}
 
-.ng-cloak,
-.x-ng-cloak,
-[data-ng-cloak],
-[ng-cloak],
-[ng\:cloak],
-[x-ng-cloak] {
-    display: none !important;
-}
+
 
 
 .fdz-block-ui-overlay {
@@ -71,8 +57,8 @@ ui-view:focus {
 
 
 .error {
-    color: white;
-    background-color: #C91630;
+    color: $state-warning-bg;
+    background-color: $brand-danger;
 }
 
 .hipster {

@@ -48,17 +48,17 @@
     > md-tabs-canvas {
       > md-pagination-wrapper {
         > md-tab-item:not([disabled]) {
-          &, md-icon {
-            color: $accent-A100;
-          }
+          //&, md-icon {
+          //  color: $accent-A100;
+          //}
           &.md-active, &.md-focused {
             &, md-icon {
               color: $accent-contrast;
             }
           }
-          &.md-focused {
-            background: $accent-contrast-01;
-          }
+          //&.md-focused {
+          //  background: $accent-contrast-01;
+          //}
         }
         > md-ink-bar {
           color: $primary-600-1;

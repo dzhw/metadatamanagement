@@ -29,13 +29,13 @@
     .md-thumb {
       background-color: $accent-color;
     }
-    .md-bar {
-      background-color: $accent-color-05;
-    }
-    &.md-focused .md-thumb:before {
-      background-color: $accent-color-026;
-    ;
-    }
+    //.md-bar {
+    //  background-color: $accent-color-05;
+    //}
+    //&.md-focused .md-thumb:before {
+    //  background-color: $accent-color-026;
+    //;
+    //}
 
     &.md-primary {
       .md-ink-ripple {
@@ -59,12 +59,12 @@
       .md-thumb {
         background-color: $warn-color;
       }
-      .md-bar {
-        background-color: $warn-color-05;
-      }
-      &.md-focused .md-thumb:before {
-        background-color: $warn-color-026;
-      }
+      //.md-bar {
+      //  background-color: $warn-color-05;
+      //}
+      //&.md-focused .md-thumb:before {
+      //  background-color: $warn-color-026;
+      //}
     }
   }
 

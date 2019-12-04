@@ -6,9 +6,9 @@
   .md-track-ticks {
     color: $background-contrast;
   }
-  .md-focus-ring {
-    background-color: $accent-A200-02;
-  }
+  //.md-focus-ring {
+  //  background-color: $accent-A200-02;
+  //}
   .md-disabled-thumb {
     border-color: $background-default;
     background-color: $background-default;
@@ -74,23 +74,23 @@
   }
 
   &.md-warn {
-    .md-focus-ring {
-      background-color: $warn-color-038;
-    }
-    .md-track.md-track-fill {
-      background-color: $warn-color;
-    }
-    .md-thumb:after {
-      border-color: $warn-color;
-      background-color: $warn-color;
-    }
-    .md-sign {
-      background-color: $warn-color;
-
-      &:after {
-        border-top-color: $warn-color;
-      }
-    }
+  //  .md-focus-ring {
+  //    background-color: $warn-color-038;
+  //  }
+  //  .md-track.md-track-fill {
+  //    background-color: $warn-color;
+  //  }
+  //  .md-thumb:after {
+  //    border-color: $warn-color;
+  //    background-color: $warn-color;
+  //  }
+  //  .md-sign {
+  //    background-color: $warn-color;
+  //
+  //    &:after {
+  //      border-top-color: $warn-color;
+  //    }
+  //  }
 
     &[md-vertical] {
       .md-sign:after {
