@@ -24,6 +24,9 @@
     flex-flow: wrap;
     justify-content: space-between;
   }
+  & .md-subhead.left {
+    justify-content: flex-start;
+  }
 
   & md-card-content {
     padding: 8px 0 0 0;

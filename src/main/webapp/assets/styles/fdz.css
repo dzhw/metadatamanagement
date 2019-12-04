@@ -1587,6 +1587,9 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   flex-flow: wrap;
   justify-content: space-between; }
 
+.fdz-theme .fdz-search-result .md-subhead.left {
+  justify-content: flex-start; }
+
 .fdz-theme .fdz-search-result md-card-content {
   padding: 8px 0 0 0;
   text-align: justify; }
@@ -2317,6 +2320,11 @@ geographic-coverage {
 
 md-dialog .fdz-fab-button-container {
   position: absolute; }
+
+.fdz-theme .fdz-shopping-cart__header {
+  margin: 16px 0 16px 8px; }
+  .fdz-theme .fdz-shopping-cart__header h1 {
+    margin: 0; }
 
 .fdz-fade-in.ng-enter {
   -webkit-transition: 1s;
