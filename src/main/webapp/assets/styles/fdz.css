@@ -2025,6 +2025,11 @@ md-input-container label {
 .fdz-table-wide td {
   vertical-align: top; }
 
+.fdz-table-wide td.fdz-td-filename {
+  display: inline-block;
+  width: 200px;
+  word-break: break-all; }
+
 td.fdz-table-data-vertical-middle {
   vertical-align: middle; }
 

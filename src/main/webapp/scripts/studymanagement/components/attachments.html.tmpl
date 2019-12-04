@@ -33,7 +33,7 @@
           <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
           <td class="fdz-text-block" display-i18n-string="row.description" fdz-hyphenate></td>
           <td>{{row.language | displayIsoLanguage: $ctrl.lang}}</td>
-          <td style="width: 200px;display:inline-block;word-break: break-all;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
+          <td class="fdz-td-filename"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
             </md-tooltip>
