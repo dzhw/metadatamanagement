@@ -2,7 +2,9 @@
     <div>
         <p ng-repeat="elem in messages" style="margin: 8px 0;">
             <span data-translate="{{elem.messageId}}" data-translate-values="{{elem.messageParams}}"></span>
-            <a ng-click="go(elem.messageParams.id)">{{'data-acquisition-project-management.current-version' | translate}}</a>
+            <a
+              ng-if="elem.messageParams.id"
+              ng-click="go(elem.messageParams.id)">{{'data-acquisition-project-management.current-version' | translate}}</a>
         </p>
     </div>
     <md-button ng-click="closeToast()">
