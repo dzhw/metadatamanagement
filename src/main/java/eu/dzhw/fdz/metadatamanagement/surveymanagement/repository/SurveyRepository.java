@@ -20,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.Survey
  * 
  * @author Daniel Katzberg
  */
-@RepositoryRestResource(path = "/surveys", excerptProjection = IdAndVersionProjection.class)
+@RepositoryRestResource(path = "surveys", excerptProjection = IdAndVersionProjection.class)
 @JaversSpringDataAuditable
 public interface SurveyRepository extends BaseRepository<Survey, String> {
 

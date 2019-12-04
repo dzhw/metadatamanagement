@@ -56,7 +56,7 @@ public class UserDetailsServiceImplTest extends AbstractTest {
 
   @After
   public void after() {
-    this.userRepository.delete(this.user);
+    this.userRepository.deleteById(this.user.getId());
   }
 
   @Test

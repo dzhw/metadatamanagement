@@ -17,7 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
  * @author Daniel Katzberg
  */
 @JaversSpringDataAuditable
-@RepositoryRestResource(path = "/data-acquisition-projects")
+@RepositoryRestResource(path = "data-acquisition-projects")
 public interface DataAcquisitionProjectRepository
     extends BaseRepository<DataAcquisitionProject, String>, DataAcquisitionProjectRepositoryCustom {
 

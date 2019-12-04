@@ -1,6 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.repository;
 
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueItem;
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -8,8 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueItem;
 
 /**
  * Custom repository for retrieving locked and unlocked shadow copy queue items.
@@ -46,7 +47,7 @@ public class ShadowCopyQueueRepositoryCustomImpl implements ShadowCopyQueueRepos
             .is(updateStartedBy),
         Criteria.where("updateStartedAt")
             .is(updateStartedAt)))
-        .with(new Sort(Sort.Direction.ASC, "createdDate"));
+        .with(Sort.by(Sort.Direction.ASC, "createdDate"));
     return mongoOperations.find(query, ShadowCopyQueueItem.class);
   }
 }
