@@ -48,14 +48,19 @@
                     <span fdz-hyphenate class="fdz-text-block fdz-multiline-property" lang="{{currentLanguage}}">{{ctrl.studies[product.study.id + '-' + product.version].annotations | displayI18nString}}</span>
                 </div>
             </md-card-content>
-            <div class="fdz-search-result-actions-container">
-                <md-button class="md-icon-button md-primary" ng-click="ctrl.deleteProduct(product)" style="margin-left: 0px;">
-                    <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                        {{'shopping-cart.buttons.delete-product-tooltip' | translate}}
-                    </md-tooltip>
-                    <md-icon md-font-set="material-icons">delete_forever</md-icon>
-                </md-button>
-            </div>
+            <md-card-actions>
+              <md-button
+                class="md-primary md-small md-button md-ink-ripple"
+                ng-click="ctrl.deleteProduct(product)">
+                <md-tooltip
+                  md-direction="left"
+                  md-autohide="true"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'shopping-cart.buttons.delete-product-tooltip' | translate}}
+                </md-tooltip>
+                {{'global.entity.action.delete' | translate}}
+              </md-button>
+            </md-card-actions>
         </md-card>
     </div>
     <md-card ng-if="ctrl.initComplete && ctrl.products && ctrl.products.length > 0" class="fdz-fade-in">

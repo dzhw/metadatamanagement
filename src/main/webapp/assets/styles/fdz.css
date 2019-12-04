@@ -2149,7 +2149,7 @@ tr:focus {
       display: flex;
       justify-content: flex-end; }
     .fdz-theme .fdz-search-filter md-card-content .fdz-filter-menu-list {
-      padding: 8px; }
+      padding: 8px 0; }
       .fdz-theme .fdz-search-filter md-card-content .fdz-filter-menu-list .md-button {
         margin-left: 0;
         margin-top: 0;
@@ -2173,15 +2173,6 @@ tr:focus {
           white-space: normal;
           vertical-align: top;
           margin-left: 16px; }
-
-.fdz-search-result-actions-container {
-  position: absolute !important;
-  top: 0px !important;
-  right: 8px !important;
-  padding-top: 8px !important;
-  z-index: 0 !important;
-  background-color: white !important;
-  border-bottom-left-radius: 4px !important; }
 
 .fdz-search-filter-component md-input-container {
   margin: 0; }

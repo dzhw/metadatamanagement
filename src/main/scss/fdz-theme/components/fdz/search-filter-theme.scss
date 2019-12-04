@@ -23,7 +23,7 @@
     }
 
     & .fdz-filter-menu-list {
-      padding: 8px;
+      padding: 8px 0;
 
       .md-button {
         margin-left: 0;
@@ -58,18 +58,6 @@
     }
   }
 }
-
-.fdz-search-result-actions-container {
-  position: absolute!important;
-  top: 0px!important;
-  right: 8px!important;
-  padding-top: 8px!important;
-  //padding-bottom: 8px!important;
-  z-index: 0!important;
-  background-color: rgba(255, 255, 255, 1)!important;
-  border-bottom-left-radius: 4px!important;
-}
-
 
 // Sidebar
 .fdz-search-filter-component md-input-container {
