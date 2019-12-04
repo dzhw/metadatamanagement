@@ -1,6 +1,13 @@
 html,
 body {
   min-width: 320px;
+  overflow: hidden;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  z-index: 0;
+  background-color: rgb(250,250,250);
 }
 
 .fdz-theme {

@@ -174,7 +174,13 @@
 
 html,
 body {
-  min-width: 320px; }
+  min-width: 320px;
+  overflow: hidden; }
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  z-index: 0;
+  background-color: #fafafa; }
 
 .fdz-theme a {
   color: #006AB2;

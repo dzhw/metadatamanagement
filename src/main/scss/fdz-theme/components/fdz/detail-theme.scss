@@ -2,17 +2,13 @@ $card-border-radius: 2px !default;
 
 .fdz-theme {
   .fdz-detail {
-
     position: relative;
-
     color: $foreground-1;
     background-color: $background-hue-1;
     border-radius: $card-border-radius;
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14),
     0px 2px 1px -1px rgba(0, 0, 0, 0.12);
-
-
   }
 
   .fdz-detail__header {
