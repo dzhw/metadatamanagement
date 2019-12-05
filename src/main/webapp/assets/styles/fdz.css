@@ -181,6 +181,42 @@
 .fdz-theme .pointer:hover {
   cursor: pointer; }
 
+.fdz-theme .overflow-visible {
+  overflow: visible; }
+
+.fdz-theme .overflow-hidden {
+  overflow: hidden; }
+
+.fdz-theme .overflow-scroll {
+  overflow: scroll; }
+
+.fdz-theme .overflow-auto {
+  overflow: auto; }
+
+.fdz-theme .overflow-x-visible {
+  overflow-x: visible; }
+
+.fdz-theme .overflow-x-hidden {
+  overflow-x: hidden; }
+
+.fdz-theme .overflow-x-scroll {
+  overflow-x: scroll; }
+
+.fdz-theme .overflow-x-auto {
+  overflow-x: auto; }
+
+.fdz-theme .overflow-y-visible {
+  overflow-y: visible; }
+
+.fdz-theme .overflow-y-hidden {
+  overflow-y: hidden; }
+
+.fdz-theme .overflow-y-scroll {
+  overflow-y: scroll; }
+
+.fdz-theme .overflow-y-auto {
+  overflow-y: auto; }
+
 .fdz-theme .ms-flex {
   -ms-flex: auto; }
 
