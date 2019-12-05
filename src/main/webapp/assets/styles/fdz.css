@@ -1770,10 +1770,10 @@ fdz-breadcrumbs {
   padding: 4px; }
   @media (min-width: 600px) {
     .fdz-theme .fdz-search {
-      margin: 16px 16px 8px 16px; } }
+      margin: 24px 16px 8px 16px; } }
   @media (min-width: 959px) {
     .fdz-theme .fdz-search {
-      margin: 24px 24px 8px 24px; } }
+      margin: 24px 24px 0 24px; } }
   .fdz-theme .fdz-search md-input-container.fdz-search__input {
     display: flex;
     align-items: center;
