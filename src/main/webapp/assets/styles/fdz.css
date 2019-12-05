@@ -2402,3 +2402,5 @@ md-dialog .fdz-fab-button-container {
   .fdz-theme .fdz-metadata-type-state-card md-card-header,
   .fdz-theme .fdz-metadata-type-state-card md-card-header-text {
     justify-content: space-between; }
+  .fdz-theme .fdz-metadata-type-state-card .md-button {
+    min-width: 88px; }
