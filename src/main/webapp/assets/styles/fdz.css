@@ -1520,6 +1520,8 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 .fdz-navbar-menu {
   width: 100%; }
+  .fdz-navbar-menu a {
+    color: black; }
 
 .fdz-navbar-menu-accent {
   width: 100%; }
