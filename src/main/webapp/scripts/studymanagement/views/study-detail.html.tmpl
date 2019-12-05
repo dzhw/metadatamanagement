@@ -58,7 +58,7 @@
           template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
         <md-divider></md-divider>
         <fdz-detail
-          ng-if="ctrl.attachments.study.length > 0 && ctrl.attachments.instruments.length > 0 && ctrl.attachments.surveys.length > 0 && ctrl.attachments.dataSets.length > 0"
+          ng-if="ctrl.attachments.study.length > 0 || ctrl.attachments.instruments.length > 0 || ctrl.attachments.surveys.length > 0 || ctrl.attachments.dataSets.length > 0"
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.attachments"

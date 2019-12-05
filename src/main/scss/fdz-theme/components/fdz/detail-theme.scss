@@ -155,18 +155,6 @@ $card-border-radius: 2px !default;
     }
   }
 
-  .fdz-detail-search-container {
-    .fdz-detail-search-item-container > * .fdz-search-result {
-      border-bottom-width: 1px;
-      border-bottom-style: solid;
-      border-bottom-color: $foreground-4;
-    }
-
-    .fdz-detail-search-item-container > *:last-child .fdz-search-result {
-      border: none;
-    }
-  }
-
   survey-search-result,
   dataset-search-result {
     md-card-content > div > div {

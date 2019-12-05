@@ -20,6 +20,10 @@
     }
   }
 
+  md-list {
+    padding: 0;
+  }
+
   & md-list-item,
   & md-list-item::before {
     min-height: auto;
@@ -29,6 +33,7 @@
     padding: 0;
     flex-flow: column;
     align-items: flex-start;
+    margin-bottom: 8px;
     & md-select {
       margin: 0;
       width: 100%;
