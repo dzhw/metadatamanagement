@@ -294,6 +294,10 @@ ui-view:focus {
 .fdz-theme .hide-validation-error .md-errors-spacer {
   display: none; }
 
+.fdz-theme .md-button,
+.fdz-theme .md-tab {
+  text-transform: none; }
+
 .fdz-theme md-sidenav {
   width: 100%;
   max-width: 100%;
@@ -1326,6 +1330,16 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
       .fdz-theme md-toast .md-toast-content .md-button.md-highlight.md-warn {
         color: #f7a839; }
 
+.fdz-theme md-toast.md-accent > .md-toast-content {
+  font-weight: bold;
+  border: 1px solid black;
+  background-color: #F69F24;
+  color: black !important; }
+
+.fdz-theme #toast-container > md-toast {
+  z-index: 2000;
+  pointer-events: all; }
+
 .fdz-theme md-toolbar:not(.md-menu-toolbar) {
   background-color: white;
   color: #0071bc;
@@ -1707,8 +1721,14 @@ fdz-breadcrumbs {
   position: relative;
   border: 1px rgba(0, 0, 0, 0.12) solid;
   border-radius: 2px;
-  margin: 16px 16px 8px 16px;
+  margin: 16px 8px 8px 8px;
   padding: 4px; }
+  @media (min-width: 600px) {
+    .fdz-theme .fdz-search {
+      margin: 16px 16px 8px 16px; } }
+  @media (min-width: 959px) {
+    .fdz-theme .fdz-search {
+      margin: 24px 24px 8px 24px; } }
   .fdz-theme .fdz-search md-input-container.fdz-search__input {
     display: flex;
     align-items: center;
@@ -2286,56 +2306,18 @@ md-dialog .fdz-fab-button-container {
   .fdz-theme .fdz-shopping-cart__header h1 {
     margin: 0; }
 
-.fdz-fade-in.ng-enter {
-  -webkit-transition: 1s;
-  transition: 1s;
-  opacity: 0; }
+.fdz-no-js {
+  position: absolute;
+  background-color: #F69F24;
+  color: black !important;
+  animation: blinker 2s linear;
+  margin: 6px;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 26px; }
 
-.fdz-fade-in.ng-enter-active {
-  opacity: 1; }
-
-.md-tooltip {
-  font-size: 12px; }
-
-/*
-style for datapackage
-*/
-.md-button,
-.md-tab {
-  text-transform: none; }
-
-.fdz-log-error-text {
-  color: #C91630; }
-
-.fdz-log-warning-text {
-  color: #F69F24; }
-
-#toast-container > md-toast {
-  z-index: 2000;
-  pointer-events: all; }
-
-.md-table-pagination div div.label {
-  color: #757575; }
-
-.fdz-file-drop-accept {
-  background-color: #28A745 !important; }
-
-.fdz-file-drop-reject {
-  background-color: #C91630 !important; }
-
-.fdz-released {
-  color: #28A745; }
-
-.fdz-not-released {
-  color: #C91630; }
-
-.fdz-bootstrap-headline,
-md-dialog h2 {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em; }
-
-.fdz-add-bottom-margin {
-  margin-bottom: 0.5em; }
+.fdz-no-js p {
+  margin: 0px; }
 
 .fdz-skip-navigation {
   position: absolute !important;
@@ -2353,175 +2335,13 @@ md-dialog h2 {
   opacity: 0.9;
   z-index: 60; }
 
-.js-plotly-plot .plotly .modebar {
-  z-index: 50 !important; }
+.fdz-fade-in.ng-enter {
+  -webkit-transition: 1s;
+  transition: 1s;
+  opacity: 0; }
 
-.fdz-content:focus {
-  background-color: rgba(158, 158, 158, 0.2) !important;
-  border: 1px solid #F69F24 !important; }
-
-.fdz-input-hint {
-  /* Position the hint */
-  position: relative;
-  clear: left;
-  padding-top: 5px;
-  /* Copy styles from ng-messages */
-  font-size: 12px;
-  line-height: 14px;
-  /* Set our own color */
-  color: grey; }
-
-.fdz-input-required:after {
-  content: ' *';
-  font-size: 13px;
-  vertical-align: top; }
-
-.md-input-focused .fdz-input-required:after {
-  color: #C91630; }
-
-.fdz-current-version {
-  background-color: #28A745;
-  color: white; }
-
-.fdz-current-version:hover {
-  background-color: #28A745 !important;
-  opacity: 0.5; }
-
-.fdz-deleted-version {
-  background-color: #C91630;
-  color: white;
-  cursor: default; }
-
-.fdz-deleted-version:hover {
-  background-color: #C91630 !important;
-  opacity: 0.5; }
-
-.md-dialog-backdrop {
-  z-index: 78; }
-
-.md-dialog-backdrop ~ .md-dialog-backdrop {
-  z-index: 79; }
-
-md-backdrop.md-dialog-backdrop {
-  z-index: 78; }
-
-.md-dialog-container {
-  z-index: 78; }
-
-.md-dialog-container ~ .md-dialog-container {
-  z-index: 80; }
-
-.jk-carousel .md-icon-button md-icon {
-  color: rgba(0, 0, 0, 0.54) !important; }
-
-.jk-carousel .radio-buttons-container md-radio-button .md-off {
-  border-color: rgba(0, 0, 0, 0.54) !important; }
-
-.highlight {
-  background-color: #F69F24;
-  color: black !important; }
-
-.fdz-no-js {
-  background-color: #F69F24;
-  color: black !important;
-  animation: blinker 2s linear;
-  margin: 6px;
-  border-radius: 6px;
-  padding: 6px;
-  font-size: 26px; }
-
-.fdz-no-js p {
-  margin: 0px; }
-
-.fdz-splash .fdz-bootstrap-error {
-  display: none; }
-
-@keyframes blinker {
-  0% {
-    opacity: 0; } }
-
-md-toast.md-accent > .md-toast-content {
-  font-weight: bold;
-  border: 1px solid black;
-  background-color: #F69F24;
-  color: black !important; }
-
-.alert.alert-warning, .alert.alert-warning .alert-link {
-  color: black; }
-
-.alert.alert-danger, .alert.alert-danger .alert-link {
-  color: black; }
-
-.alert.alert-success, .alert.alert-success .alert-link {
-  color: black; }
-
-@media screen and (max-width: 1280px) {
-  ::-webkit-scrollbar {
-    height: 4px;
-    width: 4px; }
-  ::-webkit-scrollbar-thumb {
-    background-color: #f7a839;
-    min-height: 2em;
-    border-radius: 8px; } }
-
-.md-chips-messages {
-  color: #c91630;
-  position: relative;
-  order: 4;
-  overflow: hidden; }
-
-.md-chips-messages [ng-message] {
-  font-size: 12px;
-  line-height: 14px;
-  overflow: hidden;
-  margin-top: 0;
-  padding-top: 5px; }
-
-.fdz-no-select {
-  user-select: none; }
-
-.fdz-fullscreen-dialog {
-  max-width: 100%;
-  max-height: 100%;
-  width: 100%;
-  height: 100%;
-  border-radius: 0; }
-
-.fdz-metadata-type-state-card {
-  padding-bottom: 2px;
-  display: block;
-  min-width: 30%; }
-  @media screen and (max-width: 1600px) {
-    .fdz-metadata-type-state-card {
-      min-width: 45%; } }
-
-.fdz-released {
-  color: #FFFFFF;
-  background-color: #00CC66; }
-
-.fdz-unreleased {
-  background-color: #C91630; }
-
-.fdz-welcome-dialog-image {
-  display: block;
-  margin: auto;
-  border: 2px solid white; }
-
-@keyframes fade-highlight {
-  0% {
-    background: white; }
-  100% {
-    background: white; } }
-
-.fdz-project-user-list + md-list md-list-item {
-  background: white;
-  animation: fade-highlight 1s ease-out; }
-
-.fdz-project-status-overview-metadata-status-table-cell {
-  min-height: 28px; }
-
-.fdz-error {
-  color: #C91630; }
+.fdz-fade-in.ng-enter-active {
+  opacity: 1; }
 
 .fdz-odd-row {
   background-color: #f9f9f9; }

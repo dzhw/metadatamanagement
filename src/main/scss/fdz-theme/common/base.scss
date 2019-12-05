@@ -158,4 +158,8 @@ ui-view:focus {
     display: none;
   }
 
+  .md-button,
+  .md-tab {
+    text-transform: none;
+  }
 }

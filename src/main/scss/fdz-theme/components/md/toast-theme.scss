@@ -21,4 +21,16 @@
       }
     }
   }
+
+  &.md-accent > .md-toast-content {
+    font-weight: bold;
+    border: 1px solid black;
+    background-color: $warn-100;
+    color: black !important;
+  }
+}
+
+.fdz-theme #toast-container > md-toast {
+  z-index: 2000;
+  pointer-events: all;
 }

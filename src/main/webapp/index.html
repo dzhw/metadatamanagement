@@ -78,15 +78,12 @@
 </header>
 <!--    <main data-flex data-layout="column" data-ng-cloak data-block-ui="main" class="block-ui-main">-->
 <main data-flex data-layout="row" data-ng-cloak data-block-ui="main" class="block-ui-main">
-
   <fdz-navbar data-ng-cloak></fdz-navbar>
-
-  <md-content data-md-scroll-y data-layout="column" flex du-scroll-container class="fdz-theme content-center" ng-cloak>
+  <md-content data-md-scroll-y data-layout="column" flex du-scroll-container class="fdz-theme content-center" data-ng-cloak>
     <div id="top"></div>
     <fdz-breadcrumbs items="toolbarHeaderItems"></fdz-breadcrumbs>
     <div data-flex="noshrink" data-layout="column" class="fdz-content" tabindex="-1">
       <ui-view name="content" data-flex="noshrink" tabindex="-1" data-layout="column"></ui-view>
-
       <fdz-footer lang="currentLanguage" ng-if="!bowser.msie"></fdz-footer>
     </div>
   </md-content>

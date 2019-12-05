@@ -1,5 +1,5 @@
-//TODO: Delete all unused vars and move them to variables.scss
-// Brand colors RGBA
+
+// Brand color palettes RGBA
 $brand-primary: rgba(255, 255, 255, 0.87);
 $brand-primary-026: rgba(255, 255, 255, 0.26);
 $brand-primary-05: rgba(255, 255, 255, 0.5);
@@ -30,7 +30,6 @@ $brand-secondary-300: rgba(74, 190, 247, 1);
 $brand-secondary-400: rgba(32, 176, 246, 1);
 $brand-secondary-500: rgba(0, 162, 243, 1);
 $brand-secondary-500-06: rgba(0, 162, 243, 0.6);
-// TODO: Check contrast color
 $brand-secondary-500-contrast: $brand-primary;
 $brand-secondary-600: rgba(0, 149, 228, 1);
 $brand-secondary-700: rgba(0, 130, 208, 1);
@@ -69,12 +68,10 @@ $brand-primary: $brand-primary-50;
 $brand-primary-light: #fff;
 $brand-primary-dark: #ccc;
 $brand-primary-text: #000;
-
 $brand-secondary: $brand-secondary-800;
 $brand-secondary-light:#589fef;
 $brand-secondary-dark:#00468b;
 $brand-secondary-text:#fff;
-
 $brand-third: $brand-third-800;
 
 $brand-bg: #E6E6E6;
@@ -82,7 +79,7 @@ $brand-warning: #F69F24;
 //$brand-error: #C91630;
 $brand-error: rgb(217, 24, 53);
 
-// Colors
+// Colors vars in templates
 $primary-color: $brand-primary;
 $primary-color-01: $brand-primary;
 $primary-color-026: $brand-primary-026;

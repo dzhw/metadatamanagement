@@ -1,0 +1,52 @@
+
+// No js message
+.fdz-no-js {
+  position: absolute;
+  background-color: $brand-warning;
+  color: black !important;
+  animation: blinker 2s linear;
+  margin: 6px;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 26px;
+}
+
+.fdz-no-js p {
+  margin: 0px;
+}
+
+
+// Skip Navigation
+.fdz-skip-navigation {
+  position: absolute!important;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  z-index: -100;
+  display: block;
+  width: 95%;
+  margin: 0.5em;
+  -webkit-transition: opacity 0.30s linear;
+  transition: opacity 0.30s linear;
+}
+
+.fdz-skip-navigation:focus {
+  opacity: 0.9;
+  z-index: 60;
+}
+
+// Fade In
+.fdz-fade-in.ng-enter {
+  -webkit-transition: 1s;
+  transition: 1s;
+  opacity:0;
+}
+
+.fdz-fade-in.ng-enter-active {
+  opacity:1;
+}
+
+// Table row color
+.fdz-odd-row {
+  background-color: #f9f9f9;
+}
