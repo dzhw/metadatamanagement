@@ -286,7 +286,7 @@
               </md-tooltip>
               <md-icon md-font-set="material-icons">delete_forever</md-icon>
             </md-button>
-            <div ng-if="ctrl.study.institutions.length <= 1" style="margin-left: 16px;"></div>
+            <div ng-if="ctrl.study.institutions.length <= 1" class="ml16"></div>
             <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
                              md-floating-label="{{'study-management.detail.label.institution' | translate}} ({{'global.in-german' | translate}})"
                              md-input-maxlength="512" md-input-name="institutionDe_{{$index}}"
@@ -366,8 +366,7 @@
           </div>
         </md-card-content>
         <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
-          <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addInstitution()"
-                     style="margin-left: 6px;">
+          <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addInstitution()">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'study-management.edit.add-institution-tooltip' | translate}}
@@ -465,7 +464,7 @@
               </md-tooltip>
               <md-icon md-font-set="material-icons">delete_forever</md-icon>
             </md-button>
-            <div ng-if="ctrl.study.authors.length <= 1" style="margin-left: 16px;"></div>
+            <div ng-if="ctrl.study.authors.length <= 1" class="ml16"></div>
             <md-input-container flex="33"
                                 md-is-error="!studyForm['authorsFirstName_' + $index].$valid && (studyForm['authorsFirstName_' + $index].$dirty || studyForm['authorsFirstName_' + $index].$touched)">
               <label class="fdz-input-required">{{'study-management.edit.label.first-name' | translate}}</label>
@@ -512,7 +511,7 @@
           </div>
         </md-card-content>
         <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
-          <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAuthor()" style="margin-left: 6px;">
+          <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addAuthor()">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'study-management.edit.add-author-tooltip' | translate}}
@@ -653,8 +652,7 @@
     </md-card-content>
     <md-card-actions layout="row" layout-align="begin center" ng-if="!ctrl.createMode"
                      style="margin-top: 12px; margin-bottom: 12px;">
-      <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAttachment($event)"
-                 style="margin-left: 6px;">
+      <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addAttachment($event)">
         <md-tooltip md-autohide="true" md-direction="bottom"
                     md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'study-management.detail.attachments.add-attachment-tooltip' | translate}}
@@ -697,7 +695,7 @@
     <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
       {{'study-management.edit.open-choose-previous-version-tooltip' | translate}}
     </md-tooltip>
-    <md-icon md-font-set="material-icons" style="margin-left: 9px;">history</md-icon>
+    <md-icon md-font-set="material-icons" class="ml9">history</md-icon>
   </md-button>
   <md-button class="md-fab md-raised md-accent" ng-click="ctrl.saveStudy()" ng-disabled="!studyForm.$dirty"
              type="submit">

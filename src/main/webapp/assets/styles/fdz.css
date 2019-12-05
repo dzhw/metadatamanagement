@@ -62,6 +62,9 @@
 .fdz-theme .mt0 {
   margin-top: 0; }
 
+.fdz-theme .mt8 {
+  margin-top: 8px; }
+
 .fdz-theme .mt16 {
   margin-top: 16px; }
 
@@ -78,6 +81,15 @@
 
 .fdz-theme .ml0 {
   margin-left: 0; }
+
+.fdz-theme .ml6 {
+  margin-left: 6px; }
+
+.fdz-theme .ml9 {
+  margin-left: 9px; }
+
+.fdz-theme .ml16 {
+  margin-left: 16px; }
 
 .fdz-theme .mr8 {
   margin-right: 8px; }

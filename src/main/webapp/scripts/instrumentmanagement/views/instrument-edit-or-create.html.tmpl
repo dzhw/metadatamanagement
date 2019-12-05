@@ -339,8 +339,7 @@
     </md-card-content>
     <md-card-actions layout="row" layout-align="begin center" ng-if="!ctrl.createMode"
                      style="margin-top: 12px; margin-bottom: 12px;">
-      <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAttachment($event)"
-                 style="margin-left: 6px;">
+      <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addAttachment($event)">
         <md-tooltip md-autohide="true" md-direction="bottom"
                     md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'instrument-management.detail.attachments.add-attachment-tooltip' | translate}}
@@ -381,7 +380,7 @@
     <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
       {{'instrument-management.edit.open-choose-previous-version-tooltip' | translate}}
     </md-tooltip>
-    <md-icon md-font-set="material-icons" style="margin-left: 9px;">history</md-icon>
+    <md-icon md-font-set="material-icons" class="ml9">history</md-icon>
   </md-button>
   <md-button class="md-fab md-raised md-accent" ng-click="ctrl.saveInstrument()" ng-disabled="!instrumentForm.$dirty"
              type="submit">

@@ -43,7 +43,7 @@
         <div ng-if="!attachments || attachments.length === 0" flex class="ms-flex">
             <span>{{'choose-previous-attachment-version.no-versions-found' | translate:translationParams }}</span>
         </div>
-        <div ng-hide="(!attachments || attachments.length === 0) && (currentPage.number === 0)" layout="row" layout-align="space-between center" style="margin-top: 8px;">
+        <div ng-hide="(!attachments || attachments.length === 0) && (currentPage.number === 0)" layout="row" layout-align="space-between center" class="mt8">
             <md-button ng-disabled="currentPage.number === 0" class="md-raised md-primary md-icon-button" ng-click="previousPage()">
                 <md-tooltip md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
                     {{'choose-previous-attachment-version.previous-page-tooltip' | translate }}
