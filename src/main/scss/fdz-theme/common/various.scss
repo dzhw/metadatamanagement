@@ -50,3 +50,17 @@
 .fdz-odd-row {
   background-color: #f9f9f9;
 }
+
+// Project cockpit card
+.fdz-theme .fdz-metadata-type-state-card {
+  padding: 8px;
+  display: block;
+  min-width: 30%;
+  @media screen and (max-width: 1600px) {
+    min-width: 45%
+  }
+  md-card-header,
+  md-card-header-text {
+    justify-content: space-between;
+  }
+}

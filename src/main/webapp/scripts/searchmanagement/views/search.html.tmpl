@@ -1,7 +1,7 @@
 <div class="fdz-cc">
 <div flex layout="column" ng-switch="isAuthenticated()" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="isDropZoneDisabled">
   <div ng-if="isAuthenticated()">
-    <md-card class="mb0 db">
+    <md-card class="mb0 pa0 db">
         <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height md-border-bottom>
             <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
                 <md-tab-label>
@@ -35,8 +35,8 @@
         <search-filter-panel current-elasticsearch-type="tabs[searchParams.selectedTabIndex].elasticSearchType" current-language="currentLanguage" current-search-params="searchParams" filter-changed-callback="onFilterChanged" bowser="bowser" is-searching="isSearching"></search-filter-panel>
     </md-card>
   </div>
-  <md-card ng-if="isAuthenticated()" class="mb0">
-    <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center">
+  <md-card ng-if="isAuthenticated() && options.pageObject.totalHits" class="mb0 pa0">
+    <div layout="row" layout-align="center">
       <fdz-paginator  options="options"
                       on-update="onPageChanged(event = $event, option = $option)"
                       template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
@@ -112,8 +112,8 @@
          <div class="fdz-no-result" ng-if="searchResult.length === 0">
            <p>{{ 'search-management.no-results-text.all' | translate }}</p>
          </div>
-    <md-card ng-if="isAuthenticated()">
-      <div ng-if="options.pageObject.totalHits" layout="row" layout-align="center">
+    <md-card ng-if="isAuthenticated() && options.pageObject.totalHits" class="pa0">
+      <div layout="row" layout-align="center">
         <fdz-paginator  options="options"
                         on-update="onPageChanged(event = $event, option = $option)"
                         template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
