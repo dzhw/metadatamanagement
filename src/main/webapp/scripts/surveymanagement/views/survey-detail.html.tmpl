@@ -5,9 +5,11 @@
     <div>
       <div class="fdz-detail">
         <div class="fdz-detail__header">
-          <h1 class="md-headline" display-i18n-string="ctrl.survey.title" fdz-hyphenate></h1>
-          <json-content-dialog class="mb0" content="ctrl.survey" exclude-fields="ctrl.jsonExcludes"
-                               header-title="ctrl.survey.title" ng-if="ctrl.enableJsonView"></json-content-dialog>
+          <div class="fdz-detail__header-text">
+            <h1 class="md-headline" display-i18n-string="ctrl.survey.title" fdz-hyphenate></h1>
+            <json-content-dialog class="mb0" content="ctrl.survey" exclude-fields="ctrl.jsonExcludes"
+                                 header-title="ctrl.survey.title" ng-if="ctrl.enableJsonView"></json-content-dialog>
+          </div>
         </div>
         <md-divider></md-divider>
         <fdz-detail

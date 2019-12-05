@@ -5,17 +5,19 @@
     <div>
       <div class="fdz-detail">
         <div class="fdz-detail__header">
-          <h1 class="md-headline">{{'question-management.detail.label.question' |
-            translate}} {{ctrl.question.number}}: <span display-i18n-string="ctrl.instrument.description"
-                                                        fdz-hyphenate
-                                                        ng-if='ctrl.instrument'></span></h1>
-          <json-content-dialog
-            class="mb0"
-            content="ctrl.question"
-            exclude-fields="ctrl.jsonExcludes"
-            header-title="ctrl.instrument ? ctrl.instrument.description : ''"
-            ng-if="ctrl.enableJsonView">
-          </json-content-dialog>
+          <div class="fdz-detail__header-text">
+            <h1 class="md-headline">{{'question-management.detail.label.question' |
+              translate}} {{ctrl.question.number}}: <span display-i18n-string="ctrl.instrument.description"
+                                                          fdz-hyphenate
+                                                          ng-if='ctrl.instrument'></span></h1>
+            <json-content-dialog
+              class="mb0"
+              content="ctrl.question"
+              exclude-fields="ctrl.jsonExcludes"
+              header-title="ctrl.instrument ? ctrl.instrument.description : ''"
+              ng-if="ctrl.enableJsonView">
+            </json-content-dialog>
+          </div>
         </div>
         <md-divider></md-divider>
         <fdz-detail
