@@ -2135,8 +2135,7 @@ tr:focus {
         .fdz-theme .fdz-search-filter md-card-content .fdz-filter-list li md-checkbox .md-label {
           max-width: 250px;
           white-space: normal;
-          vertical-align: top;
-          margin-left: 16px; }
+          vertical-align: top; }
 
 .fdz-search-filter-component md-input-container {
   margin: 0; }
