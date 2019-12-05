@@ -85,6 +85,14 @@ ul#strength {
     padding: 0;
     vertical-align: 2px;
 }
+.point {
+  background: #ddd;
+  border-radius: 2px;
+  display: inline-block;
+  height: 5px;
+  margin-right: 1px;
+  width: 20px;
+}
 /* end Password strength bar style */
 
 /* Custom alerts for notification */
@@ -113,27 +121,7 @@ ul#strength {
     padding: 0.1em 0.6em;
 }
 
-project-cockpit-status {
-    display: block;
-    @media screen and (max-width: 960px) {
-        margin-bottom: 150px;
-    }
-}
 
-.fdz-metadata-type-state-card.ng-hide:not(.ng-hide-animate) {
-    visibility: hidden;
-    opacity: 0;
-    display: inherit!important;
-}
-
-project-status-badge,
-release-status-badge {
-    display: inline-block;
-}
-
-project-status-badge > span, release-status-badge > span {
-    font-size: 1em !important;
-}
 
 .egg-confused {
     position: absolute;
@@ -206,8 +194,6 @@ md-dialog h2 {
   margin-bottom: 0.5em;
 }
 
-
-
 .js-plotly-plot .plotly .modebar {
   z-index: 50 !important;
 }
@@ -216,9 +202,6 @@ md-dialog h2 {
   background-color: rgba(158, 158, 158, 0.2) !important;
   border: 1px solid $brand-warning !important;
 }
-
-
-
 
 .fdz-input-hint {
   /* Position the hint */
@@ -356,15 +339,6 @@ md-backdrop.md-dialog-backdrop {
   border-radius: 0;
 }
 
-.fdz-metadata-type-state-card {
-  padding-bottom: 2px;
-  display: block;
-  min-width: 30%;
-  @media screen and (max-width: 1600px) {
-    min-width: 45%
-  }
-}
-
 .fdz-released {
   color: #FFFFFF;
   background-color: #00CC66;
@@ -387,14 +361,6 @@ md-backdrop.md-dialog-backdrop {
   100% {
     background: white;
   }
-}
-.fdz-project-user-list + md-list md-list-item {
-  background: white;
-  animation: fade-highlight 1s ease-out;
-}
-
-.fdz-project-status-overview-metadata-status-table-cell {
-  min-height: 28px;
 }
 
 .fdz-error {

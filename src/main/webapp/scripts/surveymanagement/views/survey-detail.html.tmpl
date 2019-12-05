@@ -26,6 +26,7 @@
           template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
         <md-divider></md-divider>
         <fdz-detail
+          ng-if="ctrl.responseRateImage"
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
@@ -37,7 +38,7 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.attachments"
-          template-url="scripts/studymanagement/templates/dp-attachments.html.tmpl"></fdz-detail>
+          template-url="scripts/surveymanagement/templates/dp-attachments.html.tmpl"></fdz-detail>
       </div>
     </div>
   </div>

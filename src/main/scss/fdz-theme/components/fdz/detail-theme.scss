@@ -130,7 +130,7 @@ $card-border-radius: 2px !default;
   }
 
   .fdz-theme .fdz-detail .fdz-attachment {
-    padding: 16px 0;
+    padding: 8px 0;
 
     .fdz-table-wide,
     .fdz-table-rotated {
@@ -152,18 +152,6 @@ $card-border-radius: 2px !default;
           }
         }
       }
-    }
-  }
-
-  .fdz-detail-search-container {
-    .fdz-detail-search-item-container > * .fdz-search-result {
-      border-bottom-width: 1px;
-      border-bottom-style: solid;
-      border-bottom-color: $foreground-4;
-    }
-
-    .fdz-detail-search-item-container > *:last-child .fdz-search-result {
-      border: none;
     }
   }
 

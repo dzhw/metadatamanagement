@@ -16,6 +16,9 @@
 .fdz-theme .pa0 {
   padding: 0; }
 
+.fdz-theme .pa8 {
+  padding: 8px; }
+
 .fdz-theme .pv0 {
   padding-top: 0;
   padding-bottom: 0; }
@@ -1520,6 +1523,8 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 .fdz-navbar-menu {
   width: 100%; }
+  .fdz-navbar-menu a {
+    color: black; }
 
 .fdz-navbar-menu-accent {
   width: 100%; }
@@ -1756,7 +1761,7 @@ fdz-breadcrumbs {
 
 .fdz-breadcrumbs {
   display: flex;
-  margin: 16px 8px 8px 8px;
+  margin: 16px 8px 16px 8px;
   width: 100%; }
   @media (min-width: 600px) {
     .fdz-breadcrumbs {
@@ -1770,10 +1775,10 @@ fdz-breadcrumbs {
   padding: 4px; }
   @media (min-width: 600px) {
     .fdz-theme .fdz-search {
-      margin: 16px 16px 8px 16px; } }
+      margin: 24px 16px 8px 16px; } }
   @media (min-width: 959px) {
     .fdz-theme .fdz-search {
-      margin: 24px 24px 8px 24px; } }
+      margin: 24px 24px 0 24px; } }
   .fdz-theme .fdz-search md-input-container.fdz-search__input {
     display: flex;
     align-items: center;
@@ -1954,7 +1959,7 @@ md-input-container label {
       padding-top: 8px; } }
 
 .fdz-theme .fdz-theme .fdz-detail .fdz-attachment {
-  padding: 16px 0; }
+  padding: 8px 0; }
   .fdz-theme .fdz-theme .fdz-detail .fdz-attachment .fdz-table-wide,
   .fdz-theme .fdz-theme .fdz-detail .fdz-attachment .fdz-table-rotated {
     margin: 0; }
@@ -1965,14 +1970,6 @@ md-input-container label {
   @media (min-width: 700px) {
     .fdz-theme .fdz-detail md-card md-card-content > p {
       columns: 2; } }
-
-.fdz-theme .fdz-detail-search-container .fdz-detail-search-item-container > * .fdz-search-result {
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: rgba(0, 0, 0, 0.12); }
-
-.fdz-theme .fdz-detail-search-container .fdz-detail-search-item-container > *:last-child .fdz-search-result {
-  border: none; }
 
 .fdz-theme survey-search-result md-card-content > div > div,
 .fdz-theme dataset-search-result md-card-content > div > div {
@@ -2258,13 +2255,16 @@ tr:focus {
       @media (min-width: 600px) {
         .fdz-theme .fdz-data-packet md-card-header .title {
           font-size: 18px; } }
+  .fdz-theme .fdz-data-packet md-list {
+    padding: 0; }
   .fdz-theme .fdz-data-packet md-list-item,
   .fdz-theme .fdz-data-packet md-list-item::before {
     min-height: auto; }
   .fdz-theme .fdz-data-packet md-list-item {
     padding: 0;
     flex-flow: column;
-    align-items: flex-start; }
+    align-items: flex-start;
+    margin-bottom: 8px; }
     .fdz-theme .fdz-data-packet md-list-item md-select {
       margin: 0;
       width: 100%; }
@@ -2391,3 +2391,41 @@ md-dialog .fdz-fab-button-container {
 
 .fdz-odd-row {
   background-color: #f9f9f9; }
+
+.fdz-theme .fdz-metadata-type-state-card {
+  padding: 8px;
+  display: block;
+  min-width: 30%; }
+  @media screen and (max-width: 1600px) {
+    .fdz-theme .fdz-metadata-type-state-card {
+      min-width: 45%; } }
+  .fdz-theme .fdz-metadata-type-state-card md-card-header,
+  .fdz-theme .fdz-metadata-type-state-card md-card-header-text {
+    justify-content: space-between; }
+  .fdz-theme .fdz-metadata-type-state-card .md-button {
+    min-width: 88px; }
+
+.fdz-theme .fdz-metadata-type-state-card.ng-hide:not(.ng-hide-animate) {
+  visibility: hidden;
+  opacity: 0;
+  display: inherit !important; }
+
+project-cockpit-status {
+  display: block; }
+  @media screen and (max-width: 960px) {
+    project-cockpit-status {
+      margin-bottom: 150px; } }
+
+project-status-badge,
+release-status-badge {
+  display: inline-block; }
+
+project-status-badge > span, release-status-badge > span {
+  font-size: 1em !important; }
+
+.fdz-project-user-list + md-list md-list-item {
+  background: white;
+  animation: fade-highlight 1s ease-out; }
+
+.fdz-project-status-overview-metadata-status-table-cell {
+  min-height: 28px; }
