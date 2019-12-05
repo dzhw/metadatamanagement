@@ -1,5 +1,4 @@
 <md-card>
-<md-divider></md-divider>
   <md-card-header>
     <md-card-header-text>
       <h2 class="md-title">{{'question-management.detail.images-for-question' | translate }}</h2>
@@ -13,7 +12,7 @@
     </md-button>
   </md-card-header>
   <div ng-if="!$ctrl.collapsed">
-    <md-card-content read-element-size style="padding: 0px;">
+    <md-card-content read-element-size class="pa0">
       <div class="fdz-overlay-outer-box">
         <div class="fdz-overlay-inner-box-top"
              ng-if="$ctrl.options.imageLanguages.length > 1"
@@ -69,13 +68,13 @@
         ng-if="$ctrl.options.question.instrument.type != 'PAPI' || $ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].containsAnnotations">
         <div class="fdz-text-block mt16" ng-class="{'fdz-add-bottom-margin': $ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].containsAnnotations}"
              ng-if="$ctrl.options.question.instrument.type != 'PAPI'">
-          <span style="font-weight: bold;">{{'question-management.detail.label.resolution' | translate }}: </span>
+          <span class="b">{{'question-management.detail.label.resolution' | translate }}: </span>
           <span ng-if="$ctrl.options.currentImageIndex < $ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage].length">{{$ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].resolution.widthX}} x {{$ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].resolution.heightY}}</span>
         </div>
         <div
           class="fdz-text-block"
           ng-if="$ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].containsAnnotations">
-          <span style="font-weight: bold;">{{'question-management.detail.label.note' | translate }}: </span>
+          <span class="b">{{'question-management.detail.label.note' | translate }}: </span>
           <span>{{'question-management.detail.label.has-annotations' | translate }}</span>
         </div>
       </md-card-content>

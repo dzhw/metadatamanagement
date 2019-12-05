@@ -9,33 +9,47 @@
             translate}} {{ctrl.question.number}}: <span display-i18n-string="ctrl.instrument.description"
                                                         fdz-hyphenate
                                                         ng-if='ctrl.instrument'></span></h1>
+          <json-content-dialog
+            class="mb0"
+            content="ctrl.question"
+            exclude-fields="ctrl.jsonExcludes"
+            header-title="ctrl.instrument ? ctrl.instrument.description : ''"
+            ng-if="ctrl.enableJsonView">
+          </json-content-dialog>
         </div>
+        <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.question"
           template-url="scripts/questionmanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
           id="ctrl.question.id"
           template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+        <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
           template-url="scripts/questionmanagement/templates/dp-image.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.predecessors"
           template-url="scripts/questionmanagement/templates/dp-prev-question.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.successors"
           template-url="scripts/questionmanagement/templates/dp-next-question.html.tmpl"></fdz-detail>
+        <md-divider
+          ng-if="ctrl.question.technicalRepresentation"></md-divider>
         <fdz-detail
           ng-if="ctrl.question.technicalRepresentation"
           collapsed="false"

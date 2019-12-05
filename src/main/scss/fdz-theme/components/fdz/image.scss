@@ -1,0 +1,18 @@
+// Structure for image in details views (dp-image.html.tmpl)
+.fdz-overlay-outer-box {
+  width: 100%;
+  display: block;
+  position: relative;
+}
+
+.fdz-overlay-outer-box .fdz-overlay-inner-box-top {
+  top: 0;
+  right: 0;
+  position: absolute;
+}
+
+.fdz-overlay-outer-box .fdz-overlay-inner-box-bottom {
+  bottom: 0;
+  right: 0;
+  position: absolute;
+}

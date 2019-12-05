@@ -6,18 +6,24 @@
       <div class="fdz-detail">
         <div class="fdz-detail__header">
           <h1 class="md-headline" display-i18n-string="ctrl.instrument.title" fdz-hyphenate></h1>
+          <json-content-dialog class="mb0" content="ctrl.instrument"
+                               exclude-fields="ctrl.jsonExcludes" header-title="ctrl.instrument.description"
+                               ng-if="ctrl.enableJsonView"></json-content-dialog>
         </div>
+        <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.instrument"
           template-url="scripts/instrumentmanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
           id="ctrl.instrument.id"
           template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+        <md-divider></md-divider>
         <fdz-detail
           ng-if="ctrl.attachments"
           collapsed="false"

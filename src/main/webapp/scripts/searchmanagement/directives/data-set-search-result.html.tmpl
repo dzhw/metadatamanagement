@@ -17,9 +17,9 @@
   <md-card-content>
     <div layout="column" layout-gt-sm="row">
       <div flex-gt-sm="50" layout="column"
-           ng-class="{'fdz-add-right-margin': addMargin, 'fdz-add-bottom-margin': !addMargin}">
+           ng-class="{'mr10': !addMargin, 'fdz-add-bottom-margin': !addMargin}">
         <span
-          style="font-weight: bold;">{{'study-management.detail.label.data-set.surveyed-in' | translate}}:&nbsp;</span>
+          class="b">{{'study-management.detail.label.data-set.surveyed-in' | translate}}:&nbsp;</span>
         <div layout="column">
           <div class="fdz-truncate-string" ng-repeat="survey in searchResult.surveys">
             <span display-i18n-string="survey.title"></span>
@@ -28,11 +28,11 @@
       </div>
       <div flex-gt-sm="50" layout="column">
         <div ng-class="{'fdz-add-bottom-margin': !addMargin}" ng-if="searchResult.accessWays">
-          <span style="font-weight: bold;">{{'study-management.detail.label.data-set.accessWays' | translate }}:</span>
+          <span class="b">{{'study-management.detail.label.data-set.accessWays' | translate }}:</span>
           <span>{{searchResult.accessWays.join(', ')}}</span>
         </div>
         <div ng-if="searchResult.maxNumberOfObservations">
-          <span style="font-weight: bold;">{{(searchResult.type.en !== 'Spell Data'?'study-management.detail.label.data-set.maxNumberOfObservations':'study-management.detail.label.data-set.maxNumberOfEpisodes')| translate }} <span
+          <span class="b">{{(searchResult.type.en !== 'Spell Data'?'study-management.detail.label.data-set.maxNumberOfObservations':'study-management.detail.label.data-set.maxNumberOfEpisodes')| translate }} <span
             katex>(max)</span>:&nbsp;</span>
           <span>{{searchResult.maxNumberOfObservations | number: 0}}</span>
         </div>
@@ -43,7 +43,7 @@
     data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
     ng-if="!projectIsCurrentlyReleased">
     <md-button
-      class="md-primary"
+      class="md-primary md-small"
       ng-click="dataSetEdit({id: searchResult.id})">
       <md-tooltip
         md-autohide="true"
@@ -51,10 +51,10 @@
         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.buttons.edit-data-set-tooltip' | translate}}
       </md-tooltip>
-      <md-icon md-font-set="material-icons">mode_edit</md-icon>
+      {{'global.entity.action.edit' | translate}}
     </md-button>
     <md-button
-      class="md-primary"
+      class="md-primary md-small"
       ng-click="deleteDataSet(searchResult.id)">
       <md-tooltip
         md-autohide="true"
@@ -62,7 +62,7 @@
         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.buttons.delete-data-set-tooltip' | translate}}
       </md-tooltip>
-      <md-icon md-font-set="material-icons">delete_forever</md-icon>
+      {{'global.entity.action.delete' | translate}}
     </md-button>
   </md-card-actions>
 </md-card>

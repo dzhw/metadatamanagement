@@ -1,5 +1,4 @@
 <md-card>
-<md-divider></md-divider>
   <md-card-header>
     <md-card-header-text>
       <h2 class="md-title">{{'question-management.detail.predecessors' | translate | fdzHyphenate }}</h2>
@@ -14,7 +13,7 @@
   </md-card-header>
   <div ng-if="!$ctrl.collapsed">
     <md-card-content class="fdz-questions">
-      <div ng-repeat="predecessor in $ctrl.options" style="width: 100%;" class="questions">
+      <div ng-repeat="predecessor in $ctrl.options" class="questions w-100">
         <question-search-result bowser="bowser" current-language="$ctrl.lang"
                                 search-result="predecessor._source"></question-search-result>
       </div>

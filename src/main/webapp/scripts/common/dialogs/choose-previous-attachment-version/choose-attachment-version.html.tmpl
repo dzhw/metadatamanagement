@@ -13,9 +13,9 @@
         </div>
     </md-toolbar>
   <md-divider></md-divider>
-    <md-dialog-content layout-padding flex layout="column" style="-ms-flex: auto;">
-        <p ng-if="attachments && attachments.length > 0" style="margin: 0px;">{{'choose-previous-attachment-version.text' | translate:translationParams }}</p>
-        <table md-autofocus fdz-table ng-if="attachments && attachments.length > 0" style="width: 100%; -ms-flex: auto;" flex>
+    <md-dialog-content layout-padding flex layout="column" class="ms-flex">
+        <p ng-if="attachments && attachments.length > 0" class="ma0">{{'choose-previous-attachment-version.text' | translate:translationParams }}</p>
+        <table md-autofocus fdz-table ng-if="attachments && attachments.length > 0" class="w-100 ms-flex" flex>
             <thead>
             <tr>
                 <th style="max-width: 600px;">{{'choose-previous-attachment-version.attachment-description' | translate }}

@@ -14,8 +14,8 @@
     </md-toolbar>
   <md-divider></md-divider>
     <md-dialog-content layout-padding flex layout="column" style="-ms-flex: auto;">
-        <p ng-if="versions && versions.length > 0" style="margin: 0px;">{{labels.text.key | translate:labels.text.params }}</p>
-        <table md-autofocus fdz-table ng-if="versions && versions.length > 0" style="width: 100%; -ms-flex: auto;" flex>
+        <p ng-if="versions && versions.length > 0" class="ma0">{{labels.text.key | translate:labels.text.params }}</p>
+        <table md-autofocus fdz-table ng-if="versions && versions.length > 0" class="w-100 ms-flex" flex>
             <thead>
                 <tr>
                     <th style="max-width: 600px;">{{'choose-previous-version.' + versionLabelAttribute | translate}}

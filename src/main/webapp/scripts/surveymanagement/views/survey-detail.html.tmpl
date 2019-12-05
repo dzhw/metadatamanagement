@@ -6,23 +6,30 @@
       <div class="fdz-detail">
         <div class="fdz-detail__header">
           <h1 class="md-headline" display-i18n-string="ctrl.survey.title" fdz-hyphenate></h1>
+          <json-content-dialog class="mb0" content="ctrl.survey" exclude-fields="ctrl.jsonExcludes"
+                               header-title="ctrl.survey.title" ng-if="ctrl.enableJsonView"></json-content-dialog>
         </div>
+        <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
           template-url="scripts/surveymanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
           id="ctrl.survey.id"
           template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+        <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
           template-url="scripts/surveymanagement/templates/dp-response-rate-image.html.tmpl"></fdz-detail>
+        <md-divider
+          ng-if="ctrl.attachments && ctrl.attachments.length > 0"></md-divider>
         <fdz-detail
           ng-if="ctrl.attachments && ctrl.attachments.length > 0"
           collapsed="false"

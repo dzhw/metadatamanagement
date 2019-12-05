@@ -28,9 +28,9 @@
 		</md-not-found>
 	</md-autocomplete>
 
-	<md-list ng-if="ctrl.activeUsers && ctrl.activeUsers.length" style="padding: 0px;">
+	<md-list ng-if="ctrl.activeUsers && ctrl.activeUsers.length" class="pa0">
 		<div ng-repeat="user in ctrl.activeUsers">
-			<md-list-item layout="row" style="padding-right: 0px;">
+			<md-list-item layout="row" class="pr0">
 				<div class="md-list-item-text">
 					<strong>{{user.login}}</strong> (<a href="mailto:{{user.email}}">{{user.email}}</a>)
 				</div>

@@ -1,9 +1,9 @@
-<md-toolbar class="" md-whiteframe="1">
+<md-toolbar md-whiteframe="1">
   <div class="ribbon md-body-2"
        ng-cloak ng-show="{{ENV === 'local' || ENV === 'dev' || ENV === 'test'}}" style="z-index: 999">{{ENV}}
   </div>
 
-  <nav class="fdz-nav md-toolbar-tools" layout="row">
+  <nav class="md-toolbar-tools" layout="row">
     <div>
       <md-button class="md-icon-button fdz-secondary" hide-gt-md
                  ng-click="toggleLeft()">
@@ -19,7 +19,6 @@
                  ng-click="resetQuery()">
         <img alt="{{'global.rdc-alt-text'|translate}}"
              src="assets/images/FDZ_Logo_With_Mag.svg">
-        <span class="fdz-logo-text">fdz.DZHW</span>
         <md-tooltip md-autohide="true" md-direction="right"
                     md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'global.menu.back-to-search'|translate}}
@@ -31,7 +30,7 @@
         class="md-icon-button"
         id="changeLanguageToEn"
         lang="en"
-        ng-click="changeLanguage('en')"
+        ng-click="resetFilter();changeLanguage('en')"
         ng-if="currentLanguage!='en'">
         <span>EN</span>
         <md-tooltip md-autohide="true" md-direction="left"

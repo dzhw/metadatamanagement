@@ -16,42 +16,16 @@ $state-warning-bg: #FDECD3 !default;
 $state-warning-border: $brand-warning !default;
 $state-danger-text: $brand-danger !default;
 $state-danger-bg: #F5D0D0 !default;
-$state-danger-border: $brand-danger !default; // bower:scss
+$state-danger-border: $brand-danger !default;
+// bower:scss
  @import "../../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
- // endbower
-h1,
-h2,
-h3 {
-    margin: 0;
-}
+// endbower
+
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     img[src$=".svg"] {
         width: 100%;
     }
 }
-html, body {
-  overflow: hidden;
-}
-
-body {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    z-index: 0;
-    background-color: rgb(250,250,250);
-}
-
-ui-view:focus {
-    outline: none;
-}
-
-.ng-cloak,
-.x-ng-cloak,
-[data-ng-cloak],
-[ng-cloak],
-[ng\:cloak],
-[x-ng-cloak] {
-    display: none !important;
-}
-
 
 .fdz-block-ui-overlay {
     width: 100%;
@@ -69,22 +43,6 @@ ui-view:focus {
     }
 }
 
-.dzhw_logo {
-    width: 100%;
-    height: 90px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.bmbf_logo {
-    width: 100%;
-    height: 150px;
-    padding: 8px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
 
 .saucelabs_logo {
     width: 100%;
@@ -95,34 +53,9 @@ ui-view:focus {
 }
 
 
-
-.browserupgrade {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
-}
-
-.hero-unit {
-    margin: 50px auto 0;
-    width: 300px;
-    font-size: 18px;
-    font-weight: 200;
-    line-height: 30px;
-    background-color: #eee;
-    border-radius: 6px;
-    padding: 60px;
-}
-
-.hero-unit h1 {
-    font-size: 60px;
-    line-height: 1;
-    letter-spacing: -1px;
-}
-
 .error {
-    color: white;
-    background-color: #C91630;
+    color: $state-warning-bg;
+    background-color: $brand-danger;
 }
 
 .hipster {
@@ -133,9 +66,7 @@ ui-view:focus {
     background-size: contain;
 }
 
-.pad {
-    padding: 10px;
-}
+
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
     .hipster {
@@ -143,34 +74,9 @@ ui-view:focus {
         background-size: contain;
     }
 }
-/* make sure browsers use the pointer cursor for anchors, even with no href */
-a:hover {
-    cursor: pointer;
-}
 
-.hand {
-    cursor: pointer;
-}
 
-#healthCheck .popover,
-#threadDump .popover {
-    top: inherit;
-    display: block;
-    font-size: 10px;
-    max-width: 1024px;
-}
 
-#healthCheck .popover {
-    margin-left: -50px;
-}
-
-.health-details {
-    min-width: 400px;
-}
-
-.alert .popover pre {
-    font-size: 10px;
-}
 /* start Password strength bar style */
 ul#strength {
     display: inline;
@@ -179,20 +85,8 @@ ul#strength {
     padding: 0;
     vertical-align: 2px;
 }
-
-.point:last {
-    margin: 0 !important;
-}
-
-.point {
-    background: #DDD;
-    border-radius: 2px;
-    display: inline-block;
-    height: 5px;
-    margin-right: 1px;
-    width: 20px;
-}
 /* end Password strength bar style */
+
 /* Custom alerts for notification */
 .alerts .alert {
     text-overflow: ellipsis;
@@ -207,6 +101,7 @@ ul#strength {
     margin: 0;
 }
 /* end of Custom alerts for notification */
+
 /* disable links */
 .inactive {
     pointer-events: none;
@@ -225,25 +120,13 @@ project-cockpit-status {
     }
 }
 
-//.fdz-metadata-type-state-card {
-//    padding-bottom: 2px;
-//    display: block;
-//    min-width: 30%;
-//    @media screen and (max-width: 1600px) {
-//        min-width: 45%
-//    }
-//}
-
 .fdz-metadata-type-state-card.ng-hide:not(.ng-hide-animate) {
     visibility: hidden;
     opacity: 0;
     display: inherit!important;
 }
 
-project-status-badge {
-    display: inline-block;
-}
-
+project-status-badge,
 release-status-badge {
     display: inline-block;
 }
@@ -251,86 +134,6 @@ release-status-badge {
 project-status-badge > span, release-status-badge > span {
     font-size: 1em !important;
 }
-
-//.fdz-released {
-//    color: #FFFFFF;
-//    background-color: #00CC66;
-//}
-//
-//.fdz-unreleased {
-//    background-color: $brand-danger;
-//}
-//
-//.fdz-welcome-dialog-image {
-//    display: block;
-//    margin: auto;
-//    border: 2px solid $brand-primary;
-//}
-//
-//@keyframes fade-highlight {
-//    0% {
-//        background: lighten($brand-primary, 50%);
-//    }
-//    100% {
-//        background: white;
-//    }
-//}
-//.fdz-project-user-list + md-list md-list-item {
-//    background: white;
-//    animation: fade-highlight 1s ease-out;
-//}
-//
-//.fdz-project-status-overview-metadata-status-table-cell {
-//    min-height: 28px;
-//}
-//
-//.fdz-tag-link-container {
-//    a {
-//      font-weight: normal;
-//      min-height: auto;
-//      min-width: auto;
-//      padding: 0.2em 0.6em;
-//      font-size: 100%!important;
-//      &:not(:last-child) {
-//        margin-right: 8px;
-//      }
-//    }
-//}
-//
-//geographic-coverage-list {
-//    display: block;
-//
-//    md-card-content {
-//        padding: 0;
-//    }
-//
-//    ul {
-//        padding: 0;
-//        margin: 0;
-//        list-style: none;
-//    }
-//}
-//
-//geographic-coverage {
-//    display: block;
-//}
-//
-//.fdz-error {
-//    color: $brand-danger;
-//}
-//
-//.fdz-plain-list {
-//    list-style: none;
-//    padding: 0;
-//    li {
-//        margin: 0;
-//
-//    }
-//}
-//
-//.fdz-odd-row {
-//    background-color: #f9f9f9;
-//}
 
 .egg-confused {
     position: absolute;
@@ -362,10 +165,242 @@ project-status-badge > span, release-status-badge > span {
     }
 }
 
-//.md-button[disabled] {
-//    pointer-events: none;
-//}
 
-.fdz-paginator__select {
-    margin-bottom: 2px;
+.fdz-log-error-text {
+  color: $brand-danger;
 }
+
+.fdz-log-warning-text {
+  color: $brand-warning;
+}
+
+
+.md-table-pagination div div.label {
+  color: #757575;
+}
+
+
+.fdz-file-drop-accept {
+  background-color: $brand-success !important;
+}
+
+.fdz-file-drop-reject {
+  background-color: $brand-danger !important;
+}
+
+.fdz-released {
+  color: $brand-success;
+}
+
+.fdz-not-released {
+  color: $brand-danger;
+}
+
+.fdz-bootstrap-headline,
+md-dialog h2 {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.fdz-add-bottom-margin {
+  margin-bottom: 0.5em;
+}
+
+
+
+.js-plotly-plot .plotly .modebar {
+  z-index: 50 !important;
+}
+
+.fdz-content:focus {
+  background-color: rgba(158, 158, 158, 0.2) !important;
+  border: 1px solid $brand-warning !important;
+}
+
+
+
+
+.fdz-input-hint {
+  /* Position the hint */
+  position: relative;
+  clear: left;
+  padding-top: 5px;
+  /* Copy styles from ng-messages */
+  font-size: 12px;
+  line-height: 14px;
+  /* Set our own color */
+  color: grey;
+}
+
+.fdz-input-required:after {
+  content: ' *';
+  font-size: 13px;
+  vertical-align: top;
+}
+
+.md-input-focused .fdz-input-required:after {
+  color: $brand-danger;
+}
+
+.fdz-current-version {
+  background-color: $brand-success;
+  color: white;
+}
+
+.fdz-current-version:hover {
+  background-color: $brand-success !important;
+  opacity: 0.5;
+}
+
+.fdz-deleted-version {
+  background-color: $brand-danger;
+  color: white;
+  cursor: default;
+}
+
+.fdz-deleted-version:hover {
+  background-color: $brand-danger !important;
+  opacity: 0.5;
+}
+
+.md-dialog-backdrop {
+  z-index: 78;
+}
+
+.md-dialog-backdrop ~ .md-dialog-backdrop {
+  z-index: 79;
+}
+
+md-backdrop.md-dialog-backdrop {
+  z-index: 78;
+}
+
+.md-dialog-container {
+  z-index: 78;
+}
+
+.md-dialog-container ~ .md-dialog-container {
+  z-index: 80;
+}
+
+.jk-carousel .md-icon-button md-icon {
+  color: rgba(0,0,0,0.54) !important;
+}
+
+.jk-carousel .radio-buttons-container md-radio-button .md-off {
+  border-color: rgba(0,0,0,0.54) !important;
+}
+
+.highlight {
+  background-color: $brand-warning;
+  color: black !important;
+}
+
+.fdz-splash .fdz-bootstrap-error {
+  display: none;
+}
+
+@keyframes blinker {
+  0% {
+    opacity: 0;
+  }
+}
+
+.alert.alert-warning, .alert.alert-warning .alert-link,
+.alert.alert-danger, .alert.alert-danger .alert-link,
+.alert.alert-success, .alert.alert-success .alert-link {
+  color: black;
+}
+
+@media screen and (max-width: 1280px) {
+  ::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(247, 168, 57, 1);
+    min-height: 2em;
+    border-radius: 8px;
+  }
+
+  md-content, .md-virtual-repeat-scroller, tbody {
+    //overflow: overlay;
+  }
+}
+
+.md-chips-messages {
+  color: rgb(201,22,48);
+  position: relative;
+  order: 4;
+  overflow: hidden;
+}
+
+.md-chips-messages [ng-message] {
+  font-size: 12px;
+  line-height: 14px;
+  overflow: hidden;
+  margin-top: 0;
+  padding-top: 5px;
+}
+
+.fdz-no-select {
+  user-select: none;
+}
+
+.fdz-fullscreen-dialog {
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+.fdz-metadata-type-state-card {
+  padding-bottom: 2px;
+  display: block;
+  min-width: 30%;
+  @media screen and (max-width: 1600px) {
+    min-width: 45%
+  }
+}
+
+.fdz-released {
+  color: #FFFFFF;
+  background-color: #00CC66;
+}
+
+.fdz-unreleased {
+  background-color: $brand-danger;
+}
+
+.fdz-welcome-dialog-image {
+  display: block;
+  margin: auto;
+  border: 2px solid $brand-primary;
+}
+
+@keyframes fade-highlight {
+  0% {
+    background: lighten($brand-primary, 50%);
+  }
+  100% {
+    background: white;
+  }
+}
+.fdz-project-user-list + md-list md-list-item {
+  background: white;
+  animation: fade-highlight 1s ease-out;
+}
+
+.fdz-project-status-overview-metadata-status-table-cell {
+  min-height: 28px;
+}
+
+.fdz-error {
+  color: $brand-danger;
+}
+
+
+
+

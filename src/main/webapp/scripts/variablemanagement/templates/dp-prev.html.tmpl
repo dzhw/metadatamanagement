@@ -1,5 +1,4 @@
 <md-card>
-<md-divider></md-divider>
   <md-card-header>
     <md-card-header-text>
       <h2 class="md-title">{{'variable-management.detail.previous-variable-in-data-set' | translate | fdzHyphenate }}</h2>
@@ -14,7 +13,7 @@
   </md-card-header>
   <div ng-if="!$ctrl.collapsed">
     <md-card-content>
-      <div ng-repeat="next in $ctrl.options" style="width: 100%;" class="questions">
+      <div ng-repeat="next in $ctrl.options" class="questions w-100">
         <variable-search-result bowser="bowser" current-language="$ctrl.lang"
                                 search-result="next._source"></variable-search-result>
       </div>

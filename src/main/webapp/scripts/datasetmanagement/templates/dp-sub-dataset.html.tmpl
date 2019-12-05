@@ -1,5 +1,4 @@
 <md-card>
-<md-divider></md-divider>
   <md-card-header>
     <md-card-header-text>
       <h2 class="md-title">{{'data-set-management.detail.sub-data-sets.title' | translate }}</h2>
@@ -69,34 +68,18 @@
           <div class="fdz-truncate-string" ng-if="$ctrl.options.counts.variablesCount == 0">
             {{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}
           </div>
-          <div ng-if="$ctrl.options.counts.variablesCount == 1 && $ctrl.options.variable">
-            <a ui-sref="variableDetail({'id': $ctrl.options.variable.id})">
-              {{$ctrl.options.counts.variablesCount}}
-              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'data-set-management.detail.tooltips.variables.one' | translate}}
-              </md-tooltip>
-            </a>
-          </div>
-          <div ng-if="$ctrl.options.counts.variablesCount > 1">
-            <a ui-sref="search({'type': 'variables', 'data-set': $ctrl.options.dataSet.id, 'study': $ctrl.options.dataSet.studyId})">
+          <div ng-if="$ctrl.options.counts.variablesCount > 0">
+            <span>
               {{$ctrl.options.counts.variablesCount| number: 0}}
-              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'data-set-management.detail.tooltips.variables.many' | translate}}
-              </md-tooltip>
-            </a>
+            </span>
           </div>
         </td>
-        <td ng-class="{'fdz-table-number' : $ctrl.options.counts[row.name] > 0}"><span ng-if="$ctrl.options.counts[row.name] == 0">{{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}</span>
-          <a ng-if="$ctrl.options.counts[row.name] > 0"
-             ui-sref="search({'type': 'variables', 'data-set':$ctrl.options.dataSet.id, 'study': $ctrl.options.dataSet.studyId, 'access-way': row.accessWay})">
-            {{$ctrl.options.counts[row.name] | number: 0}}&nbsp;<md-tooltip md-autohide="true"
-                                                                   md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-            {{'data-set-management.detail.label.sub-data-sets.numberOfAnalyzedVariables-tooltip' | translate}}
-          </md-tooltip>
-          </a>
+        <td ng-class="{'fdz-table-number' : $ctrl.options.counts[row.name] > 0}">
+          <span ng-if="$ctrl.options.counts[row.name] == 0">{{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}</span>
+          <span ng-if="$ctrl.options.counts[row.name] > 0">{{$ctrl.options.counts[row.name] | number: 0}}&nbsp;</span>
         </td>
         <td class="fdz-table-number">{{row.numberOfObservations | number: 0}}&nbsp;</td>
-        <td style="padding-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
+        <td class="pv0 mb0">
           <md-button class="md-icon-button md-primary" ng-click="$ctrl.options.openDialog(row, $event)"
                      ng-disabled="!row.citationHint">
             <md-icon md-svg-icon="assets/images/icons/citate.svg"></md-icon>

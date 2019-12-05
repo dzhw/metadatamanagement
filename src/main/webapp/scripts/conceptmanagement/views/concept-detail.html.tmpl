@@ -5,30 +5,60 @@
     <div>
       <div class="fdz-detail">
         <div class="fdz-detail__header">
-          <h1 class="md-headline" display-i18n-string="ctrl.concept.title" fdz-hyphenate></h1>
+          <div class="fdz-detail__header-text">
+            <h1 class="md-headline" display-i18n-string="ctrl.concept.title" fdz-hyphenate></h1>
+            <json-content-dialog class="mb0" content="ctrl.concept" exclude-fields="ctrl.jsonExcludes"
+                                 header-title="ctrl.concept.title" ng-if="ctrl.enableJsonView"></json-content-dialog>
+          </div>
+          <div class="fdz-tag-link-container" ng-if="ctrl.conceptTags.length > 0">
+            <h5>{{'study-management.detail.label.tags' | translate}}: </h5>
+            <a ng-repeat="tag in ctrl.conceptTags"
+               ng-if="ctrl.concept.isAuthenticated"
+               ui-sref="search({type: 'concepts', 'query': tag})">
+              <span>{{tag}}{{!$last?',&nbsp;':''}}</span>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'study-management.detail.tag-tooltip' | translate}}
+              </md-tooltip>
+            </a>
+            <a ng-repeat="tag in ctrl.conceptTags"
+               ng-if="!ctrl.concept.isAuthenticated"
+               ui-sref="search({type: 'concepts', 'tags': tag})">
+              <span>{{tag}}{{!$last?',&nbsp;':''}}</span>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'study-management.detail.tag-tooltip' | translate}}
+              </md-tooltip>
+            </a>
+          </div>
         </div>
+        <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.concept"
           template-url="scripts/conceptmanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
           id="ctrl.concept.id"
           template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+        <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.concept.description"
           template-url="scripts/conceptmanagement/templates/dp-description.html.tmpl"></fdz-detail>
+        <md-divider
+          ng-if="ctrl.attachments && ctrl.attachments.length > 0"></md-divider>
         <fdz-detail
           ng-if="ctrl.attachments && ctrl.attachments.length > 0"
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.attachments"
           template-url="scripts/conceptmanagement/templates/dp-attachments.html.tmpl"></fdz-detail>
+        <md-divider
+          ng-if="ctrl.concept.license"></md-divider>
         <fdz-detail
           ng-if="ctrl.concept.license"
           collapsed="false"
@@ -37,5 +67,13 @@
           template-url="scripts/conceptmanagement/templates/dp-license.html.tmpl"></fdz-detail>
       </div>
     </div>
+  </div>
+  <div class="fdz-fab-button-container" layout="column">
+    <md-button class="md-fab md-raised md-accent" data-has-authority="ROLE_PUBLISHER" ng-click="ctrl.conceptEdit()">
+      <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'search-management.buttons.edit-concept-tooltip' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">mode_edit</md-icon>
+    </md-button>
   </div>
 </div>

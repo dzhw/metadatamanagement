@@ -1,7 +1,7 @@
 <div class="fdz-cc">
   <form name="dataSetForm">
     <div ng-if="ctrl.dataSet.id">
-      <div layout="row" layout-margin style="margin-bottom: 0px;">
+      <div layout="row" layout-margin class="mb0">
         <h1 class="md-headline" ng-if="ctrl.createMode">
           {{'data-set-management.edit.label.create-data-set' | translate}} <span
           class="label label-as-badge label-default">{{ctrl.dataSet.id}}</span></h1>
@@ -18,8 +18,8 @@
         <md-divider></md-divider>
         <md-card-content>
           <div layout="column" layout-gt-sm="row">
-            <md-input-container flex="50" md-is-error="!dataSetForm.descriptionDe.$valid && (dataSetForm.descriptionDe.$dirty || dataSetForm.descriptionDe.$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
-                                style="-ms-flex:auto">
+            <md-input-container flex="50" md-is-error="!dataSetForm.descriptionDe.$valid && (dataSetForm.descriptionDe.$dirty || dataSetForm.descriptionDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
+                                class="ms-flex">
               <label class="fdz-input-required">{{'data-set-management.detail.label.description' | translate}}
                 ({{'global.in-german' | translate}})</label>
               <input fdz-required="!ctrl.dataSet.description.en" lang="de"
@@ -37,7 +37,7 @@
               </div>
             </md-input-container>
             <md-input-container flex="50" md-is-error="!dataSetForm.descriptionEn.$valid && (dataSetForm.descriptionEn.$dirty || dataSetForm.descriptionEn.$touched)"
-                                style="-ms-flex:auto">
+                                class="ms-flex">
               <label class="fdz-input-required">{{'data-set-management.detail.label.description' | translate}}
                 ({{'global.in-english' | translate}})</label>
               <input fdz-required="!ctrl.dataSet.description.de" lang="en"
@@ -57,7 +57,7 @@
           </div>
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!dataSetForm.format.$valid && (dataSetForm.format.$dirty || dataSetForm.format.$touched)"
-                                style="-ms-flex:auto">
+                                class="ms-flex">
               <label>{{'data-set-management.detail.label.format' | translate}}</label>
               <md-select name="format" ng-model="ctrl.dataSet.format" ng-model-options="{trackBy: '$value.de'}">
                 <md-option ng-repeat="format in ctrl.formats" ng-value="format">{{format[currentLanguage]}}</md-option>
@@ -70,9 +70,9 @@
             </md-input-container>
             <div flex="50"></div>
           </div>
-          <div layout="column" layout-gt-sm="row" style="-ms-flex:auto">
+          <div layout="column" layout-gt-sm="row" class="ms-flex">
             <md-input-container flex="50" md-is-error="!dataSetForm.type.$valid && (dataSetForm.type.$dirty || dataSetForm.type.$touched)"
-                                style="-ms-flex:auto">
+                                class="ms-flex">
               <label>{{'data-set-management.detail.label.type' | translate}}</label>
               <md-select name="type" ng-model="ctrl.dataSet.type" ng-model-options="{trackBy: '$value.de'}" required>
                 <md-option ng-repeat="type in ctrl.types" ng-value="type">{{type[currentLanguage]}}</md-option>
@@ -87,7 +87,7 @@
             <div flex="50"></div>
           </div>
           <div layout="column" layout-gt-sm="row">
-            <div flex="50" style="-ms-flex:auto">
+            <div flex="50" class="ms-flex">
               <label style="color: rgba(0,0,0,0.38); margin: 0px;">{{'data-set-management.edit.label.surveys' |
                 translate}}</label>
               <md-chips md-autocomplete-snap="width" md-require-match="true" md-transform-chip="ctrl.transformChip($chip)"
@@ -96,7 +96,7 @@
                 <md-autocomplete flex md-delay="250" md-items="item in ctrl.searchSurveys(ctrl.searchText)" md-min-length="0" md-no-cache="true"
                                  md-search-text="ctrl.searchText" md-selected-item="ctrl.selectedItem"
                                  placeholder="{{'data-set-management.edit.hints.search-surveys' | translate}}"
-                                 style="-ms-flex:auto">
+                                 class="ms-flex">
                   <md-item-template>
                             <span class="item-title fdz-truncate-string">
                               <span class="label label-as-badge label-default" md-highlight-flags="ig"
@@ -126,8 +126,8 @@
             <div flex="50"></div>
           </div>
           <div layout="column" layout-gt-sm="row">
-            <md-input-container flex="50" md-is-error="!dataSetForm.annotationsDe.$valid && (dataSetForm.annotationsDe.$dirty || dataSetForm.annotationsDe.$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
-                                style="-ms-flex:auto">
+            <md-input-container flex="50" md-is-error="!dataSetForm.annotationsDe.$valid && (dataSetForm.annotationsDe.$dirty || dataSetForm.annotationsDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
+                                class="ms-flex">
               <label>{{'data-set-management.detail.label.annotations' | translate}} ({{'global.in-german' |
                 translate}})</label>
               <textarea lang="de" md-maxlength="2048" md-no-asterisk name="annotationsDe"
@@ -142,7 +142,7 @@
               </div>
             </md-input-container>
             <md-input-container flex="50" md-is-error="!dataSetForm.annotationsEn.$valid && (dataSetForm.annotationsEn.$dirty || dataSetForm.annotationsEn.$touched)"
-                                style="-ms-flex:auto">
+                                class="ms-flex">
               <label>{{'data-set-management.detail.label.annotations' | translate}} ({{'global.in-english' |
                 translate}})</label>
               <textarea lang="en" md-maxlength="2048" md-no-asterisk name="annotationsEn"
@@ -166,12 +166,12 @@
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
-        <md-card-content style="padding: 0px;">
+        <md-card-content class="pa0">
           <div layout="column" ng-repeat="subDataSet in ctrl.dataSet.subDataSets track by $index">
-            <div layout="row" style="padding-right: 16px;">
-              <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteSubDataSet($index)"
+            <div layout="row" class="pr16">
+              <md-button class="md-primary md-icon-button mh0" ng-click="ctrl.deleteSubDataSet($index)"
                          ng-if="ctrl.dataSet.subDataSets.length > 1"
-                         style="margin-top: 18px; margin-left: 0px; margin-right: 0px;">
+                         style="margin-top: 18px;">
                 <md-tooltip md-autohide="true" md-direction="bottom"
                             md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                   {{'data-set-management.edit.delete-sub-data-set-tooltip' | translate}}
@@ -181,7 +181,7 @@
               <div ng-if="ctrl.dataSet.subDataSets.length <= 1" style="margin-left: 16px;"></div>
               <div flex layout="row">
                 <md-input-container flex="33" md-is-error="!dataSetForm['subDataSetsName_' + $index].$valid && (dataSetForm['subDataSetsName_' + $index].$dirty || dataSetForm['subDataSetsName_' + $index].$touched)"
-                                    style="-ms-flex:auto">
+                                    class="ms-flex">
                   <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.name' |
                     translate}}</label>
                   <input fdz-required md-maxlength="32" md-no-asterisk name="subDataSetsName_{{$index}}"
@@ -200,7 +200,7 @@
                   </div>
                 </md-input-container>
                 <md-input-container flex="33" md-is-error="!dataSetForm['subDataSetsAccessWay_' + $index].$valid && (dataSetForm['subDataSetsAccessWay_' + $index].$dirty || dataSetForm['subDataSetsAccessWay_' + $index].$touched)"
-                                    style="-ms-flex:auto">
+                                    class="ms-flex">
                   <label>{{'data-set-management.edit.label.sub-data-set.access-way' | translate}}</label>
                   <md-select name="subDataSetsAccessWay_{{$index}}" ng-model="subDataSet.accessWay" ng-model-options="{trackBy: '$value'}"
                              required>
@@ -221,7 +221,7 @@
                   </div>
                 </md-input-container>
                 <md-input-container flex="33" md-is-error="!dataSetForm['subDataSetsNumberOfObservations_' + $index].$valid && (dataSetForm['subDataSetsNumberOfObservations_' + $index].$dirty || dataSetForm['subDataSetsNumberOfObservations_' + $index].$touched)"
-                                    style="-ms-flex:auto">
+                                    class="ms-flex">
                   <label>{{'data-set-management.edit.label.sub-data-set.number-of-observations' | translate}}</label>
                   <input min="0" name="subDataSetsNumberOfObservations_{{$index}}"
                          ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)" ng-model="subDataSet.numberOfObservations" required
@@ -250,9 +250,9 @@
               </div>
             </div>
             <div layout="column" layout-gt-sm="row" ng-style="{'margin-left': ctrl.dataSet.subDataSets.length === 1?'16px':'40px'}"
-                 style="padding-right: 16px;">
-              <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsDescriptionDe_' + $index].$valid && (dataSetForm['subDataSetsDescriptionDe_' + $index].$dirty || dataSetForm['subDataSetsDescriptionDe_' + $index].$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
-                                  style="-ms-flex:auto">
+                 class="pr16">
+              <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsDescriptionDe_' + $index].$valid && (dataSetForm['subDataSetsDescriptionDe_' + $index].$dirty || dataSetForm['subDataSetsDescriptionDe_' + $index].$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
+                                  class="ms-flex">
                 <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.description' |
                   translate}} ({{'global.in-german' | translate}})</label>
                 <input fdz-required="!subDataSet.description.en" lang="de" md-maxlength="512"
@@ -273,7 +273,7 @@
                 </div>
               </md-input-container>
               <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsDescriptionEn_' + $index].$valid && (dataSetForm['subDataSetsDescriptionEn_' + $index].$dirty || dataSetForm['subDataSetsDescriptionEn_' + $index].$touched)"
-                                  style="-ms-flex:auto">
+                                  class="ms-flex">
                 <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.description' |
                   translate}} ({{'global.in-english' | translate}})</label>
                 <input fdz-required="!subDataSet.description.de" lang="en" md-maxlength="512"
@@ -295,9 +295,9 @@
               </md-input-container>
             </div>
             <div layout="column" layout-gt-sm="row" ng-style="{'margin-left': ctrl.dataSet.subDataSets.length === 1?'16px':'40px'}"
-                 style="padding-right: 16px;">
-              <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsCitationHintDe_' + $index].$valid && (dataSetForm['subDataSetsCitationHintDe_' + $index].$dirty || dataSetForm['subDataSetsCitationHintDe_' + $index].$touched)" ng-class="{'fdz-add-right-margin': $mdMedia('gt-sm')}"
-                                  style="-ms-flex:auto">
+                 class="pr16">
+              <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsCitationHintDe_' + $index].$valid && (dataSetForm['subDataSetsCitationHintDe_' + $index].$dirty || dataSetForm['subDataSetsCitationHintDe_' + $index].$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}"
+                                  class="ms-flex">
                 <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.citation-hint' |
                   translate}} ({{'global.in-german' | translate}})</label>
                 <textarea fdz-required="!subDataSet.citationHint.en" lang="de" md-maxlength="2048"
@@ -318,7 +318,7 @@
                 </div>
               </md-input-container>
               <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsCitationHintEn_' + $index].$valid && (dataSetForm['subDataSetsCitationHintEn_' + $index].$dirty || dataSetForm['subDataSetsCitationHintEn_' + $index].$touched)"
-                                  style="-ms-flex:auto">
+                                  class="ms-flex">
                 <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.citation-hint' |
                   translate}} ({{'global.in-english' | translate}})</label>
                 <textarea fdz-required="!subDataSet.citationHint.de" lang="en" md-maxlength="2048"
@@ -374,7 +374,7 @@
       </md-card>
     </div>
   </form>
-  <md-card class="fdz-reset-top-margin" ng-if="ctrl.dataSet.id">
+  <md-card class="mt0" ng-if="ctrl.dataSet.id">
     <md-card-header layout-align="center center">
       <md-card-header-text>
         <h2 class="md-title">{{'data-set-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>
@@ -420,9 +420,9 @@
       <tr ng-class="{'fdz-selected-table-row': $index === ctrl.currentAttachmentIndex}" ng-click="ctrl.selectAttachment($index)"
           ng-init="translationParams = {filename: row.fileName}"
           ng-repeat="row in ctrl.attachments">
-        <td class="fdz-table-nowrap" style="padding-right: 0px;">
+        <td class="fdz-table-nowrap pr0">
           <md-radio-group class="md-primary" ng-model="ctrl.currentAttachmentIndex">
-            <md-radio-button ng-value="$index" style="margin-bottom: 0px;">
+            <md-radio-button ng-value="$index" class="mb0">
               <md-tooltip md-autohide="true" md-direction="right"
                           md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'data-set-management.detail.attachments.select-attachment-tooltip' | translate:translationParams }}
@@ -430,8 +430,8 @@
             </md-radio-button>
           </md-radio-group>
         </td>
-        <td class="fdz-table-nowrap" style="padding: 0px;">
-          <md-button class="md-primary md-icon-button" ng-click="ctrl.editAttachment(row, $event)" style="margin: 0px;">
+        <td class="fdz-table-nowrap pa0">
+          <md-button class="md-primary md-icon-button ma0" ng-click="ctrl.editAttachment(row, $event)">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'data-set-management.detail.attachments.edit-attachment-tooltip' | translate:translationParams }}
@@ -439,9 +439,8 @@
             <md-icon md-font-set="material-icons">mode_edit</md-icon>
           </md-button>
         </td>
-        <td class="fdz-table-nowrap" style="padding: 0px;">
-          <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteAttachment(row, $index)"
-                     style="margin: 0px;">
+        <td class="fdz-table-nowrap pa0">
+          <md-button class="md-primary md-icon-button ma0" ng-click="ctrl.deleteAttachment(row, $index)">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'data-set-management.detail.attachments.delete-attachment-tooltip' | translate:translationParams }}
@@ -452,7 +451,7 @@
         <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
         <td class="fdz-text-block" display-i18n-string="row.description" fdz-hyphenate></td>
         <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
-        <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
+        <td class="nowrap"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
           <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
           </md-tooltip>

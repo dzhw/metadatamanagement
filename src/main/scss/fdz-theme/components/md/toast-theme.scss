@@ -1,0 +1,36 @@
+.fdz-theme md-toast {
+
+  .md-toast-content {
+    background-color: #323232;
+    color: $background-50;
+
+    .md-button {
+      color: $background-50;
+
+      &.md-highlight {
+        // By default the toast should use the accent color as the primary highlight color
+        color: $accent-color;
+
+        &.md-primary {
+          color: $primary-color;
+        }
+
+        &.md-warn {
+          color: $warn-color;
+        }
+      }
+    }
+  }
+
+  &.md-accent > .md-toast-content {
+    font-weight: bold;
+    border: 1px solid black;
+    background-color: $warn-100;
+    color: black !important;
+  }
+}
+
+.fdz-theme #toast-container > md-toast {
+  z-index: 2000;
+  pointer-events: all;
+}
