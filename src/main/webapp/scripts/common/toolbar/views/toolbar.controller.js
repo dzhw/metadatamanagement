@@ -5,11 +5,11 @@ angular.module('metadatamanagementApp').controller(
   function($scope, $rootScope, $mdSidenav, ShoppingCartService, Principal,
            SearchResultNavigatorService, LanguageService, Auth, $state,
            MessageBus, $location) {
+    $scope.open = $mdSidenav('SideNavBar').isOpen();
     //Toggle Function
     $scope.toggleLeft = function() {
       $mdSidenav('SideNavBar').toggle();
     };
-
     $scope.isAuthenticated = Principal.isAuthenticated;
     $scope.hasAuthority = Principal.hasAuthority;
 
@@ -53,4 +53,9 @@ angular.module('metadatamanagementApp').controller(
       });
 
     $scope.SearchResultNavigatorService = SearchResultNavigatorService;
+    $scope.$watch(function() {
+      return $mdSidenav('SideNavBar').isOpen();
+    }, function() {
+      $scope.open = $mdSidenav('SideNavBar').isOpen();
+    });
   });
