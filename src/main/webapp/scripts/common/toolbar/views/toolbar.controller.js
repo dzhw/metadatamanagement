@@ -53,10 +53,10 @@ angular.module('metadatamanagementApp').controller(
       });
 
     $scope.SearchResultNavigatorService = SearchResultNavigatorService;
-    $timeout(function () {
-      $scope.$watch(function () {
+    $timeout(function() {
+      $scope.$watch(function() {
         return $mdSidenav('SideNavBar').isOpen();
-      }, function () {
+      }, function() {
         $scope.open = $mdSidenav('SideNavBar').isOpen();
       });
     });

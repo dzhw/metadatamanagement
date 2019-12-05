@@ -67,3 +67,35 @@
     min-width: 88px;
   }
 }
+.fdz-theme .fdz-metadata-type-state-card.ng-hide:not(.ng-hide-animate) {
+  visibility: hidden;
+  opacity: 0;
+  display: inherit!important;
+}
+
+project-cockpit-status {
+  display: block;
+  @media screen and (max-width: 960px) {
+    margin-bottom: 150px;
+  }
+}
+
+
+
+project-status-badge,
+release-status-badge {
+  display: inline-block;
+}
+
+project-status-badge > span, release-status-badge > span {
+  font-size: 1em !important;
+}
+
+.fdz-project-user-list + md-list md-list-item {
+  background: white;
+  animation: fade-highlight 1s ease-out;
+}
+
+.fdz-project-status-overview-metadata-status-table-cell {
+  min-height: 28px;
+}
