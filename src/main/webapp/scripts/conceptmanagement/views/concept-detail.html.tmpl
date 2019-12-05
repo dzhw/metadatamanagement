@@ -13,7 +13,7 @@
           <div class="fdz-tag-link-container" ng-if="ctrl.conceptTags.length > 0">
             <h5>{{'study-management.detail.label.tags' | translate}}: </h5>
             <a ng-repeat="tag in ctrl.conceptTags"
-               ng-if="ctrl.concept.isAuthenticated"
+               ng-if="ctrl.isAuthenticated()"
                ui-sref="search({type: 'concepts', 'query': tag})">
               <span>{{tag}}{{!$last?',&nbsp;':''}}</span>
               <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -21,7 +21,7 @@
               </md-tooltip>
             </a>
             <a ng-repeat="tag in ctrl.conceptTags"
-               ng-if="!ctrl.concept.isAuthenticated"
+               ng-if="!ctrl.isAuthenticated()"
                ui-sref="search({type: 'concepts', 'tags': tag})">
               <span>{{tag}}{{!$last?',&nbsp;':''}}</span>
               <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

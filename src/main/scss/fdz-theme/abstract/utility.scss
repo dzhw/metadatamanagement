@@ -87,6 +87,10 @@
     margin-top: 0;
   }
 
+  .mt8 {
+    margin-top: 8px;
+  }
+
   .mt16 {
     margin-top: 16px;
   }
@@ -107,6 +111,16 @@
 
   .ml0 {
     margin-left: 0;
+  }
+
+  .ml6 {
+    margin-left: 6px;
+  }
+  .ml9 {
+    margin-left: 9px;
+  }
+  .ml16 {
+    margin-left: 16px;
   }
 
   .mr8 {
@@ -227,6 +241,20 @@
   .pointer:hover {
     cursor: pointer;
   }
+
+  // Overflow
+  .overflow-visible { overflow: visible; }
+  .overflow-hidden { overflow: hidden; }
+  .overflow-scroll { overflow: scroll; }
+  .overflow-auto { overflow: auto; }
+  .overflow-x-visible { overflow-x: visible; }
+  .overflow-x-hidden { overflow-x: hidden; }
+  .overflow-x-scroll { overflow-x: scroll; }
+  .overflow-x-auto { overflow-x: auto; }
+  .overflow-y-visible { overflow-y: visible; }
+  .overflow-y-hidden { overflow-y: hidden; }
+  .overflow-y-scroll { overflow-y: scroll; }
+  .overflow-y-auto { overflow-y: auto; }
 
   // TODO: Check if this is necessary. Copied from style tags
   .ms-flex {

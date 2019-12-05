@@ -178,7 +178,7 @@
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">delete_forever</md-icon>
               </md-button>
-              <div ng-if="ctrl.dataSet.subDataSets.length <= 1" style="margin-left: 16px;"></div>
+              <div ng-if="ctrl.dataSet.subDataSets.length <= 1" class="ml16"></div>
               <div flex layout="row">
                 <md-input-container flex="33" md-is-error="!dataSetForm['subDataSetsName_' + $index].$valid && (dataSetForm['subDataSetsName_' + $index].$dirty || dataSetForm['subDataSetsName_' + $index].$touched)"
                                     class="ms-flex">
@@ -343,9 +343,9 @@
           </div>
         </md-card-content>
         <md-card-actions layout="row" layout-align="begin center" style="margin-top: 12px; margin-bottom: 12px;">
-          <md-button class="md-primary md-raised md-icon-button"
+          <md-button class="md-primary md-raised md-icon-button ml6"
                      ng-click="ctrl.addSubDataSet()"
-                     ng-disabled="ctrl.dataSet.subDataSets.length === ctrl.allAccessWays.length" style="margin-left: 6px;">
+                     ng-disabled="ctrl.dataSet.subDataSets.length === ctrl.allAccessWays.length">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'data-set-management.edit.add-sub-data-set-tooltip' | translate}}
@@ -466,8 +466,7 @@
     </md-card-content>
     <md-card-actions layout="row" layout-align="begin center" ng-if="!ctrl.createMode"
                      style="margin-top: 12px; margin-bottom: 12px;">
-      <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAttachment($event)"
-                 style="margin-left: 6px;">
+      <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addAttachment($event)">
         <md-tooltip md-autohide="true" md-direction="bottom"
                     md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'data-set-management.detail.attachments.add-attachment-tooltip' | translate}}
@@ -508,7 +507,7 @@
     <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
       {{'data-set-management.edit.open-choose-previous-version-tooltip' | translate}}
     </md-tooltip>
-    <md-icon md-font-set="material-icons" style="margin-left: 9px;">history</md-icon>
+    <md-icon md-font-set="material-icons" class="ml9">history</md-icon>
   </md-button>
   <md-button class="md-fab md-raised md-accent" ng-click="ctrl.saveDataSet()" ng-disabled="!dataSetForm.$dirty"
              type="submit">

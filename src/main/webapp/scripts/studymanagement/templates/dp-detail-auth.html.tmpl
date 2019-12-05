@@ -18,7 +18,7 @@
           <h5>{{'study-management.detail.label.studySeries' | translate }}:</h5>
           <a
             class="md-secondary"
-            ui-sref="search({'type': 'studies', 'query': $ctrl.options.study.studySeries.{{$ctrl.lang}}})">
+            ui-sref="search({'type': 'studies', 'study-series-{{$ctrl.lang}}': $ctrl.options.study.studySeries.{{$ctrl.lang}}})">
             <span display-i18n-string="$ctrl.options.study.studySeries" fdz-hyphenate></span>
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'study-management.detail.tooltips.studies.study-series' | translate}}

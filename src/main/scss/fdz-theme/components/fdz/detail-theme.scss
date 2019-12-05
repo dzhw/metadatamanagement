@@ -24,6 +24,7 @@ $card-border-radius: 2px !default;
   .fdz-detail__header-text {
     display: flex;
     flex-flow: row;
+    justify-content: space-between;
   }
 
   .fdz-tag-link-container {

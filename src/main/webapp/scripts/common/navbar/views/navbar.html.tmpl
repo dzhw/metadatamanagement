@@ -14,7 +14,7 @@
     <fdz-data-packet
       ng-if="sidebarContent.configurator"></fdz-data-packet>
     <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
-        <ul ng-if="isAuthenticated()" style="padding: 0px; margin: 0px;overflow:hidden;">
+        <ul ng-if="isAuthenticated()" class="pa0 ma0 overflow-hidden">
           <li class="fdz-navbar-menu">
             <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" id="account-menu-toggle">
               <md-icon md-font-set="material-icons">supervisor_account</md-icon>

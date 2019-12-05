@@ -348,8 +348,7 @@
         </md-card-content>
         <md-card-actions layout="row" layout-align="begin center" ng-if="!ctrl.createMode"
                          style="margin-top: 12px; margin-bottom: 12px;">
-          <md-button class="md-primary md-raised md-icon-button" ngf-select="ctrl.saveResponseRateImageDe($file)"
-                     style="margin-left: 6px;">
+          <md-button class="md-primary md-raised md-icon-button ml6" ngf-select="ctrl.saveResponseRateImageDe($file)">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'survey-management.edit.response-rate-image.add-german-image-tooltip' | translate}}
@@ -357,8 +356,8 @@
             <md-icon md-font-set="material-icons" ng-if="!ctrl.responseRateImageDe">add</md-icon>
             <md-icon md-font-set="material-icons" ng-if="ctrl.responseRateImageDe">edit</md-icon>
           </md-button>
-          <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.deleteResponseRateImageDe()"
-                     ng-disabled="!ctrl.responseRateImageDe" style="margin-left: 6px;">
+          <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.deleteResponseRateImageDe()"
+                     ng-disabled="!ctrl.responseRateImageDe">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'survey-management.edit.response-rate-image.delete-german-image-tooltip' | translate}}
@@ -398,8 +397,7 @@
         </md-card-content>
         <md-card-actions layout="row" layout-align="begin center" ng-if="!ctrl.createMode"
                          style="margin-top: 12px; margin-bottom: 12px;">
-          <md-button class="md-primary md-raised md-icon-button" ngf-select="ctrl.saveResponseRateImageEn($file)"
-                     style="margin-left: 6px;">
+          <md-button class="md-primary md-raised md-icon-button ml6" ngf-select="ctrl.saveResponseRateImageEn($file)">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'survey-management.edit.response-rate-image.add-english-image-tooltip' | translate}}
@@ -407,8 +405,8 @@
             <md-icon md-font-set="material-icons" ng-if="!ctrl.responseRateImageEn">add</md-icon>
             <md-icon md-font-set="material-icons" ng-if="ctrl.responseRateImageEn">edit</md-icon>
           </md-button>
-          <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.deleteResponseRateImageEn()"
-                     ng-disabled="!ctrl.responseRateImageEn" style="margin-left: 6px;">
+          <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.deleteResponseRateImageEn()"
+                     ng-disabled="!ctrl.responseRateImageEn">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'survey-management.edit.response-rate-image.delete-english-image-tooltip' | translate}}
@@ -518,8 +516,7 @@
     </md-card-content>
     <md-card-actions layout="row" layout-align="begin center" ng-if="!ctrl.createMode"
                      style="margin-top: 12px; margin-bottom: 12px;">
-      <md-button class="md-primary md-raised md-icon-button" ng-click="ctrl.addAttachment($event)"
-                 style="margin-left: 6px;">
+      <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addAttachment($event)">
         <md-tooltip md-autohide="true" md-direction="bottom"
                     md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'survey-management.detail.attachments.add-attachment-tooltip' | translate}}
@@ -560,7 +557,7 @@
     <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
       {{'survey-management.edit.open-choose-previous-version-tooltip' | translate}}
     </md-tooltip>
-    <md-icon md-font-set="material-icons" style="margin-left: 9px;">history</md-icon>
+    <md-icon md-font-set="material-icons" class="ml9">history</md-icon>
   </md-button>
   <md-button class="md-fab md-raised md-accent" ng-click="ctrl.saveSurvey()" ng-disabled="!surveyForm.$dirty"
              type="submit">
