@@ -1,4 +1,4 @@
-<md-dialog aria-label="{{'choose-previous-attachment-version.title' | translate:translationParams }}" layout="column" style="-ms-flex: auto;" flex="50">
+<md-dialog aria-label="{{'choose-previous-attachment-version.title' | translate:translationParams }}" layout="column" class="ms-flex" flex="50">
     <md-toolbar>
         <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
             <h2 class="fdz-truncate-string">
@@ -40,7 +40,7 @@
             </tr>
             </tbody>
         </table>
-        <div ng-if="!attachments || attachments.length === 0" flex style="-ms-flex: auto;">
+        <div ng-if="!attachments || attachments.length === 0" flex class="ms-flex">
             <span>{{'choose-previous-attachment-version.no-versions-found' | translate:translationParams }}</span>
         </div>
         <div ng-hide="(!attachments || attachments.length === 0) && (currentPage.number === 0)" layout="row" layout-align="space-between center" style="margin-top: 8px;">
