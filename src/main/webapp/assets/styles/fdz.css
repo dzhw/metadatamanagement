@@ -1670,10 +1670,13 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 .fdz-theme .md-button.md-fab.fdz-previous-search-result, .fdz-theme .md-button.md-fab.fdz-next-search-result {
   position: fixed;
-  top: 50%;
+  top: 75%;
   width: 40px;
   height: 40px;
   z-index: 10; }
+  @media (min-width: 600px) {
+    .fdz-theme .md-button.md-fab.fdz-previous-search-result, .fdz-theme .md-button.md-fab.fdz-next-search-result {
+      top: 50%; } }
 
 .fdz-theme .md-button.md-fab.fdz-previous-search-result {
   margin-left: -20px;
