@@ -1774,11 +1774,12 @@ fdz-breadcrumbs {
 
 .fdz-breadcrumbs {
   display: flex;
-  margin: 16px 8px 16px 8px;
+  margin: 8px 8px 8px 8px;
   width: 100%; }
   @media (min-width: 600px) {
     .fdz-breadcrumbs {
-      margin-left: 16px; } }
+      margin-left: 16px;
+      margin: 16px 8px 16px 16px; } }
 
 .fdz-theme .fdz-search {
   position: relative;
