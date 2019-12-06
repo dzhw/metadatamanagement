@@ -1,5 +1,5 @@
 <md-card id="related-objects">
-  <md-card-header>
+  <md-card-header ng-click="$ctrl.collapsed = !$ctrl.collapsed">
     <md-card-header-text>
       <h2 class="md-title">{{'global.cards.related-objects' | translate }} {{$ctrl.searchParams.version && !$ctrl.disabled?'- Version ' + $ctrl.searchParams.version:'' }}</h2>
     </md-card-header-text>

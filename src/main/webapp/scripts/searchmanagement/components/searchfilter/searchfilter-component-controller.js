@@ -148,12 +148,12 @@
       $ctrl.searchParams.filter = _.omit(locationSearch, ['page', 'size',
         'type', 'query', 'sort-by'
       ]);
-      if (_.isEmpty($ctrl.searchParams.filter)) {
-        var filter = MessageBus.get('searchFilter');
-        if (filter) {
-          $ctrl.searchParams.filter = filter;
-        }
-      }
+      // if (_.isEmpty($ctrl.searchParams.filter)) {
+      //   var filter = MessageBus.get('searchFilter');
+      //   if (filter) {
+      //     $ctrl.searchParams.filter = filter;
+      //   }
+      // }
     }
 
     $scope.$watch(function() {
@@ -168,6 +168,16 @@
           init();
         }
       }, true);
+
+    $scope.$watch(function() {
+        return $location.search();
+      },
+      function() {
+        $ctrl.searchParams.filter = _.omit($location.search(), ['page', 'size',
+        'type', 'query', 'sort-by'
+        ]);
+        init();
+      });
   }
 
   angular

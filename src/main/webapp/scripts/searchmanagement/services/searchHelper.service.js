@@ -52,7 +52,7 @@ angular.module('metadatamanagementApp').factory(
         'survey-data-types': {
           attribute: 'surveyDataTypes',
           i18n: true,
-          concatMultipleWithOr: false
+          concatMultipleWithOr: true
         },
         'tags': {
           attribute: 'tags',

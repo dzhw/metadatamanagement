@@ -18,13 +18,6 @@
           options="ctrl"
           template-url="scripts/surveymanagement/templates/dp-detail.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
-        <fdz-related-objects
-          collapsed="false"
-          lang="currentLanguage"
-          options="ctrl.counts"
-          id="ctrl.survey.id"
-          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
-        <md-divider></md-divider>
         <fdz-detail
           ng-if="ctrl.responseRateImage"
           collapsed="false"
@@ -39,6 +32,13 @@
           lang="currentLanguage"
           options="ctrl.attachments"
           template-url="scripts/surveymanagement/templates/dp-attachments.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-related-objects
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.counts"
+          id="ctrl.survey.id"
+          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
       </div>
     </div>
   </div>

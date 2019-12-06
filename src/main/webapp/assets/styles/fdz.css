@@ -568,6 +568,8 @@ ui-view:focus {
       justify-content: center; }
       .fdz-theme md-card md-card-header md-card-header-text .md-subhead {
         color: rgba(0, 0, 0, 0.38); }
+  .fdz-theme md-card md-card-header:focus {
+    outline: none; }
   .fdz-theme md-card .md-card-collapsible-button {
     min-width: 24px;
     min-height: 24px;
@@ -2224,7 +2226,7 @@ tr:focus {
           width: 20px;
           height: 20px; }
         .fdz-theme .fdz-search-filter md-card-content .fdz-filter-list li md-checkbox .md-label {
-          max-width: 250px;
+          max-width: 270px;
           white-space: normal;
           vertical-align: top; }
 
