@@ -1,7 +1,7 @@
 <div class="fdz-cc">
 <div flex layout="column" ng-switch="isAuthenticated()" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="isDropZoneDisabled">
   <div ng-if="isAuthenticated()">
-    <md-card class="mb8 pa0 db">
+    <md-card class="mb0 pa0 db">
         <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height md-border-bottom>
             <md-tab ng-repeat="tab in tabs" md-on-select="onSelectedTabChanged()" ng-disabled="tab.disabled">
                 <md-tab-label>
@@ -31,7 +31,7 @@
         </form>
         <md-progress-linear ng-if="!tabs[searchParams.selectedTabIndex].elasticSearchType" md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>
     </md-card>
-    <md-card ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType" class="mb8 pa0">
+    <md-card ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType" class="mb0 pa0">
         <search-filter-panel current-elasticsearch-type="tabs[searchParams.selectedTabIndex].elasticSearchType" current-language="currentLanguage" current-search-params="searchParams" filter-changed-callback="onFilterChanged" bowser="bowser" is-searching="isSearching"></search-filter-panel>
     </md-card>
   </div>
