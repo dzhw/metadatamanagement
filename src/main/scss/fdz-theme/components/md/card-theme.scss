@@ -28,7 +28,9 @@ $card-border-radius: 2px !default;
       }
     }
   }
-
+  md-card-header:focus {
+    outline: none;
+  }
   .md-card-collapsible-button {
     min-width: 24px;
     min-height: 24px;
