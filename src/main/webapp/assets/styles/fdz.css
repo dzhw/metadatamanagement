@@ -548,7 +548,7 @@ ui-view:focus {
 .fdz-theme md-card {
   position: relative;
   padding: 8px;
-  margin: 0;
+  margin: 8px 0;
   color: black;
   background-color: white;
   border-radius: 2px; }
