@@ -2358,7 +2358,7 @@ md-dialog .fdz-fab-button-container {
   position: absolute; }
 
 .fdz-theme .fdz-shopping-cart__header {
-  margin: 16px 0 16px 8px; }
+  margin: 0 0 16px 8px; }
   .fdz-theme .fdz-shopping-cart__header h1 {
     margin: 0; }
 
