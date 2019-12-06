@@ -28,16 +28,18 @@ $card-border-radius: 2px !default;
     display: flex;
     flex-flow: row;
     justify-content: space-between;
+    word-break: break-word;
   }
 
   .fdz-tag-link-container {
-    display: flex;
+    display: inline;
     align-items: baseline;
     width: 100%;
 
     h5 {
       color: $foreground-3;
       margin-right: 8px;
+      display: inline-flex
     }
 
     a {

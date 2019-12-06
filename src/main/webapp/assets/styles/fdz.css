@@ -1908,15 +1908,17 @@ md-input-container label {
 .fdz-theme .fdz-detail__header-text {
   display: flex;
   flex-flow: row;
-  justify-content: space-between; }
+  justify-content: space-between;
+  word-break: break-word; }
 
 .fdz-theme .fdz-tag-link-container {
-  display: flex;
+  display: inline;
   align-items: baseline;
   width: 100%; }
   .fdz-theme .fdz-tag-link-container h5 {
     color: rgba(0, 0, 0, 0.38);
-    margin-right: 8px; }
+    margin-right: 8px;
+    display: inline-flex; }
   .fdz-theme .fdz-tag-link-container a {
     font-weight: normal;
     min-height: auto;
