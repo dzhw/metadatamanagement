@@ -1557,7 +1557,7 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 .fdz-navbar-menu-toggle > span {
   display: inline-block;
-  width: 80%;
+  width: 85%;
   text-transform: none !important;
   text-align: left !important; }
 
