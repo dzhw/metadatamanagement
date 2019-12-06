@@ -74,6 +74,9 @@
 .fdz-theme .mb0 {
   margin-bottom: 0; }
 
+.fdz-theme .mb8 {
+  margin-bottom: 8px; }
+
 .fdz-theme .mh0 {
   margin-left: 0;
   margin-right: 0; }
@@ -1387,6 +1390,16 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   background-color: #F69F24;
   color: black !important; }
 
+.fdz-theme .toast-wrapper {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2000;
+  padding-top: 64px; }
+
 .fdz-theme #toast-container > md-toast {
   z-index: 2000;
   pointer-events: all; }
@@ -1761,11 +1774,12 @@ fdz-breadcrumbs {
 
 .fdz-breadcrumbs {
   display: flex;
-  margin: 16px 8px 16px 8px;
+  margin: 8px 8px 8px 8px;
   width: 100%; }
   @media (min-width: 600px) {
     .fdz-breadcrumbs {
-      margin-left: 16px; } }
+      margin-left: 16px;
+      margin: 16px 8px 16px 16px; } }
 
 .fdz-theme .fdz-search {
   position: relative;
@@ -2255,6 +2269,8 @@ tr:focus {
       @media (min-width: 600px) {
         .fdz-theme .fdz-data-packet md-card-header .title {
           font-size: 18px; } }
+  .fdz-theme .fdz-data-packet md-card-footer {
+    padding: 0; }
   .fdz-theme .fdz-data-packet md-list {
     padding: 0; }
   .fdz-theme .fdz-data-packet md-list-item,
@@ -2348,7 +2364,7 @@ md-dialog .fdz-fab-button-container {
   position: absolute; }
 
 .fdz-theme .fdz-shopping-cart__header {
-  margin: 16px 0 16px 8px; }
+  margin: 0 0 16px 8px; }
   .fdz-theme .fdz-shopping-cart__header h1 {
     margin: 0; }
 

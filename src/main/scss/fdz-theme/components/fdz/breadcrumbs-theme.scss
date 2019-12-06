@@ -8,10 +8,11 @@ fdz-breadcrumbs {
 }
 .fdz-breadcrumbs {
   display: flex;
-  margin: 16px 8px 16px 8px;
+  margin: 8px 8px 8px 8px;
   width: 100%;
 
   @include rwd(600) {
     margin-left: 16px;
+    margin: 16px 8px 16px 16px;
   }
 }

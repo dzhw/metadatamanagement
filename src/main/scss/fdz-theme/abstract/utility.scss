@@ -28,9 +28,10 @@
   .pa0 {
     padding: 0;
   }
+
   .pa8 {
-      padding: 8px;
-    }
+    padding: 8px;
+  }
 
   .pv0 {
     padding-top: 0;
@@ -65,6 +66,7 @@
   .pr0 {
     padding-right: 0;
   }
+
   .pr16 {
     padding-right: 16px;
   }
@@ -73,14 +75,16 @@
   .ma0 {
     margin: 0;
   }
+
   .ma8 {
-      margin: 8px;
-    }
+    margin: 8px;
+  }
 
   .mv0 {
     margin-top: 0;
     margin-bottom: 0;
   }
+
   .mv8 {
     margin-top: 8px;
     margin-bottom: 8px;
@@ -102,15 +106,19 @@
     margin-bottom: 0;
   }
 
+  .mb8 {
+    margin-bottom: 8px;
+  }
+
   .mh0 {
     margin-left: 0;
     margin-right: 0;
   }
 
   .mh8 {
-      margin-left: 8px;
-      margin-right: 8px;
-    }
+    margin-left: 8px;
+    margin-right: 8px;
+  }
 
   .ml0 {
     margin-left: 0;
@@ -119,9 +127,11 @@
   .ml6 {
     margin-left: 6px;
   }
+
   .ml9 {
     margin-left: 9px;
   }
+
   .ml16 {
     margin-left: 16px;
   }
@@ -129,6 +139,7 @@
   .mr8 {
     margin-right: 8px;
   }
+
   .mr10 {
     margin-right: 10px;
   }
@@ -225,8 +236,14 @@
   }
 
   // Font Weight
-  .normal { font-weight: normal; }
-  .b      { font-weight: bold; }
+  .normal {
+    font-weight: normal;
+  }
+
+  .b {
+    font-weight: bold;
+  }
+
   // White Space
   .ws-normal {
     white-space: normal;
@@ -246,21 +263,56 @@
   }
 
   // Overflow
-  .overflow-visible { overflow: visible; }
-  .overflow-hidden { overflow: hidden; }
-  .overflow-scroll { overflow: scroll; }
-  .overflow-auto { overflow: auto; }
-  .overflow-x-visible { overflow-x: visible; }
-  .overflow-x-hidden { overflow-x: hidden; }
-  .overflow-x-scroll { overflow-x: scroll; }
-  .overflow-x-auto { overflow-x: auto; }
-  .overflow-y-visible { overflow-y: visible; }
-  .overflow-y-hidden { overflow-y: hidden; }
-  .overflow-y-scroll { overflow-y: scroll; }
-  .overflow-y-auto { overflow-y: auto; }
+  .overflow-visible {
+    overflow: visible;
+  }
+
+  .overflow-hidden {
+    overflow: hidden;
+  }
+
+  .overflow-scroll {
+    overflow: scroll;
+  }
+
+  .overflow-auto {
+    overflow: auto;
+  }
+
+  .overflow-x-visible {
+    overflow-x: visible;
+  }
+
+  .overflow-x-hidden {
+    overflow-x: hidden;
+  }
+
+  .overflow-x-scroll {
+    overflow-x: scroll;
+  }
+
+  .overflow-x-auto {
+    overflow-x: auto;
+  }
+
+  .overflow-y-visible {
+    overflow-y: visible;
+  }
+
+  .overflow-y-hidden {
+    overflow-y: hidden;
+  }
+
+  .overflow-y-scroll {
+    overflow-y: scroll;
+  }
+
+  .overflow-y-auto {
+    overflow-y: auto;
+  }
 
   // TODO: Check if this is necessary. Copied from style tags
   .ms-flex {
-    -ms-flex:auto;
+    -ms-flex: auto;
   }
 }
