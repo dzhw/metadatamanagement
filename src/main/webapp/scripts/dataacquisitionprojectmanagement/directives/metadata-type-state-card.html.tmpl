@@ -1,6 +1,6 @@
-<md-card class="fdz-metadata-type-state-card" ng-hide="ctrl.type === 'fake1' || ctrl.type === 'fake2' ||!ctrl.project.configuration.requirements[ctrl.type+'Required']">
+<md-card class="fdz-metadata-type-state-card mb8" ng-hide="ctrl.type === 'fake1' || ctrl.type === 'fake2' ||!ctrl.project.configuration.requirements[ctrl.type+'Required']">
 	<md-card-header>
-		<md-card-header-text layout="row" layout-align="space-between center" ng-if="ctrl.type.indexOf('fake') === -1">
+		<md-card-header-text class="pb8" layout="row" layout-align="space-between center" ng-if="ctrl.type.indexOf('fake') === -1">
 			<a ui-sref="search({type: ctrl.searchState})" class="md-headline" layout="row" layout-align="start center">
 				<span>{{'data-acquisition-project-management.project-cockpit.requirements.'+ctrl.type | translate}} ({{ctrl.counts[ctrl.searchState]}})</span>
 			</a>
