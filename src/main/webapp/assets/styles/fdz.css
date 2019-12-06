@@ -1,230 +1,233 @@
 .fdz-theme .dn {
-  display: none; }
+  display: none !important; }
 
 .fdz-theme .di {
-  display: inline; }
+  display: inline !important; }
 
 .fdz-theme .db {
-  display: block; }
+  display: block !important; }
 
 .fdz-theme .df {
-  display: flex; }
+  display: flex !important; }
 
 .fdz-theme .dif {
-  display: inline-flex; }
+  display: inline-flex !important; }
 
 .fdz-theme .pa0 {
-  padding: 0; }
+  padding: 0 !important; }
 
 .fdz-theme .pa8 {
-  padding: 8px; }
+  padding: 8px !important; }
 
 .fdz-theme .pv0 {
-  padding-top: 0;
-  padding-bottom: 0; }
+  padding-top: 0 !important;
+  padding-bottom: 0 !important; }
 
 .fdz-theme .pt0 {
-  padding-top: 0; }
+  padding-top: 0 !important; }
 
 .fdz-theme .pt16 {
-  padding-top: 16px; }
+  padding-top: 16px !important; }
 
 .fdz-theme .pb0 {
-  padding-bottom: 0; }
+  padding-bottom: 0 !important; }
+
+.fdz-theme .pb8 {
+  padding-bottom: 8px !important; }
 
 .fdz-theme .pb16 {
-  padding-bottom: 16px; }
+  padding-bottom: 16px !important; }
 
 .fdz-theme .ph0 {
-  padding-left: 0;
-  padding-right: 0; }
+  padding-left: 0 !important;
+  padding-right: 0 !important; }
 
 .fdz-theme .pl0 {
-  padding-left: 0; }
+  padding-left: 0 !important; }
 
 .fdz-theme .pr0 {
-  padding-right: 0; }
+  padding-right: 0 !important; }
 
 .fdz-theme .pr16 {
-  padding-right: 16px; }
+  padding-right: 16px !important; }
 
 .fdz-theme .ma0 {
-  margin: 0; }
+  margin: 0 !important; }
 
 .fdz-theme .ma8 {
-  margin: 8px; }
+  margin: 8px !important; }
 
 .fdz-theme .mv0 {
-  margin-top: 0;
-  margin-bottom: 0; }
+  margin-top: 0 !important;
+  margin-bottom: 0 !important; }
 
 .fdz-theme .mv8 {
-  margin-top: 8px;
-  margin-bottom: 8px; }
+  margin-top: 8px !important;
+  margin-bottom: 8px !important; }
 
 .fdz-theme .mt0 {
-  margin-top: 0; }
+  margin-top: 0 !important; }
 
 .fdz-theme .mt8 {
-  margin-top: 8px; }
+  margin-top: 8px !important; }
 
 .fdz-theme .mt16 {
-  margin-top: 16px; }
+  margin-top: 16px !important; }
 
 .fdz-theme .mb0 {
-  margin-bottom: 0; }
+  margin-bottom: 0 !important; }
 
 .fdz-theme .mb8 {
-  margin-bottom: 8px; }
+  margin-bottom: 8px !important; }
 
 .fdz-theme .mh0 {
-  margin-left: 0;
-  margin-right: 0; }
+  margin-left: 0 !important;
+  margin-right: 0 !important; }
 
 .fdz-theme .mh8 {
-  margin-left: 8px;
-  margin-right: 8px; }
+  margin-left: 8px !important;
+  margin-right: 8px !important; }
 
 .fdz-theme .ml0 {
-  margin-left: 0; }
+  margin-left: 0 !important; }
 
 .fdz-theme .ml6 {
-  margin-left: 6px; }
+  margin-left: 6px !important; }
 
 .fdz-theme .ml9 {
-  margin-left: 9px; }
+  margin-left: 9px !important; }
 
 .fdz-theme .ml16 {
-  margin-left: 16px; }
+  margin-left: 16px !important; }
 
 .fdz-theme .mr8 {
-  margin-right: 8px; }
+  margin-right: 8px !important; }
 
 .fdz-theme .mr10 {
-  margin-right: 10px; }
+  margin-right: 10px !important; }
 
 .fdz-theme .list {
-  list-style-type: none; }
+  list-style-type: none !important; }
 
 .fdz-theme .w-10 {
-  width: 10%; }
+  width: 10% !important; }
 
 .fdz-theme .w-20 {
-  width: 20%; }
+  width: 20% !important; }
 
 .fdz-theme .w-25 {
-  width: 25%; }
+  width: 25% !important; }
 
 .fdz-theme .w-30 {
-  width: 30%; }
+  width: 30% !important; }
 
 .fdz-theme .w-33 {
-  width: 33%; }
+  width: 33% !important; }
 
 .fdz-theme .w-34 {
-  width: 34%; }
+  width: 34% !important; }
 
 .fdz-theme .w-40 {
-  width: 40%; }
+  width: 40% !important; }
 
 .fdz-theme .w-50 {
-  width: 50%; }
+  width: 50% !important; }
 
 .fdz-theme .w-60 {
-  width: 60%; }
+  width: 60% !important; }
 
 .fdz-theme .w-70 {
-  width: 70%; }
+  width: 70% !important; }
 
 .fdz-theme .w-75 {
-  width: 75%; }
+  width: 75% !important; }
 
 .fdz-theme .w-80 {
-  width: 80%; }
+  width: 80% !important; }
 
 .fdz-theme .w-90 {
-  width: 90%; }
+  width: 90% !important; }
 
 .fdz-theme .w-100 {
-  width: 100%; }
+  width: 100% !important; }
 
 .fdz-theme .ttc {
-  text-transform: capitalize; }
+  text-transform: capitalize !important; }
 
 .fdz-theme .ttl {
-  text-transform: lowercase; }
+  text-transform: lowercase !important; }
 
 .fdz-theme .ttu {
-  text-transform: uppercase; }
+  text-transform: uppercase !important; }
 
 .fdz-theme .ttn {
-  text-transform: none; }
+  text-transform: none !important; }
 
 .fdz-theme .strike {
-  text-decoration: line-through; }
+  text-decoration: line-through !important; }
 
 .fdz-theme .underline {
-  text-decoration: underline; }
+  text-decoration: underline !important; }
 
 .fdz-theme .no-underline {
-  text-decoration: none; }
+  text-decoration: none !important; }
 
 .fdz-theme .normal {
-  font-weight: normal; }
+  font-weight: normal !important; }
 
 .fdz-theme .b {
-  font-weight: bold; }
+  font-weight: bold !important; }
 
 .fdz-theme .ws-normal {
-  white-space: normal; }
+  white-space: normal !important; }
 
 .fdz-theme .nowrap {
-  white-space: nowrap; }
+  white-space: nowrap !important; }
 
 .fdz-theme .pre {
-  white-space: pre; }
+  white-space: pre !important; }
 
 .fdz-theme .pointer:hover {
-  cursor: pointer; }
+  cursor: pointer !important; }
 
 .fdz-theme .overflow-visible {
-  overflow: visible; }
+  overflow: visible !important; }
 
 .fdz-theme .overflow-hidden {
-  overflow: hidden; }
+  overflow: hidden !important; }
 
 .fdz-theme .overflow-scroll {
-  overflow: scroll; }
+  overflow: scroll !important; }
 
 .fdz-theme .overflow-auto {
-  overflow: auto; }
+  overflow: auto !important; }
 
 .fdz-theme .overflow-x-visible {
-  overflow-x: visible; }
+  overflow-x: visible !important; }
 
 .fdz-theme .overflow-x-hidden {
-  overflow-x: hidden; }
+  overflow-x: hidden !important; }
 
 .fdz-theme .overflow-x-scroll {
-  overflow-x: scroll; }
+  overflow-x: scroll !important; }
 
 .fdz-theme .overflow-x-auto {
-  overflow-x: auto; }
+  overflow-x: auto !important; }
 
 .fdz-theme .overflow-y-visible {
-  overflow-y: visible; }
+  overflow-y: visible !important; }
 
 .fdz-theme .overflow-y-hidden {
-  overflow-y: hidden; }
+  overflow-y: hidden !important; }
 
 .fdz-theme .overflow-y-scroll {
-  overflow-y: scroll; }
+  overflow-y: scroll !important; }
 
 .fdz-theme .overflow-y-auto {
-  overflow-y: auto; }
+  overflow-y: auto !important; }
 
 .fdz-theme .ms-flex {
-  -ms-flex: auto; }
+  -ms-flex: auto !important; }
 
 html,
 body {
@@ -587,6 +590,12 @@ ui-view:focus {
     .fdz-theme md-card md-card-actions .md-button {
       min-width: unset;
       margin: 0; }
+
+.fdz-theme form md-card-header-text {
+  padding-bottom: 8px; }
+  @media (min-width: 600px) {
+    .fdz-theme form md-card-header-text {
+      padding-bottom: 16px; } }
 
 .fdz-theme md-checkbox .md-ripple {
   color: #f0812d; }
@@ -1557,7 +1566,7 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 .fdz-navbar-menu-toggle > span {
   display: inline-block;
-  width: 80%;
+  width: 85%;
   text-transform: none !important;
   text-align: left !important; }
 
@@ -1889,6 +1898,9 @@ md-input-container label {
   background-color: white;
   border-radius: 2px;
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12); }
+  @media (min-width: 600px) {
+    .fdz-theme .fdz-detail {
+      margin: 0 8px; } }
 
 .fdz-theme .fdz-detail__header {
   display: flex;
@@ -1902,15 +1914,17 @@ md-input-container label {
 .fdz-theme .fdz-detail__header-text {
   display: flex;
   flex-flow: row;
-  justify-content: space-between; }
+  justify-content: space-between;
+  word-break: break-word; }
 
 .fdz-theme .fdz-tag-link-container {
-  display: flex;
+  display: inline;
   align-items: baseline;
   width: 100%; }
   .fdz-theme .fdz-tag-link-container h5 {
     color: rgba(0, 0, 0, 0.38);
-    margin-right: 8px; }
+    margin-right: 8px;
+    display: inline-flex; }
   .fdz-theme .fdz-tag-link-container a {
     font-weight: normal;
     min-height: auto;
@@ -2067,7 +2081,7 @@ md-input-container label {
 
 .fdz-table-wide td,
 .fdz-table-wide th {
-  padding: 8px 16px; }
+  padding: 8px 8px; }
 
 .fdz-table-wide td {
   vertical-align: top; }
@@ -2113,7 +2127,7 @@ tr:focus {
   border-top: 1px solid #ddd; }
 
 .fdz-table-rotated thead {
-  margin-left: 11px;
+  margin-left: 0px;
   display: block;
   float: left;
   width: 150px; }
@@ -2328,6 +2342,75 @@ tr:focus {
   .fdz-theme fdz-paginator .fdz-paginator__select {
     margin-bottom: 2px; }
 
+.fdz-theme md-radio-button .md-off {
+  border-color: rgba(0, 0, 0, 0.54); }
+
+.fdz-theme md-radio-button .md-on {
+  background-color: #08fff2; }
+
+.fdz-theme md-radio-button.md-checked .md-off {
+  border-color: #08fff2; }
+
+.fdz-theme md-radio-button.md-checked .md-ink-ripple {
+  color: #08fff2; }
+
+.fdz-theme md-radio-button .md-container .md-ripple {
+  color: #f0812d; }
+
+.fdz-theme md-radio-group:not([disabled]) .md-primary .md-on, .fdz-theme md-radio-group:not([disabled]).md-primary .md-on,
+.fdz-theme md-radio-button:not([disabled]) .md-primary .md-on,
+.fdz-theme md-radio-button:not([disabled]).md-primary .md-on {
+  background-color: #0071bc; }
+
+.fdz-theme md-radio-group:not([disabled]) .md-primary .md-checked .md-off, .fdz-theme md-radio-group:not([disabled]) .md-primary.md-checked .md-off, .fdz-theme md-radio-group:not([disabled]).md-primary .md-checked .md-off, .fdz-theme md-radio-group:not([disabled]).md-primary.md-checked .md-off,
+.fdz-theme md-radio-button:not([disabled]) .md-primary .md-checked .md-off,
+.fdz-theme md-radio-button:not([disabled]) .md-primary.md-checked .md-off,
+.fdz-theme md-radio-button:not([disabled]).md-primary .md-checked .md-off,
+.fdz-theme md-radio-button:not([disabled]).md-primary.md-checked .md-off {
+  border-color: #0071bc; }
+
+.fdz-theme md-radio-group:not([disabled]) .md-primary .md-checked .md-ink-ripple, .fdz-theme md-radio-group:not([disabled]) .md-primary.md-checked .md-ink-ripple, .fdz-theme md-radio-group:not([disabled]).md-primary .md-checked .md-ink-ripple, .fdz-theme md-radio-group:not([disabled]).md-primary.md-checked .md-ink-ripple,
+.fdz-theme md-radio-button:not([disabled]) .md-primary .md-checked .md-ink-ripple,
+.fdz-theme md-radio-button:not([disabled]) .md-primary.md-checked .md-ink-ripple,
+.fdz-theme md-radio-button:not([disabled]).md-primary .md-checked .md-ink-ripple,
+.fdz-theme md-radio-button:not([disabled]).md-primary.md-checked .md-ink-ripple {
+  color: #0071bc; }
+
+.fdz-theme md-radio-group:not([disabled]) .md-primary .md-container .md-ripple, .fdz-theme md-radio-group:not([disabled]).md-primary .md-container .md-ripple,
+.fdz-theme md-radio-button:not([disabled]) .md-primary .md-container .md-ripple,
+.fdz-theme md-radio-button:not([disabled]).md-primary .md-container .md-ripple {
+  color: #0095e4; }
+
+.fdz-theme md-radio-group[disabled],
+.fdz-theme md-radio-button[disabled] {
+  color: rgba(0, 0, 0, 0.38); }
+  .fdz-theme md-radio-group[disabled] .md-container .md-off,
+  .fdz-theme md-radio-button[disabled] .md-container .md-off {
+    border-color: rgba(0, 0, 0, 0.38); }
+  .fdz-theme md-radio-group[disabled] .md-container .md-on,
+  .fdz-theme md-radio-button[disabled] .md-container .md-on {
+    border-color: rgba(0, 0, 0, 0.38); }
+
+.fdz-theme md-radio-group .md-checked .md-ink-ripple {
+  color: #08fff2; }
+
+.fdz-theme md-radio-group.md-primary .md-checked:not([disabled]) .md-ink-ripple, .fdz-theme md-radio-group .md-checked:not([disabled]).md-primary .md-ink-ripple {
+  color: #0071bc; }
+
+.fdz-theme md-radio-group.md-focused.ng-empty > md-radio-button:first-child .md-container:before {
+  background-color: rgba(0, 0, 0, 0.26); }
+
+.fdz-theme md-radio-group {
+  color: #0071bc; }
+  .fdz-theme md-radio-group .md-focused:not(:empty) .md-checked .md-container:before {
+    background-color: #08fff2; }
+  .fdz-theme md-radio-group .md-focused:not(:empty).md-primary .md-checked .md-container:before,
+  .fdz-theme md-radio-group .md-focused:not(:empty) .md-checked.md-primary .md-container:before {
+    background-color: #0071bc; }
+  .fdz-theme md-radio-group .md-focused:not(:empty).md-warn .md-checked .md-container:before,
+  .fdz-theme md-radio-group .md-focused:not(:empty) .md-checked.md-warn .md-container:before {
+    background-color: #fb0cff; }
+
 geographic-coverage-list {
   display: block; }
   geographic-coverage-list md-card-content {
@@ -2445,3 +2528,9 @@ project-status-badge > span, release-status-badge > span {
 
 .fdz-project-status-overview-metadata-status-table-cell {
   min-height: 28px; }
+
+.fdz-theme md-dialog > md-toolbar {
+  padding: 0 8px; }
+
+.fdz-theme .md-dialog-content > h2 {
+  margin-bottom: 16px; }

@@ -43,7 +43,6 @@ angular.module('metadatamanagementApp').directive('conceptSearchResult',
             showGenericErrorMessage(data.status);
           }
         };
-
         $scope.deleteConcept = function(conceptId) {
           CommonDialogsService.showConfirmDeletionDialog({
             type: 'concept',
