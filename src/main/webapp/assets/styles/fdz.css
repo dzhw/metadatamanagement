@@ -2268,6 +2268,8 @@ tr:focus {
       @media (min-width: 600px) {
         .fdz-theme .fdz-data-packet md-card-header .title {
           font-size: 18px; } }
+  .fdz-theme .fdz-data-packet md-card-footer {
+    padding: 0; }
   .fdz-theme .fdz-data-packet md-list {
     padding: 0; }
   .fdz-theme .fdz-data-packet md-list-item,
