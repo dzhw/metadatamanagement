@@ -22,7 +22,7 @@
             </md-tab>
         </md-tabs>
         <form role="search" ng-submit="hideMobileKeyboard($event)">
-            <md-input-container class="fdz-search-input mb0">
+            <md-input-container class="fdz-search-input">
                 <label>{{tabs[searchParams.selectedTabIndex].inputLabel|translate}}</label>
                 <md-icon md-font-set="material-icons">search</md-icon>
                 <input id="query" type="search" ng-model="searchParams.query" ng-model-options="{debounce: 250}" autocomplete="off" tabindex="0" fdz-clear-input md-select-on-focus>
