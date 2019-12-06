@@ -7,7 +7,7 @@
     <div ng-if="ctrl.initComplete" ng-repeat="product in ctrl.products" class="fdz-fade-in">
       <md-card class="fdz-search-result">
         <md-card-header>
-          <md-card-header-text class="fdz-truncate-string">
+          <md-card-header-text class="fdz-truncate-string pb0">
             <div class="md-title fdz-truncate-string">
               <a
                 ui-sref="studyDetail({id: product.study.id, version: product.version, 'access-way': product.accessWay})">
@@ -83,11 +83,11 @@
     </md-card>
     <md-card ng-if="ctrl.initComplete && ctrl.products && ctrl.products.length > 0" class="fdz-fade-in">
       <md-card-header>
-        <md-card-header-text>
+        <md-card-header-text class="pb0">
           <h2 class="md-title">{{'shopping-cart.detail.personal-details' | translate }}</h2>
         </md-card-header-text>
       </md-card-header>
-      <md-card-content>
+      <md-card-content class="pt0">
         <div flex layout-gt-sm="row" layout="column">
           <md-input-container flex="50" ng-class="{'mr10': $mdMedia('gt-sm')}"
                               md-is-error="!customerForm.name.$valid && (customerForm.name.$dirty || customerForm.name.$touched)"
