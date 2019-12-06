@@ -169,7 +169,7 @@
         }
       }, true);
 
-    $scope.$watch(function(){
+    $scope.$watch(function() {
         return $location.search();
       },
       function() {
