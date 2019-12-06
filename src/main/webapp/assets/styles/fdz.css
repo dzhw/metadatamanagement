@@ -591,6 +591,12 @@ ui-view:focus {
       min-width: unset;
       margin: 0; }
 
+.fdz-theme form md-card-header-text {
+  padding-bottom: 8px; }
+  @media (min-width: 600px) {
+    .fdz-theme form md-card-header-text {
+      padding-bottom: 16px; } }
+
 .fdz-theme md-checkbox .md-ripple {
   color: #f0812d; }
 

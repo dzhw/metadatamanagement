@@ -28,6 +28,7 @@ $card-border-radius: 2px !default;
       }
     }
   }
+
   .md-card-collapsible-button {
     min-width: 24px;
     min-height: 24px;
@@ -65,5 +66,13 @@ $card-border-radius: 2px !default;
       min-width: unset;
       margin: 0;
     }
+  }
+}
+
+
+.fdz-theme form md-card-header-text {
+  padding-bottom: 8px;
+  @include rwd(600) {
+    padding-bottom: 16px;
   }
 }
