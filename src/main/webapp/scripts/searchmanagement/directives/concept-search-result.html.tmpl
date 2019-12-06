@@ -28,17 +28,18 @@
   </md-card-content>
   <md-card-actions
     data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER">
-    <md-button
-      class="md-primary md-small"
-      ng-click="conceptEdit({id: searchResult.id})">
+    <a
+      class="md-primary md-small md-button"
+      style="display:flex;"
+      ui-sref="conceptEdit({id: searchResult.id})">
       <md-tooltip
         md-autohide="true"
         md-direction="left"
         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'search-management.buttons.edit-concept-tooltip' | translate}}
       </md-tooltip>
-      {{'global.entity.action.edit' | translate}}
-    </md-button>
+      <span style="align-items: center">{{'global.entity.action.edit' | translate}}</span>
+    </a>
     <md-button
       class="md-primary md-small"
       ng-click="deleteConcept(searchResult.id)">

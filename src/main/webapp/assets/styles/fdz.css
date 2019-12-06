@@ -1889,6 +1889,9 @@ md-input-container label {
   background-color: white;
   border-radius: 2px;
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12); }
+  @media (min-width: 600px) {
+    .fdz-theme .fdz-detail {
+      margin: 0 8px; } }
 
 .fdz-theme .fdz-detail__header {
   display: flex;
