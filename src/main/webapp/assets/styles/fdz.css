@@ -2075,7 +2075,7 @@ md-input-container label {
 
 .fdz-table-wide td,
 .fdz-table-wide th {
-  padding: 8px 16px; }
+  padding: 8px 8px; }
 
 .fdz-table-wide td {
   vertical-align: top; }
@@ -2121,7 +2121,7 @@ tr:focus {
   border-top: 1px solid #ddd; }
 
 .fdz-table-rotated thead {
-  margin-left: 11px;
+  margin-left: 0px;
   display: block;
   float: left;
   width: 150px; }
