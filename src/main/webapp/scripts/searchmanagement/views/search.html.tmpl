@@ -31,7 +31,7 @@
         </form>
         <md-progress-linear ng-if="!tabs[searchParams.selectedTabIndex].elasticSearchType" md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>
     </md-card>
-    <md-card ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType" class="mb0">
+    <md-card ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType" class="mb0 pa0">
         <search-filter-panel current-elasticsearch-type="tabs[searchParams.selectedTabIndex].elasticSearchType" current-language="currentLanguage" current-search-params="searchParams" filter-changed-callback="onFilterChanged" bowser="bowser" is-searching="isSearching"></search-filter-panel>
     </md-card>
   </div>
