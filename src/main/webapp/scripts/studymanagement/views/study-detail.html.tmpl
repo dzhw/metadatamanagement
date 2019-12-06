@@ -50,19 +50,19 @@
           options="ctrl.study.description"
           template-url="scripts/studymanagement/templates/dp-description.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
+        <fdz-detail
+          ng-if="ctrl.attachments.study.length > 0 || ctrl.attachments.instruments.length > 0 || ctrl.attachments.surveys.length > 0 || ctrl.attachments.dataSets.length > 0"
+          collapsed="true"
+          lang="currentLanguage"
+          options="ctrl.attachments"
+          template-url="scripts/studymanagement/templates/dp-attachments.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
           id="ctrl.study.id"
           template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
-        <md-divider></md-divider>
-        <fdz-detail
-          ng-if="ctrl.attachments.study.length > 0 || ctrl.attachments.instruments.length > 0 || ctrl.attachments.surveys.length > 0 || ctrl.attachments.dataSets.length > 0"
-          collapsed="false"
-          lang="currentLanguage"
-          options="ctrl.attachments"
-          template-url="scripts/studymanagement/templates/dp-attachments.html.tmpl"></fdz-detail>
       </div>
     </div>
   </div>
