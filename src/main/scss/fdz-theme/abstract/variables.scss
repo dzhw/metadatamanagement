@@ -127,10 +127,10 @@ $background-hue-2: rgba(5, 153, 0, 0.93);
 $background-hue-3: rgba(5, 103, 0, 0.93);
 
 $warn-color: $brand-third;
-//$warn-color-026: #fb0cff;
+$warn-color-026: #fb0cff;
 //$warn-color-05: #fb0cff;
 //$warn-color-038: #fb0cff;
-//$warn-color-087: #fb0cff;
+$warn-color-087: #fb0cff;
 $warn-contrast: $brand-primary-text;
 $warn-contrast-01: $brand-primary-text;
 $warn-100: #F69F24;
@@ -148,8 +148,8 @@ $foreground-4: rgba(0,0,0,0.12);
 
 $accent-color: $brand-third;
 //$accent-color-05: #08fff2;
-//$accent-color-026: #08fff2;
-//$accent-color-087: #08fff2;
+$accent-color-026: #08fff2;
+$accent-color-087: #08fff2;
 $accent-100: #08fff2;
 $accent-contrast: $brand-primary-text;
 //$accent-contrast-01: #08fff2;
