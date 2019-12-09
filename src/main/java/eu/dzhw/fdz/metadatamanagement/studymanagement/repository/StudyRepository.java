@@ -20,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySub
  *
  * @author Daniel Katzberg
  */
-@RepositoryRestResource(path = "/studies", excerptProjection = IdAndVersionProjection.class)
+@RepositoryRestResource(path = "studies", excerptProjection = IdAndVersionProjection.class)
 @JaversSpringDataAuditable
 public interface StudyRepository extends BaseRepository<Study, String>, StudyRepositoryCustom {
 

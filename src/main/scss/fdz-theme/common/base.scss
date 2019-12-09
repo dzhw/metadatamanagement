@@ -1,0 +1,165 @@
+html,
+body {
+  min-width: 320px;
+  overflow: hidden;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  z-index: 0;
+  background-color: rgb(250, 250, 250);
+}
+
+.ng-cloak,
+.x-ng-cloak,
+[data-ng-cloak],
+[ng-cloak],
+[ng\:cloak],
+[x-ng-cloak] {
+  display: none !important;
+}
+
+ui-view:focus {
+  outline: none;
+}
+
+
+.fdz-theme {
+  // Links
+  a {
+    color: #006AB2;
+    text-decoration: none;
+  }
+
+  a:hover, a:focus {
+    text-decoration: underline;
+  }
+
+  a:hover {
+    color: #003c66;
+    cursor: pointer;
+  }
+
+  a:focus {
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-color: $accent-color;
+    outline-offset: -2px;
+  }
+
+  a.md-button:hover,
+  a.md-button:focus {
+    text-decoration: none;
+  }
+
+  // Headlines
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+  }
+
+  h5 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .md-headline {
+    font-size: 20px;
+    line-height: 30px;
+    @include rwd(600) {
+      font-size: 24px;
+      line-height: 36px;
+    }
+  }
+
+  .md-title {
+    font-size: 18px;
+    @include rwd(600) {
+      font-size: 20px;
+    }
+  }
+
+  .md-subtitle {
+    font-size: 16px;
+    color: $foreground-3;
+    @include rwd(600) {
+      font-size: 18px;
+    }
+  }
+
+  // Colors
+  .fdz-primary {
+    color: $brand-primary;
+  }
+
+  .fdz-secondary {
+    color: $brand-secondary;
+  }
+
+  .fdz-third {
+    color: $brand-third !important;
+  }
+
+  .fdz-text {
+    color: $brand-background-600;
+  }
+
+  // Button
+  .md-button.fdz-small {
+    min-width: 36px;
+  }
+
+  // Text
+  .fdz-hyphenate {
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+  }
+
+  .fdz-text-block {
+    text-align: justify;
+  }
+
+  .fdz-multiline-property {
+    white-space: pre-line;
+  }
+
+  .md-dialog-content-body {
+    white-space: pre-line;
+  }
+
+  .fdz-truncate-string {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .fdz-truncate-string .md-title {
+    min-height: 1.4em;
+  }
+
+  // Code
+  .hljs {
+    background-color: inherit;
+  }
+
+  .fdz-code-container {
+    white-space: pre-wrap;
+    overflow: hidden;
+  }
+
+  pre {
+    margin: 0;
+  }
+
+  // Various
+  .hide-validation-error .md-errors-spacer {
+    display: none;
+  }
+
+  .md-button,
+  .md-tab {
+    text-transform: none;
+  }
+}

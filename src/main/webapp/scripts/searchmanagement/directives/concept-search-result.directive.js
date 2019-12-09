@@ -10,7 +10,8 @@ angular.module('metadatamanagementApp').directive('conceptSearchResult',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
-        searchResultIndex: '='
+        searchResultIndex: '=',
+        setParams: '&'
       },
       controller: function($scope, CommonDialogsService, ConceptResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
@@ -42,7 +43,6 @@ angular.module('metadatamanagementApp').directive('conceptSearchResult',
             showGenericErrorMessage(data.status);
           }
         };
-
         $scope.deleteConcept = function(conceptId) {
           CommonDialogsService.showConfirmDeletionDialog({
             type: 'concept',

@@ -1,6 +1,6 @@
 <div>
 	<div>
-		<div layout-gt-xs="row" layout="column" layout-wrap>
+		<div layout-gt-xs="row" layout="column" layout-wrap class="mv8">
 			<md-card layout-margin layout-column layout-align="center center" flex="1" style="flex-grow:0;min-width:200px;padding:8px;">
 				<release-status-badge released="ctrl.project.release"></release-status-badge>
 				<div class="layout-row">
@@ -34,7 +34,7 @@
 			</md-card>
 		</div>
 	</div>
-	<div layout-gt-sm="row" layout="column" layout-wrap>
+	<div layout-gt-sm="row" layout="column" layout-wrap class="mb8">
 		<metadata-type-state-card flex="auto" project="ctrl.project" counts="ctrl.counts" type="studies"></metadata-type-state-card>
 		<metadata-type-state-card ng-repeat="state in ctrl.sortedStates" flex="auto" project="ctrl.project" counts="ctrl.counts" type="{{state}}"></metadata-type-state-card>
 	</div>

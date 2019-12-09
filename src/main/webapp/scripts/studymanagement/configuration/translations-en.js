@@ -10,6 +10,8 @@ angular.module('metadatamanagementApp').config(
             'study': 'Study',
             'studies': 'Studies',
             'studySeries': 'Study Series',
+            'dataPacket': 'Data package',
+            'dataPackets': 'Data package',
             'institution': 'Institution',
             'institutions': 'Institution(s)',
             'authors': 'Authors',
@@ -19,8 +21,10 @@ angular.module('metadatamanagementApp').config(
             'annotations': 'Annotations',
             'wave': 'Waves',
             'survey-data-type': 'Survey Data Type',
+            'survey-period': 'Survey Period',
             'title': 'Title',
             'dataAvailability': 'Data Availability',
+            'tags': 'Tags',
             'attachments': {
               'type': 'Type',
               'title': 'Title',
@@ -37,10 +41,11 @@ angular.module('metadatamanagementApp').config(
               'surveyed-in': 'Contains data from these surveys'
             },
             'doi': 'DOI',
-            'published-at': 'published at'
+            'published-at': 'published at',
+            'published': 'Published at'
           },
           'attachments': {
-            'table-title': 'Documents related to the Study',
+            'table-title': 'Documents related to this Data Package',
             'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
             'delete-attachment-tooltip': 'Click to delete document "{{ filename }}"!',
             'edit-attachment-tooltip': 'Click to edit the metadata for document "{{ filename }}".',
@@ -102,7 +107,7 @@ angular.module('metadatamanagementApp').config(
               'many': 'Click to show all instruments of this study'
             },
             'studies': {
-              'study-series': 'Click to show all studies of the study series.'
+              'study-series': 'Click to show all data packages of the study series.'
             },
             'concepts': {
               'one': 'Click to show the concept which has been measured in this study',
@@ -110,7 +115,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'doi-tooltip': 'Click to open the DOI in a new Tab',
-          'tag-tooltip': 'Click to search for studies with this tag'
+          'tag-tooltip': 'Click to search for data packages with this tag'
         },
         'log-messages': {
           'study': {

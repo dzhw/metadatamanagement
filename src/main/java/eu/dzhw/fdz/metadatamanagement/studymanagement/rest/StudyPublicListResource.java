@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyListService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,8 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/api")
 @Validated
-@Api(value = "Study List Resource",
-    description = "Endpoint for retrieving released studies.")
+@Tag(name = "Study List Resource", description = "Endpoint for retrieving released studies.")
 @RequiredArgsConstructor
 public class StudyPublicListResource {
 
@@ -46,7 +45,7 @@ public class StudyPublicListResource {
    *         paging.
    */
   @GetMapping(value = "/studies")
-  @ApiOperation("Get the paged list of currently released studies.")
+  @Operation(summary = "Get the paged list of currently released studies.")
   public ResponseEntity<Page<StudySearchDocument>> listStudies(
       @RequestParam(value = "page", defaultValue = "0") int page,
       @RequestParam(value = "size", defaultValue = "5") @Max(20) int size) {

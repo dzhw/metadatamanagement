@@ -200,7 +200,7 @@ public class ElasticsearchUpdateQueueService {
         elasticsearchDao.executeBulk(bulkBuilder.build());
       }
       // finally delete the queue items
-      queueItemRepository.deleteAll(lockedItems);
+      lockedItems.forEach(item -> queueItemRepository.deleteById(item.getId()));
     } catch (ElasticsearchBulkOperationException ex) {
       log.error("Some documents in Elasticsearch could not be updated!", ex);
     }

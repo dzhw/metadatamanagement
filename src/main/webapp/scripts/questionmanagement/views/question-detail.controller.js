@@ -5,11 +5,11 @@
 
 angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
-    function(entity, $state, ToolbarHeaderService,
+    function(entity, $state, ToolbarHeaderService, MessageBus,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
       QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
-      ProductChooserDialogService, OutdatedVersionNotifier, blockUI) {
+      OutdatedVersionNotifier, blockUI) {
       blockUI.start();
 
       SearchResultNavigatorService
@@ -55,6 +55,13 @@ angular.module('metadatamanagementApp')
           title.instrumentDescription = result.instrument.
           description[$rootScope.currentLanguage];
         }
+        if (!Principal.isAuthenticated()) {
+          MessageBus.set('onDataPackageChange',
+            {
+              masterId: result.study.masterId,
+              version: result.release.version
+            });
+        }
         PageTitleService.
           setPageTitle('question-management.detail.title', title);
         ToolbarHeaderService.updateToolbarHeader({
@@ -63,12 +70,11 @@ angular.module('metadatamanagementApp')
           'questionNumber': result.number,
           'instrumentNumber': result.instrumentNumber,
           'instrumentId': result.instrumentId,
-          'instrumentIsPresent': CleanJSObjectService.
-          isNullOrEmpty(result.instrument) ? false : true,
+          'instrumentIsPresent': !CleanJSObjectService
+                                    .isNullOrEmpty(result.instrument),
           'surveys': result.surveys,
           'studyId': result.studyId,
-          'studyIsPresent': CleanJSObjectService.
-          isNullOrEmpty(result.study) ? false : true,
+          'studyIsPresent': !CleanJSObjectService.isNullOrEmpty(result.study),
           'projectId': result.dataAcquisitionProjectId,
           'version': result.shadow ? _.get(result, 'release.version') : null
         });
@@ -146,6 +152,8 @@ angular.module('metadatamanagementApp')
             ctrl.variable = result.variables[0];
           }
           ctrl.instrument = result.instrument;
+          ctrl.counts.instrumentsCount = result.instrument.length;
+
           ctrl.counts.publicationsCount = result.relatedPublications.length;
           if (ctrl.counts.publicationsCount === 1) {
             ctrl.relatedPublication = result.relatedPublications[0];
@@ -177,11 +185,4 @@ angular.module('metadatamanagementApp')
         ctrl.representationCodeToggleFlag = !ctrl.representationCodeToggleFlag;
       };
 
-      ctrl.addToShoppingCart = function(event) {
-        ProductChooserDialogService.showDialog(
-          ctrl.question.dataAcquisitionProjectId, ctrl.accessWays,
-          ctrl.question.study,
-          ctrl.question.release.version,
-          event);
-      };
     });

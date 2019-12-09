@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
         currentLanguage: '=',
         bowser: '=',
         addMargin: '=',
-        searchResultIndex: '='
+        searchResultIndex: '=',
+        setParams: '&'
       },
       controller: function($scope, CommonDialogsService, SurveyResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
@@ -65,6 +66,7 @@ angular.module('metadatamanagementApp').directive('surveySearchResult',
           }
         };
         $scope.isLoggedIn = Principal.loginName();
+
       }
     };
   });

@@ -1,0 +1,58 @@
+<md-card>
+  <md-card-header ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+    <md-card-header-text>
+      <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+    </md-card-header-text>
+    <md-button
+      class="md-card-collapsible-button">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <md-list>
+        <md-list-item ng-if="$ctrl.options.title">
+          <h5>{{'concept-management.detail.label.title' | translate }}:</h5>
+            <span display-i18n-string="$ctrl.options.title" fdz-hyphenate></span>
+          </a>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.authors">
+          <h5>{{'concept-management.detail.label.authors' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            ng-repeat="author in $ctrl.options.authors">{{author.lastName}}, {{author.firstName}}{{author.middleName !== undefined?' '+author.middleName:''}}{{!$last?'; ':''}}</span>
+          </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.citationHint">
+          <h5>{{'concept-management.detail.label.citation-hint' | translate }}:</h5>
+          <span
+            class="md-secondary">{{$ctrl.options.citationHint}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.originalLanguages">
+          <h5>{{'concept-management.detail.label.original-languages' | translate }}:</h5>
+          <span
+            class="md-secondary pre"
+            ng-repeat="language in $ctrl.options.originalLanguages">{{(language | displayIsoLanguage: $ctrl.lang)}}{{$index + 1 !== $ctrl.options.originalLanguages.length ? ', ': ''}}</span>
+          </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.doi">
+          <h5>{{'concept-management.detail.label.doi' | translate }}:</h5>
+          <span
+            class="md-secondary">
+            <a
+              ng-href="https://dx.doi.org/{{$ctrl.options.doi}}"
+              target="_blank">
+              {{$ctrl.options.doi}}
+              <md-tooltip
+                md-autohide="true"
+                md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'concept-management.detail.doi-tooltip' | translate}}
+              </md-tooltip>
+            </a>
+          </span>
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+  </div>
+</md-card>

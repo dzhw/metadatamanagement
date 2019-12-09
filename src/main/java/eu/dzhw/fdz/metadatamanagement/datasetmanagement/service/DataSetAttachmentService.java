@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.javers.core.Javers;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
@@ -24,6 +25,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.helper.DataSetAttachmentFilenameBuilder;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 
@@ -112,7 +114,28 @@ public class DataSetAttachmentService {
   public List<DataSetAttachmentMetadata> findAllByDataSet(String dataSetId) {
     Query query = new Query(GridFsCriteria.whereFilename().regex(
         "^" + Pattern.quote(DataSetAttachmentFilenameBuilder.buildFileNamePrefix(dataSetId))));
-    query.with(new Sort(Sort.Direction.ASC, "metadata.indexInDataSet"));
+    query.with(Sort.by(Sort.Direction.ASC, "metadata.indexInDataSet"));
+    Iterable<GridFSFile> files = this.operations.find(query);
+    List<DataSetAttachmentMetadata> result = new ArrayList<>();
+    files.forEach(gridfsFile -> {
+      result.add(mongoTemplate.getConverter().read(DataSetAttachmentMetadata.class,
+          gridfsFile.getMetadata()));
+    });
+    return result;
+  }
+  
+  /**
+   * Load all metadata objects from gridfs (ordered by dataSetNumber and indexInDataSet).
+   * 
+   * @param dataAcquisitionProjectId The id of the {@link DataAcquisitionProject}.
+   * @return A list of metadata.
+   */
+  public List<DataSetAttachmentMetadata> findAllByProject(String dataAcquisitionProjectId) {
+    Query query = new Query(GridFsCriteria.whereFilename()
+        .regex(DataSetAttachmentFilenameBuilder.ALL_DATASET_ATTACHMENTS).andOperator(
+            GridFsCriteria.whereMetaData("dataAcquisitionProjectId").is(dataAcquisitionProjectId)));
+    query.with(
+        Sort.by(Order.asc("metadata.dataSetNumber"), Order.asc("metadata.indexInDataSet")));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<DataSetAttachmentMetadata> result = new ArrayList<>();
     files.forEach(gridfsFile -> {

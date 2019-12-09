@@ -1,0 +1,24 @@
+<md-card>
+  <md-card-header ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+    <md-card-header-text>
+      <h2 class="md-title">{{'related-publication-management.detail.abstract' | translate | fdzHyphenate}}</h2>
+    </md-card-header-text>
+    <md-button
+      class="md-card-collapsible-button">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <p class="fdz-text-block fdz-multiline-property" display-i18n-string="$ctrl.options.relatedPublication.language"
+         fdz-hyphenate>{{$ctrl.options.relatedPublication.publicationAbstract}}</p>
+      <md-list>
+        <md-list-item>
+          <h5>{{'related-publication-management.detail.label.abstract-source' | translate }}:</h5>
+          <span class="md-secondary" display-i18n-string="$ctrl.options.relatedPublication.abstractSource"></span>
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+  </div>
+</md-card>

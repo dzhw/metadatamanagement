@@ -3,12 +3,19 @@
 
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
-    function(entity, PageTitleService, LanguageService, DataSetSearchService,
-             $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-             StudyAttachmentResource, SearchResultNavigatorService,
-             $stateParams, $rootScope, DataAcquisitionProjectResource,
-             ProductChooserDialogService, ProjectUpdateAccessService, $scope,
-             $timeout, OutdatedVersionNotifier, StudySearchService, $log,
+    function(entity,
+             MessageBus,
+             PageTitleService,
+             LanguageService, DataSetSearchService,
+             $state, $location,
+             ToolbarHeaderService, Principal, SimpleMessageToastService,
+             SearchResultNavigatorService,
+             $stateParams,
+             DataAcquisitionProjectAttachmentsResource,
+             $rootScope, DataAcquisitionProjectResource,
+             ProjectUpdateAccessService, $scope,
+             $timeout, $document,
+             OutdatedVersionNotifier, StudySearchService, $log,
              blockUI) {
       blockUI.start();
       SearchResultNavigatorService
@@ -24,7 +31,6 @@ angular.module('metadatamanagementApp')
           return [];
         }
       };
-
       var ctrl = this;
       var activeProject;
       ctrl.isAuthenticated = Principal.isAuthenticated;
@@ -46,11 +52,11 @@ angular.module('metadatamanagementApp')
       var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {
-        StudyAttachmentResource.findByStudyId({
-          studyId: ctrl.study.id
+        DataAcquisitionProjectAttachmentsResource.get({
+          id: ctrl.study.dataAcquisitionProjectId
         }).$promise.then(
           function(attachments) {
-            if (attachments.length > 0) {
+            if (attachments) {
               ctrl.attachments = attachments;
             }
           });
@@ -83,6 +89,13 @@ angular.module('metadatamanagementApp')
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
           });
+        }
+        if (!Principal.isAuthenticated()) {
+          MessageBus.set('onDataPackageChange',
+            {
+              masterId: result.masterId,
+              version: result.release.version
+            });
         }
 
         PageTitleService.setPageTitle('study-management.detail.title', {
@@ -149,6 +162,12 @@ angular.module('metadatamanagementApp')
               ctrl.dataSets = dataSets.hits.hits;
             });
           ctrl.loadAttachments();
+
+          $timeout(function() {
+            if ($location.search().query) {
+              ctrl.scroll();
+            }
+          }, 500);
         } else {
           SimpleMessageToastService.openAlertMessageToast(
             'study-management.detail.not-released-toast', {id: result.id}
@@ -156,15 +175,17 @@ angular.module('metadatamanagementApp')
         }
 
         ctrl.studyTags = getTags(result);
+
       }, $log.error).finally(blockUI.stop);
 
-      ctrl.addToShoppingCart = function(event) {
-        ProductChooserDialogService.showDialog(
-          ctrl.study.dataAcquisitionProjectId, ctrl.accessWays, ctrl.study,
-          ctrl.study.release.version,
-          event);
+      ctrl.scroll = function() {
+        var element = $document[0].getElementById('related-objects');
+        if ($rootScope.bowser.msie) {
+          element.scrollIntoView(true);
+        } else {
+          element.scrollIntoView({behavior: 'smooth', inline: 'nearest'});
+        }
       };
-
       ctrl.studyEdit = function() {
         if (ProjectUpdateAccessService
           .isUpdateAllowed(activeProject, 'studies', true)) {

@@ -1,0 +1,14 @@
+.fdz-theme md-sidenav {
+  width: 100%;
+  max-width: 100%;
+  z-index: 20;
+
+  @include rwd(400) {
+    width: 400px;
+    max-width: 400px;
+  }
+
+  &, md-content {
+    background-color: $background-hue-1;
+  }
+}

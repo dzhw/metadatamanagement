@@ -2,394 +2,63 @@
   <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
   <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
   <div class="fdz-cc">
-    <div layout="row" layout-margin style="margin-bottom: 0px;">
-      <h1 class="md-headline fdz-headline">{{'question-management.detail.label.question' |
-        translate}} {{ctrl.question.number}}: <span display-i18n-string="ctrl.instrument.description"
-                                                    fdz-hyphenate
-                                                    ng-if='ctrl.instrument'></span> <span
-          class="label label-as-badge label-default">{{ctrl.question.masterId}}</span></h1>
-      <json-content-dialog class="mb0"
-                           content="ctrl.question"
-                           exclude-fields="ctrl.jsonExcludes"
-                           header-title="ctrl.instrument ? ctrl.instrument.description : ''"
-                           ng-if="ctrl.enableJsonView">
-      </json-content-dialog>
-    </div>
-    <div layout="column" layout-gt-sm="row">
-      <div flex-gt-sm="50" layout="column">
-        <md-card flex="auto">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-card-content>
-            <div class="fdz-add-bottom-margin" ng-if="ctrl.question.number">
-              <span style="font-weight: bold;">{{'question-management.detail.label.number' | translate }}:</span>
-              <span>{{ctrl.question.number}}</span>
-            </div>
-            <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.question.questionText">
-              <span style="font-weight: bold;">{{'question-management.detail.label.questionText' | translate }}:</span>
-              <span class="fdz-multiline-property" display-i18n-string="ctrl.question.questionText"
-                    fdz-hyphenate></span>
-            </div>
-            <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.question.introduction">
-              <span style="font-weight: bold;">{{'question-management.detail.label.introduction' | translate }}:</span>
-              <span class="fdz-multiline-property" display-i18n-string="ctrl.question.introduction"
-                    fdz-hyphenate></span>
-            </div>
-            <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.question.instruction">
-              <span style="font-weight: bold;">{{'question-management.detail.label.instruction' | translate }}:</span>
-              <span class="fdz-multiline-property" display-i18n-string="ctrl.question.instruction" fdz-hyphenate></span>
-            </div>
-            <div class="fdz-add-bottom-margin" ng-if="ctrl.question.type">
-              <span style="font-weight: bold;">{{'question-management.detail.label.type' | translate }}:</span>
-              <span display-i18n-string="ctrl.question.type" fdz-hyphenate></span>
-            </div>
-            <div class="fdz-add-bottom-margin" ng-if="ctrl.question.topic">
-              <span style="font-weight: bold;">{{'question-management.detail.label.topic' | translate }}:</span>
-              <span display-i18n-string="ctrl.question.topic" fdz-hyphenate></span>
-            </div>
-            <div class="fdz-add-bottom-margin fdz-text-block" ng-if="ctrl.question.annotations">
-              <span style="font-weight: bold;">{{'question-management.detail.label.annotations' | translate }}:</span>
-              <span class="fdz-multiline-property" display-i18n-string="ctrl.question.annotations" fdz-hyphenate></span>
-            </div>
-          </md-card-content>
-        </md-card>
-      </div>
-      <div flex-gt-sm="50" layout="column">
-        <md-card flex="auto"
-                 ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-card-content layout="column" layout-align="center start">
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="!ctrl.study">
-                <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                {{'study-management.detail.label.study' | translate }}: {{'global.messages.error.unavailable' |
-                translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.study">
-                <a
-                  ui-sref="studyDetail({id: ctrl.study.masterId, version: ctrl.question.shadow?ctrl.question.release.version:''})">
-                  <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                  {{'study-management.detail.label.study' | translate }}: <span
-                  display-i18n-string="ctrl.study.title"></span></a>
-                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                  {{'question-management.detail.tooltips.studies.one' | translate}}
-                </md-tooltip>
-              </div>
-            </div>
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.surveysCount == 0">
-                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.undocumented' |
-                translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey">
-                <a
-                  ui-sref="surveyDetail({'id': ctrl.survey.masterId, version: ctrl.question.shadow?ctrl.question.release.version:''})">
-                  <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                  {{'survey-management.detail.label.survey' | translate }}:
-                  <span display-i18n-string="ctrl.survey.title"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'study-management.detail.tooltips.surveys.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.surveysCount > 1">
-                <a
-                  ui-sref="search({'type': 'surveys', 'question': ctrl.question.id, 'study': ctrl.question.studyId, 'instrument': ctrl.question.instrumentId})">
-                  <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                  {{'survey-management.detail.label.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'study-management.detail.tooltips.surveys.many' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="!ctrl.instrument">
-                <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                {{'instrument-management.detail.label.instrument' | translate }}: {{'global.messages.error.unavailable'
-                | translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.instrument">
-                <a
-                  ui-sref="instrumentDetail({'id': ctrl.instrument.masterId, version: ctrl.question.shadow?ctrl.question.release.version:''})">
-                  <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                  {{'instrument-management.detail.label.instrument' | translate }}: <span
-                  display-i18n-string="ctrl.instrument.description"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'question-management.detail.tooltips.instruments.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.variablesCount == 0">
-                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                {{'variable-management.detail.label.variables' | translate }}: {{'global.messages.error.undocumented' |
-                translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable">
-                <a
-                  ui-sref="variableDetail({'id': ctrl.variable.masterId, version: ctrl.question.shadow?ctrl.question.release.version:''})">
-                  <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                  {{'variable-management.detail.label.variable' | translate }}: <span
-                  display-i18n-string="ctrl.variable.label"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'question-management.detail.tooltips.variables.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.variablesCount > 1">
-                <a
-                  ui-sref="search({'type': 'variables', 'question': ctrl.question.id, 'study': ctrl.question.studyId, 'instrument': ctrl.question.instrumentId})">
-                  <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                  {{'variable-management.detail.label.variables' | translate }}: ({{ctrl.counts.variablesCount}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'question-management.detail.tooltips.variables.many' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.publicationsCount == 0">
-                <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                {{'related-publication-management.detail.label.publications' | translate }}:
-                {{'global.messages.error.undocumented' | translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.publicationsCount == 1">
-                <a ui-sref="relatedPublicationDetail({'id': ctrl.relatedPublication.id})">
-                  <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                  {{'related-publication-management.detail.label.publication' | translate }}:
-                  {{ctrl.relatedPublication.title}}
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'question-management.detail.tooltips.publications.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.publicationsCount > 1">
-                <a
-                  ui-sref="search({'type': 'related_publications', 'question':ctrl.question.id, 'study': ctrl.question.studyId, 'instrument': ctrl.question.instrumentId})">
-                  <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                  {{'related-publication-management.detail.label.publications' | translate }}:
-                  ({{ctrl.counts.publicationsCount}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'question-management.detail.tooltips.publications.many' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.conceptsCount == 0">
-                <md-icon md-svg-src="/assets/images/icons/concept.svg"></md-icon>
-                {{'concept-management.detail.label.concepts' | translate }}: {{'global.messages.error.undocumented' |
-                translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.conceptsCount == 1">
-                <a ui-sref="conceptDetail({'id': ctrl.concept.id})">
-                  <md-icon md-svg-src="/assets/images/icons/concept.svg"></md-icon>
-                  {{'concept-management.detail.label.concept' | translate }}:
-                  <span display-i18n-string="ctrl.concept.title"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'question-management.detail.tooltips.concepts.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.conceptsCount > 1">
-                <a
-                  ui-sref="search({'type': 'concepts', 'question':ctrl.question.id, 'study': ctrl.question.studyId, 'instrument': ctrl.question.instrumentId})">
-                  <md-icon md-svg-src="/assets/images/icons/concept.svg"></md-icon>
-                  {{'concept-management.detail.label.concepts' | translate }}: ({{ctrl.counts.conceptsCount}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'question-management.detail.tooltips.concepts.many' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-          </md-card-content>
-        </md-card>
-      </div>
-    </div>
-    <!-- images row -->
-    <div layout="column" layout-gt-sm="row"
-         ng-if="ctrl.imageLanguages.length >= 1 && ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage].length >= 1">
-      <div flex-gt-sm="50" layout="column">
-        <md-card class="fdz-reset-top-margin" flex="auto">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'question-management.detail.images-for-question' | translate }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-card-content read-element-size style="padding: 0px;">
-            <div class="fdz-overlay-outer-box">
-              <div class="fdz-overlay-inner-box-top" ng-if="ctrl.imageLanguages.length > 1">
-                <md-menu>
-                  <md-button class="md-fab md-mini md-primary" ng-click="$mdMenu.open($event)">
-                    <md-tooltip md-autohide="true" md-direction="left"
-                                md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                      {{'question-management.detail.change-image-language-tooltip' | translate}}
-                    </md-tooltip>
-                    <md-icon md-font-set="material-icons">language</md-icon>
-                  </md-button>
-                  <md-menu-content width="4">
-                    <md-menu-item ng-repeat="language in ctrl.imageLanguages">
-                      <md-button md-prevent-menu-close="md-prevent-menu-close"
-                                 ng-click="ctrl.changeCurrentImageLanguage(language)">{{language |
-                        displayIsoLanguage:currentLanguage}}
-                      </md-button>
-                    </md-menu-item>
-                  </md-menu-content>
-                </md-menu>
-              </div>
-              <div ng-if="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage].length > 1">
-                <jk-carousel current-index="ctrl.currentImageIndex"
-                             data="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage]"
-                             item-template-url="'scripts/questionmanagement/views/question-image-template.html.tmpl'" max-height="211px" max-width="{{windowWidth}}px">
-                </jk-carousel>
-              </div>
-              <div ng-if="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage].length === 1">
-                <div class="fdz-overlay-outer-box">
-                  <div style="max-height:211px; overflow-y:hidden;">
-                    <img alt="" display-i18n-string="ctrl.question.questionText" ng-src="{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][0].id}}"
-                         style="width: 100%; height: auto"/>
-                  </div>
-                </div>
-              </div>
-              <div class="fdz-overlay-inner-box-bottom">
-                <md-button class="md-fab md-mini md-primary"
-                           ng-href="{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].id}}"
-                           target="_blank">
-                  <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg"></md-icon>
-                  <md-tooltip md-autohide="true" md-direction="left"
-                              md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'global.tooltips.images' | translate}}
-                  </md-tooltip>
-                </md-button>
-              </div>
-            </div>
-            <md-divider
-              ng-if="ctrl.question.instrument.type != 'PAPI' || ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].containsAnnotations"></md-divider>
-            <md-card-content
-              layout="column"
-              ng-if="ctrl.question.instrument.type != 'PAPI' || ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].containsAnnotations">
-              <div class="fdz-text-block" ng-class="{'fdz-add-bottom-margin': ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].containsAnnotations}"
-                   ng-if="ctrl.question.instrument.type != 'PAPI'">
-                <span style="font-weight: bold;">{{'question-management.detail.label.resolution' | translate }}: </span>
-                <span ng-if="ctrl.currentImageIndex < ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage].length">{{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].resolution.widthX}} x {{ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].resolution.heightY}}</span>
-              </div>
-              <div
-                class="fdz-text-block"
-                ng-if="ctrl.imagesGroupedByLanguage[ctrl.currentImageLanguage][ctrl.currentImageIndex].containsAnnotations">
-                <span style="font-weight: bold;">{{'question-management.detail.label.note' | translate }}: </span>
-                <span>{{'question-management.detail.label.has-annotations' | translate }}</span>
-              </div>
-            </md-card-content>
-          </md-card-content>
-        </md-card>
-      </div>
-      <div flex-gt-sm="50">
-        <div class="fdz-fake-empty-card fdz-reset-top-margin" hide-sm hide-xs
-             ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}"></div>
-      </div>
-    </div>
-    <div layout="column" layout-gt-sm="row">
-      <div flex-gt-sm="50" layout="column">
-        <md-card class="fdz-reset-top-margin" flex="auto">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'question-management.detail.predecessors' | translate | fdzHyphenate }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-content style="background-color:white;">
-            <div ng-repeat="predecessor in ctrl.predecessors" style="width: 100%;">
-              <question-search-result bowser="bowser" current-language="currentLanguage"
-                                      search-result="predecessor._source"></question-search-result>
-            </div>
-            <div layout="row" layout-align="center center" layout-padding ng-if="ctrl.predecessors.length == 0">
-              {{'question-management.detail.no-predecessors' | translate}}
-            </div>
-          </md-content>
-        </md-card>
-      </div>
-      <div flex-gt-sm="50" layout="column">
-        <md-card class="fdz-reset-top-margin" flex="auto" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'question-management.detail.successors' | translate | fdzHyphenate }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-content style="background-color:white;">
-            <div ng-repeat="successor in ctrl.successors" style="width: 100%;">
-              <question-search-result bowser="bowser" current-language="currentLanguage"
-                                      search-result="successor._source"></question-search-result>
-            </div>
-            <div layout="row" layout-align="center center" layout-padding ng-if="ctrl.successors.length == 0">
-              {{'question-management.detail.no-successors' | translate }}
-            </div>
-          </md-content>
-        </md-card>
-      </div>
-    </div>
-    <div layout="row" ng-if="ctrl.question.technicalRepresentation">
-      <md-card class="fdz-reset-top-margin" flex>
-        <md-card-header layout-align="center center">
-          <md-card-header-text>
-            <h2 class="md-title">{{'question-management.detail.technical-representation' | translate | fdzHyphenate }}
-              ({{ctrl.question.technicalRepresentation.type}})</h2>
-          </md-card-header-text>
-        </md-card-header>
-        <md-divider></md-divider>
-        <md-card-content>
-          <div class="fdz-overlay-outer-box">
-            <div class="fdz-code-container" hljs
-                 hljs-language="{{ctrl.question.technicalRepresentation.language}}" hljs-source="ctrl.technicalRepresentationBeauty" ng-class="{'fdz-hidden-code': ctrl.representationCodeToggleFlag}"
-                 style="margin-top: 0.5em;"></div>
-            <div class="fdz-overlay-inner-box-top">
-              <md-button
-                class="md-icon-button md-primary"
-                data-clipboard-text="{{ctrl.technicalRepresentationBeauty}}" ng-click="ctrl.openSuccessCopyToClipboardToast('question-management.log-messages.question.technical-representation-success-copy-to-clipboard')"
-                ngclipboard>
-                <md-icon md-font-library="material-icons">content_copy</md-icon>
-                <md-tooltip md-autohide="true" md-direction="top"
-                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                  {{'question-management.detail.copy-technical-representation-to-clipboard-tooltip' | translate}}
-                </md-tooltip>
-              </md-button>
-              <md-button class="md-icon-button md-primary" ng-click="ctrl.toggleRepresentationCode()">
-                <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg"
-                         ng-if="ctrl.representationCodeToggleFlag"></md-icon>
-                <md-icon md-svg-src="/assets/images/icons/arrow-compress.svg"
-                         ng-if="!ctrl.representationCodeToggleFlag"></md-icon>
-                <md-tooltip md-autohide="true" md-direction="top"
-                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                  {{'question-management.detail.show-complete-technical-representation-tooltip.' +
-                  ctrl.representationCodeToggleFlag | translate }}
-                </md-tooltip>
-              </md-button>
-            </div>
+    <div>
+      <div class="fdz-detail">
+        <div class="fdz-detail__header">
+          <div class="fdz-detail__header-text">
+            <h1 class="md-headline">{{'question-management.detail.label.question' |
+              translate}} {{ctrl.question.number}}: <span display-i18n-string="ctrl.instrument.description"
+                                                          fdz-hyphenate
+                                                          ng-if='ctrl.instrument'></span></h1>
+            <json-content-dialog
+              class="mb0"
+              content="ctrl.question"
+              exclude-fields="ctrl.jsonExcludes"
+              header-title="ctrl.instrument ? ctrl.instrument.description : ''"
+              ng-if="ctrl.enableJsonView">
+            </json-content-dialog>
           </div>
-        </md-card-content>
-      </md-card>
+        </div>
+        <md-divider></md-divider>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.question"
+          template-url="scripts/questionmanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl"
+          template-url="scripts/questionmanagement/templates/dp-image.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.predecessors"
+          template-url="scripts/questionmanagement/templates/dp-prev-question.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.successors"
+          template-url="scripts/questionmanagement/templates/dp-next-question.html.tmpl"></fdz-detail>
+        <md-divider
+          ng-if="ctrl.question.technicalRepresentation"></md-divider>
+        <fdz-detail
+          ng-if="ctrl.question.technicalRepresentation"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl"
+          template-url="scripts/questionmanagement/templates/dp-generation.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-related-objects
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.counts"
+          id="ctrl.question.id"
+          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+      </div>
     </div>
-  </div>
-  <div class="fdz-fab-button-container" layout="column">
-    <md-button class="md-fab md-raised md-accent" ng-click="ctrl.addToShoppingCart($event)"
-               ng-if="!ctrl.isAuthenticated() || ctrl.hasAuthority('ROLE_USER')">
-      <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'shopping-cart.buttons.add-study-tooltip' | translate}}
-      </md-tooltip>
-      <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
-    </md-button>
   </div>
 </div>

@@ -93,6 +93,7 @@ public class MongoDbConfiguration extends AbstractMongoConfiguration {
    * 
    * @deprecated It is not working on cloudfoundry!
    */
+  @Deprecated
   @Bean
   @Profile({Constants.SPRING_PROFILE_LOCAL, Constants.SPRING_PROFILE_UNITTEST})
   public Mongeez mongeez(Mongo mongo) {
@@ -126,5 +127,10 @@ public class MongoDbConfiguration extends AbstractMongoConfiguration {
   @Override
   protected Collection<String> getMappingBasePackages() {
     return Arrays.asList("eu.dzhw.fdz.metadatamanagement.**.domain");
+  }
+  
+  @Override
+  protected boolean autoIndexCreation() {
+    return mongoProperties.isAutoIndexCreation();
   }
 }

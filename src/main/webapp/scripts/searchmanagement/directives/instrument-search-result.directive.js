@@ -10,7 +10,8 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
-        searchResultIndex: '='
+        searchResultIndex: '=',
+        setParams: '&'
       },
       controller: function($scope, CommonDialogsService, InstrumentResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,

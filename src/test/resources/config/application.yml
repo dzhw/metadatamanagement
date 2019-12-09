@@ -28,6 +28,7 @@ spring:
           host: localhost
           port: 0
           database: metadatamanagement
+          auto-index-creation: true
     mail:
         host: localhost
         port: 3025

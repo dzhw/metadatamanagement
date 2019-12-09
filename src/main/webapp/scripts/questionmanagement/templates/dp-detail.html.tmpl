@@ -1,0 +1,58 @@
+<md-card>
+  <md-card-header ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+    <md-card-header-text>
+      <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+    </md-card-header-text>
+    <md-button
+      class="md-card-collapsible-button">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <md-list>
+        <md-list-item ng-if="$ctrl.options.number">
+          <h5>{{'question-management.detail.label.number' | translate }}:</h5>
+          <span
+            class="md-secondary">{{$ctrl.options.number}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.questionText">
+          <h5>{{'question-management.detail.label.questionText' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.questionText" fdz-hyphenate></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.introduction">
+          <h5>{{'question-management.detail.label.introduction' | translate }}:</h5>
+          <span
+            class="md-secondary">{{$ctrl.options.introduction}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.instruction">
+          <h5>{{'question-management.detail.label.instruction' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.instruction" fdz-hyphenate></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.type">
+          <h5>{{'question-management.detail.label.type' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.type" fdz-hyphenate></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.topic">
+          <h5>{{'question-management.detail.label.topic' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.topic" fdz-hyphenate></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.annotations">
+          <h5>{{'question-management.detail.label.annotations' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.annotations" fdz-hyphenate></span>
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+  </div>
+</md-card>

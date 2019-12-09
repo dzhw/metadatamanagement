@@ -1,0 +1,94 @@
+<md-card class="fdz-data-packet" ng-if="$ctrl.study && $ctrl.studyIdVersion.masterId && $ctrl.lang && $ctrl.accessWays && $ctrl.releases">
+  <md-card-header>
+    <md-card-header-text>
+      <a ui-sref="studyDetail({id: $ctrl.studyIdVersion.masterId, version: $ctrl.studyIdVersion.version})" class="title">
+      {{$ctrl.study.title[$ctrl.lang]}}
+      </a>
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-content>
+    <md-list class="">
+      <md-list-item ng-if="$ctrl.study.surveyPeriod.start">
+        <h5>{{'study-management.detail.label.survey-period' | translate }}:</h5>
+        <span
+          class="md-secondary">
+          {{($ctrl.study.surveyPeriod.start | date:'mediumDate')}} - {{($ctrl.study.surveyPeriod.end | date:'mediumDate')}}
+          </span>
+      </md-list-item>
+      <md-list-item ng-if="$ctrl.study.surveyDesign.en==='Panel' && $ctrl.study.numberOfWaves > 0">
+        <h5>{{'study-management.detail.label.wave' | translate }}:</h5>
+        <span
+          class="md-secondary">
+            {{$ctrl.study.numberOfWaves}}
+          </span>
+      </md-list-item>
+      <md-list-item ng-if="$ctrl.study.surveyDataTypes">
+        <h5>{{'study-management.detail.label.survey-data-type' | translate }}:</h5>
+        <span
+          class="md-secondary">
+          <span
+            ng-repeat="dataType in $ctrl.study.surveyDataTypes">
+            {{dataType[$ctrl.lang]}}{{!$last?'; ':''}}</span>
+        </span>
+      </md-list-item>
+      <md-list-item ng-if="$ctrl.study.doi">
+        <h5>{{'study-management.detail.label.doi' | translate }}:</h5>
+        <span
+          class="md-secondary">{{$ctrl.study.doi}}</span>
+      </md-list-item>
+      <md-list-item ng-if="$ctrl.study.release.firstDate">
+        <h5>{{'study-management.detail.label.published' | translate }}:</h5>
+        <span
+          class="md-secondary">{{$ctrl.study.release.firstDate + 'Z' | date:'mediumDate'}}</span>
+      </md-list-item>
+      <md-list-item ng-if="$ctrl.releases.length > 0">
+        <h5>{{'search-management.detail.versions' | translate }}:</h5>
+          <md-select
+            class="md-secondary"
+            name="version"
+            ng-model="$ctrl.selectedVersion"
+            ng-disabled="$ctrl.disabled"
+            aria-label="{{'search-management.detail.versions' | translate }}">
+            <md-optgroup
+              label="{{'shopping-cart.detail.label.available-versions' | translate}}">
+              <md-option
+                ng-repeat="item in $ctrl.releases"
+                ng-value="item.version">
+                {{item.version}}{{$first?' (' + ('shopping-cart.detail.label.current' | translate) + ')':''}}</md-option>
+              </md-optgroup>
+          </md-select>
+      </md-list-item>
+      <md-list-item ng-if="$ctrl.accessWays.length > 0">
+        <h5>{{'search-management.detail.access-ways' | translate}}:</h5>
+        <md-select
+          class="md-secondary"
+          name="accessWay"
+          ng-model="$ctrl.selectedAccessWay"
+          aria-label="{{'search-management.detail.access-ways' | translate}}">
+          <md-optgroup label="{{'shopping-cart.detail.label.available-access-ways' | translate}}">
+            <md-option ng-repeat="item in $ctrl.accessWays" ng-value="item">{{item}}</md-option>
+          </md-optgroup>
+        </md-select>
+      </md-list-item>
+      <md-list-item ng-if="$ctrl.releases.length > 0 && $ctrl.accessWays.length > 0">
+        <md-button
+          class="md-small md-raised md-accent fdz-truncate-string"
+          ng-click="$ctrl.addToShoppingCart()"
+          ng-disabled="!$ctrl.selectedAccessWay || !$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible || $ctrl.dataNotAvailable">
+          <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'shopping-cart.buttons.add-study-tooltip' | translate}}
+          </md-tooltip>
+          <span>{{'search-management.detail.cart' | translate}}</span>
+        </md-button>
+      </md-list-item>
+    </md-list>
+  </md-card-content>
+  <md-card-footer style="padding-top: 0px;">
+    <span ng-if="$ctrl.dataNotAvailable">
+      {{'shopping-cart.detail.data-not-available' | translate | fdzHyphenate}}
+    </span>
+    <span ng-if="$ctrl.noFinalRelease">
+      {{'shopping-cart.detail.no-final-release' | translate | fdzHyphenate}}
+    </span>
+  </md-card-footer>
+</md-card>

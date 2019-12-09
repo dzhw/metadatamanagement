@@ -1,0 +1,95 @@
+<md-card>
+  <md-card-header ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+    <md-card-header-text>
+      <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+    </md-card-header-text>
+    <md-button
+      class="md-card-collapsible-button">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <md-list>
+        <md-list-item ng-if="$ctrl.options.study.studySeries">
+          <h5>{{'study-management.detail.label.studySeries' | translate }}:</h5>
+          <a
+            class="md-secondary"
+            ui-sref="search({'type': 'studies', 'study-series-{{$ctrl.lang}}': $ctrl.options.study.studySeries.{{$ctrl.lang}}})">
+            <span display-i18n-string="$ctrl.options.study.studySeries" fdz-hyphenate></span>
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'study-management.detail.tooltips.studies.study-series' | translate}}
+            </md-tooltip>
+          </a>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.study.institutions">
+          <h5>{{'study-management.detail.label.institutions' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            ng-repeat="institution in $ctrl.options.study.institutions">
+            {{institution[$ctrl.lang]}}{{!$last?';':''}}
+          </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.study.sponsor">
+          <h5>{{'study-management.detail.label.sponsors' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.study.sponsor"></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.study.authors">
+          <h5>{{'study-management.detail.label.authors' | translate }}:</h5>
+          <span
+            class="md-secondary pre"
+            ng-repeat="author in $ctrl.options.study.authors">{{author.lastName}}, {{author.firstName}}{{author.middleName !== undefined?' '+author.middleName:''}}{{!$last?'; ':''}}</span>
+          </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.study.surveyDesign">
+          <h5>{{'study-management.detail.label.surveyDesign' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.study.surveyDesign" fdz-hyphenate></span>
+        </md-list-item>
+        <md-list-item
+          ng-if="$ctrl.options.study.surveyDesign.en==='Panel' && $ctrl.options.study.numberOfWaves > 0">
+          <h5>{{'study-management.detail.label.wave' | translate }}:</h5>
+          <span
+            class="md-secondary">{{$ctrl.options.study.numberOfWaves}}</span>
+        </md-list-item>
+        <md-list-item
+          ng-if="$ctrl.options.study.surveyDataTypes && $ctrl.options.study.surveyDataTypes.length > 0">
+          <h5>{{'study-management.detail.label.survey-data-type' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            ng-repeat="dataType in $ctrl.options.study.surveyDataTypes">{{dataType[$ctrl.lang]}}{{!$last?'; ':''}}</span>
+        </md-list-item>
+        <md-list-item
+          ng-if="$ctrl.options.study.doi || $ctrl.options.isBetaRelease($ctrl.options.study)">
+          <h5>{{'study-management.detail.label.doi' | translate }}:</h5>
+          <a
+            ng-href="https://dx.doi.org/{{$ctrl.options.study.doi}}"
+            ng-if="!$ctrl.options.isBetaRelease($ctrl.options.study)"
+            class="md-secondary"
+            target="_blank">
+            {{$ctrl.options.study.doi}}
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'study-management.detail.doi-tooltip' | translate}}
+            </md-tooltip>
+          </a>
+        </md-list-item>
+        <md-list-item>
+          <h5>{{'study-management.detail.label.version' | translate }}:</h5>
+          <span
+            class="md-secondary">{{$ctrl.options.study.release?$ctrl.options.study.release.version + ' (' + ('study-management.detail.label.published-at' | translate) + ' ' + ($ctrl.options.study.release.firstDate + 'Z' | date:'mediumDate') + ')': ('study-management.detail.not-yet-released' | translate)}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.study.annotations">
+          <h5>{{'study-management.detail.label.annotations' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.study.annotations"
+            fdz-hyphenate></span>
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+  </div>
+</md-card>

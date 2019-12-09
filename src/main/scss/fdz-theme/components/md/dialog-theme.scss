@@ -1,0 +1,21 @@
+$dialog-border-radius: 4px !default;
+
+.fdz-theme .md-dialog-container {
+  background-color: $foreground-2;
+}
+.fdz-theme md-dialog {
+  border-radius: $dialog-border-radius;
+
+  background-color: $background-hue-1;
+  color: $foreground-1;
+
+  & md-toolbar {
+    color: $foreground-1 !important;
+  }
+
+  &.md-content-overflow {
+    .md-actions, md-dialog-actions {
+      border-top-color: $foreground-4;
+    }
+  }
+}
