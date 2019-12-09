@@ -45,7 +45,7 @@ angular.module('metadatamanagementApp').config(
             'published': 'Published at'
           },
           'attachments': {
-            'table-title': 'Documents related to the Data Package',
+            'table-title': 'Documents related to this Data Package',
             'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
             'delete-attachment-tooltip': 'Click to delete document "{{ filename }}"!',
             'edit-attachment-tooltip': 'Click to edit the metadata for document "{{ filename }}".',
