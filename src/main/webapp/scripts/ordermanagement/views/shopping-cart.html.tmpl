@@ -19,7 +19,7 @@
             </div>
             <div class="md-subhead left fdz-truncate-string">
               <span>{{product.accessWay}},&nbsp;</span><span>{{'shopping-cart.detail.label.version' | translate }} {{product.version}}</span>
-              <strong ng-if="!ctrl.isCurrentVersion(product)">{{'(' + ('shopping-cart.detail.label.not-current' |
+              <strong ng-if="!ctrl.isCurrentVersion(product)">&nbsp;{{'(' + ('shopping-cart.detail.label.not-current' |
                 translate) + ')'}}</strong><span
               ng-if="ctrl.isCurrentVersion(product)">&nbsp;{{' (' + ('shopping-cart.detail.label.current' | translate) + ')'}}</span>
             </div>
