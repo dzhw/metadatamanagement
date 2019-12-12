@@ -41,11 +41,31 @@ $card-border-radius: 2px !default;
   }
 
   .fdz-start__content {
-    display: flex;
     padding: 0 16px 16px 16px;
+  }
+
+  .fdz-start__images {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 0 16px 16px 16px;
+    @include rwd (500) {
+      flex-flow: row;
+      justify-content: space-between;
+    }
     .fdz-image {
-      width: 300px;
-      height:300px;
+      background-image: url(../images/placeholder.jpg);
+      background-size: contain;
+      background-repeat: no-repeat;
+      width: 100%;
+      max-width: 300px;
+      height: 0;
+      padding-top:  52.64%; /* (img-height / img-width * container-width) */
+      margin: 8px;
+
+      @include rwd (500) {
+        padding-top:  20.64%;
+      }
     }
   }
 

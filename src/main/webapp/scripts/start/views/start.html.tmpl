@@ -16,10 +16,10 @@
           <h1 class="md-headline">{{'start.image-title' | translate}}</h1>
         </div>
       </div>
-      <div class="fdz-start__content">
-        <div class="fdz-image">Test</div>
-        <div class="fdz-image">Test</div>
-        <div class="fdz-image">Test</div>
+      <div class="fdz-start__images">
+        <a ui-sref="search({'study-series': '{{socialSurvey[lang]}}'})" class="fdz-image"></a>
+        <a ui-sref="search({'study-series': '{{graduateSurvey[lang]}}'})" class="fdz-image"></a>
+        <a ui-sref="search({'study-series': '{{schoolSurvey[lang]}}'})" class="fdz-image"></a>
       </div>
       <div class="fdz-start__header">
         <div class="fdz-start__header-text">
@@ -29,7 +29,7 @@
       <div class="fdz-start__content">
         <study-search-result
           bowser=""
-          current-language="currentLanguage"
+          current-language="lang"
           search-query=""
           search-result="study"
           set-params=""
