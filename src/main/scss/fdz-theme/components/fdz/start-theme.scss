@@ -41,7 +41,12 @@ $card-border-radius: 2px !default;
   }
 
   .fdz-start__content {
+    display: flex;
     padding: 0 16px 16px 16px;
+    .fdz-image {
+      width: 300px;
+      height:300px;
+    }
   }
 
   .fdz-link {

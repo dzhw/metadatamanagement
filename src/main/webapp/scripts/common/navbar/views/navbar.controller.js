@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.isAccountMenuOpen = false;
     $scope.logoutButtonDisabled = false;
     $scope.sidebarContent = $rootScope.sidebarContent;
+    $scope.show = false;
 
     $scope.$on('domain-object-editing-started', function() {
       $scope.logoutButtonDisabled = true;
@@ -84,4 +85,15 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     }, function() {
       $scope.sidebarContent = $rootScope.sidebarContent;
     }, true);
+
+    $scope.$watch(function() {
+      return $state.current.name;
+    }, function() {
+      $scope.show = $state.current.name !== 'start' &&
+        $state.current.name !== 'disclosure' &&
+        $state.current.name !== 'shoppingCart' &&
+        $state.current.name !== 'password' &&
+        $state.current.name !== 'register' &&
+        $state.current.name !== 'login';
+    });
   });

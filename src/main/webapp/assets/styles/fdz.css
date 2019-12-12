@@ -1515,7 +1515,11 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   word-break: break-word; }
 
 .fdz-theme .fdz-start__content {
+  display: flex;
   padding: 0 16px 16px 16px; }
+  .fdz-theme .fdz-start__content .fdz-image {
+    width: 300px;
+    height: 300px; }
 
 .fdz-theme .fdz-link {
   display: flex;
