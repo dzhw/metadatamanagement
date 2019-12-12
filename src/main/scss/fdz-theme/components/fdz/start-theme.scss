@@ -54,13 +54,16 @@ $card-border-radius: 2px !default;
       justify-content: space-between;
     }
     .fdz-image {
+      // If you want to use text in the HTML element with the class .fdz-image use a HTML element with
+      // position: absolute and specify top, bottom aso.
       background-image: url(../images/placeholder.jpg);
       background-size: contain;
       background-repeat: no-repeat;
       width: 100%;
       max-width: 300px;
       height: 0;
-      padding-top:  52.64%; /* (img-height / img-width * container-width) */
+      // padding-top: (img-height / img-width * container-width)
+      padding-top:  52.64%;
       margin: 8px;
 
       @include rwd (500) {

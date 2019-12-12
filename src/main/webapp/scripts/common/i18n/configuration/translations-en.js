@@ -16,6 +16,8 @@ angular.module('metadatamanagementApp').config(
         'in-english': 'in English',
         'more': 'more',
         'less': 'less',
+        'collapsed': 'Collapsed',
+        'uncollapsed': 'Folded out',
         'search-component': {
           'search': 'Search',
           'delete': 'Delete'

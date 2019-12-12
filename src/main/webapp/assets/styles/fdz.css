@@ -1534,7 +1534,6 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
     max-width: 300px;
     height: 0;
     padding-top: 52.64%;
-    /* (img-height / img-width * container-width) */
     margin: 8px; }
     @media (min-width: 500px) {
       .fdz-theme .fdz-start__images .fdz-image {

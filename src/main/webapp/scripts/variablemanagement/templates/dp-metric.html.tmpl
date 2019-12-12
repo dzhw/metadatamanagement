@@ -4,7 +4,8 @@
       <h2 class="md-title">{{'variable-management.detail.statistics.statistics' | translate }}</h2>
     </md-card-header-text>
     <md-button
-      class="md-card-collapsible-button">
+      class="md-card-collapsible-button"
+      aria-label="{{($ctrl.collapsed ? 'global.collapsed' : 'global.uncollapsed') | translate}}">
       <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
       <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
     </md-button>
