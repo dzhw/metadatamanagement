@@ -12,7 +12,7 @@
                                 ProjectReleaseService,
                                 ShoppingCartService,
                                 MessageBus,
-                                StudyResource,
+                                StudySearchService,
                                 StudyAccessWaysResource) {
     var $ctrl = this;
     var initReady = false;
@@ -34,10 +34,8 @@
       if (!$ctrl.selectedAccessWay) {
         $ctrl.selectedAccessWay = '';
       }
-      var studyId = $ctrl.studyIdVersion.masterId + '-' +
-          $ctrl.studyIdVersion.version;
       $ctrl.selectedVersion = $ctrl.studyIdVersion.version;
-      loadStudy(studyId);
+      loadStudy($ctrl.studyIdVersion.masterId, $ctrl.studyIdVersion.version);
       initReady = true;
     }
 
@@ -59,13 +57,15 @@
         });
     }
 
-    function loadStudy(id) {
+    function loadStudy(id, version) {
       $rootScope.$broadcast('start-ignoring-404');
       $ctrl.dataNotAvailable = false;
       $ctrl.noFinalRelease = false;
-      StudyResource.get({id: id})
-        .$promise
-        .then(function(data) {
+      var excludes = ['nested*','variables','questions',
+        'surveys','instruments', 'dataSets', 'relatedPublications',
+        'concepts'];
+      StudySearchService.findShadowByIdAndVersion(id, version, excludes)
+        .promise.then(function(data) {
           $ctrl.study = data;
           if ($ctrl.study) {
             if ($ctrl.study.dataAvailability.en === 'Not available') {
