@@ -56,7 +56,7 @@ angular.module('metadatamanagementApp').factory('LanguageService',
           $translate.use(language);
           var currentPath = $location.path();
           if (!currentPath || currentPath === '' || currentPath === '/') {
-            currentPath = '/' + language + '/search';
+            currentPath = '/' + language + '/start';
             $location.path(currentPath);
           }
           if (language === 'en' && currentPath.indexOf('/de/') === 0) {

@@ -60,4 +60,10 @@ angular.module('metadatamanagementApp').controller(
         $scope.open = $mdSidenav('SideNavBar').isOpen();
       });
     });
+
+    $scope.$watch(function() {
+      return $state.current.name;
+    }, function() {
+      $scope.show = $state.current.name !== 'start';
+    });
   });

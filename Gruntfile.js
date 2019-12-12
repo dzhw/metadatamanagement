@@ -660,7 +660,8 @@ module.exports = function(grunt) {
             'eu/dzhw/fdz/metadatamanagement/searchmanagement/documents'
         },
         sources: {
-          src: ['src/main/webapp/scripts/studymanagement/**/translations*.js',
+          src: [
+            'src/main/webapp/scripts/studymanagement/**/translations*.js',
             'src/main/webapp/scripts/conceptmanagement/**/translations*.js',
             'src/main/webapp/scripts/surveymanagement/**/translations*.js',
             'src/main/webapp/scripts/instrumentmanagement/**/translations*.js',
@@ -668,7 +669,8 @@ module.exports = function(grunt) {
             'src/main/webapp/scripts/datasetmanagement/**/translations*.js',
             'src/main/webapp/scripts/variablemanagement/**/translations*.js',
             'src/main/webapp/scripts/relatedpublicationmanagement/**/' +
-            'translations*.js']
+            'translations*.js'
+          ]
         }
       }
     });

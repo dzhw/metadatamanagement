@@ -49,6 +49,9 @@ $card-border-radius: 2px !default;
       font-size: 100%;
     }
   }
+  .fdz-detail__content {
+    padding: 16px 0;
+  }
 
   .fdz-detail md-card {
     box-shadow: none;

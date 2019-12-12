@@ -120,7 +120,8 @@ try {
               'configurator': false
             };
           }
-          if (Principal.loginName()) {
+          if (Principal.loginName() ||
+            (trans.$to().name).indexOf('start') !== -1) {
             $rootScope.sidebarContent = {
               'search': false,
               'filter': false,
@@ -205,10 +206,10 @@ try {
 
         $urlRouterProvider.when('', '/');
         $urlRouterProvider.when('/', '/');
-        $urlRouterProvider.when('/de', '/de/search');
-        $urlRouterProvider.when('/de/', '/de/search');
-        $urlRouterProvider.when('/en', '/en/search');
-        $urlRouterProvider.when('/en/', '/en/search');
+        $urlRouterProvider.when('/de', '/de/start');
+        $urlRouterProvider.when('/de/', '/de/start');
+        $urlRouterProvider.when('/en', '/en/start');
+        $urlRouterProvider.when('/en/', '/en/start');
         $urlRouterProvider.otherwise('/en/error');
 
         $httpProvider.interceptors.push('errorHandlerInterceptor');
