@@ -164,6 +164,7 @@ angular.module('metadatamanagementApp').config(
           'skip-navigation': 'Zum Inhalt springen',
           'skip-navigation-tooltip': 'Klicken zum Überspringen des Menüs',
           'back-to-search': 'Klicken, um zur Suche zu gelangen',
+          'back-to-start': 'Klicken, um zur Startseite zu gelangen',
           'language': 'Sprache',
           'data-access': 'Datenzugang',
           'disclosure': 'Impressum',

@@ -92,8 +92,12 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       $scope.show = $state.current.name !== 'start' &&
         $state.current.name !== 'disclosure' &&
         $state.current.name !== 'shoppingCart' &&
-        $state.current.name !== 'password' &&
+        $state.current.name !== 'requestReset' &&
+        $state.current.name !== 'activate' &&
         $state.current.name !== 'register' &&
         $state.current.name !== 'login';
+      if (!$scope.show && $mdSidenav('SideNavBar').isOpen()) {
+        $scope.close();
+      }
     });
   });

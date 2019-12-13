@@ -15,11 +15,17 @@ $card-border-radius: 2px !default;
     0px 1px 1px 0px rgba(0, 0, 0, 0.14),
     0px 2px 1px -1px rgba(0, 0, 0, 0.12);
     @include rwd(600) {
-      margin: 0 8px;
+      margin: 8px;
     }
 
     md-card {
       box-shadow: none;
+    }
+
+    .fdz-link {
+      display: flex;
+      justify-content: flex-end;
+      padding: 16px 24px 0px 24px;
     }
   }
 
@@ -42,6 +48,15 @@ $card-border-radius: 2px !default;
 
   .fdz-start__content {
     padding: 0 16px 16px 16px;
+
+    .fdz-search {
+      margin: 16px!important;
+    }
+
+    .fdz-search-result {
+      margin: 0;
+      padding-top: 0px;
+    }
   }
 
   .fdz-start__images {
@@ -49,40 +64,34 @@ $card-border-radius: 2px !default;
     flex-flow: column;
     align-items: center;
     padding: 0 16px 16px 16px;
-    @include rwd (500) {
+    @include rwd (600) {
       flex-flow: row;
       justify-content: space-between;
     }
     .fdz-image {
       // If you want to use text in the HTML element with the class .fdz-image use a HTML element with
       // position: absolute and specify top, bottom aso.
-      background-image: url(../images/placeholder.jpg);
-      background-size: contain;
+      position: relative;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/placeholder.jpg);
+      background-size: cover;
       background-repeat: no-repeat;
       width: 100%;
-      max-width: 300px;
       height: 0;
       // padding-top: (img-height / img-width * container-width)
       padding-top:  52.64%;
       margin: 8px;
 
-      @include rwd (500) {
+      @include rwd (600) {
         padding-top:  20.64%;
       }
+
+      .fdz-image-text {
+        position: absolute;
+        bottom: 8px;
+        left: 8px;
+        color: white;
+        margin-right: 8px;
+      }
     }
-  }
-
-  .fdz-link {
-    display: flex;
-    justify-content: flex-end;
-    padding: 0 16px 16px 16px;
-  }
-
-  & .fdz-search {
-    margin: 16px!important;
-  }
-
-  & .fdz-search-result {
-    margin: 0;
   }
 }

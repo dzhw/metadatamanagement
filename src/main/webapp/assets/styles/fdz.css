@@ -1495,9 +1495,13 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12); }
   @media (min-width: 600px) {
     .fdz-theme .fdz-start {
-      margin: 0 8px; } }
+      margin: 8px; } }
   .fdz-theme .fdz-start md-card {
     box-shadow: none; }
+  .fdz-theme .fdz-start .fdz-link {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px 24px 0px 24px; }
 
 .fdz-theme .fdz-start__header {
   display: flex;
@@ -1516,39 +1520,39 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
 
 .fdz-theme .fdz-start__content {
   padding: 0 16px 16px 16px; }
+  .fdz-theme .fdz-start__content .fdz-search {
+    margin: 16px !important; }
+  .fdz-theme .fdz-start__content .fdz-search-result {
+    margin: 0;
+    padding-top: 0px; }
 
 .fdz-theme .fdz-start__images {
   display: flex;
   flex-flow: column;
   align-items: center;
   padding: 0 16px 16px 16px; }
-  @media (min-width: 500px) {
+  @media (min-width: 600px) {
     .fdz-theme .fdz-start__images {
       flex-flow: row;
       justify-content: space-between; } }
   .fdz-theme .fdz-start__images .fdz-image {
-    background-image: url(../images/placeholder.jpg);
-    background-size: contain;
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/placeholder.jpg);
+    background-size: cover;
     background-repeat: no-repeat;
     width: 100%;
-    max-width: 300px;
     height: 0;
     padding-top: 52.64%;
     margin: 8px; }
-    @media (min-width: 500px) {
+    @media (min-width: 600px) {
       .fdz-theme .fdz-start__images .fdz-image {
         padding-top: 20.64%; } }
-
-.fdz-theme .fdz-link {
-  display: flex;
-  justify-content: flex-end;
-  padding: 0 16px 16px 16px; }
-
-.fdz-theme .fdz-search {
-  margin: 16px !important; }
-
-.fdz-theme .fdz-search-result {
-  margin: 0; }
+    .fdz-theme .fdz-start__images .fdz-image .fdz-image-text {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      color: white;
+      margin-right: 8px; }
 
 .fdz-theme md-nav-bar .md-nav-bar {
   background-color: transparent;

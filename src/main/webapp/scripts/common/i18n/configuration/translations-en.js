@@ -164,6 +164,7 @@ angular.module('metadatamanagementApp').config(
           'skip-navigation': 'Skip to Content',
           'skip-navigation-tooltip': 'Click to skip the menu',
           'back-to-search': 'Click to show the search page',
+          'back-to-start': 'Click to show the start page',
           'language': 'Language',
           'data-access': 'Data Access',
           'disclosure': 'Disclosure',

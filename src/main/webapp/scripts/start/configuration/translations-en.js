@@ -5,8 +5,8 @@ angular.module('metadatamanagementApp').config(
     var startTranslation = {
       //jscs:disable
       'start': {
-        'data-search': 'Data Search',
-        'image-title': 'Quick Access',
+        'data-search': 'Data Package Search',
+        'image-title': 'Data from Study Serieses',
         'recommendation': 'Recommended Data Package',
         'fdz-text': 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et',
         'show-all': 'Show all data packages'
@@ -15,4 +15,3 @@ angular.module('metadatamanagementApp').config(
     };
     $translateProvider.translations('en', startTranslation);
   });
-

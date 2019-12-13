@@ -17,9 +17,15 @@
         </div>
       </div>
       <div class="fdz-start__images">
-        <a ui-sref="search({'study-series': '{{socialSurvey[lang]}}'})" class="fdz-image"></a>
-        <a ui-sref="search({'study-series': '{{graduateSurvey[lang]}}'})" class="fdz-image"></a>
-        <a ui-sref="search({'study-series': '{{schoolSurvey[lang]}}'})" class="fdz-image"></a>
+        <a ui-sref="search({'study-series': '{{socialSurvey[lang]}}'})" class="fdz-image">
+          <div class="md-title fdz-image-text">{{socialSurvey[lang] | fdzHyphenate}}</div>
+        </a>
+        <a ui-sref="search({'study-series': '{{graduateSurvey[lang]}}'})" class="fdz-image">
+          <div class="md-title fdz-image-text">{{graduateSurvey[lang] | fdzHyphenate}}</div>
+        </a>
+        <a ui-sref="search({'study-series': '{{schoolSurvey[lang]}}'})" class="fdz-image">
+          <div class="md-title fdz-image-text">{{schoolSurvey[lang] | fdzHyphenate}}</div>
+        </a>
       </div>
       <div class="fdz-start__header">
         <div class="fdz-start__header-text">
