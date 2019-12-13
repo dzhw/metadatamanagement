@@ -35,11 +35,16 @@ angular.module('metadatamanagementApp')
         return termFilter;
       };
 
-      var findOneById = function(id, attributes) {
+      var findOneById = function(id, attributes, excludes) {
         var deferred = $q.defer();
         var query = createQueryObject();
         query.id = id;
-        query._source = attributes;
+        if (attributes) {
+          query._source = attributes;
+        }
+        if (excludes) {
+          query._source_excludes = excludes.join(',');
+        }
         ElasticSearchClient.getSource(query, function(error, response) {
             if (error) {
               deferred.reject(error);

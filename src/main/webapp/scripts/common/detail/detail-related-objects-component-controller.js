@@ -266,20 +266,15 @@
         (($ctrl.options.pageObject.page - 1) * $ctrl.options.pageObject.size);
     }
 
-    function setCurrentSearchParams(projectId) {
-      if (!projectId) {
-        projectId = _.get($scope, 'currentProject.id');
-      }
-
+    function setCurrentSearchParams() {
       SearchResultNavigatorService.setCurrentSearchParams(
-        $ctrl.searchParams, projectId,
+        $ctrl.searchParams, null,
         getSelectedMetadataType(),
         $ctrl.options.pageObject);
     }
 
     //Search function
     function search() {
-      var projectId = _.get($scope, 'currentProject.id');
       $ctrl.isSearching++;
       if (!$ctrl.searchParams.filter) {
         $ctrl.searchParams.filter = {};
@@ -287,7 +282,7 @@
       var filter = getCurrentObjectFilter();
       _.assign($ctrl.searchParams.filter, filter);
       SearchDao.search($ctrl.searchParams.query,
-        $ctrl.options.pageObject.page, projectId, $ctrl.searchParams.filter,
+        $ctrl.options.pageObject.page, null, $ctrl.searchParams.filter,
         getSelectedMetadataType(),
         $ctrl.options.pageObject.size, $ctrl.searchParams.sortBy)
         .then(function(data) {
