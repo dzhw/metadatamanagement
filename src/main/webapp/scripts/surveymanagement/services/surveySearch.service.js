@@ -34,11 +34,16 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         return termFilter;
       };
 
-      var findOneById = function(id, attributes) {
+      var findOneById = function(id, attributes, excludes) {
         var deferred = $q.defer();
         var query = createQueryObject();
         query.id = id;
-        query._source = attributes;
+        if (attributes) {
+          query._source = attributes;
+        }
+        if (excludes) {
+          query._source_excludes = excludes.join(',');
+        }
         ElasticSearchClient.getSource(query, function(error, response) {
             if (error) {
               deferred.reject(error);
@@ -49,10 +54,15 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         return deferred;
       };
 
-      var findShadowByIdAndVersion = function(id, version) {
+      var findShadowByIdAndVersion = function(id, version, excludes) {
         var query = {};
         _.extend(query, createQueryObject(),
           SearchHelperService.createShadowByIdAndVersionQuery(id, version));
+        if (excludes) {
+          query.body._source = {
+            'excludes': excludes
+          };
+        }
         var deferred = $q.defer();
         ElasticSearchClient.search(query).then(function(result) {
           if (result.hits.hits.length === 1) {

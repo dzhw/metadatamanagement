@@ -24,23 +24,18 @@ angular.module('metadatamanagementApp')
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAnyAuthority = Principal.hasAnyAuthority;
       ctrl.hasAuthority = Principal.hasAuthority;
-      ctrl.counts = {};
+      ctrl.counts = {
+        surveysCount: 0,
+        variablesCount: 0,
+        publicationsCount: 0,
+        conceptsCount: 0
+      };
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.openDialog = function(subDataSet, event) {
         DataSetCitateDialogService.showDialog(subDataSet.citationHint, event);
       };
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_ADMIN', 'ROLE_PUBLISHER']);
-
-      ctrl.jsonExcludes = [
-        'nestedStudy',
-        'nestedVariables',
-        'nestedInstruments',
-        'nestedQuestions',
-        'nestedRelatedPublications',
-        'nestedSurveys',
-        'nestedConcepts'
-      ];
 
       entity.promise.then(function(result) {
         if (Principal
@@ -55,7 +50,8 @@ angular.module('metadatamanagementApp')
         }
 
         var fetchFn = DataSetSearchService.findShadowByIdAndVersion
-          .bind(null, result.masterId);
+          .bind(null, result.masterId, null, ['nested*','variables','questions',
+            'instruments', 'relatedPublications','concepts']);
         OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
 
         if (!Principal.isAuthenticated()) {
@@ -89,37 +85,17 @@ angular.module('metadatamanagementApp')
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.dataSet = result;
           ctrl.study = result.study;
-          ctrl.counts.surveysCount = result.surveys.length;
-          if (ctrl.counts.surveysCount === 1) {
-            ctrl.survey = result.surveys[0];
-          }
-          ctrl.counts.variablesCount = result.variables.length;
-          if (ctrl.counts.variablesCount === 1) {
-            ctrl.variable = result.variables[0];
-          }
-          ctrl.counts.publicationsCount = result.relatedPublications.length;
-          if (ctrl.counts.publicationsCount === 1) {
-            ctrl.relatedPublication = result.relatedPublications[0];
-          }
-          ctrl.counts.conceptsCount = result.concepts.length;
-          if (ctrl.counts.conceptsCount === 1) {
-            ctrl.concept = result.concepts[0];
-          }
-          DataSetSearchService
-            .countBy('dataAcquisitionProjectId',
-              ctrl.dataSet.dataAcquisitionProjectId,
-              _.get(result, 'release.version'))
-            .then(function(dataSetsCount) {
-              ctrl.counts.dataSetsCount = dataSetsCount.count;
-            });
-          ctrl.accessWays = [];
           ctrl.dataSet.subDataSets.forEach(function(subDataSet) {
-            ctrl.accessWays.push(subDataSet.accessWay);
             VariableSearchService.countBy('accessWays',
               subDataSet.accessWay, ctrl.dataSet.id,
               _.get(result, 'release.version')).then(function(counts) {
               ctrl.counts[subDataSet.name] = counts.count;
             });
+          });
+          VariableSearchService.countBy(null,
+            null, ctrl.dataSet.id,
+            _.get(result, 'release.version')).then(function(counts) {
+            ctrl.counts.variablesCount = counts.count;
           });
           DataSetAttachmentResource.findByDataSetId({
             dataSetId: ctrl.dataSet.id

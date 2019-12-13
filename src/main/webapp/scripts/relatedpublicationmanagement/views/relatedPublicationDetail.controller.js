@@ -13,14 +13,7 @@ angular.module('metadatamanagementApp')
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER','ROLE_DATA_PROVIDER']);
-      ctrl.jsonExcludes = [
-        'nestedStudies',
-        'nestedQuestions',
-        'nestedInstruments',
-        'nestedSurveys',
-        'nestedDataSets',
-        'nestedVariables'
-      ];
+
       entity.promise.then(function(result) {
         ctrl.relatedPublication = result;
         // We need this for the tab creation
