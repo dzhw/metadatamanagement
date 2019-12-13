@@ -27,8 +27,10 @@ angular.module('metadatamanagementApp')
         resolve: {
           entity: ['$stateParams', 'RelatedPublicationSearchService',
             function($stateParams, RelatedPublicationSearchService) {
+              var excludedAttributes = ['nested*','variables', 'dataSets',
+                'surveys','studies','questions', 'instruments'];
               return RelatedPublicationSearchService.findOneById(
-                $stateParams.id);
+                $stateParams.id, null, excludedAttributes);
             }
           ]
         }

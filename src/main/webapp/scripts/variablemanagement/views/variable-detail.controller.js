@@ -4,7 +4,6 @@
 
 angular.module('metadatamanagementApp')
   .controller('VariableDetailController', function(entity,
-    QuestionSearchService,
     MessageBus,
     VariableSearchService, Principal,
     SimpleMessageToastService,
@@ -27,24 +26,23 @@ angular.module('metadatamanagementApp')
     ctrl.generationCodeToggleFlag = true;
     ctrl.filterDetailsCodeToggleFlag = true;
     ctrl.notAllRowsVisible = true;
-    ctrl.counts = {};
+    ctrl.counts = {
+      surveysCount: 0,
+      dataSetsCount: 0,
+      questionsCount: 0,
+      publicationsCount: 0,
+      conceptsCount: 0
+    };
     ctrl.nextVariables = [];
     ctrl.previousVariables = [];
     ctrl.validResponsesOrMissingsAvailable = false;
     ctrl.enableJsonView = Principal
       .hasAnyAuthority(['ROLE_PUBLISHER','ROLE_ADMIN']);
-    ctrl.jsonExcludes = [
-      'nestedDataSet',
-      'nestedStudy',
-      'nestedQuestions',
-      'nestedRelatedPublications',
-      'nestedSurveys',
-      'nestedInstruments',
-      'nestedConcepts'
-    ];
+
     entity.promise.then(function(result) {
       var fetchFn = VariableSearchService.findShadowByIdAndVersion
-        .bind(null, result.masterId);
+        .bind(null, result.masterId, null, ['nested*','questions',
+          'instruments','relatedPublications','concepts']);
       OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
 
       var currenLanguage = LanguageService.getCurrentInstantly();
@@ -80,19 +78,6 @@ angular.module('metadatamanagementApp')
         ctrl.study = ctrl.variable.study;
         ctrl.dataSet = ctrl.variable.dataSet;
 
-        ctrl.counts.questionsCount = ctrl.variable.relatedQuestions ?
-          ctrl.variable.relatedQuestions.length : 0;
-        if (ctrl.counts.questionsCount === 1) {
-          QuestionSearchService
-            .findByVariableId(ctrl.variable.id, ['number',
-              'instrumentNumber',
-              'questionText', 'id'
-            ])
-            .then(function(question) {
-              ctrl.question = question.hits.hits[0]._source;
-            });
-        }
-
         //Find previousVariables
         var previousIndexInDataSet = result.indexInDataSet - 1;
         VariableSearchService.findByDataSetIdAndIndexInDataSet(result.dataSetId,
@@ -111,42 +96,6 @@ angular.module('metadatamanagementApp')
             ctrl.nextVariables = resultNextVariable.hits.hits;
           });
 
-        ctrl.counts.surveysCount = ctrl.variable.surveyNumbers ?
-          ctrl.variable.surveyNumbers.length : 0;
-        if (ctrl.counts.surveysCount === 1) {
-          ctrl.survey = ctrl.variable.surveys[0];
-        }
-        ctrl.counts.conceptsCount = ctrl.variable.concepts.length;
-        if (ctrl.counts.conceptsCount === 1) {
-          ctrl.concept = ctrl.variable.concepts[0];
-        }
-        if (ctrl.variable.panelIdentifier) {
-          VariableSearchService
-            .countBy('panelIdentifier', ctrl.variable.panelIdentifier,
-              null, _.get(result, 'release.version'))
-            .then(function(variablesInPanel) {
-              ctrl.counts.variablesInPanel = variablesInPanel.count;
-            });
-        } else {
-          ctrl.counts.variablesInPanel = 0;
-        }
-        if (ctrl.variable.derivedVariablesIdentifier) {
-          VariableSearchService
-            .countBy('derivedVariablesIdentifier',
-              ctrl.variable.derivedVariablesIdentifier, null,
-              _.get(result, 'release.version'))
-            .then(function(derivedVariables) {
-              ctrl.counts.derivedVariables = derivedVariables.count;
-            });
-        } else {
-          ctrl.counts.derivedVariables = 0;
-        }
-        ctrl.counts.publicationsCount = ctrl.variable
-          .relatedPublications.length;
-        if (ctrl.counts.publicationsCount === 1) {
-          ctrl.relatedPublication = ctrl.variable
-            .relatedPublications[0];
-        }
         if (ctrl.variable.filterDetails) {
           html_beautify(ctrl.variable.filterDetails.expression); //jscs:ignore
         }

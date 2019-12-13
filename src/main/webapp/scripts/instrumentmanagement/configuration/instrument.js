@@ -3,10 +3,10 @@
 angular.module('metadatamanagementApp')
   .config(function($stateProvider, $urlRouterProvider) {
     var loadShadowCopy = function(InstrumentSearchService,
-      SimpleMessageToastService, id, version) {
+      SimpleMessageToastService, id, version, excludes) {
         var loadLatestShadowCopyFallback = function() {
-          return InstrumentSearchService.findShadowByIdAndVersion(id, null)
-          .promise.then(function(result) {
+          return InstrumentSearchService.findShadowByIdAndVersion(id, null,
+            excludes).promise.then(function(result) {
             if (result) {
               return result;
             } else {
@@ -16,8 +16,8 @@ angular.module('metadatamanagementApp')
             }
           });
         };
-        return InstrumentSearchService.findShadowByIdAndVersion(id, version)
-          .promise.then(function(result) {
+        return InstrumentSearchService.findShadowByIdAndVersion(id, version,
+          excludes).promise.then(function(result) {
             if (result) {
               return result;
             } else {
@@ -52,13 +52,17 @@ angular.module('metadatamanagementApp')
             'SimpleMessageToastService', '$q',
             function($stateParams, InstrumentSearchService, Principal,
               SimpleMessageToastService, $q) {
+              var excludedAttributes = ['nested*','questions', 'dataSets',
+                'variables','relatedPublications','concepts'];
               if (Principal.loginName() && !$stateParams.version) {
-                return InstrumentSearchService.findOneById($stateParams.id);
+                return InstrumentSearchService.findOneById($stateParams.id,
+                  null, excludedAttributes);
               } else {
                 var deferred = $q.defer();
                 loadShadowCopy(InstrumentSearchService,
                   SimpleMessageToastService, $stateParams.id,
-                  $stateParams.version).then(deferred.resolve, deferred.reject);
+                  $stateParams.version, excludedAttributes)
+                  .then(deferred.resolve, deferred.reject);
                 return deferred;
               }
             }

@@ -26,7 +26,10 @@ angular.module('metadatamanagementApp')
         resolve: {
           entity: ['$stateParams', 'ConceptSearchService',
             function($stateParams, ConceptSearchService) {
-              return ConceptSearchService.findOneById($stateParams.id);
+              var excludedAttributes = ['nested*', 'studies', 'dataSets',
+                'surveys','variables','questions', 'instruments'];
+              return ConceptSearchService.findOneById($stateParams.id, null,
+                excludedAttributes);
             }
           ]
         }

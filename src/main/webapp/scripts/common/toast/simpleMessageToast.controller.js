@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
       $scope.messages = messages;
       $scope.alert = alert;
       $scope.go = function(id) {
-        $state.go('studyDetail',
+        $state.go($state.current.name,
           {id: id, lang: language},
           {reload: true, inherit: false, notify: true});
       };
