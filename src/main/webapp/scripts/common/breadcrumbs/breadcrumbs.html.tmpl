@@ -1,4 +1,4 @@
-<div class="fdz-breadcrumbs">
+<div class="fdz-breadcrumbs" ng-if="$ctrl.show">
   <div class="md-body-1" ng-repeat="item in $ctrl.items">
     <a ng-if="!$last && !item.notFound && item.state"
        ui-sref="{{item.state}}">
