@@ -22,7 +22,7 @@
             {{$ctrl.study.numberOfWaves}}
           </span>
       </md-list-item>
-      <md-list-item ng-if="$ctrl.study.surveyDataTypes">
+      <md-list-item ng-if="$ctrl.study.surveyDataTypes && $ctrl.study.surveyDataTypes.length > 0">
         <h5>{{'study-management.detail.label.survey-data-type' | translate }}:</h5>
         <span
           class="md-secondary">
