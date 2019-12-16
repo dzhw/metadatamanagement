@@ -4,11 +4,11 @@
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, LanguageService, CleanJSObjectService,
-             PageTitleService, $state, ToolbarHeaderService,
+             PageTitleService, $state, ToolbarHeaderService, MessageBus,
              SurveySearchService, SurveyAttachmentResource, Principal,
              SimpleMessageToastService, SearchResultNavigatorService,
              SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
-             DataAcquisitionProjectResource, ProductChooserDialogService,
+             DataAcquisitionProjectResource,
              ProjectUpdateAccessService, CountryCodesResource, $stateParams,
              blockUI) {
       blockUI.start();
@@ -22,24 +22,23 @@ angular.module('metadatamanagementApp')
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
-      ctrl.counts = {};
+      ctrl.counts = {
+        instrumentsCount: 0,
+        questionsCount: 0,
+        dataSetsCount: 0,
+        variablesCount: 0,
+        publicationsCount: 0,
+        conceptsCount: 0
+      };
       ctrl.projectIsCurrentlyReleased = true;
+      ctrl.responseRateImage = null;
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
 
-      ctrl.jsonExcludes = [
-        'nestedStudy',
-        'nestedDataSets',
-        'nestedVariables',
-        'nestedRelatedPublications',
-        'nestedInstruments',
-        'nestedQuestions',
-        'nestedConcepts'
-      ];
-
       entity.promise.then(function(survey) {
         var fetchFn = SurveySearchService.findShadowByIdAndVersion
-          .bind(null, survey.masterId);
+          .bind(null, survey.masterId, null, ['nested*','variables','questions',
+            'instruments', 'dataSets', 'relatedPublications','concepts']);
         OutdatedVersionNotifier.checkVersionAndNotify(survey, fetchFn);
 
         if (Principal
@@ -59,6 +58,13 @@ angular.module('metadatamanagementApp')
             : survey.title[secondLanguage],
           surveyId: survey.id
         });
+        if (!Principal.isAuthenticated()) {
+          MessageBus.set('onDataPackageChange',
+            {
+              masterId: survey.study.masterId,
+              version: survey.release.version
+            });
+        }
         ToolbarHeaderService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': survey.id,
@@ -69,30 +75,11 @@ angular.module('metadatamanagementApp')
           'projectId': survey.dataAcquisitionProjectId,
           'version': survey.shadow ? _.get(survey, 'release.version') : null
         });
-        if (survey.dataSets) {
-          ctrl.accessWays = [];
-          survey.dataSets.forEach(function(dataSet) {
-            ctrl.accessWays = _.union(dataSet.accessWays, ctrl.accessWays);
-          });
-        }
         if (survey.release || Principal.hasAnyAuthority(['ROLE_PUBLISHER',
           'ROLE_DATA_PROVIDER'])) {
           ctrl.survey = survey;
           ctrl.study = survey.study;
-          ctrl.counts.dataSetsCount = survey.dataSets.length;
-          if (ctrl.counts.dataSetsCount === 1) {
-            ctrl.dataSet = survey.dataSets[0];
-          }
-          SurveySearchService.countBy('dataAcquisitionProjectId',
-            ctrl.survey.dataAcquisitionProjectId,
-            _.get(survey, 'release.version'))
-            .then(function(surveysCount) {
-              ctrl.counts.surveysCount = surveysCount.count;
-            });
-          ctrl.counts.instrumentsCount = survey.instruments.length;
-          if (ctrl.counts.instrumentsCount === 1) {
-            ctrl.instrument = survey.instruments[0];
-          }
+
           SurveyAttachmentResource.findBySurveyId({
             surveyId: ctrl.survey.id
           }).$promise.then(
@@ -101,18 +88,6 @@ angular.module('metadatamanagementApp')
                 ctrl.attachments = attachments;
               }
             });
-          ctrl.counts.publicationsCount = survey.relatedPublications.length;
-          if (ctrl.counts.publicationsCount === 1) {
-            ctrl.relatedPublication = survey.relatedPublications[0];
-          }
-          ctrl.counts.questionsCount = survey.questions.length;
-          if (ctrl.counts.questionsCount === 1) {
-            ctrl.question = survey.questions[0];
-          }
-          ctrl.counts.conceptsCount = survey.concepts.length;
-          if (ctrl.counts.conceptsCount === 1) {
-            ctrl.concept = survey.concepts[0];
-          }
           SurveyResponseRateImageUploadService.getImage(
             ctrl.survey.id, ctrl.survey.number, currenLanguage)
             .then(function(image) {
@@ -124,13 +99,6 @@ angular.module('metadatamanagementApp')
           );
         }
       }).finally(blockUI.stop);
-
-      ctrl.addToShoppingCart = function(event) {
-        ProductChooserDialogService.showDialog(
-          ctrl.survey.dataAcquisitionProjectId, ctrl.accessWays,
-          ctrl.survey.study, ctrl.survey.release.version,
-          event);
-      };
 
       ctrl.surveyEdit = function() {
         if (ProjectUpdateAccessService

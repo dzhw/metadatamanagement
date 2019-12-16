@@ -10,7 +10,8 @@ angular.module('metadatamanagementApp').directive('variableSearchResult',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
-        searchResultIndex: '='
+        searchResultIndex: '=',
+        setParams: '&'
       },
       controller: function($scope, Principal) {
         $scope.isLoggedIn = Principal.loginName();

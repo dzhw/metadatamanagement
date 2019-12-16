@@ -52,7 +52,7 @@ describe('Specification for app ', function() {
       $httpBackend.whenGET(variableJson).respond({});
       $httpBackend.whenGET(questionJson).respond({});
       $httpBackend.
-      expectGET(/scripts\/searchmanagement\/views\/search.html.tmpl/).
+      expectGET(/scripts\/start\/views\/start.html.tmpl/).
       respond(200, '');
     });
     it('should set LanguageService to en ', function() {

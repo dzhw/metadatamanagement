@@ -17,8 +17,8 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceCon
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Question REST Controller which overrides default spring data rest methods.
@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
  * @author René Reitmann
  */
 @RepositoryRestController
-@Api(value = "Question Resource", description = "Endpoints used by the MDM to manage questions.")
+@Tag(name = "Question Resource", description = "Endpoints used by the MDM to manage questions.")
 @RequestMapping("/api")
 public class QuestionResourceController
     extends GenericDomainObjectResourceController<Question, CrudService<Question>> {
@@ -37,7 +37,7 @@ public class QuestionResourceController
   }
 
   @Override
-  @ApiOperation("Get the question. Public users will get the latest version of the question."
+  @Operation(summary = "Get the question. Public users will get the latest version of the question."
       + " If the id is postfixed with the version number it will return exactly the "
       + "requested version, if available.")
   @GetMapping(value = "/questions/{id:.+}")

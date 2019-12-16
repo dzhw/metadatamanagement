@@ -12,7 +12,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
 
-.. java:import:: io.swagger.annotations ApiModel
+.. java:import:: io.swagger.v3.oas.annotations.media Schema
 
 .. java:import:: lombok AllArgsConstructor
 
@@ -30,7 +30,7 @@ Product
 .. java:package:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain
    :noindex:
 
-.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel public class Product implements Serializable
+.. java:type:: @NoArgsConstructor @Data @AllArgsConstructor @Builder @Schema public class Product implements Serializable
 
    Data Product which can be ordered by a customer.
 

@@ -3,10 +3,10 @@
 
 angular.module('metadatamanagementApp')
   .controller('InstrumentDetailController',
-    function(entity, InstrumentAttachmentResource,
+    function(entity, InstrumentAttachmentResource, MessageBus,
              PageTitleService, LanguageService, $state, CleanJSObjectService,
              ToolbarHeaderService, Principal, SimpleMessageToastService,
-             SearchResultNavigatorService, ProductChooserDialogService,
+             SearchResultNavigatorService,
              DataAcquisitionProjectResource, ProjectUpdateAccessService,
              InstrumentSearchService, OutdatedVersionNotifier, $stateParams,
              blockUI) {
@@ -22,28 +22,26 @@ angular.module('metadatamanagementApp')
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
+      ctrl.counts = {
+        surveysCount: 0,
+        questionsCount: 0,
+        dataSetsCount: 0,
+        variablesCount: 0,
+        publicationsCount: 0,
+        conceptsCount: 0
+      };
       ctrl.survey = null;
       ctrl.attachments = null;
       ctrl.study = null;
-      ctrl.questionCount = null;
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
 
-      ctrl.jsonExcludes = [
-        'nestedStudy',
-        'nestedSurveys',
-        'nestedQuestions',
-        'nestedVariables',
-        'nestedDataSets',
-        'nestedRelatedPublications',
-        'nestedConcepts'
-      ];
-
       //Wait for instrument Promise
       entity.promise.then(function(result) {
         var fetchFn = InstrumentSearchService.findShadowByIdAndVersion
-          .bind(null, result.masterId);
+          .bind(null, result.masterId, null, ['nested*','questions', 'dataSets',
+            'variables','relatedPublications','concepts']);
         OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
 
         if (Principal
@@ -70,6 +68,13 @@ angular.module('metadatamanagementApp')
         });
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
+        if (!Principal.isAuthenticated()) {
+          MessageBus.set('onDataPackageChange',
+            {
+              masterId: result.study.masterId,
+              version: result.release.version
+            });
+        }
         PageTitleService.setPageTitle('instrument-management.' +
           'detail.page-title', {
           description: result.description[currenLanguage] ?
@@ -77,12 +82,7 @@ angular.module('metadatamanagementApp')
             result.description[secondLanguage],
           instrumentId: result.id
         });
-        if (result.dataSets) {
-          ctrl.accessWays = [];
-          result.dataSets.forEach(function(dataSet) {
-            ctrl.accessWays = _.union(dataSet.accessWays, ctrl.accessWays);
-          });
-        }
+
         if (result.release || Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.instrument = result;
@@ -95,42 +95,12 @@ angular.module('metadatamanagementApp')
                 ctrl.attachments = attachments;
               }
             });
-
-          ctrl.surveyCount = result.surveys.length;
-          if (ctrl.surveyCount === 1) {
-            ctrl.survey = result.surveys[0];
-          }
-
-          ctrl.study = result.study;
-
-          ctrl.questionCount = result.questions.length;
-          if (ctrl.questionCount === 1) {
-            ctrl.question = result.questions[0];
-          }
-
-          ctrl.publicationCount = result.relatedPublications.length;
-          if (ctrl.publicationCount === 1) {
-            ctrl.relatedPublication = result.relatedPublications[0];
-          }
-
-          ctrl.conceptsCount = result.concepts.length;
-          if (ctrl.conceptsCount === 1) {
-            ctrl.concept = result.concepts[0];
-          }
         } else {
           SimpleMessageToastService.openAlertMessageToast(
             'instrument-management.detail.not-released-toast', {id: result.id}
           );
         }
       }).finally(blockUI.stop);
-
-      ctrl.addToShoppingCart = function(event) {
-        ProductChooserDialogService.showDialog(
-          ctrl.instrument.dataAcquisitionProjectId, ctrl.accessWays,
-          ctrl.instrument.study,
-          ctrl.instrument.release.version,
-          event);
-      };
 
       ctrl.instrumentEdit = function() {
         if (ProjectUpdateAccessService

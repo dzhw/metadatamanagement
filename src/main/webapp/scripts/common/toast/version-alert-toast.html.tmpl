@@ -1,0 +1,16 @@
+<md-toast ng-class="{'md-accent': alert}">
+    <div>
+        <p ng-repeat="elem in messages" style="margin: 8px 0;">
+            <span data-translate="{{elem.messageId}}" data-translate-values="{{elem.messageParams}}"></span>
+            <a
+              ng-if="elem.messageParams.id"
+              ng-click="go(elem.messageParams.id)">{{'data-acquisition-project-management.current-version' | translate}}</a>
+        </p>
+    </div>
+    <md-button ng-click="closeToast()">
+        <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'global.toast.tooltip.close' | translate}}
+        </md-tooltip>
+        <md-icon ng-style="{color: alert?'black':'white'}" md-font-set="material-icons">close</md-icon>
+    </md-button>
+</md-toast>

@@ -10,7 +10,8 @@ angular.module('metadatamanagementApp')
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
-        searchResultIndex: '='
+        searchResultIndex: '=',
+        setParams: '&'
       }
     };
   });

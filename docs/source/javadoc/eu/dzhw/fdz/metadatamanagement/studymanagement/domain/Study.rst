@@ -52,7 +52,7 @@
 
 .. java:import:: io.searchbox.annotations JestId
 
-.. java:import:: io.swagger.annotations ApiModel
+.. java:import:: io.swagger.v3.oas.annotations.media Schema
 
 .. java:import:: lombok AccessLevel
 
@@ -76,7 +76,7 @@ Study
 .. java:package:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @ValidStudyId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel @ValidShadowId public class Study extends AbstractShadowableRdcDomainObject implements StudySubDocumentProjection
+.. java:type:: @Entity @Document @ValidStudyId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @Schema @ValidShadowId public class Study extends AbstractShadowableRdcDomainObject implements StudySubDocumentProjection
 
    A study contains all metadata of a \ :java:ref:`DataAcquisitionProject`\ . It will get a DOI (Digital Object Identifier) when the \ :java:ref:`DataAcquisitionProject`\  is released.
 
@@ -88,7 +88,7 @@ annotations
 .. java:field:: @I18nStringSize private I18nString annotations
    :outertype: Study
 
-   Arbitrary additional text for this instrument. Must not contain more than 2048 characters.
+   Arbitrary additional text for this study. Must not contain more than 2048 characters.
 
 authors
 ^^^^^^^

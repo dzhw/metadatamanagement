@@ -1,323 +1,71 @@
 <div ng-if="ctrl.concept.id">
-
   <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
   <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
   <div class="fdz-cc">
-    <div layout="row" layout-margin style="margin-bottom: 0px;">
-      <h1 class="md-headline fdz-headline">
-        <span display-i18n-string="ctrl.concept.title" fdz-hyphenate></span>
-        <span class="label label-as-badge label-default">{{ctrl.concept.id}}</span>
-      </h1>
-      <json-content-dialog class="mb0" content="ctrl.concept" exclude-fields="ctrl.jsonExcludes"
-                           header-title="ctrl.concept.title" ng-if="ctrl.enableJsonView"></json-content-dialog>
-    </div>
-    <div class="fdz-tag-link-container" layout="row">
-      <a class="md-raised md-button md-small md-ink-ripple md-primary" ng-repeat="tag in ctrl.conceptTags"
-         ui-sref="search({type: 'concepts', 'query': tag})">
-        <span>{{tag}}</span>
-        <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-          {{'concept-management.detail.tag-tooltip' | translate}}
-        </md-tooltip>
-      </a>
-    </div>
-    <div layout="column" layout-gt-sm="row">
-      <div flex-gt-sm="50" layout="column">
-        <md-card flex="auto">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-card-content>
-            <div class="fdz-add-bottom-margin" ng-if="ctrl.concept.title">
-              <span style="font-weight: bold;">{{'concept-management.detail.label.title' | translate }}:</span>
-              <span>{{ctrl.concept.title | displayI18nString}}</span>
-            </div>
-            <div class="fdz-add-bottom-margin" ng-if="ctrl.concept.authors">
-              <span style="font-weight: bold;">{{'concept-management.detail.label.authors' | translate }}:</span>
-              <span ng-repeat="author in ctrl.concept.authors">
-                                          <span>{{author.lastName}}, </span>
-                                        <span
-                                          ng-if="author.middleName === undefined"> {{author.firstName}}{{!$last?';':''}}</span>
-                                        <span ng-if="author.middleName !== undefined"> {{author.firstName}}  {{author.middleName}}{{!$last?';':''}}</span>
-                                        </span>
-            </div>
-            <div class="fdz-add-bottom-margin" ng-if="ctrl.concept.citationHint">
-              <span style="font-weight: bold;">{{'concept-management.detail.label.citation-hint' | translate }}:</span>
-              <span>{{ctrl.concept.citationHint}}</span>
-            </div>
-            <div class="fdz-add-bottom-margin" ng-if="ctrl.concept.originalLanguages">
-              <span
-                style="font-weight: bold;">{{'concept-management.detail.label.original-languages' | translate }}:</span>
-              <span ng-repeat="language in ctrl.concept.originalLanguages">
-                          {{(language | displayIsoLanguage: currentLanguage)}}{{$index + 1 !== ctrl.concept.originalLanguages.length ? ', ': ''}}
-                      </span>
-            </div>
-            <div class="fdz-add-bottom-margin" ng-if="ctrl.concept.doi">
-              <span style="font-weight: bold;">{{'concept-management.detail.label.doi' | translate }}:</span>
-              <a ng-href="https://dx.doi.org/{{ctrl.concept.doi}}" target="_blank">
-                {{ctrl.concept.doi}}
-                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                  {{'concept-management.detail.doi-tooltip' | translate}}
-                </md-tooltip>
-              </a>
-            </div>
-          </md-card-content>
-        </md-card>
-      </div>
-      <div flex-gt-sm="50" layout="column">
-        <md-card flex="auto"
-                 ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-card-content layout="column" layout-align="center start">
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.studiesCount == 0">
-                <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                {{'study-management.detail.label.studies' | translate }}: {{'global.messages.error.undocumented' |
-                translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.studiesCount == 1 && ctrl.study">
-                <a ui-sref="studyDetail({'id': ctrl.study.masterId, 'version': ctrl.studyVersion})">
-                  <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                  {{'study-management.detail.label.study' | translate }}:
-                  <span display-i18n-string="ctrl.study.title"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'concept-management.detail.tooltips.studies.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.studiesCount > 1">
-                <a ui-sref="search({'type': 'studies', 'concept': ctrl.concept.id})">
-                  <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                  {{'study-management.detail.label.studies' | translate }}: ({{ctrl.counts.studiesCount}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'concept-management.detail.tooltips.studies.many' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.surveysCount == 0">
-                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.undocumented' |
-                translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.surveysCount == 1 && ctrl.survey">
-                <a ui-sref="surveyDetail({'id': ctrl.survey.masterId, 'version': ctrl.surveyVersion})">
-                  <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                  {{'survey-management.detail.label.survey' | translate }}:
-                  <span display-i18n-string="ctrl.survey.title"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'concept-management.detail.tooltips.surveys.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.surveysCount > 1">
-                <a ui-sref="search({'type': 'surveys', 'concept': ctrl.concept.id})">
-                  <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                  {{'survey-management.detail.label.surveys' | translate }}: ({{ctrl.counts.surveysCount}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'concept-management.detail.tooltips.surveys.many' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.instrumentsCount == 0">
-                <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                {{'instrument-management.detail.label.instrument' | translate }}: {{'global.messages.error.undocumented'
-                | translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.instrumentsCount == 1 && ctrl.instrument">
-                <a ui-sref="instrumentDetail({'id': ctrl.instrument.masterId, 'version': ctrl.instrumentVersion})">
-                  <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                  {{'instrument-management.detail.label.instrument' | translate }}: <span
-                  display-i18n-string="ctrl.instrument.description"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'concept-management.detail.tooltips.instruments.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.instrumentsCount > 1">
-                <a ui-sref="search({'type': 'instruments', 'concept': ctrl.concept.id, 'sorty-by': 'number'})">
-                  <md-icon md-svg-src="/assets/images/icons/instrument.svg"></md-icon>
-                  {{'instrument-management.detail.label.instruments' | translate }}: ({{ctrl.counts.instrumentsCount}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'concept-management.detail.tooltips.instruments.many' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.questionsCount == 0">
-                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                {{'question-management.detail.label.questions' | translate }}: {{'global.messages.error.undocumented' |
-                translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.questionsCount == 1 && ctrl.question">
-                <a ui-sref="questionDetail({'id': ctrl.question.masterId, 'version': ctrl.questionVersion})">
-                  <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                  {{'question-management.detail.label.question' | translate }}: <span
-                  display-i18n-string="ctrl.question.questionText"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'concept-management.detail.tooltips.questions.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.questionsCount > 1">
-                <a ui-sref="search({'type': 'questions', 'concept':ctrl.concept.id})">
-                  <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                  {{'question-management.detail.label.questions' | translate }}: ({{ctrl.counts.questionsCount}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'concept-management.detail.tooltips.questions.many' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.dataSetsCount == 0">
-                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                {{'data-set-management.detail.label.data-sets' | translate }}: {{'global.messages.error.undocumented' |
-                translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.dataSetsCount == 1 && ctrl.dataSet">
-                <a ui-sref="dataSetDetail({'id': ctrl.dataSet.masterId, 'version': ctrl.dataSetVersion})">
-                  <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                  {{'data-set-management.detail.label.data-set' | translate }}:
-                  <span display-i18n-string="ctrl.dataSet.description"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'concept-management.detail.tooltips.data-sets.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.dataSetsCount > 1">
-                <a ui-sref="search({'type': 'data_sets', 'concept':ctrl.concept.id})">
-                  <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                  {{'data-set-management.detail.label.data-sets' | translate }}: ({{ctrl.counts.dataSetsCount}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'concept-management.detail.tooltips.data-sets.many' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.variablesCount == 0">
-                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                {{'variable-management.detail.label.variables' | translate }}: {{'global.messages.error.undocumented' |
-                translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.variablesCount == 1 && ctrl.variable">
-                <a ui-sref="variableDetail({'id': ctrl.variable.masterId, 'version': ctrl.variableVersion})">
-                  <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                  {{'variable-management.detail.label.variable' | translate }}:
-                  <span display-i18n-string="ctrl.variable.label"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'concept-management.detail.tooltips.variables.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="ctrl.counts.variablesCount > 1">
-                <a ui-sref="search({'type': 'variables', 'concept': ctrl.concept.id})">
-                  <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                  {{'variable-management.detail.label.variables' | translate }}: ({{ctrl.counts.variablesCount}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'concept-management.detail.tooltips.variables.many' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-          </md-card-content>
-        </md-card>
-      </div>
-    </div>
-    <div layout="row">
-      <md-card class="fdz-reset-top-margin" flex>
-        <md-card-header>
-          <md-card-header-text>
-            <h2 class="md-title">{{'concept-management.detail.description' | translate | fdzHyphenate}}</h2>
-          </md-card-header-text>
-        </md-card-header>
-        <md-divider></md-divider>
-        <md-card-content>
-          <p class="fdz-text-block fdz-multiline-property" display-i18n-string="ctrl.concept.description"
-             fdz-hyphenate></p>
-        </md-card-content>
-      </md-card>
-    </div>
-    <div layout="row">
-      <md-card class="fdz-reset-top-margin" flex ng-if="ctrl.attachments && ctrl.attachments.length > 0">
-        <md-card-header layout-align="center center">
-          <md-card-header-text>
-            <h2 class="md-title">{{'concept-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>
-          </md-card-header-text>
-        </md-card-header>
-        <table fdz-table>
-          <thead>
-          <tr>
-            <th>{{'concept-management.detail.label.attachments.type' | translate }}
-              <md-tooltip hide-gt-xs md-direction="right">
-                {{'concept-management.detail.label.attachments.type' | translate }}
-              </md-tooltip>
-            </th>
-            <th class="fdz-table-half-absorbing-column">{{'concept-management.detail.label.attachments.description' |
-              translate }}
-              <md-tooltip hide-gt-xs md-direction="right">
-                {{'concept-management.detail.label.attachments.description' | translate }}
-              </md-tooltip>
-            </th>
-            <th class="fdz-table-half-absorbing-column">{{'concept-management.detail.label.attachments.title' |
-              translate }}
-              <md-tooltip hide-gt-xs md-direction="right">
-                {{'concept-management.detail.label.attachments.title' | translate }}
-              </md-tooltip>
-            </th>
-            <th>{{'concept-management.detail.label.attachments.language' | translate }}
-              <md-tooltip hide-gt-xs md-direction="right">
-                {{'concept-management.detail.label.attachments.language' | translate }}
-              </md-tooltip>
-            </th>
-            <th>{{'concept-management.detail.label.attachments.file' | translate }}
-              <md-tooltip hide-gt-xs md-direction="right">
-                {{'concept-management.detail.label.attachments.file' | translate }}
-              </md-tooltip>
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr ng-repeat="row in ctrl.attachments">
-            <td class="fdz-table-nowrap" display-i18n-string="row.type"></td>
-            <td class="fdz-text-block" display-i18n-string="row.description" fdz-hyphenate></td>
-            <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
-            <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
-            <td style="white-space: nowrap;"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
+    <div>
+      <div class="fdz-detail">
+        <div class="fdz-detail__header">
+          <div class="fdz-detail__header-text">
+            <h1 class="md-headline" display-i18n-string="ctrl.concept.title" fdz-hyphenate></h1>
+            <json-content-dialog class="mb0" content="ctrl.concept"
+                                 header-title="ctrl.concept.title" ng-if="ctrl.enableJsonView"></json-content-dialog>
+          </div>
+          <div class="fdz-tag-link-container" ng-if="ctrl.conceptTags.length > 0">
+            <h5>{{'study-management.detail.label.tags' | translate}}: </h5>
+            <a ng-repeat="tag in ctrl.conceptTags"
+               ng-if="ctrl.isAuthenticated()"
+               ui-sref="search({type: 'concepts', 'query': tag})">
+              <span>{{tag}}{{!$last?',&nbsp;':''}}</span>
               <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
+                {{'study-management.detail.tag-tooltip' | translate}}
               </md-tooltip>
-            </a>&nbsp;
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </md-card>
-    </div>
-    <div layout="row">
-      <md-card class="fdz-reset-top-margin" flex ng-if="ctrl.concept.license">
-        <md-card-header>
-          <md-card-header-text>
-            <h2 class="md-title">{{'concept-management.detail.label.license' | translate}}</h2>
-          </md-card-header-text>
-        </md-card-header>
+            </a>
+            <a ng-repeat="tag in ctrl.conceptTags"
+               ng-if="!ctrl.isAuthenticated()"
+               ui-sref="search({type: 'concepts', 'tags': tag})">
+              <span>{{tag}}{{!$last?',&nbsp;':''}}</span>
+              <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'study-management.detail.tag-tooltip' | translate}}
+              </md-tooltip>
+            </a>
+          </div>
+        </div>
         <md-divider></md-divider>
-        <md-card-content>
-          {{ctrl.concept.license}}
-        </md-card-content>
-      </md-card>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.concept"
+          template-url="scripts/conceptmanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.concept.description"
+          template-url="scripts/conceptmanagement/templates/dp-description.html.tmpl"></fdz-detail>
+        <md-divider
+          ng-if="ctrl.attachments && ctrl.attachments.length > 0"></md-divider>
+        <fdz-detail
+          ng-if="ctrl.attachments && ctrl.attachments.length > 0"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.attachments"
+          template-url="scripts/conceptmanagement/templates/dp-attachments.html.tmpl"></fdz-detail>
+        <md-divider
+          ng-if="ctrl.concept.license"></md-divider>
+        <fdz-detail
+          ng-if="ctrl.concept.license"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.concept.license"
+          template-url="scripts/conceptmanagement/templates/dp-license.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-related-objects
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.counts"
+          id="ctrl.concept.id"
+          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+      </div>
     </div>
   </div>
   <div class="fdz-fab-button-container" layout="column">

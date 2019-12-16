@@ -3,9 +3,79 @@
 
 angular.module('metadatamanagementApp').factory(
   'SearchHelperService',
-  function(CleanJSObjectService, Principal) {
+  function(CleanJSObjectService, Principal, LanguageService) {
     var domainObjectFilterNames = ['study', 'survey', 'data-set', 'instrument',
       'variable', 'question'];
+
+    var aggregationMapping = {
+      'studies': {
+        'study-series': {
+          attribute: 'studySeries',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'survey-data-types': {
+          attribute: 'surveyDataTypes',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'tags': {
+          attribute: 'tags',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'concepts': {
+          attribute: 'concepts.title',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'sponsor': {
+          attribute: 'sponsor',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'institutions': {
+          attribute: 'institutions',
+          i18n: true,
+          min_doc_count: 1
+        }
+      }
+    };
+
+    var filterMapping = {
+      'studies': {
+        'study-series': {
+          attribute: 'studySeries',
+          i18n: true,
+          concatMultipleWithOr: true
+        },
+        'survey-data-types': {
+          attribute: 'surveyDataTypes',
+          i18n: true,
+          concatMultipleWithOr: true
+        },
+        'tags': {
+          attribute: 'tags',
+          i18n: true,
+          concatMultipleWithOr: false
+        },
+        'concepts': {
+          attribute: 'concepts.title',
+          i18n: true,
+          concatMultipleWithOr: false
+        },
+        'sponsor': {
+          attribute: 'sponsor',
+          i18n: true,
+          concatMultipleWithOr: true
+        },
+        'institutions': {
+          attribute: 'institutions',
+          i18n: true,
+          concatMultipleWithOr: false
+        }
+      }
+    };
 
     var keyMapping = {
       'studies': {
@@ -455,6 +525,128 @@ angular.module('metadatamanagementApp').factory(
       }
     };
 
+    var addAggregations = function(query, elasticsearchType, aggregations) {
+      var currentLanguage = LanguageService.getCurrentInstantly();
+      if (aggregations && aggregations.length > 0) {
+        query.body.aggs = {
+          all: {
+            global: {},
+            aggs: {
+              filtered: {
+                aggs: {}
+              }
+            }
+          }
+        };
+
+        if (!Principal.loginName()) {
+          var shadowCopyFilter = {
+            'bool': {
+              'must': [{
+                'term': {'shadow': true}
+              },{
+                'term': {'hidden': false}
+              }]
+            }
+          };
+          _.set(shadowCopyFilter, 'bool.must_not[0].exists.field',
+            'successorId');
+          _.set(query.body.aggs.all.aggs.filtered, 'filter', shadowCopyFilter);
+        } else {
+          var masterFilter = {
+            'bool': {
+              'must': [{
+                'term': {'shadow': false}
+              }]
+            }
+          };
+          _.set(query.body.aggs.all.aggs.filtered, 'filter', masterFilter);
+        }
+        aggregations.forEach(function(attribute) {
+          var aggregationConfig = _.get(aggregationMapping,
+            elasticsearchType + '.' + attribute);
+          if (aggregationConfig) {
+            var aggregation = {
+              terms: {
+                size: 100,
+                min_doc_count: aggregationConfig.min_doc_count
+              }
+            };
+            if (aggregationConfig.i18n) {
+              aggregation.terms.field = aggregationConfig.attribute +
+              '.' + currentLanguage;
+            } else {
+              aggregation.terms.field = aggregationConfig.attribute;
+            }
+            _.set(query.body.aggs, attribute, aggregation);
+            _.set(query.body.aggs.all.aggs.filtered.aggs, attribute,
+              aggregation);
+          }
+        });
+      }
+    };
+
+    var addNewFilters = function(query, elasticsearchType, newFilters) {
+      var currentLanguage = LanguageService.getCurrentInstantly();
+      if (newFilters && _.keys(newFilters).length > 0) {
+        var allFilters = {
+          bool: {
+            must: []
+          }
+        };
+        _.keys(newFilters).forEach(function(filterKey) {
+          var filterConfig = _.get(
+            filterMapping, elasticsearchType + '.' + filterKey);
+          if (!filterConfig) {
+            return;
+          }
+          var attributeFilter;
+          var filterArray;
+          if (filterConfig.concatMultipleWithOr) {
+            attributeFilter = {
+              bool: {
+                should: [],
+                minimum_should_match: 1
+              }
+            };
+            filterArray = attributeFilter.bool.should;
+          } else {
+            attributeFilter = {
+              bool: {
+                must: []
+              }
+            };
+            filterArray = attributeFilter.bool.must;
+          }
+
+          var createFilter = function(filterValue) {
+            var filter = {
+              term: {
+              }
+            };
+            if (filterConfig.i18n) {
+              filter.term[filterConfig.attribute + '.' + currentLanguage] =
+              filterValue;
+            } else {
+              filter.term[filterConfig.attribute] = filterValue;
+            }
+            filterArray.push(filter);
+          };
+
+          if (Array.isArray(newFilters[filterKey])) {
+            newFilters[filterKey].forEach(createFilter);
+          } else {
+            createFilter(newFilters[filterKey]);
+          }
+          allFilters.bool.must.push(attributeFilter);
+        });
+        if (!query.body.query.bool.filter) {
+          query.body.query.bool.filter = [];
+        }
+        query.body.query.bool.filter.push(allFilters);
+      }
+    };
+
     return {
       containsDomainObjectFilter: containsDomainObjectFilter,
       createTermFilters: createTermFilters,
@@ -466,7 +658,9 @@ angular.module('metadatamanagementApp').factory(
       addFilter: addFilter,
       addShadowCopyFilter: addShadowCopyFilter,
       addNestedShadowCopyFilter: addNestedShadowCopyFilter,
-      addQuery: addQuery
+      addQuery: addQuery,
+      addAggregations: addAggregations,
+      addNewFilters: addNewFilters
     };
   }
 );

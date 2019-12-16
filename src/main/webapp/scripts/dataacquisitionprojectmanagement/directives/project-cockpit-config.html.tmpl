@@ -1,17 +1,17 @@
 <div>
 	<div layout-gt-sm="row" layout="column">
-	<div flex style="-ms-flex:auto;">
+	<div flex class="ms-flex">
 		<div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-publisher' | translate}}</div>
 		<user-list project="project" is-publisher="ctrl.isUserPublisher()" group="publishers"></user-list>
 	</div>
-	<div flex style="-ms-flex:auto;">
+	<div flex class="ms-flex">
 		<div class="layout-margin layout-row md-body-2">{{'data-acquisition-project-management.project-cockpit.search.header-data-provider' | translate}}</div>
 		<user-list project="project" is-publisher="ctrl.isUserPublisher()" group="dataProviders"></user-list>
 	</div>
 	</div>
 
 	<md-card ng-if="ctrl.project.configuration.requirements">
-		<md-card-title>
+		<md-card-title class="pa0">
 			<md-card-title-text>
 				<span class="md-headline">
 					{{'data-acquisition-project-management.project-cockpit.requirements.header' | translate}}
@@ -25,50 +25,50 @@
 			<form name="requirements" novalidate>
 				<md-list>
 					<md-list-item>
-						<md-input-container ng-class="'fdz-no-margin'">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.studiesRequired" name="study" ng-class="'fdz-no-margin'" ng-disabled="true">
+						<md-input-container class="mb0">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.studiesRequired" name="study" class="mb0" ng-disabled="true">
 								{{'data-acquisition-project-management.project-cockpit.requirements.studies' | translate}}
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
 					<md-list-item>
-						<md-input-container ng-class="'fdz-no-margin'">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.surveysRequired" ng-class="'fdz-no-margin'" name="survey" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+						<md-input-container class="mb0">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.surveysRequired" class="mb0" name="survey" ng-disabled="ctrl.isProjectRequirementsDisabled()">
 								{{'data-acquisition-project-management.project-cockpit.requirements.surveys' | translate}}
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
 					<md-list-item>
-						<md-input-container ng-class="'fdz-no-margin'">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.instrumentsRequired" ng-class="'fdz-no-margin'" name="instruments" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+						<md-input-container class="mb0">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.instrumentsRequired" class="mb0" name="instruments" ng-disabled="ctrl.isProjectRequirementsDisabled()">
 								{{'data-acquisition-project-management.project-cockpit.requirements.instruments' | translate}}
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
 					<md-list-item>
-						<md-input-container ng-class="'fdz-no-margin'">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.questionsRequired" ng-class="'fdz-no-margin'" name="questions" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+						<md-input-container class="mb0">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.questionsRequired" class="mb0" name="questions" ng-disabled="ctrl.isProjectRequirementsDisabled()">
 								{{'data-acquisition-project-management.project-cockpit.requirements.questions' | translate}}
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
 					<md-list-item>
-						<md-input-container ng-class="'fdz-no-margin'">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.dataSetsRequired" ng-class="'fdz-no-margin'" name="dataSet" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+						<md-input-container class="mb0">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.dataSetsRequired" class="mb0" name="dataSet" ng-disabled="ctrl.isProjectRequirementsDisabled()">
 								{{'data-acquisition-project-management.project-cockpit.requirements.dataSets' | translate}}
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
 					<md-list-item>
-						<md-input-container ng-class="'fdz-no-margin'">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.variablesRequired" ng-class="'fdz-no-margin'" name="variables" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+						<md-input-container class="mb0">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.variablesRequired" class="mb0" name="variables" ng-disabled="ctrl.isProjectRequirementsDisabled()">
 								{{'data-acquisition-project-management.project-cockpit.requirements.variables' | translate}}
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
 					<md-list-item>
-						<md-input-container ng-class="'fdz-no-margin'">
-							<md-checkbox ng-model="ctrl.project.configuration.requirements.publicationsRequired" ng-class="'fdz-no-margin'" name="publications" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+						<md-input-container class="mb0">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.publicationsRequired" class="mb0" name="publications" ng-disabled="ctrl.isProjectRequirementsDisabled()">
 								{{'data-acquisition-project-management.project-cockpit.requirements.publications' | translate}}
 							</md-checkbox>
 						</md-input-container>

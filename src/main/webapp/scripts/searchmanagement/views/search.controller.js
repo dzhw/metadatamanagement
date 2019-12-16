@@ -5,7 +5,7 @@
 /* The Controller for the search. It differs between tabs and a tab represent
 a result of a type like variable or dataSet and so on. */
 angular.module('metadatamanagementApp').controller('SearchController',
-  function($scope, Principal, $location, $state, SearchDao,
+  function($scope, Principal, $location, $state, SearchDao, MessageBus,
            VariableUploadService, ProjectUpdateAccessService,
            QuestionUploadService, RelatedPublicationUploadService,
            CleanJSObjectService, CurrentProjectService, $timeout,
@@ -21,6 +21,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
     var selectedTabChangeIsBeingHandled = false;
     var queryChangeIsBeingHandled = false;
 
+    var searchFilterAggregations = [
+      'study-series',
+      'survey-data-types',
+      'tags',
+      'sponsor',
+      'institutions'
+    ];
     var getSelectedMetadataType = function() {
       return $scope.tabs[$scope.searchParams.selectedTabIndex]
         .elasticSearchType;
@@ -28,7 +35,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     $scope.isSearching = 0;
     $scope.isDropZoneDisabled = true;
-
     // set the page title in toolbar and window.title
     PageTitleService.setPageTitle('global.menu.search.title');
     //Check the login status
@@ -42,13 +48,17 @@ angular.module('metadatamanagementApp').controller('SearchController',
       var locationSearch = {};
       locationSearch.page = '' + $scope.options.pageObject.page;
       locationSearch.size = '' + $scope.options.pageObject.size;
-      try {
-        locationSearch.type = $scope.tabs[
-          $scope.searchParams.selectedTabIndex].elasticSearchType;
-      } catch (e) {
-        $scope.searchParams.selectedTabIndex = 0;
-        locationSearch.type = $scope.tabs[
-          $scope.searchParams.selectedTabIndex].elasticSearchType;
+      if (Principal.isAuthenticated()) {
+        try {
+          locationSearch.type = $scope.tabs[
+            $scope.searchParams.selectedTabIndex].elasticSearchType;
+        } catch (e) {
+          $scope.searchParams.selectedTabIndex = 0;
+          locationSearch.type = $scope.tabs[
+            $scope.searchParams.selectedTabIndex].elasticSearchType;
+        }
+      } else {
+        locationSearch.type = 'studies';
       }
       if ($scope.searchParams.query && $scope.searchParams.query !== '') {
         locationSearch.query = $scope.searchParams.query;
@@ -72,6 +82,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.options.pageObject.size = 10;
         $scope.searchParams = {
           query: '',
+          type: 'studies',
           size: $scope.options.pageObject.size,
           selectedTabIndex: 0
         };
@@ -111,13 +122,16 @@ angular.module('metadatamanagementApp').controller('SearchController',
 
     // init the controller and its scope objects
     var init = function() {
-      tabChangedOnInitFlag = true;
-      queryChangedOnInit = true;
+      MessageBus.set('searchInit', {});
       $scope.tabs = _.filter($scope.tabs, function(tab) {
         return tab.visibleForPublicUser || Principal.isAuthenticated();
       });
       $scope.searchResult = {};
       $scope.currentProject = CurrentProjectService.getCurrentProject();
+      if (Principal.isAuthenticated()) {
+        searchFilterAggregations = null;
+        $scope.searchFilterMapping = {};
+      }
       if (!$scope.currentProject) {
         $scope.currentProject = undefined;
       }
@@ -136,6 +150,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
       $scope.searchParams = {
         query: '',
+        type: 'studies',
         size: $scope.options.pageObject.size,
         selectedTabIndex: 0
       };
@@ -143,7 +158,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
       writeSearchParamsToLocation();
       $scope.loadStudyForProject();
       $scope.search();
-
     };
 
     $scope.uploadVariables = function(files) {
@@ -177,7 +191,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.studies',
       inputLabel: 'search-management.input-label.studies',
-      icon: 'assets/images/icons/study.svg',
       elasticSearchType: 'studies',
       count: null,
       uploadFunction: null,
@@ -188,7 +201,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
-      icon: 'assets/images/icons/survey.svg',
       elasticSearchType: 'surveys',
       count: null,
       uploadFunction: null,
@@ -199,7 +211,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.instruments',
       inputLabel: 'search-management.input-label.instruments',
-      icon: 'assets/images/icons/instrument.svg',
       elasticSearchType: 'instruments',
       count: null,
       uploadFunction: null,
@@ -210,7 +221,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.questions',
       inputLabel: 'search-management.input-label.questions',
-      icon: 'assets/images/icons/question.svg',
       elasticSearchType: 'questions',
       count: null,
       uploadFunction: $scope.uploadQuestions,
@@ -221,7 +231,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.data_sets',
       inputLabel: 'search-management.input-label.data-sets',
-      icon: 'assets/images/icons/data-set.svg',
       elasticSearchType: 'data_sets',
       count: null,
       uploadFunction: null,
@@ -232,7 +241,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.variables',
       inputLabel: 'search-management.input-label.variables',
-      icon: 'assets/images/icons/variable.svg',
       elasticSearchType: 'variables',
       count: null,
       uploadFunction: $scope.uploadVariables,
@@ -243,7 +251,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.related_publications',
       inputLabel: 'search-management.input-label.related-publications',
-      icon: 'assets/images/icons/related-publication.svg',
       elasticSearchType: 'related_publications',
       count: null,
       uploadFunction: $scope.uploadRelatedPublications,
@@ -254,7 +261,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }, {
       title: 'search-management.tabs.concepts',
       inputLabel: 'search-management.input-label.concepts',
-      icon: 'assets/images/icons/concept.svg',
       elasticSearchType: 'concepts',
       count: null,
       uploadFunction: null,
@@ -264,20 +270,71 @@ angular.module('metadatamanagementApp').controller('SearchController',
       group: 'concepts'
     }];
 
-    //Search function
-    $scope.search = function() {
-      var projectId = _.get($scope, 'currentProject.id');
-      $scope.isSearching++;
-      $scope.setDropZoneDisabled();
+    function createDataPacketFilterContent(data, prop) {
+      _.map(data.all.filtered[prop].buckets, function(val1, i1) {
+        data.all.filtered[prop].buckets[i1].doc_count = 0;
+        _.find(data[prop].buckets, function(val2, i2) {
+          if (val1.key === val2.key) {
+            data.all.filtered[prop].buckets[i1].doc_count = data[prop]
+              .buckets[i2].doc_count;
+          }
+        });
+      });
+      return data.all.filtered[prop].buckets;
+    }
+    function createDataPacketFilterObject(data) {
+      if (Principal.isAuthenticated()) { return null; }
+      var dataPacketFilter = {
+        'study-series': createDataPacketFilterContent(data,
+          'study-series'),
+        'survey-data-types': createDataPacketFilterContent(data,
+          'survey-data-types'),
+        'tags': createDataPacketFilterContent(data,
+          'tags'),
+        'sponsor': createDataPacketFilterContent(data,
+          'sponsor'),
+        'institutions': createDataPacketFilterContent(data,
+          'institutions')
+      };
+      MessageBus.set('onDataPacketFilterChange', dataPacketFilter);
+    }
+    $scope.setCurrentSearchParams = function(projectId) {
+      if (!projectId) {
+        projectId = _.get($scope, 'currentProject.id');
+      }
       SearchResultNavigatorService.setCurrentSearchParams(
         $scope.searchParams, projectId,
         getSelectedMetadataType(),
         $scope.options.pageObject);
+    };
+
+    //Search function
+    $scope.search = function() {
+      if (!Principal.isAuthenticated()) {
+        $scope.searchFilterMapping = $scope.searchParams.filter;
+      }
+      var projectId = _.get($scope, 'currentProject.id');
+      $scope.isSearching++;
+      MessageBus.set('onStartSearch', {});
+      $scope.setDropZoneDisabled();
+      if (Principal.isAuthenticated()) {
+        $scope.setCurrentSearchParams(projectId);
+      }
       SearchDao.search($scope.searchParams.query,
         $scope.options.pageObject.page, projectId, $scope.searchParams.filter,
         getSelectedMetadataType(),
-        $scope.options.pageObject.size, $scope.searchParams.sortBy)
+        $scope.options.pageObject.size,
+        null,
+        // Aggregations Usage: ['study-series', ...]
+        searchFilterAggregations,
+        // Usage:
+        // {
+        //   'study-series': ['DZHW-Absolventenstudien','adf','asd'],
+        //   'sponsor': ['Bundesministerium für Bildung und Forschung (BMBF)']
+        // })
+        $scope.searchFilterMapping)
         .then(function(data) {
+          createDataPacketFilterObject(data.aggregations);
           $scope.searchResult = data.hits.hits;
           $scope.options.pageObject.totalHits = data.hits.total.value;
           //Count information by aggregations
@@ -301,6 +358,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
               data.hits.total.value;
           });
           $scope.isSearching--;
+          MessageBus.set('onStopSearch', {});
+
           // Safari fix
           $timeout(function() {
             angular.element('body').append('<div id=fdz-safari-fix></div>');
@@ -316,29 +375,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
           });
           $scope.tabs[$scope.searchParams.selectedTabIndex].count = 0;
           $scope.isSearching--;
+          MessageBus.set('onStopSearch', {});
         });
     };
-
-    // watch for location changes not triggered by our code
-    $scope.$watchCollection(function() {
-      return $location.search();
-    }, function(newValue, oldValue) {
-      ToolbarHeaderService.updateToolbarHeader({
-        'stateName': $state.current.name,
-        'tabName': $scope.tabs[$scope.searchParams.selectedTabIndex].title,
-        'searchUrl': $location.absUrl(),
-        'searchParams': $location.search()
-      });
-      if (newValue !== oldValue && !locationChanged) {
-        readSearchParamsFromLocation();
-        // type changes are already handled by $scope.onSelectedTabChanged
-        if (newValue.type === oldValue.type) {
-          $scope.search();
-        }
-      } else {
-        locationChanged = false;
-      }
-    });
 
     var filterActiveTabs = function(tabs) {
       var project = CurrentProjectService.getCurrentProject();
@@ -376,6 +415,27 @@ angular.module('metadatamanagementApp').controller('SearchController',
       }
     };
 
+    // watch for location changes not triggered by our code
+    $scope.$watchCollection(function() {
+      return $location.search();
+    }, function(newValue, oldValue) {
+      ToolbarHeaderService.updateToolbarHeader({
+        'stateName': $state.current.name,
+        'tabName': $scope.tabs[$scope.searchParams.selectedTabIndex].title,
+        'searchUrl': $location.absUrl(),
+        'searchParams': $location.search()
+      });
+      if (newValue !== oldValue && !locationChanged) {
+        readSearchParamsFromLocation();
+        // type changes are already handled by $scope.onSelectedTabChanged
+        if (newValue.type === oldValue.type) {
+          $scope.search();
+        }
+      } else {
+        locationChanged = false;
+      }
+    });
+
     $scope.$on('current-project-changed',
       function(event, currentProject) { // jshint ignore:line
         $scope.tabs = filterActiveTabs(tabs);
@@ -400,71 +460,72 @@ angular.module('metadatamanagementApp').controller('SearchController',
         });
       });
 
-    $scope.$on('user-logged-out', function() {
-      var currentType = $scope.tabs[$scope.searchParams.selectedTabIndex]
-        .elasticSearchType;
-      $scope.tabs = _.filter($scope.tabs, function(tab) {
-        return tab.visibleForPublicUser || Principal.isAuthenticated();
-      });
-      var indexToSelect = _.findIndex($scope.tabs,
-        function(tab) {
-          return tab.elasticSearchType === currentType;
-        });
-      if (indexToSelect < 0) {
-        $scope.searchParams.selectedTabIndex = 0;
-      } else {
-        $scope.searchParams.selectedTabIndex = indexToSelect;
-      }
-    });
+    // $scope.$on('user-logged-out', function() {
+    //   var currentType = $scope.tabs[$scope.searchParams.selectedTabIndex]
+    //     .elasticSearchType;
+    //   $scope.tabs = _.filter($scope.tabs, function(tab) {
+    //     return tab.visibleForPublicUser || Principal.isAuthenticated();
+    //   });
+    //   var indexToSelect = _.findIndex($scope.tabs,
+    //     function(tab) {
+    //       return tab.elasticSearchType === currentType;
+    //     });
+    //   if (indexToSelect < 0) {
+    //     $scope.searchParams.selectedTabIndex = 0;
+    //   } else {
+    //     $scope.searchParams.selectedTabIndex = indexToSelect;
+    //   }
+    // });
 
     $scope.onPageChanged = function() {
       writeSearchParamsToLocation();
       $scope.search();
     };
 
-    $scope.$watch('searchParams.query', function() {
-      if (queryChangedOnInit) {
-        queryChangedOnInit = false;
-        return;
-      }
-      if (selectedTabChangeIsBeingHandled) {
-        return;
-      }
-      queryChangeIsBeingHandled = true;
-      $timeout(function() {
-        $scope.options.pageObject.page = 1;
-        delete $scope.searchParams.sortBy;
-        writeSearchParamsToLocation();
-        $scope.search();
-        queryChangeIsBeingHandled = false;
-      });
-    });
-
-    $scope.onSelectedTabChanged = function() {
-      if (!selectedTabChangeIsBeingHandled && !queryChangeIsBeingHandled) {
-        //prevent multiple tab change handlers caused by logout
-        selectedTabChangeIsBeingHandled = true;
+    if (Principal.isAuthenticated()) {
+      $scope.$watch('searchParams.query', function() {
+        if (queryChangedOnInit) {
+          queryChangedOnInit = false;
+          return;
+        }
+        if (selectedTabChangeIsBeingHandled) {
+          return;
+        }
+        queryChangeIsBeingHandled = true;
         $timeout(function() {
-          if (!tabChangedOnInitFlag) {
-            $scope.searchParams.filter = SearchHelperService
-              .removeIrrelevantFilters(
-                $scope.tabs[$scope.searchParams.selectedTabIndex]
-                  .elasticSearchType,
-                $scope.searchParams.filter);
-            $scope.searchParams.sortBy = undefined;
-            $scope.options.pageObject.page = 1;
-            writeSearchParamsToLocation();
-            if (!currentProjectChangeIsBeingHandled) {
-              $scope.search();
-            }
-            $scope.loadStudyForProject();
-          }
-          tabChangedOnInitFlag = false;
-          selectedTabChangeIsBeingHandled = false;
+          $scope.options.pageObject.page = 1;
+          delete $scope.searchParams.sortBy;
+          writeSearchParamsToLocation();
+          $scope.search();
+          queryChangeIsBeingHandled = false;
         });
-      }
-    };
+      });
 
+      $scope.onSelectedTabChanged = function() {
+        if (!selectedTabChangeIsBeingHandled && !queryChangeIsBeingHandled) {
+          //prevent multiple tab change handlers caused by logout
+          selectedTabChangeIsBeingHandled = true;
+          $timeout(function() {
+            if (!tabChangedOnInitFlag) {
+              $scope.searchParams.filter = SearchHelperService
+                .removeIrrelevantFilters(
+                  $scope.tabs[$scope.searchParams.selectedTabIndex]
+                    .elasticSearchType,
+                  $scope.searchParams.filter);
+              $scope.searchParams.sortBy = undefined;
+              $scope.options.pageObject.page = 1;
+              writeSearchParamsToLocation();
+              if (!currentProjectChangeIsBeingHandled) {
+                $scope.search();
+              }
+              $scope.loadStudyForProject();
+            }
+            tabChangedOnInitFlag = false;
+            selectedTabChangeIsBeingHandled = false;
+          });
+        }
+      };
+    }
     //Refresh function for the refresh button
     $scope.refresh = function() {
       $scope.search();
@@ -592,5 +653,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
         });
       }
     };
+
     init();
   });

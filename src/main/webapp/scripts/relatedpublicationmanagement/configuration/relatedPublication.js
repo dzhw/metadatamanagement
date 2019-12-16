@@ -7,7 +7,8 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('relatedPublicationDetail', {
         parent: 'site',
-        url: '/publications/{id}',
+        url: '/publications/{id}?{version}{query}{page}' +
+          '{size}',
         reloadOnSearch: false,
         data: {
           authorities: []
@@ -26,8 +27,10 @@ angular.module('metadatamanagementApp')
         resolve: {
           entity: ['$stateParams', 'RelatedPublicationSearchService',
             function($stateParams, RelatedPublicationSearchService) {
+              var excludedAttributes = ['nested*','variables', 'dataSets',
+                'surveys','studies','questions', 'instruments'];
               return RelatedPublicationSearchService.findOneById(
-                $stateParams.id);
+                $stateParams.id, null, excludedAttributes);
             }
           ]
         }

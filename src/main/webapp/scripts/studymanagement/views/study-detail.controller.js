@@ -1,14 +1,20 @@
-/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('StudyDetailController',
-    function(entity, PageTitleService, LanguageService, DataSetSearchService,
-             $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
-             StudyAttachmentResource, SearchResultNavigatorService,
-             $stateParams, $rootScope, DataAcquisitionProjectResource,
-             ProductChooserDialogService, ProjectUpdateAccessService, $scope,
-             $timeout, OutdatedVersionNotifier, StudySearchService, $log,
+    function(entity,
+             MessageBus,
+             PageTitleService,
+             LanguageService,
+             $state, $location,
+             ToolbarHeaderService, Principal, SimpleMessageToastService,
+             SearchResultNavigatorService,
+             $stateParams,
+             DataAcquisitionProjectAttachmentsResource,
+             $rootScope, DataAcquisitionProjectResource,
+             ProjectUpdateAccessService, $scope,
+             $timeout, $document,
+             OutdatedVersionNotifier, StudySearchService, $log,
              blockUI) {
       blockUI.start();
       SearchResultNavigatorService
@@ -24,33 +30,31 @@ angular.module('metadatamanagementApp')
           return [];
         }
       };
-
       var ctrl = this;
       var activeProject;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
-      ctrl.counts = {};
-      ctrl.jsonExcludes = [
-        'nestedDataSets',
-        'nestedVariables',
-        'nestedRelatedPublications',
-        'nestedSurveys',
-        'nestedQuestions',
-        'nestedInstruments',
-        'nestedConcepts'
-      ];
+      ctrl.counts = {
+        surveysCount: 0,
+        instrumentsCount: 0,
+        questionsCount: 0,
+        dataSetsCount: 0,
+        variablesCount: 0,
+        publicationsCount: 0,
+        conceptsCount: 0
+      };
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
       var bowser = $rootScope.bowser;
 
       ctrl.loadAttachments = function() {
-        StudyAttachmentResource.findByStudyId({
-          studyId: ctrl.study.id
+        DataAcquisitionProjectAttachmentsResource.get({
+          id: ctrl.study.dataAcquisitionProjectId
         }).$promise.then(
           function(attachments) {
-            if (attachments.length > 0) {
+            if (attachments) {
               ctrl.attachments = attachments;
             }
           });
@@ -71,7 +75,9 @@ angular.module('metadatamanagementApp')
 
       entity.promise.then(function(result) {
         var fetchFn = StudySearchService.findShadowByIdAndVersion
-          .bind(null, result.masterId);
+          .bind(null, result.masterId, null, ['nested*','variables','questions',
+            'surveys','instruments', 'dataSets', 'relatedPublications',
+            'concepts']);
         OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
 
         if (Principal
@@ -84,6 +90,13 @@ angular.module('metadatamanagementApp')
             activeProject = project;
           });
         }
+        if (!Principal.isAuthenticated()) {
+          MessageBus.set('onDataPackageChange',
+            {
+              masterId: result.masterId,
+              version: result.release.version
+            });
+        }
 
         PageTitleService.setPageTitle('study-management.detail.title', {
           title: result.title[LanguageService.getCurrentInstantly()],
@@ -95,60 +108,16 @@ angular.module('metadatamanagementApp')
           'studyIsPresent': true,
           'projectId': result.dataAcquisitionProjectId
         });
-        if (result.dataSets) {
-          ctrl.accessWays = [];
-          result.dataSets.forEach(function(dataSet) {
-            ctrl.accessWays = _.union(dataSet.accessWays, ctrl.accessWays);
-          });
-        }
         if (result.release || Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.study = result;
-          ctrl.counts.surveysCount = result.surveys.length;
-          if (ctrl.counts.surveysCount === 1) {
-            ctrl.survey = result.surveys[0];
-          }
-          ctrl.counts.dataSetsCount = result.dataSets.length;
-          if (ctrl.counts.dataSetsCount === 1) {
-            ctrl.dataSet = result.dataSets[0];
-          }
-          ctrl.counts.publicationsCount = result.relatedPublications.length;
-          if (ctrl.counts.publicationsCount === 1) {
-            ctrl.relatedPublication = result.relatedPublications[0];
-          }
-          ctrl.counts.seriesPublicationsCount =
-            result.seriesPublications.length;
-          ctrl.counts.variablesCount = result.variables.length;
-          if (ctrl.counts.variablesCount === 1) {
-            ctrl.variable = result.variables[0];
-          }
-          ctrl.counts.questionsCount = result.questions.length;
-          if (ctrl.counts.questionsCount === 1) {
-            ctrl.question = result.questions[0];
-          }
-          ctrl.counts.instrumentsCount = result.instruments.length;
-          if (ctrl.counts.instrumentsCount === 1) {
-            ctrl.instrument = result.instruments[0];
-          }
-          ctrl.counts.conceptsCount = result.concepts.length;
-          if (ctrl.counts.conceptsCount === 1) {
-            ctrl.concept = result.concepts[0];
-          }
-          if (_.get(result, 'release.version')) {
-            ctrl.study.surveys.map(function(survey) {
-              _.set(survey, 'release.version', result.release.version);
-            });
-          }
-          /* We need to load the dataSet search docs cause they contain needed
-             survey titles */
-          DataSetSearchService.findByStudyId(result.id,
-            ['id', 'number', 'description', 'type', 'surveys',
-              'maxNumberOfObservations', 'accessWays', 'shadow',
-              'dataAcquisitionProjectId', 'masterId', 'release.version'])
-            .then(function(dataSets) {
-              ctrl.dataSets = dataSets.hits.hits;
-            });
           ctrl.loadAttachments();
+
+          $timeout(function() {
+            if ($location.search().query) {
+              ctrl.scroll();
+            }
+          }, 500);
         } else {
           SimpleMessageToastService.openAlertMessageToast(
             'study-management.detail.not-released-toast', {id: result.id}
@@ -156,15 +125,17 @@ angular.module('metadatamanagementApp')
         }
 
         ctrl.studyTags = getTags(result);
+
       }, $log.error).finally(blockUI.stop);
 
-      ctrl.addToShoppingCart = function(event) {
-        ProductChooserDialogService.showDialog(
-          ctrl.study.dataAcquisitionProjectId, ctrl.accessWays, ctrl.study,
-          ctrl.study.release.version,
-          event);
+      ctrl.scroll = function() {
+        var element = $document[0].getElementById('related-objects');
+        if ($rootScope.bowser.msie) {
+          element.scrollIntoView(true);
+        } else {
+          element.scrollIntoView({behavior: 'smooth', inline: 'nearest'});
+        }
       };
-
       ctrl.studyEdit = function() {
         if (ProjectUpdateAccessService
           .isUpdateAllowed(activeProject, 'studies', true)) {

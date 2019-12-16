@@ -3,9 +3,10 @@
 angular.module('metadatamanagementApp')
   .config(function($stateProvider, $urlRouterProvider) {
     var loadShadowCopy = function(SurveySearchService,
-      SimpleMessageToastService, id, version) {
+      SimpleMessageToastService, id, version, excludes) {
         var loadLatestShadowCopyFallback = function() {
-          return SurveySearchService.findShadowByIdAndVersion(id, null).promise
+          return SurveySearchService.findShadowByIdAndVersion(id, null,
+            excludes).promise
         .then(function(result) {
             if (result) {
               return result;
@@ -16,7 +17,8 @@ angular.module('metadatamanagementApp')
             }
           });
         };
-        return SurveySearchService.findShadowByIdAndVersion(id, version).promise
+        return SurveySearchService.findShadowByIdAndVersion(id, version,
+          excludes).promise
           .then(function(result) {
             if (result) {
               return result;
@@ -31,7 +33,8 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('surveyDetail', {
         parent: 'site',
-        url: '/surveys/{id}?{version}',
+        url: '/surveys/{id}?{version}{query}{page}{size}',
+        reloadOnSearch: false,
         data: {
           authorities: []
         },
@@ -51,13 +54,17 @@ angular.module('metadatamanagementApp')
               'SimpleMessageToastService', '$q',
             function($stateParams, SurveySearchService, Principal,
               SimpleMessageToastService, $q) {
+              var excludedAttributes = ['nested*','variables','questions',
+                'instruments', 'dataSets', 'relatedPublications','concepts'];
               if (Principal.loginName() && !$stateParams.version) {
-                return SurveySearchService.findOneById($stateParams.id);
+                return SurveySearchService.findOneById($stateParams.id, null,
+                  excludedAttributes);
               } else {
                 var deferred = $q.defer();
                 loadShadowCopy(SurveySearchService,
                   SimpleMessageToastService, $stateParams.id,
-                  $stateParams.version).then(deferred.resolve, deferred.reject);
+                  $stateParams.version, excludedAttributes)
+                  .then(deferred.resolve, deferred.reject);
                 return deferred;
               }
             }

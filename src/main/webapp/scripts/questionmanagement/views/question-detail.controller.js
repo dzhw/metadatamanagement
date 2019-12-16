@@ -5,11 +5,11 @@
 
 angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
-    function(entity, $state, ToolbarHeaderService,
+    function(entity, $state, ToolbarHeaderService, MessageBus,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
       QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
-      ProductChooserDialogService, OutdatedVersionNotifier, blockUI) {
+      OutdatedVersionNotifier, blockUI) {
       blockUI.start();
 
       SearchResultNavigatorService
@@ -23,7 +23,13 @@ angular.module('metadatamanagementApp')
       this.representationCodeToggleFlag = true;
       ctrl.predecessors = [];
       ctrl.successors = [];
-      ctrl.counts = {};
+      ctrl.counts = {
+        surveysCount: 0,
+        instrumentsCount: 0,
+        variablesCount: 0,
+        publicationsCount: 0,
+        conceptsCount: 0
+      };
       ctrl.currentImageIndex = 0;
       ctrl.currentImageLanguage = '';
       ctrl.imageLanguages = [];
@@ -32,19 +38,10 @@ angular.module('metadatamanagementApp')
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
 
-      ctrl.jsonExcludes = [
-        'nestedInstrument',
-        'nestedStudy',
-        'nestedSurveys',
-        'nestedVariables',
-        'nestedDataSets',
-        'nestedRelatedPublications',
-        'nestedConcepts'
-      ];
-
       entity.promise.then(function(result) {
         var fetchFn = QuestionSearchService.findShadowByIdAndVersion
-          .bind(null, result.masterId);
+          .bind(null, result.masterId, null, ['nested*', 'dataSets',
+              'variables','relatedPublications','concepts']);
         OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
 
         var title = {
@@ -55,6 +52,13 @@ angular.module('metadatamanagementApp')
           title.instrumentDescription = result.instrument.
           description[$rootScope.currentLanguage];
         }
+        if (!Principal.isAuthenticated()) {
+          MessageBus.set('onDataPackageChange',
+            {
+              masterId: result.study.masterId,
+              version: result.release.version
+            });
+        }
         PageTitleService.
           setPageTitle('question-management.detail.title', title);
         ToolbarHeaderService.updateToolbarHeader({
@@ -63,21 +67,14 @@ angular.module('metadatamanagementApp')
           'questionNumber': result.number,
           'instrumentNumber': result.instrumentNumber,
           'instrumentId': result.instrumentId,
-          'instrumentIsPresent': CleanJSObjectService.
-          isNullOrEmpty(result.instrument) ? false : true,
+          'instrumentIsPresent': !CleanJSObjectService
+                                    .isNullOrEmpty(result.instrument),
           'surveys': result.surveys,
           'studyId': result.studyId,
-          'studyIsPresent': CleanJSObjectService.
-          isNullOrEmpty(result.study) ? false : true,
+          'studyIsPresent': !CleanJSObjectService.isNullOrEmpty(result.study),
           'projectId': result.dataAcquisitionProjectId,
           'version': result.shadow ? _.get(result, 'release.version') : null
         });
-        if (result.dataSets) {
-          ctrl.accessWays = [];
-          result.dataSets.forEach(function(dataSet) {
-            ctrl.accessWays = _.union(dataSet.accessWays, ctrl.accessWays);
-          });
-        }
         if (result.release || Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.question = result;
@@ -137,23 +134,7 @@ angular.module('metadatamanagementApp')
             }
           }
           ctrl.study = result.study;
-          ctrl.counts.surveysCount = result.surveys.length;
-          if (ctrl.counts.surveysCount === 1) {
-            ctrl.survey = result.surveys[0];
-          }
-          ctrl.counts.variablesCount = result.variables.length;
-          if (ctrl.counts.variablesCount === 1) {
-            ctrl.variable = result.variables[0];
-          }
           ctrl.instrument = result.instrument;
-          ctrl.counts.publicationsCount = result.relatedPublications.length;
-          if (ctrl.counts.publicationsCount === 1) {
-            ctrl.relatedPublication = result.relatedPublications[0];
-          }
-          ctrl.counts.conceptsCount = result.concepts.length;
-          if (ctrl.counts.conceptsCount === 1) {
-            ctrl.concept = result.concepts[0];
-          }
         } else {
           SimpleMessageToastService.openAlertMessageToast(
           'question-management.detail.not-released-toast', {id: result.id}
@@ -177,11 +158,4 @@ angular.module('metadatamanagementApp')
         ctrl.representationCodeToggleFlag = !ctrl.representationCodeToggleFlag;
       };
 
-      ctrl.addToShoppingCart = function(event) {
-        ProductChooserDialogService.showDialog(
-          ctrl.question.dataAcquisitionProjectId, ctrl.accessWays,
-          ctrl.study,
-          ctrl.question.release.version,
-          event);
-      };
     });

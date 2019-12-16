@@ -12,7 +12,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain DataTypes
 
-.. java:import:: io.swagger.annotations ApiModel
+.. java:import:: io.swagger.v3.oas.annotations.media Schema
 
 .. java:import:: lombok Data
 
@@ -22,7 +22,7 @@ OrderedStudy
 .. java:package:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain
    :noindex:
 
-.. java:type:: @Data @ApiModel public class OrderedStudy implements Serializable
+.. java:type:: @Data @Schema public class OrderedStudy implements Serializable
 
    Partial \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study`\  which is part of a \ :java:ref:`Product`\ . It is a copy of the \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study`\  attributes which is made when the customer places the orders.
 

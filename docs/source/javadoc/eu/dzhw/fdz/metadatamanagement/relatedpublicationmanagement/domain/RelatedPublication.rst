@@ -82,6 +82,14 @@ abstractSource
 .. java:field:: @I18nStringSize private I18nString abstractSource
    :outertype: RelatedPublication
 
+annotations
+^^^^^^^^^^^
+
+.. java:field:: @I18nStringSize private I18nString annotations
+   :outertype: RelatedPublication
+
+   Arbitrary additional text for this publication. Must not contain more than 2048 characters.
+
 authors
 ^^^^^^^
 

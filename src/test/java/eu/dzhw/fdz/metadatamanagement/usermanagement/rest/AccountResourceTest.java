@@ -118,7 +118,7 @@ public class AccountResourceTest extends AbstractTest {
 
     restUserMockMvc.perform(get("/api/account").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.login").value("test"))
         .andExpect(jsonPath("$.firstName").value("john"))
         .andExpect(jsonPath("$.lastName").value("Doe"))
@@ -148,8 +148,7 @@ public class AccountResourceTest extends AbstractTest {
         .andExpect(status().isOk());
 
     // Delete
-    user.setActivated(true);
-    this.userRepository.delete(user);
+    this.userRepository.deleteById(user.getId());
   }
 
   @Test
@@ -159,7 +158,7 @@ public class AccountResourceTest extends AbstractTest {
     user.setPassword("sdkgfsdkkgfsdglkfglsdjkagfjklsdgfhklsdglkfglksdgslkfgsdklj12");
     user.setActivationKey("testActivateTrue");
     user.setActivated(true);
-    this.userRepository.save(user);
+    user = this.userRepository.save(user);
 
     // Act
 
@@ -167,7 +166,7 @@ public class AccountResourceTest extends AbstractTest {
     this.restMvc.perform(post("/api/account/reset-password/init").accept(MediaType.TEXT_PLAIN)
         .content(user.getEmail())).andExpect(status().isOk());
 
-    this.userRepository.delete(user);
+    this.userRepository.deleteById(user.getId());
   }
 
 
@@ -221,7 +220,7 @@ public class AccountResourceTest extends AbstractTest {
     this.restMvc.perform(post("/api/account/reset-password/init").accept(MediaType.TEXT_PLAIN)
         .content("john.doe@jhipter.com")).andExpect(status().is4xxClientError());
 
-    this.userRepository.delete(user);
+    this.userRepository.deleteById(user.getId());
   }
 
   @Test
@@ -247,7 +246,7 @@ public class AccountResourceTest extends AbstractTest {
         .contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(dto)))
         .andExpect(status().isOk());
 
-    this.userRepository.delete(user);
+    this.userRepository.deleteById(user.getId());
   }
 
   @Test
@@ -274,7 +273,7 @@ public class AccountResourceTest extends AbstractTest {
             .content(TestUtil.convertObjectToJsonBytes(dto)))
         .andExpect(status().is4xxClientError());
 
-    this.userRepository.delete(user);
+    this.userRepository.deleteById(user.getId());
   }
 
   @Test

@@ -1,0 +1,163 @@
+.fdz-table-wide {
+  width: fit-content;
+  min-width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.fdz-table-wide thead {
+  background-color: white;
+  color: black;
+}
+
+.fdz-table-wide thead th {
+  font-weight: bold;
+}
+
+.fdz-table-number {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.fdz-table-total-number {
+  text-align: right;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.fdz-table-wide th {
+  border-top: none;
+}
+.fdz-table-wide td {
+  border-top: 1px solid #ddd;
+}
+
+.fdz-table-wide td,
+.fdz-table-wide th {
+  padding: 8px 8px;
+}
+
+.fdz-table-wide td {
+  vertical-align: top;
+}
+
+.fdz-table-wide td.fdz-td-filename {
+  display:inline-block;
+  width: 200px;
+  word-break: break-all;
+}
+
+td.fdz-table-data-vertical-middle {
+  vertical-align: middle;
+}
+
+.fdz-table-wide th {
+  white-space: nowrap;
+}
+
+.fdz-selected-table-row,
+.fdz-table-wide tbody > tr:hover {
+  background-color: rgba(158, 158, 158, 0.2);
+}
+
+tr:focus {
+  outline: $brand-warning auto 5px;
+}
+
+.fdz-table-absorbing-column {
+  width: 100%;
+}
+
+.fdz-table-wide .fdz-table-half-absorbing-column {
+  width: 50%;
+}
+.fdz-table-wide .fdz-table-third-absorbing-column {
+  width: 33%;
+}
+
+.fdz-table-nowrap {
+  white-space: nowrap;
+}
+
+.fdz-table-rotated {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+}
+
+.fdz-table-rotated thead {
+  margin-left: 0px;
+  display: block;
+  float: left;
+  width: 150px;
+}
+
+.fdz-table-rotated tbody {
+  display: block;
+  width: auto;
+  position: relative;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.fdz-table-rotated td,
+.fdz-table-rotated th {
+  margin: 0;
+  vertical-align: top;
+  text-align: left;
+}
+
+.fdz-table-rotated th {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border: 0;
+  margin: 5px;
+}
+
+.fdz-table-wide td .md-icon-button {
+  padding: 0;
+  height: auto;
+}
+
+.fdz-table-rotated td .md-icon-button {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  margin-left: 0;
+  min-height: 0;
+}
+
+.fdz-table-rotated th:last-child {
+  border-bottom: 0;
+}
+
+.fdz-table-rotated td {
+  display: block;
+  text-align: left;
+  border: 0;
+  margin: 5px;
+}
+
+.fdz-table-rotated thead tr {
+  display: block;
+}
+
+.fdz-table-rotated tbody tr {
+  display: inline-block;
+  vertical-align: top;
+  border-collapse: collapse;
+  border-right: 1px solid #ddd;
+  border-bottom: 0;
+}
+
+.fdz-table-rotated tbody tr:first-child {
+  border-left: 1px solid #ddd;
+}
