@@ -57,7 +57,7 @@
     }
     @include rwd(375) {
       flex-flow: row;
-      align-items: baseline;
+      align-items: center;
       & h5 {
         width: 40%;
       }
