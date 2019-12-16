@@ -3,8 +3,12 @@
 
   function StartController(
     $scope,
-    StudyResource,
-    LanguageService) {
+    StudySearchService,
+    LanguageService, Principal, $state) {
+    if (Principal.isAuthenticated()) {
+      $state.go('search');
+      return;
+    }
     // TODO: Change hardcoded id
     var id = 'stu-gra2005$';
 
@@ -24,9 +28,11 @@
       de: 'DZHW-Studienberechtigtenbefragungen'
     };
     function loadStudy(id) {
-      StudyResource.get({id: id})
-        .$promise
-        .then(function(data) {
+      var excludes = ['nested*','variables','questions',
+        'surveys','instruments', 'dataSets', 'relatedPublications',
+        'concepts'];
+      StudySearchService.findShadowByIdAndVersion(id, null, excludes)
+        .promise.then(function(data) {
           $scope.study = data;
         });
     }
