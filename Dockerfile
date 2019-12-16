@@ -1,7 +1,7 @@
 FROM openjdk:11.0.5-slim
 MAINTAINER René Reitmann <reitmann@dzhw.eu>
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.war", "-noverify"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-classpath", "/app.war", "-noverify", "org.springframework.boot.loader.WarLauncher"]
 
 VOLUME /tmp
 
