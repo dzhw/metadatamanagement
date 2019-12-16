@@ -32,6 +32,9 @@
 .fdz-theme .pb0 {
   padding-bottom: 0 !important; }
 
+.fdz-theme .pb4 {
+  padding-bottom: 4px !important; }
+
 .fdz-theme .pb8 {
   padding-bottom: 8px !important; }
 
@@ -2100,6 +2103,9 @@ md-input-container label {
 
 .fdz-theme .questions .fdz-search-result {
   margin: 0; }
+
+.fdz-theme .fdz-questions > .questions:first-child .fdz-search-result {
+  padding-top: 0px; }
 
 .fdz-theme .questions .fdz-search-result md-card-header,
 .fdz-theme .questions .fdz-search-result md-card-content {

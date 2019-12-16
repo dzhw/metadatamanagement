@@ -11,7 +11,7 @@
     </md-button>
   </md-card-header>
   <div ng-if="!$ctrl.collapsed">
-    <md-card-content>
+    <md-card-content class="fdz-questions">
       <div ng-repeat="next in $ctrl.options" class="questions w-100">
         <variable-search-result bowser="bowser" current-language="$ctrl.lang"
                                 search-result="next._source"></variable-search-result>
