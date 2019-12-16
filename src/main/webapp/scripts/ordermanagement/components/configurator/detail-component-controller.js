@@ -26,6 +26,7 @@
     $ctrl.dataNotAvailable = false;
     $ctrl.variableNotAccessible = false;
     $ctrl.disabled = false;
+    $scope.bowser = $rootScope.bowser;
 
     function init() {
       var search = $location.search();

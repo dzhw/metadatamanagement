@@ -188,6 +188,10 @@ $card-border-radius: 2px !default;
     margin: 0;
   }
 
+  & .fdz-questions > .questions:first-child .fdz-search-result {
+    padding-top: 0px;
+  }
+
   & .questions .fdz-search-result md-card-header,
   & .questions .fdz-search-result md-card-content {
     padding-right: 0;
