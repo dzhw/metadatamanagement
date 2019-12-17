@@ -88,7 +88,8 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     $scope.$watch(function() {
       return $state.current.name;
     }, function() {
-      $scope.show = $state.current.name !== 'start' &&
+      $scope.show = $state.current.name !== '' &&
+        $state.current.name !== 'start' &&
         $state.current.name !== 'disclosure' &&
         $state.current.name !== 'shoppingCart' &&
         $state.current.name !== 'requestReset' &&
