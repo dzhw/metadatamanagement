@@ -145,10 +145,10 @@ try {
         });
 
         $rootScope.back = function() {
-          // If previous state is 'activate' or do not exist go to 'start'
+          // If previous state is 'activate' or do not exist go to 'search'
           if ($rootScope.previousStateName === 'activate' ||
             $state.get($rootScope.previousStateName) === null) {
-            $state.go('start', {
+            $state.go('search', {
               lang: LanguageService.getCurrentInstantly()
             });
           } else {

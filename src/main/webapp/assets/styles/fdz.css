@@ -1564,7 +1564,7 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
       color: white;
       margin-right: 8px; }
   .fdz-theme .fdz-start__images .social-survey {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/Sozialerhebung_face.JPG); }
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/social-survey.jpg); }
   .fdz-theme .fdz-start__images .school-leavers {
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/school-leavers.jpg); }
 
