@@ -17,7 +17,6 @@
     var $ctrl = this;
     var initReady = false;
     $ctrl.studyIdVersion = {};
-    $ctrl.study = {};
     $ctrl.accessWays = [];
     $ctrl.lang = LanguageService.getCurrentInstantly();
     $ctrl.onDataPackageChange = MessageBus;
@@ -28,6 +27,7 @@
     $scope.bowser = $rootScope.bowser;
 
     function init() {
+      $ctrl.study = null;
       var search = $location.search();
       if (search['access-way']) {
         $ctrl.selectedAccessWay = search['access-way'];
