@@ -21,9 +21,8 @@ angular.module('metadatamanagementApp').controller(
     //Goto Logout Page
     $scope.logout = function() {
       Auth.logout();
-      $state.go('search', {
-        lang: LanguageService.getCurrentInstantly(),
-        type: 'studies'
+      $state.go('start', {
+        lang: LanguageService.getCurrentInstantly()
       }, {
         reload: true
       });

@@ -1504,7 +1504,13 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   .fdz-theme .fdz-start .fdz-link {
     display: flex;
     justify-content: flex-end;
-    padding: 16px 24px 0px 24px; }
+    padding: 8px 8px 0px 8px; }
+    @media (min-width: 600px) {
+      .fdz-theme .fdz-start .fdz-link {
+        padding: 16px 16px 0px 16px; } }
+    @media (min-width: 959px) {
+      .fdz-theme .fdz-start .fdz-link {
+        padding: 16px 24px 0px 24px; } }
 
 .fdz-theme .fdz-start__header {
   display: flex;
@@ -1540,7 +1546,8 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
       justify-content: space-between; } }
   .fdz-theme .fdz-start__images .fdz-image {
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/placeholder.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/graduates.jpg);
+    background-position-y: center;
     background-size: cover;
     background-repeat: no-repeat;
     width: 100%;
@@ -1556,6 +1563,10 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
       left: 8px;
       color: white;
       margin-right: 8px; }
+  .fdz-theme .fdz-start__images .social-survey {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/Sozialerhebung_face.JPG); }
+  .fdz-theme .fdz-start__images .school-leavers {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/school-leavers.jpg); }
 
 .fdz-theme md-nav-bar .md-nav-bar {
   background-color: transparent;
@@ -1796,8 +1807,8 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   display: none;
   width: 100%;
   height: 100vh;
-  background-color: #006AB2;
-  color: white; }
+  background-color: white;
+  color: black; }
 
 .fdz-splash .fdz-app-title {
   padding: 8px;
@@ -1806,12 +1817,10 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   text-align: center;
   font-size: 20px; }
 
-.fdz-splash .fdz-app-title h1 {
-  font-size: 25px;
-  margin-bottom: 6px; }
-
-.fdz-splash .fdz-app-title p {
-  font-size: 20px; }
+.fdz-splash img {
+  display: block;
+  margin: 16px auto;
+  max-width: 500px; }
 
 .fdz-splash progress {
   height: 1em;
@@ -2396,7 +2405,7 @@ tr:focus {
     @media (min-width: 375px) {
       .fdz-theme .fdz-data-packet md-list-item {
         flex-flow: row;
-        align-items: baseline; }
+        align-items: center; }
         .fdz-theme .fdz-data-packet md-list-item h5 {
           width: 40%; }
         .fdz-theme .fdz-data-packet md-list-item .md-secondary-container {

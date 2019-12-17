@@ -25,7 +25,13 @@ $card-border-radius: 2px !default;
     .fdz-link {
       display: flex;
       justify-content: flex-end;
-      padding: 16px 24px 0px 24px;
+      padding: 8px 8px 0px 8px;
+      @include rwd(600) {
+        padding: 16px 16px 0px 16px;
+      }
+      @include rwd(959) {
+        padding: 16px 24px 0px 24px;
+      }
     }
   }
 
@@ -72,7 +78,8 @@ $card-border-radius: 2px !default;
       // If you want to use text in the HTML element with the class .fdz-image use a HTML element with
       // position: absolute and specify top, bottom aso.
       position: relative;
-      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/placeholder.jpg);
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/graduates.jpg);
+      background-position-y: center;
       background-size: cover;
       background-repeat: no-repeat;
       width: 100%;
@@ -92,6 +99,14 @@ $card-border-radius: 2px !default;
         color: white;
         margin-right: 8px;
       }
+    }
+
+    .social-survey {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/Sozialerhebung_face.JPG);
+    }
+
+    .school-leavers {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/school-leavers.jpg);
     }
   }
 }

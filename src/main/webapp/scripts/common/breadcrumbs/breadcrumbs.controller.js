@@ -1,10 +1,11 @@
 (function() {
   'use strict';
 
-  function BreadcrumbController(Principal, $state, $scope) {
+  function BreadcrumbController(Principal, $state, $scope, $rootScope) {
     var $ctrl = this;
     $ctrl.$onInit = init;
     $ctrl.show = false;
+    $scope.bowser = $rootScope.bowser;
 
     function init() {
       Principal.identity().then(function() {
