@@ -2,9 +2,9 @@
   'use strict';
 
   var DetailComponent = {
-    controller: function($scope, $rootScope) {
+    controller: ['$scope', '$rootScope', function($scope, $rootScope) {
       $scope.bowser = $rootScope.bowser;
-    },
+    }],
     bindings: {
       lang: '<',
       options: '<',
