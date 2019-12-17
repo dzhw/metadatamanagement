@@ -6,9 +6,10 @@
   function RelatedObjectsController(
     $scope, $location, SearchDao, $timeout,
     SearchResultNavigatorService, CleanJSObjectService,
-    SearchHelperService, $transitions
+    SearchHelperService, $transitions, $rootScope
   ) {
     var $ctrl = this;
+    $scope.bowser = $rootScope.bowser;
     $ctrl.computeSearchResultIndex = computeSearchResultIndex;
     $ctrl.onPageChanged = onPageChanged;
     $ctrl.onSelectedTabChanged = onSelectedTabChanged;

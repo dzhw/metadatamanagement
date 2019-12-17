@@ -24,7 +24,7 @@
     };
 
     $scope.schoolSurvey = {
-      en: 'DZHW Survey Series of School Leavers 2008',
+      en: 'DZHW Survey Series of School Leavers',
       de: 'DZHW-Studienberechtigtenbefragungen'
     };
     function loadStudy(id) {
