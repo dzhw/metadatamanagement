@@ -43,9 +43,9 @@
     </div>
   </md-card>
   <div ng-if="options.pageObject.totalHits && !isAuthenticated()" layout="row" layout-align="center">
-    <fdz-paginator  options="options"
+    <fdz-paginator options="options"
                   on-update="onPageChanged(event = $event, option = $option)"
-                  template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
+                  template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl" style="margin-top: -8px;"></fdz-paginator>
   </div>
   <div flex>
         <div ng-repeat="result in searchResult" ng-switch="result._index" class="fdz-fade-in fdz-dp-search-container">

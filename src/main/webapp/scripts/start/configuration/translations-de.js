@@ -5,10 +5,10 @@ angular.module('metadatamanagementApp').config(
     var startTranslation = {
       //jscs:disable
       'start': {
-        'data-search': 'Datenpaketsuche',
+        'data-search': 'Datenpakete aus der Hochschul- und Wissenschaftsforschung finden',
         'image-title': 'Daten aus Studienreihen',
         'recommendation': 'Empfohlenes Datenpaket',
-        'fdz-text': 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et',
+        'fdz-text': 'Die Datenpaketsuche des FDZ.DZHW ermöglicht es Ihnen die Metadaten der bei uns hinterlegten Datenpakete zu durchsuchen. So finden unsere Nutzer*Innen die für sie relevanten Informationen und können sich informiert für ein (oder mehrere) Datenpaket(e) entscheiden und es direkt bestellen. Es gibt hierbei je nach Anonymisierungsgrad und Verwendungszweck verschiedene Zugangswege: Scientific Usefiles (SUF) für die Forschung und Campus Usefiles (CUF) für die Lehre. Bei SUFs unterscheiden wir zwischen Download-SUF (starke Anonymisierung), Remote-Desktop-SUF (mittlere Anonymisierung) und Onsite-SUF (sie verarbeiten die Daten lokal bei uns, haben dafür den höchsten Detaillierungsgrad).',
         'show-all': 'Alle Datenpakete anzeigen'
       }
       //jscs:enable

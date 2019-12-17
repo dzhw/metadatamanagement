@@ -1,4 +1,4 @@
-<md-card class="fdz-search-result" ng-class="{'pb4': !projectIsCurrentlyReleased}">
+<md-card class="fdz-search-result">
   <md-card-header>
     <md-card-header-text>
       <div class="md-title">
@@ -16,7 +16,7 @@
   <md-card-content>
     <div display-i18n-string="searchResult.title" fdz-hyphenate></div>
   </md-card-content>
-  <md-card-actions
+  <md-card-actions style="margin-bottom: -10px;"
     data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
     ng-if="!projectIsCurrentlyReleased">
     <md-button

@@ -6,8 +6,8 @@
   display: none;
   width: 100%;
   height: 100vh;
-  background-color: #006AB2;
-  color: white;
+  background-color: white;
+  color: black;
 }
 
 .fdz-splash .fdz-app-title {
@@ -18,13 +18,10 @@
   font-size: 20px;
 }
 
-.fdz-splash .fdz-app-title h1 {
-  font-size: 25px;
-  margin-bottom: 6px;
-}
-
-.fdz-splash .fdz-app-title p {
-  font-size: 20px;
+.fdz-splash img {
+  display: block;
+  margin: 16px auto;
+  max-width: 500px;
 }
 
 .fdz-splash progress {
