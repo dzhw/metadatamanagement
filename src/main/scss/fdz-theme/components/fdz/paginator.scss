@@ -1,7 +1,7 @@
 .fdz-theme {
   fdz-paginator {
     width: 100%;
-    margin: 0 8px;
+    margin: -8px 8px;
     @include rwd(600) {
       padding: 0 8px;
     }
