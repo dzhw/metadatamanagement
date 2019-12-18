@@ -2,6 +2,9 @@
   'use strict';
 
   var Component = {
+    controller: ['$scope', '$rootScope', function($scope, $rootScope) {
+      $scope.bowser = $rootScope.bowser;
+    }],
     bindings: {
       collapsed: '<',
       headline: '<',

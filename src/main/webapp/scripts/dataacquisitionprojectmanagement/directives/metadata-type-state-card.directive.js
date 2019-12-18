@@ -19,7 +19,8 @@ angular.module('metadatamanagementApp')
       replace: true,
       controllerAs: 'ctrl',
 
-      controller: function($scope) {
+      controller: function($scope, $rootScope) {
+        $scope.bowser = $rootScope.bowser;
         this.type = $scope.type;
         this.counts = $scope.counts;
         this.project = $scope.project;

@@ -27,7 +27,6 @@
     $scope.bowser = $rootScope.bowser;
 
     function init() {
-      $ctrl.study = null;
       var search = $location.search();
       if (search['access-way']) {
         $ctrl.selectedAccessWay = search['access-way'];
