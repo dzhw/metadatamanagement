@@ -26,6 +26,9 @@
 .fdz-theme .pt0 {
   padding-top: 0 !important; }
 
+.fdz-theme .pt8 {
+  padding-top: 8px !important; }
+
 .fdz-theme .pt16 {
   padding-top: 16px !important; }
 
@@ -590,7 +593,10 @@ ui-view:focus {
     color: rgba(0, 0, 0, 0.54); }
   .fdz-theme md-card md-card-content {
     display: block;
-    padding: 16px 0 0 0; }
+    padding: 8px 0 0 0; }
+    @media (min-width: 600px) {
+      .fdz-theme md-card md-card-content {
+        padding: 16px 0 0 0; } }
   .fdz-theme md-card md-card-actions {
     display: flex;
     justify-content: flex-end;
