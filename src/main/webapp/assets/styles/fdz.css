@@ -382,7 +382,6 @@ ui-view:focus {
     color: rgba(0, 0, 0, 0.57);
     padding: 8px; }
   .fdz-footer .fdz-footer__link {
-    display: flex;
     width: 100%; }
     @media (min-width: 570px) {
       .fdz-footer .fdz-footer__link {
@@ -2223,9 +2222,7 @@ tr:focus {
   width: 100%;
   text-align: left;
   border-collapse: collapse;
-  border: 0;
-  border-bottom: 1px solid #ddd;
-  border-top: 1px solid #ddd; }
+  border: 0; }
 
 .fdz-table-rotated thead {
   margin-left: 0px;
@@ -2426,7 +2423,7 @@ tr:focus {
 
 .fdz-theme fdz-paginator {
   width: 100%;
-  margin: 0 8px; }
+  margin: -8px 8px; }
   @media (min-width: 600px) {
     .fdz-theme fdz-paginator {
       padding: 0 8px; } }
