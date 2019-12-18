@@ -57,7 +57,11 @@ $card-border-radius: 2px !default;
 
   md-card-content {
     display: block;
-    padding: 16px 0 0 0;
+    padding: 8px 0 0 0;
+
+    @include rwd(600) {
+      padding: 16px 0 0 0;
+    }
   }
 
   md-card-actions {
