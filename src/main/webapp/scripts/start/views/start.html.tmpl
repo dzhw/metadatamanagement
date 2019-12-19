@@ -6,7 +6,7 @@
           <h1 class="md-headline">{{'start.data-search' | translate}}</h1>
         </div>
       </div>
-      <div class="fdz-start__content">{{'start.fdz-text' | translate | fdzHyphenate}}</div>
+      <div class="fdz-start__content" data-translate="start.fdz-text" fdz-hyphenate lang="{{lang}}"></div>
       <fdz-search-detail></fdz-search-detail>
       <div class="fdz-link">
         <a ui-sref="search">{{'start.show-all' | translate}}</a>
