@@ -626,38 +626,51 @@
                         <goals>
                             <goal>exec</goal>
                         </goals>
+                        <configuration>
+                            <executable>javasphinx-apidoc</executable>
+                            <arguments>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement</argument>
+                                <argument>-o</argument>
+                                <argument>./docs/source/javadoc</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/common/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/projectmanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/conceptmanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/studymanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/surveymanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/instrumentmanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/questionmanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/datasetmanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/variablemanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/relatedpublicationmanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/ordermanagement/domain</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unpack-fat-jar</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>deploy/unjar.sh</executable>
+                            <arguments>
+                                <argument>metadatamanagement-${project.activeProfiles[0].id}.war</argument>
+                            </arguments>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <executable>javasphinx-apidoc</executable>
-                    <arguments>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement</argument>
-                        <argument>-o</argument>
-                        <argument>./docs/source/javadoc</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/common/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/projectmanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/conceptmanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/studymanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/surveymanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/instrumentmanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/questionmanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/datasetmanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/variablemanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/relatedpublicationmanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/ordermanagement/domain</argument>
-                    </arguments>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>

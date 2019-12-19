@@ -2,11 +2,10 @@ FROM openjdk:11.0.5-jre-slim
 
 MAINTAINER René Reitmann <reitmann@dzhw.eu>
 
-ENTRYPOINT ["/run.sh"]
-
 VOLUME /tmp
 
-# Add the service itself
-ARG JAR_FILE
-COPY ${JAR_FILE} app.war
+# use unpacked spring boot jar to avoid file io
+COPY target/app /app/
 COPY run.sh run.sh
+
+ENTRYPOINT ["/run.sh"]
