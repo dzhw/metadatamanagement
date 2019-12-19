@@ -454,50 +454,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>1.4.10</version>
-                <executions>
-                    <execution>
-                        <id>build-docker-image</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                        <configuration>
-                            <tag>${project.version}-${project.activeProfiles[0].id}</tag>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>tag-docker-image-latest</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>tag</goal>
-                        </goals>
-                        <configuration>
-                            <tag>latest-${project.activeProfiles[0].id}</tag>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>push-image-latest</id>
-                        <goals>
-                            <goal>push</goal>
-                        </goals>
-                        <configuration>
-                            <tag>latest-${project.activeProfiles[0].id}</tag>
-                        </configuration>
-                    </execution>
-                </executions>
-                <configuration>
-                    <repository>347729458675.dkr.ecr.eu-central-1.amazonaws.com/dzhw/${project.artifactId}</repository>
-                    <tag>${project.version}-${project.activeProfiles[0].id}</tag>
-                    <registryUrl>https://347729458675.dkr.ecr.eu-central-1.amazonaws.com</registryUrl>
-                    <buildArgs>
-                        <JAR_FILE>target/metadatamanagement-${project.activeProfiles[0].id}.war</JAR_FILE>
-                    </buildArgs>
-                </configuration>
-            </plugin>
             <!-- Checkstyle and fail the build -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -727,6 +683,52 @@
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
             </plugin>
+            <?SORTPOM IGNORE?>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.10</version>
+                <executions>
+                    <execution>
+                        <id>build-docker-image</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <configuration>
+                            <tag>${project.version}-${project.activeProfiles[0].id}</tag>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>tag-docker-image-latest</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <tag>latest-${project.activeProfiles[0].id}</tag>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>push-image-latest</id>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <tag>latest-${project.activeProfiles[0].id}</tag>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <repository>347729458675.dkr.ecr.eu-central-1.amazonaws.com/dzhw/${project.artifactId}</repository>
+                    <tag>${project.version}-${project.activeProfiles[0].id}</tag>
+                    <registryUrl>https://347729458675.dkr.ecr.eu-central-1.amazonaws.com</registryUrl>
+                    <buildArgs>
+                        <JAR_FILE>target/metadatamanagement-${project.activeProfiles[0].id}.war</JAR_FILE>
+                    </buildArgs>
+                </configuration>
+            </plugin>
+            <?SORTPOM RESUME?>
         </plugins>
     </build>
 

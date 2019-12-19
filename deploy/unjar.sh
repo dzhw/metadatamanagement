@@ -1,5 +1,5 @@
 #!/bin/bash
-# this script builds the project with a given profile
+# unjar the spring boot fat jar
 JAR="$1"
 mkdir -p target/app
 cd target/app
