@@ -259,6 +259,9 @@ body {
 ui-view:focus {
   outline: none; }
 
+.fdz-theme em {
+  font-style: italic; }
+
 .fdz-theme a {
   color: #006AB2;
   text-decoration: none; }

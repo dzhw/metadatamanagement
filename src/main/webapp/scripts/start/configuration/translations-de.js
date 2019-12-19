@@ -5,10 +5,10 @@ angular.module('metadatamanagementApp').config(
     var startTranslation = {
       //jscs:disable
       'start': {
-        'data-search': 'Datenpakete aus der Hochschul- und Wissenschaftsforschung finden',
+        'data-search': 'Forschungsdaten aus der Hochschul- und Wissenschaftsforschung finden',
         'image-title': 'Daten aus Studienreihen',
         'recommendation': 'Empfohlenes Datenpaket',
-        'fdz-text': 'Die Datenpaketsuche des FDZ.DZHW ermöglicht es Ihnen die Metadaten der bei uns hinterlegten Datenpakete zu durchsuchen. So finden unsere Nutzer*Innen die für sie relevanten Informationen und können sich informiert für ein (oder mehrere) Datenpaket(e) entscheiden und es direkt bestellen. Es gibt hierbei je nach Anonymisierungsgrad und Verwendungszweck verschiedene Zugangswege: Scientific Usefiles (SUF) für die Forschung und Campus Usefiles (CUF) für die Lehre. Bei SUFs unterscheiden wir zwischen Download-SUF (starke Anonymisierung), Remote-Desktop-SUF (mittlere Anonymisierung) und Onsite-SUF (sie verarbeiten die Daten lokal bei uns, haben dafür den höchsten Detaillierungsgrad).',
+        'fdz-text': '<p>Das fdz.DZHW stellt Datenpakete der Hochschul- und Wissenschaftsforschung zur Verfügung. Mit der Datenpaketsuche können Sie die Metadaten der beim fdz.DZHW hinterlegten Datenpakete schnell und einfach durchsuchen. So finden Sie alle Informationen, die Sie brauchen, und können die entsprechenden Datenpakete direkt bestellen.</p><p style="margin-bottom: 0px;">Je nach Anwendungszweck und Detaillierungsgrad stellen wir folgende Zugangswege zur Verfügung: <em>Scientific Usefiles</em> (SUF) für die Forschung und <em>Campus Usefiles</em> (CUF) für die Lehre. Bei SUFs unterscheiden wir zwischen <em>Download</em>-SUF (starke Anonymisierung), <em>Remote-Desktop</em>-SUF (mittlerer Anonymisierungsgrad) und <em>Onsite</em>-SUF (Sie analysieren die Daten lokal bei uns, haben dafür den höchsten Detailgrad). Informationen über die zur Verfügung stehenden Zugangswege finden Sie ebenfalls in der Datenpaketsuche.</p>',
         'show-all': 'Alle Datenpakete anzeigen'
       }
       //jscs:enable

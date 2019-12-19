@@ -56,7 +56,6 @@ angular.module('metadatamanagementApp').controller('NavbarController',
       }, {
         reload: true
       });
-      $scope.close();
     };
 
     $scope.displayWelcomeDialog = function() {
