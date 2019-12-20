@@ -70,12 +70,14 @@
               ng-switch-when="studies"
               search-result="result._source"
               current-language="$ctrl.lang"
+              search-query="$ctrl.searchParams.query"
               bowser="bowser"
               set-params="$ctrl.setCurrentSearchParams()"
               search-result-index="$ctrl.computeSearchResultIndex($index)"></study-search-result>
             <variable-search-result
               ng-switch-when="variables"
               search-result="result._source"
+              search-query="$ctrl.searchParams.query"
               current-language="$ctrl.lang"
               bowser="bowser"
               set-params="$ctrl.setCurrentSearchParams()"
@@ -83,6 +85,7 @@
             <survey-search-result
               ng-switch-when="surveys"
               search-result="result._source"
+              search-query="$ctrl.searchParams.query"
               current-language="$ctrl.lang"
               bowser="bowser"
               set-params="$ctrl.setCurrentSearchParams()"
@@ -91,6 +94,7 @@
             <question-search-result
               ng-switch-when="questions"
               search-result="result._source"
+              search-query="$ctrl.searchParams.query"
               current-language="$ctrl.lang"
               bowser="bowser"
               set-params="$ctrl.setCurrentSearchParams()"
@@ -98,6 +102,7 @@
             <dataset-search-result
               ng-switch-when="data_sets"
               search-result="result._source"
+              search-query="$ctrl.searchParams.query"
               current-language="$ctrl.lang"
               bowser="bowser"
               set-params="$ctrl.setCurrentSearchParams()"
@@ -106,6 +111,7 @@
             <related-publication-search-result
               ng-switch-when="related_publications"
               search-result="result._source"
+              search-query="$ctrl.searchParams.query"
               current-language="$ctrl.lang"
               bowser="bowser"
               set-params="$ctrl.setCurrentSearchParams()"
@@ -113,6 +119,7 @@
             <instrument-search-result
               ng-switch-when="instruments"
               search-result="result._source"
+              search-query="$ctrl.searchParams.query"
               current-language="$ctrl.lang"
               bowser="bowser"
               set-params="$ctrl.setCurrentSearchParams()"
@@ -120,6 +127,7 @@
             <concept-search-result
               ng-switch-when="concepts"
               search-result="result._source"
+              search-query="$ctrl.searchParams.query"
               current-language="$ctrl.lang"
               bowser="bowser"
               set-params="$ctrl.setCurrentSearchParams()"

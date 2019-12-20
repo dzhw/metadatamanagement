@@ -115,10 +115,10 @@ ui-view:focus {
 
   // Text
   .fdz-hyphenate {
-    hyphens: auto;
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    -ms-hyphens: auto;
+    hyphens: manual;
+    -webkit-hyphens: manual;
+    -moz-hyphens: manual;
+    -ms-hyphens: manual;
   }
 
   .fdz-text-block {

@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').directive('conceptSearchResult',
       templateUrl: 'scripts/searchmanagement/directives/' +
         'concept-search-result.html.tmpl',
       scope: {
+        searchQuery: '<',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
@@ -15,7 +16,13 @@ angular.module('metadatamanagementApp').directive('conceptSearchResult',
       },
       controller: function($scope, CommonDialogsService, ConceptResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
-        $q) {
+        $q, $timeout, $element, HighlightService) {
+
+        if ($scope.searchQuery) {
+          $timeout(function() {
+            HighlightService.apply($element[0], $scope.searchQuery);
+          });
+        }
 
         var showGenericErrorMessage = function(status) {
           SimpleMessageToastService

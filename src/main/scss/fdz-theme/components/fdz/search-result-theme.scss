@@ -19,6 +19,11 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
+    em {
+      background-color: $accent-color;
+      font-style: unset;
+    }
   }
 
   & .md-subhead {
@@ -41,6 +46,11 @@
       &:focus {
         outline-color: $accent-color;
       }
+    }
+
+    em {
+      background-color: $accent-color;
+      font-style: unset;
     }
   }
 
