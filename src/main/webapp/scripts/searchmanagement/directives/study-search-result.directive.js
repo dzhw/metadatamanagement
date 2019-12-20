@@ -17,12 +17,18 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
       controllerAs: '$ctrl',
       bindToController: true,
       controller: function(DataAcquisitionProjectResource,
-        Principal, ProjectUpdateAccessService, $state) {
+        Principal, ProjectUpdateAccessService, $state, $element, $timeout,
+        HighlightService) {
         var ctrl = this;
         ctrl.projectIsCurrentlyReleased = true;
         ctrl.$onInit = init;
 
         function init() {
+          if (ctrl.searchQuery) {
+            $timeout(function() {
+              HighlightService.apply($element[0], ctrl.searchQuery);
+            });
+          }
           if (Principal
               .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
             DataAcquisitionProjectResource.get({

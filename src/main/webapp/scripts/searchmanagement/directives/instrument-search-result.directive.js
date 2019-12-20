@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
       templateUrl: 'scripts/searchmanagement/directives/' +
         'instrument-search-result.html.tmpl',
       scope: {
+        searchQuery: '<',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
@@ -16,8 +17,13 @@ angular.module('metadatamanagementApp').directive('instrumentSearchResult',
       controller: function($scope, CommonDialogsService, InstrumentResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
         DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
-        $state) {
+        $state, $timeout, $element, HighlightService) {
         $scope.projectIsCurrentlyReleased = true;
+        if ($scope.searchQuery) {
+          $timeout(function() {
+            HighlightService.apply($element[0], $scope.searchQuery);
+          });
+        }
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
