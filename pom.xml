@@ -9,11 +9,19 @@
         <relativePath />
     </parent>
 
-    <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
+    <groupId>eu.dzhw.fdz</groupId>
     <artifactId>metadatamanagement</artifactId>
     <version>1.0.97-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Package Registry</name>
+            <url>https://maven.pkg.github.com/dzhw/metadatamanagement</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <elasticsearch.version>7.4.0</elasticsearch.version>
@@ -489,7 +497,7 @@
                     <repository>dzhw/${project.artifactId}</repository>
                     <tag>${project.version}</tag>
                     <buildArgs>
-                        <JAR_FILE>target/metadatamanagement-${project.activeProfiles[0].id}.war</JAR_FILE>
+                        <JAR_FILE>target/${project.build.finalName}.war</JAR_FILE>
                     </buildArgs>
                 </configuration>
             </plugin>
@@ -811,7 +819,7 @@
         <profile>
             <id>dev</id>
             <build>
-                <finalName>metadatamanagement-dev</finalName>
+                <finalName>metadatamanagement-${project.activeProfiles[0].id}-${project.version}</finalName>
                 <plugins>
                     <plugin>
                         <groupId>com.github.trecloux</groupId>
@@ -865,7 +873,7 @@
         <profile>
             <id>test</id>
             <build>
-                <finalName>metadatamanagement-test</finalName>
+                <finalName>metadatamanagement-${project.activeProfiles[0].id}-${project.version}</finalName>
                 <plugins>
                     <plugin>
                         <groupId>com.github.trecloux</groupId>
@@ -919,7 +927,7 @@
         <profile>
             <id>prod</id>
             <build>
-                <finalName>metadatamanagement-prod</finalName>
+                <finalName>metadatamanagement-${project.activeProfiles[0].id}-${project.version}</finalName>
                 <plugins>
                     <plugin>
                         <groupId>com.github.trecloux</groupId>

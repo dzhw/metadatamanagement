@@ -2,7 +2,7 @@
 # this is the cloudfoundry manifest for the dev system
 applications:
 - name: metadatamanagement
-  path: ../target/metadatamanagement-dev.war
+  path: ((path-to-app))
   memory: 1024M
   disk_quota: 1024M
   instances: 2

@@ -9,6 +9,8 @@ PROFILE="$1"
 USERNAME="$2"
 PASSWORD="$3"
 TRAVIS_BRANCH="$4"
+APP=../target/$(mvn -P${PROFILE} org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.build.finalName -q -DforceStdout).war
+echo ${APP}
 if [ -n "${TRAVIS_BRANCH}" ]; then
   PROFILE="dev"
 fi
@@ -37,7 +39,7 @@ if [ $? -ne 0 ]; then
     echo "Maven build failed!"
     exit -1
 fi
-cf push -f ./deploy/manifest-${PROFILE}.yml -s cflinuxfs3
+cf push -f ./deploy/manifest-${PROFILE}.yml -s cflinuxfs3 --var path-to-app=${APP}
 if [ $? -ne 0 ]; then
     echo "cf push failed!"
     exit -1
