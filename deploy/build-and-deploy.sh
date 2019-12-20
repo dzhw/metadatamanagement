@@ -9,7 +9,6 @@ PROFILE="$1"
 USERNAME="$2"
 PASSWORD="$3"
 TRAVIS_BRANCH="$4"
-APP=../target/$(mvn -P${PROFILE} org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.build.finalName -q -DforceStdout).war
 echo ${APP}
 if [ -n "${TRAVIS_BRANCH}" ]; then
   PROFILE="dev"
@@ -24,6 +23,7 @@ if [ -z ${PROFILE} ]; then
   echo "Please provide a valid profile e.g.: $0 dev"
   exit -1
 fi
+APP=../target/$(mvn -P${PROFILE} org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.build.finalName -q -DforceStdout).war
 echo "Going to run maven build and cloudfoundry deployment with profile: ${PROFILE}"
 if [ -z ${USERNAME} ] || [ -z ${PASSWORD} ]; then
   cf login -o DZHW -s ${PROFILE} -a https://api.run.pivotal.io
