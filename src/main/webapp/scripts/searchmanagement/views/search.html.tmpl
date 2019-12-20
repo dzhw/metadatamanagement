@@ -45,6 +45,7 @@
             <variable-search-result
               ng-if="isAuthenticated()"
               ng-switch-when="variables"
+              search-query="searchParams.query"
               search-result="result._source"
               current-language="currentLanguage"
               bowser="bowser"
@@ -52,6 +53,7 @@
             <survey-search-result
               ng-if="isAuthenticated()"
               ng-switch-when="surveys"
+              search-query="searchParams.query"
               search-result="result._source"
               current-language="currentLanguage"
               bowser="bowser"
@@ -60,6 +62,7 @@
             <question-search-result
               ng-if="isAuthenticated()"
               ng-switch-when="questions"
+              search-query="searchParams.query"
               search-result="result._source"
               current-language="currentLanguage"
               bowser="bowser"
@@ -67,6 +70,7 @@
             <dataset-search-result
               ng-if="isAuthenticated()"
               ng-switch-when="data_sets"
+              search-query="searchParams.query"
               search-result="result._source"
               current-language="currentLanguage"
               bowser="bowser"
@@ -83,6 +87,7 @@
             <related-publication-search-result
               ng-if="isAuthenticated()"
               ng-switch-when="related_publications"
+              search-query="searchParams.query"
               search-result="result._source"
               current-language="currentLanguage"
               bowser="bowser"
@@ -90,6 +95,7 @@
             <instrument-search-result
               ng-if="isAuthenticated()"
               ng-switch-when="instruments"
+              search-query="searchParams.query"
               search-result="result._source"
               current-language="currentLanguage"
               bowser="bowser"
@@ -97,6 +103,7 @@
             <concept-search-result
               ng-if="isAuthenticated()"
               ng-switch-when="concepts"
+              search-query="searchParams.query"
               search-result="result._source"
               current-language="currentLanguage"
               bowser="bowser"

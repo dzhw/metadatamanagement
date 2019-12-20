@@ -328,10 +328,10 @@ ui-view:focus {
   min-width: 36px; }
 
 .fdz-theme .fdz-hyphenate {
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto; }
+  hyphens: manual;
+  -webkit-hyphens: manual;
+  -moz-hyphens: manual;
+  -ms-hyphens: manual; }
 
 .fdz-theme .fdz-text-block {
   text-align: justify; }
@@ -1730,6 +1730,9 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; }
+  .fdz-theme .fdz-search-result md-card-header em {
+    background-color: #f7a839;
+    font-style: unset; }
   .fdz-theme .fdz-search-result .md-subhead {
     display: flex;
     flex-flow: wrap;
@@ -1745,6 +1748,9 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
       border-radius: 0; }
       .fdz-theme .fdz-search-result md-card-content .btn-link:focus {
         outline-color: #f7a839; }
+    .fdz-theme .fdz-search-result md-card-content em {
+      background-color: #f7a839;
+      font-style: unset; }
   .fdz-theme .fdz-search-result md-card-actions > a {
     margin: 0 8px 16px 8px; }
   .fdz-theme .fdz-search-result md-card-actionsr {
