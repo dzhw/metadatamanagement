@@ -1476,10 +1476,10 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   .fdz-theme .fdz-search-result md-card-actionsr .md-button {
     min-width: unset; }
 
-.fdz-theme .fdz-search-result .md-card-seach-action {
+.fdz-theme .fdz-search-result .md-card-search-action {
   margin: 8px 0 0 0;
   justify-content: flex-start; }
-  .fdz-theme .fdz-search-result .md-card-seach-action a {
+  .fdz-theme .fdz-search-result .md-card-search-action a {
     margin: 0; }
 
 .fdz-search-result__link {
