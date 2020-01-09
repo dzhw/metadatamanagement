@@ -26,7 +26,8 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
         function init() {
           if (ctrl.searchQuery) {
             $timeout(function() {
-              HighlightService.apply($element[0], ctrl.searchQuery);
+              HighlightService.apply($element[0], ctrl.searchQuery,
+                ['ngTruncateToggleText', 'md-card-search-action']);
             });
           }
           if (Principal

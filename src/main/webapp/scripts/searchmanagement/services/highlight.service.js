@@ -1,5 +1,6 @@
 // Original JavaScript code by Chirp Internet: www.chirp.com.au
 // Please acknowledge use of this code by including this header.
+/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp').factory(
@@ -36,7 +37,7 @@ angular.module('metadatamanagementApp').factory(
       return false;
     };
 
-    var highlightWords = function(node, matchRegExp) {
+    var highlightWords = function(node, matchRegExp, skipClasses) {
       if (!node) {
         return;
       }
@@ -46,10 +47,15 @@ angular.module('metadatamanagementApp').factory(
       if (skipTags.test(node.nodeName)) {
         return;
       }
+      if (skipClasses && skipClasses.length) {
+        if (_.intersection(skipClasses, node.classList).length > 0) {
+          return;
+        }
+      }
 
       if (node.hasChildNodes()) {
         for (var i = 0; i < node.childNodes.length; i++) {
-          highlightWords(node.childNodes[i], matchRegExp);
+          highlightWords(node.childNodes[i], matchRegExp, skipClasses);
         }
       }
       if (node.nodeType === 3) { // NODE_TEXT
@@ -93,7 +99,7 @@ angular.module('metadatamanagementApp').factory(
       retval = retval.replace(/y/ig, '[yÃ¿]');
       retval = retval.replace(/s/ig, '(ss|[sÃŸÈ™])');
       retval = retval.replace(/t/ig, '([tÅ£È›])');
-      retval = retval.replace(/a/ig, '([aÃ Ã¢Ã¤Äƒ]|ae)');
+      retval = retval.replace(/a/ig, '([aÃÃ¢Ã¤Äƒ]|ae)');
       retval = retval.replace(/o/ig, '([oÃ´Ã¶]|oe)');
       return retval;
     }
@@ -186,13 +192,13 @@ angular.module('metadatamanagementApp').factory(
       return outputString;
     }
 
-    var apply = function(element, text) {
+    var apply = function(element, text, skipClasses) {
       if (text === undefined || !(text = text.replace(/(^\s+|\s+$)/g, ''))) {
         return;
       }
       text = escapeUnicode(text);
       text = removeUnicode(text);
-      highlightWords(element, getRegex(text));
+      highlightWords(element, getRegex(text), skipClasses);
     };
     return {
       apply: apply
