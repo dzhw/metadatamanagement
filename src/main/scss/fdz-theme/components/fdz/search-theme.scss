@@ -21,8 +21,8 @@ $card-border-radius: 2px !default;
       display: flex;
       position: relative;
       margin: 0 6px 0 6px;
-      top: unset;
-      left: unset;
+      top: 0px;
+      left: 0px;
       right: unset;
     }
     & .md-input {
@@ -35,6 +35,7 @@ $card-border-radius: 2px !default;
       width: inherit;
       line-height: 16px;
       height: 24px;
+      -ms-flex-order: 0;
     }
 
     & md-input-focused .md-input {

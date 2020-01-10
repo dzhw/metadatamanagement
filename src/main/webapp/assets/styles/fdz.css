@@ -743,7 +743,8 @@ ui-view:focus {
 
 .fdz-theme md-content {
   color: black;
-  background-color: #f0f0f0; }
+  background-color: #f0f0f0;
+  overflow-anchor: none; }
   .fdz-theme md-content .fdz-cc {
     display: flex;
     flex-flow: column;
@@ -1914,8 +1915,8 @@ fdz-breadcrumbs {
       display: flex;
       position: relative;
       margin: 0 6px 0 6px;
-      top: unset;
-      left: unset;
+      top: 0px;
+      left: 0px;
       right: unset; }
     .fdz-theme .fdz-search md-input-container.fdz-search__input .md-input {
       flex-grow: 2;
@@ -1926,7 +1927,8 @@ fdz-breadcrumbs {
       left: unset;
       width: inherit;
       line-height: 16px;
-      height: 24px; }
+      height: 24px;
+      -ms-flex-order: 0; }
     .fdz-theme .fdz-search md-input-container.fdz-search__input md-input-focused .md-input {
       border: 0;
       outline: none; }
