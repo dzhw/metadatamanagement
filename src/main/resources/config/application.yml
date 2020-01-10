@@ -35,7 +35,7 @@ spring:
       multipart:
         max-file-size: 15MB
         max-request-size: 15MB
-        
+
 springdoc:
   swagger-ui:
     path: /api/swagger-ui.html
@@ -108,7 +108,7 @@ metadatamanagement:
 
 jhipster:
     mail:
-        from: fdz-feedback@dzhw.eu
+        from: datadeposit@dzhw.eu
     security:
         authentication:
             oauth:
