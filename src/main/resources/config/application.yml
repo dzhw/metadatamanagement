@@ -108,7 +108,7 @@ metadatamanagement:
 
 jhipster:
     mail:
-        from: datadeposit@dzhw.eu
+        from: fdz-feedback@dzhw.eu
     security:
         authentication:
             oauth:
