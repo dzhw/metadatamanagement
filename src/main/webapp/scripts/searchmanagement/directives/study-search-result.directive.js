@@ -24,6 +24,7 @@ angular.module('metadatamanagementApp').directive('studySearchResult',
         ctrl.$onInit = init;
 
         function init() {
+          ctrl.query = ctrl.searchQuery;
           if (ctrl.searchQuery) {
             $timeout(function() {
               HighlightService.apply($element[0], ctrl.searchQuery,

@@ -25,11 +25,11 @@
   </md-card-content>
   <md-card-actions
     class="md-card-search-action"
-    ng-if="$ctrl.searchQuery && !$ctrl.isAuthenticated()">
+    ng-if="$ctrl.query && !$ctrl.isAuthenticated()">
     <a class="md-small md-primary"
        ng-if="!$ctrl.isAuthenticated()"
-       ui-sref="studyDetail({id: $ctrl.searchResult.masterId, 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: '', 'query': $ctrl.searchQuery})">
-      {{'search-management.search-result.dataPacketSearch' | translate:{searchQuery: $ctrl.searchQuery} }}</a>
+       ui-sref="studyDetail({id: $ctrl.searchResult.masterId, 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: '', 'query': $ctrl.query})">
+      {{'search-management.search-result.dataPacketSearch' | translate:{searchQuery: $ctrl.query} }}</a>
   </md-card-actions>
   <md-card-actions style="margin-bottom: -10px;"
     data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
