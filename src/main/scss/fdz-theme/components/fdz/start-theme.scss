@@ -25,12 +25,9 @@ $card-border-radius: 2px !default;
     .fdz-link {
       display: flex;
       justify-content: flex-end;
-      padding: 8px 8px 0px 8px;
+      padding: 16px;
       @include rwd(600) {
-        padding: 16px 16px 0px 16px;
-      }
-      @include rwd(959) {
-        padding: 16px 24px 0px 24px;
+        padding: 24px;
       }
     }
   }
@@ -53,23 +50,18 @@ $card-border-radius: 2px !default;
   }
 
   .fdz-start__content {
-    padding: 0 16px 16px 16px;
+    padding: 0 16px 0px 16px;
+  }
 
-    .fdz-search {
-      margin: 16px!important;
-    }
-
-    .fdz-search-result {
-      margin: 0;
-      padding-top: 0px;
-    }
+  .fdz-search {
+    margin-bottom: 8px;
   }
 
   .fdz-start__images {
     display: flex;
     flex-flow: column;
     align-items: center;
-    padding: 0 16px 16px 16px;
+    padding: 0 16px 0px 16px;
     @include rwd (600) {
       flex-flow: row;
       justify-content: space-between;
@@ -86,10 +78,11 @@ $card-border-radius: 2px !default;
       height: 0;
       // padding-top: (img-height / img-width * container-width)
       padding-top:  52.64%;
-      margin: 8px;
+      margin: 8px 8px 0px 8px;
 
       @include rwd (600) {
         padding-top:  20.64%;
+        margin: 0px 8px 0px 8px;
       }
 
       .fdz-image-text {

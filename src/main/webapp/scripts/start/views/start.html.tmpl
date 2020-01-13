@@ -1,4 +1,4 @@
-<div class="fdz-cc ma-auto" ng-if="study">
+<div class="fdz-cc ma-auto">
   <div class="fdz-center">
     <div class="fdz-start flex">
       <div class="fdz-start__header">
@@ -8,12 +8,9 @@
       </div>
       <div class="fdz-start__content" data-translate="start.fdz-text" fdz-hyphenate lang="{{lang}}"></div>
       <fdz-search-detail></fdz-search-detail>
-      <div class="fdz-link">
-        <a ui-sref="search">{{'start.show-all' | translate}}</a>
-      </div>
       <div class="fdz-start__header">
         <div class="fdz-start__header-text">
-          <h1 class="md-headline">{{'start.image-title' | translate}}</h1>
+          <h2 class="md-headline">{{'start.image-title' | translate}}</h1>
         </div>
       </div>
       <div class="fdz-start__images">
@@ -27,19 +24,8 @@
           <div class="md-title fdz-image-text">{{schoolSurvey[lang] | fdzHyphenate}}</div>
         </a>
       </div>
-      <div class="fdz-start__header">
-        <div class="fdz-start__header-text">
-          <h1 class="md-headline">{{'start.recommendation' | translate}}</h1>
-        </div>
-      </div>
-      <div class="fdz-start__content">
-        <study-search-result
-          bowser=""
-          current-language="lang"
-          search-query=""
-          search-result="study"
-          set-params=""
-          search-result-index=""></study-search-result>
+      <div class="fdz-link">
+        <a ui-sref="search">{{'start.show-all' | translate}}</a>
       </div>
     </div>
   </div>
