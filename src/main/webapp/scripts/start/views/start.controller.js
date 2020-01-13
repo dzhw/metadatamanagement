@@ -2,15 +2,11 @@
   'use strict';
 
   function StartController(
-    $scope,
-    StudySearchService,
-    LanguageService, Principal, $state) {
+    $scope, LanguageService, Principal, $state) {
     if (Principal.isAuthenticated()) {
       $state.go('search');
       return;
     }
-    // TODO: Change hardcoded id
-    var id = 'stu-gra2005$';
 
     $scope.study = {};
     $scope.lang = LanguageService.getCurrentInstantly();
@@ -27,17 +23,6 @@
       en: 'DZHW Survey Series of School Leavers',
       de: 'DZHW-Studienberechtigtenbefragungen'
     };
-    function loadStudy(id) {
-      var excludes = ['nested*','variables','questions',
-        'surveys','instruments', 'dataSets', 'relatedPublications',
-        'concepts'];
-      StudySearchService.findShadowByIdAndVersion(id, null, excludes)
-        .promise.then(function(data) {
-          $scope.study = data;
-        });
-    }
-
-    loadStudy(id);
   }
 
   angular
