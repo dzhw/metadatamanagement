@@ -1513,13 +1513,10 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   .fdz-theme .fdz-start .fdz-link {
     display: flex;
     justify-content: flex-end;
-    padding: 8px 8px 0px 8px; }
+    padding: 16px; }
     @media (min-width: 600px) {
       .fdz-theme .fdz-start .fdz-link {
-        padding: 16px 16px 0px 16px; } }
-    @media (min-width: 959px) {
-      .fdz-theme .fdz-start .fdz-link {
-        padding: 16px 24px 0px 24px; } }
+        padding: 24px; } }
 
 .fdz-theme .fdz-start__header {
   display: flex;
@@ -1537,18 +1534,16 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   word-break: break-word; }
 
 .fdz-theme .fdz-start__content {
-  padding: 0 16px 16px 16px; }
-  .fdz-theme .fdz-start__content .fdz-search {
-    margin: 16px !important; }
-  .fdz-theme .fdz-start__content .fdz-search-result {
-    margin: 0;
-    padding-top: 0px; }
+  padding: 0 16px 0px 16px; }
+
+.fdz-theme .fdz-search {
+  margin-bottom: 8px; }
 
 .fdz-theme .fdz-start__images {
   display: flex;
   flex-flow: column;
   align-items: center;
-  padding: 0 16px 16px 16px; }
+  padding: 0 16px 0px 16px; }
   @media (min-width: 600px) {
     .fdz-theme .fdz-start__images {
       flex-flow: row;
@@ -1562,10 +1557,11 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
     width: 100%;
     height: 0;
     padding-top: 52.64%;
-    margin: 8px; }
+    margin: 8px 8px 0px 8px; }
     @media (min-width: 600px) {
       .fdz-theme .fdz-start__images .fdz-image {
-        padding-top: 20.64%; } }
+        padding-top: 20.64%;
+        margin: 0px 8px 0px 8px; } }
     .fdz-theme .fdz-start__images .fdz-image .fdz-image-text {
       position: absolute;
       bottom: 8px;
