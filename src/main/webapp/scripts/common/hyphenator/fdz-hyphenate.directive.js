@@ -1,4 +1,4 @@
-/* global Hyphenator */
+/* global Hyphenator, _ */
 'use strict';
 
 angular.module('metadatamanagementApp').directive('fdzHyphenate',
@@ -7,7 +7,9 @@ angular.module('metadatamanagementApp').directive('fdzHyphenate',
             // we have to wait until other directives have done its job
             // like displayi18nString
             $timeout(function() {
-              if (element[0].lang && element[0].lang !== '') {
+              if (element[0].lang && element[0].lang !== '' &&
+                 !(_.startsWith(element[0].lang, '{{') &&
+                    _.endsWith(element[0].lang, '{{'))) {
                 element.addClass('fdz-hyphenate');
                 Hyphenator.hyphenate(element[0], element[0].lang);
               }
