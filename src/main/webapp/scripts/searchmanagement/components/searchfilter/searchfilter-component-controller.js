@@ -67,7 +67,7 @@
       readSearchParamsFromLocation();
       if ($ctrl.searchFilterMapping &&
         $ctrl.searchFilterMapping.hasOwnProperty(prop) &&
-        $ctrl.searchFilterMapping[prop].includes(item)) {
+        _.includes($ctrl.searchFilterMapping[prop], item)) {
         $ctrl.searchFilterMapping[prop] = _.without(
           $ctrl.searchFilterMapping[prop], item
         );
