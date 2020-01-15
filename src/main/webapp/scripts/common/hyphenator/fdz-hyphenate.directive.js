@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').directive('fdzHyphenate',
             $timeout(function() {
               if (element[0].lang && element[0].lang !== '' &&
                  !(_.startsWith(element[0].lang, '{{') &&
-                    _.endsWith(element[0].lang, '{{'))) {
+                    _.endsWith(element[0].lang, '}}'))) {
                 element.addClass('fdz-hyphenate');
                 Hyphenator.hyphenate(element[0], element[0].lang);
               }
