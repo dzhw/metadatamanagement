@@ -2055,7 +2055,8 @@ md-input-container label {
       align-items: center; }
     .fdz-theme .fdz-detail md-card md-list-item h5 {
       display: flex;
-      width: 100%; }
+      width: 100%;
+      line-height: unset; }
     .fdz-theme .fdz-detail md-card md-list-item .md-secondary-container {
       display: flex;
       margin: 0;
