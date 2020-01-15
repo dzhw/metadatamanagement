@@ -30,6 +30,14 @@ $card-border-radius: 2px !default;
         padding: 24px;
       }
     }
+
+    .fdz-search {
+      margin-bottom: 16px;
+
+      @include rwd(600) {
+        margin-bottom: 8px;
+      }
+    }
   }
 
   .fdz-start__header {
@@ -53,9 +61,6 @@ $card-border-radius: 2px !default;
     padding: 0 16px 0px 16px;
   }
 
-  .fdz-search {
-    margin-bottom: 8px;
-  }
 
   .fdz-start__images {
     display: flex;
