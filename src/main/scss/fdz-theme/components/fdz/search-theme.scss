@@ -4,10 +4,10 @@ $card-border-radius: 2px !default;
   position: relative;
   border: 1px rgba(0, 0, 0, 0.12) solid;
   border-radius: $card-border-radius;
-  margin: 16px 8px 8px 8px;
+  margin: 24px 8px 0px 8px;
   padding: 4px;
   @include rwd(600) {
-    margin: 24px 16px 8px 16px;
+    margin: 24px 16px 0px 16px;
   }
   @include rwd(959) {
     margin: 24px 24px 0 24px;
