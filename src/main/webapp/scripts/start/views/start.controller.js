@@ -2,7 +2,9 @@
   'use strict';
 
   function StartController(
-    $scope, LanguageService, Principal, $state) {
+    $scope, LanguageService, Principal, $state, PageTitleService) {
+    PageTitleService.setPageTitle('start.data-search');
+
     if (Principal.isAuthenticated()) {
       $state.go('search');
       return;
