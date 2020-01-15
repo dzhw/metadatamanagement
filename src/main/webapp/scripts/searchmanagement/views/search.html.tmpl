@@ -1,5 +1,5 @@
 <div class="fdz-cc">
-<div flex layout="column" ng-switch="isAuthenticated()" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="isDropZoneDisabled">
+<div layout="column" ng-switch="isAuthenticated()" ngf-drop="tabs[searchParams.selectedTabIndex].uploadFunction($files)" ngf-multiple="true" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-drop-disabled="isDropZoneDisabled">
   <div ng-if="isAuthenticated()">
     <md-card class="pa0 db">
         <md-tabs md-selected="searchParams.selectedTabIndex" md-dynamic-height md-border-bottom>
@@ -40,7 +40,7 @@
                   on-update="onPageChanged(event = $event, option = $option)"
                   template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
   </div>
-  <div flex>
+  <div>
         <div ng-repeat="result in searchResult" ng-switch="result._index" class="fdz-fade-in fdz-dp-search-container">
             <variable-search-result
               ng-if="isAuthenticated()"
