@@ -21,14 +21,6 @@ spring:
         password: ${vcap.services.email.credentials.password}
     thymeleaf:
         cache: true
-    cloud:
-      cloudfoundry:
-        username: ${vcap.services.cloudfoundry.credentials.username}
-        password: ${vcap.services.cloudfoundry.credentials.password}
-        org: dzhw
-        space: dev
-        discovery:
-          enabled: true
 
 # ===================================================================
 # Properties specific to our application
@@ -37,7 +29,7 @@ spring:
 metadatamanagement:
   server:
     instance-index: ${cf.instance.index}
-    context-root: https://metadatamanagement-dev-1894369791.eu-central-1.elb.amazonaws.com
+    context-root: https://dev.metadata.fdz.dzhw.eu
   elasticsearch-client:
     url: ${vcap.services.elastic.credentials.sslUri}
     read-timeout: 60000
@@ -53,4 +45,7 @@ metadatamanagement:
     uri: ${vcap.services.rabbitmq.credentials.uri}
   websockets:
     allowed-origins:
-      - https://metadatamanagement-dev-1894369791.eu-central-1.elb.amazonaws.com
+      - https://dev.metadata.fdz.dzhw.eu
+  dataset-report-task:
+    task-definition: dataset-report-task-dev
+    cluster-name: metadatamanagement-dev

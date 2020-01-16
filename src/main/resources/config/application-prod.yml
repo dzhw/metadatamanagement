@@ -21,14 +21,6 @@ spring:
         password: ${vcap.services.email.credentials.password}
     thymeleaf:
         cache: true
-    cloud:
-      cloudfoundry:
-        username: ${vcap.services.cloudfoundry.credentials.username}
-        password: ${vcap.services.cloudfoundry.credentials.password}
-        org: dzhw
-        space: prod
-        discovery:
-          enabled: true
 
 # ===================================================================
 # Properties specific to our application
@@ -59,3 +51,6 @@ metadatamanagement:
     allowed-origins:
       - https://metadata.fdz.dzhw.eu
       - https://metadatamanagement.cfapps.io
+  dataset-report-task:
+    task-definition: dataset-report-task-prod
+    cluster-name: metadatamanagement-prod

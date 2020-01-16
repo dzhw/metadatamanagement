@@ -97,9 +97,6 @@ metadatamanagement:
   dlp:
     endpoint: http://fakedlpendpoint.de
   dataset-report-task:
-    app-name: dataset-report-task
-    disk-size-in-mb: 2048
-    memory-size-in-mb: 256
     start-command: java -jar /app/dataset-report-task.jar --task.dataSetId=%1$s --task.version=%2$s --task.language=%3$s --task.onBehalfOf=%4$s
 
 # ===================================================================

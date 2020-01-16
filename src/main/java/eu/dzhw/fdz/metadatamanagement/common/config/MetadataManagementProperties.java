@@ -198,9 +198,8 @@ public class MetadataManagementProperties {
   @Getter
   @Setter
   public static class DatasetReportTask {
-    private Integer diskSizeInMb;
-    private Integer memorySizeInMb;
     private String startCommand;
-    private String appName;
+    private String taskDefinition;
+    private String clusterName;
   }
 }

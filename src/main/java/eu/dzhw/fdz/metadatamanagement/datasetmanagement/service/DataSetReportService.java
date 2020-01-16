@@ -487,10 +487,10 @@ public class DataSetReportService {
         dataSetReportTaskContainer.run(false);
       } else {
         DatasetReportTask taskProperties = metadataManagementProperties.getDatasetReportTask();
-        log.debug("Starting fargate task {}...", taskProperties.getAppName());
+        log.info("Starting fargate task {}...", taskProperties.getTaskDefinition());
         RunTaskRequest req = new RunTaskRequest()
-            .withTaskDefinition("dataset-report-task-dev")
-            .withCluster("metadatamanagement-dev")
+            .withTaskDefinition(taskProperties.getTaskDefinition())
+            .withCluster(taskProperties.getClusterName())
             .withLaunchType(LaunchType.FARGATE)
             .withCount(1)
             .withStartedBy(onBehalfOf)
@@ -499,6 +499,7 @@ public class DataSetReportService {
                 new Tag().withKey("language").withValue(language))
             .withOverrides(new TaskOverride()
                 .withContainerOverrides(new ContainerOverride()
+                    .withName("dataset-report-task")
                     .withCommand(String.format(taskProperties.getStartCommand(),
                     dataSetId, version, language, onBehalfOf))));
         ecsClient.runTask(req);
