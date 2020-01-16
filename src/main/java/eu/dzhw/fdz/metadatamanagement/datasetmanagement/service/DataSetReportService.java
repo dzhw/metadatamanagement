@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,8 +28,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.ecs.AmazonECS;
-import com.amazonaws.services.ecs.model.AwsVpcConfiguration;
 import com.amazonaws.services.ecs.model.ContainerOverride;
+import com.amazonaws.services.ecs.model.DescribeServicesRequest;
 import com.amazonaws.services.ecs.model.LaunchType;
 import com.amazonaws.services.ecs.model.NetworkConfiguration;
 import com.amazonaws.services.ecs.model.RunTaskRequest;
@@ -490,15 +491,20 @@ public class DataSetReportService {
       } else {
         DatasetReportTask taskProperties = metadataManagementProperties.getDatasetReportTask();
         log.info("Starting fargate task {}...", taskProperties.getTaskDefinition());
+        NetworkConfiguration networkConfiguration = ecsClient
+            .describeServices(
+                new DescribeServicesRequest().withCluster(taskProperties.getClusterName())
+                    .withServices("metadatamanagment-worker"))
+            .getServices().get(0).getNetworkConfiguration();
+
         RunTaskRequest req =
             new RunTaskRequest().withTaskDefinition(taskProperties.getTaskDefinition())
-                .withNetworkConfiguration(
-                    new NetworkConfiguration().withAwsvpcConfiguration(new AwsVpcConfiguration()
-                        .withSubnets("subnet-0379630a1642b6921", "subnet-0a661737815565ad4")
-                        .withSecurityGroups("sg-05cf4063e6ab7a4a7")))
+                .withNetworkConfiguration(networkConfiguration)
                 .withCluster(taskProperties.getClusterName()).withLaunchType(LaunchType.FARGATE)
                 .withCount(1).withStartedBy(onBehalfOf)
-                .withTags(new Tag().withKey("dataSetId").withValue(dataSetId),
+                .withTags(
+                    new Tag().withKey("dataSetId")
+                        .withValue(Base64.getUrlEncoder().encodeToString(dataSetId.getBytes())),
                     new Tag().withKey("version").withValue(version),
                     new Tag().withKey("language").withValue(language))
                 .withOverrides(new TaskOverride()
