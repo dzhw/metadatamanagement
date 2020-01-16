@@ -25,6 +25,13 @@ import org.springframework.core.env.Profiles;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.amazonaws.services.ecs.AmazonECS;
+import com.amazonaws.services.ecs.AmazonECSClientBuilder;
+import com.amazonaws.services.ecs.model.ContainerOverride;
+import com.amazonaws.services.ecs.model.LaunchType;
+import com.amazonaws.services.ecs.model.RunTaskRequest;
+import com.amazonaws.services.ecs.model.Tag;
+import com.amazonaws.services.ecs.model.TaskOverride;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
@@ -477,15 +484,21 @@ public class DataSetReportService {
         dataSetReportTaskContainer.run(false);
       } else {
         DatasetReportTask taskProperties = metadataManagementProperties.getDatasetReportTask();
-        log.debug("Starting cloudfoundry task {}...", taskProperties.getAppName());
-        // cloudFoundryClient.tasks()
-        // .create(CreateTaskRequest.builder().name(dataSetId + " for " + onBehalfOf)
-        // .applicationId(getApplicationId(taskProperties.getAppName()))
-        // .command(String.format(taskProperties.getStartCommand(), dataSetId, version,
-        // language, onBehalfOf))
-        // .diskInMb(taskProperties.getDiskSizeInMb())
-        // .memoryInMb(taskProperties.getMemorySizeInMb()).build())
-        // .block();
+        log.debug("Starting fargate task {}...", taskProperties.getAppName());
+        AmazonECS ecsClient = AmazonECSClientBuilder.defaultClient();
+        RunTaskRequest req = new RunTaskRequest()
+            .withTaskDefinition("dataset-report-task-dev")
+            .withLaunchType(LaunchType.FARGATE)
+            .withCount(1)
+            .withStartedBy(onBehalfOf)
+            .withTags(new Tag().withKey("dataSetId").withValue(dataSetId),
+                new Tag().withKey("version").withValue(version),
+                new Tag().withKey("language").withValue(language))
+            .withOverrides(new TaskOverride()
+                .withContainerOverrides(new ContainerOverride()
+                    .withCommand(String.format(taskProperties.getStartCommand(),
+                    dataSetId, version, language, onBehalfOf))));
+        ecsClient.runTask(req);
       }
     }
   }
