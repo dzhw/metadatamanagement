@@ -503,7 +503,7 @@ public class DataSetReportService {
                 .withOverrides(new TaskOverride().withContainerOverrides(
                     new ContainerOverride().withName(taskProperties.getContainerName())
                         .withCommand(String.format(taskProperties.getStartCommand(), dataSetId,
-                            version, language, onBehalfOf))));
+                            version, language, onBehalfOf).split("\\s+"))));
         ecsClient.runTask(req);
       }
     }
