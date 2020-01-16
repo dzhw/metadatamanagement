@@ -500,8 +500,6 @@ public class DataSetReportService {
                 .withNetworkConfiguration(networkConfiguration)
                 .withCluster(taskProperties.getClusterName()).withLaunchType(LaunchType.FARGATE)
                 .withCount(1).withStartedBy(onBehalfOf)
-                .withGroup(taskProperties.getTaskDefinition() + ":" + dataSetId + ":" + version
-                    + ":" + language)
                 .withOverrides(new TaskOverride().withContainerOverrides(
                     new ContainerOverride().withName(taskProperties.getContainerName())
                         .withCommand(String.format(taskProperties.getStartCommand(), dataSetId,
