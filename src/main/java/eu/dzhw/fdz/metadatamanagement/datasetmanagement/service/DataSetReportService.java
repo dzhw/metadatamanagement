@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,7 +32,6 @@ import com.amazonaws.services.ecs.model.DescribeServicesRequest;
 import com.amazonaws.services.ecs.model.LaunchType;
 import com.amazonaws.services.ecs.model.NetworkConfiguration;
 import com.amazonaws.services.ecs.model.RunTaskRequest;
-import com.amazonaws.services.ecs.model.Tag;
 import com.amazonaws.services.ecs.model.TaskOverride;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
@@ -502,11 +500,8 @@ public class DataSetReportService {
                 .withNetworkConfiguration(networkConfiguration)
                 .withCluster(taskProperties.getClusterName()).withLaunchType(LaunchType.FARGATE)
                 .withCount(1).withStartedBy(onBehalfOf)
-                .withTags(
-                    new Tag().withKey("dataSetId").withValue(
-                        Base64.getUrlEncoder().encodeToString(dataSetId.getBytes("UTF-8"))),
-                    new Tag().withKey("version").withValue(version),
-                    new Tag().withKey("language").withValue(language))
+                .withGroup(taskProperties.getTaskDefinition() + ":" + dataSetId + ":" + version
+                    + ":" + language)
                 .withOverrides(new TaskOverride().withContainerOverrides(
                     new ContainerOverride().withName(taskProperties.getContainerName())
                         .withCommand(String.format(taskProperties.getStartCommand(), dataSetId,
