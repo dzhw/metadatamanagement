@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.loader.tools.RunProcess;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
@@ -26,7 +27,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.ecs.AmazonECS;
-import com.amazonaws.services.ecs.AmazonECSClientBuilder;
 import com.amazonaws.services.ecs.model.ContainerOverride;
 import com.amazonaws.services.ecs.model.LaunchType;
 import com.amazonaws.services.ecs.model.RunTaskRequest;
@@ -91,6 +91,9 @@ public class DataSetReportService {
   private final Environment environment;
 
   private final MetadataManagementProperties metadataManagementProperties;
+  
+  @Autowired(required = false)
+  private AmazonECS ecsClient;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -485,9 +488,9 @@ public class DataSetReportService {
       } else {
         DatasetReportTask taskProperties = metadataManagementProperties.getDatasetReportTask();
         log.debug("Starting fargate task {}...", taskProperties.getAppName());
-        AmazonECS ecsClient = AmazonECSClientBuilder.defaultClient();
         RunTaskRequest req = new RunTaskRequest()
             .withTaskDefinition("dataset-report-task-dev")
+            .withCluster("metadatamanagement-dev")
             .withLaunchType(LaunchType.FARGATE)
             .withCount(1)
             .withStartedBy(onBehalfOf)
