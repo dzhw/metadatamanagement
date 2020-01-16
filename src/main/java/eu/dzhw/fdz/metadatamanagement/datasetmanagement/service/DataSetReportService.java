@@ -494,7 +494,7 @@ public class DataSetReportService {
         NetworkConfiguration networkConfiguration = ecsClient
             .describeServices(
                 new DescribeServicesRequest().withCluster(taskProperties.getClusterName())
-                    .withServices("metadatamanagment-worker"))
+                    .withServices(taskProperties.getServiceName()))
             .getServices().get(0).getNetworkConfiguration();
 
         RunTaskRequest req =
@@ -503,12 +503,12 @@ public class DataSetReportService {
                 .withCluster(taskProperties.getClusterName()).withLaunchType(LaunchType.FARGATE)
                 .withCount(1).withStartedBy(onBehalfOf)
                 .withTags(
-                    new Tag().withKey("dataSetId")
-                        .withValue(Base64.getUrlEncoder().encodeToString(dataSetId.getBytes())),
+                    new Tag().withKey("dataSetId").withValue(
+                        Base64.getUrlEncoder().encodeToString(dataSetId.getBytes("UTF-8"))),
                     new Tag().withKey("version").withValue(version),
                     new Tag().withKey("language").withValue(language))
-                .withOverrides(new TaskOverride()
-                    .withContainerOverrides(new ContainerOverride().withName("dataset-report-task")
+                .withOverrides(new TaskOverride().withContainerOverrides(
+                    new ContainerOverride().withName(taskProperties.getContainerName())
                         .withCommand(String.format(taskProperties.getStartCommand(), dataSetId,
                             version, language, onBehalfOf))));
         ecsClient.runTask(req);

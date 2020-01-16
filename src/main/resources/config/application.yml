@@ -98,6 +98,8 @@ metadatamanagement:
     endpoint: http://fakedlpendpoint.de
   dataset-report-task:
     start-command: java -jar /app/dataset-report-task.jar --task.dataSetId=%1$s --task.version=%2$s --task.language=%3$s --task.onBehalfOf=%4$s
+    service-name: metadatamanagement-worker
+    container-name: dataset-report-task
 
 # ===================================================================
 # JHipster specific properties

@@ -201,5 +201,7 @@ public class MetadataManagementProperties {
     private String startCommand;
     private String taskDefinition;
     private String clusterName;
+    private String serviceName;
+    private String containerName;
   }
 }
