@@ -69,15 +69,8 @@ jobs:
       && nvm install 12.11.0
     - npm install -g bower
     - npm install -g grunt-cli
-    - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key
-      | sudo apt-key add -
-    - echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-    - sudo apt-get update -qq
-    - sudo apt-get install cf-cli -y --allow-unauthenticated
-    - sudo netstat -pelnut
     script:
-    - "./deploy/build-and-deploy.sh unused $CI_DEPLOY_USERNAME $CI_DEPLOY_PASSWORD
-      $TRAVIS_BRANCH $TRAVIS_EVENT_TYPE"
+    - "./deploy/build-and-deploy.sh unused $TRAVIS_BRANCH"
     after_success:
     - bash <(curl -s https://codecov.io/bash)
   - stage: e2e smoketests

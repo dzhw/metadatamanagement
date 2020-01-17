@@ -32,7 +32,7 @@ import com.mongodb.gridfs.GridFS;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Configure the mongo db client instance. 
+ * Configure the mongo db client instance.
  * Modified version of {@link MongoAutoConfiguration}.
  */
 @Configuration
@@ -41,13 +41,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MongoDbConfiguration extends AbstractMongoConfiguration {
   private MongoProperties mongoProperties;
-  
+
   private MongoClientOptions options;
 
   private MongoClient mongo;
-  
+
   private MongoClientFactory factory;
-  
+
   /**
    * Constructor from {@link MongoAutoConfiguration}.
    */
@@ -90,8 +90,8 @@ public class MongoDbConfiguration extends AbstractMongoConfiguration {
 
   /**
    * Configure Mongeez for schema management.
-   * 
-   * @deprecated It is not working on cloudfoundry!
+   *
+   * @deprecated It is not working in the cloud!
    */
   @Deprecated
   @Bean
@@ -118,17 +118,17 @@ public class MongoDbConfiguration extends AbstractMongoConfiguration {
     mongo = this.factory.createMongoClient(this.options);
     return mongo;
   }
-  
+
   @Bean
   public GridFS gridFs(MongoClient mongoClient) {
     return new GridFS(mongoClient.getDB(this.getDatabaseName()));
   }
-  
+
   @Override
   protected Collection<String> getMappingBasePackages() {
     return Arrays.asList("eu.dzhw.fdz.metadatamanagement.**.domain");
   }
-  
+
   @Override
   protected boolean autoIndexCreation() {
     return mongoProperties.isAutoIndexCreation();

@@ -467,7 +467,7 @@ public class DataSetReportService {
   }
 
   /**
-   * Start one container per language which builds the report. Either via cloudfoundry or locally
+   * Start one container per language which builds the report. Either via aws fargate or locally
    * via docker.
    *
    * @param dataSetId The id of the dataSet for which the report will be generated.

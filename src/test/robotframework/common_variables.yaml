@@ -1,4 +1,4 @@
-website: https://metadatamanagement-dev.cfapps.io/#!/de/search
+website: https://dev.metadata.fdz.dzhw.eu/#!/de/search
 capabilities:
   chrome:
     name: Win10/Chrome

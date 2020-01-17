@@ -21,7 +21,7 @@ spring:
         password: ${vcap.services.email.credentials.password}
     thymeleaf:
         cache: true
- 
+
 # ===================================================================
 # Properties specific to our application
 # ===================================================================
@@ -33,7 +33,7 @@ metadatamanagement:
     email: birkelbach@dzhw.eu
   server:
     instance-index: ${cf.instance.index}
-    context-root: https://metadatamanagement-test.cfapps.io
+    context-root: https://test.metadata.fdz.dzhw.eu
   elasticsearch-client:
     url: ${vcap.services.elastic.credentials.sslUri}
     read-timeout: 60000

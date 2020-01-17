@@ -50,7 +50,6 @@ metadatamanagement:
   websockets:
     allowed-origins:
       - https://metadata.fdz.dzhw.eu
-      - https://metadatamanagement.cfapps.io
   dataset-report-task:
     task-definition: dataset-report-task-prod
     cluster-name: metadatamanagement-prod
