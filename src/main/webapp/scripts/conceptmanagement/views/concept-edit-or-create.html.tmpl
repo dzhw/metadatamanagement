@@ -148,13 +148,12 @@
         <md-divider></md-divider>
         <md-card-content class="pb0 pl0">
           <div id="move-container" layout="row" ng-repeat="person in ctrl.concept.authors track by $index">
-            <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteAuthor($index)" ng-if="ctrl.concept.authors.length > 1" style="margin-top: 18px; margin-left: 0px; margin-right: 0px;">
+            <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteAuthor($index)" ng-if="ctrl.concept.authors.length > 1" style="margin-top: 18px; margin-left: 0px; margin-right: 0px; padding-left: 0px;">
               <md-tooltip md-autohide="true" md-direction="bottom" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'concept-management.edit.delete-author-tooltip' | translate}}
               </md-tooltip>
               <md-icon md-font-set="material-icons">delete_forever</md-icon>
             </md-button>
-            <div ng-if="ctrl.concept.authors.length <= 1" class="ml16"></div>
             <md-input-container flex="33" md-is-error="!conceptForm['authorsFirstName_' + $index].$valid && (conceptForm['authorsFirstName_' + $index].$dirty || conceptForm['authorsFirstName_' + $index].$touched)">
               <label class="fdz-input-required">{{'concept-management.edit.label.first-name' | translate}}</label>
               <input fdz-required md-no-asterisk name="authorsFirstName_{{$index}}" ng-blur="ctrl.deleteCurrentAuthor($event)" ng-focus="ctrl.setCurrentAuthor($index,$event)" ng-model="person.firstName">

@@ -145,14 +145,13 @@
         <md-divider></md-divider>
         <md-card-content class="pa0">
           <div layout="column" ng-repeat="subDataSet in ctrl.dataSet.subDataSets track by $index">
-            <div layout="row" class="pr16">
-              <md-button class="md-primary md-icon-button mh0" ng-click="ctrl.deleteSubDataSet($index)" ng-if="ctrl.dataSet.subDataSets.length > 1" style="margin-top: 18px;">
+            <div layout="row">
+              <md-button class="md-primary md-icon-button mh0" ng-click="ctrl.deleteSubDataSet($index)" ng-if="ctrl.dataSet.subDataSets.length > 1" style="margin-top: 18px; padding-left: 0px;">
                 <md-tooltip md-autohide="true" md-direction="bottom" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                   {{'data-set-management.edit.delete-sub-data-set-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">delete_forever</md-icon>
               </md-button>
-              <div ng-if="ctrl.dataSet.subDataSets.length <= 1" class="ml16"></div>
               <div flex layout="row">
                 <md-input-container flex="33" md-is-error="!dataSetForm['subDataSetsName_' + $index].$valid && (dataSetForm['subDataSetsName_' + $index].$dirty || dataSetForm['subDataSetsName_' + $index].$touched)" class="ms-flex">
                   <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.name' |
@@ -211,7 +210,7 @@
                 </md-input-container>
               </div>
             </div>
-            <div layout="column" layout-gt-sm="row" ng-style="{'margin-left': ctrl.dataSet.subDataSets.length === 1?'16px':'40px'}" class="pr16">
+            <div layout="column" layout-gt-sm="row" ng-style="{'margin-left': ctrl.dataSet.subDataSets.length === 1?'0px':'40px'}" class="pr16">
               <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsDescriptionDe_' + $index].$valid && (dataSetForm['subDataSetsDescriptionDe_' + $index].$dirty || dataSetForm['subDataSetsDescriptionDe_' + $index].$touched)"
                 ng-class="{'mr10': $mdMedia('gt-sm')}" class="ms-flex">
                 <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.description' |
@@ -247,7 +246,7 @@
                 </div>
               </md-input-container>
             </div>
-            <div layout="column" layout-gt-sm="row" ng-style="{'margin-left': ctrl.dataSet.subDataSets.length === 1?'16px':'40px'}" class="pr16">
+            <div layout="column" layout-gt-sm="row" ng-style="{'margin-left': ctrl.dataSet.subDataSets.length === 1?'0px':'40px'}" class="pr16">
               <md-input-container flex="50" md-is-error="!dataSetForm['subDataSetsCitationHintDe_' + $index].$valid && (dataSetForm['subDataSetsCitationHintDe_' + $index].$dirty || dataSetForm['subDataSetsCitationHintDe_' + $index].$touched)"
                 ng-class="{'mr10': $mdMedia('gt-sm')}" class="ms-flex">
                 <label class="fdz-input-required">{{'data-set-management.edit.label.sub-data-set.citation-hint' |
