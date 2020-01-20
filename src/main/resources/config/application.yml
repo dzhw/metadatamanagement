@@ -23,9 +23,6 @@ spring:
         auto-index-creation: true
     messages:
         basename: classpath:/i18n/messages
-    mvc:
-        favicon:
-            enabled: false
     thymeleaf:
         mode: HTML
     http:
@@ -39,7 +36,6 @@ spring:
 springdoc:
   swagger-ui:
     path: /api/swagger-ui.html
-    enabled: true
   api-docs:
     path: /api/api-docs
     enabled: true
@@ -78,8 +74,6 @@ management:
       mode: full
   health:
     elasticsearch:
-      enabled: false
-    refresh:
       enabled: false
     ping:
       enabled: false

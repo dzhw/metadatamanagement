@@ -21,6 +21,13 @@ spring:
         password: ${vcap.services.email.credentials.password}
     thymeleaf:
         cache: true
+        
+management:
+  metrics:
+    export:
+      cloudwatch:
+        namespace: metadatamanagement-prod
+        batch-size: 20
 
 # ===================================================================
 # Properties specific to our application

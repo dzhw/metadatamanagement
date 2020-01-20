@@ -32,7 +32,15 @@ spring:
     resources:
       static-locations:
         - file:src/main/webapp/
-        - classpath:public/
+        - classpath:public/    
+    autoconfigure:
+      exclude:
+        - org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration
+        - org.springframework.cloud.aws.autoconfigure.context.ContextCredentialsAutoConfiguration
+        - org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration
+        - org.springframework.cloud.aws.autoconfigure.context.ContextResourceLoaderAutoConfiguration
+        - org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration
+      
 logging:
     level:
       eu.dzhw.fdz.metadatamanagement: debug
