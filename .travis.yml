@@ -18,7 +18,7 @@ addons:
     - g++-7
 stages:
 - name: build
-  if: NOT branch =~ /^(development|master|test)$/
+  if: NOT branch =~ /^(development|master|test|rreitmann\/aws-deployment)$/
 - name: build and deploy
   if: branch =~ /^(development|master|test|rreitmann\/aws-deployment)$/
 - name: e2e smoketests

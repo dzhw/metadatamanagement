@@ -1,7 +1,0 @@
-[default]
-region = eu-central-1
-output = json
-
-[profile mdm]
-role_arn = arn:aws:iam::347729458675:role/Admin
-source_profile = default

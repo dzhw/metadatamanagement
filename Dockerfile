@@ -14,6 +14,6 @@ RUN apt update \
  &&  rm -rf /var/lib/apt/lists/*\
  && curl https://java-buildpack.cloudfoundry.org/jvmkill/bionic/x86_64/jvmkill-1.16.0-RELEASE.so --output /app/jvmkill.so\
  && apt remove curl -y\
- && apt autoremove -y\
+ && apt autoremove -y
 
 ENTRYPOINT ["/run.sh"]
