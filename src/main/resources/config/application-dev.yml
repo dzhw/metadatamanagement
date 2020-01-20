@@ -22,6 +22,12 @@ spring:
     thymeleaf:
         cache: true
 
+cloud:
+  aws:
+    region:
+      auto: false
+      static: eu-central-1
+
 management:
   metrics:
     export:
