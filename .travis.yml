@@ -20,7 +20,7 @@ stages:
 - name: build
   if: NOT branch =~ /^(development|master|test)$/
 - name: build and deploy
-  if: branch =~ /^(development|master|test)$/
+  if: branch =~ /^(development|master|test|rreitmann\/aws-deployment)$/
 - name: e2e smoketests
   if: type = cron
 - name: nightly e2e tests publicuser
@@ -62,7 +62,8 @@ jobs:
     - unzip -qq apache-maven-3.6.1-bin.zip
     - export M2_HOME=$PWD/apache-maven-3.6.1
     - export PATH=$M2_HOME/bin:$PATH
-    - sudo apt-get -y install python-pip python-dev --allow-unauthenticated
+    - sudo apt-get -y install python-pip python-dev jq --allow-unauthenticated
+    - pip install --user awscli
     - pip install git+https://github.com/dzhw/javasphinx.git --user
     - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd
       ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh
