@@ -27,7 +27,10 @@ cloud:
     region:
       auto: false
       static: eu-central-1
-
+    stack:
+      auto: false
+      name: metadatamanagement-dev
+      
 management:
   metrics:
     export:
