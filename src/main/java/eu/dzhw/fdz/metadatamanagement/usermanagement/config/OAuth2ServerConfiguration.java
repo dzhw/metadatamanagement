@@ -55,8 +55,8 @@ public class OAuth2ServerConfiguration {
               "/api/i18n/**", "/api/instruments/**", "/api/data-sets/**", "/api/questions/**",
               "/api/studies/**", "/api/concepts/**", "/api/study-serieses/**",
               "/api/related-publications/**", "/api/data-acquisition-projects/**/releases",
-              "/api/data-acquisition-projects/**/attachments", "/api/swagger-ui.html",
-              "/api/swagger-ui/**", "/api/api-docs")
+              "/api/data-acquisition-projects/**/attachments", "/api/swagger-ui/**",
+              "/api/swagger-ui.html", "/api/api-docs/**")
           .permitAll()
           // enable basic http for /api
           .and().authorizeRequests().antMatchers("/api/**").authenticated().and().httpBasic().and()
