@@ -32,7 +32,22 @@ spring:
       multipart:
         max-file-size: 15MB
         max-request-size: 15MB
+    autoconfigure:
+      exclude:
+        - org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration
+        - org.springframework.cloud.aws.autoconfigure.context.ContextCredentialsAutoConfiguration
+        - org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration
+        - org.springframework.cloud.aws.autoconfigure.context.ContextResourceLoaderAutoConfiguration
+        - org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration
 
+cloud:
+  aws:
+    region:
+      auto: false
+      static: eu-central-1
+    stack:
+      auto: false
+      
 springdoc:
   swagger-ui:
     path: /api/swagger-ui.html

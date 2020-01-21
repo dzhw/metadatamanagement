@@ -22,16 +22,6 @@ spring:
     thymeleaf:
         cache: true
 
-cloud:
-  aws:
-    region:
-      auto: false
-      static: eu-central-1
-    stack:
-      auto: false
-    credentials:
-      use-default-aws-credentials-chain: true
-
 management:
   metrics:
     export:

@@ -32,9 +32,6 @@ spring:
     mail:
         host: localhost
         port: 3025
-    mvc:
-        favicon:
-            enabled: false
     thymeleaf:
         mode: HTML
     autoconfigure:
