@@ -282,7 +282,7 @@
       <md-card class="mt0 mb8">
         <md-card-header>
           <md-card-header-text>
-            <h2 class="md-title">{{'survey-management.detail.response-rate-information' | translate | fdzHyphenate }}
+            <h2 class="md-title">{{'survey-management.detail.response-rate-information' | translate }}
               ({{'global.in-german' | translate}})</h2>
           </md-card-header-text>
         </md-card-header>
@@ -324,7 +324,7 @@
       <md-card class="mt0 mb8" ng-class="{'ml0': $mdMedia('gt-sm')}">
         <md-card-header>
           <md-card-header-text>
-            <h2 class="md-title">{{'survey-management.detail.response-rate-information' | translate | fdzHyphenate }}
+            <h2 class="md-title">{{'survey-management.detail.response-rate-information' | translate }}
               ({{'global.in-english' | translate}})</h2>
           </md-card-header-text>
         </md-card-header>
@@ -367,7 +367,7 @@
     <md-card class="mt0 mb8" ng-if="ctrl.survey.id">
       <md-card-header layout-align="center center">
         <md-card-header-text>
-          <h2 class="md-title">{{'survey-management.detail.attachments.table-title' | translate | fdzHyphenate}}</h2>
+          <h2 class="md-title">{{'survey-management.detail.attachments.table-title' | translate}}</h2>
         </md-card-header-text>
       </md-card-header>
       <table fdz-table ng-if="!ctrl.createMode && ctrl.attachments && ctrl.attachments.length > 0">
@@ -433,7 +433,7 @@
               </md-button>
             </td>
             <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
-            <td class="fdz-text-block" display-i18n-string="row.description" fdz-hyphenate></td>
+            <td class="fdz-text-block" display-i18n-string="row.description" ></td>
             <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>
             <td class="nowrap"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

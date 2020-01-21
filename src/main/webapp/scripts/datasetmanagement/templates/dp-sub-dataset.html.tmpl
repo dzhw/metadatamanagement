@@ -61,7 +61,7 @@
       <tbody>
       <tr ng-repeat="row in $ctrl.options.dataSet.subDataSets">
         <td class="fdz-table-nowrap">{{row.accessWay}}</td>
-        <td class="fdz-text-block" display-i18n-string="row.description" fdz-hyphenate></td>
+        <td class="fdz-text-block" display-i18n-string="row.description" ></td>
         <td class="fdz-table-nowrap">{{row.name}}&nbsp;</td>
         <td ng-class="{'fdz-table-number' : $ctrl.options.counts.variablesCount > 0}">
           <div class="fdz-truncate-string" ng-if="$ctrl.options.counts.variablesCount == 0">
