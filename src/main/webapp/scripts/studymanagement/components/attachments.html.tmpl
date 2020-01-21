@@ -30,7 +30,7 @@
         <tbody>
         <tr ng-repeat="row in $ctrl.options">
           <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
-          <td class="fdz-text-block" display-i18n-string="row.description" fdz-hyphenate></td>
+          <td class="fdz-text-block" display-i18n-string="row.description" ></td>
           <td>{{row.language | displayIsoLanguage: $ctrl.lang}}</td>
           <td class="fdz-td-filename"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

@@ -327,14 +327,14 @@ ui-view:focus {
 .fdz-theme .md-button.fdz-small {
   min-width: 36px; }
 
-.fdz-theme .fdz-hyphenate {
+.fdz-theme . {
   hyphens: manual;
   -webkit-hyphens: manual;
   -moz-hyphens: manual;
   -ms-hyphens: manual; }
 
 .fdz-theme .fdz-text-block {
-  text-align: justify; }
+  text-align: start; }
 
 .fdz-theme .fdz-multiline-property {
   white-space: pre-line; }
@@ -1740,7 +1740,7 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
     justify-content: flex-start; }
   .fdz-theme .fdz-search-result md-card-content {
     padding: 8px 0 0 0;
-    text-align: justify; }
+    text-align: start; }
     .fdz-theme .fdz-search-result md-card-content .btn-link {
       font-weight: 400;
       color: #0071bc;

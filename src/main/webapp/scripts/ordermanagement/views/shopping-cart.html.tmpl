@@ -1,8 +1,8 @@
 <div class="fdz-cc">
   <form name="customerForm">
     <div layout="row" class="mb0 fdz-shopping-cart__header" layout-margin>
-      <h1 ng-if="!ctrl.orderSaved" class="md-headline mb0">{{'shopping-cart.detail.table-title' | translate | fdzHyphenate }}</h1>
-      <h1 ng-if="ctrl.orderSaved" class="md-headline mb0">{{'shopping-cart.detail.thank-you' | translate | fdzHyphenate }}</h1>
+      <h1 ng-if="!ctrl.orderSaved" class="md-headline mb0">{{'shopping-cart.detail.table-title' | translate}}</h1>
+      <h1 ng-if="ctrl.orderSaved" class="md-headline mb0">{{'shopping-cart.detail.thank-you' | translate}}</h1>
     </div>
     <div ng-if="ctrl.initComplete" ng-repeat="product in ctrl.products" class="fdz-fade-in">
       <md-card class="fdz-search-result pb4">
@@ -58,7 +58,7 @@
           </a>
           <div ng-if="ctrl.studies[product.study.id + '-' + product.version].annotations">
             <span class="b">{{'shopping-cart.detail.label.annotations' | translate }}:&nbsp;</span>
-            <span fdz-hyphenate class="fdz-text-block fdz-multiline-property" lang="{{currentLanguage}}">{{ctrl.studies[product.study.id + '-' + product.version].annotations | displayI18nString}}</span>
+            <span  class="fdz-text-block fdz-multiline-property">{{ctrl.studies[product.study.id + '-' + product.version].annotations | displayI18nString}}</span>
           </div>
         </md-card-content>
         <md-card-actions>

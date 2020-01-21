@@ -18,7 +18,7 @@
           <a
             class="md-secondary"
             ui-sref="search({'type': 'studies', 'study-series': $ctrl.options.studySeries.{{$ctrl.lang}}})">
-            <span display-i18n-string="$ctrl.options.studySeries" fdz-hyphenate></span>
+            <span display-i18n-string="$ctrl.options.studySeries" ></span>
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'study-management.detail.tooltips.studies.study-series' | translate}}
             </md-tooltip>
@@ -49,14 +49,14 @@
           <h5>{{'study-management.detail.label.surveyDesign' | translate }}:</h5>
           <span
             class="md-secondary"
-            display-i18n-string="$ctrl.options.surveyDesign" fdz-hyphenate></span>
+            display-i18n-string="$ctrl.options.surveyDesign" ></span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.annotations">
           <h5>{{'study-management.detail.label.annotations' | translate }}:</h5>
           <span
             class="md-secondary"
             display-i18n-string="$ctrl.options.annotations"
-            fdz-hyphenate></span>
+            ></span>
         </md-list-item>
       </md-list>
     </md-card-content>
