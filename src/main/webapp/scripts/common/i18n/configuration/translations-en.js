@@ -186,7 +186,7 @@ angular.module('metadatamanagementApp').config(
         },
         'messages': {
           'info': {
-            'register': 'You don\'t have an account yet? '
+            'register': 'You are Data Provider and you don\'t have an account yet? '
           },
           'error': {
             'dontmatch': 'The password and its confirmation do not match!',
