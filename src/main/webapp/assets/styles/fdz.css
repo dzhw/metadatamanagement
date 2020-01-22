@@ -327,7 +327,7 @@ ui-view:focus {
 .fdz-theme .md-button.fdz-small {
   min-width: 36px; }
 
-.fdz-theme . {
+.fdz-theme .fdz-hyphenate {
   hyphens: manual;
   -webkit-hyphens: manual;
   -moz-hyphens: manual;

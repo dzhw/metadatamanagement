@@ -51,6 +51,7 @@ public class MongoDbConfiguration {
   private final Environment environment;
 
   private final ResourceLoader resourceLoader;
+
   /**
    * Constructor from {@link MongoAutoConfiguration}.
    */
@@ -104,6 +105,13 @@ public class MongoDbConfiguration {
     return new GridFS(mongo.getLegacyDb());
   }
 
+  /**
+   * Create the {@link MongoMappingContext} which scans only our domain objects.
+   * @param applicationContext The application context
+   * @param properties The {@link MongoProperties}
+   * @param conversions Registered converters
+   * @return the {@link MongoMappingContext}
+   */
   @Bean
   public MongoMappingContext mongoMappingContext(ApplicationContext applicationContext,
       MongoProperties properties, MongoCustomConversions conversions)
@@ -123,13 +131,8 @@ public class MongoDbConfiguration {
 
   /**
    * Scans the mapping base package for classes annotated with {@link Document}.
-   *
-   * @see #getMappingBasePackage()
-   * @return
-   * @throws ClassNotFoundException
    */
-  private Set<Class<?>> getInitialEntitySet(String... basePackages)
-      throws ClassNotFoundException {
+  private Set<Class<?>> getInitialEntitySet(String... basePackages) throws ClassNotFoundException {
 
     Set<Class<?>> initialEntitySet = new HashSet<Class<?>>();
 
