@@ -158,6 +158,7 @@ $card-border-radius: 2px !default;
 
           @include rwd(700) {
             columns: 2;
+            text-align: justify;
           }
         }
       }

@@ -55,7 +55,7 @@ angular.module('metadatamanagementApp').config(
         },
         'login': {
           'login': 'Anmelden',
-          'title': 'Anmeldung',
+          'title': 'Anmeldung für Datengeber/-innen',
           'form': {
             'password': 'Passwort',
             'password-placeholder': 'Ihr Passwort',
@@ -85,7 +85,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'register': {
-          'title': 'Registrierung',
+          'title': 'Registrierung für Datengeber/-innen',
           'form': {
             'button': 'Registrieren'
           },
