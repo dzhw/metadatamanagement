@@ -2104,7 +2104,8 @@ md-input-container label {
   margin-bottom: 0; }
   @media (min-width: 700px) {
     .fdz-theme .fdz-detail md-card md-card-content > p {
-      columns: 2; } }
+      columns: 2;
+      text-align: justify; } }
 
 .fdz-theme survey-search-result md-card-content > div > div,
 .fdz-theme dataset-search-result md-card-content > div > div {
