@@ -186,7 +186,7 @@ angular.module('metadatamanagementApp').config(
         },
         'messages': {
           'info': {
-            'register': 'Sie haben noch keinen Zugang? '
+            'register': 'Sie sind Datengeber/-in und haben noch keinen Zugang? '
           },
           'error': {
             'dontmatch': 'Das bestätigte Passwort entspricht nicht dem neuen Passwort!',
