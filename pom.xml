@@ -545,7 +545,7 @@
                     </rules>
                 </configuration>
             </plugin>
-            <!-- PMD analysis may fail the build -->
+            <!-- PMD analysis may fail the build
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
@@ -563,7 +563,7 @@
                 <configuration>
                     <linkXRef>false</linkXRef>
                 </configuration>
-            </plugin>
+            </plugin> -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
