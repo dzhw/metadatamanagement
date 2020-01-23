@@ -1,4 +1,4 @@
-FROM openjdk:11.0.5-jre-slim
+FROM openjdk:13.0.2-jre-slim
 
 MAINTAINER René Reitmann <reitmann@dzhw.eu>
 
