@@ -3,7 +3,7 @@ language: java
 os:
 - linux
 jdk:
-- openjdk11
+- openjdk13
 python:
 - '2.7'
 cache:
