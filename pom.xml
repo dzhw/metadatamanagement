@@ -52,13 +52,13 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
-        <dependency>
+        <!-- dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs</artifactId>
             <version>3.1.12</version>
             <scope>provided</scope>
             <optional>true</optional>
-        </dependency>
+        </dependency -->
         <dependency>
             <groupId>com.github.zafarkhaja</groupId>
             <artifactId>java-semver</artifactId>
@@ -443,7 +443,7 @@
                     <expandEmptyElements>false</expandEmptyElements>
                 </configuration>
             </plugin>
-            <!-- spotbugs and fail the build -->
+            <!-- spotbugs and fail the build
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
@@ -463,7 +463,7 @@
                     <xmlOutput>true</xmlOutput>
                     <excludeFilterFile>buildconfig/spotbugs-exclude.xml</excludeFilterFile>
                 </configuration>
-            </plugin>
+            </plugin> -->
             <plugin>
                 <groupId>com.mysema.maven</groupId>
                 <artifactId>apt-maven-plugin</artifactId>
