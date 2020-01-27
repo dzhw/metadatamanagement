@@ -50,9 +50,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation ValidSurveyDesign
 
-.. java:import:: io.searchbox.annotations JestId
-
-.. java:import:: io.swagger.annotations ApiModel
+.. java:import:: io.swagger.v3.oas.annotations.media Schema
 
 .. java:import:: lombok AccessLevel
 
@@ -76,7 +74,7 @@ Study
 .. java:package:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @ValidStudyId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel @ValidShadowId public class Study extends AbstractShadowableRdcDomainObject implements StudySubDocumentProjection
+.. java:type:: @Entity @Document @ValidStudyId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @Schema @ValidShadowId public class Study extends AbstractShadowableRdcDomainObject implements StudySubDocumentProjection
 
    A study contains all metadata of a \ :java:ref:`DataAcquisitionProject`\ . It will get a DOI (Digital Object Identifier) when the \ :java:ref:`DataAcquisitionProject`\  is released.
 
@@ -125,7 +123,7 @@ description
 id
 ^^
 
-.. java:field:: @Id @JestId @Setter @NotEmpty private String id
+.. java:field:: @Id @Setter @NotEmpty private String id
    :outertype: Study
 
    The id of the study which uniquely identifies the study in this application.

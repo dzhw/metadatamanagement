@@ -29,8 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySub
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidDataAvailability;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidStudyId;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidSurveyDesign;
-import io.searchbox.annotations.JestId;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,7 +52,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-@ApiModel(
+@Schema(
     description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
         + "fdz/metadatamanagement/studymanagement/domain/Study.html'>here</a> for further details.")
 @ValidShadowId(message = "study-management.error.study.id.pattern")
@@ -65,7 +64,6 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
    * The id of the study which uniquely identifies the study in this application.
    */
   @Id
-  @JestId
   @Setter(AccessLevel.NONE)
   @NotEmpty(message = "study-management.error.study.id.not-empty")
   private String id;
@@ -124,10 +122,10 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
    */
   @NotEmpty(message = "study-management.error.study.institutions.not-null")
   private List<
-      @I18nStringSize(max = StringLengths.MEDIUM, 
+      @I18nStringSize(max = StringLengths.MEDIUM,
         message = "study-management.error.study.institution.i18n-string-size") 
       @I18nStringEntireNotEmpty(
-        message = "study-management.error.study.institution.i18n-string-entire-not-empty") 
+        message = "study-management.error.study.institution.i18n-string-entire-not-empty")
       I18nString> institutions;
 
   /**

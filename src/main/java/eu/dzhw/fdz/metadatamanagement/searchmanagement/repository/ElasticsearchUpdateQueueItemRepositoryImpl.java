@@ -48,7 +48,7 @@ public class ElasticsearchUpdateQueueItemRepositoryImpl
         .is(updateStartedBy),
         Criteria.where("updateStartedAt")
           .is(updateStartedAt))).limit(BULK_SIZE)
-            .with(new Sort(Direction.ASC, "createdDate"));
+            .with(Sort.by(Direction.ASC, "createdDate"));
     return mongoOperations.find(query, ElasticsearchUpdateQueueItem.class);
   }
 
@@ -70,7 +70,7 @@ public class ElasticsearchUpdateQueueItemRepositoryImpl
         Criteria.where("updateStartedBy").is(updateStartedBy),
         Criteria.where("updateStartedAt").is(updateStartedAt),
         Criteria.where("documentType").is(type))).limit(BULK_SIZE)
-            .with(new Sort(Direction.ASC, "createdDate"));
+            .with(Sort.by(Direction.ASC, "createdDate"));
     return mongoOperations.find(query, ElasticsearchUpdateQueueItem.class);
   }
 

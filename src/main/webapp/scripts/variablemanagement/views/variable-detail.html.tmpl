@@ -1,576 +1,75 @@
-<div ng-if="variable.id">
+<div ng-if="ctrl.variable.id">
   <previous-search-result bowser="bowser" current-language="currentLanguage"></previous-search-result>
   <next-search-result bowser="bowser" current-language="currentLanguage"></next-search-result>
   <div class="fdz-cc">
-    <div layout="row" layout-margin style="margin-bottom: 0px;">
-      <h1 class="md-headline"><span display-i18n-string="variable.label" fdz-hyphenate></span>
-        <span class="label label-as-badge label-default">{{variable.masterId}}</span></h1>
-      <json-content-dialog class="mb0" content="variable" exclude-fields="jsonExcludes"
-                           header-title="variable.label" ng-if="enableJsonView"></json-content-dialog>
-    </div>
-    <div layout="column" layout-gt-sm="row">
-      <div flex-gt-sm="50" layout="column">
-        <md-card flex="auto">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-card-content>
-            <div class="fdz-add-bottom-margin" ng-if="variable.name">
-              <span style="font-weight: bold;">{{'variable-management.detail.label.name' | translate }}:</span>
-              <span>{{variable.name}}</span>
-            </div>
-            <div class="fdz-add-bottom-margin" ng-if="variable.label">
-              <span style="font-weight: bold;">{{'variable-management.detail.label.label' | translate }}:</span>
-              <span display-i18n-string="variable.label" fdz-hyphenate></span>
-            </div>
-            <div class="fdz-add-bottom-margin" ng-if="variable.dataType">
-              <span style="font-weight: bold;">{{'variable-management.detail.label.data-type' | translate }}:</span>
-              <span display-i18n-string="variable.dataType"></span>
-            </div>
-            <div class="fdz-add-bottom-margin" ng-if="variable.scaleLevel">
-              <span style="font-weight: bold;">{{'variable-management.detail.label.scale-level' | translate }}:</span>
-              <span display-i18n-string="variable.scaleLevel"></span>
-            </div>
-            <div class="fdz-add-bottom-margin" ng-if="variable.accessWays">
-              <span style="font-weight: bold;">{{'variable-management.detail.label.access-ways' | translate }}:</span>
-              <span>{{variable.accessWays.join(', ')}}</span>
-            </div>
-            <div class="fdz-add-bottom-margin fdz-text-block" ng-if="variable.annotations">
-              <span style="font-weight: bold;">{{'variable-management.detail.label.annotations' | translate }}:</span>
-              <span class="fdz-multiline-property" display-i18n-string="variable.annotations" fdz-hyphenate></span>
-            </div>
-            <div class="fdz-add-bottom-margin fdz-text-block" ng-if="variable.filterDetails.description">
-              <span
-                style="font-weight: bold;">{{'variable-management.detail.label.filter-description' | translate }}:</span>
-              <span class="fdz-multiline-property" display-i18n-string="variable.filterDetails.description"
-                    fdz-hyphenate></span>
-            </div>
-            <div ng-if="variable.filterDetails">
-              <span style="font-weight: bold;">{{'variable-management.detail.label.input-filter' | translate }} ({{variable.filterDetails.expressionLanguage}}):</span>
-              <div class="fdz-overlay-outer-box">
-                <div class="fdz-code-container"
-                     create-variable-links="{currentLanguage: currentLanguage, currentVariable: variable}"
-                     hljs hljs-language="{{variable.filterDetails.expressionLanguage}}"
-                     hljs-source="variable.filterDetails.expression"
-                     ng-class="{'fdz-hidden-code': filterDetailsCodeToggleFlag}"
-                     style="margin-top: 0.5em;"></div>
-                <div class="fdz-overlay-inner-box-top">
-                  <md-button
-                    class="md-icon-button md-primary"
-                    data-clipboard-text="{{variable.filterDetails.expression}}"
-                    ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.filter-details-success-copy-to-clipboard')"
-                    ngclipboard>
-                    <md-icon md-font-library="material-icons">content_copy</md-icon>
-                    <md-tooltip md-autohide="true" md-direction="top"
-                                md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                      {{'variable-management.detail.copy-complete-input-filter-tooltip' | translate}}
-                    </md-tooltip>
-                  </md-button>
-                  <md-button class="md-icon-button md-primary" ng-click="toggleFilterDetailsCode()">
-                    <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg"
-                             ng-if="filterDetailsCodeToggleFlag"></md-icon>
-                    <md-icon md-svg-src="/assets/images/icons/arrow-compress.svg"
-                             ng-if="!filterDetailsCodeToggleFlag"></md-icon>
-                    <md-tooltip md-autohide="true" md-direction="top"
-                                md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                      {{'variable-management.detail.show-complete-input-filter-tooltip.' + filterDetailsCodeToggleFlag |
-                      translate }}
-                    </md-tooltip>
-                  </md-button>
-                </div>
-              </div>
-            </div>
-          </md-card-content>
-        </md-card>
-      </div>
-      <div flex-gt-sm="50" layout="column">
-        <md-card flex="auto"
-                 ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm'), 'fdz-reset-top-margin': $mdMedia('sm') || $mdMedia('xs')}">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'global.cards.related-objects' | translate }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-card-content layout="column">
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="!study">
-                <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                {{'study-management.detail.label.study' | translate }}: {{'global.messages.error.unavailable' |
-                translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="study">
-                <a ui-sref="studyDetail({id: study.masterId, version: variable.shadow?variable.release.version:''})">
-                  <md-icon md-svg-src="/assets/images/icons/study.svg"></md-icon>
-                  {{'study-management.detail.label.study' | translate }}: <span
-                  display-i18n-string="study.title"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'variable-management.detail.tooltips.studies.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="counts.surveysCount == 1 && !survey">
-                <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                {{'survey-management.detail.label.surveys' | translate }}: {{'global.messages.error.unavailable' |
-                translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="counts.surveysCount == 1 && survey">
-                <a
-                  ui-sref="surveyDetail({'id': survey.masterId, version: variable.shadow?variable.release.version:''})">
-                  <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                  {{'survey-management.detail.label.survey' | translate }}: <span
-                  display-i18n-string="survey.title"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'variable-management.detail.tooltips.surveys.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="counts.surveysCount > 1">
-                <a
-                  ui-sref="search({'type': 'surveys', 'variable':variable.id, 'study': variable.studyId, 'data-set': variable.dataSetId})">
-                  <md-icon md-svg-src="/assets/images/icons/survey.svg"></md-icon>
-                  {{'survey-management.detail.label.surveys' | translate }}: ({{counts.surveysCount}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'variable-management.detail.tooltips.surveys.many' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="!dataSet">
-                <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                {{'data-set-management.detail.label.data-set' | translate }}: {{'global.messages.error.unavailable' |
-                translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="dataSet">
-                <a
-                  ui-sref="dataSetDetail({id: dataSet.masterId, version: variable.shadow?variable.release.version:''})">
-                  <md-icon md-svg-src="/assets/images/icons/data-set.svg"></md-icon>
-                  {{'data-set-management.detail.label.data-set' | translate }}: <span
-                  display-i18n-string="dataSet.description"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'variable-management.detail.tooltips.data-sets.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row"
-                 ng-if="variable.relatedQuestions && variable.relatedQuestions.length > 0"
-                 style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="counts.questionsCount == 1 && !question">
-                <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                {{'question-management.detail.label.questions' | translate }}: {{'global.messages.error.unavailable' |
-                translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="counts.questionsCount == 1 && question">
-                <a
-                  ui-sref="questionDetail({'id': variable.nestedQuestions[0].masterId, version: variable.shadow?variable.release.version:''})">
-                  <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                  {{'question-management.detail.label.question' | translate }}: <span
-                  display-i18n-string="question.questionText"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'variable-management.detail.tooltips.questions.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="counts.questionsCount > 1">
-                <a
-                  ui-sref="search({'type': 'questions', 'variable':variable.id, 'study': variable.studyId, 'data-set': variable.dataSetId})">
-                  <md-icon md-svg-src="/assets/images/icons/question.svg"></md-icon>
-                  {{'question-management.detail.label.questions' | translate }}: ({{counts.questionsCount}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'variable-management.detail.tooltips.questions.many' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" ng-if="variable.panelIdentifier" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="counts.variablesInPanel === 1">
-                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                {{'variable-management.detail.label.variables-in-panel' | translate }}:
-                {{'global.messages.error.unavailable' | translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="counts.variablesInPanel > 1">
-                <a
-                  ui-sref="search({'type': 'variables', 'panel-identifier':variable.panelIdentifier, 'study': variable.studyId, 'data-set': variable.dataSetId})">
-                  <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                  {{'variable-management.detail.label.variables-in-panel' | translate }}: ({{counts.variablesInPanel}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'variable-management.detail.tooltips.variables.same-in-panel' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" ng-if="variable.derivedVariablesIdentifier" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="counts.derivedVariables === 1">
-                <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                {{'variable-management.detail.label.derived-variables' | translate }}:
-                {{'global.messages.error.unavailable' | translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="counts.derivedVariables > 1">
-                <a
-                  ui-sref="search({'type': 'variables', 'derived-variables-identifier': variable.derivedVariablesIdentifier, 'study': variable.studyId, 'data-set': variable.dataSetId})">
-                  <md-icon md-svg-src="/assets/images/icons/variable.svg"></md-icon>
-                  {{'variable-management.detail.label.derived-variables' | translate }}: ({{counts.derivedVariables}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'variable-management.detail.tooltips.variables.derived-variables' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="counts.publicationsCount == 0">
-                <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                {{'related-publication-management.detail.label.publications' | translate }}:
-                {{'global.messages.error.undocumented' | translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="counts.publicationsCount == 1">
-                <a ui-sref="relatedPublicationDetail({'id': relatedPublication.id})">
-                  <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                  {{'related-publication-management.detail.label.publication' | translate }}:
-                  {{relatedPublication.title}}
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'variable-management.detail.tooltips.publications.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="counts.publicationsCount > 1">
-                <a
-                  ui-sref="search({'type': 'related_publications', 'variable':variable.id, 'study': variable.studyId, 'data-set': variable.dataSetId})">
-                  <md-icon md-svg-src="/assets/images/icons/related-publication.svg"></md-icon>
-                  {{'related-publication-management.detail.label.publications' | translate }}:
-                  ({{counts.publicationsCount}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'variable-management.detail.tooltips.publications.many' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-            <div layout="row" style="margin-bottom: 0.5em; width: 100%;">
-              <div class="fdz-truncate-string" flex ng-if="counts.conceptsCount == 0">
-                <md-icon md-svg-src="/assets/images/icons/concept.svg"></md-icon>
-                {{'concept-management.detail.label.concepts' | translate }}: {{'global.messages.error.undocumented' |
-                translate}}
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="counts.conceptsCount == 1">
-                <a ui-sref="conceptDetail({'id': concept.id})">
-                  <md-icon md-svg-src="/assets/images/icons/concept.svg"></md-icon>
-                  {{'concept-management.detail.label.concept' | translate }}:
-                  <span display-i18n-string="concept.title"></span>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'variable-management.detail.tooltips.concepts.one' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-              <div class="fdz-truncate-string" flex ng-if="counts.conceptsCount > 1">
-                <a
-                  ui-sref="search({'type': 'concepts', 'variable':variable.id, 'study': variable.studyId, 'data-set': variable.dataSetId})">
-                  <md-icon md-svg-src="/assets/images/icons/concept.svg"></md-icon>
-                  {{'concept-management.detail.label.concepts' | translate }}: ({{counts.conceptsCount}})
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'variable-management.detail.tooltips.concepts.many' | translate}}
-                  </md-tooltip>
-                </a>
-              </div>
-            </div>
-          </md-card-content>
-        </md-card>
-      </div>
-    </div>
-    <div layout="column" layout-gt-sm="row">
-      <div flex-gt-sm="50" layout="column">
-        <md-card class="fdz-reset-top-margin" flex="auto" ng-if="isDiagramVisible()">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'variable-management.detail.statistics.graphics' | translate | fdzHyphenate }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <div id="diagramContainer">
-            <diagram language="currentLanguage" ng-cloak variable="variable"></diagram>
+    <div>
+      <div class="fdz-detail">
+        <div class="fdz-detail__header">
+          <div class="fdz-detail__header-text">
+            <h1 class="md-headline" display-i18n-string="ctrl.variable.label" ></h1>
+            <json-content-dialog class="mb0" content="ctrl.variable"
+                                 header-title="ctrl.variable.label" ng-if="ctrl.enableJsonView"></json-content-dialog>
           </div>
-        </md-card>
-      </div>
-      <div flex-gt-sm="50" layout="column">
-        <md-card class="fdz-reset-top-margin" flex="auto"
-                 ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm') && validResponsesOrMissingsAvailable }"
-                 ng-if="variable.accessWays != 'not-accessible' && variable.distribution.statistics">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'variable-management.detail.statistics.statistics' | translate | fdzHyphenate
-                }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-card-content ng-cloak="true">
-            <div>
-              <div class="fdz-add-bottom-margin" ng-if="variable.distribution.validResponses">
-                {{'variable-management.detail.label.statistics.validResponses' | translate}}:
-                {{variable.distribution.validResponses.length}}
-              </div>
-              <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.minimum != null">
-                {{'variable-management.detail.label.statistics.minimum' | translate}} <span katex>(min)</span>:
-                {{variable.distribution.statistics.minimum | formatResponse: variable}}
-              </div>
-              <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.maximum != null">
-                {{'variable-management.detail.label.statistics.maximum' | translate}} <span katex>(max)</span>:
-                {{variable.distribution.statistics.maximum | formatResponse: variable}}
-              </div>
-              <h3 ng-if="checkCentralTendencyElements()"
-                  style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;">
-                {{'variable-management.detail.label.central-tendency' | translate}}
-              </h3>
-              <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.meanValue != null">
-                {{'variable-management.detail.label.statistics.mean-value' | translate}} <span katex>(\bar x)</span>:
-                {{variable.distribution.statistics.meanValue | formatResponse: variable:true}}
-              </div>
-              <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.median != null">
-                {{'variable-management.detail.label.statistics.median' | translate}} <span katex>(\tilde x)</span>:
-                {{variable.distribution.statistics.median | formatResponse: variable}}
-              </div>
-              <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.mode != null">
-                {{'variable-management.detail.label.statistics.mode' | translate}} <span katex>(h)</span>:
-                {{variable.distribution.statistics.mode | formatResponse: variable}}
-              </div>
-              <h3 ng-if="checkDispersionElements()" style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;">
-                {{'variable-management.detail.label.dispersion' | translate}}
-              </h3>
-              <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.standardDeviation != null">
-                {{'variable-management.detail.label.statistics.standardDeviation' | translate}} <span katex>(s)</span>:
-                {{variable.distribution.statistics.standardDeviation | number:2}}
-              </div>
-              <h3 ng-if="checkDistributionElements()" style="font-size: 18px; margin-top: 1.0em; margin-bottom: 0.5em;">
-                {{'variable-management.detail.label.distribution' | translate}}
-              </h3>
-              <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.skewness != null">
-                {{'variable-management.detail.label.statistics.skewness' | translate}} <span katex>(v)</span>:
-                {{variable.distribution.statistics.skewness | number:2}}
-              </div>
-              <div class="fdz-add-bottom-margin" ng-if="variable.distribution.statistics.kurtosis != null">
-                {{'variable-management.detail.label.statistics.kurtosis' | translate}} <span katex>(w)</span>:
-                {{variable.distribution.statistics.kurtosis | number:2}}
-              </div>
-            </div>
-          </md-card-content>
-        </md-card>
-      </div>
-    </div>
-    <div layout="row" ng-if="validResponsesOrMissingsAvailable">
-      <md-card class="fdz-reset-top-margin" flex>
-        <md-card-header class="fdz-card-header-with-button" layout-align="center center">
-          <md-card-header-text>
-            <h2 class="md-title">{{'variable-management.detail.frequencies' | translate | fdzHyphenate }}</h2>
-          </md-card-header-text>
-          <md-button
-            class="md-fab md-mini md-primary"
-            ng-click="toggleAllRowsVisible()"
-            ng-disabled="!variable.distribution.validResponses || variable.distribution.validResponses.length <= 10">
-            <md-tooltip
-              md-autohide="true"
-              md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001"
-              ng-hide="!variable.distribution.validResponses || variable.distribution.validResponses.length <= 10">
-              {{'variable-management.detail.show-complete-distribution-tooltip.' + notAllRowsVisible | translate }}
-            </md-tooltip>
-            <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg" ng-if="notAllRowsVisible"></md-icon>
-            <md-icon md-svg-src="/assets/images/icons/arrow-compress.svg" ng-if="!notAllRowsVisible"></md-icon>
-          </md-button>
-        </md-card-header>
-        <table fdz-table>
-          <thead>
-          <tr>
-            <th>{{'variable-management.detail.label.statistics.value' | translate }}
-              <md-tooltip hide-gt-xs md-direction="right">
-                {{'variable-management.detail.label.statistics.value' | translate }}
-              </md-tooltip>
-            </th>
-            <th class="fdz-table-absorbing-column">{{'variable-management.detail.label.statistics.label' | translate }}
-              <md-tooltip hide-gt-xs md-direction="right">
-                {{'variable-management.detail.label.statistics.label' | translate }}
-              </md-tooltip>
-            </th>
-            <th>Missing
-            </th>
-            <th>{{'variable-management.detail.label.statistics.frequency' | translate }}
-              <md-tooltip hide-gt-xs md-direction="right">
-                {{'variable-management.detail.label.statistics.frequency' | translate }}
-              </md-tooltip>
-            </th>
-            <th>{{'variable-management.detail.label.statistics.valid-percent' | translate }}
-              <md-tooltip hide-gt-xs md-direction="right">
-                {{'variable-management.detail.label.statistics.valid-percent' | translate }}
-              </md-tooltip>
-            </th>
-            <th>{{'variable-management.detail.label.statistics.percent' | translate }}
-              <md-tooltip hide-gt-xs md-direction="right">
-                {{'variable-management.detail.label.statistics.percent' | translate }}
-              </md-tooltip>
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr ng-class="{'fdz-table-last-row':$last}" ng-hide="isRowHidden($index)"
-              ng-repeat-start="row in variable.distribution.validResponses">
-            <td ng-class="{'fdz-table-number' : variable.dataType.en === 'numeric'}">{{row.value | formatResponse:
-              variable}}{{row.code | number:0}}&nbsp;
-            </td>
-            <td display-i18n-string="row.label"></td>
-            <td class="fdz-table-number">&nbsp;</td>
-            <td class="fdz-table-number">{{row.absoluteFrequency | number:0}}&nbsp;</td>
-            <td class="fdz-table-number">{{row.validRelativeFrequency | number:2}} %
-            </td>
-            <td class="fdz-table-number">{{row.relativeFrequency | number:2}} %
-            </td>
-          </tr>
-          <tr ng-click="toggleAllRowsVisible()" ng-hide="!notAllRowsVisible"
-              ng-if="$index === 4 && variable.distribution.validResponses.length > 10" ng-repeat-end>
-            <td ng-class="{'fdz-table-number' : variable.dataType.en === 'numeric'}">...</td>
-            <td>...</td>
-            <td class="fdz-table-number">...</td>
-            <td class="fdz-table-number">...&nbsp;</td>
-            <td class="fdz-table-number">...</td>
-            <td class="fdz-table-number">...</td>
-          </tr>
-          <tr ng-if="variable.distribution.validResponses.length > 0">
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td class="fdz-table-total-number">{{variable.distribution.totalValidAbsoluteFrequency | number:0}}&nbsp;
-            </td>
-            <td class="fdz-table-total-number">100 %</td>
-            <td class="fdz-table-total-number">{{variable.distribution.totalValidRelativeFrequency | number:2}} %
-            </td>
-          </tr>
-          <tr ng-class="{'fdz-table-last-row':$last}" ng-repeat="row in variable.distribution.missings">
-            <td ng-class="{'fdz-table-number' : variable.dataType.en === 'numeric'}">{{row.code}}&nbsp;</td>
-            <td display-i18n-string="row.label"></td>
-            <td class="fdz-table-number">m</td>
-            <td class="fdz-table-number">{{row.absoluteFrequency | number:0}}&nbsp;</td>
-            <td class="fdz-table-number">&nbsp;</td>
-            <td class="fdz-table-number">{{row.relativeFrequency | number:2}} %
-            </td>
-          </tr>
-          <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td class="fdz-table-total-number">{{variable.distribution.totalAbsoluteFrequency | number:0}}&nbsp;</td>
-            <td class="fdz-table-total-number">&nbsp;</td>
-            <td class="fdz-table-total-number">100 %</td>
-          </tr>
-          </tbody>
-        </table>
-      </md-card>
-    </div>
-    <div layout="row" ng-if="variable.generationDetails">
-      <md-card class="fdz-reset-top-margin" flex>
-        <md-card-header layout-align="center center">
-          <md-card-header-text>
-            <h2 class="md-title">{{'variable-management.detail.label.generation-details' | translate | fdzHyphenate
-              }}</h2>
-          </md-card-header-text>
-        </md-card-header>
+        </div>
         <md-divider></md-divider>
-        <md-card-content>
-          <div class="fdz-add-bottom-margin fdz-text-block">
-                    <span style="font-weight: bold;">{{'variable-management.detail.label.generation-details-description' | translate }}:
-                    </span>
-            <span class="fdz-multiline-property" display-i18n-string="variable.generationDetails.description"
-                  fdz-hyphenate></span>
-          </div>
-          <div ng-if="variable.generationDetails.rule">
-                    <span style="font-weight: bold; margin-right:0px;">{{'variable-management.detail.label.generation-details-rule' | translate }}
-                        ({{variable.generationDetails.ruleExpressionLanguage}}):
-                    </span>
-            <div class="fdz-overlay-outer-box">
-              <div class="fdz-code-container"
-                   create-variable-links="{currentLanguage: currentLanguage, currentVariable: variable}"
-                   hljs hljs-language="{{variable.generationDetails.ruleExpressionLanguage}}"
-                   hljs-source="variable.generationDetails.rule"
-                   ng-class="{'fdz-hidden-code': generationCodeToggleFlag}"
-                   style="margin-top: 0.5em;"></div>
-              <div class="fdz-overlay-inner-box-top">
-                <md-button
-                  class="md-icon-button md-primary"
-                  data-clipboard-text="{{variable.generationDetails.rule}}"
-                  ng-click="openSuccessCopyToClipboardToast('variable-management.log-messages.variable.generation-details-rule-success-copy-to-clipboard')"
-                  ngclipboard>
-                  <md-icon md-font-library="material-icons">content_copy</md-icon>
-                  <md-tooltip md-autohide="true" md-direction="top"
-                              md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'variable-management.detail.copy-complete-rule-tooltip' | translate}}
-                  </md-tooltip>
-                </md-button>
-                <md-button class="md-icon-button md-primary" ng-click="toggleGenerationCode()">
-                  <md-icon md-svg-src="/assets/images/icons/arrow-expand.svg"
-                           ng-if="generationCodeToggleFlag"></md-icon>
-                  <md-icon md-svg-src="/assets/images/icons/arrow-compress.svg"
-                           ng-if="!generationCodeToggleFlag"></md-icon>
-                  <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'variable-management.detail.show-complete-rule-tooltip.' + generationCodeToggleFlag | translate }}
-                  </md-tooltip>
-                </md-button>
-              </div>
-            </div>
-          </div>
-        </md-card-content>
-      </md-card>
-    </div>
-    <div layout="column" layout-gt-sm="row">
-      <div flex-gt-sm="50" layout="column">
-        <md-card class="fdz-reset-top-margin" flex="auto">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'variable-management.detail.previous-variable-in-data-set' | translate |
-                fdzHyphenate }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-content style="background-color:white;">
-            <div ng-repeat="previous in previousVariables" style="width: 100%;">
-              <variable-search-result bowser="bowser" current-language="currentLanguage"
-                                      search-result="previous._source"></variable-search-result>
-            </div>
-            <div layout="row" layout-align="center center" layout-padding ng-if="previousVariables.length == 0">
-              {{'variable-management.detail.no-previous-variable' | translate}}
-            </div>
-          </md-content>
-        </md-card>
-      </div>
-      <div flex-gt-sm="50" layout="column">
-        <md-card class="fdz-reset-top-margin" flex="auto" ng-class="{'fdz-reset-left-margin': $mdMedia('gt-sm')}">
-          <md-card-header>
-            <md-card-header-text>
-              <h2 class="md-title">{{'variable-management.detail.next-variable-in-data-set' | translate | fdzHyphenate
-                }}</h2>
-            </md-card-header-text>
-          </md-card-header>
-          <md-divider></md-divider>
-          <md-content style="background-color:white;">
-            <div ng-repeat="next in nextVariables" style="width: 100%;">
-              <variable-search-result bowser="bowser" current-language="currentLanguage"
-                                      search-result="next._source"></variable-search-result>
-            </div>
-            <div layout="row" layout-align="center center" layout-padding ng-if="nextVariables.length == 0">
-              {{'variable-management.detail.no-next-variable' | translate }}
-            </div>
-          </md-content>
-        </md-card>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl"
+          template-url="scripts/variablemanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+        <md-divider
+          ng-if="ctrl.isDiagramVisible()"></md-divider>
+        <fdz-detail
+          ng-if="ctrl.isDiagramVisible()"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.variable"
+          template-url="scripts/variablemanagement/templates/dp-statistic.html.tmpl"></fdz-detail>
+        <md-divider
+          ng-if="ctrl.variable.accessWays != 'not-accessible' && ctrl.variable.distribution.statistics"></md-divider>
+        <fdz-detail
+          ng-if="ctrl.variable.accessWays != 'not-accessible' && ctrl.variable.distribution.statistics"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl"
+          template-url="scripts/variablemanagement/templates/dp-metric.html.tmpl"></fdz-detail>
+        <md-divider
+          ng-if="ctrl.validResponsesOrMissingsAvailable"></md-divider>
+        <fdz-detail
+          ng-if="ctrl.validResponsesOrMissingsAvailable"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl"
+          template-url="scripts/variablemanagement/templates/dp-frequencies.html.tmpl"></fdz-detail>
+        <md-divider
+          ng-if="ctrl.variable.generationDetails"></md-divider>
+        <fdz-detail
+          ng-if="ctrl.variable.generationDetails"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl"
+          template-url="scripts/variablemanagement/templates/dp-generation.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.previousVariables"
+          template-url="scripts/variablemanagement/templates/dp-prev.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-detail
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.nextVariables"
+          template-url="scripts/variablemanagement/templates/dp-next.html.tmpl"></fdz-detail>
+        <md-divider></md-divider>
+        <fdz-related-objects
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl.counts"
+          id="ctrl.variable.id"
+          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
       </div>
     </div>
-
   </div>
-  <div class="fdz-fab-button-container" layout="column">
-    <md-button class="md-fab md-raised md-accent" ng-click="addToShoppingCart($event)"
-               ng-if="!isAuthenticated() || hasAuthority('ROLE_USER')">
-      <md-tooltip md-autohide="true" md-direction="left" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'shopping-cart.buttons.add-study-tooltip' | translate}}
-      </md-tooltip>
-      <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
-    </md-button>
-  </div>
+</div>
 </div>

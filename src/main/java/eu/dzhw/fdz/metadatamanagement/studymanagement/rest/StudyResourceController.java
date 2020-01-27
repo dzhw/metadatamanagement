@@ -17,8 +17,8 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceCon
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Study REST Controller which overrides default spring data rest methods.
@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
  * @author René Reitmann
  */
 @RepositoryRestController
-@Api(value = "Study Resource", description = "Endpoints used by the MDM to manage studies.")
+@Tag(name = "Study Resource", description = "Endpoints used by the MDM to manage studies.")
 @RequestMapping("/api")
 public class StudyResourceController
     extends GenericDomainObjectResourceController<Study, CrudService<Study>> {
@@ -37,7 +37,7 @@ public class StudyResourceController
   }
 
   @Override
-  @ApiOperation("Get the study. Public users will get the latest version of the study."
+  @Operation(summary = "Get the study. Public users will get the latest version of the study."
       + " If the id is postfixed with the version number it will return exactly the "
       + "requested version, if available.")
   @GetMapping(value = "/studies/{id:.+}")

@@ -197,7 +197,7 @@ public class ConceptResourceControllerTest extends AbstractTest {
     conceptRepository.save(concept);
 
     elasticsearchAdminService.recreateAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
 
     mockMvc.perform(get(API_CONCEPT_URI + "/" + concept.getId())).andExpect(status().isOk())
         .andExpect(jsonPath("$.completeTitle").exists());

@@ -60,7 +60,7 @@ public class DaraUpdateQueueItemRepositoryImpl implements DaraUpdateQueueItemRep
         .is(updateStartedBy),
         Criteria.where("updateStartedAt")
           .is(updateStartedAt))).limit(BULK_SIZE)
-            .with(new Sort(Direction.ASC, "createdDate"));
+            .with(Sort.by(Direction.ASC, "createdDate"));
     return mongoOperations.find(query, DaraUpdateQueueItem.class);
   }  
   

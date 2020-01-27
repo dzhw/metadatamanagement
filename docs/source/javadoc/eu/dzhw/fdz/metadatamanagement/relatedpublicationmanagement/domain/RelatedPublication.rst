@@ -48,8 +48,6 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation VariableExists
 
-.. java:import:: io.searchbox.annotations JestId
-
 .. java:import:: lombok AllArgsConstructor
 
 .. java:import:: lombok Builder
@@ -111,7 +109,7 @@ doi
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Size @Pattern private String id
+.. java:field:: @Id @NotEmpty @Size @Pattern private String id
    :outertype: RelatedPublication
 
 instrumentIds

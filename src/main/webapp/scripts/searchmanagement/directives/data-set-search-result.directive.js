@@ -7,17 +7,24 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
       templateUrl: 'scripts/searchmanagement/directives/' +
         'data-set-search-result.html.tmpl',
       scope: {
+        searchQuery: '<',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
         addMargin: '=',
-        searchResultIndex: '='
+        searchResultIndex: '=',
+        setParams: '&'
       },
       controller: function($scope, CommonDialogsService, DataSetResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
         DataAcquisitionProjectResource, Principal, ProjectUpdateAccessService,
-        $state, $q) {
+        $state, $q, $timeout, $element, HighlightService) {
         $scope.projectIsCurrentlyReleased = true;
+        if ($scope.searchQuery) {
+          $timeout(function() {
+            HighlightService.apply($element[0], $scope.searchQuery);
+          });
+        }
         if (Principal
             .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           DataAcquisitionProjectResource.get({
@@ -63,7 +70,6 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
             $state.go('dataSetEdit', {id: $scope.searchResult.id});
           }
         };
-
         $scope.isLoggedIn = Principal.loginName();
       }
     };

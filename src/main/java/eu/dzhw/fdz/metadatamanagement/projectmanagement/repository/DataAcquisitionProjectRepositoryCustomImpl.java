@@ -40,7 +40,7 @@ class DataAcquisitionProjectRepositoryCustomImpl implements DataAcquisitionProje
         .regex(projectId, "i")
         .and("shadow").is(false);
 
-    Query query = query(criteria).with(new Sort(Sort.Direction.ASC, "_id"));
+    Query query = query(criteria).with(Sort.by(Sort.Direction.ASC, "_id"));
 
     return mongoTemplate.find(query, DataAcquisitionProject.class);
   }

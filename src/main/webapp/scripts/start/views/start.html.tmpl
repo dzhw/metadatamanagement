@@ -1,0 +1,32 @@
+<div class="fdz-cc ma-auto">
+  <div class="fdz-center">
+    <div class="fdz-start flex">
+      <div class="fdz-start__header">
+        <div class="fdz-start__header-text">
+          <h1 class="md-headline">{{'start.data-search' | translate}}</h1>
+        </div>
+      </div>
+      <div class="fdz-start__content" data-translate="start.fdz-text"></div>
+      <fdz-search-detail></fdz-search-detail>
+      <div class="fdz-start__header">
+        <div class="fdz-start__header-text">
+          <h2 class="md-headline">{{'start.image-title' | translate}}</h1>
+        </div>
+      </div>
+      <div class="fdz-start__images">
+        <a ui-sref="search({'study-series': '{{socialSurvey[lang]}}'})" class="fdz-image social-survey">
+          <div class="md-title fdz-image-text">{{socialSurvey[lang] | fdzHyphenate}}</div>
+        </a>
+        <a ui-sref="search({'study-series': '{{graduateSurvey[lang]}}'})" class="fdz-image">
+          <div class="md-title fdz-image-text">{{graduateSurvey[lang] | fdzHyphenate}}</div>
+        </a>
+        <a ui-sref="search({'study-series': '{{schoolSurvey[lang]}}'})" class="fdz-image school-leavers">
+          <div class="md-title fdz-image-text">{{schoolSurvey[lang] | fdzHyphenate}}</div>
+        </a>
+      </div>
+      <div class="fdz-link">
+        <a ui-sref="search">{{'start.show-all' | translate}}</a>
+      </div>
+    </div>
+  </div>
+</div>

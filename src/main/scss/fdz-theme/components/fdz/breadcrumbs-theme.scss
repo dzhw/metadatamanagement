@@ -1,0 +1,18 @@
+fdz-breadcrumbs {
+  display: flex;
+  justify-content: center;
+  flex: 0 0 auto;
+  & > * {
+    max-width: $content-width;
+  }
+}
+.fdz-breadcrumbs {
+  display: flex;
+  margin: 8px 8px 8px 8px;
+  width: 100%;
+
+  @include rwd(600) {
+    margin-left: 16px;
+    margin: 16px 8px 16px 16px;
+  }
+}

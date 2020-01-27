@@ -15,7 +15,7 @@ addons:
     sources:
     - ubuntu-toolchain-r-test
     packages:
-    - g++-4.9
+    - g++-7
 stages:
 - name: build
   if: NOT branch =~ /^(development|master|test)$/
@@ -34,7 +34,7 @@ jobs:
   - stage: build
     name: Client & Server Build
     install:
-    - export CXX=g++-4.9
+    - export CXX=g++-7
     - export NODE_OPTIONS=--max-old-space-size=4096
     - export MAVEN_OPTS=-Dorg.slf4j.simpleLogger.log.pl.project13.maven.git=WARN
     - wget https://archive.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.zip
@@ -55,7 +55,7 @@ jobs:
   - stage: build and deploy
     name: Build and Deploy to PWS
     install:
-    - export CXX=g++-4.9
+    - export CXX=g++-7
     - export NODE_OPTIONS=--max-old-space-size=4096
     - export MAVEN_OPTS=-Dorg.slf4j.simpleLogger.log.pl.project13.maven.git=WARN
     - wget https://archive.apache.org/dist/maven/maven-3/3.6.1/binaries/apache-maven-3.6.1-bin.zip

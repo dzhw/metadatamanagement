@@ -7,7 +7,8 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('conceptDetail', {
         parent: 'site',
-        url: '/concepts/{id}',
+        url: '/concepts/{id}?{version}{query}{page}{size}',
+        reloadOnSearch: false,
         data: {
           authorities: []
         },
@@ -25,7 +26,10 @@ angular.module('metadatamanagementApp')
         resolve: {
           entity: ['$stateParams', 'ConceptSearchService',
             function($stateParams, ConceptSearchService) {
-              return ConceptSearchService.findOneById($stateParams.id);
+              var excludedAttributes = ['nested*', 'studies', 'dataSets',
+                'surveys','variables','questions', 'instruments'];
+              return ConceptSearchService.findOneById($stateParams.id, null,
+                excludedAttributes);
             }
           ]
         }

@@ -14,6 +14,23 @@ angular.module('metadatamanagementApp').config(
         'in-german': 'auf Deutsch',
         'in': 'auf',
         'in-english': 'auf Englisch',
+        'more': 'mehr',
+        'less': 'weniger',
+        'collapsed': 'Eingeklappt',
+        'uncollapsed': 'Ausgeklappt',
+        'search-component': {
+          'search': 'Suchen',
+          'delete': 'Löschen'
+        },
+        'filter': {
+          'clear-filter': 'Filter löschen',
+          'sponsors': 'Sponsoren',
+          'institutions': 'Institutionen',
+          'tags': 'Schlagwörter',
+          'study-series': 'Studienreihen',
+          'survey-data-types': 'Erhebungsdatentyp',
+          'unavailable': 'Nicht vorhanden'
+        },
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {
@@ -91,6 +108,7 @@ angular.module('metadatamanagementApp').config(
             'question': 'Klicken, um die Frage {{param}} anzuzeigen',
             'variable': 'Klicken, um die Variable {{param}} anzuzeigen',
             'study': 'Klicken, um die Studie {{param}} anzuzeigen',
+            'data-packet': 'Klicken, um das Datenpaket {{param}} anzuzeigen',
             'instrument': 'Klicken, um das Instrument {{param}} anzuzeigen',
             'publication': 'Klicken, um die Publikation {{param}} anzuzeigen',
             'concept': 'Klicken, um das Konzept {{param}} anzuzeigen'
@@ -146,6 +164,7 @@ angular.module('metadatamanagementApp').config(
           'skip-navigation': 'Zum Inhalt springen',
           'skip-navigation-tooltip': 'Klicken zum Überspringen des Menüs',
           'back-to-search': 'Klicken, um zur Suche zu gelangen',
+          'back-to-start': 'Klicken, um zur Startseite zu gelangen',
           'language': 'Sprache',
           'data-access': 'Datenzugang',
           'disclosure': 'Impressum',
@@ -167,7 +186,7 @@ angular.module('metadatamanagementApp').config(
         },
         'messages': {
           'info': {
-            'register': 'Sie haben noch keinen Zugang? '
+            'register': 'Sie sind Datengeber/-in und haben noch keinen Zugang? '
           },
           'error': {
             'dontmatch': 'Das bestätigte Passwort entspricht nicht dem neuen Passwort!',

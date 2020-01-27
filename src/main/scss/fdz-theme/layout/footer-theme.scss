@@ -1,0 +1,27 @@
+.fdz-footer {
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.57);
+
+  & a {
+    color: rgba(0, 0, 0, 0.57);
+    padding: 8px;
+  }
+
+  .fdz-footer__link {
+    width: 100%;
+
+    @include rwd(570) {
+      width: auto;
+      display: inline-flex;
+    }
+  }
+
+  & .logo {
+    .dzhw,
+    .bmbf {
+      height: auto;
+      width: 120px;
+      margin: 0 16px
+    }
+  }
+}

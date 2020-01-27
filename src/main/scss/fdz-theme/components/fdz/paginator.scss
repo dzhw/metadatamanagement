@@ -1,0 +1,34 @@
+.fdz-theme {
+  fdz-paginator {
+    width: 100%;
+    margin: -8px 8px;
+    @include rwd(600) {
+      padding: 0 8px;
+    }
+    @include rwd(959) {
+      padding: 0 16px;
+    }
+
+    .fdz-paginator__container {
+      margin: 0;
+    }
+
+    .fdz-paginator__container md-input-container {
+      //padding: 0;
+    }
+
+    .fdz-paginator__container .fdz-paginator__container:first-child {
+      display: none;
+    }
+
+    @include rwd(400) {
+      .fdz-paginator__container .fdz-paginator__container:first-child {
+        display: flex;
+      }
+    }
+
+    .fdz-paginator__select {
+      margin-bottom: 2px;
+    }
+  }
+}

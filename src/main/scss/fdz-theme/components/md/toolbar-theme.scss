@@ -1,0 +1,80 @@
+.fdz-theme md-toolbar:not(.md-menu-toolbar) {
+  background-color: $primary-color;
+  color: $primary-contrast;
+  z-index: 30;
+  & .md-button {
+    margin: 0;
+    @include rwd(320) {
+      margin: unset;
+    }
+  }
+  md-icon {
+    color: $primary-contrast;
+    fill: $primary-contrast;
+  }
+
+  .md-button[disabled] md-icon {
+    color: $primary-contrast-026;
+    fill: $primary-contrast-026;
+  }
+
+  &.md-accent {
+    background-color: $accent-color;
+    color: $accent-contrast;
+
+    .md-ink-ripple {
+      color: $accent-contrast;
+    }
+
+    md-icon {
+      color: $accent-contrast;
+      fill: $accent-contrast;
+    }
+
+    .md-button[disabled] md-icon {
+      color: $primary-contrast-026;
+      fill: $primary-contrast-026;
+    }
+  }
+
+  &.md-warn {
+    background-color: $warn-color;
+    color: $warn-contrast;
+  }
+}
+
+// START LOGO
+.fdz-logo {
+  padding: 10px 10px 10px 0;
+  margin: 0;
+  @include rwd(320) {
+    margin: unset;
+  }
+}
+
+.fdz-logo:hover,
+.fdz-logo:active {
+  background-color: rgba(0, 0, 0, 0)!important;
+}
+
+.fdz-logo > img {
+  //display: none;
+  margin-top: 15px;
+  height: 35px;
+  @include rwd(375) {
+    display: block;
+  }
+  @include rwd(959) {
+    display: block;
+    height: 50px;
+  }
+}
+// END LOGO
+
+.fdz-theme .md-toolbar-tools{
+  justify-content: space-between;
+  padding:0;
+  @include rwd(375) {
+    padding: 0 8px;
+  }
+}

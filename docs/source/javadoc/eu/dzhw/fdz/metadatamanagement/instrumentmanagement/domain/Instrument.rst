@@ -50,8 +50,6 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain Survey
 
-.. java:import:: io.searchbox.annotations JestId
-
 .. java:import:: lombok AccessLevel
 
 .. java:import:: lombok AllArgsConstructor
@@ -115,7 +113,7 @@ description
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Setter private String id
+.. java:field:: @Id @NotEmpty @Setter private String id
    :outertype: Instrument
 
    The id of the instrument which uniquely identifies the instrument in this application.

@@ -92,7 +92,7 @@ public class ConceptAttachmentService {
     Query query = new Query(GridFsCriteria.whereFilename()
         .regex("^" + Pattern.quote(
             ConceptAttachmentFilenameBuilder.buildFileNamePrefix(conceptId))));
-    query.with(new Sort(Sort.Direction.ASC, "metadata.indexInConcept"));
+    query.with(Sort.by(Sort.Direction.ASC, "metadata.indexInConcept"));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<ConceptAttachmentMetadata> result = new ArrayList<>();
     files.forEach(gridfsFile -> {

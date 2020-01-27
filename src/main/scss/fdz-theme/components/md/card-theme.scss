@@ -1,0 +1,84 @@
+$card-border-radius: 2px !default;
+
+.fdz-theme md-card {
+  position: relative;
+  padding: 8px;
+  margin: 8px 0;
+  color: $foreground-1;
+  background-color: $background-hue-1;
+  border-radius: $card-border-radius;
+
+  @include rwd(600) {
+    padding: 16px;
+  }
+  @include rwd(959) {
+    margin: 8px;
+  }
+
+  md-card-header {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    md-card-header-text {
+      display: flex;
+      justify-content: center;
+      .md-subhead {
+        color: $foreground-3-038;
+      }
+    }
+  }
+  md-card-header:focus {
+    outline: none;
+  }
+  .md-card-collapsible-button {
+    min-width: 24px;
+    min-height: 24px;
+    line-height: 24px;
+    padding: 8px;
+    margin: auto;
+    display: inline-flex;
+    justify-content: center;
+
+    md-icon {
+      color: $primary-contrast;
+    }
+  }
+
+  md-card-title {
+    md-card-title-text {
+      &:not(:only-child) {
+        .md-subhead {
+          color: $foreground-2;
+        }
+      }
+    }
+  }
+
+  md-card-content {
+    display: block;
+    padding: 8px 0 0 0;
+
+    @include rwd(600) {
+      padding: 16px 0 0 0;
+    }
+  }
+
+  md-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+    .md-button {
+      min-width: unset;
+      margin: 0;
+    }
+  }
+}
+
+
+.fdz-theme form md-card-header-text {
+  padding-bottom: 8px;
+  @include rwd(600) {
+    padding-bottom: 16px;
+  }
+}

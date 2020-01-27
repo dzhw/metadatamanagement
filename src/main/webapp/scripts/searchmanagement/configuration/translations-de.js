@@ -21,8 +21,16 @@ angular.module('metadatamanagementApp').config(
           'delete-instruments-title': 'Alle Instrumente ersetzen?',
           'delete-instruments': 'Sind Sie sicher, dass Sie alle Instrumente innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" mit den übergebenen Daten ersetzen möchten?',
         },
+        'search-result': {
+          'dataPacketSearch': 'Suche "{{ searchQuery }}" im Datenpaket'
+        },
         'detail': {
-          'search': 'Datensuche'
+          'search': 'Datensuche',
+          'dataPacketSearch': 'Datensuche',
+          'noresult': 'Keine Suchergebnisse gefunden.',
+          'versions': 'Versionen',
+          'access-ways': 'Zugangswege',
+          'cart': 'Zur Beantragung vormerken'
         },
         'buttons': {
           'refresh-tooltip': 'Klicken, um die Suche zu aktualisieren',
@@ -73,6 +81,7 @@ angular.module('metadatamanagementApp').config(
           'surveys': 'Suchen Sie nach Erhebungen...',
           'data-sets': 'Suchen Sie nach Datensätzen...',
           'studies': 'Suchen Sie nach Studien...',
+          'data-packages': 'Suchen Sie nach Datenpakete...',
           'related-publications': 'Suchen Sie nach Publikationen...',
           'instruments': 'Suchen Sie nach Instrumenten...',
           'concepts': 'Suchen Sie nach Konzepten...'
@@ -84,6 +93,7 @@ angular.module('metadatamanagementApp').config(
           'surveys': 'Keine Erhebungen zu Ihrer Suchanfrage gefunden.',
           'data-sets': 'Keine Datensätze zu Ihrer Suchanfrage gefunden.',
           'studies': 'Keine Studien zu Ihrer Suchanfrage gefunden.',
+          'data-packages': 'Keine Datenpakete zu Ihrer Suchanfrage gefunden.',
           'related-publications': 'Keine Publikationen zu Ihrer Suchanfrage gefunden.',
           'instruments': 'Keine Instrumente zu Ihrer Suchanfrage gefunden.',
           'concepts': 'Keine Konzepte zu Ihrer Suchanfrage gefunden.',
@@ -108,6 +118,9 @@ angular.module('metadatamanagementApp').config(
           'concepts': 'Konzepte',
           'concepts-found': '{number} {number, plural, =0{Konzepte} =1{Konzept} other{Konzepte}} gefunden.',
           'concepts-tooltip': 'Klicken, um nach Konzepten zu suchen',
+          'data-packages': 'Datenpakete',
+          'data-packages-found': '{number} {number, plural, =0{Datenpakete} =1{Datenpaket} other{Datenpakete}} gefunden.',
+          'data-packages-tooltip': 'Klicken, um nach Datenpaketen zu suchen',
           'all': 'Alle',
           'all-tooltip': 'Klicken, um nach allen Objekten zu suchen',
           'related_publications': 'Publikationen',

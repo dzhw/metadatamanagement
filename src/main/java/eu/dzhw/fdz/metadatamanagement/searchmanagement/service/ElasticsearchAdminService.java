@@ -4,16 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import org.springframework.util.FileCopyUtils;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
@@ -61,8 +58,6 @@ public class ElasticsearchAdminService {
   private final ElasticsearchUpdateQueueService updateQueueService;
 
   private final ResourceLoader resourceLoader;
-  
-  private JsonParser jsonParser = new JsonParser();
 
   /**
    * Recreate the indices and all their mappings.
@@ -202,7 +197,7 @@ public class ElasticsearchAdminService {
     if (elasticsearchDao.exists(type.name())) {
       elasticsearchDao.delete(type.name());
       // deleting is asynchronous and thus searchly complains if we create the new index to early
-      elasticsearchDao.refresh(Arrays.asList(type.name()));
+      elasticsearchDao.refresh(type.name());
     }
     elasticsearchDao.createIndex(type.name(), loadSettings());
     elasticsearchDao.putMapping(type.name(), loadMapping(type.name()));
@@ -213,13 +208,11 @@ public class ElasticsearchAdminService {
    * @return A JSON Representation of the Settings.
    */
   @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
-  private JsonObject loadSettings() {
+  private String loadSettings() {
     try (InputStream inputStream = resourceLoader
           .getResource("classpath:elasticsearch/settings.json").getInputStream();
-         Reader reader = new InputStreamReader(inputStream,"UTF-8");) {
-      JsonObject settings = jsonParser.parse(reader)
-          .getAsJsonObject();
-      return settings;
+        Reader reader = new InputStreamReader(inputStream,"UTF-8");) {
+      return FileCopyUtils.copyToString(reader);
     } catch (IOException e) {
       throw new RuntimeException("Unable to load settings!", e);
     }
@@ -231,14 +224,12 @@ public class ElasticsearchAdminService {
    * @return A Json Representation of a Mapping
    */
   @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
-  private JsonObject loadMapping(String type) {
+  private String loadMapping(String type) {
     try (InputStream inputStream = resourceLoader
         .getResource("classpath:elasticsearch/" + type + "/mapping.json")
         .getInputStream();
-         Reader reader = new InputStreamReader(inputStream, "UTF-8");) {
-      JsonObject mapping = jsonParser.parse(reader)
-          .getAsJsonObject();
-      return mapping;
+        Reader reader = new InputStreamReader(inputStream,"UTF-8");) {
+      return FileCopyUtils.copyToString(reader);
     } catch (IOException e) {
       throw new RuntimeException("Unable to load mapping for index " + type + " and type " + type,
           e);
@@ -248,9 +239,9 @@ public class ElasticsearchAdminService {
   /**
    * Get the number of all documents in elastic search.
    * 
-   * @return An Double Value with the number of count documents.
+   * @return A long Value with the number of count documents.
    */
-  public Double countAllDocuments() {
+  public long countAllDocuments() {
     return elasticsearchDao.countAllDocuments();
   }
 }

@@ -3,22 +3,22 @@
 angular.module('metadatamanagementApp')
   .config(function($stateProvider, $urlRouterProvider) {
     var loadShadowCopy = function(StudySearchService, SimpleMessageToastService,
-                                  id, version) {
+                                  id, version, excludes) {
       var loadLatestShadowCopyFallback = function() {
-        return StudySearchService.findShadowByIdAndVersion(id, null).promise
-          .then(function(result) {
+        return StudySearchService.findShadowByIdAndVersion(id, null, excludes)
+          .promise.then(function(result) {
             if (result) {
               return result;
             } else {
               SimpleMessageToastService.openAlertMessageToast(
-                'study-management.detail.not-found', {id: id});
+                'study-management.detail.not-found', {id: id}, 5000);
               return null;
             }
           });
       };
 
-      return StudySearchService.findShadowByIdAndVersion(id, version).promise
-        .then(function(result) {
+      return StudySearchService.findShadowByIdAndVersion(id, version, excludes)
+        .promise.then(function(result) {
           if (result) {
             return result;
           } else {
@@ -32,7 +32,9 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('studyDetail', {
         parent: 'site',
-        url: '/studies/{id}?,{version}',
+        url: '/studies/{id}?{version}{query}{page}{size}' +
+          '{access-way}{type}',
+        reloadOnSearch: false,
         data: {
           authorities: []
         },
@@ -51,13 +53,18 @@ angular.module('metadatamanagementApp')
           entity: ['$q', '$stateParams', 'StudySearchService', 'Principal',
             'SimpleMessageToastService', function($q, $stateParams,
                 StudySearchService, Principal, SimpleMessageToastService) {
+              var excludedAttributes = ['nested*','variables','questions',
+                'surveys','instruments', 'dataSets', 'relatedPublications',
+                'concepts'];
               if (Principal.loginName() && !$stateParams.version) {
-                return StudySearchService.findOneById($stateParams.id);
+                return StudySearchService.findOneById($stateParams.id, null,
+                  excludedAttributes);
               } else {
                 var deferred = $q.defer();
                 loadShadowCopy(StudySearchService,
                   SimpleMessageToastService, $stateParams.id,
-                  $stateParams.version).then(deferred.resolve, deferred.reject);
+                  $stateParams.version, excludedAttributes)
+                    .then(deferred.resolve, deferred.reject);
                 return deferred;
               }
             }

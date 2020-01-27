@@ -14,6 +14,23 @@ angular.module('metadatamanagementApp').config(
         'in-german': 'in German',
         'in': 'in',
         'in-english': 'in English',
+        'more': 'more',
+        'less': 'less',
+        'collapsed': 'Collapsed',
+        'uncollapsed': 'Folded out',
+        'search-component': {
+          'search': 'Search',
+          'delete': 'Delete'
+        },
+        'filter': {
+          'clear-filter': 'Clear filter',
+          'sponsors': 'Sponsors',
+          'institutions': 'Institutions',
+          'tags': 'Tags',
+          'study-series': 'Study Series',
+          'survey-data-types': 'Survey Data Type',
+          'unavailable': 'Not available'
+        },
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {
@@ -58,7 +75,7 @@ angular.module('metadatamanagementApp').config(
           'metadata': 'Metadata for the File',
           'file': 'File',
           'details': 'Details',
-          'related-objects': 'Related objects'
+          'related-objects': 'Related Objects'
         },
         'buttons': {
           'close': 'Close',
@@ -91,6 +108,7 @@ angular.module('metadatamanagementApp').config(
             'question': 'Click to show question {{param}}',
             'variable': 'Click to show variable {{param}}',
             'study': 'Click to show study {{param}}',
+            'data-packet': 'Click to show data package {{param}}',
             'instrument': 'Click to show instrument {{param}}',
             'publication': 'Click to show publication {{param}}',
             'concept': 'Click to show concept {{param}}'
@@ -146,6 +164,7 @@ angular.module('metadatamanagementApp').config(
           'skip-navigation': 'Skip to Content',
           'skip-navigation-tooltip': 'Click to skip the menu',
           'back-to-search': 'Click to show the search page',
+          'back-to-start': 'Click to show the start page',
           'language': 'Language',
           'data-access': 'Data Access',
           'disclosure': 'Disclosure',
@@ -167,7 +186,7 @@ angular.module('metadatamanagementApp').config(
         },
         'messages': {
           'info': {
-            'register': 'You don\'t have an account yet? '
+            'register': 'You are Data Provider and you don\'t have an account yet? '
           },
           'error': {
             'dontmatch': 'The password and its confirmation do not match!',

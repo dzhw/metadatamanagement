@@ -80,7 +80,9 @@ angular.module('metadatamanagementApp')
         } else {
           SimpleMessageToastService.openAlertMessageToast(
             'concept-management.edit.not-authorized-toast');
-          redirectToSearchView();
+          if (Principal.isAuthenticated()) {
+            redirectToSearchView();
+          }
         }
       };
 

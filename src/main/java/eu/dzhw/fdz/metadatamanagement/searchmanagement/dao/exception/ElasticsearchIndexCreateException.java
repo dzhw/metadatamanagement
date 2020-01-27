@@ -9,7 +9,7 @@ public class ElasticsearchIndexCreateException extends RuntimeException {
 
   private static final long serialVersionUID = -5271442188138009839L;
   
-  public ElasticsearchIndexCreateException(String index, String reason) {
-    super("Unable to create index " + index + ": " + reason);
+  public ElasticsearchIndexCreateException(String index, Exception cause) {
+    super("Unable to create index " + index + ".", cause);
   }
 }

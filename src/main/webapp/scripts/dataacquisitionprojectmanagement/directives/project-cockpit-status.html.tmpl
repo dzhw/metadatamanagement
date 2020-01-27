@@ -1,7 +1,7 @@
 <div>
 	<div>
 		<div layout-gt-xs="row" layout="column" layout-wrap>
-			<md-card layout-margin layout-column layout-align="center center" flex="1" style="flex-grow:0;min-width:200px;padding:8px;">
+			<md-card layout-margin layout-column layout-align="center center" flex="1" style="flex-grow:0;min-width:200px;padding:8px;" class="ma8">
 				<release-status-badge released="ctrl.project.release"></release-status-badge>
 				<div class="layout-row">
 					<md-button class="md-raised md-fab md-mini md-primary" ng-click="ctrl.toggleReleaseProject()" ng-disabled="!ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup !== 'PUBLISHER'">
@@ -15,7 +15,7 @@
 					</md-button>
 				</div>
 			</md-card>
-			<md-card layout-margin layout-column layout-align="center center" flex="1" style="flex-grow:0;min-width:200px;padding:8px;">
+			<md-card layout-margin layout-column layout-align="center center" flex="1" style="flex-grow:0;min-width:200px;padding:8px;" class="ma8">
 				<project-status-badge assignee-group="{{ctrl.project.assigneeGroup}}"></project-status-badge>
 				<div class="layout-row">
 					<md-button ng-if="!(ctrl.isAssignedPublisher() && ctrl.project.assigneeGroup !== 'PUBLISHER')" ng-disabled="ctrl.project.release || !(ctrl.project.assigneeGroup === 'PUBLISHER' && ctrl.isAssignedPublisher() || ctrl.project.assigneeGroup === 'DATA_PROVIDER' && ctrl.isAssignedDataProvider())" class="md-raised md-fab md-mini md-primary" ng-click="ctrl.onSaveChangesAndAssign()">
@@ -34,7 +34,7 @@
 			</md-card>
 		</div>
 	</div>
-	<div layout-gt-sm="row" layout="column" layout-wrap>
+	<div layout-gt-sm="row" layout="column" layout-wrap class="mb8">
 		<metadata-type-state-card flex="auto" project="ctrl.project" counts="ctrl.counts" type="studies"></metadata-type-state-card>
 		<metadata-type-state-card ng-repeat="state in ctrl.sortedStates" flex="auto" project="ctrl.project" counts="ctrl.counts" type="{{state}}"></metadata-type-state-card>
 	</div>

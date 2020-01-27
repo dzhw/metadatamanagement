@@ -1,4 +1,3 @@
-/* globals _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
@@ -22,35 +21,19 @@ angular.module('metadatamanagementApp')
         }
       };
 
-      var isPublisherOrDataProvider = Principal
-        .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']);
-
-      var isLatestShadow = function(item) {
-        return item.shadow && angular.isUndefined(item.successorId);
-      };
-
-      var isMaster = function(item) {
-        return item.shadow === false;
-      };
-
-      var extractVersion = function(item, isPublisherOrDataProvider) {
-        return isPublisherOrDataProvider ? '' : _.replace(item.id,
-          item.masterId + '-', '');
-      };
-
       var ctrl = this;
       ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
-      ctrl.counts = {};
-      ctrl.jsonExcludes = [
-        'nestedStudies',
-        'nestedDataSets',
-        'nestedVariables',
-        'nestedSurveys',
-        'nestedQuestions',
-        'nestedInstruments'
-      ];
+      ctrl.counts = {
+        studiesCount: 0,
+        surveysCount: 0,
+        instrumentsCount: 0,
+        questionsCount: 0,
+        dataSetsCount: 0,
+        variablesCount: 0
+      };
+
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
 
@@ -75,52 +58,7 @@ angular.module('metadatamanagementApp')
           'id': result.id
         });
 
-        var predicate = isPublisherOrDataProvider ? isMaster : isLatestShadow;
-
-        result.studies = _.filter(result.studies, predicate);
-        result.surveys = _.filter(result.surveys, predicate);
-        result.dataSets = _.filter(result.dataSets, predicate);
-        result.variables = _.filter(result.variables, predicate);
-        result.questions = _.filter(result.questions, predicate);
-        result.instruments = _.filter(result.instruments, predicate);
-
         ctrl.concept = result;
-        ctrl.counts.studiesCount = result.studies.length;
-        if (ctrl.counts.studiesCount === 1) {
-          ctrl.study = result.studies[0];
-          ctrl.studyVersion = extractVersion(ctrl.study,
-            isPublisherOrDataProvider);
-        }
-        ctrl.counts.surveysCount = result.surveys.length;
-        if (ctrl.counts.surveysCount === 1) {
-          ctrl.survey = result.surveys[0];
-          ctrl.surveyVersion = extractVersion(ctrl.survey,
-            isPublisherOrDataProvider);
-        }
-        ctrl.counts.dataSetsCount = result.dataSets.length;
-        if (ctrl.counts.dataSetsCount === 1) {
-          ctrl.dataSet = result.dataSets[0];
-          ctrl.dataSetVersion = extractVersion(ctrl.dataSet,
-            isPublisherOrDataProvider);
-        }
-        ctrl.counts.variablesCount = result.variables.length;
-        if (ctrl.counts.variablesCount === 1) {
-          ctrl.variable = result.variables[0];
-          ctrl.variableVersion = extractVersion(ctrl.variable,
-            isPublisherOrDataProvider);
-        }
-        ctrl.counts.questionsCount = result.questions.length;
-        if (ctrl.counts.questionsCount === 1) {
-          ctrl.question = result.questions[0];
-          ctrl.questionVersion = extractVersion(ctrl.question,
-            isPublisherOrDataProvider);
-        }
-        ctrl.counts.instrumentsCount = result.instruments.length;
-        if (ctrl.counts.instrumentsCount === 1) {
-          ctrl.instrument = result.instruments[0];
-          ctrl.instrumentVersion = extractVersion(ctrl.instrument,
-            isPublisherOrDataProvider);
-        }
         ctrl.loadAttachments();
 
         ctrl.conceptTags = getTags(result);

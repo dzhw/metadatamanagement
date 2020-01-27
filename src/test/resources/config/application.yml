@@ -28,6 +28,7 @@ spring:
           host: localhost
           port: 0
           database: metadatamanagement
+          auto-index-creation: true
     mail:
         host: localhost
         port: 3025
@@ -51,6 +52,10 @@ spring:
       cloudfoundry:
         discovery:
           enabled: false
+    elasticsearch:
+      rest:
+        uris:
+        - http://localhost:19234
 
 logging:
     level:
@@ -75,9 +80,6 @@ metadatamanagement:
   server:
     context-root: http://localhost:8080
     instance-index: 0
-  elasticsearch-client:
-    url: http://localhost:19234
-    read-timeout: 60000
   dara:
     endpoint: http://fakedaraendpoint/
     username: dara_username
