@@ -32,7 +32,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import io.searchbox.annotations.JestId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -66,7 +65,6 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
    * The id of the dataset which uniquely identifies the dataset in this application.
    */
   @Id
-  @JestId
   @NotEmpty(message = "data-set-management.error.data-set.id.not-empty")
   @Setter(AccessLevel.NONE)
   private String id;

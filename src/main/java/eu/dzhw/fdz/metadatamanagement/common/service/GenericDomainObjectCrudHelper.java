@@ -6,7 +6,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
@@ -17,6 +21,8 @@ import org.springframework.data.rest.core.event.BeforeCreateEvent;
 import org.springframework.data.rest.core.event.BeforeDeleteEvent;
 import org.springframework.data.rest.core.event.BeforeSaveEvent;
 
+import com.google.gson.Gson;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
@@ -25,6 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIoException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.ExcludeFieldsHelper;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SearchDocumentInterface;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
@@ -33,10 +40,6 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpda
 import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
-import io.searchbox.client.JestClient;
-import io.searchbox.core.Search;
-import io.searchbox.core.SearchResult;
-import io.searchbox.core.SearchResult.Hit;
 
 /**
  * Component which implements CRUD functions for all {@link AbstractRdcDomainObject}s.
@@ -46,8 +49,8 @@ import io.searchbox.core.SearchResult.Hit;
  * 
  * @author René Reitmann
  */
-public class GenericDomainObjectCrudHelper
-    <T extends AbstractRdcDomainObject, S extends BaseRepository<T, String>> {
+public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject, 
+    S extends BaseRepository<T, String>> {
 
   protected final S repository;
 
@@ -64,7 +67,9 @@ public class GenericDomainObjectCrudHelper
 
   protected final Class<? extends T> searchDocumentClass;
 
-  protected final JestClient jestClient;
+  protected final RestHighLevelClient elasticsearchClient;
+
+  private final Gson gson;
 
   /**
    * Create the CRUD service.
@@ -74,15 +79,17 @@ public class GenericDomainObjectCrudHelper
   public GenericDomainObjectCrudHelper(S repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      DomainObjectChangesProvider<T> domainObjectChangesProvider, JestClient jestClient,
-      Class<? extends T> searchDocumentClass) {
+      DomainObjectChangesProvider<T> domainObjectChangesProvider,
+      RestHighLevelClient elasticsearchClient, Class<? extends T> searchDocumentClass, 
+      Gson gson) {
     this.repository = repository;
     this.applicationEventPublisher = applicationEventPublisher;
     this.elasticsearchUpdateQueueService = elasticsearchUpdateQueueService;
     this.elasticsearchType = computeElasticsearchType(repository);
     this.domainObjectChangesProvider = domainObjectChangesProvider;
-    this.jestClient = jestClient;
+    this.elasticsearchClient = elasticsearchClient;
     this.searchDocumentClass = searchDocumentClass;
+    this.gson = gson;
   }
 
   private ElasticsearchType computeElasticsearchType(S repository) {
@@ -219,23 +226,22 @@ public class GenericDomainObjectCrudHelper
         .query(QueryBuilders
             .constantScoreQuery(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("id", id))))
         .size(1);
-    Search search =
-        new Search.Builder(builder.toString()).addIndex(elasticsearchType.name()).build();
-    return executeSearch(search);
+
+    return executeSearch(new SearchRequest().source(builder));
   }
 
   @SuppressFBWarnings("BC_UNCONFIRMED_CAST_OF_RETURN_VALUE")
-  protected Optional<T> executeSearch(Search search) {
+  protected Optional<T> executeSearch(SearchRequest request) {
     try {
-      SearchResult searchResult = jestClient.execute(search);
-      Hit<? extends T, Void> hit = searchResult.getFirstHit(searchDocumentClass);
-      if (hit != null) {
-        return Optional.of(hit.source);
+      SearchHit[] hits =
+          elasticsearchClient.search(request, RequestOptions.DEFAULT).getHits().getHits();
+      if (hits.length > 0) {
+        return Optional.of(gson.fromJson(hits[0].getSourceAsString(), searchDocumentClass));
       } else {
         return Optional.empty();
       }
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new ElasticsearchIoException(e);
     }
   }
 }

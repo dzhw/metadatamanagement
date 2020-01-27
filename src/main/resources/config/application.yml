@@ -39,7 +39,11 @@ spring:
         - org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration
         - org.springframework.cloud.aws.autoconfigure.context.ContextResourceLoaderAutoConfiguration
         - org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration
-
+    elasticsearch:
+      rest:
+        uris:
+        - http://localhost:9200
+        
 cloud:
   aws:
     region:
@@ -47,7 +51,7 @@ cloud:
       static: eu-central-1
     stack:
       auto: false
-      
+
 springdoc:
   swagger-ui:
     path: /api/swagger-ui.html

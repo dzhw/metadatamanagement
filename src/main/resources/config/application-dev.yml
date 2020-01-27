@@ -21,7 +21,11 @@ spring:
         password: ${vcap.services.email.credentials.password}
     thymeleaf:
         cache: true
-      
+    elasticsearch:
+      rest:
+        uris:
+        - ${vcap.services.elastic.credentials.sslUri}
+
 management:
   metrics:
     export:
@@ -37,9 +41,6 @@ metadatamanagement:
   server:
     instance-index: ${cf.instance.index}
     context-root: https://dev.metadata.fdz.dzhw.eu
-  elasticsearch-client:
-    url: ${vcap.services.elastic.credentials.sslUri}
-    read-timeout: 60000
   elasticsearch-angular-client:
     apiVersion: '7.3'
     logLevel: error

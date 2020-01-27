@@ -1,10 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.studymanagement.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.data.domain.Page;
@@ -12,11 +17,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.ExcludeFieldsHelper;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
-import io.searchbox.client.JestClient;
-import io.searchbox.core.Search;
-import io.searchbox.core.SearchResult;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -29,7 +33,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StudyListService {
 
-  private final JestClient jestClient;
+  private final RestHighLevelClient elasticsearchClient;
+
+  private final Gson gson;
 
   /**
    * Request released studies sort by title (DE) with a pagination defined by page and size.
@@ -48,11 +54,16 @@ public class StudyListService {
         .query(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("shadow", true))
             .mustNot(QueryBuilders.existsQuery("successorId")))
         .from(page * size).size(size).sort("title.de", SortOrder.ASC);
-    Search search = new Search.Builder(sourceBuilder.toString()).addIndex("studies").build();
-    SearchResult searchResult = jestClient.execute(search);
-    List<StudySearchDocument> hits = searchResult.getHits(StudySearchDocument.class).stream()
-        .map(hit -> hit.source).collect(Collectors.toList());
-    long total = searchResult.getTotal();
+    SearchResponse response = elasticsearchClient.search(
+        new SearchRequest().source(sourceBuilder).indices("studies"), RequestOptions.DEFAULT);
+
+    SearchHit[] searchHits = response.getHits().getHits();
+    List<StudySearchDocument> hits = new ArrayList<>(searchHits.length);
+    for (SearchHit searchHit : searchHits) {
+      hits.add(gson.fromJson(searchHit.getSourceAsString(), StudySearchDocument.class));
+    }
+
+    long total = response.getHits().getTotalHits().value;
 
     PageRequest pageRequest = PageRequest.of(page, size);
     Page<StudySearchDocument> resultPage =

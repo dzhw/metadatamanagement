@@ -119,7 +119,7 @@ public class VariableResourceControllerTest extends AbstractTest {
     queueService.processAllQueueItems();
     
     // check that there is one variable search document
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
 
     // check that auditing attributes have been set
     mockMvc.perform(get(API_VARIABLES_URI + "/" + variable.getId()))
@@ -613,7 +613,7 @@ public class VariableResourceControllerTest extends AbstractTest {
       .andExpect(status().isNotFound());
 
     // check that there are no variable search documents anymore
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0L));
   }
 
   @Test
@@ -655,7 +655,7 @@ public class VariableResourceControllerTest extends AbstractTest {
     queueService.processAllQueueItems();
     
     // check that the variable search documents have been updated
-    assertThat(elasticsearchAdminService.countAllDocuments(), is(1.0));    
+    assertThat(elasticsearchAdminService.countAllDocuments(), is(1L));    
   }
 
   @Test
@@ -808,7 +808,7 @@ public class VariableResourceControllerTest extends AbstractTest {
       .andExpect(status().isNotFound());
 
     // check that there are no variable search documents anymore
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0L));
   }
 
   @Test  

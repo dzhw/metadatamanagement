@@ -22,7 +22,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
-import io.searchbox.annotations.JestId;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,7 +58,6 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
    * with "$" and must not contain any whitespace.
    */
   @Id
-  @JestId
   @NotEmpty(message = "concept-management.error.concept.id.not-empty")
   @Pattern(regexp = "^con-\\S+\\$$", message = "concept-management.error.concept.id.not-valid-id")
   @Size(max = StringLengths.MEDIUM, message = "concept-management.error.concept.id.size")

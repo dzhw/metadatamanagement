@@ -99,7 +99,7 @@ public abstract class AbstractTest {
     assertEquals(0, this.elasticsearchUpdateQueueItemRepository.count());
     assertEquals(0, this.daraUpdateQueueItemRepository.count());
     assertEquals(0, this.javers.findSnapshots(QueryBuilder.anyDomainObject().build()).size());
-    assertThat(this.elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
+    assertThat(this.elasticsearchAdminService.countAllDocuments(), equalTo(0L));
     assertEquals(0, this.dataAcquisitionProjectRepository.count());
   }
 }

@@ -56,9 +56,6 @@ metadatamanagement:
   server:
     instance-index: 0
     context-root: http://localhost:8080
-  elasticsearch-client:
-    url: http://localhost:9200
-    read-timeout: 60000
   elasticsearch-angular-client:
     apiVersion: '7.3'
     logLevel: error

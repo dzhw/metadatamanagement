@@ -10,10 +10,16 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import com.google.gson.Gson;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
@@ -62,10 +68,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
-import io.searchbox.core.Bulk;
-import io.searchbox.core.Bulk.Builder;
-import io.searchbox.core.Delete;
-import io.searchbox.core.Index;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -114,6 +116,8 @@ public class ElasticsearchUpdateQueueService {
 
   private final ElasticsearchDao elasticsearchDao;
 
+  private final Gson gson;
+
   private final DataAcquisitionProjectRepository projectRepository;
 
   private final DoiBuilder doiBuilder;
@@ -161,7 +165,7 @@ public class ElasticsearchUpdateQueueService {
       // check if there are more locked items to process
       lockedItems = queueItemRepository.findOldestLockedItems(jvmId, updateStart);
     }
-    elasticsearchDao.refresh(List.of(ElasticsearchType.names()));
+    elasticsearchDao.refresh(ElasticsearchType.names());
     log.info("Finished processing of ElasticsearchUpdateQueue...");
   }
 
@@ -178,15 +182,15 @@ public class ElasticsearchUpdateQueueService {
    * @param lockedItems A list of locked queues items.
    */
   private void executeQueueItemActions(List<ElasticsearchUpdateQueueItem> lockedItems) {
-    Bulk.Builder bulkBuilder = new Bulk.Builder();
+    BulkRequest request = new BulkRequest();
     boolean bulkNotEmpty = false;
     for (ElasticsearchUpdateQueueItem lockedItem : lockedItems) {
       switch (lockedItem.getAction()) {
         case DELETE:
-          bulkNotEmpty = addDeleteAction(lockedItem, bulkBuilder) || bulkNotEmpty;
+          bulkNotEmpty = addDeleteAction(lockedItem, request) || bulkNotEmpty;
           break;
         case UPSERT:
-          bulkNotEmpty = addUpsertAction(lockedItem, bulkBuilder) || bulkNotEmpty;
+          bulkNotEmpty = addUpsertAction(lockedItem, request) || bulkNotEmpty;
           break;
         default:
           throw new NotImplementedException("Processing queue item with action "
@@ -197,7 +201,7 @@ public class ElasticsearchUpdateQueueService {
     // execute the bulk update/delete
     try {
       if (bulkNotEmpty) {
-        elasticsearchDao.executeBulk(bulkBuilder.build());
+        elasticsearchDao.executeBulk(request);
       }
       // finally delete the queue items
       lockedItems.forEach(item -> queueItemRepository.deleteById(item.getId()));
@@ -210,12 +214,11 @@ public class ElasticsearchUpdateQueueService {
    * Adds a Deletes Action to the bulk builder.
    * 
    * @param lockedItem a locked item.
-   * @param bulkBuilder for building an add action.
-   * @return true if an action has been added to the bulkBuilder
+   * @param request for building a delete action.
+   * @return true if an action has been added to the request
    */
-  private boolean addDeleteAction(ElasticsearchUpdateQueueItem lockedItem, Builder bulkBuilder) {
-    bulkBuilder.addAction(new Delete.Builder(lockedItem.getDocumentId())
-        .index(lockedItem.getDocumentType().name()).build());
+  private boolean addDeleteAction(ElasticsearchUpdateQueueItem lockedItem, BulkRequest request) {
+    request.add(new DeleteRequest(lockedItem.getDocumentType().name(), lockedItem.getDocumentId()));
     return true;
   }
 
@@ -223,27 +226,27 @@ public class ElasticsearchUpdateQueueService {
    * Add a update / insert action to the bulk builder.
    * 
    * @param lockedItem A locked item.
-   * @param bulkBuilder The bulk builder for building update / insert actions.
-   * @return true if an action has been added to the bulkBuilder
+   * @param request The bulk builder for building update / insert actions.
+   * @return true if an action has been added to the request
    */
-  private boolean addUpsertAction(ElasticsearchUpdateQueueItem lockedItem, Builder bulkBuilder) {
+  private boolean addUpsertAction(ElasticsearchUpdateQueueItem lockedItem, BulkRequest request) {
     switch (lockedItem.getDocumentType()) {
       case variables:
-        return addUpsertActionForVariable(lockedItem, bulkBuilder);
+        return addUpsertActionForVariable(lockedItem, request);
       case surveys:
-        return addUpsertActionForSurvey(lockedItem, bulkBuilder);
+        return addUpsertActionForSurvey(lockedItem, request);
       case data_sets:
-        return addUpsertActionForDataSet(lockedItem, bulkBuilder);
+        return addUpsertActionForDataSet(lockedItem, request);
       case questions:
-        return addUpsertActionForQuestion(lockedItem, bulkBuilder);
+        return addUpsertActionForQuestion(lockedItem, request);
       case studies:
-        return addUpsertActionForStudy(lockedItem, bulkBuilder);
+        return addUpsertActionForStudy(lockedItem, request);
       case related_publications:
-        return addUpsertActionForRelatedPublication(lockedItem, bulkBuilder);
+        return addUpsertActionForRelatedPublication(lockedItem, request);
       case instruments:
-        return addUpsertActionForInstrument(lockedItem, bulkBuilder);
+        return addUpsertActionForInstrument(lockedItem, request);
       case concepts:
-        return addUpsertActionForConcept(lockedItem, bulkBuilder);
+        return addUpsertActionForConcept(lockedItem, request);
       default:
         throw new NotImplementedException("Processing queue item with type "
             + lockedItem.getDocumentType() + " has not been implemented!");
@@ -251,7 +254,7 @@ public class ElasticsearchUpdateQueueService {
   }
 
   private boolean addUpsertActionForConcept(ElasticsearchUpdateQueueItem lockedItem,
-      Builder bulkBuilder) {
+      BulkRequest request) {
     Concept concept = conceptRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (concept != null) {
       List<QuestionSubDocumentProjection> questions =
@@ -298,15 +301,15 @@ public class ElasticsearchUpdateQueueService {
       ConceptSearchDocument searchDocument = new ConceptSearchDocument(concept, studySubDocuments,
           nestedStudyDocuments, questions, instruments, surveys, dataSets, variables);
 
-      bulkBuilder.addAction(new Index.Builder(searchDocument)
-          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+          .source(gson.toJson(searchDocument), XContentType.JSON));
       return true;
     }
     return false;
   }
 
   private boolean addUpsertActionForInstrument(ElasticsearchUpdateQueueItem lockedItem,
-      Builder bulkBuilder) {
+      BulkRequest request) {
     Instrument instrument = instrumentRepository.findById(lockedItem.getDocumentId()).orElse(null);
 
     if (instrument != null) {
@@ -349,15 +352,15 @@ public class ElasticsearchUpdateQueueService {
           new InstrumentSearchDocument(instrument, study, surveys, questions, variables, dataSets,
               relatedPublications, concepts, release, doi, configuration);
 
-      bulkBuilder.addAction(new Index.Builder(searchDocument)
-          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+          .source(gson.toJson(searchDocument), XContentType.JSON));
       return true;
     }
     return false;
   }
 
   private boolean addUpsertActionForRelatedPublication(ElasticsearchUpdateQueueItem lockedItem,
-      Builder bulkBuilder) {
+      BulkRequest request) {
 
     RelatedPublication relatedPublication =
         relatedPublicationRepository.findById(lockedItem.getDocumentId()).orElse(null);
@@ -406,15 +409,15 @@ public class ElasticsearchUpdateQueueService {
           new RelatedPublicationSearchDocument(relatedPublication, studySubDocuments,
               nestedStudyDocuments, questions, instruments, surveys, dataSets, variables);
 
-      bulkBuilder.addAction(new Index.Builder(searchDocument)
-          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+          .source(gson.toJson(searchDocument), XContentType.JSON));
       return true;
     }
     return false;
   }
 
   private boolean addUpsertActionForDataSet(ElasticsearchUpdateQueueItem lockedItem,
-      Builder bulkBuilder) {
+      BulkRequest request) {
     DataSet dataSet = dataSetRepository.findById(lockedItem.getDocumentId()).orElse(null);
 
     if (dataSet != null) {
@@ -462,15 +465,15 @@ public class ElasticsearchUpdateQueueService {
           new DataSetSearchDocument(dataSet, study, variableProjections, relatedPublications,
               surveys, instruments, questions, concepts, release, doi, configuration);
 
-      bulkBuilder.addAction(new Index.Builder(searchDocument)
-          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+          .source(gson.toJson(searchDocument), XContentType.JSON));
       return true;
     }
     return false;
   }
 
   private boolean addUpsertActionForSurvey(ElasticsearchUpdateQueueItem lockedItem,
-      Builder bulkBuilder) {
+      BulkRequest request) {
     Survey survey = surveyRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (survey != null) {
       StudySubDocumentProjection study =
@@ -501,8 +504,8 @@ public class ElasticsearchUpdateQueueService {
           new SurveySearchDocument(survey, study, dataSets, variables, relatedPublications,
               instruments, questions, concepts, release, doi, configuration);
 
-      bulkBuilder.addAction(new Index.Builder(searchDocument)
-          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+          .source(gson.toJson(searchDocument), XContentType.JSON));
       return true;
     }
     return false;
@@ -528,10 +531,10 @@ public class ElasticsearchUpdateQueueService {
    * This method creates for the variable repository update / insert actions.
    * 
    * @param lockedItem A locked item.
-   * @param bulkBuilder A bulk builder for building the actions.
+   * @param request A bulk builder for building the actions.
    */
   private boolean addUpsertActionForVariable(ElasticsearchUpdateQueueItem lockedItem,
-      Builder bulkBuilder) {
+      BulkRequest request) {
     Variable variable = variableRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (variable != null) {
       final StudySubDocumentProjection study =
@@ -574,8 +577,8 @@ public class ElasticsearchUpdateQueueService {
           new VariableSearchDocument(variable, dataSet, study, relatedPublications, surveys,
               instruments, questions, concepts, release, doi, configuration);
 
-      bulkBuilder.addAction(new Index.Builder(searchDocument)
-          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+          .source(gson.toJson(searchDocument), XContentType.JSON));
       return true;
     }
     return false;
@@ -585,10 +588,10 @@ public class ElasticsearchUpdateQueueService {
    * This method creates for the question repository update / insert actions.
    * 
    * @param lockedItem A locked item.
-   * @param bulkBuilder A bulk builder for building the actions.
+   * @param request A bulk builder for building the actions.
    */
   private boolean addUpsertActionForQuestion(ElasticsearchUpdateQueueItem lockedItem,
-      Builder bulkBuilder) {
+      BulkRequest request) {
     Question question = questionRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (question != null) {
       InstrumentSubDocumentProjection instrument =
@@ -625,8 +628,8 @@ public class ElasticsearchUpdateQueueService {
           new QuestionSearchDocument(question, study, instrument, surveys, variables, dataSets,
               relatedPublications, concepts, release, doi, configuration);
 
-      bulkBuilder.addAction(new Index.Builder(searchDocument)
-          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+          .source(gson.toJson(searchDocument), XContentType.JSON));
       return true;
     }
     return false;
@@ -636,10 +639,10 @@ public class ElasticsearchUpdateQueueService {
    * This method creates for the study repository update / insert actions.
    * 
    * @param lockedItem A locked item.
-   * @param bulkBuilder A bulk builder for building the actions.
+   * @param request A bulk builder for building the actions.
    */
   private boolean addUpsertActionForStudy(ElasticsearchUpdateQueueItem lockedItem,
-      Builder bulkBuilder) {
+      BulkRequest request) {
     Study study = this.studyRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (study != null) {
       List<DataSetSubDocumentProjection> dataSets =
@@ -673,8 +676,8 @@ public class ElasticsearchUpdateQueueService {
           new StudySearchDocument(study, dataSets, variables, relatedPublications, surveys,
               questions, instruments, seriesPublications, concepts, release, doi, configuration);
 
-      bulkBuilder.addAction(new Index.Builder(searchDocument)
-          .index(lockedItem.getDocumentType().name()).id(searchDocument.getId()).build());
+      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+          .source(gson.toJson(searchDocument), XContentType.JSON));
       return true;
     }
     return false;
@@ -700,7 +703,7 @@ public class ElasticsearchUpdateQueueService {
       // check if there are more locked items to process
       lockedItems = queueItemRepository.findOldestLockedItemsByType(jvmId, updateStart, type);
     }
-    elasticsearchDao.refresh(List.of(type.name()));
+    elasticsearchDao.refresh(type.name());
     log.debug("Finished processing of ElasticsearchUpdateQueue for type: " + type.name());
   }
 
