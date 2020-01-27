@@ -266,7 +266,7 @@ public class StudyResourceControllerTest extends AbstractTest {
     study = studyRepository.save(study);
 
     elasticsearchAdminService.recreateAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
 
     // since there is no shadow yet the public user will get the mongo version
     mockMvc.perform(get(API_STUDY_URI + "/" + study.getId())).andExpect(status().isOk())
@@ -283,7 +283,7 @@ public class StudyResourceControllerTest extends AbstractTest {
     study = studyRepository.save(study);
 
     elasticsearchAdminService.recreateAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
 
     // the public user should now get the latest shadow from elastic
     mockMvc.perform(get(API_STUDY_URI + "/" + study.getMasterId())).andExpect(status().isOk())
@@ -318,7 +318,7 @@ public class StudyResourceControllerTest extends AbstractTest {
     study = studyRepository.save(study);
 
     elasticsearchAdminService.recreateAllIndices();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(3.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(3L));
 
     // the public user should now get the latest shadow from elastic
     mockMvc.perform(get(API_STUDY_URI + "/" + study.getMasterId())).andExpect(status().isOk())

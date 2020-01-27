@@ -28,7 +28,6 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.valida
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidRelatedPublicationId;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidUrl;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.VariableExists;
-import io.searchbox.annotations.JestId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -58,7 +57,6 @@ public class RelatedPublication extends AbstractRdcDomainObject {
   private static final long serialVersionUID = -7754758901246743458L;
   
   @Id
-  @JestId
   @NotEmpty(message = "related-publication-management.error.related-publication.id.not-empty")
   @Size(max = StringLengths.MEDIUM,
       message = "related-publication-management.error.related-publication.id.size")

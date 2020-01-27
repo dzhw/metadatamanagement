@@ -36,8 +36,6 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections ConceptSubDocumentProjection
 
-.. java:import:: io.searchbox.annotations JestId
-
 .. java:import:: io.swagger.v3.oas.annotations.media Schema
 
 .. java:import:: lombok AllArgsConstructor
@@ -99,7 +97,7 @@ doi
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Pattern @Size private String id
+.. java:field:: @Id @NotEmpty @Pattern @Size private String id
    :outertype: Concept
 
    The id of the concept which uniquely identifies the concept in this application. Must not be empty and must not contain more than 512 characters. Must start with "con-" and end with "$" and must not contain any whitespace.

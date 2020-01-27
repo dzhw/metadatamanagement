@@ -88,8 +88,6 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation ValidVariableIdName
 
-.. java:import:: io.searchbox.annotations JestId
-
 .. java:import:: lombok AccessLevel
 
 .. java:import:: lombok AllArgsConstructor
@@ -209,7 +207,7 @@ generationDetails
 id
 ^^
 
-.. java:field:: @Id @JestId @Setter private String id
+.. java:field:: @Id @Setter private String id
    :outertype: Variable
 
    The id of the variable which uniquely identifies the variable in this application. The id must not be empty and must be of the form var-{{dataAcquisitionProjectId}}-ds{{dataSetNumber}}-{{name}}$. The id must not contain more than 512 characters.

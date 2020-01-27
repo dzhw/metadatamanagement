@@ -29,7 +29,6 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.Val
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedStudy;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import io.searchbox.annotations.JestId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -64,7 +63,6 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
    * The id of the instrument which uniquely identifies the instrument in this application.
    */
   @Id
-  @JestId
   @NotEmpty(message = "instrument-management.error.instrument.id.not-empty")
   @Setter(AccessLevel.NONE)
   private String id;

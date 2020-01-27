@@ -52,8 +52,6 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation ValidUniqueSurveyNumber
 
-.. java:import:: io.searchbox.annotations JestId
-
 .. java:import:: lombok AccessLevel
 
 .. java:import:: lombok AllArgsConstructor
@@ -125,7 +123,7 @@ grossSampleSize
 id
 ^^
 
-.. java:field:: @Id @JestId @Setter private String id
+.. java:field:: @Id @Setter private String id
    :outertype: Survey
 
    The id of the survey which uniquely identifies the survey in this application.

@@ -109,7 +109,7 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one study and one publication document
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
   }
 
   @Test
@@ -203,7 +203,7 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there are is one study and one publication document
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
   }
 
   @Test
@@ -232,7 +232,7 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     
     // check that there is one study document left
     elasticsearchUpdateQueueService.processAllQueueItems();
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
   }
 
   @Test
@@ -312,6 +312,6 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there are two documents (study and related publication)
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
   }
 }

@@ -9,7 +9,7 @@ public class ElasticsearchIndexDeleteException extends RuntimeException {
 
   private static final long serialVersionUID = 5414412678405433039L;
   
-  public ElasticsearchIndexDeleteException(String index, String reason) {
-    super("Unable to delete search index " + index + ": " + reason);
+  public ElasticsearchIndexDeleteException(String index, Exception cause) {
+    super("Unable to delete search index " + index + ".", cause);
   }
 }
