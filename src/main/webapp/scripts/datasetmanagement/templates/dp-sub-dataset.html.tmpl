@@ -15,15 +15,9 @@
     <table fdz-table class="mh16 mb16">
       <thead>
       <tr>
-        <th>{{'data-set-management.detail.label.sub-data-sets.accessWay' | translate }}
+        <th class="fdz-table-absorbing-column">{{'data-set-management.detail.label.sub-data-sets.accessWay' | translate }}
           <md-tooltip hide-gt-xs md-direction="right">
             {{'data-set-management.detail.label.sub-data-sets.accessWay' | translate }}
-          </md-tooltip>
-        </th>
-        <th class="fdz-table-absorbing-column">{{'data-set-management.detail.label.sub-data-sets.description' |
-          translate }}
-          <md-tooltip hide-gt-xs md-direction="right">
-            {{'data-set-management.detail.label.sub-data-sets.description' | translate }}
           </md-tooltip>
         </th>
         <th>{{'data-set-management.detail.label.sub-data-sets.name' | translate }}
@@ -65,8 +59,7 @@
       </thead>
       <tbody>
       <tr ng-repeat="row in $ctrl.options.dataSet.subDataSets">
-        <td class="fdz-table-nowrap">{{row.accessWay}}</td>
-        <td class="fdz-text-block" display-i18n-string="row.description" ></td>
+        <td>{{row.accessWay}} ({{row.description | displayI18nString}})</td>
         <td class="fdz-table-nowrap">{{row.name}}&nbsp;</td>
         <td class="fdz-table-nowrap">
           <span ng-repeat="dataFormat in row.dataFormats">
