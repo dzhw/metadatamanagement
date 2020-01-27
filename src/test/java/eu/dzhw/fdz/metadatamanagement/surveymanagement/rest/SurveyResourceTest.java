@@ -104,7 +104,7 @@ public class SurveyResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one survey document
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
   }
   
   @Test
@@ -289,7 +289,7 @@ public class SurveyResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there are no more survey documents
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0L));
   }
 
   @Test
@@ -326,7 +326,7 @@ public class SurveyResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one survey documents
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
   }
 
   @Test

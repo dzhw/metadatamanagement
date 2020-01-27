@@ -1,0 +1,17 @@
+.fdz-theme md-content {
+  color: $foreground-1;
+  background-color: $brand-background-300;
+  overflow-anchor: none;
+
+  & .fdz-cc {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    & > * {
+      max-width: $content-width;
+      width: 100%;
+    }
+  }
+
+
+}

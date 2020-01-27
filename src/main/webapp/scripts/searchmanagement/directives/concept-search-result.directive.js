@@ -7,14 +7,22 @@ angular.module('metadatamanagementApp').directive('conceptSearchResult',
       templateUrl: 'scripts/searchmanagement/directives/' +
         'concept-search-result.html.tmpl',
       scope: {
+        searchQuery: '<',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
-        searchResultIndex: '='
+        searchResultIndex: '=',
+        setParams: '&'
       },
       controller: function($scope, CommonDialogsService, ConceptResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
-        $q) {
+        $q, $timeout, $element, HighlightService) {
+
+        if ($scope.searchQuery) {
+          $timeout(function() {
+            HighlightService.apply($element[0], $scope.searchQuery);
+          });
+        }
 
         var showGenericErrorMessage = function(status) {
           SimpleMessageToastService
@@ -42,7 +50,6 @@ angular.module('metadatamanagementApp').directive('conceptSearchResult',
             showGenericErrorMessage(data.status);
           }
         };
-
         $scope.deleteConcept = function(conceptId) {
           CommonDialogsService.showConfirmDeletionDialog({
             type: 'concept',

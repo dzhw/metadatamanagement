@@ -22,14 +22,14 @@
         <project-status-badge style="margin-top: 12px" ng-if="ctrl.selectedProject && !ctrl.selectedProject.release" assignee-group="{{ctrl.selectedProject.assigneeGroup}}"></project-status-badge>
     </div>
     <div style="margin-top: 1em;" class="layout-row">
-        <md-button class="md-primary md-raised md-icon-button" ng-class="{'fdz-reset-left-margin': ctrl.hasAuthority('ROLE_PUBLISHER')}" ng-click="ctrl.deleteProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject || ctrl.selectedProject.hasBeenReleasedBefore || ctrl.projectChooserDisabled"
+        <md-button class="md-primary md-raised md-icon-button" ng-class="{'ml0': ctrl.hasAuthority('ROLE_PUBLISHER')}" ng-click="ctrl.deleteProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject || ctrl.selectedProject.hasBeenReleasedBefore || ctrl.projectChooserDisabled"
           data-has-authority="ROLE_PUBLISHER">
             <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'global.tooltips.delete-project' | translate}}
             </md-tooltip>
             <md-icon>&#xE872;</md-icon>
         </md-button>
-        <md-button class="md-primary md-raised md-icon-button" ng-class="{'fdz-reset-left-margin': !ctrl.hasAuthority('ROLE_PUBLISHER')}" ng-click="ctrl.postValidateProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject">
+        <md-button class="md-primary md-raised md-icon-button" ng-class="{'ml0': !ctrl.hasAuthority('ROLE_PUBLISHER')}" ng-click="ctrl.postValidateProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject">
             <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'global.tooltips.post-validation' | translate}}
             </md-tooltip>
@@ -42,7 +42,7 @@
             <md-icon md-font-set="material-icons">{{ctrl.selectedProject.release?'stop_screen_share':'screen_share'}}</md-icon>
         </md-button>
         <span flex></span>
-        <md-button ui-sref="project-cockpit({id: ctrl.selectedProject.id})" class="md-raised md-icon-button md-accent" style="margin-right: 0;" ng-click="close()" ng-disabled="!ctrl.selectedProject">
+        <md-button ui-sref="project-cockpit({id: ctrl.selectedProject.id})" class="md-raised md-icon-button md-accent" ng-click="close()" ng-disabled="!ctrl.selectedProject" style="margin-right: 0px;">
             <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'global.tooltips.cockpit-project' | translate}}
             </md-tooltip>

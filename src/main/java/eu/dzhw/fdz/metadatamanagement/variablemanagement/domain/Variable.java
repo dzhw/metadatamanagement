@@ -48,7 +48,6 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.Valid
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidScaleLevel;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidStorageType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidVariableIdName;
-import io.searchbox.annotations.JestId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -130,7 +129,6 @@ public class Variable extends AbstractShadowableRdcDomainObject {
    * than 512 characters.
    */
   @Id
-  @JestId
   @Setter(AccessLevel.NONE)
   private String id;
 

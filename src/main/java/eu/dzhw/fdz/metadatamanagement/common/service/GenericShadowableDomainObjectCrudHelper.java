@@ -2,12 +2,15 @@ package eu.dzhw.fdz.metadatamanagement.common.service;
 
 import java.util.Optional;
 
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.google.gson.Gson;
 import com.querydsl.core.types.Predicate;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
@@ -22,8 +25,6 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SearchDocumentI
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
-import io.searchbox.client.JestClient;
-import io.searchbox.core.Search;
 
 /**
  * CRUD Service Helper for {@link AbstractShadowableRdcDomainObject}.
@@ -33,8 +34,8 @@ import io.searchbox.core.Search;
  *
  * @author René Reitmann
  */
-public class GenericShadowableDomainObjectCrudHelper
-    <T extends AbstractShadowableRdcDomainObject, S extends BaseRepository<T, String>>
+public class GenericShadowableDomainObjectCrudHelper<T extends AbstractShadowableRdcDomainObject,
+      S extends BaseRepository<T, String>>
     extends GenericDomainObjectCrudHelper<T, S> {
 
   private static final QAbstractShadowableRdcDomainObject shadowQuery =
@@ -48,10 +49,11 @@ public class GenericShadowableDomainObjectCrudHelper
   public GenericShadowableDomainObjectCrudHelper(S repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      DomainObjectChangesProvider<T> domainObjectChangesProvider, JestClient jestClient,
-      Class<? extends T> searchDocumentClass, UserInformationProvider userInformationProvider) {
+      DomainObjectChangesProvider<T> domainObjectChangesProvider,
+      RestHighLevelClient elasticsearchClient, Class<? extends T> searchDocumentClass,
+      UserInformationProvider userInformationProvider, Gson gson) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService,
-        domainObjectChangesProvider, jestClient, searchDocumentClass);
+        domainObjectChangesProvider, elasticsearchClient, searchDocumentClass, gson);
     this.userInformationProvider = userInformationProvider;
   }
 
@@ -135,7 +137,7 @@ public class GenericShadowableDomainObjectCrudHelper
     if (!domainObject.isShadow()) {
       throw new IllegalArgumentException("Expected a shadow copy for deleting.");
     }
-    repository.delete(domainObject);
+    repository.deleteById(domainObject.getId());
     if (elasticsearchType != null) {
       elasticsearchUpdateQueueService.enqueue(domainObject.getId(), this.elasticsearchType,
           ElasticsearchUpdateQueueAction.DELETE);
@@ -181,17 +183,16 @@ public class GenericShadowableDomainObjectCrudHelper
       if (id.matches("^.*-\\d+.\\d+.\\d+$")) {
         // explicit get by id containing version
         searchDocument = super.readSearchDocument(id);
-      } else {        
+      } else {
         SearchSourceBuilder builder = new SearchSourceBuilder();
         builder.fetchSource(null,
             ExcludeFieldsHelper.getFieldsToExcludeOnDeserialization(searchDocumentClass));
-        builder.query(QueryBuilders.constantScoreQuery(QueryBuilders.boolQuery()
-            .must(QueryBuilders.termQuery("shadow", true))
-            .must(QueryBuilders.termQuery("masterId", id))
-            .mustNot(QueryBuilders.existsQuery("successorId")))).size(1);
-        Search search =
-            new Search.Builder(builder.toString()).addIndex(elasticsearchType.name()).build();
-        searchDocument = super.executeSearch(search);
+        builder.query(QueryBuilders.constantScoreQuery(
+            QueryBuilders.boolQuery().must(QueryBuilders.termQuery("shadow", true))
+                .must(QueryBuilders.termQuery("masterId", id))
+                .mustNot(QueryBuilders.existsQuery("successorId"))))
+            .size(1);
+        searchDocument = super.executeSearch(new SearchRequest().source(builder));
       }
       return searchDocument;
     }
@@ -199,6 +200,7 @@ public class GenericShadowableDomainObjectCrudHelper
 
   /**
    * Find all shadows for the given masterId.
+   * 
    * @param masterId The id of the master.
    * @param pageable used for paging and sorting the results
    * @return A page containing all shadows. Can be empty.

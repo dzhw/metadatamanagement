@@ -11,6 +11,7 @@ import java.util.Base64;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
 import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
 import org.springframework.http.CacheControl;
@@ -67,14 +68,15 @@ public class SearchResource {
    */
   @Autowired
   @SuppressFBWarnings("SIC_INNER_SHOULD_BE_STATIC_ANON")
-  public SearchResource(String elasticSearchConnectionUrl, MeterRegistry meterRegistry,
-      RestTemplateExchangeTagsProvider tagProvider)
+  public SearchResource(
+      @Value("${spring.elasticsearch.rest.uris[0]}") String elasticSearchConnectionUrl,
+      MeterRegistry meterRegistry, RestTemplateExchangeTagsProvider tagProvider)
       throws UnsupportedEncodingException, MalformedURLException {
     this.connectionUrl = elasticSearchConnectionUrl;
     URL url = new URL(elasticSearchConnectionUrl);
     restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
-    restTemplate.getMessageConverters()
-      .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
+    restTemplate.getMessageConverters().add(0,
+        new StringHttpMessageConverter(Charset.forName("UTF-8")));
     String credentials = url.getUserInfo();
     if (!StringUtils.isEmpty(credentials)) {
       byte[] plainCredsBytes = credentials.getBytes("UTF-8");
@@ -85,11 +87,11 @@ public class SearchResource {
     restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
       @Override
       protected boolean hasError(HttpStatus statusCode) {
-          return false;
+        return false;
       }
     });
-    MetricsRestTemplateCustomizer customizer = new MetricsRestTemplateCustomizer(
-        meterRegistry, tagProvider, "elasticsearch.client.requests");
+    MetricsRestTemplateCustomizer customizer = new MetricsRestTemplateCustomizer(meterRegistry,
+        tagProvider, "elasticsearch.client.requests");
     customizer.customize(restTemplate);
   }
 
@@ -118,13 +120,11 @@ public class SearchResource {
     if (!StringUtils.isEmpty(queryString)) {
       url = url + "?" + URLDecoder.decode(queryString, "UTF-8");
     }
-    ResponseEntity<String> responseFromElasticSearch = restTemplate.exchange(
-        url, method, new HttpEntity<>(body, headers), String.class);
-  
-    return ResponseEntity
-        .status(responseFromElasticSearch.getStatusCode())
-        .cacheControl(CacheControl.noStore())
-        .body(responseFromElasticSearch.getBody());
+    ResponseEntity<String> responseFromElasticSearch =
+        restTemplate.exchange(url, method, new HttpEntity<>(body, headers), String.class);
+
+    return ResponseEntity.status(responseFromElasticSearch.getStatusCode())
+        .cacheControl(CacheControl.noStore()).body(responseFromElasticSearch.getBody());
   }
 
   /**
@@ -153,7 +153,6 @@ public class SearchResource {
     } else {
       elasticsearchUpdateQueueService.processAllQueueItems();
     }
-    return ResponseEntity.ok()
-      .build();
+    return ResponseEntity.ok().build();
   }
 }

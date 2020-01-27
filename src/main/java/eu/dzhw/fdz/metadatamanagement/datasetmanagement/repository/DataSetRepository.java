@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.IdAnd
  * 
  * @author Daniel Katzberg *
  */
-@RepositoryRestResource(path = "/data-sets", excerptProjection = IdAndVersionProjection.class)
+@RepositoryRestResource(path = "data-sets", excerptProjection = IdAndVersionProjection.class)
 @JaversSpringDataAuditable
 public interface DataSetRepository
     extends BaseRepository<DataSet, String>, DataSetRepositoryCustom {

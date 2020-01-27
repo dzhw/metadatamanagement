@@ -36,9 +36,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections ConceptSubDocumentProjection
 
-.. java:import:: io.searchbox.annotations JestId
-
-.. java:import:: io.swagger.annotations ApiModel
+.. java:import:: io.swagger.v3.oas.annotations.media Schema
 
 .. java:import:: lombok AllArgsConstructor
 
@@ -58,7 +56,7 @@ Concept
 .. java:package:: eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain
    :noindex:
 
-.. java:type:: @Entity @Document @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ApiModel public class Concept extends AbstractRdcDomainObject implements ConceptSubDocumentProjection
+.. java:type:: @Entity @Document @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @Schema public class Concept extends AbstractRdcDomainObject implements ConceptSubDocumentProjection
 
    A concept is something which cannot be observed directly but there is a model which helps observing the concept. E.g.: The concept "Personality" can be observed with the help of the five-factor model (Big5).
 
@@ -99,7 +97,7 @@ doi
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Pattern @Size private String id
+.. java:field:: @Id @NotEmpty @Pattern @Size private String id
    :outertype: Concept
 
    The id of the concept which uniquely identifies the concept in this application. Must not be empty and must not contain more than 512 characters. Must start with "con-" and end with "$" and must not contain any whitespace.

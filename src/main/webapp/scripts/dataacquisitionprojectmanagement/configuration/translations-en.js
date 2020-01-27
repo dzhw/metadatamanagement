@@ -229,9 +229,10 @@ angular.module('metadatamanagementApp').config(
             'current': 'Click to show projects on page {{number}}'
           }
         },
-        'outdated-version-alert': 'This is an outdated page version ({{oldVersion}}). <a href="{{href}}">Click here to open the current version ({{newVersion}})!</a>',
+        'outdated-version-alert': 'This is an outdated page version ({{oldVersion}}). Choose the current version ({{newVersion}}) in the side menu.</a>',
         'outdated-version-not-found-alert': 'Your link refers to a former version ({{oldVersion}}) of this page. This is the current version ({{newVersion}}).',
-        'not-master-alert': 'This is a {{hidden?"<u>hidden</u>":""}} shadow copy ({{version}}). <a href="{{href}}">Click here to open the current version!</a>'
+        'not-master-alert': 'This is a {{hidden?"<u>hidden</u>":""}} shadow copy ({{version}}). ',
+        'current-version': 'Click here to open the current version!'
       }
       //jscs:enable
     };

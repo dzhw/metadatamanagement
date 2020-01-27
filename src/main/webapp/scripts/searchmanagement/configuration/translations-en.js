@@ -21,8 +21,16 @@ angular.module('metadatamanagementApp').config(
           'delete-instruments-title': 'Replace all Instruments?',
           'delete-instruments': 'Are you sure you want to replace all Instruments within the Data Acquisition Project with RDC-ID "{{ id }}"?'
         },
+        'search-result': {
+          'dataPacketSearch': 'Search "{{ searchQuery }}" in Data Package'
+        },
         'detail': {
-          'search': 'Data Search'
+          'search': 'Data Search',
+          'dataPacketSearch': 'Data Search',
+          'noresult': 'No search results found.',
+          'versions': 'Versions',
+          'access-ways': 'Access ways',
+          'cart': 'Note for application'
         },
         'buttons': {
           'refresh-tooltip': 'Click to refresh the search results',
@@ -74,6 +82,7 @@ angular.module('metadatamanagementApp').config(
           'surveys': 'Search for Surveys...',
           'data-sets': 'Search for Data Sets...',
           'studies': 'Search for Studies...',
+          'data-packages': 'Search for Data Packages...',
           'related-publications': 'Search for Publications...',
           'instruments': 'Search for Instruments...',
           'concepts': 'Search for Concepts...'
@@ -85,6 +94,7 @@ angular.module('metadatamanagementApp').config(
           'surveys': 'No Surveys found for your search request.',
           'data-sets': 'No Data Sets found for your search request.',
           'studies': 'No Studies found for your search request.',
+          'data-packages': 'No Data packages found for your search request.',
           'related-publications': 'No Publications found for your search request.',
           'instruments': 'No Instruments found for your search request.',
           'concepts': 'No Concepts found for your search request.',
@@ -109,6 +119,9 @@ angular.module('metadatamanagementApp').config(
           'concepts': 'Concepts',
           'concepts-found': '{number} {number, plural, =0{concepts} =1{concept} other{concepts}} found.',
           'concepts-tooltip': 'Click to search for concepts',
+          'data-packages': 'Data Packages',
+          'data-packages-found': '{number} {number, plural, =0{data packages} =1{data package} other{data packages}} found.',
+          'data-packages-tooltip': 'Click to search for data packages',
           'all': 'All',
           'all-tooltip': 'Click to search for all objects',
           'related_publications': 'Publications',

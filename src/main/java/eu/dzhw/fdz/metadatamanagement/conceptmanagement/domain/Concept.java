@@ -22,8 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
-import io.searchbox.annotations.JestId;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,7 +43,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-@ApiModel(
+@Schema(
     description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
         + "fdz/metadatamanagement/conceptmanagement/domain/Concept.html'>here</a>"
         + " for further details.")
@@ -59,7 +58,6 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
    * with "$" and must not contain any whitespace.
    */
   @Id
-  @JestId
   @NotEmpty(message = "concept-management.error.concept.id.not-empty")
   @Pattern(regexp = "^con-\\S+\\$$", message = "concept-management.error.concept.id.not-valid-id")
   @Size(max = StringLengths.MEDIUM, message = "concept-management.error.concept.id.size")

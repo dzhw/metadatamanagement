@@ -25,10 +25,10 @@
             <td>{{user.login}}</td>
             <td>{{user.email}}</td>
             <td>
-              <span class="label label-danger" data-translate="user-management.deactivated" ng-click="setActive(user, true)"
-                    ng-show="!user.activated" style="cursor: pointer;">Desactivated</span>
-              <span class="label label-success" data-translate="user-management.activated" ng-click="setActive(user, false)"
-                    ng-show="user.activated" style="cursor: pointer;">Activated</span>
+              <span class="label label-danger pointer" data-translate="user-management.deactivated" ng-click="setActive(user, true)"
+                    ng-show="!user.activated">Desactivated</span>
+              <span class="label label-success pointer" data-translate="user-management.activated" ng-click="setActive(user, false)"
+                    ng-show="user.activated">Activated</span>
             </td>
             <td>{{user.langKey}}</td>
             <td>

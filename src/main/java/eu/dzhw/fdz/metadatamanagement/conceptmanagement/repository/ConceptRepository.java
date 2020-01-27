@@ -16,7 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.Conce
 /**
  * Concept Repository.
  */
-@RepositoryRestResource(path = "/concepts", excerptProjection = IdAndVersionProjection.class)
+@RepositoryRestResource(path = "concepts", excerptProjection = IdAndVersionProjection.class)
 @JaversSpringDataAuditable
 public interface ConceptRepository 
     extends BaseRepository<Concept, String>, ConceptRepositoryCustom {

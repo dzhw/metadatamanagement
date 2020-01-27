@@ -54,8 +54,6 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain Variable
 
-.. java:import:: io.searchbox.annotations JestId
-
 .. java:import:: lombok AccessLevel
 
 .. java:import:: lombok AllArgsConstructor
@@ -119,7 +117,7 @@ dataAcquisitionProjectId
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Size @Setter private String id
+.. java:field:: @Id @NotEmpty @Size @Setter private String id
    :outertype: Question
 
    The id of the question which uniquely identifies the question in this application.

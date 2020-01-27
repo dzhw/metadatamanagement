@@ -7,10 +7,20 @@ angular.module('metadatamanagementApp')
       templateUrl: 'scripts/searchmanagement/directives/' +
         'related-publication-search-result.html.tmpl',
       scope: {
+        searchQuery: '<',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
-        searchResultIndex: '='
+        searchResultIndex: '=',
+        setParams: '&'
+      },
+      controller: function($scope, HighlightService, $timeout,
+         $element) {
+        if ($scope.searchQuery) {
+          $timeout(function() {
+            HighlightService.apply($element[0], $scope.searchQuery);
+          });
+        }
       }
     };
   });

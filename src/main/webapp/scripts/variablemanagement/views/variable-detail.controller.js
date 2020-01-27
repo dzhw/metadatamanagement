@@ -3,43 +3,46 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .controller('VariableDetailController', function($scope, entity,
-    QuestionSearchService, VariableSearchService, Principal,
-    SimpleMessageToastService, PageTitleService, LanguageService,
-    CleanJSObjectService, $state, ToolbarHeaderService,
-    SearchResultNavigatorService, ProductChooserDialogService,
-    OutdatedVersionNotifier, $stateParams, blockUI) {
+  .controller('VariableDetailController', function(entity,
+    MessageBus,
+    VariableSearchService, Principal,
+    SimpleMessageToastService,
+    PageTitleService, LanguageService,
+    CleanJSObjectService,
+    $state, ToolbarHeaderService,
+    SearchResultNavigatorService,
+    OutdatedVersionNotifier,
+    $stateParams, blockUI) {
     blockUI.start();
     SearchResultNavigatorService
       .setSearchIndex($stateParams['search-result-index']);
 
     SearchResultNavigatorService.registerCurrentSearchResult();
-
-    $scope.isAuthenticated = Principal.isAuthenticated;
-    $scope.hasAuthority = Principal.hasAuthority;
-    $scope.searchResultIndex = SearchResultNavigatorService
+    var ctrl = this;
+    ctrl.isAuthenticated = Principal.isAuthenticated;
+    ctrl.hasAuthority = Principal.hasAuthority;
+    ctrl.searchResultIndex = SearchResultNavigatorService
       .getSearchIndex();
-    $scope.generationCodeToggleFlag = true;
-    $scope.filterDetailsCodeToggleFlag = true;
-    $scope.notAllRowsVisible = true;
-    $scope.counts = {};
-    $scope.nextVariables = [];
-    $scope.previousVariables = [];
-    $scope.validResponsesOrMissingsAvailable = false;
-    $scope.enableJsonView = Principal
+    ctrl.generationCodeToggleFlag = true;
+    ctrl.filterDetailsCodeToggleFlag = true;
+    ctrl.notAllRowsVisible = true;
+    ctrl.counts = {
+      surveysCount: 0,
+      dataSetsCount: 0,
+      questionsCount: 0,
+      publicationsCount: 0,
+      conceptsCount: 0
+    };
+    ctrl.nextVariables = [];
+    ctrl.previousVariables = [];
+    ctrl.validResponsesOrMissingsAvailable = false;
+    ctrl.enableJsonView = Principal
       .hasAnyAuthority(['ROLE_PUBLISHER','ROLE_ADMIN']);
-    $scope.jsonExcludes = [
-      'nestedDataSet',
-      'nestedStudy',
-      'nestedQuestions',
-      'nestedRelatedPublications',
-      'nestedSurveys',
-      'nestedInstruments',
-      'nestedConcepts'
-    ];
+
     entity.promise.then(function(result) {
       var fetchFn = VariableSearchService.findShadowByIdAndVersion
-        .bind(null, result.masterId);
+        .bind(null, result.masterId, null, ['nested*','questions',
+          'instruments','relatedPublications','concepts']);
       OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
 
       var currenLanguage = LanguageService.getCurrentInstantly();
@@ -55,40 +58,25 @@ angular.module('metadatamanagementApp')
         'name': result.name,
         'dataSetId': result.dataSetId,
         'dataSetNumber': result.dataSetNumber,
-        'dataSetIsPresent': CleanJSObjectService.
-        isNullOrEmpty(result.dataSet) ? false : true,
+        'dataSetIsPresent': !CleanJSObjectService.isNullOrEmpty(result.dataSet),
         'surveys': result.surveys,
         'studyId': result.studyId,
-        'studyIsPresent': CleanJSObjectService.
-        isNullOrEmpty(result.study) ? false : true,
+        'studyIsPresent': !CleanJSObjectService.isNullOrEmpty(result.study),
         'projectId': result.dataAcquisitionProjectId,
         'version': result.shadow ? _.get(result, 'release.version') : null
       });
       if (result.release || Principal.hasAnyAuthority(['ROLE_PUBLISHER',
           'ROLE_DATA_PROVIDER'])) {
-        $scope.variable = result;
-        if ($scope.variable.distribution != null && (
-            !CleanJSObjectService.isNullOrEmpty($scope
+        ctrl.variable = result;
+        if (ctrl.variable.distribution != null && (
+            !CleanJSObjectService.isNullOrEmpty(ctrl
               .variable.distribution.missings) ||
-            !CleanJSObjectService.isNullOrEmpty($scope
+            !CleanJSObjectService.isNullOrEmpty(ctrl
               .variable.distribution.validResponses))) {
-          $scope.validResponsesOrMissingsAvailable = true;
+          ctrl.validResponsesOrMissingsAvailable = true;
         }
-        $scope.study = $scope.variable.study;
-        $scope.dataSet = $scope.variable.dataSet;
-
-        $scope.counts.questionsCount = $scope.variable.relatedQuestions ?
-          $scope.variable.relatedQuestions.length : 0;
-        if ($scope.counts.questionsCount === 1) {
-          QuestionSearchService
-            .findByVariableId($scope.variable.id, ['number',
-              'instrumentNumber',
-              'questionText', 'id'
-            ])
-            .then(function(question) {
-              $scope.question = question.hits.hits[0]._source;
-            });
-        }
+        ctrl.study = ctrl.variable.study;
+        ctrl.dataSet = ctrl.variable.dataSet;
 
         //Find previousVariables
         var previousIndexInDataSet = result.indexInDataSet - 1;
@@ -96,7 +84,7 @@ angular.module('metadatamanagementApp')
           previousIndexInDataSet, ['id', 'label', 'name', 'dataType',
             'scaleLevel', 'surveys', 'masterId', 'release', 'shadow'])
           .then(function(resultPreviousVariable) {
-            $scope.previousVariables = resultPreviousVariable.hits.hits;
+            ctrl.previousVariables = resultPreviousVariable.hits.hits;
           });
 
         //Find nextVariables
@@ -105,50 +93,14 @@ angular.module('metadatamanagementApp')
           nextIndexInDataSet, ['id', 'label', 'name', 'dataType',
             'scaleLevel', 'surveys', 'masterId', 'release', 'shadow'])
           .then(function(resultNextVariable) {
-            $scope.nextVariables = resultNextVariable.hits.hits;
+            ctrl.nextVariables = resultNextVariable.hits.hits;
           });
 
-        $scope.counts.surveysCount = $scope.variable.surveyNumbers ?
-          $scope.variable.surveyNumbers.length : 0;
-        if ($scope.counts.surveysCount === 1) {
-          $scope.survey = $scope.variable.surveys[0];
+        if (ctrl.variable.filterDetails) {
+          html_beautify(ctrl.variable.filterDetails.expression); //jscs:ignore
         }
-        $scope.counts.conceptsCount = $scope.variable.concepts.length;
-        if ($scope.counts.conceptsCount === 1) {
-          $scope.concept = $scope.variable.concepts[0];
-        }
-        if ($scope.variable.panelIdentifier) {
-          VariableSearchService
-            .countBy('panelIdentifier', $scope.variable.panelIdentifier,
-              null, _.get(result, 'release.version'))
-            .then(function(variablesInPanel) {
-              $scope.counts.variablesInPanel = variablesInPanel.count;
-            });
-        } else {
-          $scope.counts.variablesInPanel = 0;
-        }
-        if ($scope.variable.derivedVariablesIdentifier) {
-          VariableSearchService
-            .countBy('derivedVariablesIdentifier',
-              $scope.variable.derivedVariablesIdentifier, null,
-              _.get(result, 'release.version'))
-            .then(function(derivedVariables) {
-              $scope.counts.derivedVariables = derivedVariables.count;
-            });
-        } else {
-          $scope.counts.derivedVariables = 0;
-        }
-        $scope.counts.publicationsCount = $scope.variable
-          .relatedPublications.length;
-        if ($scope.counts.publicationsCount === 1) {
-          $scope.relatedPublication = $scope.variable
-            .relatedPublications[0];
-        }
-        if ($scope.variable.filterDetails) {
-          html_beautify($scope.variable.filterDetails.expression); //jscs:ignore
-        }
-        if ($scope.variable.generationDetails) {
-          html_beautify($scope.variable.generationDetails.rule); //jscs:ignore
+        if (ctrl.variable.generationDetails) {
+          html_beautify(ctrl.variable.generationDetails.rule); //jscs:ignore
         }
       } else {
         SimpleMessageToastService.openAlertMessageToast(
@@ -157,64 +109,64 @@ angular.module('metadatamanagementApp')
           }
         );
       }
+      if (!Principal.isAuthenticated()) {
+        MessageBus.set('onDataPackageChange',
+          {
+            masterId: result.study.masterId,
+            version: result.release.version
+          });
+      }
     }).finally(blockUI.stop);
-    $scope.isRowHidden = function(index) {
-      if (index <= 4 || index >= $scope
+    ctrl.isRowHidden = function(index) {
+      if (index <= 4 || index >= ctrl
         .variable.distribution.validResponses.length - 5) {
         return false;
       } else {
-        return $scope.notAllRowsVisible;
+        return ctrl.notAllRowsVisible;
       }
     };
-    $scope.toggleAllRowsVisible = function() {
-      $scope.notAllRowsVisible = !$scope.notAllRowsVisible;
+    ctrl.toggleAllRowsVisible = function() {
+      ctrl.notAllRowsVisible = !ctrl.notAllRowsVisible;
     };
-    $scope.toggleGenerationCode = function() {
-      $scope.generationCodeToggleFlag = !$scope.generationCodeToggleFlag;
+    ctrl.toggleGenerationCode = function() {
+      ctrl.generationCodeToggleFlag = !ctrl.generationCodeToggleFlag;
     };
-    $scope.toggleFilterDetailsCode = function() {
-      $scope.filterDetailsCodeToggleFlag = !$scope.filterDetailsCodeToggleFlag;
+    ctrl.toggleFilterDetailsCode = function() {
+      ctrl.filterDetailsCodeToggleFlag = !ctrl.filterDetailsCodeToggleFlag;
     };
-    $scope.openSuccessCopyToClipboardToast = function(message) {
+    ctrl.openSuccessCopyToClipboardToast = function(message) {
       SimpleMessageToastService.openSimpleMessageToast(message, []);
     };
 
     /* Show headline for Central Tendency,
       if one element is filled with data. */
-    $scope.checkCentralTendencyElements = function() {
+    ctrl.checkCentralTendencyElements = function() {
 
-      return $scope.variable.distribution != null &&
-        $scope.variable.distribution.statistics != null &&
-        ($scope.variable.distribution.statistics.meanValue != null ||
-          $scope.variable.distribution.statistics.median != null ||
-          $scope.variable.distribution.statistics.mode != null);
+      return ctrl.variable.distribution != null &&
+        ctrl.variable.distribution.statistics != null &&
+        (ctrl.variable.distribution.statistics.meanValue != null ||
+          ctrl.variable.distribution.statistics.median != null ||
+          ctrl.variable.distribution.statistics.mode != null);
     };
 
     /* Show headline for Dispersion, if one element is filled with data. */
-    $scope.checkDispersionElements = function() {
-      return $scope.variable.distribution != null &&
-        $scope.variable.distribution.statistics != null &&
-        $scope.variable.distribution.statistics.standardDeviation;
+    ctrl.checkDispersionElements = function() {
+      return ctrl.variable.distribution != null &&
+        ctrl.variable.distribution.statistics != null &&
+        ctrl.variable.distribution.statistics.standardDeviation;
     };
 
     /* Show headline for Distribution, if one element is filled with data. */
-    $scope.checkDistributionElements = function() {
-      return $scope.variable.distribution != null &&
-        $scope.variable.distribution.statistics != null &&
-        ($scope.variable.distribution.statistics.skewness != null ||
-          $scope.variable.distribution.statistics.kurtosis != null);
+    ctrl.checkDistributionElements = function() {
+      return ctrl.variable.distribution != null &&
+        ctrl.variable.distribution.statistics != null &&
+        (ctrl.variable.distribution.statistics.skewness != null ||
+          ctrl.variable.distribution.statistics.kurtosis != null);
     };
 
-    $scope.isDiagramVisible = function() {
-      return $scope.variable.distribution != null &&
-        $scope.variable.distribution.validResponses &&
-        $scope.variable.distribution.validResponses.length > 0;
-    };
-
-    $scope.addToShoppingCart = function(event) {
-      ProductChooserDialogService.showDialog(
-        $scope.variable.dataAcquisitionProjectId, $scope.variable.accessWays,
-        $scope.variable.study, $scope.variable.release.version,
-        event);
+    ctrl.isDiagramVisible = function() {
+      return ctrl.variable.distribution != null &&
+        ctrl.variable.distribution.validResponses &&
+        ctrl.variable.distribution.validResponses.length > 0;
     };
   });

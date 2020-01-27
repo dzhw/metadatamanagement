@@ -19,6 +19,8 @@ spring:
         default-page-size: 10
         return-body-on-create: false
         return-body-on-update: false
+      mongodb:
+        auto-index-creation: true
     messages:
         basename: classpath:/i18n/messages
     mvc:
@@ -48,8 +50,19 @@ spring:
       cloudfoundry:
         discovery:
           enabled: false
-
-
+    elasticsearch:
+      rest:
+        uris:
+        - http://localhost:9200
+        
+springdoc:
+  swagger-ui:
+    path: /api/swagger-ui.html
+    enabled: true
+  api-docs:
+    path: /api/api-docs
+    enabled: true
+    
 logging:
   level:
     root: warn
@@ -88,6 +101,8 @@ management:
     elasticsearch:
       enabled: false
     refresh:
+      enabled: false
+    ping:
       enabled: false
 
 javers:

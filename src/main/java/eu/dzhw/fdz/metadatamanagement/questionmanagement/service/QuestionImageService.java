@@ -74,7 +74,7 @@ public class QuestionImageService {
    */
   public List<QuestionImageMetadata> findByQuestionId(String questionId) {
     Query query = new Query(new GridFsCriteria("metadata.questionId").is(questionId))
-        .with(new Sort(Sort.Direction.ASC, "metadata.indexInQuestion"));
+        .with(Sort.by(Sort.Direction.ASC, "metadata.indexInQuestion"));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<QuestionImageMetadata> result = new ArrayList<>();
     files.forEach(gridfsFile -> {

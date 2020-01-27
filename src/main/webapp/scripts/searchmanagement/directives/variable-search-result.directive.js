@@ -7,12 +7,20 @@ angular.module('metadatamanagementApp').directive('variableSearchResult',
       templateUrl: 'scripts/searchmanagement/directives/' +
         'variable-search-result.html.tmpl',
       scope: {
+        searchQuery: '<',
         searchResult: '=',
         currentLanguage: '=',
         bowser: '=',
-        searchResultIndex: '='
+        searchResultIndex: '=',
+        setParams: '&'
       },
-      controller: function($scope, Principal) {
+      controller: function($scope, Principal, HighlightService, $timeout,
+         $element) {
+        if ($scope.searchQuery) {
+          $timeout(function() {
+            HighlightService.apply($element[0], $scope.searchQuery);
+          });
+        }
         $scope.isLoggedIn = Principal.loginName();
       }
     };

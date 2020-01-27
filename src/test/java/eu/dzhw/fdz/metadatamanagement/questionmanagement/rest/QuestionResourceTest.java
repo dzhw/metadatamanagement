@@ -102,7 +102,7 @@ public class QuestionResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one question documents
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
 
     // check that auditing attributes have been set
     mockMvc.perform(get(API_QUESTIONS_URI + "/" + question.getId()))
@@ -151,7 +151,7 @@ public class QuestionResourceTest extends AbstractTest {
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one question documents
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
   }
 
   // add this test when validation is on
@@ -280,7 +280,7 @@ public class QuestionResourceTest extends AbstractTest {
       .andExpect(status().isNotFound());
 
     // check that there are no question documents anymore
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(0L));
   }
 
   @Test

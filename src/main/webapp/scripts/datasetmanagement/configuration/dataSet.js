@@ -3,10 +3,10 @@
 angular.module('metadatamanagementApp')
   .config(function($stateProvider, $urlRouterProvider) {
     var loadShadowCopy = function(DataSetSearchService,
-      SimpleMessageToastService, id, version) {
+      SimpleMessageToastService, id, version, excludes) {
         var loadLatestShadowCopyFallback = function() {
-          return DataSetSearchService.findShadowByIdAndVersion(id, null)
-          .promise.then(function(result) {
+          return DataSetSearchService.findShadowByIdAndVersion(id, null,
+            excludes).promise.then(function(result) {
             if (result) {
               return result;
             } else {
@@ -16,8 +16,8 @@ angular.module('metadatamanagementApp')
             }
           });
         };
-        return DataSetSearchService.findShadowByIdAndVersion(id, version)
-          .promise.then(function(result) {
+        return DataSetSearchService.findShadowByIdAndVersion(id, version,
+          excludes).promise.then(function(result) {
             if (result) {
               return result;
             } else {
@@ -31,7 +31,8 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state('dataSetDetail', {
         parent: 'site',
-        url: '/data-sets/{id}?{version}',
+        url: '/data-sets/{id}?{version}{query}{page}{size}',
+        reloadOnSearch: false,
         data: {
           authorities: []
         },
@@ -51,13 +52,17 @@ angular.module('metadatamanagementApp')
             'SimpleMessageToastService',
             function($stateParams, DataSetSearchService, Principal, $q,
               SimpleMessageToastService) {
+              var excludedAttributes = ['nested*','variables','questions',
+                'instruments', 'relatedPublications','concepts'];
               if (Principal.loginName() && !$stateParams.version) {
-                return DataSetSearchService.findOneById($stateParams.id);
+                return DataSetSearchService.findOneById($stateParams.id, null,
+                  excludedAttributes);
               } else {
                 var deferred = $q.defer();
                 loadShadowCopy(DataSetSearchService,
                   SimpleMessageToastService, $stateParams.id,
-                  $stateParams.version).then(deferred.resolve, deferred.reject);
+                  $stateParams.version, excludedAttributes)
+                  .then(deferred.resolve, deferred.reject);
                 return deferred;
               }
             }
