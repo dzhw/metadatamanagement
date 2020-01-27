@@ -29,7 +29,6 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidDa
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSampleType;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSurveyIdName;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidUniqueSurveyNumber;
-import io.searchbox.annotations.JestId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -63,7 +62,6 @@ public class Survey extends AbstractShadowableRdcDomainObject {
    * The id of the survey which uniquely identifies the survey in this application.
    */
   @Id
-  @JestId
   @Setter(AccessLevel.NONE)
   private String id;
 

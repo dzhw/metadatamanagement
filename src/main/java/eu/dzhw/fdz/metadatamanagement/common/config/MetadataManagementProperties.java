@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import io.searchbox.client.JestClient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,8 +23,6 @@ import lombok.Setter;
 public class MetadataManagementProperties {
 
   private final Elasticsearch elasticsearch = new Elasticsearch();
-
-  private final ElasticsearchClient elasticsearchClient = new ElasticsearchClient();
 
   private final ElasticsearchAngularClient elasticsearchAngularClient =
       new ElasticsearchAngularClient();
@@ -55,19 +52,6 @@ public class MetadataManagementProperties {
   @Setter
   public static class Elasticsearch {
     private String version = "7.3.2";
-  }
-
-  /**
-   * Configuration Properties for the {@link JestClient}.
-   *
-   * @author René Reitmann
-   */
-  @Getter
-  @Setter
-  public static class ElasticsearchClient {
-    // default connection url
-    private String url = "http://localhost:9200";
-    private int readTimeout = 60000;
   }
 
   /**

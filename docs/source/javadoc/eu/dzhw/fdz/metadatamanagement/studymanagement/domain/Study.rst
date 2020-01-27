@@ -50,8 +50,6 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation ValidSurveyDesign
 
-.. java:import:: io.searchbox.annotations JestId
-
 .. java:import:: io.swagger.v3.oas.annotations.media Schema
 
 .. java:import:: lombok AccessLevel
@@ -125,7 +123,7 @@ description
 id
 ^^
 
-.. java:field:: @Id @JestId @Setter @NotEmpty private String id
+.. java:field:: @Id @Setter @NotEmpty private String id
    :outertype: Study
 
    The id of the study which uniquely identifies the study in this application.

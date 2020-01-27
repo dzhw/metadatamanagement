@@ -103,6 +103,6 @@ public class SearchResourceTest extends AbstractTest {
     mockMvc.perform(post("/api/search/recreate"))
       .andExpect(status().isOk());
 
-    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1.0));
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
   }
 }

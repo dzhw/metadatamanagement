@@ -1,32 +1,34 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.dao;
 
 import java.io.IOException;
-import java.util.Collection;
 
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
+import org.elasticsearch.action.admin.indices.settings.get.GetSettingsRequest;
+import org.elasticsearch.action.admin.indices.settings.get.GetSettingsResponse;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.support.IndicesOptions;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.core.CountRequest;
+import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.GetIndexRequest;
+import org.elasticsearch.client.indices.GetMappingsRequest;
+import org.elasticsearch.client.indices.GetMappingsResponse;
+import org.elasticsearch.client.indices.PutMappingRequest;
+import org.elasticsearch.cluster.metadata.MappingMetaData;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Component;
-
-import com.google.gson.JsonObject;
 
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchBulkOperationException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIndexCreateException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIndexDeleteException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchIoException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchPutMappingException;
-import io.searchbox.action.Action;
-import io.searchbox.client.JestClient;
-import io.searchbox.client.JestResult;
-import io.searchbox.core.Bulk;
-import io.searchbox.core.Count;
-import io.searchbox.core.CountResult;
-import io.searchbox.indices.CreateIndex;
-import io.searchbox.indices.DeleteIndex;
-import io.searchbox.indices.IndicesExists;
-import io.searchbox.indices.Refresh;
-import io.searchbox.indices.mapping.GetMapping;
-import io.searchbox.indices.mapping.PutMapping;
-import io.searchbox.indices.settings.GetSettings;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Data Access Object for accessing and manipulating elasticsearch.
@@ -34,11 +36,10 @@ import lombok.extern.slf4j.Slf4j;
  * @author René Reitmann
  */
 @Component
-@Slf4j
 @RequiredArgsConstructor
 public class ElasticsearchDao {
 
-  private final JestClient jestClient;
+  private final RestHighLevelClient client;
 
   /**
    * Create an index with the given settings as json.
@@ -46,11 +47,13 @@ public class ElasticsearchDao {
    * @param index the name of the index
    * @param settings the settings json
    */
-  public void createIndex(String index, JsonObject settings) {
-    JestResult result =
-        execute(new CreateIndex.Builder(index).settings(settings.toString()).build());
-    if (!result.isSucceeded()) {
-      throw new ElasticsearchIndexCreateException(index, result.getErrorMessage());
+  public void createIndex(String index, String settings) {
+    CreateIndexRequest request = new CreateIndexRequest(index);
+    request.settings(settings, XContentType.JSON);
+    try {
+      client.indices().create(request, RequestOptions.DEFAULT);
+    } catch (IOException e) {
+      throw new ElasticsearchIndexCreateException(index, e);
     }
   }
 
@@ -60,13 +63,15 @@ public class ElasticsearchDao {
    * @param index The name of the index.
    * @return the current settings json
    */
-  public JsonObject getSettings(String index) {
-    JestResult result = execute(new GetSettings.Builder().addIndex(index).build());
-    if (!result.isSucceeded()) {
-      log.warn("Unable to get setting for index " + index + ": " + result.getErrorMessage());
-      return null;
+  public Settings getSettings(String index) {
+    GetSettingsRequest request = new GetSettingsRequest().indices(index);
+    GetSettingsResponse response;
+    try {
+      response = client.indices().getSettings(request, RequestOptions.DEFAULT);
+    } catch (IOException e) {
+      throw new ElasticsearchIoException(e);
     }
-    return result.getJsonObject().getAsJsonObject(index).getAsJsonObject("settings");
+    return response.getIndexToSettings().get(index);
   }
 
   /**
@@ -75,10 +80,12 @@ public class ElasticsearchDao {
    * @param index the name of the index holding the type
    * @param mapping the mapping json
    */
-  public void putMapping(String index, JsonObject mapping) {
-    JestResult result = execute(new PutMapping.Builder(index, null, mapping).build());
-    if (!result.isSucceeded()) {
-      throw new ElasticsearchPutMappingException(index, result.getErrorMessage());
+  public void putMapping(String index, String mapping) {
+    PutMappingRequest request = new PutMappingRequest(index).source(mapping, XContentType.JSON);
+    try {
+      client.indices().putMapping(request, RequestOptions.DEFAULT);
+    } catch (IOException e) {
+      throw new ElasticsearchPutMappingException(index, e);
     }
   }
 
@@ -88,13 +95,15 @@ public class ElasticsearchDao {
    * @param index the name of the index
    * @return the mapping json
    */
-  public JsonObject getMapping(String index) {
-    JestResult result = execute(new GetMapping.Builder().addIndex(index).addType("_doc").build());
-    if (!result.isSucceeded()) {
-      log.error("Unable to get mapping for index " + index + ": " + result.getErrorMessage());
-      return null;
+  public MappingMetaData getMapping(String index) {
+    GetMappingsRequest request = new GetMappingsRequest().indices(index);
+    GetMappingsResponse response;
+    try {
+      response = client.indices().getMapping(request, RequestOptions.DEFAULT);
+    } catch (IOException e) {
+      throw new ElasticsearchIoException(e);
     }
-    return result.getJsonObject().getAsJsonObject(index).getAsJsonObject("mappings");
+    return response.mappings().get(index);
   }
 
   /**
@@ -104,7 +113,12 @@ public class ElasticsearchDao {
    * @return true if the index exists.
    */
   public boolean exists(String index) {
-    return execute(new IndicesExists.Builder(index).build()).isSucceeded();
+    GetIndexRequest request = new GetIndexRequest(index);
+    try {
+      return client.indices().exists(request, RequestOptions.DEFAULT);
+    } catch (IOException e) {
+      throw new ElasticsearchIoException(e);
+    }
   }
 
   /**
@@ -112,11 +126,13 @@ public class ElasticsearchDao {
    * 
    * @param indices the indices to refresh.
    */
-  public void refresh(Collection<String> indices) {
-    JestResult result =
-        execute(new Refresh.Builder().addIndices(indices).ignoreUnavailable(true).build());
-    if (!result.isSucceeded()) {
-      log.error("Unable to refresh indices " + indices + ": " + result.getErrorMessage());
+  public void refresh(String... indices) {
+    RefreshRequest request = new RefreshRequest(indices);
+    request.indicesOptions(IndicesOptions.fromOptions(true, true, false, false));
+    try {
+      client.indices().refresh(request, RequestOptions.DEFAULT);
+    } catch (IOException e) {
+      throw new ElasticsearchIoException(e);
     }
   }
 
@@ -126,9 +142,11 @@ public class ElasticsearchDao {
    * @param index The name of the index to delete.
    */
   public void delete(String index) {
-    JestResult result = execute(new DeleteIndex.Builder(index).build());
-    if (!result.isSucceeded()) {
-      throw new ElasticsearchIndexDeleteException(index, result.getErrorMessage());
+    DeleteIndexRequest request = new DeleteIndexRequest(index);
+    try {
+      client.indices().delete(request, RequestOptions.DEFAULT);
+    } catch (IOException e) {
+      throw new ElasticsearchIndexDeleteException(index, e);
     }
   }
 
@@ -137,28 +155,28 @@ public class ElasticsearchDao {
    * 
    * @return The number of all documents in all indices.
    */
-  public Double countAllDocuments() {
-    CountResult result = (CountResult) execute(new Count.Builder().build());
-    return result.getCount();
+  public long countAllDocuments() {
+    CountRequest countRequest = new CountRequest();
+    SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+    searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+    countRequest.source(searchSourceBuilder);
+    try {
+      return client.count(countRequest, RequestOptions.DEFAULT).getCount();
+    } catch (IOException e) {
+      throw new ElasticsearchIoException(e);
+    }
   }
 
   /**
    * Execute a bulk of operations.
    * 
-   * @param bulk The bulk to be executed.
+   * @param bulkRequest The bulk to be executed.
    */
-  public void executeBulk(Bulk bulk) {
-    JestResult result = execute(bulk);
-    if (!result.isSucceeded()) {
-      throw new ElasticsearchBulkOperationException(result.getErrorMessage());
-    }
-  }
-
-  private JestResult execute(Action<?> action) {
+  public void executeBulk(BulkRequest bulkRequest) {
     try {
-      return jestClient.execute(action);
+      client.bulk(bulkRequest, RequestOptions.DEFAULT);
     } catch (IOException e) {
-      throw new ElasticsearchIoException(e);
+      throw new ElasticsearchBulkOperationException(e);
     }
   }
 }

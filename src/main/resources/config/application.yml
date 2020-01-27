@@ -50,6 +50,11 @@ spring:
       cloudfoundry:
         discovery:
           enabled: false
+    elasticsearch:
+      rest:
+        uris:
+        - http://localhost:9200
+        
 springdoc:
   swagger-ui:
     path: /api/swagger-ui.html

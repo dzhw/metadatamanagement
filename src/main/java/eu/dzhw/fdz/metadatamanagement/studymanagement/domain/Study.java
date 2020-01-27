@@ -29,7 +29,6 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySub
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidDataAvailability;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidStudyId;
 import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.validation.ValidSurveyDesign;
-import io.searchbox.annotations.JestId;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -65,7 +64,6 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
    * The id of the study which uniquely identifies the study in this application.
    */
   @Id
-  @JestId
   @Setter(AccessLevel.NONE)
   @NotEmpty(message = "study-management.error.study.id.not-empty")
   private String id;

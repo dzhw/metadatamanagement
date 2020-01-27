@@ -9,8 +9,8 @@ public class ElasticsearchPutMappingException extends RuntimeException {
 
   private static final long serialVersionUID = -2020252584968470396L;
 
-  public ElasticsearchPutMappingException(String index, String reason) {
+  public ElasticsearchPutMappingException(String index, Exception cause) {
     super(
-        "Unable to create mapping in search index " + index +  ": " + reason);
+        "Unable to create mapping in search index " + index +  ".", cause);
   }
 }

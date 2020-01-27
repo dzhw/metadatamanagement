@@ -56,8 +56,6 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain Variable
 
-.. java:import:: io.searchbox.annotations JestId
-
 .. java:import:: lombok AccessLevel
 
 .. java:import:: lombok AllArgsConstructor
@@ -121,7 +119,7 @@ format
 id
 ^^
 
-.. java:field:: @Id @JestId @NotEmpty @Setter private String id
+.. java:field:: @Id @NotEmpty @Setter private String id
    :outertype: DataSet
 
    The id of the dataset which uniquely identifies the dataset in this application.

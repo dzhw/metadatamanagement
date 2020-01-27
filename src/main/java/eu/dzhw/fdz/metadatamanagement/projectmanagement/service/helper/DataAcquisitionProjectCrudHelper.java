@@ -17,14 +17,14 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationPro
  */
 @Component
 public class DataAcquisitionProjectCrudHelper extends
-    GenericShadowableDomainObjectCrudHelper
-    <DataAcquisitionProject, DataAcquisitionProjectRepository> {
+    GenericShadowableDomainObjectCrudHelper<DataAcquisitionProject, 
+      DataAcquisitionProjectRepository> {
   public DataAcquisitionProjectCrudHelper(DataAcquisitionProjectRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
       DataAcquisitionProjectChangesProvider changesProvider,
       UserInformationProvider userInformationProvider) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, changesProvider,
-        null, null, userInformationProvider);
+        null, null, userInformationProvider, null);
   }
 }

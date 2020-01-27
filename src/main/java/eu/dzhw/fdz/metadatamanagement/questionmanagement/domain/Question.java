@@ -31,7 +31,6 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.Valid
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidUniqueQuestionNumber;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
-import io.searchbox.annotations.JestId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -65,7 +64,6 @@ public class Question extends AbstractShadowableRdcDomainObject {
    * The id of the question which uniquely identifies the question in this application.
    */
   @Id
-  @JestId
   @NotEmpty(message = "question-management.error.question.id.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "question-management.error.question.id.size")
   @Setter(AccessLevel.NONE)

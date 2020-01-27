@@ -1,15 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 
+import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequest;
+import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.cluster.health.ClusterHealthStatus;
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health.Builder;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.JsonObject;
-
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
-import io.searchbox.client.JestClient;
-import io.searchbox.client.JestResult;
-import io.searchbox.indices.Stats;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,19 +23,19 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ElasticsearchHealthIndicator extends AbstractHealthIndicator {
 
-  private final JestClient jestClient;
+  private final RestHighLevelClient client;
 
   private final ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
 
   @Override
   protected void doHealthCheck(Builder builder) throws Exception {
     try {
-      JestResult result = jestClient.execute(new Stats.Builder().addIndex("_all").build());
-      JsonObject map = result.getJsonObject();
+      ClusterHealthRequest request = new ClusterHealthRequest();
+      ClusterHealthResponse response = client.cluster().health(request, RequestOptions.DEFAULT);
 
-      if (result.isSucceeded()) {
+      if (response.getStatus().equals(ClusterHealthStatus.GREEN)
+          || response.getStatus().equals(ClusterHealthStatus.YELLOW)) {
         builder.up();
-        fillStatsForIndex(map, builder);
       } else {
         builder.down();
       }
@@ -45,22 +45,5 @@ public class ElasticsearchHealthIndicator extends AbstractHealthIndicator {
       log.error("Elasticsearch health check failed:", e);
       builder.down(e);
     }
-  }
-
-  /**
-   * Fill statistics for all indices.
-   * 
-   * @param map The json object for the _all index.
-   * @param builder The spring boot builder.
-   */
-  private void fillStatsForIndex(JsonObject map, Builder builder) {
-    JsonObject indices = map.getAsJsonObject("indices");
-    indices.entrySet().forEach(entry -> {
-      String indexName = entry.getKey();
-      JsonObject indexStats = entry.getValue().getAsJsonObject();
-      JsonObject primaries = indexStats.getAsJsonObject("primaries");
-      builder.withDetail(indexName + "." + "docs_count",
-          primaries.getAsJsonObject("docs").get("count").getAsString());
-    });
   }
 }
