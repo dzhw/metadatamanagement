@@ -6,7 +6,7 @@
  and filter expressions. Currently only STATA syntax is supported.
 */
 angular.module('metadatamanagementApp').directive('createVariableLinks',
-    function($timeout, $compile, $log) {
+    function($timeout, $compile, $log, ProjectReleaseService) {
         var variableNameRegex = /([_A-Za-z][_A-Za-z0-9]{2,})/g;
         // STATA keywords, copied from highlightjs sources
         //jscs:disable
@@ -46,9 +46,12 @@ angular.module('metadatamanagementApp').directive('createVariableLinks',
             var currentLanguage = scope.createVariableLinks.currentLanguage;
             if (scope.hljsLanguage.toUpperCase() === 'STATA') {
               var substitution = '<a href="#!/' + currentLanguage +
-                  '/variables/var-' + currentVariable.dataAcquisitionProjectId +
+                  '/variables/var-' + ProjectReleaseService.stripVersionSuffix(
+                    currentVariable.dataAcquisitionProjectId) +
                   '-ds' + currentVariable.dataSetNumber +
-                  '-$1\$"><md-tooltip md-autohide="true" md-z-index=' +
+                  '-$1\$' + (currentVariable.shadow ? '?version=' +
+                  currentVariable.release.version + '"' : '"') +
+                  '><md-tooltip md-autohide="true" md-z-index=' +
                   '"bowser.mobile || bowser.tablet ? -100 : 100001">' +
                   linkTooltip[currentLanguage] + '</md-tooltip>$1</a>';
               $timeout(function() {
