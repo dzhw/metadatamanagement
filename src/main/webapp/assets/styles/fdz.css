@@ -2408,7 +2408,8 @@ tr:focus {
     margin-bottom: 8px; }
     .fdz-theme .fdz-data-packet md-list-item md-select {
       margin: 0;
-      width: 100%; }
+      width: 100%;
+      display: block; }
     .fdz-theme .fdz-data-packet md-list-item h5 {
       width: 100%; }
     .fdz-theme .fdz-data-packet md-list-item .md-secondary-container {
@@ -2418,6 +2419,13 @@ tr:focus {
       .fdz-theme .fdz-data-packet md-list-item .md-secondary-container > span {
         overflow-wrap: break-word;
         word-wrap: break-word; }
+      .fdz-theme .fdz-data-packet md-list-item .md-secondary-container div {
+        flex-direction: row;
+        display: flex;
+        flex: 1 1 auto; }
+        .fdz-theme .fdz-data-packet md-list-item .md-secondary-container div .md-button {
+          margin: -4px 6px;
+          height: 32px; }
     @media (min-width: 375px) {
       .fdz-theme .fdz-data-packet md-list-item {
         flex-flow: row;
@@ -2428,7 +2436,7 @@ tr:focus {
           width: 190px;
           overflow: hidden;
           word-break: break-all; } }
-    .fdz-theme .fdz-data-packet md-list-item .md-button {
+    .fdz-theme .fdz-data-packet md-list-item .md-button.md-raised.md-accent {
       margin-left: 0;
       margin-top: 16px;
       text-transform: none;

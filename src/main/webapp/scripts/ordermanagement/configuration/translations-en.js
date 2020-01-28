@@ -80,7 +80,9 @@ angular.module('metadatamanagementApp').config(
           'remove-all-tooltip': 'Click to remove all packages from the shopping cart.',
           'delete-product-tooltip': 'Click to remove the package from the shopping cart.',
           'open-cart-tooltip': 'Click to show the contents of the shopping cart.',
-          'close-tooltip': 'Click to close the package selection.'
+          'close-tooltip': 'Click to close the package selection.',
+          'data-package-version-tooltip': 'Click to get more information about versions of data packages',
+          'data-package-access-way-tooltip': 'Click to get more information about access ways'
         }
       }
       //jscs:enable

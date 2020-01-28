@@ -13,7 +13,7 @@
                                 ShoppingCartService,
                                 MessageBus,
                                 StudySearchService,
-                                StudyAccessWaysResource) {
+                                StudyAccessWaysResource, $mdDialog) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.studyIdVersion = {};
@@ -154,6 +154,33 @@
           init();
         }
       }, true);
+
+    $ctrl.showVersionHelp = function($event) {
+      $mdDialog.show($mdDialog.alert()
+        .clickOutsideToClose(true)
+        .title('Version auswählen')
+        .textContent('Sie müssen sich für eine konkrete Version der Daten ' +
+        'entscheiden...')
+        .ariaLabel('Version auswählen')
+        .ok('Ok')
+        .fullscreen(true)
+        .targetEvent($event)
+      );
+      console.log('help version');
+    };
+
+    $ctrl.showAccessWayHelp = function($event) {
+      $mdDialog.show($mdDialog.alert()
+        .clickOutsideToClose(true)
+        .title('Zugangsweg auswählen')
+        .textContent('Sie müssen festlegen, wie Sie mit den Daten arbeiten ' +
+        'wollen...')
+        .ariaLabel('Zugangsweg auswählen')
+        .ok('Ok')
+        .fullscreen(true)
+        .targetEvent($event)
+      );
+    };
   }
 
   angular
