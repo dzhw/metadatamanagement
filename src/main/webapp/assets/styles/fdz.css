@@ -2424,7 +2424,7 @@ tr:focus {
         display: flex;
         flex: 1 1 auto; }
         .fdz-theme .fdz-data-packet md-list-item .md-secondary-container div .md-button {
-          margin: -4px 6px;
+          margin: -4px 0px -6px 6px;
           height: 32px; }
     @media (min-width: 375px) {
       .fdz-theme .fdz-data-packet md-list-item {

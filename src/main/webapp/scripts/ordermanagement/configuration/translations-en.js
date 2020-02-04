@@ -83,6 +83,15 @@ angular.module('metadatamanagementApp').config(
           'close-tooltip': 'Click to close the package selection.',
           'data-package-version-tooltip': 'Click to get more information about versions of data packages',
           'data-package-access-way-tooltip': 'Click to get more information about access ways'
+        },
+        'version-info': {
+          'title': 'Select a Version',
+          'content': '<p style="margin-bottom: 0px;">Unsere Datenpakete liegen dreistellig versioniert vor. Die Stellen der Versionsnummer legen nahe, wie groß die Änderungen an den Daten sind. Bei Änderungen an den ersten beiden Stellen werden Sie benachrichtigt.</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px;"><li>Erste Stelle (Major): Änderungen am Datensatz (abgesehen von Änderungen der Variablenlabels)</li><li>Zweite Stelle (Minor): Label ändern sich, Metadatenänderungen wie Hinzufügen weiterer Fragen oder Änderungen der Metadaten/Dokumentation, die Auswirkungen auf die Analyse haben.</li><li>Dritte Stelle (Patch): Zusätzliche Datensatzformate werden bereitgestellt, Hinzufügen/Löschen von Sprachversionen.</li></ul><strong>Für die meisten Datennutzer/-innen ist die aktuellste Version der Daten relevant.</strong>',
+          'close-tooltip': 'Click to close this dialog'
+        },
+        'access-way-info': {
+          'title': 'Select an Access Way',
+          'content': '<p style="margin-bottom: 0px;">Für unsere Datenpakete gibt es vier Zugangswege, die zum einen den Grad der Anonymisierung bestimmen und zum anderen bestimmen auf welchem Weg die Daten verarbeitet werden können und ob sie zur Verwendung in der Lehre zugelassen sind. Scientific Use Files (SUF) sind ausschließlich zum Zweck der Forschung zu verwenden.</p><p style="margin-bottom: 0px; padding-bottom: 0px;">Unsere Datenpaketkonfigurationen sind gegliedert in:</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li>download-cuf (Zulassung für Lehrzwecke; starke Anonymisierung; zum Download)</li><li>download-suf (stark anonymisiert; zum Download)</li><li>remote-desktop-suf (mittlerer Anonymisierungsgrad; Zugang über virtuelle Desktops per Internet)</li><li>onsite-suf (geringer Anonymisierungsgrad; Zugang nur vor Ort im fdz.DZHW in Hannover)</li></ul><p style="margin-bottom: 0px;">Weitere Informationen finden Sie <a href="https://fdz.dzhw.eu/datennutzung/zugang">hier</a>.</p>'
         }
       }
       //jscs:enable

@@ -156,30 +156,25 @@
       }, true);
 
     $ctrl.showVersionHelp = function($event) {
-      $mdDialog.show($mdDialog.alert()
-        .clickOutsideToClose(true)
-        .title('Version auswählen')
-        .textContent('Sie müssen sich für eine konkrete Version der Daten ' +
-        'entscheiden...')
-        .ariaLabel('Version auswählen')
-        .ok('Ok')
-        .fullscreen(true)
-        .targetEvent($event)
-      );
-      console.log('help version');
+      $mdDialog.show({
+        controller: 'VersionInfoController',
+        templateUrl: 'scripts/ordermanagement/components/configurator/' +
+            'version-info.html.tmpl',
+        clickOutsideToClose: true,
+        fullscreen: true,
+        targetEvent: $event
+      });
     };
 
     $ctrl.showAccessWayHelp = function($event) {
-      $mdDialog.show($mdDialog.alert()
-        .clickOutsideToClose(true)
-        .title('Zugangsweg auswählen')
-        .textContent('Sie müssen festlegen, wie Sie mit den Daten arbeiten ' +
-        'wollen...')
-        .ariaLabel('Zugangsweg auswählen')
-        .ok('Ok')
-        .fullscreen(true)
-        .targetEvent($event)
-      );
+      $mdDialog.show({
+        controller: 'AccessWayInfoController',
+        templateUrl: 'scripts/ordermanagement/components/configurator/' +
+            'access-way-info.html.tmpl',
+        clickOutsideToClose: true,
+        fullscreen: true,
+        targetEvent: $event
+      });
     };
   }
 
