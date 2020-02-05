@@ -5,16 +5,22 @@ Resource          ../../resources/home_page_resource.robot
 
 *** Test Cases ***
 Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
+    Navigate to search
+    Search for    Absolventenpanel 2005
+    Click on first search result
     Click on questions tab
-    Search for    Wel­che Er­fah­run­gen haben Sie (bis­her) in Ihrer Aus­bil­dungs- bzw. Prak­ti­kums­pha­se ge­macht?
-    Click on search result by id    que-gra2005-ins1-3.3$
+    Search for in details   Wel­che Er­fah­run­gen haben Sie (bis­her) in Ihrer Aus­bil­dungs- bzw. Prak­ti­kums­pha­se ge­macht?
+    Click on first search result
     Page Should Contain    Bilder zur Frage
     [Teardown]    Get back to german home page
 
 Looking for Graduate Panel 2005s questionnaire first wave in english
     [Setup]    Change language to english
+    Navigate to search
+    Search for    Graduate Panel 2005
+    Click on first search result
     Click on questions tab
-    Search for    What experiences have you had (so far) during your training/internship?
-    Click on search result by id    que-gra2005-ins1-3.3$
+    Search for in details   What experiences have you had (so far) during your training/internship?
+    Click on first search result
     Page Should Contain    Images of this Question
     [Teardown]    Get back to german home page

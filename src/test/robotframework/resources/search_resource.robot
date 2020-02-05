@@ -9,6 +9,20 @@ Search for
     [Arguments]    ${query}
     Click Element Through Tooltips    xpath=//input[@id='query']
     Input Text    id=query    ${query}
+    Wait Until Angular Ready    10s
+
+Search for on startpage
+    [Arguments]    ${query}
+    Click Element Through Tooltips    xpath=//input[@id='query']
+    Input Text    id=query    ${query}
+    Press Key     id=query    \\13
+    Wait Until Angular Ready    10s
+
+Search for in details
+    [Arguments]    ${query}
+    Click Element Through Tooltips    xpath=//input[@id='detailSearchQuery']
+    Input Text    id=detailSearchQuery    ${query}
+    Wait Until Angular Ready    10s
 
 Select project by name
     [Arguments]    ${projectname}
@@ -24,6 +38,9 @@ Delete project by name
 Click on search result by id
     [Arguments]    ${id}
     Click Element Through Tooltips    xpath=//a//span[text()='${id}']
+
+Click on first search result
+    Click Element Through Tooltips    xpath=(//md-card[contains(@class,'fdz-search-result')]//md-card-header//a)[1]
 
 Activate Filter by name
     [Arguments]    ${filtername}

@@ -5,16 +5,20 @@ Resource          ../../resources/home_page_resource.robot
 
 *** Test Cases ***
 Looking for Absolventenpanel 2005s first wave survey in german
+    Search for on startpage    Absolventenpanel 2005
+    Click on first search result
     Click on surveys tab
-    Search for    Absolventenpanel 2005 Erste Welle
-    Click on search result by id    sur-gra2005-sy3$
+    Search for in details   Erste Welle Bachelor
+    Click on first search result
     Page Should Contain    n = 1.622
     [Teardown]    Get back to german home page
 
 Looking for Graduate Panel 2005s first wave survey in english
     [Setup]    Change language to english
+    Search for on startpage    Graduate Panel 2005
+    Click on first search result
     Click on surveys tab
-    Search for    DZHW Graduate Panel 2005 First Wave
-    Click on search result by id    sur-gra2005-sy3$
+    Search for in details   First Wave Bachelor
+    Click on first search result
     Page Should Contain    n = 1,622
     [Teardown]    Get back to german home page

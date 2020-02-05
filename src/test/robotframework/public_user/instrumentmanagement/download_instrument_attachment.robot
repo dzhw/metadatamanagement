@@ -6,9 +6,12 @@ Resource          ../../resources/home_page_resource.robot
 
 *** Test Cases ***
 Looking for Absolventenpanel 2005s Fragebogen Erste Welle in german
+    Navigate to search
+    Search for    Absolventenpanel 2005
+    Click on first search result
     Click on instruments tab
-    Search for    Absolventenpanel 2005 Fragebogen Erste Welle
-    Click on search result by id    ins-gra2005-ins1$
+    Search for in details   Fragebogen Erste Welle
+    Click on first search result
     Click on questionnaire
     Sleep    2s
     Switch windows forth and back

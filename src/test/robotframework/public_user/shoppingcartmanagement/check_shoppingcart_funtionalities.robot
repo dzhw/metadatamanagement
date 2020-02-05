@@ -1,61 +1,49 @@
 *** Settings ***
-Documentation     As a public user checking the shopping cart funtionalisties
+Documentation     As a public user checking the shopping cart funtionalities
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
 
 *** Test Cases ***
 Check Shopping Cart as a Public User
-   Click on search result by id    stu-gra2005$
-   Select Item and Put in The Cart
-   Check Shopping Cart
+   Click Element  xpath=//a[contains(@ui-sref, 'Absolventen')]
+   Click on first search result
+   Put all access ways in shopping cart
+   Go to Shopping Cart
    Delete an Item   # we have 4 items in the cart and we delete one item
    Confirm Order
    Close The Toast Message
    Check The Links
-   Check Delete Button is Available
    Empty The Shopping Cart
    Get back to german home page   # to sync with next test flow
 
 
 *** Keywords ***
-Select Item and Put in The Cart
+Put all access ways in shopping cart
    @{MD_ACCESSWAYNAMES}   Create List    download-suf  remote-desktop-suf   onsite-suf   download-cuf
    :FOR  ${INDEX}  IN RANGE  0   4
-   \  Click On Add Shopping Cart Icon
-   \  Select Access Way for the Datasets from The List   @{MD_ACCESSWAYNAMES}[${INDEX}]
-   \  Select Version of the Datasets from The List   1.0.1
-   \  Check The Close Button is Available
+   \  Select Access Way for the Data Package   @{MD_ACCESSWAYNAMES}[${INDEX}]
+   \  Select Version for the Data Package   1.0.1
    \  Put in Shopping Cart
-   \  ${count} =    Evaluate    ${1}+${INDEX}
 
 Delete an Item
-   Click Element Through Tooltips   xpath=//div//following::button//md-icon[contains(., 'delete_forever')]
+   Click Element Through Tooltips   xpath=//button[text()=' Löschen ']
 
-Click On Add Shopping Cart Icon
-   Click Element Through Tooltips   xpath=//md-icon[contains(., 'add_shopping_cart')]
-
-Select Access Way for the Datasets from The List
+Select Access Way for the Data Package
    [Arguments]   ${accesswayname}
    Click Element Through Tooltips    xpath=//md-select[@name='accessWay']
    Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., '${accesswayname}')]
 
-Select Version of the Datasets from The List
+Select Version for the Data Package
    [Arguments]   ${versionname}
    Click Element Through Tooltips    xpath=//md-select[@name='version']
    Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., '${versionname}')]
 
 Put in Shopping Cart
-   Click Element Through Tooltips    xpath=//span[contains(., 'In den Einkaufswagen')]
+   Click Element Through Tooltips    xpath=//span[contains(., 'Zur Beantragung vormerken')]
 
-Check Shopping Cart
+Go to Shopping Cart
    Click Element Through Tooltips    xpath=//a//md-icon[contains(., 'shopping_cart')]
-
-Check Delete Button is Available
-   Page Should Contain Element    xpath=//button[md-icon[text()='delete_forever']]
-
-Check The Close Button is Available
-   Page Should Contain Element    xpath=//span[contains(., 'Schließen')]
 
 Confirm Order
    Click Element Through Tooltips   xpath=//span[contains(., 'Beantragen')]
