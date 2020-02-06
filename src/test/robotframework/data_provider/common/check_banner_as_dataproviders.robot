@@ -16,10 +16,6 @@ Check for Dataproviders Welcome Banner Appears
    Close The Banner
    Click on Information for Data Providers Link
    Close The Banner
-   Reload Page   # cross check the banner after reload also
-   Sleep  1s
-   Assert Welcome Text After Login
-   Close The Banner
    Dataprovidertest Provider Logout
    Login as dataprovider
 

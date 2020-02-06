@@ -548,6 +548,10 @@ ui-view:focus {
     .fdz-theme .md-autocomplete-standard-list-container .md-autocomplete-suggestion:hover,
     .fdz-theme .md-autocomplete-standard-list-container .md-autocomplete-suggestion.selected {
       background: rgba(194, 194, 194, 0.18); }
+  .fdz-theme .md-autocomplete-suggestions-container.md-not-found li,
+  .fdz-theme .md-autocomplete-standard-list-container.md-not-found li {
+    margin-left: 16px;
+    margin-top: 14px; }
 
 .fdz-theme md-backdrop {
   background-color: rgba(60, 60, 60, 0); }
@@ -611,6 +615,12 @@ ui-view:focus {
   padding-bottom: 8px; }
   @media (min-width: 600px) {
     .fdz-theme form md-card-header-text {
+      padding-bottom: 16px; } }
+
+.fdz-theme md-card-header-text.pb {
+  padding-bottom: 8px; }
+  @media (min-width: 600px) {
+    .fdz-theme md-card-header-text.pb {
       padding-bottom: 16px; } }
 
 .fdz-theme md-checkbox .md-ripple {
@@ -1092,7 +1102,7 @@ md-input-container:not(.md-input-invalid).md-input-focused.md-warn .md-select-va
   border-bottom-color: transparent !important; }
 
 .fdz-theme md-select:not([disabled]):focus .md-select-value {
-  border-bottom-color: #f7a839;
+  border-bottom-color: #0071bc;
   color: black; }
   .fdz-theme md-select:not([disabled]):focus .md-select-value.md-select-placeholder {
     color: black; }

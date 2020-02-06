@@ -214,7 +214,7 @@
   <div>
     <md-card class="mt0 mb8" ng-if="ctrl.instrument.id">
       <md-card-header layout-align="center center">
-        <md-card-header-text>
+        <md-card-header-text class="pb">
           <h2 class="md-title">{{'instrument-management.detail.attachments.table-title' | translate}}</h2>
         </md-card-header-text>
       </md-card-header>
@@ -292,7 +292,7 @@
           </tr>
         </tbody>
       </table>
-      <md-divider ng-if="ctrl.createMode"></md-divider>
+      <md-divider></md-divider>
       <md-card-content ng-if="ctrl.createMode">
         {{'instrument-management.detail.attachments.save-instrument-before-adding-attachment' | translate}}
       </md-card-content>

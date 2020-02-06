@@ -14,7 +14,7 @@ Get back to german home page
   Click fdz logo
 
 Click fdz logo
-  Wait Until Keyword Succeeds    5s    1s    Click Element   xpath=//md-toolbar//a[contains(@class, "fdz-logo")]
+  Wait Until Keyword Succeeds    5s    1s    Click Element Through Tooltips  xpath=//md-toolbar//a[contains(@class, "fdz-logo")]
 
 Navigate to search
   Click Element   xpath=//a[@ui-sref="search"]

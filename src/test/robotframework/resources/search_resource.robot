@@ -26,7 +26,7 @@ Search for in details
 
 Select project by name
     [Arguments]    ${projectname}
-    Input Text    xpath=//md-sidenav//input[@type='search']    ${projectname}
+    Input Text    xpath=//md-sidenav//project-navbar-module//md-autocomplete//input    ${projectname}
     Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='${projectname}']
 
 Delete project by name
@@ -92,7 +92,7 @@ Click on concept tab
     Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Concepts')]
 
 Click Survey Edit Button
-    Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='mode_edit']
+    Click Element Through Tooltips    xpath=//ui-view//button[normalize-space()='Bearbeiten']
 
 Click on Cockpit Button
     Click Element Through Tooltips    xpath=//project-navbar-module//a[contains(@class, 'md-accent')]
