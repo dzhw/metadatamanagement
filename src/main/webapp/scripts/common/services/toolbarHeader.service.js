@@ -4,10 +4,7 @@
 // TODO: Move factory to the appropiate location
 angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
   function($rootScope, $log, Principal) {
-    var isAuthenticated = false;
-    Principal.identity().then(function() {
-      isAuthenticated = Principal.isAuthenticated;
-    });
+    var isAuthenticated = Principal.isAuthenticated;
     var stripVersionSuffix = function(id) {
       if (!id) {
         return id;

@@ -376,7 +376,7 @@ angular.module('metadatamanagementApp').factory(
           if (_.isArray(filterArray)) {
             filterArray.push(filterCriteria);
           } else {
-            _.set(query, 'body.query.bool.filter', filterCriteria);
+            _.set(query, 'body.query.bool.filter[0]', filterCriteria);
           }
         }
       }
