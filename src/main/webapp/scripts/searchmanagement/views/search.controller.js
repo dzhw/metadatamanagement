@@ -14,8 +14,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
            $rootScope, ProjectStatusScoringService, DeleteMetadataService,
            SimpleMessageToastService) {
 
-    var queryChangedOnInit = false;
-    var tabChangedOnInitFlag = false;
+    var queryChangedOnInit = true;
+    var tabChangedOnInitFlag = true;
     var locationChanged = false;
     var currentProjectChangeIsBeingHandled = false;
     var selectedTabChangeIsBeingHandled = false;
@@ -460,23 +460,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
         });
       });
 
-    // $scope.$on('user-logged-out', function() {
-    //   var currentType = $scope.tabs[$scope.searchParams.selectedTabIndex]
-    //     .elasticSearchType;
-    //   $scope.tabs = _.filter($scope.tabs, function(tab) {
-    //     return tab.visibleForPublicUser || Principal.isAuthenticated();
-    //   });
-    //   var indexToSelect = _.findIndex($scope.tabs,
-    //     function(tab) {
-    //       return tab.elasticSearchType === currentType;
-    //     });
-    //   if (indexToSelect < 0) {
-    //     $scope.searchParams.selectedTabIndex = 0;
-    //   } else {
-    //     $scope.searchParams.selectedTabIndex = indexToSelect;
-    //   }
-    // });
-
     $scope.onPageChanged = function() {
       writeSearchParamsToLocation();
       $scope.search();
@@ -500,32 +483,34 @@ angular.module('metadatamanagementApp').controller('SearchController',
           queryChangeIsBeingHandled = false;
         });
       });
+    }
 
-      $scope.onSelectedTabChanged = function() {
-        if (!selectedTabChangeIsBeingHandled && !queryChangeIsBeingHandled) {
-          //prevent multiple tab change handlers caused by logout
-          selectedTabChangeIsBeingHandled = true;
-          $timeout(function() {
-            if (!tabChangedOnInitFlag) {
-              $scope.searchParams.filter = SearchHelperService
-                .removeIrrelevantFilters(
-                  $scope.tabs[$scope.searchParams.selectedTabIndex]
-                    .elasticSearchType,
-                  $scope.searchParams.filter);
-              $scope.searchParams.sortBy = undefined;
-              $scope.options.pageObject.page = 1;
-              writeSearchParamsToLocation();
-              if (!currentProjectChangeIsBeingHandled) {
-                $scope.search();
-              }
-              $scope.loadStudyForProject();
+    $scope.onSelectedTabChanged = function() {
+      if (!selectedTabChangeIsBeingHandled) {
+        //prevent multiple tab change handlers caused by logout
+        selectedTabChangeIsBeingHandled = true;
+        $timeout(function() {
+          if (!tabChangedOnInitFlag) {
+            $scope.searchParams.filter = SearchHelperService
+              .removeIrrelevantFilters(
+                $scope.tabs[$scope.searchParams.selectedTabIndex]
+                  .elasticSearchType,
+                $scope.searchParams.filter);
+            $scope.searchParams.sortBy = undefined;
+            $scope.options.pageObject.page = 1;
+            writeSearchParamsToLocation();
+            if (!currentProjectChangeIsBeingHandled) {
+              $scope.search();
             }
+            $scope.loadStudyForProject();
+            selectedTabChangeIsBeingHandled = false;
+          } else {
             tabChangedOnInitFlag = false;
             selectedTabChangeIsBeingHandled = false;
-          });
-        }
-      };
-    }
+          }
+        });
+      }
+    };
     //Refresh function for the refresh button
     $scope.refresh = function() {
       $scope.search();

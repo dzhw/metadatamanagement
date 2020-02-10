@@ -41,7 +41,7 @@ Choose Type
 
 Choose Survey
     Pass Execution If    '${BROWSER}' == 'ie'    Instrument Creation not possible in IE
-    Click Element Through Tooltips  xpath=//md-chips[@name="surveys"]//md-autocomplete
+    Click Element   xpath=//md-chips[@name="surveys"]//md-autocomplete//input
     Click Element Through Tooltips  xpath=//span[contains(.,'sur-robotproject4${BROWSER}')]
 
 Fill up the Annotations
@@ -50,6 +50,5 @@ Fill up the Annotations
     Input Text  xpath=//textarea[contains(@name,'annotationsEn')]  This is Annotation in En
 
 Delete Instrument
-    Click Element Through Tooltips    xpath=//button[md-icon[text()='delete_forever']]
+    Click Element Through Tooltips    xpath=//button[normalize-space()='Löschen']
     Click Element Through Tooltips    xpath=//button[text()='Ja']
-

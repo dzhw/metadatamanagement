@@ -96,7 +96,7 @@ md-input-container {
 
   &:not([disabled]):focus {
     .md-select-value {
-      border-bottom-color: $accent-color;
+      border-bottom-color: $primary-contrast;
       color: $foreground-1;
       &.md-select-placeholder {
         color: $foreground-1;

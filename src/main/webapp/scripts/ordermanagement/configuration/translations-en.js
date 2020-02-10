@@ -80,7 +80,18 @@ angular.module('metadatamanagementApp').config(
           'remove-all-tooltip': 'Click to remove all packages from the shopping cart.',
           'delete-product-tooltip': 'Click to remove the package from the shopping cart.',
           'open-cart-tooltip': 'Click to show the contents of the shopping cart.',
-          'close-tooltip': 'Click to close the package selection.'
+          'close-tooltip': 'Click to close the package selection.',
+          'data-package-version-tooltip': 'Click to get more information about versions of data packages',
+          'data-package-access-way-tooltip': 'Click to get more information about access ways'
+        },
+        'version-info': {
+          'title': 'Select a Version',
+          'content': '<p style="margin-bottom: 0px;">Our data packages are available in a three-digit version. The digits of the version number indicate how big the changes to the data are. You will be notified if changes are made to the first two digits.</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px;"><li>First digit (Major): Changes to the data set (except for changes to variable labels)</li><li>Second digit (Minor): Labels change, metadata changes such as adding more questions or changes to metadata/documentation that affect the analysis.</li><li>Third digit (Patch): Additional dataset formats are provided, adding/deleting language versions.</li></ul><strong>For most data users, the most recent version of the data is relevant.</strong>',
+          'close-tooltip': 'Click to close this dialog'
+        },
+        'access-way-info': {
+          'title': 'Select an Access Way',
+          'content': '<p style="margin-bottom: 0px;">There are four access paths for our data packages, which on the one hand determine the degree of anonymisation and on the other hand determine the way in which the data can be processed and whether they are approved for use in teaching. Scientific Use Files (SUF) are to be used exclusively for research purposes.</p><p style="margin-bottom: 0px; padding-bottom: 0px;">Our data package configurations are divided into:</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li><strong>download-cuf</strong> (approval for teaching purposes; strong anonymization; for download)</li><li><strong>download-suf</strong> (strong anonymization; for download)</li><li><strong>remote-desktop-suf</strong> (medium degree of anonymization; access via virtual desktops via Internet)</li><li><strong>onsite-suf</strong> (low degree of anonymization; access only on site in fdz.DZHW in Hanover)</li></ul><p style="margin-bottom: 0px;">Further information can be found <a href="https://fdz.dzhw.eu/en/datennutzung/zugang">here</a>.</p>'
         }
       }
       //jscs:enable

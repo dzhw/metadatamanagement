@@ -1,4 +1,4 @@
-website: https://dev.metadata.fdz.dzhw.eu/#!/de/search
+website: https://dev.metadata.fdz.dzhw.eu
 capabilities:
   chrome:
     name: Win10/Chrome
