@@ -162,9 +162,7 @@ jobs:
     - "./src/test/robotframework/setup.sh"
     script:
     - export PYTHONWARNINGS="ignore"
-    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome
-      -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include publisherNOTfirefoxonlyNOTlocalonly
-      ./src/test/robotframework
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include publisherNOTfirefoxonlyNOTlocalonly ./src/test/robotframework
   - name: Nightly Firefox Tests (Publisher)
     install:
     - "./src/test/robotframework/setup.sh"
