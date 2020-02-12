@@ -74,7 +74,8 @@ try {
           if (Principal.isAuthenticated() &&
             $rootScope.toState.parent.name === 'account' &&
             ($rootScope.toState.name === 'login' ||
-              $rootScope.toState.name === 'register')) {
+              $rootScope.toState.name === 'register' ||
+              $rootScope.toState.name === 'start')) {
             return trans.router.stateService.target('search',
             {
               lang: LanguageService.getCurrentInstantly()

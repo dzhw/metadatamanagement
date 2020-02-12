@@ -39,9 +39,11 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     };
 
     $scope.close = function() {
-      if (!$mdSidenav('SideNavBar').isLockedOpen()) {
-        $timeout($mdSidenav('SideNavBar').toggle, 200);
-      }
+      $timeout(function() {
+        if (!$mdSidenav('SideNavBar').isLockedOpen()) {
+          $mdSidenav('SideNavBar').toggle();
+        }
+      }, 1000);
     };
 
     $scope.focusContent = function() {

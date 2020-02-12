@@ -8,10 +8,11 @@ Resource          ../../resources/search_resource.robot
 Create Dataset Report
     Select project by name    gra2005
     Click on data set tab
-    Click on search result by id    dat-gra2005-ds2$
+    Search for    dat-gra2005-ds2$
+    Click on first search result
     Click Report Button
     Write Dataset Report Version
-    Page Should Not Contain Element  xpath://md-toast[contains(@class,"md-accent")]
+    Page Should Contain  Der Datensatzreport wird jetzt erzeugt.
     Get back to home page and deselect project
 
 *** Keywords ***

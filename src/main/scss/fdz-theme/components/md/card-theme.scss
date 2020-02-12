@@ -82,3 +82,10 @@ $card-border-radius: 2px !default;
     padding-bottom: 16px;
   }
 }
+
+.fdz-theme md-card-header-text.pb {
+  padding-bottom: 8px;
+  @include rwd(600) {
+    padding-bottom: 16px;
+  }
+}

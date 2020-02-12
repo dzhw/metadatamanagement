@@ -8,7 +8,7 @@ based on the Error Event.*/
 
 angular.module('metadatamanagementApp').run(
   function($rootScope, $state, SimpleMessageToastService, PageTitleService,
-           LanguageService, Auth) {
+           LanguageService, Auth, Principal) {
     var ignore404 = 0;
     var ignore401 = 0;
 
@@ -76,7 +76,7 @@ angular.module('metadatamanagementApp').run(
       // they wanted before you
       // send them to the signin state, so you can
       // return them when you're done
-      if (!inTransition &&
+      if (!Principal.isAuthenticated() && !inTransition &&
           $rootScope.toStateName &&
           $rootScope.toStateName !== 'login' &&
           $rootScope.toStateName !== 'register') {

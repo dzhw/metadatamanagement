@@ -32,9 +32,8 @@ angular
         },
         logout: function() {
           // logout from the server
-          $http.post('api/logout').then(function() {
-            localStorageService.remove('token');
-          });
+          localStorageService.remove('token');
+          $http.post('api/logout');
         },
         getToken: function() {
           return localStorageService.get('token');

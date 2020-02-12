@@ -14,7 +14,7 @@
                                 ShoppingCartService,
                                 MessageBus,
                                 StudySearchService,
-                                StudyAccessWaysResource) {
+                                StudyAccessWaysResource, $mdDialog) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.studyIdVersion = {};
@@ -172,6 +172,28 @@
           init();
         }
       }, true);
+
+    $ctrl.showVersionHelp = function($event) {
+      $mdDialog.show({
+        controller: 'VersionInfoController',
+        templateUrl: 'scripts/ordermanagement/components/configurator/' +
+            'version-info.html.tmpl',
+        clickOutsideToClose: true,
+        fullscreen: true,
+        targetEvent: $event
+      });
+    };
+
+    $ctrl.showAccessWayHelp = function($event) {
+      $mdDialog.show({
+        controller: 'AccessWayInfoController',
+        templateUrl: 'scripts/ordermanagement/components/configurator/' +
+            'access-way-info.html.tmpl',
+        clickOutsideToClose: true,
+        fullscreen: true,
+        targetEvent: $event
+      });
+    };
   }
 
   angular

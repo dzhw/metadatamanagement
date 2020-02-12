@@ -4,22 +4,24 @@ Resource          ../../resources/search_resource.robot
 Resource          ../../resources/home_page_resource.robot
 
 *** Test Cases ***
-Navbar is hidden on small devices
+Left side nav is hidden on small devices
     [Setup]    Set small device size
-    Pass Execution  Currently there is no navbar
+    Navigate to search
     Navbar should be hidden
     [Teardown]    Maximize Browser Window
 
-Navbar can be opened on small devices
+Left side nav can be opened on small devices
     [Setup]    Set small device size
-    Pass Execution  Currently there is no navbar
     Click menu button
     Navbar should be open
     [Teardown]    Maximize Browser Window
 
-Navbar is visible on large devices
-    Pass Execution  Currently there is no navbar
+Left side nav is visible on large devices
     Navbar should be always open
+
+Left side nav is not visible on start page
+    Click fdz logo
+    Navbar should be hidden
 
 *** Keywords ***
 Navbar should be hidden
