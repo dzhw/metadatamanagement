@@ -27,8 +27,8 @@ Create Concepts by Publisher
     Input Text    name=authorsMiddleName_1    noMiddleName
     Input Text    name=authorsLastName_1    Raza
     Move Second Author To Place One
-    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input[@type="search"]   Konzept Tag 007
-    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input[@type="search"]   Concept Tag 007
+    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input   Konzept Tag 007
+    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input   Concept Tag 007
     Input Text    xpath=//textarea[@name="license"]    Concept License Agreement
     Select a language
     Save Changes
@@ -50,15 +50,15 @@ Move Second Author To Place One
     Click Element Through Tooltips    xpath=//md-card/descendant::button[md-icon[text()='keyboard_arrow_up']]
 
 Select a language
-    Click Element Through Tooltips    xpath=//md-autocomplete[@md-search-text="languageName"]//input[@type="search"]
+    Click Element    xpath=//md-autocomplete[@md-search-text="languageName"]//input
     Click Element Through Tooltips    xpath=//md-virtual-repeat-container[@ng-hide="$mdAutocompleteCtrl.hidden"]//ul//li//span[contains(., "Akan")]
 
 Delete Concept
-    Click Element Through Tooltips    xpath=//a[contains(., "RDC-ID-007_${BROWSER}")]//following::button[md-icon[text()='delete_forever']]
+    Click Element Through Tooltips    xpath=//concept-search-result//md-card-header[contains(., "RDC-ID-007_${BROWSER}")]/following::md-card-actions//button[normalize-space()="Löschen"]
     Click Element Through Tooltips    xpath=//button[text()='Ja']
 
 Assert created concept under concept list
-    Page Should Contain Element     xpath=//div[@class="md-title fdz-truncate-string"]//span[contains(., "Test Konzepte")]
+    Page Should Contain Element     xpath=//concept-search-result//span[contains(., "RDC-ID-007_${BROWSER}")]
 
 Upload concept attchment file
     Press Key   xpath=//input[@type='file' and @ngf-select="ctrl.upload($file)"][1]   ${CURDIR}/data/gra2005_MethodReport_de.pdf  # data folder contains the PDF file
@@ -88,7 +88,7 @@ Assert gra2005_W1_Questionnaire in the attachment
 
 Attach documents to the concept
     Search for  Test Konzepte_RDC-ID-007_${BROWSER}
-    Click Element Through Tooltips    xpath=//a[@aria-label="Klicken, um das Konzept zu bearbeiten"]//md-icon[text()="mode_edit"]
+    Click Element Through Tooltips    xpath=xpath=(//concept-search-result//md-card-actions//a[normalize-space()="Bearbeiten"])[1]
     Click Element Through Tooltips    xpath=//md-card-actions[@ng-if="!ctrl.createMode"]//button//md-icon[text()="add"]
     Upload concept attchment file
     Select concept data type

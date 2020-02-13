@@ -11,12 +11,12 @@ Assigning and unassigning publications to a publisher project and assert it
     Assign a publication to the project
     Get back to german home page
     Click on study tab
-    Click on the first study in the list of studies
+    Click on first search result
     Assert the publication belongs to study selected study
     Unassign the publication from the project
     Get back to german home page
     Click on study tab
-    Click on the first study in the list of studies
+    Click on first search result
     Assert the publication has been unassigend from the selected study
     Get back to german home page
     click on cockpit button
@@ -37,8 +37,8 @@ Click on Publication Edit Button
    Click Element Through Tooltips    xpath=//md-card[@type="publications"]//button[@ng-disabled="ctrl.isProjectReleased()"]//span[text()="Bearbeiten"]
 
 Assign a publication to the project
-    Clear Element Text   xpath=//md-card//input[@type="search"]
-    Input Text  xpath=//md-card//input[@type="search"]   The labour market's requirement profiles for higher education graduates
+    Clear Element Text   xpath=//md-card//input
+    Input Text  xpath=//md-card//input   The labour market's requirement profiles for higher education graduates
     Click Element Through Tooltips   xpath=//div//ul//li//span//span[contains(., "The labour market's requirement profiles for higher education graduates")]
 
 Unassign the publication from the project
@@ -48,14 +48,13 @@ Unassign the publication from the project
     Click on Publication Edit Button
     Delete the publication from the study
 
-Click on the first study in the list of studies
-    Click Element Through Tooltips   xpath=//a[@class='fdz-search-result'][1]
-
 Assert the publication belongs to study selected study
-    Wait Until Page Contains Element  xpath=//div//a[contains(.,"The labour market's requirement profiles for higher education graduates")]
+    Click on publications tab
+    Wait Until Page Contains Element  xpath=//related-publication-search-result[contains(.,"The labour market's requirement profiles for higher education graduates")]
 
 Assert the publication has been unassigend from the selected study
-    Wait Until Page Contains Element  xpath=//div[@ng-if="ctrl.counts.publicationsCount == 0"][contains(.,"Publikationen zu dieser Studie: Nicht erfasst.")]
+    Click on publications tab
+    Wait Until Page Contains Element  xpath=//md-card[contains(.,"Keine Suchergebnisse gefunden")]
 
 Get back to home page and deselect project
     Get back to german home page

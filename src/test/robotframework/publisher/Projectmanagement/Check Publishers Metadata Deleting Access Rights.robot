@@ -39,8 +39,8 @@ Publisher Create But Can Not Delete Study When Publisher is Ready
    Input Text    name=authorsFirstName_0    Anne
    Input Text    name=authorsMiddleName_0    noMiddleName
    Input Text    name=authorsLastName_0    Droid
-   Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input[@type="search"]   Deutsche Tags Schlüsselwörter
-   Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input[@type="search"]   English Days Keyword
+   Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input   Deutsche Tags Schlüsselwörter
+   Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input   English Days Keyword
    Save Changes
    Click on Cockpit Button
    Click Publisher Ready Checkbox for Studies
