@@ -53,6 +53,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     //Goto Logout Page
     $scope.logout = function() {
       Auth.logout();
+      $rootScope.searchQuery = '';
       $state.go('start', {
         lang: LanguageService.getCurrentInstantly()
       }, {

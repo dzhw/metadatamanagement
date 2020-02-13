@@ -28,7 +28,9 @@ Create Concepts by Publisher
     Input Text    name=authorsLastName_1    Raza
     Move Second Author To Place One
     Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input   Konzept Tag 007
+    Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='Konzept Tag 007']
     Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input   Concept Tag 007
+    Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='Concept Tag 007']
     Input Text    xpath=//textarea[@name="license"]    Concept License Agreement
     Select a language
     Save Changes
