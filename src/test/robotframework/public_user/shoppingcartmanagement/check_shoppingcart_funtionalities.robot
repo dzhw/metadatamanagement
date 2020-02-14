@@ -28,7 +28,7 @@ Put all access ways in shopping cart
 
 Delete an Item
    Click Element Through Tooltips   xpath=//button[text()=' Löschen ']
-   Xpath Should Match X Times   //md-card[contains(@class, 'fdz-search-result')]  4
+   Xpath Should Match X Times   //md-card[contains(@class, 'fdz-search-result')]  3
 
 Select Access Way for the Data Package
    [Arguments]   ${accesswayname}
@@ -45,7 +45,7 @@ Put in Shopping Cart
 
 Go to Shopping Cart
    Click Element Through Tooltips    xpath=//a//md-icon[contains(., 'shopping_cart')]
-   Xpath Should Match X Times   //md-card[contains(@class, 'fdz-search-result')]  3
+   Xpath Should Match X Times   //md-card[contains(@class, 'fdz-search-result')]  4
 
 Confirm Order
    Click Element Through Tooltips   xpath=//span[contains(., 'Beantragen')]

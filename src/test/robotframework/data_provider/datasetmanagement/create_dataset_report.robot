@@ -12,7 +12,7 @@ Create Dataset Report
     Click on first search result
     Click Report Button
     Write Dataset Report Version
-    Page Should Contain  Der Datensatzreport wird jetzt erzeugt.
+    Page Should Not Contain Element  xpath=//md-toast[contains(@class,'md-accent')]
     Get back to home page and deselect project
 
 *** Keywords ***

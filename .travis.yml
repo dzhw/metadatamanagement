@@ -90,33 +90,25 @@ jobs:
     - "./src/test/robotframework/setup.sh"
     script:
     - export PYTHONWARNINGS="ignore"
-    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox
-      -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include publicuserNOTchromeonlyNOTlocalonly
-      ./src/test/robotframework
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include publicuserNOTchromeonlyNOTlocalonly ./src/test/robotframework
   - name: Nightly IE11 Tests (Public User)
     install:
     - "./src/test/robotframework/setup.sh"
     script:
     - export PYTHONWARNINGS="ignore"
-    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11
-      -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly
-      ./src/test/robotframework
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
   - name: Nightly Edge Tests (Public User)
     install:
     - "./src/test/robotframework/setup.sh"
     script:
     - export PYTHONWARNINGS="ignore"
-    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge
-      -v USE_SAUCELABS:TRUE -v BROWSER:edge --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly
-      ./src/test/robotframework
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
   - name: Nightly Safari Tests (Public User)
     install:
     - "./src/test/robotframework/setup.sh"
     script:
     - export PYTHONWARNINGS="ignore"
-    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari
-      -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly
-      ./src/test/robotframework
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
   - stage: nightly e2e tests dataprovider
     name: Nightly Chrome Tests (Dataprovider)
     install:
@@ -129,17 +121,13 @@ jobs:
     - "./src/test/robotframework/setup.sh"
     script:
     - export PYTHONWARNINGS="ignore"
-    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox
-      -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include dataproviderNOTchromeonlyNOTlocalonly
-      ./src/test/robotframework
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include dataproviderNOTchromeonlyNOTlocalonly ./src/test/robotframework
   - name: Nightly IE11 Tests (Dataprovider)
     install:
     - "./src/test/robotframework/setup.sh"
     script:
     - export PYTHONWARNINGS="ignore"
-    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11
-      -v USE_SAUCELABS:TRUE -v BROWSER:ie --include dataproviderNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly
-      ./src/test/robotframework
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include dataproviderNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
   - name: Nightly Edge Tests (Dataprovider)
     install:
     - "./src/test/robotframework/setup.sh"
@@ -153,9 +141,7 @@ jobs:
     - "./src/test/robotframework/setup.sh"
     script:
     - export PYTHONWARNINGS="ignore"
-    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari
-      -v USE_SAUCELABS:TRUE -v BROWSER:safari --include dataproviderNOTfirefoxonlyNOTchromeonlyNOTlocalonly
-      ./src/test/robotframework
+    - travis_wait 50 robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include dataproviderNOTfirefoxonlyNOTchromeonlyNOTlocalonly ./src/test/robotframework
   - stage: nightly e2e tests publisher
     name: Nightly Chrome Tests (Publisher)
     install:
