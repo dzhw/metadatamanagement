@@ -71,8 +71,8 @@ Verify The Unreleased Project is Still Available under The Study Tab with Shadow
   Click on Cockpit Button
   Change Project Release Status
   Click on OK Button
-  Sleep  2s  #to ensure enough time for the next checkbox to be ready
-  Click Publisher Ready Checkbox for Studies   #deselect the check box here
+  Wait Until Angular Ready    10s
+  Click Publisher Ready Checkbox for Studies
   Sleep  5s   #We need explicit sleep to ensure the project is not available under the study tab
   Publisher Logout
   Navigate to search
@@ -113,7 +113,7 @@ Restore The Previous Project Version and Publish Again
   Click on Cockpit Button
   Change Project Release Status
   Click on OK Button
-  Sleep  2s
+  Wait Until Angular Ready    10s
   Click Publisher Ready Checkbox for Studies
   Get back to german home page
   Click Study Edit Button
@@ -138,7 +138,7 @@ Unrelased The Project again to Sync with Intial Step
   Click on Cockpit Button
   Change Project Release Status  #unrelease the project to initial state
   Click on OK Button
-  Sleep  2s
+  Wait Until Angular Ready    10s
   Click Publisher Ready Checkbox for Studies
   Sleep  5s
   Get back to home page and deselect project
