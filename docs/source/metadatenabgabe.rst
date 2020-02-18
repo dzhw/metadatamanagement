@@ -196,7 +196,7 @@ auch als "fertig", was durch einen zweiten Haken signalisiert wird
 (siehe :numref:`studie_ready`). Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können
 die Publisher das Projekt für alle öffentlichen Nutzern des Systems freigeben.
 
-.. figure:: ./_static/studie_ready.png
+.. figure:: ./_static/cockpit_studie_ready.png
    :name: studie_ready
 
 Sie können nun beginnen, Ihr Projekt mit Metadaten zu füllen. Wie genau
@@ -263,7 +263,7 @@ wird dort später eine Übersichtsseite erstellt, die im Folgenden am
 Beispiel des Absolventenpanels 2005 dargestellt wird:
 
 
-.. figure:: ./_static/13_de.png
+.. figure:: ./_static/study_details_overview.png
    :name: studienübersicht
 
    Studienübersicht im MDM am Beispiel des Absolventenpanels 2005
