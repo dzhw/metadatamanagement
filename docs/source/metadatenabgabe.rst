@@ -282,7 +282,7 @@ Metadatenebenen. Wenn Sie unter dem Punkt Studie auf den "Neu"-Button klicken,
 gelangen Sie zur Eingabemaske. Machen Sie beim Punkt Eingabemaske_
 weiter.
 
-.. figure:: ./_static/studie_leer.png
+.. figure:: ./_static/study_empty.png
    :name: studie_leer
 
    Studie per Cockpit anlegen
