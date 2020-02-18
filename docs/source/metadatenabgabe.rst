@@ -183,9 +183,9 @@ Es wird automatisch abgespeichert.
 Sie sehen, dass sich der Status von keinem Häkchen hin zu einem Häkchen ändert, nachdem
 Sie "fertig" angeklickt haben.
 Nachdem der Papierflieger-Button geklickt wurde, erscheint der
-"Nachricht an Publisher" Dialog (siehe :numref:`nachricht_an_publisher`).
+"Nachricht an Publisher" Dialog (siehe :numref:`cockpit_nachricht_an_publisher`).
 
-.. figure:: ./_static/nachricht_an_publisher.png
+.. figure:: ./_static/cockpit_nachricht_an_publisher.png
    :name: nachricht_an_publisher
 
 Falls die Publisher denken, dass noch irgend etwas vergessen wurde oder anders
