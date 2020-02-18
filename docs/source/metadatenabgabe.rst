@@ -293,7 +293,7 @@ Dazu finden Sie im
 Reiter „Studien“ unten rechts auf der Seite einen orangefarbenen
 Plus-Button (vgl. :numref:`studien_anlegen_per_suche`).
 
-.. figure:: ./_static/studie_anlegen_per_suche.png
+.. figure:: ./_static/study_create_study_via_search.png
    :name: studien_anlegen_per_suche
 
    Studie per Suche anlegen
