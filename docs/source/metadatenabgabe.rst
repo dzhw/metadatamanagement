@@ -30,10 +30,10 @@ vom FDZ des DZHW über das MDM verwaltet werden, ermöglicht. Das System
 ist über die Website https://metadata.fdz.dzhw.eu zu erreichen.
 
 
-.. figure:: ./_static/01_de.png
+.. figure:: ./_static/ebenen_uebersicht_de.png
    :name: mdm-ebenen
 
-   Darstellung der verschiedenen Ebenen im MDM, Ebene *Studie* aktiv
+   Darstellung der verschiedenen Ebenen im MDM; Pfeil rechts klicken um die weiteren Ebenen anzuzeigen
 
 Die eigenständige Abgabe von Metadaten
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
