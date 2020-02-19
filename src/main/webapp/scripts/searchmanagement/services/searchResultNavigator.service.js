@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').factory(
   'SearchResultNavigatorService',
-  function(SearchDao, $q, ToolbarHeaderService) {
+  function(SearchDao, $q, BreadcrumbService) {
     var searchIndex = null;
     var lastSearchParams = {};
     var lastProjectId;
@@ -33,7 +33,7 @@ angular.module('metadatamanagementApp').factory(
         currentSearchResultIndex = parseInt(searchResultIndex);
         var currentPage = Math.floor((currentSearchResultIndex - 1) /
         lastPageObject.size) + 1;
-        ToolbarHeaderService.setCurrentSearchPage(currentPage);
+        BreadcrumbService.setCurrentSearchPage(currentPage);
         if (currentSearchResultIndex < lastPageObject.totalHits &&
           currentSearchResultIndex < 10000) {
           SearchDao.search(lastSearchParams.query,

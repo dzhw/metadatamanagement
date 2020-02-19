@@ -16,7 +16,7 @@
     $ctrl.setCurrentSearchParams = setCurrentSearchParams;
     $ctrl.search = search;
     $ctrl.$onInit = init;
-    $ctrl.dataPacketFilter = {};
+    $ctrl.dataPackageFilter = {};
 
     $ctrl.options = {};
     $ctrl.searchResult = {};

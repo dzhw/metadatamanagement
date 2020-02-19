@@ -4,9 +4,8 @@
 
   function SearchFilterController($scope, $location, MessageBus) {
     var $ctrl = this;
-    // var registerScope = null;
-    $ctrl.onDataPacketFilterChange = MessageBus;
-    $ctrl.dataPacketFilter = {};
+    $ctrl.onDataPackageFilterChange = MessageBus;
+    $ctrl.dataPackageFilter = {};
     $ctrl.searchFilterMapping = {};
     $ctrl.searchParams = {};
     $ctrl.filterValues = [
@@ -148,23 +147,17 @@
       $ctrl.searchParams.filter = _.omit(locationSearch, ['page', 'size',
         'type', 'query', 'sort-by'
       ]);
-      // if (_.isEmpty($ctrl.searchParams.filter)) {
-      //   var filter = MessageBus.get('searchFilter');
-      //   if (filter) {
-      //     $ctrl.searchParams.filter = filter;
-      //   }
-      // }
     }
 
     $scope.$watch(function() {
-        return $ctrl.onDataPacketFilterChange;
+        return $ctrl.onDataPackageFilterChange;
       },
       function() {
-        if ($ctrl.onDataPacketFilterChange.get('onDataPacketFilterChange')) {
-          $ctrl.dataPacketFilter = $ctrl.onDataPacketFilterChange
-            .get('onDataPacketFilterChange', true);
+        if ($ctrl.onDataPackageFilterChange.get('onDataPackageFilterChange')) {
+          $ctrl.dataPackageFilter = $ctrl.onDataPackageFilterChange
+            .get('onDataPackageFilterChange', true);
         }
-        if ($ctrl.onDataPacketFilterChange.get('searchInit', true)) {
+        if ($ctrl.onDataPackageFilterChange.get('searchInit', true)) {
           init();
         }
       }, true);

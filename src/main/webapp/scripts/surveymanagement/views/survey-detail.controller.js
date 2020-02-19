@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, LanguageService, CleanJSObjectService,
-             PageTitleService, $state, ToolbarHeaderService, MessageBus,
+             PageTitleService, $state, BreadcrumbService, MessageBus,
              SurveySearchService, SurveyAttachmentResource, Principal,
              SimpleMessageToastService, SearchResultNavigatorService,
              SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
@@ -65,7 +65,7 @@ angular.module('metadatamanagementApp')
               version: survey.release.version
             });
         }
-        ToolbarHeaderService.updateToolbarHeader({
+        BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': survey.id,
           'number': survey.number,

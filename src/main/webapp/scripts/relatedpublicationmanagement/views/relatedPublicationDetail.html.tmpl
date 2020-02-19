@@ -18,7 +18,7 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.relatedPublication"
-          template-url="scripts/relatedpublicationmanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+          template-url="scripts/relatedpublicationmanagement/templates/common-details.html.tmpl"></fdz-detail>
         <md-divider
           ng-if="ctrl.relatedPublication.publicationAbstract"></md-divider>
         <fdz-detail
@@ -26,14 +26,14 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.relatedPublication"
-          template-url="scripts/relatedpublicationmanagement/templates/dp-description.html.tmpl"></fdz-detail>
+          template-url="scripts/relatedpublicationmanagement/templates/description.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
           id="ctrl.relatedPublication.id"
-          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+          template-url="scripts/common/details/related-objects.html.tmpl"></fdz-related-objects>
       </div>
     </div>
   </div>

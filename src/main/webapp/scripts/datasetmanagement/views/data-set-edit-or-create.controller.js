@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('DataSetEditOrCreateController',
     function(entity, PageTitleService, $timeout,
-      $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
+      $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, DataSetIdBuilderService, DataSetResource,
       $scope, SurveyIdBuilderService, $document,
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
@@ -31,7 +31,7 @@ angular.module('metadatamanagementApp')
         $rootScope.$broadcast('start-ignoring-404');
         StudyResource.get({id: ctrl.dataSet.studyId}).$promise
           .then(function(study) {
-          ToolbarHeaderService.updateToolbarHeader({
+          BreadcrumbService.updateToolbarHeader({
             'stateName': $state.current.name,
             'dataSetId': ctrl.dataSet.id,
             'studyId': ctrl.dataSet.studyId,
@@ -42,7 +42,7 @@ angular.module('metadatamanagementApp')
             'dataSetIsPresent': !ctrl.createMode
           });
         }).catch(function() {
-          ToolbarHeaderService.updateToolbarHeader({
+          BreadcrumbService.updateToolbarHeader({
             'stateName': $state.current.name,
             'dataSetId': ctrl.dataSet.id,
             'studyId': ctrl.dataSet.studyId,

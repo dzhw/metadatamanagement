@@ -1,8 +1,7 @@
 /*global _*/
 'use strict';
 
-// TODO: Move factory to the appropiate location
-angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
+angular.module('metadatamanagementApp').factory('BreadcrumbService',
   function($rootScope, $log, Principal) {
     var isAuthenticated = Principal.isAuthenticated;
     var stripVersionSuffix = function(id) {
@@ -70,8 +69,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         'iconType': 'font',
         'icon': 'search'
       },
-      'dataPacketSearch': {
-        'type': 'search-management.detail.dataPacketSearch',
+      'dataPackageSearch': {
+        'type': 'search-management.detail.dataPackageSearch',
         'translateString': 'global.tooltips.toolbarHeader.data-packet'
       },
       'shoppingCart': {
@@ -95,8 +94,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
         'iconType': 'svg',
         'icon': 'assets/images/icons/study.svg'
       },
-      'dataPacketDetail': {
-        'type': 'study-management.detail.label.dataPacket',
+      'dataPackageDetail': {
+        'type': 'study-management.detail.label.dataPackage',
         'translateString': 'global.tooltips.toolbarHeader.data-packet',
       },
       'surveyDetail': {
@@ -180,9 +179,9 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
             this.item.tabName = 'search-management.tabs.all';
           }
         } else {
-          this.item.type = translationStringsMap.dataPacketSearch.type;
+          this.item.type = translationStringsMap.dataPackageSearch.type;
           this.item.tooltip = translationStringsMap
-            .dataPacketSearch.translateString;
+            .dataPackageSearch.translateString;
         }
         this.item.state = 'search(' + JSON.stringify(item.searchParams) +
         ')';
@@ -208,8 +207,8 @@ angular.module('metadatamanagementApp').factory('ToolbarHeaderService',
           studyItem.tooltip = translationStringsMap.studyDetail.translateString;
         } else {
           studyItem.tooltip = translationStringsMap
-            .dataPacketDetail.translateString;
-          studyItem.type = translationStringsMap.dataPacketDetail.type;
+            .dataPackageDetail.translateString;
+          studyItem.type = translationStringsMap.dataPackageDetail.type;
         }
         studyItem.projectId = stripVersionSuffix(item.projectId);
         studyItem.enableLastItem = item.enableLastItem;

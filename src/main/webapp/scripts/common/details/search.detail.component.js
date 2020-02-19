@@ -2,13 +2,12 @@
   'use strict';
 
   var SearchComponent = {
-    controller: 'searchDetailController',
-    templateUrl: 'scripts/searchmanagement/components' +
-      '/search-detail/search.detail.html.tmpl'
+    controller: 'SearchDetailController',
+    templateUrl: 'scripts/common/details/' +
+      'search.detail.html.tmpl'
   };
 
   angular
     .module('metadatamanagementApp')
     .component('fdzSearchDetail', SearchComponent);
 })();
-

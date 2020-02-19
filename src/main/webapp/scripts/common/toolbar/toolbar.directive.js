@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').directive('fdzToolbar',
     return {
       restrict: 'E',
       replace: true,
-      templateUrl: 'scripts/common/toolbar/views/toolbar.html.tmpl',
+      templateUrl: 'scripts/common/toolbar/toolbar.html.tmpl',
       controller: 'ToolbarController'
     };
   });

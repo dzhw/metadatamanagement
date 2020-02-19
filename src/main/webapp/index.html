@@ -77,7 +77,7 @@
 </header>
 <!--    <main data-flex data-layout="column" data-ng-cloak data-block-ui="main" class="block-ui-main">-->
 <main data-flex data-layout="row" data-ng-cloak data-block-ui="main" class="block-ui-main">
-  <fdz-navbar data-ng-cloak></fdz-navbar>
+  <fdz-sidenav data-ng-cloak></fdz-sidenav>
   <md-content data-md-scroll-y data-layout="column" flex du-scroll-container class="fdz-theme content-center" data-ng-cloak>
     <div id="top"></div>
     <fdz-breadcrumbs items="toolbarHeaderItems"></fdz-breadcrumbs>
@@ -217,11 +217,10 @@
 <script src="scripts/common/easteregg/egg.js"></script>
 <script src="scripts/common/easteregg/thankyou.js"></script>
 <script src="scripts/common/easteregg/confused.js"></script>
-<script src="scripts/common/navbar/views/navbar.controller.js"></script>
-<script src="scripts/common/navbar/directives/navbar.directive.js"></script>
-<script src="scripts/common/toolbar/views/toolbar.controller.js"></script>
-<script src="scripts/common/toolbar/directives/toolbar.directive.js"></script>
-<script src="scripts/common/services/toolbarHeader.service.js"></script>
+<script src="scripts/common/sidenav/sidenav.controller.js"></script>
+<script src="scripts/common/sidenav/sidenav.directive.js"></script>
+<script src="scripts/common/toolbar/toolbar.controller.js"></script>
+<script src="scripts/common/toolbar/toolbar.directive.js"></script>
 <script src="scripts/common/joblogging/services/jobLogging.service.js"></script>
 <script src="scripts/common/joblogging/services/errorMessageResolver.service.js"></script>
 <script src="scripts/common/joblogging/services/jobCompleteToast.service.js"></script>
@@ -289,9 +288,10 @@
 <script src="scripts/common/i18n/directives/languagepicker/configuration/translations-en.js"></script>
 <script src="scripts/common/breadcrumbs/breadcrumbs.component.js"></script>
 <script src="scripts/common/breadcrumbs/breadcrumbs.controller.js"></script>
+<script src="scripts/common/breadcrumbs/breadcrumb.service.js"></script>
 <script src="scripts/common/footer/footer.component.js"></script>
 <script src="scripts/common/footer/footer.controller.js"></script>
-<script src="scripts/common/services/MessageBus.service.js"></script>
+<script src="scripts/common/messagebus/MessageBus.service.js"></script>
 
 <script src="scripts/filemanagement/resources/file.resource.js"></script>
 <script src="scripts/filemanagement/services/zipReader.service.js"></script>
@@ -401,9 +401,11 @@
 <script src="scripts/studymanagement/views/study-detail.controller.js"></script>
 <script src="scripts/studymanagement/views/study-edit-or-create.controller.js"></script>
 <script src="scripts/studymanagement/components/attachment-component.js"></script>
-<script src="scripts/common/detail/detail-component.js"></script>
-<script src="scripts/common/detail/detail-related-objects-component.js"></script>
-<script src="scripts/common/detail/detail-related-objects-component-controller.js"></script>
+<script src="scripts/common/details/detail.component.js"></script>
+<script src="scripts/common/details/related-objects.component.js"></script>
+<script src="scripts/common/details/related-objects.controller.js"></script>
+<script src="scripts/common/details/search.detail.component.js"></script>
+<script src="scripts/common/details/search.detail.controller.js"></script>
 
 <script src="scripts/instrumentmanagement/configuration/instrument.js"></script>
 <script src="scripts/instrumentmanagement/configuration/translations-de.js"></script>
@@ -535,14 +537,12 @@
 <script src="scripts/searchmanagement/services/genericFilterOptionsSearch.service.js"></script>
 <script src="scripts/searchmanagement/directives/concept-search-filter.controller.js"></script>
 <script src="scripts/searchmanagement/directives/concept-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/components/search/search.component.js"></script>
-<script src="scripts/searchmanagement/components/search/search.controller.js"></script>
-<script src="scripts/searchmanagement/components/search-detail/search.detail.component.js"></script>
-<script src="scripts/searchmanagement/components/search-detail/search.detail.controller.js"></script>
-<script src="scripts/searchmanagement/components/searchfilter/searchfilter-component.js"></script>
-<script src="scripts/searchmanagement/components/searchfilter/searchfilter-component-controller.js"></script>
-<script src="scripts/searchmanagement/components/menutoggle/menu-toggle-component.js"></script>
-<script src="scripts/searchmanagement/components/menutoggle/menu-toggle-component-controller.js"></script>
+<script src="scripts/searchmanagement/components/data-package-search.component.js"></script>
+<script src="scripts/searchmanagement/components/data-package-search.controller.js"></script>
+<script src="scripts/searchmanagement/components/searchfilter.component.js"></script>
+<script src="scripts/searchmanagement/components/searchfilter.controller.js"></script>
+<script src="scripts/searchmanagement/components/menu-toggle.component.js"></script>
+<script src="scripts/searchmanagement/components/menu-toggle.controller.js"></script>
 
 <script src="scripts/ordermanagement/configuration/shoppingCart.js"></script>
 <script src="scripts/ordermanagement/configuration/translations-de.js"></script>
@@ -550,10 +550,10 @@
 <script src="scripts/ordermanagement/views/shopping-cart.controller.js"></script>
 <script src="scripts/ordermanagement/services/shoppingCart.service.js"></script>
 <script src="scripts/ordermanagement/resources/order.resource.js"></script>
-<script src="scripts/ordermanagement/components/configurator/detail-component.js"></script>
-<script src="scripts/ordermanagement/components/configurator/version-info.controller.js"></script>
-<script src="scripts/ordermanagement/components/configurator/access-way-info.controller.js"></script>
-<script src="scripts/ordermanagement/components/configurator/detail-component-controller.js"></script>
+<script src="scripts/ordermanagement/components/data-package-configurator.component.js"></script>
+<script src="scripts/ordermanagement/views/version-info.controller.js"></script>
+<script src="scripts/ordermanagement/views/access-way-info.controller.js"></script>
+<script src="scripts/ordermanagement/components/data-package-configurator.controller.js"></script>
 
 <script src="scripts/conceptmanagement/configuration/concept.js"></script>
 <script src="scripts/conceptmanagement/configuration/translations-de.js"></script>

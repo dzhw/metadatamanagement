@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
     SimpleMessageToastService,
     PageTitleService, LanguageService,
     CleanJSObjectService,
-    $state, ToolbarHeaderService,
+    $state, BreadcrumbService,
     SearchResultNavigatorService,
     OutdatedVersionNotifier,
     $stateParams, blockUI) {
@@ -52,7 +52,7 @@ angular.module('metadatamanagementApp')
           currenLanguage] : result.label[secondLanguage],
         variableId: result.id
       });
-      ToolbarHeaderService.updateToolbarHeader({
+      BreadcrumbService.updateToolbarHeader({
         'stateName': $state.current.name,
         'id': result.id,
         'name': result.name,
