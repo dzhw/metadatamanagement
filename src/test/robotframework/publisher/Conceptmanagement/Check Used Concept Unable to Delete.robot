@@ -16,11 +16,9 @@ Check already used concept can not be deleted
     Close The Toast Message
 
 *** Keywords ***
-
 Click on Concept Delete Button
    Search for  Referenced Concept ${BROWSER} De
-   Run Keyword if  '${BROWSER}' == 'chrome'  Sleep  2s  #chrome is too fast
-   Click Element Through Tooltips  xpath=//concept-search-result//div[@data-has-any-authority="ROLE_PUBLISHER"]//button[contains(., "delete_forever")][1]
+   Click Element Through Tooltips  xpath=(//concept-search-result//md-card-actions//button[normalize-space()="Löschen"])[1]
 
 Assert concept can not be deleted toast message
    Page Should Contain  Das Konzept kann nicht gelöscht werden

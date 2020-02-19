@@ -1,7 +1,7 @@
 /* Author Daniel Katzberg */
 'use strict';
 
-angular.module('metadatamanagementApp').controller('NavbarController',
+angular.module('metadatamanagementApp').controller('SidenavController',
   function($scope, $rootScope, Principal, $mdSidenav, $document, $timeout,
            LanguageService, Auth, $state,
            WelcomeDialogService) {
@@ -53,6 +53,7 @@ angular.module('metadatamanagementApp').controller('NavbarController',
     //Goto Logout Page
     $scope.logout = function() {
       Auth.logout();
+      $rootScope.searchQuery = '';
       $state.go('start', {
         lang: LanguageService.getCurrentInstantly()
       }, {

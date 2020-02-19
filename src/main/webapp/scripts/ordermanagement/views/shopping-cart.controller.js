@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ShoppingCartController',
-  function(PageTitleService, $state, ToolbarHeaderService,
+  function(PageTitleService, $state, BreadcrumbService,
            ShoppingCartService, $scope, StudyResource, DataSetSearchService,
            VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
            OrderResource, LanguageService, SimpleMessageToastService, order,
@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
            $rootScope, $document) {
 
     PageTitleService.setPageTitle('shopping-cart.title');
-    ToolbarHeaderService.updateToolbarHeader({
+    BreadcrumbService.updateToolbarHeader({
       'stateName': $state.current.name
     });
     var ctrl = this;

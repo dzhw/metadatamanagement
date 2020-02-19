@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('RelatedPublicationDetailController',
-    function(entity, PageTitleService, $state, ToolbarHeaderService,
+    function(entity, PageTitleService, $state, BreadcrumbService,
     SearchResultNavigatorService, Principal, $stateParams) {
 
       SearchResultNavigatorService
@@ -30,7 +30,7 @@ angular.module('metadatamanagementApp')
           title: ctrl.relatedPublication.title,
           publicationId: ctrl.relatedPublication.id
         });
-        ToolbarHeaderService.updateToolbarHeader({
+        BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': ctrl.relatedPublication.id});
       });

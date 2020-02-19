@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('ConceptEditOrCreateController',
     function(entity, PageTitleService, $document, $timeout,
-      $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
+      $state, BreadcrumbService, Principal, SimpleMessageToastService,
       ConceptResource, ConceptSearchService, $scope, $q,
       ElasticSearchAdminService, $transitions,
       CommonDialogsService, LanguageService, ConceptAttachmentUploadService,
@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp')
               conceptId: ctrl.concept.id
             });
         }
-        ToolbarHeaderService.updateToolbarHeader({
+        BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': ctrl.concept.id,
           'enableLastItem': !ctrl.createMode

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('RegisterController',
-  function($scope, $state, ToolbarHeaderService, LanguageService, $timeout,
+  function($scope, $state, BreadcrumbService, LanguageService, $timeout,
     Auth, PageTitleService) {
     PageTitleService.setPageTitle('user-management.register.title');
     $scope.success = null;
@@ -39,6 +39,6 @@ angular.module('metadatamanagementApp').controller('RegisterController',
         });
       }
     };
-    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+    BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
   });

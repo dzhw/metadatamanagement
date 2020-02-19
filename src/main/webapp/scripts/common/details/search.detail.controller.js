@@ -3,9 +3,9 @@
 
   angular
     .module('metadatamanagementApp')
-    .controller('searchDetailController', searchDetailController);
+    .controller('SearchDetailController', SearchDetailController);
 
-  function searchDetailController(
+  function SearchDetailController(
     $rootScope, $state, LanguageService, $location
   ) {
     var $ctrl = this; // jshint ignore:line

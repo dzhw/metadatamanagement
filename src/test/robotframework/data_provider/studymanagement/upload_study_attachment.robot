@@ -61,4 +61,4 @@ Assert gra2005_MethodReport in the attachment
 Delete study with uploaded document
     Click Element Through Tooltips    xpath=//button[md-icon[text()="delete_forever"]]
     Click Element Through Tooltips    xpath=//button[text()="Ja"]
-    Page Should Contain   Datei "gra2005_MethodReport_de.pdf" wurde gelöscht!
+    Page Should Not Contain Element    xpath=//a[@ng-href="/public/files/studies/stu-fileuploadproject$/attachments/gra2005_MethodReport_de.pdf"]

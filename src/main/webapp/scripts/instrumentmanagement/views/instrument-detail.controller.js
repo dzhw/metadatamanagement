@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
   .controller('InstrumentDetailController',
     function(entity, InstrumentAttachmentResource, MessageBus,
              PageTitleService, LanguageService, $state, CleanJSObjectService,
-             ToolbarHeaderService, Principal, SimpleMessageToastService,
+             BreadcrumbService, Principal, SimpleMessageToastService,
              SearchResultNavigatorService,
              DataAcquisitionProjectResource, ProjectUpdateAccessService,
              InstrumentSearchService, OutdatedVersionNotifier, $stateParams,
@@ -54,7 +54,7 @@ angular.module('metadatamanagementApp')
             activeProject = project;
           });
         }
-        ToolbarHeaderService.updateToolbarHeader({
+        BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id,
           'number': result.number,

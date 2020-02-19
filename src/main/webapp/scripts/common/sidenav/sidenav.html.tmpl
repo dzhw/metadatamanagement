@@ -5,14 +5,14 @@
                 {{'global.menu.skip-navigation-tooltip'|translate}}
             </md-tooltip>
         </md-button>
-    <fdz-search ng-if="sidebarContent.search"></fdz-search>
+    <fdz-data-package-search ng-if="sidebarContent.search"></fdz-data-package-search>
     <fdz-search-detail ng-if="sidebarContent.detailSearch"></fdz-search-detail>
     <fdz-search-filter
       ng-if="sidebarContent.filter"
-      options="dataPacketFilter"
-      template-url="scripts/searchmanagement/components/searchfilter/dp-search-filter.html.tmpl"></fdz-search-filter>
-    <fdz-data-packet
-      ng-if="sidebarContent.configurator"></fdz-data-packet>
+      options="dataPackageFilter"
+      template-url="scripts/searchmanagement/components/searchfilter.html.tmpl"></fdz-search-filter>
+    <fdz-data-package-configurator
+      ng-if="sidebarContent.configurator"></fdz-data-package-configurator>
     <md-content ng-switch="isAuthenticated()" flex layout="column" role="navigation">
         <ul ng-if="isAuthenticated()" class="pa0 ma0 overflow-hidden">
           <li class="fdz-navbar-menu">

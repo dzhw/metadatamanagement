@@ -431,13 +431,13 @@ public class DataSetReportService {
 
       if (!StringUtils.isEmpty(variable.getPanelIdentifier())) {
         List<VariableSubDocumentProjection> otherVariablesInPanel = this.variableRepository
-            .findAllIdsByPanelIdentifierAndIdNot(variable.getPanelIdentifier(), variable.getId());
+            .findAllByPanelIdentifierAndIdNot(variable.getPanelIdentifier(), variable.getId());
         sameVariablesInPanel.put(variable.getId(), otherVariablesInPanel);
       }
 
       if (!StringUtils.isEmpty(variable.getDerivedVariablesIdentifier())) {
         List<VariableSubDocumentProjection> otherDerivedVariables =
-            this.variableRepository.findAllIdsByDerivedVariablesIdentifierAndIdNot(
+            this.variableRepository.findAllByDerivedVariablesIdentifierAndIdNot(
                 variable.getDerivedVariablesIdentifier(), variable.getId());
         derivedVariables.put(variable.getId(), otherDerivedVariables);
       }

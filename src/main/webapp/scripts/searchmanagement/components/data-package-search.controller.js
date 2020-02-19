@@ -3,7 +3,7 @@
 (function() {
   'use strict';
 
-  function DataPacketSearchController(
+  function DataPackageSearchController(
     $scope,
     $location,
     $rootScope,
@@ -80,6 +80,5 @@
 
   angular
     .module('metadatamanagementApp')
-    .controller('DataPacketSearchController', DataPacketSearchController);
+    .controller('DataPackageSearchController', DataPackageSearchController);
 })();
-

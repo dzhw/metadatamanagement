@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').controller('LogsController',
   function($scope, $state, LogsResource, PageTitleService,
-  ToolbarHeaderService) {
+  BreadcrumbService) {
     PageTitleService.setPageTitle('administration.logs.title');
     $scope.loggers = LogsResource.findAll();
 
@@ -14,6 +14,6 @@ angular.module('metadatamanagementApp').controller('LogsController',
         $scope.loggers = LogsResource.findAll();
       });
     };
-    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+    BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
   });

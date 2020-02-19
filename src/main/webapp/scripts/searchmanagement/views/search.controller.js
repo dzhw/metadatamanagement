@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            VariableUploadService, ProjectUpdateAccessService,
            QuestionUploadService, RelatedPublicationUploadService,
            CleanJSObjectService, CurrentProjectService, $timeout,
-           PageTitleService, ToolbarHeaderService, SearchHelperService,
+           PageTitleService, BreadcrumbService, SearchHelperService,
            SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
            $rootScope, ProjectStatusScoringService, DeleteMetadataService,
            SimpleMessageToastService) {
@@ -270,7 +270,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       group: 'concepts'
     }];
 
-    function createDataPacketFilterContent(data, prop) {
+    function createDataPackageFilterContent(data, prop) {
       _.map(data.all.filtered[prop].buckets, function(val1, i1) {
         data.all.filtered[prop].buckets[i1].doc_count = 0;
         _.find(data[prop].buckets, function(val2, i2) {
@@ -282,21 +282,21 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
       return data.all.filtered[prop].buckets;
     }
-    function createDataPacketFilterObject(data) {
+    function createDataPackageFilterObject(data) {
       if (Principal.isAuthenticated()) { return null; }
-      var dataPacketFilter = {
-        'study-series': createDataPacketFilterContent(data,
+      var dataPackageFilter = {
+        'study-series': createDataPackageFilterContent(data,
           'study-series'),
-        'survey-data-types': createDataPacketFilterContent(data,
+        'survey-data-types': createDataPackageFilterContent(data,
           'survey-data-types'),
-        'tags': createDataPacketFilterContent(data,
+        'tags': createDataPackageFilterContent(data,
           'tags'),
-        'sponsor': createDataPacketFilterContent(data,
+        'sponsor': createDataPackageFilterContent(data,
           'sponsor'),
-        'institutions': createDataPacketFilterContent(data,
+        'institutions': createDataPackageFilterContent(data,
           'institutions')
       };
-      MessageBus.set('onDataPacketFilterChange', dataPacketFilter);
+      MessageBus.set('onDataPackageFilterChange', dataPackageFilter);
     }
     $scope.setCurrentSearchParams = function(projectId) {
       if (!projectId) {
@@ -334,7 +334,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         // })
         $scope.searchFilterMapping)
         .then(function(data) {
-          createDataPacketFilterObject(data.aggregations);
+          createDataPackageFilterObject(data.aggregations);
           $scope.searchResult = data.hits.hits;
           $scope.options.pageObject.totalHits = data.hits.total.value;
           //Count information by aggregations
@@ -419,7 +419,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.$watchCollection(function() {
       return $location.search();
     }, function(newValue, oldValue) {
-      ToolbarHeaderService.updateToolbarHeader({
+      BreadcrumbService.updateToolbarHeader({
         'stateName': $state.current.name,
         'tabName': $scope.tabs[$scope.searchParams.selectedTabIndex].title,
         'searchUrl': $location.absUrl(),
