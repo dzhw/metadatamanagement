@@ -8,7 +8,7 @@
 [![Sauce Build Matrix](https://saucelabs.com/browser-matrix/rreitmann.svg)](https://saucelabs.com/u/rreitmann)
 # Metadatamanagement (MDM)
 
-The MDM holds the metadata of the studies which are available as data products in our Research Data Center [FDZ](https://fdz.dzhw.eu). It enables researchers to browse our data products before signing a contract for using the data.
+The MDM holds the metadata of the data packages which are available in our Research Data Center [FDZ](https://fdz.dzhw.eu). It enables researchers to browse our data packages before signing a contract for using the data.
 
 # Developing the MDM system
 
