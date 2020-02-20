@@ -27,10 +27,6 @@ We use [Grunt][] as our client build system. Install the grunt command-line tool
 
     npm install -g grunt-cli
 
-You need to install [Bower][] globally as well:
-
-    npm install -g bower
-
 On Windows, `patch.exe` has to exist in the PATH. It is distributed as part of git bash, or can be downloaded manually from [GnuWin32][].
 
 ## Running on your local machine
@@ -49,7 +45,7 @@ Make sure that you have read-write-access on the ***data*** directory (in your p
 
 to start all services the metadatamanagement depends on. Mongodb and Elasticsearch will be listening on its default ports.
 
-In order to have all java dependencies for the server and  all bower dependencies for the client and in order to build everything, simply run (and lean back for a while):
+In order to have all java dependencies for the server and  all nodejs dependencies for the client and in order to build everything, simply run (and lean back for a while):
 
     mvn clean install
 
@@ -106,7 +102,6 @@ Continuous Integration Platform provided by [Travis CI][TravisCI]
 [saucelabs]: https://saucelabs.com
 [JHipster]: https://jhipster.github.io/
 [Node.js]: https://nodejs.org/
-[Bower]: http://bower.io/
 [Grunt]: http://gruntjs.com/
 [BrowserSync]: http://www.browsersync.io/
 [Karma]: http://karma-runner.github.io/
