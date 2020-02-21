@@ -6,12 +6,13 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -275,6 +276,15 @@ public class DaraService {
     if (release == null) {
       release = dataAcquisitionProjectVersionsService.findLastRelease(project.getMasterId());
     }
+    if (release.getFirstDate() == null) {
+      Optional<DataAcquisitionProject> previousRelease = projectRepository
+          .findById(project.getMasterId() + "-" + release.getVersion());
+      if (previousRelease.isPresent()) {
+        release.setFirstDate(previousRelease.get().getRelease().getFirstDate());
+      } else {
+        release.setFirstDate(LocalDateTime.now());
+      }
+    }
 
     String doi = doiBuilder.buildStudyDoi(study, release);
     dataForTemplate.put("doi", doi);
@@ -312,7 +322,7 @@ public class DaraService {
 
     // Add Date
     DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
-    dataForTemplate.put("releaseDate", formatter.format(LocalDate.now()));
+    dataForTemplate.put("releaseDate", formatter.format(release.getFirstDate()));
 
     // Add Availability Controlled
     dataForTemplate.put("availabilityControlled", availabilityControlled);
