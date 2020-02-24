@@ -8,19 +8,16 @@ Resource          ../../resources/search_resource.robot
 Upload file in survey editor
     Select project by name    fileuploadproject
     Click on surveys tab
-    Click on search result by id    sur-fileuploadproject-sy1$
+    Search for    sur-fileuploadproject-sy1$
     Click Survey Edit Button
     Upload Response Response Rate
-    # Sleep is needed as the save button is too soon available and the upload wouldn't be done.
-    Sleep    2s
     Save Response Rate Changes
     Get To Survey Page
     Page Should Contain Element    xpath=//md-content//a[@ng-href="/public/files/surveys/sur-fileuploadproject-sy1$/1_responserate_de"]
-    Click Survey Edit Button
+    Click Edit Button on Survey Details
     Delete Response Rate Upload
-    # Same Reason as above
-    Sleep    2s
     Save Response Rate Changes
+    Page Should Not Contain Element    xpath=//md-content//a[@ng-href="/public/files/surveys/sur-fileuploadproject-sy1$/1_responserate_de"]
     Get back to home page and deselect project
 
 *** Keywords ***
@@ -28,11 +25,9 @@ Get back to home page and deselect project
     Get back to german home page
     Click Element Through Tooltips    xpath=//md-sidenav//project-navbar-module//button[@aria-label='Clear Input']
 
-Click Survey Edit Button
-    Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='mode_edit']
-
 Delete Response Rate Upload
     Click Element Through Tooltips    xpath=//md-card//button[@ng-click='ctrl.deleteResponseRateImageDe()']
+    Wait Until Angular Ready    2s
 
 Save Response Rate Changes
     Click Element Through Tooltips    xpath=//md-card//button[contains(.,'save')]
@@ -42,3 +37,7 @@ Get To Survey Page
 
 Upload Response Response Rate
     Choose File    xpath=//input[@type='file'][@ngf-select='ctrl.saveResponseRateImageDe($file)'][1]    ${CURDIR}/data/1_responserate_de.svg
+    Wait Until Angular Ready    2s
+
+Click Edit Button on Survey Details
+    Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='mode_edit']

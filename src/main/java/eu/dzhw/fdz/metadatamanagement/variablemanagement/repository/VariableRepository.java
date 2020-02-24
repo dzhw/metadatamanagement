@@ -22,7 +22,7 @@ public interface VariableRepository extends BaseRepository<Variable, String> {
   Stream<Variable> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
-  List<IdAndVersionProjection> findAllIdsByPanelIdentifierAndIdNot(String panelIdentifier,
+  List<VariableSubDocumentProjection> findAllByPanelIdentifierAndIdNot(String panelIdentifier,
       String id);
 
   @RestResource(exported = true)
@@ -119,4 +119,8 @@ public interface VariableRepository extends BaseRepository<Variable, String> {
   @RestResource(exported = false)
   Stream<Variable> findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
       String dataAcquisitionProjectId);
+
+  @RestResource(exported = false)
+  List<VariableSubDocumentProjection> findAllByDerivedVariablesIdentifierAndIdNot(
+      String derivedVariablesIdentifier, String id);
 }

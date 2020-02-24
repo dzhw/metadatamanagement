@@ -95,11 +95,10 @@
   margin-top: 0;
 }
 
-.fdz-search-filter-items li {
+.md-autocomplete-suggestions.fdz-search-filter-items li.md-autocomplete-suggestion {
   border-bottom: 1px solid #ccc;
   height: auto;
-  padding: 6px;
-  padding-left: 12px;
+  padding: 6px 12px 5px 12px;
   white-space: normal;
 }
 
@@ -107,4 +106,10 @@
 .fdz-search-filter-items .item-metadata {
   display: block;
   line-height: 1.5;
+}
+
+.md-autocomplete-suggestions-container.md-not-found .fdz-search-filter-items li {
+  margin-left: 0px;
+  margin-top: 0px;
+  padding: 4px 12px 2px 12px;
 }

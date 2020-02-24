@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp').controller(
   'HealthController',
   function($scope, MonitoringService, $uibModal, ElasticSearchAdminService,
-    PageTitleService, $state, ToolbarHeaderService, SimpleMessageToastService) {
+    PageTitleService, $state, BreadcrumbService, SimpleMessageToastService) {
     PageTitleService.setPageTitle('administration.health.title');
     $scope.isRecreatingIndices = false;
     $scope.updatingHealth = true;
@@ -169,6 +169,6 @@ angular.module('metadatamanagementApp').controller(
         return remainder ? ' - ' + remainder : '';
       }
     };
-    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+    BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
   });

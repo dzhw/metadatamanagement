@@ -25,61 +25,50 @@ Create Dataset by Dataprovider
 
 *** Keywords ***
 Go To Dataset Create Page
-    Pass Execution If    '${BROWSER}' == 'ie'    Dataset Creation not possible in IE
     Select project by name    robotproject4${BROWSER}
     Wait Until Angular Ready    6s
     Click on data set tab
     Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
 
 Fill up the description and title
-    Pass Execution If    '${BROWSER}' == 'ie'    Dataset Creation not possible in IE
     Input Text   xpath=//input[@name='descriptionDe']    Dataset Description De
     Input Text   xpath=//input[@name='descriptionEn']    Dataset Description En
 
 Fill up the Subdatasets
-    Pass Execution If    '${BROWSER}' == 'ie'    Dataset Creation not possible in IE
     Input Text   xpath=//input[@name='subDataSetsName_0']    Subdataset Name
 
 Select Access Way for the Datasets from The List
     [Arguments]   ${accesswayname}
-    Pass Execution If    '${BROWSER}' == 'ie'    Dataset Creation not possible in IE
     Click Element Through Tooltips    xpath=//md-select[@name='subDataSetsAccessWay_0']
     Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., '${accesswayname}')]
 
 Enter Number of Observations or Episodes
-    Pass Execution If    '${BROWSER}' == 'ie'    Dataset Creation not possible in IE
     Input Text   xpath=//input[@name='subDataSetsNumberOfObservations_0']    5
 
 Fill up the description of Subdatasets
-    Pass Execution If    '${BROWSER}' == 'ie'    Dataset Creation not possible in IE
     Input Text   xpath=//input[@name='subDataSetsDescriptionDe_0']    Subdataset Description De
     Input Text   xpath=//input[@name='subDataSetsDescriptionEn_0']    subdataset Description En
 
 Fill up the Citation Hint of Subdatasets
-    Pass Execution If    '${BROWSER}' == 'ie'    Dataset Creation not possible in IE
     Input Text   xpath=//textarea[@name='subDataSetsCitationHintDe_0']    Subdataset Citation Hint in De
     Input Text   xpath=//textarea[@name='subDataSetsCitationHintEn_0']    Subdataset Citation Hint in En
 
 Choose Format
-    Pass Execution If    '${BROWSER}' == 'ie'    Dataset Creation not possible in IE
     Click Element  xpath=//md-select[@name="format"]
     Click Element  xpath=//md-select-menu//md-content//md-option//div[contains(., 'lang')]
 
 Choose Type
-    Pass Execution If    '${BROWSER}' == 'ie'    Dataset Creation not possible in IE
     Click Element  xpath=//md-select[@name="type"]
     Click Element  xpath=//md-select-menu//md-content//md-option//div[contains(., 'Episodendatensatz')]
 
 Choose Survey
-    Pass Execution If    '${BROWSER}' == 'ie'     Dataset Creation not possible in IE
-    Click Element Through Tooltips  xpath=//md-chips[@name="surveys"]//md-autocomplete
+    Click Element   xpath=//md-chips[@name="surveys"]//md-autocomplete//input
     Click Element Through Tooltips  xpath=//span[contains(.,'sur-robotproject4${BROWSER}')]
 
 Fill up the Annotations
-    Pass Execution If    '${BROWSER}' == 'ie'     Dataset Creation not possible in IE
     Input Text  xpath=//textarea[contains(@name,'annotationsDe')]  This is Annotations in De
     Input Text  xpath=//textarea[contains(@name,'annotationsEn')]  This is Annotation in En
 
 Delete Dataset
-    Click Element Through Tooltips    xpath=//button[md-icon[text()='delete_forever']]
+    Click Element Through Tooltips    xpath=//button[normalize-space()='Löschen']
     Click Element Through Tooltips    xpath=//button[text()='Ja']

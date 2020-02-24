@@ -16,7 +16,7 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
-          template-url="scripts/variablemanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+          template-url="scripts/variablemanagement/templates/common-details.html.tmpl"></fdz-detail>
         <md-divider
           ng-if="ctrl.isDiagramVisible()"></md-divider>
         <fdz-detail
@@ -24,7 +24,7 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.variable"
-          template-url="scripts/variablemanagement/templates/dp-statistic.html.tmpl"></fdz-detail>
+          template-url="scripts/variablemanagement/templates/chart.html.tmpl"></fdz-detail>
         <md-divider
           ng-if="ctrl.variable.accessWays != 'not-accessible' && ctrl.variable.distribution.statistics"></md-divider>
         <fdz-detail
@@ -32,7 +32,7 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
-          template-url="scripts/variablemanagement/templates/dp-metric.html.tmpl"></fdz-detail>
+          template-url="scripts/variablemanagement/templates/statistics.html.tmpl"></fdz-detail>
         <md-divider
           ng-if="ctrl.validResponsesOrMissingsAvailable"></md-divider>
         <fdz-detail
@@ -40,7 +40,7 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
-          template-url="scripts/variablemanagement/templates/dp-frequencies.html.tmpl"></fdz-detail>
+          template-url="scripts/variablemanagement/templates/frequencies.html.tmpl"></fdz-detail>
         <md-divider
           ng-if="ctrl.variable.generationDetails"></md-divider>
         <fdz-detail
@@ -48,26 +48,26 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
-          template-url="scripts/variablemanagement/templates/dp-generation.html.tmpl"></fdz-detail>
+          template-url="scripts/variablemanagement/templates/generation-details.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.previousVariables"
-          template-url="scripts/variablemanagement/templates/dp-prev.html.tmpl"></fdz-detail>
+          template-url="scripts/variablemanagement/templates/previous-variables.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.nextVariables"
-          template-url="scripts/variablemanagement/templates/dp-next.html.tmpl"></fdz-detail>
+          template-url="scripts/variablemanagement/templates/next-variables.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
           id="ctrl.variable.id"
-          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+          template-url="scripts/common/details/related-objects.html.tmpl"></fdz-related-objects>
       </div>
     </div>
   </div>

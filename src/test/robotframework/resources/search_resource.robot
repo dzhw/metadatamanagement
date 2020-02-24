@@ -9,10 +9,24 @@ Search for
     [Arguments]    ${query}
     Click Element Through Tooltips    xpath=//input[@id='query']
     Input Text    id=query    ${query}
+    Wait Until Angular Ready    10s
+
+Search for on startpage
+    [Arguments]    ${query}
+    Click Element Through Tooltips    xpath=//input[@id='query']
+    Input Text    id=query    ${query}
+    Press Key     id=query    \\13
+    Wait Until Angular Ready    10s
+
+Search for in details
+    [Arguments]    ${query}
+    Click Element Through Tooltips    xpath=//input[@id='detailSearchQuery']
+    Input Text    id=detailSearchQuery    ${query}
+    Wait Until Angular Ready    10s
 
 Select project by name
     [Arguments]    ${projectname}
-    Input Text    xpath=//md-sidenav//input[@type='search']    ${projectname}
+    Input Text    xpath=//md-sidenav//project-navbar-module//md-autocomplete//input    ${projectname}
     Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='${projectname}']
 
 Delete project by name
@@ -20,10 +34,14 @@ Delete project by name
     Input Text    xpath=//input[@placeholder = 'Projekt auswählen']    ${projectname}
     Click Element Through Tooltips    xpath=//md-sidenav/descendant::button[md-icon[text()='']]
     Click Element Through Tooltips    xpath=//button[text()='OK']
+    Run Keyword If    '${BROWSER}' == 'safari'    Sleep  10s 
 
 Click on search result by id
     [Arguments]    ${id}
     Click Element Through Tooltips    xpath=//a//span[text()='${id}']
+
+Click on first search result
+    Click Element Through Tooltips    xpath=(//md-card[contains(@class,'fdz-search-result')]//md-card-header//a)[1]
 
 Activate Filter by name
     [Arguments]    ${filtername}
@@ -75,7 +93,7 @@ Click on concept tab
     Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Concepts')]
 
 Click Survey Edit Button
-    Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='mode_edit']
+    Click Element Through Tooltips    xpath=//ui-view//button[normalize-space()='Bearbeiten']
 
 Click on Cockpit Button
     Click Element Through Tooltips    xpath=//project-navbar-module//a[contains(@class, 'md-accent')]

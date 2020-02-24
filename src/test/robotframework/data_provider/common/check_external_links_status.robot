@@ -6,15 +6,12 @@ Resource          ../../resources/home_page_resource.robot
 
 *** Test Cases ***
 Check Link Status for MDM Documentation
-    Pass Execution If    '${BROWSER}' == 'ie'    Footer not visible on IE
     Check URL Status with xpath Locator   //a[contains(.,'Dokumentation')]
 
 Check Link Status for Data Access
-    Pass Execution If    '${BROWSER}' == 'ie'    Footer not visible on IE
     Check URL Status with xpath Locator   //a[contains(.,'Datenzugang')]
 
 Check Link Status for DZHW
-    Pass Execution If    '${BROWSER}' == 'ie'    Footer not visible on IE
     Check URL Status with xpath Locator   //a[contains(.,'Deutsches Zentrum für Hochschul- und Wissenschaftsforschung GmbH')]
     Get back to german home page  # to sync with the next test case
 
