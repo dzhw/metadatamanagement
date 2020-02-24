@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').controller('UserManagementController',
   function($scope, UserResource, ParseLinks, $state,
-    PageTitleService, ToolbarHeaderService, $mdDialog, $uibModal,
+    PageTitleService, BreadcrumbService, $mdDialog, $uibModal,
     DataAcquisitionProjectRepositoryClient, SimpleMessageToastService) {
     PageTitleService.setPageTitle('user-management.home.title');
     $scope.users = [];
@@ -82,7 +82,7 @@ angular.module('metadatamanagementApp').controller('UserManagementController',
       $scope.loadAll();
     };
 
-    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+    BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
 
     $scope.openUserMessageDialog = function(event) {

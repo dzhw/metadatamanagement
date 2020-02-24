@@ -13,6 +13,8 @@ Assign and Unassign concept to and from an instrument
     Assign Concept to an Instrument
     Click on Save Button
     Get back to german home page
+    # wait for elasticsearch index beeing updated
+    Sleep  60s
     Assert the concept has been assigned to the instrument
     Assert the concept is assigned to a study
     Assert the concept is assigned to a survey
@@ -22,10 +24,10 @@ Assign and Unassign concept to and from an instrument
 *** Keywords ***
 Click on Instrument Edit Button
    Click Element Through Tooltips  xpath=//md-card[@type="instruments"]//button[@ng-click="ctrl.edit(ctrl.searchState)"]//span[text()="Bearbeiten"]
-   Click Element Through Tooltips  xpath=//button[md-icon[text()="mode_edit"]]
+   Click Element Through Tooltips  xpath=//md-card-actions//button[normalize-space()="Bearbeiten"]
 
 Assign Concept to an Instrument
-   Click Element Through Tooltips  xpath=//md-chips[@name="concepts"]//input[@placeholder="Konzepte suchen..."]
+   Click Element  xpath=//md-chips[@name="concepts"]//input[@placeholder="Konzepte suchen..."]
    Run Keyword If    '${BROWSER}' == 'firefox'  Click Element Through Tooltips  xpath=//md-virtual-repeat-container[@ng-hide="$mdAutocompleteCtrl.hidden"]//ul//li//span//span[contains(., "con-i8h7b1a0e4e4i8f5b1$")]
    Run Keyword If    '${BROWSER}' == 'chrome'  Click Element Through Tooltips  xpath=//md-virtual-repeat-container[@ng-hide="$mdAutocompleteCtrl.hidden"]//ul//li//span//span[contains(., "con-d3i8h7i8g6g6i8f5b1$")]
    Run Keyword If    '${BROWSER}' == 'safari'  Click Element Through Tooltips  xpath=//md-virtual-repeat-container[@ng-hide="$mdAutocompleteCtrl.hidden"]//ul//li//span//span[contains(., "con-e2j9h7i8g6g6i9g6c2$")]
@@ -37,26 +39,25 @@ Click on Save Button
 
 Assert the concept has been assigned to the instrument
    Click on instruments tab
-   Run Keyword If    '${BROWSER}' == 'safari'    Click Element Through Tooltips  xpath=//span[contains(., "ins-conceptprojectsafari-ins1$")]
-   Run Keyword If    '${BROWSER}' == 'chrome'    Click Element Through Tooltips  xpath=//span[contains(., "ins-conceptprojectchrome-ins1$")]
-   Run Keyword If    '${BROWSER}' == 'firefox'  Click Element Through Tooltips  xpath=//span[contains(., "ins-conceptprojectfirefox-ins1$")]
-   Run Keyword If    '${BROWSER}' == 'edge'  Click Element Through Tooltips  xpath=//span[contains(., "ins-conceptprojectedge-ins1$")]
-   Run Keyword If    '${BROWSER}' == 'ie'  Click Element Through Tooltips  xpath=//span[contains(., "ins-conceptprojectie-ins1$")]
-
-   Run Keyword If    '${BROWSER}' == 'firefox'  Page Should Contain   Konzept: Test Konzept Firefox Publisher
-   Run Keyword If    '${BROWSER}' == 'chrome'  Page Should Contain   Konzept: Test Konzept Chrome Publisher
-   Run Keyword If    '${BROWSER}' == 'safari'  Page Should Contain   Konzept: Test Konzept Safari Publisher
-   Run Keyword If    '${BROWSER}' == 'edge'  Page Should Contain   Konzept: Test Konzept Edge Publisher
-   Run Keyword If    '${BROWSER}' == 'ie'  Page Should Contain   Konzept: Test Konzept IE Publisher
+   Click on first search result
+   Click on concept tab
+   Click on first search result
+   Run Keyword If    '${BROWSER}' == 'firefox'  Page Should Contain   Test Konzept Firefox Publisher
+   Run Keyword If    '${BROWSER}' == 'chrome'  Page Should Contain   Test Konzept Chrome Publisher
+   Run Keyword If    '${BROWSER}' == 'safari'  Page Should Contain   Test Konzept Safari Publisher
+   Run Keyword If    '${BROWSER}' == 'edge'  Page Should Contain   Test Konzept Edge Publisher
+   Run Keyword If    '${BROWSER}' == 'ie'  Page Should Contain   Test Konzept IE Publisher
 
 Assert the concept is assigned to a study
-   Page Should Contain  Studie: Study Title in German
+   Page Should Contain  Study Title in German
 
 Assert the concept is assigned to a survey
-   Page Should Contain  Erhebung: Survey Title in German
+   Click on surveys tab
+   Page Should Contain  Survey Title in German
 
 Unassign the concept from the instrument
-   Click Element Through Tooltips  xpath=//button//md-icon[contains(.,"mode_edit")]
+   Click on instruments tab
+   Click Element Through Tooltips  xpath=//md-card-actions//button[normalize-space()="Bearbeiten"]
    Click Element Through Tooltips  xpath=//md-chips[@name="concepts"]//button[@ng-if="$mdChipsCtrl.isRemovable()"]//md-icon[@role="img"]
    Click on Save Button
 

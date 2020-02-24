@@ -7,7 +7,6 @@ Resource          ../../resources/check_url_resource.robot
 
 *** Test Cases ***
 Check for Dataproviders Welcome Banner Appears
-   Pass Execution If    '${BROWSER}' == 'ie'    Footer not visible on IE
    Data Provider Logout   # explicit logout to sync with suite setup
    Login as dataprovidertest
    Assert Welcome Text After Login
@@ -15,10 +14,6 @@ Check for Dataproviders Welcome Banner Appears
    Assert Checkbox Dont Show Again is Available  # prerequisite to maintain the test, never mark the checkbox for dataprovidertest
    Close The Banner
    Click on Information for Data Providers Link
-   Close The Banner
-   Reload Page   # cross check the banner after reload also
-   Sleep  1s
-   Assert Welcome Text After Login
    Close The Banner
    Dataprovidertest Provider Logout
    Login as dataprovider

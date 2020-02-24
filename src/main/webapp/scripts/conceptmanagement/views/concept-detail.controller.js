@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('ConceptDetailController',
     function(entity, PageTitleService, LanguageService,
-             $state, ToolbarHeaderService, Principal,
+             $state, BreadcrumbService, Principal,
              ConceptAttachmentResource, SearchResultNavigatorService,
              $stateParams, $log, blockUI) {
       blockUI.start();
@@ -53,7 +53,7 @@ angular.module('metadatamanagementApp')
           title: result.title[LanguageService.getCurrentInstantly()],
           conceptId: result.id
         });
-        ToolbarHeaderService.updateToolbarHeader({
+        BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id
         });

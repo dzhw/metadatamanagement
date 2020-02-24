@@ -555,7 +555,7 @@
   <div>
     <md-card class="mt0" ng-if="ctrl.study.id">
       <md-card-header layout-align="center center">
-        <md-card-header-text>
+        <md-card-header-text class="pb">
           <h2 class="md-title">{{'study-management.detail.attachments.table-title' | translate}}</h2>
         </md-card-header-text>
       </md-card-header>
@@ -645,7 +645,7 @@
         </tr>
         </tbody>
       </table>
-      <md-divider ng-if="ctrl.createMode"></md-divider>
+      <md-divider></md-divider>
       <md-card-content ng-if="ctrl.createMode">
         {{'study-management.detail.attachments.save-study-before-adding-attachment' | translate}}
       </md-card-content>

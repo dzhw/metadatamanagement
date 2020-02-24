@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.cloudfoundry.client.CloudFoundryClient;
 import org.cloudfoundry.client.v3.tasks.CreateTaskRequest;
 import org.cloudfoundry.operations.CloudFoundryOperations;
@@ -38,7 +39,6 @@ import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.DatasetReportTask;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
-import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -54,6 +54,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -388,8 +389,8 @@ public class DataSetReportService {
     Map<String, Instrument> instrumentMap = new HashMap<>();
     Map<String, List<ValidResponse>> firstTenValidResponses = new HashMap<>();
     Map<String, List<ValidResponse>> lastTenValidResponses = new HashMap<>();
-    Map<String, List<IdAndVersionProjection>> sameVariablesInPanel = new HashMap<>();
-
+    Map<String, List<VariableSubDocumentProjection>> sameVariablesInPanel = new HashMap<>();
+    Map<String, List<VariableSubDocumentProjection>> derivedVariables = new HashMap<>();
 
     for (Variable variable : variables) {
       int sizeValidResponses = 0;
@@ -428,10 +429,17 @@ public class DataSetReportService {
             .subList(sizeValidResponses - 10, sizeValidResponses));
       }
 
-      if (variable.getPanelIdentifier() != null) {
-        List<IdAndVersionProjection> otherVariablesInPanel = this.variableRepository
-            .findAllIdsByPanelIdentifierAndIdNot(variable.getPanelIdentifier(), variable.getId());
+      if (!StringUtils.isEmpty(variable.getPanelIdentifier())) {
+        List<VariableSubDocumentProjection> otherVariablesInPanel = this.variableRepository
+            .findAllByPanelIdentifierAndIdNot(variable.getPanelIdentifier(), variable.getId());
         sameVariablesInPanel.put(variable.getId(), otherVariablesInPanel);
+      }
+
+      if (!StringUtils.isEmpty(variable.getDerivedVariablesIdentifier())) {
+        List<VariableSubDocumentProjection> otherDerivedVariables =
+            this.variableRepository.findAllByDerivedVariablesIdentifierAndIdNot(
+                variable.getDerivedVariablesIdentifier(), variable.getId());
+        derivedVariables.put(variable.getId(), otherDerivedVariables);
       }
     }
     dataForTemplate.put("questions", questionsMap);
@@ -439,6 +447,7 @@ public class DataSetReportService {
     dataForTemplate.put("firstTenValidResponses", firstTenValidResponses);
     dataForTemplate.put("lastTenValidResponses", lastTenValidResponses);
     dataForTemplate.put("sameVariablesInPanel", sameVariablesInPanel);
+    dataForTemplate.put("derivedVariables", derivedVariables);
 
     return dataForTemplate;
 

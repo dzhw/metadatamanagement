@@ -781,8 +781,7 @@ module.exports = function(grunt) {
       }
     });
 
-  grunt.registerTask('serve', ['createJavaSourceCodeFromTranslations',
-    'clean:server', 'ngconstant:local',
+  grunt.registerTask('serve', ['clean:server', 'ngconstant:local',
     'sass:server', 'copy:localfonts', 'browserSync', 'watch'
   ]);
 
@@ -797,7 +796,7 @@ module.exports = function(grunt) {
     'jshint', 'jscs'
   ]);
 
-  grunt.registerTask('builddev', ['createJavaSourceCodeFromTranslations',
+  grunt.registerTask('builddev', [
     'test', /*'htmlangular:default',
     'htmlangular:index',*/ 'clean:dist',
     'ngconstant:dev',
@@ -806,7 +805,7 @@ module.exports = function(grunt) {
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
-  grunt.registerTask('buildtest', ['createJavaSourceCodeFromTranslations',
+  grunt.registerTask('buildtest', [
     'test', /*'htmlangular:default',
     'htmlangular:index',*/ 'clean:dist',
     'ngconstant:test',
@@ -815,7 +814,7 @@ module.exports = function(grunt) {
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
-  grunt.registerTask('buildprod', ['createJavaSourceCodeFromTranslations',
+  grunt.registerTask('buildprod', [
     'test', /*'htmlangular:default',
     'htmlangular:index',*/ 'clean:dist',
     'ngconstant:prod',
@@ -825,7 +824,6 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('buildlocalminified', [
-    'createJavaSourceCodeFromTranslations',
     'test', /*'htmlangular:default',
     'htmlangular:index',*/ 'clean:dist',
     'test', 'clean:dist',
@@ -835,7 +833,7 @@ module.exports = function(grunt) {
     'autoprefixer', 'uglify', 'rev', 'usemin', 'htmlmin'
   ]);
 
-  grunt.registerTask('buildlocal', ['createJavaSourceCodeFromTranslations',
+  grunt.registerTask('buildlocal', [
     'test', 'clean:dist', 'copy:localfonts',
     'ngconstant:local', 'ngAnnotate'
   ]);

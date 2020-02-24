@@ -5,7 +5,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
-    function(entity, $state, ToolbarHeaderService, MessageBus,
+    function(entity, $state, BreadcrumbService, MessageBus,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
       QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
@@ -61,7 +61,7 @@ angular.module('metadatamanagementApp')
         }
         PageTitleService.
           setPageTitle('question-management.detail.title', title);
-        ToolbarHeaderService.updateToolbarHeader({
+        BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id,
           'questionNumber': result.number,

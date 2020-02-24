@@ -37,8 +37,10 @@ Create Study by Publisher
     Input Text    name=authorsMiddleName_1    D2
     Input Text    name=authorsLastName_1    noLastName
     Move Second Author To Place One
-    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input[@type="search"]   Deutsche Tags Schlüsselwörter
-    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input[@type="search"]   English Days Keyword
+    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input   Deutsche Tags Schlüsselwörter
+    Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='Deutsche Tags Schlüsselwörter']
+    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input   English Days Keyword
+    Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='English Days Keyword']
     Save Changes
     Page Should Contain Element    xpath=//fdz-breadcrumbs//span[contains(.,'robotsproject${BROWSER}')]
     Delete Robotsproject

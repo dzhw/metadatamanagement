@@ -27,14 +27,14 @@ Discard Changes No
 
 Assign a dataprovider
    [Arguments]   ${dataprovidername}
-   Run Keyword If  '${BROWSER}' == 'ie'  Scroll Element Into View  xpath=//md-card[@group='dataProviders']//input[@type='search']
-   Input Text  xpath=//md-card[@group='dataProviders']//input[@type='search']  ${dataprovidername}
+   Run Keyword If  '${BROWSER}' == 'ie'  Scroll Element Into View  xpath=//md-card[@group='dataProviders']//input
+   Input Text  xpath=//md-card[@group='dataProviders']//input  ${dataprovidername}
    Click Element Through Tooltips  xpath=//md-virtual-repeat-container//span[text()='${dataprovidername}']
 
 Assign a publisher
    [Arguments]   ${publishername}
-   Run Keyword If  '${BROWSER}' == 'ie'  Scroll Element Into View  xpath=//md-card[@group='publishers']//input[@type='search']
-   Input Text  xpath=//md-card[@group='publishers']//input[@type='search']  ${publishername}
+   Run Keyword If  '${BROWSER}' == 'ie'  Scroll Element Into View  xpath=//md-card[@group='publishers']//input
+   Input Text  xpath=//md-card[@group='publishers']//input  ${publishername}
    Click Element Through Tooltips  xpath=//md-virtual-repeat-container//span[text()='${publishername}']
 
 Assign to publisher

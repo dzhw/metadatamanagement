@@ -26,7 +26,7 @@ Get back to home page and deselect project
     Click Element Through Tooltips    xpath=//md-sidenav//project-navbar-module//button[@aria-label="Clear Input"]
 
 Click study edit button
-    Click Element Through Tooltips    xpath=//ui-view//button//md-icon[text()="mode_edit"]
+    Click Element Through Tooltips    xpath=//ui-view//button[normalize-space()="Bearbeiten"]
 
 Click add button
     Click Element Through Tooltips    xpath=//ui-view//button[@ng-click="ctrl.addAttachment($event)"]//md-icon[text()="add"]
@@ -61,3 +61,4 @@ Assert gra2005_MethodReport in the attachment
 Delete study with uploaded document
     Click Element Through Tooltips    xpath=//button[md-icon[text()="delete_forever"]]
     Click Element Through Tooltips    xpath=//button[text()="Ja"]
+    Page Should Not Contain Element    xpath=//a[@ng-href="/public/files/studies/stu-fileuploadproject$/attachments/gra2005_MethodReport_de.pdf"]

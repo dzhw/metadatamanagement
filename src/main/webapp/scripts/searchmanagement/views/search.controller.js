@@ -9,13 +9,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
            VariableUploadService, ProjectUpdateAccessService,
            QuestionUploadService, RelatedPublicationUploadService,
            CleanJSObjectService, CurrentProjectService, $timeout,
-           PageTitleService, ToolbarHeaderService, SearchHelperService,
+           PageTitleService, BreadcrumbService, SearchHelperService,
            SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
            $rootScope, ProjectStatusScoringService, DeleteMetadataService,
            SimpleMessageToastService) {
 
-    var queryChangedOnInit = false;
-    var tabChangedOnInitFlag = false;
+    var queryChangedOnInit = true;
+    var tabChangedOnInitFlag = true;
     var locationChanged = false;
     var currentProjectChangeIsBeingHandled = false;
     var selectedTabChangeIsBeingHandled = false;
@@ -270,7 +270,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       group: 'concepts'
     }];
 
-    function createDataPacketFilterContent(data, prop) {
+    function createDataPackageFilterContent(data, prop) {
       _.map(data.all.filtered[prop].buckets, function(val1, i1) {
         data.all.filtered[prop].buckets[i1].doc_count = 0;
         _.find(data[prop].buckets, function(val2, i2) {
@@ -282,21 +282,21 @@ angular.module('metadatamanagementApp').controller('SearchController',
       });
       return data.all.filtered[prop].buckets;
     }
-    function createDataPacketFilterObject(data) {
+    function createDataPackageFilterObject(data) {
       if (Principal.isAuthenticated()) { return null; }
-      var dataPacketFilter = {
-        'study-series': createDataPacketFilterContent(data,
+      var dataPackageFilter = {
+        'study-series': createDataPackageFilterContent(data,
           'study-series'),
-        'survey-data-types': createDataPacketFilterContent(data,
+        'survey-data-types': createDataPackageFilterContent(data,
           'survey-data-types'),
-        'tags': createDataPacketFilterContent(data,
+        'tags': createDataPackageFilterContent(data,
           'tags'),
-        'sponsor': createDataPacketFilterContent(data,
+        'sponsor': createDataPackageFilterContent(data,
           'sponsor'),
-        'institutions': createDataPacketFilterContent(data,
+        'institutions': createDataPackageFilterContent(data,
           'institutions')
       };
-      MessageBus.set('onDataPacketFilterChange', dataPacketFilter);
+      MessageBus.set('onDataPackageFilterChange', dataPackageFilter);
     }
     $scope.setCurrentSearchParams = function(projectId) {
       if (!projectId) {
@@ -334,7 +334,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         // })
         $scope.searchFilterMapping)
         .then(function(data) {
-          createDataPacketFilterObject(data.aggregations);
+          createDataPackageFilterObject(data.aggregations);
           $scope.searchResult = data.hits.hits;
           $scope.options.pageObject.totalHits = data.hits.total.value;
           //Count information by aggregations
@@ -419,7 +419,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.$watchCollection(function() {
       return $location.search();
     }, function(newValue, oldValue) {
-      ToolbarHeaderService.updateToolbarHeader({
+      BreadcrumbService.updateToolbarHeader({
         'stateName': $state.current.name,
         'tabName': $scope.tabs[$scope.searchParams.selectedTabIndex].title,
         'searchUrl': $location.absUrl(),
@@ -460,23 +460,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
         });
       });
 
-    // $scope.$on('user-logged-out', function() {
-    //   var currentType = $scope.tabs[$scope.searchParams.selectedTabIndex]
-    //     .elasticSearchType;
-    //   $scope.tabs = _.filter($scope.tabs, function(tab) {
-    //     return tab.visibleForPublicUser || Principal.isAuthenticated();
-    //   });
-    //   var indexToSelect = _.findIndex($scope.tabs,
-    //     function(tab) {
-    //       return tab.elasticSearchType === currentType;
-    //     });
-    //   if (indexToSelect < 0) {
-    //     $scope.searchParams.selectedTabIndex = 0;
-    //   } else {
-    //     $scope.searchParams.selectedTabIndex = indexToSelect;
-    //   }
-    // });
-
     $scope.onPageChanged = function() {
       writeSearchParamsToLocation();
       $scope.search();
@@ -500,32 +483,34 @@ angular.module('metadatamanagementApp').controller('SearchController',
           queryChangeIsBeingHandled = false;
         });
       });
+    }
 
-      $scope.onSelectedTabChanged = function() {
-        if (!selectedTabChangeIsBeingHandled && !queryChangeIsBeingHandled) {
-          //prevent multiple tab change handlers caused by logout
-          selectedTabChangeIsBeingHandled = true;
-          $timeout(function() {
-            if (!tabChangedOnInitFlag) {
-              $scope.searchParams.filter = SearchHelperService
-                .removeIrrelevantFilters(
-                  $scope.tabs[$scope.searchParams.selectedTabIndex]
-                    .elasticSearchType,
-                  $scope.searchParams.filter);
-              $scope.searchParams.sortBy = undefined;
-              $scope.options.pageObject.page = 1;
-              writeSearchParamsToLocation();
-              if (!currentProjectChangeIsBeingHandled) {
-                $scope.search();
-              }
-              $scope.loadStudyForProject();
+    $scope.onSelectedTabChanged = function() {
+      if (!selectedTabChangeIsBeingHandled) {
+        //prevent multiple tab change handlers caused by logout
+        selectedTabChangeIsBeingHandled = true;
+        $timeout(function() {
+          if (!tabChangedOnInitFlag) {
+            $scope.searchParams.filter = SearchHelperService
+              .removeIrrelevantFilters(
+                $scope.tabs[$scope.searchParams.selectedTabIndex]
+                  .elasticSearchType,
+                $scope.searchParams.filter);
+            $scope.searchParams.sortBy = undefined;
+            $scope.options.pageObject.page = 1;
+            writeSearchParamsToLocation();
+            if (!currentProjectChangeIsBeingHandled) {
+              $scope.search();
             }
+            $scope.loadStudyForProject();
+            selectedTabChangeIsBeingHandled = false;
+          } else {
             tabChangedOnInitFlag = false;
             selectedTabChangeIsBeingHandled = false;
-          });
-        }
-      };
-    }
+          }
+        });
+      }
+    };
     //Refresh function for the refresh button
     $scope.refresh = function() {
       $scope.search();

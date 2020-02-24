@@ -21,25 +21,25 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.question"
-          template-url="scripts/questionmanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+          template-url="scripts/questionmanagement/templates/common-details.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
-          template-url="scripts/questionmanagement/templates/dp-image.html.tmpl"></fdz-detail>
+          template-url="scripts/questionmanagement/templates/image.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.predecessors"
-          template-url="scripts/questionmanagement/templates/dp-prev-question.html.tmpl"></fdz-detail>
+          template-url="scripts/questionmanagement/templates/previous-question.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.successors"
-          template-url="scripts/questionmanagement/templates/dp-next-question.html.tmpl"></fdz-detail>
+          template-url="scripts/questionmanagement/templates/next-question.html.tmpl"></fdz-detail>
         <md-divider
           ng-if="ctrl.question.technicalRepresentation"></md-divider>
         <fdz-detail
@@ -47,14 +47,14 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
-          template-url="scripts/questionmanagement/templates/dp-generation.html.tmpl"></fdz-detail>
+          template-url="scripts/questionmanagement/templates/technical-representation.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
           id="ctrl.question.id"
-          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+          template-url="scripts/common/details/related-objects.html.tmpl"></fdz-related-objects>
       </div>
     </div>
   </div>

@@ -1,12 +1,14 @@
 [![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=master)](https://travis-ci.org/dzhw/metadatamanagement) [![Documentation Status](https://readthedocs.org/projects/metadatamanagement/badge/?version=latest)](https://metadatamanagement.readthedocs.io/de/latest/?badge=latest)
+[![Sauce Test Status](https://saucelabs.com/buildstatus/rreitmann)](https://saucelabs.com/u/rreitmann)
 [![Known Backend Vulnerabilities](https://snyk.io/test/github/dzhw/metadatamanagement/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/dzhw/metadatamanagement?targetFile=pom.xml
 )[![Known Frontend Vulnerabilities](https://snyk.io/test/github/dzhw/metadatamanagement/badge.svg?targetFile=package.json)](https://snyk.io/test/github/dzhw/metadatamanagement?targetFile=package.json
 )[![codecov](https://codecov.io/gh/dzhw/metadatamanagement/branch/development/graph/badge.svg)](https://codecov.io/gh/dzhw/metadatamanagement)[![Mergify Status](https://gh.mergify.io/badges/dzhw/metadatamanagement.png?style=cut)](https://mergify.io)
 [![DOI](https://zenodo.org/badge/39431147.svg)](https://zenodo.org/badge/latestdoi/39431147)
 
+[![Sauce Build Matrix](https://saucelabs.com/browser-matrix/rreitmann.svg)](https://saucelabs.com/u/rreitmann)
 # Metadatamanagement (MDM)
 
-The MDM holds the metadata of the studies which are available as data products in our Research Data Center [FDZ](https://fdz.dzhw.eu). It enables researchers to browse our data products before signing a contract for using the data.
+The MDM holds the metadata of the data packages which are available in our Research Data Center [FDZ](https://fdz.dzhw.eu). It enables researchers to browse our data packages before signing a contract for using the data.
 
 # Developing the MDM system
 
@@ -24,10 +26,6 @@ Before you can build this project, you must install and configure the following 
 We use [Grunt][] as our client build system. Install the grunt command-line tool globally with:
 
     npm install -g grunt-cli
-
-You need to install [Bower][] globally as well:
-
-    npm install -g bower
 
 On Windows, `patch.exe` has to exist in the PATH. It is distributed as part of git bash, or can be downloaded manually from [GnuWin32][].
 
@@ -47,7 +45,7 @@ Make sure that you have read-write-access on the ***data*** directory (in your p
 
 to start all services the metadatamanagement depends on. Mongodb and Elasticsearch will be listening on its default ports.
 
-In order to have all java dependencies for the server and  all bower dependencies for the client and in order to build everything, simply run (and lean back for a while):
+In order to have all java dependencies for the server and  all nodejs dependencies for the client and in order to build everything, simply run (and lean back for a while):
 
     mvn clean install
 
@@ -104,7 +102,6 @@ Continuous Integration Platform provided by [Travis CI][TravisCI]
 [saucelabs]: https://saucelabs.com
 [JHipster]: https://jhipster.github.io/
 [Node.js]: https://nodejs.org/
-[Bower]: http://bower.io/
 [Grunt]: http://gruntjs.com/
 [BrowserSync]: http://www.browsersync.io/
 [Karma]: http://karma-runner.github.io/

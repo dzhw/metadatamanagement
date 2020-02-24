@@ -36,33 +36,33 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.study"
-          template-url="scripts/studymanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+          template-url="scripts/studymanagement/templates/common-details.html.tmpl"></fdz-detail>
         <fdz-detail
           ng-if="isAuthenticated()"
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
-          template-url="scripts/studymanagement/templates/dp-detail-auth.html.tmpl"></fdz-detail>
+          template-url="scripts/studymanagement/templates/common-details-authenticated.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.study.description"
-          template-url="scripts/studymanagement/templates/dp-description.html.tmpl"></fdz-detail>
+          template-url="scripts/studymanagement/templates/description.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-detail
           ng-if="ctrl.attachments.study.length > 0 || ctrl.attachments.instruments.length > 0 || ctrl.attachments.surveys.length > 0 || ctrl.attachments.dataSets.length > 0"
           collapsed="true"
           lang="currentLanguage"
           options="ctrl.attachments"
-          template-url="scripts/studymanagement/templates/dp-attachments.html.tmpl"></fdz-detail>
+          template-url="scripts/studymanagement/templates/attachments.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
           id="ctrl.study.id"
-          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+          template-url="scripts/common/details/related-objects.html.tmpl"></fdz-related-objects>
       </div>
     </div>
   </div>

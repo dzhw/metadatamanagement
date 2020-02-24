@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').controller('ProjectCockpitController',
   function($scope, $state, $location, $transitions, Principal,
-           PageTitleService, LanguageService, ToolbarHeaderService,
+           PageTitleService, LanguageService, BreadcrumbService,
            CurrentProjectService, projectDeferred, CommonDialogsService,
            ProjectSaveService, blockUI) {
     blockUI.start();
@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     var pageTitleKey = 'data-acquisition-project-management.project' +
       '-cockpit.title';
 
-    ToolbarHeaderService.updateToolbarHeader({
+    BreadcrumbService.updateToolbarHeader({
       stateName: $state.current.name
     });
 
