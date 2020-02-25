@@ -27,7 +27,6 @@ angular.module('metadatamanagementApp')
         surveysCount: 0,
         instrumentsCount: 0,
         variablesCount: 0,
-        publicationsCount: 0,
         conceptsCount: 0
       };
       ctrl.currentImageIndex = 0;

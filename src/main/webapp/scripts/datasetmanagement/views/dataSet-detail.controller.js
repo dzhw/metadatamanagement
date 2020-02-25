@@ -27,7 +27,6 @@ angular.module('metadatamanagementApp')
       ctrl.counts = {
         surveysCount: 0,
         variablesCount: 0,
-        publicationsCount: 0,
         conceptsCount: 0
       };
       ctrl.projectIsCurrentlyReleased = true;
