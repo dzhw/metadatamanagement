@@ -22,7 +22,6 @@
     "angular-recaptcha": "4.2.0",
     "angular-resource": "1.7.9",
     "angular-sanitize": "1.7.9",
-    "angular-scroll": "1.0.2",
     "angular-translate": "2.18.2",
     "angular-translate-handler-log": "2.18.2",
     "angular-translate-interpolation-messageformat": "2.18.2",
