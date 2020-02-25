@@ -27,7 +27,6 @@ angular.module('metadatamanagementApp')
         questionsCount: 0,
         dataSetsCount: 0,
         variablesCount: 0,
-        publicationsCount: 0,
         conceptsCount: 0
       };
       ctrl.survey = null;
