@@ -13,7 +13,7 @@ try {
         'ngFileUpload', 'ngMaterial',
         'blockUI', 'LocalStorageModule', 'jkAngularCarousel',
         'angularMoment', 'ngAnimate', 'vcRecaptcha',
-        'ngMessages', 'ngFileSaver', 'duScroll', 'ngShortcut',
+        'ngMessages', 'ngFileSaver', 'ngShortcut',
         'jsonFormatter', 'fdzPaginatorModule', 'ngTextTruncate'
       ])
 

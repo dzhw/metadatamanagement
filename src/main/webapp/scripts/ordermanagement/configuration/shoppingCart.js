@@ -17,10 +17,8 @@ angular.module('metadatamanagementApp').config(function($stateProvider) {
     },
     onEnter: function($document, $timeout) {
       $timeout(function() {
-        var top = angular.element($document.find('#top'));
-        var scrollContainer = angular.element(
-          $document.find('md-content[du-scroll-container]'));
-        scrollContainer.scrollToElementAnimated(top);
+        var top = $document.find('#top')[0];
+        top.scrollIntoView();
       });
     },
     url: '/shopping-cart',
@@ -51,10 +49,8 @@ angular.module('metadatamanagementApp').config(function($stateProvider) {
     },
     onEnter: function($document, $timeout) {
       $timeout(function() {
-        var top = angular.element($document.find('#top'));
-        var scrollContainer = angular.element(
-          $document.find('md-content[du-scroll-container]'));
-        scrollContainer.scrollToElementAnimated(top);
+        var top = $document.find('#top')[0];
+        top.scrollIntoView();
       });
     },
     url: '/shopping-cart/:id',
