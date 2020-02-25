@@ -2,7 +2,7 @@
 
   'use strict';
 
-  function DataPacketController($scope,
+  function DataPackageConfiguratorController($scope,
                                 $rootScope,
                                 $location,
                                 DataAcquisitionProjectReleasesResource,
@@ -158,7 +158,7 @@
     $ctrl.showVersionHelp = function($event) {
       $mdDialog.show({
         controller: 'VersionInfoController',
-        templateUrl: 'scripts/ordermanagement/components/configurator/' +
+        templateUrl: 'scripts/ordermanagement/views/' +
             'version-info.html.tmpl',
         clickOutsideToClose: true,
         fullscreen: true,
@@ -169,7 +169,7 @@
     $ctrl.showAccessWayHelp = function($event) {
       $mdDialog.show({
         controller: 'AccessWayInfoController',
-        templateUrl: 'scripts/ordermanagement/components/configurator/' +
+        templateUrl: 'scripts/ordermanagement/views/' +
             'access-way-info.html.tmpl',
         clickOutsideToClose: true,
         fullscreen: true,
@@ -180,6 +180,7 @@
 
   angular
     .module('metadatamanagementApp')
-    .controller('DataPacketController', DataPacketController);
+    .controller('DataPackageConfiguratorController',
+      DataPackageConfiguratorController);
 
 })();

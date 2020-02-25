@@ -14,7 +14,7 @@ Assign and Unassign concept to and from an instrument
     Click on Save Button
     Get back to german home page
     # wait for elasticsearch index beeing updated
-    Sleep  20s
+    Sleep  60s
     Assert the concept has been assigned to the instrument
     Assert the concept is assigned to a study
     Assert the concept is assigned to a survey

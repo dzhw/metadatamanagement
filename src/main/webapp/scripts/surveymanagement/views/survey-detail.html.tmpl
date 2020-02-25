@@ -16,14 +16,14 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
-          template-url="scripts/surveymanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+          template-url="scripts/surveymanagement/templates/common-details.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-detail
           ng-if="ctrl.responseRateImage"
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
-          template-url="scripts/surveymanagement/templates/dp-response-rate-image.html.tmpl"></fdz-detail>
+          template-url="scripts/surveymanagement/templates/response-rate-image.html.tmpl"></fdz-detail>
         <md-divider
           ng-if="ctrl.attachments && ctrl.attachments.length > 0"></md-divider>
         <fdz-detail
@@ -31,14 +31,14 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.attachments"
-          template-url="scripts/surveymanagement/templates/dp-attachments.html.tmpl"></fdz-detail>
+          template-url="scripts/surveymanagement/templates/attachments.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
           id="ctrl.survey.id"
-          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+          template-url="scripts/common/details/related-objects.html.tmpl"></fdz-related-objects>
       </div>
     </div>
   </div>

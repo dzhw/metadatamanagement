@@ -11,7 +11,7 @@
 
     <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.98-SNAPSHOT</version>
+    <version>1.0.99-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -99,7 +99,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.19</version>
+            <version>1.20</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -121,7 +121,7 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
-            <version>5.8.7</version>
+            <version>5.8.9</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -141,12 +141,12 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-data-rest</artifactId>
-            <version>1.2.26</version>
+            <version>1.2.31</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.2.26</version>
+            <version>1.2.31</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -331,19 +331,6 @@
                                         <goals>
                                             <goal>cpd-check</goal>
                                             <goal>check</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>com.github.trecloux</groupId>
-                                        <artifactId>yeoman-maven-plugin</artifactId>
-                                        <versionRange>[0.5,)</versionRange>
-                                        <goals>
-                                            <goal>build</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
@@ -611,43 +598,69 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>npm-install</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>npm</executable>
+                            <arguments>
+                                <argument>install</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-java-source-code</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>grunt</executable>
+                            <arguments>
+                                <argument>createJavaSourceCodeFromTranslations</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>javasphinx-apidoc</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
+                        <configuration>
+                            <executable>javasphinx-apidoc</executable>
+                            <arguments>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement</argument>
+                                <argument>-o</argument>
+                                <argument>./docs/source/javadoc</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/common/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/projectmanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/conceptmanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/studymanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/surveymanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/instrumentmanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/questionmanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/datasetmanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/variablemanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/relatedpublicationmanagement/domain</argument>
+                                <argument>-I</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/ordermanagement/domain</argument>
+                            </arguments>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <executable>javasphinx-apidoc</executable>
-                    <arguments>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement</argument>
-                        <argument>-o</argument>
-                        <argument>./docs/source/javadoc</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/common/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/projectmanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/conceptmanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/studymanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/surveymanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/instrumentmanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/questionmanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/datasetmanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/variablemanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/relatedpublicationmanagement/domain</argument>
-                        <argument>-I</argument>
-                        <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/ordermanagement/domain</argument>
-                    </arguments>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -716,27 +729,36 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>com.github.trecloux</groupId>
-                        <artifactId>yeoman-maven-plugin</artifactId>
-                        <version>0.5</version>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>run-frontend-build</id>
+                                <id>npm-install</id>
                                 <phase>generate-resources</phase>
                                 <goals>
-                                    <goal>build</goal>
+                                    <goal>exec</goal>
                                 </goals>
                                 <configuration>
-                                    <skipTests>true</skipTests>
-                                    <bowerInstallArgs>--version</bowerInstallArgs>
-                                    <buildTool>grunt</buildTool>
-                                    <buildArgs>createJavaSourceCodeFromTranslations</buildArgs>
+                                    <executable>npm</executable>
+                                    <arguments>
+                                        <argument>install</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>create-java-source-code</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>grunt</executable>
+                                    <arguments>
+                                        <argument>createJavaSourceCodeFromTranslations</argument>
+                                    </arguments>
                                 </configuration>
                             </execution>
                         </executions>
-                        <configuration>
-                            <yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
@@ -753,29 +775,6 @@
             <id>local-minified</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>com.github.trecloux</groupId>
-                        <artifactId>yeoman-maven-plugin</artifactId>
-                        <version>0.5</version>
-                        <executions>
-                            <execution>
-                                <id>run-frontend-build</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                                <configuration>
-                                    <skipTests>true</skipTests>
-                                    <bowerInstallArgs>--version</bowerInstallArgs>
-                                    <buildTool>grunt</buildTool>
-                                    <buildArgs>buildlocalminified</buildArgs>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>
-                        </configuration>
-                    </plugin>
                     <plugin>
                         <artifactId>maven-clean-plugin</artifactId>
                         <version>3.1.0</version>
@@ -797,8 +796,27 @@
                         <artifactId>maven-war-plugin</artifactId>
                         <version>3.2.2</version>
                         <configuration>
-                            <warSourceExcludes>/index.html,%regex[bower_components/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
+                            <warSourceExcludes>/index.html,/scripts/**,/assets/**</warSourceExcludes>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>grunt-buildlocalminified</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>grunt</executable>
+                                    <arguments>
+                                        <argument>buildlocalminified</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -809,29 +827,6 @@
                 <finalName>metadatamanagement-dev</finalName>
                 <plugins>
                     <plugin>
-                        <groupId>com.github.trecloux</groupId>
-                        <artifactId>yeoman-maven-plugin</artifactId>
-                        <version>0.5</version>
-                        <executions>
-                            <execution>
-                                <id>run-frontend-build</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                                <configuration>
-                                    <skipTests>true</skipTests>
-                                    <bowerInstallArgs>--version</bowerInstallArgs>
-                                    <buildTool>grunt</buildTool>
-                                    <buildArgs>builddev</buildArgs>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>
-                        </configuration>
-                    </plugin>
-                    <plugin>
                         <artifactId>maven-clean-plugin</artifactId>
                         <version>3.0.0</version>
                         <configuration>
@@ -851,8 +846,27 @@
                     <plugin>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <warSourceExcludes>/index.html,%regex[bower_components/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
+                            <warSourceExcludes>/index.html,/scripts/**,/assets/**</warSourceExcludes>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>grunt-builddev</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>grunt</executable>
+                                    <arguments>
+                                        <argument>builddev</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -863,29 +877,6 @@
                 <finalName>metadatamanagement-test</finalName>
                 <plugins>
                     <plugin>
-                        <groupId>com.github.trecloux</groupId>
-                        <artifactId>yeoman-maven-plugin</artifactId>
-                        <version>0.5</version>
-                        <executions>
-                            <execution>
-                                <id>run-frontend-build</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                                <configuration>
-                                    <skipTests>true</skipTests>
-                                    <bowerInstallArgs>--version</bowerInstallArgs>
-                                    <buildTool>grunt</buildTool>
-                                    <buildArgs>buildtest</buildArgs>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>
-                        </configuration>
-                    </plugin>
-                    <plugin>
                         <artifactId>maven-clean-plugin</artifactId>
                         <version>3.0.0</version>
                         <configuration>
@@ -905,8 +896,27 @@
                     <plugin>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <warSourceExcludes>/index.html,%regex[node_modules/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
+                            <warSourceExcludes>/index.html,/scripts/**,/assets/**</warSourceExcludes>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>grunt-buildtest</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>grunt</executable>
+                                    <arguments>
+                                        <argument>buildtest</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -917,29 +927,6 @@
                 <finalName>metadatamanagement-prod</finalName>
                 <plugins>
                     <plugin>
-                        <groupId>com.github.trecloux</groupId>
-                        <artifactId>yeoman-maven-plugin</artifactId>
-                        <version>0.5</version>
-                        <executions>
-                            <execution>
-                                <id>run-frontend-build</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                                <configuration>
-                                    <skipTests>true</skipTests>
-                                    <bowerInstallArgs>--version</bowerInstallArgs>
-                                    <buildTool>grunt</buildTool>
-                                    <buildArgs>buildprod</buildArgs>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>
-                        </configuration>
-                    </plugin>
-                    <plugin>
                         <artifactId>maven-clean-plugin</artifactId>
                         <version>3.0.0</version>
                         <configuration>
@@ -959,8 +946,27 @@
                     <plugin>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <warSourceExcludes>/index.html,%regex[node_modules/(?!angular-i18n|sockjs-client).*],/scripts/**,/assets/**</warSourceExcludes>
+                            <warSourceExcludes>/index.html,/scripts/**,/assets/**</warSourceExcludes>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>grunt-builddev</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>grunt</executable>
+                                    <arguments>
+                                        <argument>builddev</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
     function(entity, Principal,
              VariableSearchService, ProjectUpdateAccessService,
              DataSetSearchService, DataSetReportResource, PageTitleService,
-             LanguageService, $state, ToolbarHeaderService,
+             LanguageService, $state, BreadcrumbService,
              CleanJSObjectService, SimpleMessageToastService,
              DataSetAttachmentResource, DataSetCitateDialogService,
              SearchResultNavigatorService,
@@ -69,7 +69,7 @@ angular.module('metadatamanagementApp')
             .description[currentLanguage] : result.description[secondLanguage],
           dataSetId: result.id
         });
-        ToolbarHeaderService.updateToolbarHeader({
+        BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id,
           'number': result.number,

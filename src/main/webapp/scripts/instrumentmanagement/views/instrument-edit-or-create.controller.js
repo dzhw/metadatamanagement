@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('InstrumentEditOrCreateController',
     function(entity, PageTitleService, $timeout,
-      $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
+      $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, InstrumentIdBuilderService, InstrumentResource,
       $scope, SurveyIdBuilderService, AttachmentDialogService,
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
@@ -37,7 +37,7 @@ angular.module('metadatamanagementApp')
         $rootScope.$broadcast('start-ignoring-404');
         StudyResource.get({id: ctrl.instrument.studyId}).$promise
           .then(function(study) {
-          ToolbarHeaderService.updateToolbarHeader({
+          BreadcrumbService.updateToolbarHeader({
             'stateName': $state.current.name,
             'instrumentId': ctrl.instrument.id,
             'studyId': ctrl.instrument.studyId,
@@ -48,7 +48,7 @@ angular.module('metadatamanagementApp')
             'instrumentIsPresent': !ctrl.createMode
           });
         }).catch(function() {
-          ToolbarHeaderService.updateToolbarHeader({
+          BreadcrumbService.updateToolbarHeader({
             'stateName': $state.current.name,
             'instrumentId': ctrl.instrument.id,
             'studyId': ctrl.instrument.studyId,

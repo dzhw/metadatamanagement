@@ -35,13 +35,13 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.concept"
-          template-url="scripts/conceptmanagement/templates/dp-detail.html.tmpl"></fdz-detail>
+          template-url="scripts/conceptmanagement/templates/common-details.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-detail
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.concept.description"
-          template-url="scripts/conceptmanagement/templates/dp-description.html.tmpl"></fdz-detail>
+          template-url="scripts/conceptmanagement/templates/description.html.tmpl"></fdz-detail>
         <md-divider
           ng-if="ctrl.attachments && ctrl.attachments.length > 0"></md-divider>
         <fdz-detail
@@ -49,7 +49,7 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.attachments"
-          template-url="scripts/conceptmanagement/templates/dp-attachments.html.tmpl"></fdz-detail>
+          template-url="scripts/conceptmanagement/templates/attachments.html.tmpl"></fdz-detail>
         <md-divider
           ng-if="ctrl.concept.license"></md-divider>
         <fdz-detail
@@ -57,14 +57,14 @@
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.concept.license"
-          template-url="scripts/conceptmanagement/templates/dp-license.html.tmpl"></fdz-detail>
+          template-url="scripts/conceptmanagement/templates/license.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-related-objects
           collapsed="false"
           lang="currentLanguage"
           options="ctrl.counts"
           id="ctrl.concept.id"
-          template-url="scripts/common/detail/common/dp-related-objects.html.tmpl"></fdz-related-objects>
+          template-url="scripts/common/details/related-objects.html.tmpl"></fdz-related-objects>
       </div>
     </div>
   </div>

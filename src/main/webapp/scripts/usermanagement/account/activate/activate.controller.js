@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').controller('ActivationController',
   function($scope, $state, $stateParams, Auth, PageTitleService,
-    ToolbarHeaderService) {
+    BreadcrumbService) {
     PageTitleService.setPageTitle('user-management.activate.title');
     Auth.activateAccount({
       key: $stateParams.key
@@ -13,6 +13,6 @@ angular.module('metadatamanagementApp').controller('ActivationController',
       $scope.success = null;
       $scope.error = 'ERROR';
     });
-    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+    BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
   });

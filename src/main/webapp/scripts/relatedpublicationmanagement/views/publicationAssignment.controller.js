@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
     function(CurrentProjectService, StudyIdBuilderService,
       RelatedPublicationSearchService, DataAcquisitionProjectResource,
       LanguageService, $timeout, SimpleMessageToastService, $state,
-      ProjectUpdateAccessService, PageTitleService, ToolbarHeaderService, $q,
+      ProjectUpdateAccessService, PageTitleService, BreadcrumbService, $q,
       SearchDao, PublicationAssignmentResource, ElasticSearchAdminService,
       $scope, DeleteMetadataService, blockUI) {
       var ctrl = this;
@@ -33,7 +33,7 @@ angular.module('metadatamanagementApp')
             projectId: ctrl.project.id
           });
 
-        ToolbarHeaderService.updateToolbarHeader({
+        BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': ctrl.project.id,
           'projectId': ctrl.project.id,

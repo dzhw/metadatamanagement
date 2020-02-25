@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var SearchfilterComponent = {
+  var SearchFilterComponent = {
     controller: 'SearchFilterController',
     templateUrl: ['$attrs', function($attrs) {
       return $attrs.templateUrl;
@@ -10,5 +10,5 @@
 
   angular
     .module('metadatamanagementApp')
-    .component('fdzSearchFilter', SearchfilterComponent);
+    .component('fdzSearchFilter', SearchFilterComponent);
 })();

@@ -34,6 +34,7 @@ Delete project by name
     Input Text    xpath=//input[@placeholder = 'Projekt auswählen']    ${projectname}
     Click Element Through Tooltips    xpath=//md-sidenav/descendant::button[md-icon[text()='']]
     Click Element Through Tooltips    xpath=//button[text()='OK']
+    Run Keyword If    '${BROWSER}' == 'safari'    Sleep  10s 
 
 Click on search result by id
     [Arguments]    ${id}

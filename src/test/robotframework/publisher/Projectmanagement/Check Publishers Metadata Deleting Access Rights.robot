@@ -51,6 +51,7 @@ Publisher Create But Can Not Delete Study When Publisher is Ready
 
 Publisher Create and Can Delete Study When Both are Ready
    Click Dataprovider Ready Checkbox for Studies
+   Run Keyword If    '${BROWSER}' == 'safari'   Sleep  10s 
    Click on Delete Button for Metadata
    Close The Toast Message  ${TOAST_MSSG}
 

@@ -10,8 +10,8 @@ angular.module('metadatamanagementApp').config(
           authorities: [],
           pageTitle: 'global.error.title'
         },
-        onEnter: function(ToolbarHeaderService) {
-          ToolbarHeaderService.updateToolbarHeader({'stateName': 'error'});
+        onEnter: function(BreadcrumbService) {
+          BreadcrumbService.updateToolbarHeader({'stateName': 'error'});
         },
         views: {
           'content@': {
