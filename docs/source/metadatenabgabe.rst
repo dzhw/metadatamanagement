@@ -314,7 +314,7 @@ bereits eingetragenen Informationen dargestellt (hier beispielhaft: 21.
 Sozialerhebung):
 
 
-.. figure:: ./_static/15_de.png
+.. figure:: ./_static/study_edit_details_page.png
    :name: studienebene_eingabemaske
 
    Eingabemaske auf Studienebene, Abschnitt "Details" am Beispiel der 21.
@@ -332,13 +332,22 @@ finden Sie teilweise Drop-Down-Menüs vor, in denen Sie aus vorgegebenen
 Alternativen auswählen können (s. grünes Kästchen in
 :numref:`studienebene_eingabemaske`).
 
+.. figure:: ./_static/study_edit_details_institution.png
+   :name: eingabemaske_studienbeschreibung_institution
+
+Im Feld Erhebende Institution(en) (s. :numref:`eingabemaske_studienbeschreibung_institution`)
+geben Sie an welche Institution die Studie durchgeführt hat. Es werden Institutionen vorgeschlagen, 
+die bereits andere Studien durchgeführt haben. Sollte kein Vorschlag passen, geben Sie bitte den 
+Institutionsnamen auf Deutsch und Englisch ein.
+
+
 Im zweiten Abschnitt der Eingabemaske müssen Sie eine Beschreibung Ihrer
 Studie sowohl auf Deutsch als auch auf Englisch eingeben. Als
 Beispiel ist im Folgenden die Beschreibung der 21. Sozialerhebung
 abgebildet:
 
 
-.. figure:: ./_static/16_de.png
+.. figure:: ./_static/study_edit_details_description.png
    :name: eingabemaske_studienbeschreibung
 
    Eingabemaske auf Studienebene, Abschnitt "Studienbeschreibung" am Beispiel
@@ -359,10 +368,20 @@ rechts können Sie Ihre Eingaben jederzeit abspeichern. Dies müssen Sie
 spätestens jetzt tun, da Sie ansonsten den letzten Abschnitt der
 Eingabemaske („Materialien zu der Studie“) nicht bearbeiten können.
 
-.. figure:: ./_static/17_de.png
+.. figure:: ./_static/study_edit_details_authors.png
    :name: studienebene_eingabemaske_mitarbeiter
 
    Eingabemaske auf Studienebene, Abschnitt "Projektmitarbeiter(innen)"
+
+.. figure:: ./_static/study_edit_details_tags.png
+   :name: eingabemaske_tags
+
+   Eingabemaske Schlagwörter/ Tags
+
+
+Im Feld Tags (Schlagwörter) zur Studie sind kurze Schlagwörter anzugeben, die dabei helfen,
+schnell einen Überblick über die wichtigsten Themen der Studie zu erhalten und ihre Studie schnell auffindbar zu machen.
+Außerdem erleichtert es forschenden ähnliche Studien die das selbe Schlagwort verwendet haben zu finden.
 
 Im vierten und letzten Abschnitt der Eingabemaske können Sie Materialien
 zur Studie ablegen. Dazu klicken Sie auf den blauen Plus-Button (s.
@@ -383,10 +402,22 @@ beibehalten möchten, müssen Sie erneut speichern.
 .. _639-1: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
 
-.. figure:: ./_static/18_de.png
+.. figure:: ./_static/study_edit_details_attachments_before_details_are_saved.png
+   :name: eingabemaske_studie_materialien_deaktiviert
+
+   Materialienabschnitt ist noch ausgegraut
+
+.. figure:: ./_static/study_edit_details_attachments_after_details_are_saved.png
+   :name: eingabemaske_studie_materialien_koennen_angegeben werden
+
+   Materialien können hinzugefügt werden
+
+.. figure:: ./_static/study_edit_details_attachments_details.png
    :name: eingabemaske_studie_materialien
 
-   Eingabemasken auf Studienebene, Abschnitt "Materialien zu der Studie"
+   Eingabemaske zu Materialien der Studie
+
+@TODO describe attachments
 
 **Editieren und historisieren**
 
@@ -397,7 +428,7 @@ weiter bearbeiten. Hierfür wird Ihnen im Reiter „Studien“ am rechten
 Rand neben Ihrer Studie ein Stift-Button angezeigt, über den Sie wieder
 in die Eingabemaske gelangen (s. :numref:`bearbeitung_gespeicherte_studie`).
 
-.. figure:: ./_static/19_de.png
+.. figure:: ./_static/study_edit_later.png
    :name: bearbeitung_gespeicherte_studie
 
    Weitere Bearbeitung einer bereits abgespeicherten Studie
@@ -408,7 +439,7 @@ Historisierungs-Button (blauer Pfeil-Button über dem Save-Button unten
 rechts auf der Seite) verwenden (s. :numref:`versionierung`).
 
 
-.. figure:: ./_static/20_de.png
+.. figure:: ./_static/historization_undo.png
    :name: versionierung
 
    Ältere Versionen einer Studie wiederherstellen
@@ -423,7 +454,7 @@ Save-Button erfolgen. Zu beachten ist, dass Materialien zur Studie (Dateianhäng
 historisiert werden, sondern lediglich deren ins MDM eingegebene Metadaten.
 
 
-.. figure:: ./_static/21_de.png
+.. figure:: ./_static/study_historization.png
    :name: historisierung_studie
 
    Dialog zur Historisierung innerhalb einer Studie
@@ -439,10 +470,10 @@ Mit den Informationen über die Erhebung(en), die Sie innerhalb Ihrer
 Studie durchgeführt haben, wird im MDM folgende Übersichtsseite
 erstellt:
 
-.. figure:: ./_static/22_de.png
+.. figure:: ./_static/surveys_public-view.png
    :name: erhebungsübersicht
 
-   Erhebungsübersicht im MDM am Beispiel der ersten Welle (Bachelor) im Absolventenpanel 2005
+   Erhebungsübersicht im MDM am Beispiel der ersten Welle (traditioneller Studiengänge) im Absolventenpanel 2005
 
 
 **Eine neue Erhebung anlegen**
@@ -465,7 +496,7 @@ Die Eingabemaske auf Erhebungsebene besteht aus den drei Abschnitten
 der Erhebung“. Im Folgenden wird der Abschnitt „Details“ – aufgrund der
 Länge in zwei Teilen – dargestellt:
 
-.. figure:: ./_static/24_de.png
+.. figure:: ./_static/surveys_edit-details-main.png
    :name: eingabemaske_erhebung_details_1
 
    Eingabemaske der Erhebungsebene, Abschnitt "Details" Teil 1
@@ -479,7 +510,7 @@ welche die Feldzeit des
 Projekts erfasst und in :numref:`kalender_erhebung` dargestellt ist
 :
 
-.. figure:: ./_static/25_de.png
+.. figure:: ./_static/surveys_calendar.png
    :name: kalender_erhebung
 
    Kalenderfunktion auf der Erhebungsebene
