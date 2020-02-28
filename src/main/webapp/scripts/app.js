@@ -14,7 +14,8 @@ try {
         'blockUI', 'LocalStorageModule', 'jkAngularCarousel',
         'angularMoment', 'ngAnimate', 'vcRecaptcha',
         'ngMessages', 'ngFileSaver', 'ngShortcut',
-        'jsonFormatter', 'fdzPaginatorModule', 'ngTextTruncate'
+        'jsonFormatter', 'fdzPaginatorModule', 'ngTextTruncate',
+        'ng-showdown'
       ])
 
   .run(

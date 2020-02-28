@@ -78,6 +78,8 @@ module.exports = function(config) {
       'node_modules/angular-mocks/angular-mocks.js',
       'node_modules/fdz-paginator/dest/fdz-paginator.js',
       'node_modules/ng-text-truncate-2/ng-text-truncate.js',
+      'node_modules/showdown/dist/showdown.js',
+      'node_modules/ng-showdown/dist/ng-showdown.js',
 
       'src/main/webapp/scripts/app.js',
       'src/main/webapp/scripts/**/*.js',

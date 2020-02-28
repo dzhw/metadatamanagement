@@ -12,7 +12,7 @@
   </md-card-header>
   <div ng-if="!$ctrl.collapsed">
     <md-card-content>
-      <p class="fdz-text-block fdz-multiline-property" display-i18n-string="$ctrl.options"
+      <p class="fdz-text-block fdz-multiline-property" markdown-to-html="$ctrl.options[$ctrl.lang]"
          ></p>
     </md-card-content>
   </div>
