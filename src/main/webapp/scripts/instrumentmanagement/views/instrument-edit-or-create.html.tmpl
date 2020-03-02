@@ -157,7 +157,7 @@
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!instrumentForm.annotationsDe.$valid && (instrumentForm.annotationsDe.$dirty || instrumentForm.annotationsDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}" class="ms-flex">
               <label>{{'instrument-management.detail.label.annotations' | translate}} ({{'global.in-german' |
-                translate}})</label>
+                translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="de" md-maxlength="2048" md-no-asterisk name="annotationsDe" ng-model="ctrl.instrument.annotations.de" rows="4"></textarea>
               <div class="fdz-input-hint" ng-if="!instrumentForm.annotationsDe.$dirty && !instrumentForm.annotationsDe.$touched">{{'instrument-management.edit.hints.annotations.de' | translate}}
               </div>
@@ -169,7 +169,7 @@
             </md-input-container>
             <md-input-container flex="50" md-is-error="!instrumentForm.annotationsEn.$valid && (instrumentForm.annotationsEn.$dirty || instrumentForm.annotationsEn.$touched)" class="ms-flex">
               <label>{{'instrument-management.detail.label.annotations' | translate}} ({{'global.in-english' |
-                translate}})</label>
+                translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="en" md-maxlength="2048" md-no-asterisk name="annotationsEn" ng-model="ctrl.instrument.annotations.en" rows="4"></textarea>
               <div class="fdz-input-hint" ng-if="!instrumentForm.annotationsEn.$dirty && !instrumentForm.annotationsEn.$touched">{{'instrument-management.edit.hints.annotations.en' | translate}}
               </div>
