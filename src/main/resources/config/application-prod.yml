@@ -13,18 +13,18 @@
 spring:
     data:
         mongodb:
-            uri: ${vcap.services.mongodb.credentials.uri}
+            uri: ${vcap.services.mongodb.credentials[uri]}
     mail:
-        host: ${vcap.services.email.credentials.hostname}
+        host: ${vcap.services.email.credentials[hostname]}
         port: 587
-        username: ${vcap.services.email.credentials.username}
-        password: ${vcap.services.email.credentials.password}
+        username: ${vcap.services.email.credentials[username]}
+        password: ${vcap.services.email.credentials[password]}
     thymeleaf:
         cache: true
     cloud:
       cloudfoundry:
-        username: ${vcap.services.cloudfoundry.credentials.username}
-        password: ${vcap.services.cloudfoundry.credentials.password}
+        username: ${vcap.services.cloudfoundry.credentials[username]}
+        password: ${vcap.services.cloudfoundry.credentials[password]}
         org: dzhw
         space: prod
         discovery:
@@ -32,7 +32,7 @@ spring:
     elasticsearch:
       rest:
         uris:
-        - ${vcap.services.elastic.credentials.sslUri}
+        - ${vcap.services.elastic.credentials[sslUri]}
 
 # ===================================================================
 # Properties specific to our application
@@ -51,11 +51,11 @@ metadatamanagement:
     logLevel: error
     pageSize: 10
   dara:
-    endpoint: ${vcap.services.dara.credentials.endpoint}
-    username: ${vcap.services.dara.credentials.username}
-    password: ${vcap.services.dara.credentials.password}
+    endpoint: ${vcap.services.dara.credentials[endpoint]}
+    username: ${vcap.services.dara.credentials[username]}
+    password: ${vcap.services.dara.credentials[password]}
   rabbitmq:
-    uri: ${vcap.services.rabbitmq.credentials.uri}
+    uri: ${vcap.services.rabbitmq.credentials[uri]}
   websockets:
     allowed-origins:
       - https://metadata.fdz.dzhw.eu
