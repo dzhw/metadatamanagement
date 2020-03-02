@@ -35,12 +35,11 @@
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.variable.annotations">
           <h5>{{'variable-management.detail.label.annotations' | translate }}:</h5>
-          <span class="md-secondary" display-i18n-string="$ctrl.options.variable.annotations" ></span>
+          <p class="md-secondary" markdown-to-html="$ctrl.options.variable.annotations | displayI18nString"></p>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.variable.filterDetails.description">
           <h5>{{'variable-management.detail.label.filter-description' | translate }}:</h5>
-          <span class="md-secondary" display-i18n-string="$ctrl.options.variable.filterDetails.description"
-                ></span>
+          <p class="md-secondary" markdown-to-html="$ctrl.options.variable.filterDetails.description | displayI18nString"></p>
         </md-list-item>
       </md-list>
         <div ng-if="$ctrl.options.variable.filterDetails">

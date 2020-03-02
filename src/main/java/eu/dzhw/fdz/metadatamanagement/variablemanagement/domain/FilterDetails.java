@@ -41,7 +41,7 @@ public class FilterDetails implements Serializable {
   private String expression;
 
   /**
-   * A description of this filter condition.
+   * A description of this filter condition. Markdown is supported.
    * 
    * Must not contain more than 2048 characters
    */

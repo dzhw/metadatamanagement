@@ -175,7 +175,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
   private I18nString label;
 
   /**
-   * Arbitrary additional text for this variable.
+   * Arbitrary additional text for this variable. Markdown is supported.
    * 
    * Must not contain more than 2048 characters.
    */

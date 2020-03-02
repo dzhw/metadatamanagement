@@ -40,6 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.DatasetReportTask;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.MarkdownHelper;
 import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
@@ -90,6 +91,8 @@ public class DataSetReportService {
   private final Environment environment;
 
   private final MetadataManagementProperties metadataManagementProperties;
+
+  private final MarkdownHelper markdownHelper;
 
   @Autowired(required = false)
   private CloudFoundryClient cloudFoundryClient;
@@ -184,6 +187,8 @@ public class DataSetReportService {
 
         // Load data for template only once
         Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId, version);
+
+        dataForTemplate.put("removeMarkdown", markdownHelper.createRemoveMarkdownMethod());
         try {
           String variableListFilledStr = this.fillTemplate(texVariableListFileStr,
               templateConfiguration, dataForTemplate, KEY_VARIABLELIST);
