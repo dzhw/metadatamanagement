@@ -93,6 +93,9 @@ $card-border-radius: 2px !default;
         width: 100%;
         flex-shrink: unset;
         flex-flow: wrap;
+        & p:last-child {
+          margin: 0px;
+        }
       }
 
       @include rwd(700) {

@@ -96,7 +96,7 @@ annotations
 .. java:field:: @I18nStringSize private I18nString annotations
    :outertype: Question
 
-   Arbitrary annotations to this question. Must not contain more than 2048 characters.
+   Arbitrary annotations to this question. Markdown is supported. Must not contain more than 2048 characters.
 
 conceptIds
 ^^^^^^^^^^
