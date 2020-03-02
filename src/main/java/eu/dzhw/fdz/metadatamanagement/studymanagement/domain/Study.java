@@ -104,7 +104,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
   private I18nString title;
 
   /**
-   * A description of the study.
+   * A description of the study. Markdown is supported.
    *
    * It must be specified in German and English and it must not contain more than 2048 characters.
    */
@@ -129,7 +129,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
       I18nString> institutions;
 
   /**
-   * The name of the series of studies to which this study belongs..
+   * The name of the series of studies to which this study belongs.
    *
    * If specified it must be specified in German and English. It must not contain more than 512
    * characters and must not contain ",".
@@ -183,7 +183,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
   private I18nString surveyDesign;
 
   /**
-   * Arbitrary additional text for this study.
+   * Arbitrary additional text for this study. Markdown is supported.
    *
    * Must not contain more than 2048 characters.
    */

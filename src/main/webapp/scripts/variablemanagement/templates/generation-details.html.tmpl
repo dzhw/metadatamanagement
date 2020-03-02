@@ -15,7 +15,7 @@
       <md-list>
         <md-list-item>
           <h5>{{'variable-management.detail.label.generation-details-description' | translate }}:</h5>
-          <span class="md-secondary" display-i18n-string="$ctrl.options.variable.generationDetails.description" ></span>
+          <p class="md-secondary" markdown-to-html="$ctrl.options.variable.generationDetails.description | displayI18nString"></p>
         </md-list-item>
       </md-list>
       <div ng-if="$ctrl.options.variable.generationDetails.rule">

@@ -144,7 +144,7 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
   private String type;
 
   /**
-   * Arbitrary additional text for this instrument.
+   * Arbitrary additional text for this instrument. Markdown is supported.
    * 
    * Must not contain more than 2048 characters.
    */

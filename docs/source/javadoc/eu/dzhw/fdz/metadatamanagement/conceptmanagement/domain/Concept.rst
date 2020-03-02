@@ -76,7 +76,7 @@ citationHint
 .. java:field:: @NotEmpty @Size private String citationHint
    :outertype: Concept
 
-   Hint on how to cite this concept. Must not be empty and must not contain more than 2048 characters.
+   Hint on how to cite this concept. Markdown is supported. Must not be empty and must not contain more than 2048 characters.
 
 description
 ^^^^^^^^^^^
@@ -84,7 +84,7 @@ description
 .. java:field:: @NotNull @I18nStringSize @I18nStringEntireNotEmpty private I18nString description
    :outertype: Concept
 
-   A description of the concept. It must be specified in German and English and it must not contain more than 2048 characters.
+   A description of the concept. Markdown is supported. It must be specified in German and English and it must not contain more than 2048 characters.
 
 doi
 ^^^
@@ -108,7 +108,7 @@ license
 .. java:field:: @Size private String license
    :outertype: Concept
 
-   The license of this concept. Must not contain more than 1 MB characters.
+   The license of this concept. Markdown is supported. Must not contain more than 1 MB characters.
 
 originalLanguages
 ^^^^^^^^^^^^^^^^^

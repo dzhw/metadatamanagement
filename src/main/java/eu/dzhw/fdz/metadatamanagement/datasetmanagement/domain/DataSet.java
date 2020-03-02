@@ -129,7 +129,7 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
   private I18nString type;
 
   /**
-   * Arbitrary additional text for the dataset.
+   * Arbitrary additional text for the dataset. Markdown is supported.
    * 
    * Must not contain more than 2048 characters.
    */

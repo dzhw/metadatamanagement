@@ -34,7 +34,7 @@ public class GenerationDetails implements Serializable {
   private static final long serialVersionUID = -3981980315577871905L;
 
   /**
-   * A description of this generation rule.
+   * A description of this generation rule. Markdown is supported.
    * 
    * Must not contain more than 2048 characters
    */

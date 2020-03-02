@@ -85,10 +85,10 @@
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.study.annotations">
           <h5>{{'study-management.detail.label.annotations' | translate }}:</h5>
-          <span
+          <p
             class="md-secondary"
-            display-i18n-string="$ctrl.options.study.annotations"
-            ></span>
+            markdown-to-html="$ctrl.options.study.annotations | displayI18nString"
+            ></p>
         </md-list-item>
       </md-list>
     </md-card-content>

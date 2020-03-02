@@ -214,7 +214,7 @@
                                 ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 class="ms-flex">
               <label>{{'study-management.detail.label.annotations' | translate}} ({{'global.in-german' |
-                translate}})</label>
+                translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="de" md-maxlength="2048" name="annotationsDe" ng-model="ctrl.study.annotations.de"
                         rows="4"></textarea>
               <div class="fdz-input-hint" ng-if="!studyForm.annotationsDe.$dirty && !studyForm.annotationsDe.$touched">
@@ -230,7 +230,7 @@
                                 md-is-error="!studyForm.annotationsEn.$valid && (studyForm.annotationsEn.$dirty || studyForm.annotationsEn.$touched)"
                                 class="ms-flex">
               <label>{{'study-management.detail.label.annotations' | translate}} ({{'global.in-english' |
-                translate}})</label>
+                translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="en" md-maxlength="2048" name="annotationsEn" ng-model="ctrl.study.annotations.en"
                         rows="4"></textarea>
               <div class="fdz-input-hint" ng-if="!studyForm.annotationsEn.$dirty && !studyForm.annotationsEn.$touched">
@@ -408,7 +408,7 @@
                                 ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 class="ms-flex">
               <label class="fdz-input-required">{{'study-management.detail.description' | translate}}
-                ({{'global.in-german' | translate}})</label>
+                ({{'global.in-german' | translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea fdz-required lang="de" md-maxlength="2048" md-no-asterisk
                         name="descriptionDe" ng-model="ctrl.study.description.de" rows="4"></textarea>
               <div class="fdz-input-hint" ng-if="!studyForm.descriptionDe.$dirty && !studyForm.descriptionDe.$touched">
@@ -427,7 +427,7 @@
                                 md-is-error="!studyForm.descriptionEn.$valid && (studyForm.descriptionEn.$dirty || studyForm.descriptionEn.$touched)"
                                 class="ms-flex">
               <label class="fdz-input-required">{{'study-management.detail.description' | translate}}
-                ({{'global.in-english' | translate}})</label>
+                ({{'global.in-english' | translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea fdz-required lang="en" md-maxlength="2048" md-no-asterisk
                         name="descriptionEn" ng-model="ctrl.study.description.en" rows="4"></textarea>
               <div class="fdz-input-hint" ng-if="!studyForm.descriptionEn.$dirty && !studyForm.descriptionEn.$touched">

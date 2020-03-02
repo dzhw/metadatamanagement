@@ -27,8 +27,8 @@
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.citationHint">
           <h5>{{'concept-management.detail.label.citation-hint' | translate }}:</h5>
-          <span
-            class="md-secondary">{{$ctrl.options.citationHint}}</span>
+          <p
+            class="md-secondary" markdown-to-html="$ctrl.options.citationHint"></p>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.originalLanguages">
           <h5>{{'concept-management.detail.label.original-languages' | translate }}:</h5>

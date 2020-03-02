@@ -2075,6 +2075,8 @@ md-input-container label {
       width: 100%;
       flex-shrink: unset;
       flex-flow: wrap; }
+      .fdz-theme .fdz-detail md-card md-list-item .md-secondary-container p:last-child {
+        margin: 0px; }
     @media (min-width: 700px) {
       .fdz-theme .fdz-detail md-card md-list-item h5 {
         width: 30%; }
