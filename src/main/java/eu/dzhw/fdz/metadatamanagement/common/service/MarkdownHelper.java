@@ -1,12 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 
+import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.data.MutableDataSet;
 
 import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateMethodModelEx;
@@ -21,9 +24,15 @@ import freemarker.template.TemplateModelException;
 @Component
 public class MarkdownHelper {
 
-  private final HtmlRenderer htmlRenderer = HtmlRenderer.builder().build();
-  private final Parser parser = Parser.builder().build();
+  private final HtmlRenderer htmlRenderer;
+  private final Parser parser;
 
+  public MarkdownHelper() {
+    MutableDataSet options = new MutableDataSet();
+    options.set(Parser.EXTENSIONS, Arrays.asList(StrikethroughExtension.create()));
+    htmlRenderer = HtmlRenderer.builder(options).build();
+    parser = Parser.builder(options).build();
+  }
   /**
    * Remove markdown markup from the given string.
    * 

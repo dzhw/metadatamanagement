@@ -47,4 +47,14 @@ public class MarkdownHelperTest extends AbstractTest {
 
     assertEquals(input, output);
   }
+
+  @Test
+  public void testTextWithStrikethrough() {
+    String input = "Spaß mit ~~Flaggen~~\njkdafhkadjf\nadkjfhadjkf";
+    String expected = "Spaß mit Flaggen\njkdafhkadjf\nadkjfhadjkf";
+
+    String output = helper.getPlainText(input);
+
+    assertEquals(expected, output);
+  }
 }
