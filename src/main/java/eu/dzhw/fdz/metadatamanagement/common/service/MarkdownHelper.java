@@ -27,12 +27,16 @@ public class MarkdownHelper {
   private final HtmlRenderer htmlRenderer;
   private final Parser parser;
 
+  /**
+   * Create the markdown helper and configure the parser.
+   */
   public MarkdownHelper() {
     MutableDataSet options = new MutableDataSet();
     options.set(Parser.EXTENSIONS, Arrays.asList(StrikethroughExtension.create()));
     htmlRenderer = HtmlRenderer.builder(options).build();
     parser = Parser.builder(options).build();
   }
+
   /**
    * Remove markdown markup from the given string.
    * 
