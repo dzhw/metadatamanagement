@@ -21,8 +21,10 @@ angular.module('metadatamanagementApp').directive('displayI18nString',
               if (!toBeDisplayed) {
                 toBeDisplayed = '';
               }
-              toBeDisplayed = $showdown.stripHtml($showdown.makeHtml(
-                toBeDisplayed));
+              if (scope.removeMarkdown) {
+                toBeDisplayed = $showdown.stripHtml($showdown.makeHtml(
+                  toBeDisplayed));
+              }
               if (element[0].tagName === 'IMG') {
                 element.attr('alt', toBeDisplayed);
               } else {
@@ -44,7 +46,8 @@ angular.module('metadatamanagementApp').directive('displayI18nString',
           link: link,
           scope: {
               displayI18nString: '=',
-              limitTo: '='
+              limitTo: '=',
+              removeMarkdown: '='
             }
         };
       });
