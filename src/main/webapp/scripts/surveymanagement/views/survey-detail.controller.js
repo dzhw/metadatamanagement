@@ -92,6 +92,17 @@ angular.module('metadatamanagementApp')
             .then(function(image) {
               ctrl.responseRateImage = image;
             });
+          ctrl.isSimpleGeographicCoverage = false;
+          if (survey.population.geographicCoverages &&
+            survey.population.geographicCoverages.length === 1) {
+            var descriptionDe = _.get(
+              survey.population.geographicCoverages[0],
+              'description.de');
+            var descriptionEn = _.get(
+              survey.population.geographicCoverages[0],
+              'description.en');
+            ctrl.isSimpleGeographicCoverage = !descriptionDe && !descriptionEn;
+          }
         } else {
           SimpleMessageToastService.openAlertMessageToast(
             'survey-management.detail.not-released-toast', {id: survey.id}
@@ -103,17 +114,6 @@ angular.module('metadatamanagementApp')
         if (ProjectUpdateAccessService
           .isUpdateAllowed(activeProject, 'surveys', true)) {
           $state.go('surveyEdit', {id: ctrl.survey.id});
-        }
-      };
-
-      ctrl.isSimpleGeographicCoverage = function(geographicCoverages) {
-        if (geographicCoverages && geographicCoverages.length === 1) {
-          var descriptionDe = _.get(geographicCoverages[0], 'description.de');
-          var descriptionEn = _.get(geographicCoverages[0], 'description.en');
-
-          return !descriptionDe && !descriptionEn;
-        } else {
-          return false;
         }
       };
 

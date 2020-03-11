@@ -77,7 +77,7 @@
             markdown-to-html="$ctrl.options.survey.annotations | displayI18nString"
             ></p>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.isSimpleGeographicCoverage($ctrl.options.survey.population.geographicCoverages) != null">
+        <md-list-item ng-if="$ctrl.options.isSimpleGeographicCoverage">
           <h5>{{'survey-management.detail.label.geographic-coverage' | translate }}:</h5>
           <span
             class="md-secondary">{{$ctrl.options.getCountryName($ctrl.options.survey.population.geographicCoverages[0])}}</span>

@@ -526,13 +526,6 @@ module.exports = function(grunt) {
             src: [
               'node_modules/bootstrap-sass/assets/fonts/bootstrap/*.*'
             ]
-          }, {
-            expand: true,
-            dot: true,
-            flatten: true,
-            cwd: 'src/main/webapp',
-            src: ['../../../node_modules/katex/dist/fonts/*.*'],
-            dest: '<%= yeoman.dist %>/assets/styles/fonts'
           }]
         },
         dist: {
