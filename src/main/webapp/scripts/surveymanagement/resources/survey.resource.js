@@ -10,8 +10,8 @@ angular.module('metadatamanagementApp')
       },
       'save': {
         method: 'PUT',
-        transformRequest: function(study) {
-          var copy = angular.copy(study);
+        transformRequest: function(survey) {
+          var copy = angular.copy(survey);
           CleanJSObjectService.deleteEmptyStrings(copy);
           CleanJSObjectService.removeEmptyJsonObjects(copy);
           return angular.toJson(copy);
