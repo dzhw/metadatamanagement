@@ -977,7 +977,7 @@
                                 <configuration>
                                     <executable>grunt</executable>
                                     <arguments>
-                                        <argument>builddev</argument>
+                                        <argument>buildprod</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
