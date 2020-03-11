@@ -954,7 +954,7 @@
                         <artifactId>exec-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>grunt-builddev</id>
+                                <id>grunt-buildprod</id>
                                 <phase>generate-resources</phase>
                                 <goals>
                                     <goal>exec</goal>
