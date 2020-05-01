@@ -49,10 +49,11 @@
     "ng-showdown": "^1.1.0",
     "ng-text-truncate-2": "^1.0.1",
     "ngclipboard": "2.0.0",
-    "plotly.js": "1.49.5",
+    "plotly.js": "1.54.0",
     "showdown": "^1.9.1",
     "sockjs-client": "1.4.0",
-    "stomp-websocket": "2.3.4-next"
+    "stomp-websocket": "2.3.4-next",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "angular-mocks": "1.7.9",
@@ -99,7 +100,6 @@
     "node-sass": "4.13.1",
     "phantomjs-prebuilt": "2.1.16",
     "requirejs": "2.3",
-    "snyk": "^1.292.0",
     "tar": "5.0.5",
     "time-grunt": "2.0.0",
     "wiredep": "4.0.0",
