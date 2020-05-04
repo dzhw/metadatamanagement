@@ -242,6 +242,8 @@ try {
         $showdownProvider.setOption('simplifiedAutoLink', true);
         $showdownProvider.setOption('strikethrough', true);
         $showdownProvider.setOption('simpleLineBreaks', true);
+        $showdownProvider.setOption('headerLevelStart', 6);
+        $showdownProvider.setOption('requireSpaceBeforeHeadingText', true);
 
         $provide.decorator('$state', function($delegate, $stateParams) {
           $delegate.forceReload = function() {
