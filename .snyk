@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.13.5
+version: v1.14.1
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -91,3 +91,10 @@ patch:
         patched: '2019-10-04T05:17:01.885Z'
     - grunt-html-angular-validate > html-angular-validate > w3cjs > superagent-proxy > proxy-agent > pac-proxy-agent > https-proxy-agent:
         patched: '2019-10-04T05:17:01.885Z'
+  SNYK-JS-LODASH-567746:
+    - karma-coverage > istanbul-lib-instrument > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > @babel/generator > lodash:
+        patched: '2020-05-05T13:00:38.097Z'
+    - karma-coverage > istanbul-lib-instrument > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2020-05-05T13:00:38.097Z'
+    - karma-coverage > istanbul-lib-instrument > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2020-05-05T13:00:38.097Z'
