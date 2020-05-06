@@ -33,11 +33,9 @@
   <!-- endbuild -->
 
   <!-- build:css assets/styles/vendor.css -->
-  <link rel="stylesheet" href="../../../node_modules/nvd3/build/nv.d3.css"/>
   <link rel="stylesheet" href="../../../node_modules/angular-material/angular-material.css"/>
   <link rel="stylesheet" href="../../../node_modules/angular-block-ui/dist/angular-block-ui.css"/>
   <link rel="stylesheet" href="../../../node_modules/highlightjs/styles/default.css"/>
-  <link rel="stylesheet" href="../../../node_modules/katex/dist/katex.css"/>
   <link rel="stylesheet" href="../../../node_modules/angular-jk-carousel/dist/jk-carousel.css"/>
   <link rel="stylesheet" href="../../../node_modules/jsonformatter/dist/json-formatter.css"/>
   <link rel="stylesheet" href="../../../node_modules/fdz-paginator/dest/fdz-paginator.css"/>
@@ -78,7 +76,7 @@
 <!--    <main data-flex data-layout="column" data-ng-cloak data-block-ui="main" class="block-ui-main">-->
 <main data-flex data-layout="row" data-ng-cloak data-block-ui="main" class="block-ui-main">
   <fdz-sidenav data-ng-cloak></fdz-sidenav>
-  <md-content data-md-scroll-y data-layout="column" flex du-scroll-container class="fdz-theme content-center" data-ng-cloak>
+  <md-content data-md-scroll-y data-layout="column" flex class="fdz-theme content-center" data-ng-cloak>
     <div id="top"></div>
     <fdz-breadcrumbs items="toolbarHeaderItems"></fdz-breadcrumbs>
     <div data-flex="noshrink" data-layout="column" class="fdz-content" tabindex="-1">
@@ -104,16 +102,12 @@
 <script src="../../../node_modules/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
 <script src="../../../node_modules/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="../../../node_modules/bootstrap-sass/assets/javascripts/bootstrap.js"></script>
-<script src="../../../node_modules/json3/lib/json3.js"></script>
 <script src="../../../node_modules/ng-file-upload/dist/ng-file-upload.js"></script>
 <script src="../../../node_modules/elasticsearch-browser/elasticsearch.angular.js"></script>
 <script src="../../../node_modules/jszip/dist/jszip.js"></script>
 <script src="../../../node_modules/file-saver/FileSaver.js"></script>
 <script src="../../../node_modules/jszip-utils/dist/jszip-utils.js"></script>
 <script src="../../../node_modules/angular-translate-handler-log/angular-translate-handler-log.js"></script>
-<script src="../../../node_modules/d3/d3.js"></script>
-<script src="../../../node_modules/nvd3/build/nv.d3.js"></script>
-<script src="../../../node_modules/angular-nvd3/dist/angular-nvd3.js"></script>
 <script src="../../../node_modules/js-xlsx/dist/xlsx.full.min.js"></script>
 <script src="../../../node_modules/cheet.js/cheet.js"></script>
 <script src="../../../node_modules/angular-animate/angular-animate.js"></script>
@@ -130,13 +124,10 @@
 <script src="../../../node_modules/js-beautify/js/lib/beautify-html.js"></script>
 <script src="../../../node_modules/clipboard/dist/clipboard.js"></script>
 <script src="../../../node_modules/ngclipboard/dist/ngclipboard.js"></script>
-<script src="../../../node_modules/katex/dist/katex.js"></script>
-<script src="../../../node_modules/angular-katex/angular-katex.js"></script>
 <script src="../../../node_modules/bowser/src/bowser.js"></script>
 <script src="../../../node_modules/blob-polyfill/Blob.js"></script>
 <script src="../../../node_modules/angular-file-saver/dist/angular-file-saver.bundle.js"></script>
 <script src="../../../node_modules/clientjs/dist/client.min.js"></script>
-<script src="../../../node_modules/angular-scroll/angular-scroll.js"></script>
 <script src="../../../node_modules/sockjs-client/dist/sockjs.js"></script>
 <script src="../../../node_modules/stomp-websocket/lib/stomp.min.js"></script>
 <script src="../../../node_modules/es5-shim/es5-shim.js"></script>
@@ -155,6 +146,8 @@
 <script src="../../../node_modules/jsonformatter/dist/json-formatter.js"></script>
 <script src="../../../node_modules/fdz-paginator/dest/fdz-paginator.js"></script>
 <script src="../../../node_modules/ng-text-truncate-2/ng-text-truncate.js"></script>
+<script src="../../../node_modules/showdown/dist/showdown.js"></script>
+<script src="../../../node_modules/ng-showdown/dist/ng-showdown.js"></script>
 <!-- endbuild -->
 
 <!-- build:js({.tmp,src/main/webapp}) scripts/client.js -->
@@ -292,6 +285,7 @@
 <script src="scripts/common/footer/footer.component.js"></script>
 <script src="scripts/common/footer/footer.controller.js"></script>
 <script src="scripts/common/messagebus/MessageBus.service.js"></script>
+<script src="scripts/common/markdown/remove-markdown.filter.js"></script>
 
 <script src="scripts/filemanagement/resources/file.resource.js"></script>
 <script src="scripts/filemanagement/services/zipReader.service.js"></script>
@@ -344,8 +338,6 @@
 <script src="scripts/surveymanagement/directives/geographic-coverage-list.controller.js"></script>
 <script src="scripts/surveymanagement/directives/geographic-coverage.directive.js"></script>
 <script src="scripts/surveymanagement/directives/geographic-coverage.controller.js"></script>
-<script src="scripts/surveymanagement/directives/geographic-coverage-display.directive.js"></script>
-<script src="scripts/surveymanagement/directives/geographic-coverage-display.controller.js"></script>
 <script src="scripts/surveymanagement/directives/unitValuePicker.controller.js"></script>
 <script src="scripts/surveymanagement/directives/unitValuePicker.directive.js"></script>
 

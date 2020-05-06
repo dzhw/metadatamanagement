@@ -15,10 +15,10 @@
       <md-list>
         <md-list-item ng-if="$ctrl.options.survey.population">
           <h5>{{'survey-management.detail.label.population' | translate }}:</h5>
-          <span
+          <p
             class="md-secondary"
-            display-i18n-string="$ctrl.options.survey.population.description"
-            ></span>
+            markdown-to-html="$ctrl.options.survey.population.description | displayI18nString"
+            ></p>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.survey.population.unit">
           <h5>{{'survey-management.detail.label.unit' | translate }}:</h5>
@@ -72,21 +72,16 @@
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.survey.annotations">
           <h5>{{'survey-management.detail.label.annotations' | translate }}:</h5>
-          <span
+          <p
             class="md-secondary"
-            display-i18n-string="$ctrl.options.survey.annotations"
-            ></span>
+            markdown-to-html="$ctrl.options.survey.annotations | displayI18nString"
+            ></p>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.isSimpleGeographicCoverage($ctrl.options.survey.population.geographicCoverages) != null">
+        <md-list-item ng-if="$ctrl.options.isSimpleGeographicCoverage">
           <h5>{{'survey-management.detail.label.geographic-coverage' | translate }}:</h5>
           <span
             class="md-secondary">{{$ctrl.options.getCountryName($ctrl.options.survey.population.geographicCoverages[0])}}</span>
         </md-list-item>
-
-
-
-
-
       </md-list>
     </md-card-content>
   </div>

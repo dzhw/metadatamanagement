@@ -23,8 +23,8 @@
            ng-class="{'mr10': !addMargin, 'fdz-add-bottom-margin': !addMargin}">
         <div class="fdz-text-block" ng-if="searchResult.population.description">
           <span class="b">{{'survey-management.detail.label.population' | translate }}:</span>
-          <span class="fdz-multiline-property" display-i18n-string="searchResult.population.description" 
-                limit-to="256"></span>
+          <span class="fdz-multiline-property" display-i18n-string="searchResult.population.description"
+                limit-to="256" remove-markdown="true"></span>
         </div>
       </div>
       <div flex-gt-sm="50" layout="column">

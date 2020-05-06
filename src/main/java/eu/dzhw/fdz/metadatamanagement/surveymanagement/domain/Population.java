@@ -32,9 +32,9 @@ public class Population implements Serializable {
   private static final long serialVersionUID = -562722196150317326L;
 
   /**
-   * A description of the population.
-   * It must be specified in all languages and it must not contain more than 2048
-   * characters.
+   * A description of the population. Markdown is supported.
+   * 
+   * It must be specified in all languages and it must not contain more than 2048 characters.
    */
   @NotNull(message = "survey-management.error.population.description.not-null")
   @I18nStringEntireNotEmpty(

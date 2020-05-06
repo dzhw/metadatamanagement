@@ -154,7 +154,7 @@
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!surveyForm.populationDescriptionDe.$valid && (surveyForm.populationDescriptionDe.$dirty || surveyForm.populationDescriptionDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}" class="ms-flex">
               <label class="fdz-input-required">{{'survey-management.edit.label.population.description' | translate}}
-                ({{'global.in-german' | translate}})</label>
+                ({{'global.in-german' | translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea fdz-required lang="de" md-maxlength="2048" md-no-asterisk name="populationDescriptionDe" ng-model="ctrl.survey.population.description.de" rows="4"></textarea>
               <div class="fdz-input-hint" ng-if="!surveyForm.populationDescriptionDe.$dirty && !surveyForm.populationDescriptionDe.$touched">{{'survey-management.edit.hints.population.description.de' | translate}}
               </div>
@@ -169,7 +169,7 @@
             </md-input-container>
             <md-input-container flex="50" md-is-error="!surveyForm.populationDescriptionEn.$valid && (surveyForm.populationDescriptionEn.$dirty || surveyForm.populationDescriptionEn.$touched)" class="ms-flex">
               <label class="fdz-input-required">{{'survey-management.edit.label.population.description' | translate}}
-                ({{'global.in-english' | translate}})</label>
+                ({{'global.in-english' | translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea fdz-required lang="en" md-maxlength="2048" md-no-asterisk name="populationDescriptionEn" ng-model="ctrl.survey.population.description.en" rows="4"></textarea>
               <div class="fdz-input-hint" ng-if="!surveyForm.populationDescriptionEn.$dirty && !surveyForm.populationDescriptionEn.$touched">{{'survey-management.edit.hints.population.description.en' | translate}}
               </div>
@@ -246,7 +246,7 @@
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!surveyForm.annotationsDe.$valid && (surveyForm.annotationsDe.$dirty || surveyForm.annotationsDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}" class="ms-flex">
               <label>{{'survey-management.detail.label.annotations' | translate}} ({{'global.in-german' |
-                translate}})</label>
+                translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="de" md-maxlength="2048" md-no-asterisk name="annotationsDe" ng-model="ctrl.survey.annotations.de" rows="4"></textarea>
               <div class="fdz-input-hint" ng-if="!surveyForm.annotationsDe.$dirty && !surveyForm.annotationsDe.$touched">{{'survey-management.edit.hints.annotations.de' | translate}}
               </div>
@@ -261,7 +261,7 @@
             </md-input-container>
             <md-input-container flex="50" md-is-error="!surveyForm.annotationsEn.$valid && (surveyForm.annotationsEn.$dirty || surveyForm.annotationsEn.$touched)" class="ms-flex">
               <label>{{'survey-management.detail.label.annotations' | translate}} ({{'global.in-english' |
-                translate}})</label>
+                translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="en" md-maxlength="2048" md-no-asterisk name="annotationsEn" ng-model="ctrl.survey.annotations.en" rows="4"></textarea>
               <div class="fdz-input-hint" ng-if="!surveyForm.annotationsEn.$dirty && !surveyForm.annotationsEn.$touched">{{'survey-management.edit.hints.annotations.en' | translate}}
               </div>

@@ -26,6 +26,7 @@
           </md-card-header-text>
         </md-card-header>
         <md-card-content ng-switch="ctrl.noShadowCopyAvailable[product.study.id + '-' + product.version]">
+          <p>
           <span>{{'shopping-cart.detail.label.this-data-product' | translate}}</span>
           <a
             ui-sref="search({id: product.study.id, version: product.version, 'type': 'studies', 'study-series': ctrl.studies[product.study.id + '-' + product.version].studySeries[currentLanguage]})"
@@ -56,9 +57,10 @@
               {{'shopping-cart.detail.data-sets-tooltip' | translate}}
             </md-tooltip>
           </a>
+          </p>
           <div ng-if="ctrl.studies[product.study.id + '-' + product.version].annotations">
             <span class="b">{{'shopping-cart.detail.label.annotations' | translate }}:&nbsp;</span>
-            <span  class="fdz-text-block fdz-multiline-property">{{ctrl.studies[product.study.id + '-' + product.version].annotations | displayI18nString}}</span>
+            <p markdown-to-html="ctrl.studies[product.study.id + '-' + product.version].annotations | displayI18nString"></p>
           </div>
         </md-card-content>
         <md-card-actions>

@@ -40,7 +40,7 @@ description
 .. java:field:: @I18nStringSize private I18nString description
    :outertype: FilterDetails
 
-   A description of this filter condition. Must not contain more than 2048 characters
+   A description of this filter condition. Markdown is supported. Must not contain more than 2048 characters
 
 expression
 ^^^^^^^^^^

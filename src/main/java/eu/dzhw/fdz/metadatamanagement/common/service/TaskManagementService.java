@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang.NotImplementedException;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.annotation.Secured;

@@ -76,7 +76,7 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
   private I18nString title;
 
   /**
-   * A description of the concept.
+   * A description of the concept. Markdown is supported.
    *
    * It must be specified in German and English and it must not contain more than 2048 characters.
    */
@@ -105,7 +105,7 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
   private String doi;
 
   /**
-   * The license of this concept.
+   * The license of this concept. Markdown is supported.
    *
    * Must not contain more than 1 MB characters.
    */
@@ -113,7 +113,7 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
   private String license;
 
   /**
-   * Hint on how to cite this concept.
+   * Hint on how to cite this concept. Markdown is supported.
    *
    * Must not be empty and must not contain more than 2048 characters.
    */

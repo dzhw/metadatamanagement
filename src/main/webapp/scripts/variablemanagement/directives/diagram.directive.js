@@ -108,10 +108,13 @@ angular.module('metadatamanagementApp').directive('diagram',
 
       function resizeDiagram() {
         $timeout(function() {
-          var update = {
-            width: document.getElementById('diagramContainer').offsetWidth
-          };
-          Plotly.relayout('diagram', update);
+          var container = document.getElementById('diagramContainer');
+          if (container) {
+            var update = {
+              width: container.offsetWidth
+            };
+            Plotly.relayout('diagram', update);
+          }
         }, 500);
       }
 

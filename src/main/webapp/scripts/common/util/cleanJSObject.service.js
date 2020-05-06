@@ -40,6 +40,8 @@ angular.module('metadatamanagementApp').service('CleanJSObjectService',
             delete object[key];
           } else if (jQuery.isPlainObject(object[key])) {
             deleteEmptyStrings(object[key]);
+          } else if (Array.isArray(object[key])) {
+            object[key].forEach(deleteEmptyStrings);
           }
         }
       }
@@ -54,6 +56,8 @@ angular.module('metadatamanagementApp').service('CleanJSObjectService',
           if (isNullOrEmpty(json[key])) {
             delete json[key];
           }
+        } else if (Array.isArray(json[key])) {
+          json[key].forEach(removeEmptyJsonObjects);
         }
       }
       return json;

@@ -17,7 +17,14 @@
           lang="currentLanguage"
           options="ctrl"
           template-url="scripts/surveymanagement/templates/common-details.html.tmpl"></fdz-detail>
-        <md-divider></md-divider>
+        <md-divider ng-if="!ctrl.isSimpleGeographicCoverage"></md-divider>
+        <fdz-detail
+          ng-if="!ctrl.isSimpleGeographicCoverage"
+          collapsed="false"
+          lang="currentLanguage"
+          options="ctrl"
+          template-url="scripts/surveymanagement/templates/geographic-coverages.html.tmpl"></fdz-detail>
+        <md-divider ng-if="ctrl.responseRateImage"></md-divider>
         <fdz-detail
           ng-if="ctrl.responseRateImage"
           collapsed="false"
