@@ -30,7 +30,6 @@ angular.module('metadatamanagementApp')
       surveysCount: 0,
       dataSetsCount: 0,
       questionsCount: 0,
-      publicationsCount: 0,
       conceptsCount: 0
     };
     ctrl.nextVariables = [];

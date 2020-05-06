@@ -259,6 +259,19 @@ body {
 ui-view:focus {
   outline: none; }
 
+h5, .h5, h6, .h6, h7, .h7, h8, .h8, h9, .h9 {
+  font-size: 14px; }
+
+h4, .h4, h5, .h5, h6, .h6, h7, .h7, h8, .h8, h9, .h9 {
+  margin-top: 10px;
+  margin-bottom: 10px; }
+
+h1, h2, h3, h4, h5, h6, h7, h8, h9, .h1, .h2, .h3, .h4, .h5, .h6, .h7, .h8, .h9 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit; }
+
 .fdz-theme em {
   font-style: italic; }
 
@@ -2075,6 +2088,8 @@ md-input-container label {
       width: 100%;
       flex-shrink: unset;
       flex-flow: wrap; }
+      .fdz-theme .fdz-detail md-card md-list-item .md-secondary-container p:last-child {
+        margin: 0px; }
     @media (min-width: 700px) {
       .fdz-theme .fdz-detail md-card md-list-item h5 {
         width: 30%; }

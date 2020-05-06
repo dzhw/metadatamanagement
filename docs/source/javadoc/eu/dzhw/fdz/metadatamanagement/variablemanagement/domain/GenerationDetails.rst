@@ -40,7 +40,7 @@ description
 .. java:field:: @I18nStringSize private I18nString description
    :outertype: GenerationDetails
 
-   A description of this generation rule. Must not contain more than 2048 characters
+   A description of this generation rule. Markdown is supported. Must not contain more than 2048 characters
 
 rule
 ^^^^

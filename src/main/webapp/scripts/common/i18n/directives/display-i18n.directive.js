@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').directive('displayI18nString',
-    function(LanguageService, $filter) {
+    function(LanguageService, $filter, $showdown) {
         var link = function(scope, element) {
             var toBeDisplayed;
             var currentLanguage = LanguageService.getCurrentInstantly();
@@ -20,6 +20,10 @@ angular.module('metadatamanagementApp').directive('displayI18nString',
               }
               if (!toBeDisplayed) {
                 toBeDisplayed = '';
+              }
+              if (scope.removeMarkdown) {
+                toBeDisplayed = $showdown.stripHtml($showdown.makeHtml(
+                  toBeDisplayed));
               }
               if (element[0].tagName === 'IMG') {
                 element.attr('alt', toBeDisplayed);
@@ -42,7 +46,8 @@ angular.module('metadatamanagementApp').directive('displayI18nString',
           link: link,
           scope: {
               displayI18nString: '=',
-              limitTo: '='
+              limitTo: '=',
+              removeMarkdown: '='
             }
         };
       });

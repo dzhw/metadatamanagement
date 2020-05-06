@@ -42,7 +42,7 @@ description
 .. java:field:: @I18nStringSize private I18nString description
    :outertype: GeographicCoverage
 
-   Free text description for additional information regarding the location.
+   Free text description for additional information regarding the location. Markdown is supported.
 
 serialVersionUID
 ^^^^^^^^^^^^^^^^

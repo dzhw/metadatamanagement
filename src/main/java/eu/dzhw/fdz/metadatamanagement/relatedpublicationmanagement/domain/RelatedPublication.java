@@ -109,7 +109,7 @@ public class RelatedPublication extends AbstractRdcDomainObject {
   private String language;
   
   /**
-   * Arbitrary additional text for this publication.
+   * Arbitrary additional text for this publication. Markdown is supported.
    *
    * Must not contain more than 2048 characters.
    */

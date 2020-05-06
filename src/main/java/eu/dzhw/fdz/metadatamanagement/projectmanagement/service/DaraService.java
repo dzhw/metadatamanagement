@@ -39,6 +39,7 @@ import com.google.common.base.Charsets;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.service.MarkdownHelper;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.CollectionModes;
@@ -114,6 +115,9 @@ public class DaraService {
 
   @Autowired
   private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
+  
+  @Autowired
+  private MarkdownHelper markdownHelper;
 
   private RestTemplate restTemplate;
 
@@ -259,6 +263,8 @@ public class DaraService {
   private Map<String, Object> getDataForTemplate(DataAcquisitionProject project) {
 
     Map<String, Object> dataForTemplate = new HashMap<>();
+    
+    dataForTemplate.put("removeMarkdown", markdownHelper.createRemoveMarkdownMethod());
 
     // Get Project Information
     dataForTemplate.put("dataAcquisitionProject", project);
