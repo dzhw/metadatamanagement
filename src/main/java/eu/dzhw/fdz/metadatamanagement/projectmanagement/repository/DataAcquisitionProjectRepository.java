@@ -13,7 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 
 /**
  * Spring Data MongoDB repository for the data acquisitionProject entity.
- * 
+ *
  * @author Daniel Katzberg
  */
 @JaversSpringDataAuditable
@@ -49,7 +49,7 @@ public interface DataAcquisitionProjectRepository
 
   @RestResource(exported = false)
   Stream<DataAcquisitionProject> streamByIdAndShadowIsTrue(String dataAcquisitionProjectId);
-  
+
   @RestResource(exported = false)
   Stream<DataAcquisitionProject> findByIdAndShadowIsTrueAndSuccessorIdIsNull(String id);
 }

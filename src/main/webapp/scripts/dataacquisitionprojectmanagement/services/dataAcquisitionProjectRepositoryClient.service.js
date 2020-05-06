@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').factory(
     var findByIdLikeOrderByIdAsc = function(id) {
       return $http({
         method: 'GET',
-        url: '/api/data-acquisition-projects/search/findByIdLikeOrderByIdAsc',
+        url: '/api/data-acquisition-projects/findByIdLikeOrderByIdAsc',
         params: {
           id: id
         },
