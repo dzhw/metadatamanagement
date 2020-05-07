@@ -71,7 +71,7 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
       },
       'dataPackageSearch': {
         'type': 'search-management.detail.dataPackageSearch',
-        'translateString': 'global.tooltips.toolbarHeader.data-packet'
+        'translateString': 'global.tooltips.toolbarHeader.search'
       },
       'shoppingCart': {
         'type': 'shopping-cart.title'
