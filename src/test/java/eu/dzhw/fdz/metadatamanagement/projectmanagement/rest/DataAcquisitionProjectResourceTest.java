@@ -61,10 +61,10 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
   @Autowired
   private JaversService javersService;
-
+ 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-
+  
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
 
@@ -164,14 +164,14 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
     project.setVersion(0L);
-
+    
     // update the project
     mockMvc
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().is2xxSuccessful());
-
+    
     // load the project with the complete projection
     mockMvc
         .perform(
@@ -257,7 +257,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
     rdcProjectRepository.saveAll(Arrays.asList(shouldBeFound, shouldNotBeFound));
 
     mockMvc
-        .perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/findByIdLikeOrderByIdAsc")
+        .perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/search/findByIdLikeOrderByIdAsc")
             .param("id", "TES"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.length()", equalTo(1)))
         .andExpect(jsonPath("$[0].id", equalTo(shouldBeFound.getId())));
@@ -286,7 +286,7 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
     rdcProjectRepository.saveAll(Arrays.asList(projectA, projectB));
 
-    mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/findByIdLikeOrderByIdAsc"))
+    mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/search/findByIdLikeOrderByIdAsc"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.length()", equalTo(2)))
         .andExpect(jsonPath("$[0].id", equalTo(projectA.getId())))
         .andExpect(jsonPath("$[1].id", equalTo(projectB.getId())));
