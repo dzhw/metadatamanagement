@@ -6,12 +6,13 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,7 @@ import com.google.common.base.Charsets;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.service.MarkdownHelper;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.CollectionModes;
@@ -113,6 +115,9 @@ public class DaraService {
 
   @Autowired
   private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
+  
+  @Autowired
+  private MarkdownHelper markdownHelper;
 
   private RestTemplate restTemplate;
 
@@ -258,6 +263,8 @@ public class DaraService {
   private Map<String, Object> getDataForTemplate(DataAcquisitionProject project) {
 
     Map<String, Object> dataForTemplate = new HashMap<>();
+    
+    dataForTemplate.put("removeMarkdown", markdownHelper.createRemoveMarkdownMethod());
 
     // Get Project Information
     dataForTemplate.put("dataAcquisitionProject", project);
@@ -274,6 +281,15 @@ public class DaraService {
     Release release = project.getRelease();
     if (release == null) {
       release = dataAcquisitionProjectVersionsService.findLastRelease(project.getMasterId());
+    }
+    if (release.getFirstDate() == null) {
+      Optional<DataAcquisitionProject> previousRelease = projectRepository
+          .findById(project.getMasterId() + "-" + release.getVersion());
+      if (previousRelease.isPresent()) {
+        release.setFirstDate(previousRelease.get().getRelease().getFirstDate());
+      } else {
+        release.setFirstDate(LocalDateTime.now());
+      }
     }
 
     String doi = doiBuilder.buildStudyDoi(study, release);
@@ -312,7 +328,7 @@ public class DaraService {
 
     // Add Date
     DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
-    dataForTemplate.put("releaseDate", formatter.format(LocalDate.now()));
+    dataForTemplate.put("releaseDate", formatter.format(release.getFirstDate()));
 
     // Add Availability Controlled
     dataForTemplate.put("availabilityControlled", availabilityControlled);

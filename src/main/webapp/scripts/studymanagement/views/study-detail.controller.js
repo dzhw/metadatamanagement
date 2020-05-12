@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
              PageTitleService,
              LanguageService,
              $state, $location,
-             ToolbarHeaderService, Principal, SimpleMessageToastService,
+             BreadcrumbService, Principal, SimpleMessageToastService,
              SearchResultNavigatorService,
              $stateParams,
              DataAcquisitionProjectAttachmentsResource,
@@ -102,7 +102,7 @@ angular.module('metadatamanagementApp')
           title: result.title[LanguageService.getCurrentInstantly()],
           studyId: result.id
         });
-        ToolbarHeaderService.updateToolbarHeader({
+        BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id,
           'studyIsPresent': true,

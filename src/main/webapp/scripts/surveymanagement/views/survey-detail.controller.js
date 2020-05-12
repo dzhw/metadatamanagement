@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, LanguageService, CleanJSObjectService,
-             PageTitleService, $state, ToolbarHeaderService, MessageBus,
+             PageTitleService, $state, BreadcrumbService, MessageBus,
              SurveySearchService, SurveyAttachmentResource, Principal,
              SimpleMessageToastService, SearchResultNavigatorService,
              SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
@@ -27,7 +27,6 @@ angular.module('metadatamanagementApp')
         questionsCount: 0,
         dataSetsCount: 0,
         variablesCount: 0,
-        publicationsCount: 0,
         conceptsCount: 0
       };
       ctrl.projectIsCurrentlyReleased = true;
@@ -65,7 +64,7 @@ angular.module('metadatamanagementApp')
               version: survey.release.version
             });
         }
-        ToolbarHeaderService.updateToolbarHeader({
+        BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': survey.id,
           'number': survey.number,
@@ -93,6 +92,17 @@ angular.module('metadatamanagementApp')
             .then(function(image) {
               ctrl.responseRateImage = image;
             });
+          ctrl.isSimpleGeographicCoverage = false;
+          if (survey.population.geographicCoverages &&
+            survey.population.geographicCoverages.length === 1) {
+            var descriptionDe = _.get(
+              survey.population.geographicCoverages[0],
+              'description.de');
+            var descriptionEn = _.get(
+              survey.population.geographicCoverages[0],
+              'description.en');
+            ctrl.isSimpleGeographicCoverage = !descriptionDe && !descriptionEn;
+          }
         } else {
           SimpleMessageToastService.openAlertMessageToast(
             'survey-management.detail.not-released-toast', {id: survey.id}
@@ -104,17 +114,6 @@ angular.module('metadatamanagementApp')
         if (ProjectUpdateAccessService
           .isUpdateAllowed(activeProject, 'surveys', true)) {
           $state.go('surveyEdit', {id: ctrl.survey.id});
-        }
-      };
-
-      ctrl.isSimpleGeographicCoverage = function(geographicCoverages) {
-        if (geographicCoverages && geographicCoverages.length === 1) {
-          var descriptionDe = _.get(geographicCoverages[0], 'description.de');
-          var descriptionEn = _.get(geographicCoverages[0], 'description.en');
-
-          return !descriptionDe && !descriptionEn;
-        } else {
-          return false;
         }
       };
 

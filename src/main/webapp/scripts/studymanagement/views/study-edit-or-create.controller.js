@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('StudyEditOrCreateController',
     function(entity, PageTitleService, $document, $timeout,
-      $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
+      $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, StudyIdBuilderService, StudyResource, $scope,
       ElasticSearchAdminService, $transitions,
       CommonDialogsService, LanguageService, StudySearchService,
@@ -63,7 +63,7 @@ angular.module('metadatamanagementApp')
               studyId: ctrl.study.id
             });
         }
-        ToolbarHeaderService.updateToolbarHeader({
+        BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': ctrl.study.id,
           'studyId': ctrl.study.id,

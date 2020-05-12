@@ -204,7 +204,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
   private String studyId;
 
   /**
-   * Arbitrary additional text for this survey.
+   * Arbitrary additional text for this survey. Markdown is supported.
    * 
    * Must not contain more than 2048 characters.
    */

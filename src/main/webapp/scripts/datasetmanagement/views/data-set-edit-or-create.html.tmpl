@@ -111,7 +111,7 @@
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!dataSetForm.annotationsDe.$valid && (dataSetForm.annotationsDe.$dirty || dataSetForm.annotationsDe.$touched)" ng-class="{'mr10': $mdMedia('gt-sm')}" class="ms-flex">
               <label>{{'data-set-management.detail.label.annotations' | translate}} ({{'global.in-german' |
-                translate}})</label>
+                translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="de" md-maxlength="2048" md-no-asterisk name="annotationsDe" ng-model="ctrl.dataSet.annotations.de" rows="4"></textarea>
               <div class="fdz-input-hint" ng-if="!dataSetForm.annotationsDe.$dirty && !dataSetForm.annotationsDe.$touched">{{'data-set-management.edit.hints.annotations.de' | translate}}
               </div>
@@ -123,7 +123,7 @@
             </md-input-container>
             <md-input-container flex="50" md-is-error="!dataSetForm.annotationsEn.$valid && (dataSetForm.annotationsEn.$dirty || dataSetForm.annotationsEn.$touched)" class="ms-flex">
               <label>{{'data-set-management.detail.label.annotations' | translate}} ({{'global.in-english' |
-                translate}})</label>
+                translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea lang="en" md-maxlength="2048" md-no-asterisk name="annotationsEn" ng-model="ctrl.dataSet.annotations.en" rows="4"></textarea>
               <div class="fdz-input-hint" ng-if="!dataSetForm.annotationsEn.$dirty && !dataSetForm.annotationsEn.$touched">{{'data-set-management.edit.hints.annotations.en' | translate}}
               </div>

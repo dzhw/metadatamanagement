@@ -41,8 +41,8 @@ import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.DatasetReportTask;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
-import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.MarkdownHelper;
 import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
@@ -57,6 +57,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -92,6 +93,8 @@ public class DataSetReportService {
   private final Environment environment;
 
   private final MetadataManagementProperties metadataManagementProperties;
+
+  private final MarkdownHelper markdownHelper;
 
   @Autowired(required = false)
   private AmazonECS ecsClient;
@@ -183,6 +186,8 @@ public class DataSetReportService {
 
         // Load data for template only once
         Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId, version);
+
+        dataForTemplate.put("removeMarkdown", markdownHelper.createRemoveMarkdownMethod());
         try {
           String variableListFilledStr = this.fillTemplate(texVariableListFileStr,
               templateConfiguration, dataForTemplate, KEY_VARIABLELIST);
@@ -388,8 +393,8 @@ public class DataSetReportService {
     Map<String, Instrument> instrumentMap = new HashMap<>();
     Map<String, List<ValidResponse>> firstTenValidResponses = new HashMap<>();
     Map<String, List<ValidResponse>> lastTenValidResponses = new HashMap<>();
-    Map<String, List<IdAndVersionProjection>> sameVariablesInPanel = new HashMap<>();
-
+    Map<String, List<VariableSubDocumentProjection>> sameVariablesInPanel = new HashMap<>();
+    Map<String, List<VariableSubDocumentProjection>> derivedVariables = new HashMap<>();
 
     for (Variable variable : variables) {
       int sizeValidResponses = 0;
@@ -428,10 +433,17 @@ public class DataSetReportService {
             .subList(sizeValidResponses - 10, sizeValidResponses));
       }
 
-      if (variable.getPanelIdentifier() != null) {
-        List<IdAndVersionProjection> otherVariablesInPanel = this.variableRepository
-            .findAllIdsByPanelIdentifierAndIdNot(variable.getPanelIdentifier(), variable.getId());
+      if (!StringUtils.isEmpty(variable.getPanelIdentifier())) {
+        List<VariableSubDocumentProjection> otherVariablesInPanel = this.variableRepository
+            .findAllByPanelIdentifierAndIdNot(variable.getPanelIdentifier(), variable.getId());
         sameVariablesInPanel.put(variable.getId(), otherVariablesInPanel);
+      }
+
+      if (!StringUtils.isEmpty(variable.getDerivedVariablesIdentifier())) {
+        List<VariableSubDocumentProjection> otherDerivedVariables =
+            this.variableRepository.findAllByDerivedVariablesIdentifierAndIdNot(
+                variable.getDerivedVariablesIdentifier(), variable.getId());
+        derivedVariables.put(variable.getId(), otherDerivedVariables);
       }
     }
     dataForTemplate.put("questions", questionsMap);
@@ -439,6 +451,7 @@ public class DataSetReportService {
     dataForTemplate.put("firstTenValidResponses", firstTenValidResponses);
     dataForTemplate.put("lastTenValidResponses", lastTenValidResponses);
     dataForTemplate.put("sameVariablesInPanel", sameVariablesInPanel);
+    dataForTemplate.put("derivedVariables", derivedVariables);
 
     return dataForTemplate;
 

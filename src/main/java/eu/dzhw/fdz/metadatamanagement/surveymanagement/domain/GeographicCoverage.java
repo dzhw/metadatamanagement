@@ -30,7 +30,7 @@ public class GeographicCoverage implements Serializable {
   private String country;
 
   /**
-   * Free text description for additional information regarding the location.
+   * Free text description for additional information regarding the location. Markdown is supported.
    */
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "survey-management.error.geographic-coverage.description.i18n-string-size")

@@ -84,7 +84,7 @@ annotations
 .. java:field:: @I18nStringSize private I18nString annotations
    :outertype: Instrument
 
-   Arbitrary additional text for this instrument. Must not contain more than 2048 characters.
+   Arbitrary additional text for this instrument. Markdown is supported. Must not contain more than 2048 characters.
 
 conceptIds
 ^^^^^^^^^^

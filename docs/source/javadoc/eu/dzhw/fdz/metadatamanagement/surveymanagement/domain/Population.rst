@@ -46,7 +46,7 @@ description
 .. java:field:: @NotNull @I18nStringEntireNotEmpty @I18nStringSize private I18nString description
    :outertype: Population
 
-   A description of the population. It must be specified in all languages and it must not contain more than 2048 characters.
+   A description of the population. Markdown is supported. It must be specified in all languages and it must not contain more than 2048 characters.
 
 geographicCoverages
 ^^^^^^^^^^^^^^^^^^^

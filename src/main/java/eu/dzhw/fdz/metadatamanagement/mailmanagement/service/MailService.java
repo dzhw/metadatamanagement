@@ -28,6 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import joptsimple.internal.Strings;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -367,9 +368,10 @@ public class MailService {
     context.setVariable("projectId", dataAcquisitionProjectId);
     context.setVariable("release", release);
     context.setVariable("baseUrl", baseUrl);
+    context.setVariable("profiles", env.getActiveProfiles());
     String content = templateEngine.process("newMajorProjectRelease", context);
     String subject = "New Major Release for Project \"" + dataAcquisitionProjectId + "\" ("
-        + release.getVersion() + ")";
+        + release.getVersion() + ") on " + Strings.join(env.getActiveProfiles(), ",");
     List<String> emailAddresses =
         releaseManagers.stream().map(User::getEmail).collect(Collectors.toList());
     sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null, subject,

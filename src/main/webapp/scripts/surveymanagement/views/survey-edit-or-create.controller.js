@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('SurveyEditOrCreateController',
     function(entity, PageTitleService, $timeout,
-      $state, ToolbarHeaderService, Principal, SimpleMessageToastService,
+      $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, SurveyIdBuilderService, SurveyResource, $scope,
       ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
       CommonDialogsService, LanguageService, AvailableSurveyNumbersResource,
@@ -31,7 +31,7 @@ angular.module('metadatamanagementApp')
         $rootScope.$broadcast('start-ignoring-404');
         StudyResource.get({id: ctrl.survey.studyId}).$promise
           .then(function(study) {
-          ToolbarHeaderService.updateToolbarHeader({
+          BreadcrumbService.updateToolbarHeader({
             'stateName': $state.current.name,
             'id': ctrl.survey.id,
             'studyId': ctrl.survey.studyId,
@@ -41,7 +41,7 @@ angular.module('metadatamanagementApp')
             'enableLastItem': !ctrl.createMode
           });
         }).catch(function() {
-          ToolbarHeaderService.updateToolbarHeader({
+          BreadcrumbService.updateToolbarHeader({
             'stateName': $state.current.name,
             'id': ctrl.survey.id,
             'studyId': ctrl.survey.studyId,

@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp').controller('LoginController',
   function($rootScope, $scope, $state, $timeout, Auth, PageTitleService,
-    LanguageService, ToolbarHeaderService) {
+    LanguageService, BreadcrumbService) {
     PageTitleService.setPageTitle('user-management.login.title');
     $scope.user = {};
     $scope.errors = {};
@@ -29,6 +29,6 @@ angular.module('metadatamanagementApp').controller('LoginController',
         $scope.authenticationError = true;
       });
     };
-    ToolbarHeaderService.updateToolbarHeader({'stateName': $state.current.
+    BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
     name});
   });

@@ -86,7 +86,7 @@ annotations
 .. java:field:: @I18nStringSize private I18nString annotations
    :outertype: RelatedPublication
 
-   Arbitrary additional text for this publication. Must not contain more than 2048 characters.
+   Arbitrary additional text for this publication. Markdown is supported. Must not contain more than 2048 characters.
 
 authors
 ^^^^^^^

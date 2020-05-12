@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
     SimpleMessageToastService,
     PageTitleService, LanguageService,
     CleanJSObjectService,
-    $state, ToolbarHeaderService,
+    $state, BreadcrumbService,
     SearchResultNavigatorService,
     OutdatedVersionNotifier,
     $stateParams, blockUI) {
@@ -30,7 +30,6 @@ angular.module('metadatamanagementApp')
       surveysCount: 0,
       dataSetsCount: 0,
       questionsCount: 0,
-      publicationsCount: 0,
       conceptsCount: 0
     };
     ctrl.nextVariables = [];
@@ -52,7 +51,7 @@ angular.module('metadatamanagementApp')
           currenLanguage] : result.label[secondLanguage],
         variableId: result.id
       });
-      ToolbarHeaderService.updateToolbarHeader({
+      BreadcrumbService.updateToolbarHeader({
         'stateName': $state.current.name,
         'id': result.id,
         'name': result.name,

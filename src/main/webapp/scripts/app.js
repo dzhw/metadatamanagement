@@ -13,8 +13,9 @@ try {
         'ngFileUpload', 'ngMaterial',
         'blockUI', 'LocalStorageModule', 'jkAngularCarousel',
         'angularMoment', 'ngAnimate', 'vcRecaptcha',
-        'ngMessages', 'katex', 'ngFileSaver', 'duScroll', 'ngShortcut',
-        'jsonFormatter', 'fdzPaginatorModule', 'ngTextTruncate'
+        'ngMessages', 'ngFileSaver', 'ngShortcut',
+        'jsonFormatter', 'fdzPaginatorModule', 'ngTextTruncate',
+        'ng-showdown'
       ])
 
   .run(
@@ -164,7 +165,7 @@ try {
       function($stateProvider, $urlRouterProvider,
         $httpProvider, $locationProvider, $translateProvider,
         tmhDynamicLocaleProvider, blockUIConfig, $mdThemingProvider,
-        localStorageServiceProvider, $qProvider, $provide) {
+        localStorageServiceProvider, $qProvider, $provide, $showdownProvider) {
         localStorageServiceProvider
           .setPrefix('metadatamanagementApp')
           .setStorageType('localStorage')
@@ -238,6 +239,12 @@ try {
 
         $qProvider.errorOnUnhandledRejections(false);
 
+        $showdownProvider.setOption('simplifiedAutoLink', true);
+        $showdownProvider.setOption('strikethrough', true);
+        $showdownProvider.setOption('simpleLineBreaks', true);
+        $showdownProvider.setOption('headerLevelStart', 6);
+        $showdownProvider.setOption('requireSpaceBeforeHeadingText', true);
+
         $provide.decorator('$state', function($delegate, $stateParams) {
           $delegate.forceReload = function() {
               return $delegate.go($delegate.current, $stateParams, {
@@ -249,10 +256,6 @@ try {
           return $delegate;
         });
       })
-      .value('duScrollDuration', 500)
-      .value('duScrollEasing', function easeInCubic(t) {
-          return t * t * t;
-        })
       //use a fake sessionId for consistent shard routing
       .constant('clientId', new ClientJS().getFingerprint())
       .constant('ClientJS', new ClientJS());

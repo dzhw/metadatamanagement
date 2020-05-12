@@ -259,6 +259,19 @@ body {
 ui-view:focus {
   outline: none; }
 
+h5, .h5, h6, .h6, h7, .h7, h8, .h8, h9, .h9 {
+  font-size: 14px; }
+
+h4, .h4, h5, .h5, h6, .h6, h7, .h7, h8, .h8, h9, .h9 {
+  margin-top: 10px;
+  margin-bottom: 10px; }
+
+h1, h2, h3, h4, h5, h6, h7, h8, h9, .h1, .h2, .h3, .h4, .h5, .h6, .h7, .h8, .h9 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit; }
+
 .fdz-theme em {
   font-style: italic; }
 
@@ -2075,6 +2088,8 @@ md-input-container label {
       width: 100%;
       flex-shrink: unset;
       flex-flow: wrap; }
+      .fdz-theme .fdz-detail md-card md-list-item .md-secondary-container p:last-child {
+        margin: 0px; }
     @media (min-width: 700px) {
       .fdz-theme .fdz-detail md-card md-list-item h5 {
         width: 30%; }
@@ -2390,10 +2405,10 @@ tr:focus {
   margin-top: 0px;
   padding: 4px 12px 2px 12px; }
 
-.fdz-theme .fdz-data-packet {
+.fdz-theme .fdz-data-package {
   box-shadow: none;
   padding-top: 16px; }
-  .fdz-theme .fdz-data-packet md-card-header {
+  .fdz-theme .fdz-data-package md-card-header {
     display: block;
     border-top-width: 1px;
     border-top-style: solid;
@@ -2403,54 +2418,54 @@ tr:focus {
     border-bottom-color: rgba(0, 0, 0, 0.12);
     margin: 0;
     padding: 8px 0; }
-    .fdz-theme .fdz-data-packet md-card-header .title {
+    .fdz-theme .fdz-data-package md-card-header .title {
       font-size: 16px; }
       @media (min-width: 600px) {
-        .fdz-theme .fdz-data-packet md-card-header .title {
+        .fdz-theme .fdz-data-package md-card-header .title {
           font-size: 18px; } }
-  .fdz-theme .fdz-data-packet md-card-footer {
+  .fdz-theme .fdz-data-package md-card-footer {
     padding: 0; }
-  .fdz-theme .fdz-data-packet md-list {
+  .fdz-theme .fdz-data-package md-list {
     padding: 0; }
-  .fdz-theme .fdz-data-packet md-list-item,
-  .fdz-theme .fdz-data-packet md-list-item::before {
+  .fdz-theme .fdz-data-package md-list-item,
+  .fdz-theme .fdz-data-package md-list-item::before {
     min-height: auto; }
-  .fdz-theme .fdz-data-packet md-list-item {
+  .fdz-theme .fdz-data-package md-list-item {
     padding: 0;
     flex-flow: column;
     align-items: flex-start;
     margin-bottom: 8px; }
-    .fdz-theme .fdz-data-packet md-list-item md-select {
+    .fdz-theme .fdz-data-package md-list-item md-select {
       margin: 0;
       width: 100%;
       display: block; }
-    .fdz-theme .fdz-data-packet md-list-item h5 {
+    .fdz-theme .fdz-data-package md-list-item h5 {
       width: 100%; }
-    .fdz-theme .fdz-data-packet md-list-item .md-secondary-container {
+    .fdz-theme .fdz-data-package md-list-item .md-secondary-container {
       width: 100%;
       margin: 0;
       flex: 1 1 auto; }
-      .fdz-theme .fdz-data-packet md-list-item .md-secondary-container > span {
+      .fdz-theme .fdz-data-package md-list-item .md-secondary-container > span {
         overflow-wrap: break-word;
         word-wrap: break-word; }
-      .fdz-theme .fdz-data-packet md-list-item .md-secondary-container div {
+      .fdz-theme .fdz-data-package md-list-item .md-secondary-container div {
         flex-direction: row;
         display: flex;
         flex: 1 1 auto; }
-        .fdz-theme .fdz-data-packet md-list-item .md-secondary-container div .md-button {
+        .fdz-theme .fdz-data-package md-list-item .md-secondary-container div .md-button {
           margin: -4px 0px -6px 6px;
           height: 32px; }
     @media (min-width: 375px) {
-      .fdz-theme .fdz-data-packet md-list-item {
+      .fdz-theme .fdz-data-package md-list-item {
         flex-flow: row;
         align-items: center; }
-        .fdz-theme .fdz-data-packet md-list-item h5 {
+        .fdz-theme .fdz-data-package md-list-item h5 {
           width: 40%; }
-        .fdz-theme .fdz-data-packet md-list-item .md-secondary-container {
+        .fdz-theme .fdz-data-package md-list-item .md-secondary-container {
           width: 190px;
           overflow: hidden;
           word-break: break-all; } }
-    .fdz-theme .fdz-data-packet md-list-item .md-button.md-raised.md-accent {
+    .fdz-theme .fdz-data-package md-list-item .md-button.md-raised.md-accent {
       margin-left: 0;
       margin-top: 16px;
       text-transform: none;
