@@ -36,8 +36,8 @@ if [ $? -ne 0 ]; then
     echo "Maven Docker push failed!"
     exit -1
 fi
-aws ecs list-tasks --cluster metadatamanagement-${PROFILE} --service metadatamanagement-${PROFILE} | jq -r ".taskArns[]" | awk -v profile=${PROFILE} '{print "aws ecs stop-task --cluster metadatamanagement-"profile " --task \""$0"\""}' | sh
-aws ecs list-tasks --cluster metadatamanagement-${PROFILE} --service metadatamanagement-worker | jq -r ".taskArns[]" | awk -v profile=${PROFILE} '{print "aws ecs stop-task --cluster metadatamanagement-"profile " --task \""$0"\""}' | sh
+aws ecs list-tasks --cluster ${PROFILE} --service metadatamanagement | jq -r ".taskArns[]" | awk -v profile=${PROFILE} '{print "aws ecs stop-task --cluster "profile " --task \""$0"\""}' | sh
+aws ecs list-tasks --cluster ${PROFILE} --service metadatamanagement-worker | jq -r ".taskArns[]" | awk -v profile=${PROFILE} '{print "aws ecs stop-task --cluster "profile " --task \""$0"\""}' | sh
 if [ $? -ne 0 ]; then
     echo "Task redeployment failed!"
     exit -1
