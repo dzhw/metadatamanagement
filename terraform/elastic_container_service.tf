@@ -128,7 +128,6 @@ resource "aws_ecs_service" "metadatamanagement" {
   # todo use test and prod task definitions
   task_definition = aws_ecs_task_definition.metadatamanagement_web[count.index].arn
   desired_count   = var.container_count
-  launch_type     = "FARGATE"
 
   network_configuration {
     security_groups  = [aws_security_group.ecs_web_tasks.id]
@@ -159,7 +158,6 @@ resource "aws_ecs_service" "metadatamanagement_worker" {
   # todo use test and prod task definitions
   task_definition = aws_ecs_task_definition.metadatamanagement_worker[count.index].arn
   desired_count   = 1
-  launch_type     = "FARGATE"
 
   network_configuration {
     security_groups  = [aws_security_group.ecs_web_tasks.id]
