@@ -3,8 +3,8 @@ terraform {
   # currently not configured for concurrent state updates
   backend "s3" {
     profile = "mdm"
-    bucket = "metadatamanagement-private"
-    key = "terraform.tfstate"
-    region = "eu-central-1"
+    bucket  = "metadatamanagement-private"
+    key     = "terraform.tfstate"
+    region  = "eu-central-1"
   }
 }

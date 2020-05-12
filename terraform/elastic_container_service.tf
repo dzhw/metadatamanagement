@@ -38,9 +38,9 @@ data "template_file" "web_container" {
 
 
 resource "aws_ecs_task_definition" "metadatamanagement_web" {
-  count                    = length(var.stages)
-  family                   = "metadatamanagement-${var.stages[count.index]}-web"
-  execution_role_arn       = aws_iam_role.mdm_task_execution_role.arn
+  count              = length(var.stages)
+  family             = "metadatamanagement-${var.stages[count.index]}-web"
+  execution_role_arn = aws_iam_role.mdm_task_execution_role.arn
   # grant this container the right to start other fargate tasks (e.g. dataset-report-task)
   task_role_arn            = aws_iam_role.mdm_task_execution_role.arn
   network_mode             = "awsvpc"
@@ -58,12 +58,12 @@ data "template_file" "dataset_report_task_container" {
   template = file("./templates/dataset_report_task_container.json.tpl")
 
   vars = {
-    stage             = var.stages[count.index]
-    cpu               = var.container_cpu
-    memory            = var.container_memory
-    mdm_endpoint      = var.task_api_credentials[count.index].endpoint
-    mdm_username      = var.task_api_credentials[count.index].username
-    mdm_password      = var.task_api_credentials[count.index].password
+    stage        = var.stages[count.index]
+    cpu          = var.container_cpu
+    memory       = var.container_memory
+    mdm_endpoint = var.task_api_credentials[count.index].endpoint
+    mdm_username = var.task_api_credentials[count.index].username
+    mdm_password = var.task_api_credentials[count.index].password
   }
 }
 
@@ -106,9 +106,9 @@ data "template_file" "worker_container" {
 }
 
 resource "aws_ecs_task_definition" "metadatamanagement_worker" {
-  count                    = length(var.stages)
-  family                   = "metadatamanagement-${var.stages[count.index]}-worker"
-  execution_role_arn       = aws_iam_role.mdm_task_execution_role.arn
+  count              = length(var.stages)
+  family             = "metadatamanagement-${var.stages[count.index]}-worker"
+  execution_role_arn = aws_iam_role.mdm_task_execution_role.arn
   # grant this container the right to start other fargate tasks (e.g. dataset-report-task)
   task_role_arn            = aws_iam_role.mdm_task_execution_role.arn
   network_mode             = "awsvpc"

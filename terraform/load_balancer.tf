@@ -13,7 +13,7 @@ resource "aws_alb" "load_balancer" {
 
 # use different target groups per stage
 resource "aws_alb_target_group" "mdm" {
-  count = length(var.stages)
+  count       = length(var.stages)
   name        = var.stages[count.index]
   port        = var.container_port
   protocol    = "HTTP"
