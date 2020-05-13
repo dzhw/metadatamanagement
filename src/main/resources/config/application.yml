@@ -43,7 +43,7 @@ spring:
       rest:
         uris:
         - http://localhost:9200
-        
+
 cloud:
   aws:
     region:
@@ -102,7 +102,7 @@ javers:
 
 metadatamanagement:
   elasticsearch:
-    version: 7.3.2
+    version: 7.7.0
   ordermanagement:
     email: reitmann@dzhw.eu
   projectmanagement:
