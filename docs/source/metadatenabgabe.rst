@@ -110,10 +110,16 @@ um die Berechtigung für das Erfassen von Metadaten zu erhalten. Dies können Si
 über die Sidebar links auf der Website erledigen:
 
 
-.. figure:: ./_static/02_de.png
+.. figure:: ./_static/registrierung_1_de.png
    :name: registrierung
 
-   Registrierung im MDM
+   Registrierung im MDM Schritt 1
+
+.. figure:: ./_static/registrierung_2_de.png
+   :name: registrierung_2
+
+   Registrierung im MDM Schritt 2
+
 
 Im Anschluss erhalten Sie eine Bestätigungsmail. In dieser müssen Sie auf den
 Aktivierungslink klicken, welcher nach drei Tagen automatisch abläuft. Im
@@ -531,17 +537,10 @@ dargestellt ist:
 
    Kalenderfunktion auf der Erhebungsebene
 
-Im zweiten Teil der Eingabemaske für die Erhebungsebene gibt es die
-Besonderheit, dass sich die Rücklaufquote automatisch ermitteln lässt
-(s. :numref:`eingabemaske_erhebungsebene_details_2`). Sie können den Rücklauf
+Die Rücklaufquote wird automatisch ermittelt. Sie können den Rücklauf
 auch manuell eingeben. Hierbei ist zu jedoch beachten, dass sich bereits
 eingegebene Zahlen bei Brutto- und Netto-Stichprobe bei nicht automatisch
 anpassen.
-
-.. figure:: ./_static/26_de.png
-   :name: eingabemaske_erhebungsebene_details_2
-
-   Eingabemaske der Erhebungsebene, Abschnitt "Details" Teil 2
 
 Um den nächsten Abschnitt in der Eingabemaske („Weitere Informationen
 zum Rücklauf“ [2]_) bearbeiten zu können, müssen Sie die bisherigen
@@ -553,7 +552,7 @@ vorliegen. Über den Button mit dem Mülleimer-Symbol lassen sich
 hochgeladene Dateien wieder löschen (s. :numref:`weitere_infos_rücklauf`).
 
 
-.. figure:: ./_static/27_de.png
+.. figure:: ./_static/ruecklaufhochladen_de.png
    :name: weitere_infos_rücklauf
 
    Eingabemaske der Erhebungsebene, Abschnitt „Weitere Informationen zum Rücklauf“
@@ -563,7 +562,7 @@ Materialien hinzugefügt werden
 (s. :numref:`eingabemaske_erhebung_materialien`).
 Die Funktionsweise ist identisch zu der auf Studienebene. [3]_
 
-.. figure:: ./_static/28_de.png
+.. figure:: ./_static/eingabemaske_erhebung_materialien.png
    :name: eingabemaske_erhebung_materialien
 
    Eingabemaske der Erhebungsebene, Abschnitt „Materialien zu der Erhebung“
@@ -579,7 +578,7 @@ gelangen. Außerdem finden Sie dort auch einen Button mit
 Mülleimer-Symbol, mit dem Sie die Erhebung komplett löschen können (s.
 :numref:`bearbeitung_erhebung`).
 
-.. figure:: ./_static/29_de.png
+.. figure:: ./_static/survey_edit_de.png
    :name: bearbeitung_erhebung
 
    Weitere Bearbeitung einer bereits abgespeicherten Erhebung
@@ -590,7 +589,7 @@ Erhebungsebene einen Historisierungs-Button, den Sie rechts unten über
 dem Save-Button betätigen können
 (s. :numref:`version_erhebung_wiederherstellen`).
 
-.. figure:: ./_static/30_de.png
+.. figure:: ./_static/recover_history_de.png
    :name: version_erhebung_wiederherstellen
 
    Ältere Versionen einer Erhebung wiederherstellen
@@ -605,7 +604,7 @@ aktuelle Version gespeichert. Dies müsste über einen Klick auf den
 Save-Button erfolgen. Zu beachten ist, dass Materialien zur Erhebung
 nicht historisiert werden.
 
-.. figure:: ./_static/31_de.png
+.. figure:: ./_static/history_dialog_de.png
    :name: historisierungsdialog_erhebung
 
    Dialog zur Historisierung innerhalb einer Erhebung
@@ -628,7 +627,7 @@ Als Instrument wird das Erhebungsinstrument bezeichnet (z.B. Fragebogen).
 Wenn Sie Informationen über Ihre Erhebungsinstrumente aufnehmen, wird
 folgende Übersicht im MDM erstellt:
 
-.. figure:: ./_static/32_0.png
+.. figure:: ./_static/instrument_overview_de.png
    :name: instrumentenübersicht_fragebogen
 
    Instrumentenübersicht im MDM am Beispiel des Fragebogens der ersten Welle im Absolventenpanel 2005
@@ -651,7 +650,14 @@ Herangehensweisen die Eingabemaske um ein neues Instrument anzulegen.
 
 Die Eingabemaske besteht
 aus den Pflichtfeldern Beschreibung, Titel, Typ und Erhebung, sowie
-den nicht verpflichtenden Feldern Untertitel und Anmerkungen.
+den nicht verpflichtenden Feldern Untertitel und Anmerkungen (s. :numref:`eingabemaske_instrument_de`).
+
+.. figure:: ./_static/eingabemaske_instrument_de.png
+   :scale: 50 %
+   :name: eingabemaske_instrument_de
+
+   Eingabemaske Instrument
+
 
 Des weiteren können weitere Materialien zum Instrument
 hochgeladen werden. Um weitere Materialien hochzuladen muss zunächst das
@@ -703,7 +709,7 @@ Ihrer Studie erstellt haben, wird für jeden dieser Datensätze folgende
 Übersicht im MDM angezeigt:
 
 
-.. figure:: ./_static/34_0.png
+.. figure:: ./_static/dataset_overview_de.png
    :name: datensatzübersicht
 
    Datensatzübersicht im MDM am Beispiel des Personendatensatzes (Bachelor) im
@@ -778,7 +784,7 @@ auf Ihre Publikationen abgeben, werden im MDM für jede Veröffentlichung
 wie folgt dargestellt:
 
 
-.. figure:: ./_static/37_de.png
+.. figure:: ./_static/rel_publication_de.png
    :name: publikationsübersicht
 
    Publikationsübersicht im MDM am Beispiel einer Veröffentlichung, welche im
