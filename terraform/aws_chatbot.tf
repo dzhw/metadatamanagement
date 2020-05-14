@@ -17,7 +17,7 @@ resource "aws_cloudwatch_metric_alarm" "alert_unhealthy_containers" {
   alarm_name          = "alert_unhealthy_containers"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 1
-  datapoints_to_alarm       = 1
+  datapoints_to_alarm = 1
   metric_name         = "UnHealthyHostCount"
   namespace           = "AWS/ApplicationELB"
   dimensions = {
@@ -28,6 +28,26 @@ resource "aws_cloudwatch_metric_alarm" "alert_unhealthy_containers" {
   statistic                 = "Average"
   threshold                 = 0
   alarm_description         = "Send an alert if there are unhealthy web containers running."
+  insufficient_data_actions = []
+  ok_actions                = [aws_sns_topic.mdm_devops_slack_channel.arn]
+  alarm_actions             = [aws_sns_topic.mdm_devops_slack_channel.arn]
+}
+
+resource "aws_cloudwatch_metric_alarm" "alert_number_of_healthy_containers_too_low" {
+  alarm_name          = "alert_number_of_healthy_containers_too_low"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = 1
+  datapoints_to_alarm = 1
+  metric_name         = "HealthyHostCount"
+  namespace           = "AWS/ApplicationELB"
+  dimensions = {
+    "LoadBalancer" = aws_alb.load_balancer.arn_suffix
+    "TargetGroup"  = aws_alb_target_group.mdm[0].arn_suffix
+  }
+  period                    = 120
+  statistic                 = "Average"
+  threshold                 = 3
+  alarm_description         = "Send an alert if there are less than 3 web containers running."
   insufficient_data_actions = []
   ok_actions                = [aws_sns_topic.mdm_devops_slack_channel.arn]
   alarm_actions             = [aws_sns_topic.mdm_devops_slack_channel.arn]
