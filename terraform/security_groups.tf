@@ -28,7 +28,7 @@ resource "aws_security_group" "load_balancer" {
   }
 }
 
-# Loadbalancer Security Group
+# Task Container Security Group
 resource "aws_security_group" "ecs_web_tasks" {
   name        = "web-container-security-group"
   description = "Allow inbound access from the load balancer"
@@ -45,6 +45,26 @@ resource "aws_security_group" "ecs_web_tasks" {
     protocol    = "-1"
     from_port   = 0
     to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_default_security_group" "default" {
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    cidr_blocks = [aws_vpc.main.cidr_block]
+    protocol    = "-1"
+    self        = false
+    from_port   = 0
+    to_port     = 0
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    self        = false
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
