@@ -14,3 +14,8 @@ output "alb_hostname" {
 output "dkim" {
   value = aws_ses_domain_dkim.dzhw.dkim_tokens
 }
+
+# The bucket used for storing dev-related private stuff
+output "private_bucket" {
+  value = aws_s3_bucket.metadatamanagement_private.bucket_regional_domain_name
+}
