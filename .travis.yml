@@ -49,7 +49,7 @@ jobs:
     after_success:
     - bash <(curl -s https://codecov.io/bash)
   - stage: build and deploy
-    name: Build and Deploy to PWS
+    name: Build and Deploy to AWS Fargate
     install:
     - export CXX=g++-7
     - export NODE_OPTIONS=--max-old-space-size=4096
