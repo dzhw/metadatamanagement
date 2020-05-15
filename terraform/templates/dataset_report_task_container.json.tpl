@@ -76,6 +76,6 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "dataset-report-task"
+      "name": "dataset-report-task-${stage}"
     }
   ]
