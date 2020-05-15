@@ -59,7 +59,7 @@ metadatamanagement:
     uri: ${vcap.services.rabbitmq.credentials.uri}
   websockets:
     allowed-origins:
-      - https://metadatamanagement-test.cfapps.io
+      - https://test.metadata.fdz.dzhw.eu
   dataset-report-task:
     task-definition: dataset-report-task-test
     cluster-name: test
