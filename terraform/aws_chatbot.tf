@@ -20,6 +20,7 @@ resource "aws_cloudwatch_metric_alarm" "alert_unhealthy_containers" {
   datapoints_to_alarm = 1
   metric_name         = "UnHealthyHostCount"
   namespace           = "AWS/ApplicationELB"
+  treat_missing_data  = "breaching"
   dimensions = {
     "LoadBalancer" = aws_alb.load_balancer.arn_suffix
     "TargetGroup"  = aws_alb_target_group.mdm[0].arn_suffix
@@ -40,6 +41,7 @@ resource "aws_cloudwatch_metric_alarm" "alert_number_of_healthy_containers_too_l
   datapoints_to_alarm = 1
   metric_name         = "HealthyHostCount"
   namespace           = "AWS/ApplicationELB"
+  treat_missing_data  = "breaching"
   dimensions = {
     "LoadBalancer" = aws_alb.load_balancer.arn_suffix
     "TargetGroup"  = aws_alb_target_group.mdm[0].arn_suffix
