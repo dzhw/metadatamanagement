@@ -30,12 +30,12 @@ data "template_file" "web_container" {
     elasticsearch_uri = var.elasticsearch_uris[count.index]
     rabbitmq_uri      = var.rabbitmq_uris[count.index]
     mongodb_uri       = var.mongodb_uris[count.index]
+    mongodb_ca_cert   = var.mongodb_ca_certs[count.index]
     email_hostname    = var.email_credentials[count.index].hostname
     email_password    = var.email_credentials[count.index].password
     email_username    = var.email_credentials[count.index].username
   }
 }
-
 
 resource "aws_ecs_task_definition" "metadatamanagement_web" {
   count              = length(var.stages)
@@ -99,6 +99,7 @@ data "template_file" "worker_container" {
     elasticsearch_uri = var.elasticsearch_uris[count.index]
     rabbitmq_uri      = var.rabbitmq_uris[count.index]
     mongodb_uri       = var.mongodb_uris[count.index]
+    mongodb_ca_cert   = var.mongodb_ca_certs[count.index]
     email_hostname    = var.email_credentials[count.index].hostname
     email_password    = var.email_credentials[count.index].password
     email_username    = var.email_credentials[count.index].username
@@ -125,7 +126,6 @@ resource "aws_ecs_service" "metadatamanagement" {
   count   = length(var.stages)
   name    = "metadatamanagement"
   cluster = aws_ecs_cluster.cluster[count.index].id
-  # todo use test and prod task definitions
   task_definition = aws_ecs_task_definition.metadatamanagement_web[count.index].arn
   desired_count   = var.container_count
 

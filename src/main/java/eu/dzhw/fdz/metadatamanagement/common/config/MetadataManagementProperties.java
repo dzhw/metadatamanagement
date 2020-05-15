@@ -35,6 +35,8 @@ public class MetadataManagementProperties {
 
   private final Websockets websockets = new Websockets();
 
+  private final Mongodb mongodb = new Mongodb();
+
   private final Server server = new Server();
 
   private final Ordermanagement ordermanagement = new Ordermanagement();
@@ -80,6 +82,15 @@ public class MetadataManagementProperties {
     private String endpoint;
     private String username;
     private String password;
+  }
+
+  /**
+   * SSL CA certificate for MongoDB.
+   */
+  @Getter
+  @Setter
+  public static class Mongodb {
+    private String sslCaCertificate;
   }
 
   /**

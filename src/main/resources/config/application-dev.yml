@@ -57,3 +57,5 @@ metadatamanagement:
   dataset-report-task:
     task-definition: dataset-report-task-dev
     cluster-name: dev
+  mongodb:
+    ssl-ca-certificate: ${vcap.services.mongodb.cacert}

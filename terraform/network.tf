@@ -1,6 +1,7 @@
 # network.tf
 # networking has been setup by tecracer
 # the VPC spans two AZs each having a private and a public subnet
+# cidr blocks are aligned with DZHW local network
 resource "aws_vpc" "main" {
   cidr_block = "172.16.15.0/24"
   tags = {

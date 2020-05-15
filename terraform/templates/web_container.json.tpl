@@ -67,6 +67,10 @@
           "value": "${mongodb_uri}"
         },
         {
+          "name": "vcap_services_mongodb_cacert",
+          "value": "${mongodb_ca_cert}"
+        },
+        {
           "name": "vcap_services_rabbitmq_credentials_uri",
           "value": "${rabbitmq_uri}"
         }
