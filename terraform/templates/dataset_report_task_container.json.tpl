@@ -44,10 +44,10 @@
         {
           "readOnly": false,
           "containerPath": "/tmp",
-          "sourceVolume": "temp"
+          "sourceVolume": "tmp"
         },
         {
-          "readOnly": null,
+          "readOnly": false,
           "containerPath": "/app/doc",
           "sourceVolume": "doc"
         }
@@ -76,6 +76,6 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "dataset-report-task-${stage}"
+      "name": "dataset-report-task"
     }
   ]
