@@ -1,9 +1,8 @@
-sudo: required
 language: java
 os:
 - linux
 jdk:
-- openjdk11
+- openjdk13
 python:
 - '2.7'
 cache:
@@ -18,9 +17,9 @@ addons:
     - g++-7
 stages:
 - name: build
-  if: NOT branch =~ /^(development|master|test)$/
+  if: NOT branch =~ /^(development|master|test|rreitmann\/aws-deployment)$/
 - name: build and deploy
-  if: branch =~ /^(development|master|test)$/
+  if: branch =~ /^(development|master|test|rreitmann\/aws-deployment)$/
 - name: nightly e2e tests publicuser
   if: type = cron
 - name: nightly e2e tests dataprovider
@@ -59,21 +58,15 @@ jobs:
     - unzip -qq apache-maven-3.6.1-bin.zip
     - export M2_HOME=$PWD/apache-maven-3.6.1
     - export PATH=$M2_HOME/bin:$PATH
-    - sudo apt-get -y install python-pip python-dev --allow-unauthenticated
+    - sudo apt-get -y install python-pip python-dev jq --allow-unauthenticated
+    - pip install --user awscli
     - pip install git+https://github.com/dzhw/javasphinx.git --user
     - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd
       ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh
       && nvm install 14.1.0
     - npm install -g grunt-cli
-    - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key
-      | sudo apt-key add -
-    - echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-    - sudo apt-get update -qq
-    - sudo apt-get install cf-cli -y --allow-unauthenticated
-    - sudo netstat -pelnut
     script:
-    - "./deploy/build-and-deploy.sh unused $CI_DEPLOY_USERNAME $CI_DEPLOY_PASSWORD
-      $TRAVIS_BRANCH $TRAVIS_EVENT_TYPE"
+    - "./deploy/build-and-deploy.sh unused $TRAVIS_BRANCH"
     after_success:
     - bash <(curl -s https://codecov.io/bash)
   - stage: nightly e2e tests publicuser

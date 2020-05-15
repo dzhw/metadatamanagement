@@ -13,26 +13,25 @@
 spring:
     data:
         mongodb:
-            uri: ${vcap.services.mongodb.credentials[uri]}
+            uri: ${vcap.services.mongodb.credentials.uri}
     mail:
-        host: ${vcap.services.email.credentials[hostname]}
+        host: ${vcap.services.email.credentials.hostname}
         port: 587
-        username: ${vcap.services.email.credentials[username]}
-        password: ${vcap.services.email.credentials[password]}
+        username: ${vcap.services.email.credentials.username}
+        password: ${vcap.services.email.credentials.password}
     thymeleaf:
         cache: true
-    cloud:
-      cloudfoundry:
-        username: ${vcap.services.cloudfoundry.credentials[username]}
-        password: ${vcap.services.cloudfoundry.credentials[password]}
-        org: dzhw
-        space: test
-        discovery:
-          enabled: true
     elasticsearch:
       rest:
         uris:
-        - ${vcap.services.elastic.credentials[sslUri]}
+        - ${vcap.services.elastic.credentials.sslUri}
+
+management:
+  metrics:
+    export:
+      cloudwatch:
+        namespace: metadatamanagement-test
+        batch-size: 20
 
 # ===================================================================
 # Properties specific to our application
@@ -45,19 +44,24 @@ metadatamanagement:
     email: birkelbach@dzhw.eu
   server:
     instance-index: ${cf.instance.index}
-    context-root: https://metadatamanagement-test.cfapps.io
+    context-root: https://test.metadata.fdz.dzhw.eu
   elasticsearch-angular-client:
-    apiVersion: '7.3'
+    apiVersion: '7.7'
     logLevel: error
     pageSize: 10
   dara:
-    endpoint: ${vcap.services.dara.credentials[endpoint]}
-    username: ${vcap.services.dara.credentials[username]}
-    password: ${vcap.services.dara.credentials[password]}
+    endpoint: ${vcap.services.dara.credentials.endpoint}
+    username: ${vcap.services.dara.credentials.username}
+    password: ${vcap.services.dara.credentials.password}
   dlp:
     endpoint: https://dlp.stage.cowain.dev/{language}/form/data-usage-application
   rabbitmq:
-    uri: ${vcap.services.rabbitmq.credentials[uri]}
+    uri: ${vcap.services.rabbitmq.credentials.uri}
   websockets:
     allowed-origins:
-      - https://metadatamanagement-test.cfapps.io
+      - https://test.metadata.fdz.dzhw.eu
+  dataset-report-task:
+    task-definition: dataset-report-task-test
+    cluster-name: test
+  mongodb:
+    ssl-ca-certificate: ${vcap.services.mongodb.cacert}
