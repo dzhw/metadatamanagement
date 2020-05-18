@@ -77,7 +77,7 @@ resource "aws_ecs_task_definition" "dataset_report_task" {
   memory                   = var.container_memory
   container_definitions    = data.template_file.dataset_report_task_container[count.index].rendered
   volume {
-    name = "temp"
+    name = "tmp"
   }
   volume {
     name = "doc"

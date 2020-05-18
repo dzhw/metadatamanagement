@@ -14,7 +14,8 @@ resource "aws_sns_topic_subscription" "aws_chatbot_subscription" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "alert_unhealthy_containers" {
-  alarm_name          = "alert_unhealthy_containers"
+  count               = length(var.stages)
+  alarm_name          = "alert_unhealthy_containers_${var.stages[count.index]}"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 1
   datapoints_to_alarm = 1
@@ -23,7 +24,7 @@ resource "aws_cloudwatch_metric_alarm" "alert_unhealthy_containers" {
   treat_missing_data  = "breaching"
   dimensions = {
     "LoadBalancer" = aws_alb.load_balancer.arn_suffix
-    "TargetGroup"  = aws_alb_target_group.mdm[0].arn_suffix
+    "TargetGroup"  = aws_alb_target_group.mdm[count.index].arn_suffix
   }
   period                    = 300
   statistic                 = "Average"
@@ -35,7 +36,8 @@ resource "aws_cloudwatch_metric_alarm" "alert_unhealthy_containers" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "alert_number_of_healthy_containers_too_low" {
-  alarm_name          = "alert_number_of_healthy_containers_too_low"
+  count               = length(var.stages)
+  alarm_name          = "alert_number_of_healthy_containers_too_low_${var.stages[count.index]}"
   comparison_operator = "LessThanThreshold"
   evaluation_periods  = 1
   datapoints_to_alarm = 1
@@ -44,7 +46,7 @@ resource "aws_cloudwatch_metric_alarm" "alert_number_of_healthy_containers_too_l
   treat_missing_data  = "breaching"
   dimensions = {
     "LoadBalancer" = aws_alb.load_balancer.arn_suffix
-    "TargetGroup"  = aws_alb_target_group.mdm[0].arn_suffix
+    "TargetGroup"  = aws_alb_target_group.mdm[count.index].arn_suffix
   }
   period                    = 120
   statistic                 = "Average"

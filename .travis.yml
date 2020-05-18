@@ -17,9 +17,9 @@ addons:
     - g++-7
 stages:
 - name: build
-  if: NOT branch =~ /^(development|master|test|rreitmann\/aws-deployment)$/
+  if: NOT branch =~ /^(development|master|test)$/
 - name: build and deploy
-  if: branch =~ /^(development|master|test|rreitmann\/aws-deployment)$/
+  if: branch =~ /^(development|master|test)$/
 - name: nightly e2e tests publicuser
   if: type = cron
 - name: nightly e2e tests dataprovider
@@ -49,7 +49,7 @@ jobs:
     after_success:
     - bash <(curl -s https://codecov.io/bash)
   - stage: build and deploy
-    name: Build and Deploy to AWS Fargate
+    name: Build and Deploy to AWS
     install:
     - export CXX=g++-7
     - export NODE_OPTIONS=--max-old-space-size=4096
