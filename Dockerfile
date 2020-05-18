@@ -1,10 +1,19 @@
-FROM openjdk:8-jdk-alpine
-MAINTAINER René Reitmann <reitmann@dzhw.eu>
+FROM openjdk:13.0.2-slim
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.war"]
+MAINTAINER René Reitmann <reitmann@dzhw.eu>
 
 VOLUME /tmp
 
-# Add the service itself
-ARG JAR_FILE
-COPY ${JAR_FILE} app.war
+# use unpacked spring boot jar to avoid file io
+COPY target/app /app/
+COPY run.sh run.sh
+
+# add kill agent for correct OutOfMemory Handling
+RUN apt update \
+ &&  apt install -y --no-install-recommends curl\
+ &&  rm -rf /var/lib/apt/lists/*\
+ && curl https://java-buildpack.cloudfoundry.org/jvmkill/bionic/x86_64/jvmkill-1.16.0-RELEASE.so --output /app/jvmkill.so\
+ && apt remove curl -y\
+ && apt autoremove -y
+
+ENTRYPOINT ["/run.sh"]

@@ -20,10 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.cloudfoundry.client.CloudFoundryClient;
-import org.cloudfoundry.client.v3.tasks.CreateTaskRequest;
-import org.cloudfoundry.operations.CloudFoundryOperations;
-import org.cloudfoundry.operations.applications.ApplicationSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.loader.tools.RunProcess;
 import org.springframework.core.env.Environment;
@@ -31,6 +27,13 @@ import org.springframework.core.env.Profiles;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.amazonaws.services.ecs.AmazonECS;
+import com.amazonaws.services.ecs.model.ContainerOverride;
+import com.amazonaws.services.ecs.model.DescribeServicesRequest;
+import com.amazonaws.services.ecs.model.LaunchType;
+import com.amazonaws.services.ecs.model.NetworkConfiguration;
+import com.amazonaws.services.ecs.model.RunTaskRequest;
+import com.amazonaws.services.ecs.model.TaskOverride;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
@@ -95,10 +98,7 @@ public class DataSetReportService {
   private final MarkdownHelper markdownHelper;
 
   @Autowired(required = false)
-  private CloudFoundryClient cloudFoundryClient;
-
-  @Autowired(required = false)
-  private CloudFoundryOperations cloudFoundryOperations;
+  private AmazonECS ecsClient;
 
   /**
    * The Escape Prefix handles the escaping of special latex signs within data information. This
@@ -481,7 +481,7 @@ public class DataSetReportService {
   }
 
   /**
-   * Start one container per language which builds the report. Either via cloudfoundry or locally
+   * Start one container per language which builds the report. Either via aws fargate or locally
    * via docker.
    *
    * @param dataSetId The id of the dataSet for which the report will be generated.
@@ -502,22 +502,24 @@ public class DataSetReportService {
         dataSetReportTaskContainer.run(false);
       } else {
         DatasetReportTask taskProperties = metadataManagementProperties.getDatasetReportTask();
-        log.debug("Starting cloudfoundry task {}...", taskProperties.getAppName());
-        cloudFoundryClient.tasks()
-            .create(CreateTaskRequest.builder().name(dataSetId + " for " + onBehalfOf)
-                .applicationId(getApplicationId(taskProperties.getAppName()))
-                .command(String.format(taskProperties.getStartCommand(), dataSetId, version,
-                    language, onBehalfOf))
-                .diskInMb(taskProperties.getDiskSizeInMb())
-                .memoryInMb(taskProperties.getMemorySizeInMb()).build())
-            .block();
+        log.info("Starting fargate task {}...", taskProperties.getTaskDefinition());
+        NetworkConfiguration networkConfiguration = ecsClient
+            .describeServices(
+                new DescribeServicesRequest().withCluster(taskProperties.getClusterName())
+                    .withServices(taskProperties.getServiceName()))
+            .getServices().get(0).getNetworkConfiguration();
+
+        RunTaskRequest req =
+            new RunTaskRequest().withTaskDefinition(taskProperties.getTaskDefinition())
+                .withNetworkConfiguration(networkConfiguration)
+                .withCluster(taskProperties.getClusterName()).withLaunchType(LaunchType.FARGATE)
+                .withCount(1).withStartedBy(onBehalfOf)
+                .withOverrides(new TaskOverride().withContainerOverrides(
+                    new ContainerOverride().withName(taskProperties.getContainerName())
+                        .withCommand(String.format(taskProperties.getStartCommand(), dataSetId,
+                            version, language, onBehalfOf).split("\\s+"))));
+        ecsClient.runTask(req);
       }
     }
-  }
-
-  private String getApplicationId(String name) {
-    return cloudFoundryOperations.applications().list()
-        .filter(application -> application.getName().equalsIgnoreCase(name))
-        .map(ApplicationSummary::getId).single().block();
   }
 }

@@ -12,7 +12,7 @@
 					]
 				},
 				"edge_ngrams_tokenizer_small": {
-					"type": "edgeNGram",
+					"type": "edge_ngram",
 					"min_gram": 1,
 					"max_gram": 32,
 					"token_chars": [

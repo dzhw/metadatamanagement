@@ -19,7 +19,7 @@ Please checkout the development branch before starting to code and create a new 
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
-1. Java: You need to install java 11 sdk on your system. On Ubuntu you should use [SDKMAN!][]
+1. Java: You need to install java 13 sdk on your system. On Ubuntu you should use [SDKMAN!][]
 2. Maven: You need to install maven 3.6.1 or above on your system. On Ubuntu you should use [SDKMAN!][]
 3. [Node.js][]: Node.js (latest) and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][]
 
@@ -33,7 +33,7 @@ On Windows, `patch.exe` has to exist in the PATH. It is distributed as part of g
 
 Before starting the app on your local machine you need to start the following Document Stores:
 1. Mongodb: Mongodb must be running on the default port, on ubuntu you should install it from here https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
-2. Elasticsearch (7.3.2): Elasticsearch must be running on its default port. You can download it from here https://www.elastic.co/downloads/elasticsearch
+2. Elasticsearch (7.7.0): Elasticsearch must be running on its default port. You can download it from here https://www.elastic.co/downloads/elasticsearch
 
 Make sure that you have read-write-access on the ***data*** directory (in your project directory) for Elasticsearch.
 
@@ -82,16 +82,10 @@ Once Python is installed, run:
 
 Note that the `--user` flag installs the dependency somewhere in your user directory (e.g. /home/{user}/local/bin on Linux). Make sure that the installed binaries/scripts are on your path.
 
-Before deploying the `{dev|test|prod}` system you need to [install the cloudfoundry cli](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html#-linux-installation).
-
-You can build and deploy the jar to the desired environment by running
-
-    ./deploy/build-and-deploy.sh {dev|test|prod}
-
 We test our project continuously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
 
-## Pivotal Cloudfoundry
-This project is currently built and deployed to Pivotal Cloudfoundry by [Travis CI][TravisCI]. You can test the latest version on https://metadatamanagement-dev.cfapps.io/
+## AWS Fargate
+This project is currently built and deployed to AWS Fargate by [Travis CI][TravisCI]. You can test the latest version on https://dev.metadata.fdz.dzhw.eu/
 
 ## Big Thanks
 

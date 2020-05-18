@@ -84,8 +84,8 @@ public class MongoDbConfiguration {
 
   /**
    * Configure Mongeez for schema management.
-   * 
-   * @deprecated It is not working on cloudfoundry!
+   *
+   * @deprecated It is not working in the cloud!
    */
   @Deprecated
   @Bean
