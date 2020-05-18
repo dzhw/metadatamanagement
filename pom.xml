@@ -5,20 +5,20 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.5.RELEASE</version>
+        <version>2.2.7.RELEASE</version>
         <relativePath />
     </parent>
 
     <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.99</version>
+    <version>1.0.100</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
     <properties>
-        <elasticsearch.version>7.4.0</elasticsearch.version>
-        <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
-        <java.version>11</java.version>
+        <elasticsearch.version>7.7.0</elasticsearch.version>
+        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+        <java.version>13</java.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
         <maven-sortpom-plugin.version>2.10.0</maven-sortpom-plugin.version>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
@@ -30,7 +30,23 @@
         <run.addResources>false</run.addResources>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-bom</artifactId>
+                <version>1.11.708</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-ecs</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -38,7 +54,7 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs</artifactId>
-            <version>4.0.2</version>
+            <version>4.0.3</version>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
@@ -100,7 +116,7 @@
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
+            <artifactId>micrometer-registry-cloudwatch</artifactId>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
@@ -156,12 +172,12 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-data-rest</artifactId>
-            <version>1.3.8</version>
+            <version>1.3.9</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.3.8</version>
+            <version>1.3.9</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -239,7 +255,12 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-cloudfoundry-discovery</artifactId>
+            <artifactId>spring-cloud-aws-actuator</artifactId>
+            <version>2.2.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-aws</artifactId>
             <version>2.2.1.RELEASE</version>
         </dependency>
         <!-- security -->
@@ -259,7 +280,7 @@
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-            <version>2.2.6.RELEASE</version>
+            <version>2.2.7.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>pl.allegro.tech</groupId>
@@ -423,7 +444,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>3.1.12</version>
+                <version>4.0.0</version>
                 <executions>
                     <execution>
                         <id>spotbugs</id>
@@ -455,40 +476,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>1.4.10</version>
-                <executions>
-                    <execution>
-                        <id>build-docker-image</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                        <configuration>
-                            <tag>${project.version}</tag>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>tag-docker-image-latest</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>tag</goal>
-                        </goals>
-                        <configuration>
-                            <tag>latest</tag>
-                        </configuration>
-                    </execution>
-                </executions>
-                <configuration>
-                    <repository>dzhw/${project.artifactId}</repository>
-                    <tag>${project.version}</tag>
-                    <buildArgs>
-                        <JAR_FILE>target/metadatamanagement-${project.activeProfiles[0].id}.war</JAR_FILE>
-                    </buildArgs>
-                </configuration>
             </plugin>
             <!-- Checkstyle and fail the build -->
             <plugin>
@@ -555,11 +542,11 @@
                     </rules>
                 </configuration>
             </plugin>
-            <!-- PMD analysis may fail the build -->
+            <!-- PMD analysis may fail the build
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.13.0</version>
                 <executions>
                     <execution>
                         <id>pmd check</id>
@@ -573,7 +560,7 @@
                 <configuration>
                     <linkXRef>false</linkXRef>
                 </configuration>
-            </plugin>
+            </plugin> -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -675,6 +662,19 @@
                             </arguments>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>unpack-fat-jar</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>deploy/unjar.sh</executable>
+                            <arguments>
+                                <argument>metadatamanagement-${project.activeProfiles[0].id}.war</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -732,6 +732,52 @@
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
             </plugin>
+            <?SORTPOM IGNORE?>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.10</version>
+                <executions>
+                    <execution>
+                        <id>build-docker-image</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <configuration>
+                            <tag>${project.version}-${project.activeProfiles[0].id}</tag>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>tag-docker-image-latest</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <tag>latest-${project.activeProfiles[0].id}</tag>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>push-image-latest</id>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <tag>latest-${project.activeProfiles[0].id}</tag>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <repository>347729458675.dkr.ecr.eu-central-1.amazonaws.com/dzhw/${project.artifactId}</repository>
+                    <tag>${project.version}-${project.activeProfiles[0].id}</tag>
+                    <registryUrl>https://347729458675.dkr.ecr.eu-central-1.amazonaws.com</registryUrl>
+                    <buildArgs>
+                        <JAR_FILE>target/metadatamanagement-${project.activeProfiles[0].id}.war</JAR_FILE>
+                    </buildArgs>
+                </configuration>
+            </plugin>
+            <?SORTPOM RESUME?>
         </plugins>
     </build>
 

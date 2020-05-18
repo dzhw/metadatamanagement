@@ -5,10 +5,12 @@ if [[ $0 != ./deploy/* ]]; then
   exit -1
 fi
 PROFILE="$1"
-TRAVIS_BRANCH="$4"
-COVERALLS_TOKEN="$5"
+TRAVIS_BRANCH="$2"
 if [ "${PROFILE}" = "unused" ]; then
   PROFILE="dev"
+fi
+if [ "${TRAVIS_BRANCH}" = "test" ]; then
+  PROFILE="test"
 fi
 if [ "${TRAVIS_BRANCH}" = "master" ]; then
   PROFILE="prod"
@@ -18,7 +20,7 @@ if [ -z ${PROFILE} ]; then
   exit -1
 fi
 echo "Going to run maven build with profile: ${PROFILE}"
-mvn --settings .travis.settings.xml --no-transfer-progress -P${PROFILE} clean package
+mvn --settings .travis.settings.xml --no-transfer-progress -P${PROFILE} clean install
 if [ $? -ne 0 ]; then
     echo "Maven build failed!"
     exit -1

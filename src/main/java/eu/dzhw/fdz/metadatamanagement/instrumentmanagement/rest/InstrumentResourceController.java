@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Instrument REST Controller which overrides default spring data rest methods.
- * 
+ *
  * @author René Reitmann
  */
 @RepositoryRestController

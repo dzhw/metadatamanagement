@@ -2,7 +2,7 @@ Testen von MDM-Issues
 =====================
 
 Issues des metadatamanagement-Repos werden im Testsystem getestet:
-https://metadatamanagement-test.cfapps.io Für einige Issues ist eine
+https://test.metadata.fdz.dzhw.eu Für einige Issues ist eine
 Anmeldung notwendig.
 
 Wie genau beim Testen vorzugehen ist, hängt stark vom jeweiligen Issue

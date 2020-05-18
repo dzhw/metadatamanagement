@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
@@ -92,7 +91,7 @@ public class OAuth2ServerConfiguration {
     private JHipsterProperties jhipsterProperties;
 
     @Bean
-    public TokenStore tokenStore() {
+    public MongoDbTokenStore tokenStore() {
       return new MongoDbTokenStore(oauth2AccessTokenRepository, oauth2RefreshTokenRepository,
           new UniqueAuthenticationKeyGenerator());
     }
