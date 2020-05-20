@@ -30,7 +30,7 @@ management:
   metrics:
     export:
       cloudwatch:
-        enabled: false
+        enabled: true
         namespace: metadatamanagement-dev
         batch-size: 20
 
