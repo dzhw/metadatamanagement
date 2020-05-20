@@ -80,6 +80,8 @@ angular.module('metadatamanagementApp').config(
           'remove-all-tooltip': 'Klicken, um alle Datenpakete aus dem Einkaufswagen zu entfernen.',
           'delete-product-tooltip': 'Klicken, um das Datenpaket aus dem Einkaufswagen zu entfernen.',
           'open-cart-tooltip': 'Klicken, um die Inhalte des Einkaufswagens anzuzeigen.',
+          'open-citation-tooltip': 'Klicken, um Zitationsinformationen zu erhalten und zu kopieren.',
+          'open-citation': 'Datenpaket zitieren',
           'close-tooltip': 'Klicken, um die Produktauswahl zu verlassen.',
           'data-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Datenpaketen zu erhalten.',
           'data-package-access-way-tooltip': 'Klicken, um weitere Informationen zu Zugangswegen zu erhalten.'
