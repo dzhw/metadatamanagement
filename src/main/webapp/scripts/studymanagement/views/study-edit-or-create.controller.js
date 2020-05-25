@@ -493,6 +493,12 @@ angular.module('metadatamanagementApp')
         ChoosePreviousVersionService.showDialog(dialogConfig, event)
           .then(function(wrapper) {
             ctrl.study = new StudyResource(wrapper.selection);
+            if (!ctrl.study.dataCurators) {
+              ctrl.study.dataCurators = [{
+                firstName: '',
+                lastName: ''
+              }];
+            }
             if (ctrl.study.institutions && ctrl.study.institutions.length > 0) {
               ctrl.currentInstitutions = angular.copy(ctrl.study.institutions);
             } else {

@@ -212,6 +212,18 @@
         <contributorType>Distributor</contributorType>
       </institution>
     </contributor>
+    <#list study.dataCurators as person>
+     <contributor>
+       <person>
+         <firstName>${person.firstName}</firstName>
+         <#if person.middleName??>
+           <middleName>${person.middleName}</middleName>
+         </#if>
+         <lastName>${person.lastName}</lastName>
+         <contributorType>DataCurator</contributorType>
+       </person>
+     </contributor>
+    </#list>
   </contributors>
   <#if study.sponsor??>
     <fundingReferences>
