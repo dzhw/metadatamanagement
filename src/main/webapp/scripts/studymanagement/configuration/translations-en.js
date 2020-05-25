@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp').config(
             'institution': 'Institution',
             'institutions': 'Institution(s)',
             'authors': 'Authors',
+            'data-curators': 'Data Curation',
             'sponsors': 'Sponsored by',
             'version': 'Version',
             'surveyDesign': 'Survey Design',
@@ -206,6 +207,10 @@ angular.module('metadatamanagementApp').config(
           'move-author-down-tooltip': 'Click to move the selected author down.',
           'add-author-tooltip': 'Click to add a new author to this study.',
           'delete-author-tooltip': 'Click to remove the author from this study.',
+          'move-curator-up-tooltip': 'Click to move the selected data curator up.',
+          'move-curator-down-tooltip': 'Click to move the selected data curator down.',
+          'add-curator-tooltip': 'Click to add a new data curator to this study.',
+          'delete-curator-tooltip': 'Click to remove the data curators from this study.',
           'move-institution-up-tooltip': 'Click to move the selected institution up.',
           'move-institution-down-tooltip': 'Click to move the selected institution down.',
           'add-institution-tooltip': 'Click to add another institution to this study.',
@@ -248,6 +253,11 @@ angular.module('metadatamanagementApp').config(
               'first-name': 'Enter the first name of this project member.',
               'middle-name': 'If available enter the middle-name of this project member.',
               'last-name': 'Enter the last name of this project member.'
+            },
+            'curators': {
+              'first-name': 'Enter the first name of the person involved in data preparation.',
+              'middle-name': 'If available enter the middle-name of this person.',
+              'last-name': 'Enter the last name of the person involved in data preparation.'
             }
           },
           'all-studies-deleted-toast': 'The study of Data Acquisition Project "{{id}}" has been deleted.'

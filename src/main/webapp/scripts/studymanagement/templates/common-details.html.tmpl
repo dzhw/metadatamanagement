@@ -51,6 +51,13 @@
             class="md-secondary"
             display-i18n-string="$ctrl.options.surveyDesign" ></span>
         </md-list-item>
+        <md-list-item ng-if="$ctrl.options.dataCurators">
+          <h5>{{'study-management.detail.label.data-curators' | translate }}:</h5>
+          <span
+            class="md-secondary pre"
+            ng-repeat="person in $ctrl.options.dataCurators">{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+person.middleName:''}}{{!$last?'; ':''}}</span>
+          </span>
+        </md-list-item>
         <md-list-item ng-if="$ctrl.options.annotations">
           <h5>{{'study-management.detail.label.annotations' | translate }}:</h5>
           <p

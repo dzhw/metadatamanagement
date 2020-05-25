@@ -71,16 +71,4 @@ public class SubDataSet implements Serializable {
   @I18nStringNotEmpty(
       message = "data-set-management.error.sub-data-set.description.i18n-string-not-empty")
   private I18nString description;
-
-  /**
-   * A hint telling how to cite this subdataset in publications.
-   *
-   * It must be specified in at least one language and it must not contain more than 2048
-   * characters.
-   */
-  @I18nStringSize(max = StringLengths.LARGE,
-      message = "data-set-management.error.sub-data-set.citation-hint.i18n-string-size")
-  @I18nStringNotEmpty(message = "data-set-management.error.sub-data-set.citation-hint."
-      + "valid-citation")
-  private I18nString citationHint;
 }

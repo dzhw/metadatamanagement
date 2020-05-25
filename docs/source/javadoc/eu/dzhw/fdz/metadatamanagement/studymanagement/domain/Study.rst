@@ -76,7 +76,7 @@ Study
 
 .. java:type:: @Entity @Document @ValidStudyId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @Schema @ValidShadowId public class Study extends AbstractShadowableRdcDomainObject implements StudySubDocumentProjection
 
-   A study contains all metadata of a \ :java:ref:`DataAcquisitionProject`\ . It will get a DOI (Digital Object Identifier) when the \ :java:ref:`DataAcquisitionProject`\  is released.
+   A study also know as data package contains all metadata of a \ :java:ref:`DataAcquisitionProject`\ . It will get a DOI (Digital Object Identifier) when the \ :java:ref:`DataAcquisitionProject`\  is released.
 
 Fields
 ------
@@ -111,6 +111,14 @@ dataAvailability
    :outertype: Study
 
    The current state of the data's availability. Must be one of \ :java:ref:`DataAvailabilities`\  and must not be empty.
+
+dataCurators
+^^^^^^^^^^^^
+
+.. java:field:: @Valid @NotEmpty private List<Person> dataCurators
+   :outertype: Study
+
+   List of \ :java:ref:`Person`\ s which have curated this data package. Must not be empty.
 
 description
 ^^^^^^^^^^^

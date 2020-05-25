@@ -40,8 +40,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * A study contains all metadata of a {@link DataAcquisitionProject}. It will get a DOI (Digital
- * Object Identifier) when the {@link DataAcquisitionProject} is released.
+ * A study also know as data package contains all metadata of a {@link DataAcquisitionProject}. 
+ * It will get a DOI (Digital Object Identifier) when the {@link DataAcquisitionProject} 
+ * is released.
  */
 @Entity
 @Document(collection = "studies")
@@ -162,6 +163,15 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
   @Valid
   @NotEmpty(message = "study-management.error.study.authors.not-empty")
   private List<Person> authors;
+  
+  /** 
+   * List of {@link Person}s which have curated this data package.
+   *
+   * Must not be empty.
+   */
+  @Valid
+  @NotEmpty(message = "study-management.error.study.data-curators.not-empty")
+  private List<Person> dataCurators;
 
   /**
    * The current state of the data's availability.

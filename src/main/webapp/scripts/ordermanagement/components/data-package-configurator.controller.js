@@ -15,7 +15,7 @@
                                 StudySearchService,
                                 StudyAccessWaysResource, $mdDialog,
                                 CitationHintGeneratorService,
-                                DataSetCitateDialogService) {
+                                DataPackageCitationDialogService) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.studyIdVersion = {};
@@ -182,7 +182,7 @@
     $ctrl.openCitationDialog = function($event) {
       var citationHint = CitationHintGeneratorService.generateCitationHint(
         $ctrl.selectedAccessWay, $ctrl.study);
-      DataSetCitateDialogService.showDialog(citationHint, $event);
+      DataPackageCitationDialogService.showDialog(citationHint, $event);
     };
   }
 
