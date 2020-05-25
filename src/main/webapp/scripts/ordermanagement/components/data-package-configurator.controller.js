@@ -14,7 +14,9 @@
                                 ShoppingCartService,
                                 MessageBus,
                                 StudySearchService,
-                                StudyAccessWaysResource, $mdDialog) {
+                                StudyAccessWaysResource, $mdDialog,
+                                CitationHintGeneratorService,
+                                DataSetCitateDialogService) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.studyIdVersion = {};
@@ -193,6 +195,12 @@
         fullscreen: true,
         targetEvent: $event
       });
+    };
+
+    $ctrl.openCitationDialog = function($event) {
+      var citationHint = CitationHintGeneratorService.generateCitationHint(
+        $ctrl.selectedAccessWay, $ctrl.study);
+      DataSetCitateDialogService.showDialog(citationHint, $event);
     };
   }
 

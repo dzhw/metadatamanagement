@@ -68,7 +68,7 @@
           </md-button>
         </div>
       </md-list-item>
-      <md-list-item ng-if="$ctrl.releases.length > 0 && $ctrl.accessWays.length > 0">
+      <md-list-item ng-if="$ctrl.releases.length > 0 && $ctrl.accessWays.length > 0" style="flex-flow: row; padding-right: 8px;">
         <md-button class="md-small md-raised md-accent fdz-truncate-string" ng-click="$ctrl.addToShoppingCart()"
           ng-disabled="!$ctrl.selectedAccessWay || !$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible || $ctrl.dataNotAvailable">
           <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -76,6 +76,13 @@
           </md-tooltip>
           <span>{{'search-management.detail.cart' | translate}}</span>
         </md-button>
+        <md-button class="md-small md-raised md-primary fdz-truncate-string" ng-click="$ctrl.openCitationDialog($event)"
+        ng-disabled="!$ctrl.selectedAccessWay || !$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible || $ctrl.dataNotAvailable">
+        <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'shopping-cart.buttons.open-citation-tooltip' | translate}}
+        </md-tooltip>
+        <span>{{'shopping-cart.buttons.open-citation' | translate}}</span>
+      </md-button>
       </md-list-item>
     </md-list>
   </md-card-content>

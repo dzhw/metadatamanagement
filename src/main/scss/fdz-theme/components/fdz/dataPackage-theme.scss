@@ -77,11 +77,11 @@
         word-break: break-all;
       }
     }
-    & .md-button.md-raised.md-accent {
+    & .md-button.md-raised {
       margin-left: 0;
       margin-top: 16px;
       text-transform: none;
-      width: 100%;
+      min-width: 50%;
     }
   }
 
