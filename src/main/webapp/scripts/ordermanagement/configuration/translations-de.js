@@ -51,7 +51,10 @@ angular.module('metadatamanagementApp').config(
           'study-tooltip': 'Klicken, um die Studie anzuzeigen.',
           'study-series-tooltip': 'Klicken, um alle Studien der Studienreihe anzuzeigen.',
           'data-sets-tooltip': 'Klicken, um alle Datensätze dieses Datenpaketes anzuzeigen.',
-          'variables-tooltip': 'Klicken, um alle Variablen dieses Datenpaketes anzuzeigen.'
+          'variables-tooltip': 'Klicken, um alle Variablen dieses Datenpaketes anzuzeigen.',
+          'citation': 'Datenpaket zitieren',
+          'citation-success-copy-to-clipboard': 'Der Zitationshinweis wurde erfolgreich in die Zwischenablage kopiert.',
+          'copy-citation-tooltip': 'Klicken, um den Zitationshinweis in die Zwischenablage zu kopieren.'
         },
         'error': {
           'synchronize': 'Der Einkaufswagen konnte nicht mit dem Server synchronisiert werden.',

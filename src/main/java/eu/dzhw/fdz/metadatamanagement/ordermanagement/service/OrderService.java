@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Service for creating and managing orders.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -27,7 +27,7 @@ public class OrderService {
 
   /**
    * Create the given order and save it with the correct state.
-   * 
+   *
    * @param order the order to be saved
    */
   public Order create(Order order) {
@@ -38,7 +38,7 @@ public class OrderService {
 
   /**
    * Update an existing order with the given order data.
-   * 
+   *
    * @param orderId Id of the order that should be updated
    * @param orderToUpdate order data to use in the update
    * @return Optional of the updated order, might contain nothing if order could not be found

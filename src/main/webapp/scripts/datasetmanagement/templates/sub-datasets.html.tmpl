@@ -49,12 +49,6 @@
             'data-set-management.detail.label.sub-data-sets.numberOfEpisodes')| translate }}
           </md-tooltip>
         </th>
-        <th>
-          {{'data-set-management.detail.label.sub-data-sets.citation' | translate }}
-          <md-tooltip hide-gt-xs md-direction="right">
-            {{'data-set-management.detail.label.sub-data-sets.citation' | translate }}
-          </md-tooltip>
-        </th>
       </tr>
       </thead>
       <tbody>
@@ -81,16 +75,6 @@
           <span ng-if="$ctrl.options.counts[row.name] > 0">{{$ctrl.options.counts[row.name] | number: 0}}&nbsp;</span>
         </td>
         <td class="fdz-table-number">{{row.numberOfObservations | number: 0}}&nbsp;</td>
-        <td class="pv0 mb0">
-          <md-button class="md-icon-button md-primary" ng-click="$ctrl.options.openDialog(row, $event)"
-                     ng-disabled="!row.citationHint">
-            <md-icon md-svg-icon="assets/images/icons/citate.svg"></md-icon>
-            <md-tooltip md-autohide="true" md-direction="left"
-                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'data-set-management.detail.label.sub-data-sets.citate-tooltipp'|translate}}
-            </md-tooltip>
-          </md-button>
-        </td>
       </tr>
       </tbody>
     </table>

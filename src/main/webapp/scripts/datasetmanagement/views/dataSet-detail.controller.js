@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
              DataSetSearchService, DataSetReportResource, PageTitleService,
              LanguageService, $state, BreadcrumbService,
              CleanJSObjectService, SimpleMessageToastService,
-             DataSetAttachmentResource, DataSetCitateDialogService,
+             DataSetAttachmentResource,
              SearchResultNavigatorService,
              DataAcquisitionProjectResource, OutdatedVersionNotifier,
              $stateParams, blockUI, $mdDialog, MessageBus) {
@@ -30,9 +30,6 @@ angular.module('metadatamanagementApp')
         conceptsCount: 0
       };
       ctrl.projectIsCurrentlyReleased = true;
-      ctrl.openDialog = function(subDataSet, event) {
-        DataSetCitateDialogService.showDialog(subDataSet.citationHint, event);
-      };
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_ADMIN', 'ROLE_PUBLISHER']);
 

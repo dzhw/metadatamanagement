@@ -51,7 +51,10 @@ angular.module('metadatamanagementApp').config(
           'study-tooltip': 'Click to display the study.',
           'study-series-tooltip': 'Click to display all studies of the study series.',
           'data-sets-tooltip': 'Click to display all datasets of this data package.',
-          'variables-tooltip': 'Click to display all variables of this data package.'
+          'variables-tooltip': 'Click to display all variables of this data package.',
+          'citation': 'Cite Data Package',
+          'citation-success-copy-to-clipboard': 'The citation hint was successfully copied to the clipboard.',
+          'copy-citation-tooltip': 'Click to copy the citation note to the clipboard.'
         },
         'error': {
           'synchronize': 'Unable to synchronize shopping cart with the server.',

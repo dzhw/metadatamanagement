@@ -103,9 +103,11 @@ public class UnitTestCreateDomainObjectUtils {
     authors.add(buildPerson("Test", null, "Authors"));
     List<I18nString> institutions =
         Arrays.asList(I18nString.builder().de("Institution De").en("Institution En").build());
+    List<Person> dataCurators = new ArrayList<>();
+    dataCurators.add(buildPerson("Test", null, "Authors"));
 
     String studyId = UnitTestCreateValidIds.buildStudyId(projectId);
-    Study study = Study.builder().id(studyId).authors(authors)
+    Study study = Study.builder().id(studyId).authors(authors).dataCurators(dataCurators)
         .description(I18nString.builder().de("Description De").en("Description En").build())
         .institutions(institutions)
         .studySeries(I18nString.builder().de("Study Series De").en("Study Series En").build())
@@ -157,10 +159,6 @@ public class UnitTestCreateDomainObjectUtils {
         .dataFormats(Set.of(DataFormat.R))
         .numberOfObservations(1)
         .accessWay(AccessWays.DOWNLOAD_SUF)
-        .citationHint(I18nString.builder()
-            .de("Citation Hint De")
-            .en("Citation Hint En")
-            .build())
         .description(I18nString.builder().de("Description DE")
           .en("Description 3 EN")
           .build()).build());
@@ -168,9 +166,6 @@ public class UnitTestCreateDomainObjectUtils {
         .dataFormats(Set.of(DataFormat.R))
         .numberOfObservations(1)
         .accessWay(AccessWays.REMOTE_DESKTOP)
-        .citationHint(I18nString.builder()
-            .de("Citation Hint De")
-            .build())
         .description(I18nString.builder().de("Description 2 DE")
           .en("Description 3 EN")
           .build()).build());
@@ -178,9 +173,6 @@ public class UnitTestCreateDomainObjectUtils {
         .dataFormats(Set.of(DataFormat.R))
         .numberOfObservations(1)
         .accessWay(AccessWays.DOWNLOAD_CUF)
-        .citationHint(I18nString.builder()
-            .en("Citation Hint En")
-            .build())
         .description(I18nString.builder().de("Description 3 DE")
           .en("Description 3 EN")
           .build()).build());
@@ -188,10 +180,6 @@ public class UnitTestCreateDomainObjectUtils {
         .dataFormats(Set.of(DataFormat.R))
         .numberOfObservations(1)
         .accessWay(AccessWays.ONSITE_SUF)
-        .citationHint(I18nString.builder()
-            .de("Citation Hint De")
-            .en("Citation Hint En")
-            .build())
         .description(I18nString.builder().de("Description 4 DE")
           .en("Description 4 EN")
           .build()).build());

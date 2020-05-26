@@ -22,8 +22,7 @@ angular.module('metadatamanagementApp').config(
             'unknown-data-set-number': 'Ein Attachment der Datensätze aus der Zeile {{index}} des Arbeitsblattes "attachments" im Excel Dokument verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.'
           },
           'sub-data-set': {
-            'unknown-data-set-number': 'Der Subdatensatz aus der Zeile {{index}} in dem Arbeitsblatt "subDataSets" des Excel Dokumentes verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.',
-            'citation-success-copy-to-clipboard': 'Die Zitation wurde erfolgreich in die Zwischenablage kopiert.'
+            'unknown-data-set-number': 'Der Subdatensatz aus der Zeile {{index}} in dem Arbeitsblatt "subDataSets" des Excel Dokumentes verweist auf eine unbekannte Datensatznummer: {{dataSetNumber}}.'
           }
         },
         'home': {
@@ -47,12 +46,7 @@ angular.module('metadatamanagementApp').config(
               'unknownNumberOfAnalyzedVariables': 'Nicht bekannt',
               'numberOfAnalyzedVariables-tooltip': 'Klicken, um alle analysierbaren Variablen dieses Subdatensatzes anzuzeigen',
               'numberOfObservations': 'Fälle',
-              'numberOfEpisodes': 'Episoden',
-              'citate': 'Zitieren',
-              'citation': 'Zitation',
-              'citate-tooltipp': 'Klicken, um Zitationsinformationen zu erhalten und zu kopieren.',
-              'no-citate-tooltipp': 'Dieser Subdatansatz hat keine Informationen zur Zitation.',
-              'copy-complete-citation-tooltip': 'Klicken, um die Zitation in die Zwischenablage zu kopieren.'
+              'numberOfEpisodes': 'Episoden'
             },
             'attachments': {
               'title': 'Titel',
@@ -187,10 +181,6 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'Die Beschreibung eines Subdatensatz darf nicht leer sein!',
               'i18n-string-size': 'Die Maximallänge der Beschreibung eines Subdatensatz ist 512 Zeichen.'
             },
-            'citation-hint': {
-              'i18n-string-size': 'Die Maximallänge des Zitationshinweises eines Subdatensatzes ist 2048 Zeichen.',
-              'valid-citation': 'Es muss mindestens ein deutscher oder englischer Zitationshinweis angegeben werden.'
-            },
             'access-way': {
               'not-null': 'Der Zugangsweg eines Subdatensatz darf nicht leer sein!',
               'valid-access-way': 'Der Zugangsweg eines Subdatensatz ist ungültig. Erlaubt sind nur: download-cuf, download-suf, remote-desktop-suf oder onsite-suf.'
@@ -231,7 +221,6 @@ angular.module('metadatamanagementApp').config(
               'access-way': 'Zugangsweg',
               'number-of-observations': 'Anzahl Fälle/Episoden',
               'description': 'Beschreibung',
-              'citation-hint': 'Zitationshinweis',
               'data-formats': 'Verfügbare Datenformate'
             }
           },
@@ -271,10 +260,6 @@ angular.module('metadatamanagementApp').config(
                 'description': {
                   'de': 'Geben Sie eine kurze Beschreibung für den Subdatensatz auf Deutsch ein.',
                   'en': 'Geben Sie eine kurze Beschreibung für den Subdatensatz auf Englisch ein.'
-                },
-                'citation-hint': {
-                  'de': 'Wie soll der Subdatensatz zitiert werden?',
-                  'en': 'Wie soll der Subdatensatz zitiert werden?'
                 },
                 'data-formats': 'Geben Sie die Datenformate an, in denen der Subdatensatz verfügbar ist.'
               }

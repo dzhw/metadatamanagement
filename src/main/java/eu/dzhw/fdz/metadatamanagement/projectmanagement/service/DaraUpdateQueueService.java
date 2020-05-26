@@ -99,7 +99,7 @@ public class DaraUpdateQueueService {
    */
   @Scheduled(fixedRate = 1000 * 60, initialDelay = 1000 * 60)
   public void processAllQueueItems() {
-    log.info("Starting processing of DaraUpdateQueue...");
+    log.debug("Starting processing of DaraUpdateQueue...");
     LocalDateTime updateStart = LocalDateTime.now();
 
     queueItemRepository.lockAllUnlockedOrExpiredItems(updateStart, jvmId);
@@ -113,7 +113,7 @@ public class DaraUpdateQueueService {
       // check if there are more locked items to process
       lockedItems = queueItemRepository.findOldestLockedItems(jvmId, updateStart);
     }
-    log.info("Finished processing of DaraUpdateQueue...");
+    log.debug("Finished processing of DaraUpdateQueue...");
   }
 
   /**

@@ -151,7 +151,7 @@ public class ElasticsearchUpdateQueueService {
    */
   @Scheduled(fixedRate = 1000 * 60, initialDelay = 1000 * 60)
   public void processAllQueueItems() {
-    log.info("Starting processing of ElasticsearchUpdateQueue...");
+    log.debug("Starting processing of ElasticsearchUpdateQueue...");
     LocalDateTime updateStart = LocalDateTime.now();
 
     queueItemRepository.lockAllUnlockedOrExpiredItems(updateStart, jvmId);
@@ -159,14 +159,18 @@ public class ElasticsearchUpdateQueueService {
     List<ElasticsearchUpdateQueueItem> lockedItems =
         queueItemRepository.findOldestLockedItems(jvmId, updateStart);
 
+    boolean refreshIndices = false;
     while (!lockedItems.isEmpty()) {
+      refreshIndices = true;
       executeQueueItemActions(lockedItems);
 
       // check if there are more locked items to process
       lockedItems = queueItemRepository.findOldestLockedItems(jvmId, updateStart);
     }
-    elasticsearchDao.refresh(ElasticsearchType.names());
-    log.info("Finished processing of ElasticsearchUpdateQueue...");
+    if (refreshIndices) {
+      elasticsearchDao.refresh(ElasticsearchType.names());
+    }
+    log.debug("Finished processing of ElasticsearchUpdateQueue...");
   }
 
   /**
