@@ -100,7 +100,7 @@ public class OrderService {
     if (instanceId != 0) {
       return;
     }
-    log.info("Starting processing created orders...");
+    log.debug("Starting processing created orders...");
     try (Stream<Order> orders = orderRepository.findByState(OrderState.CREATED)) {
       orders.forEach(order -> {
         mailService.sendOrderCreatedMail(order, ccEmail, new String[] {ccEmail});
@@ -108,6 +108,6 @@ public class OrderService {
         orderRepository.save(order);
       });
     }
-    log.info("Finished processing created orders...");
+    log.debug("Finished processing created orders...");
   }
 }

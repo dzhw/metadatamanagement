@@ -37,8 +37,6 @@ spring:
 logging:
     level:
       eu.dzhw.fdz.metadatamanagement: debug
-      eu.dzhw.fdz.metadatamanagement.logmanagement: info
-      eu.dzhw.fdz.metadatamanagement.searchmanagement: info
 
 # ===================================================================
 # JHipster specific properties
