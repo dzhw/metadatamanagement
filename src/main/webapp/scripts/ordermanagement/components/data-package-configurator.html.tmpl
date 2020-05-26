@@ -22,10 +22,9 @@
       </md-list-item>
       <md-list-item ng-if="$ctrl.study.surveyDataTypes && $ctrl.study.surveyDataTypes.length > 0">
         <h5>{{'study-management.detail.label.survey-data-type' | translate }}:</h5>
-        <span class="md-secondary pre">
-          <span ng-repeat="dataType in $ctrl.study.surveyDataTypes">
-            {{dataType[$ctrl.lang]}}{{!$last?'; ':''}}</span>
-        </span>
+        <span
+          class="md-secondary pre"
+          ng-repeat="dataType in $ctrl.study.surveyDataTypes">{{dataType[$ctrl.lang]}}{{!$last?'; ':''}}</span>
       </md-list-item>
       <md-list-item ng-if="$ctrl.study.doi">
         <h5>{{'study-management.detail.label.doi' | translate }}:</h5>
