@@ -55,7 +55,7 @@ metadatamanagement:
     username: ${vcap.services.dara.credentials.username]}
     password: ${vcap.services.dara.credentials.password]}
   dlp:
-    endpoint: https://dlp.stage.cowain.dev/{language}/form/data-usage-application
+    endpoint: https://prelive.fdz.dzhw.eu/{language}/form/data-usage-application
   rabbitmq:
     uri: ${vcap.services.rabbitmq.credentials.uri}
   websockets:

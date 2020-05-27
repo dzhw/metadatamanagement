@@ -114,7 +114,7 @@ metadatamanagement:
   projectmanagement:
     email: reitmann@dzhw.eu
   dlp:
-    endpoint: https://dlp-develop-172sa0.stage.gzevd.de/{language}/form/data-usage-application
+    endpoint: https://prelive.fdz.dzhw.eu/{language}/form/data-usage-application
   dataset-report-task:
     start-command: java -jar /app/dataset-report-task.jar --task.dataSetId=%1$s --task.version=%2$s --task.language=%3$s --task.onBehalfOf=%4$s
     service-name: metadatamanagement-worker
