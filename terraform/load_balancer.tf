@@ -18,14 +18,15 @@ resource "aws_alb_target_group" "mdm" {
   port        = var.container_port
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main.id
+  slow_start  = 60
   target_type = "ip"
 
   health_check {
-    healthy_threshold   = "5"
+    healthy_threshold   = 3
     interval            = 120
     protocol            = "HTTP"
     matcher             = "200"
-    timeout             = 60
+    timeout             = 5
     path                = var.health_check_path
     unhealthy_threshold = 2
   }
