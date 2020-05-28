@@ -43,12 +43,6 @@ spring:
       rest:
         uris:
         - http://localhost:9200
-        
-management:
-  metrics:
-    export:
-      cloudwatch:
-        enabled: false
 
 cloud:
   aws:
@@ -108,6 +102,10 @@ management:
       enabled: false
     ping:
       enabled: false
+  metrics:
+    export:
+      cloudwatch:
+        enabled: false
 
 javers:
   algorithm: levenshtein_distance
