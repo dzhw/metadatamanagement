@@ -51,9 +51,9 @@ metadatamanagement:
     logLevel: error
     pageSize: 10
   dara:
-    endpoint: ${vcap.services.dara.credentials.endpoint]}
-    username: ${vcap.services.dara.credentials.username]}
-    password: ${vcap.services.dara.credentials.password]}
+    endpoint: ${vcap.services.dara.credentials.endpoint}
+    username: ${vcap.services.dara.credentials.username}
+    password: ${vcap.services.dara.credentials.password}
   dlp:
     endpoint: https://prelive.fdz.dzhw.eu/{language}/form/data-usage-application
   rabbitmq:
