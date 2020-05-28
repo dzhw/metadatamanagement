@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service for managing the domain object/aggregate {@link Task}.
- * 
+ *
  * @author René Reitmann
  */
 @Slf4j
@@ -45,7 +45,7 @@ public class TaskManagementService implements CrudService<Task> {
   private final UserRepository userRepository;
 
   private final MailService mailService;
-  
+
   @Value("${metadatamanagement.server.instance-index}")
   private Integer instanceId;
 
@@ -85,7 +85,7 @@ public class TaskManagementService implements CrudService<Task> {
 
   /**
    * Handle all {@link TaskErrorNotification}s.
-   * 
+   *
    * @param errorNotification The details about the error.
    * @param onBehalfUser The {@link User} for whom the task has been executed.
    */
@@ -112,7 +112,7 @@ public class TaskManagementService implements CrudService<Task> {
 
   /**
    * Mark the task as done.
-   * 
+   *
    * @param task the task id
    * @param resultLocation the location to get the result processed by the task.
    */
@@ -153,11 +153,11 @@ public class TaskManagementService implements CrudService<Task> {
     if (instanceId != 0) {
       return;
     }
-    log.info("Starting deletion of completed tasks...");
+    log.debug("Starting deletion of completed tasks...");
     LocalDateTime yesterday = LocalDateTime.now().minusDays(14);
     taskRepo.deleteAllByStateAndCreatedDateBefore(TaskState.DONE, yesterday);
     taskRepo.deleteAllByStateAndCreatedDateBefore(TaskState.FAILURE, yesterday);
-    log.info("Finished deleting completed tasks.");
+    log.debug("Finished deleting completed tasks.");
   }
 
   @Override
