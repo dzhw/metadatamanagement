@@ -25,9 +25,6 @@ spring:
         basename: classpath:/i18n/messages
     thymeleaf:
         mode: HTML
-    http:
-      encoding:
-        force: false
     servlet:
       multipart:
         max-file-size: 15MB
@@ -67,11 +64,15 @@ logging:
 server:
     port: 8080
     tomcat:
-        remote-ip-header: x-forwarded-for
-        protocol-header: x-forwarded-proto
+        remoteip:
+          remote-ip-header: x-forwarded-for
+          protocol-header: x-forwarded-proto
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
+    servlet:
+        encoding:
+          force: false
 
 management:
   endpoints:

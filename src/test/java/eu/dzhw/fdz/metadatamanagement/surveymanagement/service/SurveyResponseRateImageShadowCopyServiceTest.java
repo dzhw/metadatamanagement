@@ -23,9 +23,7 @@ import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.util.StringUtils;
 
-import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -46,9 +44,6 @@ public class SurveyResponseRateImageShadowCopyServiceTest extends AbstractTest {
 
   @Autowired
   private GridFsOperations gridFsOperations;
-
-  @Autowired
-  private GridFS gridFs;
 
   @Autowired
   private SurveyResponseRateImageShadowCopyService shadowCopyService;
@@ -172,9 +167,9 @@ public class SurveyResponseRateImageShadowCopyServiceTest extends AbstractTest {
 
     assertThat(shadowMetadata.getSuccessorId(), nullValue());
 
-    List<DBObject> files = new ArrayList<>();
+    List<GridFSFile> files = new ArrayList<>();
 
-    gridFs.getFileList().iterator().forEachRemaining(files::add);
+    gridFsOperations.find(new Query()).iterator().forEachRemaining(files::add);
     assertThat(files.size(), equalTo(2));
     assertThat(shadowFile.getMetadata().get("_contentType"), equalTo("image/png"));
   }

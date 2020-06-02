@@ -16,8 +16,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoClient;
 
 /**
  * Setting cache size for javers snapshots to zero. Heavily copied from
@@ -45,17 +44,15 @@ public class JaversConfiguration {
    */
   @Bean(name = "javers")
   public Javers javers() {
-    MongoDatabase mongoDatabase = mongoClient.getDatabase(mongoProperties.getMongoClientDatabase());
-
     // setting cache size to zero to be able to clear the javers mongo db collections
-    JaversRepository javersRepository = new MongoRepository(mongoDatabase, 0);
+    JaversRepository javersRepository =
+        new MongoRepository(mongoClient.getDatabase(mongoProperties.getDatabase()), 0);
 
     return JaversBuilder.javers()
-        .withListCompareAlgorithm(
-            ListCompareAlgorithm.valueOf(
-                javersMongoProperties.getAlgorithm().toUpperCase(Locale.ROOT)))
-        .withMappingStyle(MappingStyle.valueOf(
-            javersMongoProperties.getMappingStyle().toUpperCase(Locale.ROOT)))
+        .withListCompareAlgorithm(ListCompareAlgorithm
+            .valueOf(javersMongoProperties.getAlgorithm().toUpperCase(Locale.ROOT)))
+        .withMappingStyle(
+            MappingStyle.valueOf(javersMongoProperties.getMappingStyle().toUpperCase(Locale.ROOT)))
         .withNewObjectsSnapshot(javersMongoProperties.isNewObjectSnapshot())
         .withPrettyPrint(javersMongoProperties.isPrettyPrint())
         .withTypeSafeValues(javersMongoProperties.isTypeSafeValues())

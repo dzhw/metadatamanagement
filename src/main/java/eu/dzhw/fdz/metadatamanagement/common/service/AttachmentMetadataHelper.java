@@ -7,15 +7,14 @@ import java.time.LocalDateTime;
 import org.bson.Document;
 import org.javers.core.Javers;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
+import com.mongodb.client.gridfs.model.GridFSFile;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
@@ -26,6 +25,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 
 /**
  * Provides helper method for handling common {@link AbstractRdcDomainObject} fields.
+ * 
  * @param <T> {@link AbstractRdcDomainObject}
  */
 @Service
@@ -37,26 +37,25 @@ public class AttachmentMetadataHelper<T extends AbstractRdcDomainObject> {
 
   private GridFsOperations operations;
 
-  private GridFS gridFs;
-
   private MongoTemplate mongoTemplate;
+
+  private GridFsMetadataUpdateService gridFsMetadataUpdateService;
 
   /**
    * Create a new instance.
    */
   public AttachmentMetadataHelper(MimeTypeDetector mimeTypeDetector, Javers javers,
-                                  GridFsOperations operations, GridFS gridFs,
-                                  MongoTemplate mongoTemplate) {
+      GridFsOperations operations, MongoTemplate mongoTemplate) {
     this.mimeTypeDetector = mimeTypeDetector;
     this.javers = javers;
     this.operations = operations;
-    this.gridFs = gridFs;
     this.mongoTemplate = mongoTemplate;
   }
 
   /**
    * Initialize fields of {@link AbstractShadowableRdcDomainObject}.
-   * @param metadata    Metadata object
+   * 
+   * @param metadata Metadata object
    * @param currentUser User name from the current session
    */
   public void initAttachmentMetadata(T metadata, String currentUser) {
@@ -69,14 +68,15 @@ public class AttachmentMetadataHelper<T extends AbstractRdcDomainObject> {
 
   /**
    * Write attachment metadata and the actual file to storage.
+   * 
    * @param multipartFile Multipart file to store
-   * @param filename      File name to use
-   * @param metadata      Metadata attachment
-   * @param currentUser   User name from the current session
+   * @param filename File name to use
+   * @param metadata Metadata attachment
+   * @param currentUser User name from the current session
    */
   @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
   public void writeAttachmentMetadata(MultipartFile multipartFile, String filename, T metadata,
-                                      String currentUser) throws IOException {
+      String currentUser) throws IOException {
 
     if (fileNameExists(filename)) {
       throw new DuplicateFilenameException(filename);
@@ -90,48 +90,29 @@ public class AttachmentMetadataHelper<T extends AbstractRdcDomainObject> {
   }
 
   private boolean fileNameExists(String filename) {
-    GridFSDBFile file = gridFs.findOne(filename);
+    GridFSFile file = operations.findOne(Query.query(GridFsCriteria.whereFilename().is(filename)));
     return file != null;
   }
 
   /**
    * Updates the metadata of an attachment file.
-   * @param metadata         New metadata
+   * 
+   * @param metadata New metadata
    * @param filePath The path to the file for which the metadata will be updated.
    */
-  public void updateAttachmentMetadata(AbstractRdcDomainObject metadata,
-                                       String filePath) {
+  public void updateAttachmentMetadata(AbstractRdcDomainObject metadata, String filePath) {
     metadata.setVersion(metadata.getVersion() + 1);
     String currentUser = SecurityUtils.getCurrentUserLogin();
     metadata.setLastModifiedBy(currentUser);
     metadata.setLastModifiedDate(LocalDateTime.now());
 
-    GridFSDBFile file = gridFs.findOne(filePath);
+    GridFsResource file = operations.getResource(filePath);
 
-    DBObject gridFsMetadata = file.getMetaData();
+    Document gridFsMetadata = file.getOptions().getMetadata();
     if (Boolean.TRUE.equals(gridFsMetadata.get("shadow"))) {
       throw new ShadowCopySaveNotAllowedException();
     }
-    BasicDBObject dbObject =
-        new BasicDBObject((Document) mongoTemplate.getConverter().convertToMongoType(metadata));
-    /*
-     * Mongo's GridFs and Springs MongoOperations have a different approach regarding the mapping
-     * of file metadata. Saving a file without moving the contentType to GridFSDBFile' metadata
-     * results in a lost content type.
-     */
-    String contentType = getContentType(file);
-    dbObject.append("_contentType", contentType);
-    file.setMetaData(dbObject);
-    file.save();
+    gridFsMetadataUpdateService.putMetadata(file, metadata);
     javers.commit(currentUser, metadata);
-  }
-
-  private String getContentType(GridFSDBFile gridFsDbFile) {
-    String contentType = gridFsDbFile.getContentType();
-    if (StringUtils.hasText(contentType)) {
-      return contentType;
-    } else {
-      return (String) gridFsDbFile.getMetaData().get("_contentType");
-    }
   }
 }

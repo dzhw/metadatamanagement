@@ -6,19 +6,15 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.bson.Document;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
-import org.springframework.util.StringUtils;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.client.gridfs.GridFSFindIterable;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 
@@ -32,20 +28,21 @@ public abstract class AbstractAttachmentShadowCopyDataSource
 
   protected final GridFsOperations gridFsOperations;
 
-  protected final GridFS gridFs;
-
   protected final MongoTemplate mongoTemplate;
+
+  protected final GridFsMetadataUpdateService gridFsMetadataUpdateService;
 
   private final Class<T> attachmentClass;
 
   /**
    * Creates a new instance.
    */
-  protected AbstractAttachmentShadowCopyDataSource(GridFsOperations gridFsOperations, GridFS gridFs,
-      MongoTemplate mongoTemplate, Class<T> attachmentClass) {
+  protected AbstractAttachmentShadowCopyDataSource(GridFsOperations gridFsOperations,
+      MongoTemplate mongoTemplate, GridFsMetadataUpdateService gridFsMetadataUpdateService,
+      Class<T> attachmentClass) {
     this.gridFsOperations = gridFsOperations;
-    this.gridFs = gridFs;
     this.mongoTemplate = mongoTemplate;
+    this.gridFsMetadataUpdateService = gridFsMetadataUpdateService;
     this.attachmentClass = attachmentClass;
   }
 
@@ -76,25 +73,20 @@ public abstract class AbstractAttachmentShadowCopyDataSource
 
   @Override
   public void updatePredecessor(T predecessor) {
-    GridFSDBFile file = gridFs.findOne(getPredecessorFileName(predecessor));
-    BasicDBObject dbObject =
-        new BasicDBObject((Document) mongoTemplate.getConverter().convertToMongoType(predecessor));
-    // _contentType gets lost after metadata conversion, so we have to set it again explicitly.
-    dbObject.append("_contentType", getContentType(file));
-    file.setMetaData(dbObject);
-    file.save();
+    GridFsResource file = gridFsOperations.getResource(getPredecessorFileName(predecessor));
+    gridFsMetadataUpdateService.putMetadata(file, predecessor);
   }
 
   @Override
   public void saveShadowCopy(T shadowCopy) {
     String originalFilePath = shadowCopy.getMasterId().replaceFirst("/public/files", "");
-    GridFSDBFile file = gridFs.findOne(originalFilePath);
+    GridFsResource file = gridFsOperations.getResource(originalFilePath);
     String filename = getShadowCopyFileName(shadowCopy);
 
     deleteExistingShadowCopy(filename);
 
     try (InputStream fIn = file.getInputStream()) {
-      gridFsOperations.store(fIn, filename, getContentType(file), shadowCopy);
+      gridFsOperations.store(fIn, filename, file.getContentType(), shadowCopy);
     } catch (IOException e) {
       throw new RuntimeException("IO error during shadow copy creation of " + shadowCopy.getId(),
           e);
@@ -119,15 +111,6 @@ public abstract class AbstractAttachmentShadowCopyDataSource
   private void deleteExistingShadowCopy(String filename) {
     Query query = new Query(GridFsCriteria.where("filename").is(filename));
     gridFsOperations.delete(query);
-  }
-
-  private String getContentType(GridFSDBFile gridFsDbFile) {
-    String contentType = gridFsDbFile.getContentType();
-    if (StringUtils.hasText(contentType)) {
-      return contentType;
-    } else {
-      return (String) gridFsDbFile.getMetaData().get("_contentType");
-    }
   }
 
   private Stream<T> convertIterableToStream(GridFSFindIterable iterable) {

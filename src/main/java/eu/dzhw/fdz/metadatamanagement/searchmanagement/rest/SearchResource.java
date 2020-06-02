@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.metrics.AutoTimer;
 import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
 import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
 import org.springframework.http.CacheControl;
@@ -91,7 +92,7 @@ public class SearchResource {
       }
     });
     MetricsRestTemplateCustomizer customizer = new MetricsRestTemplateCustomizer(meterRegistry,
-        tagProvider, "elasticsearch.client.requests");
+        tagProvider, "elasticsearch.client.requests", AutoTimer.ENABLED);
     customizer.customize(restTemplate);
   }
 

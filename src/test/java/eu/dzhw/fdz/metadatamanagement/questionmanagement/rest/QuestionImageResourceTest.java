@@ -16,6 +16,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -24,8 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.mongodb.DBObject;
-import com.mongodb.gridfs.GridFS;
+import com.mongodb.client.gridfs.model.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
@@ -53,9 +53,6 @@ public class QuestionImageResourceTest extends AbstractTest {
   @Autowired
   private GridFsOperations gridFsOperations;
 
-  @Autowired
-  private GridFS gridFs;
-
   private MockMvc mockMvc;
 
   @Before
@@ -68,7 +65,7 @@ public class QuestionImageResourceTest extends AbstractTest {
   public void cleanUp() {
     this.elasticsearchUpdateQueueItemRepository.deleteAll();
     this.javersService.deleteAll();
-    this.gridFs.getFileList().iterator().forEachRemaining(gridFs::remove);
+    this.gridFsOperations.delete(new Query());
     this.elasticsearchAdminService.recreateAllIndices();
   }
 
@@ -125,9 +122,9 @@ public class QuestionImageResourceTest extends AbstractTest {
     mockMvc.perform(delete("/api/questions/" + questionId + "/images"))
         .andExpect(status().isNoContent());
 
-    Iterator<DBObject> iterator = gridFs.getFileList().iterator();
+    Iterator<GridFSFile> iterator = gridFsOperations.find(new Query()).iterator();
 
     assertThat(iterator.hasNext(), equalTo(true));
-    assertThat(iterator.next().get("filename"), equalTo(filename));
+    assertThat(iterator.next().getFilename(), equalTo(filename));
   }
 }

@@ -23,12 +23,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -45,9 +43,6 @@ public class DataSetAttachmentShadowCopyServiceTest extends AbstractTest {
 
   @Autowired
   private GridFsOperations gridFsOperations;
-
-  @Autowired
-  private GridFS gridFs;
 
   @Autowired
   private MongoTemplate mongoTemplate;
@@ -106,9 +101,9 @@ public class DataSetAttachmentShadowCopyServiceTest extends AbstractTest {
     expectedFiles.add("/data-sets/dat-" + PROJECT_ID + "-ds1$-1.0.0/attachments/filename.txt");
     assertExpectedFilesExistence(expectedFiles);
 
-    GridFSDBFile shadowCopy =
-        gridFs.findOne("/data-sets/dat-" + PROJECT_ID + "-ds1$-1.0.0/attachments/filename.txt");
-    assertThat(shadowCopy.getMetaData().get("_contentType"), equalTo("text/plain"));
+    GridFsResource shadowCopy = gridFsOperations
+        .getResource("/data-sets/dat-" + PROJECT_ID + "-ds1$-1.0.0/attachments/filename.txt");
+    assertThat(shadowCopy.getOptions().getMetadata().get("_contentType"), equalTo("text/plain"));
   }
 
   @Test
@@ -124,8 +119,8 @@ public class DataSetAttachmentShadowCopyServiceTest extends AbstractTest {
     shadowCopyService.createShadowCopies(dataAcquisitionProject.getId(),
         dataAcquisitionProject.getRelease(), "1.0.0");
 
-    List<DBObject> files = new ArrayList<>();
-    gridFs.getFileList().iterator().forEachRemaining(files::add);
+    List<GridFSFile> files = new ArrayList<>();
+    gridFsOperations.find(new Query()).forEach(files::add);
 
     assertThat(files.size(), equalTo(2));
 
@@ -174,9 +169,9 @@ public class DataSetAttachmentShadowCopyServiceTest extends AbstractTest {
     expectedFiles.add("/data-sets/dat-" + PROJECT_ID + "-ds1$-1.0.1/attachments/filename.txt");
     assertExpectedFilesExistence(expectedFiles);
 
-    GridFSDBFile predecessor =
-        gridFs.findOne("/data-sets/dat-" + PROJECT_ID + "-ds1$-1.0.0/attachments/filename.txt");
-    assertThat(predecessor.getMetaData().get("_contentType"), equalTo("text/plain"));
+    GridFsResource predecessor = gridFsOperations
+        .getResource("/data-sets/dat-" + PROJECT_ID + "-ds1$-1.0.0/attachments/filename.txt");
+    assertThat(predecessor.getOptions().getMetadata().get("_contentType"), equalTo("text/plain"));
   }
 
   @Test
@@ -222,10 +217,10 @@ public class DataSetAttachmentShadowCopyServiceTest extends AbstractTest {
   }
 
   private void assertExpectedFilesExistence(List<String> expectedFiles) {
-    Iterator<DBObject> it = gridFs.getFileList().iterator();
+    Iterator<GridFSFile> it = gridFsOperations.find(new Query()).iterator();
     List<String> fileNames = new ArrayList<>();
     while (it.hasNext()) {
-      fileNames.add((String) it.next().get("filename"));
+      fileNames.add(it.next().getFilename());
     }
     assertThat(fileNames.size(), equalTo(expectedFiles.size()));
     assertThat(fileNames, containsInAnyOrder(expectedFiles.toArray()));
