@@ -13,9 +13,10 @@ angular.module('metadatamanagementApp')
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
       AttachmentDialogService, DataSetAttachmentUploadService,
       DataSetAttachmentVersionsResource, ChoosePreviousVersionService,
-      DataSetVersionsResource) {
+      DataSetVersionsResource, DataFormatsResource) {
       var ctrl = this;
       ctrl.surveyChips = [];
+      ctrl.availableDataFormats = DataFormatsResource.query();
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageTitleService.setPageTitle(

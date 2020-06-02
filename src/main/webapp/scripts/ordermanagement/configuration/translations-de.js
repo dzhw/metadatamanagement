@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp').config(
         'title': 'Einkaufswagen',
         'detail': {
           'table-title': 'Ihre ausgewählten Datenpakete',
-          'personal-details': 'Persönliche Angaben',
+          'hint': 'Hinweis',
           'label': {
             'title': 'Studientitel',
             'access-way': 'Zugangsweg',
@@ -31,7 +31,8 @@ angular.module('metadatamanagementApp').config(
             'data-sets': '{dataSets, plural, =0{unbekannt vielen Datensätze.} =1{einem Datensatz.} other{{formattedDataSets} Datensätzen.}}',
             'study': 'Studie',
             'customer-name': 'Ihr Name',
-            'customer-email': 'Ihre E-Mailadresse'
+            'customer-email': 'Ihre E-Mailadresse',
+            'data-formats': 'Die Datensätze enthalten Daten in den folgenden Formaten:'
           },
           'hints': {
             'name': 'Bitte teilen Sie uns Ihren vollständigen Namen mit.',
@@ -39,19 +40,25 @@ angular.module('metadatamanagementApp').config(
             'accessWay': 'Benötigen Sie einen CUF oder SUF und wie möchten Sie mit den Daten arbeiten?',
             'version': 'Welche Version der Datensätze benötigen Sie?'
           },
-          'thank-you': 'Vielen Dank für Ihr Interesse an unseren Datenpakete!',
-          'order-placed-text': 'Wir haben Ihnen eine Bestätigungsmail gesendet und werden Sie in Kürze kontaktieren.',
+          'thank-you': 'Vielen Dank für Ihr Interesse an unseren Datenpaketen!',
+          'dlp-redirect': 'Sie werden in {{seconds}} Sekunden zu unserem Dienstleistungsportal weitergeleitet...',
           'empty-cart-text': 'Ihr Einkaufswagen ist aktuell leer. Sie können <a href="#!/de/search?type=studies"><strong>hier</strong></a> nach Datenpaketen suchen und diese Ihrem Einkaufswagen hinzufügen.',
           'warn-not-current-versions': 'Da Sie sich nicht für die aktuelle Version dieses Datenpakets entschieden haben, kann Ihnen dieses System keine genaue Auskunft über die Anzahl an Variablen und Datensätzen des Produktes anzeigen.',
-          'explain-data-product': 'Ein Datenpaket beinhaltet immer alle Datensätze einer Studie, die für den gewählten Zugangsweg (download, on-site, remote,...) aufbereitet wurden. Sie können mehrere Datenpakete der selben Studie mit unterschiedlichen Zugangswegen beantragen.',
-          'no-final-release': 'Dieses Datenpaket wurde noch nicht fertiggestellt. Sobald es fertig ist können Sie es an dieser Stelle in den Einkaufswagen legen.',
+          'explain-data-product': 'Ein Datenpaket beinhaltet immer alle Datensätze einer Studie, die für den gewählten Zugangsweg (download, on-site, remote,...) aufbereitet wurden. Sie können mehrere Datenpakete einer Studie mit unterschiedlichen Zugangswegen beantragen.',
+          'no-final-release': 'Die Datenpakete wurden noch nicht erstellt. Sobald diese fertig sind können Sie sie an dieser Stelle in den Einkaufswagen legen.',
+          'variable-not-accessible': 'Diese Variable wurde zwar erhoben, ist aber aus datenschutzrechtlichen Gründen in keinem Datenpaket verfügbar.',
           'data-not-available': 'Dieses Datenpaket ist aktuell nicht verfügbar.',
           'study-tooltip': 'Klicken, um die Studie anzuzeigen.',
           'study-series-tooltip': 'Klicken, um alle Studien der Studienreihe anzuzeigen.',
           'data-sets-tooltip': 'Klicken, um alle Datensätze dieses Datenpaketes anzuzeigen.',
-          'variables-tooltip': 'Klicken, um alle Variablen dieses Datenpaketes anzuzeigen.'
+          'variables-tooltip': 'Klicken, um alle Variablen dieses Datenpaketes anzuzeigen.',
+          'citation': 'Datenpaket zitieren',
+          'citation-success-copy-to-clipboard': 'Der Zitationshinweis wurde erfolgreich in die Zwischenablage kopiert.',
+          'copy-citation-tooltip': 'Klicken, um den Zitationshinweis in die Zwischenablage zu kopieren.'
         },
         'error': {
+          'synchronize': 'Der Einkaufswagen konnte nicht mit dem Server synchronisiert werden.',
+          'already-completed': 'Die Bestellung wurde bereits abgeschlossen. Ihr Einkaufswagen wurde geleert.',
           'customer': {
             'name': {
               'empty': 'Ihr Name darf nicht leer sein.',
@@ -67,7 +74,7 @@ angular.module('metadatamanagementApp').config(
         'toasts': {
           'study-added': 'Das Datenpaket wurde in den Einkaufswagen gelegt.',
           'study-already-in-cart': 'Das Datenpaket ist bereits im Einkaufswagen.',
-          'customer-has-validation-errors-toast': 'Sie haben noch nicht alle benötigten Angaben zu Ihrer Person gemacht.',
+          'order-has-validation-errors-toast': 'Ihr Formular enthält ungültige Angaben.',
           'error-on-saving-order': 'Beim Senden Ihrer Bestellung trat ein Fehler auf.'
         },
         'buttons': {
@@ -80,6 +87,8 @@ angular.module('metadatamanagementApp').config(
           'remove-all-tooltip': 'Klicken, um alle Datenpakete aus dem Einkaufswagen zu entfernen.',
           'delete-product-tooltip': 'Klicken, um das Datenpaket aus dem Einkaufswagen zu entfernen.',
           'open-cart-tooltip': 'Klicken, um die Inhalte des Einkaufswagens anzuzeigen.',
+          'open-citation-tooltip': 'Klicken, um Zitationsinformationen zu erhalten und zu kopieren.',
+          'open-citation': 'Datenpaket zitieren',
           'close-tooltip': 'Klicken, um die Produktauswahl zu verlassen.',
           'data-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Datenpaketen zu erhalten.',
           'data-package-access-way-tooltip': 'Klicken, um weitere Informationen zu Zugangswegen zu erhalten.'
@@ -91,7 +100,7 @@ angular.module('metadatamanagementApp').config(
         },
         'access-way-info': {
           'title': 'Einen Zugangsweg auswählen',
-          'content': '<p style="margin-bottom: 0px;">Für unsere Datenpakete gibt es vier Zugangswege, die zum einen den Grad der Anonymisierung bestimmen und zum anderen bestimmen auf welchem Weg die Daten verarbeitet werden können und ob sie zur Verwendung in der Lehre zugelassen sind. Scientific Use Files (SUF) sind ausschließlich zum Zweck der Forschung zu verwenden.</p><p style="margin-bottom: 0px; padding-bottom: 0px;">Unsere Datenpaketkonfigurationen sind gegliedert in:</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li><strong>download-cuf</strong> (Zulassung für Lehrzwecke; starke Anonymisierung; zum Download)</li><li><strong>download-suf</strong> (stark anonymisiert; zum Download)</li><li><strong>remote-desktop-suf</strong> (mittlerer Anonymisierungsgrad; Zugang über virtuelle Desktops per Internet)</li><li><strong>onsite-suf</strong> (geringer Anonymisierungsgrad; Zugang nur vor Ort im fdz.DZHW in Hannover)</li></ul><p style="margin-bottom: 0px;">Weitere Informationen finden Sie <a href="https://fdz.dzhw.eu/datennutzung/zugang">hier</a>.</p>'
+          'content': '<p style="margin-bottom: 0px;">Für unsere Datenpakete gibt es bis zu vier Zugangswege. Diese unterscheiden sich hinsichtlich:</p><ol style="margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li>des Nutzungszwecks (Campus Use File (CUF) für Lehre vs. Scientific Use File (SUF) für Forschung),</li><li>des Grades der statistischen Anonymisierung (stärker, moderat, geringer) und</li><li>des technischen Weges des Datenzugangs (Download, Remote-Desktop, Onsite) verbunden mit unterschiedlich starken technisch-organisatorischen Datensicherheits- und Kontrollmaßnahmen (geringer, moderat, stärker).</li></ol><p style="margin-bottom: 0px;">Die Nutzung der Daten zum Download bedeutet die geringsten Aufwände im Rahmen der Nutzung und sollte präferiert werden, sofern das Datenpaket dieses Zugangswegs für die Nutzung ausreicht. Sofern diese Daten <em>nicht</em> ausreichen, können ebenfalls die anderen Zugangswege gewählt werden.</p><p style="margin-bottom: 0px;">Unsere Datenpaketkonfiguration ist gegliedert in:</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li><strong>download-cuf:</strong> nur für Lehrzwecke; stärkerer statistischer Anonymisierungsgrad; zum Download nach Antragsbewilligung)</li><li><strong>download-suf:</strong> stärkerer statistischer Anonymisierungsgrad; zum Download nach Vertragsabschluss)</li><li><strong>remote-desktop-suf:</strong> moderater statistischer Anonymisierungsgrad; Zugang nur über virtuelle Desktops per Internet mit technischen Kontrollen nach Vertragsabschluss</li><li><strong>onsite-suf:</strong> geringer statistischer Anonymisierungsgrad; Zugang nur vor Ort im FDZ-DZHW in Hannover mit technischen Kontrollen nach Vertragsabschluss</li></ul>'
         }
       }
       //jscs:enable

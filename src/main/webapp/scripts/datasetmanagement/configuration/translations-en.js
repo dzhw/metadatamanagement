@@ -22,8 +22,7 @@ angular.module('metadatamanagementApp').config(
             'unknown-data-set-number': 'An Attachment of the Data Sets from the line {{ index }} in the worksheet "attachments" of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
           },
           'sub-data-set': {
-            'unknown-data-set-number': 'The Subdataset from the line {{ index }} in the worksheet "subDataSets" of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.',
-            'citation-success-copy-to-clipboard': 'The citation was copied succesfully into the clipboard.'
+            'unknown-data-set-number': 'The Subdataset from the line {{ index }} in the worksheet "subDataSets" of the excel document has a reference to an unknown Data Set Number: {{dataSetNumber}}.'
           }
         },
         'home': {
@@ -40,18 +39,14 @@ angular.module('metadatamanagementApp').config(
             'data-set-same-study': 'Data Sets of this Study',
             'sub-data-sets': {
               'name': 'Name',
+              'data-formats': 'Data Formats',
               'accessWay': 'Access Way',
               'description': 'Description',
               'numberOfAnalyzedVariables': 'Analyzable Variables',
               'unknownNumberOfAnalyzedVariables': 'Unknown',
               'numberOfAnalyzedVariables-tooltip': 'Click to show all analyzable variables of this subdataset',
               'numberOfObservations': 'Observations',
-              'numberOfEpisodes': 'Episodes',
-              'citate': 'Citate',
-              'citation': 'Citation',
-              'citate-tooltipp': 'Click to show citation information and to copy them.',
-              'no-citate-tooltipp': 'This Subdataset has no information about the citation.',
-              'copy-complete-citation-tooltip': 'Click for copy the citation to the clipboard.'
+              'numberOfEpisodes': 'Episodes'
             },
             'attachments': {
               'title': 'Title',
@@ -61,7 +56,13 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'sub-data-sets': {
-            'title': 'Available Subdatasets'
+            'title': 'Available Subdatasets',
+            'data-formats': {
+              'Stata': 'Stata',
+              'R': 'R',
+              'SPSS': 'SPSS',
+              'Word': 'Word'
+            }
           },
           'attachments': {
             'table-title': 'Documents related to the Data Set',
@@ -180,10 +181,6 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'The Description of a Subdataset must not be empty!',
               'i18n-string-size': 'The max length of the Description of a Subdataset is 32 signs.'
             },
-            'citation-hint': {
-              'i18n-string-size': 'The max length of the citation hint of a Subdataset is 2048.',
-              'valid-citation': 'At least one german or english citation hint must be provided.'
-            },
             'access-way': {
               'not-null': 'The value of Access Way of a Subdataset must not be empty!',
               'valid-access-way': 'The value of Access Way of a Subdataset is invalid. Valid values are: download-cuf, download-suf, remote-desktop-suf or onsite-suf.'
@@ -191,6 +188,9 @@ angular.module('metadatamanagementApp').config(
             'number-of-observations': {
               'not-null': 'The number of observations/episodes of a Subdataset must not be empty!',
               'invalid-number': 'Enter a positive integer!'
+            },
+            'data-formats': {
+              'required': 'At least on data format must be specified.'
             }
           },
           'post-validation': {
@@ -221,7 +221,7 @@ angular.module('metadatamanagementApp').config(
                   'access-way': 'Access Way',
                   'number-of-observations': 'Number of Observations/Episodes',
                   'description': 'Description',
-                  'citation-hint': 'Citation Hint'
+                  'data-formats': 'Available Data Formats'
                 }
             },
             'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this data set.',
@@ -261,10 +261,7 @@ angular.module('metadatamanagementApp').config(
                       'de': 'Enter a short description for the subdataset in German.',
                       'en': 'Enter a short description for the subdataset in English.'
                     },
-                    'citation-hint': {
-                      'de': 'How should the subdataset be cited?',
-                      'en': 'How should the subdataset be cited?'
-                    }
+                    'data-formats': 'Specify the data formats in which the subrecord is available.'
                 }
             },
             'all-data-sets-deleted-toast': 'All data sets of the Data Acquisition Project "{{id}}" have been deleted.'

@@ -9,11 +9,19 @@
         <relativePath />
     </parent>
 
-    <groupId>eu.dzhw.fdz.metadatamanagement</groupId>
+    <groupId>eu.dzhw.fdz</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.100-HOTFIX</version>
+    <version>1.0.101-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Package Registry</name>
+            <url>https://maven.pkg.github.com/dzhw/metadatamanagement</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <elasticsearch.version>7.7.0</elasticsearch.version>

@@ -541,6 +541,99 @@
       <md-card class="mb8">
         <md-card-header>
           <md-card-header-text>
+            <h2 class="md-title">{{'study-management.detail.label.data-curators' | translate }}</h2>
+          </md-card-header-text>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
+          <div id="move-curators-container" layout="row" ng-repeat="person in ctrl.study.dataCurators track by $index">
+            <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteCurator($index)"
+                       ng-if="ctrl.study.dataCurators.length > 1"
+                       style="margin-top: 18px; margin-left: 0px; margin-right: 0px; padding-left: 0px;">
+              <md-tooltip md-autohide="true" md-direction="bottom"
+                          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'study-management.edit.delete-curator-tooltip' | translate}}
+              </md-tooltip>
+              <md-icon md-font-set="material-icons">delete_forever</md-icon>
+            </md-button>
+            <md-input-container flex="33"
+                                md-is-error="!studyForm['curatorsFirstName_' + $index].$valid && (studyForm['curatorsFirstName_' + $index].$dirty || studyForm['curatorsFirstName_' + $index].$touched)">
+              <label class="fdz-input-required">{{'study-management.edit.label.first-name' | translate}}</label>
+              <input fdz-required md-no-asterisk name="curatorsFirstName_{{$index}}"
+                     ng-blur="ctrl.deleteCurrentCurator($event)" ng-focus="ctrl.setCurrentCurator($index,$event)"
+                     ng-model="person.firstName">
+              <div
+                class="fdz-input-hint"
+                ng-if="!studyForm['curatorsFirstName_' + $index].$dirty && !studyForm['curatorsFirstName_' + $index].$touched">
+                {{'study-management.edit.hints.curators.first-name' | translate}}
+              </div>
+              <div multiple ng-messages="studyForm['curatorsFirstName_' + $index].$error">
+                <div ng-message="fdz-required">{{'global.error.person.first-name.not-empty' | translate}}</div>
+              </div>
+            </md-input-container>
+            <md-input-container flex
+                                md-is-error="!studyForm['curatorsMiddleName_' + $index].$valid && (studyForm['curatorsMiddleName_' + $index].$dirty || studyForm['curatorsMiddleName_' + $index].touched)">
+              <label>{{'study-management.edit.label.middle-name' | translate}}</label>
+              <input name="curatorsMiddleName_{{$index}}" ng-blur="ctrl.deleteCurrentCurator($event)"
+                     ng-focus="ctrl.setCurrentCurator($index,$event)" ng-model="person.middleName">
+              <div
+                class="fdz-input-hint"
+                ng-if="!studyForm['curatorsMiddleName_' + $index].$dirty && !studyForm['curatorsMiddleName_' + $index].$touched">
+                {{'study-management.edit.hints.curators.middle-name' | translate}}
+              </div>
+              <div multiple ng-messages="studyForm['curatorsMiddleName_' + $index].$error">
+              </div>
+            </md-input-container>
+            <md-input-container flex="33"
+                                md-is-error="!studyForm['curatorsLastName_' + $index].$valid && (studyForm['curatorsLastName_' + $index].$dirty || studyForm['curatorsLastName_' + $index].$touched)">
+              <label class="fdz-input-required">{{'study-management.edit.label.last-name' | translate}}</label>
+              <input fdz-required md-no-asterisk name="curatorsLastName_{{$index}}"
+                     ng-blur="ctrl.deleteCurrentCurator($event)" ng-focus="ctrl.setCurrentCurator($index,$event)"
+                     ng-model="person.lastName">
+              <div
+                class="fdz-input-hint"
+                ng-if="!studyForm['curatorsLastName_' + $index].$dirty && !studyForm['curatorsLastName_' + $index].$touched">
+                {{'study-management.edit.hints.curators.last-name' | translate}}
+              </div>
+              <div multiple ng-messages="studyForm['curatorsLastName_' + $index].$error">
+                <div ng-message="fdz-required">{{'global.error.person.last-name.not-empty' | translate}}</div>
+              </div>
+            </md-input-container>
+          </div>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
+          <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addCurator()">
+            <md-tooltip md-autohide="true" md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'study-management.edit.add-curator-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">add</md-icon>
+          </md-button>
+          <md-button class="md-primary md-raised md-icon-button"
+                     id="move-curator-up-button"
+                     ng-click="ctrl.moveCurrentCuratorUp()"
+                     ng-disabled="ctrl.currentCuratorIndex == null || ctrl.currentCuratorIndex === 0">
+            <md-tooltip md-autohide="true" md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'study-management.edit.move-curator-up-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+          </md-button>
+          <md-button class="md-primary md-raised md-icon-button"
+                     id="move-curator-down-button"
+                     ng-click="ctrl.moveCurrentCuratorDown()"
+                     ng-disabled="ctrl.currentCuratorIndex == null || ctrl.currentCuratorIndex === ctrl.study.dataCurators.length - 1">
+            <md-tooltip md-autohide="true" md-direction="bottom"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'study-management.edit.move-curator-down-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
+          </md-button>
+        </md-card-actions>
+      </md-card>
+      <md-card class="mb8">
+        <md-card-header>
+          <md-card-header-text>
             <h2 class="md-title">{{'study-management.edit.label.tags' | translate }}</h2>
           </md-card-header-text>
         </md-card-header>

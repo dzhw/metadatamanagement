@@ -1,3 +1,4 @@
+/* global _ */
 (function() {
 
   'use strict';
@@ -13,7 +14,9 @@
                                 ShoppingCartService,
                                 MessageBus,
                                 StudySearchService,
-                                StudyAccessWaysResource, $mdDialog) {
+                                StudyAccessWaysResource, $mdDialog,
+                                CitationHintGeneratorService,
+                                DataPackageCitationDialogService) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.studyIdVersion = {};
@@ -62,7 +65,7 @@
       $ctrl.dataNotAvailable = false;
       $ctrl.noFinalRelease = false;
       var excludes = ['nested*','variables','questions',
-        'surveys','instruments', 'dataSets', 'relatedPublications',
+        'surveys','instruments', 'relatedPublications',
         'concepts'];
       StudySearchService.findShadowByIdAndVersion(id, version, excludes)
         .promise.then(function(data) {
@@ -92,13 +95,30 @@
         });
     }
 
+    var extractDataFormats = function(study, selectedAccessWay) {
+      var dataFormats = _.flatMap(study.dataSets, function(dataSet) {
+        var subDataSetsBySelectedAccessWay = _.filter(dataSet.subDataSets,
+          function(subDataSet) {
+            return subDataSet.accessWay === selectedAccessWay;
+          });
+        return _.flatMap(subDataSetsBySelectedAccessWay,
+          function(subDataSet) {
+            return subDataSet.dataFormats;
+          });
+      });
+      return _.uniq(dataFormats);
+    };
+
     $ctrl.addToShoppingCart = function() {
       ShoppingCartService.add({
         dataAcquisitionProjectId: $ctrl.study.dataAcquisitionProjectId,
         accessWay: $ctrl.selectedAccessWay,
         version: $ctrl.selectedVersion,
+        dataFormats: extractDataFormats($ctrl.study, $ctrl.selectedAccessWay),
         study: {
-          id: $ctrl.study.id
+          id: $ctrl.study.id,
+          surveyDataTypes: $ctrl.study.surveyDataTypes,
+          title: $ctrl.study.title
         }
       });
     };
@@ -175,6 +195,12 @@
         fullscreen: true,
         targetEvent: $event
       });
+    };
+
+    $ctrl.openCitationDialog = function($event) {
+      var citationHint = CitationHintGeneratorService.generateCitationHint(
+        $ctrl.selectedAccessWay, $ctrl.study);
+      DataPackageCitationDialogService.showDialog(citationHint, $event);
     };
   }
 

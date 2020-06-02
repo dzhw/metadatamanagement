@@ -2,9 +2,10 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('ShoppingCartService',
-  function(OrderResource, StudyResource, localStorageService,
-           SimpleMessageToastService, ProjectReleaseService, $rootScope) {
+  function(OrderResource, localStorageService, $state,
+           SimpleMessageToastService, ProjectReleaseService, $rootScope, $q) {
 
+    var SYNCHRONIZE_FAILURE_KEY = 'shopping-cart.error.synchronize';
     var SHOPPING_CART_KEY = 'shoppingCart';
     var ORDER_ID_KEY = 'shoppingCart.orderId';
     var VERSION_KEY = 'shoppingCart.version';
@@ -12,9 +13,14 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var products = localStorageService.get(SHOPPING_CART_KEY) || [];
     var orderId = localStorageService.get(ORDER_ID_KEY);
     var version = localStorageService.get(VERSION_KEY);
+    var synchronizePromise;
 
-    var _incrementOrderVersion = function() {
-      version = version + 1;
+    var showSynchronizeErrorMessage = function() {
+      SimpleMessageToastService.openAlertMessageToast(SYNCHRONIZE_FAILURE_KEY);
+    };
+
+    var _setOrderVersion = function(newVersion) {
+      version = newVersion;
       localStorageService.set(VERSION_KEY, version);
     };
 
@@ -69,62 +75,6 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       _broadcastShoppingCartChanged();
     };
 
-    var _addProductToExistingOrder = function(product) {
-      OrderResource.get({id: orderId}).$promise.then(function(order) {
-        if (_isProductInShoppingCart(products, product)) {
-          _displayProductAlreadyInShoppingCart(product);
-        } else {
-          StudyResource.get({id: product.study.id}).$promise
-            .then(function(study) {
-              var newProduct = {
-                dataAcquisitionProjectId: product.dataAcquisitionProjectId,
-                study: study,
-                accessWay: product.accessWay,
-                version: product.version
-              };
-
-              order.products.push(newProduct);
-              OrderResource.update(order).$promise
-                .then(function() {
-                    _incrementOrderVersion();
-                    _addProductToLocalShoppingCart(product);
-                  },
-                  _displayUpdateOrderError);
-            }, _displayUpdateOrderError);
-        }
-      }, _displayUpdateOrderError);
-    };
-
-    var _removeProductFromExistingOrder = function(product) {
-      OrderResource.get({id: orderId}).$promise.then(function(order) {
-        var removed = _.remove(order.products, function(productInOrder) {
-          return productInOrder.study.id === product.study.id &&
-            productInOrder.version === product.version &&
-          productInOrder.accessWay === product.accessWay;
-        });
-
-        if (removed.length > 0) {
-          OrderResource.update(order).$promise
-            .then(function() {
-                _incrementOrderVersion();
-                _removeProductFromLocalShoppingCart(product);
-              },
-              _displayUpdateOrderError);
-        }
-      }, _displayUpdateOrderError);
-    };
-
-    var _clearProductsFromExistingOrder = function() {
-      OrderResource.get({id: orderId}).$promise.then(function(order) {
-        order.products = [];
-        return OrderResource.update(order).$promise
-          .then(function() {
-            _incrementOrderVersion();
-            _clearLocalShoppingCart();
-          }, _displayUpdateOrderError);
-      }, _displayUpdateOrderError);
-    };
-
     var _stripVersionSuffix = function(product) {
       var normalizedProduct = _.cloneDeep(product);
 
@@ -136,10 +86,86 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       return normalizedProduct;
     };
 
+    var clearOrderData = function() {
+      orderId = '';
+      localStorageService.set(ORDER_ID_KEY, orderId);
+      version = '';
+      localStorageService.set(VERSION_KEY, version);
+    };
+
+    var completeOrder = function() {
+      clearOrderData();
+      _clearLocalShoppingCart();
+    };
+
+    var _addProductToExistingOrder = function(product) {
+      OrderResource.get({id: orderId}).$promise.then(function(order) {
+        if (order.state === 'ORDERED') {
+          completeOrder();
+          var normalizedProduct = _stripVersionSuffix(product);
+          _addProductToLocalShoppingCart(normalizedProduct);
+        } else {
+          if (_isProductInShoppingCart(products, product)) {
+            _displayProductAlreadyInShoppingCart(product);
+          } else {
+            order.products.push(product);
+            order.client = 'MDM';
+            OrderResource.update(order).$promise
+              .then(function(response) {
+                  _setOrderVersion(response.version);
+                  _addProductToLocalShoppingCart(product);
+                },
+                _displayUpdateOrderError);
+          }
+        }
+      }, _displayUpdateOrderError);
+    };
+
+    var _removeProductFromExistingOrder = function(product) {
+      OrderResource.get({id: orderId}).$promise.then(function(order) {
+        if (order.state === 'ORDERED') {
+          completeOrder();
+          SimpleMessageToastService.openAlertMessageToast(
+            'shopping-cart.error.already-completed');
+          $state.go('shoppingCart');
+        } else {
+          var removed = _.remove(order.products, function(productInOrder) {
+            return productInOrder.study.id === product.study.id &&
+              productInOrder.version === product.version &&
+              productInOrder.accessWay === product.accessWay;
+          });
+
+          if (removed.length > 0) {
+            order.client = 'MDM';
+            OrderResource.update(order).$promise
+              .then(function(response) {
+                  _setOrderVersion(response.version);
+                  _removeProductFromLocalShoppingCart(product);
+                },
+                _displayUpdateOrderError);
+          }
+        }
+      }, _displayUpdateOrderError);
+    };
+
+    var _clearProductsFromExistingOrder = function() {
+      OrderResource.get({id: orderId}).$promise.then(function(order) {
+        order.products = [];
+        order.client = 'MDM';
+        return OrderResource.update(order).$promise
+          .then(function(response) {
+            _setOrderVersion(response.version);
+            _clearLocalShoppingCart();
+          }, _displayUpdateOrderError);
+      }, _displayUpdateOrderError);
+    };
+
     var add = function(product) {
       var normalizedProduct = _stripVersionSuffix(product);
       if (orderId) {
-        _addProductToExistingOrder(normalizedProduct);
+        synchronizePromise.then(function() {
+          _addProductToExistingOrder(normalizedProduct);
+        }, showSynchronizeErrorMessage);
       } else {
         _addProductToLocalShoppingCart(normalizedProduct);
       }
@@ -148,7 +174,9 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var remove = function(product) {
       var normalizedProduct = _stripVersionSuffix(product);
       if (orderId) {
-        _removeProductFromExistingOrder(normalizedProduct);
+        synchronizePromise.then(function() {
+          _removeProductFromExistingOrder(normalizedProduct);
+        }, showSynchronizeErrorMessage);
       } else {
         _removeProductFromLocalShoppingCart(normalizedProduct);
       }
@@ -156,7 +184,9 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
 
     var clearProducts = function() {
       if (orderId) {
-        _clearProductsFromExistingOrder();
+        synchronizePromise.then(function() {
+          _clearProductsFromExistingOrder();
+        }, showSynchronizeErrorMessage);
       } else {
         _clearLocalShoppingCart();
       }
@@ -182,40 +212,6 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       _broadcastShoppingCartChanged();
     };
 
-    var migrateStoredData = function() {
-      var storedProducts = this.getProducts();
-      var migratedProducts = [];
-      storedProducts.forEach(function(product) {
-        if (_.has(product, 'projectId')) {
-          var newProduct = {
-            dataAcquisitionProjectId: product.projectId,
-            accessWay: product.accessWay,
-            version: product.version,
-            study: {
-              id: product.studyId
-            }
-          };
-          migratedProducts.push(newProduct);
-        } else {
-          migratedProducts.push(product);
-        }
-      });
-      localStorageService.set(SHOPPING_CART_KEY, migratedProducts);
-      products = migratedProducts;
-    };
-
-    var clearOrderData = function() {
-      orderId = '';
-      localStorageService.set(ORDER_ID_KEY, orderId);
-      version = '';
-      localStorageService.set(VERSION_KEY, version);
-    };
-
-    var completeOrder = function() {
-      clearOrderData();
-      _clearLocalShoppingCart();
-    };
-
     var getOrderId = function() {
       return orderId;
     };
@@ -223,6 +219,33 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var getVersion = function() {
       return version;
     };
+
+    var synchronizeExistingOrder = function() {
+      if (orderId) {
+        $rootScope.$broadcast('start-ignoring-404');
+        var deferred = $q.defer();
+        synchronizePromise = deferred.promise;
+        OrderResource.get({id: orderId}).$promise.then(function(order) {
+          if (order.state === 'ORDERED') {
+            completeOrder();
+          }
+          deferred.resolve();
+        }, function(error) {
+          if (error.status === 404) {
+            completeOrder();
+            deferred.resolve();
+          } else {
+            deferred.reject();
+          }
+        }).finally(function() {
+          $rootScope.$broadcast('stop-ignoring-404');
+        });
+      } else {
+        synchronizePromise = $q.resolve();
+      }
+    };
+
+    synchronizeExistingOrder();
 
     return {
       add: add,
@@ -233,7 +256,6 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
       clearProducts: clearProducts,
       completeOrder: completeOrder,
       initShoppingCartProducts: initShoppingCartProducts,
-      migrateStoredData: migrateStoredData,
       getOrderId: getOrderId,
       getVersion: getVersion
     };

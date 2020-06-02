@@ -1,7 +1,6 @@
-/* Author Daniel Katzberg */
 'use strict';
 angular.module('metadatamanagementApp')
-  .controller('DataSetCitateDialogController',
+  .controller('DataPackageCitationDialogController',
   function($mdDialog, SimpleMessageToastService, citation, $rootScope, $scope) {
     var ctrl = this;
     ctrl.citation = citation;

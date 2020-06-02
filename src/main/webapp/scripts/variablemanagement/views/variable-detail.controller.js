@@ -43,7 +43,6 @@ angular.module('metadatamanagementApp')
         .bind(null, result.masterId, null, ['nested*','questions',
           'instruments','relatedPublications','concepts']);
       OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
-
       var currenLanguage = LanguageService.getCurrentInstantly();
       var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
       PageTitleService.setPageTitle('variable-management.detail.title', {

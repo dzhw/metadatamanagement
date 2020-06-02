@@ -1,5 +1,7 @@
 .. java:import:: java.io Serializable
 
+.. java:import:: java.util Set
+
 .. java:import:: javax.validation.constraints NotEmpty
 
 .. java:import:: javax.validation.constraints NotNull
@@ -48,13 +50,13 @@ accessWay
 
    The access way of this subdataset. Describes how the user will be able to work with the data set. Must not be empty and be one of \ :java:ref:`AccessWays`\  but not \ :java:ref:`AccessWays.NOT_ACCESSIBLE`\ .
 
-citationHint
-^^^^^^^^^^^^
+dataFormats
+^^^^^^^^^^^
 
-.. java:field:: @I18nStringSize @I18nStringNotEmpty private I18nString citationHint
+.. java:field:: @NotEmpty private Set<DataFormat> dataFormats
    :outertype: SubDataSet
 
-   A hint telling how to cite this subdataset in publications. It must be specified in at least one language and it must not contain more than 2048 characters.
+   Set of available file formats of the \ :java:ref:`SubDataSet`\ .
 
 description
 ^^^^^^^^^^^

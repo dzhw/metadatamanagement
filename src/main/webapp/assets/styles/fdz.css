@@ -2465,11 +2465,11 @@ tr:focus {
           width: 190px;
           overflow: hidden;
           word-break: break-all; } }
-    .fdz-theme .fdz-data-package md-list-item .md-button.md-raised.md-accent {
+    .fdz-theme .fdz-data-package md-list-item .md-button.md-raised {
       margin-left: 0;
       margin-top: 16px;
       text-transform: none;
-      width: 100%; }
+      min-width: 50%; }
 
 .fdz-theme fdz-paginator {
   width: 100%;

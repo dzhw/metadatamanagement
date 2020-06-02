@@ -169,9 +169,6 @@ public class DataSetResourceTest extends AbstractTest {
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
 
     DataSet dataSet = UnitTestCreateDomainObjectUtils.buildDataSet(null, survey.getId(), 1);
-    I18nString citationHint = dataSet.getSubDataSets().get(0).getCitationHint();
-    citationHint.setDe(null);
-    citationHint.setEn("");
 
     // Act and Assert
     // create the DataSet with a survey but without a project

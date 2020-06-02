@@ -15,6 +15,7 @@ angular.module('metadatamanagementApp').config(
             'institution': 'Erhebende Institution',
             'institutions': 'Erhebende Institution(en)',
             'authors': 'Projektmitarbeiter(innen)',
+            'data-curators': 'Datenkuratierung',
             'sponsors': 'Gefördert von',
             'version': 'Version',
             'surveyDesign': 'Erhebungsdesign',
@@ -206,6 +207,10 @@ angular.module('metadatamanagementApp').config(
           'move-author-down-tooltip': 'Klicken, um den ausgewählten Mitarbeiter nach unten zu verschieben.',
           'add-author-tooltip': 'Klicken, um einen neuen Mitarbeiter dieser Studie hinzuzufügen.',
           'delete-author-tooltip': 'Klicken, um den Projektmitarbeiter aus dieser Studie zu löschen.',
+          'move-curator-up-tooltip': 'Klicken, um die ausgewählte DatenkuratorIn nach oben zu verschieben.',
+          'move-curator-down-tooltip': 'Klicken, um die ausgewählte DatenkuratorIn nach unten zu verschieben.',
+          'add-curator-tooltip': 'Klicken, um eine neue DatenkuratorIn dieser Studie hinzuzufügen.',
+          'delete-curator-tooltip': 'Klicken, um die ausgewählte DatenkuratorIn aus dieser Studie zu löschen.',
           'move-institution-up-tooltip': 'Klicken, um die ausgewählte Institution nach oben zu verschieben.',
           'move-institution-down-tooltip': 'Klicken, um die ausgewählte Institution nach unten zu verschieben.',
           'add-institution-tooltip': 'Klicken, um eine weitere Instituion dieser Studie hinzuzufügen.',
@@ -250,6 +255,11 @@ angular.module('metadatamanagementApp').config(
               'first-name': 'Geben Sie den Vornamen des Projektmitarbeiters ein.',
               'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen des Projektmitarbeiters ein.',
               'last-name': 'Geben Sie den Nachnamen des Projektmitarbeiters ein.'
+            },
+            'curators': {
+              'first-name': 'Geben Sie den Vornamen der Person ein, die an der Datenaufbereitung beteiligt ist.',
+              'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen der Person ein.',
+              'last-name': 'Geben Sie den Nachnamen der Person ein, die an der Datenaufbereitung beteiligt ist.'
             }
           },
           'all-studies-deleted-toast': 'Die Studie des Datenaufbereitungsprojekts "{{id}}" wurde gelöscht.'

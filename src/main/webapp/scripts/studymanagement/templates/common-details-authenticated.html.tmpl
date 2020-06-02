@@ -61,8 +61,15 @@
           ng-if="$ctrl.options.study.surveyDataTypes && $ctrl.options.study.surveyDataTypes.length > 0">
           <h5>{{'study-management.detail.label.survey-data-type' | translate }}:</h5>
           <span
-            class="md-secondary"
+            class="md-secondary pre"
             ng-repeat="dataType in $ctrl.options.study.surveyDataTypes">{{dataType[$ctrl.lang]}}{{!$last?'; ':''}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.study.dataCurators">
+          <h5>{{'study-management.detail.label.data-curators' | translate }}:</h5>
+          <span
+            class="md-secondary pre"
+            ng-repeat="person in $ctrl.options.study.dataCurators">{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+author.person:''}}{{!$last?'; ':''}}</span>
+          </span>
         </md-list-item>
         <md-list-item
           ng-if="$ctrl.options.study.doi || $ctrl.options.isBetaRelease($ctrl.options.study)">

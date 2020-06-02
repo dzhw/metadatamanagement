@@ -340,6 +340,47 @@
 				}
 			}
 		},
+		"dataCurators": {
+			"type": "object",
+			"properties": {
+				"firstName": {
+					"type": "text",
+					"index": false,
+					"copy_to": "all",
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"middleName": {
+					"type": "text",
+					"index": false,
+					"copy_to": "all",
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"lastName": {
+					"type": "text",
+					"index": false,
+					"copy_to": "all",
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				}
+			}
+		},
 		"surveyDesign": {
 			"type": "object",
 			"properties": {

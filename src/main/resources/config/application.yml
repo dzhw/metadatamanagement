@@ -102,6 +102,10 @@ management:
       enabled: false
     ping:
       enabled: false
+  metrics:
+    export:
+      cloudwatch:
+        enabled: false
 
 javers:
   algorithm: levenshtein_distance
@@ -114,7 +118,7 @@ metadatamanagement:
   projectmanagement:
     email: reitmann@dzhw.eu
   dlp:
-    endpoint: http://fakedlpendpoint.de
+    endpoint: https://prelive.fdz.dzhw.eu/{language}/form/data-usage-application
   dataset-report-task:
     start-command: java -jar /app/dataset-report-task.jar --task.dataSetId=%1$s --task.version=%2$s --task.language=%3$s --task.onBehalfOf=%4$s
     service-name: metadatamanagement-worker

@@ -1,20 +1,24 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
+
 import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
 
 /**
  * Partial {@link eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study} which is part of a
  * {@link Product}. It is a copy of the
  * {@link eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study} attributes which is made when
- * the {@link Customer} places the orders.
+ * the customer places the orders.
  */
 @Data
 @Schema(
@@ -46,4 +50,17 @@ public class OrderedStudy implements Serializable {
    * The annotations of the {@link eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study}.
    */
   private I18nString annotations;
+
+  /**
+   * List of {@link DataTypes}.
+   *
+   * Must not be empty.
+   */
+  @NotEmpty
+  private List<I18nString> surveyDataTypes;
+
+  /**
+   * The name of the series of studies to which this study belongs. May be null.
+   */
+  private I18nString studySeries;
 }

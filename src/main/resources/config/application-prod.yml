@@ -30,7 +30,7 @@ management:
   metrics:
     export:
       cloudwatch:
-        enabled: true
+        enabled: false
         namespace: metadatamanagement-prod
         batch-size: 20
 
@@ -54,6 +54,8 @@ metadatamanagement:
     endpoint: ${vcap.services.dara.credentials.endpoint}
     username: ${vcap.services.dara.credentials.username}
     password: ${vcap.services.dara.credentials.password}
+  dlp:
+    endpoint: https://fdz.dzhw.eu/{language}/form/data-usage-application
   rabbitmq:
     uri: ${vcap.services.rabbitmq.credentials.uri}
   websockets:
