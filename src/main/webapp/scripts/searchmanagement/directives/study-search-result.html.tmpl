@@ -3,6 +3,7 @@
     <md-card-header-text>
       <div class="md-title">
         <a ui-sref="studyDetail({id: $ctrl.searchResult.masterId, 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: ''})"
+           ui-sref-opts="{reload: true, notify: true}"
         ng-click="$ctrl.setParams()">
           <span display-i18n-string="$ctrl.searchResult.title"></span>
         </a>

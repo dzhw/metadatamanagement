@@ -5,8 +5,9 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, LanguageService,
              $state, BreadcrumbService, Principal,
              ConceptAttachmentResource, SearchResultNavigatorService,
-             $stateParams, $log, blockUI) {
+             $stateParams, $log, blockUI, LocationSimplifier) {
       blockUI.start();
+      LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 

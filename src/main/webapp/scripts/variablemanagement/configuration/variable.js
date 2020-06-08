@@ -36,6 +36,9 @@ angular.module('metadatamanagementApp')
           authorities: []
         },
         params: {
+          'id': {
+            dynamic: true
+          },
           'search-result-index': null
         },
         views: {
@@ -48,18 +51,19 @@ angular.module('metadatamanagementApp')
         },
         resolve: {
           entity: ['$stateParams', 'VariableSearchService', 'Principal',
-            'SimpleMessageToastService', '$q',
+            'SimpleMessageToastService', '$q', 'LocationSimplifier',
             function($stateParams, VariableSearchService, Principal,
-              SimpleMessageToastService, $q) {
+              SimpleMessageToastService, $q, LocationSimplifier) {
               var excludedAttributes = ['nested*','questions', 'instruments',
                 'relatedPublications','concepts'];
+              var id = LocationSimplifier.ensureDollarSign($stateParams.id);
               if (Principal.loginName() && !$stateParams.version) {
-                return VariableSearchService.findOneById($stateParams.id, null,
+                return VariableSearchService.findOneById(id, null,
                   excludedAttributes);
               } else {
                 var deferred = $q.defer();
                 loadShadowCopy(VariableSearchService,
-                  SimpleMessageToastService, $stateParams.id,
+                  SimpleMessageToastService, id,
                   $stateParams.version, excludedAttributes)
                   .then(deferred.resolve, deferred.reject);
                 return deferred;
