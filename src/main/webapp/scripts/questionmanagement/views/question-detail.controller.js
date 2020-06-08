@@ -9,9 +9,9 @@ angular.module('metadatamanagementApp')
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
       QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
-      OutdatedVersionNotifier, blockUI) {
+      OutdatedVersionNotifier, blockUI, LocationSimplifier) {
       blockUI.start();
-
+      LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 
