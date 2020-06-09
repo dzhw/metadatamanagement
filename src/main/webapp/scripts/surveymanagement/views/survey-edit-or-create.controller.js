@@ -92,6 +92,7 @@ angular.module('metadatamanagementApp')
                   .isUpdateAllowed(project, 'surveys', true)) {
                   redirectToSearchView();
                 } else {
+                  CurrentProjectService.setCurrentProject(project);
                   ctrl.survey = survey;
                   ctrl.currentSurveyMethod = survey.surveyMethod;
                   $scope.responseRateInitializing = true;

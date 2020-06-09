@@ -18,7 +18,8 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
       var messageParams = {
         id: id,
         version: version,
-        hidden: hidden
+        hidden: hidden,
+        'show-master-link': true
       };
       SimpleMessageToastService.openAlertMessageToast('data-acquisition' +
         '-project-management.not-master-alert', messageParams);
