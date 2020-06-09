@@ -144,7 +144,7 @@ angular.module('metadatamanagementApp')
                   ProjectUpdateAccessService.isPrerequisiteFulfilled(
                     project, 'instruments'
                   ).catch(redirectToSearchView);
-
+                  CurrentProjectService.setCurrentProject(project);
                   ctrl.instrument = instrument;
                   ctrl.initSurveyChips();
                   ctrl.initConceptChips();
