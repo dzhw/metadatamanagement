@@ -18,8 +18,12 @@ angular.module('metadatamanagementApp').factory(
         if (response.status === 404) {
           $rootScope.$emit('notFoundError', response);
         }
-        if (500 <= response.status && response.status <= 511) {
+        if (500 <= response.status && response.status <= 511 &&
+          response.status !== 504) {
           $rootScope.$emit('internalServerError', response);
+        }
+        if (response.status === 504) {
+          $rootScope.$emit('gatewayTimeout', response);
         }
         return $q.reject(response);
       }

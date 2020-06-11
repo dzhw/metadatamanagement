@@ -285,6 +285,7 @@ angular.module('metadatamanagementApp').config(
           },
           'server-error': {
             'internal-server-error': 'Sorry, something went wrong :( ({{ status }}).',
+            'gateway-timeout': 'The action takes longer than expected. It is continued in the background.',
             'freemarker': {
               'parsing-error': 'There is a parsing problem by Freemarker in file "{{entity}}" (Line, Column): {{invalidValue}}',
               'invalid-reference-error': 'There is a invalid reference in the Freemarker script in file "{{entity}}" (Line, Column): {{invalidValue}}'
