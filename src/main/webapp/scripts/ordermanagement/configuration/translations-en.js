@@ -54,7 +54,10 @@ angular.module('metadatamanagementApp').config(
           'variables-tooltip': 'Click to display all variables of this data package.',
           'citation': 'Cite Data Package',
           'citation-success-copy-to-clipboard': 'The citation hint was successfully copied to the clipboard.',
-          'copy-citation-tooltip': 'Click to copy the citation note to the clipboard.'
+          'copy-citation-tooltip': 'Click to copy the citation note to the clipboard.',
+          'select-access-way-title': 'Please select an Access Way',
+          'select-access-way-for-ordering': 'Please select an access way to add the data package to the shopping cart.',
+          'select-access-way-for-citation': 'Please select an access way to cite the data package.'
         },
         'error': {
           'synchronize': 'Unable to synchronize shopping cart with the server.',
@@ -78,11 +81,11 @@ angular.module('metadatamanagementApp').config(
           'error-on-saving-order': 'An error occurred while sending your order.'
         },
         'buttons': {
-          'checkout': 'Order',
+          'checkout': 'Order free of charge',
           'checkout-tooltip': 'Click to order the data packages.',
           'add-study': 'Put in Shopping Cart',
           'add-study-tooltip': 'Click to put the data package with the selected options into the shopping cart.',
-          'open-cart': 'Go to Shopping Cart',
+          'open-cart': 'Go to shopping cart',
           'remove-all': 'Empty Shopping Cart',
           'remove-all-tooltip': 'Click to remove all packages from the shopping cart.',
           'delete-product-tooltip': 'Click to remove the package from the shopping cart.',

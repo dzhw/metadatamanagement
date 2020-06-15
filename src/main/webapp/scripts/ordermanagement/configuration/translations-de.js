@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').config(
     var translations = {
       //jscs:disable
       'shopping-cart': {
-        'title': 'Einkaufswagen',
+        'title': 'Warenkorb',
         'detail': {
           'table-title': 'Ihre ausgewählten Datenpakete',
           'hint': 'Hinweis',
@@ -42,10 +42,10 @@ angular.module('metadatamanagementApp').config(
           },
           'thank-you': 'Vielen Dank für Ihr Interesse an unseren Datenpaketen!',
           'dlp-redirect': 'Sie werden in {{seconds}} Sekunden zu unserem Dienstleistungsportal weitergeleitet...',
-          'empty-cart-text': 'Ihr Einkaufswagen ist aktuell leer. Sie können <a href="#!/de/search?type=studies"><strong>hier</strong></a> nach Datenpaketen suchen und diese Ihrem Einkaufswagen hinzufügen.',
+          'empty-cart-text': 'Ihr Warenkorb ist aktuell leer. Sie können <a href="#!/de/search?type=studies"><strong>hier</strong></a> nach Datenpaketen suchen und diese Ihrem Warenkorb hinzufügen.',
           'warn-not-current-versions': 'Da Sie sich nicht für die aktuelle Version dieses Datenpakets entschieden haben, kann Ihnen dieses System keine genaue Auskunft über die Anzahl an Variablen und Datensätzen des Produktes anzeigen.',
           'explain-data-product': 'Ein Datenpaket beinhaltet immer alle Datensätze einer Studie, die für den gewählten Zugangsweg (download, on-site, remote,...) aufbereitet wurden. Sie können mehrere Datenpakete einer Studie mit unterschiedlichen Zugangswegen beantragen.',
-          'no-final-release': 'Die Datenpakete wurden noch nicht erstellt. Sobald diese fertig sind können Sie sie an dieser Stelle in den Einkaufswagen legen.',
+          'no-final-release': 'Die Datenpakete wurden noch nicht erstellt. Sobald diese fertig sind können Sie sie an dieser Stelle in den Warenkorb legen.',
           'variable-not-accessible': 'Diese Variable wurde zwar erhoben, ist aber aus datenschutzrechtlichen Gründen in keinem Datenpaket verfügbar.',
           'data-not-available': 'Dieses Datenpaket ist aktuell nicht verfügbar.',
           'study-tooltip': 'Klicken, um die Studie anzuzeigen.',
@@ -54,11 +54,14 @@ angular.module('metadatamanagementApp').config(
           'variables-tooltip': 'Klicken, um alle Variablen dieses Datenpaketes anzuzeigen.',
           'citation': 'Datenpaket zitieren',
           'citation-success-copy-to-clipboard': 'Der Zitationshinweis wurde erfolgreich in die Zwischenablage kopiert.',
-          'copy-citation-tooltip': 'Klicken, um den Zitationshinweis in die Zwischenablage zu kopieren.'
+          'copy-citation-tooltip': 'Klicken, um den Zitationshinweis in die Zwischenablage zu kopieren.',
+          'select-access-way-title': 'Bitte Zugangsweg auswählen',
+          'select-access-way-for-ordering': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket in den Warenkorb legen zu können.',
+          'select-access-way-for-citation': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket zitieren zu können.' 
         },
         'error': {
-          'synchronize': 'Der Einkaufswagen konnte nicht mit dem Server synchronisiert werden.',
-          'already-completed': 'Die Bestellung wurde bereits abgeschlossen. Ihr Einkaufswagen wurde geleert.',
+          'synchronize': 'Der Warenkorb konnte nicht mit dem Server synchronisiert werden.',
+          'already-completed': 'Die Bestellung wurde bereits abgeschlossen. Ihr Warenkorb wurde geleert.',
           'customer': {
             'name': {
               'empty': 'Ihr Name darf nicht leer sein.',
@@ -72,21 +75,21 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'toasts': {
-          'study-added': 'Das Datenpaket wurde in den Einkaufswagen gelegt.',
-          'study-already-in-cart': 'Das Datenpaket ist bereits im Einkaufswagen.',
+          'study-added': 'Das Datenpaket wurde in den Warenkorb gelegt.',
+          'study-already-in-cart': 'Das Datenpaket ist bereits im Warenkorb.',
           'order-has-validation-errors-toast': 'Ihr Formular enthält ungültige Angaben.',
           'error-on-saving-order': 'Beim Senden Ihrer Bestellung trat ein Fehler auf.'
         },
         'buttons': {
-          'checkout': 'Beantragen',
-          'add-study': 'In den Einkaufswagen',
-          'add-study-tooltip': 'Klicken, um das Datenpaket mit den ausgewählten Optionen in den Einkaufswagen zu legen.',
-          'open-cart': 'Zum Einkaufswagen',
+          'checkout': 'Kostenlos beantragen',
+          'add-study': 'In den Warenkorb',
+          'add-study-tooltip': 'Klicken, um das Datenpaket mit den ausgewählten Optionen in den Warenkorb zu legen.',
+          'open-cart': 'Zum Warenkorb',
           'checkout-tooltip': 'Klicken, um die Datenpakete zu bestellen.',
-          'remove-all': 'Einkaufswagen leeren',
-          'remove-all-tooltip': 'Klicken, um alle Datenpakete aus dem Einkaufswagen zu entfernen.',
-          'delete-product-tooltip': 'Klicken, um das Datenpaket aus dem Einkaufswagen zu entfernen.',
-          'open-cart-tooltip': 'Klicken, um die Inhalte des Einkaufswagens anzuzeigen.',
+          'remove-all': 'Warenkorb leeren',
+          'remove-all-tooltip': 'Klicken, um alle Datenpakete aus dem Warenkorb zu entfernen.',
+          'delete-product-tooltip': 'Klicken, um das Datenpaket aus dem Warenkorb zu entfernen.',
+          'open-cart-tooltip': 'Klicken, um die Inhalte des Warenkorbs anzuzeigen.',
           'open-citation-tooltip': 'Klicken, um Zitationsinformationen zu erhalten und zu kopieren.',
           'open-citation': 'Datenpaket zitieren',
           'close-tooltip': 'Klicken, um die Produktauswahl zu verlassen.',

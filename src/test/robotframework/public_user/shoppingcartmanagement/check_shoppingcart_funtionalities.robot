@@ -52,4 +52,4 @@ Check The Links
     \   Go Back
 
 Empty The Shopping Cart
-   Click Element Through Tooltips   xpath=//span[contains(., 'Einkaufswagen leeren')]
+   Click Element Through Tooltips   xpath=//span[contains(., 'Warenkorb leeren')]

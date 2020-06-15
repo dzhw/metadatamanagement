@@ -30,7 +30,7 @@ angular.module('metadatamanagementApp').config(
           'noresult': 'No search results found.',
           'versions': 'Versions',
           'access-ways': 'Access ways',
-          'cart': 'Note for application'
+          'cart': 'Add to shopping cart'
         },
         'buttons': {
           'refresh-tooltip': 'Click to refresh the search results',
