@@ -285,6 +285,7 @@ angular.module('metadatamanagementApp').config(
           },
           'server-error': {
             'internal-server-error': 'Sorry, etwas ist schief gelaufen :( ({{ status }}).',
+            'gateway-timeout': 'Die Aktion dauert länger als erwartet. Sie wird im Hintergrund weiter ausgeführt.',
             'freemarker': {
               'parsing-error': 'Bei Freemarker trat ein Parsingproblem in Datei "{{entity}}" auf (Zeile, Zeichen): {{invalidValue}}',
               'invalid-reference-error': 'Bei einem Freemarkerskript liegt eine unbekannte Referenz in der Datei "{{entity}}" vor (Zeile, Zeichen): {{invalidValue}}'

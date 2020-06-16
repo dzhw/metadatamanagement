@@ -10,8 +10,9 @@ angular.module('metadatamanagementApp')
              SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
              DataAcquisitionProjectResource,
              ProjectUpdateAccessService, CountryCodesResource, $stateParams,
-             blockUI) {
+             blockUI, LocationSimplifier) {
       blockUI.start();
+      LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
       SearchResultNavigatorService.registerCurrentSearchResult();

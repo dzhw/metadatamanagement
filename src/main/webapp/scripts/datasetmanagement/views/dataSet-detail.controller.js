@@ -11,9 +11,9 @@ angular.module('metadatamanagementApp')
              DataSetAttachmentResource,
              SearchResultNavigatorService,
              DataAcquisitionProjectResource, OutdatedVersionNotifier,
-             $stateParams, blockUI, $mdDialog, MessageBus) {
+             $stateParams, blockUI, $mdDialog, MessageBus, LocationSimplifier) {
       blockUI.start();
-
+      LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 

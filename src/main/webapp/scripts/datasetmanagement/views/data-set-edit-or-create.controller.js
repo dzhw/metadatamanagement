@@ -109,7 +109,7 @@ angular.module('metadatamanagementApp')
                   ProjectUpdateAccessService.isPrerequisiteFulfilled(
                     project, 'data_sets'
                   ).catch(handlePrerequisitesMissing);
-
+                  CurrentProjectService.setCurrentProject(project);
                   ctrl.dataSet = dataSet;
                   ctrl.initSurveyChips();
                   ctrl.loadAttachments();

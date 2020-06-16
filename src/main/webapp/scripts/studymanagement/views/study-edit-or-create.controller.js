@@ -100,6 +100,7 @@ angular.module('metadatamanagementApp')
               .isUpdateAllowed(project, 'studies', true)) {
             redirectToSearchView();
           } else {
+            CurrentProjectService.setCurrentProject(project);
             ctrl.study = study;
             ctrl.currentStudySeries = study.studySeries;
             ctrl.currentSponsor = study.sponsor;
