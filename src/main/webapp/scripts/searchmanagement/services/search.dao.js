@@ -79,6 +79,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'surveyDataTypes.en.ngrams', queryTerm, englishSuperBoost));
             boolQuery.should.push(createConstantScoreQuery(
+              'accessWays.ngrams', queryTerm, standardSuperBoost));
+            boolQuery.should.push(createConstantScoreQuery(
               'concepts.title.de.ngrams', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'concepts.title.en.ngrams', queryTerm, englishMajorBoost));

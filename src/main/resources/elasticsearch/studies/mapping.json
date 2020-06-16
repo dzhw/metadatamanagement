@@ -381,6 +381,17 @@
 				}
 			}
 		},
+		"accessWays": {
+			"type": "keyword",
+			"copy_to": "all",
+			"fields": {
+				"ngrams": {
+					"type": "text",
+					"analyzer": "ngrams",
+					"norms": false
+				}
+			}
+		},
 		"surveyDesign": {
 			"type": "object",
 			"properties": {

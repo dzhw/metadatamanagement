@@ -20,6 +20,11 @@
         collapsed: false
       },
       {
+        name: 'global.filter.access-ways',
+        property: 'access-ways',
+        collapsed: false
+      },
+      {
         name: 'global.filter.tags',
         property: 'tags', collapsed: true
       },
