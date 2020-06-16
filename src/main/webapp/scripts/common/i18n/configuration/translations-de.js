@@ -29,6 +29,7 @@ angular.module('metadatamanagementApp').config(
           'tags': 'Schlagwörter',
           'study-series': 'Studienreihen',
           'survey-data-types': 'Erhebungsdatentyp',
+          'access-ways': 'Zugangswege',
           'unavailable': 'Nicht vorhanden'
         },
         'toolbar': {
