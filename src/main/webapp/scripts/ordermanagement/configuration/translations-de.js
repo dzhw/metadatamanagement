@@ -82,7 +82,7 @@ angular.module('metadatamanagementApp').config(
           'error-on-saving-order': 'Beim Senden Ihrer Bestellung trat ein Fehler auf.'
         },
         'buttons': {
-          'checkout': 'Kostenlos beantragen',
+          'checkout': 'Kostenlos bestellen',
           'add-study': 'In den Warenkorb',
           'add-study-tooltip': 'Klicken, um das Datenpaket mit den ausgewählten Optionen in den Warenkorb zu legen.',
           'open-cart': 'Zum Warenkorb',
