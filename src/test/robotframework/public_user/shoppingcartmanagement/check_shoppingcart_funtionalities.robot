@@ -11,8 +11,6 @@ Check Shopping Cart as a Public User
    Put all access ways in shopping cart
    Go to Shopping Cart
    Delete an Item   # we have 4 items in the cart and we delete one item
-   Confirm Order
-   Close The Toast Message
    Check The Links
    Empty The Shopping Cart
    Get back to german home page   # to sync with next test flow
@@ -47,14 +45,6 @@ Go to Shopping Cart
    Click Element Through Tooltips    xpath=//a//md-icon[contains(., 'shopping_cart')]
    Xpath Should Match X Times   //md-card[contains(@class, 'fdz-search-result')]  4
 
-Confirm Order
-   Click Element Through Tooltips   xpath=//span[contains(., 'Beantragen')]
-
-Close The Toast Message
-   Click Element Through Tooltips  xpath=//md-toast//span[contains(., 'Sie haben noch nicht alle benötigten')]
-   Element Should Contain  xpath=//md-toast//span[contains(.,'Sie haben noch nicht alle benötigten')]  Sie haben noch nicht alle benötigten
-   Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
-
 Check The Links
     @{MD_DATALINKS}   Create List    Variablen   Datensätze
     :FOR   ${MD_LK}   IN  @{MD_DATALINKS}
@@ -62,4 +52,4 @@ Check The Links
     \   Go Back
 
 Empty The Shopping Cart
-   Click Element Through Tooltips   xpath=//span[contains(., 'Einkaufswagen leeren')]
+   Click Element Through Tooltips   xpath=//span[contains(., 'Warenkorb leeren')]

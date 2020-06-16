@@ -3,6 +3,7 @@
     <md-card-header-text>
       <a
         ui-sref="conceptDetail({id: searchResult.id, 'search-result-index': searchResultIndex})"
+        ui-sref-opts="{reload: true, notify: true}"
         ng-click="setParams()">
         <div class="md-title">
           <span display-i18n-string="searchResult.title"></span>

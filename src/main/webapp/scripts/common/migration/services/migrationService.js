@@ -1,14 +1,15 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('MigrationService',
-  function(VERSION, localStorageService, ShoppingCartService) {
+  function(VERSION, localStorageService) {
 
     var versionKey = 'version';
 
     var migrate = function() {
       var storedVersion = localStorageService.get(versionKey);
       if (storedVersion !== VERSION) {
-        ShoppingCartService.clearProducts();
+        // activate if you made schema changes to the shopping cart
+        // ShoppingCartService.clearProducts();
         localStorageService.set(versionKey, VERSION);
       }
     };

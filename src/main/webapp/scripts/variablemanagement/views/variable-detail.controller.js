@@ -12,8 +12,9 @@ angular.module('metadatamanagementApp')
     $state, BreadcrumbService,
     SearchResultNavigatorService,
     OutdatedVersionNotifier,
-    $stateParams, blockUI) {
+    $stateParams, blockUI, LocationSimplifier) {
     blockUI.start();
+    LocationSimplifier.removeDollarSign();
     SearchResultNavigatorService
       .setSearchIndex($stateParams['search-result-index']);
 

@@ -16,8 +16,8 @@ Create Dataset by Dataprovider
     Fill up the Subdatasets
     Select Access Way for the Datasets from The List    download-suf
     Enter Number of Observations or Episodes
+    Select Data Format
     Fill up the description of Subdatasets
-    Fill up the Citation Hint of Subdatasets
     Save Changes
     Get back to german home page
     Click on data set tab
@@ -42,16 +42,16 @@ Select Access Way for the Datasets from The List
     Click Element Through Tooltips    xpath=//md-select[@name='subDataSetsAccessWay_0']
     Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., '${accesswayname}')]
 
+Select Data Format
+    Click Element Through Tooltips    xpath=//md-select[@name='subDataSetsDataFormats_0']
+    Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'Stata')]
+
 Enter Number of Observations or Episodes
     Input Text   xpath=//input[@name='subDataSetsNumberOfObservations_0']    5
 
 Fill up the description of Subdatasets
     Input Text   xpath=//input[@name='subDataSetsDescriptionDe_0']    Subdataset Description De
     Input Text   xpath=//input[@name='subDataSetsDescriptionEn_0']    subdataset Description En
-
-Fill up the Citation Hint of Subdatasets
-    Input Text   xpath=//textarea[@name='subDataSetsCitationHintDe_0']    Subdataset Citation Hint in De
-    Input Text   xpath=//textarea[@name='subDataSetsCitationHintEn_0']    Subdataset Citation Hint in En
 
 Choose Format
     Click Element  xpath=//md-select[@name="format"]
