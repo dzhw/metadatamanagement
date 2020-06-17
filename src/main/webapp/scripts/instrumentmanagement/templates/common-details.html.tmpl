@@ -30,6 +30,13 @@
           <span
             class="md-secondary">{{$ctrl.options.type}}</span>
         </md-list-item>
+        <md-list-item ng-if="$ctrl.options.originalLanguages">
+          <h5>{{'instrument-management.detail.label.original-languages' | translate }}:</h5>
+          <span
+            class="md-secondary pre"
+            ng-repeat="language in $ctrl.options.originalLanguages">{{(language | displayIsoLanguage: $ctrl.lang)}}{{$index + 1 !== $ctrl.options.originalLanguages.length ? ', ': ''}}</span>
+          </span>
+        </md-list-item>
         <md-list-item ng-if="$ctrl.options.annotations">
           <h5>{{'instrument-management.detail.label.annotations' | translate }}:</h5>
           <p

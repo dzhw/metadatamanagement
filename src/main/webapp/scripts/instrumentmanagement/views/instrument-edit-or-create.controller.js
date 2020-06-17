@@ -182,7 +182,8 @@ angular.module('metadatamanagementApp')
                         CurrentProjectService.getCurrentProject().id,
                         studyId: StudyIdBuilderService.buildStudyId(
                           CurrentProjectService.getCurrentProject().id
-                        )
+                        ),
+                        originalLanguages: []
                       });
                       updateToolbarHeaderAndPageTitle();
                       $scope.registerConfirmOnDirtyHook();
@@ -208,8 +209,11 @@ angular.module('metadatamanagementApp')
                           CurrentProjectService.getCurrentProject().id,
                           studyId: StudyIdBuilderService.buildStudyId(
                             CurrentProjectService.getCurrentProject().id
-                          )
+                          ),
                         });
+                        if (!ctrl.instrument.originalLanguages) {
+                          ctrl.instrument.originalLanguages = [];
+                        }
                         $scope.responseRateInitializing = true;
                         updateToolbarHeaderAndPageTitle();
                         $scope.registerConfirmOnDirtyHook();
@@ -316,6 +320,9 @@ angular.module('metadatamanagementApp')
             .then(function(wrapper) {
               ctrl.instrument = new InstrumentResource(
                   wrapper.selection);
+              if (!ctrl.instrument.originalLanguages) {
+                ctrl.instrument.originalLanguages = [];
+              }
               ctrl.initSurveyChips();
               ctrl.initConceptChips();
               if (wrapper.isCurrentVersion) {

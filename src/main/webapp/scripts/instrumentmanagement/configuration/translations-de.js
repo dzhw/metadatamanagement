@@ -33,6 +33,7 @@ angular.module('metadatamanagementApp').config(
             'subtitle': 'Untertitel',
             'type': 'Typ',
             'annotations': 'Anmerkungen',
+            'original-languages': 'Ursprüngliche Sprachen',
             'attachments': {
               'type': 'Typ',
               'description': 'Beschreibung',
