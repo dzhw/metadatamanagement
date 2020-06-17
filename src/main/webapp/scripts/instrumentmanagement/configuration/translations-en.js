@@ -31,6 +31,7 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                     'title': 'Title',
                     'subtitle': 'Subtitle',
                     'type': 'Type',
+                    'original-languages': 'Original Languages',
                     'annotations': 'Annotations',
                     'attachments': {
                         'type': 'Type',
