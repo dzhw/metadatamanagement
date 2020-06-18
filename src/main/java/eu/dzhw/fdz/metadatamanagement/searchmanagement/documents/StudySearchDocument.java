@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.SubDataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
@@ -85,6 +86,8 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
 
   private List<String> accessWays;
 
+  private List<String> dataLanguages;
+
   /**
    * Construct the search document with all related subdocuments.
    * 
@@ -112,6 +115,7 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
       this.nestedDataSets =
           dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
       this.accessWays = generateAccessWays(dataSets);
+      this.dataLanguages = generateDataLanguages(dataSets);
     }
     if (variables != null) {
       this.variables =
@@ -215,5 +219,18 @@ public class StudySearchDocument extends Study implements SearchDocumentInterfac
     return dataSets.stream().map(DataSetSubDocumentProjection::getSubDataSets)
         .flatMap(Collection::stream).map(SubDataSet::getAccessWay).distinct()
         .collect(Collectors.toList());
+  }
+
+  /**
+   * Create an aggregated list of the languages of all {@link DataSet}s.
+   * 
+   * @param dataSets All DataSet Sub Document Projections.
+   * @return aggregated List of languages
+   */
+  private List<String> generateDataLanguages(List<DataSetSubDocumentProjection> dataSets) {
+    return dataSets.stream().map(DataSetSubDocumentProjection::getLanguages)
+        .filter(list -> list != null)
+        .flatMap(Collection::stream)
+        .distinct().collect(Collectors.toList());
   }
 }
