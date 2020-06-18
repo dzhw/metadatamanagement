@@ -64,6 +64,13 @@
             class="md-secondary pre"
             ng-repeat="dataType in $ctrl.options.study.surveyDataTypes">{{dataType[$ctrl.lang]}}{{!$last?'; ':''}}</span>
         </md-list-item>
+        <md-list-item ng-if="$ctrl.options.study.dataLanguages && $ctrl.options.study.dataLanguages.length > 0">
+          <h5>{{'study-management.detail.label.dataLanguages' | translate }}:</h5>
+          <span
+            class="md-secondary pre"
+            ng-repeat="language in $ctrl.options.study.dataLanguages">{{(language | displayIsoLanguage: $ctrl.lang)}}{{$index + 1 !== $ctrl.options.study.dataLanguages.length ? ', ': ''}}</span>
+          </span>
+        </md-list-item>
         <md-list-item ng-if="$ctrl.options.study.dataCurators">
           <h5>{{'study-management.detail.label.data-curators' | translate }}:</h5>
           <span

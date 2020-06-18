@@ -57,9 +57,16 @@
               {{'shopping-cart.detail.data-sets-tooltip' | translate}}
             </md-tooltip>
           </a>
+          </p>
+          <p>
           <span>{{'shopping-cart.detail.label.data-formats' | translate}}</span>
           <span ng-repeat="dataFormat in product.dataFormats">
             {{('data-set-management.detail.sub-data-sets.data-formats.' + dataFormat | translate) + (!$last ? ', ' : '.')}}
+          </span>
+          <span ng-if="ctrl.studies[product.study.id + '-' + product.version].dataLanguages && ctrl.studies[product.study.id + '-' + product.version].dataLanguages.length > 0">{{'shopping-cart.detail.label.data-languages' | translate}}</span>
+          <span
+          class="pre"
+          ng-repeat="language in ctrl.studies[product.study.id + '-' + product.version].dataLanguages">{{(language | displayIsoLanguage: currentLanguage)}}{{$index + 1 !== ctrl.studies[product.study.id + '-' + product.version].dataLanguages.length ? ', ': ''}}</span>
           </span>
           </p>
           <div ng-if="ctrl.studies[product.study.id + '-' + product.version].annotations">

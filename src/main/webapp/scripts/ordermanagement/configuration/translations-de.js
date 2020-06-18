@@ -32,7 +32,8 @@ angular.module('metadatamanagementApp').config(
             'study': 'Studie',
             'customer-name': 'Ihr Name',
             'customer-email': 'Ihre E-Mailadresse',
-            'data-formats': 'Die Datensätze enthalten Daten in den folgenden Formaten:'
+            'data-formats': 'Die Datensätze enthalten Daten in den folgenden Formaten:',
+            'data-languages': 'Außerdem sind die Datensätze in den folgenden Sprachen verfügbar:'
           },
           'hints': {
             'name': 'Bitte teilen Sie uns Ihren vollständigen Namen mit.',

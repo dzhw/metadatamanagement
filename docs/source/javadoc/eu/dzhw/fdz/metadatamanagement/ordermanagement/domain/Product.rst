@@ -1,5 +1,7 @@
 .. java:import:: java.io Serializable
 
+.. java:import:: java.util Set
+
 .. java:import:: javax.validation Valid
 
 .. java:import:: javax.validation.constraints NotEmpty
@@ -21,8 +23,6 @@
 .. java:import:: lombok Data
 
 .. java:import:: lombok NoArgsConstructor
-
-.. java:import:: java.util Set
 
 Product
 =======
@@ -60,7 +60,7 @@ dataFormats
 .. java:field:: @NotEmpty private Set<DataFormat> dataFormats
    :outertype: Product
 
-   The available data formats of the study. It must not be empty.
+   The available data formats of the data package. It must not be empty.
 
 serialVersionUID
 ^^^^^^^^^^^^^^^^

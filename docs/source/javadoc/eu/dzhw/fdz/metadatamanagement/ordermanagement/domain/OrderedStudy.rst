@@ -36,6 +36,14 @@ annotations
 
    The annotations of the \ :java:ref:`eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study`\ .
 
+dataLanguages
+^^^^^^^^^^^^^
+
+.. java:field:: private List<String> dataLanguages
+   :outertype: OrderedStudy
+
+   List of languages in which the datasets are available. May be null or empty.
+
 id
 ^^
 
