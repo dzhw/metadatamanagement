@@ -6,15 +6,15 @@ angular.module('metadatamanagementApp').config(
       //jscs:disable
       'user-management': {
         'home': {
-          'title': 'Benutzer verwalten',
-          'createLabel': 'Neuen Benutzer erstellen',
-          'createOrEditLabel': 'Benutzer erstellen oder bearbeiten'
+          'title': 'Benutzer:innen verwalten',
+          'createLabel': 'Neue Benutzer:in erstellen',
+          'createOrEditLabel': 'Benutzer:in erstellen oder bearbeiten'
         },
         'delete': {
-          'question': 'Sind Sie sicher, dass Sie den Benutzer {{ login }} löschen möchten?'
+          'question': 'Sind Sie sicher, dass Sie die Benutzer:in {{ login }} löschen möchten?'
         },
         'detail': {
-          'title': 'Benutzer'
+          'title': 'Benutzer:in'
         },
         'first-name': 'Vorname',
         'last-name': 'Nachname',
@@ -40,16 +40,16 @@ angular.module('metadatamanagementApp').config(
             'password': {
               'not-null': 'Der Passwort darf nicht leer sein!'
             },
-            'must-not-be-deactivated': 'Der Benutzer kann nicht deaktivert werden, weil er noch folgenden Projekten zugewiesen ist: {{ projectIds }}',
-            'must-not-loose-publisher-role': 'Dem Benutzer kann die Rolle "Publisher" nicht entzogen werden, weil er noch folgenden Projekten als Publisher zugewiesen ist: {{ projectIds }}',
-            'must-not-loose-data-provider-role': 'Dem Benutzer kann die Rolle "Datengeber:in" nicht entzogen werden, weil er noch folgenden Projekten als Datengeber:in zugewiesen ist: {{ projectIds }}'
+            'must-not-be-deactivated': 'Die Benutzer:in kann nicht deaktivert werden, weil sie noch folgenden Projekten zugewiesen ist: {{ projectIds }}',
+            'must-not-loose-publisher-role': 'Der Benutzer:in kann die Rolle "Publisher" nicht entzogen werden, weil sie noch folgenden Projekten als Publisher zugewiesen ist: {{ projectIds }}',
+            'must-not-loose-data-provider-role': 'Der Benutzer:in kann die Rolle "Datengeber:in" nicht entzogen werden, weil sie noch folgenden Projekten als Datengeber:in zugewiesen ist: {{ projectIds }}'
           }
         },
         'activate': {
           'title': 'Aktivierung',
           'messages': {
-            'success': '<strong>Ihr Benutzer wurde aktiviert.</strong>',
-            'error': '<strong>Ihr Benutzer konnte nicht aktiviert werden.</strong> Bitte benutzen Sie die Registrierungsmaske, um sich zu registrieren.',
+            'success': '<strong>Ihre Benutzer:in wurde aktiviert.</strong>',
+            'error': '<strong>Ihre Benutzer:in konnte nicht aktiviert werden.</strong> Bitte benutzen Sie die Registrierungsmaske, um sich zu registrieren.',
             'wait-for-role': 'Sie werden benachrichtigt sobald Sie einem Projekt zugewiesen wurden.'
           }
         },
@@ -132,7 +132,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'settings': {
-          'title': 'Kontoeigenschaften für Benutzer <b>{{username}}</b>',
+          'title': 'Kontoeigenschaften für Benutzer:in <b>{{username}}</b>',
           'form': {
             'firstname': 'Vorname',
             'firstname.placeholder': 'Ihr Vorname',
@@ -160,14 +160,14 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'user-messages': {
-          'create-title': 'Nachricht an alle Benutzer (gerade online) verfassen',
+          'create-title': 'Nachricht an alle Benutzer:innen (gerade online) verfassen',
           'new-message-title': 'Neue Nachricht von {{sender}}',
           'message-de-label': 'Nachricht (auf Deutsch)',
           'message-en-label': 'Nachricht (auf Englisch)',
           'dialog-tooltip': {
             'close': 'Klicken, um das Senden der Nachricht abzubrechen.',
-            'send': 'Klicken, um die Nachricht an alle Benutzer zu senden.',
-            'open-create-dialog': 'Klicken, um eine Nachricht an alle Benutzer (gerade online) zu verfassen'
+            'send': 'Klicken, um die Nachricht an alle Benutzer:innen zu senden.',
+            'open-create-dialog': 'Klicken, um eine Nachricht an alle Benutzer:innen (gerade online) zu verfassen'
           },
           'buttons': {
             'send': 'Senden'

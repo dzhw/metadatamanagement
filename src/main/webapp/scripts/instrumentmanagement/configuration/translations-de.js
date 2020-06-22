@@ -66,7 +66,7 @@ angular.module('metadatamanagementApp').config(
           },
           'page-title': '{{ description }} ({{ instrumentId }})',
           'not-found': 'Die id {{id}} referenziert auf ein unbekanntes Instrument.',
-          'not-released-toast': 'Das Instrument "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
+          'not-released-toast': 'Das Instrument "{{ id }}" wurde noch nicht für alle Benutzer:innen freigegeben!',
           'tooltips': {
             'surveys': {
               'one': 'Klicken, um die Erhebung anzuzeigen, bei der dieses Instrument verwendet wurde',

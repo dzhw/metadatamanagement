@@ -31,8 +31,8 @@ angular.module('metadatamanagementApp').config(
             'delete': 'Möchten Sie wirklich das Projekt "{{ id }}" löschen? Das Projekt kann hiernach nicht wieder hergestellt werden.',
             'deleted-successfully-project': 'Das Datenaufbereitungsprojekt "{{ id }}" wurde erfolgreich gelöscht.',
             'deleted-not-successfully-project': 'Das Datenaufbereitungsprojekt "{{ id }}" konnte nicht gelöscht werden!',
-            'released-successfully': 'Die Metadaten des Projektes wurden bei da|ra gespeichert und die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer sichtbar sein.',
-            'released-beta-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer sichtbar sein. Es wurden keine Metadaten zu da|ra gesendet.',
+            'released-successfully': 'Die Metadaten des Projektes wurden bei da|ra gespeichert und die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer:innen sichtbar sein.',
+            'released-beta-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer:innen sichtbar sein. Es wurden keine Metadaten zu da|ra gesendet.',
             'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Es trat ein Fehler beim Senden der Metadaten zu da|ra auf.',
             'unreleased-successfully': 'Die Daten des Projektes "{{ id }}" können jetzt von zugewiesenen Publishern bzw. Datengeber:innen bearbeitet werden.',
             'unrelease-title': 'Freigabe für Projekt "{{ id }}" zurücknehmen?',
@@ -93,7 +93,7 @@ angular.module('metadatamanagementApp').config(
             'project-selected': 'Für das Anlegen neuer Daten muss ein Projekt ausgewählt sein.',
             'update-for-publishers-allowed': 'Die Aktion ist nicht möglich, weil die Metadaten bereits durch den Publisher als "fertig" markiert wurden',
             'update-for-data-providers-allowed': 'Die Aktion ist nicht möglich, weil die Metadaten bereits durch die Publisher oder Datengeber:innen als "fertig" markiert wurden',
-            'project-released': 'Die Aktion ist nicht möglich, weil das Projekt momentan für alle öffentlichen Nutzer freigegeben ist.',
+            'project-released': 'Die Aktion ist nicht möglich, weil das Projekt momentan für alle öffentlichen Nutzer:innen freigegeben ist.',
             'member-of-assigned-group': 'Die Aktion ist nicht möglich, weil das Projekt momentan der anderen Projektgruppe zugewiesen ist.',
             'assigned-to-project': 'Die Aktion ist nicht möglich, weil Sie dem Projekt nicht als Publisher oder Datengeber:in zugewiesen sind.',
             'not-required': 'Die Aktion ist nicht möglich, weil diese Metadaten in den Projekteinstellungen nicht als "erwartet" markiert wurden.',
@@ -114,10 +114,10 @@ angular.module('metadatamanagementApp').config(
           'title': 'Projekt-Cockpit ({{projectId}})',
           'header': 'Projekt-Cockpit',
           'search': {
-            'placeholder': 'Suchen Sie Benutzer...',
+            'placeholder': 'Suchen Sie Benutzer:innen...',
             'header-data-provider': 'Datengeber:innen dieses Projekts',
             'header-publisher': 'Publisher dieses Projekts',
-            'no-users-found': 'Kein Benutzer gefunden!'
+            'no-users-found': 'Keine Benutzer:in gefunden!'
           },
           'tooltip': {
             'not-assigned': 'Das Projekt ist aktuell der anderen Benutzergruppe zugewiesen.',
@@ -139,7 +139,7 @@ angular.module('metadatamanagementApp').config(
             'save': 'Klicken, um die Anpassungen zu speichern.',
             'save-assign': 'Klicken, um die Anpassungen zu speichern und das Projekt zuzuweisen.',
             'save-takeback': 'Klicken, um die Anpassungen zu speichern und das Projekt der Gruppe Publisher zuzuweisen.',
-            'remove-user': 'Nutzer entfernen'
+            'remove-user': 'Nutzer:in entfernen'
           },
           'list': {
             'empty-data-provider': 'Keine Datengeber:innen sind diesem Projekt zugeteilt.',
@@ -159,7 +159,7 @@ angular.module('metadatamanagementApp').config(
             'dataSets': 'Datensätze',
             'variables': 'Variablen',
             'publications': 'Publikationen',
-            'setting-info': 'Die folgenden Metadaten müssen bereitgestellt werden, bevor dieses Projekt für alle Benutzer freigegeben werden kann:'
+            'setting-info': 'Die folgenden Metadaten müssen bereitgestellt werden, bevor dieses Projekt für alle Benutzer:innen freigegeben werden kann:'
           },
           'config': {
             'assigned-group': 'Zugewiesene Benutzergruppe',
@@ -190,17 +190,17 @@ angular.module('metadatamanagementApp').config(
             'no-shadows': 'Das Projekt wurde noch nicht freigegeben.',
             'confirm-hide' : {
               'title': 'Freigegebene Version {{version}} des Projektes {{id}} verstecken?',
-              'content': 'Sind Sie sicher, dass Sie die freigegebene Version {{version}} des Projektes {{id}} verstecken möchten? Datennutzer können diese Version dann nicht mehr sehen.'
+              'content': 'Sind Sie sicher, dass Sie die freigegebene Version {{version}} des Projektes {{id}} verstecken möchten? Datennutzer:innen können diese Version dann nicht mehr sehen.'
             },
             'confirm-unhide' : {
               'title': 'Version {{version}} des Projektes {{id}} wieder für alle sichtbar machen?',
-              'content': 'Sind Sie sicher, dass Sie die Version {{version}} des Projektes {{id}} wieder für alle Nutzer sichtbar machen möchten?'
+              'content': 'Sind Sie sicher, dass Sie die Version {{version}} des Projektes {{id}} wieder für alle Nutzer:innen sichtbar machen möchten?'
             },
-            'hiding-toast': 'Die Version {{version}} des Projektes {{id}} wird in ca. 10 Minuten nur noch für angemeldete Benutzer sichtbar sein!',
-            'unhiding-toast': 'Die Version {{version}} des Projektes {{id}} wird in ca. 10 Minuten wieder für alle Benutzer sichtbar sein!',
+            'hiding-toast': 'Die Version {{version}} des Projektes {{id}} wird in ca. 10 Minuten nur noch für angemeldete Benutzer:innen sichtbar sein!',
+            'unhiding-toast': 'Die Version {{version}} des Projektes {{id}} wird in ca. 10 Minuten wieder für alle Benutzer:innen sichtbar sein!',
             'button': {
-              'hide-shadow': 'Diese Version ist aktuell für alle Benutzer sichtbar. Klicken Sie hier, um die Version zu verstecken!',
-              'unhide-shadow': 'Diese Version ist aktuell nicht für alle Benutzer sichtbar. Klicken Sie hier, um die Version wieder sichtbar zu machen!'
+              'hide-shadow': 'Diese Version ist aktuell für alle Benutzer:innen sichtbar. Klicken Sie hier, um die Version zu verstecken!',
+              'unhide-shadow': 'Diese Version ist aktuell nicht für alle Benutzer:innen sichtbar. Klicken Sie hier, um die Version wieder sichtbar zu machen!'
             }
           }
         },

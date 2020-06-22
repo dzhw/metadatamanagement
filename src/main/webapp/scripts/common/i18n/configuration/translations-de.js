@@ -88,7 +88,7 @@ angular.module('metadatamanagementApp').config(
         'tooltips': {
           'create-project': 'Klicken, um ein neues Datenaufbereitungsprojekt zu erzeugen.',
           'delete-project': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt mit allen verknüpften Daten zu löschen.',
-          'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer freizugeben.',
+          'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer:innen freizugeben.',
           'unrelease-project': 'Klicken, um die Freigabe des ausgewählten Projektes zurückzunehmen.',
           'cockpit-project': 'Klicken, um zum Projektcockpit zu gehen.',
           'post-validation': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt zu validieren.',
