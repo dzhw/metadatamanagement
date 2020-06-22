@@ -120,8 +120,8 @@ angular.module('metadatamanagementApp').config(
             'no-users-found': 'Keine Benutzer:in gefunden!'
           },
           'tooltip': {
-            'not-assigned': 'Das Projekt ist aktuell der anderen Benutzergruppe zugewiesen.',
-            'not-in-group': 'Sie gehören nicht dieser Benutzergruppe an.',
+            'not-assigned': 'Das Projekt ist aktuell der anderen Benutzer:innengruppe zugewiesen.',
+            'not-in-group': 'Sie gehören nicht dieser Benutzer:innengruppe an.',
             'not-in-publishers': 'Sie sind diesem Projekt nicht als Publisher zugewiesen'
           },
           'alert': {
@@ -162,7 +162,7 @@ angular.module('metadatamanagementApp').config(
             'setting-info': 'Die folgenden Metadaten müssen bereitgestellt werden, bevor dieses Projekt für alle Benutzer:innen freigegeben werden kann:'
           },
           'config': {
-            'assigned-group': 'Zugewiesene Benutzergruppe',
+            'assigned-group': 'Zugewiesene Benutzer:innengruppe',
             'released': 'Veröffentlicht',
             'expected': 'Erwartet',
             'ready': 'Fertig',
