@@ -6,15 +6,15 @@ angular.module('metadatamanagementApp').config(
       //jscs:disable
       'user-management': {
         'home': {
-          'title': 'Benutzer verwalten',
-          'createLabel': 'Neuen Benutzer erstellen',
-          'createOrEditLabel': 'Benutzer erstellen oder bearbeiten'
+          'title': 'Benutzer:innen verwalten',
+          'createLabel': 'Neue Benutzer:in erstellen',
+          'createOrEditLabel': 'Benutzer:in erstellen oder bearbeiten'
         },
         'delete': {
-          'question': 'Sind Sie sicher, dass Sie den Benutzer {{ login }} löschen möchten?'
+          'question': 'Sind Sie sicher, dass Sie die Benutzer:in {{ login }} löschen möchten?'
         },
         'detail': {
-          'title': 'Benutzer'
+          'title': 'Benutzer:in'
         },
         'first-name': 'Vorname',
         'last-name': 'Nachname',
@@ -40,22 +40,22 @@ angular.module('metadatamanagementApp').config(
             'password': {
               'not-null': 'Der Passwort darf nicht leer sein!'
             },
-            'must-not-be-deactivated': 'Der Benutzer kann nicht deaktivert werden, weil er noch folgenden Projekten zugewiesen ist: {{ projectIds }}',
-            'must-not-loose-publisher-role': 'Dem Benutzer kann die Rolle "Publisher" nicht entzogen werden, weil er noch folgenden Projekten als Publisher zugewiesen ist: {{ projectIds }}',
-            'must-not-loose-data-provider-role': 'Dem Benutzer kann die Rolle "Datengeber" nicht entzogen werden, weil er noch folgenden Projekten als Datengeber zugewiesen ist: {{ projectIds }}'
+            'must-not-be-deactivated': 'Die Benutzer:in kann nicht deaktivert werden, weil sie noch folgenden Projekten zugewiesen ist: {{ projectIds }}',
+            'must-not-loose-publisher-role': 'Der Benutzer:in kann die Rolle "Publisher" nicht entzogen werden, weil sie noch folgenden Projekten als Publisher zugewiesen ist: {{ projectIds }}',
+            'must-not-loose-data-provider-role': 'Der Benutzer:in kann die Rolle "Datengeber:in" nicht entzogen werden, weil sie noch folgenden Projekten als Datengeber:in zugewiesen ist: {{ projectIds }}'
           }
         },
         'activate': {
           'title': 'Aktivierung',
           'messages': {
-            'success': '<strong>Ihr Benutzer wurde aktiviert.</strong>',
-            'error': '<strong>Ihr Benutzer konnte nicht aktiviert werden.</strong> Bitte benutzen Sie die Registrierungsmaske, um sich zu registrieren.',
+            'success': '<strong>Ihre Benutzer:in wurde aktiviert.</strong>',
+            'error': '<strong>Ihre Benutzer:in konnte nicht aktiviert werden.</strong> Bitte benutzen Sie die Registrierungsmaske, um sich zu registrieren.',
             'wait-for-role': 'Sie werden benachrichtigt sobald Sie einem Projekt zugewiesen wurden.'
           }
         },
         'login': {
           'login': 'Anmelden',
-          'title': 'Anmeldung für Datengeber/-innen',
+          'title': 'Anmeldung für Datengeber:innen',
           'form': {
             'password': 'Passwort',
             'password-placeholder': 'Ihr Passwort',
@@ -85,7 +85,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'register': {
-          'title': 'Registrierung für Datengeber/-innen',
+          'title': 'Registrierung für Datengeber:innen',
           'form': {
             'button': 'Registrieren'
           },
@@ -132,7 +132,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'settings': {
-          'title': 'Kontoeigenschaften für Benutzer <b>{{username}}</b>',
+          'title': 'Kontoeigenschaften für Benutzer:in <b>{{username}}</b>',
           'form': {
             'firstname': 'Vorname',
             'firstname.placeholder': 'Ihr Vorname',
@@ -160,14 +160,14 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'user-messages': {
-          'create-title': 'Nachricht an alle Benutzer (gerade online) verfassen',
+          'create-title': 'Nachricht an alle Benutzer:innen (gerade online) verfassen',
           'new-message-title': 'Neue Nachricht von {{sender}}',
           'message-de-label': 'Nachricht (auf Deutsch)',
           'message-en-label': 'Nachricht (auf Englisch)',
           'dialog-tooltip': {
             'close': 'Klicken, um das Senden der Nachricht abzubrechen.',
-            'send': 'Klicken, um die Nachricht an alle Benutzer zu senden.',
-            'open-create-dialog': 'Klicken, um eine Nachricht an alle Benutzer (gerade online) zu verfassen'
+            'send': 'Klicken, um die Nachricht an alle Benutzer:innen zu senden.',
+            'open-create-dialog': 'Klicken, um eine Nachricht an alle Benutzer:innen (gerade online) zu verfassen'
           },
           'buttons': {
             'send': 'Senden'
@@ -175,7 +175,7 @@ angular.module('metadatamanagementApp').config(
         },
         'welcome-dialog': {
           'title': 'Herzlich Willkommen',
-          'text-body': '<p>Liebe(r) {{username}},</p><p>schön, dass Sie sich dazu entschieden haben, Ihre Forschungsdaten anderen Forschern über unser FDZ zur Verfügung zu stellen. Dieses System dient dazu, alle Informationen rund um Ihre Forschungsdaten (sogenannte Metadaten) von Ihnen als Datengeber(in) zu erfassen und zu veröffentlichen.</p><p>In dem Navigationsmenü auf der linken Seite finden Sie eine Liste aller Datenaufbereitungsprojekte, denen Sie als Datengeber(in) zugewiesen wurden:</p><img src="/assets/images/welcome-dialog-project-chooser-de.png" class="fdz-welcome-dialog-image"/><p style="margin:10px 0px 0px 0px;">Wählen Sie dort einfach das Projekt aus, für das Sie Metadaten eingeben möchten und klicken Sie anschließend auf die orangene Schaltfläche "Projekt-Cockpit" <img src="/assets/images/welcome-dialog-project-cockpit-button.png"/> unter dem ausgewählten Projekt.</p><p>Das Projekt kann entweder den Publishern (FDZ-Mitarbeitern) oder Ihnen als Datengebern zur Bearbeitung zugewiesen sein. Sobald das Projekt <img src="/assets/images/welcome-dialog-assigned-de.png" alt="Zugewiesen an Datengeber"/> ist, werden Sie benachrichtigt und Sie können anfangen Metadaten einzugeben.</p><p>Eine ausführliche Benutzerdokumentation für Datengeber finden Sie hier: <a href="https://metadatamanagement.readthedocs.io/de/stable/metadatenabgabe.html" target="_blank">Dokumentation</a>.</p>',
+          'text-body': '<p>Liebe(r) {{username}},</p><p>schön, dass Sie sich dazu entschieden haben, Ihre Forschungsdaten anderen Forscher:innen über unser FDZ zur Verfügung zu stellen. Dieses System dient dazu, alle Informationen rund um Ihre Forschungsdaten (sogenannte Metadaten) von Ihnen als Datengeber:in zu erfassen und zu veröffentlichen.</p><p>In dem Navigationsmenü auf der linken Seite finden Sie eine Liste aller Datenaufbereitungsprojekte, denen Sie als Datengeber:in zugewiesen wurden:</p><img src="/assets/images/welcome-dialog-project-chooser-de.png" class="fdz-welcome-dialog-image"/><p style="margin:10px 0px 0px 0px;">Wählen Sie dort einfach das Projekt aus, für das Sie Metadaten eingeben möchten und klicken Sie anschließend auf die orangene Schaltfläche "Projekt-Cockpit" <img src="/assets/images/welcome-dialog-project-cockpit-button.png"/> unter dem ausgewählten Projekt.</p><p>Das Projekt kann entweder den Publishern (FDZ-Mitarbeiter:innen) oder Ihnen als Datengeber:in zur Bearbeitung zugewiesen sein. Sobald das Projekt <span style="font-size: 1em;" class="label label-as-badge bg-primary">Zugewiesen an Datengeber:innen</span> ist, werden Sie benachrichtigt und Sie können anfangen Metadaten einzugeben.</p><p>Eine ausführliche Benutzerdokumentation für Datengeber:innen finden Sie hier: <a href="https://metadatamanagement.readthedocs.io/de/stable/metadatenabgabe.html" target="_blank">Dokumentation</a>.</p>',
           'do-not-show-again': 'Nicht mehr anzeigen'
         }
       }

@@ -96,7 +96,7 @@ angular.module('metadatamanagementApp').config(
             'true': 'Klicken, um den gesamten Inhalt der Häufigkeitstabelle zu zeigen',
             'false': 'Klicken, um den Inhaltsbereich der Häufigkeitstabelle zu minimieren'
           },
-          'not-released-toast': 'Die Variable "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
+          'not-released-toast': 'Die Variable "{{ id }}" wurde noch nicht für alle Benutzer:innen freigegeben!',
           'tooltips': {
             'surveys': {
               'one': 'Klicken, um die Erhebung anzuzeigen, aus der diese Variable resultierte',

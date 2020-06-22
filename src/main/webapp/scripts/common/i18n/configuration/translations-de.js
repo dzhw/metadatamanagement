@@ -35,8 +35,8 @@ angular.module('metadatamanagementApp').config(
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {
-              'false': 'Klicken, um das Menü "Zugang für Datengeber" zu öffnen',
-              'true': 'Klicken, um das Menü "Zugang für Datengeber" zu schließen'
+              'false': 'Klicken, um das Menü "Zugang für Datengeber:innen" zu öffnen',
+              'true': 'Klicken, um das Menü "Zugang für Datengeber:innen" zu schließen'
             },
             'logout': '{{username}} abmelden',
             'logout-tooltip': 'Klicken, um "{{username}}" abzumelden',
@@ -88,7 +88,7 @@ angular.module('metadatamanagementApp').config(
         'tooltips': {
           'create-project': 'Klicken, um ein neues Datenaufbereitungsprojekt zu erzeugen.',
           'delete-project': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt mit allen verknüpften Daten zu löschen.',
-          'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer freizugeben.',
+          'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer:innen freizugeben.',
           'unrelease-project': 'Klicken, um die Freigabe des ausgewählten Projektes zurückzunehmen.',
           'cockpit-project': 'Klicken, um zum Projektcockpit zu gehen.',
           'post-validation': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt zu validieren.',
@@ -120,7 +120,7 @@ angular.module('metadatamanagementApp').config(
           },
           'navbar-feedback': 'Klicken, um Feedback zu geben oder einen Fehler zu melden',
           'navbar-documentation': 'Klicken, um die Benutzerdokumentation zu öffnen',
-          'navbar-usage-info': 'Klicken, um Hinweise für Datengeber zu erhalten',
+          'navbar-usage-info': 'Klicken, um Hinweise für Datengeber:innen zu erhalten',
           'navbar-project-overview': 'Klicken, um die Projektübersicht zu öffnen'
         },
         'feedback-dialog': {
@@ -172,7 +172,7 @@ angular.module('metadatamanagementApp').config(
           'dataprotection': 'Datenschutz',
           'notepad': 'Merkzettel',
           'documentation': 'Dokumentation',
-          'usage-info': 'Hinweise für Datengeber',
+          'usage-info': 'Hinweise für Datengeber:innen',
           'project-overview': 'Projektübersicht'
         },
         'form': {
@@ -187,7 +187,7 @@ angular.module('metadatamanagementApp').config(
         },
         'messages': {
           'info': {
-            'register': 'Sie sind Datengeber/-in und haben noch keinen Zugang? '
+            'register': 'Sie sind Datengeber:in und haben noch keinen Zugang? '
           },
           'error': {
             'dontmatch': 'Das bestätigte Passwort entspricht nicht dem neuen Passwort!',
@@ -296,7 +296,7 @@ angular.module('metadatamanagementApp').config(
             'unauthorized-error': 'Sie sind nicht angemeldet und können daher diese Aktion nicht durchführen (Status {{ status }}).',
             'forbidden-error': 'Sie haben nicht die Berechtigung (Rolle), um diese Aktion durchzuführen (Status {{ status }}).',
             'not-found-error': 'Die angeforderte Seite wurde nicht gefunden ({{ status }}).',
-            'not-in-assignee-group': 'Die Bearbeitung ist nicht möglich, weil die Zuständigkeit beim Datengeber oder Publisher liegt.'
+            'not-in-assignee-group': 'Die Bearbeitung ist nicht möglich, weil die Zuständigkeit gerade bei den Datengeber:innen oder Publishern liegt.'
           },
           'person': {
             'first-name': {

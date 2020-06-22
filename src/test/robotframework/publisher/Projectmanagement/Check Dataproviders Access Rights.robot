@@ -59,7 +59,7 @@ Check Project is Assigned to Dataprovider But Can Not Change Anything When Publi
 
 *** Keywords ***
 Assert Project is Assigned to Dataprovider
-    Element Should Contain  xpath=//project-status-badge//span[contains(.,"Zugewiesen an Datengeber")]  Zugewiesen an Datengeber
+    Element Should Contain  xpath=//project-status-badge//span[contains(.,"Zugewiesen an Datengeber:innen")]  Zugewiesen an Datengeber:innen
 
 Ensure Create Button is Restricted
     [Arguments]  ${metadataname}
@@ -104,7 +104,7 @@ Click Publisher and Dataprovider Ready Checkbox From The List
     @{MD_ITEMS}    Create List   surveys   instruments   questions   dataSets    variables   studies  #studies should be at last index to avoid outofbound error in IE
     :FOR   ${MD_DT}   IN  @{MD_ITEMS}
     \   Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Publisher Fertig")]
-    \   Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Datengeber Fertig")]
+    \   Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]
 
 Select Metadata Checkbox From The List
     @{MD_ITEMS}    Create List   survey   instruments   questions   dataSet    variables
