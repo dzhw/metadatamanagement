@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').config(
       //jscs:disable
       'global': {
         'title': 'Metadatamanagement (MDM)',
-        'browsehappy': 'Sie benutzen einen <strong>veralteten</strong> Browser. Bitte <a href="http://browsehappy.com/?locale=de/">aktualisieren Sie Ihren Browser</a>, um die Benutzerfreundlichkeit zu erhöhen.',
+        'browsehappy': 'Sie benutzen einen <strong>veralteten</strong> Browser. Bitte <a href="http://browsehappy.com/?locale=de/">aktualisieren Sie Ihren Browser</a>, um die Benutzer:innenfreundlichkeit zu erhöhen.',
         'rdc-alt-text': 'Logo des Forschungsdatenzentrums des Deutschen Zentrum für Hochschul- und Wissenschaftsforschung',
         'dzhw-alt-text': 'Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH',
         'bmbf-alt-text': 'Gefördert vom BMBF',
@@ -52,7 +52,7 @@ angular.module('metadatamanagementApp').config(
               'false': 'Klicken, um das Menü "Administration" zu öffnen',
               'true': 'Klicken, um das Menü "Administration" zu schließen'
             },
-            'user-management-tooltip': 'Klicken, um die Benutzerverwaltung zu öffnen',
+            'user-management-tooltip': 'Klicken, um die Benutzer:innenverwaltung zu öffnen',
             'health-tooltip': 'Klicken, um die Verfügbarkeit aller externen Dienste zu prüfen',
             'logs-tooltip': 'Klicken, um Loglevel zu ändern',
             'settings-tooltip': 'Klicken, um Ihre Kontoeigenschaften zu bearbeiten',
@@ -119,7 +119,7 @@ angular.module('metadatamanagementApp').config(
             'email': 'Klicken, um per E-Mail Feedback zu geben oder einen Fehler zu melden'
           },
           'navbar-feedback': 'Klicken, um Feedback zu geben oder einen Fehler zu melden',
-          'navbar-documentation': 'Klicken, um die Benutzerdokumentation zu öffnen',
+          'navbar-documentation': 'Klicken, um die Benutzer:innendokumentation zu öffnen',
           'navbar-usage-info': 'Klicken, um Hinweise für Datengeber:innen zu erhalten',
           'navbar-project-overview': 'Klicken, um die Projektübersicht zu öffnen'
         },
@@ -156,7 +156,7 @@ angular.module('metadatamanagementApp').config(
           },
           'admin': {
             'main': 'Administration',
-            'user-management': 'Benutzerverwaltung',
+            'user-management': 'Benutzer:innenverwaltung',
             'health': 'Verfügbarkeit externer Dienste',
             'logs': 'Loglevel',
             'apidocs': 'API',
@@ -176,8 +176,8 @@ angular.module('metadatamanagementApp').config(
           'project-overview': 'Projektübersicht'
         },
         'form': {
-          'username': 'Benutzername',
-          'username-placeholder': 'Ihr Benutzername',
+          'username': 'Benutzer:innenname',
+          'username-placeholder': 'Ihr Benutzer:innenname',
           'newpassword': 'Neues Passwort',
           'newpassword-placeholder': 'Neues Passwort',
           'confirmpassword': 'Neues Passwort bestätigen',
