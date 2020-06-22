@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'concept': 'Concept',
             'concepts': 'Concepts',
-            'authors': 'Autors',
+            'authors': 'Authors',
             'doi': 'DOI',
             'title': 'Title',
             'citation-hint': 'Citation Hint',

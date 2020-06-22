@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'concept': 'Konzept',
             'concepts': 'Konzepte',
-            'authors': 'Autor(innen)',
+            'authors': 'Autor:innen',
             'doi': 'DOI',
             'title': 'Titel',
             'citation-hint': 'Zitationshinweis',
@@ -107,7 +107,7 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-not-empty': 'Die Beschreibung eines Konzepts muss in beiden Sprachen vorhanden sein.'
             },
             'authors': {
-              'not-empty': 'Es muss mindestens ein Autor des Konzepts angegeben werden!'
+              'not-empty': 'Es muss mindestens eine Autor:in des Konzepts angegeben werden!'
             },
             'doi': {
               'size': 'Die Maximallänge der DOI des Konzepts ist 512 Zeichen.'
@@ -149,10 +149,10 @@ angular.module('metadatamanagementApp').config(
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Konzepts wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Konzept zu speichern.',
-          'move-author-up-tooltip': 'Klicken, um den ausgewählten Autor nach oben zu verschieben.',
-          'move-author-down-tooltip': 'Klicken, um den ausgewählten Autor nach unten zu verschieben.',
-          'add-author-tooltip': 'Klicken, um einen neuen Autor diesem Konzept hinzuzufügen.',
-          'delete-author-tooltip': 'Klicken, um den ausgewählten Autor dieses Konzept zu löschen.',
+          'move-author-up-tooltip': 'Klicken, um die ausgewählte Autor:in nach oben zu verschieben.',
+          'move-author-down-tooltip': 'Klicken, um die ausgewählten Autor:in nach unten zu verschieben.',
+          'add-author-tooltip': 'Klicken, um eine neue Autor:in diesem Konzept hinzuzufügen.',
+          'delete-author-tooltip': 'Klicken, um die ausgewählte Autor:in dieses Konzept zu löschen.',
           'choose-previous-version': {
             'title': 'Ältere Version des Konzepts {{ conceptId }} wiederherstellen',
             'text': 'Wählen Sie eine ältere Konzeptversion aus, die wiederhergestellt werden soll:',
@@ -174,9 +174,9 @@ angular.module('metadatamanagementApp').config(
               'en': 'Geben Sie eine Beschreibung des Konzepts auf Englisch ein.'
             },
             'authors': {
-              'first-name': 'Geben Sie den Vornamen des Autors ein.',
-              'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen des Autors ein.',
-              'last-name': 'Geben Sie den Nachnamen des Autors ein.'
+              'first-name': 'Geben Sie den Vornamen der Autor:in ein.',
+              'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen der Autor:in ein.',
+              'last-name': 'Geben Sie den Nachnamen der Autor:in ein.'
             }
           }
         }

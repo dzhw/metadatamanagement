@@ -172,7 +172,7 @@ angular.module('metadatamanagementApp').config(
               'valid-survey-design': 'Die erlaubten Werte für das Erhebungsdesign der Studie sind: Querschnitt, Panel.'
             },
             'authors': {
-              'not-empty': 'Die Liste der Autoren einer Studie benötigt mindestens ein Element und darf nicht leer sein!'
+              'not-empty': 'Die Liste der Autor:innen einer Studie benötigt mindestens ein Element und darf nicht leer sein!'
             },
             'annotations': {
               'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
