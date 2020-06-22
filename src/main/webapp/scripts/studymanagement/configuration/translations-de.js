@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp').config(
             'dataPackages': 'Datenpakete',
             'institution': 'Erhebende Institution',
             'institutions': 'Erhebende Institution(en)',
-            'authors': 'Projektmitarbeiter(innen)',
+            'authors': 'Projektmitarbeiter:innen',
             'data-curators': 'Datenkuratierung',
             'sponsors': 'Gefördert von',
             'version': 'Version',
@@ -204,10 +204,10 @@ angular.module('metadatamanagementApp').config(
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieser Studie wieder herzustellen.',
           'save-tooltip': 'Klicken, um die Studie zu speichern.',
-          'move-author-up-tooltip': 'Klicken, um den ausgewählten Mitarbeiter nach oben zu verschieben.',
-          'move-author-down-tooltip': 'Klicken, um den ausgewählten Mitarbeiter nach unten zu verschieben.',
-          'add-author-tooltip': 'Klicken, um einen neuen Mitarbeiter dieser Studie hinzuzufügen.',
-          'delete-author-tooltip': 'Klicken, um den Projektmitarbeiter aus dieser Studie zu löschen.',
+          'move-author-up-tooltip': 'Klicken, um die ausgewählte Mitarbeiter:in nach oben zu verschieben.',
+          'move-author-down-tooltip': 'Klicken, um die ausgewählte Mitarbeiter:in nach unten zu verschieben.',
+          'add-author-tooltip': 'Klicken, um eine neue Mitarbeiter:in dieser Studie hinzuzufügen.',
+          'delete-author-tooltip': 'Klicken, um die Projektmitarbeiter:in aus dieser Studie zu löschen.',
           'move-curator-up-tooltip': 'Klicken, um die ausgewählte DatenkuratorIn nach oben zu verschieben.',
           'move-curator-down-tooltip': 'Klicken, um die ausgewählte DatenkuratorIn nach unten zu verschieben.',
           'add-curator-tooltip': 'Klicken, um eine neue DatenkuratorIn dieser Studie hinzuzufügen.',
@@ -253,9 +253,9 @@ angular.module('metadatamanagementApp').config(
               'en': 'Geben Sie eine Beschreibung der Studie auf Englisch ein.'
             },
             'authors': {
-              'first-name': 'Geben Sie den Vornamen des Projektmitarbeiters ein.',
-              'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen des Projektmitarbeiters ein.',
-              'last-name': 'Geben Sie den Nachnamen des Projektmitarbeiters ein.'
+              'first-name': 'Geben Sie den Vornamen der Projektmitarbeiter:in ein.',
+              'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen der Projektmitarbeiter:in ein.',
+              'last-name': 'Geben Sie den Nachnamen der Projektmitarbeiter:in ein.'
             },
             'curators': {
               'first-name': 'Geben Sie den Vornamen der Person ein, die an der Datenaufbereitung beteiligt ist.',

@@ -21,7 +21,7 @@ angular.module('metadatamanagementApp').config(
         'copyright': 'Copyright: ',
         'copyright-general': 'Für die Internet-Seiten des Deutschen Zentrums für Hochschul- und Wissenschaftsforschung unter <a id="externalLink" href="#!/de/">https://metadata.fdz.dzhw.eu/</a> liegen Copyright und alle weiteren Rechte beim DZHW - sofern nichts anderes an der entsprechenden Stelle angegeben ist. Die Weiterverbreitung, auch in Auszügen, für pädagogische, wissenschaftliche oder private Zwecke ist unter Angabe der Quelle gestattet. Eine Verwendung im gewerblichen Bereich bedarf der Genehmigung durch das DZHW.',
         'company': 'Deutsches Zentrum für Hochschul- und Wissenschaftsforschung GmbH',
-        'copyright-employees': 'Für den Fall, dass auf unserer Website unzutreffende Informationen veröffentlicht oder in Programmen oder Datenbanken Fehler enthalten sein sollten, kommt eine Haftung nur bei grober Fahrlässigkeit der DZHW GmbH oder ihrer Mitarbeiter_innen in Betracht.',
+        'copyright-employees': 'Für den Fall, dass auf unserer Website unzutreffende Informationen veröffentlicht oder in Programmen oder Datenbanken Fehler enthalten sein sollten, kommt eine Haftung nur bei grober Fahrlässigkeit der DZHW GmbH oder ihrer Mitarbeiter:innen in Betracht.',
         'copyright-editorial': 'Die Redaktion übernimmt keine Haftung für unverlangt eingesandte Manuskripte, Fotos und Illustrationen.'
       }
       //jscs:enable
