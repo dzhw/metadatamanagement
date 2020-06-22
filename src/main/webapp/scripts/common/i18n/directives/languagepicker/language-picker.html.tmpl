@@ -1,6 +1,6 @@
-<div ng-form="languageForm" layout="column">
-  <md-input-container flex="100">
-    <label ng-class="{'fdz-input-required': requireLanguage}">{{'common.language-picker.label' | translate}}</label>
+<div ng-form="languageForm" layout="row">
+  <div flex="100" class="ms-flex">
+    <label style="color: rgba(0,0,0,0.38); margin: 0px;" ng-class="{'fdz-input-required': requireLanguage}">{{'common.language-picker.label' | translate}}</label>
     <md-chips ng-model="languages"
               md-require-match="true"
               ng-required="requireLanguage"
@@ -20,9 +20,9 @@
         {{getLanguageDisplayName($chip)}}
       </md-chip-template>
     </md-chips>
-    <div ng-if="languageForm.$dirty" ng-messages="languageForm.$error" multiple>
+    <div class="md-chips-messages" ng-if="languageForm.$dirty" ng-messages="languageForm.$error" multiple>
       <div ng-message="required">{{'common.language-picker.error.required' | translate}}</div>
       <div ng-message="md-require-match">{{'common.language-picker.error.md-require-match' | translate}}</div>
     </div>
-  </md-input-container>
+  </div>
 </div>
