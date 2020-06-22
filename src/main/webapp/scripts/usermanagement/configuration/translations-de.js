@@ -42,7 +42,7 @@ angular.module('metadatamanagementApp').config(
             },
             'must-not-be-deactivated': 'Der Benutzer kann nicht deaktivert werden, weil er noch folgenden Projekten zugewiesen ist: {{ projectIds }}',
             'must-not-loose-publisher-role': 'Dem Benutzer kann die Rolle "Publisher" nicht entzogen werden, weil er noch folgenden Projekten als Publisher zugewiesen ist: {{ projectIds }}',
-            'must-not-loose-data-provider-role': 'Dem Benutzer kann die Rolle "Datengeber" nicht entzogen werden, weil er noch folgenden Projekten als Datengeber zugewiesen ist: {{ projectIds }}'
+            'must-not-loose-data-provider-role': 'Dem Benutzer kann die Rolle "Datengeber:in" nicht entzogen werden, weil er noch folgenden Projekten als Datengeber:in zugewiesen ist: {{ projectIds }}'
           }
         },
         'activate': {
@@ -55,7 +55,7 @@ angular.module('metadatamanagementApp').config(
         },
         'login': {
           'login': 'Anmelden',
-          'title': 'Anmeldung für Datengeber/-innen',
+          'title': 'Anmeldung für Datengeber:innen',
           'form': {
             'password': 'Passwort',
             'password-placeholder': 'Ihr Passwort',
@@ -85,7 +85,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'register': {
-          'title': 'Registrierung für Datengeber/-innen',
+          'title': 'Registrierung für Datengeber:innen',
           'form': {
             'button': 'Registrieren'
           },
@@ -175,7 +175,7 @@ angular.module('metadatamanagementApp').config(
         },
         'welcome-dialog': {
           'title': 'Herzlich Willkommen',
-          'text-body': '<p>Liebe(r) {{username}},</p><p>schön, dass Sie sich dazu entschieden haben, Ihre Forschungsdaten anderen Forschern über unser FDZ zur Verfügung zu stellen. Dieses System dient dazu, alle Informationen rund um Ihre Forschungsdaten (sogenannte Metadaten) von Ihnen als Datengeber(in) zu erfassen und zu veröffentlichen.</p><p>In dem Navigationsmenü auf der linken Seite finden Sie eine Liste aller Datenaufbereitungsprojekte, denen Sie als Datengeber(in) zugewiesen wurden:</p><img src="/assets/images/welcome-dialog-project-chooser-de.png" class="fdz-welcome-dialog-image"/><p style="margin:10px 0px 0px 0px;">Wählen Sie dort einfach das Projekt aus, für das Sie Metadaten eingeben möchten und klicken Sie anschließend auf die orangene Schaltfläche "Projekt-Cockpit" <img src="/assets/images/welcome-dialog-project-cockpit-button.png"/> unter dem ausgewählten Projekt.</p><p>Das Projekt kann entweder den Publishern (FDZ-Mitarbeitern) oder Ihnen als Datengebern zur Bearbeitung zugewiesen sein. Sobald das Projekt <img src="/assets/images/welcome-dialog-assigned-de.png" alt="Zugewiesen an Datengeber"/> ist, werden Sie benachrichtigt und Sie können anfangen Metadaten einzugeben.</p><p>Eine ausführliche Benutzerdokumentation für Datengeber finden Sie hier: <a href="https://metadatamanagement.readthedocs.io/de/stable/metadatenabgabe.html" target="_blank">Dokumentation</a>.</p>',
+          'text-body': '<p>Liebe(r) {{username}},</p><p>schön, dass Sie sich dazu entschieden haben, Ihre Forschungsdaten anderen Forschern über unser FDZ zur Verfügung zu stellen. Dieses System dient dazu, alle Informationen rund um Ihre Forschungsdaten (sogenannte Metadaten) von Ihnen als Datengeber:in zu erfassen und zu veröffentlichen.</p><p>In dem Navigationsmenü auf der linken Seite finden Sie eine Liste aller Datenaufbereitungsprojekte, denen Sie als Datengeber:in zugewiesen wurden:</p><img src="/assets/images/welcome-dialog-project-chooser-de.png" class="fdz-welcome-dialog-image"/><p style="margin:10px 0px 0px 0px;">Wählen Sie dort einfach das Projekt aus, für das Sie Metadaten eingeben möchten und klicken Sie anschließend auf die orangene Schaltfläche "Projekt-Cockpit" <img src="/assets/images/welcome-dialog-project-cockpit-button.png"/> unter dem ausgewählten Projekt.</p><p>Das Projekt kann entweder den Publishern (FDZ-Mitarbeitern) oder Ihnen als Datengeber:in zur Bearbeitung zugewiesen sein. Sobald das Projekt <img src="/assets/images/welcome-dialog-assigned-de.png" alt="Zugewiesen an Datengeber:innen"/> ist, werden Sie benachrichtigt und Sie können anfangen Metadaten einzugeben.</p><p>Eine ausführliche Benutzerdokumentation für Datengeber:innen finden Sie hier: <a href="https://metadatamanagement.readthedocs.io/de/stable/metadatenabgabe.html" target="_blank">Dokumentation</a>.</p>',
           'do-not-show-again': 'Nicht mehr anzeigen'
         }
       }

@@ -34,7 +34,7 @@ angular.module('metadatamanagementApp').config(
             'released-successfully': 'Die Metadaten des Projektes wurden bei da|ra gespeichert und die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer sichtbar sein.',
             'released-beta-successfully': 'Die Daten des Projektes "{{ id }}" werden in ca. 10 Minuten für alle Benutzer sichtbar sein. Es wurden keine Metadaten zu da|ra gesendet.',
             'dara-released-not-successfully': 'Die Daten des Projektes "{{ id }}" können nicht veröffentlicht werden. Es trat ein Fehler beim Senden der Metadaten zu da|ra auf.',
-            'unreleased-successfully': 'Die Daten des Projektes "{{ id }}" können jetzt von zugewiesenen Publishern bzw. Datengebern bearbeitet werden.',
+            'unreleased-successfully': 'Die Daten des Projektes "{{ id }}" können jetzt von zugewiesenen Publishern bzw. Datengeber:innen bearbeitet werden.',
             'unrelease-title': 'Freigabe für Projekt "{{ id }}" zurücknehmen?',
             'unrelease': 'Möchten Sie wirklich die Freigabe zurücknehmen und die Metadaten des Projektes "{{ id }}" bearbeiten?',
             'release-not-possible-title': 'Projekt "{{ id }}" kann nicht freigegeben werden!',
@@ -44,7 +44,7 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'data-acquisition-project': {
             'assignee-group': {
-              'not-null': 'Die zuständige Bearbeitergruppe (Publisher oder Datengeber) darf nicht leer sein.',
+              'not-null': 'Die zuständige Bearbeitergruppe (Publisher oder Datengeber:innen) darf nicht leer sein.',
               'not-assigned': 'Die Zuständigkeit für das Projekt kann nicht geändert werden, weil es Publishern zugewiesen ist.'
             },
             'configuration': {
@@ -65,7 +65,7 @@ angular.module('metadatamanagementApp').config(
           },
           'configuration': {
             'data-providers': {
-              'update-not-allowed': 'Es muss mindestens 1 Datengeber eingetragen sein.'
+              'update-not-allowed': 'Es muss mindestens 1 Datengeber:in eingetragen sein.'
             },
             'publishers': {
               'not-empty': 'Es muss mindestens ein Publisher eingetragen sein.',
@@ -92,10 +92,10 @@ angular.module('metadatamanagementApp').config(
           'project-update-access': {
             'project-selected': 'Für das Anlegen neuer Daten muss ein Projekt ausgewählt sein.',
             'update-for-publishers-allowed': 'Die Aktion ist nicht möglich, weil die Metadaten bereits durch den Publisher als "fertig" markiert wurden',
-            'update-for-data-providers-allowed': 'Die Aktion ist nicht möglich, weil die Metadaten bereits durch den Publisher oder Datengeber als "fertig" markiert wurden',
+            'update-for-data-providers-allowed': 'Die Aktion ist nicht möglich, weil die Metadaten bereits durch die Publisher oder Datengeber:innen als "fertig" markiert wurden',
             'project-released': 'Die Aktion ist nicht möglich, weil das Projekt momentan für alle öffentlichen Nutzer freigegeben ist.',
             'member-of-assigned-group': 'Die Aktion ist nicht möglich, weil das Projekt momentan der anderen Projektgruppe zugewiesen ist.',
-            'assigned-to-project': 'Die Aktion ist nicht möglich, weil Sie dem Projekt nicht als Publisher oder Datengeber zugewiesen sind.',
+            'assigned-to-project': 'Die Aktion ist nicht möglich, weil Sie dem Projekt nicht als Publisher oder Datengeber:in zugewiesen sind.',
             'not-required': 'Die Aktion ist nicht möglich, weil diese Metadaten in den Projekteinstellungen nicht als "erwartet" markiert wurden.',
             'prerequisite-missing-surveys': 'Die Aktion ist nicht möglich, weil das Projekt noch keine Erhebung enthält.',
             'prerequisite-missing-studies': 'Die Aktion ist nicht möglich, weil das Projekt noch keine Studie enthält.'
@@ -104,7 +104,7 @@ angular.module('metadatamanagementApp').config(
         'projectstatuslabel': {
           'assigned-to': 'Zugewiesen an',
           'PUBLISHER': 'Publisher',
-          'DATA_PROVIDER': 'Datengeber'
+          'DATA_PROVIDER': 'Datengeber:innen'
         },
         'releasestatusbadge': {
           'released': 'Freigegeben',
@@ -115,7 +115,7 @@ angular.module('metadatamanagementApp').config(
           'header': 'Projekt-Cockpit',
           'search': {
             'placeholder': 'Suchen Sie Benutzer...',
-            'header-data-provider': 'Datengeber dieses Projekts',
+            'header-data-provider': 'Datengeber:innen dieses Projekts',
             'header-publisher': 'Publisher dieses Projekts',
             'no-users-found': 'Kein Benutzer gefunden!'
           },
@@ -132,7 +132,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'ROLE_USER': 'User',
             'ROLE_ADMIN': 'Admin',
-            'ROLE_DATA_PROVIDER': 'Datengeber',
+            'ROLE_DATA_PROVIDER': 'Datengeber:innen',
             'ROLE_PUBLISHER': 'Publisher'
           },
           'button': {
@@ -142,7 +142,7 @@ angular.module('metadatamanagementApp').config(
             'remove-user': 'Nutzer entfernen'
           },
           'list': {
-            'empty-data-provider': 'Keine Datengeber sind diesem Projekt zugeteilt.',
+            'empty-data-provider': 'Keine Datengeber:innen sind diesem Projekt zugeteilt.',
             'empty-publisher': 'Keine Publisher sind diesem Projekt zugeteilt.'
           },
           'tabs': {
@@ -179,11 +179,11 @@ angular.module('metadatamanagementApp').config(
             'cancel': 'Abbrechen'
           },
           'no-data-providers-dialog': {
-            'text': 'Es gibt keine eingetragenen Datengeber für dieses Projekt. Wechseln Sie zu den Projekteinstellungen und tragen Sie mindestens einen Datengeber ein.'
+            'text': 'Es gibt keine eingetragenen Datengeber:innen für dieses Projekt. Wechseln Sie zu den Projekteinstellungen und tragen Sie mindestens eine Datengeber:in ein.'
           },
           'takeback-dialog': {
             'title': 'Projekt zurückziehen',
-            'text': 'Möchten Sie das Projekt wirklich von der Gruppe Datengeber zurückziehen?'
+            'text': 'Möchten Sie das Projekt wirklich von der Gruppe Datengeber:innen zurückziehen?'
           },
           'versions': {
             'header': 'Liste aller Projektversionen (Schattenkopien):',
@@ -218,7 +218,7 @@ angular.module('metadatamanagementApp').config(
             'variables-status': 'Variablen',
             'publications-status': 'Publikationen',
             'publisher': 'Publisher',
-            'data-provider': 'Datengeber',
+            'data-provider': 'Datengeber:innen',
             'unreleased': 'nicht freigegeben',
             'tooltip': 'Klicken, um das Projekt-Cockpit dieses Projekts zu öffnen'
           },
