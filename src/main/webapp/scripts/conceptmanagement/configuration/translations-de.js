@@ -150,9 +150,9 @@ angular.module('metadatamanagementApp').config(
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Konzepts wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Konzept zu speichern.',
           'move-author-up-tooltip': 'Klicken, um die ausgewählte Autor:in nach oben zu verschieben.',
-          'move-author-down-tooltip': 'Klicken, um die ausgewählten Autor:in nach unten zu verschieben.',
+          'move-author-down-tooltip': 'Klicken, um die ausgewählte Autor:in nach unten zu verschieben.',
           'add-author-tooltip': 'Klicken, um eine neue Autor:in diesem Konzept hinzuzufügen.',
-          'delete-author-tooltip': 'Klicken, um die ausgewählte Autor:in dieses Konzept zu löschen.',
+          'delete-author-tooltip': 'Klicken, um die ausgewählte Autor:in dieses Konzeptes zu löschen.',
           'choose-previous-version': {
             'title': 'Ältere Version des Konzepts {{ conceptId }} wiederherstellen',
             'text': 'Wählen Sie eine ältere Konzeptversion aus, die wiederhergestellt werden soll:',

@@ -296,7 +296,7 @@ angular.module('metadatamanagementApp').config(
             'unauthorized-error': 'Sie sind nicht angemeldet und können daher diese Aktion nicht durchführen (Status {{ status }}).',
             'forbidden-error': 'Sie haben nicht die Berechtigung (Rolle), um diese Aktion durchzuführen (Status {{ status }}).',
             'not-found-error': 'Die angeforderte Seite wurde nicht gefunden ({{ status }}).',
-            'not-in-assignee-group': 'Die Bearbeitung ist nicht möglich, weil die Zuständigkeit gerade bei den Datengeber:innen oder Publishern liegt.'
+            'not-in-assignee-group': 'Die Bearbeitung ist nicht möglich, weil die Zuständigkeit gerade nicht bei Ihrer Gruppe liegt.'
           },
           'person': {
             'first-name': {
