@@ -79,11 +79,10 @@
           </span>
         </md-list-item>
         <md-list-item
-          ng-if="$ctrl.options.study.doi || $ctrl.options.isBetaRelease($ctrl.options.study)">
+          ng-if="$ctrl.options.study.doi">
           <h5>{{'study-management.detail.label.doi' | translate }}:</h5>
           <a
             ng-href="https://dx.doi.org/{{$ctrl.options.study.doi}}"
-            ng-if="!$ctrl.options.isBetaRelease($ctrl.options.study)"
             class="md-secondary"
             target="_blank">
             {{$ctrl.options.study.doi}}
