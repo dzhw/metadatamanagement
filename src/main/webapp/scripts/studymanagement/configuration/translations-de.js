@@ -79,7 +79,7 @@ angular.module('metadatamanagementApp').config(
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Studien.',
           'not-yet-released': 'Aktuell nicht freigegeben',
           'not-released-toast': 'Die Studie "{{ id }}" wird aktuell bearbeitet und ist daher nicht für alle Benutzer:innen freigegeben!',
-          'beta-release-no-doi': 'Diese Studie hat noch keine DOI.',
+          'beta-release-no-doi': 'Dieses Datenpaket hat noch keine DOI.',
           'publications-for-series': 'Publikationen zur Studienreihe "{{studySeries}}"',
           'publications-for-study': 'Publikationen zu dieser Studie',
           'tooltips': {
