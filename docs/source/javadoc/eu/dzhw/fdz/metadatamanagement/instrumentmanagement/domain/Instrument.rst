@@ -32,6 +32,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidIsoLanguage
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain Concept
@@ -133,6 +135,14 @@ number
    :outertype: Instrument
 
    The number of the instrument. Must not be empty and must be unique within the \ :java:ref:`DataAcquisitionProject`\ .
+
+originalLanguages
+^^^^^^^^^^^^^^^^^
+
+.. java:field:: private List<String> originalLanguages
+   :outertype: Instrument
+
+   The languages of the instrument during the data collection. Must be specified as ISO 639 language codes.
 
 serialVersionUID
 ^^^^^^^^^^^^^^^^

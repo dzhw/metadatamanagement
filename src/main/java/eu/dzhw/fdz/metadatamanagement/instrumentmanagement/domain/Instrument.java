@@ -20,6 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.validation.ConceptExists;
@@ -84,7 +85,7 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the {@link DataAcquisitionProject} to which this instrument belongs.
-   * 
+   *
    * The dataAcquisitionProjectId must not be empty.
    */
   @Indexed
@@ -94,7 +95,7 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
 
   /**
    * The title of the instrument.
-   * 
+   *
    * It must be specified in at least one language and it must not contain more than 2048
    * characters.
    */
@@ -107,7 +108,7 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
 
   /**
    * An optional subtitle of the instrument.
-   * 
+   *
    * It must not contain more than 2048 characters.
    */
   @I18nStringSize(max = StringLengths.LARGE,
@@ -116,7 +117,7 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
 
   /**
    * A short description of the instrument.
-   * 
+   *
    * It must be specified in at least one language and it must not contain more than 512 characters.
    */
   @NotNull(message = "instrument-management.error.instrument.description.not-null")
@@ -128,7 +129,7 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
 
   /**
    * The number of the instrument.
-   * 
+   *
    * Must not be empty and must be unique within the {@link DataAcquisitionProject}.
    */
   @NotNull(message = "instrument-management.error.instrument.number.not-null")
@@ -136,7 +137,7 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
 
   /**
    * The type of this instrument.
-   * 
+   *
    * Must be one of {@link InstrumentTypes} and must not be empty.
    */
   @NotEmpty(message = "instrument-management.error.instrument.type.not-empty")
@@ -145,7 +146,7 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
 
   /**
    * Arbitrary additional text for this instrument. Markdown is supported.
-   * 
+   *
    * Must not contain more than 2048 characters.
    */
   @I18nStringSize(max = StringLengths.LARGE,
@@ -155,7 +156,7 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
   /**
    * List of ids of {@link Survey}s of this {@link DataAcquisitionProject}. The instrument has been
    * used in these {@link Survey}s.
-   * 
+   *
    * Must contain at least one element.
    */
   @Indexed
@@ -165,7 +166,7 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
   /**
    * List of numbers of {@link Survey}s of this {@link DataAcquisitionProject}. The instrument has
    * been used in these {@link Survey}s.
-   * 
+   *
    * Must contain at least one element.
    */
   @NotEmpty(message = "instrument-management.error.instrument.survey-numbers.not-empty")
@@ -173,7 +174,7 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the {@link OrderedStudy} to which this instrument belongs.
-   * 
+   *
    * Must not be empty.
    */
   @Indexed
@@ -186,6 +187,15 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
   @Indexed
   private List<@ConceptExists(
       message = "instrument-management.error.instrument.concept-ids.not-exists") String> conceptIds;
+
+  /**
+   * The languages of the instrument during the data collection.
+   *
+   * Must be specified as ISO 639 language codes.
+   */
+  private List<@ValidIsoLanguage(
+      message = "instrument-management.error.instrument.original-languages.not-supported")
+      String> originalLanguages;
 
   public Instrument(Instrument instrument) {
     super();

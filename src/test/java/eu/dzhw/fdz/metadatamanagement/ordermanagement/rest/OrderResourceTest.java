@@ -109,6 +109,7 @@ public class OrderResourceTest extends AbstractTest {
     study.setId("stu-" + dataAcquisitionProjectId + "$");
     I18nString title = new I18nString("test", "test");
     study.setTitle(title);
-    return new Product(dataAcquisitionProjectId, study, "remote-desktop-suf", "1.0.0", Set.of(DataFormat.R));
+    return new Product(dataAcquisitionProjectId, study, "remote-desktop-suf", "1.0.0",
+        Set.of(DataFormat.R));
   }
 }

@@ -35,7 +35,7 @@ Close The Banner
    Click Element Through Tooltips  xpath=//button[contains(.,' Schließen')]
 
 Click on Information for Data Providers Link
-    Click Element Through Tooltips  xpath=//span[contains(.,'Hinweise für Datengeber')]
+    Click Element Through Tooltips  xpath=//span[contains(.,'Hinweise für Datengeber:innen')]
 
 Dataprovidertest Provider Logout
     ${url} =    Get Location

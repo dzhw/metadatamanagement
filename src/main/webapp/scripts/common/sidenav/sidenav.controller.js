@@ -94,6 +94,7 @@ angular.module('metadatamanagementApp').controller('SidenavController',
         $state.current.name !== 'start' &&
         $state.current.name !== 'disclosure' &&
         $state.current.name !== 'shoppingCart' &&
+        $state.current.name !== 'restoreShoppingCart' &&
         $state.current.name !== 'requestReset' &&
         $state.current.name !== 'activate' &&
         $state.current.name !== 'register' &&

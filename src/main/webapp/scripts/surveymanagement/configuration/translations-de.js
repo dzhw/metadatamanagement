@@ -75,7 +75,7 @@ angular.module('metadatamanagementApp').config(
           'not-found': 'Die id {{id}} referenziert auf eine unbekannte Erhebung.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Erhebungen.',
           'response-rate-information-alt-text': 'Grafische Darstellung der Rücklaufquote',
-          'not-released-toast': 'Die Erhebung "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
+          'not-released-toast': 'Die Erhebung "{{ id }}" wurde noch nicht für alle Benutzer:innen freigegeben!',
           'tooltips': {
             'surveys': {
               'many': 'Klicken, um alle Erhebungen dieser Studie anzuzeigen'

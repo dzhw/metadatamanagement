@@ -32,7 +32,8 @@ angular.module('metadatamanagementApp').config(
             'study': 'Studie',
             'customer-name': 'Ihr Name',
             'customer-email': 'Ihre E-Mailadresse',
-            'data-formats': 'Die Datensätze enthalten Daten in den folgenden Formaten:'
+            'data-formats': 'Die Datensätze enthalten Daten in den folgenden Formaten:',
+            'data-languages': 'Außerdem sind die Datensätze in den folgenden Sprachen verfügbar:'
           },
           'hints': {
             'name': 'Bitte teilen Sie uns Ihren vollständigen Namen mit.',
@@ -99,7 +100,7 @@ angular.module('metadatamanagementApp').config(
         },
         'version-info': {
           'title': 'Eine Version auswählen',
-          'content': '<p style="margin-bottom: 0px;">Unsere Datenpakete liegen dreistellig versioniert vor. Die Stellen der Versionsnummer legen nahe, wie groß die Änderungen an den Daten sind. Bei Änderungen an den ersten beiden Stellen werden Sie benachrichtigt.</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px;"><li>Erste Stelle (Major): Änderungen am Datensatz (abgesehen von Änderungen der Variablenlabels)</li><li>Zweite Stelle (Minor): Label ändern sich, Metadatenänderungen wie Hinzufügen weiterer Fragen oder Änderungen der Metadaten/Dokumentation, die Auswirkungen auf die Analyse haben.</li><li>Dritte Stelle (Patch): Zusätzliche Datensatzformate werden bereitgestellt, Hinzufügen/Löschen von Sprachversionen.</li></ul><strong>Für die meisten Datennutzer/-innen ist die aktuellste Version der Daten relevant.</strong>',
+          'content': '<p style="margin-bottom: 0px;">Unsere Datenpakete liegen dreistellig versioniert vor. Die Stellen der Versionsnummer legen nahe, wie groß die Änderungen an den Daten sind. Bei Änderungen an den ersten beiden Stellen werden Sie benachrichtigt.</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px;"><li>Erste Stelle (Major): Änderungen am Datensatz (abgesehen von Änderungen der Variablenlabels)</li><li>Zweite Stelle (Minor): Label ändern sich, Metadatenänderungen wie Hinzufügen weiterer Fragen oder Änderungen der Metadaten/Dokumentation, die Auswirkungen auf die Analyse haben.</li><li>Dritte Stelle (Patch): Zusätzliche Datensatzformate werden bereitgestellt, Hinzufügen/Löschen von Sprachversionen.</li></ul><strong>Für die meisten Datennutzer:innen ist die aktuellste Version der Daten relevant.</strong>',
           'close-tooltip': 'Klicken, um diesen Dialog zu schließen.'
         },
         'access-way-info': {

@@ -27,13 +27,14 @@
         <md-list-item ng-if="$ctrl.options.introduction">
           <h5>{{'question-management.detail.label.introduction' | translate }}:</h5>
           <span
-            class="md-secondary">{{$ctrl.options.introduction}}</span>
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.introduction"></span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.instruction">
           <h5>{{'question-management.detail.label.instruction' | translate }}:</h5>
           <span
             class="md-secondary"
-            display-i18n-string="$ctrl.options.instruction" ></span>
+            display-i18n-string="$ctrl.options.instruction"></span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.type">
           <h5>{{'question-management.detail.label.type' | translate }}:</h5>

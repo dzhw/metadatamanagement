@@ -561,10 +561,6 @@ h1, h2, h3, h4, h5, h6, h7, h8, h9, .h1, .h2, .h3, .h4, .h5, .h6, .h7, .h8, .h9 
     .fdz-theme .md-autocomplete-standard-list-container .md-autocomplete-suggestion:hover,
     .fdz-theme .md-autocomplete-standard-list-container .md-autocomplete-suggestion.selected {
       background: rgba(194, 194, 194, 0.18); }
-  .fdz-theme .md-autocomplete-suggestions-container.md-not-found li,
-  .fdz-theme .md-autocomplete-standard-list-container.md-not-found li {
-    margin-left: 16px;
-    margin-top: 14px; }
 
 .fdz-theme md-backdrop {
   background-color: rgba(60, 60, 60, 0); }
