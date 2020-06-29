@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp').config(
             'doi': 'DOI',
             'sourceReference': 'Quellenangabe',
             'sourceLink': 'URL',
-            'authors': 'Autor(inn)en',
+            'authors': 'Autor:innen',
             'year': 'Erscheinungsjahr',
             'source-reference': 'Referenz',
             'abstract-source': 'Quelle',
@@ -115,8 +115,8 @@ angular.module('metadatamanagementApp').config(
               'size': 'Die Maximallänge des Titels der Publikation ist 2048 Zeichen.'
             },
             'authors': {
-              'size': 'Die Maximallänge der Autor(inn)en der Publikation ist 2048 Zeichen.',
-              'not-empty': 'Die Autoren der Publikation darf nicht leer sein!'
+              'size': 'Die Maximallänge des Feldes Autor:innen der Publikation ist 2048 Zeichen.',
+              'not-empty': 'Es muss mindestens eine Autor:in angegeben werden!'
             },
             'year': {
               'not-null': 'Erscheinungsjahr darf nicht leer sein!',

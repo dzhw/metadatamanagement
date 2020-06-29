@@ -66,6 +66,12 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
               }).value);
         }
       }
+      if (variableObj.label.de) {
+        variableObj.label.de = variableObj.label.de.replace(/[\n\t\r\f]/g, '');
+      }
+      if (variableObj.label.en) {
+        variableObj.label.en = variableObj.label.en.replace(/[\n\t\r\f]/g, '');
+      }
       return new VariableResource(CleanJSObjectService
         .removeEmptyJsonObjects(variableObj));
     };

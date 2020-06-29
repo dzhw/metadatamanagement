@@ -37,6 +37,7 @@ angular.module('metadatamanagementApp').config(
             'format': 'Format',
             'annotations': 'Anmerkungen',
             'data-set-same-study': 'Datensätze der gleichen Studie',
+            'languages': 'Daten verfügbar auf',
             'sub-data-sets': {
               'name': 'Name',
               'data-formats': 'Datenformate',
@@ -95,7 +96,7 @@ angular.module('metadatamanagementApp').config(
             'false': 'Klicken zum minimieren'
           },
           'generate-dataset-report-tooltip': 'Klicken, um den Datensatzreport für diesen Datensatz zu erzeugen',
-          'not-released-toast': 'Der Datensatz "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
+          'not-released-toast': 'Der Datensatz "{{ id }}" wurde noch nicht für alle Benutzer:innen freigegeben!',
           'tooltips': {
             'data-sets': {
               'same-data-sets': 'Klicken, um alle Datensätze dieser Studie anzuzeigen'

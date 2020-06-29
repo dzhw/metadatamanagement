@@ -39,7 +39,7 @@ Select Version for the Data Package
    Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., '${versionname}')]
 
 Put in Shopping Cart
-   Click Element Through Tooltips    xpath=//span[contains(., 'Zur Beantragung vormerken')]
+   Click Element Through Tooltips    xpath=//span[contains(., 'In den Warenkorb legen')]
 
 Go to Shopping Cart
    Click Element Through Tooltips    xpath=//a//md-icon[contains(., 'shopping_cart')]
