@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * Order (DTO) containing all relevant information of a {@link Customer} and her {@link Product}s.
+ * Order (DTO) containing all relevant information for ordered {@link Product}s.
  */
 @Document(collection = "orders")
 @EqualsAndHashCode(callSuper = false, of = "id")
@@ -44,7 +44,7 @@ public class Order extends AbstractRdcDomainObject {
   private String id;
 
   /**
-   * The key of the preferred language (either "de" or "en") of the {@link Customer}.
+   * The key of the preferred language (either "de" or "en") of the customer.
    * 
    * Must not be empty.
    */
@@ -66,16 +66,9 @@ public class Order extends AbstractRdcDomainObject {
   private OrderClient client;
 
   /**
-   * The {@link Customer} who has placed this order.
+   * List of data {@link Product}s the customer want to order.
    * 
-   * Must not be null.
-   */
-  @Valid
-  @NotNull
-  private Customer customer;
-
-  /**
-   * List of data {@link Product}s the {@link Customer} want to order.
+   * Must not be empty.
    */
   @Valid
   private List<Product> products;

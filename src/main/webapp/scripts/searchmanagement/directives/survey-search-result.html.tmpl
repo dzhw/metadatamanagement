@@ -3,6 +3,7 @@
     <md-card-header-text>
       <div class="md-title">
         <a ui-sref="surveyDetail({id:searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: ''})"
+           ui-sref-opts="{reload: true, notify: true}"
            ng-click="setParams()">
           <span display-i18n-string="searchResult.title"></span>
         </a>
@@ -23,8 +24,8 @@
            ng-class="{'mr10': !addMargin, 'fdz-add-bottom-margin': !addMargin}">
         <div class="fdz-text-block" ng-if="searchResult.population.description">
           <span class="b">{{'survey-management.detail.label.population' | translate }}:</span>
-          <span class="fdz-multiline-property" display-i18n-string="searchResult.population.description" 
-                limit-to="256"></span>
+          <span class="fdz-multiline-property" display-i18n-string="searchResult.population.description"
+                limit-to="256" remove-markdown="true"></span>
         </div>
       </div>
       <div flex-gt-sm="50" layout="column">

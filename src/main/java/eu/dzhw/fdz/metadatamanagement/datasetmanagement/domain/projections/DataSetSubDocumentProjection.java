@@ -35,5 +35,7 @@ public interface DataSetSubDocumentProjection
   
   String getSuccessorId();
   
+  List<String> getLanguages();
+
   boolean isShadow();
 }

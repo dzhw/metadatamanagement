@@ -34,6 +34,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidIsoLanguage
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation UniqueDatasetNumberInProject
@@ -90,7 +92,7 @@ annotations
 .. java:field:: @I18nStringSize private I18nString annotations
    :outertype: DataSet
 
-   Arbitrary additional text for the dataset. Must not contain more than 2048 characters.
+   Arbitrary additional text for the dataset. Markdown is supported. Must not contain more than 2048 characters.
 
 dataAcquisitionProjectId
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -123,6 +125,14 @@ id
    :outertype: DataSet
 
    The id of the dataset which uniquely identifies the dataset in this application.
+
+languages
+^^^^^^^^^
+
+.. java:field:: private List<String> languages
+   :outertype: DataSet
+
+   The languages used in the dataset. Must be specified as ISO 639 language codes.
 
 masterId
 ^^^^^^^^

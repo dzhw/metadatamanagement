@@ -19,6 +19,11 @@ angular.module('metadatamanagementApp').factory(
           i18n: true,
           min_doc_count: 1
         },
+        'access-ways': {
+          attribute: 'accessWays',
+          i18n: false,
+          min_doc_count: 1
+        },
         'tags': {
           attribute: 'tags',
           i18n: true,
@@ -52,6 +57,11 @@ angular.module('metadatamanagementApp').factory(
         'survey-data-types': {
           attribute: 'surveyDataTypes',
           i18n: true,
+          concatMultipleWithOr: true
+        },
+        'access-ways': {
+          attribute: 'accessWays',
+          i18n: false,
           concatMultipleWithOr: true
         },
         'tags': {

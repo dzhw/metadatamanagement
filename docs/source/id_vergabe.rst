@@ -6,7 +6,11 @@ ID-Vergabe
 Manuell vergebene ids (DAP-ids) müssen in folgender
 Tabelle_ festgehalten werden.
 
-.. _Tabelle: https://github.com/dzhw/metadatamanagement-io/wiki/unterlagen/Projektuebersicht.xlsx
+.. _Tabelle: https://github.com/dzhw/metadatamanagement-io/wiki/unterlagen/Projektuebersicht.xlsx  
+
+Das Datenaufbereitungs-Team kann sich das Kürzel selbst überlegen. Es orientiert sich in der Regel am englischsprachigen Titel der Studie: drei Buchstaben + Jahr der Erhebung. 
+Die ID muss mit dem Release Manager rückgesprochen werden und es sollten alle anderen FDZ-Aufbereitungsteams kurz informiert werden. Hintergrund ist, dass Kürzel für geplante Studien reserviert sein könnten, Beispiel SLC.
+
 
 Logik
 -----

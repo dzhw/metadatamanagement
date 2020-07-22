@@ -42,6 +42,8 @@ public class DataSetSubDocument extends AbstractRdcDomainObject
   
   private List<SubDataSet> subDataSets;
   
+  private List<String> languages;
+
   private Integer maxNumberOfObservations;
   
   private List<String> accessWays;

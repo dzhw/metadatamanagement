@@ -1,4 +1,4 @@
-website: https://metadatamanagement-dev.cfapps.io/#!/de/start
+website: https://dev.metadata.fdz.dzhw.eu/#!/de/start
 capabilities:
   chrome:
     name: Win10/Chrome

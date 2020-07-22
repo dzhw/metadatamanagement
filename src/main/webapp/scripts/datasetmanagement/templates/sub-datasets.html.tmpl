@@ -15,20 +15,19 @@
     <table fdz-table class="mh16 mb16">
       <thead>
       <tr>
-        <th>{{'data-set-management.detail.label.sub-data-sets.accessWay' | translate }}
+        <th class="fdz-table-absorbing-column">{{'data-set-management.detail.label.sub-data-sets.accessWay' | translate }}
           <md-tooltip hide-gt-xs md-direction="right">
             {{'data-set-management.detail.label.sub-data-sets.accessWay' | translate }}
-          </md-tooltip>
-        </th>
-        <th class="fdz-table-absorbing-column">{{'data-set-management.detail.label.sub-data-sets.description' |
-          translate }}
-          <md-tooltip hide-gt-xs md-direction="right">
-            {{'data-set-management.detail.label.sub-data-sets.description' | translate }}
           </md-tooltip>
         </th>
         <th>{{'data-set-management.detail.label.sub-data-sets.name' | translate }}
           <md-tooltip hide-gt-xs md-direction="right">
             {{'data-set-management.detail.label.sub-data-sets.name' | translate }}
+          </md-tooltip>
+        </th>
+        <th>{{'data-set-management.detail.label.sub-data-sets.data-formats' | translate }}
+          <md-tooltip hide-gt-xs md-direction="right">
+            {{'data-set-management.detail.label.sub-data-sets.data-formats' | translate }}
           </md-tooltip>
         </th>
         <th>{{'variable-management.detail.label.variables' | translate }}
@@ -50,19 +49,17 @@
             'data-set-management.detail.label.sub-data-sets.numberOfEpisodes')| translate }}
           </md-tooltip>
         </th>
-        <th>
-          {{'data-set-management.detail.label.sub-data-sets.citation' | translate }}
-          <md-tooltip hide-gt-xs md-direction="right">
-            {{'data-set-management.detail.label.sub-data-sets.citation' | translate }}
-          </md-tooltip>
-        </th>
       </tr>
       </thead>
       <tbody>
       <tr ng-repeat="row in $ctrl.options.dataSet.subDataSets">
-        <td class="fdz-table-nowrap">{{row.accessWay}}</td>
-        <td class="fdz-text-block" display-i18n-string="row.description" ></td>
+        <td>{{row.accessWay}} ({{row.description | displayI18nString}})</td>
         <td class="fdz-table-nowrap">{{row.name}}&nbsp;</td>
+        <td class="fdz-table-nowrap">
+          <span ng-repeat="dataFormat in row.dataFormats">
+            {{('data-set-management.detail.sub-data-sets.data-formats.' + dataFormat | translate) + ($index + 1 !== row.dataFormats.length ? ', ' : '')}}
+          </span>
+        </td>
         <td ng-class="{'fdz-table-number' : $ctrl.options.counts.variablesCount > 0}">
           <div class="fdz-truncate-string" ng-if="$ctrl.options.counts.variablesCount == 0">
             {{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}
@@ -78,16 +75,6 @@
           <span ng-if="$ctrl.options.counts[row.name] > 0">{{$ctrl.options.counts[row.name] | number: 0}}&nbsp;</span>
         </td>
         <td class="fdz-table-number">{{row.numberOfObservations | number: 0}}&nbsp;</td>
-        <td class="pv0 mb0">
-          <md-button class="md-icon-button md-primary" ng-click="$ctrl.options.openDialog(row, $event)"
-                     ng-disabled="!row.citationHint">
-            <md-icon md-svg-icon="assets/images/icons/citate.svg"></md-icon>
-            <md-tooltip md-autohide="true" md-direction="left"
-                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'data-set-management.detail.label.sub-data-sets.citate-tooltipp'|translate}}
-            </md-tooltip>
-          </md-button>
-        </td>
       </tr>
       </tbody>
     </table>

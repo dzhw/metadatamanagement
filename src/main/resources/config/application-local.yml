@@ -33,11 +33,10 @@ spring:
       static-locations:
         - file:src/main/webapp/
         - classpath:public/
+
 logging:
     level:
       eu.dzhw.fdz.metadatamanagement: debug
-      eu.dzhw.fdz.metadatamanagement.logmanagement: info
-      eu.dzhw.fdz.metadatamanagement.searchmanagement: info
 
 # ===================================================================
 # JHipster specific properties
@@ -56,7 +55,7 @@ metadatamanagement:
     instance-index: 0
     context-root: http://localhost:8080
   elasticsearch-angular-client:
-    apiVersion: '7.3'
+    apiVersion: '7.7'
     logLevel: error
     pageSize: 10
   dara:

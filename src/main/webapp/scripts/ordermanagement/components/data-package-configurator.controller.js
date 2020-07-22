@@ -1,3 +1,4 @@
+/* global _ */
 (function() {
 
   'use strict';
@@ -11,9 +12,11 @@
                                 LanguageService,
                                 ProjectReleaseService,
                                 ShoppingCartService,
-                                MessageBus,
+                                MessageBus, $translate,
                                 StudySearchService,
-                                StudyAccessWaysResource, $mdDialog) {
+                                StudyAccessWaysResource, $mdDialog,
+                                CitationHintGeneratorService,
+                                DataPackageCitationDialogService) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.studyIdVersion = {};
@@ -25,6 +28,7 @@
     $ctrl.variableNotAccessible = false;
     $ctrl.disabled = false;
     $scope.bowser = $rootScope.bowser;
+    $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
 
     function init() {
       var search = $location.search();
@@ -62,7 +66,7 @@
       $ctrl.dataNotAvailable = false;
       $ctrl.noFinalRelease = false;
       var excludes = ['nested*','variables','questions',
-        'surveys','instruments', 'dataSets', 'relatedPublications',
+        'surveys','instruments', 'relatedPublications',
         'concepts'];
       StudySearchService.findShadowByIdAndVersion(id, version, excludes)
         .promise.then(function(data) {
@@ -92,15 +96,47 @@
         });
     }
 
-    $ctrl.addToShoppingCart = function() {
-      ShoppingCartService.add({
-        dataAcquisitionProjectId: $ctrl.study.dataAcquisitionProjectId,
-        accessWay: $ctrl.selectedAccessWay,
-        version: $ctrl.selectedVersion,
-        study: {
-          id: $ctrl.study.id
-        }
+    var extractDataFormats = function(study, selectedAccessWay) {
+      var dataFormats = _.flatMap(study.dataSets, function(dataSet) {
+        var subDataSetsBySelectedAccessWay = _.filter(dataSet.subDataSets,
+          function(subDataSet) {
+            return subDataSet.accessWay === selectedAccessWay;
+          });
+        return _.flatMap(subDataSetsBySelectedAccessWay,
+          function(subDataSet) {
+            return subDataSet.dataFormats;
+          });
       });
+      return _.uniq(dataFormats);
+    };
+
+    $ctrl.addToShoppingCart = function($event) {
+      if (!$ctrl.selectedAccessWay) {
+        var alert = $mdDialog.alert({
+          title: $translate.instant(
+            'shopping-cart.detail.select-access-way-title'),
+          textContent: $translate.instant(
+            'shopping-cart.detail.select-access-way-for-ordering'),
+          ok: $translate.instant('global.buttons.close'),
+          targetEvent: $event,
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          fullscreen: true
+        });
+        $mdDialog.show(alert);
+      } else {
+        ShoppingCartService.add({
+          dataAcquisitionProjectId: $ctrl.study.dataAcquisitionProjectId,
+          accessWay: $ctrl.selectedAccessWay,
+          version: $ctrl.selectedVersion,
+          dataFormats: extractDataFormats($ctrl.study, $ctrl.selectedAccessWay),
+          study: {
+            id: $ctrl.study.id,
+            surveyDataTypes: $ctrl.study.surveyDataTypes,
+            title: $ctrl.study.title
+          }
+        });
+      }
     };
     var unregisterTransitionHook = $transitions.onStart({}, function(trans) {
       $ctrl.disabled = trans.$to().name === 'relatedPublicationDetail' ||
@@ -108,6 +144,10 @@
     });
 
     $scope.$on('$destroy', unregisterTransitionHook);
+
+    $scope.$on('shopping-cart-changed', function() {
+      $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
+    });
 
     $scope.$watch(function() {
       return $ctrl.selectedVersion;
@@ -161,6 +201,7 @@
         templateUrl: 'scripts/ordermanagement/views/' +
             'version-info.html.tmpl',
         clickOutsideToClose: true,
+        escapeToClose: true,
         fullscreen: true,
         targetEvent: $event
       });
@@ -173,8 +214,30 @@
             'access-way-info.html.tmpl',
         clickOutsideToClose: true,
         fullscreen: true,
+        escapeToClose: true,
         targetEvent: $event
       });
+    };
+
+    $ctrl.openCitationDialog = function($event) {
+      if (!$ctrl.selectedAccessWay) {
+        var alert = $mdDialog.alert({
+          title: $translate.instant(
+            'shopping-cart.detail.select-access-way-title'),
+          textContent: $translate.instant(
+            'shopping-cart.detail.select-access-way-for-citation'),
+          ok: $translate.instant('global.buttons.close'),
+          targetEvent: $event,
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          fullscreen: true
+        });
+        $mdDialog.show(alert);
+      } else {
+        var citationHint = CitationHintGeneratorService.generateCitationHint(
+          $ctrl.selectedAccessWay, $ctrl.study);
+        DataPackageCitationDialogService.showDialog(citationHint, $event);
+      }
     };
   }
 

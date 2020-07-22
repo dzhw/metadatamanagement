@@ -1,5 +1,7 @@
 <div class="fdz-cc">
-  <form name="customerForm">
+  <form name="orderForm">
+    <input id="website" type="text" name="website" ng-hide="true" tabindex="-1" autocomplete="off" />
+    <input id="email" type="text" name="email" tabindex="-1" autocomplete="off" value="your@email.com" class="fdz-order-email" />
     <div layout="row" class="mb0 fdz-shopping-cart__header" layout-margin>
       <h1 ng-if="!ctrl.orderSaved" class="md-headline mb0">{{'shopping-cart.detail.table-title' | translate}}</h1>
       <h1 ng-if="ctrl.orderSaved" class="md-headline mb0">{{'shopping-cart.detail.thank-you' | translate}}</h1>
@@ -9,8 +11,7 @@
         <md-card-header>
           <md-card-header-text class="fdz-truncate-string pb0">
             <div class="md-title fdz-truncate-string">
-              <a
-                ui-sref="studyDetail({id: product.study.id, version: product.version, 'access-way': product.accessWay})">
+              <a ui-sref="studyDetail({id: product.study.id, version: product.version})">
                 {{ctrl.studies[product.study.id + '-' + product.version].title | displayI18nString}}
                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                   {{'shopping-cart.detail.study-tooltip' | translate}}
@@ -18,14 +19,14 @@
               </a>
             </div>
             <div class="md-subhead left fdz-truncate-string">
-              <span>{{product.accessWay}},&nbsp;</span><span>{{'shopping-cart.detail.label.version' | translate }} {{product.version}}</span>
-              <strong ng-if="!ctrl.isCurrentVersion(product)">&nbsp;{{'(' + ('shopping-cart.detail.label.not-current' |
-                translate) + ')'}}</strong><span
-              ng-if="ctrl.isCurrentVersion(product)">&nbsp;{{' (' + ('shopping-cart.detail.label.current' | translate) + ')'}}</span>
+              <span>{{product.accessWay}}, </span><span>{{'shopping-cart.detail.label.version' | translate }} {{product.version}}</span>
+              <strong ng-if="!ctrl.isCurrentVersion(product)">&nbsp;{{'(' + ('shopping-cart.detail.label.not-current' | translate) + ')'}}</strong>
+              <span ng-if="ctrl.isCurrentVersion(product)">&nbsp;{{' (' + ('shopping-cart.detail.label.current' | translate) + ')'}}</span>
             </div>
           </md-card-header-text>
         </md-card-header>
         <md-card-content ng-switch="ctrl.noShadowCopyAvailable[product.study.id + '-' + product.version]">
+          <p>
           <span>{{'shopping-cart.detail.label.this-data-product' | translate}}</span>
           <a
             ui-sref="search({id: product.study.id, version: product.version, 'type': 'studies', 'study-series': ctrl.studies[product.study.id + '-' + product.version].studySeries[currentLanguage]})"
@@ -56,9 +57,21 @@
               {{'shopping-cart.detail.data-sets-tooltip' | translate}}
             </md-tooltip>
           </a>
+          </p>
+          <p>
+          <span>{{'shopping-cart.detail.label.data-formats' | translate}}</span>
+          <span ng-repeat="dataFormat in product.dataFormats">
+            {{('data-set-management.detail.sub-data-sets.data-formats.' + dataFormat | translate) + (!$last ? ', ' : '.')}}
+          </span>
+          <span ng-if="ctrl.studies[product.study.id + '-' + product.version].dataLanguages && ctrl.studies[product.study.id + '-' + product.version].dataLanguages.length > 0">{{'shopping-cart.detail.label.data-languages' | translate}}</span>
+          <span
+          class="pre"
+          ng-repeat="language in ctrl.studies[product.study.id + '-' + product.version].dataLanguages">{{(language | displayIsoLanguage: currentLanguage)}}{{$index + 1 !== ctrl.studies[product.study.id + '-' + product.version].dataLanguages.length ? ', ': ''}}</span>
+          </span>
+          </p>
           <div ng-if="ctrl.studies[product.study.id + '-' + product.version].annotations">
             <span class="b">{{'shopping-cart.detail.label.annotations' | translate }}:&nbsp;</span>
-            <span  class="fdz-text-block fdz-multiline-property">{{ctrl.studies[product.study.id + '-' + product.version].annotations | displayI18nString}}</span>
+            <p markdown-to-html="ctrl.studies[product.study.id + '-' + product.version].annotations | displayI18nString"></p>
           </div>
         </md-card-content>
         <md-card-actions>
@@ -77,62 +90,23 @@
       </md-card>
     </div>
     <md-card ng-if="ctrl.initComplete && ctrl.products && ctrl.products.length > 0" class="fdz-fade-in mb8">
-      <md-card-content class="pa0">
-        <p data-translate="shopping-cart.detail.explain-data-product"></p>
-      </md-card-content>
-    </md-card>
-    <md-card ng-if="ctrl.initComplete && ctrl.products && ctrl.products.length > 0" class="fdz-fade-in">
       <md-card-header>
-        <md-card-header-text class="pb0">
-          <h2 class="md-title">{{'shopping-cart.detail.personal-details' | translate }}</h2>
+        <md-card-header-text>
+          <h2 class="md-title">{{'shopping-cart.detail.hint' | translate }}</h2>
         </md-card-header-text>
       </md-card-header>
       <md-card-content class="pt0">
-        <div flex layout-gt-sm="row" layout="column">
-          <md-input-container flex="50" ng-class="{'mr10': $mdMedia('gt-sm')}"
-                              md-is-error="!customerForm.name.$valid && (customerForm.name.$dirty || customerForm.name.$touched)"
-                              class="mb0">
-            <label class="fdz-input-required">{{'shopping-cart.detail.label.customer-name' | translate}}</label>
-            <input ng-trim="true" md-maxlength="128" required ng-model="ctrl.customer.name" name="name" md-no-asterisk
-                   autocomplete="name">
-            <div ng-if="customerForm.name.$valid || !customerForm.name.$touched" class="fdz-input-hint">
-              {{'shopping-cart.detail.hints.name' | translate}}
-            </div>
-            <div ng-messages="customerForm.name.$error" multiple>
-              <div ng-message="required">{{'shopping-cart.error.customer.name.empty' | translate}}</div>
-              <div ng-message="md-maxlength">{{'shopping-cart.error.customer.name.string-size' | translate}}</div>
-            </div>
-          </md-input-container>
-          <md-input-container flex="50" ng-class="{'mr10': $mdMedia('gt-sm')}"
-                              md-is-error="!customerForm.email.$valid && (customerForm.email.$dirty || customerForm.email.$touched)"
-                              class="mb0">
-            <label class="fdz-input-required">{{'shopping-cart.detail.label.customer-email' | translate}}</label>
-            <input ng-trim="true" md-maxlength="128" required ng-model="ctrl.customer.email" name="email" type="email"
-                   md-no-asterisk autocomplete="email">
-            <div ng-if="customerForm.email.$valid || !customerForm.email.$touched" class="fdz-input-hint">
-              {{'shopping-cart.detail.hints.email' | translate}}
-            </div>
-            <div ng-messages="customerForm.email.$error" multiple>
-              <div ng-message="required">{{'shopping-cart.error.customer.email.empty' | translate}}</div>
-              <div ng-message="md-maxlength">{{'shopping-cart.error.customer.email.string-size' | translate}}</div>
-              <div ng-message="email">{{'shopping-cart.error.customer.email.invalid' | translate}}</div>
-            </div>
-          </md-input-container>
-        </div>
-        <div data-vc-recaptcha data-key="'6LeEh3QUAAAAAIi38B2lNgKAxWagrZMeK3QQg8sN'" data-lang="currentLanguage"
-             style="margin: 12px 0px;"></div>
+        <p data-translate="shopping-cart.detail.explain-data-product"></p>
         <div layout="row">
           <md-button class="md-raised md-accent fdz-truncate-string ml0 mt8" ng-click="ctrl.order()">
-            <md-tooltip md-direction="left" md-autohide="true"
-                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'shopping-cart.buttons.checkout-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">thumb_up</md-icon>
             <span>{{'shopping-cart.buttons.checkout' | translate}}</span>
           </md-button>
           <md-button class="md-raised md-primary fdz-truncate-string" ng-click="ctrl.clear()">
-            <md-tooltip md-direction="left" md-autohide="true"
-                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'shopping-cart.buttons.remove-all-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">remove_shopping_cart</md-icon>
@@ -143,8 +117,8 @@
     </md-card>
     <md-card ng-if="ctrl.initComplete && !(ctrl.products && ctrl.products.length > 0)" class="fdz-fade-in">
       <md-card-content layout-align="center center" class="pt0">
-        <p ng-if="ctrl.orderSaved" data-translate="shopping-cart.detail.order-placed-text"></p>
-        <p data-translate="shopping-cart.detail.empty-cart-text"></p>
+        <p ng-if="ctrl.orderSaved" data-translate="shopping-cart.detail.dlp-redirect" data-translate-values="{seconds: ctrl.redirectCountDownSeconds}"></p>
+        <p ng-if="!ctrl.orderSaved" data-translate="shopping-cart.detail.empty-cart-text"></p>
         <p ng-if="!ctrl.orderSaved" data-translate="shopping-cart.detail.explain-data-product"></p>
       </md-card-content>
     </md-card>

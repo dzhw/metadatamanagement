@@ -1,12 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.rest;
 
 import java.time.ZoneId;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderAlreadyCompletedException;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.projection.IdAndVersionOrderProjection;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,6 +38,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * REST controller for ordering data products.
@@ -42,11 +47,14 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Order Resource",
     description = "Endpoints used by the MDM and the DLP to manage orders.")
 @RequiredArgsConstructor
+@Slf4j
 public class OrderResource {
 
   private final OrderRepository orderRepository;
 
   private final OrderService orderService;
+
+  private final ProjectionFactory projectionFactory;
 
   @Value("${metadatamanagement.server.context-root}")
   private String baseUrl;
@@ -65,8 +73,8 @@ public class OrderResource {
       headers = {
           @Header(name = "Location", description = "URL to which the client should go now.")})})
   @ResponseStatus(value = HttpStatus.CREATED)
-  public ResponseEntity<?> createOrder(@RequestBody @Valid Order order) {
-
+  public ResponseEntity<IdAndVersionOrderProjection> createOrder(@RequestBody @Valid Order order) {
+    log.debug("Create new order: {}", order);
     if (order.getClient() != OrderClient.MDM) {
       return ResponseEntity.badRequest().build();
     }
@@ -74,13 +82,14 @@ public class OrderResource {
     order = orderService.create(order);
 
     return ResponseEntity
-        .created(UriComponentsBuilder.fromUriString(getDlpUrl(order.getId())).build().toUri())
-        .build();
+        .created(UriComponentsBuilder
+            .fromUriString(getDlpUrl(order.getId(), order.getLanguageKey())).build().toUri())
+        .body(projectionFactory.createProjection(IdAndVersionOrderProjection.class, order));
   }
 
   /**
    * Override default get by id since it does not set cache headers correctly.
-   * 
+   *
    * @param id a order id
    * @return the Order or not found
    */
@@ -89,7 +98,7 @@ public class OrderResource {
   public ResponseEntity<Order> findOrder(@PathVariable String id) {
     Optional<Order> optional = orderRepository.findById(id);
 
-    if (!optional.isPresent()) {
+    if (optional.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
 
@@ -112,32 +121,40 @@ public class OrderResource {
           + " Follow the returned Location header to proceed with the order process.",
       headers = @Header(name = "Location",
           description = "URL to which the client should go now."))})
-  public ResponseEntity<?> updateOrder(@PathVariable String id, @RequestBody @Valid Order order) {
+  public ResponseEntity<IdAndVersionOrderProjection> updateOrder(@PathVariable String id,
+      @RequestBody @Valid Order order) {
+    log.debug("Update order: {}", order);
     Optional<Order> optional = orderService.update(id, order);
-    if (!optional.isPresent()) {
+    if (optional.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
     String destinationUrl;
     if (order.getClient().equals(OrderClient.MDM)) {
-      destinationUrl = getDlpUrl(id);
+      destinationUrl = getDlpUrl(id, order.getLanguageKey());
     } else {
       destinationUrl =
           baseUrl + "/#!/" + order.getLanguageKey() + "/shopping-cart/" + order.getId();
     }
 
+    Order persistedOrder = optional.get();
+
     return ResponseEntity.status(HttpStatus.OK)
-        .location(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri()).build();
+        .location(UriComponentsBuilder.fromUriString(destinationUrl).build().toUri()).body(
+            projectionFactory.createProjection(IdAndVersionOrderProjection.class, persistedOrder));
   }
 
   /**
    * Generate a DLP url for the given order id.
    *
    * @param orderId Order Id
+   * @param language the language of the order
    * @return URL as string
    */
-  private String getDlpUrl(String orderId) {
+  private String getDlpUrl(String orderId, String language) {
+    Map<String, String> pathVariables = new HashMap<>();
+    pathVariables.put("language", language);
     return UriComponentsBuilder.fromHttpUrl(dlpUrl).queryParam("mdm_order_id", orderId)
-        .toUriString();
+        .buildAndExpand(pathVariables).toUriString();
   }
 
   @ExceptionHandler(OrderAlreadyCompletedException.class)

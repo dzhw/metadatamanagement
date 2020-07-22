@@ -100,12 +100,12 @@
   <descriptions>
     <description>
       <language>de</language>
-      <freetext>${study.description.de}</freetext>
+      <freetext>${removeMarkdown(study.description.de)}</freetext>
       <descriptionType>Abstract</descriptionType>
     </description>
     <description>
       <language>en</language>
-      <freetext>${study.description.en}</freetext>
+      <freetext>${removeMarkdown(study.description.en)}</freetext>
       <descriptionType>Abstract</descriptionType>
     </description>
   </descriptions>
@@ -118,13 +118,13 @@
             <#if geographicCoverage.description.de?has_content>
               <geographicCoverageFree>
                   <language>de</language>
-                  <freetext>${geographicCoverage.description.de}</freetext>
+                  <freetext>${removeMarkdown(geographicCoverage.description.de)}</freetext>
               </geographicCoverageFree>
             </#if>
             <#if geographicCoverage.description.en?has_content>
               <geographicCoverageFree>
                   <language>en</language>
-                  <freetext>${geographicCoverage.description.en}</freetext>
+                  <freetext>${removeMarkdown(geographicCoverage.description.en)}</freetext>
               </geographicCoverageFree>
             </#if>
           </geographicCoveragesFree>
@@ -139,7 +139,7 @@
       	<ul>
         <#list surveys as survey>
           <li><strong>${survey.title.de}:</strong>
-          ${survey.population.description.de}
+          ${removeMarkdown(survey.population.description.de)}
           </li>
         </#list>
         </ul>
@@ -151,7 +151,7 @@
         <ul>
         <#list surveys as survey>
           <li><strong>${survey.title.en}:</strong>
-          ${survey.population.description.en}
+          ${removeMarkdown(survey.population.description.en)}
           </li>
         </#list>
         </ul>
@@ -212,6 +212,18 @@
         <contributorType>Distributor</contributorType>
       </institution>
     </contributor>
+    <#list study.dataCurators as person>
+     <contributor>
+       <person>
+         <firstName>${person.firstName}</firstName>
+         <#if person.middleName??>
+           <middleName>${person.middleName}</middleName>
+         </#if>
+         <lastName>${person.lastName}</lastName>
+         <contributorType>DataCurator</contributorType>
+       </person>
+     </contributor>
+    </#list>
   </contributors>
   <#if study.sponsor??>
     <fundingReferences>
@@ -274,12 +286,12 @@
   <notes>
     <note>
       <language>de</language>
-      <text><#if study.annotations?? && study.annotations.de??>Anmerkungen zur Studie: ${study.annotations.de} ### </#if>Erhebungseinheit: ${surveyUnits}</text>
+      <text><#if study.annotations?? && study.annotations.de??>Anmerkungen zur Studie: ${removeMarkdown(study.annotations.de)} ### </#if>Erhebungseinheit: ${surveyUnits}</text>
     </note>
     <#if study.annotations?? && study.annotations.en??>
       <note>
         <language>en</language>
-        <text>Comments on the study: ${study.annotations.en}</text>
+        <text>Comments on the study: ${removeMarkdown(study.annotations.en)}</text>
       </note>
     </#if>
   </notes>
@@ -298,7 +310,7 @@
         <#if publication.sourceReference??>
           <publication>
             <unstructuredPublication>
-              <freetext>${publication.sourceReference}</freetext>
+              <freetext>${removeMarkdown(publication.sourceReference)}</freetext>
             </unstructuredPublication>
           </publication>
         </#if>

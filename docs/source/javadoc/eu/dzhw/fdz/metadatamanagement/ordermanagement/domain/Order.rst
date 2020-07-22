@@ -38,7 +38,7 @@ Order
 
 .. java:type:: @Document @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @Schema public class Order extends AbstractRdcDomainObject
 
-   Order (DTO) containing all relevant information of a \ :java:ref:`Customer`\  and her \ :java:ref:`Product`\ s.
+   Order (DTO) containing all relevant information for ordered \ :java:ref:`Product`\ s.
 
 Fields
 ------
@@ -49,14 +49,6 @@ client
    :outertype: Order
 
    The id of the client (one of @link \ :java:ref:`OrderClient`\ ) who has last modified this order.
-
-customer
-^^^^^^^^
-
-.. java:field:: @Valid @NotNull private Customer customer
-   :outertype: Order
-
-   The \ :java:ref:`Customer`\  who has placed this order. Must not be null.
 
 id
 ^^
@@ -72,7 +64,7 @@ languageKey
 .. java:field:: @NotEmpty private String languageKey
    :outertype: Order
 
-   The key of the preferred language (either "de" or "en") of the \ :java:ref:`Customer`\ . Must not be empty.
+   The key of the preferred language (either "de" or "en") of the customer. Must not be empty.
 
 products
 ^^^^^^^^
@@ -80,7 +72,7 @@ products
 .. java:field:: @Valid private List<Product> products
    :outertype: Order
 
-   List of data \ :java:ref:`Product`\ s the \ :java:ref:`Customer`\  want to order.
+   List of data \ :java:ref:`Product`\ s the customer want to order. Must not be empty.
 
 serialVersionUID
 ^^^^^^^^^^^^^^^^

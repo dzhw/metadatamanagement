@@ -9,9 +9,9 @@ angular.module('metadatamanagementApp')
              SearchResultNavigatorService,
              DataAcquisitionProjectResource, ProjectUpdateAccessService,
              InstrumentSearchService, OutdatedVersionNotifier, $stateParams,
-             blockUI) {
+             blockUI, LocationSimplifier) {
       blockUI.start();
-
+      LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 
@@ -27,7 +27,6 @@ angular.module('metadatamanagementApp')
         questionsCount: 0,
         dataSetsCount: 0,
         variablesCount: 0,
-        publicationsCount: 0,
         conceptsCount: 0
       };
       ctrl.survey = null;

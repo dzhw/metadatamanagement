@@ -12,8 +12,9 @@ angular.module('metadatamanagementApp')
     $state, BreadcrumbService,
     SearchResultNavigatorService,
     OutdatedVersionNotifier,
-    $stateParams, blockUI) {
+    $stateParams, blockUI, LocationSimplifier) {
     blockUI.start();
+    LocationSimplifier.removeDollarSign();
     SearchResultNavigatorService
       .setSearchIndex($stateParams['search-result-index']);
 
@@ -30,7 +31,6 @@ angular.module('metadatamanagementApp')
       surveysCount: 0,
       dataSetsCount: 0,
       questionsCount: 0,
-      publicationsCount: 0,
       conceptsCount: 0
     };
     ctrl.nextVariables = [];
@@ -44,7 +44,6 @@ angular.module('metadatamanagementApp')
         .bind(null, result.masterId, null, ['nested*','questions',
           'instruments','relatedPublications','concepts']);
       OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
-
       var currenLanguage = LanguageService.getCurrentInstantly();
       var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
       PageTitleService.setPageTitle('variable-management.detail.title', {

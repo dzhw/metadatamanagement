@@ -186,7 +186,7 @@ public class Question extends AbstractShadowableRdcDomainObject {
   private I18nString additionalQuestionText;
 
   /**
-   * Arbitrary annotations to this question.
+   * Arbitrary annotations to this question. Markdown is supported.
    * 
    * Must not contain more than 2048 characters.
    */

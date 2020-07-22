@@ -153,6 +153,9 @@
 							"norms": false
 						}
 					}
+				},
+				"dataFormats": {
+					"type": "keyword"
 				}
 			}
 		},

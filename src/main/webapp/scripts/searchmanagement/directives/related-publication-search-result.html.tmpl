@@ -3,6 +3,7 @@
     <md-card-header-text>
       <a
         ui-sref="relatedPublicationDetail({id:searchResult.id, 'search-result-index': searchResultIndex})"
+        ui-sref-opts="{reload: true, notify: true}"
         ng-click="setParams()">
         <div class="md-title" lang="{{searchResult.language}}">{{searchResult.title}}</div>
       </a>

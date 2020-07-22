@@ -1,15 +1,15 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.rest;
 
-import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
-import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Customer;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderState;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedStudy;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Product;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
+import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.Set;
+
+import org.javers.common.collections.Lists;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,11 +19,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayList;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataFormat;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderState;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedStudy;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Product;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
 
 public class OrderResourceTest extends AbstractTest {
 
@@ -58,7 +64,9 @@ public class OrderResourceTest extends AbstractTest {
     mockMvc.perform(put(UPDATE_ORDER_URL + order.getId()).contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(order)))
         .andExpect(status().isOk())
-        .andExpect(header().exists("Location"));
+        .andExpect(header().exists("Location"))
+        .andExpect(jsonPath("$.id", equalTo(order.getId())))
+        .andExpect(jsonPath("$.version", equalTo((int) (order.getVersion() + 1))));
   }
 
   @Test
@@ -92,18 +100,16 @@ public class OrderResourceTest extends AbstractTest {
     order.setClient(OrderClient.MDM);
     order.setProducts(new ArrayList<>());
 
-    Customer customer = new Customer("Test User", "test@devnull.com");
-    order.setCustomer(customer);
-
     return order;
   }
 
   private Product createProduct(String dataAcquisitionProjectId) {
     OrderedStudy study = new OrderedStudy();
+    study.setSurveyDataTypes(Lists.immutableListOf(DataTypes.QUALITATIVE_DATA));
     study.setId("stu-" + dataAcquisitionProjectId + "$");
     I18nString title = new I18nString("test", "test");
     study.setTitle(title);
-    Product product = new Product(dataAcquisitionProjectId, study, "remote-desktop-suf", "1.0.0");
-    return product;
+    return new Product(dataAcquisitionProjectId, study, "remote-desktop-suf", "1.0.0",
+        Set.of(DataFormat.R));
   }
 }

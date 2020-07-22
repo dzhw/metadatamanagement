@@ -40,8 +40,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * A study contains all metadata of a {@link DataAcquisitionProject}. It will get a DOI (Digital
- * Object Identifier) when the {@link DataAcquisitionProject} is released.
+ * A study also know as data package contains all metadata of a {@link DataAcquisitionProject}. 
+ * It will get a DOI (Digital Object Identifier) when the {@link DataAcquisitionProject} 
+ * is released.
  */
 @Entity
 @Document(collection = "studies")
@@ -104,7 +105,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
   private I18nString title;
 
   /**
-   * A description of the study.
+   * A description of the study. Markdown is supported.
    *
    * It must be specified in German and English and it must not contain more than 2048 characters.
    */
@@ -129,7 +130,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
       I18nString> institutions;
 
   /**
-   * The name of the series of studies to which this study belongs..
+   * The name of the series of studies to which this study belongs.
    *
    * If specified it must be specified in German and English. It must not contain more than 512
    * characters and must not contain ",".
@@ -162,6 +163,15 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
   @Valid
   @NotEmpty(message = "study-management.error.study.authors.not-empty")
   private List<Person> authors;
+  
+  /** 
+   * List of {@link Person}s which have curated this data package.
+   *
+   * Must not be empty.
+   */
+  @Valid
+  @NotEmpty(message = "study-management.error.study.data-curators.not-empty")
+  private List<Person> dataCurators;
 
   /**
    * The current state of the data's availability.
@@ -183,7 +193,7 @@ public class Study extends AbstractShadowableRdcDomainObject implements StudySub
   private I18nString surveyDesign;
 
   /**
-   * Arbitrary additional text for this study.
+   * Arbitrary additional text for this study. Markdown is supported.
    *
    * Must not contain more than 2048 characters.
    */

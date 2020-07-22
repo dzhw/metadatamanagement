@@ -46,5 +46,3 @@ Assert Metadata Icons
    @{MD_ITEMS}    Create List    questions   variables   publications
    :FOR   ${MD_DT}   IN  @{MD_ITEMS}
    \    Page Should Contain Element   xpath=//tr[contains(.,"atestroboticons${BROWSER}")]//metadata-status[@type="'${MD_DT}'"]//md-icon[contains(@md-svg-src, ".clipboard.svg")]
-
-

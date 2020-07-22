@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataFormat;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,6 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 /**
  * Data Product which can be ordered by a customer.
@@ -48,14 +51,20 @@ public class Product implements Serializable {
   private OrderedStudy study;
 
   /**
-   * The access way to the {@link DataSet}s which the {@link Customer} wants to have.
+   * The access way to the {@link DataSet}s which the customer wants to have.
    */
   @NotEmpty
   private String accessWay;
 
   /**
-   * The version of the {@link DataSet}s which the {@link Customer} wants to have.
+   * The version of the {@link DataSet}s which the customer wants to have.
    */
   @NotEmpty
   private String version;
+
+  /**
+   * The available data formats of the study. It must not be empty.
+   */
+  @NotEmpty
+  private Set<DataFormat> dataFormats;
 }

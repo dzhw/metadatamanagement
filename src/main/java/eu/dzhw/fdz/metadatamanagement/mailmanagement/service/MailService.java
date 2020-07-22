@@ -25,9 +25,9 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.TaskErrorNotification;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
+import joptsimple.internal.Strings;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -154,21 +154,6 @@ public class MailService {
     List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
     return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null,
         subject, content, false, true);
-  }
-
-  /**
-   * Synchronously send an email to the customer and dataservice.
-   */
-  public void sendOrderCreatedMail(Order order, String from, String[] cc) {
-    log.debug("Sending notification email for order " + order.getId());
-    Locale locale = Locale.forLanguageTag(order.getLanguageKey());
-    Context context = new Context(locale);
-    context.setVariable("order", order);
-    context.setVariable("baseUrl", baseUrl);
-    String content = templateEngine.process("orderCreated", context);
-    String subject = messageSource.getMessage("email.order.created.title", null, locale);
-    sendEmail(from, new String[] {order.getCustomer().getEmail()}, cc, null, subject, content,
-        false, true);
   }
 
   /**
@@ -367,9 +352,10 @@ public class MailService {
     context.setVariable("projectId", dataAcquisitionProjectId);
     context.setVariable("release", release);
     context.setVariable("baseUrl", baseUrl);
+    context.setVariable("profiles", env.getActiveProfiles());
     String content = templateEngine.process("newMajorProjectRelease", context);
     String subject = "New Major Release for Project \"" + dataAcquisitionProjectId + "\" ("
-        + release.getVersion() + ")";
+        + release.getVersion() + ") on " + Strings.join(env.getActiveProfiles(), ",");
     List<String> emailAddresses =
         releaseManagers.stream().map(User::getEmail).collect(Collectors.toList());
     sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null, subject,

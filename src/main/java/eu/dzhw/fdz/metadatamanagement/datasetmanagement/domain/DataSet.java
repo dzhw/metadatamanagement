@@ -21,6 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.UniqueDatasetNumberInProject;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.UniqueSubDatasetAccessWayInDataSet;
@@ -129,7 +130,7 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
   private I18nString type;
 
   /**
-   * Arbitrary additional text for the dataset.
+   * Arbitrary additional text for the dataset. Markdown is supported.
    * 
    * Must not contain more than 2048 characters.
    */
@@ -176,6 +177,14 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
   @UniqueSubDatasetAccessWayInDataSet(message = "data-set-management.error.data-set."
           + "sub-data-sets.access-way-unique-within-data-set")
   private List<SubDataSet> subDataSets;
+
+  /**
+   * The languages used in the dataset.
+   *
+   * Must be specified as ISO 639 language codes.
+   */
+  private List<@ValidIsoLanguage(
+      message = "data-set-management.error.sub-data-set.languages.not-supported") String> languages;
 
   public DataSet(DataSet dataSet) {
     super();

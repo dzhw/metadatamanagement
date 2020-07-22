@@ -1,11 +1,11 @@
 [![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=master)](https://travis-ci.org/dzhw/metadatamanagement) [![Documentation Status](https://readthedocs.org/projects/metadatamanagement/badge/?version=latest)](https://metadatamanagement.readthedocs.io/de/latest/?badge=latest)
-[![Sauce Test Status](https://saucelabs.com/buildstatus/rreitmann)](https://saucelabs.com/u/rreitmann)
+[![Sauce Test Status](https://app.saucelabs.com/buildstatus/rreitmann)](https://app.saucelabs.com/u/rreitmann)
 [![Known Backend Vulnerabilities](https://snyk.io/test/github/dzhw/metadatamanagement/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/dzhw/metadatamanagement?targetFile=pom.xml
 )[![Known Frontend Vulnerabilities](https://snyk.io/test/github/dzhw/metadatamanagement/badge.svg?targetFile=package.json)](https://snyk.io/test/github/dzhw/metadatamanagement?targetFile=package.json
 )[![codecov](https://codecov.io/gh/dzhw/metadatamanagement/branch/development/graph/badge.svg)](https://codecov.io/gh/dzhw/metadatamanagement)[![Mergify Status](https://gh.mergify.io/badges/dzhw/metadatamanagement.png?style=cut)](https://mergify.io)
 [![DOI](https://zenodo.org/badge/39431147.svg)](https://zenodo.org/badge/latestdoi/39431147)
 
-[![Sauce Build Matrix](https://saucelabs.com/browser-matrix/rreitmann.svg)](https://saucelabs.com/u/rreitmann)
+[![Sauce Test Status](https://app.saucelabs.com/browser-matrix/rreitmann.svg)](https://app.saucelabs.com/u/rreitmann)
 # Metadatamanagement (MDM)
 
 The MDM holds the metadata of the data packages which are available in our Research Data Center [FDZ](https://fdz.dzhw.eu). It enables researchers to browse our data packages before signing a contract for using the data.
@@ -19,7 +19,7 @@ Please checkout the development branch before starting to code and create a new 
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
-1. Java: You need to install java 11 sdk on your system. On Ubuntu you should use [SDKMAN!][]
+1. Java: You need to install java 13 sdk on your system. On Ubuntu you should use [SDKMAN!][]
 2. Maven: You need to install maven 3.6.1 or above on your system. On Ubuntu you should use [SDKMAN!][]
 3. [Node.js][]: Node.js (latest) and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][]
 
@@ -33,7 +33,7 @@ On Windows, `patch.exe` has to exist in the PATH. It is distributed as part of g
 
 Before starting the app on your local machine you need to start the following Document Stores:
 1. Mongodb: Mongodb must be running on the default port, on ubuntu you should install it from here https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
-2. Elasticsearch (7.3.2): Elasticsearch must be running on its default port. You can download it from here https://www.elastic.co/downloads/elasticsearch
+2. Elasticsearch (7.7.0): Elasticsearch must be running on its default port. You can download it from here https://www.elastic.co/downloads/elasticsearch
 
 Make sure that you have read-write-access on the ***data*** directory (in your project directory) for Elasticsearch.
 
@@ -82,16 +82,10 @@ Once Python is installed, run:
 
 Note that the `--user` flag installs the dependency somewhere in your user directory (e.g. /home/{user}/local/bin on Linux). Make sure that the installed binaries/scripts are on your path.
 
-Before deploying the `{dev|test|prod}` system you need to [install the cloudfoundry cli](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html#-linux-installation).
-
-You can build and deploy the jar to the desired environment by running
-
-    ./deploy/build-and-deploy.sh {dev|test|prod}
-
 We test our project continuously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
 
-## Pivotal Cloudfoundry
-This project is currently built and deployed to Pivotal Cloudfoundry by [Travis CI][TravisCI]. You can test the latest version on https://metadatamanagement-dev.cfapps.io/
+## AWS Fargate
+This project is currently built and deployed to AWS Fargate by [Travis CI][TravisCI]. You can test the latest version on https://dev.metadata.fdz.dzhw.eu/
 
 ## Big Thanks
 

@@ -8,12 +8,12 @@ angular.module('metadatamanagementApp')
              DataSetSearchService, DataSetReportResource, PageTitleService,
              LanguageService, $state, BreadcrumbService,
              CleanJSObjectService, SimpleMessageToastService,
-             DataSetAttachmentResource, DataSetCitateDialogService,
+             DataSetAttachmentResource,
              SearchResultNavigatorService,
              DataAcquisitionProjectResource, OutdatedVersionNotifier,
-             $stateParams, blockUI, $mdDialog, MessageBus) {
+             $stateParams, blockUI, $mdDialog, MessageBus, LocationSimplifier) {
       blockUI.start();
-
+      LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 
@@ -27,13 +27,9 @@ angular.module('metadatamanagementApp')
       ctrl.counts = {
         surveysCount: 0,
         variablesCount: 0,
-        publicationsCount: 0,
         conceptsCount: 0
       };
       ctrl.projectIsCurrentlyReleased = true;
-      ctrl.openDialog = function(subDataSet, event) {
-        DataSetCitateDialogService.showDialog(subDataSet.citationHint, event);
-      };
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_ADMIN', 'ROLE_PUBLISHER']);
 

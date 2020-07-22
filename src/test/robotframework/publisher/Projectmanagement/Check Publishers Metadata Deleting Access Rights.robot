@@ -39,6 +39,10 @@ Publisher Create But Can Not Delete Study When Publisher is Ready
    Input Text    name=authorsFirstName_0    Anne
    Input Text    name=authorsMiddleName_0    noMiddleName
    Input Text    name=authorsLastName_0    Droid
+   Focus    xpath=//input[@name = 'curatorsFirstName_0']
+   Input Text    name=curatorsFirstName_0    Anne
+   Input Text    name=curatorsMiddleName_0    noMiddleName
+   Input Text    name=curatorsLastName_0    Droid
    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input   Deutsche Tags Schlüsselwörter
    Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='Deutsche Tags Schlüsselwörter']
    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input   English Days Keyword
@@ -51,7 +55,7 @@ Publisher Create But Can Not Delete Study When Publisher is Ready
 
 Publisher Create and Can Delete Study When Both are Ready
    Click Dataprovider Ready Checkbox for Studies
-   Run Keyword If    '${BROWSER}' == 'safari'   Sleep  10s 
+   Run Keyword If    '${BROWSER}' == 'safari'   Sleep  10s
    Click on Delete Button for Metadata
    Close The Toast Message  ${TOAST_MSSG}
 

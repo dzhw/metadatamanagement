@@ -76,7 +76,7 @@ Study
 
 .. java:type:: @Entity @Document @ValidStudyId @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @Schema @ValidShadowId public class Study extends AbstractShadowableRdcDomainObject implements StudySubDocumentProjection
 
-   A study contains all metadata of a \ :java:ref:`DataAcquisitionProject`\ . It will get a DOI (Digital Object Identifier) when the \ :java:ref:`DataAcquisitionProject`\  is released.
+   A study also know as data package contains all metadata of a \ :java:ref:`DataAcquisitionProject`\ . It will get a DOI (Digital Object Identifier) when the \ :java:ref:`DataAcquisitionProject`\  is released.
 
 Fields
 ------
@@ -86,7 +86,7 @@ annotations
 .. java:field:: @I18nStringSize private I18nString annotations
    :outertype: Study
 
-   Arbitrary additional text for this study. Must not contain more than 2048 characters.
+   Arbitrary additional text for this study. Markdown is supported. Must not contain more than 2048 characters.
 
 authors
 ^^^^^^^
@@ -112,13 +112,21 @@ dataAvailability
 
    The current state of the data's availability. Must be one of \ :java:ref:`DataAvailabilities`\  and must not be empty.
 
+dataCurators
+^^^^^^^^^^^^
+
+.. java:field:: @Valid @NotEmpty private List<Person> dataCurators
+   :outertype: Study
+
+   List of \ :java:ref:`Person`\ s which have curated this data package. Must not be empty.
+
 description
 ^^^^^^^^^^^
 
 .. java:field:: @NotNull @I18nStringSize @I18nStringEntireNotEmpty private I18nString description
    :outertype: Study
 
-   A description of the study. It must be specified in German and English and it must not contain more than 2048 characters.
+   A description of the study. Markdown is supported. It must be specified in German and English and it must not contain more than 2048 characters.
 
 id
 ^^
@@ -164,7 +172,7 @@ studySeries
 .. java:field:: @I18nStringSize @I18nStringEntireNotEmptyOptional @I18nStringMustNotContainComma private I18nString studySeries
    :outertype: Study
 
-   The name of the series of studies to which this study belongs.. If specified it must be specified in German and English. It must not contain more than 512 characters and must not contain ",".
+   The name of the series of studies to which this study belongs. If specified it must be specified in German and English. It must not contain more than 512 characters and must not contain ",".
 
 surveyDesign
 ^^^^^^^^^^^^

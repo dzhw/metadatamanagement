@@ -32,6 +32,8 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation StringLengths
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidIsoLanguage
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain Concept
@@ -84,7 +86,7 @@ annotations
 .. java:field:: @I18nStringSize private I18nString annotations
    :outertype: Instrument
 
-   Arbitrary additional text for this instrument. Must not contain more than 2048 characters.
+   Arbitrary additional text for this instrument. Markdown is supported. Must not contain more than 2048 characters.
 
 conceptIds
 ^^^^^^^^^^
@@ -133,6 +135,14 @@ number
    :outertype: Instrument
 
    The number of the instrument. Must not be empty and must be unique within the \ :java:ref:`DataAcquisitionProject`\ .
+
+originalLanguages
+^^^^^^^^^^^^^^^^^
+
+.. java:field:: private List<String> originalLanguages
+   :outertype: Instrument
+
+   The languages of the instrument during the data collection. Must be specified as ISO 639 language codes.
 
 serialVersionUID
 ^^^^^^^^^^^^^^^^

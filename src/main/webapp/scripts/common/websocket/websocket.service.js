@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').factory('WebSocketService',
-  function($timeout, $mdDialog, ENV, $location, localStorageService,
+  function($timeout, $mdDialog, ENV, localStorageService,
     $translate, LanguageService, ClientJS) {
       var socket = null;
       var stompClient = null;
@@ -24,17 +24,7 @@ angular.module('metadatamanagementApp').factory('WebSocketService',
           (socket && socket.readyState !== 3)) {
           return;
         }
-        if (ENV === 'local') {
-          socket = new SockJS('/websocket');
-        } else if (ENV === 'prod') {
-          // pivotal specific port and domain for websockets on prod
-          socket = new SockJS(
-            'https://metadatamanagement.cfapps.io:4443/websocket');
-        } else {
-          // pivotal specific port for websockets on dev and test
-          socket = new SockJS(
-            'https://' + $location.host() + ':4443/websocket');
-        }
+        socket = new SockJS('/websocket');
         stompClient = Stomp.over(socket);
         if (ENV !== 'local') {
           stompClient.debug = null;

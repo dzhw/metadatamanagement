@@ -13,9 +13,10 @@ angular.module('metadatamanagementApp')
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
       AttachmentDialogService, DataSetAttachmentUploadService,
       DataSetAttachmentVersionsResource, ChoosePreviousVersionService,
-      DataSetVersionsResource) {
+      DataSetVersionsResource, DataFormatsResource) {
       var ctrl = this;
       ctrl.surveyChips = [];
+      ctrl.availableDataFormats = DataFormatsResource.query();
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageTitleService.setPageTitle(
@@ -108,7 +109,7 @@ angular.module('metadatamanagementApp')
                   ProjectUpdateAccessService.isPrerequisiteFulfilled(
                     project, 'data_sets'
                   ).catch(handlePrerequisitesMissing);
-
+                  CurrentProjectService.setCurrentProject(project);
                   ctrl.dataSet = dataSet;
                   ctrl.initSurveyChips();
                   ctrl.loadAttachments();
@@ -148,7 +149,8 @@ angular.module('metadatamanagementApp')
                         ),
                         subDataSets: [{
                           name: ''
-                        }]
+                        }],
+                        languages: []
                       });
                       updateToolbarHeaderAndPageTitle();
                       $scope.registerConfirmOnDirtyHook();
@@ -179,6 +181,9 @@ angular.module('metadatamanagementApp')
                             name: ''
                           }]
                         });
+                        if (!ctrl.dataSet.languages) {
+                          ctrl.dataSet.languages = [];
+                        }
                         $scope.responseRateInitializing = true;
                         updateToolbarHeaderAndPageTitle();
                         $scope.registerConfirmOnDirtyHook();
@@ -391,6 +396,9 @@ angular.module('metadatamanagementApp')
             .then(function(wrapper) {
               ctrl.dataSet = new DataSetResource(
                 wrapper.selection);
+              if (!ctrl.dataSet.languages) {
+                ctrl.dataSet.languages = [];
+              }
               ctrl.initSurveyChips();
               if (wrapper.isCurrentVersion) {
                 $scope.dataSetForm.$setPristine();

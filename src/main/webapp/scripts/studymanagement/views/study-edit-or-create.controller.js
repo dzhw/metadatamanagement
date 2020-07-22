@@ -100,6 +100,7 @@ angular.module('metadatamanagementApp')
               .isUpdateAllowed(project, 'studies', true)) {
             redirectToSearchView();
           } else {
+            CurrentProjectService.setCurrentProject(project);
             ctrl.study = study;
             ctrl.currentStudySeries = study.studySeries;
             ctrl.currentSponsor = study.sponsor;
@@ -141,6 +142,10 @@ angular.module('metadatamanagementApp')
                       .getCurrentProject()
                       .id,
                       authors: [{
+                        firstName: '',
+                        lastName: ''
+                      }],
+                      dataCurators: [{
                         firstName: '',
                         lastName: ''
                       }],
@@ -249,6 +254,76 @@ angular.module('metadatamanagementApp')
           .replace('_' + ctrl.currentAuthorIndex,
             '_' + (ctrl.currentAuthorIndex + 1));
         $document.find('input[name="' + ctrl.currentAuthorInputName + '"]')
+          .focus();
+        $scope.studyForm.$setDirty();
+      };
+
+      ctrl.deleteCurator = function(index) {
+        ctrl.study.dataCurators.splice(index, 1);
+        $scope.studyForm.$setDirty();
+      };
+
+      ctrl.addCurator = function() {
+        ctrl.study.dataCurators.push({
+          firstName: '',
+          lastName: ''
+        });
+        $timeout(function() {
+          $document.find('input[name="curatorsFirstName_' +
+              (ctrl.study.dataCurators.length - 1) + '"]')
+            .focus();
+        });
+      };
+
+      ctrl.setCurrentCurator = function(index, event) {
+        ctrl.currentCuratorInputName = event.target.name;
+        ctrl.currentCuratorIndex = index;
+      };
+
+      ctrl.deleteCurrentCurator = function(event) {
+        if (timeoutActive) {
+          $timeout.cancel(timeoutActive);
+        }
+        timeoutActive = $timeout(function() {
+          timeoutActive = false;
+          // msie workaround: inputs unfocus on button mousedown
+          if (document.activeElement &&
+            $(document.activeElement).parents('#move-curators-container')
+              .length) {
+            return;
+          }
+          if (event.relatedTarget && (
+              event.relatedTarget.id === 'move-curator-up-button' ||
+              event.relatedTarget.id === 'move-curator-down-button')) {
+            return;
+          }
+          delete ctrl.currentCuratorIndex;
+          timeoutActive = null;
+        }, 500);
+      };
+
+      ctrl.moveCurrentCuratorUp = function() {
+        var a = ctrl.study.dataCurators[ctrl.currentCuratorIndex - 1];
+        ctrl.study.dataCurators[ctrl.currentCuratorIndex - 1] =
+          ctrl.study.dataCurators[ctrl.currentCuratorIndex];
+        ctrl.study.dataCurators[ctrl.currentCuratorIndex] = a;
+        ctrl.currentCuratorInputName = ctrl.currentCuratorInputName
+          .replace('_' + ctrl.currentCuratorIndex,
+            '_' + (ctrl.currentCuratorIndex - 1));
+        $document.find('input[name="' + ctrl.currentCuratorInputName + '"]')
+          .focus();
+        $scope.studyForm.$setDirty();
+      };
+
+      ctrl.moveCurrentCuratorDown = function() {
+        var a = ctrl.study.dataCurators[ctrl.currentCuratorIndex + 1];
+        ctrl.study.dataCurators[ctrl.currentCuratorIndex + 1] =
+          ctrl.study.dataCurators[ctrl.currentCuratorIndex];
+        ctrl.study.dataCurators[ctrl.currentCuratorIndex] = a;
+        ctrl.currentCuratorInputName = ctrl.currentCuratorInputName
+          .replace('_' + ctrl.currentCuratorIndex,
+            '_' + (ctrl.currentCuratorIndex + 1));
+        $document.find('input[name="' + ctrl.currentCuratorInputName + '"]')
           .focus();
         $scope.studyForm.$setDirty();
       };
@@ -419,6 +494,12 @@ angular.module('metadatamanagementApp')
         ChoosePreviousVersionService.showDialog(dialogConfig, event)
           .then(function(wrapper) {
             ctrl.study = new StudyResource(wrapper.selection);
+            if (!ctrl.study.dataCurators) {
+              ctrl.study.dataCurators = [{
+                firstName: '',
+                lastName: ''
+              }];
+            }
             if (ctrl.study.institutions && ctrl.study.institutions.length > 0) {
               ctrl.currentInstitutions = angular.copy(ctrl.study.institutions);
             } else {

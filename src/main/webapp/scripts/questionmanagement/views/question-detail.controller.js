@@ -9,9 +9,9 @@ angular.module('metadatamanagementApp')
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
       QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
-      OutdatedVersionNotifier, blockUI) {
+      OutdatedVersionNotifier, blockUI, LocationSimplifier) {
       blockUI.start();
-
+      LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 
@@ -27,7 +27,6 @@ angular.module('metadatamanagementApp')
         surveysCount: 0,
         instrumentsCount: 0,
         variablesCount: 0,
-        publicationsCount: 0,
         conceptsCount: 0
       };
       ctrl.currentImageIndex = 0;

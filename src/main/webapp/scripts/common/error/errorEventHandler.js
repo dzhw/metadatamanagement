@@ -11,6 +11,7 @@ angular.module('metadatamanagementApp').run(
            LanguageService, Auth, Principal) {
     var ignore404 = 0;
     var ignore401 = 0;
+    var ignore504 = 0;
 
     $rootScope.$on('start-ignoring-404', function() {
       ignore404++;
@@ -26,6 +27,14 @@ angular.module('metadatamanagementApp').run(
 
     $rootScope.$on('stop-ignoring-401', function() {
       ignore401 = Math.max(ignore401 - 1, 0);
+    });
+
+    $rootScope.$on('start-ignoring-504', function() {
+      ignore504++;
+    });
+
+    $rootScope.$on('stop-ignoring-504', function() {
+      ignore504 = Math.max(ignore504 - 1, 0);
     });
 
     // Server or network down
@@ -66,6 +75,15 @@ angular.module('metadatamanagementApp').run(
     function(event, response) { // jshint ignore:line
       SimpleMessageToastService.openAlertMessageToast('global.error.' +
         'server-error.internal-server-error', {status: response.status});
+    });
+
+    //Server Error 504
+    $rootScope.$on('gatewayTimeout',
+    function(event, response) { // jshint ignore:line
+      if (ignore504 === 0) {
+        SimpleMessageToastService.openAlertMessageToast('global.error.' +
+          'server-error.gateway-timeout', {status: response.status});
+      }
     });
 
     // user not authorized broadcast

@@ -24,26 +24,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-  
+
   private final UserRepository userRepository;
 
   @Override
   public UserDetails loadUserByUsername(final String login) {
     log.debug("Authenticating {}", login);
     String lowercaseLogin = login.toLowerCase(LocaleContextHolder.getLocale());
-    Optional<User> userFromDatabase = userRepository.findOneByLogin(lowercaseLogin);
+    Optional<User> userFromDatabase = userRepository.findOneByLoginOrEmail(lowercaseLogin, login);
     return userFromDatabase.map(user -> {
       if (!user.isActivated()) {
-        throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
+        throw new UserNotActivatedException("User " + login + " was not activated");
       }
-      Set<GrantedAuthority> grantedAuthorities = user.getAuthorities()
-          .stream()
+      Set<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
           .map(authority -> new SimpleGrantedAuthority(authority.getName()))
           .collect(Collectors.toSet());
-      return new CustomUserDetails(user.getId(), lowercaseLogin, user.getPassword(),
+      return new CustomUserDetails(user.getId(), user.getLogin(), user.getPassword(),
           grantedAuthorities, true, true, true, true);
-    })
-      .orElseThrow(() -> new UsernameNotFoundException(
-          "User " + lowercaseLogin + " was not found in the " + "database"));
+    }).orElseThrow(() -> new UsernameNotFoundException(
+        "User " + lowercaseLogin + " was not found in the " + "database"));
   }
 }

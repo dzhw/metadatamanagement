@@ -18,10 +18,8 @@ angular.module('metadatamanagementApp').config(
       },
       onEnter: function($document, $timeout) {
         $timeout(function() {
-          var top = angular.element($document.find('#top'));
-          var scrollContainer = angular.element(
-            $document.find('md-content[du-scroll-container]'));
-          scrollContainer.scrollToElementAnimated(top);
+          var top = $document.find('#top')[0];
+          top.scrollIntoView();
         });
       }
     });

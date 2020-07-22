@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').config(
       //jscs:disable
       'global': {
         'title': 'Metadatamanagement (MDM)',
-        'browsehappy': 'Sie benutzen einen <strong>veralteten</strong> Browser. Bitte <a href="http://browsehappy.com/?locale=de/">aktualisieren Sie Ihren Browser</a>, um die Benutzerfreundlichkeit zu erhöhen.',
+        'browsehappy': 'Sie benutzen einen <strong>veralteten</strong> Browser. Bitte <a href="http://browsehappy.com/?locale=de/">aktualisieren Sie Ihren Browser</a>, um die Benutzer:innenfreundlichkeit zu erhöhen.',
         'rdc-alt-text': 'Logo des Forschungsdatenzentrums des Deutschen Zentrum für Hochschul- und Wissenschaftsforschung',
         'dzhw-alt-text': 'Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH',
         'bmbf-alt-text': 'Gefördert vom BMBF',
@@ -29,13 +29,14 @@ angular.module('metadatamanagementApp').config(
           'tags': 'Schlagwörter',
           'study-series': 'Studienreihen',
           'survey-data-types': 'Erhebungsdatentyp',
+          'access-ways': 'Zugangswege',
           'unavailable': 'Nicht vorhanden'
         },
         'toolbar': {
           'buttons': {
             'fdz-staff-area-tooltip': {
-              'false': 'Klicken, um das Menü "Zugang für Datengeber" zu öffnen',
-              'true': 'Klicken, um das Menü "Zugang für Datengeber" zu schließen'
+              'false': 'Klicken, um das Menü "Zugang für Datengeber:innen" zu öffnen',
+              'true': 'Klicken, um das Menü "Zugang für Datengeber:innen" zu schließen'
             },
             'logout': '{{username}} abmelden',
             'logout-tooltip': 'Klicken, um "{{username}}" abzumelden',
@@ -51,7 +52,7 @@ angular.module('metadatamanagementApp').config(
               'false': 'Klicken, um das Menü "Administration" zu öffnen',
               'true': 'Klicken, um das Menü "Administration" zu schließen'
             },
-            'user-management-tooltip': 'Klicken, um die Benutzerverwaltung zu öffnen',
+            'user-management-tooltip': 'Klicken, um die Benutzer:innenverwaltung zu öffnen',
             'health-tooltip': 'Klicken, um die Verfügbarkeit aller externen Dienste zu prüfen',
             'logs-tooltip': 'Klicken, um Loglevel zu ändern',
             'settings-tooltip': 'Klicken, um Ihre Kontoeigenschaften zu bearbeiten',
@@ -87,7 +88,7 @@ angular.module('metadatamanagementApp').config(
         'tooltips': {
           'create-project': 'Klicken, um ein neues Datenaufbereitungsprojekt zu erzeugen.',
           'delete-project': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt mit allen verknüpften Daten zu löschen.',
-          'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer freizugeben.',
+          'release-project': 'Klicken, um das ausgewählte Projekt für alle Benutzer:innen freizugeben.',
           'unrelease-project': 'Klicken, um die Freigabe des ausgewählten Projektes zurückzunehmen.',
           'cockpit-project': 'Klicken, um zum Projektcockpit zu gehen.',
           'post-validation': 'Klicken, um das ausgewählte Datenaufbereitungsprojekt zu validieren.',
@@ -118,8 +119,8 @@ angular.module('metadatamanagementApp').config(
             'email': 'Klicken, um per E-Mail Feedback zu geben oder einen Fehler zu melden'
           },
           'navbar-feedback': 'Klicken, um Feedback zu geben oder einen Fehler zu melden',
-          'navbar-documentation': 'Klicken, um die Benutzerdokumentation zu öffnen',
-          'navbar-usage-info': 'Klicken, um Hinweise für Datengeber zu erhalten',
+          'navbar-documentation': 'Klicken, um die Benutzer:innendokumentation zu öffnen',
+          'navbar-usage-info': 'Klicken, um Hinweise für Datengeber:innen zu erhalten',
           'navbar-project-overview': 'Klicken, um die Projektübersicht zu öffnen'
         },
         'feedback-dialog': {
@@ -155,7 +156,7 @@ angular.module('metadatamanagementApp').config(
           },
           'admin': {
             'main': 'Administration',
-            'user-management': 'Benutzerverwaltung',
+            'user-management': 'Benutzer:innenverwaltung',
             'health': 'Verfügbarkeit externer Dienste',
             'logs': 'Loglevel',
             'apidocs': 'API',
@@ -171,12 +172,12 @@ angular.module('metadatamanagementApp').config(
           'dataprotection': 'Datenschutz',
           'notepad': 'Merkzettel',
           'documentation': 'Dokumentation',
-          'usage-info': 'Hinweise für Datengeber',
+          'usage-info': 'Hinweise für Datengeber:innen',
           'project-overview': 'Projektübersicht'
         },
         'form': {
-          'username': 'Benutzername',
-          'username-placeholder': 'Ihr Benutzername',
+          'username': 'Benutzer:innenname',
+          'username-placeholder': 'Ihr Benutzer:innenname',
           'newpassword': 'Neues Passwort',
           'newpassword-placeholder': 'Neues Passwort',
           'confirmpassword': 'Neues Passwort bestätigen',
@@ -186,7 +187,7 @@ angular.module('metadatamanagementApp').config(
         },
         'messages': {
           'info': {
-            'register': 'Sie sind Datengeber/-in und haben noch keinen Zugang? '
+            'register': 'Sie sind Datengeber:in und haben noch keinen Zugang? '
           },
           'error': {
             'dontmatch': 'Das bestätigte Passwort entspricht nicht dem neuen Passwort!',
@@ -285,6 +286,7 @@ angular.module('metadatamanagementApp').config(
           },
           'server-error': {
             'internal-server-error': 'Sorry, etwas ist schief gelaufen :( ({{ status }}).',
+            'gateway-timeout': 'Die Aktion dauert länger als erwartet. Sie wird im Hintergrund weiter ausgeführt.',
             'freemarker': {
               'parsing-error': 'Bei Freemarker trat ein Parsingproblem in Datei "{{entity}}" auf (Zeile, Zeichen): {{invalidValue}}',
               'invalid-reference-error': 'Bei einem Freemarkerskript liegt eine unbekannte Referenz in der Datei "{{entity}}" vor (Zeile, Zeichen): {{invalidValue}}'
@@ -294,7 +296,7 @@ angular.module('metadatamanagementApp').config(
             'unauthorized-error': 'Sie sind nicht angemeldet und können daher diese Aktion nicht durchführen (Status {{ status }}).',
             'forbidden-error': 'Sie haben nicht die Berechtigung (Rolle), um diese Aktion durchzuführen (Status {{ status }}).',
             'not-found-error': 'Die angeforderte Seite wurde nicht gefunden ({{ status }}).',
-            'not-in-assignee-group': 'Die Bearbeitung ist nicht möglich, weil die Zuständigkeit beim Datengeber oder Publisher liegt.'
+            'not-in-assignee-group': 'Die Bearbeitung ist nicht möglich, weil die Zuständigkeit gerade nicht bei Ihrer Gruppe liegt.'
           },
           'person': {
             'first-name': {
