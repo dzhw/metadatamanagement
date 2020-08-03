@@ -102,6 +102,14 @@ Tabelle 1: Vorgehen bei der Metadateneingabe pro Ebene
 Vorbereitende Schritte
 ----------------------
 
+Vergabe der DAP-ID
+~~~~~~~~~~~~~~~~~~
+
+Die Data Acquisition Project-ID (DAP-ID) ist das Kürzel des Datenpakets.
+Bitte sprechen Sie mit dem Publisher einen Vorschlag ab, welcher dann mit dem Release-Manager
+(aktuell Robert Birkelbach, stellv. Anne Weber) rückgesprochen wird, sodass es zu keinen
+Inkonsistenzen kommt.
+
 Registrierung
 ~~~~~~~~~~~~~
 
@@ -131,6 +139,22 @@ Bearbeitung freigegeben wurde.
 Falls Sie nicht kurz darauf dem Projekt zugewiesen worden sind, sprechen Sie bitte noch einmal den/die
 FDZ-MitarbeiterIn an. Der/die FDZ-MitarbeiterIn muss einem der Admins Bescheid geben,
 zu welchem Projekt Sie hinzugefügt werden sollen.
+
+Allgemeiner Hinweis zur Formatierung
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An einigen Stellen gibt es die Möglichkeit Texte mittels Markdown zu formatieren.
+`Hier <https://www.markdownguide.org/basic-syntax/>`_ finden Sie eine Anleitung.
+Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit Markdown formatiert werden.
+Es kann sein, dass die konkreten Überschriften-Ebenen nicht der angegebenen Überschriften-Ebene ensprechen.
+So kann es sein, dass eine H1-Überschrift auf Ebene H2 "rutscht". Das liegt daran, dass die Überschriften-Ebenen
+auf der gesamten Detailseite vom System konsistent gemacht werden. Die niedrigste Überschriften-Ebene ist H6.
+
+.. figure:: ./_static/markdown_symbol.png
+   :name: markdown
+
+   Beispiel eines Eingabefeldes mit Markdown-Unterstützung.
+
 
 Verwaltung des Projektes im Projekt-Cockpit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -767,14 +791,16 @@ Sie uns bitte darauf an. Wir erläutern Ihnen dann den Prozess.
 Metadaten für Fragen müssen als JSON und png Dateien vorliegen.
 Sollte eine Umfrage mit Zofar durchgeführt worden sein, bitten wir Sie uns die
 Metadaten zukommen zu lassen. Die Fragen-Metadaten werden von uns hochgeladen.
-
-
+`Hier <https://dzhw.github.io/questionMetadataPreparation/>`_ befindet sich die technische Dokumentation zur Erstellung der Fragemetadaten.
+Um Fragen ins MDM zu laden benutzen Sie den Upload-Button im Projektcockpit.
 
 Variablen
 ~~~~~~~~~
 
 Sollten Sie die Bereitstellung von Variablenmetadaten mit uns vereinbart haben,
 sprechen Sie uns bitte an. Wir erläutern Ihnen dann die notwendigen Schritte.
+`Hier <https://dzhw.github.io/variableMetadataPreparation/>`_ befindet sich die technische Dokumentation zur Erstellung der Variablenmetadaten.
+Um Variablen ins MDM zu laden benutzen Sie den Upload-Button im Projektcockpit.
 
 Publikationen (relatedPublications)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -856,6 +882,8 @@ das Konzept weitergegeben, verwendet oder modifiziert werden darf.
 
 Die ursprüngliche Sprache(n) des Konzepts müssen Sie auch angeben. Materialien zum Konzept, also Anhänge, können
 erst nachdem das Konzept gespeichert wurde angehängt werden.
+
+Fragen können mit Konzepten verbunden werden. Dies geschieht im Handcrafted-to-MDM-Schritt der Frage-Metadatenerstellung.
 
 
 Projekte freigeben
