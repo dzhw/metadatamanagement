@@ -37,6 +37,10 @@ Create Study by Publisher
     Input Text    name=authorsMiddleName_1    D2
     Input Text    name=authorsLastName_1    noLastName
     Move Second Author To Place One
+    Focus    xpath=//input[@name = 'curatorsFirstName_0']
+    Input Text    name=curatorsFirstName_0    Anne
+    Input Text    name=curatorsMiddleName_0    noMiddleName
+    Input Text    name=curatorsLastName_0    Droid
     Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input   Deutsche Tags Schlüsselwörter
     Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='Deutsche Tags Schlüsselwörter']
     Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input   English Days Keyword

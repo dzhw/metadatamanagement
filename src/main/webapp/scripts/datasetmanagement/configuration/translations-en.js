@@ -37,6 +37,7 @@ angular.module('metadatamanagementApp').config(
             'format': 'Format',
             'annotations': 'Annotations',
             'data-set-same-study': 'Data Sets of this Study',
+            'languages': 'Data available in',
             'sub-data-sets': {
               'name': 'Name',
               'data-formats': 'Data Formats',

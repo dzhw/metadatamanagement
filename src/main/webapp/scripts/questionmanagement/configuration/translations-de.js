@@ -66,7 +66,7 @@ angular.module('metadatamanagementApp').config(
             'false': 'Klicken, um den Inhaltsbereich der technischen Representation zu minimieren'
           },
           'change-image-language-tooltip': 'Klicken, um die Sprache der Bilder zu ändern',
-          'not-released-toast': 'Die Frage "{{ id }}" wurde noch nicht für alle Benutzer freigegeben!',
+          'not-released-toast': 'Die Frage "{{ id }}" wurde noch nicht für alle Benutzer:innen freigegeben!',
           'tooltips': {
             'publications': {
               'one': 'Klicken, um die Publikation zu dieser Frage anzuzeigen',

@@ -26,6 +26,7 @@ import org.springframework.util.StringUtils;
 import com.mongodb.client.gridfs.model.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
@@ -44,6 +45,9 @@ public class SurveyResponseRateImageShadowCopyServiceTest extends AbstractTest {
 
   @Autowired
   private GridFsOperations gridFsOperations;
+
+  @Autowired
+  private GridFsMetadataUpdateService gridFsMetadataUpdateService;
 
   @Autowired
   private SurveyResponseRateImageShadowCopyService shadowCopyService;
@@ -219,7 +223,7 @@ public class SurveyResponseRateImageShadowCopyServiceTest extends AbstractTest {
     try (InputStream is = new ByteArrayInputStream("fakeimage".getBytes(StandardCharsets.UTF_8))) {
       String filename =
           String.format("/surveys/%s/%s", metadata.getSurveyId(), metadata.getFileName());
-      gridFsOperations.store(is, filename, "image/png", metadata);
+      gridFsMetadataUpdateService.store(is, filename, "image/png", metadata);
     }
   }
 }

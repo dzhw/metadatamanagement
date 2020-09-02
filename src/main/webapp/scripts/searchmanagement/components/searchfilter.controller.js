@@ -24,6 +24,11 @@
         property: 'tags', collapsed: true
       },
       {
+        name: 'global.filter.access-ways',
+        property: 'access-ways',
+        collapsed: true
+      },
+      {
         name: 'global.filter.sponsors',
         property: 'sponsor', collapsed: true
       },

@@ -24,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
@@ -58,6 +59,9 @@ public class SurveyResponseRateImageResourceTest extends AbstractTest {
 
   @Autowired
   private GridFsOperations gridFsOperations;
+
+  @Autowired
+  private GridFsMetadataUpdateService gridFsMetadataUpdateService;
 
   private MockMvc mockMvc;
 
@@ -155,7 +159,7 @@ public class SurveyResponseRateImageResourceTest extends AbstractTest {
     try (InputStream is = new ByteArrayInputStream("fakeimage".getBytes(StandardCharsets.UTF_8))) {
       String filename = String.format("/surveys/%s/%s", metadata.getSurveyId(),
           metadata.getFileName());
-      gridFsOperations.store(is, filename, "image/png", metadata);
+      gridFsMetadataUpdateService.store(is, filename, "image/png", metadata);
     }
   }
 }

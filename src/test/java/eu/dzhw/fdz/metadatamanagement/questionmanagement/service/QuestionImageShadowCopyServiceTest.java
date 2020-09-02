@@ -29,6 +29,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import com.mongodb.client.gridfs.model.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
@@ -50,6 +51,9 @@ public class QuestionImageShadowCopyServiceTest extends AbstractTest {
 
   @Autowired
   private QuestionImageShadowCopyService shadowCopyService;
+
+  @Autowired
+  private GridFsMetadataUpdateService gridFsMetadataUpdateService;
 
   private DataAcquisitionProject dataAcquisitionProject;
 
@@ -214,7 +218,7 @@ public class QuestionImageShadowCopyServiceTest extends AbstractTest {
     InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8));
     String filename =
         String.format("/questions/%s/images/%s", metadata.getQuestionId(), metadata.getFileName());
-    gridFsOperations.store(is, filename, "image/png", metadata);
+    gridFsMetadataUpdateService.store(is, filename, "image/png", metadata);
     is.close();
   }
 

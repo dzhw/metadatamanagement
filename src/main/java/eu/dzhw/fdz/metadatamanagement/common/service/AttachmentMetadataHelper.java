@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 import org.bson.Document;
 import org.javers.core.Javers;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
@@ -25,7 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 
 /**
  * Provides helper method for handling common {@link AbstractRdcDomainObject} fields.
- * 
+ *
  * @param <T> {@link AbstractRdcDomainObject}
  */
 @Service
@@ -37,24 +36,22 @@ public class AttachmentMetadataHelper<T extends AbstractRdcDomainObject> {
 
   private GridFsOperations operations;
 
-  private MongoTemplate mongoTemplate;
-
   private GridFsMetadataUpdateService gridFsMetadataUpdateService;
 
   /**
    * Create a new instance.
    */
   public AttachmentMetadataHelper(MimeTypeDetector mimeTypeDetector, Javers javers,
-      GridFsOperations operations, MongoTemplate mongoTemplate) {
+      GridFsOperations operations, GridFsMetadataUpdateService gridFsMetadataUpdateService) {
     this.mimeTypeDetector = mimeTypeDetector;
     this.javers = javers;
     this.operations = operations;
-    this.mongoTemplate = mongoTemplate;
+    this.gridFsMetadataUpdateService = gridFsMetadataUpdateService;
   }
 
   /**
    * Initialize fields of {@link AbstractShadowableRdcDomainObject}.
-   * 
+   *
    * @param metadata Metadata object
    * @param currentUser User name from the current session
    */
@@ -68,7 +65,7 @@ public class AttachmentMetadataHelper<T extends AbstractRdcDomainObject> {
 
   /**
    * Write attachment metadata and the actual file to storage.
-   * 
+   *
    * @param multipartFile Multipart file to store
    * @param filename File name to use
    * @param metadata Metadata attachment
@@ -84,7 +81,7 @@ public class AttachmentMetadataHelper<T extends AbstractRdcDomainObject> {
 
     String contentType = mimeTypeDetector.detect(multipartFile);
     try (InputStream in = multipartFile.getInputStream()) {
-      this.operations.store(in, filename, contentType, metadata);
+      gridFsMetadataUpdateService.store(in, filename, contentType, metadata);
       javers.commit(currentUser, metadata);
     }
   }
@@ -96,7 +93,7 @@ public class AttachmentMetadataHelper<T extends AbstractRdcDomainObject> {
 
   /**
    * Updates the metadata of an attachment file.
-   * 
+   *
    * @param metadata New metadata
    * @param filePath The path to the file for which the metadata will be updated.
    */

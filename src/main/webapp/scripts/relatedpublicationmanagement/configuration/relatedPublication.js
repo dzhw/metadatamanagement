@@ -14,6 +14,9 @@ angular.module('metadatamanagementApp')
           authorities: []
         },
         params: {
+          'id': {
+            dynamic: true
+          },
           'search-result-index': null
         },
         views: {
@@ -26,11 +29,13 @@ angular.module('metadatamanagementApp')
         },
         resolve: {
           entity: ['$stateParams', 'RelatedPublicationSearchService',
-            function($stateParams, RelatedPublicationSearchService) {
+            'LocationSimplifier', function($stateParams,
+              RelatedPublicationSearchService, LocationSimplifier) {
               var excludedAttributes = ['nested*','variables', 'dataSets',
                 'surveys','studies','questions', 'instruments'];
+              var id = LocationSimplifier.ensureDollarSign($stateParams.id);
               return RelatedPublicationSearchService.findOneById(
-                $stateParams.id, null, excludedAttributes);
+                id, null, excludedAttributes);
             }
           ]
         }

@@ -15,8 +15,9 @@ angular.module('metadatamanagementApp')
              ProjectUpdateAccessService, $scope,
              $timeout, $document,
              OutdatedVersionNotifier, StudySearchService, $log,
-             blockUI) {
+             blockUI, LocationSimplifier) {
       blockUI.start();
+      LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 

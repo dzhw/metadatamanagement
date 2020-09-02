@@ -30,6 +30,7 @@ import org.springframework.web.context.WebApplicationContext;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -59,6 +60,9 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
 
   @Autowired
   private GridFsOperations gridFsOperations;
+
+  @Autowired
+  private GridFsMetadataUpdateService gridFsMetadataUpdateService;
 
   private MockMvc mockMvc;
 
@@ -215,7 +219,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
 
     String filename = DataSetAttachmentFilenameBuilder.buildFileName(metadata);
     try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
-      gridFsOperations.store(is, filename, "text/plain", metadata);
+      gridFsMetadataUpdateService.store(is, filename, "text/plain", metadata);
     }
 
     mockMvc.perform(put("/api/data-sets/" + dataSetId + "/attachments/" + metadata.getFileName())
@@ -237,7 +241,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
 
     try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
       String filename = DataSetAttachmentFilenameBuilder.buildFileName(metadata);
-      gridFsOperations.store(is, filename, "text/plain", metadata);
+      gridFsMetadataUpdateService.store(is, filename, "text/plain", metadata);
     }
 
     mockMvc.perform(delete("/api/data-sets/" + dataSetId + "/attachments"))
@@ -257,7 +261,7 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
 
     String filename = DataSetAttachmentFilenameBuilder.buildFileName(metadata);
     try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
-      gridFsOperations.store(is, filename, "text/plain", metadata);
+      gridFsMetadataUpdateService.store(is, filename, "text/plain", metadata);
     }
 
     mockMvc.perform(delete("/api/data-sets/" + dataSetId + "/attachments/" + metadata.getFileName()))

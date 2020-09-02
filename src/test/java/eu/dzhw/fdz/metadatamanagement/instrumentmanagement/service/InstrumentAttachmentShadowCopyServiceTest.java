@@ -29,6 +29,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import com.mongodb.client.gridfs.model.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.helper.InstrumentAttachmentFilenameBuilder;
@@ -49,6 +50,9 @@ public class InstrumentAttachmentShadowCopyServiceTest extends AbstractTest {
 
   @Autowired
   private InstrumentAttachmentShadowCopyService shadowCopyService;
+
+  @Autowired
+  private GridFsMetadataUpdateService gridFsMetadataUpdateService;
 
   private DataAcquisitionProject dataAcquisitionProject;
 
@@ -216,7 +220,7 @@ public class InstrumentAttachmentShadowCopyServiceTest extends AbstractTest {
 
     InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8));
     String filename = InstrumentAttachmentFilenameBuilder.buildFileName(metadata);
-    gridFsOperations.store(is, filename, "text/plain", metadata);
+    gridFsMetadataUpdateService.store(is, filename, "text/plain", metadata);
     is.close();
   }
 

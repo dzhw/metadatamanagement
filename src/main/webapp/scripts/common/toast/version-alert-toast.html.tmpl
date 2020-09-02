@@ -2,7 +2,7 @@
   <div flex>
     <p ng-repeat="elem in messages" style="margin: 8px 0;">
       <span data-translate="{{elem.messageId}}" data-translate-values="{{elem.messageParams}}"></span>
-      <a ng-if="elem.messageParams.id" ng-click="go(elem.messageParams.id)">{{'data-acquisition-project-management.current-version' | translate}}</a>
+      <a ng-if="elem.messageParams['show-master-link']" ng-click="go(elem.messageParams.id)">{{'data-acquisition-project-management.current-version' | translate}}</a>
     </p>
   </div>
   <div class="md-action">

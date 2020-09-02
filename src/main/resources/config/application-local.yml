@@ -33,7 +33,7 @@ spring:
       static-locations:
         - file:src/main/webapp/
         - classpath:public/
-
+  
 logging:
     level:
       eu.dzhw.fdz.metadatamanagement: debug

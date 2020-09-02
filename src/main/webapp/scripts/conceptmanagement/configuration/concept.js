@@ -13,6 +13,9 @@ angular.module('metadatamanagementApp')
           authorities: []
         },
         params: {
+          'id': {
+            dynamic: true
+          },
           'search-result-index': null
         },
         views: {
@@ -24,11 +27,12 @@ angular.module('metadatamanagementApp')
           }
         },
         resolve: {
-          entity: ['$stateParams', 'ConceptSearchService',
-            function($stateParams, ConceptSearchService) {
+          entity: ['$stateParams', 'ConceptSearchService', 'LocationSimplifier',
+            function($stateParams, ConceptSearchService, LocationSimplifier) {
               var excludedAttributes = ['nested*', 'studies', 'dataSets',
                 'surveys','variables','questions', 'instruments'];
-              return ConceptSearchService.findOneById($stateParams.id, null,
+              var id = LocationSimplifier.ensureDollarSign($stateParams.id);
+              return ConceptSearchService.findOneById(id, null,
                 excludedAttributes);
             }
           ]

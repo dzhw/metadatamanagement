@@ -10,7 +10,7 @@ function($interpolate) {
       'Version: {{study.release.version}}. ' +
       'Datenpaketzugangsweg: {{accessWay | displayAccessWay}}. ' +
       'Hannover: FDZ-DZHW. ' +
-      'Datenkuratierung: {{study.dataCurators | displayPersons}}. ' +
+      'Datenkuratierung: {{study.dataCurators | displayPersons}} ' +
       'doi: {{study.doi}}';
     var en = '{{study.authors | displayPersons}} ' +
       '({{study.release.firstDate | date:"yyyy"}}). ' +
@@ -19,7 +19,7 @@ function($interpolate) {
       'Version: {{study.release.version}}. ' +
       'Data Package Access Way: {{accessWay | displayAccessWay}}. ' +
       'Hanover: FDZ-DZHW. ' +
-      'Data Curation: {{study.dataCurators | displayPersons}}. ' +
+      'Data Curation: {{study.dataCurators | displayPersons}} ' +
       'doi: {{study.doi}}';
     return {
       de: $interpolate(de)({accessWay: accessWay, study: study}),

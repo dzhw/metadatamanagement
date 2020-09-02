@@ -27,6 +27,7 @@ import org.springframework.data.mongodb.gridfs.GridFsResource;
 import com.mongodb.client.gridfs.model.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
@@ -39,6 +40,9 @@ public class SurveyAttachmentShadowCopyServiceTest extends AbstractTest {
 
   @Autowired
   private GridFsOperations gridFsOperations;
+
+  @Autowired
+  private GridFsMetadataUpdateService gridFsMetadataUpdateService;
 
   @Autowired
   private MongoTemplate mongoTemplate;
@@ -209,7 +213,7 @@ public class SurveyAttachmentShadowCopyServiceTest extends AbstractTest {
 
     InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8));
     String filename = SurveyAttachmentFilenameBuilder.buildFileName(metadata);
-    gridFsOperations.store(is, filename, "text/plain", metadata);
+    gridFsMetadataUpdateService.store(is, filename, "text/plain", metadata);
     is.close();
   }
 

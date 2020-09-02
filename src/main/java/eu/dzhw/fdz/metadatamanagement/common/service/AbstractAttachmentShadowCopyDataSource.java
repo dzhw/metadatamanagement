@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.gridfs.GridFsResource;
 import com.mongodb.client.gridfs.GridFSFindIterable;
 import com.mongodb.client.gridfs.model.GridFSFile;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 
 /**
@@ -78,6 +79,7 @@ public abstract class AbstractAttachmentShadowCopyDataSource
   }
 
   @Override
+  @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE")
   public void saveShadowCopy(T shadowCopy) {
     String originalFilePath = shadowCopy.getMasterId().replaceFirst("/public/files", "");
     GridFsResource file = gridFsOperations.getResource(originalFilePath);
@@ -86,7 +88,7 @@ public abstract class AbstractAttachmentShadowCopyDataSource
     deleteExistingShadowCopy(filename);
 
     try (InputStream fIn = file.getInputStream()) {
-      gridFsOperations.store(fIn, filename, file.getContentType(), shadowCopy);
+      gridFsMetadataUpdateService.store(fIn, filename, file.getContentType(), shadowCopy);
     } catch (IOException e) {
       throw new RuntimeException("IO error during shadow copy creation of " + shadowCopy.getId(),
           e);
@@ -145,18 +147,18 @@ public abstract class AbstractAttachmentShadowCopyDataSource
                 GridFsCriteria.whereMetaData("successorId").is(null)));
     gridFsOperations.delete(query);
   }
-  
+
   @Override
   public void updateElasticsearch(String dataAcquisitionProjectId, String releaseVersion,
       String previousVersion) {
     // there is currently no elasticsearch index for attachments
   }
-  
+
   @Override
   public void hideExistingShadowCopies(String projectId, String version) {
     setHiddenState(projectId, version, true);
   }
-  
+
   @Override
   public void unhideExistingShadowCopies(String projectId, String version) {
     setHiddenState(projectId, version, false);

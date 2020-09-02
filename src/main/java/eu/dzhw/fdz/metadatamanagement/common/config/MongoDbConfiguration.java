@@ -29,7 +29,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import lombok.extern.slf4j.Slf4j;
+import com.github.cloudyrock.spring.v5.EnableMongock;
 
 /**
  * Configure the mongo db client instance. Modified version of {@link MongoAutoConfiguration}.
@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.**.repository")
 @EnableMongoAuditing(auditorAwareRef = "springSecurityAuditorAware")
-@Slf4j
+@EnableMongock
 public class MongoDbConfiguration {
 
   private final Environment environment;

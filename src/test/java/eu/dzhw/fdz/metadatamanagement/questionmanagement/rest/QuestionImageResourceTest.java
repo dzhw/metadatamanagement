@@ -29,6 +29,7 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
@@ -52,6 +53,9 @@ public class QuestionImageResourceTest extends AbstractTest {
 
   @Autowired
   private GridFsOperations gridFsOperations;
+
+  @Autowired
+  private GridFsMetadataUpdateService gridFsMetadataUpdateService;
 
   private MockMvc mockMvc;
 
@@ -116,7 +120,7 @@ public class QuestionImageResourceTest extends AbstractTest {
 
     String filename = String.format("/questions/%s/images/%s", metadata.getQuestionId(), metadata.getFileName());
     try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
-      gridFsOperations.store(is, filename, "text/plain", metadata);
+      gridFsMetadataUpdateService.store(is, filename, "text/plain", metadata);
     }
 
     mockMvc.perform(delete("/api/questions/" + questionId + "/images"))
