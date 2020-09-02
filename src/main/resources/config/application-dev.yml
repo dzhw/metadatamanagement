@@ -26,6 +26,9 @@ spring:
         uris:
         - ${vcap.services.elastic.credentials.sslUri}
 
+mongock:
+  enabled: false
+  
 management:
   metrics:
     export:

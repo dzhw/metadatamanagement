@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Component;
 
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.AbstractAttachmentShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyResponseRateImageMetadata;
 
@@ -28,8 +28,9 @@ public class SurveyResponseRateImageShadowCopyDataSource
    * Create a new instance.
    */
   public SurveyResponseRateImageShadowCopyDataSource(GridFsOperations gridFsOperations,
-      GridFS gridFs, MongoTemplate mongoTemplate) {
-    super(gridFsOperations, gridFs, mongoTemplate, SurveyResponseRateImageMetadata.class);
+      MongoTemplate mongoTemplate, GridFsMetadataUpdateService gridFsMetadataUpdateService) {
+    super(gridFsOperations, mongoTemplate, gridFsMetadataUpdateService,
+        SurveyResponseRateImageMetadata.class);
   }
 
   @Override

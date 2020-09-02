@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Component;
 
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.AbstractAttachmentShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 
@@ -25,9 +25,10 @@ public class DataSetAttachmentShadowCopyDataSource
   /**
    * Create a new instance.
    */
-  public DataSetAttachmentShadowCopyDataSource(GridFsOperations gridFsOperations, GridFS gridFs,
-      MongoTemplate mongoTemplate) {
-    super(gridFsOperations, gridFs, mongoTemplate, DataSetAttachmentMetadata.class);
+  public DataSetAttachmentShadowCopyDataSource(GridFsOperations gridFsOperations,
+      MongoTemplate mongoTemplate, GridFsMetadataUpdateService gridFsMetadataUpdateService) {
+    super(gridFsOperations, mongoTemplate, gridFsMetadataUpdateService,
+        DataSetAttachmentMetadata.class);
   }
 
   @Override

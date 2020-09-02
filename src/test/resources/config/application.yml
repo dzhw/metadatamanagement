@@ -45,7 +45,11 @@ spring:
       rest:
         uris:
           - http://localhost:19234
-
+mongock:
+  change-logs-scan-package:
+    - eu.dzhw.fdz.metadatamanagement.common.repository.changelogs
+    - eu.dzhw.fdz.metadatamanagement.usermanagement.repository.changelogs
+    
 logging:
     level:
       root: warn

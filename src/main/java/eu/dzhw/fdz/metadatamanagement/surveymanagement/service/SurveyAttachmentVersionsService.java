@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.annotation.PostConstruct;
-
 import org.javers.core.Javers;
-import org.javers.core.metamodel.object.CdoSnapshot;
 import org.javers.repository.jql.QueryBuilder;
 import org.javers.shadow.Shadow;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -16,10 +13,7 @@ import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Service;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
@@ -39,48 +33,10 @@ public class SurveyAttachmentVersionsService {
   private final Javers javers;
   
   private final GridFsOperations operations;
-  
-  private final GridFS gridFs;
 
   private final MongoTemplate mongoTemplate;
   
   private final MetadataManagementProperties metadataManagementProperties;
-
-  /**
-   * Init Javers with all current survey attachments if there are no 
-   * survey attachment commits in Javers yet.
-   */
-  @PostConstruct
-  public void initJaversForSurveyAttachments() {
-    if (!metadataManagementProperties.getServer().getInstanceIndex().equals(0)) {
-      log.debug("This is server instance {} therefore skipping javers init for survey attachments.",
-          metadataManagementProperties.getServer().getInstanceIndex());
-      return;
-    }
-    List<CdoSnapshot> snapshots =
-        javers.findSnapshots(QueryBuilder.byClass(SurveyAttachmentMetadata.class).limit(1).build());
-    // only init if there are no survey attachments yet
-    if (snapshots.isEmpty()) {
-      log.debug("Going to init javers with all current survey attachments");
-      BasicDBObject regQuery = new BasicDBObject();
-      regQuery.append("$regex",
-          SurveyAttachmentFilenameBuilder.ALL_SURVEY_ATTACHMENTS);
-      BasicDBObject filename = new BasicDBObject();
-      filename.append("filename", regQuery);
-      List<GridFSDBFile> files = gridFs.find(filename);
-      files.forEach(file -> {
-        SurveyAttachmentMetadata surveyAttachmentMetadata = mongoTemplate.getConverter()
-            .read(SurveyAttachmentMetadata.class, (BasicDBObject) file.getMetaData());
-        surveyAttachmentMetadata.generateId();
-        BasicDBObject metadata = new BasicDBObject();
-        mongoTemplate.getConverter().write(surveyAttachmentMetadata, metadata);
-        file.setMetaData(metadata);
-        file.save();
-        javers.commit(surveyAttachmentMetadata.getLastModifiedBy(),
-            surveyAttachmentMetadata);
-      });
-    }
-  }
 
   /**
    * Get the previous 10 versions of the survey attachment.

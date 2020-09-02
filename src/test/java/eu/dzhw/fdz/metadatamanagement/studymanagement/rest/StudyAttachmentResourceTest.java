@@ -17,6 +17,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -26,11 +27,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.mongodb.gridfs.GridFS;
-
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
@@ -61,7 +61,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
   private GridFsOperations gridFsOperations;
 
   @Autowired
-  private GridFS gridFs;
+  private GridFsMetadataUpdateService gridFsMetadataUpdateService;
 
   private MockMvc mockMvc;
 
@@ -77,7 +77,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
     this.elasticsearchUpdateQueueItemRepository.deleteAll();
     this.elasticsearchAdminService.recreateAllIndices();
     this.javersService.deleteAll();
-    this.gridFs.getFileList().iterator().forEachRemaining(gridFs::remove);
+    this.gridFsOperations.delete(new Query());
   }
 
   @Test
@@ -217,7 +217,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
 
     String filename = StudyAttachmentFilenameBuilder.buildFileName(metadata);
     try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
-      gridFsOperations.store(is, filename, "text/plain", metadata);
+      gridFsMetadataUpdateService.store(is, filename, "text/plain", metadata);
     }
 
     mockMvc.perform(put("/api/studies/" + studyId + "/attachments/" + metadata.getFileName())
@@ -239,7 +239,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
 
     try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
       String filename = StudyAttachmentFilenameBuilder.buildFileName(metadata);
-      gridFsOperations.store(is, filename, "text/plain", metadata);
+      gridFsMetadataUpdateService.store(is, filename, "text/plain", metadata);
     }
 
     mockMvc.perform(delete("/api/studies/" + studyId + "/attachments"))
@@ -259,7 +259,7 @@ public class StudyAttachmentResourceTest extends AbstractTest {
 
     String filename = StudyAttachmentFilenameBuilder.buildFileName(metadata);
     try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
-      gridFsOperations.store(is, filename, "text/plain", metadata);
+      gridFsMetadataUpdateService.store(is, filename, "text/plain", metadata);
     }
 
     mockMvc.perform(delete("/api/studies/" + studyId + "/attachments/" + metadata.getFileName()))
