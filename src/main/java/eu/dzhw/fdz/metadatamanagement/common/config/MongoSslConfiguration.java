@@ -11,11 +11,10 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-
-import com.mongodb.connection.SslSettings;
 
 /**
  * Configure MongoDB Client to use SSL in the cloud.
@@ -34,11 +33,11 @@ public class MongoSslConfiguration {
   /**
    * Create a custom SSL Context for the MongoClient.
    * 
-   * @return the {@link MongoClientOptions}
+   * @return the {@link MongoClientSettingsBuilderCustomizer}
    * @throws Exception When configuring the SSL context fails
    */
   @Bean
-  public SslSettings mongoSslSettings() throws Exception {
+  public MongoClientSettingsBuilderCustomizer mongoSslSettings() throws Exception {
     InputStream inputStream =
         new ByteArrayInputStream(sslCaCertificate.getBytes(StandardCharsets.UTF_8));
     CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
@@ -55,7 +54,10 @@ public class MongoSslConfiguration {
     SSLContext sslContext = SSLContext.getInstance("TLS");
     sslContext.init(null, trustManagerFactory.getTrustManagers(), null);
 
-    return SslSettings.builder().invalidHostNameAllowed(true).enabled(true).context(sslContext)
-        .build();
+    return builder -> {
+      builder.applyToSslSettings(blockBuilder -> {
+        blockBuilder.enabled(true).invalidHostNameAllowed(true).context(sslContext);
+      });
+    };
   }
 }
