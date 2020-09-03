@@ -28,7 +28,7 @@ spring:
 
 mongock:
   enabled: false
-  
+
 management:
   metrics:
     export:
@@ -46,7 +46,7 @@ metadatamanagement:
     instance-index: ${cf.instance.index}
     context-root: https://dev.metadata.fdz.dzhw.eu
   elasticsearch-angular-client:
-    apiVersion: '7.7'
+    apiVersion: '7.x'
     logLevel: error
     pageSize: 10
   dara:

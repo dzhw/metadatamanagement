@@ -33,7 +33,7 @@ spring:
       static-locations:
         - file:src/main/webapp/
         - classpath:public/
-  
+
 logging:
     level:
       eu.dzhw.fdz.metadatamanagement: debug
@@ -55,7 +55,7 @@ metadatamanagement:
     instance-index: 0
     context-root: http://localhost:8080
   elasticsearch-angular-client:
-    apiVersion: '7.7'
+    apiVersion: '7.x'
     logLevel: error
     pageSize: 10
   dara:
