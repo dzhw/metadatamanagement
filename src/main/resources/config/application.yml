@@ -115,6 +115,7 @@ management:
 
 javers:
   algorithm: levenshtein_distance
+  snapshots-cache-size: 0
 
 metadatamanagement:
   elasticsearch:
