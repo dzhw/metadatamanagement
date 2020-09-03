@@ -106,8 +106,8 @@ public class SearchResource {
       HttpMethod method, HttpServletRequest request)
       throws RestClientException, URISyntaxException, UnsupportedEncodingException {
     HttpHeaders headers = new HttpHeaders();
-    headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_UTF8_VALUE);
-    headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+    headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+    headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
     if (base64Credentials != null) {
       headers.add("authorization", "Basic " + base64Credentials);

@@ -15,8 +15,6 @@ import org.junit.Test;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.CustomUserDetails;
-
 /**
  * No integration test, no application context needed.
  * 

@@ -17,8 +17,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.security.core.AuthenticationException;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.Http401UnauthorizedEntryPoint;
-
 /**
  * No Integration Test. No need for application Context.
  * 
