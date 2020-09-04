@@ -118,7 +118,7 @@ public class DaraServiceTest extends AbstractTest {
     
     mockMvc.perform(post("/api/data-acquisition-projects/" + project.getId() + "/release")
         .content(TestUtil.convertObjectToJsonBytes(project))
-        .contentType(MediaType.APPLICATION_JSON_UTF8))
+        .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated());
   }
 }

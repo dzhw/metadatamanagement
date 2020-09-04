@@ -8,7 +8,6 @@ FDZ-MitarbeiterIn (Publisher, Developer)
    projekt_anlegen
    bilderfassung_pdf
    bilderfassung_ragtime
-   excel_templates
    excel_makros_verwenden
    editing_macros_excel
    latex_template_dsr_anpassen
@@ -19,7 +18,6 @@ FDZ-MitarbeiterIn (Publisher, Developer)
    datensatzreport_erzeugen
    jsons_pruefen
    skalenniveau_pruefen
-   stata_skripte
    issues_testen
    datentypen
    datengeber_vorlage_ordner

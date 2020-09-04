@@ -141,3 +141,8 @@ Desktop.ini
 /docs/source/_static/.directory
 .vscode/launch.json
 .sts4-cache/**
+
+######
+# KDE
+######
+.directory

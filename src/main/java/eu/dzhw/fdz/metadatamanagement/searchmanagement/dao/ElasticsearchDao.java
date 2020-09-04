@@ -16,7 +16,7 @@ import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.client.indices.GetMappingsRequest;
 import org.elasticsearch.client.indices.GetMappingsResponse;
 import org.elasticsearch.client.indices.PutMappingRequest;
-import org.elasticsearch.cluster.metadata.MappingMetaData;
+import org.elasticsearch.cluster.metadata.MappingMetadata;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -95,7 +95,7 @@ public class ElasticsearchDao {
    * @param index the name of the index
    * @return the mapping json
    */
-  public MappingMetaData getMapping(String index) {
+  public MappingMetadata getMapping(String index) {
     GetMappingsRequest request = new GetMappingsRequest().indices(index);
     GetMappingsResponse response;
     try {

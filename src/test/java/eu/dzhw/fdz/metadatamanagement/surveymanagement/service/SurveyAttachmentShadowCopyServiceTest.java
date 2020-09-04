@@ -22,13 +22,12 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
 
-import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
@@ -43,7 +42,7 @@ public class SurveyAttachmentShadowCopyServiceTest extends AbstractTest {
   private GridFsOperations gridFsOperations;
 
   @Autowired
-  private GridFS gridFs;
+  private GridFsMetadataUpdateService gridFsMetadataUpdateService;
 
   @Autowired
   private MongoTemplate mongoTemplate;
@@ -103,9 +102,9 @@ public class SurveyAttachmentShadowCopyServiceTest extends AbstractTest {
     expectedFiles.add("/surveys/" + master.getSurveyId() + "-1.0.0/attachments/filename.txt");
     assertExpectedFilesExistence(expectedFiles);
 
-    GridFSDBFile shadowCopy =
-        gridFs.findOne("/surveys/" + master.getSurveyId() + "-1.0.0/attachments/filename.txt");
-    assertThat(shadowCopy.getMetaData().get("_contentType"), equalTo("text/plain"));
+    GridFsResource shadowCopy = gridFsOperations
+        .getResource("/surveys/" + master.getSurveyId() + "-1.0.0/attachments/filename.txt");
+    assertThat(shadowCopy.getOptions().getMetadata().get("_contentType"), equalTo("text/plain"));
   }
 
   @Test
@@ -121,8 +120,8 @@ public class SurveyAttachmentShadowCopyServiceTest extends AbstractTest {
     shadowCopyService.createShadowCopies(dataAcquisitionProject.getId(),
         dataAcquisitionProject.getRelease(), "1.0.0");
 
-    List<DBObject> files = new ArrayList<>();
-    gridFs.getFileList().iterator().forEachRemaining(files::add);
+    List<GridFSFile> files = new ArrayList<>();
+    gridFsOperations.find(new Query()).iterator().forEachRemaining(files::add);
 
     assertThat(files.size(), equalTo(2));
 
@@ -171,9 +170,9 @@ public class SurveyAttachmentShadowCopyServiceTest extends AbstractTest {
     expectedFiles.add("/surveys/" + master.getSurveyId() + "-1.0.1/attachments/filename.txt");
     assertExpectedFilesExistence(expectedFiles);
 
-    GridFSDBFile predecessor =
-        gridFs.findOne("/surveys/" + master.getSurveyId() + "-1.0.0/attachments/filename.txt");
-    assertThat(predecessor.getMetaData().get("_contentType"), equalTo("text/plain"));
+    GridFsResource predecessor = gridFsOperations
+        .getResource("/surveys/" + master.getSurveyId() + "-1.0.0/attachments/filename.txt");
+    assertThat(predecessor.getOptions().getMetadata().get("_contentType"), equalTo("text/plain"));
   }
 
   @Test
@@ -214,15 +213,15 @@ public class SurveyAttachmentShadowCopyServiceTest extends AbstractTest {
 
     InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8));
     String filename = SurveyAttachmentFilenameBuilder.buildFileName(metadata);
-    gridFsOperations.store(is, filename, "text/plain", metadata);
+    gridFsMetadataUpdateService.store(is, filename, "text/plain", metadata);
     is.close();
   }
 
   private void assertExpectedFilesExistence(List<String> expectedFiles) {
-    Iterator<DBObject> it = gridFs.getFileList().iterator();
+    Iterator<GridFSFile> it = gridFsOperations.find(new Query()).iterator();
     List<String> fileNames = new ArrayList<>();
     while (it.hasNext()) {
-      fileNames.add((String) it.next().get("filename"));
+      fileNames.add(it.next().getFilename());
     }
     assertThat(fileNames.size(), equalTo(expectedFiles.size()));
     assertThat(fileNames, containsInAnyOrder(expectedFiles.toArray()));

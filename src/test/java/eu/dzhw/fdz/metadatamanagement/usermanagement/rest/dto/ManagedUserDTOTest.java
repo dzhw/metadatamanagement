@@ -8,8 +8,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
-
 /**
  * @author Daniel Katzberg No Integration Test. No need for application Context.
  */

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.metrics.AutoTimer;
 import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
 import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
 import org.springframework.http.CacheControl;
@@ -91,7 +92,7 @@ public class SearchResource {
       }
     });
     MetricsRestTemplateCustomizer customizer = new MetricsRestTemplateCustomizer(meterRegistry,
-        tagProvider, "elasticsearch.client.requests");
+        tagProvider, "elasticsearch.client.requests", AutoTimer.ENABLED);
     customizer.customize(restTemplate);
   }
 
@@ -105,8 +106,8 @@ public class SearchResource {
       HttpMethod method, HttpServletRequest request)
       throws RestClientException, URISyntaxException, UnsupportedEncodingException {
     HttpHeaders headers = new HttpHeaders();
-    headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_UTF8_VALUE);
-    headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+    headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+    headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
     if (base64Credentials != null) {
       headers.add("authorization", "Basic " + base64Credentials);

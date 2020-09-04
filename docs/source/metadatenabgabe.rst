@@ -13,14 +13,15 @@ Der Datenaufnahmeprozess im FDZ des DZHW
 Das FDZ des DZHW stellt Daten quantitativer und qualitativer Erhebungen
 aus dem Feld der Hochschul- und Wissenschaftsforschung zur Verfügung.
 Ein fester Bestandteil dieser Arbeit ist zunächst der Prozess der
-Datenaufnahme, welcher im FDZ des DZHW durch das Metadatenmanagementsystem (MDM)
-unterstützt wird. Im Metadatenmanagementsystem werden Metadaten über die von Ihnen bereitgestellten Daten erfasst.
-Für die strukturierte Aufnahme der Metadaten sind sieben unterschiedliche Ebenen im MDM
-vorgesehen: *Studie*, *Erhebungen*, *Erhebungsinstrumente*, *Fragen*,
-*Datensätze*, *Variablen*, *Konzepte* und *Publikationen*.
+Datenaufnahme, welcher im FDZ des DZHW durch das Metadatenmanagementsystem
+(MDM) unterstützt wird. Im Metadatenmanagementsystem werden Metadaten
+über die von Ihnen bereitgestellten Daten erfasst.
+Dies erleichtert es SekundärforscherInnen für sie passende Datenpakete auszuwählen.
+Für die strukturierte Aufnahme der Metadaten sind sieben unterschiedliche
+Ebenen im MDM vorgesehen: *Studie*, *Erhebungen*, *Erhebungsinstrumente*,
+*Fragen*, *Datensätze*, *Variablen*, *Konzepte* und *Publikationen*.
 
-Innerhalb der Aufnahme von Forschungsdaten wird anhand der Metadaten auf
-diesen Ebenen erfasst, welcher Studie sowie Erhebung die Daten
+Hierbei wird erfasst, welcher Studie sowie Erhebung die Daten
 angehören, welche Erhebungsinstrumente genutzt wurden, welche Fragen
 darin gestellt wurden, welche Datensätze existieren, welche Variablen
 sich darin befinden und welche Veröffentlichungen bereits mit den Daten
@@ -30,10 +31,10 @@ vom FDZ des DZHW über das MDM verwaltet werden, ermöglicht. Das System
 ist über die Website https://metadata.fdz.dzhw.eu zu erreichen.
 
 
-.. figure:: ./_static/01_de.png
+.. figure:: ./_static/ebenen_uebersicht_de.png
    :name: mdm-ebenen
 
-   Darstellung der verschiedenen Ebenen im MDM, Ebene *Studie* aktiv
+   Darstellung der verschiedenen Ebenen im MDM; Pfeil rechts klicken um die weiteren Ebenen anzuzeigen
 
 Die eigenständige Abgabe von Metadaten
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,14 +51,14 @@ Anleitung für jede Ebene detailliert erläutert werden. Diesen Vorgaben
 ist unbedingt Folge zu leisten, damit eine erfolgreiche Erfassung der
 einzelnen Metadaten gewährleistet werden kann.
 
-Aktuell können einige Metadaten über eine Eingabemaske im MDM direkt eingetragen
-werden. Für die übrigen Ebenen müssen JSON-Dateien hochgeladen werden, bzw eine
-Exceldatei ans FDZ übergeben werden bzw. hochgeladen werden. In dieser Doku wird
-lediglich auf den Standardfall eingegangen, bei dem die Metadaten per
-Eingabemaske eingetragen werden. Zusätzlich ist auf manchen Ebenen das Erstellen
-von weiteren Anhängen (vgl. :ref:`Anhänge`) vorgesehen. Die Excel-Tabellen und
-eventuelle Anhänge müssen für jede Ebene dann entweder ins MDM hochgeladen
-werden oder zunächst dem
+Aktuell können einige Metadaten über eine Eingabemaske im MDM direkt
+eingetragen werden. Für die übrigen Ebenen müssen JSON-Dateien hochgeladen
+werden, bzw eine Exceldatei ans FDZ übergeben werden bzw. hochgeladen werden.
+In dieser Dokumentation wird lediglich auf den Standardfall eingegangen, bei dem die
+Metadaten per Eingabemaske eingetragen werden. Zusätzlich ist auf manchen
+Ebenen das Erstellen von weiteren Anhängen (vgl. :ref:`Anhänge`) vorgesehen.
+Die Excel-Tabellen und eventuelle Anhänge müssen für jede Ebene dann entweder
+ins MDM hochgeladen werden oder zunächst dem
 FDZ zur weiteren Bearbeitung geschickt werden. Tabelle 1 zeigt eine
 erste Übersicht über das Vorgehen der Metadateneingabe auf jeder Ebene,
 detaillierte Erläuterungen werden in den nachstehenden Kapiteln folgen.
@@ -101,6 +102,14 @@ Tabelle 1: Vorgehen bei der Metadateneingabe pro Ebene
 Vorbereitende Schritte
 ----------------------
 
+Vergabe der DAP-ID
+~~~~~~~~~~~~~~~~~~
+
+Die Data Acquisition Project-ID (DAP-ID) ist das Kürzel des Datenpakets.
+Bitte sprechen Sie mit dem Publisher einen Vorschlag ab, welcher dann mit dem Release-Manager
+(aktuell Robert Birkelbach, stellv. Anne Weber) rückgesprochen wird, sodass es zu keinen
+Inkonsistenzen kommt.
+
 Registrierung
 ~~~~~~~~~~~~~
 
@@ -109,17 +118,43 @@ um die Berechtigung für das Erfassen von Metadaten zu erhalten. Dies können Si
 über die Sidebar links auf der Website erledigen:
 
 
-.. figure:: ./_static/02_de.png
+.. figure:: ./_static/registrierung_1_de.png
    :name: registrierung
 
-   Registrierung im MDM
+   Registrierung im MDM Schritt 1
+
+.. figure:: ./_static/registrierung_2_de.png
+   :name: registrierung_2
+
+   Registrierung im MDM Schritt 2
+
 
 Im Anschluss erhalten Sie eine Bestätigungsmail. In dieser müssen Sie auf den
 Aktivierungslink klicken, welcher nach drei Tagen automatisch abläuft. Im
-Anschluss werden Sie von uns dem Projekt in der Rolle Datengeber/in hinzugefügt.
+Anschluss werden Sie von uns dem Projekt in der Rolle Datengeber/in
+hinzugefügt.
 Sie erhalten jeweils eine E-Mail wenn Sie Ihrem Datenaufbereitungsprojekt
 hinzugefügt wurden und wenn das Projekt Ihnen von einer FDZ-Mitarbeiterin zur
 Bearbeitung freigegeben wurde.
+Falls Sie nicht kurz darauf dem Projekt zugewiesen worden sind, sprechen Sie bitte noch einmal den/die
+FDZ-MitarbeiterIn an. Der/die FDZ-MitarbeiterIn muss einem der Admins Bescheid geben,
+zu welchem Projekt Sie hinzugefügt werden sollen.
+
+Allgemeiner Hinweis zur Formatierung
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An einigen Stellen gibt es die Möglichkeit Texte mittels Markdown zu formatieren.
+`Hier <https://www.markdownguide.org/basic-syntax/>`_ finden Sie eine Anleitung.
+Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit Markdown formatiert werden.
+Es kann sein, dass die konkreten Überschriften-Ebenen nicht der angegebenen Überschriften-Ebene ensprechen.
+So kann es sein, dass eine H1-Überschrift auf Ebene H2 "rutscht". Das liegt daran, dass die Überschriften-Ebenen
+auf der gesamten Detailseite vom System konsistent gemacht werden. Die niedrigste Überschriften-Ebene ist H6.
+
+.. figure:: ./_static/markdown_symbol.png
+   :name: markdown
+
+   Beispiel eines Eingabefeldes mit Markdown-Unterstützung.
+
 
 Verwaltung des Projektes im Projekt-Cockpit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -131,8 +166,9 @@ aufgeklappt werden muss, finden Sie den Zugang zum Projekt-Cockpit
 (vgl. :numref:`projectcockpit`).
 Wenn Sie ins Projekt-Cockpit gehen, sehen Sie unter dem Punkt Einstellungen
 (vgl. :numref:`project_cockpit_settings`), welche Publisher (
-FDZ-MitarbeiterInnen) und DatengeberInnen dem Projekt zugewiesen sind und welche
-Metadaten erwartet werden.
+FDZ-MitarbeiterInnen) und DatengeberInnen dem Projekt zugewiesen sind
+und welche Metadaten erwartet werden. Es werden lediglich die erwarteten
+Metadatenebenen im Projektcockpit angezeigt.
 
 .. figure:: ./_static/cockpit-button.png
    :name: projectcockpit
@@ -158,17 +194,19 @@ eingegebenen Metadaten für alle öffentlichen Nutzer des Systems sichtbar sind.
 Daneben wird angezeigt, ob das Projekt gerade bei den Publishern liegt,
 oder bei den DatengeberInnen zur Bearbeitung liegt.
 
-Zuerst liegt das Projekt zur Bearbeitung bei den Publishern und Sie als Datengeber/in werden per Mail benachrichtigt,
-wenn es Ihnen zugewiesen wird. Um das Projekt wieder den
-Publishern zuzuweisen, klicken Sie den "Papierflieger"-Button (siehe
-:numref:`papierflieger`) über dem "Zugewiesen an Datengeber" bzw "Assigned to Publishers" steht.
+Zuerst liegt das Projekt zur Bearbeitung bei den Publishern und Sie als
+Datengeber/in werden per Mail benachrichtigt, wenn es Ihnen zugewiesen wird.
+Um das Projekt wieder den Publishern zuzuweisen, klicken Sie den
+"Papierflieger"-Button (siehe :numref:`papierflieger`) über dem "Zugewiesen
+an Datengeber" bzw "Assigned to Publishers" steht.
 
 .. figure:: ./_static/projectcockpit_papierflieger.png
    :name: papierflieger
 
 Die Vorraussetzung, dass Sie das Projekt zurückgeben können ist, dass Sie die
-erwarteten Metadaten eingegeben haben mittels des "Neu" bzw. "Hochladen" Buttons und als
-"fertig" markiert haben (siehe :numref:`projectcockpit_dataprovider_ready`).
+erwarteten Metadaten eingegeben haben mittels des "Neu" bzw. "Hochladen"
+Buttons und als "fertig" markiert haben (siehe
+:numref:`projectcockpit_dataprovider_ready`).
 
 Wenn Sie auf den Neu-Button klicken, gelangen Sie zur Eingabemaske der
 jeweiligen Ebene und mit Klick auf den Hochladen Button erscheint ein
@@ -180,28 +218,32 @@ Es wird automatisch abgespeichert.
 .. figure:: ./_static/projectcockpit_dataprovider_ready.png
    :name: projectcockpit_dataprovider_ready
 
-Sie sehen, dass sich der Status von keinem Häkchen hin zu einem Häkchen ändert, nachdem
-Sie "fertig" angeklickt haben.
+Sie sehen, dass sich der Status von keinem Häkchen hin zu einem Häkchen ändert,
+nachdem Sie "fertig" angeklickt haben.
 Nachdem der Papierflieger-Button geklickt wurde, erscheint der
-"Nachricht an Publisher" Dialog (siehe :numref:`nachricht_an_publisher`).
+"Nachricht an Publisher" Dialog (siehe
+:numref:`nachricht_an_publisher`).
 
-.. figure:: ./_static/nachricht_an_publisher.png
+.. figure:: ./_static/cockpit_nachricht_an_publisher.png
    :name: nachricht_an_publisher
 
 Falls die Publisher denken, dass noch irgend etwas vergessen wurde oder anders
-eingegeben werden sollte, weisen die Publisher Ihnen das Projekt zurück zu und Sie
-werden per Email darüber benachrichtigt.
-Sollte der Publisher denken, dass die Eingabe der Metadaten auf der jeweiligen Ebene fertig sind, markiert er/sie die Ebene
+eingegeben werden sollte, weisen die Publisher Ihnen das Projekt zurück zu und
+Sie werden per Email darüber benachrichtigt.
+Sollte der Publisher denken, dass die Eingabe der Metadaten auf der jeweiligen
+Ebene fertig sind, markiert er/sie die Ebene
 auch als "fertig", was durch einen zweiten Haken signalisiert wird
-(siehe :numref:`studie_ready`). Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können
-die Publisher das Projekt für alle öffentlichen Nutzern des Systems freigeben.
+(siehe :numref:`studie_ready`). Sind alle erwarteten Ebenen mit zwei Häkchen
+markiert, können die Publisher das Projekt für alle öffentlichen Nutzern des
+Systems freigeben.
 
-.. figure:: ./_static/studie_ready.png
+.. figure:: ./_static/cockpit_studie_ready.png
    :name: studie_ready
 
 Sie können nun beginnen, Ihr Projekt mit Metadaten zu füllen. Wie genau
 dies funktioniert, wird im Folgenden zunächst prinzipiell erläutert, ehe
-die konkret geforderten Metadaten in den einzelnen Ebenen in  :ref:`Abgabe_von_Metadaten_für_die_einzelnen_Ebenen`
+die konkret geforderten Metadaten in den einzelnen Ebenen in
+:ref:`Abgabe_von_Metadaten_für_die_einzelnen_Ebenen`
 detailliert beschrieben werden.
 
 Notwendige Schnittstellen und Dateien
@@ -226,21 +268,22 @@ Erhebungen, Datensätze und Instrumente wird die Handhabung der jeweiligen
 Eingabemasken dann konkret gezeigt (s. :ref:`Erhebungen` :ref:`Instrumente`).
 
 Für die Ebenen Fragen, Variablen und Publikationen müssen Dateien hochgeladen
-werden -- wenden Sie sich hierfür bitte ans FDZ. Konzepte werden vom FDZ angelegt.
+werden -- wenden Sie sich hierfür bitte ans FDZ. Konzepte werden vom FDZ
+angelegt.
 
 .. _Anhänge:
 
 Anhänge
 ~~~~~~~
 
-Anhänge werden über die Eingabemasken im MDM hochgeladen. Zu den Anhängen zählen
-z.B. der
+Anhänge werden über die Eingabemasken im MDM hochgeladen.
+Zu den Anhängen zählen z.B. der
 Daten- und Methodenbericht auf der Studienebene sowie Fragebögen oder
 Codierlisten auf Instrumentenebene. Diese Dokumente müssen als Dateien
 im PDF- oder Excel-Format vorliegen (Details dazu finden Sie in den jeweils
 relevanten Kapiteln zu den einzelnen Ebenen) und zudem nach bestimmten
-Richtlinien benannt werden. Für die Anhänge im PDF-Format gilt es darüber hinaus
-zu beachten, dass dokumenteigene Metadaten wie Autor und Titel der
+Richtlinien benannt werden. Für die Anhänge im PDF-Format gilt es darüber
+hinaus zu beachten, dass dokumenteigene Metadaten wie Autor und Titel der
 PDF-Datei gelöscht werden. Eine Anleitung finden Sie hier:
 https://helpx.adobe.com/acrobat/using/pdf-properties-metadata.html
 
@@ -263,7 +306,7 @@ wird dort später eine Übersichtsseite erstellt, die im Folgenden am
 Beispiel des Absolventenpanels 2005 dargestellt wird:
 
 
-.. figure:: ./_static/13_de.png
+.. figure:: ./_static/study_details_overview.png
    :name: studienübersicht
 
    Studienübersicht im MDM am Beispiel des Absolventenpanels 2005
@@ -282,7 +325,7 @@ Metadatenebenen. Wenn Sie unter dem Punkt Studie auf den "Neu"-Button klicken,
 gelangen Sie zur Eingabemaske. Machen Sie beim Punkt Eingabemaske_
 weiter.
 
-.. figure:: ./_static/studie_leer.png
+.. figure:: ./_static/study_empty.png
    :name: studie_leer
 
    Studie per Cockpit anlegen
@@ -293,7 +336,7 @@ Dazu finden Sie im
 Reiter „Studien“ unten rechts auf der Seite einen orangefarbenen
 Plus-Button (vgl. :numref:`studien_anlegen_per_suche`).
 
-.. figure:: ./_static/studie_anlegen_per_suche.png
+.. figure:: ./_static/study_create_study_via_search.png
    :name: studien_anlegen_per_suche
 
    Studie per Suche anlegen
@@ -314,7 +357,7 @@ bereits eingetragenen Informationen dargestellt (hier beispielhaft: 21.
 Sozialerhebung):
 
 
-.. figure:: ./_static/15_de.png
+.. figure:: ./_static/study_edit_details_page.png
    :name: studienebene_eingabemaske
 
    Eingabemaske auf Studienebene, Abschnitt "Details" am Beispiel der 21.
@@ -332,13 +375,24 @@ finden Sie teilweise Drop-Down-Menüs vor, in denen Sie aus vorgegebenen
 Alternativen auswählen können (s. grünes Kästchen in
 :numref:`studienebene_eingabemaske`).
 
+.. figure:: ./_static/study_edit_details_institution.png
+   :name: eingabemaske_studienbeschreibung_institution
+
+Im Feld Erhebende Institution(en) (s.
+:numref:`eingabemaske_studienbeschreibung_institution`)
+geben Sie an welche Institution die Studie durchgeführt hat.
+Es werden Institutionen vorgeschlagen, die bereits andere Studien
+durchgeführt haben. Sollte kein Vorschlag passen, geben Sie bitte den
+Institutionsnamen auf Deutsch und Englisch ein.
+
+
 Im zweiten Abschnitt der Eingabemaske müssen Sie eine Beschreibung Ihrer
 Studie sowohl auf Deutsch als auch auf Englisch eingeben. Als
 Beispiel ist im Folgenden die Beschreibung der 21. Sozialerhebung
 abgebildet:
 
 
-.. figure:: ./_static/16_de.png
+.. figure:: ./_static/study_edit_details_description.png
    :name: eingabemaske_studienbeschreibung
 
    Eingabemaske auf Studienebene, Abschnitt "Studienbeschreibung" am Beispiel
@@ -359,10 +413,22 @@ rechts können Sie Ihre Eingaben jederzeit abspeichern. Dies müssen Sie
 spätestens jetzt tun, da Sie ansonsten den letzten Abschnitt der
 Eingabemaske („Materialien zu der Studie“) nicht bearbeiten können.
 
-.. figure:: ./_static/17_de.png
+.. figure:: ./_static/study_edit_details_authors.png
    :name: studienebene_eingabemaske_mitarbeiter
 
    Eingabemaske auf Studienebene, Abschnitt "Projektmitarbeiter(innen)"
+
+.. figure:: ./_static/study_edit_details_tags.png
+   :name: eingabemaske_tags
+
+   Eingabemaske Schlagwörter/ Tags
+
+
+Im Feld Tags (Schlagwörter) zur Studie sind kurze Schlagwörter anzugeben,
+die dabei helfen, schnell einen Überblick über die wichtigsten Themen der
+Studie zu erhalten und ihre Studie schnell auffindbar zu machen.
+Außerdem erleichtert es forschenden ähnliche Studien die das selbe
+Schlagwort verwendet haben zu finden.
 
 Im vierten und letzten Abschnitt der Eingabemaske können Sie Materialien
 zur Studie ablegen. Dazu klicken Sie auf den blauen Plus-Button (s.
@@ -383,10 +449,22 @@ beibehalten möchten, müssen Sie erneut speichern.
 .. _639-1: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
 
-.. figure:: ./_static/18_de.png
+.. figure:: ./_static/study_edit_details_attachments_before_details_are_saved.png
+   :name: eingabemaske_studie_materialien_deaktiviert
+
+   Materialienabschnitt ist noch ausgegraut
+
+.. figure:: ./_static/study_edit_details_attachments_after_details_are_saved.png
+   :name: eingabemaske_studie_materialien_koennen_angegeben werden
+
+   Materialien können hinzugefügt werden
+
+.. figure:: ./_static/study_edit_details_attachments_details.png
    :name: eingabemaske_studie_materialien
 
-   Eingabemasken auf Studienebene, Abschnitt "Materialien zu der Studie"
+   Eingabemaske zu Materialien der Studie
+
+@TODO describe attachments
 
 **Editieren und historisieren**
 
@@ -397,7 +475,7 @@ weiter bearbeiten. Hierfür wird Ihnen im Reiter „Studien“ am rechten
 Rand neben Ihrer Studie ein Stift-Button angezeigt, über den Sie wieder
 in die Eingabemaske gelangen (s. :numref:`bearbeitung_gespeicherte_studie`).
 
-.. figure:: ./_static/19_de.png
+.. figure:: ./_static/study_edit_later.png
    :name: bearbeitung_gespeicherte_studie
 
    Weitere Bearbeitung einer bereits abgespeicherten Studie
@@ -408,22 +486,24 @@ Historisierungs-Button (blauer Pfeil-Button über dem Save-Button unten
 rechts auf der Seite) verwenden (s. :numref:`versionierung`).
 
 
-.. figure:: ./_static/20_de.png
+.. figure:: ./_static/historization_undo.png
    :name: versionierung
 
    Ältere Versionen einer Studie wiederherstellen
 
 Bei einem Klick auf den Historisierungs-Button öffnet sich ein Dialog,
-der die verschiedenen Versionen der Studie anzeigt (s. :numref:`historisierung_studie`). Zudem
-sind der Name des Nutzers, der die entsprechende Version der Studie
+der die verschiedenen Versionen der Studie anzeigt
+(s. :numref:`historisierung_studie`).
+Zudem sind der Name des Nutzers, der die entsprechende Version der Studie
 gespeichert hat, sowie das Änderungsdatum sichtbar. Durch Klicken auf
 die Version wird diese wiederhergestellt, aber nicht automatisch als
 aktuelle Version gespeichert. Dies müsste über einen Klick auf den
-Save-Button erfolgen. Zu beachten ist, dass Materialien zur Studie (Dateianhänge) nicht
-historisiert werden, sondern lediglich deren ins MDM eingegebene Metadaten.
+Save-Button erfolgen. Zu beachten ist, dass Materialien zur Studie
+(Dateianhänge) nicht historisiert werden, sondern lediglich deren ins MDM
+eingegebene Metadaten.
 
 
-.. figure:: ./_static/21_de.png
+.. figure:: ./_static/study_historization.png
    :name: historisierung_studie
 
    Dialog zur Historisierung innerhalb einer Studie
@@ -439,16 +519,16 @@ Mit den Informationen über die Erhebung(en), die Sie innerhalb Ihrer
 Studie durchgeführt haben, wird im MDM folgende Übersichtsseite
 erstellt:
 
-.. figure:: ./_static/22_de.png
+.. figure:: ./_static/surveys_public-view.png
    :name: erhebungsübersicht
 
-   Erhebungsübersicht im MDM am Beispiel der ersten Welle (Bachelor) im Absolventenpanel 2005
+   Erhebungsübersicht im MDM am Beispiel der ersten Welle (traditioneller Studiengänge) im Absolventenpanel 2005
 
 
 **Eine neue Erhebung anlegen**
 
-Wenn Sie eine Studie angelegt haben (vgl. Kapitel :ref:`Studie`), können Sie über
-den Reiter „Erhebungen“ eine neue Erhebung innerhalb Ihrer Studie
+Wenn Sie eine Studie angelegt haben (vgl. Kapitel :ref:`Studie`), können
+Sie über den Reiter „Erhebungen“ eine neue Erhebung innerhalb Ihrer Studie
 erstellen. Hierzu finden Sie unten rechts auf der Seite – ebenso wie bei
 der Studie – einen orangefarbenen Plus-Button. Wenn
 Sie mit dem Mauszeiger darüberfahren, erscheinen die beiden weißen
@@ -465,36 +545,30 @@ Die Eingabemaske auf Erhebungsebene besteht aus den drei Abschnitten
 der Erhebung“. Im Folgenden wird der Abschnitt „Details“ – aufgrund der
 Länge in zwei Teilen – dargestellt:
 
-.. figure:: ./_static/24_de.png
+.. figure:: ./_static/surveys_edit-details-main.png
    :name: eingabemaske_erhebung_details_1
 
    Eingabemaske der Erhebungsebene, Abschnitt "Details" Teil 1
 
 Beim Anlegen einer Erhebung wird automatisch die ID auf Basis des
-Projektnamens generiert (s. rotes Kästchen, :numref:`eingabemaske_erhebung_details_1`,
-hier als Beispiel der 21. Sozialerhebung). Neben den bereits aus der
-Studienebene bekannten Funktionen gibt es in dieser Eingabemaske zusätzlich eine
-Kalenderfunktion (s. blaue Kästchen, :numref:`eingabemaske_erhebung_details_1`),
-welche die Feldzeit des
-Projekts erfasst und in :numref:`kalender_erhebung` dargestellt ist
-:
+Projektnamens generiert (s. rotes Kästchen,
+:numref:`eingabemaske_erhebung_details_1`, hier als Beispiel der
+21. Sozialerhebung). Neben den bereits aus der
+Studienebene bekannten Funktionen gibt es in dieser Eingabemaske
+zusätzlich eine Kalenderfunktion (s. blaue Kästchen,
+:numref:`eingabemaske_erhebung_details_1`),
+welche die Feldzeit des Projekts erfasst und in :numref:`kalender_erhebung`
+dargestellt ist:
 
-.. figure:: ./_static/25_de.png
+.. figure:: ./_static/surveys_calendar.png
    :name: kalender_erhebung
 
    Kalenderfunktion auf der Erhebungsebene
 
-Im zweiten Teil der Eingabemaske für die Erhebungsebene gibt es die
-Besonderheit, dass sich die Rücklaufquote automatisch ermitteln lässt
-(s. :numref:`eingabemaske_erhebungsebene_details_2`). Sie können den Rücklauf
+Die Rücklaufquote wird automatisch ermittelt. Sie können den Rücklauf
 auch manuell eingeben. Hierbei ist zu jedoch beachten, dass sich bereits
 eingegebene Zahlen bei Brutto- und Netto-Stichprobe bei nicht automatisch
 anpassen.
-
-.. figure:: ./_static/26_de.png
-   :name: eingabemaske_erhebungsebene_details_2
-
-   Eingabemaske der Erhebungsebene, Abschnitt "Details" Teil 2
 
 Um den nächsten Abschnitt in der Eingabemaske („Weitere Informationen
 zum Rücklauf“ [2]_) bearbeiten zu können, müssen Sie die bisherigen
@@ -506,16 +580,17 @@ vorliegen. Über den Button mit dem Mülleimer-Symbol lassen sich
 hochgeladene Dateien wieder löschen (s. :numref:`weitere_infos_rücklauf`).
 
 
-.. figure:: ./_static/27_de.png
+.. figure:: ./_static/ruecklaufhochladen_de.png
    :name: weitere_infos_rücklauf
 
    Eingabemaske der Erhebungsebene, Abschnitt „Weitere Informationen zum Rücklauf“
 
 Im letzten Abschnitt der Eingabemaske können – wie auch bei der Studie –
-Materialien hinzugefügt werden (s. :numref:`eingabemaske_erhebung_materialien`).
+Materialien hinzugefügt werden
+(s. :numref:`eingabemaske_erhebung_materialien`).
 Die Funktionsweise ist identisch zu der auf Studienebene. [3]_
 
-.. figure:: ./_static/28_de.png
+.. figure:: ./_static/eingabemaske_erhebung_materialien.png
    :name: eingabemaske_erhebung_materialien
 
    Eingabemaske der Erhebungsebene, Abschnitt „Materialien zu der Erhebung“
@@ -531,7 +606,7 @@ gelangen. Außerdem finden Sie dort auch einen Button mit
 Mülleimer-Symbol, mit dem Sie die Erhebung komplett löschen können (s.
 :numref:`bearbeitung_erhebung`).
 
-.. figure:: ./_static/29_de.png
+.. figure:: ./_static/survey_edit_de.png
    :name: bearbeitung_erhebung
 
    Weitere Bearbeitung einer bereits abgespeicherten Erhebung
@@ -539,15 +614,17 @@ Mülleimer-Symbol, mit dem Sie die Erhebung komplett löschen können (s.
 Es ist außerdem möglich, ältere Versionen der bereits gespeicherten
 Eingaben wiederherzustellen. Im Bearbeitungsmodus gibt es auch auf der
 Erhebungsebene einen Historisierungs-Button, den Sie rechts unten über
-dem Save-Button betätigen können (s. :numref:`version_erhebung_wiederherstellen`).
+dem Save-Button betätigen können
+(s. :numref:`version_erhebung_wiederherstellen`).
 
-.. figure:: ./_static/30_de.png
+.. figure:: ./_static/recover_history_de.png
    :name: version_erhebung_wiederherstellen
 
    Ältere Versionen einer Erhebung wiederherstellen
 
-Bei einem Klick auf den Historisierungs-Button öffnet sich ein Dialog,
-der die verschiedenen Versionen der Erhebung anzeigt (s. :numref:`historisierungsdialog_erhebung`). Zudem
+Bei einem Klick auf den Historisierungs-Button öffnet sich ein
+Dialog, der die verschiedenen Versionen der Erhebung anzeigt
+(s. :numref:`historisierungsdialog_erhebung`). Zudem
 sind der Name des Nutzers, der die entsprechende Version der Studie
 gespeichert hat, sowie das Änderungsdatum sichtbar. Durch Klicken auf
 die Version wird diese wiederhergestellt, aber nicht automatisch als
@@ -555,15 +632,16 @@ aktuelle Version gespeichert. Dies müsste über einen Klick auf den
 Save-Button erfolgen. Zu beachten ist, dass Materialien zur Erhebung
 nicht historisiert werden.
 
-.. figure:: ./_static/31_de.png
+.. figure:: ./_static/history_dialog_de.png
    :name: historisierungsdialog_erhebung
 
    Dialog zur Historisierung innerhalb einer Erhebung
 
 **Prüfschritte**
 
-Der Titel der Erhebung wird bei Veröffentlichung (mit Versionsnummer von mindestens 1.0.0) bei da|ra
-vor einige Attribute (z.B. Referenzzeitraum) gehängt. Der Titel der Erhebung muss daher eindeutig sein und
+Der Titel der Erhebung wird bei Veröffentlichung (mit Versionsnummer
+von mindestens 1.0.0) bei da|ra vor einige Attribute (z.B. Referenzzeitraum)
+gehängt. Der Titel der Erhebung muss daher eindeutig sein und
 im Falle von Panelstudien die Welle enthalten.
 
 .. _Instrumente:
@@ -577,7 +655,7 @@ Als Instrument wird das Erhebungsinstrument bezeichnet (z.B. Fragebogen).
 Wenn Sie Informationen über Ihre Erhebungsinstrumente aufnehmen, wird
 folgende Übersicht im MDM erstellt:
 
-.. figure:: ./_static/32_0.png
+.. figure:: ./_static/instrument_overview_de.png
    :name: instrumentenübersicht_fragebogen
 
    Instrumentenübersicht im MDM am Beispiel des Fragebogens der ersten Welle im Absolventenpanel 2005
@@ -600,7 +678,14 @@ Herangehensweisen die Eingabemaske um ein neues Instrument anzulegen.
 
 Die Eingabemaske besteht
 aus den Pflichtfeldern Beschreibung, Titel, Typ und Erhebung, sowie
-den nicht verpflichtenden Feldern Untertitel und Anmerkungen.
+den nicht verpflichtenden Feldern Untertitel und Anmerkungen (s. :numref:`eingabemaske_instrument_de`).
+
+.. figure:: ./_static/eingabemaske_instrument_de.png
+   :scale: 50 %
+   :name: eingabemaske_instrument_de
+
+   Eingabemaske Instrument
+
 
 Des weiteren können weitere Materialien zum Instrument
 hochgeladen werden. Um weitere Materialien hochzuladen muss zunächst das
@@ -640,8 +725,8 @@ Für die Dokumentation der Datensätze werden die "Master"(AIP)-Datensätze
 (siehe Zwiebelmodell) genutzt. Diese Datensätze sind die größte mögliche
 Vereinheitlichung eines Datensatzes, also keine Teilpopulation oder Teilmenge
 von Variablen eines Datensatz. Datensätze die sich als Teilmenge eines
-"Master"-Datensatzes abbilden lassen werden über die Subdatensätzen (SubDataSets)
-dokumentiert. Mit Subdatensätzen sind solche gemeint,
+"Master"-Datensatzes abbilden lassen werden über die Subdatensätzen
+(SubDataSets) dokumentiert. Mit Subdatensätzen sind solche gemeint,
 die Sie nach einer Anonymisierung Ihrer Daten erhalten. Sie können mehrere
 Stufen der Anonymisierung verwenden, wobei jede Stufe einen eigenen Zugangsweg
 zu den anonymisierten Daten mit sich bringt. Für jeden Zugangsweg
@@ -652,7 +737,7 @@ Ihrer Studie erstellt haben, wird für jeden dieser Datensätze folgende
 Übersicht im MDM angezeigt:
 
 
-.. figure:: ./_static/34_0.png
+.. figure:: ./_static/dataset_overview_de.png
    :name: datensatzübersicht
 
    Datensatzübersicht im MDM am Beispiel des Personendatensatzes (Bachelor) im
@@ -661,9 +746,11 @@ Ihrer Studie erstellt haben, wird für jeden dieser Datensätze folgende
 **Eingabemaske**
 
 Datensätze lassen sich per Eingabemaske anlegen und editieren.
-Hierfür muss man entweder über das Projektcockpit gehen, oder in der Suche auf den Reiter Datensätze klicken (:numref:`mdm-ebenen`),
+Hierfür muss man entweder über das Projektcockpit gehen, oder in der Suche auf
+den Reiter Datensätze klicken (:numref:`mdm-ebenen`),
 anschließend auf das Plussymbol (:numref:`neuerdatensatz`) in der unteren
-rechten Ecke klicken. Anschließend öffnet sich die Eingabemaske (siehe :numref:`dataset_eingabemaske`).
+rechten Ecke klicken. Anschließend öffnet sich die Eingabemaske
+(siehe :numref:`dataset_eingabemaske`).
 
 .. figure:: ./_static/new_dataset_de.png
    :name: neuerdatensatz
@@ -693,8 +780,8 @@ blauen Plus-Button geklickt. [6]_
 
    Datensatz Anhänge
 
-Es öffnet sich ein Fenster (siehe :numref:`dataset_attachments`) in dem Sie eine
-Datei hochladen können und Metadaten zur Datei angeben müssen.
+Es öffnet sich ein Fenster (siehe :numref:`dataset_attachments`) in dem Sie
+eine Datei hochladen können und Metadaten zur Datei angeben müssen.
 
 Fragen
 ~~~~~~
@@ -704,14 +791,16 @@ Sie uns bitte darauf an. Wir erläutern Ihnen dann den Prozess.
 Metadaten für Fragen müssen als JSON und png Dateien vorliegen.
 Sollte eine Umfrage mit Zofar durchgeführt worden sein, bitten wir Sie uns die
 Metadaten zukommen zu lassen. Die Fragen-Metadaten werden von uns hochgeladen.
-
-
+`Hier <https://dzhw.github.io/questionMetadataPreparation/>`_ befindet sich die technische Dokumentation zur Erstellung der Fragemetadaten.
+Um Fragen ins MDM zu laden benutzen Sie den Upload-Button im Projektcockpit.
 
 Variablen
 ~~~~~~~~~
 
 Sollten Sie die Bereitstellung von Variablenmetadaten mit uns vereinbart haben,
 sprechen Sie uns bitte an. Wir erläutern Ihnen dann die notwendigen Schritte.
+`Hier <https://dzhw.github.io/variableMetadataPreparation/>`_ befindet sich die technische Dokumentation zur Erstellung der Variablenmetadaten.
+Um Variablen ins MDM zu laden benutzen Sie den Upload-Button im Projektcockpit.
 
 Publikationen (relatedPublications)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -725,7 +814,7 @@ auf Ihre Publikationen abgeben, werden im MDM für jede Veröffentlichung
 wie folgt dargestellt:
 
 
-.. figure:: ./_static/37_de.png
+.. figure:: ./_static/rel_publication_de.png
    :name: publikationsübersicht
 
    Publikationsübersicht im MDM am Beispiel einer Veröffentlichung, welche im
@@ -738,14 +827,70 @@ Zitationshinweis zu.
 Konzepte
 ~~~~~~~~
 
-Mit Konzepten sind theoretische, latente Konstrukte wie "Persönlichkeit" gemeint, die
-nicht direkt beobachtbar sind, aber durch manifeste Variablen die z.B. durch das Big5 Modell gemessen werden können.
-Für das Anlegen von Konzepten sprechen Sie bitte die FDZ-MitarbeiterInnen an.
+Konzepte können ausschließlich von Publishern angelegt werden.
+Der Begriff "Konzept" kann auf mehreren Ebenen angewendet werden. Im Kontext des MDM
+sind konkrete Konzept-Instrumente gemeint. Im folgendes wird es am Beispiel des Konzeptes Persönlichkeit erklärt:
+Es gibt mehrere Modelle, die das Konzept "Persönlichkeit" erfassen können: z.B. Big5 und DISG.
+Ins MDM tragen Sie bitte konkrete Messinstrumente ein, also z.B. eine bestimmte Big5 Kurzskala.
+Da so eingetragene Konzepte mit mehreren Datenpaketen (auf verschiedenen Ebenen) verknüpft werden können,
+kann der/die EndnutzerIn so Datenpakete heraussuchen, die ein bestimmtes Konzept auf gleiche Art und Weise
+gemessen haben.
+
+.. figure:: ./_static/concept_create.png
+   :name: konzept_anlegen
+
+   Konzeptdetails
+
+Zunächst müssen Sie eine Konzept-ID festlegen. Diese folgt der Form Abkürzung.Jahreszahl, wobei sich
+die Jahreszahl auf das Publikationsdatum des Zitationshinweises bezieht. Die ID, Titel und Zitationshinweis sind verpflichtend
+auszufüllen, während die DOI lediglich angegeben werden muss, wenn eine DOI registriert wurde.
+
+.. figure:: ./_static/concept_description.png
+   :name: konzept_beschreibung
+
+   Konzeptbeschreibung
+
+Eine Beschreibung des Konzepts ist verpflichtend auf Deutsch und Englisch.
+
+.. figure:: ./_static/concept_authors.png
+   :name: konzept_autoren
+
+   Konzept-Autor:innen
+
+Bitte geben Sie außerdem alle Autor:innen des Konzeptes an.
+
+.. figure:: ./_static/concept_tags.png
+   :name: konzept_tags
+
+   Konzept-Tags
+
+Sie können außerdem Tags, also Schlüsselwörter zum Konzept angeben. Diese sind nicht verpflichtend,
+erleichtern es aber Datennutzer:innen sehr, für sie relevante Datenpakete zu finden.
+
+.. figure:: ./_static/concept_license.png
+   :name: konzept_license
+
+   Konzept-Lizenz
+
+Idealerweise hat ein Konzept eine Lizenz, sodass rechtlich geregelt ist, unter welchen Umständen
+das Konzept weitergegeben, verwendet oder modifiziert werden darf.
+
+.. figure:: ./_static/concept_language_materials.png
+   :name: concept_language_materials
+
+   Konzept-Sprache und -Materialien
+
+Die ursprüngliche Sprache(n) des Konzepts müssen Sie auch angeben. Materialien zum Konzept, also Anhänge, können
+erst nachdem das Konzept gespeichert wurde angehängt werden.
+
+Fragen können mit Konzepten verbunden werden. Dies geschieht im Handcrafted-to-MDM-Schritt der Frage-Metadatenerstellung.
+
 
 Projekte freigeben
 ------------------
 
-Wenn Sie alle Metadaten ausgefüllt bzw. ans FDZ gesendet haben, markieren Sie im Project-Cockpit die Metadaten als fertig.
+Wenn Sie alle Metadaten ausgefüllt bzw. ans FDZ gesendet haben,
+markieren Sie im Project-Cockpit die Metadaten als fertig.
 Das FDZ nimmt ihre Daten dann in die sogenannte
 Release-Pipeline auf. Die finale Freigabe erfolgt dann über einen dafür
 benannten Mitarbeiter des FDZ, den Release-Manager. Mit der Freigabe sind Ihre
@@ -770,7 +915,8 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
 
 ☐ Metadaten sind im PDF gelöscht (vgl. :ref:`Anhänge`)
 
-☐ Nicht benötigte Zeilen entfernt (falls Fragen oder Variablen abgegeben werden)
+☐ Nicht benötigte Zeilen entfernt (falls Fragen oder Variablen abgegeben
+  werden)
 
 -  questions.xlsx: löschen bis Zeile 2000
 
@@ -798,8 +944,8 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
    Rücklaufgrafiken sind nur im Dokumentationsstandard der Stufe 3
    gefordert. Die Erläuterungen zu den drei verschiedenen
    Dokumentationsstandards finden Sie in den Dokumenten `„Anforderungen
-   an Daten und Dokumentation im FDZ des
-   DZHW“ <file:///\\faust\Abtuebergreifend\Projekte\FDZ\Allgemeine%20Materialien\Dokumentation>`__.
+   an Daten und Dokumentation im FDZ des DZHW“
+   <file:///\\faust\Abtuebergreifend\Projekte\FDZ\Allgemeine%20Materialien\Dokumentation>`__.
    Sie erhalten es auf Anfrage.
 
 .. [3]
@@ -811,7 +957,8 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
    gefordert. Die Erläuterungen zu den drei verschiedenen
    Dokumentationsstandards finden Sie in den Dokumenten `„Anforderungen
    an Daten und Dokumentation im FDZ des
-   DZHW“ <file:///\\faust\Abtuebergreifend\Projekte\FDZ\Allgemeine%20Materialien\Dokumentation>`__.
+   DZHW“
+   <file:///\\faust\Abtuebergreifend\Projekte\FDZ\Allgemeine%20Materialien\Dokumentation>`__.
    Sie erhalten das Dokument auf Anfrage.
 
 .. [5]

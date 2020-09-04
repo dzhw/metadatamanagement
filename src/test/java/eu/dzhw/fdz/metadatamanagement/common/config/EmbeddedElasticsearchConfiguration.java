@@ -33,7 +33,7 @@ public class EmbeddedElasticsearchConfiguration {
     final EmbeddedElastic embeddedElastic = EmbeddedElastic.builder()
         .withElasticVersion(properties.getElasticsearch().getVersion())
         .withJavaHome(JavaHomeOption.inheritTestSuite())
-        .withEsJavaOpts("-Xms128m -Xmx512m").withSetting(PopularProperties.HTTP_PORT, 19234)
+        .withEsJavaOpts("-Xms128m -Xmx1024m").withSetting(PopularProperties.HTTP_PORT, 19234)
         .withSetting(PopularProperties.CLUSTER_NAME, "metadatamanagement-test")
         .withInstallationDirectory(new File("target/elasticsearch"))
         .withStartTimeout(2, TimeUnit.MINUTES).build().start();
