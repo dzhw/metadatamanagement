@@ -6,11 +6,12 @@ von Interesse sind. Im folgenden werden daher die Rollen aufgeführt und kurz er
 
 Public User
 -----------
-Student, Researcher
+Student, ForscherIn
 
 Datengeber (Data Provider)
 --------------------------
-DZHW interne/externe DatengeberIn, siehe :ref:`metadatenabgabe-label`.
+DatengeberIn, also PrimärforscherIn,
+der/die Daten am FDZ abgibt, siehe :ref:`metadatenabgabe-label`.
 
 Publisher
 ---------
