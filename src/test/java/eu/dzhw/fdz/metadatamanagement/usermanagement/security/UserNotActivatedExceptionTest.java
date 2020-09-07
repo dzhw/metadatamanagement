@@ -11,8 +11,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserNotActivatedException;
-
 /**
  * 
  * No Integration Test. No need for application Context.

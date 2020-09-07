@@ -59,7 +59,7 @@ angular.module('metadatamanagementApp').config(
           'select-access-way-title': 'Bitte Zugangsweg auswählen',
           'select-access-way-for-ordering': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket in den Warenkorb legen zu können.',
           'select-access-way-for-citation': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket zitieren zu können.',
-          'note': 'Das Bestellsystem für Datenpakete wird aktuell über&shy;ar&shy;bei&shy;tet. Wenn Sie Probleme mit dem Bestellprozess haben, wenden Sie sich bitte an <a href="mailto:dataservice@dzhw.eu">dataservice@dzhw.eu</a>.'
+          'note': 'Wenn Sie Probleme mit dem Bestellprozess haben, wenden Sie sich bitte an <a href="mailto:dataservice@dzhw.eu">dataservice@dzhw.eu</a>.'
         },
         'error': {
           'synchronize': 'Der Warenkorb konnte nicht mit dem Server synchronisiert werden.',

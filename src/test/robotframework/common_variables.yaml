@@ -13,7 +13,7 @@ capabilities:
     name: Win10/Firefox
     platform: Windows 10
     browserName: firefox
-    version: latest
+    version: latest-1
     screenResolution: 1920x1080
     maxDuration: 10800
     commandTimeout: 600

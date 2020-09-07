@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.common.config;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.mongeez.Mongeez;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -15,14 +14,11 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.data.annotation.Persistent;
 import org.springframework.data.mapping.model.FieldNamingStrategy;
-import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -33,9 +29,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.mongodb.gridfs.GridFS;
-
-import lombok.extern.slf4j.Slf4j;
+import com.github.cloudyrock.spring.v5.EnableMongock;
 
 /**
  * Configure the mongo db client instance. Modified version of {@link MongoAutoConfiguration}.
@@ -43,10 +37,8 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.**.repository")
 @EnableMongoAuditing(auditorAwareRef = "springSecurityAuditorAware")
-@Slf4j
+@EnableMongock
 public class MongoDbConfiguration {
-
-  private final MongoDbFactory mongo;
 
   private final Environment environment;
 
@@ -56,9 +48,8 @@ public class MongoDbConfiguration {
    * Constructor from {@link MongoAutoConfiguration}.
    */
   @Autowired
-  public MongoDbConfiguration(MongoDbFactory mongo, Environment environment,
+  public MongoDbConfiguration(Environment environment,
       ResourceLoader resourceLoader) {
-    this.mongo = mongo;
     this.environment = environment;
     this.resourceLoader = resourceLoader;
   }
@@ -83,30 +74,8 @@ public class MongoDbConfiguration {
   }
 
   /**
-   * Configure Mongeez for schema management.
-   *
-   * @deprecated It is not working in the cloud!
-   */
-  @Deprecated
-  @Bean
-  @Profile({Constants.SPRING_PROFILE_LOCAL, Constants.SPRING_PROFILE_UNITTEST})
-  public Mongeez mongeez() {
-    log.debug("Configuring Mongeez");
-    Mongeez mongeez = new Mongeez();
-    mongeez.setFile(new ClassPathResource("/config/mongeez/master.xml"));
-    mongeez.setMongo(mongo.getLegacyDb().getMongo());
-    mongeez.setDbName(mongo.getDb().getName());
-    mongeez.process();
-    return mongeez;
-  }
-
-  @Bean
-  public GridFS gridFs() {
-    return new GridFS(mongo.getLegacyDb());
-  }
-
-  /**
    * Create the {@link MongoMappingContext} which scans only our domain objects.
+   * 
    * @param applicationContext The application context
    * @param properties The {@link MongoProperties}
    * @param conversions Registered converters

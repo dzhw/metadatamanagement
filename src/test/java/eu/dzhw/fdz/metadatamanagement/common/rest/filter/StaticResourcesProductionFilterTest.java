@@ -21,8 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.filter.StaticResourcesProductionFilter;
-
 /**
  * No Integration Test. No need for application Context.
  * 
