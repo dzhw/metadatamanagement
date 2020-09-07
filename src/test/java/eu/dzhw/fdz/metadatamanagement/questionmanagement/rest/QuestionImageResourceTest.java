@@ -16,6 +16,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -24,11 +25,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.mongodb.DBObject;
-import com.mongodb.gridfs.GridFS;
+import com.mongodb.client.gridfs.model.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
@@ -54,7 +55,7 @@ public class QuestionImageResourceTest extends AbstractTest {
   private GridFsOperations gridFsOperations;
 
   @Autowired
-  private GridFS gridFs;
+  private GridFsMetadataUpdateService gridFsMetadataUpdateService;
 
   private MockMvc mockMvc;
 
@@ -68,7 +69,7 @@ public class QuestionImageResourceTest extends AbstractTest {
   public void cleanUp() {
     this.elasticsearchUpdateQueueItemRepository.deleteAll();
     this.javersService.deleteAll();
-    this.gridFs.getFileList().iterator().forEachRemaining(gridFs::remove);
+    this.gridFsOperations.delete(new Query());
     this.elasticsearchAdminService.recreateAllIndices();
   }
 
@@ -119,15 +120,15 @@ public class QuestionImageResourceTest extends AbstractTest {
 
     String filename = String.format("/questions/%s/images/%s", metadata.getQuestionId(), metadata.getFileName());
     try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
-      gridFsOperations.store(is, filename, "text/plain", metadata);
+      gridFsMetadataUpdateService.store(is, filename, "text/plain", metadata);
     }
 
     mockMvc.perform(delete("/api/questions/" + questionId + "/images"))
         .andExpect(status().isNoContent());
 
-    Iterator<DBObject> iterator = gridFs.getFileList().iterator();
+    Iterator<GridFSFile> iterator = gridFsOperations.find(new Query()).iterator();
 
     assertThat(iterator.hasNext(), equalTo(true));
-    assertThat(iterator.next().get("filename"), equalTo(filename));
+    assertThat(iterator.next().getFilename(), equalTo(filename));
   }
 }

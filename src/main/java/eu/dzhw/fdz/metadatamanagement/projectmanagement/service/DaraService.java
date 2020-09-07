@@ -21,6 +21,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.metrics.AutoTimer;
 import org.springframework.boot.actuate.metrics.web.client.MetricsRestTemplateCustomizer;
 import org.springframework.boot.actuate.metrics.web.client.RestTemplateExchangeTagsProvider;
 import org.springframework.core.io.Resource;
@@ -115,7 +116,7 @@ public class DaraService {
 
   @Autowired
   private DataAcquisitionProjectVersionsService dataAcquisitionProjectVersionsService;
-  
+
   @Autowired
   private MarkdownHelper markdownHelper;
 
@@ -136,8 +137,8 @@ public class DaraService {
     this.restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
     this.restTemplate.getMessageConverters().add(0,
         new StringHttpMessageConverter(Charset.forName("UTF-8")));
-    MetricsRestTemplateCustomizer customizer =
-        new MetricsRestTemplateCustomizer(meterRegistry, tagProvider, "dara.client.requests");
+    MetricsRestTemplateCustomizer customizer = new MetricsRestTemplateCustomizer(meterRegistry,
+        tagProvider, "dara.client.requests", AutoTimer.ENABLED);
     customizer.customize(this.restTemplate);
   }
 
@@ -263,7 +264,7 @@ public class DaraService {
   private Map<String, Object> getDataForTemplate(DataAcquisitionProject project) {
 
     Map<String, Object> dataForTemplate = new HashMap<>();
-    
+
     dataForTemplate.put("removeMarkdown", markdownHelper.createRemoveMarkdownMethod());
 
     // Get Project Information
@@ -283,8 +284,8 @@ public class DaraService {
       release = dataAcquisitionProjectVersionsService.findLastRelease(project.getMasterId());
     }
     if (release.getFirstDate() == null) {
-      Optional<DataAcquisitionProject> previousRelease = projectRepository
-          .findById(project.getMasterId() + "-" + release.getVersion());
+      Optional<DataAcquisitionProject> previousRelease =
+          projectRepository.findById(project.getMasterId() + "-" + release.getVersion());
       if (previousRelease.isPresent()) {
         release.setFirstDate(previousRelease.get().getRelease().getFirstDate());
       } else {

@@ -23,11 +23,10 @@ import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.util.StringUtils;
 
-import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
@@ -48,7 +47,7 @@ public class SurveyResponseRateImageShadowCopyServiceTest extends AbstractTest {
   private GridFsOperations gridFsOperations;
 
   @Autowired
-  private GridFS gridFs;
+  private GridFsMetadataUpdateService gridFsMetadataUpdateService;
 
   @Autowired
   private SurveyResponseRateImageShadowCopyService shadowCopyService;
@@ -172,9 +171,9 @@ public class SurveyResponseRateImageShadowCopyServiceTest extends AbstractTest {
 
     assertThat(shadowMetadata.getSuccessorId(), nullValue());
 
-    List<DBObject> files = new ArrayList<>();
+    List<GridFSFile> files = new ArrayList<>();
 
-    gridFs.getFileList().iterator().forEachRemaining(files::add);
+    gridFsOperations.find(new Query()).iterator().forEachRemaining(files::add);
     assertThat(files.size(), equalTo(2));
     assertThat(shadowFile.getMetadata().get("_contentType"), equalTo("image/png"));
   }
@@ -224,7 +223,7 @@ public class SurveyResponseRateImageShadowCopyServiceTest extends AbstractTest {
     try (InputStream is = new ByteArrayInputStream("fakeimage".getBytes(StandardCharsets.UTF_8))) {
       String filename =
           String.format("/surveys/%s/%s", metadata.getSurveyId(), metadata.getFileName());
-      gridFsOperations.store(is, filename, "image/png", metadata);
+      gridFsMetadataUpdateService.store(is, filename, "image/png", metadata);
     }
   }
 }

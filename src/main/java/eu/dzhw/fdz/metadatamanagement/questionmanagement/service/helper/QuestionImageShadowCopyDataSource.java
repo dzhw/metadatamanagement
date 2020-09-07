@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.stereotype.Component;
 
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.mongodb.gridfs.GridFS;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.AbstractAttachmentShadowCopyDataSource;
+import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
 
@@ -27,9 +27,10 @@ public class QuestionImageShadowCopyDataSource
   /**
    * Create a new instance.
    */
-  public QuestionImageShadowCopyDataSource(GridFsOperations gridFsOperations, GridFS gridFs,
-      MongoTemplate mongoTemplate) {
-    super(gridFsOperations, gridFs, mongoTemplate, QuestionImageMetadata.class);
+  public QuestionImageShadowCopyDataSource(GridFsOperations gridFsOperations,
+      MongoTemplate mongoTemplate, GridFsMetadataUpdateService gridFsMetadataUpdateService) {
+    super(gridFsOperations, mongoTemplate, gridFsMetadataUpdateService,
+        QuestionImageMetadata.class);
   }
 
   @Override

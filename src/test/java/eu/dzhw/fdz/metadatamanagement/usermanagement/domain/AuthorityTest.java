@@ -9,8 +9,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
-
 /**
  * No need for Application Conetext. No integration test.
  * 

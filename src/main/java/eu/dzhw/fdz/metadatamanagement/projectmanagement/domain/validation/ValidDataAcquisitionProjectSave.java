@@ -1,19 +1,20 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import javax.validation.Constraint;
+import javax.validation.Payload;
+
 /**
  * Validates a project update follows business and authorization constraints.
  */
 @Documented
 @Constraint(validatedBy = ValidDataAcquisitionProjectSaveValidator.class)
-@Target({ElementType.PARAMETER})
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidDataAcquisitionProjectSave {
 
