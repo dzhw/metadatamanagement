@@ -217,13 +217,13 @@
       <md-card class="mb8">
         <md-card-header>
           <md-card-header-text>
-            <h2 class="md-title">{{'concept-management.detail.label.license' | translate}}</h2>
+            <h2 class="md-title">{{'concept-management.detail.label.license-edit' | translate}}</h2>
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
         <md-card-content>
           <md-input-container md-is-error="!conceptForm.license.$valid && (conceptForm.license.$dirty || conceptForm.license.$touched)" class="ms-flex w-100">
-            <label>{{'concept-management.detail.label.license' | translate}}<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
+            <label>{{'concept-management.detail.label.license-edit' | translate}}<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
             <textarea md-maxlength="1048576" name="license" ng-model="ctrl.concept.license" ng-trim="true" rows="4"></textarea>
             <div class="fdz-input-hint" ng-if="!conceptForm.license.$dirty && !conceptForm.license.$touched">
               {{'concept-management.edit.hints.license' | translate}}
