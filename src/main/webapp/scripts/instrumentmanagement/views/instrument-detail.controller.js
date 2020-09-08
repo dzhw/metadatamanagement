@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
              SearchResultNavigatorService,
              DataAcquisitionProjectResource, ProjectUpdateAccessService,
              InstrumentSearchService, OutdatedVersionNotifier, $stateParams,
-             blockUI, LocationSimplifier) {
+             blockUI, LocationSimplifier, $mdSidenav) {
       blockUI.start();
       LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
@@ -106,5 +106,9 @@ angular.module('metadatamanagementApp')
           .isUpdateAllowed(activeProject, 'instruments', true)) {
           $state.go('instrumentEdit', {id: ctrl.instrument.id});
         }
+      };
+
+      ctrl.toggleSidenav = function() {
+        $mdSidenav('SideNavBar').toggle();
       };
     });

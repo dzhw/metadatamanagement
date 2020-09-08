@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp')
              SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
              DataAcquisitionProjectResource,
              ProjectUpdateAccessService, CountryCodesResource, $stateParams,
-             blockUI, LocationSimplifier) {
+             blockUI, LocationSimplifier, $mdSidenav) {
       blockUI.start();
       LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
@@ -129,5 +129,9 @@ angular.module('metadatamanagementApp')
         } else {
           return '';
         }
+      };
+
+      ctrl.toggleSidenav = function() {
+        $mdSidenav('SideNavBar').toggle();
       };
     });

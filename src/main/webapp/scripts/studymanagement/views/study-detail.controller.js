@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp')
              ProjectUpdateAccessService, $scope,
              $timeout, $document,
              OutdatedVersionNotifier, StudySearchService, $log,
-             blockUI, LocationSimplifier) {
+             blockUI, LocationSimplifier, $mdSidenav) {
       blockUI.start();
       LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
@@ -142,5 +142,9 @@ angular.module('metadatamanagementApp')
           .isUpdateAllowed(activeProject, 'studies', true)) {
           $state.go('studyEdit', {id: ctrl.study.id});
         }
+      };
+
+      ctrl.toggleSidenav = function() {
+        $mdSidenav('SideNavBar').toggle();
       };
     });

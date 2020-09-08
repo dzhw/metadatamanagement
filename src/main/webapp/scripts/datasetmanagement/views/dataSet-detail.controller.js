@@ -11,7 +11,8 @@ angular.module('metadatamanagementApp')
              DataSetAttachmentResource,
              SearchResultNavigatorService,
              DataAcquisitionProjectResource, OutdatedVersionNotifier,
-             $stateParams, blockUI, $mdDialog, MessageBus, LocationSimplifier) {
+             $stateParams, blockUI, $mdDialog, MessageBus, LocationSimplifier,
+             $mdSidenav) {
       blockUI.start();
       LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
@@ -131,5 +132,9 @@ angular.module('metadatamanagementApp')
           .isUpdateAllowed(activeProject, 'data_sets', true)) {
           $state.go('dataSetEdit', {id: ctrl.dataSet.id});
         }
+      };
+
+      ctrl.toggleSidenav = function() {
+        $mdSidenav('SideNavBar').toggle();
       };
     });

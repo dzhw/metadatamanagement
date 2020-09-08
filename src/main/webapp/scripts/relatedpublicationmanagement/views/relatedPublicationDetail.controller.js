@@ -3,13 +3,15 @@
 angular.module('metadatamanagementApp')
   .controller('RelatedPublicationDetailController',
     function(entity, PageTitleService, $state, BreadcrumbService,
-    SearchResultNavigatorService, Principal, $stateParams, LocationSimplifier) {
+    SearchResultNavigatorService, Principal, $stateParams, LocationSimplifier,
+    $mdSidenav) {
       LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 
       SearchResultNavigatorService.registerCurrentSearchResult();
       var ctrl = this;
+      ctrl.isAuthenticated = Principal.isAuthenticated;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER','ROLE_DATA_PROVIDER']);
@@ -34,4 +36,8 @@ angular.module('metadatamanagementApp')
           'stateName': $state.current.name,
           'id': ctrl.relatedPublication.id});
       });
+
+      ctrl.toggleSidenav = function() {
+        $mdSidenav('SideNavBar').toggle();
+      };
     });

@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
       QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
-      OutdatedVersionNotifier, blockUI, LocationSimplifier) {
+      OutdatedVersionNotifier, blockUI, LocationSimplifier, $mdSidenav) {
       blockUI.start();
       LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
@@ -157,4 +157,7 @@ angular.module('metadatamanagementApp')
         ctrl.representationCodeToggleFlag = !ctrl.representationCodeToggleFlag;
       };
 
+      ctrl.toggleSidenav = function() {
+        $mdSidenav('SideNavBar').toggle();
+      };
     });
