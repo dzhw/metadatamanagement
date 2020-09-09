@@ -86,6 +86,7 @@ angular.module('metadatamanagementApp').config(
           'checkout': 'Kostenlos bestellen',
           'add-study': 'In den Warenkorb',
           'add-study-tooltip': 'Klicken, um das Datenpaket mit den ausgewählten Optionen in den Warenkorb zu legen.',
+          'choose-data-package-options': 'Klicken, um eine Variante dieses Datenpakets in den Warenkorb zu legen.',
           'open-cart': 'Zum Warenkorb',
           'checkout-tooltip': 'Klicken, um die Datenpakete zu bestellen.',
           'remove-all': 'Warenkorb leeren',

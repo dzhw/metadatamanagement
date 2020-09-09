@@ -71,5 +71,14 @@
       </div>
     </div>
   </div>
-</div>
+  <div class="fdz-fab-button-container" layout="column">
+    <md-button hide-gt-md class="md-fab md-raised md-accent" ng-if="!ctrl.isAuthenticated()"
+               ng-click="ctrl.toggleSidenav()">
+      <md-tooltip md-autohide="true" md-direction="left"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'shopping-cart.buttons.choose-data-package-options' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">add_shopping_cart</md-icon>
+    </md-button>
+  </div>
 </div>

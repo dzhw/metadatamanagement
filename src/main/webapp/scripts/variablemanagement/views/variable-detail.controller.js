@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp')
     $state, BreadcrumbService,
     SearchResultNavigatorService,
     OutdatedVersionNotifier,
-    $stateParams, blockUI, LocationSimplifier) {
+    $stateParams, blockUI, LocationSimplifier, $mdSidenav) {
     blockUI.start();
     LocationSimplifier.removeDollarSign();
     SearchResultNavigatorService
@@ -167,5 +167,9 @@ angular.module('metadatamanagementApp')
       return ctrl.variable.distribution != null &&
         ctrl.variable.distribution.validResponses &&
         ctrl.variable.distribution.validResponses.length > 0;
+    };
+
+    ctrl.toggleSidenav = function() {
+      $mdSidenav('SideNavBar').toggle();
     };
   });

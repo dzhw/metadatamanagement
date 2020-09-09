@@ -71,6 +71,7 @@
       StudySearchService.findShadowByIdAndVersion(id, version, excludes)
         .promise.then(function(data) {
           $ctrl.study = data;
+          $rootScope.selectedDataPackage = data;
           if ($ctrl.study) {
             if ($ctrl.study.dataAvailability.en === 'Not available') {
               $ctrl.dataNotAvailable = true;
@@ -83,6 +84,7 @@
           }
         }, function() {
           $ctrl.study = null;
+          $rootScope.selectedDataPackage = null;
         }).finally(function() {
           $rootScope.$broadcast('stop-ignoring-404');
         });

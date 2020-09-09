@@ -87,6 +87,7 @@ angular.module('metadatamanagementApp').config(
           'checkout-tooltip': 'Click to order the data packages.',
           'add-study': 'Put in Shopping Cart',
           'add-study-tooltip': 'Click to put the data package with the selected options into the shopping cart.',
+          'choose-data-package-options': 'Click to add a variant of this data package to the shopping cart.',
           'open-cart': 'Go to shopping cart',
           'remove-all': 'Empty Shopping Cart',
           'remove-all-tooltip': 'Click to remove all packages from the shopping cart.',

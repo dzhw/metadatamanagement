@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').config(
             'doi': 'DOI',
             'title': 'Titel',
             'citation-hint': 'Zitationshinweis',
+            'license-edit': 'Lizenz des Konzepts (auf Englisch)',
             'license': 'Lizenz des Konzepts',
             'original-languages': 'Ursprüngliche Sprachen des Konzepts',
             'attachments': {
@@ -163,7 +164,7 @@ angular.module('metadatamanagementApp').config(
           'hints': {
             'id': 'Geben Sie die ID dieses Konzeptes in unserem FDZ an.',
             'doi': 'Bitte geben Sie die DOI für dieses Konzept an (falls verfügbar).',
-            'license': 'Bitte geben die Lizenz an, unter der dieses Konzept veröffentlicht wurde.',
+            'license': 'Bitte geben Sie die Lizenz auf Englisch an, unter der dieses Konzept veröffentlicht wurde.',
             'title': {
               'de': 'Geben Sie den Titel des Konzepts auf Deutsch ein.',
               'en': 'Geben Sie den Titel des Konzepts auf Englisch ein.'
