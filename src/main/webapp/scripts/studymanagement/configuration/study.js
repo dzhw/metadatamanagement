@@ -33,7 +33,7 @@ angular.module('metadatamanagementApp')
       .state('studyDetail', {
         parent: 'site',
         url: '/studies/{id}?{version}{query}{page}{size}' +
-          '{access-way}{type}',
+          '{access-way}{type}{panel-identifier}{derived-variables-identifier}',
         reloadOnSearch: false,
         data: {
           authorities: []

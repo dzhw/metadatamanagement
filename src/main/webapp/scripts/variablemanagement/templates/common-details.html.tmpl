@@ -15,7 +15,9 @@
       <md-list>
         <md-list-item ng-if="$ctrl.options.variable.name">
           <h5>{{'variable-management.detail.label.name' | translate }}:</h5>
-          <span class="md-secondary">{{$ctrl.options.variable.name}}</span>
+          <span class="md-secondary">{{$ctrl.options.variable.name}}{{$ctrl.options.variable.panelIdentifier || $ctrl.options.variable.derivedVariablesIdentifier?' (': ''}}<a ng-if="$ctrl.options.variable.derivedVariablesIdentifier" class="md-small md-primary"
+             ui-sref="studyDetail({id: $ctrl.options.variable.study.masterId, version: $ctrl.options.variable.shadow ? $ctrl.options.variable.release.version: '', 'derived-variables-identifier': $ctrl.options.variable.derivedVariablesIdentifier, 'type': 'variables'})">{{'variable-management.detail.label.derived-variables' | translate}}</a>{{$ctrl.options.variable.panelIdentifier && $ctrl.options.variable.derivedVariablesIdentifier?', ':''}}<a ng-if="$ctrl.options.variable.panelIdentifier" class="md-small md-primary"
+             ui-sref="studyDetail({id: $ctrl.options.variable.study.masterId, version: $ctrl.options.variable.shadow ? $ctrl.options.variable.release.version: '', 'panel-identifier': $ctrl.options.variable.panelIdentifier, 'type': 'variables'})">{{'variable-management.detail.label.variables-in-panel' | translate}}</a>{{$ctrl.options.variable.panelIdentifier || $ctrl.options.variable.derivedVariablesIdentifier?')': ''}}</span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.variable.label">
           <h5>{{'variable-management.detail.label.label' | translate }}:</h5>

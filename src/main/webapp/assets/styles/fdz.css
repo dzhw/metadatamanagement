@@ -2014,6 +2014,17 @@ input::-ms-clear {
 md-input-container label {
   margin: 0px; }
 
+.fdz-filter-badge {
+  display: inline;
+  background-color: #f7a839;
+  padding: 0.2em 0.6em;
+  line-height: 1;
+  color: black;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 1em; }
+
 .fdz-theme .fdz-detail {
   position: relative;
   color: black;
@@ -2477,7 +2488,8 @@ tr:focus {
     .fdz-theme fdz-paginator {
       padding: 0 16px; } }
   .fdz-theme fdz-paginator .fdz-paginator__container {
-    margin: 0; }
+    margin: 0;
+    padding: 0; }
   .fdz-theme fdz-paginator .fdz-paginator__container .fdz-paginator__container:first-child {
     display: none; }
   @media (min-width: 400px) {
