@@ -128,7 +128,6 @@
           page: 1
         }
       };
-      $ctrl.placeHolder = $ctrl.tabs[0].title;
       $ctrl.searchParams = {
         query: '',
         size: $ctrl.options.pageObject.size,
@@ -138,6 +137,7 @@
 
       readSearchParamsFromLocation();
       writeSearchParamsToLocation();
+      $ctrl.placeHolder = $ctrl.tabs[$ctrl.searchParams.selectedTabIndex].title;
       $ctrl.search();
     }
 
