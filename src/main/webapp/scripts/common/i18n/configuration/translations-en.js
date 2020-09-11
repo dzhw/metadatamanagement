@@ -25,6 +25,7 @@ angular.module('metadatamanagementApp').config(
         'filter': {
           'clear-filter': 'Clear filter',
           'sponsors': 'Sponsors',
+          'concepts': 'Concepts',
           'institutions': 'Institutions',
           'tags': 'Tags',
           'study-series': 'Study Series',
