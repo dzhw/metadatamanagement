@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp').service('CitationHintGeneratorService',
 function($interpolate) {
   var generateCitationHint = function(accessWay, study) {
-    var de = '{{study.authors | displayPersons}} ' +
+    var de = '{{study.projectContributors | displayPersons}} ' +
       '({{study.release.firstDate | date:"yyyy"}}). ' +
       '{{study.title.de}}. ' +
       'Datenerhebung: {{study.surveyPeriod | displayPeriod}}. ' +
@@ -12,7 +12,7 @@ function($interpolate) {
       'Hannover: FDZ-DZHW. ' +
       'Datenkuratierung: {{study.dataCurators | displayPersons}} ' +
       'doi: {{study.doi}}';
-    var en = '{{study.authors | displayPersons}} ' +
+    var en = '{{study.projectContributors | displayPersons}} ' +
       '({{study.release.firstDate | date:"yyyy"}}). ' +
       '{{study.title.en}}. ' +
       'Data Collection: {{study.surveyPeriod | displayPeriod }}. ' +

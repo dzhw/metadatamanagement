@@ -91,11 +91,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
-              'authors.firstName.ngrams', queryTerm, standardMajorBoost));
+              'projectContributors.firstName.ngrams',
+              queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
-              'authors.middleName.ngrams', queryTerm, standardMajorBoost));
+              'projectContributors.middleName.ngrams',
+              queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
-              'authors.lastName.ngrams', queryTerm, standardMajorBoost));
+              'projectContributors.lastName.ngrams',
+              queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'description.de.ngrams', queryTerm, germanMinorBoost));
             boolQuery.should.push(createConstantScoreQuery(
@@ -371,7 +374,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         query.body._source = ['id', 'number', 'questionText', 'title',
           'description', 'type', 'year', 'sourceReference', 'authors',
           'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
-          'sample', 'shadow',
+          'sample', 'shadow', 'projectContributors',
           'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
           'population', 'release',
           'instrumentNumber', 'instrument.description', 'surveys.title',

@@ -26,14 +26,14 @@
     </title>
   </titles>
   <creators>
-    <#list study.authors as author>
+    <#list study.projectContributors as contributor>
       <creator>
         <person>
-          <firstName>${author.firstName}</firstName>
-          <#if author.middleName??>
-            <middleName>${author.middleName}</middleName>
+          <firstName>${contributor.firstName}</firstName>
+          <#if contributor.middleName??>
+            <middleName>${contributor.middleName}</middleName>
           </#if>
-          <lastName>${author.lastName}</lastName>
+          <lastName>${contributor.lastName}</lastName>
         </person>
       </creator>
     </#list>

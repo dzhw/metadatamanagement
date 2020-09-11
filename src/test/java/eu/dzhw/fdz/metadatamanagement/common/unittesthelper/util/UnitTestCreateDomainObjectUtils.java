@@ -99,15 +99,16 @@ public class UnitTestCreateDomainObjectUtils {
   public static Study buildStudy(String projectId) {
     Tags tags = new Tags();
     tags.setDe(new HashSet<String>(Arrays.asList("Test-Tag")));
-    List<Person> authors = new ArrayList<>();
-    authors.add(buildPerson("Test", null, "Authors"));
+    List<Person> projectContributors = new ArrayList<>();
+    projectContributors.add(buildPerson("Test", null, "ProjectContributors"));
     List<I18nString> institutions =
         Arrays.asList(I18nString.builder().de("Institution De").en("Institution En").build());
     List<Person> dataCurators = new ArrayList<>();
-    dataCurators.add(buildPerson("Test", null, "Authors"));
+    dataCurators.add(buildPerson("Test", null, "ProjectContributors"));
 
     String studyId = UnitTestCreateValidIds.buildStudyId(projectId);
-    Study study = Study.builder().id(studyId).authors(authors).dataCurators(dataCurators)
+    Study study = Study.builder().id(studyId).projectContributors(projectContributors)
+        .dataCurators(dataCurators)
         .description(I18nString.builder().de("Description De").en("Description En").build())
         .institutions(institutions)
         .studySeries(I18nString.builder().de("Study Series De").en("Study Series En").build())

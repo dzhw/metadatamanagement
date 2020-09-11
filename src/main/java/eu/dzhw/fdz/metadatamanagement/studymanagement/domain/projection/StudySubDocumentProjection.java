@@ -9,10 +9,10 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomai
 /**
  * Subset of study attributes which can be used in other search documents
  * as sub document and as projection for mongo.
- * 
+ *
  * @author René Reitmann
  */
-public interface StudySubDocumentProjection 
+public interface StudySubDocumentProjection
     extends AbstractRdcDomainObjectProjection {
   String getDataAcquisitionProjectId();
 
@@ -24,15 +24,15 @@ public interface StudySubDocumentProjection
 
   I18nString getSponsor();
 
-  List<Person> getAuthors();
-  
+  List<Person> getProjectContributors();
+
   I18nString getSurveyDesign();
 
   I18nString getDataAvailability();
 
   String getMasterId();
-  
+
   String getSuccessorId();
-  
+
   boolean isShadow();
 }

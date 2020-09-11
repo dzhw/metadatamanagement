@@ -15,7 +15,7 @@ import lombok.ToString;
 
 /**
  * Attributes of a study which are stored in other search documents.
- *  
+ *
  * @author René Reitmann
  */
 @SuppressWarnings("CPD-START")
@@ -29,35 +29,35 @@ public class StudySubDocument extends AbstractRdcDomainObject
   private static final long serialVersionUID = -8641253155035394262L;
 
   private String id;
-  
+
   private String dataAcquisitionProjectId;
-  
+
   private List<I18nString> institutions;
-  
+
   private I18nString sponsor;
-  
+
   private I18nString studySeries;
-  
+
   private I18nString title;
-  
-  private List<Person> authors;
-  
+
+  private List<Person> projectContributors;
+
   private String doi;
-  
+
   private I18nString surveyDesign;
 
   private I18nString dataAvailability;
 
   private String masterId;
-  
+
   private String successorId;
-  
+
   private boolean shadow;
 
   public StudySubDocument() {
     super();
   }
-  
+
   /**
    * Create a StudySubdocument from a projection and a doi.
    * @param projection a study projection

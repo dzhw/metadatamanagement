@@ -448,91 +448,91 @@
       <md-card class="mb8">
         <md-card-header>
           <md-card-header-text>
-            <h2 class="md-title">{{'study-management.detail.label.authors' | translate }}</h2>
+            <h2 class="md-title">{{'study-management.detail.label.projectContributors' | translate }}</h2>
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
         <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
-          <div id="move-container" layout="row" ng-repeat="person in ctrl.study.authors track by $index">
-            <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteAuthor($index)"
-                       ng-if="ctrl.study.authors.length > 1"
+          <div id="move-container" layout="row" ng-repeat="person in ctrl.study.projectContributors track by $index">
+            <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteProjectContributor($index)"
+                       ng-if="ctrl.study.projectContributors.length > 1"
                        style="margin-top: 18px; margin-left: 0px; margin-right: 0px; padding-left: 0px;">
               <md-tooltip md-autohide="true" md-direction="bottom"
                           md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'study-management.edit.delete-author-tooltip' | translate}}
+                {{'study-management.edit.delete-contributor-tooltip' | translate}}
               </md-tooltip>
               <md-icon md-font-set="material-icons">delete_forever</md-icon>
             </md-button>
             <md-input-container flex="33"
-                                md-is-error="!studyForm['authorsFirstName_' + $index].$valid && (studyForm['authorsFirstName_' + $index].$dirty || studyForm['authorsFirstName_' + $index].$touched)">
+                                md-is-error="!studyForm['projectContributorsFirstName_' + $index].$valid && (studyForm['projectContributorsFirstName_' + $index].$dirty || studyForm['projectContributorsFirstName_' + $index].$touched)">
               <label class="fdz-input-required">{{'study-management.edit.label.first-name' | translate}}</label>
-              <input fdz-required md-no-asterisk name="authorsFirstName_{{$index}}"
-                     ng-blur="ctrl.deleteCurrentAuthor($event)" ng-focus="ctrl.setCurrentAuthor($index,$event)"
+              <input fdz-required md-no-asterisk name="projectContributorsFirstName_{{$index}}"
+                     ng-blur="ctrl.deleteCurrentProjectContributor($event)" ng-focus="ctrl.setCurrentProjectContributor($index,$event)"
                      ng-model="person.firstName">
               <div
                 class="fdz-input-hint"
-                ng-if="!studyForm['authorsFirstName_' + $index].$dirty && !studyForm['authorsFirstName_' + $index].$touched">
-                {{'study-management.edit.hints.authors.first-name' | translate}}
+                ng-if="!studyForm['projectContributorsFirstName_' + $index].$dirty && !studyForm['projectContributorsFirstName_' + $index].$touched">
+                {{'study-management.edit.hints.project-contributors.first-name' | translate}}
               </div>
-              <div multiple ng-messages="studyForm['authorsFirstName_' + $index].$error">
+              <div multiple ng-messages="studyForm['projectContributorsFirstName_' + $index].$error">
                 <div ng-message="fdz-required">{{'global.error.person.first-name.not-empty' | translate}}</div>
               </div>
             </md-input-container>
             <md-input-container flex
-                                md-is-error="!studyForm['authorsMiddleName_' + $index].$valid && (studyForm['authorsMiddleName_' + $index].$dirty || studyForm['authorsMiddleName_' + $index].touched)">
+                                md-is-error="!studyForm['projectContributorsMiddleName_' + $index].$valid && (studyForm['projectContributorsMiddleName_' + $index].$dirty || studyForm['projectContributorsMiddleName_' + $index].touched)">
               <label>{{'study-management.edit.label.middle-name' | translate}}</label>
-              <input name="authorsMiddleName_{{$index}}" ng-blur="ctrl.deleteCurrentAuthor($event)"
-                     ng-focus="ctrl.setCurrentAuthor($index,$event)" ng-model="person.middleName">
+              <input name="projectContributorsMiddleName_{{$index}}" ng-blur="ctrl.deleteCurrentProjectContributor($event)"
+                     ng-focus="ctrl.setCurrentProjectContributor($index,$event)" ng-model="person.middleName">
               <div
                 class="fdz-input-hint"
-                ng-if="!studyForm['authorsMiddleName_' + $index].$dirty && !studyForm['authorsMiddleName_' + $index].$touched">
-                {{'study-management.edit.hints.authors.middle-name' | translate}}
+                ng-if="!studyForm['projectContributorsMiddleName_' + $index].$dirty && !studyForm['projectContributorsMiddleName_' + $index].$touched">
+                {{'study-management.edit.hints.project-contributors.middle-name' | translate}}
               </div>
-              <div multiple ng-messages="studyForm['authorsMiddleName_' + $index].$error">
+              <div multiple ng-messages="studyForm['projectContributorsMiddleName_' + $index].$error">
               </div>
             </md-input-container>
             <md-input-container flex="33"
-                                md-is-error="!studyForm['authorsLastName_' + $index].$valid && (studyForm['authorsLastName_' + $index].$dirty || studyForm['authorsLastName_' + $index].$touched)">
+                                md-is-error="!studyForm['projectContributorsLastName_' + $index].$valid && (studyForm['projectContributorsLastName_' + $index].$dirty || studyForm['projectContributorsLastName_' + $index].$touched)">
               <label class="fdz-input-required">{{'study-management.edit.label.last-name' | translate}}</label>
-              <input fdz-required md-no-asterisk name="authorsLastName_{{$index}}"
-                     ng-blur="ctrl.deleteCurrentAuthor($event)" ng-focus="ctrl.setCurrentAuthor($index,$event)"
+              <input fdz-required md-no-asterisk name="projectContributorsLastName_{{$index}}"
+                     ng-blur="ctrl.deleteCurrentProjectContributor($event)" ng-focus="ctrl.setCurrentProjectContributor($index,$event)"
                      ng-model="person.lastName">
               <div
                 class="fdz-input-hint"
-                ng-if="!studyForm['authorsLastName_' + $index].$dirty && !studyForm['authorsLastName_' + $index].$touched">
-                {{'study-management.edit.hints.authors.last-name' | translate}}
+                ng-if="!studyForm['projectContributorsLastName_' + $index].$dirty && !studyForm['projectContributorsLastName_' + $index].$touched">
+                {{'study-management.edit.hints.project-contributors.last-name' | translate}}
               </div>
-              <div multiple ng-messages="studyForm['authorsLastName_' + $index].$error">
+              <div multiple ng-messages="studyForm['projectContributorsLastName_' + $index].$error">
                 <div ng-message="fdz-required">{{'global.error.person.last-name.not-empty' | translate}}</div>
               </div>
             </md-input-container>
           </div>
         </md-card-content>
         <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
-          <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addAuthor()">
+          <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addProjectContributor()">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'study-management.edit.add-author-tooltip' | translate}}
+              {{'study-management.edit.add-contributor-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">add</md-icon>
           </md-button>
           <md-button class="md-primary md-raised md-icon-button"
-                     id="move-author-up-button"
-                     ng-click="ctrl.moveCurrentAuthorUp()"
-                     ng-disabled="ctrl.currentAuthorIndex == null || ctrl.currentAuthorIndex === 0">
+                     id="move-contributor-up-button"
+                     ng-click="ctrl.moveCurrentProjectContributorUp()"
+                     ng-disabled="ctrl.currentProjectContributorIndex == null || ctrl.currentProjectContributorIndex === 0">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'study-management.edit.move-author-up-tooltip' | translate}}
+              {{'study-management.edit.move-contributor-up-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
           </md-button>
           <md-button class="md-primary md-raised md-icon-button"
-                     id="move-author-down-button"
-                     ng-click="ctrl.moveCurrentAuthorDown()"
-                     ng-disabled="ctrl.currentAuthorIndex == null || ctrl.currentAuthorIndex === ctrl.study.authors.length - 1">
+                     id="move-contributor-down-button"
+                     ng-click="ctrl.moveCurrentProjectContributorDown()"
+                     ng-disabled="ctrl.currentProjectContributorIndex == null || ctrl.currentProjectContributorIndex === ctrl.study.projectContributors.length - 1">
             <md-tooltip md-autohide="true" md-direction="bottom"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'study-management.edit.move-author-down-tooltip' | translate}}
+              {{'study-management.edit.move-contributor-down-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
           </md-button>

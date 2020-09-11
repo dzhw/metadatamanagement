@@ -38,11 +38,11 @@
             class="md-secondary"
             display-i18n-string="$ctrl.options.study.sponsor"></span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.study.authors">
-          <h5>{{'study-management.detail.label.authors' | translate }}:</h5>
+        <md-list-item ng-if="$ctrl.options.study.projectContributors">
+          <h5>{{'study-management.detail.label.projectContributors' | translate }}:</h5>
           <span
             class="md-secondary pre"
-            ng-repeat="author in $ctrl.options.study.authors">{{author.lastName}}, {{author.firstName}}{{author.middleName !== undefined?' '+author.middleName:''}}{{!$last?'; ':''}}</span>
+            ng-repeat="contributor in $ctrl.options.study.projectContributors">{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName !== undefined?' '+contributor.middleName:''}}{{!$last?'; ':''}}</span>
           </span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.study.surveyDesign">
@@ -75,7 +75,7 @@
           <h5>{{'study-management.detail.label.data-curators' | translate }}:</h5>
           <span
             class="md-secondary pre"
-            ng-repeat="person in $ctrl.options.study.dataCurators">{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+author.person:''}}{{!$last?'; ':''}}</span>
+            ng-repeat="person in $ctrl.options.study.dataCurators">{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+person.middleName:''}}{{!$last?'; ':''}}</span>
           </span>
         </md-list-item>
         <md-list-item

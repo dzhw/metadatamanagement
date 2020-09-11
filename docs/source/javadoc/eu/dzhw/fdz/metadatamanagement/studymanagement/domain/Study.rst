@@ -88,14 +88,6 @@ annotations
 
    Arbitrary additional text for this study. Markdown is supported. Must not contain more than 2048 characters.
 
-authors
-^^^^^^^
-
-.. java:field:: @Valid @NotEmpty private List<Person> authors
-   :outertype: Study
-
-   List of \ :java:ref:`Person`\ s which have performed this study. Must not be empty.
-
 dataAcquisitionProjectId
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -151,6 +143,14 @@ masterId
    :outertype: Study
 
    The master id of the study. The master id must not be empty, must be of the form \ ``stu-{{dataAcquisitionProjectId}}$``\  and the master id must not contain more than 512 characters.
+
+projectContributors
+^^^^^^^^^^^^^^^^^^^
+
+.. java:field:: @Valid @NotEmpty private List<Person> projectContributors
+   :outertype: Study
+
+   List of \ :java:ref:`Person`\ s which have performed this study. Must not be empty.
 
 serialVersionUID
 ^^^^^^^^^^^^^^^^

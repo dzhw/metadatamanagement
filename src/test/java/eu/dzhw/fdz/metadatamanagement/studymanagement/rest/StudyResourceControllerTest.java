@@ -41,7 +41,7 @@ import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
- * 
+ *
  * @author Daniel Katzberg
  *
  */
@@ -98,7 +98,7 @@ public class StudyResourceControllerTest extends AbstractTest {
     // read the study under the new url
     mockMvc.perform(get(API_STUDY_URI + "/" + study.getId())).andExpect(status().isOk());
   }
-  
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateHiddenStudy() throws IOException, Exception {
@@ -107,7 +107,7 @@ public class StudyResourceControllerTest extends AbstractTest {
 
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     study.setHidden(true);
-    
+
     // create the hidden study with the given id
     mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
         .content(TestUtil.convertObjectToJsonBytes(study)).contentType(MediaType.APPLICATION_JSON))
@@ -167,9 +167,10 @@ public class StudyResourceControllerTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(study)).contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated());
 
-    List<Person> authors = new ArrayList<>();
-    authors.add(UnitTestCreateDomainObjectUtils.buildPerson("Another", null, "Author"));
-    study.setAuthors(authors);
+    List<Person> projectContributors = new ArrayList<>();
+    projectContributors.add(UnitTestCreateDomainObjectUtils
+      .buildPerson("Another", null, "ProjectContributors"));
+    study.setProjectContributors(projectContributors);
 
     study.setVersion(0L);
     // update the study with the given id
@@ -180,8 +181,8 @@ public class StudyResourceControllerTest extends AbstractTest {
     // read the study under the new url
     mockMvc.perform(get(API_STUDY_URI + "/" + study.getId())).andExpect(status().isOk())
         .andExpect(jsonPath("$.id", is(study.getId())))
-        .andExpect(jsonPath("$.authors[0].firstName", is("Another")))
-        .andExpect(jsonPath("$.authors[0].lastName", is("Author")));
+        .andExpect(jsonPath("$.projectContributors[0].firstName", is("Another")))
+        .andExpect(jsonPath("$.projectContributors[0].lastName", is("ProjectContributors")));
   }
 
   @Test
@@ -304,7 +305,7 @@ public class StudyResourceControllerTest extends AbstractTest {
     project = dataAcquisitionProjectRepository.save(project);
     study.setSuccessorId(study.getMasterId() + "-2.0.0");
     study = studyRepository.save(study);
-    
+
     // now fake a second shadow
     project.setId(project.getMasterId() + "-2.0.0");
     project.setSuccessorId(null);

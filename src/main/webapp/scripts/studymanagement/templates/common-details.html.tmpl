@@ -38,11 +38,11 @@
             class="md-secondary"
             display-i18n-string="$ctrl.options.sponsor"></span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.authors">
-          <h5>{{'study-management.detail.label.authors' | translate }}:</h5>
+        <md-list-item ng-if="$ctrl.options.projectContributors">
+          <h5>{{'study-management.detail.label.projectContributors' | translate }}:</h5>
           <span
             class="md-secondary pre"
-            ng-repeat="author in $ctrl.options.authors">{{author.lastName}}, {{author.firstName}}{{author.middleName !== undefined?' '+author.middleName:''}}{{!$last?'; ':''}}</span>
+            ng-repeat="contributor in $ctrl.options.projectContributors">{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName !== undefined?' '+contributor.middleName:''}}{{!$last?'; ':''}}</span>
           </span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.surveyDesign">

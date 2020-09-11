@@ -27,16 +27,16 @@ Create Study by Publisher
     Focus    xpath=//textarea[@name = 'descriptionDe']
     Input Text    name=descriptionDe    Diese Studie wurde automatisch erstellt und überprüft die Eingabe valider Eigenschaften.
     Input Text    name=descriptionEn    This study was created automatically and test the input of valid attributes.
-    Focus    xpath=//input[@name = 'authorsFirstName_0']
-    Input Text    name=authorsFirstName_0    Anne
-    Input Text    name=authorsMiddleName_0    noMiddleName
-    Input Text    name=authorsLastName_0    Droid
-    Add Another Author
-    Focus    xpath=//input[@name = 'authorsFirstName_1']
-    Input Text    name=authorsFirstName_1    R2
-    Input Text    name=authorsMiddleName_1    D2
-    Input Text    name=authorsLastName_1    noLastName
-    Move Second Author To Place One
+    Focus    xpath=//input[@name = 'projectContributorsFirstName_0']
+    Input Text    name=projectContributorsFirstName_0    Anne
+    Input Text    name=projectContributorsMiddleName_0    noMiddleName
+    Input Text    name=projectContributorsLastName_0    Droid
+    Add Another Contributor
+    Focus    xpath=//input[@name = 'projectContributorsFirstName_1']
+    Input Text    name=projectContributorsFirstName_1    R2
+    Input Text    name=projectContributorsMiddleName_1    D2
+    Input Text    name=projectContributorsLastName_1    noLastName
+    Move Second projectContributorsFirstName_ To Place One
     Focus    xpath=//input[@name = 'curatorsFirstName_0']
     Input Text    name=curatorsFirstName_0    Anne
     Input Text    name=curatorsMiddleName_0    noMiddleName
@@ -61,8 +61,8 @@ Choose In Aufbereitung as Data Availibility
     Click Element Through Tooltips    xpath=//md-select[@name = 'dataAvailability']
     Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'In Aufbereitung')]
 
-Add Another Author
+Add Another Contributor
     Click Element Through Tooltips    xpath=//md-card//button[contains(@aria-label,'Mitarbeiter') and contains(@aria-label,'hinzuzufügen')]
 
-Move Second Author To Place One
+Move Second Contributor To Place One
     Click Element Through Tooltips    xpath=//md-card/descendant::button[md-icon[text()='keyboard_arrow_up']]

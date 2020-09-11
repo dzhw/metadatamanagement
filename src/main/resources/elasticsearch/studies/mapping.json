@@ -299,7 +299,7 @@
 				}
 			}
 		},
-		"authors": {
+		"projectContributors": {
 			"type": "object",
 			"properties": {
 				"firstName": {

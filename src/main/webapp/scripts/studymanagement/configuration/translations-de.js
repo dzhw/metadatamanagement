@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp').config(
             'dataPackages': 'Datenpakete',
             'institution': 'Erhebende Institution',
             'institutions': 'Erhebende Institution(en)',
-            'authors': 'Projektmitarbeiter:innen',
+            'projectContributors': 'Projektmitarbeiter:innen',
             'data-curators': 'Datenkuratierung',
             'sponsors': 'Gefördert von',
             'version': 'Version',
@@ -171,8 +171,8 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Das Erhebungsdesign einer Studie darf nicht leer sein!',
               'valid-survey-design': 'Die erlaubten Werte für das Erhebungsdesign der Studie sind: Querschnitt, Panel.'
             },
-            'authors': {
-              'not-empty': 'Die Liste der Autor:innen einer Studie benötigt mindestens ein Element und darf nicht leer sein!'
+            'project-contributors': {
+              'not-empty': 'Die Liste der Projektmitarbeiter:innen einer Studie benötigt mindestens ein Element und darf nicht leer sein!'
             },
             'annotations': {
               'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
@@ -204,10 +204,10 @@ angular.module('metadatamanagementApp').config(
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieser Studie wieder herzustellen.',
           'save-tooltip': 'Klicken, um die Studie zu speichern.',
-          'move-author-up-tooltip': 'Klicken, um die ausgewählte Mitarbeiter:in nach oben zu verschieben.',
-          'move-author-down-tooltip': 'Klicken, um die ausgewählte Mitarbeiter:in nach unten zu verschieben.',
-          'add-author-tooltip': 'Klicken, um eine neue Mitarbeiter:in dieser Studie hinzuzufügen.',
-          'delete-author-tooltip': 'Klicken, um die Projektmitarbeiter:in aus dieser Studie zu löschen.',
+          'move-contributor-up-tooltip': 'Klicken, um die ausgewählte Mitarbeiter:in nach oben zu verschieben.',
+          'move-contributor-down-tooltip': 'Klicken, um die ausgewählte Mitarbeiter:in nach unten zu verschieben.',
+          'add-contributor-tooltip': 'Klicken, um eine neue Mitarbeiter:in dieser Studie hinzuzufügen.',
+          'delete-contributor-tooltip': 'Klicken, um die Projektmitarbeiter:in aus dieser Studie zu löschen.',
           'move-curator-up-tooltip': 'Klicken, um die ausgewählte Datenkurator:in nach oben zu verschieben.',
           'move-curator-down-tooltip': 'Klicken, um die ausgewählte Datenkurator:in nach unten zu verschieben.',
           'add-curator-tooltip': 'Klicken, um eine neue Datenkurator:in dieser Studie hinzuzufügen.',
@@ -252,7 +252,7 @@ angular.module('metadatamanagementApp').config(
               'de': 'Geben Sie eine Beschreibung der Studie auf Deutsch ein.',
               'en': 'Geben Sie eine Beschreibung der Studie auf Englisch ein.'
             },
-            'authors': {
+            'project-contributors': {
               'first-name': 'Geben Sie den Vornamen der Projektmitarbeiter:in ein.',
               'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen der Projektmitarbeiter:in ein.',
               'last-name': 'Geben Sie den Nachnamen der Projektmitarbeiter:in ein.'

@@ -35,33 +35,33 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class StudyVersionsResourceTest extends AbstractTest {
   private static final String API_STUDY_URI = "/api/studies";
-  
+
   @Autowired
   private WebApplicationContext wac;
-  
+
   @Autowired
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
-  
+
   @Autowired
   private StudyRepository studyRepository;
-  
+
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
-  
+
   @Autowired
   private JaversService javersService;
-  
+
   private MockMvc mockMvc;
-  
+
   @Before
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
   }
-  
+
   @After
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
@@ -70,14 +70,14 @@ public class StudyVersionsResourceTest extends AbstractTest {
     elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
   }
-  
+
   @Test
   public void testCreateStudyAndReadVersions() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    
+
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    
+
     // create the study with the given id
     mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
       .content(TestUtil.convertObjectToJsonBytes(study)).contentType(MediaType.APPLICATION_JSON))
@@ -89,18 +89,20 @@ public class StudyVersionsResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.length()", is(equalTo(1))))
       .andExpect(jsonPath("$[0].id", is(study.getId())))
       .andExpect(jsonPath("$[0].title.de", is(study.getTitle().getDe())))
-      .andExpect(jsonPath("$[0].authors.length()", is(equalTo(study.getAuthors().size()))))
-      .andExpect(jsonPath("$[0].authors[0].firstName", is(study.getAuthors().get(0).getFirstName())));
+      .andExpect(jsonPath("$[0].projectContributors.length()",
+        is(equalTo(study.getProjectContributors().size()))))
+      .andExpect(jsonPath("$[0].projectContributors[0].firstName",
+        is(study.getProjectContributors().get(0).getFirstName())));
   }
-  
+
   @Test
   public void testEditStudyAndReadVersions() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    
+
     Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
     String firstTitle = study.getTitle().getDe();
-    
+
     // create the study with the given id
     mockMvc.perform(put(API_STUDY_URI + "/" + study.getId())
       .content(TestUtil.convertObjectToJsonBytes(study)).contentType(MediaType.APPLICATION_JSON))
@@ -127,19 +129,25 @@ public class StudyVersionsResourceTest extends AbstractTest {
       .andExpect(jsonPath("$[0].id", is(study.getId())))
       .andExpect(jsonPath("$[0].title.de", is("hurzDe3")))
       .andExpect(jsonPath("$[0].version", is(equalTo(2))))
-      .andExpect(jsonPath("$[0].authors.length()", is(equalTo(study.getAuthors().size()))))
-      .andExpect(jsonPath("$[0].authors[0].firstName", is(study.getAuthors().get(0).getFirstName())))
+      .andExpect(jsonPath("$[0].projectContributors.length()",
+        is(equalTo(study.getProjectContributors().size()))))
+      .andExpect(jsonPath("$[0].projectContributors[0].firstName",
+        is(study.getProjectContributors().get(0).getFirstName())))
       .andExpect(jsonPath("$[1].id", is(study.getId())))
       .andExpect(jsonPath("$[1].title.de", is("hurzDe2")))
       .andExpect(jsonPath("$[1].version", is(equalTo(1))))
-      .andExpect(jsonPath("$[1].authors.length()", is(equalTo(study.getAuthors().size()))))
-      .andExpect(jsonPath("$[1].authors[0].firstName", is(study.getAuthors().get(0).getFirstName())))
+      .andExpect(jsonPath("$[1].projectContributors.length()",
+        is(equalTo(study.getProjectContributors().size()))))
+      .andExpect(jsonPath("$[1].projectContributors[0].firstName",
+        is(study.getProjectContributors().get(0).getFirstName())))
       .andExpect(jsonPath("$[2].id", is(study.getId())))
       .andExpect(jsonPath("$[2].version", is(equalTo(0))))
       .andExpect(jsonPath("$[2].title.de", is(firstTitle)))
-      .andExpect(jsonPath("$[2].authors.length()", is(equalTo(study.getAuthors().size()))))
-      .andExpect(jsonPath("$[2].authors[0].firstName", is(study.getAuthors().get(0).getFirstName())));
-    
+      .andExpect(jsonPath("$[2].projectContributors.length()",
+        is(equalTo(study.getProjectContributors().size()))))
+      .andExpect(jsonPath("$[2].projectContributors[0].firstName",
+        is(study.getProjectContributors().get(0).getFirstName())));
+
     // read the first two study versions
     mockMvc.perform(get(API_STUDY_URI + "/" + study.getId() + "/versions?skip=1"))
       .andExpect(status().isOk())
@@ -147,12 +155,16 @@ public class StudyVersionsResourceTest extends AbstractTest {
       .andExpect(jsonPath("$[0].id", is(study.getId())))
       .andExpect(jsonPath("$[0].title.de", is("hurzDe2")))
       .andExpect(jsonPath("$[0].version", is(equalTo(1))))
-      .andExpect(jsonPath("$[0].authors.length()", is(equalTo(study.getAuthors().size()))))
-      .andExpect(jsonPath("$[0].authors[0].firstName", is(study.getAuthors().get(0).getFirstName())))
+      .andExpect(jsonPath("$[0].projectContributors.length()",
+        is(equalTo(study.getProjectContributors().size()))))
+      .andExpect(jsonPath("$[0].projectContributors[0].firstName",
+        is(study.getProjectContributors().get(0).getFirstName())))
       .andExpect(jsonPath("$[1].id", is(study.getId())))
       .andExpect(jsonPath("$[1].version", is(equalTo(0))))
       .andExpect(jsonPath("$[1].title.de", is(firstTitle)))
-      .andExpect(jsonPath("$[1].authors.length()", is(equalTo(study.getAuthors().size()))))
-      .andExpect(jsonPath("$[1].authors[0].firstName", is(study.getAuthors().get(0).getFirstName())));
+      .andExpect(jsonPath("$[1].projectContributors.length()",
+        is(equalTo(study.getProjectContributors().size()))))
+      .andExpect(jsonPath("$[1].projectContributors[0].firstName",
+        is(study.getProjectContributors().get(0).getFirstName())));
   }
 }

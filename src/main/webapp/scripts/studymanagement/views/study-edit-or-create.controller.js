@@ -141,7 +141,7 @@ angular.module('metadatamanagementApp')
                       dataAcquisitionProjectId: CurrentProjectService
                       .getCurrentProject()
                       .id,
-                      authors: [{
+                      projectContributors: [{
                         firstName: '',
                         lastName: ''
                       }],
@@ -188,30 +188,30 @@ angular.module('metadatamanagementApp')
         en: 'Cross-Section'
       }];
 
-      ctrl.deleteAuthor = function(index) {
-        ctrl.study.authors.splice(index, 1);
+      ctrl.deleteProjectContributor = function(index) {
+        ctrl.study.projectContributors.splice(index, 1);
         $scope.studyForm.$setDirty();
       };
 
-      ctrl.addAuthor = function() {
-        ctrl.study.authors.push({
+      ctrl.addProjectContributor = function() {
+        ctrl.study.projectContributors.push({
           firstName: '',
           lastName: ''
         });
         $timeout(function() {
-          $document.find('input[name="authorsFirstName_' +
-              (ctrl.study.authors.length - 1) + '"]')
+          $document.find('input[name="projectContributorsFirstName_' +
+              (ctrl.study.projectContributors.length - 1) + '"]')
             .focus();
         });
       };
 
-      ctrl.setCurrentAuthor = function(index, event) {
-        ctrl.currentAuthorInputName = event.target.name;
-        ctrl.currentAuthorIndex = index;
+      ctrl.setCurrentProjectContributor = function(index, event) {
+        ctrl.currentProjectContributorInputName = event.target.name;
+        ctrl.currentProjectContributorIndex = index;
       };
 
       var timeoutActive = null;
-      ctrl.deleteCurrentAuthor = function(event) {
+      ctrl.deleteCurrentProjectContributor = function(event) {
         if (timeoutActive) {
           $timeout.cancel(timeoutActive);
         }
@@ -223,37 +223,45 @@ angular.module('metadatamanagementApp')
             return;
           }
           if (event.relatedTarget && (
-              event.relatedTarget.id === 'move-author-up-button' ||
-              event.relatedTarget.id === 'move-author-down-button')) {
+              event.relatedTarget.id === 'move-contributor-up-button' ||
+              event.relatedTarget.id === 'move-contributor-down-button')) {
             return;
           }
-          delete ctrl.currentAuthorIndex;
+          delete ctrl.currentProjectContributorIndex;
           timeoutActive = null;
         }, 500);
       };
 
-      ctrl.moveCurrentAuthorUp = function() {
-        var a = ctrl.study.authors[ctrl.currentAuthorIndex - 1];
-        ctrl.study.authors[ctrl.currentAuthorIndex - 1] =
-          ctrl.study.authors[ctrl.currentAuthorIndex];
-        ctrl.study.authors[ctrl.currentAuthorIndex] = a;
-        ctrl.currentAuthorInputName = ctrl.currentAuthorInputName
-          .replace('_' + ctrl.currentAuthorIndex,
-            '_' + (ctrl.currentAuthorIndex - 1));
-        $document.find('input[name="' + ctrl.currentAuthorInputName + '"]')
+      ctrl.moveCurrentProjectContributorUp = function() {
+        var a = ctrl.study.projectContributors[
+          ctrl.currentProjectContributorIndex - 1];
+        ctrl.study.projectContributors[
+          ctrl.currentProjectContributorIndex - 1] =
+          ctrl.study.projectContributors[ctrl.currentProjectContributorIndex];
+        ctrl.study.projectContributors[ctrl.currentProjectContributorIndex] = a;
+        ctrl.currentProjectContributorInputName = ctrl
+          .currentProjectContributorInputName
+          .replace('_' + ctrl.currentProjectContributorIndex,
+            '_' + (ctrl.currentProjectContributorIndex - 1));
+        $document.find('input[name="' +
+          ctrl.currentProjectContributorInputName + '"]')
           .focus();
         $scope.studyForm.$setDirty();
       };
 
-      ctrl.moveCurrentAuthorDown = function() {
-        var a = ctrl.study.authors[ctrl.currentAuthorIndex + 1];
-        ctrl.study.authors[ctrl.currentAuthorIndex + 1] =
-          ctrl.study.authors[ctrl.currentAuthorIndex];
-        ctrl.study.authors[ctrl.currentAuthorIndex] = a;
-        ctrl.currentAuthorInputName = ctrl.currentAuthorInputName
-          .replace('_' + ctrl.currentAuthorIndex,
-            '_' + (ctrl.currentAuthorIndex + 1));
-        $document.find('input[name="' + ctrl.currentAuthorInputName + '"]')
+      ctrl.moveCurrentProjectContributorDown = function() {
+        var a = ctrl.study.projectContributors[
+          ctrl.currentProjectContributorIndex + 1];
+        ctrl.study.projectContributors[
+          ctrl.currentProjectContributorIndex + 1] =
+          ctrl.study.projectContributors[ctrl.currentProjectContributorIndex];
+        ctrl.study.projectContributors[ctrl.currentProjectContributorIndex] = a;
+        ctrl.currentProjectContributorInputName = ctrl
+          .currentProjectContributorInputName
+          .replace('_' + ctrl.currentProjectContributorIndex,
+            '_' + (ctrl.currentProjectContributorIndex + 1));
+        $document.find('input[name="' +
+          ctrl.currentProjectContributorInputName + '"]')
           .focus();
         $scope.studyForm.$setDirty();
       };
@@ -494,6 +502,12 @@ angular.module('metadatamanagementApp')
         ChoosePreviousVersionService.showDialog(dialogConfig, event)
           .then(function(wrapper) {
             ctrl.study = new StudyResource(wrapper.selection);
+            if (!ctrl.study.projectContributors) {
+              ctrl.study.projectContributors = [{
+                firstName: '',
+                lastName: ''
+              }];
+            }
             if (!ctrl.study.dataCurators) {
               ctrl.study.dataCurators = [{
                 firstName: '',

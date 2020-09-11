@@ -14,7 +14,7 @@ angular.module('metadatamanagementApp').config(
             'dataPackages': 'Data package',
             'institution': 'Institution',
             'institutions': 'Institution(s)',
-            'authors': 'Authors',
+            'projectContributors': 'Project Contributors',
             'data-curators': 'Data Curation',
             'sponsors': 'Sponsored by',
             'version': 'Version',
@@ -171,8 +171,8 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The survey design of the study must not be empty!',
               'valid-survey-design': 'The allowed values for the survey design of the study are: Cross-Section, Panel.'
             },
-            'authors': {
-              'not-empty': 'The list of authors of a study needs min. one element and must not be empty!',
+            'project-contributors': {
+              'not-empty': 'The list of project contributors of a study needs min. one element and must not be empty!',
             },
             'annotations': {
               'i18n-string-size': 'The max length of the annotations is 2048 signs.'
@@ -204,10 +204,10 @@ angular.module('metadatamanagementApp').config(
           },
           'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this study.',
           'save-tooltip': 'Click to save this study.',
-          'move-author-up-tooltip': 'Click to move the selected author up.',
-          'move-author-down-tooltip': 'Click to move the selected author down.',
-          'add-author-tooltip': 'Click to add a new author to this study.',
-          'delete-author-tooltip': 'Click to remove the author from this study.',
+          'move-contributor-up-tooltip': 'Click to move the selected contributor up.',
+          'move-contributor-down-tooltip': 'Click to move the selected contributor down.',
+          'add-contributor-tooltip': 'Click to add a new contributor to this study.',
+          'delete-contributor-tooltip': 'Click to remove the contributor from this study.',
           'move-curator-up-tooltip': 'Click to move the selected data curator up.',
           'move-curator-down-tooltip': 'Click to move the selected data curator down.',
           'add-curator-tooltip': 'Click to add a new data curator to this study.',
@@ -250,7 +250,7 @@ angular.module('metadatamanagementApp').config(
               'de': 'Enter a description of this study in German.',
               'en': 'Enter a description of this study in English.'
             },
-            'authors': {
+            'project-contributors': {
               'first-name': 'Enter the first name of this project member.',
               'middle-name': 'If available enter the middle-name of this project member.',
               'last-name': 'Enter the last name of this project member.'

@@ -237,9 +237,9 @@ describe("search.dao.js", function() {
       expect(findQueryItem(capturedQuery, buildPredicate('surveyDataTypes.de.ngrams', searchTerm))).toBeDefined();
       expect(findQueryItem(capturedQuery, buildPredicate('surveyDataTypes.en.ngrams', searchTerm))).toBeDefined();
       expect(findQueryItem(capturedQuery, buildPredicate('id.ngrams', searchTerm))).toBeDefined();
-      expect(findQueryItem(capturedQuery, buildPredicate('authors.firstName.ngrams', searchTerm))).toBeDefined();
-      expect(findQueryItem(capturedQuery, buildPredicate('authors.middleName.ngrams', searchTerm))).toBeDefined();
-      expect(findQueryItem(capturedQuery, buildPredicate('authors.lastName.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('projectContributors.firstName.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('projectContributors.middleName.ngrams', searchTerm))).toBeDefined();
+      expect(findQueryItem(capturedQuery, buildPredicate('projectContributors.lastName.ngrams', searchTerm))).toBeDefined();
       expect(findQueryItem(capturedQuery, buildPredicate('description.de.ngrams', searchTerm))).toBeDefined();
       expect(findQueryItem(capturedQuery, buildPredicate('description.en.ngrams', searchTerm))).toBeDefined();
     });
