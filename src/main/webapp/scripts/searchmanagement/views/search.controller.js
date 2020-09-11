@@ -27,7 +27,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       'tags',
       'sponsor',
       'institutions',
-      'access-ways'
+      'access-ways',
+      'concepts'
     ];
     var getSelectedMetadataType = function() {
       return $scope.tabs[$scope.searchParams.selectedTabIndex]
@@ -294,6 +295,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
           'tags'),
         'access-ways': createDataPackageFilterContent(data,
           'access-ways'),
+        'concepts': createDataPackageFilterContent(data,
+          'concepts'),
         'sponsor': createDataPackageFilterContent(data,
           'sponsor'),
         'institutions': createDataPackageFilterContent(data,
