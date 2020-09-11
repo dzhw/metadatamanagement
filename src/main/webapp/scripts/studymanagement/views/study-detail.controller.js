@@ -115,10 +115,12 @@ angular.module('metadatamanagementApp')
           ctrl.loadAttachments();
 
           $timeout(function() {
-            if ($location.search().query) {
+            if ($location.search().query ||
+              $location.search()['panel-identifier'] ||
+              $location.search()['derived-variables-identifier']) {
               ctrl.scroll();
             }
-          }, 500);
+          }, 1000);
         } else {
           SimpleMessageToastService.openAlertMessageToast(
             'study-management.detail.not-released-toast', {id: result.id}

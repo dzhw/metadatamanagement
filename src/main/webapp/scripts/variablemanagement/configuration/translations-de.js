@@ -23,7 +23,7 @@ angular.module('metadatamanagementApp').config(
             'variable': 'Variable',
             'variables': 'Variablen',
             'variables-in-panel': 'Panelvariablen',
-            'derived-variables': 'Abgeleitete Variablen',
+            'derived-variables': 'abgeleitete Variablen',
             'generation-details': 'Generierungsdetails',
             'name': 'Name',
             'data-type': 'Datentyp',

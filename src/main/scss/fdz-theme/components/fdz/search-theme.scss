@@ -125,3 +125,15 @@ input::-ms-clear {
 md-input-container label {
   margin: 0px;
 }
+
+.fdz-filter-badge {
+  display: inline;
+  background-color: $accent-color;
+  padding: 0.2em 0.6em;
+  line-height: 1;
+  color: black;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 1em;
+}
