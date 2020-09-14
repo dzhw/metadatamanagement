@@ -36,7 +36,7 @@ Create Study by Publisher
     Input Text    name=projectContributorsFirstName_1    R2
     Input Text    name=projectContributorsMiddleName_1    D2
     Input Text    name=projectContributorsLastName_1    noLastName
-    Move Second projectContributorsFirstName_ To Place One
+    Move Second Contributor To Place One
     Focus    xpath=//input[@name = 'curatorsFirstName_0']
     Input Text    name=curatorsFirstName_0    Anne
     Input Text    name=curatorsMiddleName_0    noMiddleName
