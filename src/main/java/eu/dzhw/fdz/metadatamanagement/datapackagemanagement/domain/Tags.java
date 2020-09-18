@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
 
+import org.javers.core.metamodel.annotation.TypeName;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +14,7 @@ import lombok.NoArgsConstructor;
  * Contains tags associated with a dataPackage.
  */
 @Data
+@TypeName("eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Tags")
 @NoArgsConstructor
 public class Tags implements Serializable {
 
@@ -20,7 +23,7 @@ public class Tags implements Serializable {
   /**
    * German tags. At least one tag must be provided.
    */
-  @NotEmpty(message = "datapackagemanagement.error.dataPackage.tags.not-empty")
+  @NotEmpty(message = "datapackagemanagement.error.data-package.tags.not-empty")
   private Set<String> de;
 
   /**
