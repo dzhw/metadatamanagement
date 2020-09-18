@@ -72,9 +72,9 @@ angular.module('metadatamanagementApp').config(
               'one': 'Klicken, um das Instrument, mit dem dieses Konzept gemessen wurde, anzuzeigen.',
               'many': 'Klicken, um die Instrumente, mit denen dieses Konzept gemessen wurde, anzuzeigen.'
             },
-            'studies': {
-              'one': 'Klicken, um die Studie, in der dieses Konzept gemessen wurde, anzuzeigen',
-              'many': 'Klicken, um alle Studien, in denen dieses Konzept gemessen wurde, anzuzeigen'
+            'data-packages': {
+              'one': 'Klicken, um das Datenpaket, in dem dieses Konzept gemessen wurde, anzuzeigen',
+              'many': 'Klicken, um alle Datenpakete, in denen dieses Konzept gemessen wurde, anzuzeigen'
             }
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',

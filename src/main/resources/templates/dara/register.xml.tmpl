@@ -18,15 +18,15 @@
   <titles>
     <title>
       <language>de</language>
-      <titleName>${study.title.de}</titleName>
+      <titleName>${dataPackage.title.de}</titleName>
     </title>
     <title>
       <language>en</language>
-      <titleName>${study.title.en}</titleName>
+      <titleName>${dataPackage.title.en}</titleName>
     </title>
   </titles>
   <creators>
-    <#list study.projectContributors as contributor>
+    <#list dataPackage.projectContributors as contributor>
       <creator>
         <person>
           <firstName>${contributor.firstName}</firstName>
@@ -37,8 +37,8 @@
         </person>
       </creator>
     </#list>
-    <#if study.institutions??>
-    <#list study.institutions as institution>
+    <#if dataPackage.institutions??>
+    <#list dataPackage.institutions as institution>
     <creator>
       <institution>
         <#if institution.de??>
@@ -53,7 +53,7 @@
   </creators>
   <dataURLs>
     <dataURL>
-      https://metadata.fdz.dzhw.eu/#!/de/studies/${study.masterId}?version=${dataAcquisitionProject.release.version}
+      https://metadata.fdz.dzhw.eu/#!/de/data-packages/${dataPackage.masterId}?version=${dataAcquisitionProject.release.version}
     </dataURL>
   </dataURLs>
   <doiProposal>${doi}</doiProposal>
@@ -64,11 +64,11 @@
     <availabilityType>${availabilityControlled}</availabilityType>
     <availabilityFree>
       <language>de</language>
-      <freetext>Beantragung notwendig unter https://metadata.fdz.dzhw.eu/#!/de/studies/${study.masterId}?version=${dataAcquisitionProject.release.version}</freetext>
+      <freetext>Beantragung notwendig unter https://metadata.fdz.dzhw.eu/#!/de/data-packages/${dataPackage.masterId}?version=${dataAcquisitionProject.release.version}</freetext>
     </availabilityFree>
     <availabilityFree>
       <language>en</language>
-      <freetext>Application necessary under https://metadata.fdz.dzhw.eu/#!/en/studies/${study.masterId}?version=${dataAcquisitionProject.release.version}</freetext>
+      <freetext>Application necessary under https://metadata.fdz.dzhw.eu/#!/en/data-packages/${dataPackage.masterId}?version=${dataAcquisitionProject.release.version}</freetext>
     </availabilityFree>
   </availability>
   <alternativeIDs>
@@ -81,16 +81,16 @@
       <freeKeyword>
           <language>de</language>
           <keywords>
-     <#list study.tags.de as deTag>
+     <#list dataPackage.tags.de as deTag>
          <keyword>${deTag}</keyword>
      </#list>
           </keywords>
       </freeKeyword>
-  <#if study.tags.en??>
+  <#if dataPackage.tags.en??>
     <freeKeyword>
         <language>en</language>
         <keywords>
-        <#list study.tags.en as enTag>
+        <#list dataPackage.tags.en as enTag>
             <keyword>${enTag}</keyword>
         </#list>
         </keywords>
@@ -100,12 +100,12 @@
   <descriptions>
     <description>
       <language>de</language>
-      <freetext>${removeMarkdown(study.description.de)}</freetext>
+      <freetext>${removeMarkdown(dataPackage.description.de)}</freetext>
       <descriptionType>Abstract</descriptionType>
     </description>
     <description>
       <language>en</language>
-      <freetext>${removeMarkdown(study.description.en)}</freetext>
+      <freetext>${removeMarkdown(dataPackage.description.en)}</freetext>
       <descriptionType>Abstract</descriptionType>
     </description>
   </descriptions>
@@ -212,7 +212,7 @@
         <contributorType>Distributor</contributorType>
       </institution>
     </contributor>
-    <#list study.dataCurators as person>
+    <#list dataPackage.dataCurators as person>
      <contributor>
        <person>
          <firstName>${person.firstName}</firstName>
@@ -225,14 +225,14 @@
      </contributor>
     </#list>
   </contributors>
-  <#if study.sponsor??>
+  <#if dataPackage.sponsor??>
     <fundingReferences>
       <fundingReference>
         <institution>
-          <#if study.sponsor.de??>
-            <institutionName>${study.sponsor.de}</institutionName>
+          <#if dataPackage.sponsor.de??>
+            <institutionName>${dataPackage.sponsor.de}</institutionName>
             <#else>
-              <institutionName>${study.sponsor.en}</institutionName>
+              <institutionName>${dataPackage.sponsor.en}</institutionName>
           </#if>
         </institution>
       </fundingReference>
@@ -286,12 +286,12 @@
   <notes>
     <note>
       <language>de</language>
-      <text><#if study.annotations?? && study.annotations.de??>Anmerkungen zur Studie: ${removeMarkdown(study.annotations.de)} ### </#if>Erhebungseinheit: ${surveyUnits}</text>
+      <text><#if dataPackage.annotations?? && dataPackage.annotations.de??>Anmerkungen zum Datenpaket: ${removeMarkdown(dataPackage.annotations.de)} ### </#if>Erhebungseinheit: ${surveyUnits}</text>
     </note>
-    <#if study.annotations?? && study.annotations.en??>
+    <#if dataPackage.annotations?? && dataPackage.annotations.en??>
       <note>
         <language>en</language>
-        <text>Comments on the study: ${removeMarkdown(study.annotations.en)}</text>
+        <text>Comments on the data package: ${removeMarkdown(dataPackage.annotations.en)}</text>
       </note>
     </#if>
   </notes>

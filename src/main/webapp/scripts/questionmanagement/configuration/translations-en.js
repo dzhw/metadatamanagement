@@ -79,8 +79,8 @@ angular.module('metadatamanagementApp').config(
               'one': 'Click to show the variable of this question',
               'many': 'Click to show all variables of this question'
             },
-            'studies': {
-              'one': 'Click to show the study in which this question has been used'
+            'data-packages': {
+              'one': 'Click to show the data package in which this question has been used'
             },
             'concepts': {
               'one': 'Click to show the concept which has been measured with this question',
@@ -129,8 +129,8 @@ angular.module('metadatamanagementApp').config(
             'data-acquisition-project-id': {
               'not-empty': 'The RDC-ID of the Project must not be empty!'
             },
-            'study-id': {
-              'not-empty': 'The Study-ID of of the Question must not be empty!'
+            'data-package-id': {
+              'not-empty': 'The Data Package-ID of of the Question must not be empty!'
             },
             'instrument-number': {
               'not-null': 'The Number of the Instrument must not be empty!'

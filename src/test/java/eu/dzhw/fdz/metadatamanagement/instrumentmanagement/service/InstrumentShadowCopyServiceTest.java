@@ -157,7 +157,7 @@ public class InstrumentShadowCopyServiceTest extends AbstractTest {
   private Instrument createShadow(Instrument master, String version) {
     Instrument shadow = new Instrument(master);
     shadow.setId(master.getId() + "-" + version);
-    shadow.setStudyId(master.getStudyId() + "-" + version);
+    shadow.setDataPackageId(master.getDataPackageId() + "-" + version);
     shadow.setDataAcquisitionProjectId(master.getDataAcquisitionProjectId() + "-" + version);
     return shadow;
   }

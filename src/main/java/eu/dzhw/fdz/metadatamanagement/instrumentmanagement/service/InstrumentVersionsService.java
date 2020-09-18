@@ -27,7 +27,7 @@ public class InstrumentVersionsService
   }
 
   /**
-   * Init Javers with all current studies if there are no study commits in Javers yet.
+   * Init Javers with all current dataPackages if there are no dataPackage commits in Javers yet.
    */
   @PostConstruct
   public void initJaversForInstruments() {

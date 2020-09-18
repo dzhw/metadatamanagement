@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp')
 
           $scope.select = function(attachment, index) {
             $mdDialog.hide({
-              studyAttachment: attachment,
+              dataPackageAttachment: attachment,
               isCurrentVersion: $scope.isCurrentVersion(index)
             });
           };

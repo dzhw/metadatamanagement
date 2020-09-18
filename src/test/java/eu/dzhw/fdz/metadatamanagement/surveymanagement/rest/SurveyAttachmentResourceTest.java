@@ -227,7 +227,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testDeleteAllAttachmentsOfShadowCopyStudy() throws Exception {
+  public void testDeleteAllAttachmentsOfShadowCopyDataPackage() throws Exception {
     String surveyId = "sur-issue1991-sy1$-1.0.0";
 
     SurveyAttachmentMetadata metadata = UnitTestCreateDomainObjectUtils
@@ -247,7 +247,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testDeleteAttachmentOfShadowCopyStudy() throws Exception {
+  public void testDeleteAttachmentOfShadowCopyDataPackage() throws Exception {
     String surveyId = "sur-issue1991-sy1$-1.0.0";
 
     SurveyAttachmentMetadata metadata = UnitTestCreateDomainObjectUtils

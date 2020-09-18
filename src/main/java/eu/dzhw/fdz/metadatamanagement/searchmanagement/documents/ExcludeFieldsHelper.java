@@ -18,8 +18,8 @@ public class ExcludeFieldsHelper {
    */
   public static String[] getFieldsToExcludeOnDeserialization(
       Class<? extends AbstractRdcDomainObject> clazz) {
-    if (StudySearchDocument.class.isAssignableFrom(clazz)) {
-      return StudySearchDocument.FIELDS_TO_EXCLUDE_ON_DESERIALIZATION;
+    if (DataPackageSearchDocument.class.isAssignableFrom(clazz)) {
+      return DataPackageSearchDocument.FIELDS_TO_EXCLUDE_ON_DESERIALIZATION;
     }
     if (SurveySearchDocument.class.isAssignableFrom(clazz)) {
       return SurveySearchDocument.FIELDS_TO_EXCLUDE_ON_DESERIALIZATION;

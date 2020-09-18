@@ -31,7 +31,7 @@ angular.module('metadatamanagementApp')
       };
       ctrl.survey = null;
       ctrl.attachments = null;
-      ctrl.study = null;
+      ctrl.dataPackage = null;
       ctrl.projectIsCurrentlyReleased = true;
       ctrl.enableJsonView = Principal
         .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN']);
@@ -59,9 +59,9 @@ angular.module('metadatamanagementApp')
           'number': result.number,
           'instrumentIsPresent': true,
           'surveys': result.surveys,
-          'studyId': result.studyId,
-          'studyIsPresent': CleanJSObjectService.isNullOrEmpty(result.study) ?
-            false : true,
+          'dataPackageId': result.dataPackageId,
+          'dataPackageIsPresent': CleanJSObjectService
+            .isNullOrEmpty(result.dataPackage) ? false : true,
           'projectId': result.dataAcquisitionProjectId,
           'version': result.shadow ? _.get(result, 'release.version') : null
         });
@@ -70,7 +70,7 @@ angular.module('metadatamanagementApp')
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onDataPackageChange',
             {
-              masterId: result.study.masterId,
+              masterId: result.dataPackage.masterId,
               version: result.release.version
             });
         }

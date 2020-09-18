@@ -79,9 +79,9 @@ angular.module('metadatamanagementApp').config(
               'one': 'Click to show the instrument which has been used to measure this concept',
               'many': 'Click to show all instruments which have been used to measure this concept'
             },
-            'studies': {
-              'one': 'Click to show the study in which this concept has been measured',
-              'many': 'Click to show all studies in which this concept has been measured'
+            'data-packages': {
+              'one': 'Click to show the data package in which this concept has been measured',
+              'many': 'Click to show all data packages in which this concept has been measured'
             }
           },
           'doi-tooltip': 'Click to open the DOI in a new tab',

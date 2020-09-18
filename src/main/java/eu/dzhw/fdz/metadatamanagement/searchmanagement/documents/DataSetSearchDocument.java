@@ -12,7 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
@@ -36,8 +36,8 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
   static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION = new String[] {"nested*",
       "variables", "questions", "configuration", "guiLabels", "*Publications", "concepts"};
 
-  private StudySubDocument study = null;
-  private StudyNestedDocument nestedStudy = null;
+  private DataPackageSubDocument dataPackage = null;
+  private DataPackageNestedDocument nestedDataPackage = null;
   private List<VariableSubDocument> variables = new ArrayList<>();
   private List<VariableNestedDocument> nestedVariables = new ArrayList<>();
   private List<InstrumentSubDocument> instruments = new ArrayList<>();
@@ -65,7 +65,7 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
    * Construct the search document with all related subdocuments.
    * 
    * @param dataSet The data set to be searched for.
-   * @param study The study containing this data set.
+   * @param dataPackage The dataPackage containing this data set.
    * @param variables The variables available in this data set.
    * @param relatedPublications The related publications using this data set.
    * @param surveys The surveys using this data set.
@@ -74,16 +74,16 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
    * @param configuration the configuration from data acquisition
    */
   @SuppressWarnings("CPD-START")
-  public DataSetSearchDocument(DataSet dataSet, StudySubDocumentProjection study,
+  public DataSetSearchDocument(DataSet dataSet, DataPackageSubDocumentProjection dataPackage,
       List<VariableSubDocumentProjection> variables,
       List<RelatedPublicationSubDocumentProjection> relatedPublications,
       List<SurveySubDocumentProjection> surveys, List<InstrumentSubDocumentProjection> instruments,
       List<QuestionSubDocumentProjection> questions, List<ConceptSubDocumentProjection> concepts,
       Release release, String doi, Configuration configuration) {
     super(dataSet);
-    if (study != null) {
-      this.study = new StudySubDocument(study, doi);
-      this.nestedStudy = new StudyNestedDocument(study);
+    if (dataPackage != null) {
+      this.dataPackage = new DataPackageSubDocument(dataPackage, doi);
+      this.nestedDataPackage = new DataPackageNestedDocument(dataPackage);
     }
     if (variables != null) {
       this.variables =

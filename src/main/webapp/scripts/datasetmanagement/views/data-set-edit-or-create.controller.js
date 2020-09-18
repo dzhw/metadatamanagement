@@ -7,9 +7,9 @@ angular.module('metadatamanagementApp')
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, DataSetIdBuilderService, DataSetResource,
       $scope, SurveyIdBuilderService, $document,
-      ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
+      ElasticSearchAdminService, $mdDialog, $transitions, DataPackageResource,
       CommonDialogsService, LanguageService, AvailableDataSetNumbersResource,
-      DataSetAttachmentResource, $q, StudyIdBuilderService, SearchDao,
+      DataSetAttachmentResource, $q, DataPackageIdBuilderService, SearchDao,
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
       AttachmentDialogService, DataSetAttachmentUploadService,
       DataSetAttachmentVersionsResource, ChoosePreviousVersionService,
@@ -30,14 +30,14 @@ angular.module('metadatamanagementApp')
           });
         }
         $rootScope.$broadcast('start-ignoring-404');
-        StudyResource.get({id: ctrl.dataSet.studyId}).$promise
-          .then(function(study) {
+        DataPackageResource.get({id: ctrl.dataSet.dataPackageId}).$promise
+          .then(function(dataPackage) {
           BreadcrumbService.updateToolbarHeader({
             'stateName': $state.current.name,
             'dataSetId': ctrl.dataSet.id,
-            'studyId': ctrl.dataSet.studyId,
+            'dataPackageId': ctrl.dataSet.dataPackageId,
             'dataSetNumber': ctrl.dataSet.number,
-            'studyIsPresent': study != null,
+            'dataPackageIsPresent': dataPackage != null,
             'projectId': ctrl.dataSet.dataAcquisitionProjectId,
             'enableLastItem': !ctrl.createMode,
             'dataSetIsPresent': !ctrl.createMode
@@ -46,9 +46,9 @@ angular.module('metadatamanagementApp')
           BreadcrumbService.updateToolbarHeader({
             'stateName': $state.current.name,
             'dataSetId': ctrl.dataSet.id,
-            'studyId': ctrl.dataSet.studyId,
+            'dataPackageId': ctrl.dataSet.dataPackageId,
             'dataSetNumber': ctrl.dataSet.number,
-            'studyIsPresent': false,
+            'dataPackageIsPresent': false,
             'projectId': ctrl.dataSet.dataAcquisitionProjectId,
             'enableLastItem': !ctrl.createMode,
             'dataSetIsPresent': !ctrl.createMode
@@ -144,8 +144,9 @@ angular.module('metadatamanagementApp')
                         number: dataSetNumbers[0],
                         dataAcquisitionProjectId:
                         CurrentProjectService.getCurrentProject().id,
-                        studyId: StudyIdBuilderService.buildStudyId(
-                          CurrentProjectService.getCurrentProject().id
+                        dataPackageId: DataPackageIdBuilderService
+                          .buildDataPackageId(CurrentProjectService
+                            .getCurrentProject().id
                         ),
                         subDataSets: [{
                           name: ''
@@ -174,8 +175,9 @@ angular.module('metadatamanagementApp')
                           number: response.dataSetNumber,
                           dataAcquisitionProjectId:
                           CurrentProjectService.getCurrentProject().id,
-                          studyId: StudyIdBuilderService.buildStudyId(
-                            CurrentProjectService.getCurrentProject().id
+                          dataPackageId: DataPackageIdBuilderService
+                            .buildDataPackageId(CurrentProjectService
+                              .getCurrentProject().id
                           ),
                           subDataSets: [{
                             name: ''
@@ -336,7 +338,7 @@ angular.module('metadatamanagementApp')
           ElasticSearchAdminService.
             processUpdateQueue('data_sets'),
           ElasticSearchAdminService.
-            processUpdateQueue('studies'),
+            processUpdateQueue('data_packages'),
         ]);
       };
 
@@ -478,7 +480,7 @@ angular.module('metadatamanagementApp')
 
         var createDataSetAttachmentResource = function(attachmentWrapper) {
           return new DataSetAttachmentResource(attachmentWrapper
-              .studyAttachment);
+              .dataPackageAttachment);
         };
 
         var dialogConfig = {

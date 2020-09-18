@@ -14,6 +14,6 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
  */
 @Projection(name = "id-and-version", types = RelatedPublication.class)
 public interface IdAndVersionRelatedPublicationProjection extends IdAndVersionProjection {
-  List<String> getStudyIds();
+  List<String> getDataPackageIds();
 }
 

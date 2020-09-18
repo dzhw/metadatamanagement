@@ -38,11 +38,11 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidShadowId
 
+.. java:import:: eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain DataPackage
+
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain DataSet
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain Study
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation ValidDataType
 
@@ -95,6 +95,14 @@ dataAcquisitionProjectId
    :outertype: Survey
 
    The id of the \ :java:ref:`DataAcquisitionProject`\  to which this survey belongs. The dataAcquisitionProjectId must not be empty.
+
+dataPackageId
+^^^^^^^^^^^^^
+
+.. java:field:: @Indexed @NotEmpty private String dataPackageId
+   :outertype: Survey
+
+   The id of the \ :java:ref:`DataPackage`\  to which this survey belongs. Must not be empty.
 
 dataType
 ^^^^^^^^
@@ -168,7 +176,7 @@ sample
 
    The sampling method is the procedure for selecting sample members from a population. It must match the controlled vocabulary specified by VFDB.
 
-   **See also:** \ `Catalog: GNERD: Sampling Procedure Educational Research (Version 1.0) <https://mdr.iqb.hu-berlin.de/#/catalog/1d791cc7-6d8d-dd35-b1ef-0eec9c31bbb5">`_\
+   **See also:** \ ` Catalog: GNERD: Sampling Procedure Educational Research (Version 1.0)  <https://mdr.iqb.hu-berlin.de/#/catalog/1d791cc7-6d8d-dd35-b1ef-0eec9c31bbb5">`_\
 
 sampleSize
 ^^^^^^^^^^
@@ -183,14 +191,6 @@ serialVersionUID
 
 .. java:field:: private static final long serialVersionUID
    :outertype: Survey
-
-studyId
-^^^^^^^
-
-.. java:field:: @Indexed @NotEmpty private String studyId
-   :outertype: Survey
-
-   The id of the \ :java:ref:`Study`\  to which this survey belongs. Must not be empty.
 
 surveyMethod
 ^^^^^^^^^^^^
@@ -214,5 +214,5 @@ wave
 .. java:field:: @NotNull @Min private Integer wave
    :outertype: Survey
 
-   Number of the wave which this \ :java:ref:`Survey`\  represents. Will be ignored if the \ :java:ref:`Study`\  is not organized in waves. Must not be empty and must be greater than or equal to 1.
+   Number of the wave which this \ :java:ref:`Survey`\  represents. Will be ignored if the \ :java:ref:`DataPackage`\  is not organized in waves. Must not be empty and must be greater than or equal to 1.
 

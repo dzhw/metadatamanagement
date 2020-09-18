@@ -13,8 +13,8 @@ Check different icons of a project from projectoverview
     Assign a dataprovider  dataprovider
     Select Metadata Checkbox From The List
     Switch To Status Tab
-    Click Publisher Ready Checkbox for Studies
-    Click Dataprovider Ready Checkbox for Studies
+    Click Publisher Ready Checkbox for Data Packages
+    Click Dataprovider Ready Checkbox for Data Packages
     Click Publisher Ready Checkbox for Surveys
     Click Publisher Ready Checkbox for Instruments
     Click Dataprovider Ready Checkbox for Datasets
@@ -35,7 +35,7 @@ Select Metadata Checkbox From The List
    \   Click Element Through Tooltips  xpath=//md-checkbox[@name="${MD_DT}"]
 
 Assert Clipboard Double Check Icon
-   @{MD_ITEMS}    Create List    studies   surveys   instruments
+   @{MD_ITEMS}    Create List    dataPackages   surveys   instruments
    :FOR   ${MD_DT}   IN  @{MD_ITEMS}
    \    Page Should Contain Element   xpath=//tr[contains(.,"atestroboticons${BROWSER}")]//metadata-status[@type="'${MD_DT}'"]//md-icon[contains(@md-svg-src, ".clipboard-double-check.svg")]
 

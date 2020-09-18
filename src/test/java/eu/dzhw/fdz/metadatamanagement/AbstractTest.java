@@ -26,7 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepo
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
@@ -44,7 +44,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
 public abstract class AbstractTest {
 
   @Autowired
-  private StudyRepository studyRepository;
+  private DataPackageRepository dataPackageRepository;
 
   @Autowired
   private SurveyRepository surveyRepository;
@@ -87,7 +87,7 @@ public abstract class AbstractTest {
 
   @After
   public void ensureAllDataStoresHaveBeenCleanedUp() {
-    assertEquals(0, this.studyRepository.count());
+    assertEquals(0, this.dataPackageRepository.count());
     assertEquals(0, this.surveyRepository.count());
     assertEquals(0, this.instrumentRepository.count());
     assertEquals(0, this.questionRepository.count());

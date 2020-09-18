@@ -60,7 +60,7 @@ dataFormats
 .. java:field:: @NotEmpty private Set<DataFormat> dataFormats
    :outertype: Product
 
-   The available data formats of the study. It must not be empty.
+   The available data formats of the dataPackage. It must not be empty.
 
 serialVersionUID
 ^^^^^^^^^^^^^^^^
@@ -71,10 +71,10 @@ serialVersionUID
 study
 ^^^^^
 
-.. java:field:: @NotNull @Valid private OrderedStudy study
+.. java:field:: @NotNull @Valid private OrderedDataPackage study
    :outertype: Product
 
-   The (partial) \ :java:ref:`OrderedStudy`\  of this product. Must not be empty.
+   The (partial) \ :java:ref:`OrderedDataPackage`\  of this product. Must not be empty.
 
 version
 ^^^^^^^

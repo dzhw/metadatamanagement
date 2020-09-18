@@ -37,7 +37,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SearchDocumentI
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
@@ -93,8 +93,8 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
   }
 
   private ElasticsearchType computeElasticsearchType(S repository) {
-    if (StudyRepository.class.isAssignableFrom(repository.getClass())) {
-      return ElasticsearchType.studies;
+    if (DataPackageRepository.class.isAssignableFrom(repository.getClass())) {
+      return ElasticsearchType.data_packages;
     }
     if (SurveyRepository.class.isAssignableFrom(repository.getClass())) {
       return ElasticsearchType.surveys;

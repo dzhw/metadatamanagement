@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'survey': 'Survey',
             'surveys': 'Surveys',
-            'surveys-same-study': 'All Surveys of this Study',
+            'surveys-same-data-package': 'All Surveys of this Data Package',
             'field-period': 'Field Period',
             'population': 'Population',
             'unit': 'Survey Unit',
@@ -78,7 +78,7 @@ angular.module('metadatamanagementApp').config(
           'not-released-toast': 'Survey "{{ id }}" has not yet been released to all users!',
           'tooltips': {
             'surveys': {
-              'many': 'Click to show all surveys of this study'
+              'many': 'Click to show all surveys of this data package'
             },
             'data-sets': {
               'one': 'Click to show the data set of this survey',
@@ -92,8 +92,8 @@ angular.module('metadatamanagementApp').config(
               'one': 'Click to show the instrument used by this survey',
               'many': 'Click to show all instruments used by this survey'
             },
-            'studies': {
-              'one': 'Click to show the study of this survey'
+            'data-packages': {
+              'one': 'Click to show the data package of this survey'
             },
             'questions': {
               'one': 'Click to show the question of this survey',

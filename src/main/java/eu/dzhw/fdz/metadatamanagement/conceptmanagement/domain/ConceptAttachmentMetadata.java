@@ -124,7 +124,7 @@ public class ConceptAttachmentMetadata extends AbstractRdcDomainObject {
   private String language;
 
   /**
-   * Generate the id of this attachment from the studyId and the fileName.
+   * Generate the id of this attachment from the dataPackageId and the fileName.
    */
   public void generateId() {
     // hack to satisfy javers

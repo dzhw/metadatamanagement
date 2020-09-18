@@ -59,39 +59,39 @@ angular.module('metadatamanagementApp').config(
               'one': 'Click to show the variable for which this publication has been written',
               'many': 'Click to show all variables for which this publication has been written'
             },
-            'studies':{
-              'one': 'Click to show the study for which this publication has been written',
-              'many': 'Click to show all studies for which this publication has been written'
+            'data-packages':{
+              'one': 'Click to show the data package for which this publication has been written',
+              'many': 'Click to show all data packages for which this publication has been written'
             },
-            'studies-series' : 'Click to show all studies for this study series'
+            'studies-series' : 'Click to show all data packages for this study series'
           }
         },
         'assign': {
-          'page-title': 'Register Publications for the Study of Project "{{projectId}}"',
+          'page-title': 'Register Publications for the Data Package of Project "{{projectId}}"',
           'header': 'Publication Assignment',
-          'all-publications-removed-toast': 'All publications have been removed from the study of project "{{id}}"!',
-          'empty-publications': 'No Publications have been assigned to the Study yet.',
+          'all-publications-removed-toast': 'All publications have been removed from the data package of project "{{id}}"!',
+          'empty-publications': 'No Publications have been assigned to the Data Package yet.',
           'choose-unreleased-project-toast': 'Publications may be assigned or unassigned if and only if the project is currently not released!',
           'search': {
-            'placeholder': 'Search Publications and assign to Study',
+            'placeholder': 'Search Publications and assign to Data Package',
             'no-publications-found': 'No Publication found'
           },
           'button': {
-            'remove-publication': 'Unassign Publication from the Study'
+            'remove-publication': 'Unassign Publication from the Data Package'
           }
         },
         'error': {
           'related-publication': {
             'one-foreign-key-is-used': 'The Publication has no connection to any other object.',
-            'one-study-or-study-series-is-used': 'The publication has no connection to any study or any study series.',
+            'one-data-package-or-study-series-is-used': 'The publication has no connection to any data package or any study series.',
             'valid-related-publication-id': 'The Id of Publication have to be build up after the pattern: "pub-" + {IdFromCitavi} + "$".',
-            'study-exists': 'There is no Study with RDC-ID "{{invalidValue}}"!',
+            'data-package-exists': 'There is no Data Package with RDC-ID "{{invalidValue}}"!',
             'survey-exists': 'There is no Survey with RDC-ID "{{invalidValue}}"!',
             'dataset-exists': 'There is no Data Set with RDC-ID "{{invalidValue}}"!',
             'variable-exists': 'There is no Variable with RDC-ID "{{invalidValue}}"!',
             'instrument-exists': 'There is no Instrument with RDC-ID "{{invalidValue}}"!',
             'question-exists': 'There is no Question with RDC-ID "{{invalidValue}}"!',
-            'study-series-exists': 'There is no Study with Study Series "{{invalidValue.de}}"!',
+            'study-series-exists': 'There is no Data Package with Study Series "{{invalidValue.de}}"!',
             'id': {
               'not-empty': 'The RDC-ID of the Publication must not be empty!',
               'size': 'The max length of the RDC-ID is 512 signs.',
@@ -134,11 +134,11 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'variable-has-not-a-referenced-study': 'Variable "{{invalidValue}}" belongs to a study which has not been linked to this publication.',
-            'survey-has-not-a-referenced-study': 'Survey "{{invalidValue}}" belongs to a study which has not been linked to this publication.',
-            'data-set-has-not-a-referenced-study': 'Data Set "{{invalidValue}}" belongs to a study which has not been linked to this publication.',
-            'instrument-has-not-a-referenced-study': 'Instrument "{{invalidValue}}" belongs to a study which has not been linked to this publication.',
-            'question-has-not-a-referenced-study': 'Question "{{invalidValue}}" belongs to a study which has not been linked to this publication.'
+            'variable-has-not-a-referenced-data-package': 'Variable "{{invalidValue}}" belongs to a data package which has not been linked to this publication.',
+            'survey-has-not-a-referenced-data-package': 'Survey "{{invalidValue}}" belongs to a data package which has not been linked to this publication.',
+            'data-set-has-not-a-referenced-data-package': 'Data Set "{{invalidValue}}" belongs to a data package which has not been linked to this publication.',
+            'instrument-has-not-a-referenced-data-package': 'Instrument "{{invalidValue}}" belongs to a data package which has not been linked to this publication.',
+            'question-has-not-a-referenced-data-package': 'Question "{{invalidValue}}" belongs to a data package which has not been linked to this publication.'
           }
         }
       }

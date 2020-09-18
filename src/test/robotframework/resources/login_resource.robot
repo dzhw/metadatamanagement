@@ -29,7 +29,7 @@ Create Project
     Wait Until Angular Ready    10s
 
 Delete Robotsproject
-    Pass Execution If    '${BROWSER}' == 'ie'    Study Creation not possible in IE
+    Pass Execution If    '${BROWSER}' == 'ie'    Data Package Creation not possible in IE
     Get back to german home page
     Input Text    xpath=//input[@placeholder = 'Projekt auswählen']    robotsproject${BROWSER}
     Click Element Through Tooltips    xpath=//md-sidenav/descendant::button[md-icon[text()='']]

@@ -112,7 +112,8 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
       return ElasticSearchClient.search(query);
     };
 
-    var findByStudyId = function(studyId, selectedAttributes, from, size) {
+    var findByDataPackageId = function(dataPackageId, selectedAttributes,
+      from, size) {
       var query =  createQueryObject();
       query.body = {};
       query.body.from = from;
@@ -125,7 +126,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
           }],
           'filter': [{
             'term': {
-              'studyId': studyId
+              'dataPackageId': dataPackageId
             }
           }]
         }
@@ -369,7 +370,7 @@ angular.module('metadatamanagementApp').factory('DataSetSearchService',
     return {
       findOneById: findOneById,
       findBySurveyId: findBySurveyId,
-      findByStudyId: findByStudyId,
+      findByDataPackageId: findByDataPackageId,
       countBy: countBy,
       countByMultiple: countByMultiple,
       findShadowByIdAndVersion: findShadowByIdAndVersion,

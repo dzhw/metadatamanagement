@@ -25,7 +25,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.OnlyOrdinalScaleLevelForDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsFirstQuartileMustBeANumberOnNumericDataType;
@@ -333,11 +333,11 @@ public class Variable extends AbstractShadowableRdcDomainObject {
   private Boolean doNotDisplayThousandsSeparator = false;
 
   /**
-   * Id of the {@link Study} to which this variable belongs.
+   * Id of the {@link DataPackage} to which this variable belongs.
    */
   @Indexed
-  @NotEmpty(message = "variable-management.error.variable.study-id.not-empty")
-  private String studyId;
+  @NotEmpty(message = "variable-management.error.variable.dataPackage-id.not-empty")
+  private String dataPackageId;
 
   /**
    * List of ids of {@link Survey}s which have been conducted to create this variable.

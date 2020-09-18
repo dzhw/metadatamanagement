@@ -79,8 +79,8 @@ angular.module('metadatamanagementApp').config(
               'one': 'Klicken, um die Variable dieser Frage anzuzeigen',
               'many': 'Klicken, um alle Variablen dieser Frage anzuzeigen'
             },
-            'studies': {
-              'one': 'Klicken, um die Studie anzuzeigen, in der diese Frage verwendet wurde'
+            'data-packages': {
+              'one': 'Klicken, um das Datenpaket anzuzeigen, in dem diese Frage verwendet wurde'
             },
             'concepts': {
               'one': 'Klicken, um das Konzept, welches mit dieser Frage gemessen wurde, anzuzeigen',
@@ -129,8 +129,8 @@ angular.module('metadatamanagementApp').config(
             'data-acquisition-project-id': {
               'not-empty': 'Die FDZ-ID des Projektes darf nicht leer sein!'
             },
-            'study-id': {
-              'not-empty': 'Die Studien-ID der Frage darf nicht leer sein!'
+            'data-package-id': {
+              'not-empty': 'Die Datenpaket-ID der Frage darf nicht leer sein!'
             },
             'instrument-number': {
               'not-null': 'Die Nummer des Instruments darf nicht leer sein.'

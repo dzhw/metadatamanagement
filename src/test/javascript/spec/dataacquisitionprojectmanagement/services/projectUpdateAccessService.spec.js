@@ -37,7 +37,7 @@ describe('ProjectUpdateAccessService', function() {
           dataSetsRequired: true,
           surveysRequired: true,
           variablesRequired: true,
-          studiesRequired: true,
+          dataPackagesRequired: true,
           instrumentsRequired: true,
           questionsRequired: true
         }
@@ -55,13 +55,13 @@ describe('ProjectUpdateAccessService', function() {
   it('should return false since it is not the publishers turn', function() {
     spyOn(Principal, 'loginName').and.returnValue(publisherName);
     spyOn(Principal, 'hasAuthority').and.returnValue(true);
-    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies')).toBe(false);
+    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'dataPackages')).toBe(false);
   });
 
   it('should return true since it is the data providers turn', function() {
     spyOn(Principal, 'loginName').and.returnValue(dataProviderName);
     spyOn(Principal, 'hasAuthority').and.returnValue(true);
-    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies')).toBe(true);
+    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'dataPackages')).toBe(true);
   });
 
   it('should return true if the survey state is still false', function() {
@@ -82,22 +82,22 @@ describe('ProjectUpdateAccessService', function() {
     expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'surveys')).toBe(false);
   });
 
-  it('should return true if studies state is still false', function() {
+  it('should return true if data packages state is still false', function() {
     spyOn(Principal, 'loginName').and.returnValue(dataProviderName);
     spyOn(Principal, 'hasAuthority').and.callFake(trueOnDataProvider);
-    _.set(defaultProject, 'configuration.studiesState.publisherReady', false);
-    _.set(defaultProject, 'configuration.studiesState.dataProviderReady', false);
+    _.set(defaultProject, 'configuration.dataPackagesState.publisherReady', false);
+    _.set(defaultProject, 'configuration.dataPackagesState.dataProviderReady', false);
 
-    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies')).toBe(true);
+    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'dataPackages')).toBe(true);
   });
 
-  it('should return false if studies state is marked as dataProviderReady', function() {
+  it('should return false if data packages state is marked as dataProviderReady', function() {
     spyOn(Principal, 'loginName').and.returnValue(dataProviderName);
     spyOn(Principal, 'hasAuthority').and.callFake(trueOnDataProvider);
-    _.set(defaultProject, 'configuration.studiesState.publisherReady', false);
-    _.set(defaultProject, 'configuration.studiesState.dataProviderReady', true);
+    _.set(defaultProject, 'configuration.dataPackagesState.publisherReady', false);
+    _.set(defaultProject, 'configuration.dataPackagesState.dataProviderReady', true);
 
-    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies')).toBe(false);
+    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'dataPackages')).toBe(false);
   });
 
   it('should return true if instruments state is still false', function() {
@@ -177,7 +177,7 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(Principal, 'hasAuthority').and.callFake(trueOnDataProvider);
     defaultProject.release = {};
 
-    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies')).toBe(false);
+    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'dataPackages')).toBe(false);
   });
 
   it('should return false if the assigneeGroup doesn\'t match the current' +
@@ -186,21 +186,21 @@ describe('ProjectUpdateAccessService', function() {
     spyOn(Principal, 'loginName').and.returnValue(dataProviderName);
     spyOn(Principal, 'hasAuthority').and.callFake(trueOnDataProvider);
 
-    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies')).toBe(false);
+    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'dataPackages')).toBe(false);
   });
 
   it('should return false if assigneeGroup is unknown', function() {
     spyOn(Principal, 'loginName').and.returnValue(dataProviderName);
     spyOn(Principal, 'hasAuthority').and.callFake(trueOnDataProvider);
     defaultProject.assigneeGroup = '';
-    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies')).toBe(false);
+    expect(ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'dataPackages')).toBe(false);
   });
 
   it('should not call CurrentProjectService if the project was given as a ' +
     'parameter', function() {
     var spy = spyOn(CurrentProjectService, 'getCurrentProject').and
       .callThrough();
-    ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'studies');
+    ProjectUpdateAccessService.isUpdateAllowed(defaultProject, 'dataPackages');
     expect(spy).not.toHaveBeenCalled();
   });
 });

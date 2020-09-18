@@ -13,13 +13,13 @@
                                 ProjectReleaseService,
                                 ShoppingCartService,
                                 MessageBus, $translate,
-                                StudySearchService,
-                                StudyAccessWaysResource, $mdDialog,
+                                DataPackageSearchService,
+                                DataPackageAccessWaysResource, $mdDialog,
                                 CitationHintGeneratorService,
                                 DataPackageCitationDialogService) {
     var $ctrl = this;
     var initReady = false;
-    $ctrl.studyIdVersion = {};
+    $ctrl.dataPackageIdVersion = {};
     $ctrl.accessWays = [];
     $ctrl.lang = LanguageService.getCurrentInstantly();
     $ctrl.onDataPackageChange = MessageBus;
@@ -38,8 +38,9 @@
       if (!$ctrl.selectedAccessWay) {
         $ctrl.selectedAccessWay = '';
       }
-      $ctrl.selectedVersion = $ctrl.studyIdVersion.version;
-      loadStudy($ctrl.studyIdVersion.masterId, $ctrl.studyIdVersion.version);
+      $ctrl.selectedVersion = $ctrl.dataPackageIdVersion.version;
+      loadDataPackage($ctrl.dataPackageIdVersion.masterId,
+         $ctrl.dataPackageIdVersion.version);
       initReady = true;
     }
 
@@ -61,29 +62,29 @@
         });
     }
 
-    function loadStudy(id, version) {
+    function loadDataPackage(id, version) {
       $rootScope.$broadcast('start-ignoring-404');
       $ctrl.dataNotAvailable = false;
       $ctrl.noFinalRelease = false;
       var excludes = ['nested*','variables','questions',
         'surveys','instruments', 'relatedPublications',
         'concepts'];
-      StudySearchService.findShadowByIdAndVersion(id, version, excludes)
+      DataPackageSearchService.findShadowByIdAndVersion(id, version, excludes)
         .promise.then(function(data) {
-          $ctrl.study = data;
+          $ctrl.dataPackage = data;
           $rootScope.selectedDataPackage = data;
-          if ($ctrl.study) {
-            if ($ctrl.study.dataAvailability.en === 'Not available') {
+          if ($ctrl.dataPackage) {
+            if ($ctrl.dataPackage.dataAvailability.en === 'Not available') {
               $ctrl.dataNotAvailable = true;
             }
 
-            if ($ctrl.study.dataAvailability.en === 'In preparation') {
+            if ($ctrl.dataPackage.dataAvailability.en === 'In preparation') {
               $ctrl.noFinalRelease = true;
             }
-            loadVersion($ctrl.study.dataAcquisitionProjectId, id);
+            loadVersion($ctrl.dataPackage.dataAcquisitionProjectId, id);
           }
         }, function() {
-          $ctrl.study = null;
+          $ctrl.dataPackage = null;
           $rootScope.selectedDataPackage = null;
         }).finally(function() {
           $rootScope.$broadcast('stop-ignoring-404');
@@ -91,15 +92,15 @@
     }
 
     function loadAccessWays(id) {
-      StudyAccessWaysResource.get({id: id})
+      DataPackageAccessWaysResource.get({id: id})
         .$promise
         .then(function(data) {
           $ctrl.accessWays = data;
         });
     }
 
-    var extractDataFormats = function(study, selectedAccessWay) {
-      var dataFormats = _.flatMap(study.dataSets, function(dataSet) {
+    var extractDataFormats = function(dataPackage, selectedAccessWay) {
+      var dataFormats = _.flatMap(dataPackage.dataSets, function(dataSet) {
         var subDataSetsBySelectedAccessWay = _.filter(dataSet.subDataSets,
           function(subDataSet) {
             return subDataSet.accessWay === selectedAccessWay;
@@ -128,14 +129,15 @@
         $mdDialog.show(alert);
       } else {
         ShoppingCartService.add({
-          dataAcquisitionProjectId: $ctrl.study.dataAcquisitionProjectId,
+          dataAcquisitionProjectId: $ctrl.dataPackage.dataAcquisitionProjectId,
           accessWay: $ctrl.selectedAccessWay,
           version: $ctrl.selectedVersion,
-          dataFormats: extractDataFormats($ctrl.study, $ctrl.selectedAccessWay),
+          dataFormats: extractDataFormats($ctrl.dataPackage,
+            $ctrl.selectedAccessWay),
           study: {
-            id: $ctrl.study.id,
-            surveyDataTypes: $ctrl.study.surveyDataTypes,
-            title: $ctrl.study.title
+            id: $ctrl.dataPackage.id,
+            surveyDataTypes: $ctrl.dataPackage.surveyDataTypes,
+            title: $ctrl.dataPackage.title
           }
         });
       }
@@ -191,8 +193,8 @@
       function() {
         var data = $ctrl.onDataPackageChange.get('onDataPackageChange', true);
         if (data) {
-          $ctrl.studyIdVersion.masterId = data.masterId;
-          $ctrl.studyIdVersion.version = data.version;
+          $ctrl.dataPackageIdVersion.masterId = data.masterId;
+          $ctrl.dataPackageIdVersion.version = data.version;
           init();
         }
       }, true);
@@ -237,7 +239,7 @@
         $mdDialog.show(alert);
       } else {
         var citationHint = CitationHintGeneratorService.generateCitationHint(
-          $ctrl.selectedAccessWay, $ctrl.study);
+          $ctrl.selectedAccessWay, $ctrl.dataPackage);
         DataPackageCitationDialogService.showDialog(citationHint, $event);
       }
     };

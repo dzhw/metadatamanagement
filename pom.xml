@@ -661,7 +661,7 @@
                                 <argument>-I</argument>
                                 <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/conceptmanagement/domain</argument>
                                 <argument>-I</argument>
-                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/studymanagement/domain</argument>
+                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/datapackagemanagement/domain</argument>
                                 <argument>-I</argument>
                                 <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/surveymanagement/domain</argument>
                                 <argument>-I</argument>

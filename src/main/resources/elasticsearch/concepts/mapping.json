@@ -248,7 +248,7 @@
 				}
 			}
 		},
-		"studies": {
+		"dataPackages": {
 			"type": "object",
 			"properties": {
 				"id": {
@@ -272,7 +272,7 @@
 				}
 			}
 		},
-		"nestedStudies": {
+		"nestedDataPackages": {
 			"type": "nested",
 			"properties": {
 				"completeTitle": {

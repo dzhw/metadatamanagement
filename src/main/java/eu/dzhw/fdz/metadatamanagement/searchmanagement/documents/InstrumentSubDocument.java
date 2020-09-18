@@ -45,7 +45,7 @@ public class InstrumentSubDocument extends AbstractRdcDomainObject
   
   private List<String> conceptIds;
 
-  private String studyId;
+  private String dataPackageId;
 
   private String masterId;
   

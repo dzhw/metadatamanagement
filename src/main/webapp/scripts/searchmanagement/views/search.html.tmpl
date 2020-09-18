@@ -76,14 +76,14 @@
               bowser="bowser"
               add-margin="$mdMedia('gt-sm')"
               search-result-index="computeSearchResultIndex($index)"></dataset-search-result>
-            <study-search-result
+            <datapackage-search-result
               bowser="bowser"
               current-language="currentLanguage"
-              ng-switch-when="studies"
+              ng-switch-when="data_packages"
               search-query="searchParams.query"
               search-result="result._source"
               set-params="setCurrentSearchParams()"
-              search-result-index="computeSearchResultIndex($index)"></study-search-result>
+              search-result-index="computeSearchResultIndex($index)"></datapackage-search-result>
             <related-publication-search-result
               ng-if="isAuthenticated()"
               ng-switch-when="related_publications"
@@ -126,9 +126,9 @@
                 <md-icon md-font-set="material-icons">refresh</md-icon>
             </md-button>
         </div>
-        <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllStudies()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies' && currentProject">
+        <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllDataPackages()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_packages' && currentProject">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'search-management.buttons.delete-all-studies-tooltip' | translate}}
+                {{'search-management.buttons.delete-all-data-packages-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete_sweep</md-icon>
         </md-button>
@@ -168,16 +168,16 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete_sweep</md-icon>
         </md-button>
-        <div ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='studies'">
-            <md-button ng-if="!currentStudy" class="md-fab md-raised md-accent" ng-click="navigateToCreateState('studyCreate')">
+        <div ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_packages'">
+            <md-button ng-if="!currentDataPackage" class="md-fab md-raised md-accent" ng-click="navigateToCreateState('dataPackageCreate')">
                 <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'search-management.buttons.create-study-tooltip' | translate}}
+                    {{'search-management.buttons.create-data-package-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">add</md-icon>
             </md-button>
-            <md-button ng-if="currentStudy" class="md-fab md-raised md-accent" ui-sref="studyEdit({id: currentStudy.id})">
+            <md-button ng-if="currentDataPackage" class="md-fab md-raised md-accent" ui-sref="dataPackageEdit({id: currentDataPackage.id})">
                 <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'search-management.buttons.edit-study-tooltip' | translate}}
+                    {{'search-management.buttons.edit-data-package-tooltip' | translate}}
                 </md-tooltip>
                 <md-icon md-font-set="material-icons">mode_edit</md-icon>
             </md-button>

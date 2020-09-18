@@ -2,28 +2,28 @@
 
 angular.module('metadatamanagementApp').service('CitationHintGeneratorService',
 function($interpolate) {
-  var generateCitationHint = function(accessWay, study) {
-    var de = '{{study.projectContributors | displayPersons}} ' +
-      '({{study.release.firstDate | date:"yyyy"}}). ' +
-      '{{study.title.de}}. ' +
-      'Datenerhebung: {{study.surveyPeriod | displayPeriod}}. ' +
-      'Version: {{study.release.version}}. ' +
+  var generateCitationHint = function(accessWay, dataPackage) {
+    var de = '{{dataPackage.projectContributors | displayPersons}} ' +
+      '({{dataPackage.release.firstDate | date:"yyyy"}}). ' +
+      '{{dataPackage.title.de}}. ' +
+      'Datenerhebung: {{dataPackage.surveyPeriod | displayPeriod}}. ' +
+      'Version: {{dataPackage.release.version}}. ' +
       'Datenpaketzugangsweg: {{accessWay | displayAccessWay}}. ' +
       'Hannover: FDZ-DZHW. ' +
-      'Datenkuratierung: {{study.dataCurators | displayPersons}} ' +
-      'doi: {{study.doi}}';
-    var en = '{{study.projectContributors | displayPersons}} ' +
-      '({{study.release.firstDate | date:"yyyy"}}). ' +
-      '{{study.title.en}}. ' +
-      'Data Collection: {{study.surveyPeriod | displayPeriod }}. ' +
-      'Version: {{study.release.version}}. ' +
+      'Datenkuratierung: {{dataPackage.dataCurators | displayPersons}} ' +
+      'doi: {{dataPackage.doi}}';
+    var en = '{{dataPackage.projectContributors | displayPersons}} ' +
+      '({{dataPackage.release.firstDate | date:"yyyy"}}). ' +
+      '{{dataPackage.title.en}}. ' +
+      'Data Collection: {{dataPackage.surveyPeriod | displayPeriod }}. ' +
+      'Version: {{dataPackage.release.version}}. ' +
       'Data Package Access Way: {{accessWay | displayAccessWay}}. ' +
       'Hanover: FDZ-DZHW. ' +
-      'Data Curation: {{study.dataCurators | displayPersons}} ' +
-      'doi: {{study.doi}}';
+      'Data Curation: {{dataPackage.dataCurators | displayPersons}} ' +
+      'doi: {{dataPackage.doi}}';
     return {
-      de: $interpolate(de)({accessWay: accessWay, study: study}),
-      en: $interpolate(en)({accessWay: accessWay, study: study}),
+      de: $interpolate(de)({accessWay: accessWay, dataPackage: dataPackage}),
+      en: $interpolate(en)({accessWay: accessWay, dataPackage: dataPackage}),
     };
   };
 

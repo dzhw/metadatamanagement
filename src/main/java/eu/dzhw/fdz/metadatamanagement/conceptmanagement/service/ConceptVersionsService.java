@@ -30,7 +30,7 @@ public class ConceptVersionsService
    * Init Javers with all current concepts if there are no concept commits in Javers yet.
    */
   @PostConstruct
-  public void initJaversForStudies() {
+  public void initJaversForDataPackages() {
     super.initJaversWithCurrentVersions();
   }
 }

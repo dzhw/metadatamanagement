@@ -11,7 +11,7 @@ package eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util;
  */
 public class UnitTestCreateValidIds {
 
-  public static String buildStudyId(String dataAcquisitionProjectId) {
+  public static String buildDataPackageId(String dataAcquisitionProjectId) {
     return "stu-" + dataAcquisitionProjectId + "$";
   }
   

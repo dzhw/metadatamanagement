@@ -16,7 +16,7 @@ Assign and Unassign concept to and from an instrument
     # wait for elasticsearch index beeing updated
     Sleep  60s
     Assert the concept has been assigned to the instrument
-    Assert the concept is assigned to a study
+    Assert the concept is assigned to a data package
     Assert the concept is assigned to a survey
     Unassign the concept from the instrument
     Get back to home page and deselect project
@@ -48,8 +48,8 @@ Assert the concept has been assigned to the instrument
    Run Keyword If    '${BROWSER}' == 'edge'  Page Should Contain   Test Konzept Edge Publisher
    Run Keyword If    '${BROWSER}' == 'ie'  Page Should Contain   Test Konzept IE Publisher
 
-Assert the concept is assigned to a study
-   Page Should Contain  Study Title in German
+Assert the concept is assigned to a data package
+   Page Should Contain  Data Package Title in German
 
 Assert the concept is assigned to a survey
    Click on surveys tab

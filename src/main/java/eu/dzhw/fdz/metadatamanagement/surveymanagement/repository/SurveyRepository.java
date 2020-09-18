@@ -42,7 +42,7 @@ public interface SurveyRepository extends BaseRepository<Survey, String> {
       String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByStudyId(String studyId);
+  Stream<IdAndVersionProjection> streamIdsByDataPackageId(String dataPackageId);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByIdIn(Collection<String> surveyIds);
@@ -51,7 +51,7 @@ public interface SurveyRepository extends BaseRepository<Survey, String> {
   List<SurveySubDocumentProjection> findSubDocumentByIdIn(Collection<String> surveyIds);
 
   @RestResource(exported = false)
-  List<SurveySubDocumentProjection> findSubDocumentByStudyId(String id);
+  List<SurveySubDocumentProjection> findSubDocumentByDataPackageId(String id);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByDataAcquisitionProjectId(String projectId);

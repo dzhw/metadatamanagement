@@ -21,8 +21,8 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionImageService;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -79,7 +79,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   private QuestionRepository questionRepository;
 
   @Autowired
-  private StudyRepository studyRepository;
+  private DataPackageRepository dataPackageRepository;
 
   @Autowired
   private QuestionImageService questionImageService;
@@ -103,7 +103,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     this.dataSetRepository.deleteAll();
     this.instrumentRepository.deleteAll();
     this.questionRepository.deleteAll();
-    this.studyRepository.deleteAll();
+    this.dataPackageRepository.deleteAll();
     this.questionImageService.deleteAll();
     this.javersService.deleteAll();
   }
@@ -123,7 +123,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Arrange
     //Project
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    project.getConfiguration().setStudiesState(new ProjectState(true, true));
+    project.getConfiguration().setDataPackagesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
 
     //Survey
@@ -166,8 +166,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     UnitTestImageHelper.saveQuestionImage(this.questionImageService, questionImageMetadata);
 
 
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    this.studyRepository.save(study);
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    this.dataPackageRepository.save(dataPackage);
 
     return project;
   }
@@ -179,12 +179,12 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Arrange
     //Project
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    project.getConfiguration().setStudiesState(new ProjectState(true, true));
+    project.getConfiguration().setDataPackagesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
 
-    //Study (each project must have one)
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    this.studyRepository.save(study);
+    //DataPackage (each project must have one)
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    this.dataPackageRepository.save(dataPackage);
 
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -238,12 +238,12 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Arrange
     //Project
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    project.getConfiguration().setStudiesState(new ProjectState(true, true));
+    project.getConfiguration().setDataPackagesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
 
-    //Study (each project must have one)
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    this.studyRepository.save(study);
+    //DataPackage (each project must have one)
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    this.dataPackageRepository.save(dataPackage);
 
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -300,12 +300,12 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Arrange
     //Project
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    project.getConfiguration().setStudiesState(new ProjectState(true, true));
+    project.getConfiguration().setDataPackagesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
 
-    //Study (each project must have one)
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    this.studyRepository.save(study);
+    //DataPackage (each project must have one)
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    this.dataPackageRepository.save(dataPackage);
 
     //Survey
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
@@ -355,7 +355,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     //Arrange
     //Project
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    project.getConfiguration().setStudiesState(new ProjectState(true, true));
+    project.getConfiguration().setDataPackagesState(new ProjectState(true, true));
     this.rdcProjectRepository.save(project);
 
     //Survey
@@ -404,7 +404,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.errors", hasSize(3)))
-      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.project-has-no-study")))
+      .andExpect(jsonPath("$.errors[0].messageId", containsString("error.post-validation.project-has-no-dataPackage")))
       .andExpect(jsonPath("$.errors[1].messageId", containsString("error.post-validation.data-set-has-invalid-survey-id")))
       .andExpect(jsonPath("$.errors[2].messageId", containsString("error.post-validation.variable-has-invalid-survey-id")));
     }
@@ -428,8 +428,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
   @WithMockUser(authorities = AuthoritiesConstants.DATA_PROVIDER)
   public void testProjectRequirements_publishers_only() throws Exception {
     DataAcquisitionProject dataAcquisitionProject = buildValidProject();
-    // study is always mandatory so this would produce an error if a publisher validates a project
-    dataAcquisitionProject.getConfiguration().setStudiesState(new ProjectState(false, false));
+    // dataPackage is always mandatory so this would produce an error if a publisher validates a project
+    dataAcquisitionProject.getConfiguration().setDataPackagesState(new ProjectState(false, false));
     rdcProjectRepository.save(dataAcquisitionProject);
 
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI))
@@ -449,7 +449,7 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     configuration.setDataSetsState(state);
     configuration.setInstrumentsState(state);
     configuration.setQuestionsState(state);
-    configuration.setStudiesState(state);
+    configuration.setDataPackagesState(state);
     configuration.setSurveysState(state);
     configuration.setVariablesState(state);
   }

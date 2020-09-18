@@ -31,8 +31,8 @@ public class ConceptSearchDocument extends Concept implements SearchDocumentInte
   static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION =
       new String[] {"nested*", "configuration", "guiLabels"};
 
-  private List<StudySubDocument> studies = new ArrayList<>();
-  private List<StudyNestedDocument> nestedStudies = new ArrayList<>();
+  private List<DataPackageSubDocument> dataPackages = new ArrayList<>();
+  private List<DataPackageNestedDocument> nestedDataPackages = new ArrayList<>();
   private List<QuestionSubDocument> questions = new ArrayList<>();
   private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
   private List<InstrumentSubDocument> instruments = new ArrayList<>();
@@ -60,7 +60,7 @@ public class ConceptSearchDocument extends Concept implements SearchDocumentInte
    * Construct the search document with all related subdocuments.
    * 
    * @param concept the concept to be searched for
-   * @param studies the studies in which this concept was used
+   * @param dataPackages the dataPackages in which this concept was used
    * @param questions the questions in which this concept was observed
    * @param instruments the instruments which observed this concept
    * @param surveys the surveys for which observed this concept
@@ -68,16 +68,17 @@ public class ConceptSearchDocument extends Concept implements SearchDocumentInte
    * @param variables the variables for which observed this concept
    */
   @SuppressWarnings("CPD-START")
-  public ConceptSearchDocument(Concept concept, List<StudySubDocument> studies,
-      List<StudyNestedDocument> nestedStudies, List<QuestionSubDocumentProjection> questions,
+  public ConceptSearchDocument(Concept concept, List<DataPackageSubDocument> dataPackages,
+      List<DataPackageNestedDocument> nestedDataPackages,
+      List<QuestionSubDocumentProjection> questions,
       List<InstrumentSubDocumentProjection> instruments, List<SurveySubDocumentProjection> surveys,
       List<DataSetSubDocumentProjection> dataSets, List<VariableSubDocumentProjection> variables) {
     super(concept);
-    if (studies != null) {
-      this.studies = studies;
+    if (dataPackages != null) {
+      this.dataPackages = dataPackages;
     }
-    if (nestedStudies != null) {
-      this.nestedStudies = nestedStudies;
+    if (nestedDataPackages != null) {
+      this.nestedDataPackages = nestedDataPackages;
     }
     if (questions != null) {
       this.questions = questions.stream().map(question -> new QuestionSubDocument(question))
