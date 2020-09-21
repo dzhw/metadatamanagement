@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').config(
         'search': 'Datensuche',
         'in-german': 'auf Deutsch',
         'in': 'auf',
+        'of': 'von',
         'in-english': 'auf Englisch',
         'more': 'mehr',
         'less': 'weniger',
