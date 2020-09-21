@@ -29,7 +29,7 @@
     var selectedTabChangeIsBeingHandled = false;
     var queryChangeIsBeingHandled = false;
     var tabs = [{
-      title: 'search-management.tabs.data-packages',
+      title: 'search-management.tabs.data_packages',
       inputLabel: 'search-management.input-label.data-packages',
       elasticSearchType: 'data_packages',
       count: null,
