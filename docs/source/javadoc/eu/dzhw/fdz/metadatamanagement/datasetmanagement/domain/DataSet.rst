@@ -48,7 +48,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation ValidFormat
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain OrderedStudy
+.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain OrderedDataPackage
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
 
@@ -101,6 +101,14 @@ dataAcquisitionProjectId
    :outertype: DataSet
 
    The id of the \ :java:ref:`DataAcquisitionProject`\  to which this dataset belongs. The dataAcquisitionProjectId must not be empty.
+
+dataPackageId
+^^^^^^^^^^^^^
+
+.. java:field:: @Indexed @NotEmpty private String dataPackageId
+   :outertype: DataSet
+
+   The id of the \ :java:ref:`OrderedDataPackage`\  to which this dataset belongs. Must not be empty.
 
 description
 ^^^^^^^^^^^
@@ -155,14 +163,6 @@ serialVersionUID
 
 .. java:field:: private static final long serialVersionUID
    :outertype: DataSet
-
-studyId
-^^^^^^^
-
-.. java:field:: @Indexed @NotEmpty private String studyId
-   :outertype: DataSet
-
-   The id of the \ :java:ref:`OrderedStudy`\  to which this dataset belongs. Must not be empty.
 
 subDataSets
 ^^^^^^^^^^^

@@ -166,7 +166,7 @@ public class SurveyShadowCopyServiceTest extends AbstractTest {
   private Survey createShadow(Survey master, String version) {
     Survey shadow = new Survey(master);
     shadow.setId(master.getId() + "-" + version);
-    shadow.setStudyId(master.getStudyId() + "-" + version);
+    shadow.setDataPackageId(master.getDataPackageId() + "-" + version);
     shadow.setDataAcquisitionProjectId(master.getDataAcquisitionProjectId() + "-" + version);
     return shadow;
   }

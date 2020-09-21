@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentAttachmentService;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyAttachmentService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DataAcquisitionProjectAttachmentsResourceController {
 
-  private final StudyAttachmentService studyAttachmentService;
+  private final DataPackageAttachmentService dataPackageAttachmentService;
 
   private final SurveyAttachmentService surveyAttachmentService;
 
@@ -53,12 +53,13 @@ public class DataAcquisitionProjectAttachmentsResourceController {
    */
   @RequestMapping(path = "/data-acquisition-projects/{id:.+}/attachments",
       method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> findByStudyId(@PathVariable("id") String dataAcquisitionProjectId) {
+  public ResponseEntity<?> findByDataPackageId(
+      @PathVariable("id") String dataAcquisitionProjectId) {
     Map<String, List<?>> result = new HashMap<>();
     if (!StringUtils.isEmpty(dataAcquisitionProjectId)) {
-      result.put("study",
-          deduplicate(studyAttachmentService.findAllByProject(dataAcquisitionProjectId),
-              StudyAttachmentMetadata::getFileName));
+      result.put("dataPackage",
+          deduplicate(dataPackageAttachmentService.findAllByProject(dataAcquisitionProjectId),
+              DataPackageAttachmentMetadata::getFileName));
       result.put("surveys", sort(
           deduplicate(surveyAttachmentService.findAllByProject(dataAcquisitionProjectId),
               SurveyAttachmentMetadata::getFileName),

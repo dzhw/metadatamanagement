@@ -166,7 +166,7 @@ public class QuestionShadowCopyServiceTest extends AbstractTest {
   private Question createShadow(Question master, String version) {
     Question shadow = new Question(master);
     shadow.setId(master.getId() + "-" + version);
-    shadow.setStudyId(master.getStudyId() + "-" + version);
+    shadow.setDataPackageId(master.getDataPackageId() + "-" + version);
     shadow.setDataAcquisitionProjectId(master.getDataAcquisitionProjectId() + "-" + version);
     shadow.setInstrumentId(master.getInstrumentId() + "-" + version);
     return shadow;

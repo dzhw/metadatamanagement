@@ -22,9 +22,9 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireN
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSampleType;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSurveyIdName;
@@ -45,8 +45,7 @@ import lombok.ToString;
 @Entity
 @Document(collection = "surveys")
 @ValidSurveyIdName(message = "survey-management.error.survey.id.valid-survey-id-name")
-@ValidUniqueSurveyNumber(message = "survey-management.error"
-    + ".survey.unique-survey-number")
+@ValidUniqueSurveyNumber(message = "survey-management.error" + ".survey.unique-survey-number")
 @ValidShadowId(message = "survey-management.error.survey.id.pattern")
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
@@ -72,8 +71,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
    */
   @NotEmpty(message = "survey-management.error.survey.master-id.not-empty")
   @Size(max = StringLengths.MEDIUM, message = "survey-management.error.survey.master-id.size")
-  @Pattern(
-      regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
+  @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT_AND_DOLLAR,
       message = "survey-management.error.survey.master-id.pattern")
   @Setter(AccessLevel.NONE)
   @Indexed
@@ -138,19 +136,19 @@ public class Survey extends AbstractShadowableRdcDomainObject {
   private Period fieldPeriod;
 
   /**
-   * The sampling method is the procedure for selecting sample members from a population.
-   * It must match the controlled vocabulary specified by VFDB.
+   * The sampling method is the procedure for selecting sample members from a population. It must
+   * match the controlled vocabulary specified by VFDB.
+   * 
    * @see <a href=https://mdr.iqb.hu-berlin.de/#/catalog/1d791cc7-6d8d-dd35-b1ef-0eec9c31bbb5">
-   * Catalog: GNERD: Sampling Procedure Educational Research (Version 1.0)
-   * </a>
+   *      Catalog: GNERD: Sampling Procedure Educational Research (Version 1.0) </a>
    */
   @NotNull(message = "survey-management.error.survey.sample.not-null")
   @ValidSampleType(message = "survey-management.error.survey.sample.valid-sample-type")
   private I18nString sample;
 
   /**
-   * Number of the wave which this {@link Survey} represents. Will be ignored if the {@link Study}
-   * is not organized in waves.
+   * Number of the wave which this {@link Survey} represents. Will be ignored if the
+   * {@link DataPackage} is not organized in waves.
    * 
    * Must not be empty and must be greater than or equal to 1.
    */
@@ -195,13 +193,13 @@ public class Survey extends AbstractShadowableRdcDomainObject {
   private I18nString dataType;
 
   /**
-   * The id of the {@link Study} to which this survey belongs.
+   * The id of the {@link DataPackage} to which this survey belongs.
    * 
    * Must not be empty.
    */
   @Indexed
-  @NotEmpty(message = "survey-management.error.survey.study-id.not-empty")
-  private String studyId;
+  @NotEmpty(message = "survey-management.error.survey.dataPackage-id.not-empty")
+  private String dataPackageId;
 
   /**
    * Arbitrary additional text for this survey. Markdown is supported.

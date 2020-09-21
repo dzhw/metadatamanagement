@@ -33,13 +33,14 @@ angular.module('metadatamanagementApp')
             this.project, 'publishers');
 
         switch (this.type) {
-          case 'studies':
-            this.icon = 'assets/images/icons/study.svg';
-            this.createState = 'studyCreate';
-            this.searchState = this.type;
-            this.tooltip = 'search-management.buttons.create-study-tooltip';
+          case 'dataPackages':
+            this.icon = 'assets/images/icons/data-package.svg';
+            this.createState = 'dataPackageCreate';
+            this.searchState = 'data_packages';
+            this.tooltip = 'search-management.buttons.' +
+              'create-data-package-tooltip';
             this.deleteTooltip = 'search-management.buttons.' +
-              'delete-all-studies-tooltip';
+              'delete-all-data-packages-tooltip';
             this.limit = 1;
             break;
           case 'surveys':
@@ -143,7 +144,10 @@ angular.module('metadatamanagementApp')
 
         ctrl.getTooltip = function(group) {
           if (ctrl.counts && ctrl.limit &&
-             ctrl.limit <= ctrl.counts[group]) {
+             ctrl.limit <= ctrl.counts[
+             // map camelCase to underscore_case
+             group.replace(/([A-Z])/g,
+               function($1) {return '_' + $1.toLowerCase();})]) {
             return ctrl.tooltip.replace('create', 'edit');
           }
           return ctrl.tooltip;

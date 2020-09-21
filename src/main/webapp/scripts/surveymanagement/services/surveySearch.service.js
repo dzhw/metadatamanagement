@@ -74,7 +74,8 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
         return deferred;
       };
 
-      var findByStudyId = function(studyId, selectedAttributes, from, size) {
+      var findByDataPackageId = function(dataPackageId, selectedAttributes,
+        from, size) {
         var query = createQueryObject();
         query.body = {};
         query.body.from = from;
@@ -87,7 +88,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
             }],
             'filter': [{
               'term': {
-                'studyId': studyId
+                'dataPackageId': dataPackageId
               }
             }]
           }
@@ -368,7 +369,7 @@ angular.module('metadatamanagementApp').factory('SurveySearchService',
       return {
         findOneById: findOneById,
         findShadowByIdAndVersion: findShadowByIdAndVersion,
-        findByStudyId: findByStudyId,
+        findByDataPackageId: findByDataPackageId,
         findByDataSetId: findByDataSetId,
         countBy: countBy,
         findSurveyMethods: findSurveyMethods,

@@ -10,5 +10,5 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProj
 public interface IdAndVersionAndInstrumentProjection extends IdAndVersionProjection {
   String getInstrumentId();
   
-  String getStudyId();
+  String getDataPackageId();
 }

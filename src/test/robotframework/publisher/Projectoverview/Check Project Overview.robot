@@ -19,7 +19,7 @@ Click on Project Overview Button
    Click Element Through Tooltips   xpath=//a//span[contains(.,"Projektübersicht")]
 
 Assert Table Head Has All Columns Names
-   @{MD_THEADERS}    Create List   Projekt  Aktuelle Version   Zugewiesene Gruppe  Studie  Erhebungen  Instrumente   Datensätze   Fragen  Variablen
+   @{MD_THEADERS}    Create List   Projekt  Aktuelle Version   Zugewiesene Gruppe  Datenpaket  Erhebungen  Instrumente   Datensätze   Fragen  Variablen
    :FOR   ${MD_TH}   IN  @{MD_THEADERS}
    \  Page Should Contain Element   xpath=//table//thead//tr//th[contains(., "${MD_TH}")]
 

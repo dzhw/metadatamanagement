@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp')
         ctrl.counts = {};
         ctrl.counts.dataSetsCount = 0;
         ctrl.counts.variablesCount = 0;
-        ctrl.counts.studiesCount = 0;
+        ctrl.counts.dataPackagesCount = 0;
         ctrl.counts.instrumentsCount = 0;
         ctrl.counts.questionsCount = 0;
         ctrl.counts.surveysCount = 0;

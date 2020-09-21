@@ -4,7 +4,7 @@
 
 angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchClient, CleanJSObjectService, Principal,
-           LanguageService, StudyIdBuilderService, SearchHelperService,
+           LanguageService, DataPackageIdBuilderService, SearchHelperService,
            clientId) {
 
     var addAdditionalShouldQueries = function(elasticsearchType, query,
@@ -65,7 +65,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
       //Add fields with boosting for search of different domain objects
       queryTerms.forEach(function(queryTerm) {
         switch (elasticsearchType) {
-          case 'studies':
+          case 'data_packages':
             boolQuery.should.push(createConstantScoreQuery(
               'title.de.ngrams', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
@@ -91,11 +91,14 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
-              'authors.firstName.ngrams', queryTerm, standardMajorBoost));
+              'projectContributors.firstName.ngrams',
+              queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
-              'authors.middleName.ngrams', queryTerm, standardMajorBoost));
+              'projectContributors.middleName.ngrams',
+              queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
-              'authors.lastName.ngrams', queryTerm, standardMajorBoost));
+              'projectContributors.lastName.ngrams',
+              queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'description.de.ngrams', queryTerm, germanMinorBoost));
             boolQuery.should.push(createConstantScoreQuery(
@@ -356,13 +359,13 @@ angular.module('metadatamanagementApp').service('SearchDao',
                        aggregations, newFilters) {
         var query = {};
         query.preference = clientId;
-        var studyId;
+        var dataPackageId;
 
         query.index = elasticsearchType;
         query.track_total_hits = true;
         if (!elasticsearchType) {
           //search in all indices
-          query.index = ['studies', 'variables', 'surveys', 'data_sets',
+          query.index = ['data_packages', 'variables', 'surveys', 'data_sets',
             'instruments', 'related_publications', 'questions', 'concepts'
           ];
         }
@@ -371,7 +374,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         query.body._source = ['id', 'number', 'questionText', 'title',
           'description', 'type', 'year', 'sourceReference', 'authors',
           'surveyMethod', 'fieldPeriod', 'label', 'name', 'dataType',
-          'sample', 'shadow',
+          'sample', 'shadow', 'projectContributors',
           'scaleLevel', 'dataAcquisitionProjectId', 'dataSetNumber',
           'population', 'release',
           'instrumentNumber', 'instrument.description', 'surveys.title',
@@ -468,8 +471,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
 
         if (dataAcquisitionProjectId &&
           !SearchHelperService.containsDomainObjectFilter(filterToUse)) {
-          studyId = StudyIdBuilderService
-            .buildStudyId(dataAcquisitionProjectId);
+          dataPackageId = DataPackageIdBuilderService
+            .buildDataPackageId(dataAcquisitionProjectId);
           if (!query.body.query.bool.filter) {
             query.body.query.bool.filter = [];
           }
@@ -482,11 +485,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
                 }
               }, {
                 'term': {
-                  'studyIds': studyId
+                  'dataPackageIds': dataPackageId
                 }
               }, {
                 'term': {
-                  'studies.id': studyId
+                  'dataPackages.id': dataPackageId
                 }
               }]
             }

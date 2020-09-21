@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Publisher Create a new Project and Studies, then checks the metadata deleting access rights
+Documentation     Publisher Create a new Project and Data Package, then checks the metadata deleting access rights
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/search_resource.robot
@@ -10,7 +10,7 @@ ${PROJECT_NAME}  hossainrobot
 ${TOAST_MSSG}  Die Aktion ist nicht möglich
 
 *** Test Cases ***
-Publisher Create But Can Not Delete Study When Publisher is Ready
+Publisher Create But Can Not Delete Data Package When Publisher is Ready
    Create Project  ${PROJECT_NAME}${BROWSER}
    Assign a dataprovider  dataprovider
    Select Survey Checkbox
@@ -19,26 +19,26 @@ Publisher Create But Can Not Delete Study When Publisher is Ready
    Select Datasets Checkbox
    Select Variable Checkbox
    Switch To Status Tab
-   Ensure Study Creation is Possible
-   Input Text    name=titleDe    Test Studie
-   Input Text    name=titleEn    Test Study
-   Input Text    name=studySeriesDe    Roboter Studien ${BROWSER}
-   Input Text    name=studySeriesEn    Robot Studies ${BROWSER}
+   Ensure Data Package Creation is Possible
+   Input Text    name=titleDe    Test Datenpaket
+   Input Text    name=titleEn    Test Data Package
+   Input Text    name=studySeriesDe    Roboter Datenpakete ${BROWSER}
+   Input Text    name=studySeriesEn    Robot Data Packages ${BROWSER}
    Choose Panel As Survey Design
    Input Text    name=institutionDe_0    DZHW ${BROWSER}
    Input Text    name=institutionEn_0    DZHW ${BROWSER}
    Input Text    name=sponsorDe    BMBF ${BROWSER}
    Input Text    name=sponsorEn    BMBF ${BROWSER}
-   Input Text    name=annotationsDe    Diese Studie wurde von Robot automatisch erstellt.
-   Input Text    name=annotationsEn    This study was created automatically by Robot.x
+   Input Text    name=annotationsDe    Dieses Datenpaket wurde von Robot automatisch erstellt.
+   Input Text    name=annotationsEn    This data package was created automatically by Robot.x
    Choose In Aufbereitung as Data Availibility
    Focus    xpath=//textarea[@name = 'descriptionDe']
-   Input Text    name=descriptionDe    Diese Studie wurde automatisch erstellt und überprüft die Eingabe valider Eigenschaften.
-   Input Text    name=descriptionEn    This study was created automatically and test the input of valid attributes.
-   Focus    xpath=//input[@name = 'authorsFirstName_0']
-   Input Text    name=authorsFirstName_0    Anne
-   Input Text    name=authorsMiddleName_0    noMiddleName
-   Input Text    name=authorsLastName_0    Droid
+   Input Text    name=descriptionDe    Dieses Datenpaket wurde automatisch erstellt und überprüft die Eingabe valider Eigenschaften.
+   Input Text    name=descriptionEn    This data package was created automatically and test the input of valid attributes.
+   Focus    xpath=//input[@name = 'projectContributorsFirstName_0']
+   Input Text    name=projectContributorsFirstName_0    Anne
+   Input Text    name=projectContributorsMiddleName_0    noMiddleName
+   Input Text    name=projectContributorsLastName_0    Droid
    Focus    xpath=//input[@name = 'curatorsFirstName_0']
    Input Text    name=curatorsFirstName_0    Anne
    Input Text    name=curatorsMiddleName_0    noMiddleName
@@ -49,23 +49,23 @@ Publisher Create But Can Not Delete Study When Publisher is Ready
    Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='English Days Keyword']
    Save Changes
    Click on Cockpit Button
-   Click Publisher Ready Checkbox for Studies
+   Click Publisher Ready Checkbox for Data Packages
    Click on Delete Button for Metadata
    Close The Toast Message  ${TOAST_MSSG}
 
-Publisher Create and Can Delete Study When Both are Ready
-   Click Dataprovider Ready Checkbox for Studies
+Publisher Create and Can Delete Data Package When Both are Ready
+   Click Dataprovider Ready Checkbox for Data Packages
    Run Keyword If    '${BROWSER}' == 'safari'   Sleep  10s
    Click on Delete Button for Metadata
    Close The Toast Message  ${TOAST_MSSG}
 
-Publisher Create and Can Delete Study When Dataprovider is Ready
-   Click Publisher Ready Checkbox for Studies    #deselect the checkbox this time
+Publisher Create and Can Delete Data Package When Dataprovider is Ready
+   Click Publisher Ready Checkbox for Data Packages    #deselect the checkbox this time
    Click on Delete Button for Metadata
    Discard Changes No
 
-Publisher Create and Can Delete Study When Both are Not Ready
-    Click Dataprovider Ready Checkbox for Studies   #deselect the checkbox this time
+Publisher Create and Can Delete Data Package When Both are Not Ready
+    Click Dataprovider Ready Checkbox for Data Packages   #deselect the checkbox this time
     Click on Delete Button for Metadata
     Discard Changes Yes
     Delete project by name  ${PROJECT_NAME}${BROWSER}

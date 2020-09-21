@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('PublicationAssignmentController',
-    function(CurrentProjectService, StudyIdBuilderService,
+    function(CurrentProjectService, DataPackageIdBuilderService,
       RelatedPublicationSearchService, DataAcquisitionProjectResource,
       LanguageService, $timeout, SimpleMessageToastService, $state,
       ProjectUpdateAccessService, PageTitleService, BreadcrumbService, $q,
@@ -44,7 +44,8 @@ angular.module('metadatamanagementApp')
       ctrl.init = function() {
         blockUI.start();
         ctrl.project = CurrentProjectService.getCurrentProject();
-        ctrl.studyId = StudyIdBuilderService.buildStudyId(ctrl.project.id);
+        ctrl.dataPackageId = DataPackageIdBuilderService.buildDataPackageId(
+          ctrl.project.id);
         ctrl.publications = [];
         ctrl.searchCache = {};
 
@@ -60,8 +61,9 @@ angular.module('metadatamanagementApp')
             blockUI.stop();
             redirectToSearchView();
           } else {
-            RelatedPublicationSearchService.findByStudyId(
-              ctrl.studyId, ['id','title'], 0, 100).then(function(result) {
+            RelatedPublicationSearchService.findByDataPackageId(
+              ctrl.dataPackageId, ['id','title'], 0, 100).then(
+                function(result) {
                 result.hits.hits.forEach(function(hit) {
                   ctrl.publications.push(hit._source);
                 });
@@ -81,7 +83,7 @@ angular.module('metadatamanagementApp')
       ctrl.selectedPublicationChanged = function(publication) {
         if (publication) {
           PublicationAssignmentResource.save({
-            studyId: ctrl.studyId,
+            dataPackageId: ctrl.dataPackageId,
             publicationId: publication.id
           }).$promise.then(ctrl.updateElasticSearchIndices).then(function() {
             ctrl.publications.push(publication);
@@ -130,12 +132,12 @@ angular.module('metadatamanagementApp')
         return $q.all([ElasticSearchAdminService
           .processUpdateQueue('related_publications'),
           ElasticSearchAdminService
-            .processUpdateQueue('studies')]);
+            .processUpdateQueue('data_packages')]);
       };
 
       ctrl.removePublication = function(publication) {
         PublicationAssignmentResource.delete({
-          studyId: ctrl.studyId,
+          dataPackageId: ctrl.dataPackageId,
           publicationId: publication.id
         }).$promise.then(ctrl.updateElasticSearchIndices).then(function() {
           ctrl.publications = ctrl.publications

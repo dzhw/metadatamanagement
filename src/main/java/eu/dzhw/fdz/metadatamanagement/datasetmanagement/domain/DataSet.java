@@ -28,7 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.Unique
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetIdName;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidDataSetType;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.validation.ValidFormat;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedStudy;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedDataPackage;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
@@ -148,13 +148,13 @@ public class DataSet extends AbstractShadowableRdcDomainObject {
   private List<Integer> surveyNumbers;
 
   /**
-   * The id of the {@link OrderedStudy} to which this dataset belongs.
+   * The id of the {@link OrderedDataPackage} to which this dataset belongs.
    * 
    * Must not be empty.
    */
   @Indexed
-  @NotEmpty(message = "data-set-management.error.data-set.study.id.not-empty")
-  private String studyId;
+  @NotEmpty(message = "data-set-management.error.data-set.dataPackage.id.not-empty")
+  private String dataPackageId;
 
   /**
    * List of ids of {@link Survey}s of this {@link DataAcquisitionProject}. The dataset contains

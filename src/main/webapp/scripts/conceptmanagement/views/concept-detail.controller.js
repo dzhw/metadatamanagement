@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp')
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {
-        studiesCount: 0,
+        dataPackagesCount: 0,
         surveysCount: 0,
         instrumentsCount: 0,
         questionsCount: 0,

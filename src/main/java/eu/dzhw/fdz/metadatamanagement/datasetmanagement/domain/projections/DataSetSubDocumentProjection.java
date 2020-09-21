@@ -27,7 +27,7 @@ public interface DataSetSubDocumentProjection
   
   List<SubDataSet> getSubDataSets();
 
-  String getStudyId();
+  String getDataPackageId();
 
   List<String> getSurveyIds();
 

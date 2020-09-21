@@ -40,7 +40,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain Instrument
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain OrderedStudy
+.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain OrderedDataPackage
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
 
@@ -113,6 +113,14 @@ dataAcquisitionProjectId
    :outertype: Question
 
    The id of the \ :java:ref:`DataAcquisitionProject`\  to which this question belongs. The dataAcquisitionProjectId must not be empty.
+
+dataPackageId
+^^^^^^^^^^^^^
+
+.. java:field:: @Indexed @NotEmpty private String dataPackageId
+   :outertype: Question
+
+   The id of the \ :java:ref:`OrderedDataPackage`\  to which this question belongs. Must not be empty.
 
 id
 ^^
@@ -191,14 +199,6 @@ serialVersionUID
 
 .. java:field:: private static final long serialVersionUID
    :outertype: Question
-
-studyId
-^^^^^^^
-
-.. java:field:: @Indexed @NotEmpty private String studyId
-   :outertype: Question
-
-   The id of the \ :java:ref:`OrderedStudy`\  to which this question belongs. Must not be empty.
 
 successorNumbers
 ^^^^^^^^^^^^^^^^

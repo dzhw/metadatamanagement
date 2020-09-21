@@ -84,7 +84,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'project-has-no-study': 'Das Projekt mit der FDZ-ID {{ id }} enthält keine Studie.',
+            'project-has-no-dataPackage': 'Das Projekt mit der FDZ-ID {{ id }} enthält kein Datenpaket.',
             'requirements-not-met': 'Es gibt noch Metadaten die nicht von den Publishern als "fertig" markiert wurden.',
             'project-has-no-survey': 'Das Projekt mit der FDZ-ID {{ id }} muss mindestens eine Erhebung enthalten.',
             'project-has-no-data-set': 'Das Projekt mit der FDZ-ID {{ id }} muss mindestens einen Datensatz enthalten.'
@@ -98,7 +98,7 @@ angular.module('metadatamanagementApp').config(
             'assigned-to-project': 'Die Aktion ist nicht möglich, weil Sie dem Projekt nicht als Publisher oder Datengeber:in zugewiesen sind.',
             'not-required': 'Die Aktion ist nicht möglich, weil diese Metadaten in den Projekteinstellungen nicht als "erwartet" markiert wurden.',
             'prerequisite-missing-surveys': 'Die Aktion ist nicht möglich, weil das Projekt noch keine Erhebung enthält.',
-            'prerequisite-missing-studies': 'Die Aktion ist nicht möglich, weil das Projekt noch keine Studie enthält.'
+            'prerequisite-missing-data_packages': 'Die Aktion ist nicht möglich, weil das Projekt noch kein Datenpaket enthält.'
           }
         },
         'projectstatuslabel': {
@@ -152,7 +152,7 @@ angular.module('metadatamanagementApp').config(
           },
           'requirements': {
             'header': 'Erwartete Metadaten',
-            'studies': 'Studie',
+            'dataPackages': 'Datenpaket',
             'surveys': 'Erhebungen',
             'instruments': 'Instrumente',
             'questions': 'Fragen',
@@ -210,7 +210,7 @@ angular.module('metadatamanagementApp').config(
             'project-name': 'Projekt',
             'release-version': 'Aktuelle Version',
             'assigned-group': 'Zugewiesene Gruppe',
-            'study-status': 'Studie',
+            'data-package-status': 'Datenpaket',
             'surveys-status': 'Erhebungen',
             'instruments-status': 'Instrumente',
             'data-sets-status': 'Datensätze',

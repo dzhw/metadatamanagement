@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp').config(
             'type': 'Type',
             'format': 'Format',
             'annotations': 'Annotations',
-            'data-set-same-study': 'Data Sets of this Study',
+            'data-set-same-data-package': 'Data Sets of this Data Package',
             'languages': 'Data available in',
             'sub-data-sets': {
               'name': 'Name',
@@ -99,7 +99,7 @@ angular.module('metadatamanagementApp').config(
           'not-released-toast': 'Data Set "{{ id }}" has not yet been released to all users!',
           'tooltips': {
             'data-sets': {
-              'same-data-sets': 'Click to show all data sets of this study'
+              'same-data-sets': 'Click to show all data sets of this data package'
             },
             'surveys': {
               'one': 'Click to show the survey from which this data set has been generated',
@@ -117,8 +117,8 @@ angular.module('metadatamanagementApp').config(
               'one': 'Click to show the concept which has been measured in this data set',
               'many': 'Click to show all concepts which have been measured in this data set'
             },
-            'studies': {
-              'one': 'Click to show the study of this data set'
+            'data-packages': {
+              'one': 'Click to show the data package of this data set'
             },
             'get-data-set-tooltip': 'Click for information on data access'
           },
@@ -126,7 +126,7 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'data-set': {
-            'unique-data-set-number-in-project': 'The number of the Data Set is not unique within the study.',
+            'unique-data-set-number-in-project': 'The number of the Data Set is not unique within the data package.',
             'id': {
               'valid-data-set-id-name': 'The RDC-ID of the Data Set is not valid for the Pattern: "dat-" + {FDZID} + "-ds" + {Number} + "$".',
               'not-empty': 'The RDC-ID of the Data Set must not be empty!',
@@ -145,9 +145,9 @@ angular.module('metadatamanagementApp').config(
                 'not-empty': 'The RDC-ID of the Data Acquisition Project for the Data Set must not be empty!'
               }
             },
-            'study': {
+            'data-package': {
               'id': {
-                'not-empty': 'The Study-ID for the Data Set must not be empty!'
+                'not-empty': 'The Data Package-ID for the Data Set must not be empty!'
               }
             },
             'survey-numbers': {

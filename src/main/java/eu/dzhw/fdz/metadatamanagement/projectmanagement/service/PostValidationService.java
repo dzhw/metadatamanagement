@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.github.zafarkhaja.semver.Version;
 
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
@@ -24,8 +26,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationMessageDto;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -57,7 +57,7 @@ public class PostValidationService {
 
   private final QuestionRepository questionRepository;
 
-  private final StudyRepository studyRepository;
+  private final DataPackageRepository dataPackageRepository;
 
   private final DataAcquisitionProjectRepository projectRepository;
 
@@ -90,18 +90,18 @@ public class PostValidationService {
       }
     }
 
-    errors = this.postValidateStudies(errors, dataAcquisitionProjectId);
+    errors = this.postValidateDataPackages(errors, dataAcquisitionProjectId);
 
     errors = this.postValidateSurveys(errors, dataAcquisitionProjectId, activateFullReleaseChecks);
 
     errors = this.postValidateQuestions(errors, dataAcquisitionProjectId);
 
     errors = this.postValidateDataSets(errors, dataAcquisitionProjectId, activateFullReleaseChecks);
-    
+
     errors = this.postValidateVariables(errors, dataAcquisitionProjectId);
 
-    errors = this.postValidateInstruments(errors, dataAcquisitionProjectId,
-        activateFullReleaseChecks);
+    errors =
+        this.postValidateInstruments(errors, dataAcquisitionProjectId, activateFullReleaseChecks);
 
     return errors;
   }
@@ -127,8 +127,9 @@ public class PostValidationService {
     Requirements requirements = configuration.getRequirements();
     List<String> information = new ArrayList<>();
 
-    if (isProjectStateInvalid(requirements.isStudiesRequired(), configuration.getStudiesState())) {
-      information.add("studies");
+    if (isProjectStateInvalid(requirements.isDataPackagesRequired(),
+        configuration.getDataPackagesState())) {
+      information.add("dataPackages");
     }
 
     if (isProjectStateInvalid(requirements.isSurveysRequired(), configuration.getSurveysState())) {
@@ -154,7 +155,7 @@ public class PostValidationService {
         configuration.getVariablesState())) {
       information.add("variables");
     }
-    
+
     if (isProjectStateInvalid(requirements.isPublicationsRequired(),
         configuration.getPublicationsState())) {
       information.add("publications");
@@ -175,21 +176,21 @@ public class PostValidationService {
   }
 
   /**
-   * This method checks all potential issues for study by post-validation.
+   * This method checks all potential issues for dataPackage by post-validation.
    * 
    * @param errors The list of known errors.
    * @param dataAcquisitionProjectId The project id.
    * @return The updated list of errors.
    */
-  private List<PostValidationMessageDto> postValidateStudies(List<PostValidationMessageDto> errors,
-      String dataAcquisitionProjectId) {
-    Study study = this.studyRepository.findOneByDataAcquisitionProjectId(dataAcquisitionProjectId);
-    // check that there is a study for the project (all other domain objects might link to it)
-    if (study == null) {
+  private List<PostValidationMessageDto> postValidateDataPackages(
+      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId) {
+    DataPackage dataPackage =
+        this.dataPackageRepository.findOneByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    // check that there is a dataPackage for the project (all other domain objects might link to it)
+    if (dataPackage == null) {
       String[] information = {dataAcquisitionProjectId, dataAcquisitionProjectId};
-      errors.add(new PostValidationMessageDto(
-          "data-acquisition-project-management.error." + "post-validation.project-has-no-study",
-          Arrays.asList(information)));
+      errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."
+          + "post-validation.project-has-no-dataPackage", Arrays.asList(information)));
     }
 
     return errors;
@@ -275,23 +276,23 @@ public class PostValidationService {
       List<PostValidationMessageDto> errors, String dataAcquisitionProjectId,
       boolean activateFullReleaseChecks) {
 
-    if (activateFullReleaseChecks && !instrumentRepository
-        .existsByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
-      errors.add(new PostValidationMessageDto("instrument-management.error."
-          + "post-validation.no-instruments", Collections.emptyList()));
+    if (activateFullReleaseChecks
+        && !instrumentRepository.existsByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+      errors.add(new PostValidationMessageDto(
+          "instrument-management.error." + "post-validation.no-instruments",
+          Collections.emptyList()));
       return errors;
     }
 
     try (Stream<Instrument> instruments =
-             this.instrumentRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
+        this.instrumentRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       instruments.forEach(instrument -> {
         for (String surveyId : instrument.getSurveyIds()) {
           // surveyId: there must be a survey with that id
           if (!this.surveyRepository.findById(surveyId).isPresent()) {
             String[] information = {instrument.getId(), surveyId};
             errors.add(new PostValidationMessageDto(
-                "instrument-management.error.post-validation."
-                    + "instrument-has-invalid-survey-id",
+                "instrument-management.error.post-validation." + "instrument-has-invalid-survey-id",
                 Arrays.asList(information)));
           }
         }

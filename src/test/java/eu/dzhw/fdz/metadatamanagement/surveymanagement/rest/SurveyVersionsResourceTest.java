@@ -78,12 +78,12 @@ public class SurveyVersionsResourceTest extends AbstractTest {
     
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     
-    // create the study with the given id
+    // create the dataPackage with the given id
     mockMvc.perform(put(API_SURVEY_URI + "/" + survey.getId())
       .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
-    // read the study versions
+    // read the dataPackage versions
     mockMvc.perform(get(API_SURVEY_URI + "/" + survey.getId() + "/versions"))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.length()", is(equalTo(1))))
@@ -105,20 +105,20 @@ public class SurveyVersionsResourceTest extends AbstractTest {
       .andExpect(status().isCreated());
 
     survey.setVersion(0L);
-    // update the study with the given id
+    // update the dataPackage with the given id
     survey.setTitle(new I18nString("hurzDe2", "hurzEn2"));
     mockMvc.perform(put(API_SURVEY_URI + "/" + survey.getId())
       .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isNoContent());
 
     survey.setVersion(1L);
-    // update the study again with the given id
+    // update the dataPackage again with the given id
     survey.setTitle(new I18nString("hurzDe3", "hurzEn3"));
     mockMvc.perform(put(API_SURVEY_URI + "/" + survey.getId())
       .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isNoContent());
 
-    // read the study versions
+    // read the dataPackage versions
     mockMvc.perform(get(API_SURVEY_URI + "/" + survey.getId() + "/versions"))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.length()", is(equalTo(3))))

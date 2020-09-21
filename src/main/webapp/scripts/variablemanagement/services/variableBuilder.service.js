@@ -3,8 +3,9 @@
 
 angular.module('metadatamanagementApp').service('VariableBuilderService',
   function(VariableResource, CleanJSObjectService, DataSetIdBuilderService,
-    QuestionIdBuilderService, SurveyIdBuilderService, StudyIdBuilderService,
-    VariableIdBuilderService, InstrumentIdBuilderService) {
+    QuestionIdBuilderService, SurveyIdBuilderService,
+    DataPackageIdBuilderService, VariableIdBuilderService,
+    InstrumentIdBuilderService) {
     function decimalPlaces(num) {
       var match = ('' + num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
       if (!match) { return 0; }
@@ -27,8 +28,8 @@ angular.module('metadatamanagementApp').service('VariableBuilderService',
         variableObj.masterId = variableObj.id;
       }
       variableObj.dataAcquisitionProjectId = dataAcquisitionProjectId;
-      variableObj.studyId = StudyIdBuilderService.buildStudyId(
-        dataAcquisitionProjectId);
+      variableObj.dataPackageId = DataPackageIdBuilderService
+        .buildDataPackageId(dataAcquisitionProjectId);
       variableObj.dataSetId = DataSetIdBuilderService.buildDataSetId(
         dataAcquisitionProjectId, dataSet.dataSetNumber);
       variableObj.dataSetNumber = dataSet.dataSetNumber;

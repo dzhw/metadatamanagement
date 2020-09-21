@@ -10,8 +10,8 @@ angular.module('metadatamanagementApp')
     var checkDomainManagement = function() {
       var domainManagement = 'crosscutting';
       var encodedUrl = window.encodeURIComponent($location.absUrl());
-      if (encodedUrl.includes('studies')) {
-        domainManagement = 'studymanagement';
+      if (encodedUrl.includes('data-packages')) {
+        domainManagement = 'datapackagemanagement';
       }
       if (encodedUrl.includes('surveys')) {
         domainManagement = 'surveymanagement';

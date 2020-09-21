@@ -72,12 +72,12 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateProjectAndReadVersions() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    // create the study with the given id
+    // create the dataPackage with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
 
-    // read the study versions
+    // read the dataPackage versions
     mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "/versions"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(equalTo(1))))
         .andExpect(jsonPath("$[0].id", is(project.getId())));
@@ -87,26 +87,26 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testEditProjectAndReadVersions() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    // create the study with the given id
+    // create the dataPackage with the given id
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
     project.setVersion(0L);
     
-    // update the study with the given id
+    // update the dataPackage with the given id
     project.setHasBeenReleasedBefore(true);
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
     project.setVersion(1L);
 
-    // update the study again with the given id
+    // update the dataPackage again with the given id
     project.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
 
-    // read the study versions
+    // read the dataPackage versions
     mockMvc
         .perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "/versions")
             .contentType(MediaType.APPLICATION_JSON))

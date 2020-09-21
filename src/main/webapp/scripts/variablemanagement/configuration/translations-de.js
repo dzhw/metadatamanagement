@@ -117,8 +117,8 @@ angular.module('metadatamanagementApp').config(
               'same-in-panel': 'Klicken, um alle Panelvariablen zu dieser Variable anzuzeigen',
               'derived-variables': 'Klicken, um alle abgeleiteten Variablen zu dieser Variable anzuzeigen',
             },
-            'studies': {
-              'one': 'Klicken, um die Studie anzuzeigen, aus der diese Variable resultierte'
+            'data-packages': {
+              'one': 'Klicken, um das Datenpaket anzuzeigen, welches diese Variable enthält'
             },
             'concepts': {
               'one': 'Klicken, um das Konzept, welches u.a. mit dieser Variable gemessen wurde, anzuzeigen',

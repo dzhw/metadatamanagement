@@ -32,8 +32,8 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -52,7 +52,7 @@ public class DaraServiceTest extends AbstractTest {
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
 
   @Autowired
-  private StudyRepository studyRepository;
+  private DataPackageRepository dataPackageRepository;
   
   @Autowired
   private SurveyRepository surveyRepository;
@@ -74,7 +74,7 @@ public class DaraServiceTest extends AbstractTest {
   @After
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
-    studyRepository.deleteAll();
+    dataPackageRepository.deleteAll();
     surveyRepository.deleteAll();
     javersService.deleteAll();
   }
@@ -110,8 +110,8 @@ public class DaraServiceTest extends AbstractTest {
     Release release = UnitTestCreateDomainObjectUtils.buildRelease();
     project.setRelease(release);
     dataAcquisitionProjectRepository.save(project);
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    this.studyRepository.save(study);
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    this.dataPackageRepository.save(dataPackage);
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);

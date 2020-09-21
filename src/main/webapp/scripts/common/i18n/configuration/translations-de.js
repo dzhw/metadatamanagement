@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').config(
         'search': 'Datensuche',
         'in-german': 'auf Deutsch',
         'in': 'auf',
+        'of': 'von',
         'in-english': 'auf Englisch',
         'more': 'mehr',
         'less': 'weniger',
@@ -109,8 +110,7 @@ angular.module('metadatamanagementApp').config(
             'surveys': 'Klicken, um die Erhebungen anzuzeigen',
             'question': 'Klicken, um die Frage {{param}} anzuzeigen',
             'variable': 'Klicken, um die Variable {{param}} anzuzeigen',
-            'study': 'Klicken, um die Studie {{param}} anzuzeigen',
-            'data-packet': 'Klicken, um das Datenpaket {{param}} anzuzeigen',
+            'data-package': 'Klicken, um das Datenpaket {{param}} anzuzeigen',
             'instrument': 'Klicken, um das Instrument {{param}} anzuzeigen',
             'publication': 'Klicken, um die Publikation {{param}} anzuzeigen',
             'concept': 'Klicken, um das Konzept {{param}} anzuzeigen'
@@ -392,9 +392,9 @@ angular.module('metadatamanagementApp').config(
             'title': 'Alle Fragen des Projekts "{{ id }}" löschen?',
             'content': 'Wollen Sie wirklich alle Fragen des Datenaufbereitungsprojekts "{{ id }}" löschen?'
           },
-          'confirm-delete-all-studies': {
-            'title': 'Studie des Projekts "{{ id }}" löschen?',
-            'content': 'Wollen Sie wirklich die Studie des Datenaufbereitungsprojekts "{{ id }}" löschen?'
+          'confirm-delete-all-data-packages': {
+            'title': 'Datenpaket des Projekts "{{ id }}" löschen?',
+            'content': 'Wollen Sie wirklich das Datenpaket des Datenaufbereitungsprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-variables': {
             'title': 'Alle Variablen des Projekts "{{ id }}" löschen?',
@@ -413,8 +413,8 @@ angular.module('metadatamanagementApp').config(
             'content': 'Wollen Sie wirklich alle Datensätze des Datenaufbereitungsprojekts "{{ id }}" löschen?'
           },
           'confirm-delete-all-publications': {
-            'title': 'Alle Publikationen von der Studies des Projektes "{{ id }}" entfernen?',
-            'content': 'Wollen Sie wirklich alle Publikationen von der Studie Datenaufbereitungsprojekts "{{ id }}" entfernen?'
+            'title': 'Alle Publikationen von dem Datenpaket des Projektes "{{ id }}" entfernen?',
+            'content': 'Wollen Sie wirklich alle Publikationen von dem Datenpaket des Datenaufbereitungsprojekts "{{ id }}" entfernen?'
           }
         }
       }

@@ -50,7 +50,7 @@ angular.module('metadatamanagementApp').directive('datasetSearchResult',
                 ElasticSearchAdminService.
                   processUpdateQueue('data_sets'),
                 ElasticSearchAdminService.
-                  processUpdateQueue('studies')
+                  processUpdateQueue('data_packages')
               ]).promise;
             }).then(function() {
               $rootScope.$broadcast('deletion-completed');

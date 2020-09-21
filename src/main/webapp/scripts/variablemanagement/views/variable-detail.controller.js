@@ -59,8 +59,9 @@ angular.module('metadatamanagementApp')
         'dataSetNumber': result.dataSetNumber,
         'dataSetIsPresent': !CleanJSObjectService.isNullOrEmpty(result.dataSet),
         'surveys': result.surveys,
-        'studyId': result.studyId,
-        'studyIsPresent': !CleanJSObjectService.isNullOrEmpty(result.study),
+        'dataPackageId': result.dataPackageId,
+        'dataPackageIsPresent': !CleanJSObjectService
+          .isNullOrEmpty(result.dataPackage),
         'projectId': result.dataAcquisitionProjectId,
         'version': result.shadow ? _.get(result, 'release.version') : null
       });
@@ -74,7 +75,7 @@ angular.module('metadatamanagementApp')
               .variable.distribution.validResponses))) {
           ctrl.validResponsesOrMissingsAvailable = true;
         }
-        ctrl.study = ctrl.variable.study;
+        ctrl.dataPackage = ctrl.variable.dataPackage;
         ctrl.dataSet = ctrl.variable.dataSet;
 
         //Find previousVariables
@@ -111,7 +112,7 @@ angular.module('metadatamanagementApp')
       if (!Principal.isAuthenticated()) {
         MessageBus.set('onDataPackageChange',
           {
-            masterId: result.study.masterId,
+            masterId: result.dataPackage.masterId,
             version: result.release.version
           });
       }

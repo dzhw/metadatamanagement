@@ -29,7 +29,7 @@ angular.module('metadatamanagementApp')
         resolve: {
           entity: ['$stateParams', 'ConceptSearchService', 'LocationSimplifier',
             function($stateParams, ConceptSearchService, LocationSimplifier) {
-              var excludedAttributes = ['nested*', 'studies', 'dataSets',
+              var excludedAttributes = ['nested*', 'dataPackages', 'dataSets',
                 'surveys','variables','questions', 'instruments'];
               var id = LocationSimplifier.ensureDollarSign($stateParams.id);
               return ConceptSearchService.findOneById(id, null,

@@ -654,7 +654,7 @@ module.exports = function(grunt) {
         },
         sources: {
           src: [
-            'src/main/webapp/scripts/studymanagement/**/translations*.js',
+            'src/main/webapp/scripts/datapackagemanagement/**/translations*.js',
             'src/main/webapp/scripts/conceptmanagement/**/translations*.js',
             'src/main/webapp/scripts/surveymanagement/**/translations*.js',
             'src/main/webapp/scripts/instrumentmanagement/**/translations*.js',
@@ -720,8 +720,8 @@ module.exports = function(grunt) {
       };
 
       var detectDomainObjectFromFilename = function(filename) {
-        if (filename.includes('studymanagement')) {
-          return 'Study';
+        if (filename.includes('datapackagemanagement')) {
+          return 'DataPackage';
         }
         if (filename.includes('surveymanagement')) {
           return 'Survey';

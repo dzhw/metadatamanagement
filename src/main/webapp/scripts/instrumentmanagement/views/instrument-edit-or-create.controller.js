@@ -7,9 +7,9 @@ angular.module('metadatamanagementApp')
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, InstrumentIdBuilderService, InstrumentResource,
       $scope, SurveyIdBuilderService, AttachmentDialogService,
-      ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
+      ElasticSearchAdminService, $mdDialog, $transitions, DataPackageResource,
       CommonDialogsService, LanguageService, AvailableInstrumentNumbersResource,
-      InstrumentAttachmentResource, $q, StudyIdBuilderService, SearchDao,
+      InstrumentAttachmentResource, $q, DataPackageIdBuilderService, SearchDao,
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
       InstrumentAttachmentUploadService, InstrumentAttachmentVersionsResource,
       ChoosePreviousVersionService, InstrumentVersionsResource) {
@@ -35,14 +35,14 @@ angular.module('metadatamanagementApp')
           });
         }
         $rootScope.$broadcast('start-ignoring-404');
-        StudyResource.get({id: ctrl.instrument.studyId}).$promise
-          .then(function(study) {
+        DataPackageResource.get({id: ctrl.instrument.dataPackageId}).$promise
+          .then(function(dataPackage) {
           BreadcrumbService.updateToolbarHeader({
             'stateName': $state.current.name,
             'instrumentId': ctrl.instrument.id,
-            'studyId': ctrl.instrument.studyId,
+            'dataPackageId': ctrl.instrument.dataPackageId,
             'instrumentNumber': ctrl.instrument.number,
-            'studyIsPresent': study != null,
+            'dataPackageIsPresent': dataPackage != null,
             'projectId': ctrl.instrument.dataAcquisitionProjectId,
             'enableLastItem': !ctrl.createMode,
             'instrumentIsPresent': !ctrl.createMode
@@ -51,9 +51,9 @@ angular.module('metadatamanagementApp')
           BreadcrumbService.updateToolbarHeader({
             'stateName': $state.current.name,
             'instrumentId': ctrl.instrument.id,
-            'studyId': ctrl.instrument.studyId,
+            'dataPackageId': ctrl.instrument.dataPackageId,
             'instrumentNumber': ctrl.instrument.number,
-            'studyIsPresent': false,
+            'dataPackageIsPresent': false,
             'projectId': ctrl.instrument.dataAcquisitionProjectId,
             'enableLastItem': !ctrl.createMode,
             'instrumentIsPresent': !ctrl.createMode
@@ -180,8 +180,9 @@ angular.module('metadatamanagementApp')
                         number: instrumentNumbers[0],
                         dataAcquisitionProjectId:
                         CurrentProjectService.getCurrentProject().id,
-                        studyId: StudyIdBuilderService.buildStudyId(
-                          CurrentProjectService.getCurrentProject().id
+                        dataPackageId: DataPackageIdBuilderService
+                          .buildDataPackageId(CurrentProjectService
+                            .getCurrentProject().id
                         ),
                         originalLanguages: []
                       });
@@ -207,8 +208,9 @@ angular.module('metadatamanagementApp')
                           number: response.instrumentNumber,
                           dataAcquisitionProjectId:
                           CurrentProjectService.getCurrentProject().id,
-                          studyId: StudyIdBuilderService.buildStudyId(
-                            CurrentProjectService.getCurrentProject().id
+                          dataPackageId: DataPackageIdBuilderService
+                            .buildDataPackageId(CurrentProjectService
+                              .getCurrentProject().id
                           ),
                         });
                         if (!ctrl.instrument.originalLanguages) {
@@ -406,7 +408,7 @@ angular.module('metadatamanagementApp')
 
         var createInstrumentAttachmentResource = function(attachmentWrapper) {
           return new InstrumentAttachmentResource(attachmentWrapper
-              .studyAttachment);
+              .dataPackageAttachment);
         };
 
         var dialogConfig = {

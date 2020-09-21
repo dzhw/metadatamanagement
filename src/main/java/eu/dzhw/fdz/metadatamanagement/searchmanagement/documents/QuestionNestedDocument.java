@@ -33,7 +33,7 @@ public class QuestionNestedDocument extends AbstractNestedSubDocument {
 
   private String instrumentId;
 
-  private String studyId;
+  private String dataPackageId;
 
   private String masterId;
   

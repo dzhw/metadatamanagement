@@ -27,7 +27,7 @@ public interface InstrumentSubDocumentProjection
   
   List<String> getConceptIds();
   
-  String getStudyId();
+  String getDataPackageId();
 
   String getType();
 

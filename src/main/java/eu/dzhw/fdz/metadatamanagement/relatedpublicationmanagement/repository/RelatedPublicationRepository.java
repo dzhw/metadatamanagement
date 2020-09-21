@@ -27,10 +27,10 @@ public interface RelatedPublicationRepository extends BaseRepository<RelatedPubl
   Slice<RelatedPublication> findBy(Pageable pageable);
 
   @RestResource(exported = false)
-  List<RelatedPublication> findByStudyIdsContaining(String studyId);
+  List<RelatedPublication> findByDataPackageIdsContaining(String dataPackageId);
 
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByStudyIdsContaining(String studyId);
+  Stream<IdAndVersionProjection> streamIdsByDataPackageIdsContaining(String dataPackageId);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByDataSetIdsContaining(String dataSetId);
@@ -48,8 +48,8 @@ public interface RelatedPublicationRepository extends BaseRepository<RelatedPubl
   Stream<IdAndVersionProjection> streamIdsByQuestionIdsContaining(String questionId);
 
   @RestResource(exported = false)
-  List<RelatedPublicationSubDocumentProjection> findSubDocumentsByStudyIdsContaining(
-      String studyId);
+  List<RelatedPublicationSubDocumentProjection> findSubDocumentsByDataPackageIdsContaining(
+      String dataPackageId);
 
   @RestResource(exported = false)
   List<RelatedPublicationSubDocumentProjection> findSubDocumentsByQuestionIdsContaining(
@@ -79,7 +79,7 @@ public interface RelatedPublicationRepository extends BaseRepository<RelatedPubl
   Stream<RelatedPublication> streamByStudySeriesesContaining(I18nString studySeries);
 
   @RestResource(exported = false)
-  Stream<RelatedPublication> streamByStudyIdsContaining(String studyId);
+  Stream<RelatedPublication> streamByDataPackageIdsContaining(String dataPackageId);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();

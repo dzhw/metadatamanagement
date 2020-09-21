@@ -54,7 +54,7 @@ angular.module('metadatamanagementApp')
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onDataPackageChange',
             {
-              masterId: result.study.masterId,
+              masterId: result.dataPackage.masterId,
               version: result.release.version
             });
         }
@@ -70,18 +70,18 @@ angular.module('metadatamanagementApp')
           'stateName': $state.current.name,
           'id': result.id,
           'number': result.number,
-          'studyId': result.studyId,
+          'dataPackageId': result.dataPackageId,
           'surveys': result.surveys,
           'dataSetIsPresent': true,
-          'studyIsPresent': CleanJSObjectService.isNullOrEmpty(result.study) ?
-            false : true,
+          'dataPackageIsPresent': CleanJSObjectService
+            .isNullOrEmpty(result.dataPackage) ? false : true,
           'projectId': result.dataAcquisitionProjectId,
           'version': result.shadow ? _.get(result, 'release.version') : null
         });
         if (result.release || Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {
           ctrl.dataSet = result;
-          ctrl.study = result.study;
+          ctrl.dataPackage = result.dataPackage;
           ctrl.dataSet.subDataSets.forEach(function(subDataSet) {
             VariableSearchService.countBy('accessWays',
               subDataSet.accessWay, ctrl.dataSet.id,

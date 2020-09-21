@@ -40,12 +40,12 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMet
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.TechnicalRepresentation;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.DataAvailabilities;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.StudyAttachmentTypes;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Tags;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataAvailabilities;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentTypes;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.SurveyDesigns;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.Tags;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -96,28 +96,29 @@ public class UnitTestCreateDomainObjectUtils {
     return configuration;
   }
 
-  public static Study buildStudy(String projectId) {
+  public static DataPackage buildDataPackage(String projectId) {
     Tags tags = new Tags();
     tags.setDe(new HashSet<String>(Arrays.asList("Test-Tag")));
-    List<Person> authors = new ArrayList<>();
-    authors.add(buildPerson("Test", null, "Authors"));
+    List<Person> projectContributors = new ArrayList<>();
+    projectContributors.add(buildPerson("Test", null, "ProjectContributors"));
     List<I18nString> institutions =
         Arrays.asList(I18nString.builder().de("Institution De").en("Institution En").build());
     List<Person> dataCurators = new ArrayList<>();
-    dataCurators.add(buildPerson("Test", null, "Authors"));
+    dataCurators.add(buildPerson("Test", null, "ProjectContributors"));
 
-    String studyId = UnitTestCreateValidIds.buildStudyId(projectId);
-    Study study = Study.builder().id(studyId).authors(authors).dataCurators(dataCurators)
+    String dataPackageId = UnitTestCreateValidIds.buildDataPackageId(projectId);
+    DataPackage dataPackage = DataPackage.builder().id(dataPackageId).projectContributors(projectContributors)
+        .dataCurators(dataCurators)
         .description(I18nString.builder().de("Description De").en("Description En").build())
         .institutions(institutions)
-        .studySeries(I18nString.builder().de("Study Series De").en("Study Series En").build())
+        .studySeries(I18nString.builder().de("DataPackage Series De").en("DataPackage Series En").build())
         .sponsor(I18nString.builder().de("Sponsor De").en("Sponsor En").build())
         .title(I18nString.builder().de("Titel De").en("Title En").build())
         .annotations(I18nString.builder().de("De Anmerkungen").en("En Annotations").build())
         .tags(tags).dataAvailability(DataAvailabilities.AVAILABLE).surveyDesign(SurveyDesigns.PANEL)
         .dataAcquisitionProjectId(projectId).build();
-    study.setMasterId(studyId);
-    return study;
+    dataPackage.setMasterId(dataPackageId);
+    return dataPackage;
   }
 
   public static Survey buildSurvey(String projectId) {
@@ -132,7 +133,7 @@ public class UnitTestCreateDomainObjectUtils {
     String surveyId = UnitTestCreateValidIds.buildSurveyId(projectId, 1);
 
     Survey survey = Survey.builder().id(surveyId).dataAcquisitionProjectId(projectId)
-        .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
+        .dataPackageId(UnitTestCreateValidIds.buildDataPackageId(projectId))
         .fieldPeriod(Period.builder().start(LocalDate.now()).end(LocalDate.now()).build())
         .title(I18nString.builder().de("Titel").en("title").build()).population(population)
         .sample(I18nString.builder().de("Sonstige").en("Other").build())
@@ -198,7 +199,7 @@ public class UnitTestCreateDomainObjectUtils {
       .annotations(I18nString.builder().de("De Anmerkungen")
           .en("En Annotations")
           .build())
-      .studyId(UnitTestCreateValidIds.buildStudyId(projectId))
+      .dataPackageId(UnitTestCreateValidIds.buildDataPackageId(projectId))
       .subDataSets(subDataSets)
       .build();
     dataSet.setMasterId(dataSetId);
@@ -229,7 +230,7 @@ public class UnitTestCreateDomainObjectUtils {
     relatedQuestions.add(buildRelatedQuestion(projectId, "1", "1"));
     Variable variable = Variable.builder().id(variableId).dataType(DataTypes.NUMERIC)
         .scaleLevel(ScaleLevels.RATIO).dataAcquisitionProjectId(projectId)
-        .studyId(UnitTestCreateValidIds.buildStudyId(projectId)).name(name)
+        .dataPackageId(UnitTestCreateValidIds.buildDataPackageId(projectId)).name(name)
         .dataSetId(UnitTestCreateValidIds.buildDataSetId(projectId, dataSetNumber))
         .label(I18nString.builder().de("label").en("label").build()).accessWays(accessWays)
         .surveyNumbers(surveyNumbers).surveyIds(surveyIds).indexInDataSet(index)
@@ -272,7 +273,7 @@ public class UnitTestCreateDomainObjectUtils {
         .topic(new I18nString("Topic De", "Topic EN")).instrumentNumber(instrumentNumber)
         .successorNumbers(new ArrayList<>())
         .annotations(I18nString.builder().de("De Anmerkungen").en("En Annotations").build())
-        .studyId(UnitTestCreateValidIds.buildStudyId(projectId)).build();
+        .dataPackageId(UnitTestCreateValidIds.buildDataPackageId(projectId)).build();
     question.setMasterId(questionId);
     return question;
   }
@@ -299,7 +300,7 @@ public class UnitTestCreateDomainObjectUtils {
                 .en("Instrument Subtitle en").build())
             .description(I18nString.builder().de("Instrument.de").en("Instrument.en").build())
             .annotations(I18nString.builder().de("De Anmerkungen").en("En Annotations").build())
-            .surveyIds(surveyIds).studyId(UnitTestCreateValidIds.buildStudyId(projectId))
+            .surveyIds(surveyIds).dataPackageId(UnitTestCreateValidIds.buildDataPackageId(projectId))
             .dataAcquisitionProjectId(projectId).type("CAPI").number(1).surveyNumbers(surveyNumbers)
             .build();
     instrument.setMasterId(instrumentId);
@@ -355,14 +356,14 @@ public class UnitTestCreateDomainObjectUtils {
 
   public static RelatedPublication buildRelatedPublication() {
 
-    List<String> studyIds = new ArrayList<>();
-    studyIds.add(UnitTestCreateValidIds.buildStudyId("testproject"));
+    List<String> dataPackageIds = new ArrayList<>();
+    dataPackageIds.add(UnitTestCreateValidIds.buildDataPackageId("testproject"));
 
     return RelatedPublication.builder().doi("A DOI")
         .id(UnitTestCreateValidIds.buildRelatedPublicationId("HurzId123"))
         .publicationAbstract("A publication Abstract").sourceLink("http://www.hurzexample.de/")
         .sourceReference("A Source Reference").title("A Title of a Related Publication")
-        .studyIds(studyIds).authors("Author").year(2017)
+        .dataPackageIds(dataPackageIds).authors("Author").year(2017)
         .abstractSource(I18nString.builder().de("Test").en("Test").build()).language("de").build();
 
   }
@@ -370,14 +371,14 @@ public class UnitTestCreateDomainObjectUtils {
   public static RelatedPublication buildRelatedPublication(String authorsString,
       int publicationYear) {
 
-    List<String> studyIds = new ArrayList<>();
-    studyIds.add(UnitTestCreateValidIds.buildStudyId("testproject"));
+    List<String> dataPackageIds = new ArrayList<>();
+    dataPackageIds.add(UnitTestCreateValidIds.buildDataPackageId("testproject"));
 
     return RelatedPublication.builder().doi("A DOI")
         .id(UnitTestCreateValidIds.buildRelatedPublicationId("HurzId123"))
         .publicationAbstract("A publication Abstract").sourceLink("http://www.hurzexample.de/")
         .sourceReference("A Source Reference").title("A Title of a Related Publication")
-        .studyIds(studyIds).authors(authorsString).year(publicationYear)
+        .dataPackageIds(dataPackageIds).authors(authorsString).year(publicationYear)
         .abstractSource(I18nString.builder().de("Test").en("Test").build()).language("de").build();
 
   }
@@ -389,7 +390,7 @@ public class UnitTestCreateDomainObjectUtils {
     surveyIds.add(surveyId);
     String instrumentId = UnitTestCreateValidIds.buildInstrumentId(projectId, 1);
     Instrument instrument = Instrument.builder().id(instrumentId)
-        .dataAcquisitionProjectId(projectId).studyId(UnitTestCreateValidIds.buildStudyId(projectId))
+        .dataAcquisitionProjectId(projectId).dataPackageId(UnitTestCreateValidIds.buildDataPackageId(projectId))
         .surveyIds(surveyIds).title(I18nString.builder().de("Hurz").en("Hurz").build())
         .subtitle(I18nString.builder().de("Instrument Untertitel de").en("Instrument Subtitle en")
             .build())
@@ -427,11 +428,11 @@ public class UnitTestCreateDomainObjectUtils {
         .indexInDataSet(1).build();
   }
 
-  public static StudyAttachmentMetadata buildStudyAttachmentMetadata(String projectId) {
-    return StudyAttachmentMetadata.builder().dataAcquisitionProjectId(projectId)
-        .studyId(UnitTestCreateValidIds.buildStudyId(projectId)).fileName("filename.txt")
+  public static DataPackageAttachmentMetadata buildDataPackageAttachmentMetadata(String projectId) {
+    return DataPackageAttachmentMetadata.builder().dataAcquisitionProjectId(projectId)
+        .dataPackageId(UnitTestCreateValidIds.buildDataPackageId(projectId)).fileName("filename.txt")
         .description(new I18nString("Beschreibung", "Description")).title("Title").language("de")
-        .type(StudyAttachmentTypes.METHOD_REPORT).indexInStudy(1).build();
+        .type(DataPackageAttachmentTypes.METHOD_REPORT).indexInDataPackage(1).build();
   }
 
   public static ConceptAttachmentMetadata buildConceptAttachmentMetadata(String conceptId) {

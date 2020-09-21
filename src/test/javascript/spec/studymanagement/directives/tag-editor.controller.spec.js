@@ -2,15 +2,15 @@
 'use strict';
 
 describe('TagEditorController', function() {
-  var StudySearchService;
+  var DataPackageSearchService;
   var $scope;
   var $controller;
   var $q;
 
   beforeEach(module('metadatamanagementApp'));
-  beforeEach(inject(function(_StudySearchService_, _$rootScope_,
+  beforeEach(inject(function(_DataPackageSearchService_, _$rootScope_,
                              _$controller_, _$q_) {
-    StudySearchService = _StudySearchService_;
+    DataPackageSearchService = _DataPackageSearchService_;
     $scope = _$rootScope_.$new();
     $controller = _$controller_;
     $q = _$q_;
@@ -46,8 +46,8 @@ describe('TagEditorController', function() {
     function() {
       var deferred = $q.defer();
       deferred.resolve(['aa', 'ab', 'ac']);
-      spyOn(StudySearchService, 'findTags').and.returnValue(deferred.promise);
-      $scope.tagSearch = StudySearchService.findTags;
+      spyOn(DataPackageSearchService, 'findTags').and.returnValue(deferred.promise);
+      $scope.tagSearch = DataPackageSearchService.findTags;
 
       _.set($scope, 'tags.de', ['aa', 'ab']);
 

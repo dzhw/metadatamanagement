@@ -23,7 +23,7 @@ public @interface ValidRelatedPublicationId {
   /**
    * Defines the default error message.
    */
-  String message() default "{eu.dzhw.fdz.metadatamanagement.studymanagement" 
+  String message() default "{eu.dzhw.fdz.metadatamanagement.datapackagemanagement" 
    + ".domain.validation.validRelatedPublicationId.message}";
 
   /**

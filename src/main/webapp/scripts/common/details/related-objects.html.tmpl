@@ -59,8 +59,8 @@
           <input ng-hide="true" type="submit">
           <md-progress-linear md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>
         </form>
-        <div style="margin-top: 14px;" ng-if="$ctrl.searchParams.filter['derived-variables-identifier']"><span class="fdz-filter-badge"><md-icon md-font-set="material-icons">filter_alt</md-icon>{{'variable-management.detail.label.derived-variables' | translate}} ("{{$ctrl.searchParams.filter['derived-variables-identifier']}}")</span></div>
-        <div style="margin-top: 14px;" ng-if="$ctrl.searchParams.filter['panel-identifier']"><span class="fdz-filter-badge"><md-icon md-font-set="material-icons">filter_alt</md-icon>{{'variable-management.detail.label.variables-in-panel' | translate}} ("{{$ctrl.searchParams.filter['panel-identifier']}}")</span></div>
+        <div style="margin-top: 14px;" ng-if="$ctrl.searchParams.filter['derived-variables-identifier']"><span class="fdz-filter-badge"><md-icon md-font-set="material-icons">filter_alt</md-icon>{{'variable-management.detail.label.derived-variables' | translate}} {{'global.of' | translate}} {{$ctrl.searchParams.filter['derived-variables-identifier'].match('[-]([^-]*)$')[1]}}</span></div>
+        <div style="margin-top: 14px;" ng-if="$ctrl.searchParams.filter['panel-identifier']"><span class="fdz-filter-badge"><md-icon md-font-set="material-icons">filter_alt</md-icon>{{'variable-management.detail.label.variables-in-panel' | translate}} {{'global.of' | translate}} {{$ctrl.searchParams.filter['panel-identifier'].match('[-]([^-]*)$')[1]}}</span></div>
         <div ng-if="$ctrl.options.pageObject.totalHits" layout="row" layout-align="center" class="mb0">
           <fdz-paginator  options="$ctrl.options"
                           on-update="$ctrl.onPageChanged(event = $event, option = $option)"
@@ -68,14 +68,14 @@
         </div>
         <div class="flex fdz-detail-search-item-container">
           <div ng-repeat="result in $ctrl.searchResult" ng-switch="result._index" class="fdz-fade-in">
-            <study-search-result
-              ng-switch-when="studies"
+            <datapackage-search-result
+              ng-switch-when="data_packages"
               search-result="result._source"
               current-language="$ctrl.lang"
               search-query="$ctrl.searchParams.query"
               bowser="bowser"
               set-params="$ctrl.setCurrentSearchParams()"
-              search-result-index="$ctrl.computeSearchResultIndex($index)"></study-search-result>
+              search-result-index="$ctrl.computeSearchResultIndex($index)"></datapackage-search-result>
             <variable-search-result
               ng-switch-when="variables"
               search-result="result._source"

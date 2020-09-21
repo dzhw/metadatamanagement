@@ -35,8 +35,8 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
@@ -55,7 +55,7 @@ public class RelatedPublicationResourceTest extends AbstractTest {
   private RelatedPublicationRepository publicationRepository;
 
   @Autowired
-  private StudyRepository studyRepository;
+  private DataPackageRepository dataPackageRepository;
 
   @Autowired
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
@@ -79,7 +79,7 @@ public class RelatedPublicationResourceTest extends AbstractTest {
   @After
   public void cleanUp() {
     this.publicationRepository.deleteAll();
-    this.studyRepository.deleteAll();
+    this.dataPackageRepository.deleteAll();
     this.dataAcquisitionProjectRepository.deleteAll();
     this.elasticsearchUpdateQueueService.clearQueue();
     this.elasticsearchAdminService.recreateAllIndices();
@@ -91,8 +91,8 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    studyRepository.save(study);
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    dataPackageRepository.save(dataPackage);
     RelatedPublication relatedPublication =
         UnitTestCreateDomainObjectUtils.buildRelatedPublication();
     // ACT
@@ -108,7 +108,7 @@ public class RelatedPublicationResourceTest extends AbstractTest {
 
     elasticsearchUpdateQueueService.processAllQueueItems();
 
-    // check that there is one study and one publication document
+    // check that there is one dataPackage and one publication document
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
   }
 
@@ -117,8 +117,8 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    studyRepository.save(study);
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    dataPackageRepository.save(dataPackage);
     RelatedPublication relatedPublication =
         UnitTestCreateDomainObjectUtils.buildRelatedPublication(null, 2017);
 
@@ -137,8 +137,8 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    studyRepository.save(study);
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    dataPackageRepository.save(dataPackage);
     RelatedPublication relatedPublication =
         UnitTestCreateDomainObjectUtils.buildRelatedPublication("TestAuthors", 1959);
 
@@ -156,8 +156,8 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    studyRepository.save(study);
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    dataPackageRepository.save(dataPackage);
     LocalDate date = LocalDate.now();
     RelatedPublication relatedPublication =
         UnitTestCreateDomainObjectUtils.buildRelatedPublication("TestAuthors", date.getYear() + 1);
@@ -176,8 +176,8 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    studyRepository.save(study);
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    dataPackageRepository.save(dataPackage);
     RelatedPublication relatedPublication =
         UnitTestCreateDomainObjectUtils.buildRelatedPublication();
 
@@ -202,7 +202,7 @@ public class RelatedPublicationResourceTest extends AbstractTest {
 
     elasticsearchUpdateQueueService.processAllQueueItems();
 
-    // check that there are is one study and one publication document
+    // check that there are is one dataPackage and one publication document
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
   }
 
@@ -211,8 +211,8 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    studyRepository.save(study);
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    dataPackageRepository.save(dataPackage);
     RelatedPublication relatedPublication =
         UnitTestCreateDomainObjectUtils.buildRelatedPublication();
 
@@ -230,18 +230,18 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
         .andExpect(status().isNotFound());
     
-    // check that there is one study document left
+    // check that there is one dataPackage document left
     elasticsearchUpdateQueueService.processAllQueueItems();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
   }
 
   @Test
-  public void testUpdateStudyWithInvalidReleaseDoi() throws IOException, Exception {
+  public void testUpdateDataPackageWithInvalidReleaseDoi() throws IOException, Exception {
     // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    studyRepository.save(study);
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    dataPackageRepository.save(dataPackage);
     RelatedPublication relatedPublication =
         UnitTestCreateDomainObjectUtils.buildRelatedPublication();
 
@@ -268,8 +268,8 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     // ARRANGE
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    studyRepository.save(study);
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    dataPackageRepository.save(dataPackage);
     RelatedPublication relatedPublication =
         UnitTestCreateDomainObjectUtils.buildRelatedPublication();
     I18nString studySeries = I18nString.builder().de("test").en("test").build();
@@ -291,9 +291,9 @@ public class RelatedPublicationResourceTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
     I18nString studySeries = I18nString.builder().de("test").en("test").build();
-    Study study = UnitTestCreateDomainObjectUtils.buildStudy(project.getId());
-    study.setStudySeries(studySeries);
-    studyRepository.save(study);
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+    dataPackage.setStudySeries(studySeries);
+    dataPackageRepository.save(dataPackage);
     RelatedPublication relatedPublication =
         UnitTestCreateDomainObjectUtils.buildRelatedPublication();
     relatedPublication.setStudySerieses(Collections.singletonList(studySeries));
@@ -311,7 +311,7 @@ public class RelatedPublicationResourceTest extends AbstractTest {
 
     elasticsearchUpdateQueueService.processAllQueueItems();
 
-    // check that there are two documents (study and related publication)
+    // check that there are two documents (dataPackage and related publication)
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
   }
 }

@@ -48,7 +48,7 @@ public class DataSetSubDocument extends AbstractRdcDomainObject
   
   private List<String> accessWays;
 
-  private String studyId;
+  private String dataPackageId;
 
   private List<String> surveyIds;
   

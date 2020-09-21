@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').config(
         'search': 'Data Search',
         'in-german': 'in German',
         'in': 'in',
+        'of': 'of',
         'in-english': 'in English',
         'more': 'more',
         'less': 'less',
@@ -109,8 +110,7 @@ angular.module('metadatamanagementApp').config(
             'surveys': 'Click to show the surveys',
             'question': 'Click to show question {{param}}',
             'variable': 'Click to show variable {{param}}',
-            'study': 'Click to show study {{param}}',
-            'data-packet': 'Click to show data package {{param}}',
+            'data-package': 'Click to show data package {{param}}',
             'instrument': 'Click to show instrument {{param}}',
             'publication': 'Click to show publication {{param}}',
             'concept': 'Click to show concept {{param}}'
@@ -392,9 +392,9 @@ angular.module('metadatamanagementApp').config(
             'title': 'Delete all questions of project "{{ id }}"?',
             'content': 'Do you really want to delete all questions of Data Acquisition Project "{{ id }}"?'
           },
-          'confirm-delete-all-studies': {
-            'title': 'Delete the study of project "{{ id }}"?',
-            'content': 'Do you really want to delete the study of Data Acquisition Project "{{ id }}"?'
+          'confirm-delete-all-data-packages': {
+            'title': 'Delete the data package of project "{{ id }}"?',
+            'content': 'Do you really want to delete the data package of Data Acquisition Project "{{ id }}"?'
           },
           'confirm-delete-all-variables': {
             'title': 'Delete all variables of project "{{ id }}"?',
@@ -413,8 +413,8 @@ angular.module('metadatamanagementApp').config(
             'content': 'Do you really want to delete all data sets of Data Acquisition Project "{{ id }}"?'
           },
           'confirm-delete-all-publications': {
-            'title': 'Remove all publications from the study of project "{{ id }}"?',
-            'content': 'Do you really want to remove all publications from the Study of Data Acquisition Project "{{ id }}"?'
+            'title': 'Remove all publications from the data package of project "{{ id }}"?',
+            'content': 'Do you really want to remove all publications from the Data Package of Data Acquisition Project "{{ id }}"?'
           }
         }
       }

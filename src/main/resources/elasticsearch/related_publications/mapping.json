@@ -106,7 +106,7 @@
 		"year": {
 			"type": "integer"
 		},
-		"studyIds": {
+		"dataPackageIds": {
 			"type": "keyword",
 			"copy_to": "all"
 		},
@@ -224,7 +224,7 @@
 				}
 			}
 		},
-		"studies": {
+		"dataPackages": {
 			"type": "object",
 			"properties": {
 				"id": {
@@ -248,7 +248,7 @@
 				}
 			}
 		},
-		"nestedStudies": {
+		"nestedDataPackages": {
 			"type": "nested",
 			"properties": {
 				"completeTitle": {

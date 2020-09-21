@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
@@ -21,9 +24,6 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.Re
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.helper.RelatedPublicationCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.service.StudyChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -41,33 +41,34 @@ public class RelatedPublicationManagementService implements CrudService<RelatedP
 
   private final RelatedPublicationRepository relatedPublicationRepository;
 
-  private final StudyChangesProvider studyChangesProvider;
+  private final DataPackageChangesProvider dataPackageChangesProvider;
 
-  private final StudyRepository studyRepository;
+  private final DataPackageRepository dataPackageRepository;
 
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   private final RelatedPublicationCrudHelper crudHelper;
 
   /**
-   * Enqueue update of related publication search documents when the study changed.
+   * Enqueue update of related publication search documents when the dataPackage changed.
    * 
-   * @param study the updated, created or deleted study.
+   * @param dataPackage the updated, created or deleted dataPackage.
    */
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  public void onStudyChanged(Study study) {
-    if (studyChangesProvider.hasStudySeriesChanged(study.getId())) {
-      I18nString oldStudySeries = studyChangesProvider.getPreviousStudySeries(study.getId());
-      // check if old study series does not exist anymore
-      if (!studyRepository.existsByStudySeries(oldStudySeries)) {
-        // update all related publications to new study series
+  public void onDataPackageChanged(DataPackage dataPackage) {
+    if (dataPackageChangesProvider.hasStudySeriesChanged(dataPackage.getId())) {
+      I18nString oldStudySeries =
+          dataPackageChangesProvider.getPreviousStudySeries(dataPackage.getId());
+      // check if old dataPackage series does not exist anymore
+      if (!dataPackageRepository.existsByStudySeries(oldStudySeries)) {
+        // update all related publications to new dataPackage series
         try (Stream<RelatedPublication> stream =
             relatedPublicationRepository.streamByStudySeriesesContaining(oldStudySeries)) {
           stream.forEach(publication -> {
             publication.getStudySerieses().remove(oldStudySeries);
-            publication.getStudySerieses().add(study.getStudySeries());
+            publication.getStudySerieses().add(dataPackage.getStudySeries());
             // emit before save and after save events
             crudHelper.save(publication);
           });
@@ -75,7 +76,7 @@ public class RelatedPublicationManagementService implements CrudService<RelatedP
       }
     }
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> relatedPublicationRepository.streamIdsByStudyIdsContaining(study.getId()),
+        () -> relatedPublicationRepository.streamIdsByDataPackageIdsContaining(dataPackage.getId()),
         ElasticsearchType.related_publications);
   }
 
@@ -151,16 +152,16 @@ public class RelatedPublicationManagementService implements CrudService<RelatedP
   }
 
   /**
-   * Remove the given studyId from all publications.
+   * Remove the given dataPackageId from all publications.
    * 
-   * @param studyId the id to be removed.
+   * @param dataPackageId the id to be removed.
    */
-  public void removeAllPublicationsFromStudy(String studyId) {
+  public void removeAllPublicationsFromDataPackage(String dataPackageId) {
     try (Stream<RelatedPublication> publications =
-        relatedPublicationRepository.streamByStudyIdsContaining(studyId)) {
+        relatedPublicationRepository.streamByDataPackageIdsContaining(dataPackageId)) {
       publications.forEach(publication -> {
-        if (publication.getStudyIds() != null) {
-          publication.getStudyIds().remove(studyId);
+        if (publication.getDataPackageIds() != null) {
+          publication.getDataPackageIds().remove(dataPackageId);
         }
         crudHelper.save(publication);
       });
@@ -168,32 +169,32 @@ public class RelatedPublicationManagementService implements CrudService<RelatedP
   }
 
   /**
-   * Assign the study to the given publication.
+   * Assign the dataPackage to the given publication.
    * 
-   * @param studyId An id of a {@link Study}.
+   * @param dataPackageId An id of a {@link DataPackage}.
    * @param publicationId An id of a {@link RelatedPublication}.
    */
-  public void assignPublicationToStudy(String studyId, String publicationId) {
+  public void assignPublicationToDataPackage(String dataPackageId, String publicationId) {
     relatedPublicationRepository.findById(publicationId).ifPresent(publication -> {
-      if (publication.getStudyIds() != null) {
-        publication.getStudyIds().add(studyId);
+      if (publication.getDataPackageIds() != null) {
+        publication.getDataPackageIds().add(dataPackageId);
       } else {
-        publication.setStudyIds(Lists.immutableListOf(studyId));
+        publication.setDataPackageIds(Lists.immutableListOf(dataPackageId));
       }
       crudHelper.save(publication);
     });
   }
 
   /**
-   * Remove the study from the given publication.
+   * Remove the dataPackage from the given publication.
    * 
-   * @param studyId An id of a {@link Study}.
+   * @param dataPackageId An id of a {@link DataPackage}.
    * @param publicationId An id of a {@link RelatedPublication}.
    */
-  public void removePublicationFromStudy(String studyId, String publicationId) {
+  public void removePublicationFromDataPackage(String dataPackageId, String publicationId) {
     relatedPublicationRepository.findById(publicationId).ifPresent(publication -> {
-      if (publication.getStudyIds() != null) {
-        publication.getStudyIds().remove(studyId);
+      if (publication.getDataPackageIds() != null) {
+        publication.getDataPackageIds().remove(dataPackageId);
       }
       crudHelper.save(publication);
     });

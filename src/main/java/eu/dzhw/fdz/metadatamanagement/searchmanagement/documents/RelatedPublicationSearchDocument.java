@@ -34,9 +34,9 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
   static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION =
       new String[] {"nested*", "guiLabels"};
   
-  private List<StudySubDocument> studies =
+  private List<DataPackageSubDocument> dataPackages =
       new ArrayList<>();
-  private List<StudyNestedDocument> nestedStudies = new ArrayList<>();
+  private List<DataPackageNestedDocument> nestedDataPackages = new ArrayList<>();
   private List<QuestionSubDocument> questions =
       new ArrayList<>();
   private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
@@ -68,7 +68,7 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
   /**
    * Construct the search document with all related subdocuments.
    * @param relatedPublication the related publication to be searched for
-   * @param studies the studies for which the publication was published
+   * @param dataPackages the dataPackages for which the publication was published
    * @param questions the questions for which the publication was published
    * @param instruments the instruments for which the publication was published
    * @param surveys the surveys for which the publication was published
@@ -76,19 +76,19 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
    * @param variables the variables for which the publication was published
    */
   public RelatedPublicationSearchDocument(RelatedPublication relatedPublication,
-      List<StudySubDocument> studies,
-      List<StudyNestedDocument> nestedStudies,
+      List<DataPackageSubDocument> dataPackages,
+      List<DataPackageNestedDocument> nestedDataPackages,
       List<QuestionSubDocumentProjection> questions,
       List<InstrumentSubDocumentProjection> instruments,
       List<SurveySubDocumentProjection> surveys,
       List<DataSetSubDocumentProjection> dataSets,
       List<VariableSubDocumentProjection> variables) {
     super(relatedPublication);
-    if (studies != null) {
-      this.studies = studies;
+    if (dataPackages != null) {
+      this.dataPackages = dataPackages;
     }
-    if (nestedStudies != null) {
-      this.nestedStudies = nestedStudies;
+    if (nestedDataPackages != null) {
+      this.nestedDataPackages = nestedDataPackages;
     }
     if (questions != null) {
       this.questions = questions.stream()

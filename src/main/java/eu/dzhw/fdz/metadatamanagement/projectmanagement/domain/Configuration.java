@@ -52,9 +52,9 @@ public class Configuration implements Serializable {
   private Requirements requirements = new Requirements();
 
   /**
-   * The state of the study.
+   * The state of the dataPackage.
    */
-  private ProjectState studiesState;
+  private ProjectState dataPackagesState;
   /**
    * The State of surveys.
    */
