@@ -635,6 +635,10 @@ h1, h2, h3, h4, h5, h6, h7, h8, h9, .h1, .h2, .h3, .h4, .h5, .h6, .h7, .h8, .h9 
 .fdz-theme md-checkbox .md-ripple {
   color: #f0812d; }
 
+.fdz-theme md-checkbox.md-focused:not([disabled]) .md-container:before {
+  background-color: rgba(0, 0, 0, 0.12);
+  border-radius: 0px; }
+
 .fdz-theme md-checkbox.md-checked .md-ripple {
   color: #979797; }
 
