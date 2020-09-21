@@ -49,7 +49,7 @@ Assert the concept has been assigned to the instrument
    Run Keyword If    '${BROWSER}' == 'ie'  Page Should Contain   Test Konzept IE Publisher
 
 Assert the concept is assigned to a data package
-   Page Should Contain  Data Package Title in German
+   Page Should Contain  Study Title in German
 
 Assert the concept is assigned to a survey
    Click on surveys tab

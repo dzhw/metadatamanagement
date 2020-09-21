@@ -61,4 +61,5 @@ Assert gra2005_MethodReport in the attachment
 Delete data package with uploaded document
     Click Element Through Tooltips    xpath=//button[md-icon[text()="delete_forever"]]
     Click Element Through Tooltips    xpath=//button[text()="Ja"]
+    Wait Until Angular Ready    2s
     Page Should Not Contain Element    xpath=//a[@ng-href="/public/files/data-packages/stu-fileuploadproject$/attachments/gra2005_MethodReport_de.pdf"]

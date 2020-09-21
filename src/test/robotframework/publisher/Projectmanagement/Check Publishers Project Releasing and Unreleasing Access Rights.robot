@@ -42,7 +42,7 @@ Close The Toast Message for Project Release Validation
   Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
 
 Click Data Package Edit Button
-  Click Element Through Tooltips  xpath=(//data-package-search-result//md-card-actions//button[normalize-space()="Bearbeiten"])[1]
+  Click Element Through Tooltips  xpath=(//datapackage-search-result//md-card-actions//button[normalize-space()="Bearbeiten"])[1]
 
 Click Data Package Save Button
   Click Element Through Tooltips  xpath=//button[@type="submit"]//md-icon[contains(. , "save")]
