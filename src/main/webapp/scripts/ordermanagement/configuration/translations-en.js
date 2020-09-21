@@ -59,7 +59,7 @@ angular.module('metadatamanagementApp').config(
           'select-access-way-title': 'Please select an Access Way',
           'select-access-way-for-ordering': 'Please select an access way to add the data package to the shopping cart.',
           'select-access-way-for-citation': 'Please select an access way to cite the data package.',
-          'note': 'In case you have problems with the ordering process, please contact <a href="mailto:dataservice@dzhw.eu">dataservice@dzhw.eu</a>.'
+          'note': 'In case you have problems with the ordering process, please contact <a href="mailto:userservice@dzhw.eu">userservice@dzhw.eu</a>.'
         },
         'error': {
           'synchronize': 'Unable to synchronize shopping cart with the server.',
