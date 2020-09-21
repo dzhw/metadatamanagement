@@ -154,7 +154,8 @@ md-input-container {
 
       &:not([disabled]) {
         &:focus,
-        &:hover {
+        &:hover,
+        &.md-focused {
           background-color: $background-500-018;
         }
       }
