@@ -1144,7 +1144,7 @@ md-input-container:not(.md-input-invalid).md-input-focused.md-warn .md-select-va
     color: black; }
     .fdz-theme md-select-menu md-content md-option[disabled] .md-text {
       color: rgba(0, 0, 0, 0.38); }
-    .fdz-theme md-select-menu md-content md-option:not([disabled]):focus, .fdz-theme md-select-menu md-content md-option:not([disabled]):hover {
+    .fdz-theme md-select-menu md-content md-option:not([disabled]):focus, .fdz-theme md-select-menu md-content md-option:not([disabled]):hover, .fdz-theme md-select-menu md-content md-option:not([disabled]).md-focused {
       background-color: rgba(194, 194, 194, 0.18); }
     .fdz-theme md-select-menu md-content md-option[selected] {
       color: #0071bc; }
