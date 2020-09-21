@@ -4,6 +4,8 @@
 
 .. java:import:: javax.validation.constraints NotEmpty
 
+.. java:import:: org.javers.core.metamodel.annotation TypeName
+
 .. java:import:: lombok Data
 
 .. java:import:: lombok NoArgsConstructor
@@ -14,7 +16,7 @@ Tags
 .. java:package:: eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain
    :noindex:
 
-.. java:type:: @Data @NoArgsConstructor public class Tags implements Serializable
+.. java:type:: @Data @TypeName @NoArgsConstructor public class Tags implements Serializable
 
    Contains tags associated with a dataPackage.
 
