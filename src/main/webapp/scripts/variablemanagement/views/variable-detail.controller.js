@@ -96,7 +96,8 @@ angular.module('metadatamanagementApp')
             ctrl.nextVariables = resultNextVariable.hits.hits;
           });
 
-        if (ctrl.variable.filterDetails) {
+        if (ctrl.variable.filterDetails &&
+            ctrl.variable.filterDetails.expression) {
           html_beautify(ctrl.variable.filterDetails.expression); //jscs:ignore
         }
         if (ctrl.variable.generationDetails) {

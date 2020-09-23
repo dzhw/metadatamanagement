@@ -43,7 +43,7 @@
           <h5>{{'variable-management.detail.label.filter-description' | translate }}:</h5>
           <p class="md-secondary" markdown-to-html="$ctrl.options.variable.filterDetails.description | displayI18nString"></p>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.variable.filterDetails">
+        <md-list-item ng-if="$ctrl.options.variable.filterDetails && $ctrl.options.variable.filterDetails.expression">
           <h5 style="width: 100%;">{{'variable-management.detail.label.input-filter' | translate }} ({{$ctrl.options.variable.filterDetails.expressionLanguage}}):</h5>
           <div class="fdz-code-container"
           create-variable-links="{currentLanguage: $ctrl.lang, currentVariable: $ctrl.options.variable}"
