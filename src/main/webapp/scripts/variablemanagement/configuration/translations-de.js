@@ -148,14 +148,13 @@ angular.module('metadatamanagementApp').config(
           },
           'filter-details': {
             'expression': {
-              'not-empty': 'Der Filterausdruck darf nicht leer sein!',
+              'both-not-empty': 'Es muss beides angegeben werden: Filterausdruck und Filterausdruckssprache!',
               'size': 'Die Maximallänge des Filterausdrucks ist 2048 Zeichen.'
             },
             'description': {
               'i18n-string-size': 'Die Maximallänge der Filterbeschreibung ist 2048 Zeichen.'
             },
             'expression-language': {
-              'not-empty': 'Die Filterausdruckssprache darf nicht leer sein!',
               'valid-filter-expression-language': 'Die angegebene Filterausdruckssprache ist nicht gültig.Es sind nur SpEL und Stata erlaubt.'
             }
           },

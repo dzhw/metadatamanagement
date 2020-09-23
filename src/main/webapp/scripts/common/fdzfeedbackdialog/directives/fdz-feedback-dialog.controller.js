@@ -42,7 +42,7 @@ angular.module('metadatamanagementApp')
       .instant('global.navbar-feedback.category');
     $scope.mailBody = '';
     $scope.mailSubject = $translate
-      .instant('global.welcome-dialog.mail-subject');
+      .instant('global.feedback-dialog.mail-subject');
     $scope.mailBody =
       '%0A---------------------------------%0A' +
       sourceLang + '%3A%0A' +

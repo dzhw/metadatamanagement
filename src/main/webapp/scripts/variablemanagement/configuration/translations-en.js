@@ -148,14 +148,13 @@ angular.module('metadatamanagementApp').config(
           },
           'filter-details': {
             'expression': {
-              'not-empty': 'The filter expression must not be empty!',
+              'both-not-empty': 'Both must be present: filter expression and expression language!',
               'size': 'The max length of the filter expression is 2048 signs.'
             },
             'description': {
               'i18n-string-size': 'The max length of the filter description is 2048 signs.'
             },
             'expression-language': {
-              'not-empty': 'The filter expression language  must not be empty!',
               'valid-filter-expression-language': 'The filter expression language is not valid. Valid is: SpEL and Stata.'
             }
           },
