@@ -19,18 +19,18 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class DeleteAllPublicationsResourceController {
-  
+
   private final RelatedPublicationManagementService relatedPublicationService;
 
   /**
-   * Remove all publication from the given dataPackage. 
-   * 
+   * Remove all publication from the given dataPackage.
+   *
    * @param id the id of the {@link DataPackage}.
-   * 
+   *
    * @return no Content.
    */
   @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER})
-  @DeleteMapping(value = "/dataPackages/{id}/publications")
+  @DeleteMapping(value = "/data-packages/{id}/publications")
   public ResponseEntity<?> delete(@PathVariable String id) {
     relatedPublicationService.removeAllPublicationsFromDataPackage(id);
     return ResponseEntity.noContent().build();

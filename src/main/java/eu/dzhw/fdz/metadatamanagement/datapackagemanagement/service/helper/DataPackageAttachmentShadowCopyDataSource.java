@@ -58,7 +58,7 @@ public class DataPackageAttachmentShadowCopyDataSource
   }
 
   private String deriveId(DataPackageAttachmentMetadata source, String version) {
-    return String.format("/public/files/dataPackages/%s-%s/attachments/%s",
+    return String.format("/public/files/data-packages/%s-%s/attachments/%s",
         source.getDataPackageId(), version, source.getFileName());
   }
 
