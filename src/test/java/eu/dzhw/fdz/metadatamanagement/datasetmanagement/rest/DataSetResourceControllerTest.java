@@ -47,7 +47,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  *
  */
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-public class DataSetResourceTest extends AbstractTest {
+public class DataSetResourceControllerTest extends AbstractTest {
   private static final String API_DATASETS_URI = "/api/data-sets";
 
   @Autowired
@@ -89,7 +89,6 @@ public class DataSetResourceTest extends AbstractTest {
     this.javersService.deleteAll();
   }
 
-
   @Test
   public void testCreateDataSet() throws Exception {
 
@@ -118,6 +117,36 @@ public class DataSetResourceTest extends AbstractTest {
     // call toString for test coverage :-)
     dataSet.toString();
     
+    elasticsearchUpdateQueueService.processAllQueueItems();
+
+    // check that there is one data set documents
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
+  }
+
+  @Test
+  public void testCreateDataSetWithPost() throws Exception {
+
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+
+    DataSet dataSet =
+        UnitTestCreateDomainObjectUtils.buildDataSet(project.getId(), survey.getId(), 1);
+
+    // Act and Assert
+    // create the variable with the given id
+    mockMvc.perform(post(API_DATASETS_URI).content(TestUtil.convertObjectToJsonBytes(dataSet))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+
+    // check that auditing attributes have been set
+    mockMvc.perform(get(API_DATASETS_URI + "/" + dataSet.getId())).andExpect(status().isOk())
+        .andExpect(jsonPath("$.createdDate", not(isEmptyOrNullString())))
+        .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))
+        .andExpect(jsonPath("$.createdBy", is("user")))
+        .andExpect(jsonPath("$.lastModifiedBy", is("user")));
+
     elasticsearchUpdateQueueService.processAllQueueItems();
 
     // check that there is one data set documents

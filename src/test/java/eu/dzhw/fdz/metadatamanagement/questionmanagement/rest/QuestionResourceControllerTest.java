@@ -42,7 +42,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyReposito
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-public class QuestionResourceTest extends AbstractTest {
+public class QuestionResourceControllerTest extends AbstractTest {
   private static final String API_QUESTIONS_URI = "/api/questions";
 
   @Autowired
@@ -114,6 +114,33 @@ public class QuestionResourceTest extends AbstractTest {
 
     // call toString for test coverage :-|
     question.toString();
+  }
+
+  @Test
+  public void testCreateQuestionWithPost() throws Exception {
+
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Question question =
+        UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, "instrument-Id");
+    // Act and Assert
+    // create the Question with the given id
+    mockMvc.perform(post(API_QUESTIONS_URI).content(TestUtil.convertObjectToJsonBytes(question))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+
+    elasticsearchUpdateQueueService.processAllQueueItems();
+
+    // check that there is one question documents
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
+
+    // check that auditing attributes have been set
+    mockMvc.perform(get(API_QUESTIONS_URI + "/" + question.getId())).andExpect(status().isOk())
+        .andExpect(jsonPath("$.createdDate", not(isEmptyOrNullString())))
+        .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))
+        .andExpect(jsonPath("$.createdBy", is("user")))
+        .andExpect(jsonPath("$.lastModifiedBy", is("user")));
   }
 
   @Test

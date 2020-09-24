@@ -134,6 +134,34 @@ public class VariableResourceControllerTest extends AbstractTest {
   }
 
   @Test
+  public void testCreateVariableWithPost() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+
+    List<Integer> surveyNumbers = new ArrayList<>();
+    surveyNumbers.add(1);
+
+    Variable variable =
+        UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
+
+    // create the variable with the given id
+    mockMvc.perform(post(API_VARIABLES_URI).content(TestUtil.convertObjectToJsonBytes(variable))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+
+    queueService.processAllQueueItems();
+
+    // check that there is one variable search document
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
+
+    // check that auditing attributes have been set
+    mockMvc.perform(get(API_VARIABLES_URI + "/" + variable.getId())).andExpect(status().isOk())
+        .andExpect(jsonPath("$.createdDate", not(isEmptyOrNullString())))
+        .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))
+        .andExpect(jsonPath("$.createdBy", is("user")))
+        .andExpect(jsonPath("$.lastModifiedBy", is("user")));
+  }
+
+  @Test
   public void testCreateVariableWithSurveyButWithoutProject() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
