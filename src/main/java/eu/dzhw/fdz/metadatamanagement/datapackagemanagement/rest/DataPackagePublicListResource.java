@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageListService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSearchDocument;
@@ -35,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class DataPackagePublicListResource {
 
-  private final DataPackageListService dataPackagelistService;
+  private final DataPackageListService dataPackageListService;
 
   /**
    * Request a pageble list of released dataPackages.
@@ -47,12 +48,13 @@ public class DataPackagePublicListResource {
    */
   @GetMapping(value = "/data-packages")
   @Operation(summary = "Get the paged list of currently released dataPackages.")
+  @ResponseBody
   public ResponseEntity<Page<DataPackageSearchDocument>> listDataPackages(
       @RequestParam(value = "page", defaultValue = "0") int page,
       @RequestParam(value = "size", defaultValue = "5") @Max(20) int size) {
     try {
       Page<DataPackageSearchDocument> loadDataPackages =
-          dataPackagelistService.loadDataPackages(page, size);
+          dataPackageListService.loadDataPackages(page, size);
       return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(loadDataPackages);
     } catch (IOException e) {
       log.warn("requesting the list of dataPackages failed", e);
