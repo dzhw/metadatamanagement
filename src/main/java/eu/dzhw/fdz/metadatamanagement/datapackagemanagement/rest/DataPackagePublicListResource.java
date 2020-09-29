@@ -45,20 +45,16 @@ public class DataPackagePublicListResource {
    * @param size the size of a page. default 5
    * @return the page object. containing the list of dataPackages as content and metadata regarding
    *         the paging.
+   * @throws IOException if search failed
    */
   @GetMapping(value = "/data-packages")
   @Operation(summary = "Get the paged list of currently released dataPackages.")
   @ResponseBody
   public ResponseEntity<Page<DataPackageSearchDocument>> listDataPackages(
       @RequestParam(value = "page", defaultValue = "0") int page,
-      @RequestParam(value = "size", defaultValue = "5") @Max(20) int size) {
-    try {
-      Page<DataPackageSearchDocument> loadDataPackages =
-          dataPackageListService.loadDataPackages(page, size);
-      return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(loadDataPackages);
-    } catch (IOException e) {
-      log.warn("requesting the list of dataPackages failed", e);
-      return ResponseEntity.badRequest().body(null);
-    }
+      @RequestParam(value = "size", defaultValue = "5") @Max(20) int size) throws IOException {
+    Page<DataPackageSearchDocument> loadDataPackages =
+        dataPackageListService.loadDataPackages(page, size);
+    return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(loadDataPackages);
   }
 }
