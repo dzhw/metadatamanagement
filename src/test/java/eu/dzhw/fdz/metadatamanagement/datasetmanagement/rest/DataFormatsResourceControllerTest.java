@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
+package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -12,7 +12,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 
-public class UnitValuesResourceControllerTest extends AbstractTest {
+public class DataFormatsResourceControllerTest extends AbstractTest {
   @Autowired
   private WebApplicationContext wac;
 
@@ -24,7 +24,7 @@ public class UnitValuesResourceControllerTest extends AbstractTest {
   }
 
   @Test
-  public void testGetAvailableDataFormats() throws Exception {
-    mockMvc.perform(get("/api/data-sets/data-formats")).andExpect(status().isOk());
+  public void testGetAvailableUnitValues() throws Exception {
+    mockMvc.perform(get("/api/surveys/unit-values")).andExpect(status().isOk());
   }
 }
