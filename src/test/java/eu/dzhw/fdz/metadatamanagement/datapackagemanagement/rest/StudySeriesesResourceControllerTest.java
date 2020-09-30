@@ -1,10 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.rest;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -20,22 +21,18 @@ import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
-public class DeleteAllDataPackagesResourceControllerTest extends AbstractTest {
-
-  private static final String API_DELETE_ALL_DATAPACKAGES_URI = "/api/data-acquisition-projects";
-
+public class StudySeriesesResourceControllerTest extends AbstractTest {
   @Autowired
   private WebApplicationContext wac;
 
   @Autowired
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
-
-  private MockMvc mockMvc;
 
   @Autowired
   private DataPackageRepository dataPackageRepository;
@@ -49,6 +46,8 @@ public class DeleteAllDataPackagesResourceControllerTest extends AbstractTest {
   @Autowired
   private JaversService javersService;
 
+  private MockMvc mockMvc;
+
   @Before
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
@@ -58,44 +57,24 @@ public class DeleteAllDataPackagesResourceControllerTest extends AbstractTest {
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
     dataPackageRepository.deleteAll();
-    javersService.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
     elasticsearchAdminService.recreateAllIndices();
+    javersService.deleteAll();
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testDeleteAllDataPackagesOfShadowCopyProject() throws Exception {
-    String masterProjectId = "issue1991";
-    String shadowProjectId = masterProjectId + "-1.0.0";
-    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(masterProjectId);
-    dataPackage.setId(dataPackage.getId() + "-1.0.0");
-    dataPackage.setDataAcquisitionProjectId(shadowProjectId);
+  public void testGetAccessWaysOfDataPackage() throws IOException, Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
     dataPackageRepository.save(dataPackage);
 
+    // get the available study serieses
     mockMvc
-        .perform(delete(API_DELETE_ALL_DATAPACKAGES_URI + "/" + shadowProjectId + "/data-packages"))
-        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
-            containsString("global.error.shadow-delete-not-allowed")));
-  }
-
-  @Test
-  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testDeleteAllDataPackagesOfProject() throws Exception {
-    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage("projectId");
-    dataPackageRepository.save(dataPackage);
-
-    // assert that it is available
-    mockMvc.perform(get("/api/data-packages/" + dataPackage.getId())).andExpect(status().isOk());
-
-    // delete all data packages of the project
-    mockMvc
-        .perform(delete(API_DELETE_ALL_DATAPACKAGES_URI + "/"
-            + dataPackage.getDataAcquisitionProjectId() + "/data-packages"))
-        .andExpect(status().isNoContent());
-
-    // assert that it is gone
-    mockMvc.perform(get("/api/data-packages/" + dataPackage.getId()))
-        .andExpect(status().isNotFound());
+        .perform(get("/api/study-serieses")).andExpect(status().isOk())
+        .andExpect(jsonPath("$.length()", is(1)))
+        .andExpect(jsonPath("$.[0].de", is(dataPackage.getStudySeries().getDe())));
   }
 }

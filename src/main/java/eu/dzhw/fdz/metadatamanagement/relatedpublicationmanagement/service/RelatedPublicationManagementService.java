@@ -177,6 +177,9 @@ public class RelatedPublicationManagementService implements CrudService<RelatedP
   public void assignPublicationToDataPackage(String dataPackageId, String publicationId) {
     relatedPublicationRepository.findById(publicationId).ifPresent(publication -> {
       if (publication.getDataPackageIds() != null) {
+        if (publication.getDataPackageIds().contains(dataPackageId)) {
+          return;
+        }
         publication.getDataPackageIds().add(dataPackageId);
       } else {
         publication.setDataPackageIds(Lists.immutableListOf(dataPackageId));

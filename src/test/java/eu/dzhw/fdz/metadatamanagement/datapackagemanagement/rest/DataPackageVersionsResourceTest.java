@@ -24,12 +24,12 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
@@ -166,5 +166,11 @@ public class DataPackageVersionsResourceTest extends AbstractTest {
         is(equalTo(dataPackage.getProjectContributors().size()))))
       .andExpect(jsonPath("$[1].projectContributors[0].firstName",
         is(dataPackage.getProjectContributors().get(0).getFirstName())));
+  }
+
+  @Test
+  public void testDataPackageVersionsNotFound() throws IOException, Exception {
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/spaß/versions")).andExpect(status().isOk())
+        .andExpect(jsonPath("$.length()", is(0)));
   }
 }
