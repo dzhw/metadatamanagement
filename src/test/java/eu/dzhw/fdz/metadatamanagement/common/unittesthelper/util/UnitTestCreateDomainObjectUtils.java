@@ -21,6 +21,12 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptAttachmentTypes;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataAvailabilities;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentTypes;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.SurveyDesigns;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.Tags;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataFormat;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
@@ -40,12 +46,6 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMet
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionTypes;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.TechnicalRepresentation;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataAvailabilities;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentTypes;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.SurveyDesigns;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.Tags;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -121,7 +121,7 @@ public class UnitTestCreateDomainObjectUtils {
     return dataPackage;
   }
 
-  public static Survey buildSurvey(String projectId) {
+  public static Survey buildSurvey(String projectId, Integer surveyNumber) {
     GeographicCoverage geographicCoverage = GeographicCoverage.builder().country("DE").build();
 
     Population population = Population.builder()
@@ -130,7 +130,7 @@ public class UnitTestCreateDomainObjectUtils {
             I18nString.builder().de("Population Beschreibung").en("Population Description").build())
         .geographicCoverages(Collections.singletonList(geographicCoverage)).build();
 
-    String surveyId = UnitTestCreateValidIds.buildSurveyId(projectId, 1);
+    String surveyId = UnitTestCreateValidIds.buildSurveyId(projectId, surveyNumber);
 
     Survey survey = Survey.builder().id(surveyId).dataAcquisitionProjectId(projectId)
         .dataPackageId(UnitTestCreateValidIds.buildDataPackageId(projectId))
@@ -140,10 +140,15 @@ public class UnitTestCreateDomainObjectUtils {
         .surveyMethod(I18nString.builder().de("Survey Method DE").en("Survey Method EN").build())
         .annotations(I18nString.builder().de("De Anmerkungen").en("En Annotations").build())
         .dataType(eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes.QUALITATIVE_DATA)
-        .grossSampleSize(100).sampleSize(100).responseRate(100.0).number(1).wave(1).build();
+        .grossSampleSize(100).sampleSize(100).responseRate(100.0).number(surveyNumber).wave(1)
+        .build();
 
     survey.setMasterId(surveyId);
     return survey;
+  }
+
+  public static Survey buildSurvey(String projectId) {
+    return buildSurvey(projectId, 1);
   }
 
   public static DataSet buildDataSet(String projectId, String surveyId, Integer surveyNumber) {

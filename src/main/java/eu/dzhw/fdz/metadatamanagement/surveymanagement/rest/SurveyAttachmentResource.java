@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,10 +50,9 @@ public class SurveyAttachmentResource {
       @RequestPart("surveyAttachmentMetadata")
       @Valid SurveyAttachmentMetadata surveyAttachmentMetadata)
       throws URISyntaxException, IOException {
-    surveyAttachmentService.createSurveyAttachment(multiPartFile,
-        surveyAttachmentMetadata);
-    return ResponseEntity.created(new URI(UriUtils.encodePath(
-        surveyAttachmentMetadata.getId(), "UTF-8")))
+    surveyAttachmentService.createSurveyAttachment(multiPartFile, surveyAttachmentMetadata);
+    return ResponseEntity
+        .created(new URI(UriUtils.encodePath(surveyAttachmentMetadata.getId(), "UTF-8")))
         .body(null);
   }
 
@@ -67,15 +65,8 @@ public class SurveyAttachmentResource {
   @RequestMapping(path = "/surveys/{surveyId}/attachments", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> findBySurveyId(@PathVariable("surveyId") String surveyId) {
-    if (!StringUtils.isEmpty(surveyId)) {
-      List<SurveyAttachmentMetadata> metadata =
-          surveyAttachmentService.findAllBySurvey(surveyId);
-      return ResponseEntity.ok().cacheControl(CacheControl.noStore())
-          .body(metadata);
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
+    List<SurveyAttachmentMetadata> metadata = surveyAttachmentService.findAllBySurvey(surveyId);
+    return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(metadata);
   }
 
   /**
@@ -86,13 +77,9 @@ public class SurveyAttachmentResource {
   @RequestMapping(path = "/surveys/{surveyId}/attachments", method = RequestMethod.DELETE)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllBySurveyId(@PathVariable("surveyId") String surveyId) {
-    if (!StringUtils.isEmpty(surveyId)) {
-      surveyAttachmentService.deleteAllBySurveyId(surveyId);
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
+    surveyAttachmentService.deleteAllBySurveyId(surveyId);
+    return ResponseEntity.noContent().build();
+
   }
 
   /**
@@ -106,13 +93,8 @@ public class SurveyAttachmentResource {
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> delete(@PathVariable("surveyId") String surveyId,
       @PathVariable("filename") String filename) {
-    if (!StringUtils.isEmpty(surveyId) && !StringUtils.isEmpty(filename)) {
-      surveyAttachmentService.deleteBySurveyIdAndFilename(surveyId, filename);
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
+    surveyAttachmentService.deleteBySurveyIdAndFilename(surveyId, filename);
+    return ResponseEntity.noContent().build();
   }
 
   /**

@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -15,9 +16,11 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -50,7 +53,7 @@ public class SurveyResponseRateImageResourceTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
 
@@ -67,8 +70,7 @@ public class SurveyResponseRateImageResourceTest extends AbstractTest {
 
   @Before
   public void setup() {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-        .build();
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
   @After
@@ -81,36 +83,121 @@ public class SurveyResponseRateImageResourceTest extends AbstractTest {
   }
 
   @Test
-  @WithMockUser(authorities= AuthoritiesConstants.PUBLISHER)
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateSurveyResponseRateImageMetadata() throws Exception {
     MockMultipartFile attachment =
         new MockMultipartFile("image", FILE_NAME, "image/png", "fakeimage".getBytes());
-    SurveyResponseRateImageMetadata surveyResponseRateImageMetadata = createResponseRateImageMetadata();
+    SurveyResponseRateImageMetadata surveyResponseRateImageMetadata =
+        createResponseRateImageMetadata();
     MockMultipartFile metadata = new MockMultipartFile("surveyResponseRateImageMetadata", FILE_NAME,
         "application/json", TestUtil.convertObjectToJsonBytes(surveyResponseRateImageMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/surveys/images")
-        .file(attachment)
-        .file(metadata))
-        .andExpect(status().isCreated());
+    // create the image
+    MvcResult result = mockMvc
+        .perform(
+            MockMvcRequestBuilders.multipart("/api/surveys/images").file(attachment).file(metadata))
+        .andExpect(status().isCreated()).andReturn();
+
+    // assert that the file exists
+    String fileUri = result.getResponse().getHeaderValue(HttpHeaders.LOCATION).toString();
+    mockMvc.perform(get(fileUri)).andExpect(status().isOk());
   }
 
   @Test
-  @WithMockUser(authorities= AuthoritiesConstants.PUBLISHER)
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testUploadEmptyImageMetadata() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("image", FILE_NAME, "image/png", "".getBytes());
+    SurveyResponseRateImageMetadata surveyResponseRateImageMetadata =
+        createResponseRateImageMetadata();
+    MockMultipartFile metadata = new MockMultipartFile("surveyResponseRateImageMetadata", FILE_NAME,
+        "application/json", TestUtil.convertObjectToJsonBytes(surveyResponseRateImageMetadata));
+
+    // create the image
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.multipart("/api/surveys/images").file(attachment).file(metadata))
+        .andExpect(status().isBadRequest());
+  }
+
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testDeleteAllResponseRateImages() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("image", FILE_NAME, "image/png", "fakeimage".getBytes());
+    SurveyResponseRateImageMetadata surveyResponseRateImageMetadata =
+        createResponseRateImageMetadata();
+    MockMultipartFile metadata = new MockMultipartFile("surveyResponseRateImageMetadata", FILE_NAME,
+        "application/json", TestUtil.convertObjectToJsonBytes(surveyResponseRateImageMetadata));
+
+    // create the image
+    MvcResult result = mockMvc
+        .perform(
+            MockMvcRequestBuilders.multipart("/api/surveys/images").file(attachment).file(metadata))
+        .andExpect(status().isCreated()).andReturn();
+
+    // assert that the file exists
+    String fileUri = result.getResponse().getHeaderValue(HttpHeaders.LOCATION).toString();
+    mockMvc.perform(get(fileUri)).andExpect(status().isOk());
+
+    // delete all images
+    mockMvc
+        .perform(
+            delete("/api/surveys/" + surveyResponseRateImageMetadata.getSurveyId() + "/images"))
+        .andExpect(status().isNoContent());
+
+    // assert that the file does not exist anymore
+    mockMvc.perform(get(fileUri)).andExpect(status().isNotFound());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testDeleteSingleResponseRateImage() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("image", FILE_NAME, "image/png", "fakeimage".getBytes());
+    SurveyResponseRateImageMetadata surveyResponseRateImageMetadata =
+        createResponseRateImageMetadata();
+    MockMultipartFile metadata = new MockMultipartFile("surveyResponseRateImageMetadata", FILE_NAME,
+        "application/json", TestUtil.convertObjectToJsonBytes(surveyResponseRateImageMetadata));
+
+    // create the image
+    MvcResult result = mockMvc
+        .perform(
+            MockMvcRequestBuilders.multipart("/api/surveys/images").file(attachment).file(metadata))
+        .andExpect(status().isCreated()).andReturn();
+
+    // assert that the file exists
+    String fileUri = result.getResponse().getHeaderValue(HttpHeaders.LOCATION).toString();
+    mockMvc.perform(get(fileUri)).andExpect(status().isOk());
+
+    // delete the image
+    mockMvc.perform(delete("/api/surveys/" + surveyResponseRateImageMetadata.getSurveyId()
+        + "/images/" + surveyResponseRateImageMetadata.getFileName()))
+        .andExpect(status().isNoContent());
+
+    // assert that the file does not exist anymore
+    mockMvc.perform(get(fileUri)).andExpect(status().isNotFound());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateShadowCopySurveyResponseRateImageMetadata() throws Exception {
     MockMultipartFile attachment =
         new MockMultipartFile("image", FILE_NAME, "image/png", "fakeimage".getBytes());
-    SurveyResponseRateImageMetadata surveyResponseRateImageMetadata = createResponseRateImageMetadata();
-    surveyResponseRateImageMetadata.setSurveyId(surveyResponseRateImageMetadata.getSurveyId() + "-1.0.0");
+    SurveyResponseRateImageMetadata surveyResponseRateImageMetadata =
+        createResponseRateImageMetadata();
+    surveyResponseRateImageMetadata
+        .setSurveyId(surveyResponseRateImageMetadata.getSurveyId() + "-1.0.0");
     surveyResponseRateImageMetadata.generateId();
     MockMultipartFile metadata = new MockMultipartFile("surveyResponseRateImageMetadata", FILE_NAME,
         "application/json", TestUtil.convertObjectToJsonBytes(surveyResponseRateImageMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/surveys/images")
-        .file(attachment)
-        .file(metadata))
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.multipart("/api/surveys/images").file(attachment).file(metadata))
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
+            containsString("global.error.shadow-create-not-allowed")));
   }
 
   @Test
@@ -124,8 +211,8 @@ public class SurveyResponseRateImageResourceTest extends AbstractTest {
     surveyRepository.save(survey);
 
     mockMvc.perform(delete("/api/surveys/" + SURVEY_ID + "-1.0.0/images"))
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
+            containsString("global.error.shadow-delete-not-allowed")));
   }
 
   @Test
@@ -139,8 +226,8 @@ public class SurveyResponseRateImageResourceTest extends AbstractTest {
     surveyRepository.save(survey);
 
     mockMvc.perform(delete("/api/surveys/" + SURVEY_ID + "-1.0.0/images/" + metadata.getFileName()))
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
+            containsString("global.error.shadow-delete-not-allowed")));
   }
 
   private SurveyResponseRateImageMetadata createResponseRateImageMetadata() {
@@ -157,8 +244,8 @@ public class SurveyResponseRateImageResourceTest extends AbstractTest {
       throws Exception {
 
     try (InputStream is = new ByteArrayInputStream("fakeimage".getBytes(StandardCharsets.UTF_8))) {
-      String filename = String.format("/surveys/%s/%s", metadata.getSurveyId(),
-          metadata.getFileName());
+      String filename =
+          String.format("/surveys/%s/%s", metadata.getSurveyId(), metadata.getFileName());
       gridFsMetadataUpdateService.store(is, filename, "image/png", metadata);
     }
   }
