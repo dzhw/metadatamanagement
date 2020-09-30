@@ -105,7 +105,7 @@ public class SurveyResponseRateImageResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testUploadEmptyImageMetadata() throws Exception {
+  public void testUploadEmptyImage() throws Exception {
     MockMultipartFile attachment =
         new MockMultipartFile("image", FILE_NAME, "image/png", "".getBytes());
     SurveyResponseRateImageMetadata surveyResponseRateImageMetadata =

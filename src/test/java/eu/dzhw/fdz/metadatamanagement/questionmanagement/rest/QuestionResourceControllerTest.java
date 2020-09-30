@@ -144,6 +144,30 @@ public class QuestionResourceControllerTest extends AbstractTest {
   }
 
   @Test
+  public void testDeleteQuestion() throws Exception {
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Question question =
+        UnitTestCreateDomainObjectUtils.buildQuestion(project.getId(), 123, "instrument-Id");
+   
+    // create the Question with the given id
+    mockMvc.perform(post(API_QUESTIONS_URI).content(TestUtil.convertObjectToJsonBytes(question))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+    
+    // assert that the question exists
+    mockMvc.perform(get(API_QUESTIONS_URI + "/" + question.getId())).andExpect(status().isOk());
+    
+    // delete the question
+    mockMvc.perform(delete(API_QUESTIONS_URI + "/" + question.getId())).andExpect(status().isNoContent());
+    
+    // assert that the question does not exist anymore
+    mockMvc.perform(get(API_QUESTIONS_URI + "/" + question.getId()))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
   public void testUpdateQuestion() throws Exception {
     // Arrange
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();

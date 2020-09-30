@@ -114,6 +114,24 @@ public class QuestionImageResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testUploadEmptyImage() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("image", "image.png", "image/png", "".getBytes());
+    QuestionImageMetadata questionImageMetadata =
+        UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata("projectid", "questionid");
+    questionImageMetadata.setQuestionId(questionImageMetadata.getQuestionId() + "-1.0.0");
+    questionImageMetadata.generateId();
+    MockMultipartFile metadata = new MockMultipartFile("questionImageMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(questionImageMetadata));
+
+    // create the image
+    mockMvc.perform(
+        MockMvcRequestBuilders.multipart("/api/questions/images").file(attachment).file(metadata))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testDeleteAllQuestionImagessOfShadowCopyQuestion() throws Exception {
     String questionId = "ins-issue1991-ins1$-1.0.0";
 
