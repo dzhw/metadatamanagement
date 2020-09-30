@@ -293,11 +293,15 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static Instrument buildInstrument(String projectId) {
+    return buildInstrument(projectId, 1);
+  }
+
+  public static Instrument buildInstrument(String projectId, Integer instrumentNumber) {
     List<Integer> surveyNumbers = new ArrayList<>();
     surveyNumbers.add(1);
     List<String> surveyIds = new ArrayList<>();
     surveyIds.add(UnitTestCreateValidIds.buildSurveyId(projectId, 1));
-    String instrumentId = UnitTestCreateValidIds.buildInstrumentId(projectId, 1);
+    String instrumentId = UnitTestCreateValidIds.buildInstrumentId(projectId, instrumentNumber);
     Instrument instrument =
         Instrument.builder().dataAcquisitionProjectId(projectId).id(instrumentId)
             .title(I18nString.builder().de("Instrument.de").en("Instrument.en").build())
@@ -306,7 +310,8 @@ public class UnitTestCreateDomainObjectUtils {
             .description(I18nString.builder().de("Instrument.de").en("Instrument.en").build())
             .annotations(I18nString.builder().de("De Anmerkungen").en("En Annotations").build())
             .surveyIds(surveyIds).dataPackageId(UnitTestCreateValidIds.buildDataPackageId(projectId))
-            .dataAcquisitionProjectId(projectId).type("CAPI").number(1).surveyNumbers(surveyNumbers)
+            .dataAcquisitionProjectId(projectId).type("CAPI").number(instrumentNumber)
+            .surveyNumbers(surveyNumbers)
             .build();
     instrument.setMasterId(instrumentId);
     return instrument;

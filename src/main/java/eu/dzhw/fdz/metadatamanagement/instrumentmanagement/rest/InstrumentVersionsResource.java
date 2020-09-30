@@ -42,10 +42,6 @@ public class InstrumentVersionsResource {
     List<Instrument> instrumentVersions =
         instrumentVersionsService.findPreviousVersions(id, limit, skip);
 
-    if (instrumentVersions == null) {
-      return ResponseEntity.notFound().build();
-    }
-
     return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(instrumentVersions);
   }
 }
