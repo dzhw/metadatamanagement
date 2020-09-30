@@ -678,7 +678,8 @@ Herangehensweisen die Eingabemaske um ein neues Instrument anzulegen.
 
 Die Eingabemaske besteht
 aus den Pflichtfeldern Beschreibung, Titel, Typ und Erhebung, sowie
-den nicht verpflichtenden Feldern Untertitel und Anmerkungen (s. :numref:`eingabemaske_instrument_de`).
+den nicht verpflichtenden Feldern Untertitel, Anmerkungen und Konzepte (s. :numref:`eingabemaske_instrument_de`).
+Konzepte müssen zuerst, wie im Kapitel :ref:`Konzepte<Konzepte>` erklärt, angelegt werden und können danach über die Eingabemaske verlinkt werden.
 
 .. figure:: ./_static/eingabemaske_instrument_de.png
    :scale: 50 %
@@ -883,7 +884,8 @@ das Konzept weitergegeben, verwendet oder modifiziert werden darf.
 Die ursprüngliche Sprache(n) des Konzepts müssen Sie auch angeben. Materialien zum Konzept, also Anhänge, können
 erst nachdem das Konzept gespeichert wurde angehängt werden.
 
-Fragen können mit Konzepten verbunden werden. Dies geschieht im Handcrafted-to-MDM-Schritt der Frage-Metadatenerstellung.
+Fragen und Instrumente können mit Konzepten verbunden werden. Die Verknüpfung von Fragen und Konzepten
+geschieht im Handcrafted-to-MDM-Schritt der Frage-Metadatenerstellung.
 
 
 Projekte freigeben
