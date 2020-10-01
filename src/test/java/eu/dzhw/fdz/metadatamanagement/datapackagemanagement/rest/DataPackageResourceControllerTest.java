@@ -369,5 +369,16 @@ public class DataPackageResourceControllerTest extends AbstractTest {
         .andExpect(jsonPath("$.completeTitle").exists())
         .andExpect(jsonPath("$.release.version", equalTo("1.0.0")))
         .andExpect(jsonPath("$.doi").exists());
+
+    // now hide the previous shadow
+    DataPackage outdatedShadow =
+        dataPackageRepository.findById(dataPackage.getMasterId() + "-1.0.0").get();
+    outdatedShadow.setHidden(true);
+    dataPackageRepository.save(outdatedShadow);
+    elasticsearchAdminService.recreateAllIndices();
+
+    // assert that the public user cannot access the previous shadow anymore
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getMasterId() + "-1.0.0"))
+        .andExpect(status().isNotFound());
   }
 }

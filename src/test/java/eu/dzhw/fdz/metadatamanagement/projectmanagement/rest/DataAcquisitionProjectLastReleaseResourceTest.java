@@ -85,6 +85,13 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testVersionsNotFound() throws Exception {
+    mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/spaß/versions"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(0)));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testEditProjectAndReadVersions() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the dataPackage with the given id

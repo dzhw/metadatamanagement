@@ -1,8 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 
 import java.time.LocalDateTime;
 
