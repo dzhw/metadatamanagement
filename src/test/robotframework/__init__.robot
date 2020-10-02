@@ -16,15 +16,11 @@ ${BUILD_NUMBER}    local
 *** Keywords ***
 Open Local Browser
     Open Browser    ${WEBSITE}    ${BROWSER}    desired_capabilities=${CAPABILITIES.${BROWSER}}
-    Set Selenium Speed  0 seconds
-    Set Selenium Implicit Wait  0 seconds
 
 Open Saucelabs Browser
     ${BUILD_NUMBER} =    Get Environment Variable    TRAVIS_BUILD_NUMBER    ${EMPTY}
     Run Keyword If    '${BUILD_NUMBER}' != '${EMPTY}'    Set To Dictionary    ${CAPABILITIES.${BROWSER}}    build=${BUILD_NUMBER}
     Open Browser    ${WEBSITE}    ${BROWSER}    remote_url=${SAUCELABS_URL}    desired_capabilities=${CAPABILITIES.${BROWSER}}
-    Set Selenium Speed  0 seconds
-    Set Selenium Implicit Wait  0 seconds
 
 Open Home Page
     Run Keyword If    '${USE_SAUCELABS}' == '${EMPTY}'    Open Local Browser
