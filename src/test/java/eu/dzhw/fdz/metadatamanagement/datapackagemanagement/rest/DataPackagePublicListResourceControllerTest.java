@@ -32,6 +32,7 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyQueueItemService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
@@ -66,6 +67,9 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
   @Autowired
   private ShadowCopyQueueItemService shadowCopyQueueItemService;
 
+  @Autowired
+  private ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
+
   private MockMvc mockMvc;
 
   private GreenMail greenMail;
@@ -82,6 +86,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
   @After
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
+    shadowCopyQueueItemRepository.deleteAll();
     dataPackageRepository.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
     elasticsearchAdminService.recreateAllIndices();

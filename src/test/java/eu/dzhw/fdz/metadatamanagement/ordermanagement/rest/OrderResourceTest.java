@@ -1,6 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.ordermanagement.rest;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -46,8 +50,7 @@ public class OrderResourceTest extends AbstractTest {
 
   @Before
   public void setup() {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
-        .build();
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 
   @After
@@ -58,15 +61,52 @@ public class OrderResourceTest extends AbstractTest {
   @Test
   public void updateOrder() throws Exception {
     Order order = createOrder();
-    order = orderRepository.save(order);
+    mockMvc.perform(post("/api/orders").contentType(MediaType.APPLICATION_JSON)
+        .content(TestUtil.convertObjectToJsonBytes(order))).andExpect(status().isCreated());
+
+    order = orderRepository.findAll().get(0);
     order.getProducts().add(createProduct(order.getId()));
 
-    mockMvc.perform(put(UPDATE_ORDER_URL + order.getId()).contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.convertObjectToJsonBytes(order)))
-        .andExpect(status().isOk())
-        .andExpect(header().exists("Location"))
+    mockMvc
+        .perform(put(UPDATE_ORDER_URL + order.getId()).contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(order)))
+        .andExpect(status().isOk()).andExpect(header().exists("Location"))
         .andExpect(jsonPath("$.id", equalTo(order.getId())))
         .andExpect(jsonPath("$.version", equalTo((int) (order.getVersion() + 1))));
+
+    mockMvc.perform(get(UPDATE_ORDER_URL + order.getId())).andExpect(status().isOk())
+        .andExpect(jsonPath("$.products.length()", is(1)))
+        .andExpect(jsonPath("$.products[0].study.title.de",
+            is(order.getProducts().get(0).getStudy().getTitle().getDe())));
+
+    // now update as DLP
+    order = orderRepository.findAll().get(0);
+    order.getProducts().remove(0);
+    order.setClient(OrderClient.DLP);
+
+    mockMvc
+        .perform(put(UPDATE_ORDER_URL + order.getId()).contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(order)))
+        .andExpect(status().isOk()).andExpect(header().exists("Location"))
+        .andExpect(header().string("Location", containsString("/shopping-cart/" + order.getId())))
+        .andExpect(jsonPath("$.id", equalTo(order.getId())));
+  }
+
+  @Test
+  public void testNotFound() throws Exception {
+    mockMvc.perform(get(UPDATE_ORDER_URL + "spaß")).andExpect(status().isNotFound());
+
+    Order order = createOrder();
+    mockMvc.perform(put("/api/orders/spaß").contentType(MediaType.APPLICATION_JSON)
+        .content(TestUtil.convertObjectToJsonBytes(order))).andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void testCreateAsDlp() throws Exception {
+    Order order = createOrder();
+    order.setClient(OrderClient.DLP);
+    mockMvc.perform(post("/api/orders").contentType(MediaType.APPLICATION_JSON)
+        .content(TestUtil.convertObjectToJsonBytes(order))).andExpect(status().isBadRequest());
   }
 
   @Test
@@ -77,8 +117,7 @@ public class OrderResourceTest extends AbstractTest {
     order.setVersion(-1L);
 
     mockMvc.perform(put(UPDATE_ORDER_URL + order.getId()).contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.convertObjectToJsonBytes(order)))
-        .andExpect(status().isBadRequest());
+        .content(TestUtil.convertObjectToJsonBytes(order))).andExpect(status().isBadRequest());
   }
 
   @Test
@@ -89,8 +128,7 @@ public class OrderResourceTest extends AbstractTest {
     order.getProducts().add(createProduct(order.getId()));
 
     mockMvc.perform(put(UPDATE_ORDER_URL + order.getId()).contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.convertObjectToJsonBytes(order)))
-        .andExpect(status().isBadRequest());
+        .content(TestUtil.convertObjectToJsonBytes(order))).andExpect(status().isBadRequest());
   }
 
   private Order createOrder() {

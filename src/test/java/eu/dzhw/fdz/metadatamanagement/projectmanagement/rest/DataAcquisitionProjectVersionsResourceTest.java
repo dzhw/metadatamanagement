@@ -26,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectVersionsService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
@@ -53,6 +54,9 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
   @Autowired
   private DataAcquisitionProjectVersionsService versionsService;
 
+  @Autowired
+  private ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
+
   private MockMvc mockMvc;
 
   @Before
@@ -63,6 +67,7 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
   @After
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
+    shadowCopyQueueItemRepository.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
     elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();

@@ -17,12 +17,16 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class DataAcquisitionProjectVersionsServiceTest extends AbstractTest {
   @Autowired
   private DataAcquisitionProjectVersionsService versionsService;
+
+  @Autowired
+  private ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
 
   @Autowired
   private DataAcquisitionProjectManagementService projectManagementService;
@@ -35,6 +39,7 @@ public class DataAcquisitionProjectVersionsServiceTest extends AbstractTest {
 
   @After
   public void tearDown() {
+    shadowCopyQueueItemRepository.deleteAll();
     repository.deleteAll();
     javersService.deleteAll();
   }
