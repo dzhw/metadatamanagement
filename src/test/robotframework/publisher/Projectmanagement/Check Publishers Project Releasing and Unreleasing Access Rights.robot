@@ -71,7 +71,7 @@ Verify The Unreleased Project is Still Available under The Data Package Tab with
   Click on Cockpit Button
   Change Project Release Status
   Click on OK Button
-  Wait Until Angular Ready    10s
+  Wait Until Angular Ready    2s
   Click Publisher Ready Checkbox for Data Packages
   Sleep  5s   #We need explicit sleep to ensure the project is not available under the data package tab
   Publisher Logout
@@ -113,7 +113,7 @@ Restore The Previous Project Version and Publish Again
   Click on Cockpit Button
   Change Project Release Status
   Click on OK Button
-  Wait Until Angular Ready    10s
+  Wait Until Angular Ready    2s
   Click Publisher Ready Checkbox for Data Packages
   Get back to german home page
   Click Data Package Edit Button
@@ -138,7 +138,7 @@ Unrelased The Project again to Sync with Intial Step
   Click on Cockpit Button
   Change Project Release Status  #unrelease the project to initial state
   Click on OK Button
-  Wait Until Angular Ready    10s
+  Wait Until Angular Ready    2s
   Click Publisher Ready Checkbox for Data Packages
   Sleep  5s
   Get back to home page and deselect project

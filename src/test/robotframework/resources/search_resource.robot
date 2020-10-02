@@ -9,20 +9,20 @@ Search for
     [Arguments]    ${query}
     Click Element Through Tooltips    xpath=//input[@id='query']
     Input Text    id=query    ${query}
-    Wait Until Angular Ready    10s
+    Wait Until Angular Ready    2s
 
 Search for on startpage
     [Arguments]    ${query}
     Click Element Through Tooltips    xpath=//input[@id='query']
     Input Text    id=query    ${query}
     Press Key     id=query    \\13
-    Wait Until Angular Ready    10s
+    Wait Until Angular Ready    2s
 
 Search for in details
     [Arguments]    ${query}
     Click Element Through Tooltips    xpath=//input[@id='detailSearchQuery']
     Input Text    id=detailSearchQuery    ${query}
-    Wait Until Angular Ready    10s
+    Wait Until Angular Ready    2s
 
 Select project by name
     [Arguments]    ${projectname}
