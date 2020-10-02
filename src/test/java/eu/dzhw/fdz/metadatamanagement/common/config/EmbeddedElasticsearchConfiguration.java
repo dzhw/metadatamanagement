@@ -29,8 +29,9 @@ public class EmbeddedElasticsearchConfiguration {
   static {
     try {
       elastic = EmbeddedElastic.builder()
-          .withElasticVersion("7.9.1").withJavaHome(JavaHomeOption.inheritTestSuite())
-          .withEsJavaOpts("-Xms128m -Xmx1024m").withSetting(PopularProperties.HTTP_PORT, 19234)
+          .withElasticVersion(MetadataManagementProperties.Elasticsearch.TEST_VERSION)
+          .withJavaHome(JavaHomeOption.inheritTestSuite()).withEsJavaOpts("-Xms128m -Xmx1024m")
+          .withSetting(PopularProperties.HTTP_PORT, 19234)
           .withSetting(PopularProperties.CLUSTER_NAME, "metadatamanagement-test")
           .withInstallationDirectory(new File("target/elasticsearch"))
           .withCleanInstallationDirectoryOnStop(false).withStartTimeout(2, TimeUnit.MINUTES).build()
