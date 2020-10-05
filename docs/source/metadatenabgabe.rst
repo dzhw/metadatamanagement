@@ -874,7 +874,8 @@ erleichtern es aber Datennutzer:innen sehr, für sie relevante Datenpakete zu fi
    Konzept-Lizenz
 
 Idealerweise hat ein Konzept eine Lizenz, sodass rechtlich geregelt ist, unter welchen Umständen
-das Konzept weitergegeben, verwendet oder modifiziert werden darf.
+das Konzept weitergegeben, verwendet oder modifiziert werden darf. Dieses wird auf Englisch eingetragen (ggfs. muss es übersetzt werden).
+Außerdem kann ein Link zur Lizenz angegeben werden.
 
 .. figure:: ./_static/concept_language_materials.png
    :name: concept_language_materials
