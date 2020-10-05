@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -88,6 +89,19 @@ public class ConceptResourceControllerTest extends AbstractTest {
     // create the concept with the given id
     mockMvc.perform(put(API_CONCEPT_URI + "/" + concept.getId())
         .content(TestUtil.convertObjectToJsonBytes(concept))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+
+    // read the concept under the new url
+    mockMvc.perform(get(API_CONCEPT_URI + "/" + concept.getId())).andExpect(status().isOk());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testCreateConceptWithPost() throws IOException, Exception {
+    Concept concept = UnitTestCreateDomainObjectUtils.buildConcept();
+
+    // create the concept with the given id
+    mockMvc.perform(post(API_CONCEPT_URI).content(TestUtil.convertObjectToJsonBytes(concept))
         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
     // read the concept under the new url

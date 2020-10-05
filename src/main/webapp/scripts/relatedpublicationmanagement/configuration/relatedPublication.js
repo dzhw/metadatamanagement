@@ -32,7 +32,7 @@ angular.module('metadatamanagementApp')
             'LocationSimplifier', function($stateParams,
               RelatedPublicationSearchService, LocationSimplifier) {
               var excludedAttributes = ['nested*','variables', 'dataSets',
-                'surveys','studies','questions', 'instruments'];
+                'surveys','dataPackages','questions', 'instruments'];
               var id = LocationSimplifier.ensureDollarSign($stateParams.id);
               return RelatedPublicationSearchService.findOneById(
                 id, null, excludedAttributes);

@@ -44,7 +44,7 @@ public class QuestionShadowCopyDataSource implements ShadowCopyDataSource<Questi
     copy.setId(derivedId);
     copy.setDataAcquisitionProjectId(
         source.getDataAcquisitionProjectId() + "-" + release.getVersion());
-    copy.setStudyId(source.getStudyId() + "-" + release.getVersion());
+    copy.setDataPackageId(source.getDataPackageId() + "-" + release.getVersion());
     copy.setInstrumentId(source.getInstrumentId() + "-" + release.getVersion());
     copy.setSuccessors(createDerivedSuccessorIds(source.getSuccessors(), release.getVersion()));
     return copy;

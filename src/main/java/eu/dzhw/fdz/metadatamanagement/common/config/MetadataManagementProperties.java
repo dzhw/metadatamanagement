@@ -53,7 +53,8 @@ public class MetadataManagementProperties {
   @Getter
   @Setter
   public static class Elasticsearch {
-    private String version = "7.3.2";
+    public static final String TEST_VERSION = "7.9.1";
+    private String version = "7.9.1";
   }
 
   /**

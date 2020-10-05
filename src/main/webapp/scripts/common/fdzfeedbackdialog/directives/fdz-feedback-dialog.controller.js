@@ -10,8 +10,8 @@ angular.module('metadatamanagementApp')
     var checkDomainManagement = function() {
       var domainManagement = 'crosscutting';
       var encodedUrl = window.encodeURIComponent($location.absUrl());
-      if (encodedUrl.includes('studies')) {
-        domainManagement = 'studymanagement';
+      if (encodedUrl.includes('data-packages')) {
+        domainManagement = 'datapackagemanagement';
       }
       if (encodedUrl.includes('surveys')) {
         domainManagement = 'surveymanagement';
@@ -42,7 +42,7 @@ angular.module('metadatamanagementApp')
       .instant('global.navbar-feedback.category');
     $scope.mailBody = '';
     $scope.mailSubject = $translate
-      .instant('global.welcome-dialog.mail-subject');
+      .instant('global.feedback-dialog.mail-subject');
     $scope.mailBody =
       '%0A---------------------------------%0A' +
       sourceLang + '%3A%0A' +

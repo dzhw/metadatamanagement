@@ -24,7 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.validation.ConceptExists;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedStudy;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedDataPackage;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionIdName;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.validation.ValidQuestionType;
@@ -215,13 +215,13 @@ public class Question extends AbstractShadowableRdcDomainObject {
   private List<String> successors;
 
   /**
-   * The id of the {@link OrderedStudy} to which this question belongs.
+   * The id of the {@link OrderedDataPackage} to which this question belongs.
    * 
    * Must not be empty.
    */
   @Indexed
-  @NotEmpty(message = "question-management.error.question.study-id.not-empty")
-  private String studyId;
+  @NotEmpty(message = "question-management.error.question.dataPackage-id.not-empty")
+  private String dataPackageId;
 
   /**
    * List of ids of {@link Concept}s to which this question belongs.

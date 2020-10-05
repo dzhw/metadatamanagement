@@ -84,7 +84,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'project-has-no-study': 'The Project with the RDC-ID {{ id }} has no study.',
+            'project-has-no-dataPackage': 'The Project with the RDC-ID {{ id }} has no data package.',
             'requirements-not-met': 'There are still metadata that have not been marked as "ready" by the publishers.',
             'project-has-no-survey': 'The Project with the RDC-ID {{ id }} must contain at least one survey.',
             'project-has-no-data-set': 'The Project with the RDC-ID {{ id }} must contain at least one data set.'
@@ -99,7 +99,7 @@ angular.module('metadatamanagementApp').config(
             'assigned-to-project': 'The action is not possible because you are not assigned to the project as a publisher or data provider.',
             'not-required': 'The action is not possible because this metadata was not marked as "expected" in the project settings.',
             'prerequisite-missing-surveys': 'The action is not possible because the project does not contain any survey.',
-            'prerequisite-missing-studies': 'The action is not possible because the project does not contain a study yet.'
+            'prerequisite-missing-data_packages': 'The action is not possible because the project does not contain a data package yet.'
           }
         },
         'projectstatuslabel': {
@@ -153,7 +153,7 @@ angular.module('metadatamanagementApp').config(
           },
           'requirements': {
             'header': 'Expected Metadata',
-            'studies': 'Study',
+            'dataPackages': 'Data Package',
             'surveys': 'Surveys',
             'instruments': 'Instruments',
             'questions': 'Questions',
@@ -211,7 +211,7 @@ angular.module('metadatamanagementApp').config(
             'project-name': 'Project',
             'release-version': 'Current Version',
             'assigned-group': 'Assigned Group',
-            'study-status': 'Study',
+            'data-package-status': 'Data Package',
             'surveys-status': 'Surveys',
             'instruments-status': 'Instruments',
             'data-sets-status': 'Data Sets',

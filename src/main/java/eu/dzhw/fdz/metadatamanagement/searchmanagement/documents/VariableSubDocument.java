@@ -41,7 +41,7 @@ public class VariableSubDocument extends AbstractRdcDomainObject
   
   private Integer dataSetNumber;
 
-  private String studyId;
+  private String dataPackageId;
 
   private List<String> surveyIds;
   

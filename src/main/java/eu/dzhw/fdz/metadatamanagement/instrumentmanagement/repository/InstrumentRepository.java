@@ -44,7 +44,7 @@ public interface InstrumentRepository extends BaseRepository<Instrument, String>
   Stream<IdAndVersionProjection> streamIdsBySurveyIdsContaining(String surveyId);
 
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByStudyId(String studyId);
+  Stream<IdAndVersionProjection> streamIdsByDataPackageId(String dataPackageId);
 
   @RestResource(exported = false)
   Stream<IdAndVersionAndSurveyIdsProjection> streamIdsByIdIn(Collection<String> instrumentIds);
@@ -53,7 +53,7 @@ public interface InstrumentRepository extends BaseRepository<Instrument, String>
   IdAndVersionProjection findOneIdAndVersionById(String id);
 
   @RestResource(exported = false)
-  List<InstrumentSubDocumentProjection> findSubDocumentsByStudyId(String studyId);
+  List<InstrumentSubDocumentProjection> findSubDocumentsByDataPackageId(String dataPackageId);
 
   @RestResource(exported = false)
   List<InstrumentSubDocumentProjection> findSubDocumentsByIdIn(Collection<String> instrumentIds);

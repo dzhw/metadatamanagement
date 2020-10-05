@@ -39,10 +39,6 @@ public class DataAcquisitionProjectReleasesResource {
       @RequestParam(name = "noBeta", defaultValue = "true") Boolean noBetaReleases) {
     List<Release> releases = this.projectVersionsService.findAllReleases(id, noBetaReleases);
 
-    if (releases == null) {
-      return ResponseEntity.notFound().build();
-    }
-
     return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(releases);
   }
 }

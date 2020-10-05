@@ -10,7 +10,7 @@ angular.module('metadatamanagementApp')
              SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
              DataAcquisitionProjectResource,
              ProjectUpdateAccessService, CountryCodesResource, $stateParams,
-             blockUI, LocationSimplifier) {
+             blockUI, LocationSimplifier, $mdSidenav) {
       blockUI.start();
       LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
@@ -61,7 +61,7 @@ angular.module('metadatamanagementApp')
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onDataPackageChange',
             {
-              masterId: survey.study.masterId,
+              masterId: survey.dataPackage.masterId,
               version: survey.release.version
             });
         }
@@ -69,16 +69,16 @@ angular.module('metadatamanagementApp')
           'stateName': $state.current.name,
           'id': survey.id,
           'number': survey.number,
-          'studyId': survey.studyId,
-          'studyIsPresent': CleanJSObjectService.isNullOrEmpty(survey.study) ?
-            false : true,
+          'dataPackageId': survey.dataPackageId,
+          'dataPackageIsPresent': CleanJSObjectService
+            .isNullOrEmpty(survey.dataPackage) ? false : true,
           'projectId': survey.dataAcquisitionProjectId,
           'version': survey.shadow ? _.get(survey, 'release.version') : null
         });
         if (survey.release || Principal.hasAnyAuthority(['ROLE_PUBLISHER',
           'ROLE_DATA_PROVIDER'])) {
           ctrl.survey = survey;
-          ctrl.study = survey.study;
+          ctrl.dataPackage = survey.dataPackage;
 
           SurveyAttachmentResource.findBySurveyId({
             surveyId: ctrl.survey.id
@@ -129,5 +129,9 @@ angular.module('metadatamanagementApp')
         } else {
           return '';
         }
+      };
+
+      ctrl.toggleSidenav = function() {
+        $mdSidenav('SideNavBar').toggle();
       };
     });

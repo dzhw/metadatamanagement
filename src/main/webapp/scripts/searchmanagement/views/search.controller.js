@@ -10,7 +10,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
            QuestionUploadService, RelatedPublicationUploadService,
            CleanJSObjectService, CurrentProjectService, $timeout,
            PageTitleService, BreadcrumbService, SearchHelperService,
-           SearchResultNavigatorService, StudyResource, StudyIdBuilderService,
+           SearchResultNavigatorService, DataPackageResource,
+           DataPackageIdBuilderService,
            $rootScope, ProjectStatusScoringService, DeleteMetadataService,
            SimpleMessageToastService) {
 
@@ -27,7 +28,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       'tags',
       'sponsor',
       'institutions',
-      'access-ways'
+      'access-ways',
+      'concepts'
     ];
     var getSelectedMetadataType = function() {
       return $scope.tabs[$scope.searchParams.selectedTabIndex]
@@ -59,7 +61,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.searchParams.selectedTabIndex].elasticSearchType;
         }
       } else {
-        locationSearch.type = 'studies';
+        locationSearch.type = 'data_packages';
       }
       if ($scope.searchParams.query && $scope.searchParams.query !== '') {
         locationSearch.query = $scope.searchParams.query;
@@ -83,7 +85,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         $scope.options.pageObject.size = 10;
         $scope.searchParams = {
           query: '',
-          type: 'studies',
+          type: 'data_packages',
           size: $scope.options.pageObject.size,
           selectedTabIndex: 0
         };
@@ -151,13 +153,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
       $scope.searchParams = {
         query: '',
-        type: 'studies',
+        type: 'data_packages',
         size: $scope.options.pageObject.size,
         selectedTabIndex: 0
       };
       readSearchParamsFromLocation();
       writeSearchParamsToLocation();
-      $scope.loadStudyForProject();
+      $scope.loadDataPackageForProject();
       $scope.search();
     };
 
@@ -190,15 +192,15 @@ angular.module('metadatamanagementApp').controller('SearchController',
       visibleForPublicUser: false,
       noResultsText: 'search-management.no-results-text.all'
     }, {
-      title: 'search-management.tabs.studies',
-      inputLabel: 'search-management.input-label.studies',
-      elasticSearchType: 'studies',
+      title: 'search-management.tabs.data_packages',
+      inputLabel: 'search-management.input-label.data-packages',
+      elasticSearchType: 'data_packages',
       count: null,
       uploadFunction: null,
       disabled: false,
       visibleForPublicUser: true,
-      noResultsText: 'search-management.no-results-text.studies',
-      group: 'studies'
+      noResultsText: 'search-management.no-results-text.data-packages',
+      group: 'dataPackages'
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
@@ -294,6 +296,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
           'tags'),
         'access-ways': createDataPackageFilterContent(data,
           'access-ways'),
+        'concepts': createDataPackageFilterContent(data,
+          'concepts'),
         'sponsor': createDataPackageFilterContent(data,
           'sponsor'),
         'institutions': createDataPackageFilterContent(data,
@@ -458,7 +462,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
           if (!selectedTabChangeIsBeingHandled) {
             $scope.search();
           }
-          $scope.loadStudyForProject();
+          $scope.loadDataPackageForProject();
           currentProjectChangeIsBeingHandled = false;
         });
       });
@@ -505,7 +509,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
             if (!currentProjectChangeIsBeingHandled) {
               $scope.search();
             }
-            $scope.loadStudyForProject();
+            $scope.loadDataPackageForProject();
             selectedTabChangeIsBeingHandled = false;
           } else {
             tabChangedOnInitFlag = false;
@@ -540,23 +544,23 @@ angular.module('metadatamanagementApp').controller('SearchController',
         (($scope.options.pageObject.page - 1) * $scope.options.pageObject.size);
     };
 
-    $scope.loadStudyForProject = function() {
+    $scope.loadDataPackageForProject = function() {
       if ($scope.currentProject && !$scope.currentProject.release &&
         $scope.tabs[$scope.searchParams.selectedTabIndex]
-          .elasticSearchType === 'studies') {
+          .elasticSearchType === 'data_packages') {
         $rootScope.$broadcast('start-ignoring-404');
-        StudyResource.get({
-          id: StudyIdBuilderService.buildStudyId(
+        DataPackageResource.get({
+          id: DataPackageIdBuilderService.buildDataPackageId(
             $scope.currentProject.id)
-        }).$promise.then(function(study) {
-          $scope.currentStudy = study;
+        }).$promise.then(function(dataPackage) {
+          $scope.currentDataPackage = dataPackage;
         }).catch(function() {
-          $scope.currentStudy = undefined;
+          $scope.currentDataPackage = undefined;
         }).finally(function() {
           $rootScope.$broadcast('stop-ignoring-404');
         });
       } else {
-        $scope.currentStudy = undefined;
+        $scope.currentDataPackage = undefined;
       }
     };
 
@@ -601,8 +605,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
       return ProjectUpdateAccessService.isUpdateAllowed($scope.currentProject,
         type, true);
     };
-    $scope.deleteAllStudies = function() {
-      DeleteMetadataService.deleteAllOfType($scope.currentProject, 'studies');
+    $scope.deleteAllDataPackages = function() {
+      DeleteMetadataService.deleteAllOfType($scope.currentProject,
+        'data_packages');
     };
     $scope.deleteAllQuestions = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject, 'questions');
@@ -611,8 +616,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       DeleteMetadataService.deleteAllOfType($scope.currentProject, 'variables');
     };
     $scope.deleteAllInstruments = function() {
-      DeleteMetadataService.deleteAllOfType(
-        $scope.currentProject, 'instruments');
+      DeleteMetadataService.deleteAllOfType($scope.currentProject,
+         'instruments');
     };
     $scope.deleteAllSurveys = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject, 'surveys');

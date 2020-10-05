@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,15 +66,8 @@ public class DataSetAttachmentResource {
   @RequestMapping(path = "/data-sets/{dataSetId}/attachments", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> findByDataSetId(@PathVariable("dataSetId") String dataSetId) {
-    if (!StringUtils.isEmpty(dataSetId)) {
-      List<DataSetAttachmentMetadata> metadata =
-          dataSetAttachmentService.findAllByDataSet(dataSetId);
-      return ResponseEntity.ok().cacheControl(CacheControl.noStore())
-          .body(metadata);
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
+    List<DataSetAttachmentMetadata> metadata = dataSetAttachmentService.findAllByDataSet(dataSetId);
+    return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(metadata);
   }
   
   /**
@@ -86,13 +78,8 @@ public class DataSetAttachmentResource {
   @RequestMapping(path = "/data-sets/{dataSetId}/attachments", method = RequestMethod.DELETE)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByDataSetId(@PathVariable("dataSetId") String dataSetId) {
-    if (!StringUtils.isEmpty(dataSetId)) {
-      dataSetAttachmentService.deleteAllByDataSetId(dataSetId);
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
+    dataSetAttachmentService.deleteAllByDataSetId(dataSetId);
+    return ResponseEntity.noContent().build();
   }
 
   /**
@@ -106,12 +93,8 @@ public class DataSetAttachmentResource {
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> delete(@PathVariable("dataSetId") String dataSetId,
       @PathVariable("filename") String filename) {
-    if (!StringUtils.isEmpty(dataSetId) && !StringUtils.isEmpty(filename)) {
-      dataSetAttachmentService.deleteByDataSetIdAndFilename(dataSetId, filename);
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.badRequest().body(null);
-    }
+    dataSetAttachmentService.deleteByDataSetIdAndFilename(dataSetId, filename);
+    return ResponseEntity.noContent().build();
   }
 
   /**

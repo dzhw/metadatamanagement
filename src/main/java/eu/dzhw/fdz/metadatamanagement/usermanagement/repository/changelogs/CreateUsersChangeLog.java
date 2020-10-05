@@ -25,18 +25,18 @@ public class CreateUsersChangeLog {
     MongoCollection<Document> mycollection = db.getCollection("jhi_user");
     Document user0 = Document
         .parse("{\n" + "\"_id\" : \"user-0\",\n" + "\"version\": 0,\n" + "\"login\" : \"system\",\n"
-        + "\"password\" : \"$2a$10$mE.qmcV0mFU5NcKh73TZx.z4ueI/.bDWbj0T1BYyqP481kGGarKLG\",\n"
+            + "\"password\" : \"$2a$10$mE.qmcV0mFU5NcKh73TZx.z4ueI/.bDWbj0T1BYyqP481kGGarKLG\",\n"
             + "\"first_name\": \"\",\n" + "\"last_name\": \"System\",\n"
-        + "\"email\": \"system@localhost\",\n" + "\"activated\": \"true\",\n"
+            + "\"email\": \"system@localhost\",\n" + "\"activated\": \"true\",\n"
             + "\"lang_key\": \"en\",\n" + "\"createdBy\": \"system\",\n"
-        + "\"createdDate\": new Date(),\n"
-        + "\"authorities\": [{\"_id\": \"ROLE_ADMIN\"}, {\"_id\": \"ROLE_USER\"}]\n" + "}");
+            + "\"createdDate\": new Date(),\n"
+            + "\"authorities\": [{\"_id\": \"ROLE_ADMIN\"}, {\"_id\": \"ROLE_USER\"}]\n" + "}");
     mycollection.insertOne(user0);
     Document user1 = Document.parse(
         "{\n" + "\"_id\" : \"user-1\",\n" + "\"version\": 0,\n" + "\"login\" : \"anonymousUser\",\n"
-        + "\"password\" : \"$2a$10$j8S5d7Sr7.8VTOYNviDPOeWX8KcYILUVJBsYV83Y5NtECayypx9lO\",\n"
-        + "\"first_name\": \"Anonymous\",\n" + "\"last_name\": \"User\",\n"
-        + "\"email\": \"anonymous@localhost\",\n" + "\"activated\": \"true\",\n"
+            + "\"password\" : \"$2a$10$j8S5d7Sr7.8VTOYNviDPOeWX8KcYILUVJBsYV83Y5NtECayypx9lO\",\n"
+            + "\"first_name\": \"Anonymous\",\n" + "\"last_name\": \"User\",\n"
+            + "\"email\": \"anonymous@localhost\",\n" + "\"activated\": \"true\",\n"
             + "\"lang_key\": \"en\",\n" + "\"createdBy\": \"system\",\n"
             + "\"createdDate\": new Date(),\n" + "\"authorities\": []\n" + "}");
     mycollection.insertOne(user1);
@@ -48,7 +48,9 @@ public class CreateUsersChangeLog {
             + "\"lang_key\": \"en\",\n" + "\"createdBy\": \"system\",\n"
         + "\"createdDate\": new Date(),\n"
         + "\"authorities\": [{\"_id\": \"ROLE_ADMIN\"}, {\"_id\": \"ROLE_USER\"},"
-        + " {\"_id\": \"ROLE_PUBLISHER\"}, {\"_id\": \"ROLE_DATA_PROVIDER\"}]\n" + "}");
+            + " {\"_id\": \"ROLE_PUBLISHER\"}, {\"_id\": \"ROLE_DATA_PROVIDER\"},"
+            + "{\"_id\": \"ROLE_RELEASE_MANAGER\"}]\n"
+            + "}");
     mycollection.insertOne(user2);
     Document user3 = Document.parse("{\n" + "\"_id\" : \"user-3\",\n" + "\"version\": 0,\n"
         + "\"login\" : \"user\",\n"

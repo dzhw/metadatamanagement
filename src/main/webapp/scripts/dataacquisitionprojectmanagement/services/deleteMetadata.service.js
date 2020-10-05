@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp').service('DeleteMetadataService',
   function($rootScope, ProjectUpdateAccessService, CommonDialogsService,
     ElasticSearchAdminService, SimpleMessageToastService, $injector,
-    StudyIdBuilderService) {
+    DataPackageIdBuilderService) {
 
     var deleteAllOfType = function(project, type) {
       if (ProjectUpdateAccessService.isUpdateAllowed(
@@ -17,7 +17,8 @@ angular.module('metadatamanagementApp').service('DeleteMetadataService',
         }).then(function() {
           if (type === 'publications') {
             return $injector.get('DeleteAllPublicationsResource').deleteAll(
-              {id: StudyIdBuilderService.buildStudyId(project.id)}).$promise;
+              {id: DataPackageIdBuilderService.buildDataPackageId(project.id)})
+              .$promise;
           }
           return $injector.get('DeleteAll' +
             _.upperFirst(_.camelCase(type)) + 'Resource').deleteAll(
@@ -31,9 +32,9 @@ angular.module('metadatamanagementApp').service('DeleteMetadataService',
             processUpdateQueue(_.snakeCase(type));
         }).then(function() {
           $rootScope.$broadcast('deletion-completed');
-          if (type === 'studies') {
+          if (type === 'dataPackages') {
             SimpleMessageToastService.openSimpleMessageToast(
-              'study-management.edit.all-studies-deleted-toast',
+              'data-package-management.edit.all-data-packages-deleted-toast',
               {id: project.id});
           } else if (type === 'publications') {
             SimpleMessageToastService.openSimpleMessageToast(

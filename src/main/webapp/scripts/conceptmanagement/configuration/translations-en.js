@@ -14,6 +14,7 @@ angular.module('metadatamanagementApp').config(
             'title': 'Title',
             'citation-hint': 'Citation Hint',
             'license': 'License of this Concept',
+            'license-edit': 'License of this Concept (in English)',
             'original-languages': 'Original Languages of this Concept',
             'attachments': {
               'type': 'Type',
@@ -78,9 +79,9 @@ angular.module('metadatamanagementApp').config(
               'one': 'Click to show the instrument which has been used to measure this concept',
               'many': 'Click to show all instruments which have been used to measure this concept'
             },
-            'studies': {
-              'one': 'Click to show the study in which this concept has been measured',
-              'many': 'Click to show all studies in which this concept has been measured'
+            'data-packages': {
+              'one': 'Click to show the data package in which this concept has been measured',
+              'many': 'Click to show all data packages in which this concept has been measured'
             }
           },
           'doi-tooltip': 'Click to open the DOI in a new tab',
@@ -171,7 +172,7 @@ angular.module('metadatamanagementApp').config(
           'hints': {
             'id': 'Specify the ID of this concept in our RDC.',
             'doi': 'Please enter the DOI of this concept (if available).',
-            'license': 'Please provide the license under which this concept has been published.',
+            'license': 'Please provide the license in English under which this concept has been published.',
             'title': {
               'de': 'Please enter the title of this concept in German.',
               'en': 'Please enter the title of this concept in English.'

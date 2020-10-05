@@ -12,6 +12,6 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.ordermanag
    OrderAlreadyCompletedException
    OrderClient
    OrderState
-   OrderedStudy
+   OrderedDataPackage
    Product
 

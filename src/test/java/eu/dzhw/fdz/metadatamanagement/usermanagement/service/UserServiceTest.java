@@ -183,7 +183,7 @@ public class UserServiceTest extends AbstractTest {
     User user = userOpt.get();
     // Assert
     assertThat(user.getAuthorities()
-      .size(), is(4));
+        .size(), is(5));
     assertThat(user.getEmail(), is("admin@localhost"));
     assertThat(user.getId(), is("user-2"));
   }

@@ -9,7 +9,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.SetHasBeenReleasedBeforeOnlyOnce;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.ValidSemanticVersion;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import lombok.AccessLevel;
@@ -34,7 +34,7 @@ import java.io.Serializable;
 
 /**
  * The data acquisition project collects the metadata for the data products which are published by
- * our RDC. One project can contain one {@link Study}, many {@link Survey}s, many
+ * our RDC. One project can contain one {@link DataPackage}, many {@link Survey}s, many
  * {@link Instrument}s and {@link Question}s, and many {@link DataSet}s and {@link Variable}s. A
  * project can be currently released (visible to public users) or not. When a publisher releases a
  * project and its version is greater than or equal to 1.0.0 then the metadata is published to

@@ -36,6 +36,7 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.helper.DataSetAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
@@ -48,6 +49,9 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
 
   @Autowired
   private DataSetRepository dataSetRepository;
+
+  @Autowired
+  private DataSetAttachmentService dataSetAttachmentService;
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
@@ -108,6 +112,114 @@ public class DataSetAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.[0].createdBy", is("test")))
       .andExpect(jsonPath("$.[0].lastModifiedBy", is("test")))
       .andExpect(jsonPath("$.[0].masterId", is(dataSetAttachmentMetadata.getId())));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
+  public void testDeleteSingleAttachment() throws Exception {
+
+    MockMultipartFile attachment =
+        new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    DataSetAttachmentMetadata dataSetAttachmentMetadata =
+        UnitTestCreateDomainObjectUtils.buildDataSetAttachmentMetadata("projectid", 1);
+    MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(dataSetAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments").file(attachment)
+        .file(metadata)).andExpect(status().isCreated());
+
+    dataSetAttachmentMetadata.generateId();
+
+    // ensure that there is one attachment
+    mockMvc
+        .perform(get("/api/data-sets/" + dataSetAttachmentMetadata.getDataSetId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));;
+
+    // delete the file
+    mockMvc
+        .perform(delete("/api/data-sets/" + dataSetAttachmentMetadata.getDataSetId()
+            + "/attachments/" + attachment.getOriginalFilename()))
+        .andExpect(status().is2xxSuccessful());
+
+    // ensure the uploaded file does not exist anymore
+    mockMvc
+        .perform(get("/api/data-sets/" + dataSetAttachmentMetadata.getDataSetId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(0)));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
+  public void testDeleteAllAttachments() throws Exception {
+
+    MockMultipartFile attachment =
+        new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    DataSetAttachmentMetadata dataSetAttachmentMetadata =
+        UnitTestCreateDomainObjectUtils.buildDataSetAttachmentMetadata("projectid", 1);
+    MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(dataSetAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments").file(attachment)
+        .file(metadata)).andExpect(status().isCreated());
+
+    dataSetAttachmentMetadata.generateId();
+
+    // ensure that there is one attachment
+    mockMvc
+        .perform(get("/api/data-sets/" + dataSetAttachmentMetadata.getDataSetId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));;
+
+    // delete all files
+    mockMvc
+        .perform(delete("/api/data-sets/" + dataSetAttachmentMetadata.getDataSetId()
+            + "/attachments"))
+        .andExpect(status().is2xxSuccessful());
+
+    // ensure the uploaded file does not exist anymore
+    mockMvc
+        .perform(get("/api/data-sets/" + dataSetAttachmentMetadata.getDataSetId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(0)));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
+  public void testUpdateAttachment() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    DataSetAttachmentMetadata dataSetAttachmentMetadata =
+        UnitTestCreateDomainObjectUtils.buildDataSetAttachmentMetadata("projectid", 1);
+    MockMultipartFile metadata = new MockMultipartFile("dataSetAttachmentMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(dataSetAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/data-sets/attachments").file(attachment)
+        .file(metadata)).andExpect(status().isCreated());
+
+    dataSetAttachmentMetadata.generateId();
+
+    // ensure that there is one attachment
+    mockMvc
+        .perform(get("/api/data-sets/" + dataSetAttachmentMetadata.getDataSetId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));;
+
+    // update the metadata
+    DataSetAttachmentMetadata current =
+        dataSetAttachmentService.findAllByDataSet(dataSetAttachmentMetadata.getDataSetId()).get(0);
+    current.setLanguage("en");
+
+    mockMvc
+        .perform(put("/api/data-sets/" + dataSetAttachmentMetadata.getDataSetId() + "/attachments/"
+            + attachment.getOriginalFilename()).content(TestUtil.convertObjectToJsonBytes(current))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNoContent());
+
+    // read the updated attachment and check the version
+    mockMvc
+        .perform(get(
+            "/api/data-sets/" + dataSetAttachmentMetadata.getDataSetId() + "/attachments"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.[0].version", is(1)))
+        .andExpect(jsonPath("$.[0].createdBy", is("test")))
+        .andExpect(jsonPath("$.[0].lastModifiedBy", is("test")))
+        .andExpect(jsonPath("$.[0].language", is("en")));
   }
 
   @Test

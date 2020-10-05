@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,15 +66,8 @@ public class ConceptAttachmentResource {
   @RequestMapping(path = "/concepts/{conceptId}/attachments", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> findByConceptId(@PathVariable("conceptId") String conceptId) {
-    if (!StringUtils.isEmpty(conceptId)) {
-      List<ConceptAttachmentMetadata> metadata =
-          conceptAttachmentService.findAllByConcept(conceptId);
-      return ResponseEntity.ok().cacheControl(CacheControl.noStore())
-          .body(metadata);
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
+    List<ConceptAttachmentMetadata> metadata = conceptAttachmentService.findAllByConcept(conceptId);
+    return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(metadata);
   }
   
   /**
@@ -86,13 +78,8 @@ public class ConceptAttachmentResource {
   @RequestMapping(path = "/concepts/{conceptId}/attachments", method = RequestMethod.DELETE)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByConceptId(@PathVariable("conceptId") String conceptId) {
-    if (!StringUtils.isEmpty(conceptId)) {
-      conceptAttachmentService.deleteAllByConceptId(conceptId);
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
+    conceptAttachmentService.deleteAllByConceptId(conceptId);
+    return ResponseEntity.noContent().build();
   }
   
   /**
@@ -106,13 +93,8 @@ public class ConceptAttachmentResource {
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> delete(@PathVariable("conceptId") String conceptId, 
       @PathVariable("filename") String filename) {
-    if (!StringUtils.isEmpty(conceptId) && !StringUtils.isEmpty(filename)) {
-      conceptAttachmentService.deleteByConceptIdAndFilename(conceptId, filename);
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
+    conceptAttachmentService.deleteByConceptIdAndFilename(conceptId, filename);
+    return ResponseEntity.noContent().build();
   }
   
   /**

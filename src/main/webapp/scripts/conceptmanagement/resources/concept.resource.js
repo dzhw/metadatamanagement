@@ -1,7 +1,7 @@
 /* Author: Daniel Katzberg */
 'use strict';
 
-/* Study Resource */
+/* Concept Resource */
 angular.module('metadatamanagementApp')
   .factory('ConceptResource', function($resource, CleanJSObjectService) {
     return $resource('/api/concepts/:id', {

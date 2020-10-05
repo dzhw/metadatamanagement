@@ -41,10 +41,6 @@ public class ConceptVersionsResource {
       @RequestParam(name = "skip", defaultValue = "0") Integer skip) {
     List<Concept> conceptVersions = conceptVersionsService.findPreviousVersions(id, limit, skip);
     
-    if (conceptVersions == null) {
-      return ResponseEntity.notFound().build();
-    }
-    
     return ResponseEntity.ok()
         .cacheControl(CacheControl.noStore())
         .body(conceptVersions);

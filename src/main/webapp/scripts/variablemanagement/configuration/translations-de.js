@@ -23,7 +23,7 @@ angular.module('metadatamanagementApp').config(
             'variable': 'Variable',
             'variables': 'Variablen',
             'variables-in-panel': 'Panelvariablen',
-            'derived-variables': 'Abgeleitete Variablen',
+            'derived-variables': 'abgeleitete Variablen',
             'generation-details': 'Generierungsdetails',
             'name': 'Name',
             'data-type': 'Datentyp',
@@ -117,8 +117,8 @@ angular.module('metadatamanagementApp').config(
               'same-in-panel': 'Klicken, um alle Panelvariablen zu dieser Variable anzuzeigen',
               'derived-variables': 'Klicken, um alle abgeleiteten Variablen zu dieser Variable anzuzeigen',
             },
-            'studies': {
-              'one': 'Klicken, um die Studie anzuzeigen, aus der diese Variable resultierte'
+            'data-packages': {
+              'one': 'Klicken, um das Datenpaket anzuzeigen, welches diese Variable enthält'
             },
             'concepts': {
               'one': 'Klicken, um das Konzept, welches u.a. mit dieser Variable gemessen wurde, anzuzeigen',
@@ -148,14 +148,13 @@ angular.module('metadatamanagementApp').config(
           },
           'filter-details': {
             'expression': {
-              'not-empty': 'Der Filterausdruck darf nicht leer sein!',
+              'both-not-empty': 'Es muss beides angegeben werden: Filterausdruck und Filterausdruckssprache!',
               'size': 'Die Maximallänge des Filterausdrucks ist 2048 Zeichen.'
             },
             'description': {
               'i18n-string-size': 'Die Maximallänge der Filterbeschreibung ist 2048 Zeichen.'
             },
             'expression-language': {
-              'not-empty': 'Die Filterausdruckssprache darf nicht leer sein!',
               'valid-filter-expression-language': 'Die angegebene Filterausdruckssprache ist nicht gültig.Es sind nur SpEL und Stata erlaubt.'
             }
           },

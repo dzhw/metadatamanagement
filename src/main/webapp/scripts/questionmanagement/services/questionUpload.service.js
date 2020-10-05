@@ -5,8 +5,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
   function(FileReaderService, QuestionResource, QuestionRepositoryClient,
     JobLoggingService, QuestionImageUploadService, CleanJSObjectService,
     ErrorMessageResolverService, $q, ElasticSearchAdminService, $rootScope,
-    $translate, $mdDialog, QuestionIdBuilderService, StudyIdBuilderService,
-    InstrumentIdBuilderService, Upload, $timeout) {
+    $translate, $mdDialog, QuestionIdBuilderService,
+    DataPackageIdBuilderService, InstrumentIdBuilderService, Upload, $timeout) {
     var filesMap;
     // map questionId -> presentInJson true/false
     var existingQuestions = {};
@@ -149,8 +149,8 @@ angular.module('metadatamanagementApp').service('QuestionUploadService',
                   });
               }
               question.successors = successors;
-              question.studyId = StudyIdBuilderService
-                .buildStudyId(question.dataAcquisitionProjectId);
+              question.dataPackageId = DataPackageIdBuilderService
+                .buildDataPackageId(question.dataAcquisitionProjectId);
               resolve(new QuestionResource(question));
             } catch (e) {
               JobLoggingService.error({

@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp')
     $state, BreadcrumbService,
     SearchResultNavigatorService,
     OutdatedVersionNotifier,
-    $stateParams, blockUI, LocationSimplifier) {
+    $stateParams, blockUI, LocationSimplifier, $mdSidenav) {
     blockUI.start();
     LocationSimplifier.removeDollarSign();
     SearchResultNavigatorService
@@ -59,8 +59,9 @@ angular.module('metadatamanagementApp')
         'dataSetNumber': result.dataSetNumber,
         'dataSetIsPresent': !CleanJSObjectService.isNullOrEmpty(result.dataSet),
         'surveys': result.surveys,
-        'studyId': result.studyId,
-        'studyIsPresent': !CleanJSObjectService.isNullOrEmpty(result.study),
+        'dataPackageId': result.dataPackageId,
+        'dataPackageIsPresent': !CleanJSObjectService
+          .isNullOrEmpty(result.dataPackage),
         'projectId': result.dataAcquisitionProjectId,
         'version': result.shadow ? _.get(result, 'release.version') : null
       });
@@ -74,7 +75,7 @@ angular.module('metadatamanagementApp')
               .variable.distribution.validResponses))) {
           ctrl.validResponsesOrMissingsAvailable = true;
         }
-        ctrl.study = ctrl.variable.study;
+        ctrl.dataPackage = ctrl.variable.dataPackage;
         ctrl.dataSet = ctrl.variable.dataSet;
 
         //Find previousVariables
@@ -95,7 +96,8 @@ angular.module('metadatamanagementApp')
             ctrl.nextVariables = resultNextVariable.hits.hits;
           });
 
-        if (ctrl.variable.filterDetails) {
+        if (ctrl.variable.filterDetails &&
+            ctrl.variable.filterDetails.expression) {
           html_beautify(ctrl.variable.filterDetails.expression); //jscs:ignore
         }
         if (ctrl.variable.generationDetails) {
@@ -111,7 +113,7 @@ angular.module('metadatamanagementApp')
       if (!Principal.isAuthenticated()) {
         MessageBus.set('onDataPackageChange',
           {
-            masterId: result.study.masterId,
+            masterId: result.dataPackage.masterId,
             version: result.release.version
           });
       }
@@ -167,5 +169,9 @@ angular.module('metadatamanagementApp')
       return ctrl.variable.distribution != null &&
         ctrl.variable.distribution.validResponses &&
         ctrl.variable.distribution.validResponses.length > 0;
+    };
+
+    ctrl.toggleSidenav = function() {
+      $mdSidenav('SideNavBar').toggle();
     };
   });

@@ -47,7 +47,7 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
     copy.setDataAcquisitionProjectId(
         source.getDataAcquisitionProjectId() + "-" + release.getVersion());
     copy.setDataSetId(source.getDataSetId() + "-" + release.getVersion());
-    copy.setStudyId(source.getStudyId() + "-" + release.getVersion());
+    copy.setDataPackageId(source.getDataPackageId() + "-" + release.getVersion());
     copy.setSurveyIds(createDerivedSurveyIds(source.getSurveyIds(), release.getVersion()));
     copy.setRelatedQuestions(
         createDerivedRelatedQuestions(source.getRelatedQuestions(), release.getVersion()));
@@ -111,7 +111,8 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
   }
 
   private static List<String> createDerivedSurveyIds(List<String> surveyIds, String version) {
-    return surveyIds.stream().map(studyId -> studyId + "-" + version).collect(Collectors.toList());
+    return surveyIds.stream().map(dataPackageId -> dataPackageId + "-" + version)
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -137,7 +138,7 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
       }, ElasticsearchType.variables);
     }
   }
-  
+
   @Override
   public void hideExistingShadowCopies(String projectId, String version) {
     setHiddenState(projectId, version, true);

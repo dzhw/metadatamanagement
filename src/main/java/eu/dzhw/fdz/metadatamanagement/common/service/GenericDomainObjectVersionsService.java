@@ -48,7 +48,7 @@ public abstract class GenericDomainObjectVersionsService<T extends AbstractRdcDo
 
   protected void initJaversWithCurrentVersions() {
     if (!metadataManagementProperties.getServer().getInstanceIndex().equals(0)) {
-      log.debug("This is server instance {} therefore skipping javers init for studies.",
+      log.debug("This is server instance {} therefore skipping javers init for dataPackages.",
           metadataManagementProperties.getServer().getInstanceIndex());
       return;
     }

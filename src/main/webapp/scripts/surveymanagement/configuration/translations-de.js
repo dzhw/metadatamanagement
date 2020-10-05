@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'survey': 'Erhebung',
             'surveys': 'Erhebungen',
-            'surveys-same-study': 'Alle Erhebungen der Studie',
+            'surveys-same-data-package': 'Alle Erhebungen dieses Datenpakets',
             'field-period': 'Feldzeit',
             'population': 'Grundgesamtheit',
             'unit': 'Erhebungseinheit',
@@ -78,7 +78,7 @@ angular.module('metadatamanagementApp').config(
           'not-released-toast': 'Die Erhebung "{{ id }}" wurde noch nicht für alle Benutzer:innen freigegeben!',
           'tooltips': {
             'surveys': {
-              'many': 'Klicken, um alle Erhebungen dieser Studie anzuzeigen'
+              'many': 'Klicken, um alle Erhebungen dieses Datenpakets anzuzeigen'
             },
             'data-sets': {
               'one': 'Klicken, um den Datensatz dieser Erhebung anzuzeigen',
@@ -92,8 +92,8 @@ angular.module('metadatamanagementApp').config(
               'one': 'Klicken, um das bei dieser Erhebung verwendete Instrument anzuzeigen',
               'many': 'Klicken, um alle bei dieser Erhebung verwendeten Instrumente anzuzeigen'
             },
-            'studies': {
-              'one': 'Klicken, um die Studie dieser Erhebung anzuzeigen'
+            'data-packages': {
+              'one': 'Klicken, um das Datenpaket dieser Erhebung anzuzeigen'
             },
             'questions': {
               'one': 'Klicken, um die Frage dieser Erhebung anzuzeigen.',

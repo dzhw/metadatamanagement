@@ -38,21 +38,21 @@ public class RelatedPublicationChangesProvider
   }
 
   /**
-   * Get the list of studyIds which need to be updated.
+   * Get the list of dataPackageIds which need to be updated.
    * 
-   * @return a list of studyIds
+   * @return a list of dataPackageIds
    */
-  public List<String> getAffectedStudyIds(String relatedPublicationId) {
+  public List<String> getAffectedDataPackageIds(String relatedPublicationId) {
     List<String> oldIds = null;
     List<String> newIds = null;
     if (oldDomainObjects.get(relatedPublicationId) != null) {
-      oldIds = oldDomainObjects.get(relatedPublicationId).getStudyIds() != null
-          ? oldDomainObjects.get(relatedPublicationId).getStudyIds()
+      oldIds = oldDomainObjects.get(relatedPublicationId).getDataPackageIds() != null
+          ? oldDomainObjects.get(relatedPublicationId).getDataPackageIds()
           : new ArrayList<>();
     }
     if (newDomainObjects.get(relatedPublicationId) != null) {
-      newIds = newDomainObjects.get(relatedPublicationId).getStudyIds() != null
-          ? newDomainObjects.get(relatedPublicationId).getStudyIds()
+      newIds = newDomainObjects.get(relatedPublicationId).getDataPackageIds() != null
+          ? newDomainObjects.get(relatedPublicationId).getDataPackageIds()
           : new ArrayList<>();
     }
     return ListUtils.combineUniquely(newIds, oldIds);
@@ -142,44 +142,44 @@ public class RelatedPublicationChangesProvider
   }
 
   /**
-   * Get the list of study ids which have been removed from the publication.
+   * Get the list of dataPackage ids which have been removed from the publication.
    * 
    * @param relatedPublicationId the id of the publication
-   * @return list of study ids which have been removed from the publications
+   * @return list of dataPackage ids which have been removed from the publications
    */
-  public List<String> getDeletedStudyIds(String relatedPublicationId) {
+  public List<String> getDeletedDataPackageIds(String relatedPublicationId) {
     if (oldDomainObjects.get(relatedPublicationId) == null
-        || oldDomainObjects.get(relatedPublicationId).getStudyIds() == null) {
+        || oldDomainObjects.get(relatedPublicationId).getDataPackageIds() == null) {
       return new ArrayList<>();
     }
     if (newDomainObjects.get(relatedPublicationId) == null
-        || newDomainObjects.get(relatedPublicationId).getStudyIds() == null) {
-      return oldDomainObjects.get(relatedPublicationId).getStudyIds();
+        || newDomainObjects.get(relatedPublicationId).getDataPackageIds() == null) {
+      return oldDomainObjects.get(relatedPublicationId).getDataPackageIds();
     }
-    List<String> deletedStudyIds =
-        new ArrayList<>(oldDomainObjects.get(relatedPublicationId).getStudyIds());
-    deletedStudyIds.removeAll(newDomainObjects.get(relatedPublicationId).getStudyIds());
-    return deletedStudyIds;
+    List<String> deletedDataPackageIds =
+        new ArrayList<>(oldDomainObjects.get(relatedPublicationId).getDataPackageIds());
+    deletedDataPackageIds.removeAll(newDomainObjects.get(relatedPublicationId).getDataPackageIds());
+    return deletedDataPackageIds;
   }
 
   /**
-   * Get the list of study ids which have been added to the publication.
+   * Get the list of dataPackage ids which have been added to the publication.
    * 
    * @param relatedPublicationId the id of the publication
-   * @return list of study ids which have been added to the publications
+   * @return list of dataPackage ids which have been added to the publications
    */
-  public List<String> getAddedStudyIds(String relatedPublicationId) {
+  public List<String> getAddedDataPackageIds(String relatedPublicationId) {
     if (newDomainObjects.get(relatedPublicationId) == null
-        || newDomainObjects.get(relatedPublicationId).getStudyIds() == null) {
+        || newDomainObjects.get(relatedPublicationId).getDataPackageIds() == null) {
       return new ArrayList<>();
     }
     if (oldDomainObjects.get(relatedPublicationId) == null
-        || oldDomainObjects.get(relatedPublicationId).getStudyIds() == null) {
-      return newDomainObjects.get(relatedPublicationId).getStudyIds();
+        || oldDomainObjects.get(relatedPublicationId).getDataPackageIds() == null) {
+      return newDomainObjects.get(relatedPublicationId).getDataPackageIds();
     }
-    List<String> addedStudyIds =
-        new ArrayList<>(newDomainObjects.get(relatedPublicationId).getStudyIds());
-    addedStudyIds.removeAll(oldDomainObjects.get(relatedPublicationId).getStudyIds());
-    return addedStudyIds;
+    List<String> addedDataPackageIds =
+        new ArrayList<>(newDomainObjects.get(relatedPublicationId).getDataPackageIds());
+    addedDataPackageIds.removeAll(oldDomainObjects.get(relatedPublicationId).getDataPackageIds());
+    return addedDataPackageIds;
   }
 }

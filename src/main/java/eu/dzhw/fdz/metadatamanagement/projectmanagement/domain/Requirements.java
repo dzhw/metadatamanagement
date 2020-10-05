@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * This configuration defines which object types have to be delivered before
- * a project can be released.
+ * This configuration defines which object types have to be delivered before a project can be
+ * released.
  */
 @Data
 @NoArgsConstructor
@@ -29,14 +29,14 @@ public class Requirements implements Serializable {
   private static final long serialVersionUID = 1549882098416793512L;
 
   /**
-   * Defines if study data is required for a release (this object type is mandatory and this setting
-   * is therefore always {@code true}.
+   * Defines if dataPackage data is required for a release (this object type is mandatory and this
+   * setting is therefore always {@code true}.
    */
   @AssertTrue(message = "data-acquisition-project-management.error.required-object-types"
-      + ".is-studies-required.assert-true")
+      + ".is-dataPackages-required.assert-true")
   @Setter(AccessLevel.NONE)
   @Builder.Default
-  private boolean isStudiesRequired = true;
+  private boolean isDataPackagesRequired = true;
 
   /**
    * Defines if survey data is required for a release.
@@ -62,7 +62,7 @@ public class Requirements implements Serializable {
    * Defines if variable data is required for a release.
    */
   private boolean isVariablesRequired;
-  
+
   /**
    * Defines if publication data is required for a release.
    */

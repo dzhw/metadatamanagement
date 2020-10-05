@@ -12,7 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import lombok.EqualsAndHashCode;
@@ -39,8 +39,8 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
   
   private DataSetSubDocument dataSet = null;
   private DataSetNestedDocument nestedDataSet = null;
-  private StudySubDocument study = null;
-  private StudyNestedDocument nestedStudy = null;
+  private DataPackageSubDocument dataPackage = null;
+  private DataPackageNestedDocument nestedDataPackage = null;
   private List<RelatedPublicationSubDocument> relatedPublications = 
       new ArrayList<>();
   private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
@@ -65,7 +65,7 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
    * Construct the search document with all related subdocuments.
    * @param variable the variable to be searched for
    * @param dataSet the data set containing this variable
-   * @param study the study containing this variable
+   * @param dataPackage the dataPackage containing this variable
    * @param relatedPublications the related publications using this variable
    * @param surveys the surveys using this variable
    * @param instruments the instruments using this variable
@@ -75,7 +75,7 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
   @SuppressWarnings("CPD-START")
   public VariableSearchDocument(Variable variable,
                                 DataSetSubDocumentProjection dataSet,
-                                StudySubDocumentProjection study,
+                                DataPackageSubDocumentProjection dataPackage,
                                 List<RelatedPublicationSubDocumentProjection> relatedPublications,
                                 List<SurveySubDocumentProjection> surveys,
                                 List<InstrumentSubDocumentProjection> instruments,
@@ -89,9 +89,9 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
       this.dataSet = new DataSetSubDocument(dataSet);
       this.nestedDataSet = new DataSetNestedDocument(dataSet);
     }
-    if (study != null) {
-      this.study = new StudySubDocument(study, doi);
-      this.nestedStudy = new StudyNestedDocument(study);
+    if (dataPackage != null) {
+      this.dataPackage = new DataPackageSubDocument(dataPackage, doi);
+      this.nestedDataPackage = new DataPackageNestedDocument(dataPackage);
     }
     if (relatedPublications != null) {
       this.relatedPublications = relatedPublications.stream()

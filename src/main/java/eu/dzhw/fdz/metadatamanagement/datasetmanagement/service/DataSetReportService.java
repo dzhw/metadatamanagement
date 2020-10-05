@@ -45,6 +45,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.MarkdownHelper;
 import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -53,8 +55,6 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -85,7 +85,7 @@ public class DataSetReportService {
 
   private final QuestionRepository questionRepository;
 
-  private final StudyRepository studyRepository;
+  private final DataPackageRepository dataPackageRepository;
 
   private final InstrumentRepository instrumentRepository;
 
@@ -329,7 +329,8 @@ public class DataSetReportService {
     Map<String, Object> dataForTemplate = new HashMap<>();
 
     // Create Information for the latex template.
-    dataForTemplate = this.addStudyAndDataSetAndLastRelease(dataForTemplate, dataSetId, version);
+    dataForTemplate =
+        this.addDataPackageAndDataSetAndLastRelease(dataForTemplate, dataSetId, version);
     dataForTemplate = this.createVariableDependingMaps(dataForTemplate);
 
     return dataForTemplate;
@@ -345,19 +346,19 @@ public class DataSetReportService {
    * @return The map for the template as fluent result. Added some created elements within this
    *         method.
    */
-  private Map<String, Object> addStudyAndDataSetAndLastRelease(Map<String, Object> dataForTemplate,
-      String dataSetId, String version) {
+  private Map<String, Object> addDataPackageAndDataSetAndLastRelease(
+      Map<String, Object> dataForTemplate, String dataSetId, String version) {
     // Get DataSet and check the valid result
     DataSet dataSet = this.dataSetRepository.findById(dataSetId).orElse(null);
-    Study study;
+    DataPackage dataPackage;
 
     if (dataSet != null) {
-      study = this.studyRepository.findById(dataSet.getStudyId()).orElse(null);
+      dataPackage = this.dataPackageRepository.findById(dataSet.getDataPackageId()).orElse(null);
     } else {
-      study = null;
+      dataPackage = null;
     }
 
-    dataForTemplate.put("study", study);
+    dataForTemplate.put("dataPackage", dataPackage);
     dataForTemplate.put("dataSet", dataSet);
     dataForTemplate.put("version", version);
 
@@ -481,8 +482,8 @@ public class DataSetReportService {
   }
 
   /**
-   * Start one container per language which builds the report. Either via aws fargate or locally
-   * via docker.
+   * Start one container per language which builds the report. Either via aws fargate or locally via
+   * docker.
    *
    * @param dataSetId The id of the dataSet for which the report will be generated.
    * @param languages The languages in which we need to generate the report. Currently supported

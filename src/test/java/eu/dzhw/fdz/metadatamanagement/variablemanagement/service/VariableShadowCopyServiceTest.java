@@ -159,7 +159,7 @@ public class VariableShadowCopyServiceTest extends AbstractTest {
     Variable shadow = new Variable(master);
     shadow.setId(master.getId() + "-" + version);
     shadow.setDataAcquisitionProjectId(master.getDataAcquisitionProjectId() + "-" + version);
-    shadow.setStudyId(master.getStudyId() + "-" + version);
+    shadow.setDataPackageId(master.getDataPackageId() + "-" + version);
     shadow.setDataSetId(master.getDataSetId() + "-" + version);
     return shadow;
   }

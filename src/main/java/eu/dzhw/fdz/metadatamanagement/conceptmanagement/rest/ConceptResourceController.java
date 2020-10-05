@@ -46,6 +46,7 @@ public class ConceptResourceController
   @Override
   @Operation(summary = "Get the concept.")
   @GetMapping(value = "/concepts/{id:.+}")
+  @ResponseBody
   public ResponseEntity<Concept> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);
   }

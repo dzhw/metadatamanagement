@@ -9,20 +9,20 @@ Search for
     [Arguments]    ${query}
     Click Element Through Tooltips    xpath=//input[@id='query']
     Input Text    id=query    ${query}
-    Wait Until Angular Ready    10s
+    Wait Until Angular Ready    2s
 
 Search for on startpage
     [Arguments]    ${query}
     Click Element Through Tooltips    xpath=//input[@id='query']
     Input Text    id=query    ${query}
     Press Key     id=query    \\13
-    Wait Until Angular Ready    10s
+    Wait Until Angular Ready    2s
 
 Search for in details
     [Arguments]    ${query}
     Click Element Through Tooltips    xpath=//input[@id='detailSearchQuery']
     Input Text    id=detailSearchQuery    ${query}
-    Wait Until Angular Ready    10s
+    Wait Until Angular Ready    2s
 
 Select project by name
     [Arguments]    ${projectname}
@@ -34,7 +34,7 @@ Delete project by name
     Input Text    xpath=//input[@placeholder = 'Projekt auswählen']    ${projectname}
     Click Element Through Tooltips    xpath=//md-sidenav/descendant::button[md-icon[text()='']]
     Click Element Through Tooltips    xpath=//button[text()='OK']
-    Run Keyword If    '${BROWSER}' == 'safari'    Sleep  10s 
+    Run Keyword If    '${BROWSER}' == 'safari'    Sleep  10s
 
 Click on search result by id
     [Arguments]    ${id}
@@ -52,10 +52,10 @@ Choose Filter Option by id
     [Arguments]    ${id}
     Click Element Through Tooltips    xpath=//md-virtual-repeat-container//li//span[text()='${id}']
 
-Click on study tab
+Click on data package tab
     ${url} =    Get Location
-    Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Studie')]
-    Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Study')]
+    Run Keyword If    '/de/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Datenpaket')]
+    Run Keyword If    '/en/' in '${url}'    Click Element Through Tooltips    xpath=//md-pagination-wrapper/md-tab-item[contains(.,'Data Package')]
 
 Click on surveys tab
     ${url} =    Get Location

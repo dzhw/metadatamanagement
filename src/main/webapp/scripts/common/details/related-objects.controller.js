@@ -29,15 +29,15 @@
     var selectedTabChangeIsBeingHandled = false;
     var queryChangeIsBeingHandled = false;
     var tabs = [{
-      title: 'search-management.tabs.data-packages',
+      title: 'search-management.tabs.data_packages',
       inputLabel: 'search-management.input-label.data-packages',
-      elasticSearchType: 'studies',
+      elasticSearchType: 'data_packages',
       count: null,
       uploadFunction: null,
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.data-packages',
-      group: 'studies'
+      group: 'dataPackages'
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
@@ -128,7 +128,6 @@
           page: 1
         }
       };
-      $ctrl.placeHolder = $ctrl.tabs[0].title;
       $ctrl.searchParams = {
         query: '',
         size: $ctrl.options.pageObject.size,
@@ -138,12 +137,13 @@
 
       readSearchParamsFromLocation();
       writeSearchParamsToLocation();
+      $ctrl.placeHolder = $ctrl.tabs[$ctrl.searchParams.selectedTabIndex].title;
       $ctrl.search();
     }
 
     function getCurrentObjectFilter() {
       var objMapper = {
-        'studies': 'study',
+        'data-packages': 'data-package',
         'surveys': 'survey',
         'instruments': 'instrument',
         'questions': 'question',
@@ -201,7 +201,7 @@
         delete locationSearch['sort-by'];
       }
       _.assign(locationSearch, _.omit($ctrl.searchParams.filter,
-        'study', 'survey', 'concept', 'data-set', 'instrument',
+        'data-package', 'survey', 'concept', 'data-set', 'instrument',
         'question', 'related-publication', 'variable'));
       locationChanged = !angular.equals($location.search(),
         locationSearch);

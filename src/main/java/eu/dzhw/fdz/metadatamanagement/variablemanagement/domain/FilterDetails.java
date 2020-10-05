@@ -2,13 +2,13 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.FilterExpressionAndLanguageNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidFilterExpressionLanguage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +25,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
+@FilterExpressionAndLanguageNotEmpty
 public class FilterDetails implements Serializable {
 
   private static final long serialVersionUID = 801116537746296203L;
@@ -33,9 +34,8 @@ public class FilterDetails implements Serializable {
    * A technical expression describing the condition which must have evaluated to true. The
    * expression is given in the expressionLanguage.
    * 
-   * Must not be empty and must not contain more than 2048 characters.
+   * Can be empty and must not contain more than 2048 characters.
    */
-  @NotEmpty(message = "variable-management.error.filter-details.expression.not-empty")
   @Size(max = StringLengths.LARGE,
       message = "variable-management.error.filter-details.expression.size")
   private String expression;
@@ -52,10 +52,9 @@ public class FilterDetails implements Serializable {
   /**
    * The name of the language in which the expression was given.
    * 
-   * Must not be empty and must be one of {@link FilterExpressionLanguages}.
+   * Can be empty if and only if expression is empty. If present must be one of
+   * {@link FilterExpressionLanguages}.
    */
-  @NotEmpty(message = "variable-management.error.filter-details."
-      + "expression-language.not-empty")
   @ValidFilterExpressionLanguage(
       message = "variable-management.error.filter-details."
           + "expression-language.valid-filter-expression-language")

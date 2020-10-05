@@ -102,7 +102,7 @@
 			"type": "keyword",
 			"copy_to": "all"
 		},
-		"studyId": {
+		"dataPackageId": {
 			"type": "keyword",
 			"copy_to": "all"
 		},
@@ -192,7 +192,7 @@
 			"type": "keyword",
 			"copy_to": "all"
 		},
-		"study": {
+		"dataPackage": {
 			"type": "object",
 			"properties": {
 				"id": {
@@ -290,7 +290,7 @@
 				}
 			}
 		},
-		"nestedStudy": {
+		"nestedDataPackage": {
 			"type": "nested",
 			"properties": {
 				"completeTitle": {

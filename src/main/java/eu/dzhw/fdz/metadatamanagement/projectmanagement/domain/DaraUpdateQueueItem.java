@@ -68,7 +68,7 @@ public class DaraUpdateQueueItem extends AbstractRdcDomainObject {
 
   /**
    * Construct a dara queue item with a project id.
-   * @param projectId The id of a study.
+   * @param projectId The id of a dataPackage.
    */
   public DaraUpdateQueueItem(String projectId) {
     this.projectId = projectId;

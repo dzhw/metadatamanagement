@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, LanguageService,
              $state, BreadcrumbService, Principal,
              ConceptAttachmentResource, SearchResultNavigatorService,
-             $stateParams, $log, blockUI, LocationSimplifier) {
+             $stateParams, $log, blockUI, LocationSimplifier, $mdSidenav) {
       blockUI.start();
       LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
@@ -27,7 +27,7 @@ angular.module('metadatamanagementApp')
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.searchResultIndex = SearchResultNavigatorService.getSearchIndex();
       ctrl.counts = {
-        studiesCount: 0,
+        dataPackagesCount: 0,
         surveysCount: 0,
         instrumentsCount: 0,
         questionsCount: 0,
@@ -67,5 +67,9 @@ angular.module('metadatamanagementApp')
 
       ctrl.conceptEdit = function() {
         $state.go('conceptEdit', {id: ctrl.concept.id});
+      };
+
+      ctrl.toggleSidenav = function() {
+        $mdSidenav('SideNavBar').toggle();
       };
     });

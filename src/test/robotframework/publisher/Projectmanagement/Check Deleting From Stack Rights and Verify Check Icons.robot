@@ -45,7 +45,7 @@ Assign Publisher From List
     \    Assign a publisher  ${PL}
 
 Verify The Sentiments From The List of Metadata
-    @{MD_ITEMS}    Create List    studies   surveys   instruments   questions   dataSets    variables
+    @{MD_ITEMS}    Create List    dataPackages   surveys   instruments   questions   dataSets    variables
     @{SN_ITEMS}    Create List    assets/images/icons/bbaf48e1.clipboard.svg    assets/images/icons/c691f57d.clipboard-check.svg    assets/images/icons/a103f3a2.clipboard-double-check.svg
     :FOR   ${MD_DT}   IN  @{MD_ITEMS}
     \   Run Keyword If   '@{SN_ITEMS}[0]' == 'assets/images/icons/bbaf48e1.clipboard.svg'    Page Should Contain Element    xpath=//md-card[@type="${MD_DT}"]//following::md-icon[@md-svg-src="@{SN_ITEMS}[0]"]

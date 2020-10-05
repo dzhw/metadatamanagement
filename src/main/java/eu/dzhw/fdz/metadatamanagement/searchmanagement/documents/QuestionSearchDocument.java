@@ -12,7 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
@@ -35,8 +35,8 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
   static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION =
       new String[] {"nested*", "variables", "configuration", "guiLabels", "*Publications"};
   
-  private StudySubDocument study = null;
-  private StudyNestedDocument nestedStudy = null;
+  private DataPackageSubDocument dataPackage = null;
+  private DataPackageNestedDocument nestedDataPackage = null;
   private InstrumentSubDocument instrument = null;
   private InstrumentNestedDocument nestedInstrument = null;
   private List<SurveySubDocument> surveys = 
@@ -64,7 +64,7 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
   /**
    * Construct the search document with all related subdocuments.
    * @param question the question to be searched for
-   * @param study the study containing this question
+   * @param dataPackage the dataPackage containing this question
    * @param instrument the instrument containing this question
    * @param surveys the surveys using this question
    * @param variables the variables used by this question
@@ -72,7 +72,7 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
    * @param configuration the project configuration
    */
   public QuestionSearchDocument(Question question,
-                                StudySubDocumentProjection study,
+                                DataPackageSubDocumentProjection dataPackage,
                                 InstrumentSubDocumentProjection instrument,
                                 List<SurveySubDocumentProjection> surveys,
                                 List<VariableSubDocumentProjection> variables,
@@ -83,9 +83,9 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
                                 String doi,
                                 Configuration configuration) {
     super(question);
-    if (study != null) {
-      this.study = new StudySubDocument(study, doi);
-      this.nestedStudy = new StudyNestedDocument(study);
+    if (dataPackage != null) {
+      this.dataPackage = new DataPackageSubDocument(dataPackage, doi);
+      this.nestedDataPackage = new DataPackageNestedDocument(dataPackage);
     }
     if (instrument != null) {
       this.instrument = new InstrumentSubDocument(instrument);

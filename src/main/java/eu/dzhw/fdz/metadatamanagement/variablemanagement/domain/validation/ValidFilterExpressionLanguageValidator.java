@@ -3,10 +3,12 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import com.google.common.base.Strings;
+
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpressionLanguages;
 
 /**
- * Validator for the filter expression languages of a variable. Only valued from the
+ * Validator for the filter expression languages of a variable. Only values from the
  * {@link FilterExpressionLanguages} class are allowed.
  * 
  * @author Daniel Katzberg
@@ -32,6 +34,9 @@ public class ValidFilterExpressionLanguageValidator
   @Override
   public boolean isValid(String filterExpressionLanguage, ConstraintValidatorContext context) {
 
+    if (Strings.isNullOrEmpty(filterExpressionLanguage)) {
+      return true;
+    }
      // expression language is okay
     return FilterExpressionLanguages.ALL.contains(filterExpressionLanguage);
   }

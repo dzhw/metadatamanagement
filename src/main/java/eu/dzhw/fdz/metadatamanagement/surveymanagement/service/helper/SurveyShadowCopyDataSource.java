@@ -42,7 +42,7 @@ public class SurveyShadowCopyDataSource implements ShadowCopyDataSource<Survey> 
     copy.setId(derivedId);
     copy.setDataAcquisitionProjectId(
         source.getDataAcquisitionProjectId() + "-" + release.getVersion());
-    copy.setStudyId(source.getStudyId() + "-" + release.getVersion());
+    copy.setDataPackageId(source.getDataPackageId() + "-" + release.getVersion());
     return copy;
   }
 

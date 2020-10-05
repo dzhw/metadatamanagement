@@ -42,7 +42,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.questionmanagement.domain Question
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain Study
+.. java:import:: eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain DataPackage
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain Survey
 
@@ -139,6 +139,14 @@ dataAcquisitionProjectId
    :outertype: Variable
 
    The id of the \ :java:ref:`DataAcquisitionProject`\  to which this variable belongs. The dataAcquisitionProjectId must not be empty.
+
+dataPackageId
+^^^^^^^^^^^^^
+
+.. java:field:: @Indexed @NotEmpty private String dataPackageId
+   :outertype: Variable
+
+   Id of the \ :java:ref:`DataPackage`\  to which this variable belongs.
 
 dataSetId
 ^^^^^^^^^
@@ -287,14 +295,6 @@ storageType
    :outertype: Variable
 
    Associated with each data type is a storage type. For instance numerics can be stored as integer or double. Must be one of \ :java:ref:`StorageTypes`\  and must not be empty.
-
-studyId
-^^^^^^^
-
-.. java:field:: @Indexed @NotEmpty private String studyId
-   :outertype: Variable
-
-   Id of the \ :java:ref:`Study`\  to which this variable belongs.
 
 surveyIds
 ^^^^^^^^^

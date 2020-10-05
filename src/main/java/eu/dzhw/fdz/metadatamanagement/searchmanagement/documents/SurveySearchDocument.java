@@ -12,7 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
@@ -37,8 +37,8 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
   static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION = new String[] {"nested*",
       "variables", "questions", "configuration", "guiLabels", "*Publications", "concepts"};
 
-  private StudySubDocument study = null;
-  private StudyNestedDocument nestedStudy = null;
+  private DataPackageSubDocument dataPackage = null;
+  private DataPackageNestedDocument nestedDataPackage = null;
   private List<DataSetSubDocument> dataSets = new ArrayList<>();
   private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();
   private List<VariableSubDocument> variables = new ArrayList<>();
@@ -62,7 +62,7 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
    * Construct the search document with all related subdocuments.
    * 
    * @param survey the survey to be searched for
-   * @param study the study containing this survey
+   * @param dataPackage the dataPackage containing this survey
    * @param dataSets the data sets available for this survey
    * @param variables the variables available for this survey
    * @param relatedPublications the publication using this survey
@@ -72,16 +72,16 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
    * @param configuration the project configuration
    */
   @SuppressWarnings("CPD-START")
-  public SurveySearchDocument(Survey survey, StudySubDocumentProjection study,
+  public SurveySearchDocument(Survey survey, DataPackageSubDocumentProjection dataPackage,
       List<DataSetSubDocumentProjection> dataSets, List<VariableSubDocumentProjection> variables,
       List<RelatedPublicationSubDocumentProjection> relatedPublications,
       List<InstrumentSubDocumentProjection> instruments,
       List<QuestionSubDocumentProjection> questions, List<ConceptSubDocumentProjection> concepts,
       Release release, String doi, Configuration configuration) {
     super(survey);
-    if (study != null) {
-      this.study = new StudySubDocument(study, doi);
-      this.nestedStudy = new StudyNestedDocument(study);
+    if (dataPackage != null) {
+      this.dataPackage = new DataPackageSubDocument(dataPackage, doi);
+      this.nestedDataPackage = new DataPackageNestedDocument(dataPackage);
     }
     if (dataSets != null) {
       this.dataSets = dataSets.stream().map(DataSetSubDocument::new).collect(Collectors.toList());

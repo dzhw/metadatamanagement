@@ -28,7 +28,7 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -100,16 +100,16 @@ public class InstrumentManagementService implements CrudService<Instrument> {
   }
 
   /**
-   * Enqueue update of instrument search documents when the study changed.
+   * Enqueue update of instrument search documents when the dataPackage changed.
    * 
-   * @param study the updated, created or deleted study.
+   * @param dataPackage the updated, created or deleted dataPackage.
    */
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  public void onStudyChanged(Study study) {
+  public void onDataPackageChanged(DataPackage dataPackage) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> instrumentRepository.streamIdsByStudyId(study.getId()),
+        () -> instrumentRepository.streamIdsByDataPackageId(dataPackage.getId()),
         ElasticsearchType.instruments);
   }
 

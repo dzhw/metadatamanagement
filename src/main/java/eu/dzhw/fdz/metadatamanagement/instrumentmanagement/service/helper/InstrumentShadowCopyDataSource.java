@@ -44,7 +44,7 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
     copy.setId(derivedId);
     copy.setDataAcquisitionProjectId(
         source.getDataAcquisitionProjectId() + "-" + release.getVersion());
-    copy.setStudyId(source.getStudyId() + "-" + release.getVersion());
+    copy.setDataPackageId(source.getDataPackageId() + "-" + release.getVersion());
     copy.setSurveyIds(createDerivedSurveyIds(source.getSurveyIds(), release.getVersion()));
     return copy;
   }

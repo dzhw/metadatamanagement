@@ -41,10 +41,6 @@ public class SurveyVersionsResource {
       @RequestParam(name = "skip", defaultValue = "0") Integer skip) {
     List<Survey> surveyVersions = surveyVersionsService.findPreviousVersions(id, limit, skip);
     
-    if (surveyVersions == null) {
-      return ResponseEntity.notFound().build();
-    }
-    
     return ResponseEntity.ok()
         .cacheControl(CacheControl.noStore())
         .body(surveyVersions);

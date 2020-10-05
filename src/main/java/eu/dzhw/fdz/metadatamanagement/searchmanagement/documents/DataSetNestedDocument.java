@@ -31,7 +31,7 @@ public class DataSetNestedDocument extends AbstractNestedSubDocument {
 
   private I18nString completeTitle;
 
-  private String studyId;
+  private String dataPackageId;
 
   private List<String> surveyIds;
 

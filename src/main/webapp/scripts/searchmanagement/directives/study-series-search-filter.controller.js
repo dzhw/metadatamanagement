@@ -4,9 +4,9 @@
 
 angular.module('metadatamanagementApp')
   .controller('StudySeriesSearchFilterController', [
-    '$scope', 'StudySearchService', '$timeout', '$location',
+    '$scope', 'DataPackageSearchService', '$timeout', '$location',
     'CurrentProjectService', '$q',
-    function($scope, StudySearchService, $timeout, $location,
+    function($scope, DataPackageSearchService, $timeout, $location,
       CurrentProjectService, $q) {
       // prevent study-series changed events during init
       var initializing = true;
@@ -40,8 +40,8 @@ angular.module('metadatamanagementApp')
         }
 
         //Search Call to Elasticsearch
-        return StudySearchService.findStudySeries(searchText, cleanedFilter,
-          language, $scope.type, $scope.query, $scope.projectId)
+        return DataPackageSearchService.findStudySeries(searchText,
+          cleanedFilter, language, $scope.type, $scope.query, $scope.projectId)
           .then(function(studySeries) {
             cache.searchText = searchText;
             cache.filter = _.cloneDeep(cleanedFilter);

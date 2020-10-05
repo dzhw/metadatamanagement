@@ -140,8 +140,8 @@ angular.module('metadatamanagementApp')
         };
         return ElasticSearchClient.search(query);
       };
-      var findByStudyId = function(studyId, selectedAttributes, from,
-        size) {
+      var findByDataPackageId = function(dataPackageId, selectedAttributes,
+        from, size) {
         var query = createQueryObject();
         query.body = {};
         query.body.from = from;
@@ -154,7 +154,7 @@ angular.module('metadatamanagementApp')
             }],
             'filter': [{
               'term': {
-                'studyIds': studyId
+                'dataPackageIds': dataPackageId
               }
             }]
           }
@@ -274,7 +274,7 @@ angular.module('metadatamanagementApp')
         findBySurveyId: findBySurveyId,
         findByDataSetId: findByDataSetId,
         findByQuestionId: findByQuestionId,
-        findByStudyId: findByStudyId,
+        findByDataPackageId: findByDataPackageId,
         findByInstrumentId: findByInstrumentId,
         findTitles: findTitles
       };

@@ -21,4 +21,4 @@ Click Element Through Tooltips
     Run Keyword If    '${BROWSER}' == 'ie'    Wait Until Keyword Succeeds    10s    0.5s    Focus    ${xpath_string}
     Run Keyword If    '${BROWSER}' == 'ie'    Wait Until Keyword Succeeds    10s    0.5s    Mouse Over    ${xpath_string}
     Run Keyword If    '${BROWSER}' == 'ie'    Wait Until Keyword Succeeds    10s    0.5s    Click Element    ${xpath_string}
-    Wait Until Angular Ready    10s
+    Wait Until Angular Ready    2s

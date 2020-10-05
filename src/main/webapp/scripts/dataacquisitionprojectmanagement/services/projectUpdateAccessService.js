@@ -34,6 +34,7 @@ angular.module('metadatamanagementApp').service(
     var isTypeRequired = function(project, type) {
       if (type) {
         type = type === 'data_sets' ? 'dataSets' : type;
+        type = type === 'data_packages' ? 'dataPackages' : type;
         return _.get(project, 'configuration.requirements.' + type +
           'Required');
       } else {
@@ -43,8 +44,8 @@ angular.module('metadatamanagementApp').service(
 
     var getProjectConfigStateAttributeForType = function(type) {
       switch (type) {
-        case 'studies':
-          return 'studiesState';
+        case 'data_packages':
+          return 'dataPackagesState';
         case 'surveys':
           return 'surveysState';
         case 'instruments':
@@ -116,7 +117,7 @@ angular.module('metadatamanagementApp').service(
             return $2 + '_' + $3.toLowerCase();});
       }
 
-      if (!_.includes(['studies', 'surveys', 'instruments',
+      if (!_.includes(['data_packages', 'surveys', 'instruments',
         'data_sets', 'questions', 'variables', 'publications',
          undefined, null], type)) {
         return false;
@@ -219,7 +220,7 @@ angular.module('metadatamanagementApp').service(
         prereq = 'surveys';
       }
       if (type === 'publications') {
-        prereq = 'studies';
+        prereq = 'data_packages';
       }
 
       if (!prereq) {

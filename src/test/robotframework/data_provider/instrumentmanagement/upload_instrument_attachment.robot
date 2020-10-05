@@ -57,4 +57,5 @@ Assert gra2005_W1_Questionnaire in the attachment
 Delete uploaded document
     Click Element Through Tooltips    xpath=//button[md-icon[text()='delete_forever']]
     Click Element Through Tooltips    xpath=//button[text()='Ja']
+    Wait Until Angular Ready    2s
     Page Should Not Contain Element   xpath=//a[@ng-href="/public/files/instruments/ins-fileuploadproject-ins1$/attachments/gra2005_W1_Questionnaire_de.pdf"]

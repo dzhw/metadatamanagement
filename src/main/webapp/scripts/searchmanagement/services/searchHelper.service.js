@@ -4,11 +4,11 @@
 angular.module('metadatamanagementApp').factory(
   'SearchHelperService',
   function(CleanJSObjectService, Principal, LanguageService) {
-    var domainObjectFilterNames = ['study', 'survey', 'data-set', 'instrument',
-      'variable', 'question'];
+    var domainObjectFilterNames = ['data-package', 'survey', 'data-set',
+      'instrument', 'variable', 'question'];
 
     var aggregationMapping = {
-      'studies': {
+      'data_packages': {
         'study-series': {
           attribute: 'studySeries',
           i18n: true,
@@ -48,7 +48,7 @@ angular.module('metadatamanagementApp').factory(
     };
 
     var filterMapping = {
-      'studies': {
+      'data_packages': {
         'study-series': {
           attribute: 'studySeries',
           i18n: true,
@@ -88,7 +88,7 @@ angular.module('metadatamanagementApp').factory(
     };
 
     var keyMapping = {
-      'studies': {
+      'data_packages': {
         'study-series-de': 'studySeries.de',
         'study-series-en': 'studySeries.en',
         'survey': 'surveys.id',
@@ -106,9 +106,9 @@ angular.module('metadatamanagementApp').factory(
         'concept': 'concepts.id'
       },
       'variables': {
-        'study-series-de': 'study.studySeries.de',
-        'study-series-en': 'study.studySeries.en',
-        'study': 'studyId',
+        'study-series-de': 'dataPackage.studySeries.de',
+        'study-series-en': 'dataPackage.studySeries.en',
+        'data-package': 'dataPackageId',
         'survey': 'surveys.id',
         'instrument': 'instruments.id',
         'question': 'relatedQuestions.questionId',
@@ -117,79 +117,79 @@ angular.module('metadatamanagementApp').factory(
         'panel-identifier': 'panelIdentifier',
         'derived-variables-identifier': 'derivedVariablesIdentifier',
         'related-publication': 'relatedPublications.id',
-        'institution-de': 'study.institutions.de',
-        'institution-en': 'study.institutions.en',
-        'sponsor-de': 'study.sponsor.de',
-        'sponsor-en': 'study.sponsor.en',
+        'institution-de': 'dataPackage.institutions.de',
+        'institution-en': 'dataPackage.institutions.en',
+        'sponsor-de': 'dataPackage.sponsor.de',
+        'sponsor-en': 'dataPackage.sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
         'survey-method-en': 'surveys.surveyMethod.en',
         'concept': 'concepts.id'
       },
       'surveys': {
-        'study-series-de': 'study.studySeries.de',
-        'study-series-en': 'study.studySeries.en',
-        'study': 'studyId',
+        'study-series-de': 'dataPackage.studySeries.de',
+        'study-series-en': 'dataPackage.studySeries.en',
+        'data-package': 'dataPackageId',
         'instrument': 'instruments.id',
         'question': 'questions.id',
         'data-set': 'dataSets.id',
         'variable': 'variables.id',
         'related-publication': 'relatedPublications.id',
-        'institution-de': 'study.institutions.de',
-        'institution-en': 'study.institutions.en',
-        'sponsor-de': 'study.sponsor.de',
-        'sponsor-en': 'study.sponsor.en',
+        'institution-de': 'dataPackage.institutions.de',
+        'institution-en': 'dataPackage.institutions.en',
+        'sponsor-de': 'dataPackage.sponsor.de',
+        'sponsor-en': 'dataPackage.sponsor.en',
         'survey-method-de': 'surveyMethod.de',
         'survey-method-en': 'surveyMethod.en',
         'concept': 'concepts.id'
       },
       'questions': {
-        'study-series-de': 'study.studySeries.de',
-        'study-series-en': 'study.studySeries.en',
-        'study': 'studyId',
+        'study-series-de': 'dataPackage.studySeries.de',
+        'study-series-en': 'dataPackage.studySeries.en',
+        'data-package': 'dataPackageId',
         'survey': 'surveys.id',
         'instrument': 'instrumentId',
         'data-set': 'dataSets.id',
         'variable': 'variables.id',
         'related-publication': 'relatedPublications.id',
-        'institution-de': 'study.institutions.de',
-        'institution-en': 'study.institutions.en',
-        'sponsor-de': 'study.sponsor.de',
-        'sponsor-en': 'study.sponsor.en',
+        'institution-de': 'dataPackage.institutions.de',
+        'institution-en': 'dataPackage.institutions.en',
+        'sponsor-de': 'dataPackage.sponsor.de',
+        'sponsor-en': 'dataPackage.sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
         'survey-method-en': 'surveys.surveyMethod.en',
         'concept': 'conceptIds'
       },
       'instruments': {
-        'study-series-de': 'study.studySeries.de',
-        'study-series-en': 'study.studySeries.en',
-        'study': 'studyId',
+        'study-series-de': 'dataPackage.studySeries.de',
+        'study-series-en': 'dataPackage.studySeries.en',
+        'data-package': 'dataPackageId',
         'survey': 'surveyIds',
         'question': 'questions.id',
         'data-set': 'dataSets.id',
         'variable': 'variables.id',
         'related-publication': 'relatedPublications.id',
-        'institution-de': 'study.institutions.de',
-        'institution-en': 'study.institutions.en',
-        'sponsor-de': 'study.sponsor.de',
-        'sponsor-en': 'study.sponsor.en',
+        'institution-de': 'dataPackage.institutions.de',
+        'institution-en': 'dataPackage.institutions.en',
+        'sponsor-de': 'dataPackage.sponsor.de',
+        'sponsor-en': 'dataPackage.sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
         'survey-method-en': 'surveys.surveyMethod.en',
         'concept': 'concepts.id'
       },
       'data_sets': {
-        'study-series-de': 'study.studySeries.de',
-        'study-series-en': 'study.studySeries.en',
-        'study': 'studyId',
+        'study-series-de': 'dataPackage.studySeries.de',
+        'study-series-en': 'dataPackage.studySeries.en',
+        'data-package': 'dataPackageId',
         'survey': 'surveyIds',
         'instrument': 'instruments.id',
         'question': 'questions.id',
         'variable': 'variables.id',
         'related-publication': 'relatedPublications.id',
         'access-way': 'accessWays',
-        'institution-de': 'study.institutions.de',
-        'institution-en': 'study.institutions.en',
-        'sponsor-de': 'study.sponsor.de',
-        'sponsor-en': 'study.sponsor.en',
+        'institution-de': 'dataPackage.institutions.de',
+        'institution-en': 'dataPackage.institutions.en',
+        'sponsor-de': 'dataPackage.sponsor.de',
+        'sponsor-en': 'dataPackage.sponsor.en',
         'survey-method-de': 'surveys.surveyMethod.de',
         'survey-method-en': 'surveys.surveyMethod.en',
         'concept': 'concepts.id'
@@ -197,7 +197,7 @@ angular.module('metadatamanagementApp').factory(
       'related_publications': {
         'study-series-de': 'studySerieses.de',
         'study-series-en': 'studySerieses.en',
-        'study': 'studyIds',
+        'data-package': 'dataPackageIds',
         'survey': 'surveyIds',
         'instrument': 'instrumentIds',
         'question': 'questionIds',
@@ -205,7 +205,7 @@ angular.module('metadatamanagementApp').factory(
         'variable': 'variableIds'
       },
       'concepts': {
-        'study': 'studies.id',
+        'dataPackage': 'dataPackages.id',
         'survey': 'surveys.id',
         'instrument': 'instruments.id',
         'question': 'questions.id',
@@ -215,8 +215,8 @@ angular.module('metadatamanagementApp').factory(
     };
 
     var hiddenFiltersKeyMapping = {
-      'studies': {
-        'study': '_id'
+      'data_packages': {
+        'data-package': '_id'
       },
       'variables': {
         'variable': '_id'
@@ -242,35 +242,35 @@ angular.module('metadatamanagementApp').factory(
     };
 
     var sortCriteriaByType = {
-      'studies': [
+      'data_packages': [
         '_score',
         'id'
       ],
       'variables': [
         '_score',
-        'studyId',
+        'dataPackageId',
         'dataSetId',
         'indexInDataSet'
       ],
       'surveys': [
         '_score',
-        'studyId',
+        'dataPackageId',
         'number'
       ],
       'questions': [
         '_score',
-        'studyId',
+        'dataPackageId',
         'instrumentNumber',
         'indexInInstrument'
       ],
       'instruments': [
         '_score',
-        'studyId',
+        'dataPackageId',
         'number'
       ],
       'data_sets': [
         '_score',
-        'studyId',
+        'dataPackageId',
         'number'
       ],
       'related_publications': [

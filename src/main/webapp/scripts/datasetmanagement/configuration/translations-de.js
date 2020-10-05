@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp').config(
             'type': 'Typ',
             'format': 'Format',
             'annotations': 'Anmerkungen',
-            'data-set-same-study': 'Datensätze der gleichen Studie',
+            'data-set-same-data-package': 'Datensätze des gleichen Datenpakets',
             'languages': 'Daten verfügbar auf',
             'sub-data-sets': {
               'name': 'Name',
@@ -99,7 +99,7 @@ angular.module('metadatamanagementApp').config(
           'not-released-toast': 'Der Datensatz "{{ id }}" wurde noch nicht für alle Benutzer:innen freigegeben!',
           'tooltips': {
             'data-sets': {
-              'same-data-sets': 'Klicken, um alle Datensätze dieser Studie anzuzeigen'
+              'same-data-sets': 'Klicken, um alle Datensätze dieses Datenpakets anzuzeigen'
             },
             'surveys': {
               'one': 'Klicken, um die Erhebung anzuzeigen, aus der dieser Datensatz resultierte',
@@ -117,8 +117,8 @@ angular.module('metadatamanagementApp').config(
               'one': 'Klicken, um das Konzept, welches in diesem Datensatzes gemessen wurde, anzuzeigen',
               'many': 'Klicken, um alle Konzepte, die in diesem Datensatzes gemessen wurden, anzuzeigen'
             },
-            'studies': {
-              'one': 'Klicken, um die Studie dieses Datensatzes anzuzeigen'
+            'data-packages': {
+              'one': 'Klicken, um das Datenpaket dieses Datensatzes anzuzeigen'
             },
             'get-data-set-tooltip': 'Klicken, um Informationen zum Datenzugang zu erhalten'
           },
@@ -126,7 +126,7 @@ angular.module('metadatamanagementApp').config(
         },
         'error': {
           'data-set': {
-            'unique-data-set-number-in-project': 'Die Nummer des Datensatzes in innerhalb der Studie nicht eindeutig.',
+            'unique-data-set-number-in-project': 'Die Nummer des Datensatzes ist innerhalb des Datenpakets nicht eindeutig.',
             'id': {
               'valid-data-set-id-name': 'Die FDZ-ID des Datensatzes entspricht nicht dem Muster: "dat-" + {FDZID} + "-ds" + {Number} + "$".',
               'not-empty': 'Die FDZ-ID des Datensatzes darf nicht leer sein!',
@@ -145,9 +145,9 @@ angular.module('metadatamanagementApp').config(
                 'not-empty': 'Die FDZ - ID des Projektes darf bei dem Datensatz nicht leer sein!'
               }
             },
-            'study': {
+            'data-package': {
               'id': {
-                'not-empty': 'Die Studien-ID darf bei dem Datensatz nicht leer sein!'
+                'not-empty': 'Die Datenpaket-ID darf bei dem Datensatz nicht leer sein!'
               }
             },
             'survey-numbers': {
