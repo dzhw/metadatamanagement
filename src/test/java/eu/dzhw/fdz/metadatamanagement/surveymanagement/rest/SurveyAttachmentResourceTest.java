@@ -38,6 +38,7 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdmi
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper.SurveyAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
@@ -48,6 +49,9 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
   @Autowired
   private SurveyRepository surveyRepository;
   
+  @Autowired
+  private SurveyAttachmentService surveyAttachmentService;
+
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
   
@@ -83,7 +87,6 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER, username="test")
   public void testUploadValidAttachment() throws Exception {
-
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     SurveyAttachmentMetadata surveyAttachmentMetadata = UnitTestCreateDomainObjectUtils
@@ -106,6 +109,97 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.[0].lastModifiedBy", is("test")))
       .andExpect(jsonPath("$.[0].masterId", is("/public/files/surveys/"
           + "sur-projectid-sy1$/attachments/filename.txt")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
+  public void testDeleteSingleAttachment() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    SurveyAttachmentMetadata surveyAttachmentMetadata =
+        UnitTestCreateDomainObjectUtils.buildSurveyAttachmentMetadata("projectid", 1);
+    MockMultipartFile metadata = new MockMultipartFile("surveyAttachmentMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(surveyAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/surveys/attachments").file(attachment)
+        .file(metadata)).andExpect(status().isCreated());
+
+    // ensure that there is one attachment
+    mockMvc.perform(get("/api/surveys/" + surveyAttachmentMetadata.getSurveyId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));;
+
+    // delete the file
+    mockMvc.perform(delete("/api/surveys/" + surveyAttachmentMetadata.getSurveyId()
+        + "/attachments/" + attachment.getOriginalFilename()))
+        .andExpect(status().is2xxSuccessful());
+
+    // ensure the uploaded file does not exist anymore
+    mockMvc.perform(get("/api/surveys/" + surveyAttachmentMetadata.getSurveyId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(0)));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
+  public void testDeleteAllAttachments() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    SurveyAttachmentMetadata surveyAttachmentMetadata =
+        UnitTestCreateDomainObjectUtils.buildSurveyAttachmentMetadata("projectid", 1);
+    MockMultipartFile metadata = new MockMultipartFile("surveyAttachmentMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(surveyAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/surveys/attachments").file(attachment)
+        .file(metadata)).andExpect(status().isCreated());
+
+    // ensure that there is one attachment
+    mockMvc.perform(get("/api/surveys/" + surveyAttachmentMetadata.getSurveyId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));;
+
+    // delete all file
+    mockMvc
+        .perform(delete("/api/surveys/" + surveyAttachmentMetadata.getSurveyId() + "/attachments"))
+        .andExpect(status().is2xxSuccessful());
+
+    // ensure the uploaded file does not exist anymore
+    mockMvc.perform(get("/api/surveys/" + surveyAttachmentMetadata.getSurveyId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(0)));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
+  public void testUpdateAttachmentMetadata() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    SurveyAttachmentMetadata surveyAttachmentMetadata =
+        UnitTestCreateDomainObjectUtils.buildSurveyAttachmentMetadata("projectid", 1);
+    MockMultipartFile metadata = new MockMultipartFile("surveyAttachmentMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(surveyAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/surveys/attachments").file(attachment)
+        .file(metadata)).andExpect(status().isCreated());
+
+    // ensure that there is one attachment
+    mockMvc.perform(get("/api/surveys/" + surveyAttachmentMetadata.getSurveyId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));;
+
+    // update the metadata
+    SurveyAttachmentMetadata current =
+        surveyAttachmentService.findAllBySurvey(surveyAttachmentMetadata.getSurveyId()).get(0);
+    current.setLanguage("en");
+
+    mockMvc
+        .perform(put("/api/surveys/" + surveyAttachmentMetadata.getSurveyId() + "/attachments/"
+            + attachment.getOriginalFilename()).content(TestUtil.convertObjectToJsonBytes(current))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNoContent());
+
+    // read the updated attachment and check the version
+    mockMvc
+        .perform(get("/api/surveys/" + surveyAttachmentMetadata.getSurveyId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.[0].version", is(1)))
+        .andExpect(jsonPath("$.[0].createdBy", is("test")))
+        .andExpect(jsonPath("$.[0].lastModifiedBy", is("test")))
+        .andExpect(jsonPath("$.[0].language", is("en")));
   }
 
   @Test
@@ -227,7 +321,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testDeleteAllAttachmentsOfShadowCopyStudy() throws Exception {
+  public void testDeleteAllAttachmentsOfShadowCopyDataPackage() throws Exception {
     String surveyId = "sur-issue1991-sy1$-1.0.0";
 
     SurveyAttachmentMetadata metadata = UnitTestCreateDomainObjectUtils
@@ -247,7 +341,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-  public void testDeleteAttachmentOfShadowCopyStudy() throws Exception {
+  public void testDeleteAttachmentOfShadowCopyDataPackage() throws Exception {
     String surveyId = "sur-issue1991-sy1$-1.0.0";
 
     SurveyAttachmentMetadata metadata = UnitTestCreateDomainObjectUtils

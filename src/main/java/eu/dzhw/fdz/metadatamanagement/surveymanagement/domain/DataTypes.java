@@ -13,7 +13,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.ImmutableI18nString;
  */
 public class DataTypes {
 
-  // Valid Study Data Types
+  // Valid DataPackage Data Types
   public static final I18nString QUANTITATIVE_DATA =
       new ImmutableI18nString("Quantitative Daten", "Quantitative Data");
   public static final I18nString QUALITATIVE_DATA =

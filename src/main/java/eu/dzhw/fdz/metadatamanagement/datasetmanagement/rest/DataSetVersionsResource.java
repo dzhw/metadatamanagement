@@ -41,10 +41,6 @@ public class DataSetVersionsResource {
       @RequestParam(name = "skip", defaultValue = "0") Integer skip) {
     List<DataSet> dataSetVersions = dataSetVersionsService.findPreviousVersions(id, limit, skip);
 
-    if (dataSetVersions == null) {
-      return ResponseEntity.notFound().build();
-    }
-
     return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(dataSetVersions);
   }
 }

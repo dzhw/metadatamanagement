@@ -46,7 +46,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation ValidUniqueInstrumentNumber
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain OrderedStudy
+.. java:import:: eu.dzhw.fdz.metadatamanagement.ordermanagement.domain OrderedDataPackage
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.projectmanagement.domain DataAcquisitionProject
 
@@ -104,6 +104,14 @@ dataAcquisitionProjectId
 
    The id of the \ :java:ref:`DataAcquisitionProject`\  to which this instrument belongs. The dataAcquisitionProjectId must not be empty.
 
+dataPackageId
+^^^^^^^^^^^^^
+
+.. java:field:: @Indexed @NotEmpty private String dataPackageId
+   :outertype: Instrument
+
+   The id of the \ :java:ref:`OrderedDataPackage`\  to which this instrument belongs. Must not be empty.
+
 description
 ^^^^^^^^^^^
 
@@ -149,14 +157,6 @@ serialVersionUID
 
 .. java:field:: private static final long serialVersionUID
    :outertype: Instrument
-
-studyId
-^^^^^^^
-
-.. java:field:: @Indexed @NotEmpty private String studyId
-   :outertype: Instrument
-
-   The id of the \ :java:ref:`OrderedStudy`\  to which this instrument belongs. Must not be empty.
 
 subtitle
 ^^^^^^^^

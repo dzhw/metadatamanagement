@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
@@ -30,7 +31,6 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.Relat
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.IdAndNumberSurveyProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
@@ -68,9 +68,9 @@ public class SurveyManagementService implements CrudService<Survey> {
   private final SurveyAttachmentService surveyAttachmentService;
 
   private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
-  
+
   private final SurveyCrudHelper crudHelper;
-  
+
   /**
    * Listener, which will be activate by a deletion of a data acquisition project.
    * 
@@ -144,16 +144,17 @@ public class SurveyManagementService implements CrudService<Survey> {
   }
 
   /**
-   * Enqueue update of survey search documents when the study is changed.
+   * Enqueue update of survey search documents when the dataPackage is changed.
    * 
-   * @param study the updated, created or deleted study.
+   * @param dataPackage the updated, created or deleted dataPackage.
    */
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  public void onStudyChanged(Study study) {
+  public void onDataPackageChanged(DataPackage dataPackage) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> surveyRepository.streamIdsByStudyId(study.getId()), ElasticsearchType.surveys);
+        () -> surveyRepository.streamIdsByDataPackageId(dataPackage.getId()),
+        ElasticsearchType.surveys);
   }
 
   /**

@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp')
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
       QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
-      OutdatedVersionNotifier, blockUI, LocationSimplifier) {
+      OutdatedVersionNotifier, blockUI, LocationSimplifier, $mdSidenav) {
       blockUI.start();
       LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
@@ -54,7 +54,7 @@ angular.module('metadatamanagementApp')
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onDataPackageChange',
             {
-              masterId: result.study.masterId,
+              masterId: result.dataPackage.masterId,
               version: result.release.version
             });
         }
@@ -69,8 +69,9 @@ angular.module('metadatamanagementApp')
           'instrumentIsPresent': !CleanJSObjectService
                                     .isNullOrEmpty(result.instrument),
           'surveys': result.surveys,
-          'studyId': result.studyId,
-          'studyIsPresent': !CleanJSObjectService.isNullOrEmpty(result.study),
+          'dataPackageId': result.dataPackageId,
+          'dataPackageIsPresent': !CleanJSObjectService
+            .isNullOrEmpty(result.dataPackage),
           'projectId': result.dataAcquisitionProjectId,
           'version': result.shadow ? _.get(result, 'release.version') : null
         });
@@ -132,7 +133,7 @@ angular.module('metadatamanagementApp')
               html_beautify(ctrl.technicalRepresentationBeauty); //jscs:ignore
             }
           }
-          ctrl.study = result.study;
+          ctrl.dataPackage = result.dataPackage;
           ctrl.instrument = result.instrument;
         } else {
           SimpleMessageToastService.openAlertMessageToast(
@@ -157,4 +158,7 @@ angular.module('metadatamanagementApp')
         ctrl.representationCodeToggleFlag = !ctrl.representationCodeToggleFlag;
       };
 
+      ctrl.toggleSidenav = function() {
+        $mdSidenav('SideNavBar').toggle();
+      };
     });

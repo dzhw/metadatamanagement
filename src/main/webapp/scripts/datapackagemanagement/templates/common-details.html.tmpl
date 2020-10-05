@@ -1,0 +1,71 @@
+<md-card>
+  <md-card-header ng-click="$ctrl.collapsed = !$ctrl.collapsed">
+    <md-card-header-text>
+      <h2 class="md-title">{{'global.cards.details' | translate }}</h2>
+    </md-card-header-text>
+    <md-button
+      class="md-card-collapsible-button"
+      aria-label="{{($ctrl.collapsed ? 'global.collapsed' : 'global.uncollapsed') | translate}}">
+      <md-icon md-font-set="material-icons" ng-if="!$ctrl.collapsed">keyboard_arrow_up</md-icon>
+      <md-icon md-font-set="material-icons" ng-if="$ctrl.collapsed">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-header>
+  <div ng-if="!$ctrl.collapsed">
+    <md-card-content>
+      <md-list>
+        <md-list-item ng-if="$ctrl.options.studySeries">
+          <h5>{{'data-package-management.detail.label.studySeries' | translate }}:</h5>
+          <a
+            class="md-secondary"
+            ui-sref="search({'type': 'data_packages', 'study-series': $ctrl.options.studySeries.{{$ctrl.lang}}})">
+            <span display-i18n-string="$ctrl.options.studySeries" ></span>
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-package-management.detail.tooltips.data-packages.study-series' | translate}}
+            </md-tooltip>
+          </a>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.institutions">
+          <h5>{{'data-package-management.detail.label.institutions' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            ng-repeat="institution in $ctrl.options.institutions">
+            {{institution[$ctrl.lang]}}{{!$last?';':''}}
+          </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.sponsor">
+          <h5>{{'data-package-management.detail.label.sponsors' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.sponsor"></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.projectContributors">
+          <h5>{{'data-package-management.detail.label.projectContributors' | translate }}:</h5>
+          <span
+            class="md-secondary pre"
+            ng-repeat="contributor in $ctrl.options.projectContributors">{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName !== undefined?' '+contributor.middleName:''}}{{!$last?'; ':''}}</span>
+          </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.surveyDesign">
+          <h5>{{'data-package-management.detail.label.surveyDesign' | translate }}:</h5>
+          <span
+            class="md-secondary"
+            display-i18n-string="$ctrl.options.surveyDesign" ></span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.dataCurators">
+          <h5>{{'data-package-management.detail.label.data-curators' | translate }}:</h5>
+          <span
+            class="md-secondary pre"
+            ng-repeat="person in $ctrl.options.dataCurators">{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+person.middleName:''}}{{!$last?'; ':''}}</span>
+          </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.annotations">
+          <h5>{{'data-package-management.detail.label.annotations' | translate }}:</h5>
+          <p
+            class="md-secondary"
+            markdown-to-html="$ctrl.options.annotations | displayI18nString"
+            ></p>
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+  </div>
+</md-card>

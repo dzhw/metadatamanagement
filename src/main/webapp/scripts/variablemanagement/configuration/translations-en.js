@@ -23,7 +23,7 @@ angular.module('metadatamanagementApp').config(
             'variable': 'Variable',
             'variables': 'Variables',
             'variables-in-panel': 'Panel Variables',
-            'derived-variables': 'Derived Variables',
+            'derived-variables': 'derived Variables',
             'generation-details': 'Generation Details',
             'name': 'Name',
             'data-type': 'Data Type',
@@ -117,8 +117,8 @@ angular.module('metadatamanagementApp').config(
               'same-in-panel': 'Click to show all panel variables related to this variable',
               'derived-variables': 'Click to show all derived variables related to this variable',
             },
-            'studies': {
-              'one': 'Click to show the study from which this variable resulted'
+            'data-packages': {
+              'one': 'Click to show the data package which contains this variable'
             },
             'concepts': {
               'one': 'Click to show the concept which has been measured with this variable, among others',
@@ -148,14 +148,13 @@ angular.module('metadatamanagementApp').config(
           },
           'filter-details': {
             'expression': {
-              'not-empty': 'The filter expression must not be empty!',
+              'both-not-empty': 'Both must be present: filter expression and expression language!',
               'size': 'The max length of the filter expression is 2048 signs.'
             },
             'description': {
               'i18n-string-size': 'The max length of the filter description is 2048 signs.'
             },
             'expression-language': {
-              'not-empty': 'The filter expression language  must not be empty!',
               'valid-filter-expression-language': 'The filter expression language is not valid. Valid is: SpEL and Stata.'
             }
           },

@@ -42,15 +42,19 @@ angular.module('metadatamanagementApp').directive('createVariableLinks',
         }
 
         var link = function(scope, element) {
-            var currentVariable = scope.createVariableLinks.currentVariable;
             var currentLanguage = scope.createVariableLinks.currentLanguage;
+            var currentVariable = scope.createVariableLinks.currentVariable;
+            var id = 'var-' + ProjectReleaseService.stripVersionSuffix(
+              currentVariable.dataAcquisitionProjectId) + '-ds' +
+              currentVariable.dataSetNumber + '-$1';
             if (scope.hljsLanguage.toUpperCase() === 'STATA') {
-              var substitution = '<a href="#!/' + currentLanguage +
-                  '/variables/var-' + ProjectReleaseService.stripVersionSuffix(
-                    currentVariable.dataAcquisitionProjectId) +
-                  '-ds' + currentVariable.dataSetNumber +
-                  '-$1\$' + (currentVariable.shadow ? '?version=' +
-                  currentVariable.release.version + '"' : '"') +
+              var substitution = '<a ui-sref="variableDetail(' +
+                '{\'id\': \'' + id + '\',' +
+                '\'version\':' +
+                  'createVariableLinks.currentVariable.shadow ?' +
+                  ' createVariableLinks.currentVariable.release.version:' +
+                  '\'\'})"' +
+                  ' ui-sref-opts="{reload: true, notify: true}"' +
                   '><md-tooltip md-autohide="true" md-z-index=' +
                   '"bowser.mobile || bowser.tablet ? -100 : 100001">' +
                   linkTooltip[currentLanguage] + '</md-tooltip>$1</a>';

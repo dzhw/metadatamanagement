@@ -41,7 +41,7 @@ public interface QuestionRepository extends BaseRepository<Question, String> {
   Stream<IdAndVersionProjection> streamIdsByIdIn(List<String> ids);
 
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByStudyId(String studyId);
+  Stream<IdAndVersionProjection> streamIdsByDataPackageId(String dataPackageId);
 
   @RestResource(exported = false)
   Stream<IdAndVersionAndInstrumentProjection> streamIdsByConceptIdsContaining(String conceptId);
@@ -51,7 +51,7 @@ public interface QuestionRepository extends BaseRepository<Question, String> {
       Collection<String> instrumentIds);
 
   @RestResource(exported = false)
-  List<QuestionSubDocumentProjection> findSubDocumentsByStudyId(String studyId);
+  List<QuestionSubDocumentProjection> findSubDocumentsByDataPackageId(String dataPackageId);
 
   @RestResource(exported = false)
   List<QuestionSubDocumentProjection> findSubDocumentsByIdIn(Collection<String> questionIds);

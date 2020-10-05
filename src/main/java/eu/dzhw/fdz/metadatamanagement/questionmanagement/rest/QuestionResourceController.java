@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
@@ -41,6 +42,7 @@ public class QuestionResourceController
       + " If the id is postfixed with the version number it will return exactly the "
       + "requested version, if available.")
   @GetMapping(value = "/questions/{id:.+}")
+  @ResponseBody
   public ResponseEntity<Question> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);
   }

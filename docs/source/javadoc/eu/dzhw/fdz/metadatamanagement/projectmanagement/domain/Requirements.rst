@@ -30,6 +30,14 @@ Requirements
 
 Fields
 ------
+isDataPackagesRequired
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. java:field:: @AssertTrue @Setter @Builder.Default private boolean isDataPackagesRequired
+   :outertype: Requirements
+
+   Defines if dataPackage data is required for a release (this object type is mandatory and this setting is therefore always \ ``true``\ .
+
 isDataSetsRequired
 ^^^^^^^^^^^^^^^^^^
 
@@ -61,14 +69,6 @@ isQuestionsRequired
    :outertype: Requirements
 
    Defines if question data is required for a release.
-
-isStudiesRequired
-^^^^^^^^^^^^^^^^^
-
-.. java:field:: @AssertTrue @Setter @Builder.Default private boolean isStudiesRequired
-   :outertype: Requirements
-
-   Defines if study data is required for a release (this object type is mandatory and this setting is therefore always \ ``true``\ .
 
 isSurveysRequired
 ^^^^^^^^^^^^^^^^^

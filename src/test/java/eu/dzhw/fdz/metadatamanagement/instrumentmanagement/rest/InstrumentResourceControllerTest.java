@@ -113,6 +113,35 @@ public class InstrumentResourceControllerTest extends AbstractTest {
   }
 
   @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
+  public void testCreateInstrumentWithPost() throws Exception {
+
+    // Arrange
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    this.dataAcquisitionProjectRepository.save(project);
+
+    Instrument instrument =
+        UnitTestCreateDomainObjectUtils.buildInstrument(project.getId(), project.getId() + "-sy1");
+
+    // Act and Assert
+    // create the instrument with the given id
+    mockMvc.perform(post(API_INSTRUMENTS_URI).content(TestUtil.convertObjectToJsonBytes(instrument))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+
+    elasticsearchUpdateQueueService.processAllQueueItems();
+
+    // check that there is one instrument document
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
+
+    // check that auditing attributes have been set
+    mockMvc.perform(get(API_INSTRUMENTS_URI + "/" + instrument.getId())).andExpect(status().isOk())
+        .andExpect(jsonPath("$.createdDate", not(isEmptyOrNullString())))
+        .andExpect(jsonPath("$.lastModifiedDate", not(isEmptyOrNullString())))
+        .andExpect(jsonPath("$.createdBy", is("test")))
+        .andExpect(jsonPath("$.lastModifiedBy", is("test")));
+  }
+
+  @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testUpdateInstrument() throws Exception {
     // Arrange

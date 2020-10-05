@@ -25,7 +25,7 @@ public interface QuestionSubDocumentProjection
 
   I18nString getTopic();
 
-  String getStudyId();
+  String getDataPackageId();
   
   List<String> getConceptIds();
 

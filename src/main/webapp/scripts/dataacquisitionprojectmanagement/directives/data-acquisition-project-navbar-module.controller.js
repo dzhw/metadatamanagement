@@ -75,7 +75,7 @@ angular.module('metadatamanagementApp')
               project.configuration = {
                 publishers: [identity.login],
                 requirements: {
-                  studiesRequired: true
+                  dataPackagesRequired: true
                 }
               };
               project.assigneeGroup = 'PUBLISHER';

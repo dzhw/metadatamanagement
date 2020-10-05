@@ -119,7 +119,7 @@ describe('VariableBuilderService', function() {
     expect(variable.scaleLevel.en).toEqual('nominal');
     expect(variable.scaleLevel.de).toEqual('nominal');
     expect(variable.storageType).toEqual('integer');
-    expect(variable.studyId).toEqual('stu-projectwithdefaultconfiguration$');
+    expect(variable.dataPackageId).toEqual('stu-projectwithdefaultconfiguration$');
     expect(_.difference(variable.surveyIds, expectedSurveyIds).length).toBe(0);
     expect(_.difference(variable.surveyNumbers, expectedSurveyNumbers).length)
       .toBe(0);

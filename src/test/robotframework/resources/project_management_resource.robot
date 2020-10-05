@@ -49,8 +49,8 @@ Switch To Settings Tab
 Switch To Status Tab
    Click Element Through Tooltips  xpath=//md-pagination-wrapper[@role="tablist"]//md-tab-item//md-icon[contains(.,"info")]
 
-Select Study Checkbox
-   Click Element Through Tooltips  xpath=//md-checkbox[@name="studies"]
+Select Data Package Checkbox
+   Click Element Through Tooltips  xpath=//md-checkbox[@name="dataPackages"]
 
 Select Survey Checkbox
    Click Element Through Tooltips  xpath=//md-checkbox[@name="survey"]
@@ -82,8 +82,8 @@ Ensure Project Release Button is Disabled
 Ensure Project Assign Role Button is Disabled
    Page Should Contain Element  xpath=//md-card//project-status-badge[@assignee-group="PUBLISHER"]//following::button[@disabled="disabled"]
 
-Ensure Study Creation is Possible
-   Click Element Through Tooltips  xpath=//md-card[@type="studies"]//button[contains(.,"Neu")]
+Ensure Data Package Creation is Possible
+   Click Element Through Tooltips  xpath=//md-card[@type="dataPackages"]//button[contains(.,"Neu")]
 
 Ensure Survey Creation is Possible
    Click Element Through Tooltips  xpath=//md-card[@type="surveys"]//button[contains(.,"Neu")]
@@ -100,11 +100,11 @@ Ensure Dataset Creation is Possible
 Ensure Variable Upload is Possible
    Click Element Through Tooltips  xpath=//md-card[@type="variables"]//button[contains(.,"Hochladen")]
 
-Click Publisher Ready Checkbox for Studies
-   Click Element Through Tooltips  xpath=//md-card[@type="studies"]//md-checkbox[contains(.,"Publisher Fertig")]
+Click Publisher Ready Checkbox for Data Packages
+   Click Element Through Tooltips  xpath=//md-card[@type="dataPackages"]//md-checkbox[contains(.,"Publisher Fertig")]
 
-Click Dataprovider Ready Checkbox for Studies
-   Click Element Through Tooltips  xpath=//md-card[@type="studies"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]
+Click Dataprovider Ready Checkbox for Data Packages
+   Click Element Through Tooltips  xpath=//md-card[@type="dataPackages"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]
 
 Click Publisher Ready Checkbox for Surveys
    Click Element Through Tooltips  xpath=//md-card[@type="surveys"]//md-checkbox[contains(.,"Publisher Fertig")]

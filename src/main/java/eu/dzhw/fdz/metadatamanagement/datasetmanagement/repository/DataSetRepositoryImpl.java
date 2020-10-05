@@ -23,11 +23,11 @@ public class DataSetRepositoryImpl implements DataSetRepositoryCustom {
   private final MongoTemplate mongoTemplate;
 
   @Override
-  public List<String> findAllAccessWays(String studyId) {
+  public List<String> findAllAccessWays(String dataPackageId) {
     List<String> result = new ArrayList<>();
     mongoTemplate
         .getCollection(COLLECTION).distinct("subDataSets.accessWay",
-            new BasicDBObject("studyId", studyId), String.class)
+            new BasicDBObject("dataPackageId", dataPackageId), String.class)
         .into(result);
     return result;
   }

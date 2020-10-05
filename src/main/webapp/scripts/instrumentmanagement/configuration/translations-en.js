@@ -79,8 +79,8 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                         'one': 'Click to show the question of this instrument',
                         'many': 'Click to show all questions of this instrument'
                     },
-                    'studies': {
-                        'one': 'Click to show the study in which this instrument has been used'
+                    'data-packages': {
+                        'one': 'Click to show the data package in which this instrument has been used'
                     },
                     'concepts': {
                         'one': 'Click to show the concept which has been measured with this instrument',

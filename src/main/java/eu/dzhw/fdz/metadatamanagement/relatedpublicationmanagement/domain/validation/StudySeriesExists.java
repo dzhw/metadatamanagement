@@ -13,7 +13,7 @@ import javax.validation.Payload;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.StudySeriesExists.List;
 
 /**
- * Checks that the referenced study series exists.
+ * Checks that the referenced dataPackage series exists.
  */
 @Documented
 @Constraint(validatedBy = {StudySeriesExistsValidator.class})

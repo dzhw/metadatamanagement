@@ -76,27 +76,23 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
       'shoppingCart': {
         'type': 'shopping-cart.title'
       },
-      'studyCreate': {
-        'type': 'study-management.detail.label.study',
-        'translateString': 'global.tooltips.toolbarHeader.study',
+      'dataPackageCreate': {
+        'type': 'data-package-management.detail.label.dataPackage',
+        'translateString': 'global.tooltips.toolbarHeader.data-package',
         'iconType': 'svg',
-        'icon': 'assets/images/icons/study.svg'
+        'icon': 'assets/images/icons/data-package.svg'
       },
-      'studyEdit': {
-        'type': 'study-management.detail.label.study',
-        'translateString': 'global.tooltips.toolbarHeader.study',
+      'dataPackageEdit': {
+        'type': 'data-package-management.detail.label.dataPackage',
+        'translateString': 'global.tooltips.toolbarHeader.data-package',
         'iconType': 'svg',
-        'icon': 'assets/images/icons/study.svg'
-      },
-      'studyDetail': {
-        'type': 'study-management.detail.label.study',
-        'translateString': 'global.tooltips.toolbarHeader.study',
-        'iconType': 'svg',
-        'icon': 'assets/images/icons/study.svg'
+        'icon': 'assets/images/icons/data-package.svg'
       },
       'dataPackageDetail': {
-        'type': 'study-management.detail.label.dataPackage',
-        'translateString': 'global.tooltips.toolbarHeader.data-packet',
+        'type': 'data-package-management.detail.label.dataPackage',
+        'translateString': 'global.tooltips.toolbarHeader.data-package',
+        'iconType': 'svg',
+        'icon': 'assets/images/icons/data-package.svg'
       },
       'surveyDetail': {
         'type': 'survey-management.detail.label.survey',
@@ -191,31 +187,33 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
           .replace(/"page":"\d+"/, '"page":"' + currentPage + '"');
       }
     };
-    var createRelatedStudyItem = function(item) {
-      var studyItem = {
-        'type': translationStringsMap.studyDetail.type,
-        'iconType': translationStringsMap.studyDetail.iconType,
-        'icon': translationStringsMap.studyDetail.icon
+    var createRelatedDataPackageItem = function(item) {
+      var dataPackageItem = {
+        'type': translationStringsMap.dataPackageDetail.type,
+        'iconType': translationStringsMap.dataPackageDetail.iconType,
+        'icon': translationStringsMap.dataPackageDetail.icon
       };
-      if (item.studyIsPresent) {
-        var stateParams = {id: stripVersionSuffix(item.studyId)};
+      if (item.dataPackageIsPresent) {
+        var stateParams = {id: stripVersionSuffix(item.dataPackageId)};
         if (item.version) {
           stateParams.version = item.version;
         }
-        studyItem.state = 'studyDetail(' + JSON.stringify(stateParams) + ')';
+        dataPackageItem.state = 'dataPackageDetail(' +
+          JSON.stringify(stateParams) + ')';
         if (isAuthenticated()) {
-          studyItem.tooltip = translationStringsMap.studyDetail.translateString;
+          dataPackageItem.tooltip = translationStringsMap.dataPackageDetail
+            .translateString;
         } else {
-          studyItem.tooltip = translationStringsMap
+          dataPackageItem.tooltip = translationStringsMap
             .dataPackageDetail.translateString;
-          studyItem.type = translationStringsMap.dataPackageDetail.type;
+          dataPackageItem.type = translationStringsMap.dataPackageDetail.type;
         }
-        studyItem.projectId = stripVersionSuffix(item.projectId);
-        studyItem.enableLastItem = item.enableLastItem;
+        dataPackageItem.projectId = stripVersionSuffix(item.projectId);
+        dataPackageItem.enableLastItem = item.enableLastItem;
       } else {
-        studyItem.notFound = '?';
+        dataPackageItem.notFound = '?';
       }
-      return studyItem;
+      return dataPackageItem;
     };
     var createRelatedInstrumentItem = function(item, type) {
       var instrumentItem = {
@@ -276,7 +274,7 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
       return dataSetItem;
     };
     var createRelatedSurveyItem =
-      function(surveys, itemTyp, itemId, studyId, version) {
+      function(surveys, itemTyp, itemId, dataPackageId, version) {
       var stateParams = {};
       var surveyItem = {
         'iconType': translationStringsMap.surveyDetail.iconType,
@@ -297,13 +295,14 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
       if (surveys.length > 1) {
         stateParams = {'type': 'surveys'};
         stateParams[itemTyp] = itemId;
-        if (studyId) {
-          var params = {id: stripVersionSuffix(studyId)};
+        if (dataPackageId) {
+          var params = {id: stripVersionSuffix(dataPackageId)};
           if (version) {
             params.version = version;
           }
           params.type = 'surveys';
-          surveyItem.state = 'studyDetail(' + JSON.stringify(params) + ')';
+          surveyItem.state = 'dataPackageDetail(' + JSON.stringify(params) +
+            ')';
         } else {
           surveyItem.state = 'search(' + JSON.stringify(stateParams) + ')';
         }
@@ -350,16 +349,16 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
       var variableItem = {};
       var publicationItem = {};
       var surveyItem = {};
-      var studyItem = createRelatedStudyItem(item);
+      var dataPackageItem = createRelatedDataPackageItem(item);
       switch (item.stateName) {
-        case 'studyDetail':
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem);
+        case 'dataPackageDetail':
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem);
           break;
-        case 'studyEdit':
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem);
+        case 'dataPackageEdit':
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem);
           break;
-        case 'studyCreate':
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem);
+        case 'dataPackageCreate':
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem);
           break;
         case 'questionDetail':
           questionItem = {
@@ -374,7 +373,7 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
             appendReleaseVersionToSurveys(item.surveys, item.version),
             'question', item.id);
           instrumentItem = createRelatedInstrumentItem(item, 'question');
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
           surveyItem, instrumentItem, questionItem);
           break;
         case 'variableDetail':
@@ -390,66 +389,66 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
           surveyItem = createRelatedSurveyItem(
             appendReleaseVersionToSurveys(item.surveys, item.version),
             'variable', item.id);
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
           surveyItem, dataSetItem, variableItem);
           break;
         case 'surveyDetail':
           surveyItem = createRelatedSurveyItem([item]);
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
           surveyItem);
           break;
         case 'surveyEdit':
           surveyItem = createRelatedSurveyItem([item]);
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
           surveyItem);
           break;
         case 'surveyCreate':
           surveyItem = createRelatedSurveyItem([item]);
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
           surveyItem);
           break;
         case 'instrumentEdit':
           instrumentItem = createRelatedInstrumentItem(item);
           surveyItem = createRelatedSurveyItem([], 'instrument',
           item.id);
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
           surveyItem, instrumentItem);
           break;
         case 'instrumentCreate':
           instrumentItem = createRelatedInstrumentItem(item);
           surveyItem = createRelatedSurveyItem([], 'instrument',
           item.id);
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
             surveyItem, instrumentItem);
           break;
         case 'dataSetDetail':
           dataSetItem = createRelatedDataSetItem(item, 'data-set');
           surveyItem = createRelatedSurveyItem(
             appendReleaseVersionToSurveys(item.surveys, item.version),
-            'data-set', item.id, item.studyId, item.version);
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+            'data-set', item.id, item.dataPackageId, item.version);
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
           surveyItem, dataSetItem);
           break;
         case 'dataSetEdit':
           dataSetItem = createRelatedDataSetItem(item);
           surveyItem = createRelatedSurveyItem([], 'data-set',
           item.id);
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
           surveyItem, dataSetItem);
           break;
         case 'dataSetCreate':
           dataSetItem = createRelatedDataSetItem(item);
           surveyItem = createRelatedSurveyItem([], 'data-set',
           item.id);
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
           surveyItem, dataSetItem);
           break;
         case 'instrumentDetail':
           instrumentItem = createRelatedInstrumentItem(item, 'instrument');
           surveyItem = createRelatedSurveyItem(
             appendReleaseVersionToSurveys(item.surveys, item.version),
-            'instrument', item.id, item.studyId, item.version);
-          $rootScope.toolbarHeaderItems.push(searchItem.get(), studyItem,
+            'instrument', item.id, item.dataPackageId, item.version);
+          $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
             surveyItem, instrumentItem);
           break;
         case 'relatedPublicationDetail':

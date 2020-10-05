@@ -41,6 +41,11 @@ import com.google.common.base.Charsets;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.service.MarkdownHelper;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataAvailabilities;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.SurveyDesigns;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.TimeMethods;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.CollectionModes;
@@ -54,11 +59,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DoiBuilder;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.DataAvailabilities;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.SurveyDesigns;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.TimeMethods;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -91,7 +91,7 @@ public class DaraService {
   private DataAcquisitionProjectRepository projectRepository;
 
   @Autowired
-  private StudyRepository studyRepository;
+  private DataPackageRepository dataPackageRepository;
 
   @Autowired
   private SurveyRepository surveyRepository;
@@ -254,12 +254,13 @@ public class DaraService {
   }
 
   /**
-   * Load all needed Data for the XML Templates. The data is callable in freemarker by: study
+   * Load all needed Data for the XML Templates. The data is callable in freemarker by: dataPackage
    * releaseDate availabilityControlled resourceType
    *
-   * @param project The project to find the study.
-   * @return Returns a Map of names and the depending objects. If the key is 'study' so the study
-   *         object is the value. Study is the name for the object use in freemarker.
+   * @param project The project to find the dataPackage.
+   * @return Returns a Map of names and the depending objects. If the key is 'dataPackage' so the
+   *         dataPackage object is the value. DataPackage is the name for the object use in
+   *         freemarker.
    */
   private Map<String, Object> getDataForTemplate(DataAcquisitionProject project) {
 
@@ -270,12 +271,14 @@ public class DaraService {
     // Get Project Information
     dataForTemplate.put("dataAcquisitionProject", project);
 
-    // Get Study Information
-    Study study = this.studyRepository.findOneByDataAcquisitionProjectId(project.getId());
-    dataForTemplate.put("study", study);
+    // Get DataPackage Information
+    DataPackage dataPackage =
+        this.dataPackageRepository.findOneByDataAcquisitionProjectId(project.getId());
+    dataForTemplate.put("dataPackage", dataPackage);
 
     String availabilityControlled = AVAILABILITY_CONTROLLED_NOT_AVAILABLE;
-    if (!study.isHidden() && study.getDataAvailability().equals(DataAvailabilities.AVAILABLE)) {
+    if (!dataPackage.isHidden()
+        && dataPackage.getDataAvailability().equals(DataAvailabilities.AVAILABLE)) {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
     }
 
@@ -293,10 +296,10 @@ public class DaraService {
       }
     }
 
-    String doi = doiBuilder.buildStudyDoi(study, release);
+    String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
     dataForTemplate.put("doi", doi);
 
-    String previousDoi = doiBuilder.buildStudyDoi(study,
+    String previousDoi = doiBuilder.buildDataPackageDoi(dataPackage,
         dataAcquisitionProjectVersionsService.findPreviousRelease(project.getMasterId(), release));
     dataForTemplate.put("previousDoi", previousDoi);
 
@@ -324,7 +327,7 @@ public class DaraService {
 
     // Get Related Publications
     List<RelatedPublication> relatedPublications =
-        this.relatedPublicationRepository.findByStudyIdsContaining(study.getMasterId());
+        this.relatedPublicationRepository.findByDataPackageIdsContaining(dataPackage.getMasterId());
     dataForTemplate.put("relatedPublications", relatedPublications);
 
     // Add Date
@@ -338,7 +341,7 @@ public class DaraService {
     dataForTemplate.put("resourceTypeFree", computeResourceTypeFree(surveys));
 
     // Add Time Dimension
-    dataForTemplate.put("timeDimension", computeTimeDimension(study));
+    dataForTemplate.put("timeDimension", computeTimeDimension(dataPackage));
 
     // Add data for collection mode
     dataForTemplate.put("surveyToCollectionModesMap", computeSurveyToCollectionModesMap(surveys));
@@ -404,16 +407,16 @@ public class DaraService {
     return samplesGroupedByLanguage;
   }
 
-  private String computeTimeDimension(Study study) {
-    if (study.getSurveyDesign().equals(SurveyDesigns.CROSS_SECTION)) {
+  private String computeTimeDimension(DataPackage dataPackage) {
+    if (dataPackage.getSurveyDesign().equals(SurveyDesigns.CROSS_SECTION)) {
       return TimeMethods.CROSSSECTION;
     }
-    if (study.getSurveyDesign().equals(SurveyDesigns.PANEL)) {
+    if (dataPackage.getSurveyDesign().equals(SurveyDesigns.PANEL)) {
       return TimeMethods.LONGITUDINAL_PANEL;
     }
     throw new NotImplementedException(
         "There is no mapping to DARAs timeDimension for the survey design "
-            + study.getSurveyDesign());
+            + dataPackage.getSurveyDesign());
   }
 
   private I18nString computeResourceTypeFree(List<Survey> surveys) {

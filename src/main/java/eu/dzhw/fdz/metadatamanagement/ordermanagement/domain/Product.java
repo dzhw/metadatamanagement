@@ -19,7 +19,7 @@ import java.util.Set;
 
 /**
  * Data Product which can be ordered by a customer.
- * 
+ *
  * @author René Reitmann
  */
 @NoArgsConstructor
@@ -30,25 +30,27 @@ import java.util.Set;
     description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
     + "fdz/metadatamanagement/ordermanagement/domain/Product.html'>here</a> for further details.")
 public class Product implements Serializable {
-  
+
   private static final long serialVersionUID = -1403870156469073381L;
 
   /**
    * The id of the {@link DataAcquisitionProject} in which this product was generated.
-   * 
+   *
    * Must not be empty.
    */
   @NotEmpty
   private String dataAcquisitionProjectId;
 
   /**
-   * The (partial) {@link OrderedStudy} of this product.
-   * 
+   * The (partial) {@link OrderedDataPackage} of this product.
+   *
    * Must not be empty.
+   *
+   * @deprecated will be renamed to dataPackage in alignment with DLP
    */
   @NotNull
   @Valid
-  private OrderedStudy study;
+  private OrderedDataPackage study;
 
   /**
    * The access way to the {@link DataSet}s which the customer wants to have.
@@ -63,7 +65,7 @@ public class Product implements Serializable {
   private String version;
 
   /**
-   * The available data formats of the study. It must not be empty.
+   * The available data formats of the dataPackage. It must not be empty.
    */
   @NotEmpty
   private Set<DataFormat> dataFormats;

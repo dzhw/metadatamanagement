@@ -6,9 +6,9 @@ angular.module('metadatamanagementApp')
     function(entity, PageTitleService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, SurveyIdBuilderService, SurveyResource, $scope,
-      ElasticSearchAdminService, $mdDialog, $transitions, StudyResource,
+      ElasticSearchAdminService, $mdDialog, $transitions, DataPackageResource,
       CommonDialogsService, LanguageService, AvailableSurveyNumbersResource,
-      SurveyAttachmentResource, $q, StudyIdBuilderService, moment,
+      SurveyAttachmentResource, $q, DataPackageIdBuilderService, moment,
       SurveyResponseRateImageUploadService, SurveySearchService, $log,
       DataAcquisitionProjectResource, $rootScope, ProjectUpdateAccessService,
       AttachmentDialogService, SurveyAttachmentUploadService,
@@ -29,14 +29,14 @@ angular.module('metadatamanagementApp')
           });
         }
         $rootScope.$broadcast('start-ignoring-404');
-        StudyResource.get({id: ctrl.survey.studyId}).$promise
-          .then(function(study) {
+        DataPackageResource.get({id: ctrl.survey.dataPackageId}).$promise
+          .then(function(dataPackage) {
           BreadcrumbService.updateToolbarHeader({
             'stateName': $state.current.name,
             'id': ctrl.survey.id,
-            'studyId': ctrl.survey.studyId,
+            'dataPackageId': ctrl.survey.dataPackageId,
             'number': ctrl.survey.number,
-            'studyIsPresent': study != null,
+            'dataPackageIsPresent': dataPackage != null,
             'projectId': ctrl.survey.dataAcquisitionProjectId,
             'enableLastItem': !ctrl.createMode
           });
@@ -44,9 +44,9 @@ angular.module('metadatamanagementApp')
           BreadcrumbService.updateToolbarHeader({
             'stateName': $state.current.name,
             'id': ctrl.survey.id,
-            'studyId': ctrl.survey.studyId,
+            'dataPackageId': ctrl.survey.dataPackageId,
             'number': ctrl.survey.number,
-            'studyIsPresent': false,
+            'dataPackageIsPresent': false,
             'projectId': ctrl.survey.dataAcquisitionProjectId,
             'enableLastItem': !ctrl.createMode
           });
@@ -134,8 +134,9 @@ angular.module('metadatamanagementApp')
                         number: surveyNumbers[0],
                         dataAcquisitionProjectId:
                         CurrentProjectService.getCurrentProject().id,
-                        studyId: StudyIdBuilderService.buildStudyId(
-                          CurrentProjectService.getCurrentProject().id
+                        dataPackageId: DataPackageIdBuilderService
+                          .buildDataPackageId(CurrentProjectService
+                            .getCurrentProject().id
                         ),
                         wave: 1
                       });
@@ -162,8 +163,9 @@ angular.module('metadatamanagementApp')
                           number: response.surveyNumber,
                           dataAcquisitionProjectId:
                           CurrentProjectService.getCurrentProject().id,
-                          studyId: StudyIdBuilderService.buildStudyId(
-                            CurrentProjectService.getCurrentProject().id
+                          dataPackageId: DataPackageIdBuilderService
+                            .buildDataPackageId(CurrentProjectService
+                              .getCurrentProject().id
                           ),
                           wave: 1
                         });
@@ -243,7 +245,7 @@ angular.module('metadatamanagementApp')
           ElasticSearchAdminService.
             processUpdateQueue('surveys'),
           ElasticSearchAdminService.
-            processUpdateQueue('studies')
+            processUpdateQueue('data_packages')
         ]);
       };
 
@@ -378,7 +380,7 @@ angular.module('metadatamanagementApp')
 
         var createSurveyAttachmentResource = function(attachmentWrapper) {
           return new SurveyAttachmentResource(attachmentWrapper
-              .studyAttachment);
+              .dataPackageAttachment);
         };
 
         var dialogConfig = {

@@ -29,7 +29,7 @@ public class SurveyNestedDocument extends AbstractNestedSubDocument {
 
   private I18nString completeTitle;
 
-  private String studyId;
+  private String dataPackageId;
 
   private I18nString surveyMethod;
 

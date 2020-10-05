@@ -31,7 +31,7 @@ Check Dataprovider Cannot Change Anything
    Ensure Publisher Ready Checkbox is Disabled
    Ensure Project Release Button is Disabled
    Ensure Project Assign Role Button is Disabled
-   Ensure Create Button is Restricted   studies
+   Ensure Create Button is Restricted   dataPackages
    Ensure Upload Button is Restricted   questions
    Switch To Settings Tab
    Ensure Expected Metadata Fields are Disabled From The List
@@ -75,7 +75,7 @@ Ensure Upload Button is Restricted
     Run Keyword if  '${BROWSER}' == 'ie'  Close The Toast Message for Upload Button in IE   #in IE toast mesaage is different
 
 Ensure Create Button is Restricted From The List
-    @{MD_ITEMS}    Create List    studies   surveys   instruments   dataSets
+    @{MD_ITEMS}    Create List    dataPackages   surveys   instruments   dataSets
     :FOR   ${MD_DT}   IN  @{MD_ITEMS}
     \   Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//button[contains(.,"Neu")]
     \   Close The Toast Message  ${TOAST_MSSG}
@@ -101,7 +101,7 @@ Close The Toast Message for Upload Button in IE
     Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
 
 Click Publisher and Dataprovider Ready Checkbox From The List
-    @{MD_ITEMS}    Create List   surveys   instruments   questions   dataSets    variables   studies  #studies should be at last index to avoid outofbound error in IE
+    @{MD_ITEMS}    Create List   surveys   instruments   questions   dataSets    variables   dataPackages  #data packages should be at last index to avoid outofbound error in IE
     :FOR   ${MD_DT}   IN  @{MD_ITEMS}
     \   Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Publisher Fertig")]
     \   Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]

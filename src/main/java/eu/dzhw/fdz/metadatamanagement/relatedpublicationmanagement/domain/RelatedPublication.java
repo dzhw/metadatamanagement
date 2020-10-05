@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.DataSetExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.InstrumentExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.QuestionExists;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.StudyExists;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.DataPackageExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.StudySeriesExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.SurveyExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidPublicationYear;
@@ -131,7 +131,7 @@ public class RelatedPublication extends AbstractRdcDomainObject {
   private List<@DataSetExists String> dataSetIds;
 
   @Indexed
-  private List<@StudyExists String> studyIds;
+  private List<@DataPackageExists String> dataPackageIds;
 
   @Indexed
   private List<@InstrumentExists String> instrumentIds;

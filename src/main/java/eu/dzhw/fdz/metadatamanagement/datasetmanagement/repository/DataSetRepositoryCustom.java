@@ -8,5 +8,5 @@ import java.util.List;
  * @author René Reitmann
  */
 public interface DataSetRepositoryCustom {
-  List<String> findAllAccessWays(String studyId);
+  List<String> findAllAccessWays(String dataPackageId);
 }

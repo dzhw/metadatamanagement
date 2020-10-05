@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,9 +33,6 @@ public class AvailableSurveyNumbersResourceController {
   @RequestMapping(method = RequestMethod.GET, 
        value = "/data-acquisition-projects/{id:.+}/available-survey-numbers")
   public ResponseEntity<List<Integer>> findAvailableSurveyNumbers(@PathVariable String id) {
-    if (StringUtils.isEmpty(id)) {
-      return ResponseEntity.badRequest().build();
-    }
     List<Integer> surveyNumbers = surveyService.getFreeSurveyNumbers(id);
     return ResponseEntity.ok()
         .cacheControl(CacheControl.noStore())

@@ -12,5 +12,5 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProj
 public interface IdAndVersionAndSurveyIdsProjection extends IdAndVersionProjection {
   List<String> getSurveyIds();
   
-  String getStudyId();
+  String getDataPackageId();
 }

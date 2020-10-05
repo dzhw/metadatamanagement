@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp').factory(
   function() {
     function getDetailStateUrl(type) {
       switch (type) {
-        case 'studies': return 'studyDetail';
+        case 'data_packages': return 'dataPackageDetail';
         case 'surveys': return 'surveyDetail';
         case 'instruments': return 'instrumentDetail';
         case 'questions': return 'questionDetail';

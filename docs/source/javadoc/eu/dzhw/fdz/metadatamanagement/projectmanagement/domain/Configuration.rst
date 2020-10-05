@@ -32,6 +32,14 @@ Configuration
 
 Fields
 ------
+dataPackagesState
+^^^^^^^^^^^^^^^^^
+
+.. java:field:: private ProjectState dataPackagesState
+   :outertype: Configuration
+
+   The state of the dataPackage.
+
 dataProviders
 ^^^^^^^^^^^^^
 
@@ -93,14 +101,6 @@ serialVersionUID
 
 .. java:field:: private static final long serialVersionUID
    :outertype: Configuration
-
-studiesState
-^^^^^^^^^^^^
-
-.. java:field:: private ProjectState studiesState
-   :outertype: Configuration
-
-   The state of the study.
 
 surveysState
 ^^^^^^^^^^^^

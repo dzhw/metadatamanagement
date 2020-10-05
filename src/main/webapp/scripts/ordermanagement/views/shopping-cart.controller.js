@@ -3,7 +3,8 @@
 
 angular.module('metadatamanagementApp').controller('ShoppingCartController',
   function(PageTitleService, $state, BreadcrumbService,
-           ShoppingCartService, $scope, StudyResource, DataSetSearchService,
+           ShoppingCartService, $scope, DataPackageResource,
+           DataSetSearchService,
            VariableSearchService, DataAcquisitionProjectReleasesResource, $q,
            OrderResource, LanguageService, SimpleMessageToastService, order,
            $window, $interval, $location, $transitions, ProjectReleaseService,
@@ -17,7 +18,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
     var existingOrderId;
     var intervalReference;
     ctrl.dataAcquisitionProjects = {};
-    ctrl.studies = {};
+    ctrl.dataPackages = {};
     ctrl.releases = {};
     ctrl.counts = {};
     ctrl.noShadowCopyAvailable = {};
@@ -50,7 +51,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       suffixedProduct.dataAcquisitionProjectId =
         product.dataAcquisitionProjectId + '-' + product.version;
 
-      suffixedProduct.study.id = product.study.id + '-' + product.version;
+      suffixedProduct.study.id = product.study.id + '-' +
+        product.version;
       return suffixedProduct;
     };
 
@@ -83,49 +85,50 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       });
     };
 
-    var loadDataSetCountForProduct = function(product, studyId) {
+    var loadDataSetCountForProduct = function(product, dataPackageId) {
       return DataSetSearchService.countByMultiple({
-        'studyId': studyId,
+        'dataPackageId': dataPackageId,
         'accessWays': product.accessWay
       }).then(function(result) {
-        ctrl.counts[studyId + product.accessWay + product.version] =
-          ctrl.counts[studyId + product.accessWay +
+        ctrl.counts[dataPackageId + product.accessWay + product.version] =
+          ctrl.counts[dataPackageId + product.accessWay +
           product.version] || {};
-        ctrl.counts[studyId + product.accessWay +
+        ctrl.counts[dataPackageId + product.accessWay +
         product.version].dataSets = result.count;
       });
     };
 
-    var loadVariablesCountForProduct = function(product, studyId) {
+    var loadVariablesCountForProduct = function(product, dataPackageId) {
       return VariableSearchService.countByMultiple({
-        'studyId': studyId,
+        'dataPackageId': dataPackageId,
         'accessWays': product.accessWay
       }).then(function(result) {
-        ctrl.counts[studyId + product.accessWay + product.version] =
-          ctrl.counts[studyId + product.accessWay +
+        ctrl.counts[dataPackageId + product.accessWay + product.version] =
+          ctrl.counts[dataPackageId + product.accessWay +
           product.version] || {};
-        ctrl.counts[studyId + product.accessWay +
+        ctrl.counts[dataPackageId + product.accessWay +
         product.version].variables = result.count;
       });
     };
 
-    var loadStudyAsMasterFallback = function(studyId) {
-      var masterId = ProjectReleaseService.stripVersionSuffix(studyId);
-      return StudyResource.get({id: masterId}).$promise.then(function(study) {
-        ctrl.studies[studyId] = study;
-        ctrl.noShadowCopyAvailable[studyId] = true;
-      }, function(error) {
+    var loadDataPackageAsMasterFallback = function(dataPackageId) {
+      var masterId = ProjectReleaseService.stripVersionSuffix(dataPackageId);
+      return DataPackageResource.get({id: masterId}).$promise.then(
+        function(dataPackage) {
+          ctrl.dataPackages[dataPackageId] = dataPackage;
+          ctrl.noShadowCopyAvailable[dataPackageId] = true;
+        }, function(error) {
         return $q.reject(error);
       });
     };
 
-    var loadStudy = function(studyId) {
-      return StudyResource.get({id: studyId}).$promise.then(
-        function(study) {
-          ctrl.studies[studyId] = study;
+    var loadDataPackage = function(dataPackageId) {
+      return DataPackageResource.get({id: dataPackageId}).$promise.then(
+        function(dataPackage) {
+          ctrl.dataPackages[dataPackageId] = dataPackage;
         }, function(error) {
           if (error.status === 404) {
-            return loadStudyAsMasterFallback(studyId);
+            return loadDataPackageAsMasterFallback(dataPackageId);
           } else {
             return $q.reject(error);
           }
@@ -146,16 +149,17 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       existingOrderId = ShoppingCartService.getOrderId();
       ctrl.products = ShoppingCartService.getProducts();
       ctrl.products.forEach(function(product) {
-        var studyId = product.study.id + '-' + product.version;
-        ctrl.studies[studyId] = {};
+        var dataPackageId = product.study.id + '-' + product.version;
+        ctrl.dataPackages[dataPackageId] = {};
         ctrl.releases[product.dataAcquisitionProjectId] = {};
-        promises.push(loadDataSetCountForProduct(product, studyId));
-        promises.push(loadVariablesCountForProduct(product, studyId));
+        promises.push(loadDataSetCountForProduct(product, dataPackageId));
+        promises.push(loadVariablesCountForProduct(product, dataPackageId));
       });
 
       $rootScope.$broadcast('start-ignoring-404');
-      _.forEach(ctrl.studies, function(study, studyId) { // jshint ignore:line
-        promises.push(loadStudy(studyId));
+      _.forEach(ctrl.dataPackages,
+          function(dataPackage, dataPackageId) { // jshint ignore:line
+        promises.push(loadDataPackage(dataPackageId));
       });
       _.forEach(ctrl.releases,
         function(release, projectId) { // jshint ignore:line
@@ -165,7 +169,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         ctrl.initComplete = true;
         // remove all product which are not available anymore
         ctrl.products.forEach(function(product) {
-          if (ctrl.studies[product.study.studyId]
+          if (ctrl.dataPackages[product.study.id]
             .dataAvailability.en === 'Available') {
             return;
           } else {
@@ -183,14 +187,14 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
 
     ctrl.getNumberOfVariables = function(product) {
       var suffixedProduct = appendVersionSuffix(product);
-      return ctrl.counts[suffixedProduct.study.id + suffixedProduct.accessWay +
-      suffixedProduct.version].variables;
+      return ctrl.counts[suffixedProduct.study.id +
+        suffixedProduct.accessWay + suffixedProduct.version].variables;
     };
 
     ctrl.getNumberOfDataSets = function(product) {
       var suffixedProduct = appendVersionSuffix(product);
-      return ctrl.counts[suffixedProduct.study.id + suffixedProduct.accessWay +
-      suffixedProduct.version].dataSets;
+      return ctrl.counts[suffixedProduct.study.id +
+        suffixedProduct.accessWay + suffixedProduct.version].dataSets;
     };
 
     ctrl.isCurrentVersion = function(product) {
@@ -216,7 +220,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         ctrl.products.forEach(function(product) {
           var completeProduct = {
             dataAcquisitionProjectId: product.dataAcquisitionProjectId,
-            study: ctrl.studies[product.study.id + '-' + product.version],
+            study: ctrl.dataPackages[product.study.id + '-' +
+              product.version],
             accessWay: product.accessWay,
             version: product.version,
             dataFormats: product.dataFormats

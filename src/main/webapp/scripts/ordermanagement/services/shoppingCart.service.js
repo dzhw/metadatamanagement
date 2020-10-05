@@ -35,7 +35,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
 
     var _displayProductAlreadyInShoppingCart = function(product) {
       SimpleMessageToastService.openSimpleMessageToast(
-        'shopping-cart.toasts.study-already-in-cart',
+        'shopping-cart.toasts.data-package-already-in-cart',
         {id: product.study.id}
       );
     };
@@ -55,7 +55,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         products.push(product);
         localStorageService.set(SHOPPING_CART_KEY, products);
         SimpleMessageToastService.openSimpleMessageToast(
-          'shopping-cart.toasts.study-added',
+          'shopping-cart.toasts.data-package-added',
           {id: product.study.id});
         _broadcastShoppingCartChanged();
       }

@@ -10,9 +10,9 @@ import org.springframework.util.StringUtils;
 import com.github.zafarkhaja.semver.Version;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class DoiBuilder {
-  
+
   private final Environment environment;
 
   private static final Pattern VERSION_SUFFIX = Pattern.compile("-[0-9]+\\.[0-9]+\\.[0-9]+$");
@@ -31,19 +31,19 @@ public class DoiBuilder {
   /**
    * Create a doi for releases greater than or equal to 1.0.0.
    *
-   * @param study the study which gets the doi
+   * @param dataPackage the dataPackage which gets the doi
    * @param release the release
    * @return a doi (if required)
    */
-  public String buildStudyDoi(StudySubDocumentProjection study, Release release) {
-    if (release != null && study != null
+  public String buildDataPackageDoi(DataPackageSubDocumentProjection dataPackage, Release release) {
+    if (release != null && dataPackage != null
         && Version.valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))) {
       if (environment.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_PROD))) {
-        return "10.21249/DZHW:" + stripVersionSuffix(study.getDataAcquisitionProjectId()) + ":"
-            + release.getVersion();
+        return "10.21249/DZHW:" + stripVersionSuffix(dataPackage.getDataAcquisitionProjectId())
+            + ":" + release.getVersion();
       } else {
-        return "10.17889/DZHW:" + stripVersionSuffix(study.getDataAcquisitionProjectId()) + ":"
-            + release.getVersion();        
+        return "10.17889/DZHW:" + stripVersionSuffix(dataPackage.getDataAcquisitionProjectId())
+            + ":" + release.getVersion();
       }
     }
     return null;

@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .factory('DeleteAllPublicationsResource', function($resource) {
-    return $resource('/api/studies/:id/publications', {
+    return $resource('/api/data-packages/:id/publications', {
       id: '@id'
     }, {
       'deleteAll': {

@@ -43,7 +43,7 @@ management:
 
 metadatamanagement:
   ordermanagement:
-    email: dataservice@dzhw.eu
+    email: userservice@dzhw.eu
   projectmanagement:
     email: datadeposit@dzhw.eu
   server:

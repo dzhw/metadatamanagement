@@ -3,6 +3,11 @@
     color: $accent-A700;
   }
 
+  &.md-focused:not([disabled]) .md-container:before {
+    background-color: rgba(0, 0, 0, 0.12);
+    border-radius: 0px;
+  }
+
   &.md-checked .md-ripple {
     color: $background-600;
   }

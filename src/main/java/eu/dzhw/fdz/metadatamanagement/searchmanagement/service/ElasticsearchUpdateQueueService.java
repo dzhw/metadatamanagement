@@ -25,6 +25,9 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProj
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository.ConceptRepository;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -46,21 +49,18 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.Re
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchBulkOperationException;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.ConceptSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageNestedDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSubDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataSetSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.InstrumentSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedPublicationSearchDocument;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudyNestedDocument;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySearchDocument;
-import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.StudySubDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.VariableSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueAction;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.domain.ElasticsearchUpdateQueueItem;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.projection.StudySubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.repository.StudyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
@@ -106,7 +106,7 @@ public class ElasticsearchUpdateQueueService {
 
   private final QuestionRepository questionRepository;
 
-  private final StudyRepository studyRepository;
+  private final DataPackageRepository dataPackageRepository;
 
   private final RelatedPublicationRepository relatedPublicationRepository;
 
@@ -243,8 +243,8 @@ public class ElasticsearchUpdateQueueService {
         return addUpsertActionForDataSet(lockedItem, request);
       case questions:
         return addUpsertActionForQuestion(lockedItem, request);
-      case studies:
-        return addUpsertActionForStudy(lockedItem, request);
+      case data_packages:
+        return addUpsertActionForDataPackage(lockedItem, request);
       case related_publications:
         return addUpsertActionForRelatedPublication(lockedItem, request);
       case instruments:
@@ -277,20 +277,23 @@ public class ElasticsearchUpdateQueueService {
           .flatMap(List::stream).collect(Collectors.toSet());
       List<SurveySubDocumentProjection> surveys = surveyRepository.findSubDocumentByIdIn(surveyIds);
 
-      Set<String> studyIds = instruments.stream().map(instrument -> instrument.getStudyId())
-          .collect(Collectors.toSet());
-      List<StudySubDocumentProjection> studies = studyRepository.findSubDocumentsByIdIn(studyIds);
-      List<StudySubDocument> studySubDocuments = studies.stream().map(study -> {
-        DataAcquisitionProject project =
-            projectRepository.findById(study.getDataAcquisitionProjectId()).orElse(null);
-        if (project == null) {
-          // project has been deleted, skip upsert
-          return null;
-        }
-        return new StudySubDocument(study, doiBuilder.buildStudyDoi(study, getRelease(project)));
-      }).filter(document -> document != null).collect(Collectors.toList());
-      List<StudyNestedDocument> nestedStudyDocuments =
-          studies.stream().map(StudyNestedDocument::new).collect(Collectors.toList());
+      Set<String> dataPackageIds = instruments.stream()
+          .map(instrument -> instrument.getDataPackageId()).collect(Collectors.toSet());
+      List<DataPackageSubDocumentProjection> dataPackages =
+          dataPackageRepository.findSubDocumentsByIdIn(dataPackageIds);
+      List<DataPackageSubDocument> dataPackageSubDocuments =
+          dataPackages.stream().map(dataPackage -> {
+            DataAcquisitionProject project =
+                projectRepository.findById(dataPackage.getDataAcquisitionProjectId()).orElse(null);
+            if (project == null) {
+              // project has been deleted, skip upsert
+              return null;
+            }
+            return new DataPackageSubDocument(dataPackage,
+                doiBuilder.buildDataPackageDoi(dataPackage, getRelease(project)));
+          }).filter(document -> document != null).collect(Collectors.toList());
+      List<DataPackageNestedDocument> nestedDataPackageDocuments =
+          dataPackages.stream().map(DataPackageNestedDocument::new).collect(Collectors.toList());
 
       Set<String> questionIds =
           questions.stream().map(question -> question.getId()).collect(Collectors.toSet());
@@ -302,8 +305,9 @@ public class ElasticsearchUpdateQueueService {
       List<DataSetSubDocumentProjection> dataSets =
           dataSetRepository.findSubDocumentsByIdIn(dataSetIds);
 
-      ConceptSearchDocument searchDocument = new ConceptSearchDocument(concept, studySubDocuments,
-          nestedStudyDocuments, questions, instruments, surveys, dataSets, variables);
+      ConceptSearchDocument searchDocument =
+          new ConceptSearchDocument(concept, dataPackageSubDocuments, nestedDataPackageDocuments,
+              questions, instruments, surveys, dataSets, variables);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));
@@ -349,12 +353,12 @@ public class ElasticsearchUpdateQueueService {
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
-      StudySubDocumentProjection study =
-          studyRepository.findOneSubDocumentById(instrument.getStudyId());
-      String doi = doiBuilder.buildStudyDoi(study, release);
+      DataPackageSubDocumentProjection dataPackage =
+          dataPackageRepository.findOneSubDocumentById(instrument.getDataPackageId());
+      String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
       InstrumentSearchDocument searchDocument =
-          new InstrumentSearchDocument(instrument, study, surveys, questions, variables, dataSets,
-              relatedPublications, concepts, release, doi, configuration);
+          new InstrumentSearchDocument(instrument, dataPackage, surveys, questions, variables,
+              dataSets, relatedPublications, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));
@@ -369,22 +373,23 @@ public class ElasticsearchUpdateQueueService {
     RelatedPublication relatedPublication =
         relatedPublicationRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (relatedPublication != null) {
-      List<StudySubDocument> studySubDocuments = null;
-      List<StudyNestedDocument> nestedStudyDocuments = null;
-      if (relatedPublication.getStudyIds() != null) {
-        List<StudySubDocumentProjection> studies =
-            studyRepository.findSubDocumentsByIdIn(relatedPublication.getStudyIds());
-        studySubDocuments = studies.stream().map(study -> {
+      List<DataPackageSubDocument> dataPackageSubDocuments = null;
+      List<DataPackageNestedDocument> nestedDataPackageDocuments = null;
+      if (relatedPublication.getDataPackageIds() != null) {
+        List<DataPackageSubDocumentProjection> dataPackages =
+            dataPackageRepository.findSubDocumentsByIdIn(relatedPublication.getDataPackageIds());
+        dataPackageSubDocuments = dataPackages.stream().map(dataPackage -> {
           DataAcquisitionProject project =
-              projectRepository.findById(study.getDataAcquisitionProjectId()).orElse(null);
+              projectRepository.findById(dataPackage.getDataAcquisitionProjectId()).orElse(null);
           if (project == null) {
             // project has been deleted, skip upsert
             return null;
           }
-          return new StudySubDocument(study, doiBuilder.buildStudyDoi(study, getRelease(project)));
+          return new DataPackageSubDocument(dataPackage,
+              doiBuilder.buildDataPackageDoi(dataPackage, getRelease(project)));
         }).filter(document -> document != null).collect(Collectors.toList());
-        nestedStudyDocuments =
-            studies.stream().map(StudyNestedDocument::new).collect(Collectors.toList());
+        nestedDataPackageDocuments =
+            dataPackages.stream().map(DataPackageNestedDocument::new).collect(Collectors.toList());
       }
       List<QuestionSubDocumentProjection> questions =
           new ArrayList<QuestionSubDocumentProjection>();
@@ -410,8 +415,8 @@ public class ElasticsearchUpdateQueueService {
         variables = variableRepository.findSubDocumentsByIdIn(relatedPublication.getVariableIds());
       }
       RelatedPublicationSearchDocument searchDocument =
-          new RelatedPublicationSearchDocument(relatedPublication, studySubDocuments,
-              nestedStudyDocuments, questions, instruments, surveys, dataSets, variables);
+          new RelatedPublicationSearchDocument(relatedPublication, dataPackageSubDocuments,
+              nestedDataPackageDocuments, questions, instruments, surveys, dataSets, variables);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));
@@ -462,11 +467,11 @@ public class ElasticsearchUpdateQueueService {
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
-      StudySubDocumentProjection study =
-          studyRepository.findOneSubDocumentById(dataSet.getStudyId());
-      String doi = doiBuilder.buildStudyDoi(study, release);
+      DataPackageSubDocumentProjection dataPackage =
+          dataPackageRepository.findOneSubDocumentById(dataSet.getDataPackageId());
+      String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
       DataSetSearchDocument searchDocument =
-          new DataSetSearchDocument(dataSet, study, variableProjections, relatedPublications,
+          new DataSetSearchDocument(dataSet, dataPackage, variableProjections, relatedPublications,
               surveys, instruments, questions, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
@@ -480,8 +485,8 @@ public class ElasticsearchUpdateQueueService {
       BulkRequest request) {
     Survey survey = surveyRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (survey != null) {
-      StudySubDocumentProjection study =
-          studyRepository.findOneSubDocumentById(survey.getStudyId());
+      DataPackageSubDocumentProjection dataPackage =
+          dataPackageRepository.findOneSubDocumentById(survey.getDataPackageId());
       List<DataSetSubDocumentProjection> dataSets =
           dataSetRepository.findSubDocumentsBySurveyIdsContaining(survey.getId());
       List<VariableSubDocumentProjection> variables =
@@ -503,9 +508,9 @@ public class ElasticsearchUpdateQueueService {
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
-      String doi = doiBuilder.buildStudyDoi(study, release);
+      String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
       SurveySearchDocument searchDocument =
-          new SurveySearchDocument(survey, study, dataSets, variables, relatedPublications,
+          new SurveySearchDocument(survey, dataPackage, dataSets, variables, relatedPublications,
               instruments, questions, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
@@ -541,8 +546,8 @@ public class ElasticsearchUpdateQueueService {
       BulkRequest request) {
     Variable variable = variableRepository.findById(lockedItem.getDocumentId()).orElse(null);
     if (variable != null) {
-      final StudySubDocumentProjection study =
-          studyRepository.findOneSubDocumentById(variable.getStudyId());
+      final DataPackageSubDocumentProjection dataPackage =
+          dataPackageRepository.findOneSubDocumentById(variable.getDataPackageId());
       final DataSetSubDocumentProjection dataSet =
           dataSetRepository.findOneSubDocumentById(variable.getDataSetId());
       final List<RelatedPublicationSubDocumentProjection> relatedPublications =
@@ -576,9 +581,9 @@ public class ElasticsearchUpdateQueueService {
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
-      String doi = doiBuilder.buildStudyDoi(study, release);
+      String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
       VariableSearchDocument searchDocument =
-          new VariableSearchDocument(variable, dataSet, study, relatedPublications, surveys,
+          new VariableSearchDocument(variable, dataSet, dataPackage, relatedPublications, surveys,
               instruments, questions, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
@@ -625,12 +630,12 @@ public class ElasticsearchUpdateQueueService {
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
-      StudySubDocumentProjection study =
-          studyRepository.findOneSubDocumentById(question.getStudyId());
-      String doi = doiBuilder.buildStudyDoi(study, release);
+      DataPackageSubDocumentProjection dataPackage =
+          dataPackageRepository.findOneSubDocumentById(question.getDataPackageId());
+      String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
       QuestionSearchDocument searchDocument =
-          new QuestionSearchDocument(question, study, instrument, surveys, variables, dataSets,
-              relatedPublications, concepts, release, doi, configuration);
+          new QuestionSearchDocument(question, dataPackage, instrument, surveys, variables,
+              dataSets, relatedPublications, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));
@@ -640,45 +645,47 @@ public class ElasticsearchUpdateQueueService {
   }
 
   /**
-   * This method creates for the study repository update / insert actions.
+   * This method creates for the dataPackage repository update / insert actions.
    * 
    * @param lockedItem A locked item.
    * @param request A bulk builder for building the actions.
    */
-  private boolean addUpsertActionForStudy(ElasticsearchUpdateQueueItem lockedItem,
+  private boolean addUpsertActionForDataPackage(ElasticsearchUpdateQueueItem lockedItem,
       BulkRequest request) {
-    Study study = this.studyRepository.findById(lockedItem.getDocumentId()).orElse(null);
-    if (study != null) {
+    DataPackage dataPackage =
+        this.dataPackageRepository.findById(lockedItem.getDocumentId()).orElse(null);
+    if (dataPackage != null) {
       List<DataSetSubDocumentProjection> dataSets =
-          dataSetRepository.findSubDocumentsByStudyId(study.getId());
+          dataSetRepository.findSubDocumentsByDataPackageId(dataPackage.getId());
       List<VariableSubDocumentProjection> variables =
-          variableRepository.findSubDocumentsByStudyId(study.getId());
+          variableRepository.findSubDocumentsByDataPackageId(dataPackage.getId());
       List<RelatedPublicationSubDocumentProjection> relatedPublications =
-          relatedPublicationRepository.findSubDocumentsByStudyIdsContaining(study.getMasterId());
+          relatedPublicationRepository
+              .findSubDocumentsByDataPackageIdsContaining(dataPackage.getMasterId());
       List<SurveySubDocumentProjection> surveys =
-          surveyRepository.findSubDocumentByStudyId(study.getId());
+          surveyRepository.findSubDocumentByDataPackageId(dataPackage.getId());
       List<QuestionSubDocumentProjection> questions =
-          questionRepository.findSubDocumentsByStudyId(study.getId());
+          questionRepository.findSubDocumentsByDataPackageId(dataPackage.getId());
       List<InstrumentSubDocumentProjection> instruments =
-          instrumentRepository.findSubDocumentsByStudyId(study.getId());
+          instrumentRepository.findSubDocumentsByDataPackageId(dataPackage.getId());
       List<RelatedPublicationSubDocumentProjection> seriesPublications = null;
-      if (study.getStudySeries() != null) {
+      if (dataPackage.getStudySeries() != null) {
         seriesPublications = relatedPublicationRepository
-            .findSubDocumentsByStudySeriesesContaining(study.getStudySeries());
+            .findSubDocumentsByStudySeriesesContaining(dataPackage.getStudySeries());
       }
       List<ConceptSubDocumentProjection> concepts = getConcepts(instruments, questions);
       DataAcquisitionProject project =
-          projectRepository.findById(study.getDataAcquisitionProjectId()).orElse(null);
+          projectRepository.findById(dataPackage.getDataAcquisitionProjectId()).orElse(null);
       if (project == null) {
         // project has been deleted, skip upsert
         return false;
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
-      String doi = doiBuilder.buildStudyDoi(study, release);
-      StudySearchDocument searchDocument =
-          new StudySearchDocument(study, dataSets, variables, relatedPublications, surveys,
-              questions, instruments, seriesPublications, concepts, release, doi, configuration);
+      String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
+      DataPackageSearchDocument searchDocument = new DataPackageSearchDocument(dataPackage,
+          dataSets, variables, relatedPublications, surveys, questions, instruments,
+          seriesPublications, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));

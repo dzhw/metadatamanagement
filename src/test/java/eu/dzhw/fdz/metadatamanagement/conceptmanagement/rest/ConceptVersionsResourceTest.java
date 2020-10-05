@@ -145,4 +145,10 @@ public class ConceptVersionsResourceTest extends AbstractTest {
         .andExpect(
             jsonPath("$[1].authors[0].firstName", is(concept.getAuthors().get(0).getFirstName())));
   }
+
+  @Test
+  public void testConceptVersionsNotFound() throws IOException, Exception {
+    mockMvc.perform(get(API_CONCEPT_URI + "/spaß/versions")).andExpect(status().isOk())
+        .andExpect(jsonPath("$.length()", is(0)));
+  }
 }

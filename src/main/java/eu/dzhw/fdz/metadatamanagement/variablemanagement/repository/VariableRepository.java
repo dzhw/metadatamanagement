@@ -59,7 +59,7 @@ public interface VariableRepository extends BaseRepository<Variable, String> {
       String questionId);
 
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByStudyId(String studyId);
+  Stream<IdAndVersionProjection> streamIdsByDataPackageId(String dataPackageId);
 
   @RestResource(exported = false)
   Stream<IdAndVersionAndDataSetProjection> streamIdsByRelatedQuestionsInstrumentId(
@@ -82,7 +82,7 @@ public interface VariableRepository extends BaseRepository<Variable, String> {
   List<VariableSubDocumentProjection> findSubDocumentsByDataSetId(String dataSetId);
 
   @RestResource(exported = false)
-  List<VariableSubDocumentProjection> findSubDocumentsByStudyId(String studyId);
+  List<VariableSubDocumentProjection> findSubDocumentsByDataPackageId(String dataPackageId);
 
   @RestResource(exported = false)
   Long countByDataSetId(String dataSetId);

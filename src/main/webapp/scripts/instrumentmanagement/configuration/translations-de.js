@@ -80,8 +80,8 @@ angular.module('metadatamanagementApp').config(
               'one': 'Klicken, um die Frage dieses Instrumentes anzuzeigen',
               'many': 'Klicken, um alle Fragen dieses Instrumentes anzuzeigen'
             },
-            'studies': {
-              'one': 'Klicken, um die Studie anzuzeigen, in der dieses Instrument verwendet wurde'
+            'data-packages': {
+              'one': 'Klicken, um das Datenpaket anzuzeigen, in dem dieses Instrument verwendet wurde'
             },
             'concepts': {
               'one': 'Klicken, um das Konzept, welches mit diesem Instrument gemessen wurde, anzuzeigen',

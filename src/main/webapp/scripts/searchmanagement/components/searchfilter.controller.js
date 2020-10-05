@@ -29,6 +29,10 @@
         collapsed: true
       },
       {
+        name: 'global.filter.concepts',
+        property: 'concepts', collapsed: true
+      },
+      {
         name: 'global.filter.sponsors',
         property: 'sponsor', collapsed: true
       },

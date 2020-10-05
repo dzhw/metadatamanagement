@@ -35,7 +35,7 @@ public class VariableNestedDocument extends AbstractNestedSubDocument {
 
   private List<String> surveyIds;
 
-  private String studyId;
+  private String dataPackageId;
 
   private String masterId;
   

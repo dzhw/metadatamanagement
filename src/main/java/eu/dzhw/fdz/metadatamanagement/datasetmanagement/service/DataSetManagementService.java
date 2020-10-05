@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.IdAndNumberDataSetProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
@@ -29,7 +30,6 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.studymanagement.domain.Study;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -99,16 +99,17 @@ public class DataSetManagementService implements CrudService<DataSet> {
   }
 
   /**
-   * Enqueue update of dataSet search documents when the study is changed.
+   * Enqueue update of dataSet search documents when the dataPackage is changed.
    * 
-   * @param study the updated, created or deleted study.
+   * @param dataPackage the updated, created or deleted dataPackage.
    */
   @HandleAfterCreate
   @HandleAfterSave
   @HandleAfterDelete
-  public void onStudyChanged(Study study) {
+  public void onDataPackageChanged(DataPackage dataPackage) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> dataSetRepository.streamIdsByStudyId(study.getId()), ElasticsearchType.data_sets);
+        () -> dataSetRepository.streamIdsByDataPackageId(dataPackage.getId()),
+        ElasticsearchType.data_sets);
   }
 
   /**

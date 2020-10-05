@@ -34,7 +34,7 @@ public interface DataSetRepository
       @Param("dataAcquisitionProjectId") String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
-  Stream<IdAndVersionProjection> streamIdsByStudyId(String studyId);
+  Stream<IdAndVersionProjection> streamIdsByDataPackageId(String dataPackageId);
 
   @RestResource(exported = false)
   List<IdAndVersionProjection> findIdsByDataAcquisitionProjectIdAndNumber(
@@ -56,7 +56,7 @@ public interface DataSetRepository
   List<DataSetSubDocumentProjection> findSubDocumentsByIdIn(Collection<String> dataSetIds);
 
   @RestResource(exported = false)
-  List<DataSetSubDocumentProjection> findSubDocumentsByStudyId(String studyId);
+  List<DataSetSubDocumentProjection> findSubDocumentsByDataPackageId(String dataPackageId);
 
   @RestResource(exported = false)
   List<DataSetSubDocumentProjection> findSubDocumentsBySurveyIdsContaining(String surveyId);

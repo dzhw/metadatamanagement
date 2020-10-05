@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('SponsorSearchFilterController',
     function($scope, $location, $q, $timeout, CurrentProjectService,
-             StudySearchService) {
+             DataPackageSearchService) {
 
       // prevent sponsor changed events during init
       var initializing = true;
@@ -37,7 +37,7 @@ angular.module('metadatamanagementApp')
         }
 
         //Search Call to Elasticsearch
-        return StudySearchService.findSponsorFilterOptions(searchText,
+        return DataPackageSearchService.findSponsorFilterOptions(searchText,
           cleanedFilter, $scope.type, $scope.query, $scope.projectId)
           .then(function(sponsors) {
               cache.searchText = searchText;

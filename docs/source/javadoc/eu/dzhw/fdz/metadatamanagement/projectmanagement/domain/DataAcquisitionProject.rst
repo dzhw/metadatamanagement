@@ -16,7 +16,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.questionmanagement.domain Question
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.studymanagement.domain Study
+.. java:import:: eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain DataPackage
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.surveymanagement.domain Survey
 
@@ -66,7 +66,7 @@ DataAcquisitionProject
 
 .. java:type:: @Entity @Document @SetHasBeenReleasedBeforeOnlyOnce @ValidSemanticVersion @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder @ValidShadowId public class DataAcquisitionProject extends AbstractShadowableRdcDomainObject implements Serializable
 
-   The data acquisition project collects the metadata for the data products which are published by our RDC. One project can contain one \ :java:ref:`Study`\ , many \ :java:ref:`Survey`\ s, many \ :java:ref:`Instrument`\ s and \ :java:ref:`Question`\ s, and many \ :java:ref:`DataSet`\ s and \ :java:ref:`Variable`\ s. A project can be currently released (visible to public users) or not. When a publisher releases a project and its version is greater than or equal to 1.0.0 then the metadata is published to \ `da|ra <https://www.da-ra.de/home/>`_\ .
+   The data acquisition project collects the metadata for the data products which are published by our RDC. One project can contain one \ :java:ref:`DataPackage`\ , many \ :java:ref:`Survey`\ s, many \ :java:ref:`Instrument`\ s and \ :java:ref:`Question`\ s, and many \ :java:ref:`DataSet`\ s and \ :java:ref:`Variable`\ s. A project can be currently released (visible to public users) or not. When a publisher releases a project and its version is greater than or equal to 1.0.0 then the metadata is published to \ `da|ra <https://www.da-ra.de/home/>`_\ .
 
 Fields
 ------

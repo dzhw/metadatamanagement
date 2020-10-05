@@ -10,7 +10,7 @@
       return;
     }
 
-    $scope.study = {};
+    $scope.dataPackage = {};
     $scope.lang = LanguageService.getCurrentInstantly();
     $scope.socialSurvey = {
       en: 'Social Survey',

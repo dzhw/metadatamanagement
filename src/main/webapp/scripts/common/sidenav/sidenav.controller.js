@@ -23,9 +23,9 @@ angular.module('metadatamanagementApp').controller('SidenavController',
       $scope.logoutButtonDisabled = false;
     });
 
-    $rootScope.$on('onStudyLoaded',
+    $rootScope.$on('onDataPackageLoaded',
       function(event, args) { // jshint ignore:line
-      $scope.study = args.study;
+      $scope.dataPackage = args.dataPackage;
       $scope.accessWays = args.accessWays;
     });
 

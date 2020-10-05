@@ -34,7 +34,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation QuestionExists
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation StudyExists
+.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation DataPackageExists
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation StudySeriesExists
 
@@ -92,6 +92,12 @@ authors
 ^^^^^^^
 
 .. java:field:: @Size @NotEmpty private String authors
+   :outertype: RelatedPublication
+
+dataPackageIds
+^^^^^^^^^^^^^^
+
+.. java:field:: @Indexed private List<String> dataPackageIds
    :outertype: RelatedPublication
 
 dataSetIds
@@ -152,12 +158,6 @@ sourceReference
 ^^^^^^^^^^^^^^^
 
 .. java:field:: @NotEmpty @Size private String sourceReference
-   :outertype: RelatedPublication
-
-studyIds
-^^^^^^^^
-
-.. java:field:: @Indexed private List<String> studyIds
    :outertype: RelatedPublication
 
 studySerieses

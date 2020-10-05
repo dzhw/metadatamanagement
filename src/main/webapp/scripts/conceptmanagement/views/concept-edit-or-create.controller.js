@@ -349,7 +349,7 @@ angular.module('metadatamanagementApp')
 
         var createConceptAttachmentResource = function(attachmentWrapper) {
           return new ConceptAttachmentResource(attachmentWrapper
-              .studyAttachment);
+              .dataPackageAttachment);
         };
 
         var dialogConfig = {

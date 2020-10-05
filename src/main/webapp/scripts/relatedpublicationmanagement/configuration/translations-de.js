@@ -59,39 +59,39 @@ angular.module('metadatamanagementApp').config(
               'one': 'Klicken, um die Variable anzuzeigen, zu der diese Publikation verfasst wurde',
               'many': 'Klicken, um alle Variablen anzuzeigen, zu denen diese Publikation verfasst wurde'
             },
-            'studies':{
-              'one': 'Klicken, um die Studie anzuzeigen, zu der diese Publikation verfasst wurde',
-              'many': 'Klicken, um alle Studien anzuzeigen, zu denen diese Publikation verfasst wurde'
+            'data-packages':{
+              'one': 'Klicken, um das Datenpaket anzuzeigen, zu der diese Publikation verfasst wurde',
+              'many': 'Klicken, um alle Datenpakete anzuzeigen, zu denen diese Publikation verfasst wurde'
             },
-            'studies-series' : 'Klicken, um alle Studien dieser Studienreihe anzuzeigen'
+            'studies-series' : 'Klicken, um alle Datenpakete dieser Studienreihe anzuzeigen'
           }
         },
         'assign': {
-          'page-title': 'Publikationen zur Studie des Projektes "{{projectId}}" erfassen',
+          'page-title': 'Publikationen zum Datenpaket des Projektes "{{projectId}}" erfassen',
           'header': 'Publikationenzuweisung',
-          'all-publications-removed-toast': 'Alle Publikationen wurden von der Studie des Projektes "{{id}}" entfernt!',
-          'empty-publications': 'Es wurden noch keine Publikationen zur Studie erfasst.',
+          'all-publications-removed-toast': 'Alle Publikationen wurden von dem Datenpaket des Projektes "{{id}}" entfernt!',
+          'empty-publications': 'Es wurden noch keine Publikationen zum Datenpaket erfasst.',
           'choose-unreleased-project-toast': 'Publikationen dürfen nur hinzugefügt bzw. entfernt werden, wenn das Projekt aktuell nicht freigegeben ist!',
           'search': {
-            'placeholder': 'Publikationen suchen und der Studie zuordnen',
+            'placeholder': 'Publikationen suchen und dem Datenpaket zuordnen',
             'no-publications-found': 'Keine Publikation gefunden'
           },
           'button': {
-            'remove-publication': 'Publikation von Studie entfernen'
+            'remove-publication': 'Publikation von Datenpaket entfernen'
           }
         },
         'error': {
           'related-publication': {
             'one-foreign-key-is-used': 'Die Publikation hat keine Verknüpfung zu einem anderen Objekt.',
-            'one-study-or-study-series-is-used': 'Die Publikation hat keine Verknüpfung zu einer Studie oder einer Studienreihe',
+            'one-data-package-or-study-series-is-used': 'Die Publikation hat keine Verknüpfung zu einem Datenpaket oder einer Studienreihe',
             'valid-related-publication-id': 'Die Id einer Publikation muss dem Muster "pub-" + {IdAusCitavi} + "$".',
-            'study-exists': 'Es gibt keine Studie mit der FDZ-ID "{{invalidValue}}"!',
+            'data-package-exists': 'Es gibt kein Datenpaket mit der FDZ-ID "{{invalidValue}}"!',
             'survey-exists': 'Es gibt keine Erhebung mit der FDZ-ID "{{invalidValue}}"!',
             'dataset-exists': 'Es gibt keinen Datensatz mit der FDZ-ID "{{invalidValue}}"!',
             'variable-exists': 'Es gibt keine Variable mit der FDZ-ID "{{invalidValue}}"!',
             'instrument-exists': 'Es gibt kein Instrument mit der FDZ-ID "{{invalidValue}}"!',
             'question-exists': 'Es gibt keine Frage mit der FDZ-ID "{{invalidValue}}"!',
-            'study-series-exists': 'Es gibt keine Studie mit der Studienreihe "{{invalidValue.de}}"!',
+            'study-series-exists': 'Es gibt kein Datenpaket mit der Studienreihe "{{invalidValue.de}}"!',
             'id': {
               'not-empty': 'Die FDZ-ID der Publikation darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
@@ -134,11 +134,11 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'post-validation': {
-            'variable-has-not-a-referenced-study': 'Die Variable "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.',
-            'survey-has-not-a-referenced-study': 'Die Erhebung "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.',
-            'data-set-has-not-a-referenced-study': 'Der Datensatz "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.',
-            'instrument-has-not-a-referenced-study': 'Das Instrument "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.',
-            'question-has-not-a-referenced-study': 'Die Frage "{{invalidValue}}" gehört zu einer Studie, die nicht mit der Publikation verknüpft ist.'
+            'variable-has-not-a-referenced-data-package': 'Die Variable "{{invalidValue}}" gehört zu einem Datenpaket, das nicht mit der Publikation verknüpft ist.',
+            'survey-has-not-a-referenced-data-package': 'Die Erhebung "{{invalidValue}}" gehört zu einem Datenpaket, das nicht mit der Publikation verknüpft ist.',
+            'data-set-has-not-a-referenced-data-package': 'Der Datensatz "{{invalidValue}}" gehört zu einem Datenpaket, das nicht mit der Publikation verknüpft ist.',
+            'instrument-has-not-a-referenced-data-package': 'Das Instrument "{{invalidValue}}" gehört zu einem Datenpaket, das nicht mit der Publikation verknüpft ist.',
+            'question-has-not-a-referenced-data-package': 'Die Frage "{{invalidValue}}" gehört zu einem Datenpaket, das nicht mit der Publikation verknüpft ist.'
           }
         }
       }

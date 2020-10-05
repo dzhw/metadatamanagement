@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('InstitutionSearchFilterController',
     function($scope, $location, $q, $timeout, CurrentProjectService,
-             StudySearchService) {
+             DataPackageSearchService) {
       // prevent institution changed events during init
       var initializing = true;
       var selectionChanging = false;
@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp')
         }
 
         //Search Call to Elasticsearch
-        return StudySearchService.findInstitutionFilterOptions(searchText,
+        return DataPackageSearchService.findInstitutionFilterOptions(searchText,
           cleanedFilter, $scope.type, $scope.query, $scope.projectId)
           .then(function(institutes) {
               cache.searchText = searchText;

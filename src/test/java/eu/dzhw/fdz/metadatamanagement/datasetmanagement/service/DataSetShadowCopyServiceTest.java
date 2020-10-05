@@ -165,7 +165,7 @@ public class DataSetShadowCopyServiceTest extends AbstractTest {
   private DataSet createShadow(DataSet master, String version) {
     DataSet shadow = new DataSet(master);
     shadow.setId(master.getId() + "-" + version);
-    shadow.setStudyId(master.getStudyId() + "-" + version);
+    shadow.setDataPackageId(master.getDataPackageId() + "-" + version);
     shadow.setDataAcquisitionProjectId(master.getDataAcquisitionProjectId() + "-" + version);
     return shadow;
   }

@@ -25,7 +25,7 @@ public interface VariableSubDocumentProjection
 
   List<String> getSurveyIds();
 
-  String getStudyId();
+  String getDataPackageId();
 
   String getMasterId();
   

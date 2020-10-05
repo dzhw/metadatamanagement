@@ -27,7 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.validation.Concep
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentIdPattern;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidInstrumentType;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.validation.ValidUniqueInstrumentNumber;
-import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedStudy;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedDataPackage;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import lombok.AccessLevel;
@@ -173,13 +173,13 @@ public class Instrument extends AbstractShadowableRdcDomainObject {
   private List<Integer> surveyNumbers;
 
   /**
-   * The id of the {@link OrderedStudy} to which this instrument belongs.
+   * The id of the {@link OrderedDataPackage} to which this instrument belongs.
    *
    * Must not be empty.
    */
   @Indexed
-  @NotEmpty(message = "instrument-management.error.instrument.study-id.not-empty")
-  private String studyId;
+  @NotEmpty(message = "instrument-management.error.instrument.dataPackage-id.not-empty")
+  private String dataPackageId;
 
   /**
    * List of ids of {@link Concept}s to which are covered by this instrument.
