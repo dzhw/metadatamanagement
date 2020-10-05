@@ -13,7 +13,6 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,7 +46,7 @@ public class DataAcquisitionProjectAttachmentsResourceController {
 
   /**
    * Load all attachment metadata objects for the given project id.
-   * 
+   *
    * @param dataAcquisitionProjectId The id of an project.
    * @return A map of lists of metadata objects.
    */
@@ -56,29 +55,26 @@ public class DataAcquisitionProjectAttachmentsResourceController {
   public ResponseEntity<?> findByDataPackageId(
       @PathVariable("id") String dataAcquisitionProjectId) {
     Map<String, List<?>> result = new HashMap<>();
-    if (!StringUtils.isEmpty(dataAcquisitionProjectId)) {
-      result.put("dataPackage",
-          deduplicate(dataPackageAttachmentService.findAllByProject(dataAcquisitionProjectId),
-              DataPackageAttachmentMetadata::getFileName));
-      result.put("surveys", sort(
-          deduplicate(surveyAttachmentService.findAllByProject(dataAcquisitionProjectId),
-              SurveyAttachmentMetadata::getFileName),
-          SurveyAttachmentMetadata::getIndexInSurvey, SurveyAttachmentMetadata::getSurveyNumber));
-      result.put("dataSets", sort(
-          deduplicate(dataSetAttachmentService.findAllByProject(dataAcquisitionProjectId),
-              DataSetAttachmentMetadata::getFileName),
-          DataSetAttachmentMetadata::getIndexInDataSet,
-          DataSetAttachmentMetadata::getDataSetNumber));
-      result.put("instruments",
-          sort(
-              deduplicate(instrumentAttachmentService.findAllByProject(dataAcquisitionProjectId),
-                  InstrumentAttachmentMetadata::getFileName),
-              InstrumentAttachmentMetadata::getIndexInInstrument,
-              InstrumentAttachmentMetadata::getInstrumentNumber));
-      return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(result);
-    } else {
-      return ResponseEntity.badRequest().body(null);
-    }
+    result.put("dataPackage",
+        deduplicate(dataPackageAttachmentService.findAllByProject(dataAcquisitionProjectId),
+            DataPackageAttachmentMetadata::getFileName));
+    result.put("surveys",
+        sort(
+            deduplicate(surveyAttachmentService.findAllByProject(dataAcquisitionProjectId),
+                SurveyAttachmentMetadata::getFileName),
+            SurveyAttachmentMetadata::getIndexInSurvey,
+            SurveyAttachmentMetadata::getSurveyNumber));
+    result.put("dataSets", sort(
+        deduplicate(dataSetAttachmentService.findAllByProject(dataAcquisitionProjectId),
+            DataSetAttachmentMetadata::getFileName),
+        DataSetAttachmentMetadata::getIndexInDataSet, DataSetAttachmentMetadata::getDataSetNumber));
+    result.put("instruments",
+        sort(
+            deduplicate(instrumentAttachmentService.findAllByProject(dataAcquisitionProjectId),
+                InstrumentAttachmentMetadata::getFileName),
+            InstrumentAttachmentMetadata::getIndexInInstrument,
+            InstrumentAttachmentMetadata::getInstrumentNumber));
+    return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(result);
   }
 
   private <T> List<T> deduplicate(List<T> attachments, Function<T, String> deduplicateBy) {

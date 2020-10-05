@@ -42,10 +42,6 @@ public class DataAcquisitionProjectVersionsResource {
     List<DataAcquisitionProject> projectsVersions =
         this.projectVersionsService.findPreviousVersions(id, limit, skip);
 
-    if (projectsVersions == null) {
-      return ResponseEntity.notFound().build();
-    }
-
     return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(projectsVersions);
   }
 }

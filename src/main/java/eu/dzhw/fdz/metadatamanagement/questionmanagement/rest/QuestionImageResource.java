@@ -12,7 +12,6 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,6 +37,7 @@ public class QuestionImageResource {
 
   /**
    * REST method for for uploading images to a question with metadata.
+   * 
    * @param multiPartFile the image
    * @param questionImageMetadata the metadata of the image
    * @return response
@@ -47,17 +47,15 @@ public class QuestionImageResource {
   @RequestMapping(path = "/questions/images", method = RequestMethod.POST)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile multiPartFile,
-      @RequestPart("questionImageMetadata")
-      @Valid QuestionImageMetadata questionImageMetadata) throws IOException, URISyntaxException {
+      @RequestPart("questionImageMetadata") @Valid QuestionImageMetadata questionImageMetadata)
+      throws IOException, URISyntaxException {
     if (!multiPartFile.isEmpty()) {
-      String gridFsFileName = imageService.saveQuestionImage(multiPartFile,
-          questionImageMetadata);
-      return ResponseEntity.created(new URI("/public/files"
-        + URLEncoder.encode(gridFsFileName, "UTF-8")))
-        .body(null);
+      String gridFsFileName = imageService.saveQuestionImage(multiPartFile, questionImageMetadata);
+      return ResponseEntity
+          .created(new URI("/public/files" + URLEncoder.encode(gridFsFileName, "UTF-8")))
+          .body(null);
     } else {
-      return ResponseEntity.badRequest()
-        .body(null);
+      return ResponseEntity.badRequest().body(null);
     }
   }
 
@@ -70,14 +68,8 @@ public class QuestionImageResource {
   @RequestMapping(path = "/questions/{questionId}/images", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> findByQuestionId(@PathVariable("questionId") String questionId) {
-    if (!StringUtils.isEmpty(questionId)) {
-      List<QuestionImageMetadata> metadata = imageService.findByQuestionId(questionId);
-      return ResponseEntity.ok().cacheControl(CacheControl.noStore())
-          .body(metadata);
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
+    List<QuestionImageMetadata> metadata = imageService.findByQuestionId(questionId);
+    return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(metadata);
   }
 
   /**
@@ -88,12 +80,7 @@ public class QuestionImageResource {
   @RequestMapping(path = "/questions/{questionId}/images", method = RequestMethod.DELETE)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByQuestionId(@PathVariable("questionId") String questionId) {
-    if (!StringUtils.isEmpty(questionId)) {
-      imageService.deleteQuestionImages(questionId);
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
+    imageService.deleteQuestionImages(questionId);
+    return ResponseEntity.noContent().build();
   }
 }

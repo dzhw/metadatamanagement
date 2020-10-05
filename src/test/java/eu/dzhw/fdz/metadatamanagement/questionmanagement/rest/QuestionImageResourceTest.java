@@ -1,9 +1,11 @@
 package eu.dzhw.fdz.metadatamanagement.questionmanagement.rest;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,7 +46,7 @@ public class QuestionImageResourceTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
 
@@ -61,8 +63,7 @@ public class QuestionImageResourceTest extends AbstractTest {
 
   @Before
   public void setup() {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-        .build();
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
   @After
@@ -74,38 +75,59 @@ public class QuestionImageResourceTest extends AbstractTest {
   }
 
   @Test
-  @WithMockUser(authorities= AuthoritiesConstants.PUBLISHER)
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testUploadQuestionImageResource() throws Exception {
     MockMultipartFile attachment =
         new MockMultipartFile("image", "image.png", "image/png", "fakeimage".getBytes());
-    QuestionImageMetadata questionImageMetadata = UnitTestCreateDomainObjectUtils
-        .buildQuestionImageMetadata("projectid", "questionid");
+    QuestionImageMetadata questionImageMetadata =
+        UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata("projectid", "questionid");
     MockMultipartFile metadata = new MockMultipartFile("questionImageMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(questionImageMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/questions/images")
-        .file(attachment)
-        .file(metadata))
+    mockMvc
+        .perform(MockMvcRequestBuilders.multipart("/api/questions/images").file(attachment)
+            .file(metadata))
         .andExpect(status().isCreated());
+
+    mockMvc.perform(get("/api/questions/" + questionImageMetadata.getQuestionId() + "/images"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));
   }
 
   @Test
-  @WithMockUser(authorities= AuthoritiesConstants.PUBLISHER)
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateShadowCopyQuestionImageMetadata() throws Exception {
     MockMultipartFile attachment =
         new MockMultipartFile("image", "image.png", "image/png", "fakeimage".getBytes());
-    QuestionImageMetadata questionImageMetadata = UnitTestCreateDomainObjectUtils
-        .buildQuestionImageMetadata("projectid", "questionid");
+    QuestionImageMetadata questionImageMetadata =
+        UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata("projectid", "questionid");
     questionImageMetadata.setQuestionId(questionImageMetadata.getQuestionId() + "-1.0.0");
     questionImageMetadata.generateId();
     MockMultipartFile metadata = new MockMultipartFile("questionImageMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(questionImageMetadata));
 
-    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/questions/images")
-        .file(attachment)
-        .file(metadata))
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
+    mockMvc
+        .perform(MockMvcRequestBuilders.multipart("/api/questions/images").file(attachment)
+            .file(metadata))
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
+            containsString("global.error.shadow-create-not-allowed")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testUploadEmptyImage() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("image", "image.png", "image/png", "".getBytes());
+    QuestionImageMetadata questionImageMetadata =
+        UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata("projectid", "questionid");
+    questionImageMetadata.setQuestionId(questionImageMetadata.getQuestionId() + "-1.0.0");
+    questionImageMetadata.generateId();
+    MockMultipartFile metadata = new MockMultipartFile("questionImageMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(questionImageMetadata));
+
+    // create the image
+    mockMvc.perform(
+        MockMvcRequestBuilders.multipart("/api/questions/images").file(attachment).file(metadata))
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -113,12 +135,13 @@ public class QuestionImageResourceTest extends AbstractTest {
   public void testDeleteAllQuestionImagessOfShadowCopyQuestion() throws Exception {
     String questionId = "ins-issue1991-ins1$-1.0.0";
 
-    QuestionImageMetadata metadata = UnitTestCreateDomainObjectUtils
-        .buildQuestionImageMetadata("issue1991", "questionid");
+    QuestionImageMetadata metadata =
+        UnitTestCreateDomainObjectUtils.buildQuestionImageMetadata("issue1991", "questionid");
     metadata.setQuestionId(questionId);
     metadata.generateId();
 
-    String filename = String.format("/questions/%s/images/%s", metadata.getQuestionId(), metadata.getFileName());
+    String filename =
+        String.format("/questions/%s/images/%s", metadata.getQuestionId(), metadata.getFileName());
     try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
       gridFsMetadataUpdateService.store(is, filename, "text/plain", metadata);
     }

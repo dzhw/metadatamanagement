@@ -6,7 +6,9 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,24 +31,21 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
+import eu.dzhw.fdz.metadatamanagement.common.rest.filter.LegacyUrlsFilter;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
-/**
- *
- * @author Daniel Katzberg
- *
- */
 public class DataPackageResourceControllerTest extends AbstractTest {
-  private static final String API_STUDY_URI = "/api/data-packages";
+  private static final String API_DATAPACKAGE_URI = "/api/data-packages";
+  private static final String API_LEGACY_URI = "/api/studies";
 
   @Autowired
   private WebApplicationContext wac;
@@ -66,11 +65,14 @@ public class DataPackageResourceControllerTest extends AbstractTest {
   @Autowired
   private JaversService javersService;
 
+  @Autowired
+  private LegacyUrlsFilter legacyUrlsFilter;
+
   private MockMvc mockMvc;
 
   @Before
   public void setup() {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).addFilter(legacyUrlsFilter).build();
   }
 
   @After
@@ -91,12 +93,36 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
 
     // create the dataPackage with the given id
-    mockMvc.perform(put(API_STUDY_URI + "/" + dataPackage.getId())
-        .content(TestUtil.convertObjectToJsonBytes(dataPackage)).contentType(MediaType.APPLICATION_JSON))
+    mockMvc.perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
+        .content(TestUtil.convertObjectToJsonBytes(dataPackage))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+
+    // read the dataPackage under the new url
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getId()))
+        .andExpect(status().isOk());
+
+    // read the dataPackage under the legacy url
+    mockMvc.perform(get(API_LEGACY_URI + "/" + dataPackage.getId())).andExpect(status().isOk())
+        .andExpect(forwardedUrl(API_DATAPACKAGE_URI + "/" + dataPackage.getId()));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testCreateDataPackageWithPost() throws IOException, Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+
+    // create the dataPackage with the given id
+    mockMvc
+        .perform(post(API_DATAPACKAGE_URI).content(TestUtil.convertObjectToJsonBytes(dataPackage))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated());
 
     // read the dataPackage under the new url
-    mockMvc.perform(get(API_STUDY_URI + "/" + dataPackage.getId())).andExpect(status().isOk());
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getId()))
+        .andExpect(status().isOk());
   }
 
   @Test
@@ -109,11 +135,12 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     dataPackage.setHidden(true);
 
     // create the hidden dataPackage with the given id
-    mockMvc.perform(put(API_STUDY_URI + "/" + dataPackage.getId())
-        .content(TestUtil.convertObjectToJsonBytes(dataPackage)).contentType(MediaType.APPLICATION_JSON))
+    mockMvc
+        .perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
+            .content(TestUtil.convertObjectToJsonBytes(dataPackage))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message",
-            containsString("invalid-hidden-shadow")));
+        .andExpect(jsonPath("$.errors[0].message", containsString("invalid-hidden-shadow")));
   }
 
   @Test
@@ -133,7 +160,7 @@ public class DataPackageResourceControllerTest extends AbstractTest {
 
     // create the project with the given id
     mockMvc
-        .perform(put(API_STUDY_URI + "/" + dataPackage.getId())
+        .perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
             .content(TestUtil.convertObjectToJsonBytes(dataPackage)))
         .andExpect(status().is4xxClientError());
   }
@@ -149,7 +176,7 @@ public class DataPackageResourceControllerTest extends AbstractTest {
 
     // create the dataPackage with the given id
     mockMvc
-        .perform(put(API_STUDY_URI + "/" + dataPackage.getId())
+        .perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
             .content(TestUtil.convertObjectToJsonBytes(dataPackage)))
         .andExpect(status().is4xxClientError());
   }
@@ -163,23 +190,23 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
 
     // create the dataPackage with the given id
-    mockMvc.perform(put(API_STUDY_URI + "/" + dataPackage.getId())
-        .content(TestUtil.convertObjectToJsonBytes(dataPackage)).contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated());
+    mockMvc.perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
+        .content(TestUtil.convertObjectToJsonBytes(dataPackage))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
     List<Person> projectContributors = new ArrayList<>();
-    projectContributors.add(UnitTestCreateDomainObjectUtils
-      .buildPerson("Another", null, "ProjectContributors"));
+    projectContributors
+        .add(UnitTestCreateDomainObjectUtils.buildPerson("Another", null, "ProjectContributors"));
     dataPackage.setProjectContributors(projectContributors);
 
     dataPackage.setVersion(0L);
     // update the dataPackage with the given id
-    mockMvc.perform(put(API_STUDY_URI + "/" + dataPackage.getId())
-        .content(TestUtil.convertObjectToJsonBytes(dataPackage)).contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().is2xxSuccessful());
+    mockMvc.perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
+        .content(TestUtil.convertObjectToJsonBytes(dataPackage))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().is2xxSuccessful());
 
     // read the dataPackage under the new url
-    mockMvc.perform(get(API_STUDY_URI + "/" + dataPackage.getId())).andExpect(status().isOk())
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getId())).andExpect(status().isOk())
         .andExpect(jsonPath("$.id", is(dataPackage.getId())))
         .andExpect(jsonPath("$.projectContributors[0].firstName", is("Another")))
         .andExpect(jsonPath("$.projectContributors[0].lastName", is("ProjectContributors")));
@@ -194,16 +221,17 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
 
     // create the project with the given id
-    mockMvc.perform(put(API_STUDY_URI + "/" + dataPackage.getId())
-        .content(TestUtil.convertObjectToJsonBytes(dataPackage)).contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated());
+    mockMvc.perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
+        .content(TestUtil.convertObjectToJsonBytes(dataPackage))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
     // delete the project under the new url
-    mockMvc.perform(delete(API_STUDY_URI + "/" + dataPackage.getId()))
+    mockMvc.perform(delete(API_DATAPACKAGE_URI + "/" + dataPackage.getId()))
         .andExpect(status().is2xxSuccessful());
 
     // ensure it is really deleted
-    mockMvc.perform(get(API_STUDY_URI + "/" + dataPackage.getId())).andExpect(status().isNotFound());
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getId()))
+        .andExpect(status().isNotFound());
   }
 
   @Test
@@ -217,7 +245,7 @@ public class DataPackageResourceControllerTest extends AbstractTest {
 
     // Try to put into mongo db
     mockMvc
-        .perform(put(API_STUDY_URI + "/" + dataPackage.getId())
+        .perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
             .content(TestUtil.convertObjectToJsonBytes(dataPackage)))
         .andExpect(status().is4xxClientError());
   }
@@ -228,8 +256,10 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage("issue1991");
     dataPackage.setId(dataPackage.getId() + "-1.0.0");
 
-    mockMvc.perform(put(API_STUDY_URI + "/" + dataPackage.getId())
-        .content(TestUtil.convertObjectToJsonBytes(dataPackage)).contentType(MediaType.APPLICATION_JSON))
+    mockMvc
+        .perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
+            .content(TestUtil.convertObjectToJsonBytes(dataPackage))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
             containsString("global.error.shadow-save-not-allowed")));
   }
@@ -241,8 +271,10 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     dataPackage.setId(dataPackage.getId() + "-1.0.0");
     dataPackageRepository.save(dataPackage);
 
-    mockMvc.perform(put(API_STUDY_URI + "/" + dataPackage.getId())
-        .content(TestUtil.convertObjectToJsonBytes(dataPackage)).contentType(MediaType.APPLICATION_JSON))
+    mockMvc
+        .perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
+            .content(TestUtil.convertObjectToJsonBytes(dataPackage))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
             containsString("global.error.shadow-save-not-allowed")));
   }
@@ -254,8 +286,8 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     dataPackage.setId(dataPackage.getId() + "-1.0.0");
     dataPackageRepository.save(dataPackage);
 
-    mockMvc.perform(delete(API_STUDY_URI + "/" + dataPackage.getId())).andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message",
+    mockMvc.perform(delete(API_DATAPACKAGE_URI + "/" + dataPackage.getId()))
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
             containsString("global.error.shadow-delete-not-allowed")));
   }
 
@@ -270,7 +302,7 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
 
     // since there is no shadow yet the public user will get the mongo version
-    mockMvc.perform(get(API_STUDY_URI + "/" + dataPackage.getId())).andExpect(status().isOk())
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getId())).andExpect(status().isOk())
         .andExpect(jsonPath("$.completeTitle").doesNotExist());
 
     // now fake a shadow
@@ -287,14 +319,14 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(2L));
 
     // the public user should now get the latest shadow from elastic
-    mockMvc.perform(get(API_STUDY_URI + "/" + dataPackage.getMasterId())).andExpect(status().isOk())
-        .andExpect(jsonPath("$.id", equalTo(dataPackage.getId())))
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getMasterId()))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.id", equalTo(dataPackage.getId())))
         .andExpect(jsonPath("$.masterId", equalTo(dataPackage.getMasterId())))
         .andExpect(jsonPath("$.release.version", equalTo("1.0.0")))
         .andExpect(jsonPath("$.completeTitle").exists()).andExpect(jsonPath("$.doi").exists());
 
     // the public user should now get the latest shadow from elastic
-    mockMvc.perform(get(API_STUDY_URI + "/" + dataPackage.getId())).andExpect(status().isOk())
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getId())).andExpect(status().isOk())
         .andExpect(jsonPath("$.id", equalTo(dataPackage.getId())))
         .andExpect(jsonPath("$.masterId", equalTo(dataPackage.getMasterId())))
         .andExpect(jsonPath("$.release.version", equalTo("1.0.0")))
@@ -322,20 +354,31 @@ public class DataPackageResourceControllerTest extends AbstractTest {
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(3L));
 
     // the public user should now get the latest shadow from elastic
-    mockMvc.perform(get(API_STUDY_URI + "/" + dataPackage.getMasterId())).andExpect(status().isOk())
-        .andExpect(jsonPath("$.id", equalTo(dataPackage.getId())))
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getMasterId()))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.id", equalTo(dataPackage.getId())))
         .andExpect(jsonPath("$.masterId", equalTo(dataPackage.getMasterId())))
         .andExpect(jsonPath("$.completeTitle").exists())
         .andExpect(jsonPath("$.release.version", equalTo("2.0.0")))
         .andExpect(jsonPath("$.doi").exists());
 
     // the public user could also get the previous shadow from elastic
-    mockMvc.perform(get(API_STUDY_URI + "/" + dataPackage.getMasterId() + "-1.0.0"))
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getMasterId() + "-1.0.0"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.id", equalTo(dataPackage.getMasterId() + "-1.0.0")))
         .andExpect(jsonPath("$.masterId", equalTo(dataPackage.getMasterId())))
         .andExpect(jsonPath("$.completeTitle").exists())
         .andExpect(jsonPath("$.release.version", equalTo("1.0.0")))
         .andExpect(jsonPath("$.doi").exists());
+
+    // now hide the previous shadow
+    DataPackage outdatedShadow =
+        dataPackageRepository.findById(dataPackage.getMasterId() + "-1.0.0").get();
+    outdatedShadow.setHidden(true);
+    dataPackageRepository.save(outdatedShadow);
+    elasticsearchAdminService.recreateAllIndices();
+
+    // assert that the public user cannot access the previous shadow anymore
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getMasterId() + "-1.0.0"))
+        .andExpect(status().isNotFound());
   }
 }

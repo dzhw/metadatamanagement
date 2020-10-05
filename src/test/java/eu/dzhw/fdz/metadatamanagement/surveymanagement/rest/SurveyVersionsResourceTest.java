@@ -132,4 +132,10 @@ public class SurveyVersionsResourceTest extends AbstractTest {
       .andExpect(jsonPath("$[2].version", is(equalTo(0))))
       .andExpect(jsonPath("$[2].title.de", is(firstTitle)));
   }
+
+  @Test
+  public void testSurveyVersionsNotFound() throws IOException, Exception {
+    mockMvc.perform(get(API_SURVEY_URI + "/spaß/versions")).andExpect(status().isOk())
+        .andExpect(jsonPath("$.length()", is(0)));
+  }
 }

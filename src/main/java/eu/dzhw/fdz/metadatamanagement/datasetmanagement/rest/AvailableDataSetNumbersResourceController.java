@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,9 +33,6 @@ public class AvailableDataSetNumbersResourceController {
   @RequestMapping(method = RequestMethod.GET,
       value = "/data-acquisition-projects/{id:.+}/available-data-set-numbers")
   public ResponseEntity<List<Integer>> findAvailableDataSetNumbers(@PathVariable String id) {
-    if (StringUtils.isEmpty(id)) {
-      return ResponseEntity.badRequest().build();
-    }
     List<Integer> dataSetNumbers = dataSetService.getFreeDataSetNumbers(id);
     return ResponseEntity.ok()
         .cacheControl(CacheControl.noStore())

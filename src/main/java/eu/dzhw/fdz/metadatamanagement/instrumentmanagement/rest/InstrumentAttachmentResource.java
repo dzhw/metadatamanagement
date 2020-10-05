@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,15 +66,9 @@ public class InstrumentAttachmentResource {
   @RequestMapping(path = "/instruments/{instrumentId}/attachments", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> findByInstrumentId(@PathVariable("instrumentId") String instrumentId) {
-    if (!StringUtils.isEmpty(instrumentId)) {
-      List<InstrumentAttachmentMetadata> metadata =
-          instrumentAttachmentService.findAllByInstrument(instrumentId);
-      return ResponseEntity.ok().cacheControl(CacheControl.noStore())
-          .body(metadata);
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
+    List<InstrumentAttachmentMetadata> metadata =
+        instrumentAttachmentService.findAllByInstrument(instrumentId);
+    return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(metadata);
   }
   
   /**
@@ -87,13 +80,8 @@ public class InstrumentAttachmentResource {
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByInstrumentId(
       @PathVariable("instrumentId") String instrumentId) {
-    if (!StringUtils.isEmpty(instrumentId)) {
-      instrumentAttachmentService.deleteAllByInstrumentId(instrumentId);
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.badRequest()
-        .body(null);
-    }
+    instrumentAttachmentService.deleteAllByInstrumentId(instrumentId);
+    return ResponseEntity.noContent().build();
   }
 
   /**
@@ -107,12 +95,8 @@ public class InstrumentAttachmentResource {
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> delete(@PathVariable("instrumentId") String instrumentId,
       @PathVariable("filename") String filename) {
-    if (!StringUtils.isEmpty(instrumentId) && !StringUtils.isEmpty(filename)) {
-      instrumentAttachmentService.deleteByInstrumentIdAndFilename(instrumentId, filename);
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.badRequest().body(null);
-    }
+    instrumentAttachmentService.deleteByInstrumentIdAndFilename(instrumentId, filename);
+    return ResponseEntity.noContent().build();
   }
 
   /**

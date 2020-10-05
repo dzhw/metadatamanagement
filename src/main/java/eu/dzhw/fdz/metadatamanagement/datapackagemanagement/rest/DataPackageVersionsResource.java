@@ -42,10 +42,6 @@ public class DataPackageVersionsResource {
     List<DataPackage> dataPackageVersions =
         dataPackageVersionsService.findPreviousVersions(id, limit, skip);
 
-    if (dataPackageVersions == null) {
-      return ResponseEntity.notFound().build();
-    }
-
     return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(dataPackageVersions);
   }
 }

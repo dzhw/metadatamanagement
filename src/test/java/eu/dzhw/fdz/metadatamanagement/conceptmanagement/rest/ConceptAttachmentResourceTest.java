@@ -30,6 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateD
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository.ConceptRepository;
+import eu.dzhw.fdz.metadatamanagement.conceptmanagement.service.ConceptAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -41,6 +42,9 @@ public class ConceptAttachmentResourceTest extends AbstractTest {
   @Autowired
   private ConceptRepository conceptRepository;
   
+  @Autowired
+  private ConceptAttachmentService conceptAttachmentService;
+
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
   
@@ -98,6 +102,110 @@ public class ConceptAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.[0].lastModifiedBy", is("test")))
       .andExpect(jsonPath("$.[0].id", is("/public/files/concepts/"
           + "con-conceptid$/attachments/filename.txt")));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
+  public void testDeleteSingleAttachment() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    ConceptAttachmentMetadata conceptAttachmentMetadata =
+        UnitTestCreateDomainObjectUtils.buildConceptAttachmentMetadata("con-conceptid$");
+    MockMultipartFile metadata = new MockMultipartFile("conceptAttachmentMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(conceptAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/concepts/attachments").file(attachment)
+        .file(metadata)).andExpect(status().isCreated());
+
+    conceptAttachmentMetadata.generateId();
+
+    // ensure that there is one file
+    mockMvc
+        .perform(get("/api/concepts/" + conceptAttachmentMetadata.getConceptId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));
+
+    // delete the file
+    mockMvc
+        .perform(delete("/api/concepts/" + conceptAttachmentMetadata.getConceptId()
+            + "/attachments/" + attachment.getOriginalFilename()))
+        .andExpect(status().is2xxSuccessful());
+
+    // ensure the uploaded file does not exist anymore
+    mockMvc
+        .perform(get("/api/concepts/" + conceptAttachmentMetadata.getConceptId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(0)));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
+  public void testDeleteAllAttachments() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    ConceptAttachmentMetadata conceptAttachmentMetadata =
+        UnitTestCreateDomainObjectUtils.buildConceptAttachmentMetadata("con-conceptid$");
+    MockMultipartFile metadata = new MockMultipartFile("conceptAttachmentMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(conceptAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/concepts/attachments").file(attachment)
+        .file(metadata)).andExpect(status().isCreated());
+
+    conceptAttachmentMetadata.generateId();
+
+    // ensure that there is one file
+    mockMvc
+        .perform(get("/api/concepts/" + conceptAttachmentMetadata.getConceptId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));
+
+    // delete all files
+    mockMvc
+        .perform(
+            delete("/api/concepts/" + conceptAttachmentMetadata.getConceptId() + "/attachments"))
+        .andExpect(status().is2xxSuccessful());
+
+    // ensure the uploaded file does not exist anymore
+    mockMvc
+        .perform(get("/api/concepts/" + conceptAttachmentMetadata.getConceptId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(0)));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
+  public void updateAttachmentMetadata() throws Exception {
+    MockMultipartFile attachment =
+        new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
+    ConceptAttachmentMetadata conceptAttachmentMetadata =
+        UnitTestCreateDomainObjectUtils.buildConceptAttachmentMetadata("con-conceptid$");
+    MockMultipartFile metadata = new MockMultipartFile("conceptAttachmentMetadata", "Blob",
+        "application/json", TestUtil.convertObjectToJsonBytes(conceptAttachmentMetadata));
+
+    mockMvc.perform(MockMvcRequestBuilders.multipart("/api/concepts/attachments").file(attachment)
+        .file(metadata)).andExpect(status().isCreated());
+
+    conceptAttachmentMetadata.generateId();
+
+    // ensure that there is one file
+    mockMvc
+        .perform(get("/api/concepts/" + conceptAttachmentMetadata.getConceptId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));
+
+    // update the metadata
+    ConceptAttachmentMetadata current =
+        conceptAttachmentService.findAllByConcept(conceptAttachmentMetadata.getConceptId()).get(0);
+    current.setLanguage("en");
+
+    mockMvc
+        .perform(put("/api/concepts/" + conceptAttachmentMetadata.getConceptId() + "/attachments/"
+        + attachment.getOriginalFilename()).content(TestUtil.convertObjectToJsonBytes(current))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNoContent());
+
+    // read the updated attachment and check the version
+    mockMvc
+        .perform(get("/api/concepts/" + conceptAttachmentMetadata.getConceptId() + "/attachments"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.[0].version", is(1)))
+        .andExpect(jsonPath("$.[0].createdBy", is("test")))
+        .andExpect(jsonPath("$.[0].lastModifiedBy", is("test")))
+        .andExpect(jsonPath("$.[0].language", is("en")));
   }
 
   @Test

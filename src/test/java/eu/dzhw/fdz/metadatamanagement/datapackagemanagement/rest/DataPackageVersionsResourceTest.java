@@ -24,17 +24,17 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class DataPackageVersionsResourceTest extends AbstractTest {
-  private static final String API_STUDY_URI = "/api/data-packages";
+  private static final String API_DATAPACKAGE_URI = "/api/data-packages";
 
   @Autowired
   private WebApplicationContext wac;
@@ -79,12 +79,12 @@ public class DataPackageVersionsResourceTest extends AbstractTest {
     DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
 
     // create the dataPackage with the given id
-    mockMvc.perform(put(API_STUDY_URI + "/" + dataPackage.getId())
+    mockMvc.perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataPackage)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     // read the dataPackage versions
-    mockMvc.perform(get(API_STUDY_URI + "/" + dataPackage.getId() + "/versions"))
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getId() + "/versions"))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.length()", is(equalTo(1))))
       .andExpect(jsonPath("$[0].id", is(dataPackage.getId())))
@@ -104,26 +104,26 @@ public class DataPackageVersionsResourceTest extends AbstractTest {
     String firstTitle = dataPackage.getTitle().getDe();
 
     // create the dataPackage with the given id
-    mockMvc.perform(put(API_STUDY_URI + "/" + dataPackage.getId())
+    mockMvc.perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataPackage)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
 
     dataPackage.setVersion(0L);
     // update the dataPackage with the given id
     dataPackage.setTitle(new I18nString("hurzDe2", "hurzEn2"));
-    mockMvc.perform(put(API_STUDY_URI + "/" + dataPackage.getId())
+    mockMvc.perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataPackage)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isNoContent());
 
     dataPackage.setVersion(1L);
     // update the dataPackage again with the given id
     dataPackage.setTitle(new I18nString("hurzDe3", "hurzEn3"));
-    mockMvc.perform(put(API_STUDY_URI + "/" + dataPackage.getId())
+    mockMvc.perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
       .content(TestUtil.convertObjectToJsonBytes(dataPackage)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isNoContent());
 
     // read the dataPackage versions
-    mockMvc.perform(get(API_STUDY_URI + "/" + dataPackage.getId() + "/versions"))
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getId() + "/versions"))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.length()", is(equalTo(3))))
       .andExpect(jsonPath("$[0].id", is(dataPackage.getId())))
@@ -149,7 +149,7 @@ public class DataPackageVersionsResourceTest extends AbstractTest {
         is(dataPackage.getProjectContributors().get(0).getFirstName())));
 
     // read the first two dataPackage versions
-    mockMvc.perform(get(API_STUDY_URI + "/" + dataPackage.getId() + "/versions?skip=1"))
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/" + dataPackage.getId() + "/versions?skip=1"))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.length()", is(equalTo(2))))
       .andExpect(jsonPath("$[0].id", is(dataPackage.getId())))
@@ -166,5 +166,11 @@ public class DataPackageVersionsResourceTest extends AbstractTest {
         is(equalTo(dataPackage.getProjectContributors().size()))))
       .andExpect(jsonPath("$[1].projectContributors[0].firstName",
         is(dataPackage.getProjectContributors().get(0).getFirstName())));
+  }
+
+  @Test
+  public void testDataPackageVersionsNotFound() throws IOException, Exception {
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "/spaß/versions")).andExpect(status().isOk())
+        .andExpect(jsonPath("$.length()", is(0)));
   }
 }

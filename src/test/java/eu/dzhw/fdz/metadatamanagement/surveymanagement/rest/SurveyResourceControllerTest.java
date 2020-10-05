@@ -44,7 +44,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  * @author Daniel Katzberg
  */
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-public class SurveyResourceTest extends AbstractTest {
+public class SurveyResourceControllerTest extends AbstractTest {
   private static final String API_SURVEYS_URI = "/api/surveys";
 
   @Autowired
@@ -107,6 +107,26 @@ public class SurveyResourceTest extends AbstractTest {
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
   }
   
+  @Test
+  public void testCreateValidSurveyWithPost() throws Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    rdcProjectRepository.save(project);
+
+    Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
+
+    // create the survey with the given id
+    mockMvc.perform(post(API_SURVEYS_URI).content(TestUtil.convertObjectToJsonBytes(survey))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+
+    // read the survey under the new url
+    mockMvc.perform(get(API_SURVEYS_URI + "/" + survey.getId())).andExpect(status().isOk());
+
+    elasticsearchUpdateQueueService.processAllQueueItems();
+
+    // check that there is one survey document
+    assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));
+  }
+
   @Test
   public void testCreateSurveyWithMixedMethodDataType() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();

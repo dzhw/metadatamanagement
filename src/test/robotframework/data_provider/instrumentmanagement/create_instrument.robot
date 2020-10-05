@@ -20,7 +20,7 @@ Create Instrument by Dataprovider
 *** Keywords ***
 Go To Instrument Create Page
     Select project by name    robotproject4${BROWSER}
-    Wait Until Angular Ready    6s
+    Wait Until Angular Ready    2s
     Click on instruments tab
     Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
 

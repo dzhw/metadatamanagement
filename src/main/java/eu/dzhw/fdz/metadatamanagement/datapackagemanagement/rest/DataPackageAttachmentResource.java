@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,13 +67,9 @@ public class DataPackageAttachmentResource {
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> findByDataPackageId(
       @PathVariable("dataPackageId") String dataPackageId) {
-    if (!StringUtils.isEmpty(dataPackageId)) {
-      List<DataPackageAttachmentMetadata> metadata =
-          dataPackageAttachmentService.findAllByDataPackage(dataPackageId);
-      return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(metadata);
-    } else {
-      return ResponseEntity.badRequest().body(null);
-    }
+    List<DataPackageAttachmentMetadata> metadata =
+        dataPackageAttachmentService.findAllByDataPackage(dataPackageId);
+    return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(metadata);
   }
 
   /**
@@ -87,12 +82,8 @@ public class DataPackageAttachmentResource {
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByDataPackageId(
       @PathVariable("dataPackageId") String dataPackageId) {
-    if (!StringUtils.isEmpty(dataPackageId)) {
-      dataPackageAttachmentService.deleteAllByDataPackageId(dataPackageId);
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.badRequest().body(null);
-    }
+    dataPackageAttachmentService.deleteAllByDataPackageId(dataPackageId);
+    return ResponseEntity.noContent().build();
   }
 
   /**
@@ -106,12 +97,8 @@ public class DataPackageAttachmentResource {
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> delete(@PathVariable("dataPackageId") String dataPackageId,
       @PathVariable("filename") String filename) {
-    if (!StringUtils.isEmpty(dataPackageId) && !StringUtils.isEmpty(filename)) {
-      dataPackageAttachmentService.deleteByDataPackageIdAndFilename(dataPackageId, filename);
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.badRequest().body(null);
-    }
+    dataPackageAttachmentService.deleteByDataPackageIdAndFilename(dataPackageId, filename);
+    return ResponseEntity.noContent().build();
   }
 
   /**

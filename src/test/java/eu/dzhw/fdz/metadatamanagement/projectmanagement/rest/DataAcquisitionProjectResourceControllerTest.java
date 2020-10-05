@@ -44,7 +44,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  * @author Daniel Katzberg
  */
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
-public class DataAcquisitionProjectResourceTest extends AbstractTest {
+public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
 
   private static final String DATA_PROVIDER_USERNAME = "dataProvider";
@@ -96,6 +96,19 @@ public class DataAcquisitionProjectResourceTest extends AbstractTest {
 
     // call toString for test coverage :-)
     project.toString();
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testCreateDataAcquisitionProjectWithPost() throws IOException, Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    // create the project with the given id
+    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_URI).contentType(MediaType.APPLICATION_JSON)
+        .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
+
+    // read the project under the new url
+    mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
+        .andExpect(status().isOk());
   }
 
 
