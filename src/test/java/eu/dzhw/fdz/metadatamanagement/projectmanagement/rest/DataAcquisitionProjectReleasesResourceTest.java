@@ -23,7 +23,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 
-public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest {
+public class DataAcquisitionProjectReleasesResourceTest extends AbstractTest {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
 
   @Autowired
@@ -57,7 +57,7 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
   }
 
   @Test
-  public void testFindReleases() throws IOException, Exception {
+  public void testFindLastRelease() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project = dataAcquisitionProjectRepository.save(project);
 
@@ -69,20 +69,10 @@ public class DataAcquisitionProjectLastReleaseResourceTest extends AbstractTest 
     project.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
     dataAcquisitionProjectRepository.save(project);
 
-    // fake shadow
-    DataAcquisitionProject shadow = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    shadow.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
-    shadow.setId(project.getId() + "-" + project.getRelease().getVersion());
-    dataAcquisitionProjectRepository.save(shadow);
-
     // assert that there is one release
-    mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "/releases"))
-        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(1)));
-  }
-
-  @Test
-  public void testReleasesNotFound() throws IOException, Exception {
-    mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/spaß/releases"))
-        .andExpect(status().isOk()).andExpect(jsonPath("$.length()", is(0)));
+    mockMvc
+        .perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId() + "/releases/last"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.version", is(project.getRelease().getVersion())));
   }
 }

@@ -10,7 +10,7 @@ Variables         common_variables.yaml
 *** Variables ***
 ${USE_SAUCELABS}    ${EMPTY}
 ${BROWSER}        chrome
-${SAUCELABS_URL}    https://%{SAUCE_USERNAME}:%{SAUCE_ACCESS_KEY}@ondemand.saucelabs.com/wd/hub
+${SAUCELABS_URL}    https://%{SAUCE_USERNAME}:%{SAUCE_ACCESS_KEY}@ondemand.us-west-1.saucelabs.com:443/wd/hub
 ${BUILD_NUMBER}    local
 
 *** Keywords ***

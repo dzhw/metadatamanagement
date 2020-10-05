@@ -1,8 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 import org.javers.core.Javers;
 import org.javers.repository.jql.QueryBuilder;
@@ -18,15 +18,16 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.repository.TaskRepository;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository.ConceptRepository;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DaraUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepository;
 
@@ -80,6 +81,9 @@ public abstract class AbstractTest {
   private ElasticsearchAdminService elasticsearchAdminService;
 
   @Autowired
+  private ShadowCopyQueueItemRepository shadowCopyQueueItemRepository;
+
+  @Autowired
   private Javers javers;
 
   @Autowired
@@ -100,6 +104,7 @@ public abstract class AbstractTest {
     assertEquals(0, this.daraUpdateQueueItemRepository.count());
     assertEquals(0, this.javers.findSnapshots(QueryBuilder.anyDomainObject().build()).size());
     assertThat(this.elasticsearchAdminService.countAllDocuments(), equalTo(0L));
+    assertEquals(0, this.shadowCopyQueueItemRepository.count());
     assertEquals(0, this.dataAcquisitionProjectRepository.count());
   }
 }

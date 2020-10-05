@@ -23,10 +23,10 @@ Create Project
     Click Element Through Tooltips    xpath=//md-sidenav//button[md-icon[text()='add']]
     Input Text    name=id    ${projectname}
     Run Keyword If    '${BROWSER}' == 'safari'  Sleep  10s
-    Wait Until Angular Ready    10s
+    Wait Until Angular Ready    2s
     Wait Until Keyword Succeeds    5s    0.5s    Page Should Contain Element    xpath=//button[@type='submit' and not(contains(@disabled, 'disabled'))]
     Click Element Through Tooltips    xpath=//button[@type='submit'][contains(.,'OK')]
-    Wait Until Angular Ready    10s
+    Wait Until Angular Ready    2s
 
 Delete Robotsproject
     Pass Execution If    '${BROWSER}' == 'ie'    Data Package Creation not possible in IE
