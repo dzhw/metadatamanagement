@@ -27,7 +27,7 @@
       <div class="fdz-link pb0">
         <a ui-sref="search">{{'start.show-all' | translate}}</a>
       </div>
-      <div class="fdz-start__header pb0 pt0" style="margin-bottom: -8px;">
+      <div ng-if="pinnedDataPackage" class="fdz-start__header pb0 pt0" style="margin-bottom: -8px;">
         <div class="fdz-start__header-text">
           <h2 class="md-headline">{{'start.pinned-data-package-title' | translate}}</h1>
         </div>
