@@ -19,7 +19,7 @@
   <md-divider></md-divider>
   <form flex layout="column" layout-align="space-between stretch" name="releaseForm" class="ms-flex">
     <md-dialog-content style="padding: 1.5em 1.5em 0 1.5em;">
-      <md-input-container class="md-block" md-is-error="!releaseForm.version.$valid" style="min-height: 90px">
+      <md-input-container class="md-block" md-is-error="!releaseForm.version.$valid">
         <label>{{'data-acquisition-project-management.release.version' | translate}}</label>
         <input autocomplete="off" data-md-autofocus data-md-maxlength="32"
                data-md-no-asterisk name="version" ng-model="release.version"
@@ -40,6 +40,15 @@
             {{'data-acquisition-project-management.error.release.version.not-parsable-or-not-incremented' |
             translate:'{lastVersion: "' + lastVersion + '"}' }}
           </div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <md-checkbox name="pinToStartPage" ng-model="release.pinToStartPage"
+                     style="margin: 0 18px 0 0">
+          {{'data-acquisition-project-management.release.pin-to-start-page' | translate }}
+        </md-checkbox>
+        <div class="fdz-input-hint">
+          {{'data-acquisition-project-management.release.pin-to-start-page-hint' | translate}}
         </div>
       </md-input-container>
     </md-dialog-content>

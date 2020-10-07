@@ -19,12 +19,12 @@ import org.springframework.security.test.context.support.WithMockUser;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
@@ -53,7 +53,7 @@ public class DataPackageShadowCopyServiceTest extends AbstractTest {
 
   @Before
   public void setUp() {
-    release = new Release("1.0.0", LocalDateTime.now(), null);
+    release = new Release("1.0.0", LocalDateTime.now(), null, false);
     DataAcquisitionProject releasedProject =
         UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     releasedProject.setRelease(release);

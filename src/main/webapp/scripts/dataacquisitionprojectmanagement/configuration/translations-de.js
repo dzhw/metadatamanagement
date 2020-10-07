@@ -7,7 +7,9 @@ angular.module('metadatamanagementApp').config(
       'data-acquisition-project-management': {
         'name': 'Name des Datenaufbereitungsprojektes',
         'release': {
-          'version': 'Version des Datenaufbereitungsprojektes'
+          'version': 'Version des Datenaufbereitungsprojektes',
+          'pin-to-start-page': 'Datenpaket auf Startseite anzeigen',
+          'pin-to-start-page-hint': 'Markieren Sie dieses Kästchen, wenn das Datenpaket auf der Startseite des MDMs angezeigt werden soll.'
         },
         'home': {
           'title': 'Datenaufbereitungsprojekte',

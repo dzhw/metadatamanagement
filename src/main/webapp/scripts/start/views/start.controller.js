@@ -2,7 +2,8 @@
   'use strict';
 
   function StartController(
-    $scope, LanguageService, Principal, $state, PageTitleService) {
+    $scope, LanguageService, Principal, $state, PageTitleService,
+    PinnedDataPackagesService) {
     PageTitleService.setPageTitle('start.data-search');
 
     if (Principal.isAuthenticated()) {
@@ -10,7 +11,11 @@
       return;
     }
 
-    $scope.dataPackage = {};
+    PinnedDataPackagesService.getPinnedDataPackage().then(
+      function(response) {
+      $scope.pinnedDataPackage = response.data;
+    });
+
     $scope.lang = LanguageService.getCurrentInstantly();
     $scope.socialSurvey = {
       en: 'Social Survey',

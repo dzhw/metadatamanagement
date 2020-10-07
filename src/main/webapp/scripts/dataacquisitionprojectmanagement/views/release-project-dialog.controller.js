@@ -21,6 +21,7 @@ angular.module('metadatamanagementApp')
         $scope.lastVersion = lastRelease.version;
         $scope.release = {};
         $scope.release.version = lastRelease.version;
+        $scope.release.pinToStartPage = false;
       }
     });
 
