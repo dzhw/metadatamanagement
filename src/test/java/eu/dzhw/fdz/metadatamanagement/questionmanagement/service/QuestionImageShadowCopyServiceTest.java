@@ -61,7 +61,7 @@ public class QuestionImageShadowCopyServiceTest extends AbstractTest {
 
   @Before
   public void setup() {
-    release = new Release("1.0.0", LocalDateTime.now(), null);
+    release = new Release("1.0.0", LocalDateTime.now(), null, false);
 
     dataAcquisitionProject = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProject.setId(PROJECT_ID);

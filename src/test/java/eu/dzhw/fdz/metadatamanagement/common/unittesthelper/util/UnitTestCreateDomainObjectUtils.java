@@ -73,10 +73,7 @@ public class UnitTestCreateDomainObjectUtils {
 
   private UnitTestCreateDomainObjectUtils() {}
 
-  public static DataAcquisitionProject buildDataAcquisitionProject() {
-
-    String projectId = "testproject";
-
+  public static DataAcquisitionProject buildDataAcquisitionProject(String projectId) {
     Configuration configuration = buildDataAcquisitionProjectConfiguration(
         Collections.singletonList("defaultPublisher"), null);
 
@@ -86,6 +83,11 @@ public class UnitTestCreateDomainObjectUtils {
 
     project.setMasterId(projectId);
     return project;
+
+  }
+
+  public static DataAcquisitionProject buildDataAcquisitionProject() {
+    return buildDataAcquisitionProject("testproject");
   }
 
   public static Configuration buildDataAcquisitionProjectConfiguration(List<String> publishers,

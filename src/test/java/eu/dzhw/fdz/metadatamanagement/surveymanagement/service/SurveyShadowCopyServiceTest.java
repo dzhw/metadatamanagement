@@ -53,7 +53,7 @@ public class SurveyShadowCopyServiceTest extends AbstractTest {
 
   @Before
   public void setUp() {
-    release = new Release("1.0.0", LocalDateTime.now(), null);
+    release = new Release("1.0.0", LocalDateTime.now(), null, false);
     DataAcquisitionProject unreleasedProject =
         UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     unreleasedProject.setRelease(null);

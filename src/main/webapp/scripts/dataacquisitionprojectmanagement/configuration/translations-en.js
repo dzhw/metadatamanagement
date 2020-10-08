@@ -7,7 +7,9 @@ angular.module('metadatamanagementApp').config(
       'data-acquisition-project-management': {
         'name': 'Name of the Data Acquisition Projects',
         'release': {
-          'version': 'Version of the Data Acquisition Projects'
+          'version': 'Version of the Data Acquisition Projects',
+          'pin-to-start-page': 'Show Data Package on Start Page',
+          'pin-to-start-page-hint': 'Check this box, if you want to show this data package on the start page.'
         },
         'home': {
           'title': 'Data Acquisition Projects',

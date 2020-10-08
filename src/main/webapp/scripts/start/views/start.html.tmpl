@@ -24,9 +24,19 @@
           <div class="md-title fdz-image-text">{{schoolSurvey[lang] | fdzHyphenate}}</div>
         </a>
       </div>
-      <div class="fdz-link">
+      <div class="fdz-link" ng-class="{pb0: pinnedDataPackage}">
         <a ui-sref="search">{{'start.show-all' | translate}}</a>
       </div>
+      <div ng-if="pinnedDataPackage" class="fdz-start__header pb0 pt0" style="margin-bottom: -8px;">
+        <div class="fdz-start__header-text">
+          <h2 class="md-headline">{{'start.pinned-data-package-title' | translate}}</h1>
+        </div>
+      </div>
+      <datapackage-search-result
+        bowser="bowser"
+        current-language="currentLanguage"
+        ng-if="pinnedDataPackage"
+        search-result="pinnedDataPackage"></datapackage-search-result>
     </div>
   </div>
 </div>

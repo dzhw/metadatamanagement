@@ -31,10 +31,10 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.helper.DataPackageAttachmentFilenameBuilder;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
@@ -60,7 +60,7 @@ public class DataPackageAttachmentShadowCopyServiceTest extends AbstractTest {
 
   @Before
   public void setup() {
-    release = new Release("1.0.0", LocalDateTime.now(), null);
+    release = new Release("1.0.0", LocalDateTime.now(), null, false);
 
     dataAcquisitionProject = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProject.setId(PROJECT_ID);

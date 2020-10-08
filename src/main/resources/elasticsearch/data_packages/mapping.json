@@ -914,6 +914,15 @@
 			"properties": {
 				"version": {
 					"type": "keyword"
+				},
+				"firstDate": {
+					"type": "date"
+				},
+				"lastDate": {
+					"type": "date"
+				},
+				"pinToStartPage": {
+					"type": "boolean"
 				}
 			}
 		},

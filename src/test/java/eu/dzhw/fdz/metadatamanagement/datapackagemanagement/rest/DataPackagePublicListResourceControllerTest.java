@@ -100,6 +100,10 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
     mockMvc.perform(get(API_DATAPACKAGE_URI)).andExpect(status().isOk())
         .andExpect(jsonPath("$.content.length()", is(0)));
 
+    // get the empty list of pinned data packages
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "?pinned=true")).andExpect(status().isOk())
+        .andExpect(jsonPath("$.content.length()", is(0)));
+
     // get the empty list from the LEGACY URI
     mockMvc.perform(get(API_LEGACY_URI)).andExpect(status().isOk())
         .andExpect(forwardedUrl(API_DATAPACKAGE_URI));
@@ -121,6 +125,9 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
     // ensure list contains no items cause not yet released
     UnitTestUserManagementUtils.logout();
     mockMvc.perform(get(API_DATAPACKAGE_URI)).andExpect(status().isOk())
+        .andExpect(jsonPath("$.content.length()", is(0)));
+    // ensure that there are still no pinned data packages
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "?pinned=true")).andExpect(status().isOk())
         .andExpect(jsonPath("$.content.length()", is(0)));
   }
 
@@ -144,10 +151,67 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
     shadowCopyQueueItemService.executeShadowCopyActions();
 
-    // ensure list contains one item after release
     UnitTestUserManagementUtils.logout();
+    // ensure that there are still no pinned data packages
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "?pinned=true")).andExpect(status().isOk())
+        .andExpect(jsonPath("$.content.length()", is(0)));
+    // ensure list contains one item after release
     mockMvc.perform(get(API_DATAPACKAGE_URI)).andExpect(status().isOk())
         .andExpect(jsonPath("$.content.length()", is(1)))
+        .andExpect(jsonPath("$.content[0].masterId", is(dataPackage.getId())));
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testReleasedDataPackageIsPinned() throws IOException, Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    dataAcquisitionProjectRepository.save(project);
+
+    DataPackage dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+
+    // create the dataPackage with the given id
+    mockMvc.perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
+        .content(TestUtil.convertObjectToJsonBytes(dataPackage))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+
+    // release the project
+    project.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
+    project.getRelease().setPinToStartPage(true);
+    mockMvc.perform(put("/api/data-acquisition-projects" + "/" + project.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
+    shadowCopyQueueItemService.executeShadowCopyActions();
+
+    UnitTestUserManagementUtils.logout();
+    // ensure that there is one pinned data package
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "?pinned=true")).andExpect(status().isOk())
+        .andExpect(jsonPath("$.content.length()", is(1)))
+        .andExpect(jsonPath("$.content[0].masterId", is(dataPackage.getId())));
+
+    // now release a second data package and pin it
+    UnitTestUserManagementUtils.login("admin", "admin");
+    project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject("testproject2");
+    dataAcquisitionProjectRepository.save(project);
+
+    dataPackage = UnitTestCreateDomainObjectUtils.buildDataPackage(project.getId());
+
+    // create the dataPackage with the given id
+    mockMvc.perform(put(API_DATAPACKAGE_URI + "/" + dataPackage.getId())
+        .content(TestUtil.convertObjectToJsonBytes(dataPackage))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+
+    // release the project
+    project.setRelease(UnitTestCreateDomainObjectUtils.buildRelease());
+    project.getRelease().setPinToStartPage(true);
+    mockMvc.perform(put("/api/data-acquisition-projects" + "/" + project.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isNoContent());
+    shadowCopyQueueItemService.executeShadowCopyActions();
+
+    UnitTestUserManagementUtils.logout();
+    // ensure that there are two pinned data packages and the first one is the newest
+    mockMvc.perform(get(API_DATAPACKAGE_URI + "?pinned=true&size=2")).andExpect(status().isOk())
+        .andExpect(jsonPath("$.content.length()", is(2)))
         .andExpect(jsonPath("$.content[0].masterId", is(dataPackage.getId())));
   }
 }
