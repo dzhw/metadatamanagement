@@ -5,7 +5,8 @@ angular.module('metadatamanagementApp')
     project, SimpleMessageToastService, DataAcquisitionProjectResource,
     DaraReleaseResource, $rootScope, CurrentProjectService,
     DataAcquisitionProjectLastReleaseResource, $state, $translate,
-    DataAcquisitionProjectPostValidationService) {
+    DataAcquisitionProjectPostValidationService, PinnedDataPackagesService,
+    DataPackageIdBuilderService) {
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
 
@@ -21,7 +22,16 @@ angular.module('metadatamanagementApp')
         $scope.lastVersion = lastRelease.version;
         $scope.release = {};
         $scope.release.version = lastRelease.version;
-        $scope.release.pinToStartPage = false;
+        PinnedDataPackagesService.getPinnedDataPackage().then(
+          function(response) {
+            if (response.data && response.data.id ===
+              DataPackageIdBuilderService.buildDataPackageId(project.id,
+                lastRelease.version)) {
+              $scope.release.pinToStartPage = true;
+            } else {
+              $scope.release.pinToStartPage = false;
+            }
+          });
       }
     });
 
