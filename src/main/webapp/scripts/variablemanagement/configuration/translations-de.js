@@ -35,6 +35,8 @@ angular.module('metadatamanagementApp').config(
             'generation-details-description': 'Generierungsbeschreibung',
             'generation-details-rule': 'Generierungsregel',
             'label': 'Label',
+            'show-all-derived-variables': 'Alle abgeleiteten Variablen anzeigen',
+            'show-all-panel-variables': 'Alle Panelvariablen anzeigen',
             'statistics': {
               'graphic-is-loading': 'wird geladen...',
               'graphic-is-not-available': 'Keine Grafische Darstellung Der Statistiken',

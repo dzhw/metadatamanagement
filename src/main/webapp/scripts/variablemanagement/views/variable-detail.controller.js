@@ -11,10 +11,9 @@ angular.module('metadatamanagementApp')
     CleanJSObjectService,
     $state, BreadcrumbService,
     SearchResultNavigatorService,
-    OutdatedVersionNotifier,
-    $stateParams, blockUI, LocationSimplifier, $mdSidenav) {
+    OutdatedVersionNotifier, VariableRepositoryClient,
+    $stateParams, blockUI, $mdSidenav) {
     blockUI.start();
-    LocationSimplifier.removeDollarSign();
     SearchResultNavigatorService
       .setSearchIndex($stateParams['search-result-index']);
 
@@ -117,6 +116,21 @@ angular.module('metadatamanagementApp')
             version: result.release.version
           });
       }
+      if (result.panelIdentifier) {
+        VariableRepositoryClient.findAllByPanelIdentifierAndDataSetIdAndIdNot(
+          result.panelIdentifier, result.dataSetId, result.id
+        ).then(function(response) {
+          ctrl.panelVariables = response.data;
+        });
+      }
+      if (result.derivedVariablesIdentifier) {
+        VariableRepositoryClient
+          .findAllByDerivedVariablesIdentifierAndDataSetIdAndIdNot(
+          result.derivedVariablesIdentifier, result.dataSetId, result.id
+        ).then(function(response) {
+          ctrl.derivedVariables = response.data;
+        });
+      }
     }).finally(blockUI.stop);
     ctrl.isRowHidden = function(index) {
       if (index <= 4 || index >= ctrl
@@ -173,5 +187,36 @@ angular.module('metadatamanagementApp')
 
     ctrl.toggleSidenav = function() {
       $mdSidenav('SideNavBar').toggle();
+    };
+
+    ctrl.onPanelVariableSelected = function(selectedVariable) {
+      if (selectedVariable.id) {
+        $state.go('variableDetail', {id: selectedVariable.masterId,
+          version: ctrl.variable.shadow ? ctrl.variable.release.version : '',
+        },
+        {reload: true, notifiy: true});
+      } else {
+        $state.go('dataPackageDetail', {id: ctrl.variable.dataPackage.masterId,
+          version: ctrl.variable.shadow ? ctrl.variable.release.version : '',
+          'panel-identifier': ctrl.variable.panelIdentifier,
+          type: 'variables'
+        });
+      }
+    };
+
+    ctrl.onDerivedVariableSelected = function(selectedVariable) {
+      if (selectedVariable.id) {
+        $state.go('variableDetail', {id: selectedVariable.masterId,
+          version: ctrl.variable.shadow ? ctrl.variable.release.version : '',
+        },
+        {reload: true, notifiy: true});
+      } else {
+        $state.go('dataPackageDetail', {id: ctrl.variable.dataPackage.masterId,
+          version: ctrl.variable.shadow ? ctrl.variable.release.version : '',
+          'derived-variables-identifier':
+            ctrl.variable.derivedVariablesIdentifier,
+          type: 'variables'
+        });
+      }
     };
   });

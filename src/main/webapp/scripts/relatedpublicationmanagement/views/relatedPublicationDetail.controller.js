@@ -3,9 +3,8 @@
 angular.module('metadatamanagementApp')
   .controller('RelatedPublicationDetailController',
     function(entity, PageTitleService, $state, BreadcrumbService,
-    SearchResultNavigatorService, Principal, $stateParams, LocationSimplifier,
+    SearchResultNavigatorService, Principal, $stateParams,
     $mdSidenav) {
-      LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 

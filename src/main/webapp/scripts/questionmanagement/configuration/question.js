@@ -25,10 +25,11 @@ angular.module('metadatamanagementApp')
             }
           });
       };
+    var stateName = 'questionDetail';
     $urlRouterProvider.when('/de/questions/', '/de/error');
     $urlRouterProvider.when('/en/questions/', '/en/error');
     $stateProvider
-      .state('questionDetail', {
+      .state(stateName, {
         parent: 'site',
         url: '/questions/{id}?{version}{query}{page}{size}',
         reloadOnSearch: false,
@@ -36,9 +37,6 @@ angular.module('metadatamanagementApp')
           authorities: []
         },
         params: {
-          'id': {
-            dynamic: true
-          },
           'search-result-index': null
         },
         views: {
@@ -51,23 +49,26 @@ angular.module('metadatamanagementApp')
         },
         resolve: {
           entity: ['$stateParams', 'QuestionSearchService', 'Principal',
-          'SimpleMessageToastService', '$q', 'LocationSimplifier',
+          'SimpleMessageToastService', '$q', 'LocationSimplifier', '$state',
           function($stateParams, QuestionSearchService, Principal,
-            SimpleMessageToastService, $q, LocationSimplifier) {
-            var excludedAttributes = ['nested*', 'dataSets',
+            SimpleMessageToastService, $q, LocationSimplifier, $state) {
+            return LocationSimplifier.removeDollarSign($state, $stateParams,
+              stateName).then(function() {
+                var excludedAttributes = ['nested*', 'dataSets',
                 'variables','relatedPublications','concepts'];
-            var id = LocationSimplifier.ensureDollarSign($stateParams.id);
-            if (Principal.loginName() && !$stateParams.version) {
-              return QuestionSearchService.findOneById(id, null,
-                excludedAttributes);
-            } else {
-              var deferred = $q.defer();
-              loadShadowCopy(QuestionSearchService,
-                SimpleMessageToastService, id,
-                $stateParams.version, excludedAttributes)
-                .then(deferred.resolve, deferred.reject);
-              return deferred;
-            }
+                var id = LocationSimplifier.ensureDollarSign($stateParams.id);
+                if (Principal.loginName() && !$stateParams.version) {
+                  return QuestionSearchService.findOneById(id, null,
+                    excludedAttributes);
+                } else {
+                  var deferred = $q.defer();
+                  loadShadowCopy(QuestionSearchService,
+                    SimpleMessageToastService, id,
+                    $stateParams.version, excludedAttributes)
+                    .then(deferred.resolve, deferred.reject);
+                  return deferred;
+                }
+              }).catch($q.defer);
           }]
         }
       });

@@ -3,13 +3,17 @@
 
 angular
   .module('metadatamanagementApp')
-  .service('LocationSimplifier', function($location) {
+  .service('LocationSimplifier', function($q) {
     // we need to remove $ from the location for twitter autolinking
-    this.removeDollarSign = function() {
-      var path = $location.path();
-      if (_.endsWith(path, '$')) {
-        $location.path(path.slice(0, path.length - 1));
+    this.removeDollarSign = function(state, stateParams, stateName) {
+      if (_.endsWith(stateParams.id, '$')) {
+        var stateParamsCopy = angular.copy(stateParams);
+        stateParamsCopy.id = stateParamsCopy.id.slice(
+          0, stateParams.id.length - 1);
+        state.go(stateName, stateParamsCopy, {supercede: true});
+        return $q.reject('Redirect to state without $');
       }
+      return $q.resolve();
     };
 
     // we need to ensure that out ids have the $ at the end

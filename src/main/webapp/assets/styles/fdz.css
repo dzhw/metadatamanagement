@@ -2611,6 +2611,24 @@ md-dialog .fdz-fab-button-container {
   .fdz-theme .fdz-shopping-cart__header h1 {
     margin: 0; }
 
+.fdz-theme md-select.fdz-inline-select {
+  margin: 0px;
+  max-height: 24px;
+  display: inline-flex; }
+  .fdz-theme md-select.fdz-inline-select .md-select-placeholder {
+    font-weight: unset;
+    color: #0071bc; }
+  .fdz-theme md-select.fdz-inline-select .md-select-icon {
+    color: #0071bc;
+    width: 15px;
+    margin: 0; }
+  .fdz-theme md-select.fdz-inline-select .md-select-value {
+    padding: 0px; }
+
+.fdz-theme md-select.fdz-inline-select:focus {
+  outline: #F69F24 auto 5px;
+  color: #0071bc; }
+
 .fdz-no-js {
   position: absolute;
   background-color: #F69F24;
