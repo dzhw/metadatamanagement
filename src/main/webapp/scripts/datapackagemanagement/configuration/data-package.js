@@ -29,6 +29,7 @@ angular.module('metadatamanagementApp')
 
     $urlRouterProvider.when('/de/data-packages/', '/de/error');
     $urlRouterProvider.when('/en/data-packages/', '/en/error');
+    var stateName = 'dataPackageDetail';
     var dataPackageDetailConfig = {
       parent: 'site',
       url: '/data-packages/{id}?{version}{query}{page}{size}' +
@@ -38,9 +39,6 @@ angular.module('metadatamanagementApp')
         authorities: []
       },
       params: {
-        'id': {
-          dynamic: true
-        },
         'search-result-index': null
       },
       views: {
@@ -54,31 +52,35 @@ angular.module('metadatamanagementApp')
       resolve: {
         entity: ['$q', '$stateParams', 'DataPackageSearchService',
           'Principal', 'SimpleMessageToastService', 'LocationSimplifier',
+          '$state',
           function($q, $stateParams,
               DataPackageSearchService, Principal, SimpleMessageToastService,
-              LocationSimplifier) {
-            var excludedAttributes = ['nested*','variables','questions',
-              'surveys','instruments', 'dataSets', 'relatedPublications',
-              'concepts'];
-            var id = LocationSimplifier.ensureDollarSign($stateParams.id);
-            if (Principal.loginName() && !$stateParams.version) {
-              return DataPackageSearchService.findOneById(id, null,
-                excludedAttributes);
-            } else {
-              var deferred = $q.defer();
-              loadShadowCopy(DataPackageSearchService,
-                SimpleMessageToastService, id,
-                $stateParams.version, excludedAttributes)
-                  .then(deferred.resolve, deferred.reject);
-              return deferred;
-            }
+              LocationSimplifier, $state) {
+            return LocationSimplifier.removeDollarSign($state, $stateParams,
+              stateName).then(function() {
+                var excludedAttributes = ['nested*','variables','questions',
+                'surveys','instruments', 'dataSets', 'relatedPublications',
+                'concepts'];
+                var id = LocationSimplifier.ensureDollarSign($stateParams.id);
+                if (Principal.loginName() && !$stateParams.version) {
+                  return DataPackageSearchService.findOneById(id, null,
+                    excludedAttributes);
+                } else {
+                  var deferred = $q.defer();
+                  loadShadowCopy(DataPackageSearchService,
+                    SimpleMessageToastService, id,
+                    $stateParams.version, excludedAttributes)
+                    .then(deferred.resolve, deferred.reject);
+                  return deferred;
+                }
+              }).catch($q.defer);
           }
         ]
       }
     };
 
     $stateProvider
-      .state('dataPackageDetail', dataPackageDetailConfig);
+      .state(stateName, dataPackageDetailConfig);
 
     var legacyStudyDetailConfig = angular.copy(dataPackageDetailConfig);
     legacyStudyDetailConfig.url = '/studies/{id}?{version}{query}{page}{size}' +

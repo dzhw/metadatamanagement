@@ -2,10 +2,11 @@
 
 angular.module('metadatamanagementApp')
   .config(function($stateProvider, $urlRouterProvider) {
+    var stateName = 'relatedPublicationDetail';
     $urlRouterProvider.when('/de/publications/', '/de/error');
     $urlRouterProvider.when('/en/publications/', '/en/error');
     $stateProvider
-      .state('relatedPublicationDetail', {
+      .state(stateName, {
         parent: 'site',
         url: '/publications/{id}?{version}{query}{page}' +
           '{size}',
@@ -14,9 +15,6 @@ angular.module('metadatamanagementApp')
           authorities: []
         },
         params: {
-          'id': {
-            dynamic: true
-          },
           'search-result-index': null
         },
         views: {
@@ -29,13 +27,17 @@ angular.module('metadatamanagementApp')
         },
         resolve: {
           entity: ['$stateParams', 'RelatedPublicationSearchService',
-            'LocationSimplifier', function($stateParams,
-              RelatedPublicationSearchService, LocationSimplifier) {
-              var excludedAttributes = ['nested*','variables', 'dataSets',
-                'surveys','dataPackages','questions', 'instruments'];
-              var id = LocationSimplifier.ensureDollarSign($stateParams.id);
-              return RelatedPublicationSearchService.findOneById(
-                id, null, excludedAttributes);
+            'LocationSimplifier', '$state', '$q', function($stateParams,
+              RelatedPublicationSearchService, LocationSimplifier, $state, $q) {
+              return LocationSimplifier.removeDollarSign($state, $stateParams,
+                stateName).then(function() {
+                  var excludedAttributes = ['nested*','variables', 'dataSets',
+                  'surveys','dataPackages','questions', 'instruments'];
+                  var id = LocationSimplifier.ensureDollarSign($stateParams.id);
+                  return RelatedPublicationSearchService.findOneById(
+                    id, null, excludedAttributes);
+                }
+              ).catch($q.defer);
             }
           ]
         }

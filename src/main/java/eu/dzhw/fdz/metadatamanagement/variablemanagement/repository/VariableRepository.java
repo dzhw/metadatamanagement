@@ -22,8 +22,12 @@ public interface VariableRepository extends BaseRepository<Variable, String> {
   Stream<Variable> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
-  List<VariableSubDocumentProjection> findAllByPanelIdentifierAndIdNot(String panelIdentifier,
-      String id);
+  List<VariableSubDocumentProjection> findAllByPanelIdentifierAndDataSetIdAndIdNot(
+      String panelIdentifier, String dataSetId, String id);
+
+  @RestResource(exported = true)
+  List<Variable> findAllByPanelIdentifierAndDataSetIdAndIdNotOrderByIndexInDataSet(
+      String panelIdentifier, String dataSetId, String id);
 
   @RestResource(exported = true)
   List<Variable> findByDataAcquisitionProjectId(
@@ -121,6 +125,10 @@ public interface VariableRepository extends BaseRepository<Variable, String> {
       String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
-  List<VariableSubDocumentProjection> findAllByDerivedVariablesIdentifierAndIdNot(
-      String derivedVariablesIdentifier, String id);
+  List<VariableSubDocumentProjection> findAllByDerivedVariablesIdentifierAndDataSetIdAndIdNot(
+      String derivedVariablesIdentifier, String dataSetId, String id);
+
+  @RestResource(exported = true)
+  List<Variable> findAllByDerivedVariablesIdentifierAndDataSetIdAndIdNotOrderByIndexInDataSet(
+      String derivedVariablesIdentifier, String dataSetId, String id);
 }

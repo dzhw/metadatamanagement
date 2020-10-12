@@ -2,10 +2,11 @@
 
 angular.module('metadatamanagementApp')
   .config(function($stateProvider, $urlRouterProvider) {
+    var stateName = 'conceptDetail';
     $urlRouterProvider.when('/de/concepts/', '/de/error');
     $urlRouterProvider.when('/en/concepts/', '/en/error');
     $stateProvider
-      .state('conceptDetail', {
+      .state(stateName, {
         parent: 'site',
         url: '/concepts/{id}?{version}{query}{page}{size}',
         reloadOnSearch: false,
@@ -13,9 +14,6 @@ angular.module('metadatamanagementApp')
           authorities: []
         },
         params: {
-          'id': {
-            dynamic: true
-          },
           'search-result-index': null
         },
         views: {
@@ -28,12 +26,17 @@ angular.module('metadatamanagementApp')
         },
         resolve: {
           entity: ['$stateParams', 'ConceptSearchService', 'LocationSimplifier',
-            function($stateParams, ConceptSearchService, LocationSimplifier) {
-              var excludedAttributes = ['nested*', 'dataPackages', 'dataSets',
-                'surveys','variables','questions', 'instruments'];
-              var id = LocationSimplifier.ensureDollarSign($stateParams.id);
-              return ConceptSearchService.findOneById(id, null,
-                excludedAttributes);
+            '$state', '$q',
+            function($stateParams, ConceptSearchService, LocationSimplifier,
+              $state, $q) {
+              return LocationSimplifier.removeDollarSign($state, $stateParams,
+                stateName).then(function() {
+                  var excludedAttributes = ['nested*','dataPackages',
+                  'dataSets','surveys','variables','questions','instruments'];
+                  var id = LocationSimplifier.ensureDollarSign($stateParams.id);
+                  return ConceptSearchService.findOneById(id, null,
+                    excludedAttributes);
+                }).catch($q.defer);
             }
           ]
         }
