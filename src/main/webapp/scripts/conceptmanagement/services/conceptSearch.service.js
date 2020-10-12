@@ -177,7 +177,6 @@ angular.module('metadatamanagementApp').factory('ConceptSearchService',
     var findTags = function(searchText, language, filter, ignoreAuthorization) {
       var query = {
         index: 'concepts',
-        type: 'concepts',
         size: 0
       };
       _.set(query, 'body.aggs.tags.terms.field', 'tags.' + language);

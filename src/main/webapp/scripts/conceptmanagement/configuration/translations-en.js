@@ -100,7 +100,7 @@ angular.module('metadatamanagementApp').config(
             'id': {
               'not-empty': 'The RDC-ID of the concept must not be empty!',
               'size': 'The max length of the RDC-ID is 512 signs.',
-              'pattern': 'The RDC-ID must not contain any whitespace.',
+              'pattern': 'The RDC-ID must not contain any whitespaces, commas or semicolons.',
               'not-valid-id': 'The RDC-ID of the concept must correspond to the form "con-" + {text} + "$". {text} must not contain any whitespace.',
               'not-unique': 'This RDC-ID already exists'
             },
