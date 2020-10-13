@@ -2,58 +2,51 @@ website: https://dev.metadata.fdz.dzhw.eu/#!/de/start
 capabilities:
   chrome:
     name: Win10/Chrome
-    platform: Windows 10
-    browserName: chrome
-    version: latest
-    screenResolution: 1920x1080
+    os: Windows
+    os_version: 10
+    browser: Chrome
+    browser_version: latest
+    resolution: 1920x1080
     maxDuration: 10800
     commandTimeout: 600
     idleTimeout: 600
   firefox:
     name: Win10/Firefox
-    platform: Windows 10
-    browserName: firefox
-    version: latest-1
-    screenResolution: 1920x1080
+    os: Windows
+    os_version: 10
+    browser: Firefox
+    browser_version: latest
+    resolution: 1920x1080
     maxDuration: 10800
     commandTimeout: 600
     idleTimeout: 600
   edge:
     name: Win10/Edge
-    platform: Windows 10
-    browserName: MicrosoftEdge
-    version: latest
-    screenResolution: 1920x1080
+    os: Windows
+    os_version: 10
+    browser: Edge
+    browser_version: latest
+    resolution: 1920x1080
     maxDuration: 10800
     commandTimeout: 600
     idleTimeout: 600
   ie:
     name: Win10/IE11
-    platform: Windows 10
-    browserName: internet explorer
-    version: latest
-    screenResolution: 1920x1080
-    nativeEvents: false
-    unexpectedAlertBehaviour: accept
-    ignoreProtectedModeSettings: true
-    disable-popup-blocking: true
-    enablePersistentHover: true
-    ignoreZoomSetting: true
-    requireWindowFocus: true
-    javascriptEnabled: true
-    ensureCleanSession: true
-    logLevel: 'TRACE'
-    logFile: 'ie.log'
+    os: Windows
+    os_version: 10
+    browser: IE
+    browser_version: 11
+    resolution: 1920x1080
     maxDuration: 10800
     commandTimeout: 600
     idleTimeout: 600
   safari:
-    name: Mojave/Safari
-    browserName: "safari"
-    platform: "macOS 10.14"
-    version: "12.0"
-    seleniumVersion: "3.4.0"
-    screenResolution: 1920x1440
+    name: Catalina/Safari
+    os: 'OS X'
+    os_version: Catalina
+    browser: Safari
+    browser_version: 13.0
+    resolution: 1920x1080
     maxDuration: 10800
     commandTimeout: 600
     idleTimeout: 600
