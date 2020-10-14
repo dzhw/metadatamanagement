@@ -33,9 +33,9 @@ class Browserstack:
             access_key = os.environ.get('BROWSERSTACK_ACCESS_KEY')
 
         if not job_id:
-            return u"No Sauce job id found. Skipping..."
+            return u"No Selenium session id found. Skipping..."
         elif not username or not access_key:
-            return u"No Sauce environment variables found. Skipping..."
+            return u"No Browserstack environment variables found. Skipping..."
 
         token = base64.encodestring('%s:%s' % (username, access_key))[:-1]
         body = json.dumps({ 'status': 'passed' if status == 'PASS' else 'failed',

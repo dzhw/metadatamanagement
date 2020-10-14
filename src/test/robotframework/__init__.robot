@@ -29,6 +29,6 @@ Open Home Page
     Maximize Browser Window
 
 Finish Tests
-    Run Keyword If    '${USE_BROWSERSTACK}' != '${EMPTY}'    Import Library    SauceLabs
+    Run Keyword If    '${USE_BROWSERSTACK}' != '${EMPTY}'    Import Library    Browserstack
     Run Keyword If    '${USE_BROWSERSTACK}' != '${EMPTY}'    Report test status    ${CAPABILITIES.${BROWSER}.name}    ${SUITE STATUS}    ${EMPTY}    ${BROWSERSTACK_URL}
     Close All Browsers
