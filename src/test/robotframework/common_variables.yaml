@@ -11,7 +11,7 @@ capabilities:
     commandTimeout: 600
     idleTimeout: 600
     project: metadatamanagement
-    browserstack.selenium_version: 3.14.0
+    browserstack.selenium_version: 3.5.2
   firefox:
     name: Win10/Firefox
     os: Windows
