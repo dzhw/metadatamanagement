@@ -679,7 +679,7 @@ Herangehensweisen die Eingabemaske um ein neues Instrument anzulegen.
 Die Eingabemaske besteht
 aus den Pflichtfeldern Beschreibung, Titel, Typ und Erhebung, sowie
 den nicht verpflichtenden Feldern Untertitel, Anmerkungen und Konzepte (s. :numref:`eingabemaske_instrument_de`).
-Konzepte müssen zuerst, wie im Kapitel :ref:`Konzepte<Konzepte>` erklärt, angelegt werden und können danach über die Eingabemaske verlinkt werden.
+Konzepte müssen zuerst, wie gleichnamigen Kapitel erklärt, angelegt werden und können danach über die Eingabemaske verlinkt werden.
 
 .. figure:: ./_static/eingabemaske_instrument_de.png
    :scale: 50 %
