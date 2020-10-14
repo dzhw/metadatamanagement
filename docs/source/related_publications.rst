@@ -16,68 +16,64 @@ wird zu id). Die Excel-Tabelle wird
 `hier<https://github.com/dzhw/metadatamanagement-io/tree/master/references/relatedPublications>`
 gepflegt.
 
-+--------------+----------------------+-------------------------+
-| Eigenschaft  | Ausfüllanweisung     | muss ausgefüllt werden? |
-+==============+======================+=========================+
-| id           | von Citavi           | ja                      |
-|              | erzeugter BibTex-Key |                         |
-+--------------+----------------------+-------------------------+
-| source\      | Quellangabe der      | ja                      |
-| Reference    | Publikation          |                         |
-|              | (default)            |                         |
-+--------------+----------------------+-------------------------+
-| publication\ | Zusammenfassung      | nein                    |
-| Abstract     |                      |                         |
-+--------------+----------------------+-------------------------+
-| doi          | doi der Publikation  | nein                    |
-+--------------+----------------------+-------------------------+
-| sourceLink   | valide URL           | nein                    |
-+--------------+----------------------+-------------------------+
-| title        | Titel                | ja                      |
-+--------------+----------------------+-------------------------+
-| authors      | Autoren (Nachname1,  | ja                      |
-|              | Vorname1; Nachname2, |                         |
-|              | Vorname2)            |                         |
-+--------------+----------------------+-------------------------+
-| year         | Jahr der Veröffen\   | ja                      |
-|              | tlichung (muss klei\ |                         |
-|              | ner oder gleich dem  |                         |
-|              | aktuellen Jahr sein) |                         |
-+--------------+----------------------+-------------------------+
-| abstract\    |??                    | nein                    |
-| Source.de/\  |                      |                         |
-| .en          |                      |                         |
-+--------------+----------------------+-------------------------+
-| studyIds     | Studien-Ids, der zur | Wenn keine studySeries\ |
-|              | Publikation gehören\ | es vorhanden -> ja      |
-|              | den Studie           |                         |
-+--------------+----------------------+-------------------------+
-| dataSetIds   |                      | nein                    |
-+--------------+----------------------+-------------------------+
-| instrumentIds|                      | nein                    |
-+--------------+----------------------+-------------------------+
-| surveyIds    |                      | nein                    |
-+--------------+----------------------+-------------------------+
-| variableIds  |                      | nein                    |
-+--------------+----------------------+-------------------------+
-| questionIds  |                      | nein                    |
-+--------------+----------------------+-------------------------+
-| studySeries\ | mindestens eine      | Falls vorhanden ja      |
-| es.de        | studyId oder mindes\ |                         |
-|              | tens 1 studySeries   |                         |
-+--------------+----------------------+-------------------------+
-| language     | Sprache der Publika\ | ja                      |
-|              | tion                 |                         |
-|              | (2-Buchstaben Code   |                         |
-|              | nach ISO 639-1_      |                         |
-+--------------+----------------------+-------------------------+
-| annotations\ | Anmerkungen zur Pub\ | nein                    |
-| .de          | likation auf Deutsc\ |                         |
-|              | h                    |                         |
-+--------------+----------------------+-------------------------+
-| annotations\ | Anmerkungen zur Pub\ | nein                    |
-| .en          | likation auf Englis\ |                         |
-|              | ch                   |                         |
-+--------------+----------------------+-------------------------+
++----------------+----------------------------+-------------------------+
+| Eigenschaft    | Ausfüllanweisung           | muss ausgefüllt werden? |
++================+============================+=========================+
+| id             | von Citavi                 | ja                      |
+|                | erzeugter BibTex-Key       |                         |
++----------------+----------------------------+-------------------------+
+| source\        | Quellangabe der            | ja                      |
+| Reference      | Publikation                |                         |
+|                | (default)                  |                         |
++----------------+----------------------------+-------------------------+
+| publication\   | Zusammenfassung            | nein                    |
+| Abstract       |                            |                         |
++----------------+----------------------------+-------------------------+
+| doi            | doi der Publikation        | nein                    |
++----------------+----------------------------+-------------------------+
+| sourceLink     | valide URL                 | nein                    |
++----------------+----------------------------+-------------------------+
+| title          | Titel                      | ja                      |
++----------------+----------------------------+-------------------------+
+| authors        | Autoren (Nachname1,        | ja                      |
+|                | Vorname1; Nachname2,       |                         |
+|                | Vorname2)                  |                         |
++----------------+----------------------------+-------------------------+
+| year           | Jahr der Veröffentlichung  | ja                      |
+|                | (muss kleiner oder gleich  |                         |
+|                | dem aktuellen Jahr sein)   |                         |
++----------------+----------------------------+-------------------------+
+| abstract\      |??                          | nein                    |
+| Source.de/\    |                            |                         |
+| .en            |                            |                         |
++----------------+----------------------------+-------------------------+
+| dataPackageIds | Datenpaket-Ids, des zur    | Wenn keine studySeries\ |
+|                | Publikation gehören\       | es vorhanden -> ja      |
+|                | den Datenpakets            |                         |
++----------------+----------------------------+-------------------------+
+| dataSetIds     |                            | nein                    |
++----------------+----------------------------+-------------------------+
+| instrumentIds  |                            | nein                    |
++----------------+----------------------------+-------------------------+
+| surveyIds      |                            | nein                    |
++----------------+----------------------------+-------------------------+
+| variableIds    |                            | nein                    |
++----------------+----------------------------+-------------------------+
+| questionIds    |                            | nein                    |
++----------------+----------------------------+-------------------------+
+| studySeries\   | mindestens eine            | Falls vorhanden ja      |
+| es.de          | dataPackageId oder mindes\ |                         |
+|                | tens 1 studySeries         |                         |
++----------------+----------------------------+-------------------------+
+| language       | Sprache der Publikation    | ja                      |
+|                | (2-Buchstaben Code         |                         |
+|                | nach ISO 639-1_            |                         |
++----------------+----------------------------+-------------------------+
+| annotations.de | Anmerkungen zur Pub\       | nein                    |
+|                | likation auf Deutsch       |                         |
++----------------+----------------------------+-------------------------+
+| annotations.en | Anmerkungen zur Pub\       | nein                    |
+|                | likation auf Englisch      |                         |
++----------------+----------------------------+-------------------------+
 
 .. _639-1: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes

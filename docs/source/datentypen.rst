@@ -57,7 +57,7 @@ Vokabular
 
 Es ist zu beachten, dass für einige Eigenschaften nur spezielles
 Vokabular zugelassen ist! Dieses kann entweder auf der io-wiki Seite der
-jeweiligen Exportfunktion (Study, Survey, DataSet, Variable, Instrument,
+jeweiligen Exportfunktion (data package, Survey, DataSet, Variable, Instrument,
 Question) oder
 `hier <https://github.com/dzhw/metadatamanagement/wiki/Domain-Model>`__
 nachgeschaut werden.
