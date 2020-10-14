@@ -59,7 +59,8 @@ public class Concept extends AbstractRdcDomainObject implements ConceptSubDocume
    */
   @Id
   @NotEmpty(message = "concept-management.error.concept.id.not-empty")
-  @Pattern(regexp = "^con-\\S+\\$$", message = "concept-management.error.concept.id.not-valid-id")
+  @Pattern(regexp = "^con-[^,;\\s]+\\$$",
+      message = "concept-management.error.concept.id.not-valid-id")
   @Size(max = StringLengths.MEDIUM, message = "concept-management.error.concept.id.size")
   private String id;
 

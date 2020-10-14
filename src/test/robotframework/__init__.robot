@@ -8,27 +8,27 @@ Library           OperatingSystem
 Variables         common_variables.yaml
 
 *** Variables ***
-${USE_SAUCELABS}    ${EMPTY}
+${USE_BROWSERSTACK}    ${EMPTY}
 ${BROWSER}        chrome
-${SAUCELABS_URL}    https://%{SAUCE_USERNAME}:%{SAUCE_ACCESS_KEY}@ondemand.us-west-1.saucelabs.com:443/wd/hub
+${BROWSERSTACK_URL}    https://%{BROWSERSTACK_USERNAME}:%{BROWSERSTACK_ACCESS_KEY}@hub-cloud.browserstack.com/wd/hub
 ${BUILD_NUMBER}    local
 
 *** Keywords ***
 Open Local Browser
     Open Browser    ${WEBSITE}    ${BROWSER}    desired_capabilities=${CAPABILITIES.${BROWSER}}
 
-Open Saucelabs Browser
+Open Browserstack Browser
     ${BUILD_NUMBER} =    Get Environment Variable    TRAVIS_BUILD_NUMBER    ${EMPTY}
     Run Keyword If    '${BUILD_NUMBER}' != '${EMPTY}'    Set To Dictionary    ${CAPABILITIES.${BROWSER}}    build=${BUILD_NUMBER}
-    Open Browser    ${WEBSITE}    ${BROWSER}    remote_url=${SAUCELABS_URL}    desired_capabilities=${CAPABILITIES.${BROWSER}}
+    Open Browser    ${WEBSITE}    ${BROWSER}    remote_url=${BROWSERSTACK_URL}    desired_capabilities=${CAPABILITIES.${BROWSER}}
 
 Open Home Page
-    Run Keyword If    '${USE_SAUCELABS}' == '${EMPTY}'    Open Local Browser
-    Run Keyword If    '${USE_SAUCELABS}' != '${EMPTY}'    Open Saucelabs Browser
+    Run Keyword If    '${USE_BROWSERSTACK}' == '${EMPTY}'    Open Local Browser
+    Run Keyword If    '${USE_BROWSERSTACK}' != '${EMPTY}'    Open Browserstack Browser
     Set Window Size    800    600
     Maximize Browser Window
 
 Finish Tests
-    Run Keyword If    '${USE_SAUCELABS}' != '${EMPTY}'    Import Library    SauceLabs
-    Run Keyword If    '${USE_SAUCELABS}' != '${EMPTY}'    Report test status    ${CAPABILITIES.${BROWSER}.name}    ${SUITE STATUS}    ${EMPTY}    ${SAUCELABS_URL}
+    Run Keyword If    '${USE_BROWSERSTACK}' != '${EMPTY}'    Import Library    Browserstack
+    Run Keyword If    '${USE_BROWSERSTACK}' != '${EMPTY}'    Report test status    ${CAPABILITIES.${BROWSER}.name}    ${SUITE STATUS}    ${EMPTY}    ${BROWSERSTACK_URL}
     Close All Browsers

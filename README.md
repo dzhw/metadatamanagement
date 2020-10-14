@@ -1,10 +1,10 @@
-[![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=master)](https://travis-ci.org/dzhw/metadatamanagement) [![Documentation Status](https://readthedocs.org/projects/metadatamanagement/badge/?version=latest)](https://metadatamanagement.readthedocs.io/de/latest/?badge=latest)
+[![Build Status](https://travis-ci.org/dzhw/metadatamanagement.svg?branch=master)](https://travis-ci.org/dzhw/metadatamanagement)[![BrowserStack Status](https://automate.browserstack.com/badge.svg?badge_key=MytDYXBDR0NIQWMwdWFQQ3ZMWDE2NjRPNUtISzBCUU4wS09WR1dPbzVIcz0tLWpHNFhXMWdTK3NIa0VoUzFxWitSK3c9PQ==--66cd472b34bd43ec2f488175a6088fbcd5ba5925)](https://automate.browserstack.com/public-build/MytDYXBDR0NIQWMwdWFQQ3ZMWDE2NjRPNUtISzBCUU4wS09WR1dPbzVIcz0tLWpHNFhXMWdTK3NIa0VoUzFxWitSK3c9PQ==--66cd472b34bd43ec2f488175a6088fbcd5ba5925)
+ [![Documentation Status](https://readthedocs.org/projects/metadatamanagement/badge/?version=latest)](https://metadatamanagement.readthedocs.io/de/latest/?badge=latest)
 [![Known Backend Vulnerabilities](https://snyk.io/test/github/dzhw/metadatamanagement/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/dzhw/metadatamanagement?targetFile=pom.xml
 )[![Known Frontend Vulnerabilities](https://snyk.io/test/github/dzhw/metadatamanagement/badge.svg?targetFile=package.json)](https://snyk.io/test/github/dzhw/metadatamanagement?targetFile=package.json
 )[![codecov](https://codecov.io/gh/dzhw/metadatamanagement/branch/development/graph/badge.svg)](https://codecov.io/gh/dzhw/metadatamanagement)[![Mergify Status](https://gh.mergify.io/badges/dzhw/metadatamanagement.png?style=cut)](https://mergify.io)
 [![DOI](https://zenodo.org/badge/39431147.svg)](https://zenodo.org/badge/latestdoi/39431147)
 
-[![Sauce Test Status](https://app.saucelabs.com/browser-matrix/rreitmann.svg)](https://app.saucelabs.com/u/rreitmann)
 # Metadatamanagement (MDM)
 
 The MDM holds the metadata of the data packages which are available in our Research Data Center [FDZ](https://fdz.dzhw.eu). It enables researchers to browse our data packages before signing a contract for using the data.
@@ -88,11 +88,10 @@ This project is currently built and deployed to AWS Fargate by [Travis CI][Travi
 
 ## Big Thanks
 
-Cross-browser Testing Platform and Open Source :heart: Provided by [Sauce Labs][saucelabs]
+Cross-browser Testing Platform and Open Source :heart: Provided by [Browserstack](https://www.browserstack.com/)
 
 Continuous Integration Platform provided by [Travis CI][TravisCI]
 
-[saucelabs]: https://saucelabs.com
 [JHipster]: https://jhipster.github.io/
 [Node.js]: https://nodejs.org/
 [Grunt]: http://gruntjs.com/
