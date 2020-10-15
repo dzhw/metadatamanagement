@@ -198,7 +198,7 @@ angular.module('metadatamanagementApp').config(
             'first-name': 'Vorname',
             'middle-name': 'Zweiter Vorname',
             'last-name': 'Nachname',
-            'tags': 'Tags (Schlagwörter) zur Datenpaket'
+            'tags': 'Tags (Schlagwörter) zum Datenpaket'
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Datenpakets wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Datenpaket zu speichern.',
