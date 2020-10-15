@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from robot.libraries.BuiltIn import BuiltIn
-from six.moves.http_client import HTTPSConnection
+from six.moves.http_client import HTTPConnection
 
 import base64
 import os
@@ -17,10 +17,10 @@ except ImportError:
 USERNAME_ACCESS_KEY = re.compile('^(http|https):\/\/([^:]+):([^@]+)@')
 
 
-class Browserstack:
+class SauceLabs:
 
     def report_test_status(self, name, status, tags=[], remote_url=''):
-        """Report test status and tags to Browserstack
+        """Report test status and tags to SauceLabs
         """
         job_id = BuiltIn().get_library_instance(
             'ExtendedSelenium2Library')._current_browser().session_id
@@ -29,8 +29,8 @@ class Browserstack:
             username, access_key =\
                 USERNAME_ACCESS_KEY.findall(remote_url)[0][1:]
         else:
-            username = os.environ.get('BROWSERSTACK_USERNAME')
-            access_key = os.environ.get('BROWSERSTACK_ACCESS_KEY')
+            username = os.environ.get('SAUCE_USERNAME')
+            access_key = os.environ.get('SAUCE_ACCESS_KEY')
 
         if not job_id:
             return u"No Sauce job id found. Skipping..."
@@ -38,12 +38,13 @@ class Browserstack:
             return u"No Sauce environment variables found. Skipping..."
 
         token = base64.encodestring('%s:%s' % (username, access_key))[:-1]
-        body = json.dumps({ 'status': 'passed' if status == 'PASS' else 'failed',
-                           'reason': 'All robot tests passed!' if status == 'PASS' else 'Some robot tests failed!'})
+        body = json.dumps({'name': name,
+                           'passed': status == 'PASS',
+                           'tags': tags})
 
-        connection = HTTPSConnection('api.browserstack.com')
-        connection.request('PUT', '/automate/sessions/%s.json' % job_id, body,
-            headers={'Authorization': 'Basic %s' % token,
-                     'Content-Type': 'application/json'}
+        connection = HTTPConnection('saucelabs.com')
+        connection.request('PUT', '/rest/v1/%s/jobs/%s' % (
+            username, job_id), body,
+            headers={'Authorization': 'Basic %s' % token}
         )
         return connection.getresponse().status
