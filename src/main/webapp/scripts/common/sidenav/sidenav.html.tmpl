@@ -117,5 +117,13 @@
                 <md-divider></md-divider>
             </li>
         </ul>
+        <div layout="column" layout-align="start baseline" flex layout-padding>
+        <a ng-if="ENV === 'dev' || ENV === 'local'" href="https://saucelabs.com/u/rreitmann" target="_blank">
+          <img alt="Testing Powered by Sauce Labs" src="./assets/images/sauce_labs.svg" class="saucelabs_logo"/>
+          <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+             Testing powered by Sauce Labs
+          </md-tooltip>
+        </a>
+      </div>
     </md-content>
 </md-sidenav>
