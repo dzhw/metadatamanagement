@@ -11,7 +11,6 @@ capabilities:
     commandTimeout: 600
     idleTimeout: 600
     project: metadatamanagement
-    browserstack.selenium_version: 3.5.2
   firefox:
     name: Win10/Firefox
     os: Windows
@@ -23,7 +22,6 @@ capabilities:
     commandTimeout: 600
     idleTimeout: 600
     project: metadatamanagement
-    browserstack.selenium_version: 3.10.0
   edge:
     name: Win10/Edge
     os: Windows
@@ -35,7 +33,6 @@ capabilities:
     commandTimeout: 600
     idleTimeout: 600
     project: metadatamanagement
-    browserstack.selenium_version: 3.5.2
   ie:
     name: Win10/IE11
     os: Windows
@@ -47,7 +44,6 @@ capabilities:
     commandTimeout: 600
     idleTimeout: 600
     project: metadatamanagement
-    browserstack.selenium_version: 3.5.2
   safari:
     name: Catalina/Safari
     os: 'OS X'
@@ -59,4 +55,3 @@ capabilities:
     commandTimeout: 600
     idleTimeout: 600
     project: metadatamanagement
-    browserstack.selenium_version: 3.14.0
