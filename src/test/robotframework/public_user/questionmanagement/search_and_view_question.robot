@@ -20,7 +20,7 @@ Looking for Graduate Panel 2005s questionnaire first wave in english
     Search for    Graduate Panel 2005
     Click on first search result
     Click on questions tab
-    Search for in details   What experiences have you had (so far) during your training/internship
+    Search for in details   What experiences have you had (so far) during your training/internship?
     Click on first search result
     Page Should Contain    Images of this Question
     [Teardown]    Get back to german home page
