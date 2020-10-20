@@ -2,7 +2,7 @@
 (function() {
   'use strict';
 
-  function SearchFilterController($scope, $location, MessageBus) {
+  function SearchFilterController($scope, $location, MessageBus, $timeout) {
     var $ctrl = this;
     $ctrl.onDataPackageFilterChange = MessageBus;
     $ctrl.dataPackageFilter = {};
@@ -179,6 +179,10 @@
         'type', 'query', 'sort-by'
         ]);
         init();
+      });
+
+    $scope.$on('current-language-changed', function() {
+        $timeout($ctrl.clearFilter);
       });
   }
 
