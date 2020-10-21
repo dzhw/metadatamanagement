@@ -182,7 +182,8 @@
       });
 
     $scope.$on('current-language-changed', function() {
-        $timeout($ctrl.clearFilter);
+        // we need to wait for the state change being completed
+        $timeout($ctrl.clearFilter, 200);
       });
   }
 
