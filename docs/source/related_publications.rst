@@ -47,6 +47,10 @@ gepflegt.
 | Source.de/\    |                            |                         |
 | .en            |                            |                         |
 +----------------+----------------------------+-------------------------+
+| dataPackageIds | Datenpaket-Ids, des zur    | Wenn keine studySeries\ |
+|                | Publikation gehören\       | es vorhanden -> ja      |
+|                | den Datenpakets            |                         |
++----------------+----------------------------+-------------------------+
 | dataSetIds     |                            | nein                    |
 +----------------+----------------------------+-------------------------+
 | instrumentIds  |                            | nein                    |
