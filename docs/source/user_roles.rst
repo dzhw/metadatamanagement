@@ -6,7 +6,7 @@ von Interesse sind. Im folgenden werden daher die Rollen aufgeführt und kurz er
 
 Public User
 -----------
-Student, ForscherIn
+StudentIn, ForscherIn
 
 Datengeber (Data Provider)
 --------------------------

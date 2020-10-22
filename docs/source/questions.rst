@@ -17,7 +17,7 @@ folgende Übersichtsseite erstellt wird:
    Welle im Absolventenpanel 2005
 
 Auf dieser Ebene werden Informationen über alle Fragen für jedes
-einzelne Erhebungsinstrument einer Studie abgeben. Der
+einzelne Erhebungsinstrument eines Datenpakets abgeben. Der
 Einspeisungsprozess dieser Informationen hängt vom Typ des
 Erhebungsinstrumentes ab. Während Daten aus Onlinebefragungen, die mit
 ZOFAR, dem Datenerhebungssystem den DZHW, durchgeführt wurden, direkt
