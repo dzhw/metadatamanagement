@@ -28,7 +28,7 @@ author = u'Robert Birkelbach, Anne Gärtner, René Reitmann'
 # The short X.Y version
 version = ''
 # The version is managed in the maven pom
-release = ElementTree(file="../pom.xml").findtext("{http://maven.apache.org/POM/4.0.0}version")
+release = ElementTree(file="../../pom.xml").findtext("{http://maven.apache.org/POM/4.0.0}version")
 
 
 # -- General configuration ---------------------------------------------------
