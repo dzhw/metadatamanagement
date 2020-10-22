@@ -1,6 +1,6 @@
 {
   "name": "Metadatamanagement",
-  "version": "0.0.0",
+  "version": "1.0.105-SNAPSHOT",
   "description": "Data Search for Higher Education Research and Science Studies",
   "private": true,
   "dependencies": {
@@ -100,6 +100,7 @@
     "phantomjs-prebuilt": "2.1.16",
     "requirejs": "2.3",
     "snyk": "^1.416.0",
+    "sync-pom-version-to-package": "^1.6.0",
     "tar": "6.0.5",
     "time-grunt": "2.0.0",
     "wiredep": "4.0.0",
@@ -111,7 +112,8 @@
   },
   "scripts": {
     "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "prepare": "npm run snyk-protect",
+    "postinstall": "sync-pom-version"
   },
   "snyk": true
 }
