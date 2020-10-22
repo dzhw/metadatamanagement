@@ -4,7 +4,7 @@ Verantwortlichkeiten
 +-----------------------+-----------------------+-----------------------+
 | Objekt                | Teilobjekt            | Verantwortlicher      |
 +=======================+=======================+=======================+
-| [[Study]]             | alles                 | aufbereitendes        |
+| [[Data package]]      | alles                 | aufbereitendes        |
 |                       |                       | Projektteam           |
 +-----------------------+-----------------------+-----------------------+
 | [[Survey]]            | alles                 | aufbereitendes        |
