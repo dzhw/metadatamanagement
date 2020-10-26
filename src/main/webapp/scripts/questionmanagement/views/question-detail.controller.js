@@ -9,7 +9,8 @@ angular.module('metadatamanagementApp')
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
       PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
       QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
-      OutdatedVersionNotifier, blockUI, $mdSidenav) {
+      OutdatedVersionNotifier, blockUI, $mdSidenav,
+      ContainsOnlyQualitativeDataChecker) {
       blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -25,7 +26,6 @@ angular.module('metadatamanagementApp')
       ctrl.counts = {
         surveysCount: 0,
         instrumentsCount: 0,
-        variablesCount: 0,
         conceptsCount: 0
       };
       ctrl.currentImageIndex = 0;
@@ -56,6 +56,11 @@ angular.module('metadatamanagementApp')
               masterId: result.dataPackage.masterId,
               version: result.release.version
             });
+        }
+        ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
+          .check(result);
+        if (!ctrl.onlyQualitativeData) {
+          ctrl.counts.variablesCount = 0;
         }
         PageTitleService.
           setPageTitle('question-management.detail.title', title);

@@ -15,7 +15,7 @@ angular.module('metadatamanagementApp')
              ProjectUpdateAccessService, $scope,
              $timeout, $document,
              OutdatedVersionNotifier, DataPackageSearchService, $log,
-             blockUI, $mdSidenav) {
+             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker) {
       blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -41,7 +41,6 @@ angular.module('metadatamanagementApp')
         instrumentsCount: 0,
         questionsCount: 0,
         dataSetsCount: 0,
-        variablesCount: 0,
         publicationsCount: 0,
         conceptsCount: 0
       };
@@ -90,6 +89,11 @@ angular.module('metadatamanagementApp')
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
           });
+        }
+        ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
+          .check(result);
+        if (!ctrl.onlyQualitativeData) {
+          ctrl.counts.variablesCount = 0;
         }
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onDataPackageChange',
