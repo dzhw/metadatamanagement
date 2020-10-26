@@ -28,8 +28,6 @@ public interface DataPackageSubDocumentProjection
 
   I18nString getSurveyDesign();
 
-  I18nString getDataAvailability();
-
   String getMasterId();
 
   String getSuccessorId();

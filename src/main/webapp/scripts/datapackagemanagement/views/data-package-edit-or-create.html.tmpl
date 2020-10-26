@@ -243,29 +243,6 @@
               </div>
             </md-input-container>
           </div>
-          <div layout="column" layout-gt-sm="row">
-            <md-input-container flex="50"
-                                md-is-error="!dataPackageForm.dataAvailability.$valid && (dataPackageForm.dataAvailability.$dirty || dataPackageForm.dataAvailability.$touched)"
-                                class="ms-flex">
-              <label>{{'data-package-management.detail.label.dataAvailability' | translate}}</label>
-              <md-select name="dataAvailability" ng-model="ctrl.dataPackage.dataAvailability"
-                         ng-model-options="{trackBy: '$value.de'}"
-                         required>
-                <md-option ng-repeat="dataAvailability in ctrl.dataAvailabilities" ng-value="dataAvailability">
-                  {{dataAvailability[currentLanguage]}}
-                </md-option>
-              </md-select>
-              <div class="fdz-input-hint"
-                   ng-if="!dataPackageForm.dataAvailability.$dirty && !dataPackageForm.dataAvailability.$touched">
-                {{'data-package-management.edit.hints.data-availability' | translate}}
-              </div>
-              <div multiple ng-messages="dataPackageForm.dataAvailability.$error">
-                <div ng-message="required">{{'data-package-management.error.data-package.data-availability.not-null' | translate}}
-                </div>
-              </div>
-            </md-input-container>
-            <div flex="50"></div>
-          </div>
         </md-card-content>
       </md-card>
       <md-card class="mb8">

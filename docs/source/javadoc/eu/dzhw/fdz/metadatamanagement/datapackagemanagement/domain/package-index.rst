@@ -8,7 +8,6 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.datapackag
 .. toctree::
    :maxdepth: 1
 
-   DataAvailabilities
    DataPackage
    DataPackageAttachmentMetadata
    DataPackageAttachmentTypes

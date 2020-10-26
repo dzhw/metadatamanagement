@@ -27,7 +27,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.validation.ValidDataAvailability;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.validation.ValidDataPackageId;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.validation.ValidSurveyDesign;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -178,17 +177,6 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   @Valid
   @NotEmpty(message = "data-package-management.error.data-package.data-curators.not-empty")
   private List<Person> dataCurators;
-
-  /**
-   * The current state of the data's availability.
-   *
-   * Must be one of {@link DataAvailabilities} and must not be empty.
-   */
-  @NotNull(message = "data-package-management.error.data-package.data-availability.not-null")
-  @ValidDataAvailability(
-      message = "data-package-management.error.data-package.data-availability."
-      + "valid-data-availability")
-  private I18nString dataAvailability;
 
   /**
    * The survey design of this {@link DataPackage}.

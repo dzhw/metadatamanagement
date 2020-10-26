@@ -22,7 +22,6 @@ angular.module('metadatamanagementApp').config(
             'survey-data-type': 'Survey Data Type',
             'survey-period': 'Survey Period',
             'title': 'Title',
-            'dataAvailability': 'Data Availability',
             'dataLanguages': 'Data available in',
             'tags': 'Tags',
             'attachments': {

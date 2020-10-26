@@ -49,7 +49,6 @@ angular.module('metadatamanagementApp').config(
           'explain-data-product': 'Ein Datenpaket beinhaltet immer alle Datensätze, die für den gewählten Zugangsweg (download, on-site, remote,...) aufbereitet wurden. Sie können mehrere Datenpakete mit unterschiedlichen Zugangswegen beantragen.',
           'no-final-release': 'Die Datenpakete wurden noch nicht erstellt. Sobald diese fertig sind können Sie sie an dieser Stelle in den Warenkorb legen.',
           'variable-not-accessible': 'Diese Variable wurde zwar erhoben, ist aber aus datenschutzrechtlichen Gründen in keinem Datenpaket verfügbar.',
-          'data-not-available': 'Dieses Datenpaket ist aktuell nicht verfügbar.',
           'data-package-tooltip': 'Klicken, um das Datenpaket anzuzeigen.',
           'study-series-tooltip': 'Klicken, um alle Datenpakete der Studienreihe anzuzeigen.',
           'data-sets-tooltip': 'Klicken, um alle Datensätze dieses Datenpaketes anzuzeigen.',

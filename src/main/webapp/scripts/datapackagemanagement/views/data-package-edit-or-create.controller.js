@@ -170,17 +170,6 @@ angular.module('metadatamanagementApp')
         }
       };
 
-      ctrl.dataAvailabilities = [{
-        de: 'Verfügbar',
-        en: 'Available'
-      }, {
-        de: 'In Aufbereitung',
-        en: 'In preparation'
-      }, {
-        de: 'Nicht verfügbar',
-        en: 'Not available'
-      }];
-
       ctrl.surveyDesigns = [{
         de: 'Panel',
         en: 'Panel'
