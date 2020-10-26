@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.3.4.RELEASE</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>eu.dzhw.fdz</groupId>
@@ -24,7 +24,7 @@
     </distributionManagement>
 
     <properties>
-        <elasticsearch.version>7.9.1</elasticsearch.version>
+        <elasticsearch.version>7.9.2</elasticsearch.version>
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
         <java.version>14</java.version>
         <mapstruct.version>1.4.0.Final</mapstruct.version>
@@ -387,7 +387,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -400,7 +400,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -413,7 +413,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -426,7 +426,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
