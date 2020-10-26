@@ -181,6 +181,16 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       });
     };
 
+    ctrl.containsQuantitativeData = function(surveyDataTypes) {
+      var containsQuantitativeData = false;
+      surveyDataTypes.forEach(function(dataType) {
+        if (dataType.en === 'Quantitative Data') {
+          containsQuantitativeData = true;
+        }
+      });
+      return containsQuantitativeData;
+    };
+
     $scope.$on('shopping-cart-changed', function() {
       ctrl.products = ShoppingCartService.getProducts();
     });

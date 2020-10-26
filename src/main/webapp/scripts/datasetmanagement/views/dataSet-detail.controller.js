@@ -12,7 +12,7 @@ angular.module('metadatamanagementApp')
              SearchResultNavigatorService,
              DataAcquisitionProjectResource, OutdatedVersionNotifier,
              $stateParams, blockUI, $mdDialog, MessageBus,
-             $mdSidenav) {
+             $mdSidenav, ContainsOnlyQualitativeDataChecker) {
       blockUI.start();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
@@ -26,7 +26,6 @@ angular.module('metadatamanagementApp')
       ctrl.hasAuthority = Principal.hasAuthority;
       ctrl.counts = {
         surveysCount: 0,
-        variablesCount: 0,
         conceptsCount: 0
       };
       ctrl.projectIsCurrentlyReleased = true;
@@ -44,7 +43,11 @@ angular.module('metadatamanagementApp')
             activeProject = project;
           });
         }
-
+        ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
+          .check(result);
+        if (!ctrl.onlyQualitativeData) {
+          ctrl.counts.variablesCount = 0;
+        }
         var fetchFn = DataSetSearchService.findShadowByIdAndVersion
           .bind(null, result.masterId, null, ['nested*','variables','questions',
             'instruments', 'relatedPublications','concepts']);
