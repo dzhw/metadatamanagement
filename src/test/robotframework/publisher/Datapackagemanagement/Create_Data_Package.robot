@@ -23,7 +23,6 @@ Create Data Package by Publisher
     Input Text    name=sponsorEn    BMBF ${BROWSER}
     Input Text    name=annotationsDe    Dieses Datenpaket wurde von Robot automatisch erstellt.
     Input Text    name=annotationsEn    This data package was created automatically by Robot.x
-    Choose In Aufbereitung as Data Availibility
     Focus    xpath=//textarea[@name = 'descriptionDe']
     Input Text    name=descriptionDe    Dieses Datenpaket wurde automatisch erstellt und überprüft die Eingabe valider Eigenschaften.
     Input Text    name=descriptionEn    This data package was created automatically and test the input of valid attributes.
@@ -56,10 +55,6 @@ Open Data Package Create Page
 Choose Panel As Survey Design
     Click Element Through Tooltips    xpath=//md-select[@name = 'surveyDesign']
     Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'Panel')]
-
-Choose In Aufbereitung as Data Availibility
-    Click Element Through Tooltips    xpath=//md-select[@name = 'dataAvailability']
-    Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'In Aufbereitung')]
 
 Add Another Contributor
     Click Element Through Tooltips    xpath=//md-card//button[contains(@aria-label,'Mitarbeiter') and contains(@aria-label,'hinzuzufügen')]

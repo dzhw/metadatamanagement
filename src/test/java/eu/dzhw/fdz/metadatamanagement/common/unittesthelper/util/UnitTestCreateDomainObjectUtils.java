@@ -21,7 +21,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.Resolution;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptAttachmentTypes;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataAvailabilities;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentTypes;
@@ -117,7 +116,7 @@ public class UnitTestCreateDomainObjectUtils {
         .sponsor(I18nString.builder().de("Sponsor De").en("Sponsor En").build())
         .title(I18nString.builder().de("Titel De").en("Title En").build())
         .annotations(I18nString.builder().de("De Anmerkungen").en("En Annotations").build())
-        .tags(tags).dataAvailability(DataAvailabilities.AVAILABLE).surveyDesign(SurveyDesigns.PANEL)
+        .tags(tags).surveyDesign(SurveyDesigns.PANEL)
         .dataAcquisitionProjectId(projectId).build();
     dataPackage.setMasterId(dataPackageId);
     return dataPackage;

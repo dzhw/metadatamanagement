@@ -169,10 +169,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         ctrl.initComplete = true;
         // remove all product which are not available anymore
         ctrl.products.forEach(function(product) {
-          if (ctrl.dataPackages[product.study.id]
-            .dataAvailability.en === 'Available') {
-            return;
-          } else {
+          if (ctrl.dataPackages[product.study.id].hidden) {
             ShoppingCartService.remove(product);
           }
         });

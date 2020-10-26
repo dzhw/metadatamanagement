@@ -76,7 +76,7 @@
       </md-list-item>
       <md-list-item ng-if="$ctrl.releases.length > 0 && $ctrl.accessWays.length > 0" style="flex-flow: row; padding-right: 12px;">
         <md-button class="md-small md-raised md-accent fdz-truncate-string" ng-click="$ctrl.addToShoppingCart($event)"
-          ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible || $ctrl.dataNotAvailable"
+          ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible"
           style="margin-right: 12px;">
           <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'shopping-cart.buttons.add-data-package-tooltip' | translate}}
@@ -93,7 +93,7 @@
       </md-list-item>
       <md-list-item ng-if="$ctrl.releases.length > 0 && $ctrl.accessWays.length > 0" style="flex-flow: row;">
         <md-button class="md-small md-raised md-primary fdz-truncate-string" ng-click="$ctrl.openCitationDialog($event)"
-          ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible || $ctrl.dataNotAvailable"
+          ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible"
           style="min-width: 100%; margin-top: 0px">
           <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'shopping-cart.buttons.open-citation-tooltip' | translate}}
@@ -104,9 +104,6 @@
     </md-list>
   </md-card-content>
   <md-card-footer style="padding-top: 0px;">
-    <span ng-if="$ctrl.dataNotAvailable">
-      {{'shopping-cart.detail.data-not-available' | translate}}
-    </span>
     <span ng-if="$ctrl.noFinalRelease">
       {{'shopping-cart.detail.no-final-release' | translate}}
     </span>

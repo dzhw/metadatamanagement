@@ -24,7 +24,6 @@
     $ctrl.lang = LanguageService.getCurrentInstantly();
     $ctrl.onDataPackageChange = MessageBus;
     $ctrl.noFinalRelease = false;
-    $ctrl.dataNotAvailable = false;
     $ctrl.variableNotAccessible = false;
     $ctrl.disabled = false;
     $scope.bowser = $rootScope.bowser;
@@ -64,7 +63,6 @@
 
     function loadDataPackage(id, version) {
       $rootScope.$broadcast('start-ignoring-404');
-      $ctrl.dataNotAvailable = false;
       $ctrl.noFinalRelease = false;
       var excludes = ['nested*','variables','questions',
         'surveys','instruments', 'relatedPublications',
@@ -74,11 +72,7 @@
           $ctrl.dataPackage = data;
           $rootScope.selectedDataPackage = data;
           if ($ctrl.dataPackage) {
-            if ($ctrl.dataPackage.dataAvailability.en === 'Not available') {
-              $ctrl.dataNotAvailable = true;
-            }
-
-            if ($ctrl.dataPackage.dataAvailability.en === 'In preparation') {
+            if ($rootScope.bowser.compareVersions(['1.0.0', version]) === 1) {
               $ctrl.noFinalRelease = true;
             }
             loadVersion($ctrl.dataPackage.dataAcquisitionProjectId, id);
