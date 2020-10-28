@@ -129,6 +129,17 @@
 				}
 			}
 		},
+		"surveyPeriod": {
+			"type": "object",
+			"properties": {
+				"start": {
+					"type": "date"
+				},
+				"end": {
+					"type": "date"
+				}
+			}
+		},
 		"surveyDataTypes": {
 			"type": "object",
 			"properties": {
