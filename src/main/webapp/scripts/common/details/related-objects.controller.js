@@ -37,7 +37,9 @@
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.data-packages',
-      group: 'dataPackages'
+      group: 'dataPackages',
+      sortOptions: ['relevance', 'alphabetically', 'survey-period',
+        'first-release-date', 'last-release-date']
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
@@ -47,7 +49,8 @@
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.surveys',
-      group: 'surveys'
+      group: 'surveys',
+      sortOptions: ['relevance', 'alphabetically']
     }, {
       title: 'search-management.tabs.instruments',
       inputLabel: 'search-management.input-label.instruments',
@@ -57,7 +60,8 @@
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.instruments',
-      group: 'instruments'
+      group: 'instruments',
+      sortOptions: ['relevance', 'alphabetically']
     }, {
       title: 'search-management.tabs.questions',
       inputLabel: 'search-management.input-label.questions',
@@ -67,7 +71,8 @@
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.questions',
-      group: 'questions'
+      group: 'questions',
+      sortOptions: ['relevance', 'alphabetically']
     }, {
       title: 'search-management.tabs.data_sets',
       inputLabel: 'search-management.input-label.data-sets',
@@ -77,7 +82,8 @@
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.data-sets',
-      group: 'dataSets'
+      group: 'dataSets',
+      sortOptions: ['relevance', 'alphabetically']
     }, {
       title: 'search-management.tabs.variables',
       inputLabel: 'search-management.input-label.variables',
@@ -87,7 +93,8 @@
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.variables',
-      group: 'variables'
+      group: 'variables',
+      sortOptions: ['relevance', 'alphabetically']
     }, {
       title: 'search-management.tabs.related_publications',
       inputLabel: 'search-management.input-label.related-publications',
@@ -97,7 +104,8 @@
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.related-publications',
-      group: 'publications'
+      group: 'publications',
+      sortOptions: ['relevance', 'alphabetically']
     }, {
       title: 'search-management.tabs.concepts',
       inputLabel: 'search-management.input-label.concepts',
@@ -107,7 +115,8 @@
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.concepts',
-      group: 'concepts'
+      group: 'concepts',
+      sortOptions: ['relevance', 'alphabetically']
     }];
 
     function init() {
@@ -118,8 +127,8 @@
       // fdz-paginator options object
       $ctrl.options = {
         sortObject: {
-          selected: 'relevance',
-          options: ['relevance']
+          selected: null,
+          options: null
         },
         pageObject: {
           options: [10, 20, 50],
@@ -330,7 +339,9 @@
     }
 
     function onSelectedTabChanged() {
-      // var version = $ctrl.searchParams.filter.version;
+      $ctrl.options.sortObject.options = $ctrl.tabs[
+        $ctrl.searchParams.selectedTabIndex].sortOptions;
+      $ctrl.options.sortObject.selected = 'relevance';
       if (!selectedTabChangeIsBeingHandled && !queryChangeIsBeingHandled) {
         //prevent multiple tab change handlers caused by logout
         selectedTabChangeIsBeingHandled = true;

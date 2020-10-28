@@ -205,7 +205,7 @@ angular.module('metadatamanagementApp').factory(
         'variable': 'variableIds'
       },
       'concepts': {
-        'dataPackage': 'dataPackages.id',
+        'data-package': 'dataPackages.id',
         'survey': 'surveys.id',
         'instrument': 'instruments.id',
         'question': 'questions.id',
@@ -241,47 +241,191 @@ angular.module('metadatamanagementApp').factory(
       }
     };
 
-    var sortCriteriaByType = {
-      'data_packages': [
-        '_score',
-        'id'
-      ],
-      'variables': [
-        '_score',
-        'dataPackageId',
-        'dataSetId',
-        'indexInDataSet'
-      ],
-      'surveys': [
-        '_score',
-        'dataPackageId',
-        'number'
-      ],
-      'questions': [
-        '_score',
-        'dataPackageId',
-        'instrumentNumber',
-        'indexInInstrument'
-      ],
-      'instruments': [
-        '_score',
-        'dataPackageId',
-        'number'
-      ],
-      'data_sets': [
-        '_score',
-        'dataPackageId',
-        'number'
-      ],
-      'related_publications': [
-        '_score',
-        {year: {order: 'desc'}},
-        'authors.keyword'
-      ],
-      'concepts': [
-        '_score',
-        'id'
-      ]
+    var sortCriteriaByCriteriaAndTypeAndLanguage = {
+      'relevance': {
+        'data_packages': {
+          de: [
+            '_score',
+            {'release.pinToStartPage': {order: 'desc'}},
+            {'release.lastDate': {order: 'desc'}}
+          ],
+          en: [
+            '_score',
+            {'release.pinToStartPage': {order: 'desc'}},
+            {'release.lastDate': {order: 'desc'}}
+          ]
+        },
+        'variables': {
+          de: [
+            '_score',
+            'dataPackageId',
+            'dataSetId',
+            'indexInDataSet'
+          ],
+          en: [
+            '_score',
+            'dataPackageId',
+            'dataSetId',
+            'indexInDataSet'
+          ]
+        },
+        'surveys': {
+          de: [
+            '_score',
+            'dataPackageId',
+            'number'
+          ],
+          en: [
+            '_score',
+            'dataPackageId',
+            'number'
+          ]
+        },
+        'questions': {
+          de: [
+            '_score',
+            'dataPackageId',
+            'instrumentNumber',
+            'indexInInstrument'
+          ],
+          en: [
+            '_score',
+            'dataPackageId',
+            'instrumentNumber',
+            'indexInInstrument'
+          ]
+        },
+        'instruments': {
+          de: [
+            '_score',
+            'dataPackageId',
+            'number'
+          ],
+          en: [
+            '_score',
+            'dataPackageId',
+            'number'
+          ]
+        },
+        'data_sets': {
+          de: [
+            '_score',
+            'dataPackageId',
+            'number'
+          ],
+          en: [
+            '_score',
+            'dataPackageId',
+            'number'
+          ]
+        },
+        'related_publications': {
+          de: [
+            '_score',
+            {year: {order: 'desc'}},
+            'authors.keyword'
+          ],
+          en: [
+            '_score',
+            {year: {order: 'desc'}},
+            'authors.keyword'
+          ]
+        },
+        'concepts': {
+          de: [
+            '_score',
+            'id'
+          ],
+          en: [
+            '_score',
+            'id'
+          ]
+        }
+      },
+      'alphabetically': {
+        'data_packages': {
+          de: [
+            'title.de'
+          ],
+          en: [
+            'title.en'
+          ]
+        },
+        'variables': {
+          de: [
+            'label.de'
+          ],
+          en: [
+            'label.en'
+          ]
+        },
+        'surveys': {
+          de: [
+            'title.de'
+          ],
+          en: [
+            'title.en'
+          ]
+        },
+        'questions': {
+          de: [
+            'questionText.de'
+          ],
+          en: [
+            'questionText.en'
+          ]
+        },
+        'instruments': {
+          de: [
+            'title.de'
+          ],
+          en: [
+            'title.en'
+          ]
+        },
+        'data_sets': {
+          de: [
+            'description.de'
+          ],
+          en: [
+            'description.en'
+          ]
+        },
+        'related_publications': {
+          de: [
+            'title'
+          ],
+          en: [
+            'title'
+          ]
+        },
+        'concepts': {
+          de: [
+            'title.de'
+          ],
+          en: [
+            'title.en'
+          ]
+        }
+      },
+      'survey-period': {
+        'data_packages': {
+          de: [{'surveyPeriod.end': {order: 'desc'}}],
+          en: [{'surveyPeriod.end': {order: 'desc'}}]
+        }
+      },
+      'last-release-date': {
+        'data_packages': {
+          de: [{'release.lastDate': {order: 'desc'}}],
+          en: [{'release.lastDate': {order: 'desc'}}]
+        }
+      },
+      'first-release-date': {
+        'data_packages': {
+          de: [{'release.firstDate': {order: 'desc'}}],
+          en: [{'release.firstDate': {order: 'desc'}}]
+        }
+      }
     };
 
     var containsDomainObjectFilter = function(filter) {
@@ -291,8 +435,10 @@ angular.module('metadatamanagementApp').factory(
       }) !== undefined;
     };
 
-    //Returns the search criteria
-    var createSortByCriteria = function(elasticsearchType) {
+    //Returns the sort criteria
+    var createSortByCriteria = function(elasticsearchType, criteria) {
+      criteria = criteria || 'relevance';
+      var currentLanguage = LanguageService.getCurrentInstantly();
       // no special sorting for all tab
       if (CleanJSObjectService.isNullOrEmpty(elasticsearchType)) {
         return [
@@ -300,7 +446,8 @@ angular.module('metadatamanagementApp').factory(
         ];
       }
 
-      return sortCriteriaByType[elasticsearchType];
+      return sortCriteriaByCriteriaAndTypeAndLanguage
+        [criteria][elasticsearchType][currentLanguage];
     };
 
     var createTermFilters = function(elasticsearchType, filter) {
