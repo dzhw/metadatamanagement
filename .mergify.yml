@@ -2,7 +2,7 @@ pull_request_rules:
   - name: automatic merge of development PRs into test
     conditions:
       - base=test
-      - status-success=continuous-integration/travis-ci/branch
+      - check-success=Travis CI - Branch
     actions:
       merge:
         method: merge
