@@ -33,10 +33,10 @@ $card-border-radius: 2px !default;
     }
 
     .fdz-search {
-      margin-bottom: 16px;
+      margin-bottom: 8px;
 
       @include rwd(600) {
-        margin-bottom: 8px;
+        margin-bottom: 0px;
       }
     }
   }
@@ -67,7 +67,7 @@ $card-border-radius: 2px !default;
     display: flex;
     flex-flow: column;
     align-items: center;
-    padding: 0 16px 0px 16px;
+    padding: 0 16px 16px 16px;
     @include rwd (600) {
       flex-flow: row;
       justify-content: space-between;

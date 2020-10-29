@@ -1542,10 +1542,10 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
       .fdz-theme .fdz-start .fdz-link {
         padding: 24px; } }
   .fdz-theme .fdz-start .fdz-search {
-    margin-bottom: 16px; }
+    margin-bottom: 8px; }
     @media (min-width: 600px) {
       .fdz-theme .fdz-start .fdz-search {
-        margin-bottom: 8px; } }
+        margin-bottom: 0px; } }
 
 .fdz-theme .fdz-start__header {
   display: flex;
@@ -1569,7 +1569,7 @@ md-slider-container[disabled] > *:last-child:not(md-slider) {
   display: flex;
   flex-flow: column;
   align-items: center;
-  padding: 0 16px 0px 16px; }
+  padding: 0 16px 16px 16px; }
   @media (min-width: 600px) {
     .fdz-theme .fdz-start__images {
       flex-flow: row;
