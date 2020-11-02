@@ -118,6 +118,9 @@
 				}
 			}
 		},
+		"number": {
+			"type": "integer"
+		},
 		"surveyIds": {
 			"type": "keyword",
 			"copy_to": "all"
@@ -126,8 +129,7 @@
 			"type": "object",
 			"properties": {
 				"de": {
-					"type": "text",
-					"index": false,
+					"type": "keyword",
 					"copy_to": "all",
 					"fields": {
 						"ngrams": {
@@ -138,8 +140,7 @@
 					}
 				},
 				"en": {
-					"type": "text",
-					"index": false,
+					"type": "keyword",
 					"copy_to": "all",
 					"fields": {
 						"ngrams": {

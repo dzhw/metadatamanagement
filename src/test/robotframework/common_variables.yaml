@@ -13,7 +13,7 @@ capabilities:
     name: Win10/Firefox
     platform: Windows 10
     browserName: firefox
-    version: latest-1
+    version: latest
     screenResolution: 1920x1080
     maxDuration: 10800
     commandTimeout: 600
@@ -48,12 +48,12 @@ capabilities:
     commandTimeout: 600
     idleTimeout: 600
   safari:
-    name: Mojave/Safari
+    name: Catalina/Safari
     browserName: "safari"
-    platform: "macOS 10.14"
-    version: "12.0"
-    seleniumVersion: "3.4.0"
+    platform: "macOS 10.15"
+    version: "latest"
     screenResolution: 1920x1440
     maxDuration: 10800
     commandTimeout: 600
     idleTimeout: 600
+    seleniumVersion: "3.4.0"

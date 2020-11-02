@@ -1,0 +1,25 @@
+.fdz-theme md-select.fdz-inline-select {
+  margin: 0px;
+  max-height: 24px;
+  display: inline-flex;
+
+  & .md-select-placeholder {
+    font-weight: unset;
+    color: $brand-secondary;
+  }
+
+  & .md-select-icon {
+    color: $brand-secondary;
+    width: 15px;
+    margin: 0;
+  }
+
+  & .md-select-value {
+    padding: 0px;
+  }
+}
+
+.fdz-theme md-select.fdz-inline-select:focus {
+  outline: $brand-warning auto 5px;
+  color: $brand-secondary;
+}

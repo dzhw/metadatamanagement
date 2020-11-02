@@ -22,7 +22,6 @@ angular.module('metadatamanagementApp').config(
             'survey-data-type': 'Survey Data Type',
             'survey-period': 'Survey Period',
             'title': 'Title',
-            'dataAvailability': 'Data Availability',
             'dataLanguages': 'Data available in',
             'tags': 'Tags',
             'attachments': {
@@ -161,10 +160,6 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-entire-not-empty-optional': 'If the study series is given in one language, it has to be set in all languages.',
               'i18n-string-must-not-contain-comma': 'The study series must not contain comma.'
             },
-            'data-availability': {
-              'not-null': 'The data availability of the data package must not be empty!',
-              'valid-data-availability': 'The allowed values for data availability of the data package are: Available, In preparation, Not available.'
-            },
             'survey-design': {
               'not-null': 'The survey design of the data package must not be empty!',
               'valid-survey-design': 'The allowed values for the survey design of the data package are: Cross-Section, Panel.'
@@ -243,7 +238,6 @@ angular.module('metadatamanagementApp').config(
               'de': 'Enter additional annotations for this data package in German.',
               'en': 'Enter additional annotations for this data package in English.'
             },
-            'data-availability': 'Choose the state which best describes the current availability of the data of this data package.',
             'description': {
               'de': 'Enter a description of this data package in German.',
               'en': 'Enter a description of this data package in English.'

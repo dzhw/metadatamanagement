@@ -31,7 +31,6 @@ Publisher Create But Can Not Delete Data Package When Publisher is Ready
    Input Text    name=sponsorEn    BMBF ${BROWSER}
    Input Text    name=annotationsDe    Dieses Datenpaket wurde von Robot automatisch erstellt.
    Input Text    name=annotationsEn    This data package was created automatically by Robot.x
-   Choose In Aufbereitung as Data Availibility
    Focus    xpath=//textarea[@name = 'descriptionDe']
    Input Text    name=descriptionDe    Dieses Datenpaket wurde automatisch erstellt und überprüft die Eingabe valider Eigenschaften.
    Input Text    name=descriptionEn    This data package was created automatically and test the input of valid attributes.
@@ -74,10 +73,6 @@ Publisher Create and Can Delete Data Package When Both are Not Ready
 Choose Panel As Survey Design
     Click Element Through Tooltips    xpath=//md-select[@name = 'surveyDesign']
     Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'Panel')]
-
-Choose In Aufbereitung as Data Availibility
-    Click Element Through Tooltips    xpath=//md-select[@name = 'dataAvailability']
-    Click Element Through Tooltips    xpath=//md-select-menu//md-option[contains(., 'In Aufbereitung')]
 
 Click on Delete Button for Metadata
     Click Element Through Tooltips   xpath=//md-card-actions//span[contains(., "Löschen")]

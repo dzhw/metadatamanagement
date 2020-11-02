@@ -46,8 +46,6 @@ public class DataPackageSubDocument extends AbstractRdcDomainObject
 
   private I18nString surveyDesign;
 
-  private I18nString dataAvailability;
-
   private String masterId;
 
   private String successorId;

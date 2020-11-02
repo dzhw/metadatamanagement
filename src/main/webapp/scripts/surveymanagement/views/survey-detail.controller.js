@@ -10,9 +10,8 @@ angular.module('metadatamanagementApp')
              SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
              DataAcquisitionProjectResource,
              ProjectUpdateAccessService, CountryCodesResource, $stateParams,
-             blockUI, LocationSimplifier, $mdSidenav) {
+             blockUI, $mdSidenav) {
       blockUI.start();
-      LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
       SearchResultNavigatorService.registerCurrentSearchResult();
@@ -27,7 +26,6 @@ angular.module('metadatamanagementApp')
         instrumentsCount: 0,
         questionsCount: 0,
         dataSetsCount: 0,
-        variablesCount: 0,
         conceptsCount: 0
       };
       ctrl.projectIsCurrentlyReleased = true;
@@ -50,6 +48,9 @@ angular.module('metadatamanagementApp')
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
           });
+        }
+        if (survey.dataType.en !== 'Qualitative Data') {
+          ctrl.counts.variablesCount = 0;
         }
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';

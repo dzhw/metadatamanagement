@@ -436,15 +436,17 @@ public class DataSetReportService {
       }
 
       if (!StringUtils.isEmpty(variable.getPanelIdentifier())) {
-        List<VariableSubDocumentProjection> otherVariablesInPanel = this.variableRepository
-            .findAllByPanelIdentifierAndIdNot(variable.getPanelIdentifier(), variable.getId());
+        List<VariableSubDocumentProjection> otherVariablesInPanel =
+            this.variableRepository.findAllByPanelIdentifierAndDataSetIdAndIdNot(
+                variable.getPanelIdentifier(), variable.getDataSetId(), variable.getId());
         sameVariablesInPanel.put(variable.getId(), otherVariablesInPanel);
       }
 
       if (!StringUtils.isEmpty(variable.getDerivedVariablesIdentifier())) {
         List<VariableSubDocumentProjection> otherDerivedVariables =
-            this.variableRepository.findAllByDerivedVariablesIdentifierAndIdNot(
-                variable.getDerivedVariablesIdentifier(), variable.getId());
+            this.variableRepository.findAllByDerivedVariablesIdentifierAndDataSetIdAndIdNot(
+                variable.getDerivedVariablesIdentifier(), variable.getDataSetId(),
+                variable.getId());
         derivedVariables.put(variable.getId(), otherDerivedVariables);
       }
     }

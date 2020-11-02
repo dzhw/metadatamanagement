@@ -35,6 +35,8 @@ angular.module('metadatamanagementApp').config(
             'generation-details-description': 'Generation Details Description',
             'generation-details-rule': 'Generation Rule',
             'label': 'Label',
+            'show-all-derived-variables': 'Show all derived variables',
+            'show-all-panel-variables': 'Show all panel variables',
             'statistics': {
               'graphic-is-loading': 'is loading...',
               'graphic-is-not-available': 'No plotting available',

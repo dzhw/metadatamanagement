@@ -22,7 +22,6 @@ angular.module('metadatamanagementApp').config(
             'survey-data-type': 'Erhebungsdatentyp',
             'survey-period': 'Erhebungszeitraum',
             'title': 'Titel',
-            'dataAvailability': 'Datenverfügbarkeit',
             'dataLanguages': 'Daten verfügbar auf',
             'tags': 'Schlagwörter',
             'attachments': {
@@ -161,10 +160,6 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-entire-not-empty-optional': 'Wenn die Studienreihe in einer Sprache vorliegt, muss sie in allen Sprachen vorliegen.',
               'i18n-string-must-not-contain-comma': 'Die Studienreihe darf keine Kommata enthalten.'
             },
-            'data-availability': {
-              'not-null': 'Die Datenerreichbarkeit eines Datenpakets darf nicht leer sein!',
-              'valid-data-availability': 'Die erlaubten Werte für Datenverfügbarkeit des Datenpakets sind: Verfügbar, In Aufbereitung, Nicht verfügbar.'
-            },
             'survey-design': {
               'not-null': 'Das Erhebungsdesign eines Datenpakets darf nicht leer sein!',
               'valid-survey-design': 'Die erlaubten Werte für das Erhebungsdesign des Datenpakets sind: Querschnitt, Panel.'
@@ -198,7 +193,7 @@ angular.module('metadatamanagementApp').config(
             'first-name': 'Vorname',
             'middle-name': 'Zweiter Vorname',
             'last-name': 'Nachname',
-            'tags': 'Tags (Schlagwörter) zur Datenpaket'
+            'tags': 'Tags (Schlagwörter) zum Datenpaket'
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Datenpakets wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Datenpaket zu speichern.',
@@ -245,7 +240,6 @@ angular.module('metadatamanagementApp').config(
               'de': 'Geben Sie zusätzliche Anmerkungen zum Datenpaket auf Deutsch ein.',
               'en': 'Geben Sie zusätzliche Anmerkungen zum Datenpaket auf Englisch ein.'
             },
-            'data-availability': 'Wählen Sie den Status aus, der die aktuelle Verfügbarkeit der Daten am Besten beschreibt.',
             'description': {
               'de': 'Geben Sie eine Beschreibung des Datenpakets auf Deutsch ein.',
               'en': 'Geben Sie eine Beschreibung des Datenpakets auf Englisch ein.'

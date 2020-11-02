@@ -47,7 +47,7 @@
         <tbody>
         <tr ng-class="{'fdz-table-last-row':$last}" ng-hide="$ctrl.options.isRowHidden($index)"
             ng-repeat-start="row in $ctrl.options.variable.distribution.validResponses">
-          <td ng-class="{'fdz-table-number' : $ctrl.options.variable.dataType.en === 'numeric'}">
+          <td ng-class="{'fdz-table-number' : $ctrl.options.variable.dataType.en === 'numeric', 'fdz-table-date': $ctrl.options.variable.dataType.en === 'date'}">
             {{row.value | formatResponse: $ctrl.options.variable}}{{row.code | number:0}}&nbsp;
           </td>
           <td display-i18n-string="row.label"></td>

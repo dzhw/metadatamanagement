@@ -169,16 +169,23 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         ctrl.initComplete = true;
         // remove all product which are not available anymore
         ctrl.products.forEach(function(product) {
-          if (ctrl.dataPackages[product.study.id]
-            .dataAvailability.en === 'Available') {
-            return;
-          } else {
+          if (ctrl.dataPackages[product.study.id].hidden) {
             ShoppingCartService.remove(product);
           }
         });
       }).finally(function() {
         $rootScope.$broadcast('stop-ignoring-404');
       });
+    };
+
+    ctrl.containsQuantitativeData = function(surveyDataTypes) {
+      var containsQuantitativeData = false;
+      surveyDataTypes.forEach(function(dataType) {
+        if (dataType.en === 'Quantitative Data') {
+          containsQuantitativeData = true;
+        }
+      });
+      return containsQuantitativeData;
     };
 
     $scope.$on('shopping-cart-changed', function() {

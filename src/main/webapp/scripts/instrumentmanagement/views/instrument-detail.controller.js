@@ -9,9 +9,8 @@ angular.module('metadatamanagementApp')
              SearchResultNavigatorService,
              DataAcquisitionProjectResource, ProjectUpdateAccessService,
              InstrumentSearchService, OutdatedVersionNotifier, $stateParams,
-             blockUI, LocationSimplifier, $mdSidenav) {
+             blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker) {
       blockUI.start();
-      LocationSimplifier.removeDollarSign();
       SearchResultNavigatorService
         .setSearchIndex($stateParams['search-result-index']);
 
@@ -26,7 +25,6 @@ angular.module('metadatamanagementApp')
         surveysCount: 0,
         questionsCount: 0,
         dataSetsCount: 0,
-        variablesCount: 0,
         conceptsCount: 0
       };
       ctrl.survey = null;
@@ -52,6 +50,11 @@ angular.module('metadatamanagementApp')
             ctrl.assigneeGroup = project.assigneeGroup;
             activeProject = project;
           });
+        }
+        ctrl.onlyQualitativeData = ContainsOnlyQualitativeDataChecker
+          .check(result);
+        if (!ctrl.onlyQualitativeData) {
+          ctrl.counts.variablesCount = 0;
         }
         BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,

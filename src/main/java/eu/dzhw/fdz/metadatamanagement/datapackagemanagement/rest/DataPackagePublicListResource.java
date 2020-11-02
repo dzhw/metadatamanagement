@@ -19,7 +19,6 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSear
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Ednpoint to deliver released dataPackages.
@@ -27,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author tgehrke
  *
  */
-@Slf4j
 @Controller
 @RequestMapping("/api")
 @Validated
@@ -43,18 +41,40 @@ public class DataPackagePublicListResource {
    *
    * @param page the page. default 0
    * @param size the size of a page. default 5
-   * @return the page object. containing the list of dataPackages as content and metadata regarding
+   * @return the page object. containing the list of data packages as content and metadata regarding
    *         the paging.
    * @throws IOException if search failed
    */
   @GetMapping(value = "/data-packages")
-  @Operation(summary = "Get the paged list of currently released dataPackages.")
+  @Operation(summary = "Get the paged list of currently released data packages.")
   @ResponseBody
   public ResponseEntity<Page<DataPackageSearchDocument>> listDataPackages(
       @RequestParam(value = "page", defaultValue = "0") int page,
       @RequestParam(value = "size", defaultValue = "5") @Max(20) int size) throws IOException {
     Page<DataPackageSearchDocument> loadDataPackages =
         dataPackageListService.loadDataPackages(page, size);
+    return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(loadDataPackages);
+  }
+
+  /**
+   * Request a pageble list of released data packages which shall be pinned to the start page.
+   * Currently the page will only contain one data package per default. If you increase the page
+   * size then the data packages will be sorted by last release date (descending).
+   *
+   * @param page the page number. default 0
+   * @param size the size of a page. default 1
+   * @return the page object. containing the list of data packages as content and metadata regarding
+   *         the paging.
+   * @throws IOException if search failed
+   */
+  @GetMapping(value = "/data-packages", params = "pinned=true")
+  @Operation(summary = "Get a list of data packages, which shall be pinned to the start page")
+  @ResponseBody
+  public ResponseEntity<Page<DataPackageSearchDocument>> listPinnedDataPackages(
+      @RequestParam(value = "page", defaultValue = "0") int page,
+      @RequestParam(value = "size", defaultValue = "1") @Max(20) int size) throws IOException {
+    Page<DataPackageSearchDocument> loadDataPackages =
+        dataPackageListService.loadPinnedDataPackages(page, size);
     return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(loadDataPackages);
   }
 }

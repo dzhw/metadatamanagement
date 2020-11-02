@@ -6,7 +6,7 @@ Variables   ../common_variables.yaml
 
 *** Keywords ***
 Change language to english
-  Wait Until Keyword Succeeds  5s  0.5s  Click Button  id=changeLanguageToEn
+  Wait Until Keyword Succeeds  5s  0.5s  Click Element Through Tooltips  xpath=//*[@id = 'changeLanguageToEn']
 
 Get back to german home page
   ${url} =  Get Location

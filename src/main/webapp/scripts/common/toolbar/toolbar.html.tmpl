@@ -44,8 +44,8 @@
         class="md-icon-button"
         id="changeLanguageToEn"
         lang="en"
-        ng-click="resetFilter();changeLanguage('en')"
-        ng-if="currentLanguage!='en'">
+        ng-if="currentLanguage!='en'"
+        ui-sref="({lang:'en'})" hreflang="en">
         <span>EN</span>
         <md-tooltip md-autohide="true" md-direction="left"
                     md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -56,8 +56,8 @@
         class="md-icon-button"
         id="changeLanguageToDe"
         lang="de"
-        ng-click="resetFilter();changeLanguage('de')"
-        ng-if="currentLanguage!='de'">
+        ng-if="currentLanguage!='de'"
+        ui-sref="({lang:'de'})" hreflang="de">
         <span>DE</span>
         <md-tooltip md-autohide="true" md-direction="left"
                     md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

@@ -52,6 +52,14 @@ lastDate
 
    The timestamp (in UTC) indicates when a publisher has released the \ :java:ref:`DataAcquisitionProject`\  with the current version the last time. Must not be empty.
 
+pinToStartPage
+^^^^^^^^^^^^^^
+
+.. java:field:: private Boolean pinToStartPage
+   :outertype: Release
+
+   Boolean which indicates whether the data package shall be displayed on the startpage or not.
+
 serialVersionUID
 ^^^^^^^^^^^^^^^^
 

@@ -30,12 +30,12 @@
             {{'data-set-management.detail.label.sub-data-sets.data-formats' | translate }}
           </md-tooltip>
         </th>
-        <th>{{'variable-management.detail.label.variables' | translate }}
+        <th ng-if="!$ctrl.options.onlyQualitativeData">{{'variable-management.detail.label.variables' | translate }}
           <md-tooltip hide-gt-xs md-direction="right">
             {{'variable-management.detail.label.variables' | translate }}
           </md-tooltip>
         </th>
-        <th>{{'data-set-management.detail.label.sub-data-sets.numberOfAnalyzedVariables' | translate }}
+        <th ng-if="!$ctrl.options.onlyQualitativeData">{{'data-set-management.detail.label.sub-data-sets.numberOfAnalyzedVariables' | translate }}
           <md-tooltip hide-gt-xs md-direction="right">
             {{'data-set-management.detail.label.sub-data-sets.numberOfAnalyzedVariables' | translate }}
           </md-tooltip>
@@ -60,7 +60,7 @@
             {{('data-set-management.detail.sub-data-sets.data-formats.' + dataFormat | translate) + ($index + 1 !== row.dataFormats.length ? ', ' : '')}}
           </span>
         </td>
-        <td ng-class="{'fdz-table-number' : $ctrl.options.counts.variablesCount > 0}">
+        <td ng-if="!$ctrl.options.onlyQualitativeData" ng-class="{'fdz-table-number' : $ctrl.options.counts.variablesCount > 0}">
           <div class="fdz-truncate-string" ng-if="$ctrl.options.counts.variablesCount == 0">
             {{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}
           </div>
@@ -70,7 +70,7 @@
             </span>
           </div>
         </td>
-        <td ng-class="{'fdz-table-number' : $ctrl.options.counts[row.name] > 0}">
+        <td ng-if="!$ctrl.options.onlyQualitativeData" ng-class="{'fdz-table-number' : $ctrl.options.counts[row.name] > 0}">
           <span ng-if="$ctrl.options.counts[row.name] == 0">{{'data-set-management.detail.label.sub-data-sets.unknownNumberOfAnalyzedVariables' | translate }}</span>
           <span ng-if="$ctrl.options.counts[row.name] > 0">{{$ctrl.options.counts[row.name] | number: 0}}&nbsp;</span>
         </td>

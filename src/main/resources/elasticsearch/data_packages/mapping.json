@@ -129,6 +129,17 @@
 				}
 			}
 		},
+		"surveyPeriod": {
+			"type": "object",
+			"properties": {
+				"start": {
+					"type": "date"
+				},
+				"end": {
+					"type": "date"
+				}
+			}
+		},
 		"surveyDataTypes": {
 			"type": "object",
 			"properties": {
@@ -914,6 +925,15 @@
 			"properties": {
 				"version": {
 					"type": "keyword"
+				},
+				"firstDate": {
+					"type": "date"
+				},
+				"lastDate": {
+					"type": "date"
+				},
+				"pinToStartPage": {
+					"type": "boolean"
 				}
 			}
 		},
