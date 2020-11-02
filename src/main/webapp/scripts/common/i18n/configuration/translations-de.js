@@ -334,7 +334,11 @@ angular.module('metadatamanagementApp').config(
           'items': 'Einträge pro Seite'
         },
         'sort':  {
-          'relevance': 'Relevanz'
+          'relevance': 'Relevanz',
+          'alphabetically': 'Alphabet',
+          'survey-period': 'Erhebungszeitraum (Ende)',
+          'first-release-date': 'Releasedatum (erstes)',
+          'last-release-date': 'Releasedatum (letztes)'
         },
         'joblogging': {
           'protocol-dialog': {

@@ -48,7 +48,7 @@ DataAcquisitionProject-ID
   Hochschulzugangsberechtigung im Jahr 2008). Davon kann in begründeten
   Ausnahmefällen abgewichen werden.
 - Beispielsweise ist die Sozialerhebung deutlich stärker unter der
-  jeweiligen Nummer der Studie als unter dem Jahr, das die Zugehörigkeit
+  jeweiligen Nummer des Datenpakets als unter dem Jahr, das die Zugehörigkeit
   zur Stichprobe definiert, bekannt, so dass beispielsweise für die 19.
   Sozialerhebung aus dem Jahr 2009 die Ziffern 19 (und nicht 2009) vergeben
   werden.
@@ -64,7 +64,7 @@ enthält und sich nach der folgenden Logik zusammensetzt:
 +--------------------+-----------------------------------------------------------------------------------+
 | Metadaten          | Id-Generierung                                                                    |
 +====================+===================================================================================+
-| Study              | "stu-" + DAP-id + "$"                                                             |
+| Datenpaket         | "stu-" + DAP-id + "$"                                                             |
 +--------------------+-----------------------------------------------------------------------------------+
 | Survey             | "sur-" + DAP-id + "-" + "sy" + survey.number + "$"                                |
 +--------------------+-----------------------------------------------------------------------------------+

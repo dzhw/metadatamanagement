@@ -18,10 +18,10 @@ Datenaufnahme, welcher im FDZ des DZHW durch das Metadatenmanagementsystem
 über die von Ihnen bereitgestellten Daten erfasst.
 Dies erleichtert es SekundärforscherInnen für sie passende Datenpakete auszuwählen.
 Für die strukturierte Aufnahme der Metadaten sind sieben unterschiedliche
-Ebenen im MDM vorgesehen: *Studie*, *Erhebungen*, *Erhebungsinstrumente*,
+Ebenen im MDM vorgesehen: *Datenpaket*, *Erhebungen*, *Erhebungsinstrumente*,
 *Fragen*, *Datensätze*, *Variablen*, *Konzepte* und *Publikationen*.
 
-Hierbei wird erfasst, welcher Studie sowie Erhebung die Daten
+Hierbei wird erfasst, welchem Datenpaket sowie welcher Erhebung die Daten
 angehören, welche Erhebungsinstrumente genutzt wurden, welche Fragen
 darin gestellt wurden, welche Datensätze existieren, welche Variablen
 sich darin befinden und welche Veröffentlichungen bereits mit den Daten
@@ -69,7 +69,7 @@ Tabelle 1: Vorgehen bei der Metadateneingabe pro Ebene
 | Ebene           | Metadaten           | Zusätzliche     | Metadaten       |
 |                 | eingeben            | Dateien         | abgeben         |
 +=================+=====================+=================+=================+
-| Studie          | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
+| Datenpaket      | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
 |                 |                     |                 | ausfüllen       |
 +-----------------+---------------------+-----------------+-----------------+
 | Erhebungen      | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
@@ -233,12 +233,12 @@ Sie werden per Email darüber benachrichtigt.
 Sollte der Publisher denken, dass die Eingabe der Metadaten auf der jeweiligen
 Ebene fertig sind, markiert er/sie die Ebene
 auch als "fertig", was durch einen zweiten Haken signalisiert wird
-(siehe :numref:`studie_ready`). Sind alle erwarteten Ebenen mit zwei Häkchen
+(siehe :numref:`dp_ready`). Sind alle erwarteten Ebenen mit zwei Häkchen
 markiert, können die Publisher das Projekt für alle öffentlichen Nutzern des
 Systems freigeben.
 
-.. figure:: ./_static/cockpit_studie_ready.png
-   :name: studie_ready
+.. figure:: ./_static/cockpit_dp_ready.png
+   :name: dp_ready
 
 Sie können nun beginnen, Ihr Projekt mit Metadaten zu füllen. Wie genau
 dies funktioniert, wird im Folgenden zunächst prinzipiell erläutert, ehe
@@ -257,13 +257,13 @@ Metadaten lediglich per Eingabemaske anlegen und editieren.
 Eingabemasken
 ~~~~~~~~~~~~~
 
-Für die Ebenenen Studie, Erhebungen, Datensätze und Instrumente steht die
+Für die Ebenenen Datenpakete, Erhebungen, Datensätze und Instrumente steht die
 Nutzung von Eingabemasken im MDM zur Verfügung. Jede Maske umfasst verschiedene
 Felder, welche mit den einzutragenden Informationen beschriftet sind.
 Einige Felder sind verpflichtend auszufüllen und deshalb mit einem
 Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch
 darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben
-dürfen. Im Rahmen der relevanten Ebenen Studie,
+dürfen. Im Rahmen der relevanten Ebenen Datenpakete,
 Erhebungen, Datensätze und Instrumente wird die Handhabung der jeweiligen
 Eingabemasken dann konkret gezeigt (s. :ref:`Erhebungen` :ref:`Instrumente`).
 
@@ -278,7 +278,7 @@ Anhänge
 
 Anhänge werden über die Eingabemasken im MDM hochgeladen.
 Zu den Anhängen zählen z.B. der
-Daten- und Methodenbericht auf der Studienebene sowie Fragebögen oder
+Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen oder
 Codierlisten auf Instrumentenebene. Diese Dokumente müssen als Dateien
 im PDF- oder Excel-Format vorliegen (Details dazu finden Sie in den jeweils
 relevanten Kapiteln zu den einzelnen Ebenen) und zudem nach bestimmten
@@ -294,114 +294,115 @@ https://helpx.adobe.com/acrobat/using/pdf-properties-metadata.html
 Die Abgabe von Metadaten für die einzelnen Ebenen
 -------------------------------------------------
 
-.. _Studie:
+.. _Datenpaket:
 
-Studie (study)
-~~~~~~~~~~~~~~
+Datenpaket (data package; ehemals Studie/study)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Übersicht**
 
-Anhand der Informationen, die Sie bzgl. Ihrer Studie im MDM erfassen,
+Anhand der Informationen, die Sie bzgl. Ihres Datenpakets im MDM erfassen,
 wird dort später eine Übersichtsseite erstellt, die im Folgenden am
 Beispiel des Absolventenpanels 2005 dargestellt wird:
 
 
-.. figure:: ./_static/study_details_overview.png
-   :name: studienübersicht
+.. figure:: ./_static/dp_details_overview.png
+   :name: datenpaketübersicht
 
-   Studienübersicht im MDM am Beispiel des Absolventenpanels 2005
+   Datenpaketübersicht im MDM am Beispiel des Absolventenpanels 2005
 
-**Eine neue Studie anlegen**
+**Eine neues Datenpaket anlegen**
 
 Nachdem ein neues Projekt erstellt wurde, können
-Sie nun innerhalb des Projektes eine Studie über das Project-Cockpit
+Sie nun innerhalb des Projektes ein Datenpaket über das Project-Cockpit
 anlegen.
 
 
-**Studie anlegen über das Projekt-Cockpit**
+**Datenpaket anlegen über das Projekt-Cockpit**
 
 Im Projekt-Cockpit sehen Sie im Status-Bereich die Felder zu den einzelnen
-Metadatenebenen. Wenn Sie unter dem Punkt Studie auf den "Neu"-Button klicken,
+Metadatenebenen. Wenn Sie unter dem Punkt Datenpaket auf den "Neu"-Button klicken,
 gelangen Sie zur Eingabemaske. Machen Sie beim Punkt Eingabemaske_
 weiter.
 
-.. figure:: ./_static/study_empty.png
-   :name: studie_leer
+.. figure:: ./_static/dp_empty.png
+   :name: dp_leer
 
-   Studie per Cockpit anlegen
+   Datenpaket per Cockpit anlegen
 
-**Studie anlegen über die Suche**
+**Datenpaket anlegen über die Suche**
 
 Dazu finden Sie im
-Reiter „Studien“ unten rechts auf der Seite einen orangefarbenen
-Plus-Button (vgl. :numref:`studien_anlegen_per_suche`).
+Reiter „Datenpakete“ unten rechts auf der Seite einen orangefarbenen
+Plus-Button (vgl. :numref:`dp_anlegen_per_suche`).
 
-.. figure:: ./_static/study_create_study_via_search.png
-   :name: studien_anlegen_per_suche
+.. figure:: ./_static/dp_create_dp_via_search.png
+   :name: dp_anlegen_per_suche
 
-   Studie per Suche anlegen
+   Datenpaket per Suche anlegen
 
 Mit einem Klick auf den
 Plus-Button öffnet sich die Eingabemaske, in der Sie Ihre Informationen
-zur Studie ablegen können.
+zum Datenpaket ablegen können.
 
 **Eingabemaske**
 
 .. _Eingabemaske:
 
-Die Eingabemaske auf Studienebene besteht aus den vier Abschnitten
-„Details“, „Studienbeschreibung“, „Projektmitarbeiter(innen)“ sowie
-„Materialien zu der Studie“. Der Abschnitt „Details“ ist der
+Die Eingabemaske auf Datenpaketebene besteht aus den vier Abschnitten
+„Details“, „Datenpaketbeschreibung“, „Projektmitarbeiter(innen)“ sowie
+„Materialien zum Datenpaket“. Der Abschnitt „Details“ ist der
 umfangreichste und wird im Folgenden aufgrund der Veranschaulichung mit
 bereits eingetragenen Informationen dargestellt (hier beispielhaft: 21.
 Sozialerhebung):
 
 
-.. figure:: ./_static/study_edit_details_page.png
-   :name: studienebene_eingabemaske
+.. figure:: ./_static/dp_edit_details_page.png
+   :name: dpebene_eingabemaske
 
-   Eingabemaske auf Studienebene, Abschnitt "Details" am Beispiel der 21.
+   Eingabemaske auf Datenpaketebene, Abschnitt "Details" am Beispiel der 21.
    Sozialerhebung
 
 Nach dem Öffnen der Eingabemaske erscheint ganz oben die aus ihrem
-Projektnamen automatisch generierte ID für die Studienseite (s. rotes
-Kästchen in :numref:`studienebene_eingabemaske`). Einige Felder, die Sie frei
+Projektnamen automatisch generierte ID für die Datenpaketseite (s. rotes
+Kästchen in :numref:`dpebene_eingabemaske`). Einige Felder, die Sie frei
 ausfüllen können,
 verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele
 Zeichen Sie dort insgesamt eintragen dürfen und wie viele Zeichen Sie
 bereits eingetragen haben (s. blaues Kästchen in
-:numref:`studienebene_eingabemaske`). Außerdem
+:numref:`dpebene_eingabemaske`). Außerdem
 finden Sie teilweise Drop-Down-Menüs vor, in denen Sie aus vorgegebenen
 Alternativen auswählen können (s. grünes Kästchen in
-:numref:`studienebene_eingabemaske`).
+:numref:`dpebene_eingabemaske`).
 
-.. figure:: ./_static/study_edit_details_institution.png
-   :name: eingabemaske_studienbeschreibung_institution
+.. figure:: ./_static/dp_edit_details_institution.png
+   :name: eingabemaske_dpbeschreibung_institution
 
 Im Feld Erhebende Institution(en) (s.
-:numref:`eingabemaske_studienbeschreibung_institution`)
-geben Sie an welche Institution die Studie durchgeführt hat.
-Es werden Institutionen vorgeschlagen, die bereits andere Studien
+:numref:`eingabemaske_dpbeschreibung_institution`)
+geben Sie an welche Institution die Konzeption und Durchführung der Erhebung
+des Datenpakets durchgeführt hat.
+Es werden Institutionen vorgeschlagen, die bereits andere Datenpakete
 durchgeführt haben. Sollte kein Vorschlag passen, geben Sie bitte den
 Institutionsnamen auf Deutsch und Englisch ein.
 
 
-Im zweiten Abschnitt der Eingabemaske müssen Sie eine Beschreibung Ihrer
-Studie sowohl auf Deutsch als auch auf Englisch eingeben. Als
+Im zweiten Abschnitt der Eingabemaske müssen Sie eine Beschreibung Ihres Datenpaket
+sowohl auf Deutsch als auch auf Englisch eingeben. Als
 Beispiel ist im Folgenden die Beschreibung der 21. Sozialerhebung
 abgebildet:
 
 
-.. figure:: ./_static/study_edit_details_description.png
-   :name: eingabemaske_studienbeschreibung
+.. figure:: ./_static/dp_edit_details_description.png
+   :name: eingabemaske_dpbeschreibung
 
-   Eingabemaske auf Studienebene, Abschnitt "Studienbeschreibung" am Beispiel
+   Eingabemaske auf Datenpaketebene, Abschnitt "Datenpaketbeschreibung" am Beispiel
    der 21. Sozialerhebung
 
 Im dritten Abschnitt der Eingabemaske geben Sie die Mitarbeiter(innen)
 Ihres Projekts ein. Für die Eingabe weiterer Personen klicken Sie
 einfach auf den blauen Plus-Button (s.
-:numref:`studienebene_eingabemaske_mitarbeiter`).
+:numref:`dpebene_eingabemaske_mitarbeiter`).
 Wenn mindestens zwei
 Personen eingetragen sind, erscheinen die Pfeil-Buttons als aktiv
 (Farbwechsel von grau zu blau). Dann können Sie die Reihenfolge der
@@ -411,32 +412,32 @@ ein blauer Button mit einem Mülleimer-Symbol, mit dem Sie den jeweiligen
 Namen wieder löschen können. Mit dem orangefarbenen Save-Button unten
 rechts können Sie Ihre Eingaben jederzeit abspeichern. Dies müssen Sie
 spätestens jetzt tun, da Sie ansonsten den letzten Abschnitt der
-Eingabemaske („Materialien zu der Studie“) nicht bearbeiten können.
+Eingabemaske („Materialien zum Datenpaket“) nicht bearbeiten können.
 
-.. figure:: ./_static/study_edit_details_authors.png
-   :name: studienebene_eingabemaske_mitarbeiter
+.. figure:: ./_static/dp_edit_details_authors.png
+   :name: dpebene_eingabemaske_mitarbeiter
 
-   Eingabemaske auf Studienebene, Abschnitt "Projektmitarbeiter(innen)"
+   Eingabemaske auf Datenpaketebene, Abschnitt "Projektmitarbeiter(innen)"
 
-.. figure:: ./_static/study_edit_details_tags.png
+.. figure:: ./_static/dp_edit_details_tags.png
    :name: eingabemaske_tags
 
    Eingabemaske Schlagwörter/ Tags
 
 
-Im Feld Tags (Schlagwörter) zur Studie sind kurze Schlagwörter anzugeben,
-die dabei helfen, schnell einen Überblick über die wichtigsten Themen der
-Studie zu erhalten und ihre Studie schnell auffindbar zu machen.
-Außerdem erleichtert es forschenden ähnliche Studien die das selbe
-Schlagwort verwendet haben zu finden.
+Im Feld Tags (Schlagwörter) zum Datenpaket sind kurze Schlagwörter anzugeben,
+die dabei helfen, schnell einen Überblick über die wichtigsten Themen des Datenpakets
+zu erhalten und ihr Datenpaket schnell auffindbar zu machen.
+Außerdem erleichtert es forschenden ähnliche Datenpakete, die das selbe
+Schlagwort verwendet haben, zu finden.
 
 Im vierten und letzten Abschnitt der Eingabemaske können Sie Materialien
-zur Studie ablegen. Dazu klicken Sie auf den blauen Plus-Button (s.
-:numref:`eingabemaske_studie_materialien`), woraufhin sich ein Dialog öffnet,
+zum Datenpaket ablegen. Dazu klicken Sie auf den blauen Plus-Button (s.
+:numref:`eingabemaske_dp_materialien`), woraufhin sich ein Dialog öffnet,
 in dem Sie eine Datei hochladen und diese näher beschreiben können.
 Die hier relevanten Materialien sind momentan der deutsch- und
 englischsprachige Daten- und Methodenbericht (DMB) sowie eine
-deutsch oder englischsprachige *Studienübersicht/study overview*. [1]_
+deutsch oder englischsprachige *Datenpaketübersicht/data package overview*. [1]_
 Die Sprache der Materialien muss nach ISO 639-1_ angegeben werden.
 Bei den Metadaten der Materialien ist darauf zu achten, dass diese korrekt
 eingegeben worden sind.
@@ -449,36 +450,36 @@ beibehalten möchten, müssen Sie erneut speichern.
 .. _639-1: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 
 
-.. figure:: ./_static/study_edit_details_attachments_before_details_are_saved.png
-   :name: eingabemaske_studie_materialien_deaktiviert
+.. figure:: ./_static/dp_edit_details_attachments_before_details_are_saved.png
+   :name: eingabemaske_dp_materialien_deaktiviert
 
    Materialienabschnitt ist noch ausgegraut
 
-.. figure:: ./_static/study_edit_details_attachments_after_details_are_saved.png
-   :name: eingabemaske_studie_materialien_koennen_angegeben werden
+.. figure:: ./_static/dp_edit_details_attachments_after_details_are_saved.png
+   :name: eingabemaske_dp_materialien_koennen_angegeben werden
 
    Materialien können hinzugefügt werden
 
-.. figure:: ./_static/study_edit_details_attachments_details.png
-   :name: eingabemaske_studie_materialien
+.. figure:: ./_static/dp_edit_details_attachments_details.png
+   :name: eingabemaske_dp_materialien
 
-   Eingabemaske zu Materialien der Studie
+   Eingabemaske zu den Materialien des Datenpakets
 
 @TODO describe attachments
 
 **Editieren und historisieren**
 
-Falls Sie Ihre Informationen auf Studienebene nicht in einem Vorgang
+Falls Sie Ihre Informationen auf Datenpaketebene nicht in einem Vorgang
 eingeben und hochladen können oder möchten, ist es immer möglich, dass
 Sie Ihre bisherigen Eingaben abspeichern und zu einem späteren Zeitpunkt
-weiter bearbeiten. Hierfür wird Ihnen im Reiter „Studien“ am rechten
-Rand neben Ihrer Studie ein Stift-Button angezeigt, über den Sie wieder
-in die Eingabemaske gelangen (s. :numref:`bearbeitung_gespeicherte_studie`).
+weiter bearbeiten. Hierfür wird Ihnen im Reiter „Datenpakete“ am rechten
+Rand neben Ihrers Datenpakets ein Stift-Button angezeigt, über den Sie wieder
+in die Eingabemaske gelangen (s. :numref:`bearbeitung_gespeicherte_dp`).
 
-.. figure:: ./_static/study_edit_later.png
-   :name: bearbeitung_gespeicherte_studie
+.. figure:: ./_static/dp_edit_later.png
+   :name: bearbeitung_gespeicherte_dp
 
-   Weitere Bearbeitung einer bereits abgespeicherten Studie
+   Weitere Bearbeitung eines bereits abgespeicherten Datenpakets
 
 Ebenso können Sie ältere Versionen Ihrer abgespeicherten Eingaben
 wiederherstellen, indem Sie im Bearbeitungsmodus den
@@ -489,24 +490,24 @@ rechts auf der Seite) verwenden (s. :numref:`versionierung`).
 .. figure:: ./_static/historization_undo.png
    :name: versionierung
 
-   Ältere Versionen einer Studie wiederherstellen
+   Ältere Versionen eine Datenpakets wiederherstellen
 
 Bei einem Klick auf den Historisierungs-Button öffnet sich ein Dialog,
-der die verschiedenen Versionen der Studie anzeigt
-(s. :numref:`historisierung_studie`).
-Zudem sind der Name des Nutzers, der die entsprechende Version der Studie
+der die verschiedenen Versionen des Datenpakets anzeigt
+(s. :numref:`historisierung_dp`).
+Zudem sind der Name des Nutzers, der die entsprechende Version des Datenpakets
 gespeichert hat, sowie das Änderungsdatum sichtbar. Durch Klicken auf
 die Version wird diese wiederhergestellt, aber nicht automatisch als
 aktuelle Version gespeichert. Dies müsste über einen Klick auf den
-Save-Button erfolgen. Zu beachten ist, dass Materialien zur Studie
+Save-Button erfolgen. Zu beachten ist, dass Materialien zum Datenpaket
 (Dateianhänge) nicht historisiert werden, sondern lediglich deren ins MDM
 eingegebene Metadaten.
 
 
-.. figure:: ./_static/study_historization.png
-   :name: historisierung_studie
+.. figure:: ./_static/dp_historization.png
+   :name: historisierung_dp
 
-   Dialog zur Historisierung innerhalb einer Studie
+   Dialog zur Historisierung innerhalb eines Datenpakets
 
 .. _Erhebungen:
 
@@ -515,8 +516,8 @@ Erhebungen (surveys)
 
 **Übersicht**
 
-Mit den Informationen über die Erhebung(en), die Sie innerhalb Ihrer
-Studie durchgeführt haben, wird im MDM folgende Übersichtsseite
+Mit den Informationen über die Erhebung(en), die Sie innerhalb Ihres
+Datenpakets durchgeführt haben, wird im MDM folgende Übersichtsseite
 erstellt:
 
 .. figure:: ./_static/surveys_public-view.png
@@ -527,10 +528,9 @@ erstellt:
 
 **Eine neue Erhebung anlegen**
 
-Wenn Sie eine Studie angelegt haben (vgl. Kapitel :ref:`Studie`), können
-Sie über den Reiter „Erhebungen“ eine neue Erhebung innerhalb Ihrer Studie
-erstellen. Hierzu finden Sie unten rechts auf der Seite – ebenso wie bei
-der Studie – einen orangefarbenen Plus-Button. Wenn
+Wenn Sie ein Datenpaket angelegt haben (vgl. Kapitel :ref:`Datenpaket`), können
+Sie über den Reiter „Erhebungen“ eine neue Erhebung innerhalb Ihres Datenpakets
+erstellen. Hierzu finden Sie unten rechts auf der Seite – ebenso wie bei Datenpaketen – einen orangefarbenen Plus-Button. Wenn
 Sie mit dem Mauszeiger darüberfahren, erscheinen die beiden weißen
 Buttons, von denen Sie den Plus-Button anklicken, um die Eingabemaske zu
 öffnen. Bitte beachten Sie, dass Sie mehrere Erhebungen über die
@@ -554,7 +554,7 @@ Beim Anlegen einer Erhebung wird automatisch die ID auf Basis des
 Projektnamens generiert (s. rotes Kästchen,
 :numref:`eingabemaske_erhebung_details_1`, hier als Beispiel der
 21. Sozialerhebung). Neben den bereits aus der
-Studienebene bekannten Funktionen gibt es in dieser Eingabemaske
+Datenpaketebene bekannten Funktionen gibt es in dieser Eingabemaske
 zusätzlich eine Kalenderfunktion (s. blaue Kästchen,
 :numref:`eingabemaske_erhebung_details_1`),
 welche die Feldzeit des Projekts erfasst und in :numref:`kalender_erhebung`
@@ -585,10 +585,10 @@ hochgeladene Dateien wieder löschen (s. :numref:`weitere_infos_rücklauf`).
 
    Eingabemaske der Erhebungsebene, Abschnitt „Weitere Informationen zum Rücklauf“
 
-Im letzten Abschnitt der Eingabemaske können – wie auch bei der Studie –
+Im letzten Abschnitt der Eingabemaske können – wie auch beim Datenpaket –
 Materialien hinzugefügt werden
 (s. :numref:`eingabemaske_erhebung_materialien`).
-Die Funktionsweise ist identisch zu der auf Studienebene. [3]_
+Die Funktionsweise ist identisch zu der auf Datenpaketebene. [3]_
 
 .. figure:: ./_static/eingabemaske_erhebung_materialien.png
    :name: eingabemaske_erhebung_materialien
@@ -625,7 +625,7 @@ dem Save-Button betätigen können
 Bei einem Klick auf den Historisierungs-Button öffnet sich ein
 Dialog, der die verschiedenen Versionen der Erhebung anzeigt
 (s. :numref:`historisierungsdialog_erhebung`). Zudem
-sind der Name des Nutzers, der die entsprechende Version der Studie
+sind der Name des Nutzers, der die entsprechende Version des Datenpakets
 gespeichert hat, sowie das Änderungsdatum sichtbar. Durch Klicken auf
 die Version wird diese wiederhergestellt, aber nicht automatisch als
 aktuelle Version gespeichert. Dies müsste über einen Klick auf den
@@ -642,7 +642,7 @@ nicht historisiert werden.
 Der Titel der Erhebung wird bei Veröffentlichung (mit Versionsnummer
 von mindestens 1.0.0) bei da|ra vor einige Attribute (z.B. Referenzzeitraum)
 gehängt. Der Titel der Erhebung muss daher eindeutig sein und
-im Falle von Panelstudien die Welle enthalten.
+im Falle von längsschnittlich erhobenen Datenpaketen die Welle enthalten.
 
 .. _Instrumente:
 
@@ -663,7 +663,7 @@ folgende Übersicht im MDM erstellt:
 **Eingabemaske**
 
 Erhebungsinstrumente lassen sich per Eingabemaske erfassen und editieren.
-Dafür darf die Studie aktuell nicht released sein.
+Dafür darf das Datenpaket aktuell nicht released sein.
 Um ein Erhebungsinstrument mittels Eingabemaske anzulegen, wird im
 Projektcockpit unter Instrumente auf den Neu-Button oder geht über die Suche in
 die Instrumentenebene und klickt auf den Plus-Button. Es öffnet sich bei beiden
@@ -679,7 +679,7 @@ Herangehensweisen die Eingabemaske um ein neues Instrument anzulegen.
 Die Eingabemaske besteht
 aus den Pflichtfeldern Beschreibung, Titel, Typ und Erhebung, sowie
 den nicht verpflichtenden Feldern Untertitel, Anmerkungen und Konzepte (s. :numref:`eingabemaske_instrument_de`).
-Konzepte müssen zuerst, wie im Kapitel :ref:`Konzepte<Konzepte>` erklärt, angelegt werden und können danach über die Eingabemaske verlinkt werden.
+Konzepte müssen zuerst, wie gleichnamigen Kapitel erklärt, angelegt werden und können danach über die Eingabemaske verlinkt werden.
 
 .. figure:: ./_static/eingabemaske_instrument_de.png
    :scale: 50 %
@@ -734,7 +734,7 @@ zu den anonymisierten Daten mit sich bringt. Für jeden Zugangsweg
 wird dann ein eigener Subdatensatz erstellt.
 
 Mit den Informationen über die Datensätze, welche Sie aus den Daten
-Ihrer Studie erstellt haben, wird für jeden dieser Datensätze folgende
+Ihres Datenpakets erstellt haben, wird für jeden dieser Datensätze folgende
 Übersicht im MDM angezeigt:
 
 
@@ -929,7 +929,7 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
 
    ☐ In das Metadatensystem eingegeben
 
--  Studie (study)
+-  Datenpaket (data package)
 
 -  Erhebungen (surveys)
 

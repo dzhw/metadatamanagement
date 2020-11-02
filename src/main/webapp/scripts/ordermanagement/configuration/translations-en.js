@@ -48,7 +48,6 @@ angular.module('metadatamanagementApp').config(
           'explain-data-product': 'A data package contains all data sets which have been prepared for the given access way (download, on-site, remote,...). You can request several data packages of one kind with different access ways.',
           'no-final-release': 'The data packages have not yet been created. As soon as they are ready, you can put them in the shopping cart at this point.',
           'variable-not-accessible': 'Although this variable was collected, it is not available in any data package for data protection reasons.',
-          'data-not-available': 'This data package is currently not available.',
           'data-package-tooltip': 'Click to display the data package.',
           'study-series-tooltip': 'Click to display all data packages of the study series.',
           'data-sets-tooltip': 'Click to display all datasets of this data package.',

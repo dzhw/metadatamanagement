@@ -142,7 +142,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       $scope.options = {
         sortObject: {
           selected: 'relevance',
-          options: ['relevance']
+          options: $scope.tabs[0].sortOptions
         },
         pageObject: {
           options: [10, 20, 50],
@@ -190,7 +190,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       uploadFunction: null,
       disabled: false,
       visibleForPublicUser: false,
-      noResultsText: 'search-management.no-results-text.all'
+      noResultsText: 'search-management.no-results-text.all',
+      sortOptions: ['relevance']
     }, {
       title: 'search-management.tabs.data_packages',
       inputLabel: 'search-management.input-label.data-packages',
@@ -200,7 +201,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.data-packages',
-      group: 'dataPackages'
+      group: 'dataPackages',
+      sortOptions: ['relevance', 'alphabetically', 'survey-period',
+        'first-release-date', 'last-release-date']
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
@@ -210,7 +213,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.surveys',
-      group: 'surveys'
+      group: 'surveys',
+      sortOptions: ['relevance', 'alphabetically']
     }, {
       title: 'search-management.tabs.instruments',
       inputLabel: 'search-management.input-label.instruments',
@@ -220,7 +224,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.instruments',
-      group: 'instruments'
+      group: 'instruments',
+      sortOptions: ['relevance', 'alphabetically']
     }, {
       title: 'search-management.tabs.questions',
       inputLabel: 'search-management.input-label.questions',
@@ -230,7 +235,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.questions',
-      group: 'questions'
+      group: 'questions',
+      sortOptions: ['relevance', 'alphabetically']
     }, {
       title: 'search-management.tabs.data_sets',
       inputLabel: 'search-management.input-label.data-sets',
@@ -240,7 +246,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.data-sets',
-      group: 'dataSets'
+      group: 'dataSets',
+      sortOptions: ['relevance', 'alphabetically']
     }, {
       title: 'search-management.tabs.variables',
       inputLabel: 'search-management.input-label.variables',
@@ -250,7 +257,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.variables',
-      group: 'variables'
+      group: 'variables',
+      sortOptions: ['relevance', 'alphabetically']
     }, {
       title: 'search-management.tabs.related_publications',
       inputLabel: 'search-management.input-label.related-publications',
@@ -260,7 +268,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.related-publications',
-      group: 'publications'
+      group: 'publications',
+      sortOptions: ['relevance', 'alphabetically']
     }, {
       title: 'search-management.tabs.concepts',
       inputLabel: 'search-management.input-label.concepts',
@@ -270,7 +279,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
       disabled: false,
       visibleForPublicUser: true,
       noResultsText: 'search-management.no-results-text.concepts',
-      group: 'concepts'
+      group: 'concepts',
+      sortOptions: ['relevance', 'alphabetically']
     }];
 
     function createDataPackageFilterContent(data, prop) {
@@ -339,7 +349,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         //   'study-series': ['DZHW-Absolventenstudien','adf','asd'],
         //   'sponsor': ['Bundesministerium für Bildung und Forschung (BMBF)']
         // })
-        $scope.searchFilterMapping)
+        $scope.searchFilterMapping, $scope.options.sortObject.selected)
         .then(function(data) {
           createDataPackageFilterObject(data.aggregations);
           $scope.searchResult = data.hits.hits;
@@ -493,6 +503,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
     }
 
     $scope.onSelectedTabChanged = function() {
+      $scope.options.sortObject.options = $scope.tabs[
+        $scope.searchParams.selectedTabIndex].sortOptions;
+      $scope.options.sortObject.selected = 'relevance';
       if (!selectedTabChangeIsBeingHandled) {
         //prevent multiple tab change handlers caused by logout
         selectedTabChangeIsBeingHandled = true;

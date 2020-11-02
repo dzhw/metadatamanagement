@@ -55,6 +55,12 @@ public class DataPackageListService {
         .query(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("shadow", true))
             .mustNot(QueryBuilders.existsQuery("successorId")))
         .from(page * size).size(size).sort("title.de", SortOrder.ASC);
+
+    return executeSearchAndCreatePage(page, size, sourceBuilder);
+  }
+
+  private Page<DataPackageSearchDocument> executeSearchAndCreatePage(int page, int size,
+      SearchSourceBuilder sourceBuilder) throws IOException {
     SearchResponse response = elasticsearchClient.search(
         new SearchRequest().source(sourceBuilder).indices(ElasticsearchType.data_packages.name()),
         RequestOptions.DEFAULT);
@@ -70,7 +76,30 @@ public class DataPackageListService {
     PageRequest pageRequest = PageRequest.of(page, size);
     Page<DataPackageSearchDocument> resultPage =
         new PageImpl<DataPackageSearchDocument>(hits, pageRequest, total);
-
     return resultPage;
+  }
+
+  /**
+   * Get the data packages which shall be pinned to the start page. The page will contain the pinned
+   * data packages sorted by release date, starting with the latest release.
+   * 
+   * @param page the page number
+   * @param size the number of data package per page
+   * @return a list of pinned data package documents wrapped in a page object
+   * @throws IOException if search failed
+   */
+  public Page<DataPackageSearchDocument> loadPinnedDataPackages(int page, int size)
+      throws IOException {
+    SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+
+    sourceBuilder.fetchSource(null,
+        ExcludeFieldsHelper.getFieldsToExcludeOnDeserialization(DataPackageSearchDocument.class));
+    sourceBuilder
+        .query(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("shadow", true))
+            .filter(QueryBuilders.termQuery("release.pinToStartPage", true))
+            .mustNot(QueryBuilders.existsQuery("successorId")))
+        .from(page * size).size(size).sort("release.lastDate", SortOrder.DESC);
+
+    return executeSearchAndCreatePage(page, size, sourceBuilder);
   }
 }

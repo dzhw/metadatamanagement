@@ -356,7 +356,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
                        filter, elasticsearchType, pageSize, idsToExclude,
-                       aggregations, newFilters) {
+                       aggregations, newFilters, sortCriteria) {
         var query = {};
         query.preference = clientId;
         var dataPackageId;
@@ -383,7 +383,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         ];
 
         query.body.sort = SearchHelperService
-          .createSortByCriteria(elasticsearchType);
+          .createSortByCriteria(elasticsearchType, sortCriteria);
 
         //a query term
         if (!CleanJSObjectService.isNullOrEmpty(queryterm)) {

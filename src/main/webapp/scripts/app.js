@@ -159,6 +159,16 @@ try {
           }
         };
 
+        // ignore ui-routers transition superseded errors
+        var standardDefaultErrorHandler = $state.defaultErrorHandler();
+        $state.defaultErrorHandler(function(error) {
+          // transition superseded
+          if (error.type === 2) {
+            return;
+          }
+          standardDefaultErrorHandler(error);
+        });
+
         MigrationService.migrate();
       })
     .config(

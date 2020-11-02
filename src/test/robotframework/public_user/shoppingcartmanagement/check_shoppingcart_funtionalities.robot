@@ -6,8 +6,8 @@ Resource          ../../resources/home_page_resource.robot
 
 *** Test Cases ***
 Check Shopping Cart as a Public User
-   Click Element  xpath=//a[contains(@ui-sref, 'Absolventen')]
-   Click on first search result
+   Click Element Through Tooltips  xpath=//a[contains(@ui-sref, 'Absolventen')]
+   Click Element Through Tooltips  xpath=//a[contains(., 'DZHW-Absolventenpanel 2005')]
    Put all access ways in shopping cart
    Go to Shopping Cart
    Delete an Item   # we have 4 items in the cart and we delete one item

@@ -46,8 +46,6 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection DataPackageSubDocumentProjection
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.validation ValidDataAvailability
-
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.validation ValidDataPackageId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.validation ValidSurveyDesign
@@ -97,14 +95,6 @@ dataAcquisitionProjectId
    :outertype: DataPackage
 
    The id of the \ :java:ref:`DataAcquisitionProject`\  to which this dataPackage belongs. The dataAcquisitionProjectId must not be empty.
-
-dataAvailability
-^^^^^^^^^^^^^^^^
-
-.. java:field:: @NotNull @ValidDataAvailability private I18nString dataAvailability
-   :outertype: DataPackage
-
-   The current state of the data's availability. Must be one of \ :java:ref:`DataAvailabilities`\  and must not be empty.
 
 dataCurators
 ^^^^^^^^^^^^

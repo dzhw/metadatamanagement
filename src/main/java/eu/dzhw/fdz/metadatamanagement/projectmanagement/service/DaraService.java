@@ -41,7 +41,6 @@ import com.google.common.base.Charsets;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.service.MarkdownHelper;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataAvailabilities;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.SurveyDesigns;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.TimeMethods;
@@ -277,8 +276,7 @@ public class DaraService {
     dataForTemplate.put("dataPackage", dataPackage);
 
     String availabilityControlled = AVAILABILITY_CONTROLLED_NOT_AVAILABLE;
-    if (!dataPackage.isHidden()
-        && dataPackage.getDataAvailability().equals(DataAvailabilities.AVAILABLE)) {
+    if (!dataPackage.isHidden()) {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
     }
 

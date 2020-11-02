@@ -20,7 +20,7 @@
             <md-input-container flex="50" md-is-error="!conceptForm.id.$valid && (conceptForm.id.$dirty || conceptForm.id.$touched)" class="ms-flex">
               <label class="fdz-input-required">{{'concept-management.edit.label.id' | translate}}</label>
               <input fdz-compose-concept-id fdz-required fdz-unique-concept-id="{{ctrl.createMode}}" md-maxlength="507" md-no-asterisk name="id" ng-disabled="!ctrl.createMode" ng-model="ctrl.concept.id" ng-model-options="{debounce: 200}"
-                ng-pattern="/^\S+$/" ng-trim="true" class="di">
+                ng-pattern="/^[^,;\s]+$/" ng-trim="true" class="di">
               <div class="fdz-input-hint" ng-if="!conceptForm.id.$dirty && !conceptForm.id.$touched">
                 {{'concept-management.edit.hints.id' | translate}}
               </div>
@@ -250,7 +250,7 @@
   <div>
     <md-card class="mt0 mb8" ng-if="ctrl.concept.authors">
       <md-card-header layout-align="center center">
-        <md-card-header-text>
+        <md-card-header-text class="pb">
           <h2 class="md-title">{{'concept-management.detail.attachments.table-title' | translate}}</h2>
         </md-card-header-text>
       </md-card-header>

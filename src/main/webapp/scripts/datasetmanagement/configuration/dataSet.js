@@ -25,11 +25,11 @@ angular.module('metadatamanagementApp')
             }
           });
       };
-
+    var stateName = 'dataSetDetail';
     $urlRouterProvider.when('/de/data-sets/', '/de/error');
     $urlRouterProvider.when('/en/data-sets/', '/en/error');
     $stateProvider
-      .state('dataSetDetail', {
+      .state(stateName, {
         parent: 'site',
         url: '/data-sets/{id}?{version}{query}{page}{size}',
         reloadOnSearch: false,
@@ -37,9 +37,6 @@ angular.module('metadatamanagementApp')
           authorities: []
         },
         params: {
-          'id': {
-            dynamic: true
-          },
           'search-result-index': null
         },
         views: {
@@ -52,23 +49,26 @@ angular.module('metadatamanagementApp')
         },
         resolve: {
           entity: ['$stateParams', 'DataSetSearchService', 'Principal', '$q',
-            'SimpleMessageToastService', 'LocationSimplifier',
+            'SimpleMessageToastService', 'LocationSimplifier', '$state',
             function($stateParams, DataSetSearchService, Principal, $q,
-              SimpleMessageToastService, LocationSimplifier) {
-              var id = LocationSimplifier.ensureDollarSign($stateParams.id);
-              var excludedAttributes = ['nested*','variables','questions',
-                'instruments', 'relatedPublications','concepts'];
-              if (Principal.loginName() && !$stateParams.version) {
-                return DataSetSearchService.findOneById(id, null,
-                  excludedAttributes);
-              } else {
-                var deferred = $q.defer();
-                loadShadowCopy(DataSetSearchService,
-                  SimpleMessageToastService, id,
-                  $stateParams.version, excludedAttributes)
-                  .then(deferred.resolve, deferred.reject);
-                return deferred;
-              }
+              SimpleMessageToastService, LocationSimplifier, $state) {
+              return LocationSimplifier.removeDollarSign($state, $stateParams,
+                stateName).then(function() {
+                  var id = LocationSimplifier.ensureDollarSign($stateParams.id);
+                  var excludedAttributes = ['nested*','variables','questions',
+                  'instruments', 'relatedPublications','concepts'];
+                  if (Principal.loginName() && !$stateParams.version) {
+                    return DataSetSearchService.findOneById(id, null,
+                      excludedAttributes);
+                  } else {
+                    var deferred = $q.defer();
+                    loadShadowCopy(DataSetSearchService,
+                      SimpleMessageToastService, id,
+                      $stateParams.version, excludedAttributes)
+                      .then(deferred.resolve, deferred.reject);
+                    return deferred;
+                  }
+                }).catch($q.defer);
             }
           ]
         }

@@ -12,5 +12,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
  */
 @Projection(name = "id-and-version", types = Variable.class)
 public interface IdAndVersionVariableProjection extends IdAndVersionProjection {
+  String getName();
 
+  String getMasterId();
 }
