@@ -377,11 +377,12 @@ vimport_ds2.xlsx, vimport_ds1.xlsx, ...), sowie die Datei mit den missing
 conditions (conditions.xlsx). Zum Generieren der json Dateien das R-Skript
 variablesToJsons.bat.tmpl in den Projektordner kopieren, das .tmpl entfernen,
 die Datei anpassen und danach ausführen.
+Das aktuelle Template liegt hier: https://github.com/dzhw/variableMetadataPreparation/blob/development/bin/variablesToJson.bat.tmpl
 
 Es ist möglich die Missing Bedingungen für numerische und string Variablen in
 der datei conditions.xlsx anzupassen. Außerdem können in der batch-Datei
 Variablennamen angegeben werden, die im MDM keine Verteilung bekommen sollen.
-Dies sind z.B. id Variablen. Variablen mit accessway not-accessible müssen hier
+Dies sind z.B. id Variablen. Variablen mit accessway "not-accessible" müssen hier
 nicht eingetragen werden.
 
 **Missing Conditions**
