@@ -284,7 +284,7 @@ Feld auch leer gelassen werden.
 |                        |                       | Mehrfachnennungen)    |
 |                        |                       |                       |
 |                        |                       | **wichtig**: da diese |
-|                        |                       | auch in den           | 
+|                        |                       | auch in den           |
 |                        |                       | Datensatzreport als   |
 |                        |                       | "Fragetext"           |
 |                        |                       | ausgelesen werden,    |
@@ -401,15 +401,16 @@ Ein Fehler der auftreten kann ist, dass im Stata-Datensatz nicht die richtige
 Sprache gewählt wurde. Ist das der Fall können nicht die richtigen Wertelabel
 zugeordnet werden.
 
+**Nach erfolgreichem Durchlauf**
+
+Nach erfolgreicher Generierung der Variablen-Metadaten werden der Ordner data-raw und die Datei variableToJson.bat im Projektordner in den Unterordner Metadatenexport kopiert.
+In Zukunft wird es eine Option im Programm variableMetadataGeneration geben, dass dieses den Ordner und die variableToJson.bat kopiert.
+
 **Transfer in den öffentlichen Bereich**
-Die Datensatzordner mit den json Dateien müssen noch in den öffentlichen Bereich
+Die Json-Dateien und Bilder müssen noch in den öffentlichen Bereich
 transferiert werden. Da es nicht möglich ist, Ordner zu transferieren, werden
 die Ordner gezippt (7-Zip), transferiert und im öffentlichen Bereich wieder
-entpackt.
-
-Die Variable-JSON Dateien müssen anschließend bei Github in das Repository
-projectid-metadata in den variables Ordner hochgeladen werden. Siehe z.B.
-http://github.com/dzhw/gra2005-metadata/ . Die Ordner werden anschließend auf
+entpackt. Die Ordner mit den Variablen-Metadaten werden anschließend auf
 Variablenebene ins MDM per Drag and Drop oder über den Plusbutton rechts unten
 hochgeladen.
 
