@@ -69,3 +69,5 @@ metadatamanagement:
     cluster-name: test
   mongodb:
     ssl-ca-certificate: ${vcap.services.mongodb.cacert}
+  seo4ajax:
+    site-token: ${vcap.services.seo4ajax.sitetoken}

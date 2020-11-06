@@ -18,9 +18,9 @@ Please checkout the development branch before starting to code and create a new 
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
-1. Java: You need to install java 14 sdk on your system. On Ubuntu you should use [SDKMAN!][]
-2. Maven: You need to install maven 3.6.1 or above on your system. On Ubuntu you should use [SDKMAN!][]
-3. [Node.js][]: Node.js (latest) and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][]
+1.  Java: You need to install java 14 sdk on your system. On Ubuntu you should use [SDKMAN!][]
+2.  Maven: You need to install maven 3.6.1 or above on your system. On Ubuntu you should use [SDKMAN!][]
+3.  [Node.js][]: Node.js (latest) and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][]
 
 We use [Grunt][] as our client build system. Install the grunt command-line tool globally with:
 
@@ -31,8 +31,8 @@ On Windows, `patch.exe` has to exist in the PATH. It is distributed as part of g
 ## Running on your local machine
 
 Before starting the app on your local machine you need to start the following Document Stores:
-1. Mongodb: Mongodb must be running on the default port, on ubuntu you should install it from here https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
-2. Elasticsearch (7.9.1): Elasticsearch must be running on its default port. You can download it from here https://www.elastic.co/downloads/elasticsearch
+1. Mongodb: Mongodb must be running on the default port, on ubuntu you should install it from [here](https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/)
+2. Elasticsearch (7.9.1): Elasticsearch must be running on its default port. You can download it from [here](https://www.elastic.co/downloads/elasticsearch)
 
 Make sure that you have read-write-access on the ***data*** directory (in your project directory) for Elasticsearch.
 
@@ -73,7 +73,7 @@ these new files.
 
 To make the build runnable with an enabled dev profile, you'll need to install the following dependencies:
 
-* Python
+*   Python
 
 Once Python is installed, run:
 
@@ -84,7 +84,7 @@ Note that the `--user` flag installs the dependency somewhere in your user direc
 We test our project continuously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
 
 ## AWS Fargate
-This project is currently built and deployed to AWS Fargate by [Travis CI][TravisCI]. You can test the latest version on https://dev.metadata.fdz.dzhw.eu/
+This project is currently built and deployed to AWS Fargate by [Travis CI][TravisCI]. You can test the latest version on [our dev stage.](https://dev.metadata.fdz.dzhw.eu/)
 
 ## Big Thanks
 
@@ -93,12 +93,8 @@ Cross-browser Testing Platform and Open Source :heart: Provided by [Sauce Labs][
 Continuous Integration Platform provided by [Travis CI][TravisCI]
 
 [saucelabs]: https://saucelabs.com
-[JHipster]: https://jhipster.github.io/
 [Node.js]: https://nodejs.org/
 [Grunt]: http://gruntjs.com/
-[BrowserSync]: http://www.browsersync.io/
-[Karma]: http://karma-runner.github.io/
-[Jasmine]: http://jasmine.github.io/2.0/introduction.html
 [NVM]: https://github.com/creationix/nvm
 [SDKMAN!]: http://sdkman.io/install.html
 [TravisCI]: https://travis-ci.com/

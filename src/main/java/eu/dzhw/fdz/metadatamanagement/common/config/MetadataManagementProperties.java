@@ -44,6 +44,8 @@ public class MetadataManagementProperties {
   private final Projectmanagement projectmanagement = new Projectmanagement();
   
   private final DatasetReportTask datasetReportTask = new DatasetReportTask();
+  
+  private final Seo4ajax seo4ajax = new Seo4ajax();
 
   /**
    * Configure the current elasticsearch server version for testing.
@@ -199,5 +201,16 @@ public class MetadataManagementProperties {
     private String clusterName;
     private String serviceName;
     private String containerName;
+  }
+  
+  /**
+   * Properties for seo4ajax.
+   */
+  @Getter
+  @Setter
+  public static class Seo4ajax {
+    private String siteToken;
+    private String regexpBots;
+    private String apiUrl;
   }
 }
