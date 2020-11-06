@@ -34,6 +34,7 @@ data "template_file" "web_container" {
     email_hostname    = var.email_credentials[count.index].hostname
     email_password    = var.email_credentials[count.index].password
     email_username    = var.email_credentials[count.index].username
+    site_token        = var.seo4ajax_tokens[count.index].site_token
   }
 }
 
@@ -103,6 +104,7 @@ data "template_file" "worker_container" {
     email_hostname    = var.email_credentials[count.index].hostname
     email_password    = var.email_credentials[count.index].password
     email_username    = var.email_credentials[count.index].username
+    site_token        = var.seo4ajax_tokens[count.index].site_token
   }
 }
 

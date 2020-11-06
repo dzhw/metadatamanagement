@@ -144,6 +144,13 @@ try {
             $rootScope.previousStateName = trans.$from().name;
             $rootScope.previousStateParams = trans.$from().params;
           }
+          // set canonical link
+          if (trans.$to().name === 'search') {
+            $rootScope.canonicalHref = null;
+          } else {
+            $rootScope.canonicalHref = $location.absUrl().replace(
+              /\?.*/, '');
+          }
         });
 
         $rootScope.back = function() {
