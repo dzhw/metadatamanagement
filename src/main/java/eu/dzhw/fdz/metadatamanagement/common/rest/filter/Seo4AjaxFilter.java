@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.net.URLConnection;
+import java.util.Locale;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +45,7 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
       + "whatsapp|slack|twitter|outbrain|yahoo! slurp|embedly|"
       + "developers.google.com\\/+\\/web\\/snippet|vkshare|"
       + "w3c_validator|tumblr|skypeuripreview|nuzzel|qwantify|bitrix link preview|"
-      + "XING-contenttabreceiver|Chrome-Lighthouse|mail\\.ru).*";
+      + "xing-contenttabreceiver|chrome-lighthouse|mail\\.ru).*";
 
   private String urlApi = "https://api.seo4ajax.com/";
 
@@ -71,27 +72,31 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
   public void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain chain) throws IOException, ServletException {
     String queryString = request.getQueryString();
-    URLConnection urlConnection = null;
+    HttpsURLConnection urlConnection = null;
     boolean foundEscapedFragment = false;
     String url = urlApi + request.getRequestURI();
     if (queryString != null) {
       url += "?" + queryString;
-      foundEscapedFragment = queryString.endsWith(ESCAPED_FRAGMENT_QUERY_PARAM);
+      foundEscapedFragment = queryString.startsWith(ESCAPED_FRAGMENT_QUERY_PARAM);
     }
     if (foundEscapedFragment) {
-      urlConnection = new URL(url).openConnection();
+      urlConnection = (HttpsURLConnection) new URL(url).openConnection();
     } else {
       String userAgent = request.getHeader(USER_AGENT_HEADER);
-      if (userAgent != null && userAgent.matches(regexpBots)) {
-        urlConnection = new URL(url).openConnection();
+      if (userAgent != null && userAgent.toLowerCase(Locale.US).matches(regexpBots)) {
+        urlConnection = (HttpsURLConnection) new URL(url).openConnection();
       }
     }
     if (urlConnection == null) {
       chain.doFilter(request, response);
     } else {
-      response.setContentType(urlConnection.getContentType());
+      urlConnection.setInstanceFollowRedirects(false);
       urlConnection.setConnectTimeout(PROXY_CONNECT_TIMEOUT);
       urlConnection.setReadTimeout(PROXY_READ_TIMEOUT);
+      response.setStatus(urlConnection.getResponseCode());
+      for (String headerName : urlConnection.getHeaderFields().keySet()) {
+        response.addHeader(headerName, urlConnection.getHeaderField(headerName));
+      }
       copy(urlConnection.getInputStream(), response.getOutputStream(), true);
     }
   }
