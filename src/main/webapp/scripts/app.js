@@ -188,7 +188,7 @@ try {
           .setStorageType('localStorage')
           .setNotify(true, true);
         // enable urls without #
-        $locationProvider.html5Mode(false);
+        $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
         $stateProvider.state('site', {
           'abstract': true,

@@ -19,7 +19,7 @@
 <p th:text="#{email.assignee-group-changed.greeting(${user.login})}">Dear</p>
 <p>
     <span th:text="#{email.data-provider-access-revoked.text1(${projectId})}">Project</span>
-    <a th:href="@{|${baseUrl}/#!/${#locale.language}/projects/${projectId}|}" th:text="|${projectId}|">project</a>
+    <a th:href="@{|${baseUrl}/${#locale.language}/projects/${projectId}|}" th:text="|${projectId}|">project</a>
     <span th:text="#{email.data-provider-access-revoked.text2}">has been assigned back to publisher</span>
 </p>
 <p th:if="${messageToGroup != null && !messageToGroup.isEmpty()}">

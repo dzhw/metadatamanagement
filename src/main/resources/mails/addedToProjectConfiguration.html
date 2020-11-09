@@ -19,7 +19,7 @@
 <p th:text="#{email.project-configuration-added.greeting(${user.login})}">Dear</p>
 <p>
     <span th:text="#{email.project-configuration-added.text1}">You have been added to</span>
-    <a th:href="@{|${baseUrl}/#!/${#locale.language}/projects/${projectId}|}" th:text="|${projectId}|">project</a>
+    <a th:href="@{|${baseUrl}/${#locale.language}/projects/${projectId}|}" th:text="|${projectId}|">project</a>
     <span th:text="#{email.project-configuration-added.text2(${role})}">as a role</span>
 </p>
 <p>

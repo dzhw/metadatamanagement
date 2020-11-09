@@ -25,7 +25,7 @@ body {
 		Datensatzreport wurde erfolgreich erzeugt und kann, wenn Sie
 		angemeldet sind, hier betrachted werden:</span>
 	<br />
-	<a th:href="@{|${baseUrl}/#!/${user.langKey}/data-sets/${dataSetId}|}"
+	<a th:href="@{|${baseUrl}/${user.langKey}/data-sets/${dataSetId}|}"
 		th:text="#{email.dataset-report-generated.link(${dataSetId})}">Datensatzdetails
 		im MDM</a>
 	</p>

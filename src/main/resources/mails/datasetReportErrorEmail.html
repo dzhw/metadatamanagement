@@ -22,7 +22,7 @@ body {
 	<span th:text="#{email.dataset-report-error.starttext}">
 		beim Erzeugen Ihres Datensatzreports zu
 	</span>
-	<a th:href="@{|${baseUrl}/#!/${onBehalfUser.langKey}/data-sets/${taskErrorNotification.domainObjectId}|}"
+	<a th:href="@{|${baseUrl}/${onBehalfUser.langKey}/data-sets/${taskErrorNotification.domainObjectId}|}"
 		th:text="#{email.dataset-report-error.link(${taskErrorNotification.domainObjectId})}">Datensatz
 		im xyz</a>
 	<span th:text="#{email.dataset-report-error.endtext}">ist folgender Fehler aufgetreten:</span>

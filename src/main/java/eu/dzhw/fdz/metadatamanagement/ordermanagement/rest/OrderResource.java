@@ -133,7 +133,7 @@ public class OrderResource {
       destinationUrl = getDlpUrl(id, order.getLanguageKey());
     } else {
       destinationUrl =
-          baseUrl + "/#!/" + order.getLanguageKey() + "/shopping-cart/" + order.getId();
+          baseUrl + "/" + order.getLanguageKey() + "/shopping-cart/" + order.getId();
     }
 
     Order persistedOrder = optional.get();
