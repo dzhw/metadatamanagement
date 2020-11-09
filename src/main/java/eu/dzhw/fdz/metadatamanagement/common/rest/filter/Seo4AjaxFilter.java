@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.FilterChain;
@@ -81,8 +82,8 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
     if (foundEscapedFragment) {
       urlConnection = (HttpsURLConnection) new URL(url).openConnection();
     } else {
-      String userAgent = request.getHeader(USER_AGENT_HEADER).toLowerCase();
-      if (userAgent != null && userAgent.matches(regexpBots)) {
+      String userAgent = request.getHeader(USER_AGENT_HEADER);
+      if (userAgent != null && userAgent.toLowerCase(Locale.US).matches(regexpBots)) {
         urlConnection = (HttpsURLConnection) new URL(url).openConnection();
       }
     }
