@@ -18,7 +18,7 @@ body {
 <body>
 	<p>Dear Release Managers,</p>
 	<p>
-		<span>Project "</span><a th:href="@{|${baseUrl}/#!/de/projects/${projectId}|}" th:text="|${projectId} (${#strings.arrayJoin(profiles,',')})|">project</a><span>" has been released. The new version is </span><span th:text="${release.getVersion()}"></span><span>.</span>
+		<span>Project "</span><a th:href="@{|${baseUrl}/de/projects/${projectId}|}" th:text="|${projectId} (${#strings.arrayJoin(profiles,',')})|">project</a><span>" has been released. The new version is </span><span th:text="${release.getVersion()}"></span><span>.</span>
 	</p>
 	<p>
 		<span>Since this is a major release, you have to enter additional information into the following system:</span>

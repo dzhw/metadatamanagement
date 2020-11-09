@@ -19,7 +19,7 @@
 <p th:text="#{email.assignee-group-changed.greeting(${user.login})}">Dear</p>
 <p>
     <span th:text="#{email-assignee-group-changed.text1}">You have been assigned to update project</span>
-    <a th:href="@{|${baseUrl}/#!/${#locale.language}/projects/${projectId}|}" th:text="|${projectId}|">project</a>
+    <a th:href="@{|${baseUrl}/${#locale.language}/projects/${projectId}|}" th:text="|${projectId}|">project</a>
     <span th:text="#{email-assignee-group-changed.text2}"></span>
 </p>
 <p th:if="${messageToGroup != null && !messageToGroup.isEmpty()}">

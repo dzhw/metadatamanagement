@@ -43,7 +43,7 @@ angular.module('metadatamanagementApp').config(
           },
           'thank-you': 'Thank you for your interest in our data packages!',
           'dlp-redirect': 'You will be redirected to our service portal in {{seconds}} seconds...',
-          'empty-cart-text': 'Your shopping cart is currently empty. You can search for data packages <a href="#!/en/search?type=data_packages"><strong>here</strong></a> and add those to your shopping cart.',
+          'empty-cart-text': 'Your shopping cart is currently empty. You can search for data packages <a href="/en/search?type=data_packages"><strong>here</strong></a> and add those to your shopping cart.',
           'warn-not-current-versions': 'Since you have not decided on the current version of this data package, this system cannot display exact information about the number of variables and data sets in the package.',
           'explain-data-product': 'A data package contains all data sets which have been prepared for the given access way (download, on-site, remote,...). You can request several data packages of one kind with different access ways.',
           'no-final-release': 'The data packages have not yet been created. As soon as they are ready, you can put them in the shopping cart at this point.',
