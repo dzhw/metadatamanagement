@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -29,6 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties
  */
 @Component
 @Profile({Constants.SPRING_PROFILE_TEST, Constants.SPRING_PROFILE_PROD})
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class Seo4AjaxFilter extends OncePerRequestFilter {
   private static final int PROXY_READ_TIMEOUT = 10 * 1000;
 
