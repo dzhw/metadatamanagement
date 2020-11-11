@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('InstrumentEditOrCreateController',
-    function(entity, PageTitleService, $timeout,
+    function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, InstrumentIdBuilderService, InstrumentResource,
       $scope, SurveyIdBuilderService, AttachmentDialogService,
@@ -24,12 +24,12 @@ angular.module('metadatamanagementApp')
       ];
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
-          PageTitleService.setPageTitle(
+          PageMetadataService.setPageTitle(
             'instrument-management.edit.create-page-title', {
             instrumentId: ctrl.instrument.id
           });
         } else {
-          PageTitleService.setPageTitle(
+          PageMetadataService.setPageTitle(
             'instrument-management.edit.edit-page-title', {
             instrumentId: ctrl.instrument.id
           });

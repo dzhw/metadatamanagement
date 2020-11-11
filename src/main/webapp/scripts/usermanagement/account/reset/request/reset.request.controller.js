@@ -2,8 +2,8 @@
 
 angular.module('metadatamanagementApp').controller('RequestResetController',
   function($scope, $state, BreadcrumbService, $timeout, Auth,
-    PageTitleService) {
-    PageTitleService.setPageTitle('user-management.reset.request.title');
+    PageMetadataService) {
+    PageMetadataService.setPageTitle('user-management.reset.request.title');
     $scope.success = null;
     $scope.error = null;
     $scope.errorEmailNotExists = null;

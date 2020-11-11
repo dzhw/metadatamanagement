@@ -2,9 +2,10 @@
   'use strict';
 
   function StartController(
-    $scope, LanguageService, Principal, $state, PageTitleService,
+    $scope, LanguageService, Principal, $state, PageMetadataService,
     PinnedDataPackagesService) {
-    PageTitleService.setPageTitle('start.data-search');
+    PageMetadataService.setPageTitle('start.data-search');
+    PageMetadataService.setPageDescription('start.fdz-text');
 
     if (Principal.isAuthenticated()) {
       $state.go('search');

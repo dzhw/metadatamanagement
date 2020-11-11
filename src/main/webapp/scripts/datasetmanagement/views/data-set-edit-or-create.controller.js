@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataSetEditOrCreateController',
-    function(entity, PageTitleService, $timeout,
+    function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, DataSetIdBuilderService, DataSetResource,
       $scope, SurveyIdBuilderService, $document,
@@ -19,12 +19,12 @@ angular.module('metadatamanagementApp')
       ctrl.availableDataFormats = DataFormatsResource.query();
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
-          PageTitleService.setPageTitle(
+          PageMetadataService.setPageTitle(
             'data-set-management.edit.create-page-title', {
             dataSetId: ctrl.dataSet.id
           });
         } else {
-          PageTitleService.setPageTitle(
+          PageMetadataService.setPageTitle(
             'data-set-management.edit.edit-page-title', {
             dataSetId: ctrl.dataSet.id
           });

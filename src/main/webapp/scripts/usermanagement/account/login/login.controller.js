@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('LoginController',
-  function($rootScope, $scope, $state, $timeout, Auth, PageTitleService,
+  function($rootScope, $scope, $state, $timeout, Auth, PageMetadataService,
     LanguageService, BreadcrumbService) {
-    PageTitleService.setPageTitle('user-management.login.title');
+    PageMetadataService.setPageTitle('user-management.login.title');
     $scope.user = {};
     $scope.errors = {};
     $scope.rememberMe = true;

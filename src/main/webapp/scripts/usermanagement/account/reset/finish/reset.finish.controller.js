@@ -2,8 +2,8 @@
 
 angular.module('metadatamanagementApp').controller('ResetFinishController',
   function($scope, $state, $stateParams, $timeout, Auth, BreadcrumbService,
-    PageTitleService) {
-    PageTitleService.setPageTitle('user-management.reset.finish.title');
+    PageMetadataService) {
+    PageMetadataService.setPageTitle('user-management.reset.finish.title');
 
     $scope.keyMissing = $stateParams.key === undefined;
     $scope.doNotMatch = null;

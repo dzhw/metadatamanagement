@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            VariableUploadService, ProjectUpdateAccessService,
            QuestionUploadService, RelatedPublicationUploadService,
            CleanJSObjectService, CurrentProjectService, $timeout,
-           PageTitleService, BreadcrumbService, SearchHelperService,
+           PageMetadataService, BreadcrumbService, SearchHelperService,
            SearchResultNavigatorService, DataPackageResource,
            DataPackageIdBuilderService,
            $rootScope, ProjectStatusScoringService, DeleteMetadataService,
@@ -39,7 +39,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.isSearching = 0;
     $scope.isDropZoneDisabled = true;
     // set the page title in toolbar and window.title
-    PageTitleService.setPageTitle('global.menu.search.title');
+    PageMetadataService.setPageTitle('global.menu.search.title');
     //Check the login status
     Principal.identity().then(function(account) {
       $scope.account = account;

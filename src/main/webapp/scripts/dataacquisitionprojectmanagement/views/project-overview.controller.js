@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('ProjectOverviewController', function($stateParams, $state,
       DataAcquisitionProjectCollectionResource, BreadcrumbService,
-      PageTitleService) {
+      PageMetadataService) {
     var ctrl = this;
     var sort = $stateParams.sort ? $stateParams.sort : 'id,asc';
     var limit = $stateParams.limit ? $stateParams.limit : 20;
@@ -30,7 +30,7 @@ angular.module('metadatamanagementApp')
     };
 
     var init = function() {
-      PageTitleService.setPageTitle('data-acquisition-project-' +
+      PageMetadataService.setPageTitle('data-acquisition-project-' +
         'management.project-overview.header');
       BreadcrumbService.updateToolbarHeader({'stateName': $state.current.
           name});
