@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('RelatedPublicationDetailController',
-    function(entity, PageTitleService, $state, BreadcrumbService,
+    function(entity, PageMetadataService, $state, BreadcrumbService,
     SearchResultNavigatorService, Principal, $stateParams,
     $mdSidenav) {
       SearchResultNavigatorService
@@ -26,7 +26,7 @@ angular.module('metadatamanagementApp')
         ctrl.counts.questionsCount = 0;
         ctrl.counts.surveysCount = 0;
 
-        PageTitleService.setPageTitle('related-publication-management.' +
+        PageMetadataService.setPageTitle('related-publication-management.' +
         'detail.title', {
           title: ctrl.relatedPublication.title,
           publicationId: ctrl.relatedPublication.id

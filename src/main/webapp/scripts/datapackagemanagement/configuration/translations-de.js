@@ -69,7 +69,8 @@ angular.module('metadatamanagementApp').config(
           'data-set': {
             'card-title': 'Verfügbare Datensätze'
           },
-          'title': '{{ title }} ({{ dataPackageId }})',
+          'title': '{{ title }}',
+          'page-description': '{{ description }}',
           'description': 'Datenpaketbeschreibung',
           'basic-data-of-surveys': 'Eckdaten der Erhebungen',
           'not-found': 'Die id {{id}} referenziert auf eine unbekanntes Datenpaket.',

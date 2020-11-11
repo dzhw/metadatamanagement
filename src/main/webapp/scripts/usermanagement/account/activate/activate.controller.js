@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('metadatamanagementApp').controller('ActivationController',
-  function($scope, $state, $stateParams, Auth, PageTitleService,
+  function($scope, $state, $stateParams, Auth, PageMetadataService,
     BreadcrumbService) {
-    PageTitleService.setPageTitle('user-management.activate.title');
+    PageMetadataService.setPageTitle('user-management.activate.title');
     Auth.activateAccount({
       key: $stateParams.key
     }).then(function() {

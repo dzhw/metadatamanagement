@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('DataPackageEditOrCreateController',
-    function(entity, PageTitleService, $document, $timeout,
+    function(entity, PageMetadataService, $document, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, DataPackageIdBuilderService, DataPackageResource,
       $scope, ElasticSearchAdminService, $transitions,
@@ -53,12 +53,12 @@ angular.module('metadatamanagementApp')
 
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
-          PageTitleService.setPageTitle(
+          PageMetadataService.setPageTitle(
             'data-package-management.edit.create-page-title', {
               dataPackageId: ctrl.dataPackage.id
             });
         } else {
-          PageTitleService.setPageTitle(
+          PageMetadataService.setPageTitle(
             'data-package-management.edit.edit-page-title', {
               dataPackageId: ctrl.dataPackage.id
             });

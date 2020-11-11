@@ -3,8 +3,8 @@
 angular.module('metadatamanagementApp').controller(
   'HealthController',
   function($scope, MonitoringService, $uibModal, ElasticSearchAdminService,
-    PageTitleService, $state, BreadcrumbService, SimpleMessageToastService) {
-    PageTitleService.setPageTitle('administration.health.title');
+    PageMetadataService, $state, BreadcrumbService, SimpleMessageToastService) {
+    PageMetadataService.setPageTitle('administration.health.title');
     $scope.isRecreatingIndices = false;
     $scope.updatingHealth = true;
     $scope.separator = '.';

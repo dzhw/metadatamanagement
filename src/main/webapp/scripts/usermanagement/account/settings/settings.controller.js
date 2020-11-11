@@ -2,8 +2,8 @@
 
 angular.module('metadatamanagementApp').controller('SettingsController',
   function($scope, Principal, $state, BreadcrumbService,
-    Auth, LanguageService, PageTitleService) {
-    PageTitleService.setPageTitle('global.menu.account.settings');
+    Auth, LanguageService, PageMetadataService) {
+    PageMetadataService.setPageTitle('global.menu.account.settings');
     $scope.success = null;
     $scope.error = null;
     Principal.identity(true).then(function(account) {

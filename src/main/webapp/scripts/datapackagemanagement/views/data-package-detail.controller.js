@@ -4,7 +4,7 @@ angular.module('metadatamanagementApp')
   .controller('DataPackageDetailController',
     function(entity,
              MessageBus,
-             PageTitleService,
+             PageMetadataService,
              LanguageService,
              $state, $location,
              BreadcrumbService, Principal, SimpleMessageToastService,
@@ -103,9 +103,13 @@ angular.module('metadatamanagementApp')
             });
         }
 
-        PageTitleService.setPageTitle('data-package-management.detail.title', {
-          title: result.title[LanguageService.getCurrentInstantly()],
-          dataPackageId: result.id
+        PageMetadataService.setPageTitle(
+          'data-package-management.detail.title', {
+          title: result.title[LanguageService.getCurrentInstantly()]
+        });
+        PageMetadataService.setPageDescription(
+          'data-package-management.detail.page-description', {
+          description: result.description[LanguageService.getCurrentInstantly()]
         });
         BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,

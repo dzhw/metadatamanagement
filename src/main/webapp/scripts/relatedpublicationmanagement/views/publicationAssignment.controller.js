@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp')
     function(CurrentProjectService, DataPackageIdBuilderService,
       RelatedPublicationSearchService, DataAcquisitionProjectResource,
       LanguageService, $timeout, SimpleMessageToastService, $state,
-      ProjectUpdateAccessService, PageTitleService, BreadcrumbService, $q,
+      ProjectUpdateAccessService, PageMetadataService, BreadcrumbService, $q,
       SearchDao, PublicationAssignmentResource, ElasticSearchAdminService,
       $scope, DeleteMetadataService, blockUI) {
       var ctrl = this;
@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp')
       };
 
       var updateToolbarHeaderAndPageTitle = function() {
-        PageTitleService.setPageTitle(
+        PageMetadataService.setPageTitle(
           'related-publication-management.assign.page-title', {
             projectId: ctrl.project.id
           });

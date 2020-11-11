@@ -2,10 +2,10 @@
 
 angular.module('metadatamanagementApp').controller(
   'UserManagementDetailController',
-  function($scope, $stateParams, UserResource, PageTitleService, $translate,
+  function($scope, $stateParams, UserResource, PageMetadataService, $translate,
     $state, BreadcrumbService) {
     $translate('user-management.detail.title').then(function(title) {
-      PageTitleService.setPageTitle(title + ' ' + $stateParams.login);
+      PageMetadataService.setPageTitle(title + ' ' + $stateParams.login);
     });
     $scope.user = {};
     $scope.load = function(login) {
