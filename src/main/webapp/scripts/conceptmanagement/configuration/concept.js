@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state(stateName, {
         parent: 'site',
-        url: '/concepts/{id}?{version}{query}{page}{size}',
+        url: '/concepts/{id}?{type}{version}{query}{page}{size}',
         reloadOnSearch: false,
         data: {
           authorities: []
