@@ -89,8 +89,9 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
       if (userAgent != null && userAgent.toLowerCase(Locale.US).matches(regexpBots)) {
         String path = request.getRequestURI().substring(request.getContextPath().length());
         if (StringUtils.isEmpty(path) || path.equals("/") || path.startsWith("/de/")
-            || path.startsWith("/en/") || path.endsWith("/en") || path.endsWith("/de"))
+            || path.startsWith("/en/") || path.endsWith("/en") || path.endsWith("/de")) {          
           urlConnection = (HttpsURLConnection) new URL(url).openConnection();
+        }
       }
     }
     if (urlConnection == null) {
