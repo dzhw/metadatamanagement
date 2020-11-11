@@ -45,10 +45,10 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
 
   private String regexpBots =
       ".*(bot|spider|pinterest|crawler|archiver|flipboard|mediapartners|facebookexternalhit|quora|"
-      + "whatsapp|slack|twitter|outbrain|yahoo! slurp|embedly|"
-      + "developers.google.com\\/+\\/web\\/snippet|vkshare|"
-      + "w3c_validator|tumblr|skypeuripreview|nuzzel|qwantify|bitrix link preview|"
-      + "xing-contenttabreceiver|chrome-lighthouse|mail\\.ru).*";
+          + "whatsapp|slack|twitter|outbrain|yahoo! slurp|embedly|"
+          + "developers.google.com\\/+\\/web\\/snippet|vkshare|"
+          + "w3c_validator|tumblr|skypeuripreview|nuzzel|qwantify|bitrix link preview|"
+          + "xing-contenttabreceiver|chrome-lighthouse|mail\\.ru).*";
 
   private String urlApi = "https://api.seo4ajax.com/";
 
@@ -87,7 +87,11 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
     } else {
       String userAgent = request.getHeader(USER_AGENT_HEADER);
       if (userAgent != null && userAgent.toLowerCase(Locale.US).matches(regexpBots)) {
-        urlConnection = (HttpsURLConnection) new URL(url).openConnection();
+        String path = request.getRequestURI().substring(request.getContextPath().length());
+        if (StringUtils.isEmpty(path) || path.equals("/") || path.startsWith("/de/")
+            || path.startsWith("/en/") || path.endsWith("/en") || path.endsWith("/de")) {          
+          urlConnection = (HttpsURLConnection) new URL(url).openConnection();
+        }
       }
     }
     if (urlConnection == null) {
