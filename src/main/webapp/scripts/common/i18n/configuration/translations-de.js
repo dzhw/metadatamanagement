@@ -10,6 +10,7 @@ angular.module('metadatamanagementApp').config(
         'rdc-alt-text': 'Logo des Forschungsdatenzentrums des Deutschen Zentrum für Hochschul- und Wissenschaftsforschung',
         'dzhw-alt-text': 'Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH',
         'bmbf-alt-text': 'Gefördert vom BMBF',
+        'rdc': 'Forschungsdatenzentrum für die Hochschul- und Wissenschaftsforschung',
         'search': 'Datensuche',
         'in-german': 'auf Deutsch',
         'in': 'auf',
