@@ -10,6 +10,7 @@ angular.module('metadatamanagementApp').config(
         'rdc-alt-text': 'Logo of the Research Data Center of the German Center for Research on Higher Education and Science Studies',
         'dzhw-alt-text': 'The German Centre for Research on Higher Education and Science Studies',
         'bmbf-alt-text': 'Sponsored by the FMER',
+        'rdc': 'Research Data Centre for Higher Education Research and Science Studies',
         'search': 'Data Search',
         'in-german': 'in German',
         'in': 'in',
