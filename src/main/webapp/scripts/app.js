@@ -26,6 +26,13 @@ try {
         $urlRouter.sync();
         WebSocketService.connect();
         $rootScope.bowser = bowser;
+        // set baseUrl in case someone needs absolute urls
+        if (ENV === 'local') {
+          $rootScope.baseUrl = $location.protocol() + '://' + $location.host() +
+            ':' + $location.port();
+        } else {
+          $rootScope.baseUrl = $location.protocol() + '://' + $location.host();
+        }
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
         $rootScope.$mdMedia = $mdMedia;
