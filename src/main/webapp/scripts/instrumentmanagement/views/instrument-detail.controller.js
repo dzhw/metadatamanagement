@@ -81,9 +81,15 @@ angular.module('metadatamanagementApp')
           'detail.page-title', {
           description: result.description[currenLanguage] ?
             result.description[currenLanguage] :
-            result.description[secondLanguage],
-          instrumentId: result.id
+            result.description[secondLanguage]
         });
+
+        PageMetadataService.setPageDescription('instrument-management.' +
+          'detail.page-description', {
+            title: result.title[currenLanguage] ?
+              result.title[currenLanguage] :
+              result.title[secondLanguage]
+          });
 
         if (result.release || Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {

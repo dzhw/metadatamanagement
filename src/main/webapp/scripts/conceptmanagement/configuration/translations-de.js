@@ -47,7 +47,8 @@ angular.module('metadatamanagementApp').config(
               'filename': 'Wählen Sie eine Datei aus, die Sie dem Konzept hinzufügen wollen.'
             }
           },
-          'title': '{{ title }} ({{ conceptId }})',
+          'title': '{{ title }}',
+          'page-description': '{{ description }}',
           'description': 'Beschreibung',
           'not-found': 'Die id {{id}} referenziert auf ein unbekanntes Konzept.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Konzepte.',

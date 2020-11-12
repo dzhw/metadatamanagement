@@ -70,7 +70,8 @@ angular.module('metadatamanagementApp').config(
               'filename': 'Choose a file which you want to attach to the survey.'
             }
           },
-          'title': '{{ title }} ({{ surveyId }})',
+          'title': '{{ title }}',
+          'description': 'Population: {{ population }}',
           'response-rate-information': 'Further Information about the Response Rate',
           'not-found': 'The {{id}} references to an unknown Survey.',
           'not-found-references': 'The id {{id}} has no References to Surveys.',

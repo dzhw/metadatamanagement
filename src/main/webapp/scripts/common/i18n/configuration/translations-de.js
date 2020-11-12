@@ -149,7 +149,8 @@ angular.module('metadatamanagementApp').config(
             'unknown-project': 'Kein Projekt gefunden!'
           },
           'search': {
-            'title': 'Metadatamanagement (MDM) - Datensuche für die Hochschul- und Wissenschaftsforschung'
+            'title': 'Datensuche für die Hochschul- und Wissenschaftsforschung',
+            'description': 'Mit dieser Datensuche können Sie die Metadaten der beim FDZ-DZHW hinterlegten Datenpakete schnell und einfach durchsuchen. So finden Sie alle Informationen, die Sie brauchen, und können die entsprechenden Datenpakete direkt bestellen.'
           },
           'account': {
             'main': 'Kontodetails ({{username}})',

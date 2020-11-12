@@ -88,7 +88,8 @@ angular.module('metadatamanagementApp').config(
               'filename': 'Choose a file which you want to attach to the data set.'
             }
           },
-          'title': '{{ description }} ({{ dataSetId }})',
+          'title': '{{ description }}',
+          'description': 'A data set can contain data from several surveys.',
           'not-found': 'The {{id}} references to an unknown Data Set.',
           'not-found-references': 'The id {{id}} has no References to Data Sets.',
           'content': {

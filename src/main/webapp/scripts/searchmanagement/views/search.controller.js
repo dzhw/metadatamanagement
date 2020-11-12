@@ -40,6 +40,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.isDropZoneDisabled = true;
     // set the page title in toolbar and window.title
     PageMetadataService.setPageTitle('global.menu.search.title');
+    PageMetadataService.setPageDescription('global.menu.search.description');
     //Check the login status
     Principal.identity().then(function(account) {
       $scope.account = account;

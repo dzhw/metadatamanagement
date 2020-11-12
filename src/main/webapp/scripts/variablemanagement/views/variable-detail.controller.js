@@ -47,8 +47,7 @@ angular.module('metadatamanagementApp')
       var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
       PageMetadataService.setPageTitle('variable-management.detail.title', {
         label: result.label[currenLanguage] ? result.label[
-          currenLanguage] : result.label[secondLanguage],
-        variableId: result.id
+          currenLanguage] : result.label[secondLanguage]
       });
       BreadcrumbService.updateToolbarHeader({
         'stateName': $state.current.name,

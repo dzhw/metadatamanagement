@@ -63,7 +63,8 @@ angular.module('metadatamanagementApp').config(function($translateProvider) {
                         'filename': 'Choose a file which you want to attach to the instrument.'
                     }
                 },
-                'page-title': '{{ description }} ({{ instrumentId }})',
+                'page-title': '{{ description }}',
+                'page-description': '{{ title }}',
                 'not-found': 'The {{id}} references to an unknown Instrument.',
                 'not-released-toast': 'Instrument "{{ id }}" has not yet been released to all users!',
                 'tooltips': {

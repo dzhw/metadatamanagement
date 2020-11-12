@@ -64,7 +64,8 @@ angular.module('metadatamanagementApp').config(
               'filename': 'Wählen Sie eine Datei aus, die Sie dem Instrument hinzufügen wollen.'
             }
           },
-          'page-title': '{{ description }} ({{ instrumentId }})',
+          'page-title': '{{ description }}',
+          'page-description': '{{ title }}',
           'not-found': 'Die id {{id}} referenziert auf ein unbekanntes Instrument.',
           'not-released-toast': 'Das Instrument "{{ id }}" wurde noch nicht für alle Benutzer:innen freigegeben!',
           'tooltips': {
