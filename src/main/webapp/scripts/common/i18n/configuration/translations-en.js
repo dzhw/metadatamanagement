@@ -149,7 +149,8 @@ angular.module('metadatamanagementApp').config(
             'unknown-project': 'No project found!'
           },
           'search': {
-            'title': 'Metadatamanagement (MDM) - Data Search for Higher Education Research and Science Studies'
+            'title': 'Data Search for Higher Education Research and Science Studies',
+            'description': 'With this data search you can quickly and easily search the metadata of the data packages stored at the RDC-DZHW. This way you will find all the information you need and can order the corresponding data packages directly.'
           },
           'account': {
             'main': 'Account Details ({{username}})',

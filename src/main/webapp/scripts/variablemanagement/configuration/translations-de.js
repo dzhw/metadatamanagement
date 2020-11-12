@@ -79,7 +79,7 @@ angular.module('metadatamanagementApp').config(
           'frequencies': 'Häufigkeiten',
           'previous-variable-in-data-set':'Vorangegangene Variable im Datensatz',
           'next-variable-in-data-set':'Nachfolgende Variable im Datensatz',
-          'title': '{{ label }} ({{ variableId }})',
+          'title': '{{ label }}',
           'copy-complete-input-filter-tooltip': 'Klicken, um den gesamten Inhalt des Eingangsfilters in die Zwischenablage zu kopieren',
           'no-previous-variable':'Keine vorangegangene Variable im Datensatz vorhanden.',
           'no-next-variable':'Keine nachfolgende Variable im Datensatz vorhanden.',

@@ -28,8 +28,11 @@ angular.module('metadatamanagementApp')
 
         PageMetadataService.setPageTitle('related-publication-management.' +
         'detail.title', {
-          title: ctrl.relatedPublication.title,
-          publicationId: ctrl.relatedPublication.id
+          title: ctrl.relatedPublication.title
+        });
+        PageMetadataService.setPageDescription(
+          'related-publication-management.detail.description', {
+          sourceReference: ctrl.relatedPublication.sourceReference
         });
         BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,

@@ -2,7 +2,20 @@
 
 // service for updating the page title (used in toolbar and window.title)
 angular.module('metadatamanagementApp').factory('PageMetadataService',
-  function($rootScope) {
+  function($rootScope, $transitions, $location) {
+    $transitions.onExit({}, function() {
+      setPageTitle();
+      setPageDescription();
+      setNextLink();
+      setPreviousLink();
+    });
+
+    $transitions.onSuccess({}, function() {
+      // set canonical link
+      $rootScope.canonicalHref = $location.absUrl().replace(
+        /\?.*/, '');
+    });
+
     // set the page title to a new string
     var setPageTitle = function(titleKey, titleParams) {
       if (titleKey) {
@@ -24,7 +37,25 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
       }
     };
 
+    var setPreviousLink = function(type) {
+      if (type) {
+        $rootScope.previousUiSref = '({type: "' + type  + '"})';
+      } else {
+        $rootScope.previousUiSref = null;
+      }
+    };
+
+    var setNextLink = function(type) {
+      if (type) {
+        $rootScope.nextUiSref = '({type: "' + type  + '"})';
+      } else {
+        $rootScope.nextUiSref = null;
+      }
+    };
+
     var exports = {
+      setPreviousLink: setPreviousLink,
+      setNextLink: setNextLink,
       setPageTitle: setPageTitle,
       setPageDescription: setPageDescription
     };

@@ -65,9 +65,11 @@ angular.module('metadatamanagementApp')
         var secondLanguage = currentLanguage === 'de' ? 'en' : 'de';
         PageMetadataService.setPageTitle('data-set-management.detail.title', {
           description: result.description[currentLanguage] ? result
-            .description[currentLanguage] : result.description[secondLanguage],
-          dataSetId: result.id
+            .description[currentLanguage] : result.description[secondLanguage]
         });
+
+        PageMetadataService.setPageDescription('data-set-management.detail' +
+          '.description');
         BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id,

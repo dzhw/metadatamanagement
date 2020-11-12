@@ -56,9 +56,12 @@ angular.module('metadatamanagementApp')
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
         PageMetadataService.setPageTitle('survey-management.detail.title', {
           title: survey.title[currenLanguage] ? survey.title[currenLanguage]
-            : survey.title[secondLanguage],
-          surveyId: survey.id
+            : survey.title[secondLanguage]
         });
+        PageMetadataService.setPageDescription(
+          'survey-management.detail.description', {
+            population: survey.population.description[currenLanguage]
+          });
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onDataPackageChange',
             {

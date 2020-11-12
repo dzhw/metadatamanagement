@@ -6,7 +6,7 @@
   function RelatedObjectsController(
     $scope, $location, SearchDao, $timeout,
     SearchResultNavigatorService, CleanJSObjectService,
-    SearchHelperService, $transitions, $rootScope
+    SearchHelperService, $transitions, $rootScope, PageMetadataService
   ) {
     var $ctrl = this;
     $scope.bowser = $rootScope.bowser;
@@ -342,6 +342,14 @@
       $ctrl.options.sortObject.options = $ctrl.tabs[
         $ctrl.searchParams.selectedTabIndex].sortOptions;
       $ctrl.options.sortObject.selected = 'relevance';
+      var nextTabIndex = ($ctrl.searchParams.selectedTabIndex + 1) %
+        $ctrl.tabs.length;
+      var previousTabIndex = ($ctrl.tabs.length +
+        $ctrl.searchParams.selectedTabIndex - 1) % $ctrl.tabs.length;
+      PageMetadataService.setPreviousLink($ctrl.tabs[
+        previousTabIndex].elasticSearchType);
+      PageMetadataService.setNextLink($ctrl.tabs[
+        nextTabIndex].elasticSearchType);
       if (!selectedTabChangeIsBeingHandled && !queryChangeIsBeingHandled) {
         //prevent multiple tab change handlers caused by logout
         selectedTabChangeIsBeingHandled = true;

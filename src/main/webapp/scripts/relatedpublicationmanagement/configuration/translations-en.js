@@ -35,7 +35,8 @@ angular.module('metadatamanagementApp').config(
             'annotations': 'Annotations'
           },
           'abstract': 'Abstract',
-          'title': '{{ title }} ({{publicationId}})',
+          'title': '{{ title }}',
+          'description': '{{ sourceReference }}',
           'doi-tooltip': 'Click to open the DOI in a new Tab',
           'sourceLink-tooltip': 'Click to open the source of this publication in a new Tab',
           'tooltips': {

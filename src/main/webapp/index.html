@@ -14,7 +14,7 @@
          data-translate-default="Metadatamanagement (MDM) - Data Search for Higher Education Research and Science Studies">
     Metadatamanagement (MDM) - Data Search for Higher Education Research and Science Studies</title>
   <meta property="og:title" content="{{pageTitleKey | translate : pageTitleParams | limitTo : 95}}" />
-  <meta property="og:description" content="{{pageDescriptionKey | translate : pageDescriptionParams | removeMarkdown | limitTo: 290}}" />
+  <meta ng-if="pageDescriptionKey" property="og:description" content="{{pageDescriptionKey | translate : pageDescriptionParams | removeMarkdown | limitTo: 290}}" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="{{canonicalHref}}" />
   <meta property="og:image" content="{{baseUrl + '/assets/images/FDZ_Logo_With_Mag.png' | trustAsResourceUrl}}" />
@@ -39,7 +39,9 @@
   <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/180-Gesamte-App.png' | trustAsResourceUrl}}" sizes="180x180">
   <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/196-Gesamte-App.png' | trustAsResourceUrl}}" sizes="196x196">
   <link ng-if="canonicalHref" rel="canonical" ng-href="{{canonicalHref}}" />
-  <meta name="description" content="{{pageDescriptionKey | translate : pageDescriptionParams | removeMarkdown}}">
+  <link ng-if="previousUiSref" rel="prev" ui-sref="{{previousUiSref}}" />
+  <link ng-if="nextUiSref" rel="next" ui-sref="{{nextUiSref}}" />
+  <meta ng-if="pageDescriptionKey" name="description" content="{{pageDescriptionKey | translate : pageDescriptionParams | removeMarkdown}}">
 
   <!-- build:css assets/styles/main.css -->
   <link rel="stylesheet" href="/assets/styles/main.css">
