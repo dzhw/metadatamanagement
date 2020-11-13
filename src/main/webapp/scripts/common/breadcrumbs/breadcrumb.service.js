@@ -228,7 +228,9 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
         instrumentItem.number = item.number;
       } else {
         if (item.instrumentIsPresent) {
-          var stateParams = {id: stripVersionSuffixAndDollar(item.instrumentId)};
+          var stateParams = {
+            id: stripVersionSuffixAndDollar(item.instrumentId)
+          };
           if (item.version) {
             stateParams.version = item.version;
           }
@@ -257,7 +259,9 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
         dataSetItem.number = dataSet.number;
       } else {
         if (dataSet.dataSetIsPresent) {
-          var stateParams = {id: stripVersionSuffixAndDollar(dataSet.dataSetId)};
+          var stateParams = {
+            id: stripVersionSuffixAndDollar(dataSet.dataSetId)
+          };
           if (dataSet.version) {
             stateParams.version = dataSet.version;
           }
