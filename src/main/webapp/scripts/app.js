@@ -1,4 +1,4 @@
-/* global bowser, event, ClientJS, document */
+/* global window, bowser, event, ClientJS, document */
 'use strict';
 
 var app;
@@ -21,7 +21,7 @@ try {
   .run(
       function($rootScope, $location, $state, LanguageService, Auth, Principal,
         ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
-        WebSocketService, $urlRouter, $translate, MigrationService) {
+        WebSocketService, $urlRouter, $translate, MigrationService, $browser) {
         // sometimes urlRouter does not load the state automatically on startup
         $urlRouter.sync();
         WebSocketService.connect();
@@ -177,6 +177,13 @@ try {
         });
 
         MigrationService.migrate();
+
+        $browser.notifyWhenNoOutstandingRequests(function() {
+          // let seo4ajax know that we are ready to be captured
+          if (window.onCaptureReady) {
+            window.onCaptureReady();
+          }
+        });
       })
     .config(
       function($stateProvider, $urlRouterProvider,
