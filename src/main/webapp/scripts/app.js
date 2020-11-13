@@ -181,7 +181,7 @@ try {
         $browser.notifyWhenNoOutstandingRequests(function() {
           // let seo4ajax know that we are ready to be captured
           if (window.onCaptureReady) {
-            window.onCaptureReady();
+            $timeout(window.onCaptureReady);
           }
         });
       })
