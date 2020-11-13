@@ -113,7 +113,7 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
       for (String headerName : urlConnection.getHeaderFields().keySet()) {
         response.addHeader(headerName, urlConnection.getHeaderField(headerName));
       }
-      copy(urlConnection.getInputStream(), response.getOutputStream(), true);
+      copy(urlConnection.getInputStream(), response.getOutputStream());
     }
   }
 
@@ -135,18 +135,10 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
     return false;
   }
 
-  private void copy(InputStream inputStream, OutputStream outputStream, boolean closeInputStream)
+  private void copy(InputStream inputStream, OutputStream outputStream)
       throws IOException {
-    try {
+    try (inputStream; outputStream) {
       ByteStreams.copy(inputStream, outputStream);
-
-      if (closeInputStream) {
-        inputStream.close();
-      }
-    } finally {
-      if (closeInputStream) {
-        inputStream.close();
-      }
     }
   }
 }
