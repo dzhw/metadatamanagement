@@ -16,13 +16,15 @@ angular.module('metadatamanagementApp').directive('conceptSearchResult',
       },
       controller: function($scope, CommonDialogsService, ConceptResource,
         ElasticSearchAdminService, $rootScope, SimpleMessageToastService,
-        $q, $timeout, $element, HighlightService) {
+        $q, $timeout, $element, HighlightService, Principal) {
 
         if ($scope.searchQuery) {
           $timeout(function() {
             HighlightService.apply($element[0], $scope.searchQuery);
           });
         }
+
+        $scope.isAuthenticated = Principal.isAuthenticated;
 
         var showGenericErrorMessage = function(status) {
           SimpleMessageToastService

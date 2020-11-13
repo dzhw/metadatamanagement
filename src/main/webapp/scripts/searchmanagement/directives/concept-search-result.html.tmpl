@@ -28,7 +28,7 @@
          limit-to="256" remove-markdown="true"></div>
   </md-card-content>
   <md-card-actions style="margin-bottom: -10px;"
-    data-has-any-authority="ROLE_PUBLISHER">
+    data-has-any-authority="ROLE_PUBLISHER" ng-if="isAuthenticated()">
     <a
       class="md-primary md-small md-button"
       style="display:flex;"
