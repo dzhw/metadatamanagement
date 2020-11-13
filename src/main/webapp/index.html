@@ -43,6 +43,8 @@
   <link ng-if="nextUiSref" rel="next" ui-sref="{{nextUiSref}}" />
   <meta ng-if="pageDescriptionKey" name="description" content="{{pageDescriptionKey | translate : pageDescriptionParams | removeMarkdown}}">
 
+  <script>window.willCallOnCaptureReady = true;</script>
+
   <!-- build:css assets/styles/main.css -->
   <link rel="stylesheet" href="/assets/styles/main.css">
   <link rel="stylesheet" href="/assets/styles/fdz.css">
