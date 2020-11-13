@@ -22,7 +22,7 @@
             </a>
             <a ng-repeat="tag in ctrl.conceptTags"
                ng-if="!ctrl.isAuthenticated()"
-               ui-sref="search({type: 'data_packages', 'query': tag})">
+               ui-sref="search({type: 'data_packages', 'query': tag})" rel="nofollow">
               <span>{{tag}}{{!$last?',&nbsp;':''}}</span>
               <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'data-package-management.detail.tag-tooltip' | translate}}
