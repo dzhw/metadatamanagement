@@ -22,8 +22,8 @@ public class ForwardClientUrlsToIndexFilter extends OncePerRequestFilter {
   public void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain chain) throws IOException, ServletException {
     String path = request.getRequestURI().substring(request.getContextPath().length());
-    if (path.startsWith("/de/") || path.startsWith("/en/") || path.endsWith("/en")
-        || path.endsWith("/de")) {
+    if (path.startsWith("/de/") || path.startsWith("/en/") || path.equals("/en")
+        || path.equals("/de")) {
       String newUri = request.getRequestURI().replace(path, "/");
       request.getRequestDispatcher(newUri).forward(request, response);
     } else {
