@@ -375,7 +375,7 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
           };
           surveyItem = createRelatedSurveyItem(
             appendReleaseVersionToSurveys(item.surveys, item.version),
-            'question', item.id);
+            'question', item.id, item.dataPackageId, item.version);
           instrumentItem = createRelatedInstrumentItem(item, 'question');
           $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
           surveyItem, instrumentItem, questionItem);
@@ -392,7 +392,7 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
           dataSetItem = createRelatedDataSetItem(item, 'variable');
           surveyItem = createRelatedSurveyItem(
             appendReleaseVersionToSurveys(item.surveys, item.version),
-            'variable', item.id);
+            'variable', item.id, item.dataPackageId, item.version);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
           surveyItem, dataSetItem, variableItem);
           break;
