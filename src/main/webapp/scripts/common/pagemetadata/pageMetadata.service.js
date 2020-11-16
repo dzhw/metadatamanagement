@@ -39,7 +39,7 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
 
     var setPreviousLink = function(type) {
       if (type) {
-        $rootScope.previousUiSref = '({type: "' + type  + '"})';
+        $rootScope.previousUiSref = '({type: "' + type  + '", page: 1})';
       } else {
         $rootScope.previousUiSref = null;
       }
@@ -47,7 +47,7 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
 
     var setNextLink = function(type) {
       if (type) {
-        $rootScope.nextUiSref = '({type: "' + type  + '"})';
+        $rootScope.nextUiSref = '({type: "' + type  + '", page: 1})';
       } else {
         $rootScope.nextUiSref = null;
       }
