@@ -72,7 +72,8 @@ angular.module('metadatamanagementApp').config(
           'edit-instruments-tooltip': 'Klicken, um die vorhandenen Instrumente zu bearbeiten',
           'edit-data-sets-tooltip': 'Klicken, um die vorhandenen Datensätze zu bearbeiten',
           'edit-publications-tooltip': 'Klicken, um Publikationen zum Datenpaket hinzuzufügen bzw. zu entfernen',
-          'delete-publications-tooltip': 'Klicken, um alle Publikationen von dem Datenpaket des aktuellen Projektes zu entfernen'
+          'delete-publications-tooltip': 'Klicken, um alle Publikationen von dem Datenpaket des aktuellen Projektes zu entfernen',
+          'open-filter-panel': 'Klicken, um die Suchfilter anzuzeigen'
         },
         'input-label': {
           'all': 'Suchen Sie Datenpakete, Variablen, Fragen, Erhebungen, Datensätze, Instrumente oder Publikationen...',
