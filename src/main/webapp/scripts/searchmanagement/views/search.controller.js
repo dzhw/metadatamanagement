@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            SearchResultNavigatorService, DataPackageResource,
            DataPackageIdBuilderService,
            $rootScope, ProjectStatusScoringService, DeleteMetadataService,
-           SimpleMessageToastService) {
+           SimpleMessageToastService, $mdSidenav) {
 
     var queryChangedOnInit = true;
     var tabChangedOnInitFlag = true;
@@ -659,6 +659,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $state.go(createState);
         });
       }
+    };
+
+    $scope.toggleSidenav = function() {
+      $mdSidenav('SideNavBar').toggle();
     };
 
     init();

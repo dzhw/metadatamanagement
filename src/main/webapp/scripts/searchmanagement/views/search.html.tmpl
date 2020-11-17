@@ -241,5 +241,15 @@
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
     </div>
+    <div class="fdz-fab-button-container" ng-if="!isAuthenticated()" layout="column">
+      <md-button hide-gt-md class="md-fab md-raised md-accent"
+                 ng-click="toggleSidenav()">
+        <md-tooltip md-autohide="true" md-direction="left"
+                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'search-management.buttons.open-filter-panel' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">filter_alt</md-icon>
+      </md-button>
+    </div>
 </div>
 </div>
