@@ -178,12 +178,14 @@ try {
 
         MigrationService.migrate();
 
-        $browser.notifyWhenNoOutstandingRequests(function() {
-          // let seo4ajax know that we are ready to be captured
-          if (window.onCaptureReady) {
-            $timeout(window.onCaptureReady);
-          }
-        });
+        // let seo4ajax know that we are ready to be captured
+        $timeout(function() {
+          $browser.notifyWhenNoOutstandingRequests(function() {
+            if (window.onCaptureReady) {
+              window.onCaptureReady();
+            }
+          });
+        }, 1000);
       })
     .config(
       function($stateProvider, $urlRouterProvider,
