@@ -23,7 +23,8 @@ angular.module('metadatamanagementApp').config(
             'elasticsearch': 'ElasticSearch',
             'dara': 'Dara',
             'messageBroker': 'Message Broker (for Websockets)',
-            'rabbit': 'RabbitMQ'
+            'rabbit': 'RabbitMQ',
+            'seo4Ajax': 'Seo4Ajax (Prerender as a Service)'
           },
           'table': {
             'service': 'Service name',
