@@ -41,6 +41,9 @@ public class TimedSeo4AjaxHealthIndicator extends AbstractHealthIndicator {
         restTemplate.getForEntity(apiUrl + siteToken + "/", String.class);
     if (response.getStatusCode().is2xxSuccessful()) {
       builder.up();
+    } else {
+      builder.withDetail("status", response.getStatusCode());
+      builder.down();
     }
   }
 }
