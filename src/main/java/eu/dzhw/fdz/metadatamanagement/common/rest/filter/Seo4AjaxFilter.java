@@ -126,8 +126,10 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
       String newUri;
       if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_PROD))) {
         newUri = requestUri.replace("robots", "robots-prod");
-      } else {
+      } else if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_TEST))) {
         newUri = requestUri.replace("robots", "robots-test");
+      } else {
+        newUri = requestUri;
       }
       request.getRequestDispatcher(newUri).forward(request, response);
       return true;
