@@ -86,17 +86,21 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
     String queryString = request.getQueryString();
     HttpsURLConnection urlConnection = null;
     boolean foundEscapedFragment = false;
+    boolean foundSitemap = false;
     String url = urlApi + request.getRequestURI();
-    if (queryString != null) {
+    if (!StringUtils.isEmpty(queryString)) {
       url += "?" + queryString;
       foundEscapedFragment = queryString.startsWith(ESCAPED_FRAGMENT_QUERY_PARAM);
     }
-    if (foundEscapedFragment) {
+    String path = request.getRequestURI().substring(request.getContextPath().length());
+    if (path.startsWith("/sitemap")) {
+      foundSitemap = true;
+    }
+    if (foundEscapedFragment || foundSitemap) {
       urlConnection = (HttpsURLConnection) new URL(url).openConnection();
     } else {
       String userAgent = request.getHeader(USER_AGENT_HEADER);
       if (userAgent != null && userAgent.toLowerCase(Locale.US).matches(regexpBots)) {
-        String path = request.getRequestURI().substring(request.getContextPath().length());
         if (StringUtils.isEmpty(path) || path.equals("/") || path.startsWith("/de/")
             || path.startsWith("/en/") || path.equals("/en") || path.equals("/de")) {
           urlConnection = (HttpsURLConnection) new URL(url).openConnection();
