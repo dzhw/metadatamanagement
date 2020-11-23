@@ -70,7 +70,8 @@ angular.module('metadatamanagementApp').config(
               'filename': 'Wählen Sie eine Datei aus, die Sie der Erhebung hinzufügen wollen.'
             }
           },
-          'title': '{{ title }} ({{ surveyId }})',
+          'title': '{{ title }}',
+          'description': 'Grundgesamtheit: {{ population }}',
           'response-rate-information': 'Weitere Informationen zum Rücklauf',
           'not-found': 'Die id {{id}} referenziert auf eine unbekannte Erhebung.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Erhebungen.',

@@ -5,7 +5,7 @@ angular.module('metadatamanagementApp')
   .controller('DataSetDetailController',
     function(entity, Principal,
              VariableSearchService, ProjectUpdateAccessService,
-             DataSetSearchService, DataSetReportResource, PageTitleService,
+             DataSetSearchService, DataSetReportResource, PageMetadataService,
              LanguageService, $state, BreadcrumbService,
              CleanJSObjectService, SimpleMessageToastService,
              DataSetAttachmentResource,
@@ -63,11 +63,13 @@ angular.module('metadatamanagementApp')
 
         var currentLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currentLanguage === 'de' ? 'en' : 'de';
-        PageTitleService.setPageTitle('data-set-management.detail.title', {
+        PageMetadataService.setPageTitle('data-set-management.detail.title', {
           description: result.description[currentLanguage] ? result
-            .description[currentLanguage] : result.description[secondLanguage],
-          dataSetId: result.id
+            .description[currentLanguage] : result.description[secondLanguage]
         });
+
+        PageMetadataService.setPageDescription('data-set-management.detail' +
+          '.description');
         BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id,

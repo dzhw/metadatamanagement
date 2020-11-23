@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('InstrumentDetailController',
     function(entity, InstrumentAttachmentResource, MessageBus,
-             PageTitleService, LanguageService, $state, CleanJSObjectService,
+             PageMetadataService, LanguageService, $state, CleanJSObjectService,
              BreadcrumbService, Principal, SimpleMessageToastService,
              SearchResultNavigatorService,
              DataAcquisitionProjectResource, ProjectUpdateAccessService,
@@ -77,13 +77,19 @@ angular.module('metadatamanagementApp')
               version: result.release.version
             });
         }
-        PageTitleService.setPageTitle('instrument-management.' +
+        PageMetadataService.setPageTitle('instrument-management.' +
           'detail.page-title', {
           description: result.description[currenLanguage] ?
             result.description[currenLanguage] :
-            result.description[secondLanguage],
-          instrumentId: result.id
+            result.description[secondLanguage]
         });
+
+        PageMetadataService.setPageDescription('instrument-management.' +
+          'detail.page-description', {
+            title: result.title[currenLanguage] ?
+              result.title[currenLanguage] :
+              result.title[secondLanguage]
+          });
 
         if (result.release || Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER'])) {

@@ -7,7 +7,7 @@ based on the Error Event.*/
 'use strict';
 
 angular.module('metadatamanagementApp').run(
-  function($rootScope, $state, SimpleMessageToastService, PageTitleService,
+  function($rootScope, $state, SimpleMessageToastService, PageMetadataService,
            LanguageService, Auth, Principal) {
     var ignore404 = 0;
     var ignore401 = 0;
@@ -66,7 +66,7 @@ angular.module('metadatamanagementApp').run(
       if (ignore404 === 0) {
         SimpleMessageToastService.openAlertMessageToast('global.error.' +
           'client-error.not-found-error', {status: response.status});
-        PageTitleService.setPageTitle('global.title');
+        PageMetadataService.setPageTitle('global.title');
       }
     });
 

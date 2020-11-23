@@ -88,7 +88,8 @@ angular.module('metadatamanagementApp').config(
               'filename': 'Wählen Sie eine Datei aus, die Sie dem Datensatz hinzufügen wollen.'
             }
           },
-          'title': '{{ description }} ({{ dataSetId }})',
+          'title': '{{ description }}',
+          'description': 'Ein Datensatz kann Daten aus mehreren Erhebungen enthalten.',
           'not-found': 'Die id {{id}} referenziert auf einen unbekannten Datensatz.',
           'not-found-references': 'Die id {{id}} hat keine Referenzen auf Datensätze.',
           'content': {

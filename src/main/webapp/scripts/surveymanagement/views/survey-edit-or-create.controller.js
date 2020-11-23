@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('SurveyEditOrCreateController',
-    function(entity, PageTitleService, $timeout,
+    function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       CurrentProjectService, SurveyIdBuilderService, SurveyResource, $scope,
       ElasticSearchAdminService, $mdDialog, $transitions, DataPackageResource,
@@ -18,12 +18,12 @@ angular.module('metadatamanagementApp')
       var surveyMethodCache = {};
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
-          PageTitleService.setPageTitle(
+          PageMetadataService.setPageTitle(
             'survey-management.edit.create-page-title', {
             surveyId: ctrl.survey.id
           });
         } else {
-          PageTitleService.setPageTitle(
+          PageMetadataService.setPageTitle(
             'survey-management.edit.edit-page-title', {
             surveyId: ctrl.survey.id
           });

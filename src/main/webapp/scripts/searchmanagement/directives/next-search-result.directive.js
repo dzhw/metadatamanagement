@@ -26,8 +26,9 @@ angular.module('metadatamanagementApp').directive('nextSearchResult',
                   id: id,
                   'search-result-index': scope.nextSearchResultIndex,
                   version: Principal.loginName() ? undefined
-                    : _.get(scope.nextSearchResult, 'release.version')
-                });
+                    : _.get(scope.nextSearchResult, 'release.version'),
+                  lang: scope.currentLanguage
+                }, {inherit: false});
               };
             }
           });

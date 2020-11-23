@@ -11,7 +11,7 @@
         <md-card-header>
           <md-card-header-text class="fdz-truncate-string pb0">
             <div class="md-title fdz-truncate-string">
-              <a ui-sref="dataPackageDetail({id: product.study.id, version: product.version})">
+              <a ui-sref="dataPackageDetail({id: product.study.id.replace('$', ''), version: product.version})">
                 {{ctrl.dataPackages[product.study.id + '-' + product.version].title | displayI18nString}}
                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                   {{'shopping-cart.detail.data-package-tooltip' | translate}}
@@ -40,7 +40,7 @@
           <span>{{'shopping-cart.detail.label.contains' | translate}}</span>
           <span ng-switch-when="true">{{'shopping-cart.detail.label.variables' | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' + (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}</span>
           <a ng-switch-default ng-if="ctrl.containsQuantitativeData(product.study.surveyDataTypes)"
-             ui-sref="dataPackageDetail({id: product.study.id, version: product.version, 'type': 'variables', 'access-way': product.accessWay})">{{'shopping-cart.detail.label.variables'
+             ui-sref="dataPackageDetail({id: product.study.id.replace('$', ''), version: product.version, 'type': 'variables', 'access-way': product.accessWay})">{{'shopping-cart.detail.label.variables'
             | translate:'{variables: ' + ctrl.getNumberOfVariables(product) + ', formattedVariables:"' +
             (ctrl.getNumberOfVariables(product) | number) + '"}':'messageformat'}}
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -50,7 +50,7 @@
           <span ng-if="ctrl.containsQuantitativeData(product.study.surveyDataTypes)">{{'shopping-cart.detail.label.in' | translate}}</span>
           <span ng-switch-when="true">{{'shopping-cart.detail.label.data-sets' | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' + (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}</span>
           <a ng-switch-default
-             ui-sref="dataPackageDetail({id: product.study.id, version: product.version, 'type': 'data_sets', 'access-way': product.accessWay})">{{ctrl.containsQuantitativeData(product.study.surveyDataTypes)?'shopping-cart.detail.label.data-sets':'shopping-cart.detail.label.qualitative-data-sets'
+             ui-sref="dataPackageDetail({id: product.study.id.replace('$', ''), version: product.version, 'type': 'data_sets', 'access-way': product.accessWay})">{{ctrl.containsQuantitativeData(product.study.surveyDataTypes)?'shopping-cart.detail.label.data-sets':'shopping-cart.detail.label.qualitative-data-sets'
             | translate:'{dataSets: ' + ctrl.getNumberOfDataSets(product) + ', formattedDataSets:"' +
             (ctrl.getNumberOfDataSets(product) | number) + '"}':'messageformat'}}
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

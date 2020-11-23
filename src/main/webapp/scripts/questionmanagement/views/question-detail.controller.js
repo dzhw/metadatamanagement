@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
   .controller('QuestionDetailController',
     function(entity, $state, BreadcrumbService, MessageBus,
       SimpleMessageToastService, QuestionSearchService, CleanJSObjectService,
-      PageTitleService, $rootScope, Principal, SearchResultNavigatorService,
+      PageMetadataService, $rootScope, Principal, SearchResultNavigatorService,
       QuestionImageMetadataResource, $mdMenu, $timeout, $stateParams,
       OutdatedVersionNotifier, blockUI, $mdSidenav,
       ContainsOnlyQualitativeDataChecker) {
@@ -43,8 +43,7 @@ angular.module('metadatamanagementApp')
         OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
 
         var title = {
-          questionNumber: result.number,
-          questionId: result.id
+          questionNumber: result.number
         };
         if (_.isObject(result.instrument)) {
           title.instrumentDescription = result.instrument.
@@ -62,8 +61,18 @@ angular.module('metadatamanagementApp')
         if (!ctrl.onlyQualitativeData) {
           ctrl.counts.variablesCount = 0;
         }
-        PageTitleService.
+        PageMetadataService.
           setPageTitle('question-management.detail.title', title);
+
+        var currenLanguage = $rootScope.currentLanguage;
+        var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
+        PageMetadataService.setPageDescription('question-management.' +
+          'detail.description', {
+            questionText: result.questionText[currenLanguage] ?
+              result.questionText[currenLanguage] :
+              result.questionText[secondLanguage]
+          });
+
         BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id,

@@ -2,7 +2,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('ConceptDetailController',
-    function(entity, PageTitleService, LanguageService,
+    function(entity, PageMetadataService, LanguageService,
              $state, BreadcrumbService, Principal,
              ConceptAttachmentResource, SearchResultNavigatorService,
              $stateParams, $log, blockUI, $mdSidenav) {
@@ -49,9 +49,12 @@ angular.module('metadatamanagementApp')
       };
 
       entity.promise.then(function(result) {
-        PageTitleService.setPageTitle('concept-management.detail.title', {
-          title: result.title[LanguageService.getCurrentInstantly()],
-          conceptId: result.id
+        PageMetadataService.setPageTitle('concept-management.detail.title', {
+          title: result.title[LanguageService.getCurrentInstantly()]
+        });
+        PageMetadataService.setPageDescription(
+          'concept-management.detail.page-description', {
+          description: result.description[LanguageService.getCurrentInstantly()]
         });
         BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,

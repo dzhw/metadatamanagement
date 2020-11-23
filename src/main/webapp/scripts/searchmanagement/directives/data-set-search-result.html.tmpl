@@ -2,7 +2,7 @@
   <md-card-header>
     <md-card-header-text>
       <a
-        ui-sref="dataSetDetail({id: searchResult.masterId, 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: '', dataset: searchResult.id})"
+        ui-sref="dataSetDetail({id: searchResult.masterId.replace('$',''), 'search-result-index': searchResultIndex, version: searchResult.shadow ? searchResult.release.version: '', dataset: searchResult.id})"
         ui-sref-opts="{reload: true, notify: true}"
         ng-click="setParams()">
         <div class="md-title">

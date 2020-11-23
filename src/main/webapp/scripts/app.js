@@ -1,4 +1,4 @@
-/* global bowser, event, ClientJS, document */
+/* global window, bowser, event, ClientJS, document */
 'use strict';
 
 var app;
@@ -21,11 +21,18 @@ try {
   .run(
       function($rootScope, $location, $state, LanguageService, Auth, Principal,
         ENV, VERSION, $mdMedia, $transitions, $timeout, $window,
-        WebSocketService, $urlRouter, $translate, MigrationService) {
+        WebSocketService, $urlRouter, $translate, MigrationService, $browser) {
         // sometimes urlRouter does not load the state automatically on startup
         $urlRouter.sync();
         WebSocketService.connect();
         $rootScope.bowser = bowser;
+        // set baseUrl in case someone needs absolute urls
+        if (ENV === 'local') {
+          $rootScope.baseUrl = $location.protocol() + '://' + $location.host() +
+            ':' + $location.port();
+        } else {
+          $rootScope.baseUrl = $location.protocol() + '://' + $location.host();
+        }
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
         $rootScope.$mdMedia = $mdMedia;
@@ -170,6 +177,15 @@ try {
         });
 
         MigrationService.migrate();
+
+        // let seo4ajax know that we are ready to be captured
+        $timeout(function() {
+          $browser.notifyWhenNoOutstandingRequests(function() {
+            if (window.onCaptureReady) {
+              window.onCaptureReady();
+            }
+          });
+        }, 1000);
       })
     .config(
       function($stateProvider, $urlRouterProvider,
@@ -181,7 +197,7 @@ try {
           .setStorageType('localStorage')
           .setNotify(true, true);
         // enable urls without #
-        $locationProvider.html5Mode(false);
+        $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
         $stateProvider.state('site', {
           'abstract': true,

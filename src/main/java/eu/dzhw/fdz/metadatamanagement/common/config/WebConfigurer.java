@@ -106,6 +106,8 @@ public class WebConfigurer implements ServletContextInitializer, WebMvcConfigure
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/dist/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/index.html");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/robots.txt");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/robots-prod.txt");
+    cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/robots-test.txt");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/manifest.json");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/node_modules/*");
     cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/assets/*");

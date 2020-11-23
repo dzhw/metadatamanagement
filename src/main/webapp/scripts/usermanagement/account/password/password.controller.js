@@ -2,8 +2,8 @@
 
 angular.module('metadatamanagementApp').controller('PasswordController',
   function($scope, $state, BreadcrumbService, Auth, Principal,
-    PageTitleService) {
-    PageTitleService.setPageTitle('global.menu.account.password');
+    PageMetadataService) {
+    PageMetadataService.setPageTitle('global.menu.account.password');
     Principal.identity().then(function(account) {
       $scope.account = account;
     });

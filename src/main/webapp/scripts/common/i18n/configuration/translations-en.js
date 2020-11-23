@@ -10,6 +10,8 @@ angular.module('metadatamanagementApp').config(
         'rdc-alt-text': 'Logo of the Research Data Center of the German Center for Research on Higher Education and Science Studies',
         'dzhw-alt-text': 'The German Centre for Research on Higher Education and Science Studies',
         'bmbf-alt-text': 'Sponsored by the FMER',
+        'rdc': 'Research Data Centre for Higher Education Research and Science Studies',
+        'rdc-abbreviation': 'RDC-DZHW',
         'search': 'Data Search',
         'in-german': 'in German',
         'in': 'in',
@@ -147,7 +149,8 @@ angular.module('metadatamanagementApp').config(
             'unknown-project': 'No project found!'
           },
           'search': {
-            'title': 'Metadatamanagement (MDM) - Data Search for Higher Education Research and Science Studies'
+            'title': 'Data Search for Higher Education Research and Science Studies',
+            'description': 'With this data search you can quickly and easily search the metadata of the data packages stored at the RDC-DZHW. This way you will find all the information you need and can order the corresponding data packages directly.'
           },
           'account': {
             'main': 'Account Details ({{username}})',

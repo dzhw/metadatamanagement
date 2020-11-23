@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp')
   .controller('ConceptEditOrCreateController',
-    function(entity, PageTitleService, $document, $timeout,
+    function(entity, PageMetadataService, $document, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       ConceptResource, ConceptSearchService, $scope, $q,
       ElasticSearchAdminService, $transitions,
@@ -24,12 +24,12 @@ angular.module('metadatamanagementApp')
 
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
-          PageTitleService.setPageTitle(
+          PageMetadataService.setPageTitle(
             'concept-management.edit.create-page-title', {
               conceptId: ctrl.concept.id
             });
         } else {
-          PageTitleService.setPageTitle(
+          PageMetadataService.setPageTitle(
             'concept-management.edit.edit-page-title', {
               conceptId: ctrl.concept.id
             });

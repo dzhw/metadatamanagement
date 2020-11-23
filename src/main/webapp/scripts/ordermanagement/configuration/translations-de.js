@@ -44,7 +44,7 @@ angular.module('metadatamanagementApp').config(
           },
           'thank-you': 'Vielen Dank für Ihr Interesse an unseren Datenpaketen!',
           'dlp-redirect': 'Sie werden in {{seconds}} Sekunden zu unserem Dienstleistungsportal weitergeleitet...',
-          'empty-cart-text': 'Ihr Warenkorb ist aktuell leer. Sie können <a href="#!/de/search?type=data_packages"><strong>hier</strong></a> nach Datenpaketen suchen und diese Ihrem Warenkorb hinzufügen.',
+          'empty-cart-text': 'Ihr Warenkorb ist aktuell leer. Sie können <a href="/de/search?type=data_packages"><strong>hier</strong></a> nach Datenpaketen suchen und diese Ihrem Warenkorb hinzufügen.',
           'warn-not-current-versions': 'Da Sie sich nicht für die aktuelle Version dieses Datenpakets entschieden haben, kann Ihnen dieses System keine genaue Auskunft über die Anzahl an Variablen und Datensätzen des Produktes anzeigen.',
           'explain-data-product': 'Ein Datenpaket beinhaltet immer alle Datensätze, die für den gewählten Zugangsweg (download, on-site, remote,...) aufbereitet wurden. Sie können mehrere Datenpakete mit unterschiedlichen Zugangswegen beantragen.',
           'no-final-release': 'Die Datenpakete wurden noch nicht erstellt. Sobald diese fertig sind können Sie sie an dieser Stelle in den Warenkorb legen.',

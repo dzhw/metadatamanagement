@@ -31,7 +31,7 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state(stateName, {
         parent: 'site',
-        url: '/data-sets/{id}?{version}{query}{page}{size}',
+        url: '/data-sets/{id}?{page}{query}{size}{type}{version}',
         reloadOnSearch: false,
         data: {
           authorities: []

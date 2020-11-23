@@ -54,7 +54,8 @@ angular.module('metadatamanagementApp').config(
               }
             }
           },
-          'title': '{{ title }} ({{ conceptId }})',
+          'title': '{{ title }}',
+          'page-description': '{{ description }}',
           'description': 'Description',
           'not-found': 'The {{id}} references to an unknown Concept.',
           'not-found-references': 'The id {{id}} has no References to Concepts.',

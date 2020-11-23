@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').controller('ProjectCockpitController',
   function($scope, $state, $location, $transitions, Principal,
-           PageTitleService, LanguageService, BreadcrumbService,
+           PageMetadataService, LanguageService, BreadcrumbService,
            CurrentProjectService, projectDeferred, CommonDialogsService,
            ProjectSaveService, blockUI) {
     blockUI.start();
@@ -45,7 +45,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
         if (changedProject && !$scope.initializing) {
           $location.url('/' + LanguageService.getCurrentInstantly() +
             '/projects/' + changedProject.id);
-          PageTitleService.setPageTitle(pageTitleKey,
+          PageMetadataService.setPageTitle(pageTitleKey,
             {projectId: changedProject.id});
           if (changedProject.id === projectId) {
             $scope.project = _.assignIn({}, changedProject);
@@ -93,7 +93,7 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
       function(project) {
         $scope.project = _.assignIn({}, project);
 
-        PageTitleService.setPageTitle(pageTitleKey,
+        PageMetadataService.setPageTitle(pageTitleKey,
           {projectId: project.id});
 
         CurrentProjectService.setCurrentProject(project);

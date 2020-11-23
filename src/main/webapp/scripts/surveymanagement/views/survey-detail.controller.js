@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp')
   .controller('SurveyDetailController',
     function(entity, LanguageService, CleanJSObjectService,
-             PageTitleService, $state, BreadcrumbService, MessageBus,
+             PageMetadataService, $state, BreadcrumbService, MessageBus,
              SurveySearchService, SurveyAttachmentResource, Principal,
              SimpleMessageToastService, SearchResultNavigatorService,
              SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
@@ -54,11 +54,14 @@ angular.module('metadatamanagementApp')
         }
         var currenLanguage = LanguageService.getCurrentInstantly();
         var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
-        PageTitleService.setPageTitle('survey-management.detail.title', {
+        PageMetadataService.setPageTitle('survey-management.detail.title', {
           title: survey.title[currenLanguage] ? survey.title[currenLanguage]
-            : survey.title[secondLanguage],
-          surveyId: survey.id
+            : survey.title[secondLanguage]
         });
+        PageMetadataService.setPageDescription(
+          'survey-management.detail.description', {
+            population: survey.population.description[currenLanguage]
+          });
         if (!Principal.isAuthenticated()) {
           MessageBus.set('onDataPackageChange',
             {

@@ -10,6 +10,8 @@ angular.module('metadatamanagementApp').config(
         'rdc-alt-text': 'Logo des Forschungsdatenzentrums des Deutschen Zentrum für Hochschul- und Wissenschaftsforschung',
         'dzhw-alt-text': 'Deutsches Zentrum für Hochschul- und Wissenschaftsforschung DZHW GmbH',
         'bmbf-alt-text': 'Gefördert vom BMBF',
+        'rdc': 'Forschungsdatenzentrum für die Hochschul- und Wissenschaftsforschung',
+        'rdc-abbreviation': 'FDZ-DZHW',
         'search': 'Datensuche',
         'in-german': 'auf Deutsch',
         'in': 'auf',
@@ -147,7 +149,8 @@ angular.module('metadatamanagementApp').config(
             'unknown-project': 'Kein Projekt gefunden!'
           },
           'search': {
-            'title': 'Metadatamanagement (MDM) - Datensuche für die Hochschul- und Wissenschaftsforschung'
+            'title': 'Datensuche für die Hochschul- und Wissenschaftsforschung',
+            'description': 'Mit dieser Datensuche können Sie die Metadaten der beim FDZ-DZHW hinterlegten Datenpakete schnell und einfach durchsuchen. So finden Sie alle Informationen, die Sie brauchen, und können die entsprechenden Datenpakete direkt bestellen.'
           },
           'account': {
             'main': 'Kontodetails ({{username}})',

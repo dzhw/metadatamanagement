@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
     MessageBus,
     VariableSearchService, Principal,
     SimpleMessageToastService,
-    PageTitleService, LanguageService,
+    PageMetadataService, LanguageService,
     CleanJSObjectService,
     $state, BreadcrumbService,
     SearchResultNavigatorService,
@@ -45,10 +45,9 @@ angular.module('metadatamanagementApp')
       OutdatedVersionNotifier.checkVersionAndNotify(result, fetchFn);
       var currenLanguage = LanguageService.getCurrentInstantly();
       var secondLanguage = currenLanguage === 'de' ? 'en' : 'de';
-      PageTitleService.setPageTitle('variable-management.detail.title', {
+      PageMetadataService.setPageTitle('variable-management.detail.title', {
         label: result.label[currenLanguage] ? result.label[
-          currenLanguage] : result.label[secondLanguage],
-        variableId: result.id
+          currenLanguage] : result.label[secondLanguage]
       });
       BreadcrumbService.updateToolbarHeader({
         'stateName': $state.current.name,

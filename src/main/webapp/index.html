@@ -4,32 +4,50 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
   <meta name="google" content="notranslate">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#006AB2">
+  <meta name="fragment" content="!">
+  <base href="/">
   <title data-translate="{{pageTitleKey}}" data-translate-values="{{pageTitleParams}}"
          data-translate-default="Metadatamanagement (MDM) - Data Search for Higher Education Research and Science Studies">
     Metadatamanagement (MDM) - Data Search for Higher Education Research and Science Studies</title>
+  <meta property="og:title" content="{{pageTitleKey | translate : pageTitleParams | limitTo : 95}}" />
+  <meta ng-if="pageDescriptionKey" property="og:description" content="{{pageDescriptionKey | translate : pageDescriptionParams | removeMarkdown | limitTo: 290}}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{canonicalHref}}" />
+  <meta property="og:image" content="{{baseUrl + '/assets/images/FDZ_Logo_With_Mag.png' | trustAsResourceUrl}}" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:locale" content="{{currentLanguage}}" />
+  <meta property="og:locale:alternate" content="{{currentLanguage === 'de'?'en':'de'}}" />
+  <meta property="og:site_name" content="{{'global.rdc' | translate}}" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@fdz_dzhw" />
   <meta name="apple-mobile-web-app-title" content="Metadatamanagement">
-  <link rel="icon" type="image/png" href="assets/images/webapp/36-Gesamte-App.png">
+  <link rel="shortcut icon" type="image/png" href="{{baseUrl + '/assets/images/webapp/144-Gesamte-App.png' | trustAsResourceUrl}}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="assets/images/webapp/57-Gesamte-App.png" sizes="57x57">
-  <link rel="apple-touch-icon" href="assets/images/webapp/72-Gesamte-App.png" sizes="72x72">
-  <link rel="apple-touch-icon" href="assets/images/webapp/76-Gesamte-App.png" sizes="76x76">
-  <link rel="apple-touch-icon" href="assets/images/webapp/114-Gesamte-App.png" sizes="114x114">
-  <link rel="apple-touch-icon" href="assets/images/webapp/120-Gesamte-App.png" sizes="120x120">
-  <link rel="apple-touch-icon" href="assets/images/webapp/144-Gesamte-App.png" sizes="144x144">
-  <link rel="apple-touch-icon" href="assets/images/webapp/152-Gesamte-App.png" sizes="152x152">
-  <link rel="apple-touch-icon" href="assets/images/webapp/180-Gesamte-App.png" sizes="180x180">
-  <link rel="apple-touch-icon" href="assets/images/webapp/196-Gesamte-App.png" sizes="196x196">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/57-Gesamte-App.png' | trustAsResourceUrl}}" sizes="57x57">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/72-Gesamte-App.png' | trustAsResourceUrl}}" sizes="72x72">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/76-Gesamte-App.png' | trustAsResourceUrl}}" sizes="76x76">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/114-Gesamte-App.png' | trustAsResourceUrl}}" sizes="114x114">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/120-Gesamte-App.png' | trustAsResourceUrl}}" sizes="120x120">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/144-Gesamte-App.png' | trustAsResourceUrl}}" sizes="144x144">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/152-Gesamte-App.png' | trustAsResourceUrl}}" sizes="152x152">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/180-Gesamte-App.png' | trustAsResourceUrl}}" sizes="180x180">
+  <link rel="apple-touch-icon" href="{{baseUrl + '/assets/images/webapp/196-Gesamte-App.png' | trustAsResourceUrl}}" sizes="196x196">
+  <link ng-if="canonicalHref" rel="canonical" ng-href="{{canonicalHref}}" />
+  <link ng-if="previousUiSref" rel="prev" ui-sref="{{previousUiSref}}" />
+  <link ng-if="nextUiSref" rel="next" ui-sref="{{nextUiSref}}" />
+  <meta ng-if="pageDescriptionKey" name="description" content="{{pageDescriptionKey | translate : pageDescriptionParams | removeMarkdown}}">
+
+  <script>window.willCallOnCaptureReady = true;</script>
 
   <!-- build:css assets/styles/main.css -->
-  <link rel="stylesheet" href="assets/styles/main.css">
-  <link rel="stylesheet" href="assets/styles/fdz.css">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="/assets/styles/fdz.css">
   <!-- endbuild -->
 
   <!-- build:css assets/styles/vendor.css -->
@@ -152,422 +170,423 @@
 
 <!-- build:js({.tmp,src/main/webapp}) scripts/client.js -->
 
-<script src="scripts/app.js"></script>
-<script src="scripts/app.constants.js"></script>
+<script src="/scripts/app.js"></script>
+<script src="/scripts/app.constants.js"></script>
 
-<script src="scripts/start/configuration/start.js"></script>
-<script src="scripts/start/configuration/translations-de.js"></script>
-<script src="scripts/start/configuration/translations-en.js"></script>
-<script src="scripts/start/views/start.controller.js"></script>
+<script src="/scripts/start/configuration/start.js"></script>
+<script src="/scripts/start/configuration/translations-de.js"></script>
+<script src="/scripts/start/configuration/translations-en.js"></script>
+<script src="/scripts/start/views/start.controller.js"></script>
 
-<script src="scripts/administration/admin.js"></script>
-<script src="scripts/administration/configuration/translations-de.js"></script>
-<script src="scripts/administration/configuration/translations-en.js"></script>
-<script src="scripts/administration/health/health.js"></script>
-<script src="scripts/administration/health/health.controller.js"></script>
-<script src="scripts/administration/health/health.modal.controller.js"></script>
-<script src="scripts/administration/logs/logs.js"></script>
-<script src="scripts/administration/logs/logs.controller.js"></script>
-<script src="scripts/administration/logs/logs.resource.js"></script>
-<script src="scripts/administration/monitoring/monitoring.service.js"></script>
-<script src="scripts/administration/usermanagement/user-management-detail.controller.js"></script>
-<script src="scripts/administration/usermanagement/user-management.controller.js"></script>
-<script src="scripts/administration/usermanagement/user-management.js"></script>
-<script src="scripts/administration/usermanagement/user.resource.js"></script>
-<script src="scripts/administration/usermanagement/user-message-dialog.controller.js"></script>
-<script src="scripts/administration/usermanagement/edit-user.controller.js"></script>
+<script src="/scripts/administration/admin.js"></script>
+<script src="/scripts/administration/configuration/translations-de.js"></script>
+<script src="/scripts/administration/configuration/translations-en.js"></script>
+<script src="/scripts/administration/health/health.js"></script>
+<script src="/scripts/administration/health/health.controller.js"></script>
+<script src="/scripts/administration/health/health.modal.controller.js"></script>
+<script src="/scripts/administration/logs/logs.js"></script>
+<script src="/scripts/administration/logs/logs.controller.js"></script>
+<script src="/scripts/administration/logs/logs.resource.js"></script>
+<script src="/scripts/administration/monitoring/monitoring.service.js"></script>
+<script src="/scripts/administration/usermanagement/user-management-detail.controller.js"></script>
+<script src="/scripts/administration/usermanagement/user-management.controller.js"></script>
+<script src="/scripts/administration/usermanagement/user-management.js"></script>
+<script src="/scripts/administration/usermanagement/user.resource.js"></script>
+<script src="/scripts/administration/usermanagement/user-message-dialog.controller.js"></script>
+<script src="/scripts/administration/usermanagement/edit-user.controller.js"></script>
 
-<script src="scripts/usermanagement/configuration/translations-de.js"></script>
-<script src="scripts/usermanagement/configuration/translations-en.js"></script>
-<script src="scripts/usermanagement/account/account.js"></script>
-<script src="scripts/usermanagement/account/activate/activate.js"></script>
-<script src="scripts/usermanagement/account/activate/activate.controller.js"></script>
-<script src="scripts/usermanagement/account/login/login.js"></script>
-<script src="scripts/usermanagement/account/login/login.controller.js"></script>
-<script src="scripts/usermanagement/account/password/password.js"></script>
-<script src="scripts/usermanagement/account/password/password.controller.js"></script>
-<script src="scripts/usermanagement/account/password/password.directive.js"></script>
-<script src="scripts/usermanagement/account/register/register.js"></script>
-<script src="scripts/usermanagement/account/register/register.controller.js"></script>
-<script src="scripts/usermanagement/account/settings/settings.js"></script>
-<script src="scripts/usermanagement/account/settings/settings.controller.js"></script>
-<script src="scripts/usermanagement/account/reset/finish/reset.finish.controller.js"></script>
-<script src="scripts/usermanagement/account/reset/finish/reset.finish.js"></script>
-<script src="scripts/usermanagement/account/reset/request/reset.request.controller.js"></script>
-<script src="scripts/usermanagement/account/reset/request/reset.request.js"></script>
-<script src="scripts/usermanagement/auth/auth.service.js"></script>
-<script src="scripts/usermanagement/auth/principal.service.js"></script>
-<script src="scripts/usermanagement/auth/authority.directive.js"></script>
-<script src="scripts/usermanagement/auth/resources/account.resource.js"></script>
-<script src="scripts/usermanagement/auth/resources/activate.resource.js"></script>
-<script src="scripts/usermanagement/auth/resources/password.resource.js"></script>
-<script src="scripts/usermanagement/auth/resources/register.resource.js"></script>
-<script src="scripts/usermanagement/auth/provider/auth.oauth2.service.js"></script>
-<script src="scripts/usermanagement/auth/auth.interceptor.js"></script>
-<script src="scripts/usermanagement/welcome/services/welcome-dialog.service.js"></script>
-<script src="scripts/usermanagement/welcome/views/welcome-dialog.controller.js"></script>
+<script src="/scripts/usermanagement/configuration/translations-de.js"></script>
+<script src="/scripts/usermanagement/configuration/translations-en.js"></script>
+<script src="/scripts/usermanagement/account/account.js"></script>
+<script src="/scripts/usermanagement/account/activate/activate.js"></script>
+<script src="/scripts/usermanagement/account/activate/activate.controller.js"></script>
+<script src="/scripts/usermanagement/account/login/login.js"></script>
+<script src="/scripts/usermanagement/account/login/login.controller.js"></script>
+<script src="/scripts/usermanagement/account/password/password.js"></script>
+<script src="/scripts/usermanagement/account/password/password.controller.js"></script>
+<script src="/scripts/usermanagement/account/password/password.directive.js"></script>
+<script src="/scripts/usermanagement/account/register/register.js"></script>
+<script src="/scripts/usermanagement/account/register/register.controller.js"></script>
+<script src="/scripts/usermanagement/account/settings/settings.js"></script>
+<script src="/scripts/usermanagement/account/settings/settings.controller.js"></script>
+<script src="/scripts/usermanagement/account/reset/finish/reset.finish.controller.js"></script>
+<script src="/scripts/usermanagement/account/reset/finish/reset.finish.js"></script>
+<script src="/scripts/usermanagement/account/reset/request/reset.request.controller.js"></script>
+<script src="/scripts/usermanagement/account/reset/request/reset.request.js"></script>
+<script src="/scripts/usermanagement/auth/auth.service.js"></script>
+<script src="/scripts/usermanagement/auth/principal.service.js"></script>
+<script src="/scripts/usermanagement/auth/authority.directive.js"></script>
+<script src="/scripts/usermanagement/auth/resources/account.resource.js"></script>
+<script src="/scripts/usermanagement/auth/resources/activate.resource.js"></script>
+<script src="/scripts/usermanagement/auth/resources/password.resource.js"></script>
+<script src="/scripts/usermanagement/auth/resources/register.resource.js"></script>
+<script src="/scripts/usermanagement/auth/provider/auth.oauth2.service.js"></script>
+<script src="/scripts/usermanagement/auth/auth.interceptor.js"></script>
+<script src="/scripts/usermanagement/welcome/services/welcome-dialog.service.js"></script>
+<script src="/scripts/usermanagement/welcome/views/welcome-dialog.controller.js"></script>
 
-<script src="scripts/common/easteregg/egg.js"></script>
-<script src="scripts/common/easteregg/thankyou.js"></script>
-<script src="scripts/common/easteregg/confused.js"></script>
-<script src="scripts/common/sidenav/sidenav.controller.js"></script>
-<script src="scripts/common/sidenav/sidenav.directive.js"></script>
-<script src="scripts/common/toolbar/toolbar.controller.js"></script>
-<script src="scripts/common/toolbar/toolbar.directive.js"></script>
-<script src="scripts/common/joblogging/services/jobLogging.service.js"></script>
-<script src="scripts/common/joblogging/services/errorMessageResolver.service.js"></script>
-<script src="scripts/common/joblogging/services/jobCompleteToast.service.js"></script>
-<script src="scripts/common/joblogging/views/jobCompleteToast.controller.js"></script>
-<script src="scripts/common/joblogging/views/jobProtocolDialog.controller.js"></script>
-<script src="scripts/common/util/filter-translated-values.filter.js"></script>
-<script src="scripts/common/util/truncate.filter.js"></script>
-<script src="scripts/common/util/base64.service.js"></script>
-<script src="scripts/common/util/cleanJSObject.service.js"></script>
-<script src="scripts/common/util/parse-links.service.js"></script>
-<script src="scripts/common/util/endOfLine.service.js"></script>
-<script src="scripts/common/error/errorEventHandler.js"></script>
-<script src="scripts/common/error/errorHandler.interceptor.js"></script>
-<script src="scripts/common/error/error.js"></script>
-<script src="scripts/common/i18n/configuration/translations-de.js"></script>
-<script src="scripts/common/i18n/configuration/translations-en.js"></script>
-<script src="scripts/common/i18n/error/translation.error.handler.js"></script>
-<script src="scripts/common/i18n/services/language.service.js"></script>
-<script src="scripts/common/i18n/controllers/language.controller.js"></script>
-<script src="scripts/common/i18n/filter/display-iso-language.filter.js"></script>
-<script src="scripts/common/i18n/filter/display-i18n-string.filter.js"></script>
-<script src="scripts/common/i18n/directives/display-i18n.directive.js"></script>
-<script src="scripts/common/toast/simpleMessageToast.service.js"></script>
-<script src="scripts/common/toast/simpleMessageToast.controller.js"></script>
-<script src="scripts/common/toast/synchronizedMdToast.service.js"></script>
-<script src="scripts/common/blockui/blockUI.controller.js"></script>
-<script src="scripts/common/fdzonload/fdzOnload.directive.js"></script>
-<script src="scripts/common/pagetitle/pageTitle.service.js"></script>
-<script src="scripts/common/fdztable/directives/fdz-table.directive.js"></script>
-<script src="scripts/common/fdzfeedbackdialog/directives/fdz-feedback-dialog.controller.js"></script>
-<script src="scripts/common/fdzfeedbackdialog/services/fdz-feedback-dialog.service.js"></script>
-<script src="scripts/common/input/fdz-clear-input.directive.js"></script>
-<script src="scripts/common/input/fdz-select-search-input.directive.js"></script>
-<script src="scripts/common/input/fdz-autofocus.directive.js"></script>
-<script src="scripts/common/input/fdz-required-validator.directive.js"></script>
-<script src="scripts/common/hyphenator/fdz-hyphenate.directive.js"></script>
-<script src="scripts/common/hyphenator/fdz-hyphenate.filter.js"></script>
-<script src="scripts/common/websocket/websocket.service.js"></script>
-<script src="scripts/common/plotly/plotly.service.js"></script>
-<script src="scripts/common/dialogs/services/commonDialogs.service.js"></script>
-<script src="scripts/common/window/directives/readElementSize.directive.js"></script>
-<script src="scripts/common/dialogs/jsoncontentdialog/jsonContentDialog.directive.js"></script>
-<script src="scripts/common/dialogs/jsoncontentdialog/configuration/translations-de.js"></script>
-<script src="scripts/common/dialogs/jsoncontentdialog/configuration/translations-en.js"></script>
-<script src="scripts/common/dialogs/attachment/attachmentDialog.controller.js"></script>
-<script src="scripts/common/dialogs/attachment/attachmentDialog.service.js"></script>
-<script src="scripts/common/dialogs/attachment/configuration/translations-de.js"></script>
-<script src="scripts/common/dialogs/attachment/configuration/translations-en.js"></script>
+<script src="/scripts/common/easteregg/egg.js"></script>
+<script src="/scripts/common/easteregg/thankyou.js"></script>
+<script src="/scripts/common/easteregg/confused.js"></script>
+<script src="/scripts/common/sidenav/sidenav.controller.js"></script>
+<script src="/scripts/common/sidenav/sidenav.directive.js"></script>
+<script src="/scripts/common/toolbar/toolbar.controller.js"></script>
+<script src="/scripts/common/toolbar/toolbar.directive.js"></script>
+<script src="/scripts/common/joblogging/services/jobLogging.service.js"></script>
+<script src="/scripts/common/joblogging/services/errorMessageResolver.service.js"></script>
+<script src="/scripts/common/joblogging/services/jobCompleteToast.service.js"></script>
+<script src="/scripts/common/joblogging/views/jobCompleteToast.controller.js"></script>
+<script src="/scripts/common/joblogging/views/jobProtocolDialog.controller.js"></script>
+<script src="/scripts/common/util/filter-translated-values.filter.js"></script>
+<script src="/scripts/common/util/truncate.filter.js"></script>
+<script src="/scripts/common/util/base64.service.js"></script>
+<script src="/scripts/common/util/cleanJSObject.service.js"></script>
+<script src="/scripts/common/util/parse-links.service.js"></script>
+<script src="/scripts/common/util/endOfLine.service.js"></script>
+<script src="/scripts/common/error/errorEventHandler.js"></script>
+<script src="/scripts/common/error/errorHandler.interceptor.js"></script>
+<script src="/scripts/common/error/error.js"></script>
+<script src="/scripts/common/i18n/configuration/translations-de.js"></script>
+<script src="/scripts/common/i18n/configuration/translations-en.js"></script>
+<script src="/scripts/common/i18n/error/translation.error.handler.js"></script>
+<script src="/scripts/common/i18n/services/language.service.js"></script>
+<script src="/scripts/common/i18n/controllers/language.controller.js"></script>
+<script src="/scripts/common/i18n/filter/display-iso-language.filter.js"></script>
+<script src="/scripts/common/i18n/filter/display-i18n-string.filter.js"></script>
+<script src="/scripts/common/i18n/directives/display-i18n.directive.js"></script>
+<script src="/scripts/common/toast/simpleMessageToast.service.js"></script>
+<script src="/scripts/common/toast/simpleMessageToast.controller.js"></script>
+<script src="/scripts/common/toast/synchronizedMdToast.service.js"></script>
+<script src="/scripts/common/blockui/blockUI.controller.js"></script>
+<script src="/scripts/common/fdzonload/fdzOnload.directive.js"></script>
+<script src="/scripts/common/pagemetadata/pageMetadata.service.js"></script>
+<script src="/scripts/common/fdztable/directives/fdz-table.directive.js"></script>
+<script src="/scripts/common/fdzfeedbackdialog/directives/fdz-feedback-dialog.controller.js"></script>
+<script src="/scripts/common/fdzfeedbackdialog/services/fdz-feedback-dialog.service.js"></script>
+<script src="/scripts/common/input/fdz-clear-input.directive.js"></script>
+<script src="/scripts/common/input/fdz-select-search-input.directive.js"></script>
+<script src="/scripts/common/input/fdz-autofocus.directive.js"></script>
+<script src="/scripts/common/input/fdz-required-validator.directive.js"></script>
+<script src="/scripts/common/hyphenator/fdz-hyphenate.directive.js"></script>
+<script src="/scripts/common/hyphenator/fdz-hyphenate.filter.js"></script>
+<script src="/scripts/common/websocket/websocket.service.js"></script>
+<script src="/scripts/common/plotly/plotly.service.js"></script>
+<script src="/scripts/common/trustinput/trustResourceUrl.filter.js"></script>
+<script src="/scripts/common/dialogs/services/commonDialogs.service.js"></script>
+<script src="/scripts/common/window/directives/readElementSize.directive.js"></script>
+<script src="/scripts/common/dialogs/jsoncontentdialog/jsonContentDialog.directive.js"></script>
+<script src="/scripts/common/dialogs/jsoncontentdialog/configuration/translations-de.js"></script>
+<script src="/scripts/common/dialogs/jsoncontentdialog/configuration/translations-en.js"></script>
+<script src="/scripts/common/dialogs/attachment/attachmentDialog.controller.js"></script>
+<script src="/scripts/common/dialogs/attachment/attachmentDialog.service.js"></script>
+<script src="/scripts/common/dialogs/attachment/configuration/translations-de.js"></script>
+<script src="/scripts/common/dialogs/attachment/configuration/translations-en.js"></script>
 <script
-  src="scripts/common/dialogs/choose-previous-attachment-version/choose-attachment-version.controller.js"></script>
-<script src="scripts/common/dialogs/choose-previous-attachment-version/configuration/translations-de.js"></script>
-<script src="scripts/common/dialogs/choose-previous-attachment-version/configuration/translations-en.js"></script>
-<script src="scripts/common/dialogs/choose-previous-version/configuration/translations-en.js"></script>
-<script src="scripts/common/dialogs/choose-previous-version/configuration/translations-de.js"></script>
-<script src="scripts/common/dialogs/choose-previous-version/choose-previous-version.controller.js"></script>
-<script src="scripts/common/dialogs/choose-previous-version/choose-previous-version.service.js"></script>
-<script src="scripts/common/migration/services/migrationService.js"></script>
-<script src="scripts/common/i18n/directives/tageditor/tag-editor.directive.js"></script>
-<script src="scripts/common/i18n/directives/tageditor/tag-editor.controller.js"></script>
-<script src="scripts/common/i18n/resources/language.resource.js"></script>
-<script src="scripts/common/i18n/resources/countryCodes.resource.js"></script>
-<script src="scripts/common/i18n/directives/languagepicker/language-picker.controller.js"></script>
-<script src="scripts/common/i18n/directives/languagepicker/language-picker.directive.js"></script>
-<script src="scripts/common/i18n/directives/languagepicker/configuration/translations-de.js"></script>
-<script src="scripts/common/i18n/directives/languagepicker/configuration/translations-en.js"></script>
-<script src="scripts/common/breadcrumbs/breadcrumbs.component.js"></script>
-<script src="scripts/common/breadcrumbs/breadcrumbs.controller.js"></script>
-<script src="scripts/common/breadcrumbs/breadcrumb.service.js"></script>
-<script src="scripts/common/footer/footer.component.js"></script>
-<script src="scripts/common/footer/footer.controller.js"></script>
-<script src="scripts/common/messagebus/MessageBus.service.js"></script>
-<script src="scripts/common/markdown/remove-markdown.filter.js"></script>
-<script src="scripts/common/location/locationSimplifier.service.js"></script>
+  src="/scripts/common/dialogs/choose-previous-attachment-version/choose-attachment-version.controller.js"></script>
+<script src="/scripts/common/dialogs/choose-previous-attachment-version/configuration/translations-de.js"></script>
+<script src="/scripts/common/dialogs/choose-previous-attachment-version/configuration/translations-en.js"></script>
+<script src="/scripts/common/dialogs/choose-previous-version/configuration/translations-en.js"></script>
+<script src="/scripts/common/dialogs/choose-previous-version/configuration/translations-de.js"></script>
+<script src="/scripts/common/dialogs/choose-previous-version/choose-previous-version.controller.js"></script>
+<script src="/scripts/common/dialogs/choose-previous-version/choose-previous-version.service.js"></script>
+<script src="/scripts/common/migration/services/migrationService.js"></script>
+<script src="/scripts/common/i18n/directives/tageditor/tag-editor.directive.js"></script>
+<script src="/scripts/common/i18n/directives/tageditor/tag-editor.controller.js"></script>
+<script src="/scripts/common/i18n/resources/language.resource.js"></script>
+<script src="/scripts/common/i18n/resources/countryCodes.resource.js"></script>
+<script src="/scripts/common/i18n/directives/languagepicker/language-picker.controller.js"></script>
+<script src="/scripts/common/i18n/directives/languagepicker/language-picker.directive.js"></script>
+<script src="/scripts/common/i18n/directives/languagepicker/configuration/translations-de.js"></script>
+<script src="/scripts/common/i18n/directives/languagepicker/configuration/translations-en.js"></script>
+<script src="/scripts/common/breadcrumbs/breadcrumbs.component.js"></script>
+<script src="/scripts/common/breadcrumbs/breadcrumbs.controller.js"></script>
+<script src="/scripts/common/breadcrumbs/breadcrumb.service.js"></script>
+<script src="/scripts/common/footer/footer.component.js"></script>
+<script src="/scripts/common/footer/footer.controller.js"></script>
+<script src="/scripts/common/messagebus/MessageBus.service.js"></script>
+<script src="/scripts/common/markdown/remove-markdown.filter.js"></script>
+<script src="/scripts/common/location/locationSimplifier.service.js"></script>
 
-<script src="scripts/filemanagement/resources/file.resource.js"></script>
-<script src="scripts/filemanagement/services/zipReader.service.js"></script>
-<script src="scripts/filemanagement/services/zipWriter.service.js"></script>
-<script src="scripts/filemanagement/services/excelReader.service.js"></script>
-<script src="scripts/filemanagement/services/fileReader.service.js"></script>
+<script src="/scripts/filemanagement/resources/file.resource.js"></script>
+<script src="/scripts/filemanagement/services/zipReader.service.js"></script>
+<script src="/scripts/filemanagement/services/zipWriter.service.js"></script>
+<script src="/scripts/filemanagement/services/excelReader.service.js"></script>
+<script src="/scripts/filemanagement/services/fileReader.service.js"></script>
 
-<script src="scripts/disclosure/configuration/disclosure.js"></script>
-<script src="scripts/disclosure/configuration/translations-de.js"></script>
-<script src="scripts/disclosure/configuration/translations-en.js"></script>
-<script src="scripts/disclosure/views/disclosure.controller.js"></script>
+<script src="/scripts/disclosure/configuration/disclosure.js"></script>
+<script src="/scripts/disclosure/configuration/translations-de.js"></script>
+<script src="/scripts/disclosure/configuration/translations-en.js"></script>
+<script src="/scripts/disclosure/views/disclosure.controller.js"></script>
 
-<script src="scripts/variablemanagement/configuration/variable.js"></script>
-<script src="scripts/variablemanagement/configuration/translations-de.js"></script>
-<script src="scripts/variablemanagement/configuration/translations-en.js"></script>
-<script src="scripts/variablemanagement/resources/deleteAllVariables.resource.js"></script>
-<script src="scripts/variablemanagement/resources/variable.resource.js"></script>
-<script src="scripts/variablemanagement/services/variableSearch.service.js"></script>
-<script src="scripts/variablemanagement/services/variableBuilder.service.js"></script>
-<script src="scripts/variablemanagement/services/variableIdBuilder.service.js"></script>
-<script src="scripts/variablemanagement/services/variableUpload.service.js"></script>
-<script src="scripts/variablemanagement/services/variableRepositoryClient.service.js"></script>
-<script src="scripts/variablemanagement/filter/format-response.filter.js"></script>
-<script src="scripts/variablemanagement/views/variable-detail.controller.js"></script>
-<script src="scripts/variablemanagement/directives/diagram.directive.js"></script>
-<script src="scripts/variablemanagement/directives/create-variable-links.directive.js"></script>
+<script src="/scripts/variablemanagement/configuration/variable.js"></script>
+<script src="/scripts/variablemanagement/configuration/translations-de.js"></script>
+<script src="/scripts/variablemanagement/configuration/translations-en.js"></script>
+<script src="/scripts/variablemanagement/resources/deleteAllVariables.resource.js"></script>
+<script src="/scripts/variablemanagement/resources/variable.resource.js"></script>
+<script src="/scripts/variablemanagement/services/variableSearch.service.js"></script>
+<script src="/scripts/variablemanagement/services/variableBuilder.service.js"></script>
+<script src="/scripts/variablemanagement/services/variableIdBuilder.service.js"></script>
+<script src="/scripts/variablemanagement/services/variableUpload.service.js"></script>
+<script src="/scripts/variablemanagement/services/variableRepositoryClient.service.js"></script>
+<script src="/scripts/variablemanagement/filter/format-response.filter.js"></script>
+<script src="/scripts/variablemanagement/views/variable-detail.controller.js"></script>
+<script src="/scripts/variablemanagement/directives/diagram.directive.js"></script>
+<script src="/scripts/variablemanagement/directives/create-variable-links.directive.js"></script>
 
-<script src="scripts/surveymanagement/configuration/survey.js"></script>
-<script src="scripts/surveymanagement/configuration/translations-de.js"></script>
-<script src="scripts/surveymanagement/configuration/translations-en.js"></script>
-<script src="scripts/surveymanagement/resources/survey.resource.js"></script>
-<script src="scripts/surveymanagement/services/surveyIdBuilder.service.js"></script>
-<script src="scripts/surveymanagement/views/survey-detail.controller.js"></script>
-<script src="scripts/surveymanagement/views/survey-edit-or-create.controller.js"></script>
-<script src="scripts/surveymanagement/views/choose-survey-number.controller.js"></script>
-<script src="scripts/surveymanagement/services/surveyResponseRateImageUpload.service.js"></script>
-<script src="scripts/surveymanagement/services/surveySearch.service.js"></script>
-<script src="scripts/surveymanagement/services/surveyAttachmentUpload.service.js"></script>
-<script src="scripts/surveymanagement/services/surveyRepositoryClient.service.js"></script>
-<script src="scripts/surveymanagement/resources/deleteAllSurveys.resource.js"></script>
-<script src="scripts/surveymanagement/resources/surveyAttachment.resource.js"></script>
-<script src="scripts/surveymanagement/resources/surveyVersions.resource.js"></script>
-<script src="scripts/surveymanagement/resources/surveyAttachmentVersions.resource.js"></script>
-<script src="scripts/surveymanagement/resources/availableSurveyNumbers.resource.js"></script>
-<script src="scripts/surveymanagement/resources/unitValues.resource.js"></script>
-<script src="scripts/surveymanagement/resources/surveySampleType.resource.js"></script>
-<script src="scripts/surveymanagement/directives/sampleTypePicker.controller.js"></script>
-<script src="scripts/surveymanagement/directives/sampleTypePicker.directive.js"></script>
-<script src="scripts/surveymanagement/directives/geographic-coverage-list.directive.js"></script>
-<script src="scripts/surveymanagement/directives/geographic-coverage-list.controller.js"></script>
-<script src="scripts/surveymanagement/directives/geographic-coverage.directive.js"></script>
-<script src="scripts/surveymanagement/directives/geographic-coverage.controller.js"></script>
-<script src="scripts/surveymanagement/directives/unitValuePicker.controller.js"></script>
-<script src="scripts/surveymanagement/directives/unitValuePicker.directive.js"></script>
+<script src="/scripts/surveymanagement/configuration/survey.js"></script>
+<script src="/scripts/surveymanagement/configuration/translations-de.js"></script>
+<script src="/scripts/surveymanagement/configuration/translations-en.js"></script>
+<script src="/scripts/surveymanagement/resources/survey.resource.js"></script>
+<script src="/scripts/surveymanagement/services/surveyIdBuilder.service.js"></script>
+<script src="/scripts/surveymanagement/views/survey-detail.controller.js"></script>
+<script src="/scripts/surveymanagement/views/survey-edit-or-create.controller.js"></script>
+<script src="/scripts/surveymanagement/views/choose-survey-number.controller.js"></script>
+<script src="/scripts/surveymanagement/services/surveyResponseRateImageUpload.service.js"></script>
+<script src="/scripts/surveymanagement/services/surveySearch.service.js"></script>
+<script src="/scripts/surveymanagement/services/surveyAttachmentUpload.service.js"></script>
+<script src="/scripts/surveymanagement/services/surveyRepositoryClient.service.js"></script>
+<script src="/scripts/surveymanagement/resources/deleteAllSurveys.resource.js"></script>
+<script src="/scripts/surveymanagement/resources/surveyAttachment.resource.js"></script>
+<script src="/scripts/surveymanagement/resources/surveyVersions.resource.js"></script>
+<script src="/scripts/surveymanagement/resources/surveyAttachmentVersions.resource.js"></script>
+<script src="/scripts/surveymanagement/resources/availableSurveyNumbers.resource.js"></script>
+<script src="/scripts/surveymanagement/resources/unitValues.resource.js"></script>
+<script src="/scripts/surveymanagement/resources/surveySampleType.resource.js"></script>
+<script src="/scripts/surveymanagement/directives/sampleTypePicker.controller.js"></script>
+<script src="/scripts/surveymanagement/directives/sampleTypePicker.directive.js"></script>
+<script src="/scripts/surveymanagement/directives/geographic-coverage-list.directive.js"></script>
+<script src="/scripts/surveymanagement/directives/geographic-coverage-list.controller.js"></script>
+<script src="/scripts/surveymanagement/directives/geographic-coverage.directive.js"></script>
+<script src="/scripts/surveymanagement/directives/geographic-coverage.controller.js"></script>
+<script src="/scripts/surveymanagement/directives/unitValuePicker.controller.js"></script>
+<script src="/scripts/surveymanagement/directives/unitValuePicker.directive.js"></script>
 
-<script src="scripts/datasetmanagement/configuration/dataSet.js"></script>
-<script src="scripts/datasetmanagement/configuration/translations-de.js"></script>
-<script src="scripts/datasetmanagement/configuration/translations-en.js"></script>
-<script src="scripts/datasetmanagement/resources/dataSet.resource.js"></script>
-<script src="scripts/datasetmanagement/resources/dataSetAttachment.resource.js"></script>
-<script src="scripts/datasetmanagement/resources/dataSetVersions.resource.js"></script>
-<script src="scripts/datasetmanagement/resources/dataSetAttachmentVersions.resource.js"></script>
-<script src="scripts/datasetmanagement/resources/deleteAllDataSets.resource.js"></script>
-<script src="scripts/datasetmanagement/resources/dataSetReport.resource.js"></script>
-<script src="scripts/datasetmanagement/resources/dataFormats.resource.js"></script>
-<script src="scripts/datasetmanagement/resources/availableDataSetNumbers.resource.js"></script>
-<script src="scripts/datasetmanagement/services/dataSetSearch.service.js"></script>
-<script src="scripts/datasetmanagement/services/dataSetIdBuilder.service.js"></script>
-<script src="scripts/datasetmanagement/services/dataSetRepositoryClient.service.js"></script>
-<script src="scripts/datasetmanagement/services/dataSetAttachmentUpload.service.js"></script>
-<script src="scripts/datasetmanagement/views/dataSet-detail.controller.js"></script>
-<script src="scripts/datasetmanagement/views/data-set-edit-or-create.controller.js"></script>
-<script src="scripts/datasetmanagement/views/choose-data-set-number.controller.js"></script>
-<script src="scripts/datasetmanagement/views/create-report-dialog.controller.js"></script>
+<script src="/scripts/datasetmanagement/configuration/dataSet.js"></script>
+<script src="/scripts/datasetmanagement/configuration/translations-de.js"></script>
+<script src="/scripts/datasetmanagement/configuration/translations-en.js"></script>
+<script src="/scripts/datasetmanagement/resources/dataSet.resource.js"></script>
+<script src="/scripts/datasetmanagement/resources/dataSetAttachment.resource.js"></script>
+<script src="/scripts/datasetmanagement/resources/dataSetVersions.resource.js"></script>
+<script src="/scripts/datasetmanagement/resources/dataSetAttachmentVersions.resource.js"></script>
+<script src="/scripts/datasetmanagement/resources/deleteAllDataSets.resource.js"></script>
+<script src="/scripts/datasetmanagement/resources/dataSetReport.resource.js"></script>
+<script src="/scripts/datasetmanagement/resources/dataFormats.resource.js"></script>
+<script src="/scripts/datasetmanagement/resources/availableDataSetNumbers.resource.js"></script>
+<script src="/scripts/datasetmanagement/services/dataSetSearch.service.js"></script>
+<script src="/scripts/datasetmanagement/services/dataSetIdBuilder.service.js"></script>
+<script src="/scripts/datasetmanagement/services/dataSetRepositoryClient.service.js"></script>
+<script src="/scripts/datasetmanagement/services/dataSetAttachmentUpload.service.js"></script>
+<script src="/scripts/datasetmanagement/views/dataSet-detail.controller.js"></script>
+<script src="/scripts/datasetmanagement/views/data-set-edit-or-create.controller.js"></script>
+<script src="/scripts/datasetmanagement/views/choose-data-set-number.controller.js"></script>
+<script src="/scripts/datasetmanagement/views/create-report-dialog.controller.js"></script>
 
-<script src="scripts/questionmanagement/configuration/question.js"></script>
-<script src="scripts/questionmanagement/configuration/translations-de.js"></script>
-<script src="scripts/questionmanagement/configuration/translations-en.js"></script>
-<script src="scripts/questionmanagement/resources/deleteAllQuestions.resource.js"></script>
-<script src="scripts/questionmanagement/resources/question.resource.js"></script>
-<script src="scripts/questionmanagement/resources/questionImageMetadata.resource.js"></script>
-<script src="scripts/questionmanagement/services/questionSearch.service.js"></script>
-<script src="scripts/questionmanagement/services/questionUpload.service.js"></script>
-<script src="scripts/questionmanagement/services/questionIdBuilder.service.js"></script>
-<script src="scripts/questionmanagement/services/questionImageUpload.service.js"></script>
-<script src="scripts/questionmanagement/services/questionRepositoryClient.service.js"></script>
-<script src="scripts/questionmanagement/views/question-detail.controller.js"></script>
+<script src="/scripts/questionmanagement/configuration/question.js"></script>
+<script src="/scripts/questionmanagement/configuration/translations-de.js"></script>
+<script src="/scripts/questionmanagement/configuration/translations-en.js"></script>
+<script src="/scripts/questionmanagement/resources/deleteAllQuestions.resource.js"></script>
+<script src="/scripts/questionmanagement/resources/question.resource.js"></script>
+<script src="/scripts/questionmanagement/resources/questionImageMetadata.resource.js"></script>
+<script src="/scripts/questionmanagement/services/questionSearch.service.js"></script>
+<script src="/scripts/questionmanagement/services/questionUpload.service.js"></script>
+<script src="/scripts/questionmanagement/services/questionIdBuilder.service.js"></script>
+<script src="/scripts/questionmanagement/services/questionImageUpload.service.js"></script>
+<script src="/scripts/questionmanagement/services/questionRepositoryClient.service.js"></script>
+<script src="/scripts/questionmanagement/views/question-detail.controller.js"></script>
 
-<script src="scripts/datapackagemanagement/configuration/data-package.js"></script>
-<script src="scripts/datapackagemanagement/configuration/translations-de.js"></script>
-<script src="scripts/datapackagemanagement/configuration/translations-en.js"></script>
-<script src="scripts/datapackagemanagement/resources/dataPackage.resource.js"></script>
-<script src="scripts/datapackagemanagement/resources/publicationAssignment.resource.js"></script>
-<script src="scripts/datapackagemanagement/resources/dataPackageAttachment.resource.js"></script>
-<script src="scripts/datapackagemanagement/resources/dataPackageVersions.resource.js"></script>
-<script src="scripts/datapackagemanagement/resources/dataPackageAttachmentVersions.resource.js"></script>
-<script src="scripts/datapackagemanagement/resources/studySerieses.resource.js"></script>
-<script src="scripts/datapackagemanagement/resources/dataPackageAccessWays.resource.js"></script>
-<script src="scripts/datapackagemanagement/resources/deleteAllDataPackages.resource.js"></script>
-<script src="scripts/datapackagemanagement/services/dataPackageIdBuilder.service.js"></script>
-<script src="scripts/datapackagemanagement/services/dataPackageRepositoryClient.service.js"></script>
-<script src="scripts/datapackagemanagement/services/dataPackageSearch.service.js"></script>
-<script src="scripts/datapackagemanagement/services/dataPackageAttachmentUpload.service.js"></script>
-<script src="scripts/datapackagemanagement/services/pinnedDataPackages.service.js"></script>
-<script src="scripts/datapackagemanagement/services/containsOnlyQualitativeDataChecker.service.js"></script>
-<script src="scripts/datapackagemanagement/views/data-package-detail.controller.js"></script>
-<script src="scripts/datapackagemanagement/views/data-package-edit-or-create.controller.js"></script>
-<script src="scripts/datapackagemanagement/components/attachment-component.js"></script>
-<script src="scripts/common/details/detail.component.js"></script>
-<script src="scripts/common/details/related-objects.component.js"></script>
-<script src="scripts/common/details/related-objects.controller.js"></script>
-<script src="scripts/common/details/search.detail.component.js"></script>
-<script src="scripts/common/details/search.detail.controller.js"></script>
+<script src="/scripts/datapackagemanagement/configuration/data-package.js"></script>
+<script src="/scripts/datapackagemanagement/configuration/translations-de.js"></script>
+<script src="/scripts/datapackagemanagement/configuration/translations-en.js"></script>
+<script src="/scripts/datapackagemanagement/resources/dataPackage.resource.js"></script>
+<script src="/scripts/datapackagemanagement/resources/publicationAssignment.resource.js"></script>
+<script src="/scripts/datapackagemanagement/resources/dataPackageAttachment.resource.js"></script>
+<script src="/scripts/datapackagemanagement/resources/dataPackageVersions.resource.js"></script>
+<script src="/scripts/datapackagemanagement/resources/dataPackageAttachmentVersions.resource.js"></script>
+<script src="/scripts/datapackagemanagement/resources/studySerieses.resource.js"></script>
+<script src="/scripts/datapackagemanagement/resources/dataPackageAccessWays.resource.js"></script>
+<script src="/scripts/datapackagemanagement/resources/deleteAllDataPackages.resource.js"></script>
+<script src="/scripts/datapackagemanagement/services/dataPackageIdBuilder.service.js"></script>
+<script src="/scripts/datapackagemanagement/services/dataPackageRepositoryClient.service.js"></script>
+<script src="/scripts/datapackagemanagement/services/dataPackageSearch.service.js"></script>
+<script src="/scripts/datapackagemanagement/services/dataPackageAttachmentUpload.service.js"></script>
+<script src="/scripts/datapackagemanagement/services/pinnedDataPackages.service.js"></script>
+<script src="/scripts/datapackagemanagement/services/containsOnlyQualitativeDataChecker.service.js"></script>
+<script src="/scripts/datapackagemanagement/views/data-package-detail.controller.js"></script>
+<script src="/scripts/datapackagemanagement/views/data-package-edit-or-create.controller.js"></script>
+<script src="/scripts/datapackagemanagement/components/attachment-component.js"></script>
+<script src="/scripts/common/details/detail.component.js"></script>
+<script src="/scripts/common/details/related-objects.component.js"></script>
+<script src="/scripts/common/details/related-objects.controller.js"></script>
+<script src="/scripts/common/details/search.detail.component.js"></script>
+<script src="/scripts/common/details/search.detail.controller.js"></script>
 
-<script src="scripts/instrumentmanagement/configuration/instrument.js"></script>
-<script src="scripts/instrumentmanagement/configuration/translations-de.js"></script>
-<script src="scripts/instrumentmanagement/configuration/translations-en.js"></script>
-<script src="scripts/instrumentmanagement/views/instrument-edit-or-create.controller.js"></script>
-<script src="scripts/instrumentmanagement/views/choose-instrument-number.controller.js"></script>
-<script src="scripts/instrumentmanagement/views/instrument-detail.controller.js"></script>
-<script src="scripts/instrumentmanagement/services/instrumentIdBuilder.service.js"></script>
-<script src="scripts/instrumentmanagement/services/instrumentSearch.service.js"></script>
-<script src="scripts/instrumentmanagement/services/instrumentAttachmentUpload.service.js"></script>
-<script src="scripts/instrumentmanagement/services/instrumentRepositoryClient.service.js"></script>
-<script src="scripts/instrumentmanagement/resources/deleteAllInstruments.resource.js"></script>
-<script src="scripts/instrumentmanagement/resources/instrument.resource.js"></script>
-<script src="scripts/instrumentmanagement/resources/instrumentAttachment.resource.js"></script>
-<script src="scripts/instrumentmanagement/resources/instrumentVersions.resource.js"></script>
-<script src="scripts/instrumentmanagement/resources/instrumentAttachmentVersions.resource.js"></script>
-<script src="scripts/instrumentmanagement/resources/availableInstrumentNumbers.resource.js"></script>
+<script src="/scripts/instrumentmanagement/configuration/instrument.js"></script>
+<script src="/scripts/instrumentmanagement/configuration/translations-de.js"></script>
+<script src="/scripts/instrumentmanagement/configuration/translations-en.js"></script>
+<script src="/scripts/instrumentmanagement/views/instrument-edit-or-create.controller.js"></script>
+<script src="/scripts/instrumentmanagement/views/choose-instrument-number.controller.js"></script>
+<script src="/scripts/instrumentmanagement/views/instrument-detail.controller.js"></script>
+<script src="/scripts/instrumentmanagement/services/instrumentIdBuilder.service.js"></script>
+<script src="/scripts/instrumentmanagement/services/instrumentSearch.service.js"></script>
+<script src="/scripts/instrumentmanagement/services/instrumentAttachmentUpload.service.js"></script>
+<script src="/scripts/instrumentmanagement/services/instrumentRepositoryClient.service.js"></script>
+<script src="/scripts/instrumentmanagement/resources/deleteAllInstruments.resource.js"></script>
+<script src="/scripts/instrumentmanagement/resources/instrument.resource.js"></script>
+<script src="/scripts/instrumentmanagement/resources/instrumentAttachment.resource.js"></script>
+<script src="/scripts/instrumentmanagement/resources/instrumentVersions.resource.js"></script>
+<script src="/scripts/instrumentmanagement/resources/instrumentAttachmentVersions.resource.js"></script>
+<script src="/scripts/instrumentmanagement/resources/availableInstrumentNumbers.resource.js"></script>
 
-<script src="scripts/relatedpublicationmanagement/configuration/relatedPublication.js"></script>
-<script src="scripts/relatedpublicationmanagement/configuration/translations-de.js"></script>
-<script src="scripts/relatedpublicationmanagement/configuration/translations-en.js"></script>
-<script src="scripts/relatedpublicationmanagement/resources/relatedPublication.resource.js"></script>
-<script src="scripts/relatedpublicationmanagement/resources/deleteAllPublications.resource.js"></script>
-<script src="scripts/relatedpublicationmanagement/services/relatedPublicationBuilder.service.js"></script>
-<script src="scripts/relatedpublicationmanagement/services/relatedPublicationIdBuilder.service.js"></script>
-<script src="scripts/relatedpublicationmanagement/services/relatedPublicationUpload.service.js"></script>
-<script src="scripts/relatedpublicationmanagement/services/relatedPublicationRepositoryClient.service.js"></script>
-<script src="scripts/relatedpublicationmanagement/views/relatedPublicationDetail.controller.js"></script>
-<script src="scripts/relatedpublicationmanagement/views/publicationAssignment.controller.js"></script>
-<script src="scripts/relatedpublicationmanagement/services/relatedPublicationSearch.service.js"></script>
+<script src="/scripts/relatedpublicationmanagement/configuration/relatedPublication.js"></script>
+<script src="/scripts/relatedpublicationmanagement/configuration/translations-de.js"></script>
+<script src="/scripts/relatedpublicationmanagement/configuration/translations-en.js"></script>
+<script src="/scripts/relatedpublicationmanagement/resources/relatedPublication.resource.js"></script>
+<script src="/scripts/relatedpublicationmanagement/resources/deleteAllPublications.resource.js"></script>
+<script src="/scripts/relatedpublicationmanagement/services/relatedPublicationBuilder.service.js"></script>
+<script src="/scripts/relatedpublicationmanagement/services/relatedPublicationIdBuilder.service.js"></script>
+<script src="/scripts/relatedpublicationmanagement/services/relatedPublicationUpload.service.js"></script>
+<script src="/scripts/relatedpublicationmanagement/services/relatedPublicationRepositoryClient.service.js"></script>
+<script src="/scripts/relatedpublicationmanagement/views/relatedPublicationDetail.controller.js"></script>
+<script src="/scripts/relatedpublicationmanagement/views/publicationAssignment.controller.js"></script>
+<script src="/scripts/relatedpublicationmanagement/services/relatedPublicationSearch.service.js"></script>
 
-<script src="scripts/dataacquisitionprojectmanagement/configuration/translations-de.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/configuration/translations-en.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/configuration/translations-de.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/configuration/translations-en.js"></script>
 <script
-  src="scripts/dataacquisitionprojectmanagement/directives/data-acquisition-project-navbar-module.controller.js"></script>
+  src="/scripts/dataacquisitionprojectmanagement/directives/data-acquisition-project-navbar-module.controller.js"></script>
 <script
-  src="scripts/dataacquisitionprojectmanagement/directives/data-acquisition-project-navbar-module.directive.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/directives/valid-project-version.directive.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProject.resource.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectCollection.resource.js"></script>
+  src="/scripts/dataacquisitionprojectmanagement/directives/data-acquisition-project-navbar-module.directive.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/directives/valid-project-version.directive.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProject.resource.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectCollection.resource.js"></script>
 <script
-  src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectPostValidation.resource.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/resources/daraRelease.resource.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectReleases.resource.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectShadows.resource.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectShadowsHide.resource.js"></script>
+  src="/scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectPostValidation.resource.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/resources/daraRelease.resource.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectReleases.resource.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectShadows.resource.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectShadowsHide.resource.js"></script>
 <script
-  src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectShadowsAction.resource.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectAttachments.resource.js"></script>
+  src="/scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectShadowsAction.resource.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectAttachments.resource.js"></script>
 <script
-  src="scripts/dataacquisitionprojectmanagement/services/dataAcquisitionProjectRepositoryClient.service.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/services/projectUpdateAccessService.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/services/projectReleaseService.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/services/deleteMetadata.service.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectLastRelease.resource.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/services/postValidation.service.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/services/currentProject.service.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/views/create-project-dialog.controller.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/views/release-project-dialog.controller.js"></script>
+  src="/scripts/dataacquisitionprojectmanagement/services/dataAcquisitionProjectRepositoryClient.service.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/services/projectUpdateAccessService.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/services/projectReleaseService.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/services/deleteMetadata.service.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/resources/dataAcquisitionProjectLastRelease.resource.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/services/postValidation.service.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/services/currentProject.service.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/views/create-project-dialog.controller.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/views/release-project-dialog.controller.js"></script>
 <script
-  src="scripts/dataacquisitionprojectmanagement/directives/project-does-not-exist-validator.directive.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/configuration/configuration.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/views/project-cockpit.controller.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/views/project-overview.controller.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/directives/metadata-type-state-card.directive.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/directives/project-cockpit-status.directive.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/directives/project-cockpit-config.directive.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/directives/project-cockpit-versions.directive.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/directives/user-list.directive.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/views/assignee-message-dialog.controller.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/services/projectSaveService.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/services/projectStatusScoringService.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/directives/projectStatusBadge.directive.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/directives/releaseStatusBadge.directive.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/directives/metadata-status.js"></script>
-<script src="scripts/dataacquisitionprojectmanagement/services/outdatedVersionNotifierService.js"></script>
+  src="/scripts/dataacquisitionprojectmanagement/directives/project-does-not-exist-validator.directive.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/configuration/configuration.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/views/project-cockpit.controller.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/views/project-overview.controller.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/directives/metadata-type-state-card.directive.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/directives/project-cockpit-status.directive.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/directives/project-cockpit-config.directive.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/directives/project-cockpit-versions.directive.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/directives/user-list.directive.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/views/assignee-message-dialog.controller.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/services/projectSaveService.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/services/projectStatusScoringService.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/directives/projectStatusBadge.directive.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/directives/releaseStatusBadge.directive.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/directives/metadata-status.js"></script>
+<script src="/scripts/dataacquisitionprojectmanagement/services/outdatedVersionNotifierService.js"></script>
 
-<script src="scripts/searchmanagement/services/elasticSearch.client.service.js"></script>
-<script src="scripts/searchmanagement/services/search.dao.js"></script>
-<script src="scripts/searchmanagement/services/elasticSearchAdmin.service.js"></script>
-<script src="scripts/searchmanagement/services/searchHelper.service.js"></script>
-<script src="scripts/searchmanagement/services/searchTypeToDetailsStateMapper.service.js"></script>
-<script src="scripts/searchmanagement/services/searchResultNavigator.service.js"></script>
-<script src="scripts/searchmanagement/services/highlight.service.js"></script>
-<script src="scripts/searchmanagement/configuration/search.js"></script>
-<script src="scripts/searchmanagement/configuration/translations-de.js"></script>
-<script src="scripts/searchmanagement/configuration/translations-en.js"></script>
-<script src="scripts/searchmanagement/views/search.controller.js"></script>
-<script src="scripts/searchmanagement/directives/variable-search-result.directive.js"></script>
-<script src="scripts/searchmanagement/directives/survey-search-result.directive.js"></script>
-<script src="scripts/searchmanagement/directives/concept-search-result.directive.js"></script>
-<script src="scripts/searchmanagement/directives/question-search-result.directive.js"></script>
-<script src="scripts/searchmanagement/directives/data-set-search-result.directive.js"></script>
-<script src="scripts/searchmanagement/directives/data-package-search-result.directive.js"></script>
-<script src="scripts/searchmanagement/directives/data-package-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/directives/data-package-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/question-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/directives/question-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/instrument-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/directives/instrument-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/survey-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/directives/survey-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/variable-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/directives/variable-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/data-set-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/directives/data-set-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/related-publication-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/directives/related-publication-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/panel-identifier-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/directives/panel-identifier-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/derived-variables-identifier-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/directives/derived-variables-identifier-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/access-way-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/directives/access-way-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/search-filter-panel.directive.js"></script>
-<script src="scripts/searchmanagement/directives/search-filter-panel.controller.js"></script>
-<script src="scripts/searchmanagement/directives/related-publication-search-result.directive.js"></script>
-<script src="scripts/searchmanagement/directives/instrument-search-result.directive.js"></script>
-<script src="scripts/searchmanagement/directives/study-series-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/directives/study-series-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/next-search-result.directive.js"></script>
-<script src="scripts/searchmanagement/directives/previous-search-result.directive.js"></script>
-<script src="scripts/searchmanagement/directives/institution-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/institution-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/directives/sponsor-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/sponsor-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/directives/survey-method-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/survey-method-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/services/genericFilterOptionsSearch.service.js"></script>
-<script src="scripts/searchmanagement/directives/concept-search-filter.controller.js"></script>
-<script src="scripts/searchmanagement/directives/concept-search-filter.directive.js"></script>
-<script src="scripts/searchmanagement/components/data-package-search.component.js"></script>
-<script src="scripts/searchmanagement/components/data-package-search.controller.js"></script>
-<script src="scripts/searchmanagement/components/searchfilter.component.js"></script>
-<script src="scripts/searchmanagement/components/searchfilter.controller.js"></script>
-<script src="scripts/searchmanagement/components/menu-toggle.component.js"></script>
-<script src="scripts/searchmanagement/components/menu-toggle.controller.js"></script>
+<script src="/scripts/searchmanagement/services/elasticSearch.client.service.js"></script>
+<script src="/scripts/searchmanagement/services/search.dao.js"></script>
+<script src="/scripts/searchmanagement/services/elasticSearchAdmin.service.js"></script>
+<script src="/scripts/searchmanagement/services/searchHelper.service.js"></script>
+<script src="/scripts/searchmanagement/services/searchTypeToDetailsStateMapper.service.js"></script>
+<script src="/scripts/searchmanagement/services/searchResultNavigator.service.js"></script>
+<script src="/scripts/searchmanagement/services/highlight.service.js"></script>
+<script src="/scripts/searchmanagement/configuration/search.js"></script>
+<script src="/scripts/searchmanagement/configuration/translations-de.js"></script>
+<script src="/scripts/searchmanagement/configuration/translations-en.js"></script>
+<script src="/scripts/searchmanagement/views/search.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/variable-search-result.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/survey-search-result.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/concept-search-result.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/question-search-result.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/data-set-search-result.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/data-package-search-result.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/data-package-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/data-package-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/question-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/question-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/instrument-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/instrument-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/survey-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/survey-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/variable-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/variable-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/data-set-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/data-set-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/related-publication-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/related-publication-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/panel-identifier-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/panel-identifier-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/derived-variables-identifier-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/derived-variables-identifier-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/access-way-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/access-way-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/search-filter-panel.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/search-filter-panel.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/related-publication-search-result.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/instrument-search-result.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/study-series-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/study-series-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/next-search-result.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/previous-search-result.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/institution-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/institution-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/sponsor-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/sponsor-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/directives/survey-method-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/survey-method-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/services/genericFilterOptionsSearch.service.js"></script>
+<script src="/scripts/searchmanagement/directives/concept-search-filter.controller.js"></script>
+<script src="/scripts/searchmanagement/directives/concept-search-filter.directive.js"></script>
+<script src="/scripts/searchmanagement/components/data-package-search.component.js"></script>
+<script src="/scripts/searchmanagement/components/data-package-search.controller.js"></script>
+<script src="/scripts/searchmanagement/components/searchfilter.component.js"></script>
+<script src="/scripts/searchmanagement/components/searchfilter.controller.js"></script>
+<script src="/scripts/searchmanagement/components/menu-toggle.component.js"></script>
+<script src="/scripts/searchmanagement/components/menu-toggle.controller.js"></script>
 
-<script src="scripts/ordermanagement/configuration/shoppingCart.js"></script>
-<script src="scripts/ordermanagement/configuration/translations-de.js"></script>
-<script src="scripts/ordermanagement/configuration/translations-en.js"></script>
-<script src="scripts/ordermanagement/views/shopping-cart.controller.js"></script>
-<script src="scripts/ordermanagement/services/shoppingCart.service.js"></script>
-<script src="scripts/ordermanagement/services/citationHintGenerator.service.js"></script>
-<script src="scripts/ordermanagement/services/dataPackageCitationDialog.service.js"></script>
-<script src="scripts/ordermanagement/filter/displayPeriod.filter.js"></script>
-<script src="scripts/ordermanagement/filter/displayPersons.filter.js"></script>
-<script src="scripts/ordermanagement/filter/displayAccessWay.filter.js"></script>
-<script src="scripts/ordermanagement/resources/order.resource.js"></script>
-<script src="scripts/ordermanagement/components/data-package-configurator.component.js"></script>
-<script src="scripts/ordermanagement/views/version-info.controller.js"></script>
-<script src="scripts/ordermanagement/views/access-way-info.controller.js"></script>
-<script src="scripts/ordermanagement/views/data-package-citation-dialog.controller.js"></script>
-<script src="scripts/ordermanagement/components/data-package-configurator.controller.js"></script>
+<script src="/scripts/ordermanagement/configuration/shoppingCart.js"></script>
+<script src="/scripts/ordermanagement/configuration/translations-de.js"></script>
+<script src="/scripts/ordermanagement/configuration/translations-en.js"></script>
+<script src="/scripts/ordermanagement/views/shopping-cart.controller.js"></script>
+<script src="/scripts/ordermanagement/services/shoppingCart.service.js"></script>
+<script src="/scripts/ordermanagement/services/citationHintGenerator.service.js"></script>
+<script src="/scripts/ordermanagement/services/dataPackageCitationDialog.service.js"></script>
+<script src="/scripts/ordermanagement/filter/displayPeriod.filter.js"></script>
+<script src="/scripts/ordermanagement/filter/displayPersons.filter.js"></script>
+<script src="/scripts/ordermanagement/filter/displayAccessWay.filter.js"></script>
+<script src="/scripts/ordermanagement/resources/order.resource.js"></script>
+<script src="/scripts/ordermanagement/components/data-package-configurator.component.js"></script>
+<script src="/scripts/ordermanagement/views/version-info.controller.js"></script>
+<script src="/scripts/ordermanagement/views/access-way-info.controller.js"></script>
+<script src="/scripts/ordermanagement/views/data-package-citation-dialog.controller.js"></script>
+<script src="/scripts/ordermanagement/components/data-package-configurator.controller.js"></script>
 
-<script src="scripts/conceptmanagement/configuration/concept.js"></script>
-<script src="scripts/conceptmanagement/configuration/translations-de.js"></script>
-<script src="scripts/conceptmanagement/configuration/translations-en.js"></script>
-<script src="scripts/conceptmanagement/resources/concept.resource.js"></script>
-<script src="scripts/conceptmanagement/resources/conceptAttachment.resource.js"></script>
-<script src="scripts/conceptmanagement/resources/conceptVersions.resource.js"></script>
-<script src="scripts/conceptmanagement/resources/conceptAttachmentVersions.resource.js"></script>
-<script src="scripts/conceptmanagement/services/conceptSearch.service.js"></script>
-<script src="scripts/conceptmanagement/services/conceptAttachmentUpload.service.js"></script>
-<script src="scripts/conceptmanagement/views/concept-detail.controller.js"></script>
-<script src="scripts/conceptmanagement/views/concept-edit-or-create.controller.js"></script>
-<script src="scripts/conceptmanagement/directives/uniqueConceptIdValidator.directive.js"></script>
-<script src="scripts/conceptmanagement/directives/composeConceptId.directive.js"></script>
+<script src="/scripts/conceptmanagement/configuration/concept.js"></script>
+<script src="/scripts/conceptmanagement/configuration/translations-de.js"></script>
+<script src="/scripts/conceptmanagement/configuration/translations-en.js"></script>
+<script src="/scripts/conceptmanagement/resources/concept.resource.js"></script>
+<script src="/scripts/conceptmanagement/resources/conceptAttachment.resource.js"></script>
+<script src="/scripts/conceptmanagement/resources/conceptVersions.resource.js"></script>
+<script src="/scripts/conceptmanagement/resources/conceptAttachmentVersions.resource.js"></script>
+<script src="/scripts/conceptmanagement/services/conceptSearch.service.js"></script>
+<script src="/scripts/conceptmanagement/services/conceptAttachmentUpload.service.js"></script>
+<script src="/scripts/conceptmanagement/views/concept-detail.controller.js"></script>
+<script src="/scripts/conceptmanagement/views/concept-edit-or-create.controller.js"></script>
+<script src="/scripts/conceptmanagement/directives/uniqueConceptIdValidator.directive.js"></script>
+<script src="/scripts/conceptmanagement/directives/composeConceptId.directive.js"></script>
 <!-- endbuild -->
 </body>
 

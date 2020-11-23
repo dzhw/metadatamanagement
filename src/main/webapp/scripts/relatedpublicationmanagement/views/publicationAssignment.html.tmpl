@@ -32,7 +32,7 @@
         <div ng-repeat="publication in ctrl.publications">
           <md-list-item layout="row" style="padding-right: 0px;">
             <div class="md-list-item-text fdz-truncate-string">
-              <a style="color: black;" ui-sref="relatedPublicationDetail({id:publication.id})"><strong>{{publication.title}}</strong>
+              <a style="color: black;" ui-sref="relatedPublicationDetail({id:publication.id.replace('$','')})"><strong>{{publication.title}}</strong>
                 ({{publication.id}})
                 <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                   {{'search-management.cards.publication-tooltip' | translate: {id:publication.id} }}

@@ -2,8 +2,8 @@
 
 angular.module('metadatamanagementApp').controller('RegisterController',
   function($scope, $state, BreadcrumbService, LanguageService, $timeout,
-    Auth, PageTitleService) {
-    PageTitleService.setPageTitle('user-management.register.title');
+    Auth, PageMetadataService) {
+    PageMetadataService.setPageTitle('user-management.register.title');
     $scope.success = null;
     $scope.error = null;
     $scope.doNotMatch = null;

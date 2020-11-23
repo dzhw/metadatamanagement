@@ -32,8 +32,8 @@ angular.module('metadatamanagementApp')
     var stateName = 'dataPackageDetail';
     var dataPackageDetailConfig = {
       parent: 'site',
-      url: '/data-packages/{id}?{version}{query}{page}{size}' +
-        '{access-way}{type}{panel-identifier}{derived-variables-identifier}',
+      url: '/data-packages/{id}?{access-way}{derived-variables-identifier}' +
+        '{page}{panel-identifier}{query}{size}{type}{version}',
       reloadOnSearch: false,
       data: {
         authorities: []

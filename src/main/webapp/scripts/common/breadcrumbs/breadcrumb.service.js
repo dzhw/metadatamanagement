@@ -4,15 +4,15 @@
 angular.module('metadatamanagementApp').factory('BreadcrumbService',
   function($rootScope, $log, Principal) {
     var isAuthenticated = Principal.isAuthenticated;
-    var stripVersionSuffix = function(id) {
+    var stripVersionSuffixAndDollar = function(id) {
       if (!id) {
         return id;
       }
       var match = id.match(/-[0-9]+\.[0-9]+\.[0-9]+$/);
       if (match !== null) {
-        return id.substr(0, match.index);
+        return id.substr(0, match.index).replace('$', '');
       } else {
-        return id;
+        return id.replace('$', '');
       }
     };
     var appendReleaseVersionToSurveys = function(surveys, version) {
@@ -194,7 +194,7 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
         'icon': translationStringsMap.dataPackageDetail.icon
       };
       if (item.dataPackageIsPresent) {
-        var stateParams = {id: stripVersionSuffix(item.dataPackageId)};
+        var stateParams = {id: stripVersionSuffixAndDollar(item.dataPackageId)};
         if (item.version) {
           stateParams.version = item.version;
         }
@@ -208,7 +208,7 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
             .dataPackageDetail.translateString;
           dataPackageItem.type = translationStringsMap.dataPackageDetail.type;
         }
-        dataPackageItem.projectId = stripVersionSuffix(item.projectId);
+        dataPackageItem.projectId = stripVersionSuffixAndDollar(item.projectId);
         dataPackageItem.enableLastItem = item.enableLastItem;
       } else {
         dataPackageItem.notFound = '?';
@@ -228,7 +228,9 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
         instrumentItem.number = item.number;
       } else {
         if (item.instrumentIsPresent) {
-          var stateParams = {id: stripVersionSuffix(item.instrumentId)};
+          var stateParams = {
+            id: stripVersionSuffixAndDollar(item.instrumentId)
+          };
           if (item.version) {
             stateParams.version = item.version;
           }
@@ -257,7 +259,9 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
         dataSetItem.number = dataSet.number;
       } else {
         if (dataSet.dataSetIsPresent) {
-          var stateParams = {id: stripVersionSuffix(dataSet.dataSetId)};
+          var stateParams = {
+            id: stripVersionSuffixAndDollar(dataSet.dataSetId)
+          };
           if (dataSet.version) {
             stateParams.version = dataSet.version;
           }
@@ -281,7 +285,7 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
         'icon': translationStringsMap.surveyDetail.icon
       };
       if (surveys.length === 1) {
-        stateParams = {id: stripVersionSuffix(surveys[0].id)};
+        stateParams = {id: stripVersionSuffixAndDollar(surveys[0].id)};
         if (surveys[0].version) {
           stateParams.version = surveys[0].version;
         }
@@ -296,7 +300,7 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
         stateParams = {'type': 'surveys'};
         stateParams[itemTyp] = itemId;
         if (dataPackageId) {
-          var params = {id: stripVersionSuffix(dataPackageId)};
+          var params = {id: stripVersionSuffixAndDollar(dataPackageId)};
           if (version) {
             params.version = version;
           }
@@ -371,7 +375,7 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
           };
           surveyItem = createRelatedSurveyItem(
             appendReleaseVersionToSurveys(item.surveys, item.version),
-            'question', item.id);
+            'question', item.id, item.dataPackageId, item.version);
           instrumentItem = createRelatedInstrumentItem(item, 'question');
           $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
           surveyItem, instrumentItem, questionItem);
@@ -388,7 +392,7 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
           dataSetItem = createRelatedDataSetItem(item, 'variable');
           surveyItem = createRelatedSurveyItem(
             appendReleaseVersionToSurveys(item.surveys, item.version),
-            'variable', item.id);
+            'variable', item.id, item.dataPackageId, item.version);
           $rootScope.toolbarHeaderItems.push(searchItem.get(), dataPackageItem,
           surveyItem, dataSetItem, variableItem);
           break;

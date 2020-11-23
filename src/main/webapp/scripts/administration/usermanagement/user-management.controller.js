@@ -3,9 +3,9 @@
 
 angular.module('metadatamanagementApp').controller('UserManagementController',
   function($scope, UserResource, ParseLinks, $state,
-    PageTitleService, BreadcrumbService, $mdDialog, $uibModal,
+    PageMetadataService, BreadcrumbService, $mdDialog, $uibModal,
     DataAcquisitionProjectRepositoryClient, SimpleMessageToastService) {
-    PageTitleService.setPageTitle('user-management.home.title');
+    PageMetadataService.setPageTitle('user-management.home.title');
     $scope.users = [];
     $scope.page = 0;
     $scope.loadAll = function() {

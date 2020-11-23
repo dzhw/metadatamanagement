@@ -2,7 +2,7 @@
   <md-card-header>
     <md-card-header-text>
       <div class="md-title">
-        <a ui-sref="dataPackageDetail({id: $ctrl.searchResult.masterId, 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: ''})"
+        <a ui-sref="dataPackageDetail({id: $ctrl.searchResult.masterId.replace('$',''), 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: ''})"
            ui-sref-opts="{reload: true, notify: true}"
         ng-click="$ctrl.setParams()">
           <span display-i18n-string="$ctrl.searchResult.title"></span>
@@ -29,7 +29,7 @@
     ng-if="$ctrl.query && !$ctrl.isAuthenticated()">
     <a class="md-small md-primary"
        ng-if="!$ctrl.isAuthenticated()"
-       ui-sref="dataPackageDetail({id: $ctrl.searchResult.masterId, 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: '', 'query': $ctrl.query})">
+       ui-sref="dataPackageDetail({id: $ctrl.searchResult.masterId.replace('$',''), 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: '', 'query': $ctrl.query})">
       {{'search-management.search-result.dataPackageSearch' | translate:{searchQuery: $ctrl.query} }}</a>
   </md-card-actions>
   <md-card-actions style="margin-bottom: -10px;"

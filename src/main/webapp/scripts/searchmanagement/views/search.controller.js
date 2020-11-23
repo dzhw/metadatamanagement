@@ -9,11 +9,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
            VariableUploadService, ProjectUpdateAccessService,
            QuestionUploadService, RelatedPublicationUploadService,
            CleanJSObjectService, CurrentProjectService, $timeout,
-           PageTitleService, BreadcrumbService, SearchHelperService,
+           PageMetadataService, BreadcrumbService, SearchHelperService,
            SearchResultNavigatorService, DataPackageResource,
            DataPackageIdBuilderService,
            $rootScope, ProjectStatusScoringService, DeleteMetadataService,
-           SimpleMessageToastService) {
+           SimpleMessageToastService, $mdSidenav) {
 
     var queryChangedOnInit = true;
     var tabChangedOnInitFlag = true;
@@ -39,7 +39,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.isSearching = 0;
     $scope.isDropZoneDisabled = true;
     // set the page title in toolbar and window.title
-    PageTitleService.setPageTitle('global.menu.search.title');
+    PageMetadataService.setPageTitle('global.menu.search.title');
+    PageMetadataService.setPageDescription('global.menu.search.description');
     //Check the login status
     Principal.identity().then(function(account) {
       $scope.account = account;
@@ -658,6 +659,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $state.go(createState);
         });
       }
+    };
+
+    $scope.toggleSidenav = function() {
+      $mdSidenav('SideNavBar').toggle();
     };
 
     init();
