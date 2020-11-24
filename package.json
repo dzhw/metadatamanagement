@@ -1,6 +1,6 @@
 {
   "name": "Metadatamanagement",
-  "version": "1.0.106",
+  "version": "1.0.106-HOTFIX",
   "description": "Data Search for Higher Education Research and Science Studies",
   "private": true,
   "dependencies": {
@@ -99,7 +99,7 @@
     "node-sass": "4.14.1",
     "phantomjs-prebuilt": "2.1.16",
     "requirejs": "2.3",
-    "snyk": "^1.416.0",
+    "snyk": "^1.425.4",
     "sync-pom-version-to-package": "^1.6.0",
     "tar": "6.0.5",
     "time-grunt": "2.0.0",
