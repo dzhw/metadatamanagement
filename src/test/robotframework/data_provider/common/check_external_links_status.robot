@@ -16,4 +16,4 @@ Check Link Status for DZHW
     Get back to german home page  # to sync with the next test case
 
 #Check Link Status for BMBF
-    #Get Link Status with xpath Locator   //a[@id="bmbf-link"]  #bmbf link does not work in travis for an uncertain reason
+    #Get Link Status with xpath Locator   //a[@id="bmbf-link"]  #bmbf link does not work on saucelabs for an uncertain reason

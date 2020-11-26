@@ -6,14 +6,14 @@ if [[ $0 != ./deploy/* ]]; then
   exit -1
 fi
 PROFILE="$1"
-TRAVIS_BRANCH="$2"
-if [ -n "${TRAVIS_BRANCH}" ]; then
+BRANCH_NAME="$2"
+if [ -n "${BRANCH_NAME}" ]; then
   PROFILE="dev"
 fi
-if [ "${TRAVIS_BRANCH}" = "master" ]; then
+if [ "${BRANCH_NAME}" = "master" ]; then
   PROFILE="prod"
 fi
-if [ "${TRAVIS_BRANCH}" = "test" ]; then
+if [ "${BRANCH_NAME}" = "test" ]; then
   PROFILE="test"
 fi
 if [ -z ${PROFILE} ]; then
@@ -26,7 +26,7 @@ if [ $? -ne 0 ]; then
     echo "Maven build failed!"
     exit -1
 fi
-AWS_CRED=($(aws sts assume-role --role-arn arn:aws:iam::347729458675:role/Admin --role-session-name travis-deployment --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' --output text))
+AWS_CRED=($(aws sts assume-role --role-arn arn:aws:iam::347729458675:role/Admin --role-session-name github-deployment --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' --output text))
 export AWS_ACCESS_KEY_ID=${AWS_CRED[0]}
 export AWS_SECRET_ACCESS_KEY=${AWS_CRED[1]}
 export AWS_SESSION_TOKEN=${AWS_CRED[2]}

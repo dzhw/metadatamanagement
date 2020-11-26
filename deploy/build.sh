@@ -5,14 +5,14 @@ if [[ $0 != ./deploy/* ]]; then
   exit -1
 fi
 PROFILE="$1"
-TRAVIS_BRANCH="$2"
+BRANCH_NAME="$2"
 if [ "${PROFILE}" = "unused" ]; then
   PROFILE="dev"
 fi
-if [ "${TRAVIS_BRANCH}" = "test" ]; then
+if [ "${BRANCH_NAME}" = "test" ]; then
   PROFILE="test"
 fi
-if [ "${TRAVIS_BRANCH}" = "master" ]; then
+if [ "${BRANCH_NAME}" = "master" ]; then
   PROFILE="prod"
 fi
 if [ -z ${PROFILE} ]; then
