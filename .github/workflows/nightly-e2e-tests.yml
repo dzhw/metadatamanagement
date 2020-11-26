@@ -357,6 +357,6 @@ jobs:
         - name: Report build status via Slack
           uses: act10ns/slack@v1
           with:
-            status: ${{ job.status }}
+            status: ${{ fromJSON('["success", "failure"]')[contains(needs.*.result,'failure') || contains(needs.*.result,'cancelled')]}}
           env:
             SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
