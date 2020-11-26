@@ -4,109 +4,359 @@ on:
    - cron: "0 0 * * *"
   workflow_dispatch:
 jobs:
-  chrome-public-user:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          ref: development
-      - name: Set up Python 2.7
-        uses: actions/setup-python@v2
-        with:
-          python-version: 2.7
-      - name: Install robotframework dependencies
-        run: ./src/test/robotframework/setup.sh
-      - name: Nightly Chrome Tests (Public User)
-        run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include publicuserNOTfirefoxonlyNOTlocalonly ./src/test/robotframework
-        env:
-          PYTHONWARNINGS: ignore
-          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-  firefox-public-user:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          ref: development
-      - name: Set up Python 2.7
-        uses: actions/setup-python@v2
-        with:
-          python-version: 2.7
-      - name: Install robotframework dependencies
-        run: ./src/test/robotframework/setup.sh
-      - name: Nightly Firefox Tests (Public User)
-        run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include publicuserNOTchromeonlyNOTlocalonly ./src/test/robotframework
-        env:
-          PYTHONWARNINGS: ignore
-          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-  ie11-public-user:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          ref: development
-      - name: Set up Python 2.7
-        uses: actions/setup-python@v2
-        with:
-          python-version: 2.7
-      - name: Install robotframework dependencies
-        run: ./src/test/robotframework/setup.sh
-      - name: Nightly Internet Explorer Tests (Public User)
-        run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
-        env:
-          PYTHONWARNINGS: ignore
-          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-  edge-public-user:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          ref: development
-      - name: Set up Python 2.7
-        uses: actions/setup-python@v2
-        with:
-          python-version: 2.7
-      - name: Install robotframework dependencies
-        run: ./src/test/robotframework/setup.sh
-      - name: Nightly Edge Explorer Tests (Public User)
-        run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
-        env:
-          PYTHONWARNINGS: ignore
-          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-  safari-public-user:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          ref: development
-      - name: Set up Python 2.7
-        uses: actions/setup-python@v2
-        with:
-          python-version: 2.7
-      - name: Install robotframework dependencies
-        run: ./src/test/robotframework/setup.sh
-      - name: Nightly Safari Explorer Tests (Public User)
-        run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
-        env:
-          PYTHONWARNINGS: ignore
-          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-  report-via-slack:
-    runs-on: ubuntu-18.04
-    needs:
-      - chrome-public-user
-      - firefox-public-user
-      - ie11-public-user
-      - edge-public-user
-      - safari-public-user
-    if: always()
-    steps:
-      - name: Report build status via Slack
-        uses: act10ns/slack@v1
-        with:
-          status: ${{ job.status }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    chrome-public-user:
+      runs-on: ubuntu-18.04
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Chrome Tests (Public User)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include publicuserNOTfirefoxonlyNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    firefox-public-user:
+      runs-on: ubuntu-18.04
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Firefox Tests (Public User)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include publicuserNOTchromeonlyNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    ie11-public-user:
+      runs-on: ubuntu-18.04
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Internet Explorer Tests (Public User)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    edge-public-user:
+      runs-on: ubuntu-18.04
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Edge Tests (Public User)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    safari-public-user:
+      runs-on: ubuntu-18.04
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Safari Tests (Public User)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    chrome-dataprovider:
+      runs-on: ubuntu-18.04
+      needs:
+        - chrome-public-user
+        - firefox-public-user
+        - ie11-public-user
+        - edge-public-user
+        - safari-public-user
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Chrome Tests (Dataprovider)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include dataproviderNOTfirefoxonlyNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    firefox-dataprovider:
+      runs-on: ubuntu-18.04
+      needs:
+        - chrome-public-user
+        - firefox-public-user
+        - ie11-public-user
+        - edge-public-user
+        - safari-public-user
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Firefox Tests (Dataprovider)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include dataproviderNOTchromeonlyNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    ie11-dataprovider:
+      runs-on: ubuntu-18.04
+      needs:
+        - chrome-public-user
+        - firefox-public-user
+        - ie11-public-user
+        - edge-public-user
+        - safari-public-user
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Internet Explorer Tests (Dataprovider)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include dataproviderNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    edge-dataprovider:
+      runs-on: ubuntu-18.04
+      needs:
+        - chrome-public-user
+        - firefox-public-user
+        - ie11-public-user
+        - edge-public-user
+        - safari-public-user
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Edge Tests (Dataprovider)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --include dataproviderNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    safari-dataprovider:
+      runs-on: ubuntu-18.04
+      needs:
+        - chrome-public-user
+        - firefox-public-user
+        - ie11-public-user
+        - edge-public-user
+        - safari-public-user
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Safari Tests (Dataprovider)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include dataproviderNOTfirefoxonlyNOTchromeonlyNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    chrome-publisher:
+      runs-on: ubuntu-18.04
+      needs:
+        - chrome-dataprovider
+        - firefox-dataprovider
+        - ie11-dataprovider
+        - edge-dataprovider
+        - safari-dataprovider
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Chrome Tests (Publisher)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include publisherNOTfirefoxonlyNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    firefox-publisher:
+      runs-on: ubuntu-18.04
+      needs:
+        - chrome-dataprovider
+        - firefox-dataprovider
+        - ie11-dataprovider
+        - edge-dataprovider
+        - safari-dataprovider
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Firefox Tests (Publisher)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include publisherNOTchromeonlyNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    ie11-publisher:
+      runs-on: ubuntu-18.04
+      needs:
+        - chrome-dataprovider
+        - firefox-dataprovider
+        - ie11-dataprovider
+        - edge-dataprovider
+        - safari-dataprovider
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Internet Explorer Tests (Publisher)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publisherNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    edge-publisher:
+      runs-on: ubuntu-18.04
+      needs:
+        - chrome-dataprovider
+        - firefox-dataprovider
+        - ie11-dataprovider
+        - edge-dataprovider
+        - safari-dataprovider
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Edge Tests (Publisher)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --include publisherNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    safari-publisher:
+      runs-on: ubuntu-18.04
+      needs:
+        - chrome-dataprovider
+        - firefox-dataprovider
+        - ie11-dataprovider
+        - edge-dataprovider
+        - safari-dataprovider
+      steps:
+        - uses: actions/checkout@v1
+          with:
+            ref: development
+        - name: Set up Python 2.7
+          uses: actions/setup-python@v2
+          with:
+            python-version: 2.7
+        - name: Install robotframework dependencies
+          run: ./src/test/robotframework/setup.sh
+        - name: Nightly Safari Tests (Publisher)
+          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publisherNOTfirefoxonlyNOTchromeonlyNOTlocalonly ./src/test/robotframework
+          env:
+            PYTHONWARNINGS: ignore
+            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    report-via-slack:
+      runs-on: ubuntu-18.04
+      needs:
+        - chrome-public-user
+        - firefox-public-user
+        - ie11-public-user
+        - edge-public-user
+        - safari-public-user
+        - chrome-dataprovider
+        - firefox-dataprovider
+        - ie11-dataprovider
+        - edge-dataprovider
+        - safari-dataprovider
+        - chrome-publisher
+        - firefox-publisher
+        - ie11-publisher
+        - edge-publisher
+        - safari-publisher
+      if: always()
+      steps:
+        - name: Report build status via Slack
+          uses: act10ns/slack@v1
+          with:
+            status: ${{ job.status }}
+          env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
