@@ -1,5 +1,4 @@
-name: Java CI with Maven (build only)
-
+name: Build
 on:
   push:
     branches-ignore:
