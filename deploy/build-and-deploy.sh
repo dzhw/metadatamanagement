@@ -21,7 +21,7 @@ if [ -z ${PROFILE} ]; then
   exit -1
 fi
 echo "Going to run maven build with profile: ${PROFILE}"
-mvn --settings .travis.settings.xml --no-transfer-progress -P${PROFILE} clean install
+mvn --settings ./.github/workflows/.github.settings.xml --no-transfer-progress -P${PROFILE} clean install
 if [ $? -ne 0 ]; then
     echo "Maven build failed!"
     exit -1
