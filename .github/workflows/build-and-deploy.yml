@@ -1,13 +1,13 @@
-name: Java CI with Maven (build only)
+name: Java CI with Maven and Deploy to AWS
 
 on:
   push:
-    branches-ignore:
+    branches:
       - development
       - test
       - master
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -29,6 +29,10 @@ jobs:
         python-version: 2.7
     - name: Install custom javasphinx
       run: pip install git+https://github.com/dzhw/javasphinx.git
+    - name: Install AWS CLI
+      run: pip install awscli
+    - name: Install jq for commandline json parsing
+      run: sudo apt-get -y install jq --allow-unauthenticated
     - name: Set up node 14.14.0
       uses: actions/setup-node@v2.1.2
       with:
@@ -46,7 +50,10 @@ jobs:
     - name: Get branch name
       uses: nelonoel/branch-name@v1.0.1
     - name: Build with Maven
-      run: ./deploy/build.sh unused ${BRANCH_NAME}
+      run: ./deploy/build-and-deploy.sh unused ${BRANCH_NAME}
       env:
         REPO_GITHUB_USERNAME: ${{ secrets.REPO_GITHUB_USERNAME }}
         REPO_GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
