@@ -32,3 +32,6 @@ jobs:
       uses: nelonoel/branch-name@v1.0.1
     - name: Build with Maven
       run: ./deploy/build.sh unused ${BRANCH_NAME}
+      env:
+        REPO_GITHUB_USERNAME: ${{ secrets.REPO_GITHUB_USERNAME }}
+        REPO_GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
