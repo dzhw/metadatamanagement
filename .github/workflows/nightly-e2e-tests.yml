@@ -4,9 +4,21 @@ on:
    - cron: "0 0 * * *"
   workflow_dispatch:
 jobs:
-  build:
+  chrome-public-user:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
         with:
           ref: development
+      - name: Set up Python 2.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 2.7
+      - name: Install robotframework dependencies
+        run: ./src/test/robotframework/setup.sh
+      - name: Nightly Chrome Tests (Public User)
+        run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include publicuserNOTfirefoxonlyNOTlocalonly ./src/test/robotframework
+        env:
+          PYTHONWARNINGS: ignore
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
