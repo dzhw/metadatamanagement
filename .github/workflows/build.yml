@@ -8,7 +8,7 @@ on:
       - master
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 14
@@ -50,3 +50,10 @@ jobs:
       env:
         REPO_GITHUB_USERNAME: ${{ secrets.REPO_GITHUB_USERNAME }}
         REPO_GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+    - name: Report build status via Slack
+      uses: act10ns/slack@v1
+      if: always()
+      with:
+        status: ${{ job.status }}
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
