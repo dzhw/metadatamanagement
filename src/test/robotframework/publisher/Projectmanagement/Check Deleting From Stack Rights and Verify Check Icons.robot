@@ -36,22 +36,25 @@ Check The Sentiments of Metadata
 *** Keywords ***
 Assign Dataprovider From List
     @{DP_ITEMS}    Create List    dataprovider   dataprovidertest1    dataprovidertest2
-    :FOR    ${DP}    IN    @{DP_ITEMS}
-    \    Assign a dataprovider   ${DP}
+    FOR    ${DP}    IN    @{DP_ITEMS}
+         Assign a dataprovider   ${DP}
+    END
 
 Assign Publisher From List
      @{PL_ITEMS}    Create List    publishertest1   publishertest2
-    :FOR    ${PL}    IN    @{PL_ITEMS}
-    \    Assign a publisher  ${PL}
+    FOR    ${PL}    IN    @{PL_ITEMS}
+         Assign a publisher  ${PL}
+    END
 
 Verify The Sentiments From The List of Metadata
     @{MD_ITEMS}    Create List    dataPackages   surveys   instruments   questions   dataSets    variables
     @{SN_ITEMS}    Create List    assets/images/icons/bbaf48e1.clipboard.svg    assets/images/icons/c691f57d.clipboard-check.svg    assets/images/icons/a103f3a2.clipboard-double-check.svg
-    :FOR   ${MD_DT}   IN  @{MD_ITEMS}
-    \   Run Keyword If   '@{SN_ITEMS}[0]' == 'assets/images/icons/bbaf48e1.clipboard.svg'    Page Should Contain Element    xpath=//md-card[@type="${MD_DT}"]//following::md-icon[@md-svg-src="@{SN_ITEMS}[0]"]
-    \   Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]
-    \   Sleep  1s    # to avoid failing in edge
-    \   Run Keyword If    '@{SN_ITEMS}[1]' == 'assets/images/icons/c691f57d.clipboard-check.svg'     Page Should Contain Element    xpath=//md-card[@type="${MD_DT}"]//following::md-icon[@md-svg-src="@{SN_ITEMS}[1]"]
-    \   Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Publisher Fertig")]
-    \   Sleep  1s   # to avoid failing in edge
-    \   Run Keyword If    '@{SN_ITEMS}[2]' == 'assets/images/icons/a103f3a2.clipboard-double-check.svg'    Page Should Contain Element    xpath=//md-card[@type="${MD_DT}"]//following::md-icon[@md-svg-src="@{SN_ITEMS}[2]"]
+    FOR   ${MD_DT}   IN  @{MD_ITEMS}
+        Run Keyword If   '@{SN_ITEMS}[0]' == 'assets/images/icons/bbaf48e1.clipboard.svg'    Page Should Contain Element    xpath=//md-card[@type="${MD_DT}"]//following::md-icon[@md-svg-src="@{SN_ITEMS}[0]"]
+        Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]
+        Sleep  1s    # to avoid failing in edge
+        Run Keyword If    '@{SN_ITEMS}[1]' == 'assets/images/icons/c691f57d.clipboard-check.svg'     Page Should Contain Element    xpath=//md-card[@type="${MD_DT}"]//following::md-icon[@md-svg-src="@{SN_ITEMS}[1]"]
+        Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Publisher Fertig")]
+        Sleep  1s   # to avoid failing in edge
+        Run Keyword If    '@{SN_ITEMS}[2]' == 'assets/images/icons/a103f3a2.clipboard-double-check.svg'    Page Should Contain Element    xpath=//md-card[@type="${MD_DT}"]//following::md-icon[@md-svg-src="@{SN_ITEMS}[2]"]
+    END
