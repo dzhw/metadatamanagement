@@ -5,6 +5,8 @@ on:
       - development
       - test
       - master
+    tags-ignore:
+      - v*
 jobs:
   build-and-deploy:
     runs-on: ubuntu-18.04
