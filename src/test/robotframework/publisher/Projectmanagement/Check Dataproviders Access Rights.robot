@@ -70,30 +70,34 @@ Ensure Upload Button is Restricted
     [Arguments]  ${metadataname}
     Click Element Through Tooltips  xpath=//md-card[@type="${metadataname}"]//button[contains(.,"Hochladen")]
     @{MD_BROWSERS}    Create List   edge  firefox   chrome  safari
-    :FOR   ${MD_BR}   IN  @{MD_BROWSERS}
-    \  Run Keyword If  '${BROWSER}' == '${MD_BR}'  Close The Toast Message  ${TOAST_MSSG}
+    FOR   ${MD_BR}   IN  @{MD_BROWSERS}
+        Run Keyword If  '${BROWSER}' == '${MD_BR}'  Close The Toast Message  ${TOAST_MSSG}
+    END
     Run Keyword if  '${BROWSER}' == 'ie'  Close The Toast Message for Upload Button in IE   #in IE toast mesaage is different
 
 Ensure Create Button is Restricted From The List
     @{MD_ITEMS}    Create List    dataPackages   surveys   instruments   dataSets
-    :FOR   ${MD_DT}   IN  @{MD_ITEMS}
-    \   Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//button[contains(.,"Neu")]
-    \   Close The Toast Message  ${TOAST_MSSG}
+    FOR   ${MD_DT}   IN  @{MD_ITEMS}
+        Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//button[contains(.,"Neu")]
+        Close The Toast Message  ${TOAST_MSSG}
+    END
 
 Ensure Upload Button is Restricted From The List
     @{MD_ITEMS}    Create List   questions   variables
-    :FOR   ${MD_DT}   IN  @{MD_ITEMS}
-    \   Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//button[contains(.,"Hochladen")]
-    \   Run Keyword if  '${BROWSER}' == 'chrome'  Close The Toast Message  ${TOAST_MSSG}
-    \   Run Keyword if  '${BROWSER}' == 'safari'  Close The Toast Message  ${TOAST_MSSG}
-    \   Run Keyword if  '${BROWSER}' == 'firefox'  Close The Toast Message  ${TOAST_MSSG}
-    \   Run Keyword if  '${BROWSER}' == 'edge'  Close The Toast Message  ${TOAST_MSSG}
-    \   Run Keyword if  '${BROWSER}' == 'ie'  Close The Toast Message for Upload Button in IE   #in IE toast mesaage is different
+    FOR   ${MD_DT}   IN  @{MD_ITEMS}
+        Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//button[contains(.,"Hochladen")]
+        Run Keyword if  '${BROWSER}' == 'chrome'  Close The Toast Message  ${TOAST_MSSG}
+        Run Keyword if  '${BROWSER}' == 'safari'  Close The Toast Message  ${TOAST_MSSG}
+        Run Keyword if  '${BROWSER}' == 'firefox'  Close The Toast Message  ${TOAST_MSSG}
+        Run Keyword if  '${BROWSER}' == 'edge'  Close The Toast Message  ${TOAST_MSSG}
+        Run Keyword if  '${BROWSER}' == 'ie'  Close The Toast Message for Upload Button in IE   #in IE toast mesaage is different
+    END
 
 Ensure Expected Metadata Fields are Disabled From The List
     @{MD_ITEMS}    Create List    survey   instruments   questions   dataSet    variables
-    :FOR   ${MD_DT}   IN  @{MD_ITEMS}
-    \   Page Should Contain Element  xpath=//md-card[@ng-if="ctrl.project.configuration.requirements"]//following::md-checkbox[@name="${MD_DT}" and @disabled="disabled"]
+    FOR   ${MD_DT}   IN  @{MD_ITEMS}
+        Page Should Contain Element  xpath=//md-card[@ng-if="ctrl.project.configuration.requirements"]//following::md-checkbox[@name="${MD_DT}" and @disabled="disabled"]
+    END
 
 Close The Toast Message for Upload Button in IE
     Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Diese Aktion wird ")]
@@ -102,11 +106,13 @@ Close The Toast Message for Upload Button in IE
 
 Click Publisher and Dataprovider Ready Checkbox From The List
     @{MD_ITEMS}    Create List   surveys   instruments   questions   dataSets    variables   dataPackages  #data packages should be at last index to avoid outofbound error in IE
-    :FOR   ${MD_DT}   IN  @{MD_ITEMS}
-    \   Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Publisher Fertig")]
-    \   Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]
+    FOR   ${MD_DT}   IN  @{MD_ITEMS}
+        Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Publisher Fertig")]
+        Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Datengeber:innen Fertig")]
+    END
 
 Select Metadata Checkbox From The List
     @{MD_ITEMS}    Create List   survey   instruments   questions   dataSet    variables
-    :FOR   ${MD_DT}   IN  @{MD_ITEMS}
-    \   Click Element Through Tooltips  xpath=//md-checkbox[@name="${MD_DT}"]
+    FOR   ${MD_DT}   IN  @{MD_ITEMS}
+        Click Element Through Tooltips  xpath=//md-checkbox[@name="${MD_DT}"]
+    END
