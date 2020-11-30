@@ -18,7 +18,7 @@ Open Local Browser
     Open Browser    ${WEBSITE}    ${BROWSER}    desired_capabilities=${CAPABILITIES.${BROWSER}}
 
 Open Saucelabs Browser
-    ${BUILD_NUMBER} =    Get Environment Variable    TRAVIS_BUILD_NUMBER    ${EMPTY}
+    ${BUILD_NUMBER} =    Get Environment Variable    GITHUB_RUN_NUMBER    ${EMPTY}
     Run Keyword If    '${BUILD_NUMBER}' != '${EMPTY}'    Set To Dictionary    ${CAPABILITIES.${BROWSER}}    build=${BUILD_NUMBER}
     Open Browser    ${WEBSITE}    ${BROWSER}    remote_url=${SAUCELABS_URL}    desired_capabilities=${CAPABILITIES.${BROWSER}}
 

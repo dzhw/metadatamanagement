@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/dzhw/metadatamanagement.svg?branch=master)](https://travis-ci.com/dzhw/metadatamanagement) [![Documentation Status](https://readthedocs.org/projects/metadatamanagement/badge/?version=latest)](https://metadatamanagement.readthedocs.io/de/latest/?badge=latest)
+[![Build Status](https://github.com/dzhw/metadatamanagement/workflows/Build%20and%20Deploy/badge.svg)](https://github.com/dzhw/metadatamanagement/actions) [![Documentation Status](https://readthedocs.org/projects/metadatamanagement/badge/?version=latest)](https://metadatamanagement.readthedocs.io/de/latest/?badge=latest)
 [![Known Backend Vulnerabilities](https://snyk.io/test/github/dzhw/metadatamanagement/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/dzhw/metadatamanagement?targetFile=pom.xml
 )[![Known Frontend Vulnerabilities](https://snyk.io/test/github/dzhw/metadatamanagement/badge.svg?targetFile=package.json)](https://snyk.io/test/github/dzhw/metadatamanagement?targetFile=package.json
 )[![codecov](https://codecov.io/gh/dzhw/metadatamanagement/branch/development/graph/badge.svg)](https://codecov.io/gh/dzhw/metadatamanagement)[![Mergify Status](https://gh.mergify.io/badges/dzhw/metadatamanagement.png?style=cut)](https://mergify.io)
@@ -84,20 +84,20 @@ Note that the `--user` flag installs the dependency somewhere in your user direc
 We test our project continuously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
 
 ## AWS Fargate
-This project is currently built and deployed to AWS Fargate by [Travis CI][TravisCI]. You can test the latest version on [our dev stage.](https://dev.metadata.fdz.dzhw.eu/)
+This project is currently built and deployed to AWS Fargate by [Github Actions][GithubActions]. You can test the latest version on [our dev stage.](https://dev.metadata.fdz.dzhw.eu/)
 
 ## Big Thanks
 
 Cross-browser Testing Platform and Open Source :heart: Provided by [Sauce Labs][saucelabs]
 
-Continuous Integration Platform provided by [Travis CI][TravisCI]
+Continuous Integration Platform provided by [Github Actions][GithubActions]
 
 [saucelabs]: https://saucelabs.com
 [Node.js]: https://nodejs.org/
 [Grunt]: http://gruntjs.com/
 [NVM]: https://github.com/creationix/nvm
 [SDKMAN!]: http://sdkman.io/install.html
-[TravisCI]: https://travis-ci.com/
+[GithubActions]: https://github.com/dzhw/metadatamanagement/actions
 [GnuWin32]: http://gnuwin32.sourceforge.net/packages/patch.htm
 
 [![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://forthebadge.com)  [![forthebadge](https://forthebadge.com/images/badges/built-with-science.svg)](https://forthebadge.com)

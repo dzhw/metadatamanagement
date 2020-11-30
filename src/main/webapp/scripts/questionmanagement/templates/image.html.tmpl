@@ -65,7 +65,7 @@
       <md-card-content
         layout="column"
         ng-if="$ctrl.options.question.instrument.type != 'PAPI' || $ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].containsAnnotations">
-        <div class="fdz-text-block mt16" ng-class="{'fdz-add-bottom-margin': $ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].containsAnnotations}"
+        <div class="fdz-text-block" ng-class="{'fdz-add-bottom-margin': $ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].containsAnnotations}"
              ng-if="$ctrl.options.question.instrument.type != 'PAPI'">
           <span class="b">{{'question-management.detail.label.resolution' | translate }}: </span>
           <span ng-if="$ctrl.options.currentImageIndex < $ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage].length">{{$ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].resolution.widthX}} x {{$ctrl.options.imagesGroupedByLanguage[$ctrl.options.currentImageLanguage][$ctrl.options.currentImageIndex].resolution.heightY}}</span>
