@@ -20,7 +20,7 @@ Check Shopping Cart as a Public User
 Put all access ways in shopping cart
    @{MD_ACCESSWAYNAMES}   Create List    download-suf  remote-desktop-suf   onsite-suf   download-cuf
    FOR  ${INDEX}  IN RANGE  0   4
-      Select Access Way for the Data Package   @{MD_ACCESSWAYNAMES}[${INDEX}]
+      Select Access Way for the Data Package   ${MD_ACCESSWAYNAMES}[${INDEX}]
       Select Version for the Data Package   1.0.1
       Put in Shopping Cart
    END
@@ -52,6 +52,6 @@ Check The Links
         Click Element Through Tooltips   xpath=//a[contains(., '${MD_LK}')]
         Go Back
     END
-    
+
 Empty The Shopping Cart
    Click Element Through Tooltips   xpath=//span[contains(., 'Warenkorb leeren')]
