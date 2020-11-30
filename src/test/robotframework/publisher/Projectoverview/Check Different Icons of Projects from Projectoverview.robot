@@ -31,18 +31,22 @@ Click on Project Overview Button
 
 Select Metadata Checkbox From The List
    @{MD_ITEMS}    Create List   survey   instruments   questions   dataSet    variables    publications
-   :FOR   ${MD_DT}   IN  @{MD_ITEMS}
-   \   Click Element Through Tooltips  xpath=//md-checkbox[@name="${MD_DT}"]
+   FOR   ${MD_DT}   IN  @{MD_ITEMS}
+        Click Element Through Tooltips  xpath=//md-checkbox[@name="${MD_DT}"]
+   END
 
 Assert Clipboard Double Check Icon
    @{MD_ITEMS}    Create List    dataPackages   surveys   instruments
-   :FOR   ${MD_DT}   IN  @{MD_ITEMS}
-   \    Page Should Contain Element   xpath=//tr[contains(.,"atestroboticons${BROWSER}")]//metadata-status[@type="'${MD_DT}'"]//md-icon[contains(@md-svg-src, ".clipboard-double-check.svg")]
+   FOR   ${MD_DT}   IN  @{MD_ITEMS}
+        Page Should Contain Element   xpath=//tr[contains(.,"atestroboticons${BROWSER}")]//metadata-status[@type="'${MD_DT}'"]//md-icon[contains(@md-svg-src, ".clipboard-double-check.svg")]
+   END
 
 Assert Clipboard Single Check Icon
    Page Should Contain Element   xpath=//tr[contains(.,"atestroboticons${BROWSER}")]//metadata-status[@type="'dataSets'"]//md-icon[contains(@md-svg-src, ".clipboard-check.svg")]
 
 Assert Metadata Icons
    @{MD_ITEMS}    Create List    questions   variables   publications
-   :FOR   ${MD_DT}   IN  @{MD_ITEMS}
-   \    Page Should Contain Element   xpath=//tr[contains(.,"atestroboticons${BROWSER}")]//metadata-status[@type="'${MD_DT}'"]//md-icon[contains(@md-svg-src, ".clipboard.svg")]
+   FOR   ${MD_DT}   IN  @{MD_ITEMS}
+        Page Should Contain Element   xpath=//tr[contains(.,"atestroboticons${BROWSER}")]//metadata-status[@type="'${MD_DT}'"]//md-icon[contains(@md-svg-src, ".clipboard.svg")]
+   END
+   

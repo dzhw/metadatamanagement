@@ -2,7 +2,7 @@ pull_request_rules:
   - name: automatic merge of development PRs into test
     conditions:
       - base=test
-      - check-success=Travis CI - Branch
+      - check-success=build-and-deploy
     actions:
       merge:
         method: merge

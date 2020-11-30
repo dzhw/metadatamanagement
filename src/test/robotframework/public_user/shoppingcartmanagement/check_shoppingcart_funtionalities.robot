@@ -19,10 +19,11 @@ Check Shopping Cart as a Public User
 *** Keywords ***
 Put all access ways in shopping cart
    @{MD_ACCESSWAYNAMES}   Create List    download-suf  remote-desktop-suf   onsite-suf   download-cuf
-   :FOR  ${INDEX}  IN RANGE  0   4
-   \  Select Access Way for the Data Package   @{MD_ACCESSWAYNAMES}[${INDEX}]
-   \  Select Version for the Data Package   1.0.1
-   \  Put in Shopping Cart
+   FOR  ${INDEX}  IN RANGE  0   4
+      Select Access Way for the Data Package   ${MD_ACCESSWAYNAMES}[${INDEX}]
+      Select Version for the Data Package   1.0.1
+      Put in Shopping Cart
+   END
 
 Delete an Item
    Click Element Through Tooltips   xpath=//button[text()=' Löschen ']
@@ -47,9 +48,10 @@ Go to Shopping Cart
 
 Check The Links
     @{MD_DATALINKS}   Create List    Variablen   Datensätze
-    :FOR   ${MD_LK}   IN  @{MD_DATALINKS}
-    \   Click Element Through Tooltips   xpath=//a[contains(., '${MD_LK}')]
-    \   Go Back
+    FOR   ${MD_LK}   IN  @{MD_DATALINKS}
+        Click Element Through Tooltips   xpath=//a[contains(., '${MD_LK}')]
+        Go Back
+    END
 
 Empty The Shopping Cart
    Click Element Through Tooltips   xpath=//span[contains(., 'Warenkorb leeren')]

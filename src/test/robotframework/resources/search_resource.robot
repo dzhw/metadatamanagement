@@ -35,6 +35,7 @@ Delete project by name
     Click Element Through Tooltips    xpath=//md-sidenav/descendant::button[md-icon[text()='']]
     Click Element Through Tooltips    xpath=//button[text()='OK']
     Run Keyword If    '${BROWSER}' == 'safari'    Sleep  10s
+    Wait Until Angular Ready    2s
 
 Click on search result by id
     [Arguments]    ${id}

@@ -1,4 +1,4 @@
-/*global SockJS, Stomp */
+/*global SockJS, Stomp, window */
 'use strict';
 
 angular.module('metadatamanagementApp').factory('WebSocketService',
@@ -21,7 +21,9 @@ angular.module('metadatamanagementApp').factory('WebSocketService',
 
       var connect = function() {
         if ((stompClient && stompClient.connected) ||
-          (socket && socket.readyState !== 3)) {
+          (socket && socket.readyState !== 3) ||
+          // client is seo4ajax
+          window.onCaptureReady) {
           return;
         }
         socket = new SockJS('/websocket');
