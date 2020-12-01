@@ -42,9 +42,9 @@
         <span class="md-secondary">{{$ctrl.dataPackage.release.firstDate + 'Z' | date:'mediumDate'}}</span>
       </md-list-item>
       <md-list-item ng-if="$ctrl.releases.length > 0">
-        <h5>{{'search-management.detail.versions' | translate }}:</h5>
+        <h5>{{'search-management.detail.version' | translate }}:</h5>
         <div class="md-secondary">
-          <md-select class="md-accent" name="version" ng-model="$ctrl.selectedVersion" ng-disabled="$ctrl.disabled" aria-label="{{'search-management.detail.versions' | translate }}">
+          <md-select class="md-accent" name="version" ng-model="$ctrl.selectedVersion" ng-disabled="$ctrl.disabled" aria-label="{{'search-management.detail.version' | translate }}">
             <md-optgroup label="{{'shopping-cart.detail.label.available-versions' | translate}}">
               <md-option ng-repeat="item in $ctrl.releases" ng-value="item.version">
                 {{item.version}}{{$first?' (' + ('shopping-cart.detail.label.current' | translate) + ')':''}}</md-option>
@@ -59,9 +59,9 @@
         </div>
       </md-list-item>
       <md-list-item ng-if="$ctrl.accessWays.length > 0">
-        <h5>{{'search-management.detail.access-ways' | translate}}:</h5>
+        <h5>{{'search-management.detail.access-way' | translate}}:</h5>
         <div class="md-secondary">
-          <md-select class="md-accent" name="accessWay" ng-model="$ctrl.selectedAccessWay" aria-label="{{'search-management.detail.access-ways' | translate}}">
+          <md-select class="md-accent" name="accessWay" ng-model="$ctrl.selectedAccessWay" aria-label="{{'search-management.detail.access-way' | translate}}">
             <md-optgroup label="{{'shopping-cart.detail.label.available-access-ways' | translate}}">
               <md-option ng-repeat="item in $ctrl.accessWays" ng-value="item">{{item}}</md-option>
             </md-optgroup>
