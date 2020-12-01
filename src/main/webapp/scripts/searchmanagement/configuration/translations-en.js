@@ -28,8 +28,8 @@ angular.module('metadatamanagementApp').config(
           'search': 'Data Search',
           'dataPackageSearch': 'Data Search',
           'noresult': 'No search results found.',
-          'versions': 'Versions',
-          'access-ways': 'Access ways',
+          'version': 'Version',
+          'access-way': 'Access way',
           'cart': 'Add to shopping cart'
         },
         'buttons': {
