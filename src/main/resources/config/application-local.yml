@@ -29,10 +29,11 @@ spring:
         cache-duration: 1
     thymeleaf:
         cache: false
-    resources:
-      static-locations:
-        - file:src/main/webapp/
-        - classpath:public/
+    web:
+      resources:
+        static-locations:
+          - file:src/main/webapp/
+          - classpath:public/
 
 logging:
     level:
@@ -64,4 +65,4 @@ metadatamanagement:
     password: ${DARA_PASSWORD}
   websockets:
     allowed-origins:
-      - "*"
+      - "localhost"
