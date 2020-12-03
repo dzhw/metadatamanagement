@@ -10,21 +10,21 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- *  Ensure that date variables have only a ordinal scale level.
+ *  Ensure that date variables have only a nominal, ordinal or interval scale level.
  *  
  *  @author Daniel Katzberg
  */
 @Documented
-@Constraint(validatedBy = {OnlyOrdinalScaleLevelForDateDataTypeValidator.class})
+@Constraint(validatedBy = {RestrictedScaleLevelForDateDataTypeValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface OnlyOrdinalScaleLevelForDateDataType {
+public @interface RestrictedScaleLevelForDateDataType {
 
   /**
    * Defines the default error message.
    */
   String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "onlyOrdinalScaleLevelForDateDataType}";
+      + "restrictedScaleLevelForDateDataType}";
 
   /**
    * This contains groups.

@@ -38,12 +38,12 @@ angular.module('metadatamanagementApp').controller('SidenavController',
       $scope.isAdminMenuOpen = !$scope.isAdminMenuOpen;
     };
 
-    $scope.close = function() {
+    $scope.close = function(timeout) {
       $timeout(function() {
         if (!$mdSidenav('SideNavBar').isLockedOpen()) {
           $mdSidenav('SideNavBar').toggle();
         }
-      }, 1000);
+      }, timeout ? timeout : 1000);
     };
 
     $scope.focusContent = function() {

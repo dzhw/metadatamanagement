@@ -324,8 +324,8 @@ public class UnitTestCreateDomainObjectUtils {
   }
 
   public static Statistics buildStatistics() {
-    return Statistics.builder().firstQuartile("70.0").highWhisker(130.0).kurtosis(234.0)
-        .lowWhisker(30.0).maximum("140.0").meanValue(87.5).median("90.0").minimum("0.0")
+    return Statistics.builder().firstQuartile("70.0").kurtosis(234.0)
+        .maximum("140.0").meanValue(87.5).median("90.0").minimum("0.0")
         .skewness(123.0).standardDeviation(40.0).thirdQuartile("110.0").mode("Mode").deviance(12.4)
         .meanDeviation(58.7).build();
   }
