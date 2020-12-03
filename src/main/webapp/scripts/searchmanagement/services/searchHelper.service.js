@@ -114,7 +114,7 @@ angular.module('metadatamanagementApp').factory(
         'question': 'relatedQuestions.questionId',
         'data-set': 'dataSetId',
         'access-way': 'accessWays',
-        'panel-identifier': 'panelIdentifier',
+        'repeated-measurement-identifier': 'repeatedMeasurementIdentifier',
         'derived-variables-identifier': 'derivedVariablesIdentifier',
         'related-publication': 'relatedPublications.id',
         'institution-de': 'dataPackage.institutions.de',

@@ -395,7 +395,8 @@ public class DataSetReportService {
     Map<String, Instrument> instrumentMap = new HashMap<>();
     Map<String, List<ValidResponse>> firstTenValidResponses = new HashMap<>();
     Map<String, List<ValidResponse>> lastTenValidResponses = new HashMap<>();
-    Map<String, List<VariableSubDocumentProjection>> sameVariablesInPanel = new HashMap<>();
+    Map<String, List<VariableSubDocumentProjection>> repeatedMeasurementVariables = 
+        new HashMap<>();
     Map<String, List<VariableSubDocumentProjection>> derivedVariables = new HashMap<>();
 
     for (Variable variable : variables) {
@@ -435,11 +436,12 @@ public class DataSetReportService {
             .subList(sizeValidResponses - 10, sizeValidResponses));
       }
 
-      if (!StringUtils.isEmpty(variable.getPanelIdentifier())) {
+      if (!StringUtils.isEmpty(variable.getRepeatedMeasurementIdentifier())) {
         List<VariableSubDocumentProjection> otherVariablesInPanel =
-            this.variableRepository.findAllByPanelIdentifierAndDataSetIdAndIdNot(
-                variable.getPanelIdentifier(), variable.getDataSetId(), variable.getId());
-        sameVariablesInPanel.put(variable.getId(), otherVariablesInPanel);
+            this.variableRepository.findAllByRepeatedMeasurementIdentifierAndDataSetIdAndIdNot(
+                variable.getRepeatedMeasurementIdentifier(), variable.getDataSetId(),
+                variable.getId());
+        repeatedMeasurementVariables.put(variable.getId(), otherVariablesInPanel);
       }
 
       if (!StringUtils.isEmpty(variable.getDerivedVariablesIdentifier())) {
@@ -454,7 +456,7 @@ public class DataSetReportService {
     dataForTemplate.put("instruments", instrumentMap);
     dataForTemplate.put("firstTenValidResponses", firstTenValidResponses);
     dataForTemplate.put("lastTenValidResponses", lastTenValidResponses);
-    dataForTemplate.put("sameVariablesInPanel", sameVariablesInPanel);
+    dataForTemplate.put("repeatedMeasurementVariables", repeatedMeasurementVariables);
     dataForTemplate.put("derivedVariables", derivedVariables);
 
     return dataForTemplate;
@@ -516,7 +518,9 @@ public class DataSetReportService {
             new RunTaskRequest().withTaskDefinition(taskProperties.getTaskDefinition())
                 .withNetworkConfiguration(networkConfiguration)
                 .withCluster(taskProperties.getClusterName()).withLaunchType(LaunchType.FARGATE)
-                .withCount(1).withStartedBy(onBehalfOf)
+                .withCount(
+                    1)
+                .withStartedBy(onBehalfOf)
                 .withOverrides(new TaskOverride().withContainerOverrides(
                     new ContainerOverride().withName(taskProperties.getContainerName())
                         .withCommand(String.format(taskProperties.getStartCommand(), dataSetId,

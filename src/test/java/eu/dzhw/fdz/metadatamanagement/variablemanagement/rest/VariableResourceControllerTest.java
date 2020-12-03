@@ -195,7 +195,7 @@ public class VariableResourceControllerTest extends AbstractTest {
   }
 
   @Test
-  public void testCreateVariableWithWrongPanelIdentifier() throws Exception {
+  public void testCreateVariableWithWrongRepeatedMeasurementIdentifier() throws Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
 
@@ -204,7 +204,7 @@ public class VariableResourceControllerTest extends AbstractTest {
 
     Variable variable =
         UnitTestCreateDomainObjectUtils.buildVariable(project.getId(), 1, "var1", 1, surveyNumbers);
-    variable.setPanelIdentifier("WrongPanelIdentifier");
+    variable.setRepeatedMeasurementIdentifier("WrongIdentifier");
 
     // create the variable with a survey but without a project
     mockMvc.perform(put(API_VARIABLES_URI + "/" + variable.getId())

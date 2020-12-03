@@ -254,7 +254,7 @@ public class UnitTestCreateDomainObjectUtils {
             .build())
         .distribution(buildDistribution()).generationDetails(buildGenerationDetails())
         .relatedVariables(relatedVariables)
-        .panelIdentifier(projectId + "-ds" + dataSetNumber + "-" + name)
+        .repeatedMeasurementIdentifier(projectId + "-ds" + dataSetNumber + "-" + name)
         .derivedVariablesIdentifier(projectId + "-ds" + dataSetNumber + "-" + name)
         .storageType(StorageTypes.DOUBLE).doNotDisplayThousandsSeparator(true).build();
     variable.setMasterId(variableId);

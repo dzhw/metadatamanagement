@@ -76,7 +76,7 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation ValidDerivedVariablesIdentifier
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation ValidPanelIdentifier
+.. java:import:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation ValidRepeatedMeasurementIdentifier
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation ValidResponseValueMustBeANumberOnNumericDataType
 
@@ -110,7 +110,7 @@ Variable
 .. java:package:: eu.dzhw.fdz.metadatamanagement.variablemanagement.domain
    :noindex:
 
-.. java:type:: @Document @CompoundIndexes @ValidShadowId @ValidVariableIdName @ValidPanelIdentifier @ValidDerivedVariablesIdentifier @UniqueVariableNameInDataSet @RestrictedScaleLevelForDateDataType @ValidResponseValueMustBeAnIsoDateOnDateDataType @StatisticsMinimumMustBeAnIsoDateOnDateDataType @StatisticsMaximumMustBeAnIsoDateOnDateDataType @StatisticsMedianMustBeAnIsoDateOnDateDataType @StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType @StatisticsThirdQuartileMustBeAnIsoDateOnDateDataType @ValidResponseValueMustBeANumberOnNumericDataType @StatisticsMinimumMustBeANumberOnNumericDataType @StatisticsMaximumMustBeANumberOnNumericDataType @StatisticsMedianMustBeANumberOnNumericDataType @StatisticsFirstQuartileMustBeANumberOnNumericDataType @StatisticsThirdQuartileMustBeANumberOnNumericDataType @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Variable extends AbstractShadowableRdcDomainObject
+.. java:type:: @Document @CompoundIndexes @ValidShadowId @ValidVariableIdName @ValidRepeatedMeasurementIdentifier @ValidDerivedVariablesIdentifier @UniqueVariableNameInDataSet @RestrictedScaleLevelForDateDataType @ValidResponseValueMustBeAnIsoDateOnDateDataType @StatisticsMinimumMustBeAnIsoDateOnDateDataType @StatisticsMaximumMustBeAnIsoDateOnDateDataType @StatisticsMedianMustBeAnIsoDateOnDateDataType @StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType @StatisticsThirdQuartileMustBeAnIsoDateOnDateDataType @ValidResponseValueMustBeANumberOnNumericDataType @StatisticsMinimumMustBeANumberOnNumericDataType @StatisticsMaximumMustBeANumberOnNumericDataType @StatisticsMedianMustBeANumberOnNumericDataType @StatisticsFirstQuartileMustBeANumberOnNumericDataType @StatisticsThirdQuartileMustBeANumberOnNumericDataType @EqualsAndHashCode @ToString @NoArgsConstructor @Data @AllArgsConstructor @Builder public class Variable extends AbstractShadowableRdcDomainObject
 
    A variable contains the results from at least one \ :java:ref:`Survey`\ . These results can be the responses from participants of an online survey, hence a variable can result from \ :java:ref:`RelatedQuestion`\ s. A variable is part of exactly one \ :java:ref:`DataSet`\ .
 
@@ -250,14 +250,6 @@ name
 
    The name of the variable as it is used in the \ :java:ref:`DataSet`\ . It must not be empty and must be unique in the \ :java:ref:`DataSet`\ . It must contain only alphanumeric (english) characters and "_". The first character must not be a number. It must not contain more than 32 characters.
 
-panelIdentifier
-^^^^^^^^^^^^^^^
-
-.. java:field:: @Size @Pattern private String panelIdentifier
-   :outertype: Variable
-
-   Identifier used to group variables within this \ :java:ref:`DataSet`\  which measure the same across multiple waves. Must be of the form {{dataAcquisitionProjectId}}-ds{{dataSetNumber}}-{{string}}$. Must not contain more than 512 characters and must contain only (german) alphanumeric characters and "_" and "-".
-
 relatedQuestions
 ^^^^^^^^^^^^^^^^
 
@@ -273,6 +265,14 @@ relatedVariables
    :outertype: Variable
 
    List of ids of variables which are "related" to this variable. The type of relation is arbitrary.
+
+repeatedMeasurementIdentifier
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. java:field:: @Size @Pattern private String repeatedMeasurementIdentifier
+   :outertype: Variable
+
+   Identifier used to group variables within this \ :java:ref:`DataSet`\  which measure the same across multiple waves. Must be of the form {{dataAcquisitionProjectId}}-ds{{dataSetNumber}}-{{string}}$. Must not contain more than 512 characters and must contain only (german) alphanumeric characters and "_" and "-".
 
 scaleLevel
 ^^^^^^^^^^

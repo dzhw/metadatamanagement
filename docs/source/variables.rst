@@ -77,12 +77,12 @@ Tabelle 5: Ausfüllanweisungen für die Excel-Tabelle "vimport_ds*Nr*."
 |                        |                       | „intervall“ or         |
 |                        |                       | „ratio“                |
 +------------------------+-----------------------+------------------------+
-| panelIdentifier        | Nein\*                | Identifier zur         |
-|                        |                       | eindeutigen Zuordnung  |
-|                        |                       | von Panelvariablen.    |
-|                        |                       | Präfix muss aus der    |
-|                        |                       | Projekt-ID + Nummer    |
-|                        |                       | des Datensatzes        |
+| repeatedMeasurementId\ | Nein\*                | Identifier zur         |
+| entifier               |                       | eindeutigen Zuordnung  |
+|                        |                       | von Wiederholungsmess\ |
+|                        |                       | ungen. Präfix muss aus |
+|                        |                       | der Projekt-ID + Numm\ |
+|                        |                       | er des Datensatzes     |
 |                        |                       | bestehen (Beispiel:    |
 |                        |                       | *gra2005-ds1*), der    |
 |                        |                       | hintere Teil des       |
@@ -95,10 +95,10 @@ Tabelle 5: Ausfüllanweisungen für die Excel-Tabelle "vimport_ds*Nr*."
 |                        |                       | und *bstu01a* aus dem  |
 |                        |                       | 1. Datensatz des       |
 |                        |                       | Projekts *gra2005*     |
-|                        |                       | Panelvariablen, so     |
-|                        |                       | könnte der Identifier  |
-|                        |                       | *gra2005-ds1-stu01a*   |
-|                        |                       | lauten.                |
+|                        |                       | Wiederholungsmessungen |
+|                        |                       | , so könnte der Ident\ |
+|                        |                       | ifier *gra2005-ds1-st\ |
+|                        |                       | u01a* lauten.          |
 +------------------------+-----------------------+------------------------+
 | annotations.de/en      | Nein                  | Anmerkungen zur        |
 |                        |                       | Variablen              |
