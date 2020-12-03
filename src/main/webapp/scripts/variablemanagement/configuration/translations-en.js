@@ -238,7 +238,7 @@ angular.module('metadatamanagementApp').config(
             'panel-identifier-pattern': 'Use only alphanumeric signs, german umlauts, ß and minus for the Panel Identifier of the Variable.',
             'derived-variables-identifier-size': 'The max length of derived Variables Identifier of the Variable is 512 signs.',
             'derived-variables-identifier-pattern': 'Use only alphanumeric signs, german umlauts, ß and minus for the derived Variables Identifier of the Variable.',
-            'only-ordinal-scale-level-for-date-data-type': 'The scale level of a date variable must be ordinal.',
+            'restricted-scale-level-for-date-data-type': 'The scale level of a date variable must be nominal, ordinal or interval.',
             'valid-response-value-must-be-a-number-on-numeric-data-type': 'If the variable has a numeric data type, the values of valid responses have to be numeric!',
             'statistics-minimum-must-be-a-number-on-numeric-data-type': 'If the variable has a numeric data type, the minimum of statistics have to be numeric!',
             'statistics-maximum-must-be-a-number-on-numeric-data-type': 'If the variable has a numeric data type, the maximum of statistics have to be numeric!',

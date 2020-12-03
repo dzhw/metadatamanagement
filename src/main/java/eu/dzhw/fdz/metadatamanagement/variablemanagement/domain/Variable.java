@@ -27,7 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.OnlyOrdinalScaleLevelForDateDataType;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.RestrictedScaleLevelForDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsFirstQuartileMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMaximumMustBeANumberOnNumericDataType;
@@ -74,8 +74,9 @@ import lombok.ToString;
     "variable-management.error.variable.valid-derived-variables-identifier")
 @UniqueVariableNameInDataSet(message = "variable-management.error."
     + "variable.unique-variable-name-in-data-set")
-@OnlyOrdinalScaleLevelForDateDataType(
-    message = "variable-management.error.variable.only-ordinal-scale-level-for-date-data-type")
+@RestrictedScaleLevelForDateDataType(
+    message = "variable-management.error.variable."
+        + "restricted-scale-level-for-date-data-type")
 
 //Validation if data type is date
 @ValidResponseValueMustBeAnIsoDateOnDateDataType(

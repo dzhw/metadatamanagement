@@ -40,14 +40,6 @@ firstQuartile
 
    Splits off the lowest 25% of the values (\ :java:ref:`ValidResponse`\ s) of this \ :java:ref:`Variable`\  from the highest 75%. Must not contain more than 32 characters.
 
-highWhisker
-^^^^^^^^^^^
-
-.. java:field:: private Double highWhisker
-   :outertype: Statistics
-
-   The highest value still within 1.5 IQR of the third quartile.
-
 kurtosis
 ^^^^^^^^
 
@@ -55,14 +47,6 @@ kurtosis
    :outertype: Statistics
 
    See \ `Kurtosis (Wikipedia) <https://en.wikipedia.org/wiki/Kurtosis>`_\ .
-
-lowWhisker
-^^^^^^^^^^
-
-.. java:field:: private Double lowWhisker
-   :outertype: Statistics
-
-   The lowest value still within 1.5 IQR of the first quartile.
 
 maximum
 ^^^^^^^

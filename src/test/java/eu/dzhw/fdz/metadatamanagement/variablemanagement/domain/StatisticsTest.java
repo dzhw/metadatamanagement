@@ -25,9 +25,7 @@ public class StatisticsTest {
 
     // Assert
     assertThat(statistics.getFirstQuartile(), is(70.0));
-    assertThat(statistics.getHighWhisker(), is(130.0));
     assertThat(statistics.getKurtosis(), is(234.0));
-    assertThat(statistics.getLowWhisker(), is(30.0));
     assertThat(statistics.getMaximum(), is(140.0));
     assertThat(statistics.getMeanValue(), is(87.5));
     assertThat(statistics.getMinimum(), is(0.0));
