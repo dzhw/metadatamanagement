@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 import org.javers.core.Javers;
@@ -129,7 +130,9 @@ public class DataPackageAttachmentService {
     query.with(Sort.by(Sort.Direction.ASC, "metadata.indexInDataPackage"));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<DataPackageAttachmentMetadata> result = new ArrayList<>();
+    AtomicInteger countByDataPackage = new AtomicInteger(0);
     files.forEach(gridfsFile -> {
+      gridfsFile.getMetadata().put("indexInDataPackage", countByDataPackage.getAndIncrement());
       result.add(mongoTemplate.getConverter().read(DataPackageAttachmentMetadata.class,
           gridfsFile.getMetadata()));
     });
