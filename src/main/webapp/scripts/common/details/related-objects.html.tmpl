@@ -60,7 +60,7 @@
           <md-progress-linear md-mode="indeterminate" ng-disabled="!isSearching"></md-progress-linear>
         </form>
         <div style="margin-top: 14px;" ng-if="$ctrl.searchParams.filter['derived-variables-identifier']"><span class="fdz-filter-badge"><md-icon md-font-set="material-icons">filter_alt</md-icon>{{'variable-management.detail.label.derived-variables' | translate}} {{'global.of' | translate}} {{$ctrl.searchParams.filter['derived-variables-identifier'].match('[-]([^-]*)$')[1]}}</span></div>
-        <div style="margin-top: 14px;" ng-if="$ctrl.searchParams.filter['panel-identifier']"><span class="fdz-filter-badge"><md-icon md-font-set="material-icons">filter_alt</md-icon>{{'variable-management.detail.label.variables-in-panel' | translate}} {{'global.of' | translate}} {{$ctrl.searchParams.filter['panel-identifier'].match('[-]([^-]*)$')[1]}}</span></div>
+        <div style="margin-top: 14px;" ng-if="$ctrl.searchParams.filter['repeated-measurement-identifier']"><span class="fdz-filter-badge"><md-icon md-font-set="material-icons">filter_alt</md-icon>{{'variable-management.detail.label.repeated-measurement' | translate}} {{'global.of' | translate}} {{$ctrl.searchParams.filter['repeated-measurement-identifier'].match('[-]([^-]*)$')[1]}}</span></div>
         <div ng-if="$ctrl.options.pageObject.totalHits" layout="row" layout-align="center" class="mb0">
           <fdz-paginator  options="$ctrl.options"
                           on-update="$ctrl.onPageChanged(event = $event, option = $option)"

@@ -20,14 +20,15 @@ angular.module('metadatamanagementApp').factory('VariableRepositoryClient',
       });
     };
 
-    var findAllByPanelIdentifierAndDataSetIdAndIdNot = function(panelIdentifier,
-       dataSetId, variableId) {
+    var findAllByRepeatedMeasurementIdentifierAndDataSetIdAndIdNot = function(
+        repeatedMeasurementIdentifier, dataSetId, variableId) {
       return $http({
         method: 'GET',
         url: '/api/variables/search/' +
-          'findAllByPanelIdentifierAndDataSetIdAndIdNotOrderByIndexInDataSet',
+          'findAllByRepeatedMeasurementIdentifierAndDataSetIdAndIdNotOrderBy' +
+          'IndexInDataSet',
         params: {
-          panelIdentifier: panelIdentifier,
+          repeatedMeasurementIdentifier: repeatedMeasurementIdentifier,
           dataSetId: dataSetId,
           id: variableId,
           projection: 'id-and-version'
@@ -67,8 +68,8 @@ angular.module('metadatamanagementApp').factory('VariableRepositoryClient',
 
     return {
       findByDataAcquisitionProjectId: findByDataAcquisitionProjectId,
-      findAllByPanelIdentifierAndDataSetIdAndIdNot:
-        findAllByPanelIdentifierAndDataSetIdAndIdNot,
+      findAllByRepeatedMeasurementIdentifierAndDataSetIdAndIdNot:
+        findAllByRepeatedMeasurementIdentifierAndDataSetIdAndIdNot,
       findAllByDerivedVariablesIdentifierAndDataSetIdAndIdNot:
         findAllByDerivedVariablesIdentifierAndDataSetIdAndIdNot
     };

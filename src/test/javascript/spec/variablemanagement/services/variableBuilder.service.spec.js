@@ -47,7 +47,7 @@ describe('VariableBuilderService', function() {
       },
       'expressionLanguage': null
     },
-    'panelIdentifier': null,
+    'repeatedMeasurementIdentifier': null,
     'accessWays': ['download-cuf', 'download-suf', 'remote-desktop-suf',
       'onsite-suf'],
     'surveyNumbers': [3, 4],

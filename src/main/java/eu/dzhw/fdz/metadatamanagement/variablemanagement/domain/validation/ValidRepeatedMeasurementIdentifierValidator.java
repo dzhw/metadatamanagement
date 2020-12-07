@@ -6,11 +6,11 @@ import javax.validation.ConstraintValidatorContext;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 
 /**
- * This validator checks a panelIdentifier.
+ * This validator checks the repeated measurement identifier.
  *
  */
-public class ValidPanelIdentifierValidator
-    implements ConstraintValidator<ValidPanelIdentifier, Variable> {
+public class ValidRepeatedMeasurementIdentifierValidator
+    implements ConstraintValidator<ValidRepeatedMeasurementIdentifier, Variable> {
 
   /*
    * (non-Javadoc)
@@ -18,7 +18,7 @@ public class ValidPanelIdentifierValidator
    * @see javax.validation.ConstraintValidator#initialize(java.lang.annotation.Annotation)
    */
   @Override
-  public void initialize(ValidPanelIdentifier constraintAnnotation) {}
+  public void initialize(ValidRepeatedMeasurementIdentifier constraintAnnotation) {}
 
   /*
    * (non-Javadoc)
@@ -31,10 +31,10 @@ public class ValidPanelIdentifierValidator
     if (variable.isShadow()) {
       return true;
     } else {
-      if (variable.getPanelIdentifier() == null) {
+      if (variable.getRepeatedMeasurementIdentifier() == null) {
         return true;
       }
-      return variable.getPanelIdentifier().contains(variable
+      return variable.getRepeatedMeasurementIdentifier().contains(variable
           .getDataAcquisitionProjectId() + "-ds" + variable.getDataSetNumber() + "-");
     }
   }

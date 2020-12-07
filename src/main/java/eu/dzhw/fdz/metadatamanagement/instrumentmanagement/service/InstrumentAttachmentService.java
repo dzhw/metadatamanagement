@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 import org.javers.core.Javers;
@@ -131,7 +132,17 @@ public class InstrumentAttachmentService {
         Sort.by(Order.asc("metadata.instrumentNumber"), Order.asc("metadata.indexInInstrument")));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<InstrumentAttachmentMetadata> result = new ArrayList<>();
+    AtomicInteger countByInstrumentNumber = new AtomicInteger(0);
+    AtomicInteger currentInstrumentNumber = new AtomicInteger(-1);
     files.forEach(gridfsFile -> {
+      Integer instrumentNumber = gridfsFile.getMetadata().getInteger("instrumentNumber");
+      if (!instrumentNumber.equals(currentInstrumentNumber.get())) {
+        currentInstrumentNumber.set(instrumentNumber);
+        countByInstrumentNumber.set(0);
+      } else {
+        countByInstrumentNumber.incrementAndGet();
+      }
+      gridfsFile.getMetadata().put("indexInInstrument", countByInstrumentNumber.get());
       result.add(mongoTemplate.getConverter().read(InstrumentAttachmentMetadata.class,
           gridfsFile.getMetadata()));
     });

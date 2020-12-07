@@ -124,7 +124,7 @@ angular.module('metadatamanagementApp')
 
           $timeout(function() {
             if ($location.search().query ||
-              $location.search()['panel-identifier'] ||
+              $location.search()['repeated-measurement-identifier'] ||
               $location.search()['derived-variables-identifier']) {
               ctrl.scroll();
             }

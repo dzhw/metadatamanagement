@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'variable': 'Variable',
             'variables': 'Variables',
-            'variables-in-panel': 'Panel Variables',
+            'repeated-measurement': 'Repeated Measurements',
             'derived-variables': 'derived Variables',
             'generation-details': 'Generation Details',
             'name': 'Name',
@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp').config(
             'generation-details-rule': 'Generation Rule',
             'label': 'Label',
             'show-all-derived-variables': 'Show all derived variables',
-            'show-all-panel-variables': 'Show all panel variables',
+            'show-all-repeated-measurements': 'Show all repeated measurements',
             'statistics': {
               'graphic-is-loading': 'is loading...',
               'graphic-is-not-available': 'No plotting available',
@@ -116,7 +116,7 @@ angular.module('metadatamanagementApp').config(
               'many': 'Click to show all questions from which this variable resulted'
             },
             'variables': {
-              'same-in-panel': 'Click to show all panel variables related to this variable',
+              'repeated-measurement': 'Click to show all repeated measurements related to this variable',
               'derived-variables': 'Click to show all derived variables related to this variable',
             },
             'data-packages': {
@@ -232,10 +232,10 @@ angular.module('metadatamanagementApp').config(
             'related-question-number-size': 'The max Length of Question Number is 32 signs.',
             'related-question-number-not-empty': 'A Related Question doesn\'t have a Number!',
             'related-question-instrument-number-not-empty': 'An Instrument doesn\'t have a Number!',
-            'valid-panel-identifier': 'The Panel Identifier of the Variable is not valid for the Pattern: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string.',
+            'valid-repeated-measurement-identifier': 'The identifier of the repeated measurement of the Variable is not valid for the Pattern: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string.',
             'valid-derived-variables-identifier': 'The Identifier of the derived Variable is not valid for the Pattern: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string.',
-            'panel-identifier-size': 'The max length of Panel Identifier of the Variable is 512 signs.',
-            'panel-identifier-pattern': 'Use only alphanumeric signs, german umlauts, ß and minus for the Panel Identifier of the Variable.',
+            'repeated-measurement-identifier-size': 'The max length of the identifier of the repeated measurement of the Variable is 512 signs.',
+            'repeated-measurement-identifier-pattern': 'Use only alphanumeric signs, german umlauts, ß and minus for the identifier of the repeated measurement of the Variable.',
             'derived-variables-identifier-size': 'The max length of derived Variables Identifier of the Variable is 512 signs.',
             'derived-variables-identifier-pattern': 'Use only alphanumeric signs, german umlauts, ß and minus for the derived Variables Identifier of the Variable.',
             'restricted-scale-level-for-date-data-type': 'The scale level of a date variable must be nominal, ordinal or interval.',
@@ -301,7 +301,6 @@ angular.module('metadatamanagementApp').config(
           },
           'post-validation': {
             'variable-has-invalid-survey-id': 'The Variable {{id}} references to an unknown Survey ({{toBereferenzedId}}).',
-            'variable-id-is-not-in-invalid-variables-panel': 'The Variable {{id}} references to an unknown Panel Variable ({{toBereferenzedId}}).',
             'variable-id-is-not-valid-in-related-variables': 'The Variable {{id}} references to an unknown related Variable ({{toBereferenzedId}}).',
             'variable-has-invalid-data-set-id': 'The Variable {{id}} references to an unknown Data Set ({{toBereferenzedId}}).',
             'variable-has-invalid-question-id': 'The Variable {{id}} references to an unknown Question ({{toBereferenzedId}}).',

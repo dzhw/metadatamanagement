@@ -10,19 +10,19 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * This validator checks a panelIdentifier.
+ * This validator checks the repeated measurement identifier.
  *
  */
 @Documented
-@Constraint(validatedBy = {ValidPanelIdentifierValidator.class})
+@Constraint(validatedBy = {ValidRepeatedMeasurementIdentifierValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidPanelIdentifier {
+public @interface ValidRepeatedMeasurementIdentifier {
   /**
    * Defines the default error message.
    */
   String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "variable-management.error.variable.valid-panel-identifier}";
+      + "variable-management.error.variable.valid-repeated-measurement-identifier}";
 
   /**
    * This contains groups.
