@@ -313,11 +313,10 @@ jobs:
     safari-publisher:
       runs-on: ubuntu-18.04
       needs:
-        - chrome-dataprovider
-        - firefox-dataprovider
-        - ie11-dataprovider
-        - edge-dataprovider
-        - safari-dataprovider
+        - chrome-publisher
+        - firefox-publisher
+        - ie11-publisher
+        - edge-publisher
       steps:
         - uses: actions/checkout@v1
           with:
