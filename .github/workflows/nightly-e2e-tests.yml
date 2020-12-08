@@ -298,10 +298,10 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Set up Python 2.7.16
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: 2.7.16
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Edge Tests (Publisher)
