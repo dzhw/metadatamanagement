@@ -324,7 +324,7 @@ jobs:
         - name: Set up Python 2.7
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: 2.7.17
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Safari Tests (Publisher)
