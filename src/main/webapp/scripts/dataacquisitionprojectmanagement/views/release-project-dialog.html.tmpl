@@ -51,6 +51,15 @@
           {{'data-acquisition-project-management.release.pin-to-start-page-hint' | translate}}
         </div>
       </md-input-container>
+      <md-input-container class="md-block" md-is-error="!releaseForm.releaseConfirmed.$valid">
+        <md-checkbox required name="releaseConfirmed" ng-model="releaseConfirmed"
+                     style="margin: 0 18px 0 0">
+          {{'data-acquisition-project-management.release.confirmed.' + ENV | translate }}
+        </md-checkbox>
+        <div class="fdz-input-hint">
+          {{'data-acquisition-project-management.release.confirm-hint' | translate}}
+        </div>
+      </md-input-container>
     </md-dialog-content>
     <md-dialog-actions layout="row" style="padding: 0 1.5em 1em 0;">
       <md-button class="md-raised" ng-click="cancel()">

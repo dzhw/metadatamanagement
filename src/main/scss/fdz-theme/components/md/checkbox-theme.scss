@@ -41,6 +41,13 @@
      @include checkbox-primary;
     }
 
+    &.ng-invalid {
+      color: $warn-700;
+      &:not(.md-checked) .md-icon {
+        border-color: $warn-700;
+      }
+    }
+
     &.md-warn {
       .md-ripple {
         color: $warn-color;
@@ -93,5 +100,4 @@
       color: $foreground-3;
     }
   }
-
 }

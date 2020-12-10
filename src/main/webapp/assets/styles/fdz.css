@@ -687,6 +687,11 @@ h1, h2, h3, h4, h5, h6, h7, h8, h9, .h1, .h2, .h3, .h4, .h5, .h6, .h7, .h8, .h9 
 .fdz-theme md-checkbox:not([disabled]).md-primary .md-indeterminate[disabled] .md-container {
   color: rgba(0, 0, 0, 0.38); }
 
+.fdz-theme md-checkbox:not([disabled]).ng-invalid {
+  color: #d91835; }
+  .fdz-theme md-checkbox:not([disabled]).ng-invalid:not(.md-checked) .md-icon {
+    border-color: #d91835; }
+
 .fdz-theme md-checkbox:not([disabled]).md-warn .md-ripple {
   color: #f7a839; }
 

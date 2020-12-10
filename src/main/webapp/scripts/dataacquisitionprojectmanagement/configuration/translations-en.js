@@ -9,7 +9,14 @@ angular.module('metadatamanagementApp').config(
         'release': {
           'version': 'Version of the Data Acquisition Projects',
           'pin-to-start-page': 'Show Data Package on Start Page',
-          'pin-to-start-page-hint': 'Check this box, if you want to show this data package on the start page.'
+          'pin-to-start-page-hint': 'Check this box, if you want to show this data package on the start page.',
+          'confirmed': {
+            'local': 'This is a local system. Are you sure?',
+            'test': 'This is the test stage! Are you sure?',
+            'dev': 'This is the dev stage! Are you sure?',
+            'prod': 'WARNING: This is the PRODUCTION stage! Are you sure?',
+          },
+          'confirm-hint': 'Check this box if you really want to release this project on this system!'
         },
         'home': {
           'title': 'Data Acquisition Projects',
