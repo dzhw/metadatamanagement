@@ -11,6 +11,7 @@ Check Publishers Project Releasing and Unreleasing Funtionalities
   Select project by name  robotprojectrelease4${BROWSER}
   Click on Cockpit Button
   Change Project Release Status
+  Confirm Release
   Click on OK Button
   Sleep  2s  # to avoid failing in firefox
   Assert Project Release Action Has Error Message
