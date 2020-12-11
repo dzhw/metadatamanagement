@@ -6,9 +6,10 @@ angular.module('metadatamanagementApp')
     DaraReleaseResource, $rootScope, CurrentProjectService,
     DataAcquisitionProjectLastReleaseResource, $state, $translate,
     DataAcquisitionProjectPostValidationService, PinnedDataPackagesService,
-    DataPackageIdBuilderService) {
+    DataPackageIdBuilderService, ENV) {
     $scope.bowser = $rootScope.bowser;
     $scope.project = project;
+    $scope.ENV = ENV;
 
     var i18nPrefix = 'data-acquisition-project-management.log-messages.' +
       'data-acquisition-project.';
