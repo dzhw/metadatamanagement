@@ -129,6 +129,7 @@ Restore The Previous Project Version and Publish Again
   Click on Cockpit Button
   Click Publisher Ready Checkbox for Data Packages
   Change Project Release Status  #release the previous version again
+  Confirm Release
   Click on OK Button
   Sleep  90s
 
