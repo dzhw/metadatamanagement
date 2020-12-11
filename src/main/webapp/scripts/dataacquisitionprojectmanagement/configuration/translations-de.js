@@ -12,8 +12,8 @@ angular.module('metadatamanagementApp').config(
           'pin-to-start-page-hint': 'Markieren Sie dieses Kästchen, wenn das Datenpaket auf der Startseite des MDMs angezeigt werden soll.',
           'confirmed': {
             'local': 'Dies ist ein lokales System. Sind sie sicher?',
-            'test': 'Dies ist das Test-system! Sind sie sicher?',
-            'dev': 'Dies ist das Dev-system! Sind sie sicher?',
+            'test': 'Dies ist das Test-System! Sind sie sicher?',
+            'dev': 'Dies ist das Dev-System! Sind sie sicher?',
             'prod': 'ACHTUNG: Dies ist das PRODUKTIV-System! Sind sie sicher?',
           },
           'confirm-hint': 'Markieren Sie dieses Kästchen, wenn sie das Projekt wirklich auf diesem System freigeben wollen!'
