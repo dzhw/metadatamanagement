@@ -3,24 +3,36 @@ Related Publications
 
 **Arbeiten mit der Citavi-Datenbank**
 
-Für dieses Objekt wird eine Citavi-Datenabank angelegt. Diese liegt unter: `\\faust\Abt4\FDZ\Querschnittsaufgaben\Metadaten\Erzeugen\Literaturexport\relatedPublication`.
+Die Related Publications werden in der Citavi-Datenbank unter Faust/Abt4/FDZ/6_Literatur/Literaturexport/relatedPublications/relatedPublications_cit6/relatedPublications.ctv6 eingepflegt.
+Wenn eine neue Publikation eingepflegt wird (grünes Plus-Zeichen) ist darauf zu achten, dass zunächst der richtige Dokumente-Typ gewählt wird. In der Regel wird dies ein Zeitschriftenaufsatz oder graue Literatur sein.
+Eine Anleitung zum Aufnehmen der Literatur findet man unter https://www1.citavi.com/sub/manual6/de/index.html -> Citavi im Detail -> Titel aufnehmen. Oft kann man mit Hilfe des Citavi-Pickers (Browserplugin) aus Zeitschriften-Datenbanken Einträge importieren. Dies muss aber in jedem Fall überprüft werden, da die Einträge oft Fehler enthalten oder bspw. manche Felder komplett groß geschrieben sind.
+Neben den für den jeweiligen Dokumententyp verpflichtenden Feldern, gibt es noch eine Reihe weiterer Felder, welche für das MDM auszufüllen sind.
+Diese werden unten bei der Eingabemaske angezeigt und müssen ggfs. noch per Klick auf den Text "weitere Felder" hinzugefügt werden.
+Das Feld BibTeX Key wird automatisch von Citavi ausgefüllt.
 
-Die Citavi-Einträge lassen sich exportieren, indem man einen Eintrag in der
-Literaturübersicht markiert (linke Seite) und Str+Alt+t drückt. Die
+Durch die Tastenkombination `Str+Alt+t` öffnet sich die Exportfunktion um es als Exceltabelle zu exportieren. Die
 Tabellenansicht öffnet sich und durch klicken auf Spalten (oben links) kann
 ausgewählt werden, welche Spalten exportiert werden sollen. Aus der
-Tabellenansicht kann die die Datei jetzt nach Excel als relatedPublications.xls
+Tabellenansicht kann die die Datei jetzt nach Excel als relatedPublications.xls (nicht .xlsx)
 exportiert werden (Datei > nach Microsoft Excel exportieren). Einige
-Spaltennamen müssen evtl. später noch manuell umbenannt werden (z.B. BibTeXKey
-wird zu id). Die Excel-Tabelle wird
-`hier<https://github.com/dzhw/metadatamanagement-io/tree/master/references/relatedPublications>`
-gepflegt.
+Spaltennamen müssen noch manuell umbenannt werden:
+
+- `BibTeXKey` -> `id`
+- `Jahr ermittelt` -> `year`
+- `Autoren` -> `authors`
+- `Titel` -> `title`
+- bei einigen Feldern steht `(=Freitext $ZAHL)`, was man löschen muss
+
+Strenggenommen muss das Feld studyIds nicht ausgefüllt werden, da die Verknüpfung `dataPackage <-> relatedPublication` im Project Cockpit erfolgt.
+Es ist aber sinnvoll es weiter zu pflegen, sodass man es auch außerhalb des MDMs vorgehalten hat (falls etwas schiefläuft).
+Nachdem die Daten exportiert wurden, sind diese im Reiter Publikationen über den Plus-Button hochzuladen.
+Im Projekt-Cockpit müssen anschließend alle Publikationen, die mit dem Projekt zusammenhängen verknüpft werden.
 
 +----------------+----------------------------+-------------------------+
 | Eigenschaft    | Ausfüllanweisung           | muss ausgefüllt werden? |
 +================+============================+=========================+
-| id             | von Citavi                 | ja                      |
-|                | erzeugter BibTex-Key       |                         |
+| id             | von Citavi                 | ja; darf nicht geändert |
+|                | erzeugter BibTex-Key       | werden                  |
 +----------------+----------------------------+-------------------------+
 | source\        | Quellangabe der            | ja                      |
 | Reference      | Publikation                |                         |
@@ -57,9 +69,8 @@ gepflegt.
 +----------------+----------------------------+-------------------------+
 | questionIds    |                            | nein                    |
 +----------------+----------------------------+-------------------------+
-| studySeries\   | mindestens eine            | Falls vorhanden ja      |
-| es.de          | dataPackageId oder mindes\ |                         |
-|                | tens 1 studySeries         |                         |
+| studySeries\   |                            | Falls vorhanden ja      |
+| es.de          |                            |                         |
 +----------------+----------------------------+-------------------------+
 | language       | Sprache der Publikation    | ja                      |
 |                | (2-Buchstaben Code         |                         |
