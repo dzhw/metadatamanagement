@@ -21,6 +21,7 @@
     "angular-recaptcha": "4.2.0",
     "angular-resource": "1.8.2",
     "angular-sanitize": "1.8.2",
+    "angular-swx-session-storage": "^1.0.0",
     "angular-translate": "2.18.4",
     "angular-translate-handler-log": "2.18.4",
     "angular-translate-interpolation-messageformat": "2.18.4",

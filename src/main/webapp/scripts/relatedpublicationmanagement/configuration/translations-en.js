@@ -141,6 +141,16 @@ angular.module('metadatamanagementApp').config(
             'instrument-has-not-a-referenced-data-package': 'Instrument "{{invalidValue}}" belongs to a data package which has not been linked to this publication.',
             'question-has-not-a-referenced-data-package': 'Question "{{invalidValue}}" belongs to a data package which has not been linked to this publication.'
           }
+        },
+        'report-publications': {
+          'speech-bubble': {
+            'close': 'Close',
+            'text': 'Do you know of any publications based on our data packages? Then please share them with us...'
+          },
+          'button': {
+            'tooltip': 'Click to report publications on our data packages',
+            'link': 'mailto:userservice@dzhw.eu?subject=Reporting%20of%20publications%20on%20data%20packages%20from%20FDZ-DZHW&body=Dear%20FDZ-DZHW%2C%0D%0A%0D%0AI%20would%20like%20to%20report%20the%20following%20publication(s)%3A'
+          }
         }
       }
       //jscs:enable

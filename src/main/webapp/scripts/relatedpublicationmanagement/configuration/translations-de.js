@@ -141,6 +141,16 @@ angular.module('metadatamanagementApp').config(
             'instrument-has-not-a-referenced-data-package': 'Das Instrument "{{invalidValue}}" gehört zu einem Datenpaket, das nicht mit der Publikation verknüpft ist.',
             'question-has-not-a-referenced-data-package': 'Die Frage "{{invalidValue}}" gehört zu einem Datenpaket, das nicht mit der Publikation verknüpft ist.'
           }
+        },
+        'report-publications': {
+          'speech-bubble': {
+            'close': 'Schließen',
+            'text': 'Kennen Sie Publikationen, die auf Basis unserer Datenpakete entstanden sind? Dann teilen Sie uns diese bitte mit...'
+          },
+          'button': {
+            'tooltip': 'Klicken, um Publikationen zu unseren Datenpaketen zu melden',
+            'link': 'mailto:userservice@dzhw.eu?subject=Meldung%20von%20Publikationen%20zu%20Datenpaketen%20vom%20FDZ-DZHW&body=Liebes%20FDZ-DZHW%2C%0D%0A%0D%0Aich%20m%C3%B6chte%20folgende%20Publikation(en)%20melden%3A%0D%0A'
+          }
         }
       }
       //jscs:enable

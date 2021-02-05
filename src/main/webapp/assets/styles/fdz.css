@@ -2611,7 +2611,8 @@ geographic-coverage {
 .fdz-fab-button-container {
   position: fixed;
   bottom: 1em;
-  right: 1em; }
+  right: 1em;
+  z-index: 15; }
 
 md-dialog .fdz-fab-button-container {
   position: absolute; }
@@ -2638,6 +2639,38 @@ md-dialog .fdz-fab-button-container {
 .fdz-theme md-select.fdz-inline-select:focus {
   outline: #F69F24 auto 5px;
   color: #0071bc; }
+
+.fdz-speech-bubble {
+  position: relative;
+  max-width: 30em;
+  background-color: #fff;
+  padding: 0px;
+  margin-bottom: 4px;
+  margin-left: 12px;
+  border-radius: 1rem;
+  border: 2px solid #0071bc;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3), 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2); }
+
+.fdz-speech-bubble p {
+  padding: 1.125em 1.5em;
+  margin: 0px;
+  color: black; }
+
+.fdz-speech-bubble a:hover, .fdz-speech-bubble a:focus {
+  text-decoration: none; }
+
+.fdz-speech-bubble::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 100%;
+  right: 25px;
+  border: 10px solid transparent;
+  border-top: none;
+  transform: rotate(180deg);
+  border-bottom-color: #0071bc;
+  filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, 0.1)); }
 
 .fdz-no-js {
   position: absolute;
