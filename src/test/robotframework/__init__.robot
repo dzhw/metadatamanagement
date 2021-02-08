@@ -5,6 +5,7 @@ Suite Teardown    Finish Tests
 Library           ExtendedSelenium2Library
 Library           Collections
 Library           OperatingSystem
+Resource          ./resources/click_element_resource.robot
 Variables         common_variables.yaml
 
 *** Variables ***
@@ -27,6 +28,10 @@ Open Home Page
     Run Keyword If    '${USE_SAUCELABS}' != '${EMPTY}'    Open Saucelabs Browser
     Set Window Size    800    600
     Maximize Browser Window
+    Close Speech Bubble
+
+Close Speech Bubble
+    Click Element Through Tooltips  xpath=//report-publications-component//button[@ng-click='closeSpeechBubble()']
 
 Finish Tests
     Run Keyword If    '${USE_SAUCELABS}' != '${EMPTY}'    Import Library    SauceLabs
