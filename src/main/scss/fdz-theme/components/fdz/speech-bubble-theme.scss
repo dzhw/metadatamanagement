@@ -4,19 +4,19 @@
 	max-width: 30em;
 
 	// looks
-	background-color: #fff;
+	background-color: #0071bc;
 	padding: 0px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   margin-left: 12px;
 	border-radius: 1rem;
-  border: 2px solid #0071bc;
+  // border: 2px solid #0071bc;
   box-shadow:	0 0.125rem 0.5rem rgba(0, 0, 0, .3), 0 0.0625rem 0.125rem rgba(0, 0, 0, .2);
 }
 
 .fdz-speech-bubble p {
   padding: 1.125em 1.5em;
   margin: 0px;
-  color: black;
+  color: #fff;
 }
 
 .fdz-speech-bubble a:hover, .fdz-speech-bubble a:focus {
