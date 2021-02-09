@@ -4,7 +4,7 @@
 	max-width: 30em;
 
 	// looks
-	background-color: #0071bc;
+	background-color: $brand-secondary;
 	padding: 0px;
   margin-bottom: 6px;
   margin-left: 12px;
@@ -16,7 +16,7 @@
 .fdz-speech-bubble p {
   padding: 1.125em 1.5em;
   margin: 0px;
-  color: #fff;
+  color: $brand-primary;
 }
 
 .fdz-speech-bubble a:hover, .fdz-speech-bubble a:focus {
@@ -35,6 +35,6 @@
 	border-top: none;
   transform: rotate(180deg);
 	// looks
-	border-bottom-color: #0071bc;
+	border-bottom-color: $brand-secondary;
 	filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
 }

@@ -2653,7 +2653,7 @@ md-dialog .fdz-fab-button-container {
 .fdz-speech-bubble p {
   padding: 1.125em 1.5em;
   margin: 0px;
-  color: #fff; }
+  color: white; }
 
 .fdz-speech-bubble a:hover, .fdz-speech-bubble a:focus {
   text-decoration: none; }
