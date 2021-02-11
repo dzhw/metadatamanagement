@@ -246,7 +246,8 @@ Feld auch leer gelassen werden.
 | **Tabellenblatt 2:                                                     |
 | relatedQuestions**                                                     |
 +========================+=======================+=======================+
-| **Variablen, die mit                                                   |
+| **Variablen (auch 
+| generierte), die mit                                                   |
 | mehreren Fragen                                                        |
 | verbunden sind,                                                        |
 | können mehrfach                                                        |
@@ -306,7 +307,7 @@ Feld auch leer gelassen werden.
 
 Dem Namen entsprechend wird aus den Informationen des zweiten
 Tabellenblatts die Verknüpfung zwischen einer Variablen und der
-dazugehörigen Frage aus dem Erhebungsinstrument erstellt. Für eine
+dazugehörigen Frage aus dem Erhebungsinstrument erstellt. Hierbei sollten auch generierte Variablen mit relatedQuestions verbunden werden. Für eine
 nachvollziehbare Dokumentation dieser Verbindung ist die Erstellung
 eines Variablenfragebogens sehr hilfreich. Aus diesem kann die
 Verknüpfung aus Variable und Frage problemlos abgelesen werden.
