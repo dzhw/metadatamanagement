@@ -3,7 +3,7 @@ Related Publications
 
 **Arbeiten mit der Citavi-Datenbank**
 
-Die Related Publications werden in der Citavi-Datenbank unter ``\\faust\Abt4\FDZ\6_Literatur\FDZ-DZHW\FDZ-DZHW.ctv6`` eingepflegt.
+Die Related Publications werden in der Citavi-Datenbank unter ``\\faust\Abt4\FDZ\6_Literatur\Literaturexport\relatedPublications\relatedPublications_cit6\relatedPublications.ctv6`` eingepflegt.
 Wenn eine neue Publikation eingepflegt wird (grünes Plus-Zeichen), ist darauf zu achten, dass zunächst der richtige Dokumente-Typ gewählt wird. In der Regel wird dies ein Zeitschriftenaufsatz oder graue Literatur sein.  
 
 **Tipp:** Eine Anleitung zum Aufnehmen der Literatur findet man unter https://www1.citavi.com/sub/manual6/de/index.html -> Citavi im Detail -> Titel aufnehmen. Oft kann man mit Hilfe des Citavi-Pickers (Browserplugin) aus Zeitschriften-Datenbanken Einträge importieren. Dies muss aber in jedem Fall überprüft werden, da die Einträge oft Fehler enthalten oder bspw. manche Felder komplett groß geschrieben sind.
