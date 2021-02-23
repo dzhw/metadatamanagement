@@ -21,11 +21,12 @@ Spaltennamen müssen noch manuell umbenannt werden:
 
 - `BibTeXKey` -> `id`
 - `Jahr ermittelt` -> `year`
-- `Autoren` -> `authors`
+- `Autoren` (Frage: `Autor, Herausgeber oder Institution`?) -> `authors`
 - `Titel` -> `title`
-- bei einigen Feldern steht `(=Freitext $ZAHL)`, was man löschen muss
+- `Sprache -> language`
+- bei einigen Feldern steht der Zusatz `(=Freitext $ZAHL)`, z. B. sourceReference (= Freitext 1), den Zusatz muss man löschen
 
-Strenggenommen muss das Feld studyIds nicht ausgefüllt werden, da die Verknüpfung `dataPackage <-> relatedPublication` im Project Cockpit erfolgt.
+Strenggenommen muss das Feld studyIds [Frage: ist das jetzt nicht dataPackageIds?] nicht ausgefüllt werden, da die Verknüpfung `dataPackage <-> relatedPublication` im Project Cockpit erfolgt. [Frage: sollte klar geregelt sein, damit es keine Doppelstrukturen gibt oder denkt, man kann etwas ändern, indem man es in Citavi ändert? Muss man dann nicht nach jedem Import manuell alle Publikationen wieder zuordnen?]  
 Es ist aber sinnvoll es weiter zu pflegen, sodass man es auch außerhalb des MDMs vorgehalten hat (falls etwas schiefläuft).
 
 Nachdem die Daten exportiert wurden, sind diese im Reiter Publikationen im MDM über den Plus-Button hochzuladen.
