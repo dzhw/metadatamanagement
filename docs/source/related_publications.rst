@@ -26,7 +26,7 @@ Spaltennamen müssen noch manuell umbenannt werden:
 - `Sprache -> language`
 - bei einigen Feldern steht der Zusatz `(=Freitext $ZAHL)`, z. B. sourceReference (= Freitext 1), den Zusatz muss man löschen
 
-Strenggenommen muss das Feld studyIds [Frage: ist das jetzt nicht dataPackageIds?] nicht ausgefüllt werden, da die Verknüpfung `dataPackage <-> relatedPublication` im Project Cockpit erfolgt. [Frage: sollte klar geregelt sein, damit es keine Doppelstrukturen gibt oder denkt, man kann etwas ändern, indem man es in Citavi ändert? Muss man dann nicht nach jedem Import manuell alle Publikationen wieder zuordnen?]  
+Strenggenommen muss das Feld studyIds [Frage: ist das jetzt nicht dataPackageIds?] nicht ausgefüllt werden, da die Verknüpfung `dataPackage <-> relatedPublication` im Project Cockpit (`Publikationen -> Bearbeiten`) erfolgt. [Frage: sollte klar geregelt sein, damit es keine Doppelstrukturen gibt oder denkt, man kann etwas ändern, indem man es in Citavi ändert? Muss man dann nicht nach jedem Import manuell alle Publikationen wieder zuordnen?]  
 Es ist aber sinnvoll es weiter zu pflegen, sodass man es auch außerhalb des MDMs vorgehalten hat (falls etwas schiefläuft).
 
 Nachdem die Daten exportiert wurden, sind diese im Reiter Publikationen im MDM über den Plus-Button hochzuladen.
