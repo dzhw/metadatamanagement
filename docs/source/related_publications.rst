@@ -1,6 +1,9 @@
 Related Publications
 ====================
 
+Ute hat wegen eines bestimmten Problems ein kurzes Review gemacht. Wenn dies hier überarbeitet wird, wäre es prima, wenn das berücksichtigt werden könnte:
+``"\\faust\Abt4\FDZ\7_MitarbeiterInnen\Ute\relatedPublications\Review für Anleitung.docx"``
+
 **Arbeiten mit der Citavi-Datenbank**
 
 Die Related Publications werden in der Citavi-Datenbank unter ``\\faust\Abt4\FDZ\6_Literatur\Literaturexport\relatedPublications\relatedPublications_cit6\relatedPublications.ctv6`` eingepflegt.
