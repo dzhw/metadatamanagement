@@ -96,7 +96,7 @@
     "karma-requirejs": "1.1.0",
     "karma-script-launcher": "1.0.0",
     "load-grunt-tasks": "5.1.0",
-    "lodash": "4.17.20",
+    "lodash": "4.17.21",
     "node-sass": "5.0.0",
     "phantomjs-prebuilt": "2.1.16",
     "requirejs": "2.3",
