@@ -51,7 +51,8 @@ public class OrderService {
       if (persistedOrder.getState() == OrderState.ORDERED) {
         throw new OrderAlreadyCompletedException();
       }
-      BeanUtils.copyProperties(orderToUpdate, persistedOrder, "id", "createdDate", "createdBy");
+      BeanUtils.copyProperties(orderToUpdate, persistedOrder, "id", "createdDate", "createdBy",
+          "version");
       persistedOrder = orderRepository.save(persistedOrder);
       return Optional.of(persistedOrder);
     } else {

@@ -110,14 +110,14 @@ public class OrderResourceTest extends AbstractTest {
   }
 
   @Test
-  public void updateOrder_optimistic_locking() throws Exception {
+  public void updateOrder_optimistic_locking_is_ignored() throws Exception {
     Order order = createOrder();
     order = orderRepository.save(order);
     order.getProducts().add(createProduct(order.getId()));
     order.setVersion(-1L);
 
     mockMvc.perform(put(UPDATE_ORDER_URL + order.getId()).contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.convertObjectToJsonBytes(order))).andExpect(status().isBadRequest());
+        .content(TestUtil.convertObjectToJsonBytes(order))).andExpect(status().isOk());
   }
 
   @Test
