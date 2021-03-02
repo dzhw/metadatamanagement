@@ -164,5 +164,3 @@ logbook:
     - /api/orders/**
   filter.enabled: true
   format.style: http
-  write:
-    max-body-size: 1000
