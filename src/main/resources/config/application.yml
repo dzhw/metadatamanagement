@@ -163,4 +163,4 @@ logbook:
   include:
     - /api/orders/**
   filter.enabled: true
-  format.style: http
+  format.style: json
