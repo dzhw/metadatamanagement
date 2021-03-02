@@ -311,6 +311,11 @@
             <version>2.4.2</version>
         </dependency>
         <dependency>
+    		<groupId>org.zalando</groupId>
+    		<artifactId>logbook-spring-boot-starter</artifactId>
+    		<version>2.5.0</version>
+		</dependency>
+        <dependency>
             <groupId>pl.allegro.tech</groupId>
             <artifactId>embedded-elasticsearch</artifactId>
             <version>2.11.3</version>

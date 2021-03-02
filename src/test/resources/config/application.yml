@@ -91,3 +91,6 @@ jhipster:
                 secret: mySecretOAuthSecret
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
+
+logbook:
+  filter.enabled: false
