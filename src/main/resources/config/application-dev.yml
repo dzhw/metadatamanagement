@@ -63,3 +63,6 @@ metadatamanagement:
     cluster-name: dev
   mongodb:
     ssl-ca-certificate: ${vcap.services.mongodb.cacert}
+
+logbook:
+  filter.enabled: false

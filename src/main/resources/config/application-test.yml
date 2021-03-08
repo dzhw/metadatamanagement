@@ -73,4 +73,4 @@ metadatamanagement:
     site-token: ${vcap.services.seo4ajax.sitetoken}
 
 logbook:
-  filter.enabled: true
+   filter.enabled: false
