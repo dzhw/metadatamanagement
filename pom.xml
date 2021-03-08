@@ -11,7 +11,7 @@
 
     <groupId>eu.dzhw.fdz</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.107-SNAPSHOT</version>
+    <version>1.0.107</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -311,17 +311,17 @@
             <version>2.4.2</version>
         </dependency>
         <dependency>
-    		<groupId>org.zalando</groupId>
-    		<artifactId>logbook-spring-boot-starter</artifactId>
-    		<version>2.6.0</version>
-    		<exclusions>
-    			<!-- Exclude http client cause it introduces vulnerability issues (snyk errors)-->
-    			<exclusion>
-    				<groupId>org.zalando</groupId>
-    				<artifactId>logbook-httpclient</artifactId>
-    			</exclusion>
-    		</exclusions>
-		</dependency>
+            <groupId>org.zalando</groupId>
+            <artifactId>logbook-spring-boot-starter</artifactId>
+            <version>2.6.0</version>
+            <exclusions>
+                <!-- Exclude http client cause it introduces vulnerability issues (snyk errors)-->
+                <exclusion>
+                    <artifactId>logbook-httpclient</artifactId>
+                    <groupId>org.zalando</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>pl.allegro.tech</groupId>
             <artifactId>embedded-elasticsearch</artifactId>
