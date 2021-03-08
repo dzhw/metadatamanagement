@@ -5,8 +5,9 @@ angular.module('metadatamanagementApp').config(
     $stateProvider.state('search', {
       parent: 'site',
       url: '/search?{access-way}{concept}{data-package}{data-set}' +
-        '{derived-variables-identifier}{instrument}{page}{panel-identifier}' +
-        '{query}{question}{related-publication}{size}{study-series}' +
+        '{derived-variables-identifier}{instrument}{page}' +
+        '{query}{question}{related-publication}' +
+        '{repeated-measurement-identifier}{size}{study-series}' +
         '{study-series-de}{study-series-en}{survey}{tags}{type}{variable}',
       reloadOnSearch: false,
       data: {

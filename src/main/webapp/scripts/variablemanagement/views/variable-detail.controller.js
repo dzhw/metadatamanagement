@@ -115,11 +115,12 @@ angular.module('metadatamanagementApp')
             version: result.release.version
           });
       }
-      if (result.panelIdentifier) {
-        VariableRepositoryClient.findAllByPanelIdentifierAndDataSetIdAndIdNot(
-          result.panelIdentifier, result.dataSetId, result.id
+      if (result.repeatedMeasurementIdentifier) {
+        VariableRepositoryClient
+          .findAllByRepeatedMeasurementIdentifierAndDataSetIdAndIdNot(
+          result.repeatedMeasurementIdentifier, result.dataSetId, result.id
         ).then(function(response) {
-          ctrl.panelVariables = response.data;
+          ctrl.repeatedMeasurementVariables = response.data;
         });
       }
       if (result.derivedVariablesIdentifier) {
@@ -197,7 +198,8 @@ angular.module('metadatamanagementApp')
       } else {
         $state.go('dataPackageDetail', {id: ctrl.variable.dataPackage.masterId,
           version: ctrl.variable.shadow ? ctrl.variable.release.version : '',
-          'panel-identifier': ctrl.variable.panelIdentifier,
+          'repeated-measurement-identifier': ctrl.variable
+            .repeatedMeasurementIdentifier,
           type: 'variables'
         });
       }

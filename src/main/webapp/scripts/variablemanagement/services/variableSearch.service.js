@@ -269,16 +269,16 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         });
       };
 
-      var findPanelIdentifiers = function(term, filter,
+      var findRepeatedMeasurementIdentifiers = function(term, filter,
         dataAcquisitionProjectId, queryterm) {
         var query = createQueryObject();
         var termFilters = createTermFilters(filter, dataAcquisitionProjectId);
         query.size = 0;
         query.body = {
           'aggs': {
-              'panelIdentifiers': {
+              'repeatedMeasurementIdentifiers': {
                   'terms': {
-                    'field': 'panelIdentifier',
+                    'field': 'repeatedMeasurementIdentifier',
                     'include': '.*' + term.toLowerCase() + '.*',
                     'size': 100,
                     'order': {
@@ -302,7 +302,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         SearchHelperService.addShadowCopyFilter(query, filter);
 
         return ElasticSearchClient.search(query).then(function(result) {
-          return result.aggregations.panelIdentifiers.buckets;
+          return result.aggregations.repeatedMeasurementIdentifiers.buckets;
         });
       };
 
@@ -498,7 +498,7 @@ angular.module('metadatamanagementApp').factory('VariableSearchService',
         countBy: countBy,
         countByMultiple: countByMultiple,
         findAccessWays: findAccessWays,
-        findPanelIdentifiers: findPanelIdentifiers,
+        findRepeatedMeasurementIdentifiers: findRepeatedMeasurementIdentifiers,
         findDerivedVariablesIdentifiers: findDerivedVariablesIdentifiers,
         findByDataSetIdAndIndexInDataSet: findByDataSetIdAndIndexInDataSet,
         findVariableLabels: findVariableLabels

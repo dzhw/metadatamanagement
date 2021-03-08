@@ -28,8 +28,8 @@ angular.module('metadatamanagementApp').config(
           'search': 'Data Search',
           'dataPackageSearch': 'Data Search',
           'noresult': 'No search results found.',
-          'versions': 'Versions',
-          'access-ways': 'Access ways',
+          'version': 'Version',
+          'access-way': 'Access way',
           'cart': 'Add to shopping cart'
         },
         'buttons': {
@@ -143,7 +143,7 @@ angular.module('metadatamanagementApp').config(
           'data-set': 'Data Set',
           'question': 'Question',
           'related-publication': 'Publication',
-          'panel-identifier': 'Panel Identifier',
+          'repeated-measurement-identifier': 'Repeated Measurements',
           'derived-variables-identifier': 'Derived Variables',
           'access-way': 'Access Way',
           'instrument': 'Instrument',
@@ -165,7 +165,7 @@ angular.module('metadatamanagementApp').config(
             'data-package': 'By which data package do you want to filter?',
             'data-set': 'By which data set do you want to filter?',
             'related-publication': 'By which publication do you want to filter?',
-            'panel-identifier': 'By which panel identifier of the variables do you want to filter?',
+            'repeated-measurement-identifier': 'By which repeated measurements do you want to filter?',
             'derived-variables-identifier': 'By which derived variables do you want to filter?',
             'access-way': 'By which access way do you want to filter?',
             'variable': 'By which variable do you want to filter?',
@@ -223,9 +223,9 @@ angular.module('metadatamanagementApp').config(
             'not-found': 'No publication found!',
             'no-valid-selected': 'No valid publication selected!'
           },
-          'panel-identifier-filter': {
-            'not-found': 'No panel identifier found!',
-            'no-valid-selected': 'No valid panel identifier selected!'
+          'repeated-measurement-identifier-filter': {
+            'not-found': 'No repeated measurement found!',
+            'no-valid-selected': 'No valid repeated measurement selected!'
           },
           'derived-variables-identifier-filter': {
             'not-found': 'No derived variables identifier found!',

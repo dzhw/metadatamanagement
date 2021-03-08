@@ -92,15 +92,12 @@ public class DataAcquisitionProjectVersionsService extends
           return null;
         }
       } else {
-        final AtomicBoolean currentVersionFound = new AtomicBoolean(false);
         final AtomicReference<Release> previousRelease = new AtomicReference<>();
         shadows.takeWhile(shadow -> previousRelease.get() == null).forEach(shadow -> {
           Release release = shadow.get();
-          if (currentVersionFound.get()) {
+          if (Version.valueOf(currentRelease.getVersion())
+              .greaterThan(Version.valueOf(release.getVersion()))) {
             previousRelease.set(release);
-          }
-          if (release.getVersion().equals(currentRelease.getVersion())) {
-            currentVersionFound.set(true);
           }
         });
         return previousRelease.get();

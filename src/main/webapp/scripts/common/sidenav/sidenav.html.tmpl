@@ -1,4 +1,4 @@
-<md-sidenav md-component-id="SideNavBar" md-is-locked-open="$mdMedia('gt-md') && show" id="SideNavBar" md-whiteframe="1" layout="column">
+<md-sidenav md-component-id="SideNavBar" md-swipe-left="close(1)" md-is-locked-open="$mdMedia('gt-md') && show" id="SideNavBar" md-whiteframe="1" layout="column">
         <md-button ng-if="$mdMedia('gt-md')" class="md-accent md-raised fdz-skip-navigation" ng-click="focusContent()">
             {{'global.menu.skip-navigation'|translate}}
             <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">

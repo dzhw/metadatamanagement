@@ -73,6 +73,7 @@ module.exports = function(config) {
       'node_modules/ng-text-truncate-2/ng-text-truncate.js',
       'node_modules/showdown/dist/showdown.js',
       'node_modules/ng-showdown/dist/ng-showdown.js',
+      'node_modules/angular-swx-session-storage/release/swx-session-storage.js',
 
       'src/main/webapp/scripts/app.js',
       'src/main/webapp/scripts/**/*.js',

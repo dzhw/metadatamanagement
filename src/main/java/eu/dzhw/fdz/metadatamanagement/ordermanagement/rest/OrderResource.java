@@ -132,8 +132,7 @@ public class OrderResource {
     if (order.getClient().equals(OrderClient.MDM)) {
       destinationUrl = getDlpUrl(id, order.getLanguageKey());
     } else {
-      destinationUrl =
-          baseUrl + "/" + order.getLanguageKey() + "/shopping-cart/" + order.getId();
+      destinationUrl = baseUrl + "/" + order.getLanguageKey() + "/shopping-cart/" + order.getId();
     }
 
     Order persistedOrder = optional.get();
@@ -160,7 +159,9 @@ public class OrderResource {
   @ExceptionHandler(OrderAlreadyCompletedException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  protected ErrorListDto handleOrderAlreadyCompletedException() {
+  protected ErrorListDto handleOrderAlreadyCompletedException(
+      OrderAlreadyCompletedException exception) {
+    log.error("Illegal attempt to modify an already completed order.", exception);
     ErrorDto errorDto =
         new ErrorDto(null, "order-management.error." + "order-already-completed", null, null);
     ErrorListDto errorListDto = new ErrorListDto();

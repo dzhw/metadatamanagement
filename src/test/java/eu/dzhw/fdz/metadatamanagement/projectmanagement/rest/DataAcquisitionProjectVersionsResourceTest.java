@@ -44,7 +44,7 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
 
@@ -104,7 +104,7 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
     project.setVersion(0L);
-    
+
     // update the dataPackage with the given id
     project.setHasBeenReleasedBefore(true);
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
@@ -190,5 +190,10 @@ public class DataAcquisitionProjectVersionsResourceTest extends AbstractTest {
     // Assert that the previous version is 1.0.0
     lastRelease = this.versionsService.findPreviousRelease(project.getId(), project.getRelease());
     assertThat(lastRelease.getVersion(), is("1.0.0"));
+
+    // Assert that the previous version of an unsaved release is correct
+    lastRelease = this.versionsService.findPreviousRelease(project.getId(),
+        Release.builder().version("2.0.0").build());
+    assertThat(lastRelease.getVersion(), is("1.0.1"));
   }
 }

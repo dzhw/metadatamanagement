@@ -22,7 +22,7 @@ angular.module('metadatamanagementApp').config(
           'label': {
             'variable': 'Variable',
             'variables': 'Variablen',
-            'variables-in-panel': 'Panelvariablen',
+            'repeated-measurement': 'Wiederholungsmessungen',
             'derived-variables': 'abgeleitete Variablen',
             'generation-details': 'Generierungsdetails',
             'name': 'Name',
@@ -36,7 +36,7 @@ angular.module('metadatamanagementApp').config(
             'generation-details-rule': 'Generierungsregel',
             'label': 'Label',
             'show-all-derived-variables': 'Alle abgeleiteten Variablen anzeigen',
-            'show-all-panel-variables': 'Alle Panelvariablen anzeigen',
+            'show-all-repeated-measurements': 'Alle Wiederholungsmessungen anzeigen',
             'statistics': {
               'graphic-is-loading': 'wird geladen...',
               'graphic-is-not-available': 'Keine Grafische Darstellung Der Statistiken',
@@ -116,7 +116,7 @@ angular.module('metadatamanagementApp').config(
               'many': 'Klicken, um die Fragen anzuzeigen, aus denen diese Variable resultierte'
             },
             'variables': {
-              'same-in-panel': 'Klicken, um alle Panelvariablen zu dieser Variable anzuzeigen',
+              'repeated-measurements': 'Klicken, um alle Wiederholungsmessungen zu dieser Variable anzuzeigen',
               'derived-variables': 'Klicken, um alle abgeleiteten Variablen zu dieser Variable anzuzeigen',
             },
             'data-packages': {
@@ -232,13 +232,13 @@ angular.module('metadatamanagementApp').config(
             'related-question-number-size': 'Die Maximallänge der Nummer einer Frage ist 32 Zeichen.',
             'related-question-number-not-empty': 'Eine verbundene Frage hat keine Nummer',
             'related-question-instrument-number-not-empty': 'Ein Instrument hat keine Nummer',
-            'valid-panel-identifier': 'Die Panel-Kennung der Variable entspricht nicht dem Muster: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string',
+            'valid-repeated-measurement-identifier': 'Die Kennung der Wiederholungsmessung der Variable entspricht nicht dem Muster: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string',
             'valid-derived-variables-identifier': 'Die Kennung der abgeleiteten Variablen entspricht nicht dem Muster: DataAcquisitionProjectId + "-" + "ds" + "dataSetNumber" + "-" + string',
-            'panel-identifier-size': 'Die Maximallänge der Panel-Kennung der Variable ist 512 Zeichen.',
-            'panel-identifier-pattern': 'Für die Panel-Kennung der Variable dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß und das Minus verwendet werden.',
+            'repeated-measurement-identifier-size': 'Die Maximallänge der Kennung der Wiederholungsmessung der Variable ist 512 Zeichen.',
+            'repeated-measurement-identifier-pattern': 'Für die Kennung der Wiederholungsmessung der Variable dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß und das Minus verwendet werden.',
             'derived-variables-identifier-size': 'Die Maximallänge der Kennung der abgeleiteten Variablen ist 512 Zeichen.',
             'derived-variables-identifier-pattern': 'Für die Kennung der abgeleiteten Variablen dürfen nur alphanumerische Zeichen, deutsche Umlaute, ß und das Minus verwendet werden.',
-            'only-ordinal-scale-level-for-date-data-type': 'Das Skalenniveau einer Datumsvariable muss ordinal sein.',
+            'restricted-scale-level-for-date-data-type': 'Das Skalenniveau einer Datumsvariable muss nominal, ordinal oder intervall sein.',
             'valid-response-value-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, müssen die Werte von gültigen Antworten numerisch sein.',
             'statistics-minimum-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, müssen das Minimum von Statistiken numerisch sein.',
             'statistics-maximum-must-be-a-number-on-numeric-data-type': 'Wenn der Datentyp einer Variable numerisch ist, muss das Maximum von Statistiken numerisch sein.',

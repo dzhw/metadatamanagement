@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 import org.javers.core.Javers;
@@ -20,6 +21,7 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
+import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper.SurveyAttachmentFilenameBuilder;
@@ -117,7 +119,17 @@ public class SurveyAttachmentService {
     query.with(Sort.by(Order.asc("metadata.surveyNumber"), Order.asc("metadata.indexInSurvey")));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<SurveyAttachmentMetadata> result = new ArrayList<>();
+    AtomicInteger countBySurveyNumber = new AtomicInteger(0);
+    AtomicInteger currentSurveyNumber = new AtomicInteger(-1);
     files.forEach(gridfsFile -> {
+      Integer surveyNumber = gridfsFile.getMetadata().getInteger("surveyNumber");
+      if (!surveyNumber.equals(currentSurveyNumber.get())) {
+        currentSurveyNumber.set(surveyNumber);
+        currentSurveyNumber.set(0);
+      } else {
+        currentSurveyNumber.incrementAndGet();
+      }
+      gridfsFile.getMetadata().put("indexInSurvey", countBySurveyNumber.get());
       result.add(mongoTemplate.getConverter().read(SurveyAttachmentMetadata.class,
           gridfsFile.getMetadata()));
     });
