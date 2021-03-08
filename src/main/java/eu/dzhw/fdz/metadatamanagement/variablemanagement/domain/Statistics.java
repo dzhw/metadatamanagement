@@ -91,16 +91,6 @@ public class Statistics implements Serializable {
   private String thirdQuartile;
 
   /**
-   * The lowest value still within 1.5 IQR of the first quartile.
-   */
-  private Double lowWhisker;
-
-  /**
-   * The highest value still within 1.5 IQR of the third quartile.
-   */
-  private Double highWhisker;
-
-  /**
    * The mode is the value ({@link ValidResponse}) that appears most often.
    */
   private String mode;

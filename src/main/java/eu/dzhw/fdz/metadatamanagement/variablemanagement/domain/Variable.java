@@ -27,7 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.OnlyOrdinalScaleLevelForDateDataType;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.RestrictedScaleLevelForDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsFirstQuartileMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsFirstQuartileMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.StatisticsMaximumMustBeANumberOnNumericDataType;
@@ -42,7 +42,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.Uniqu
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidAccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidDerivedVariablesIdentifier;
-import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidPanelIdentifier;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidRepeatedMeasurementIdentifier;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidResponseValueMustBeANumberOnNumericDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidResponseValueMustBeAnIsoDateOnDateDataType;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.validation.ValidScaleLevel;
@@ -63,24 +63,22 @@ import lombok.ToString;
  * {@link RelatedQuestion}s. A variable is part of exactly one {@link DataSet}.
  */
 @Document(collection = "variables")
-@CompoundIndexes({
-    @CompoundIndex(def = "{name: 1, dataSetId: 1}", unique = true),
-    @CompoundIndex(def = "{indexInDataSet: 1, dataSetId: 1}", unique = false)
-    })
+@CompoundIndexes({@CompoundIndex(def = "{name: 1, dataSetId: 1}", unique = true),
+    @CompoundIndex(def = "{indexInDataSet: 1, dataSetId: 1}", unique = false)})
 @ValidShadowId(message = "variable-management.error.variable.id.pattern")
 @ValidVariableIdName(message = "variable-management.error.variable.valid-variable-name")
-@ValidPanelIdentifier(message = "variable-management.error.variable.valid-panel-identifier")
-@ValidDerivedVariablesIdentifier(message =
-    "variable-management.error.variable.valid-derived-variables-identifier")
-@UniqueVariableNameInDataSet(message = "variable-management.error."
-    + "variable.unique-variable-name-in-data-set")
-@OnlyOrdinalScaleLevelForDateDataType(
-    message = "variable-management.error.variable.only-ordinal-scale-level-for-date-data-type")
+@ValidRepeatedMeasurementIdentifier(
+    message = "variable-management.error.variable.valid-repeated-measurement-identifier")
+@ValidDerivedVariablesIdentifier(
+    message = "variable-management.error.variable.valid-derived-variables-identifier")
+@UniqueVariableNameInDataSet(
+    message = "variable-management.error." + "variable.unique-variable-name-in-data-set")
+@RestrictedScaleLevelForDateDataType(
+    message = "variable-management.error.variable." + "restricted-scale-level-for-date-data-type")
 
-//Validation if data type is date
-@ValidResponseValueMustBeAnIsoDateOnDateDataType(
-    message = "variable-management.error.variable."
-        + "valid-response-value-must-be-an-iso-date-on-date-data-type")
+// Validation if data type is date
+@ValidResponseValueMustBeAnIsoDateOnDateDataType(message = "variable-management.error.variable."
+    + "valid-response-value-must-be-an-iso-date-on-date-data-type")
 @StatisticsMinimumMustBeAnIsoDateOnDateDataType(message = "variable-management.error.variable."
     + "statistics-minimum-must-be-an-iso-date-on-date-data-type")
 @StatisticsMaximumMustBeAnIsoDateOnDateDataType(message = "variable-management.error.variable."
@@ -92,19 +90,15 @@ import lombok.ToString;
 @StatisticsThirdQuartileMustBeAnIsoDateOnDateDataType(message = "variable-management.error."
     + "variable.statistics-third-quartile-must-be-an-iso-date-on-date-data-type")
 
-//Validation if data type is numeric
-@ValidResponseValueMustBeANumberOnNumericDataType(
-    message = "variable-management.error.variable."
-        + "valid-response-value-must-be-a-number-on-numeric-data-type")
-@StatisticsMinimumMustBeANumberOnNumericDataType(
-    message = "variable-management.error.variable."
-        + "statistics-minimum-must-be-a-number-on-numeric-data-type")
-@StatisticsMaximumMustBeANumberOnNumericDataType(
-    message = "variable-management.error.variable."
-        + "statistics-maximum-must-be-a-number-on-numeric-data-type")
-@StatisticsMedianMustBeANumberOnNumericDataType(
-    message = "variable-management.error.variable."
-        + "statistics-median-must-be-a-number-on-numeric-data-type")
+// Validation if data type is numeric
+@ValidResponseValueMustBeANumberOnNumericDataType(message = "variable-management.error.variable."
+    + "valid-response-value-must-be-a-number-on-numeric-data-type")
+@StatisticsMinimumMustBeANumberOnNumericDataType(message = "variable-management.error.variable."
+    + "statistics-minimum-must-be-a-number-on-numeric-data-type")
+@StatisticsMaximumMustBeANumberOnNumericDataType(message = "variable-management.error.variable."
+    + "statistics-maximum-must-be-a-number-on-numeric-data-type")
+@StatisticsMedianMustBeANumberOnNumericDataType(message = "variable-management.error.variable."
+    + "statistics-median-must-be-a-number-on-numeric-data-type")
 @StatisticsFirstQuartileMustBeANumberOnNumericDataType(
     message = "variable-management.error.variable."
         + "statistics-first-quartile-must-be-a-number-on-numeric-data-type")
@@ -133,8 +127,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
   private String id;
 
   @NotEmpty(message = "variable-management.error.variable.master-id.not-empty")
-  @Size(max = StringLengths.MEDIUM,
-      message = "variable-management.error.variable.master-id.size")
+  @Size(max = StringLengths.MEDIUM, message = "variable-management.error.variable.master-id.size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
       message = "variable-management.error.variable.master-id.pattern")
   @Setter(AccessLevel.NONE)
@@ -228,8 +221,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
    * is {@link DataTypes#DATE} then the ScaleLevel must be {@link ScaleLevels#ORDINAL}.
    */
   @NotNull(message = "variable-management.error.variable.scaleLevel.not-null")
-  @ValidScaleLevel(
-      message = "variable-management.error.variable.scaleLevel.valid-scale-level")
+  @ValidScaleLevel(message = "variable-management.error.variable.scaleLevel.valid-scale-level")
   private I18nString scaleLevel;
 
   /**
@@ -240,8 +232,7 @@ public class Variable extends AbstractShadowableRdcDomainObject {
    */
   // checks for min size too.
   @NotEmpty(message = "variable-management.error.variable.access-ways.not-empty")
-  @ValidAccessWays(
-      message = "variable-management.error.variable.access-ways.valid-access-ways")
+  @ValidAccessWays(message = "variable-management.error.variable.access-ways.valid-access-ways")
   private List<String> accessWays;
 
   /**
@@ -277,10 +268,10 @@ public class Variable extends AbstractShadowableRdcDomainObject {
    * and "-".
    */
   @Size(max = StringLengths.MEDIUM,
-      message = "variable-management.error.variable.panel-identifier-size")
+      message = "variable-management.error.variable.repeated-measurement-identifier-size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS,
-      message = "variable-management.error.variable.panel-identifier-pattern")
-  private String panelIdentifier;
+      message = "variable-management.error.variable.repeated-measurement-pattern")
+  private String repeatedMeasurementIdentifier;
 
   /**
    * Identifier used to group variables within this {@link DataSet} which have been derived from

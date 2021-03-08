@@ -10,21 +10,19 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- *  Ensure that date variables have only a ordinal scale level.
- *  
- *  @author Daniel Katzberg
+ * This validator checks the repeated measurement identifier.
+ *
  */
 @Documented
-@Constraint(validatedBy = {OnlyOrdinalScaleLevelForDateDataTypeValidator.class})
+@Constraint(validatedBy = {ValidRepeatedMeasurementIdentifierValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface OnlyOrdinalScaleLevelForDateDataType {
-
+public @interface ValidRepeatedMeasurementIdentifier {
   /**
    * Defines the default error message.
    */
   String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "onlyOrdinalScaleLevelForDateDataType}";
+      + "variable-management.error.variable.valid-repeated-measurement-identifier}";
 
   /**
    * This contains groups.
@@ -35,5 +33,4 @@ public @interface OnlyOrdinalScaleLevelForDateDataType {
    * This method contains the payload.
    */
   Class<? extends Payload>[] payload() default {};
-
 }

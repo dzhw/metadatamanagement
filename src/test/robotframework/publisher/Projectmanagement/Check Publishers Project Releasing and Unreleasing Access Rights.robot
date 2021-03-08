@@ -11,6 +11,7 @@ Check Publishers Project Releasing and Unreleasing Funtionalities
   Select project by name  robotprojectrelease4${BROWSER}
   Click on Cockpit Button
   Change Project Release Status
+  Confirm Release
   Click on OK Button
   Sleep  2s  # to avoid failing in firefox
   Assert Project Release Action Has Error Message
@@ -19,6 +20,7 @@ Check Publishers Project Releasing and Unreleasing Funtionalities
   Click Publisher Ready Checkbox for Data Packages
   Change Project Release Status
   Write Version Name
+  Confirm Release
   Click on OK Button
   Verify The Released Project is Available under The Data Package Tab
   Verify The Unreleased Project is Still Available under The Data Package Tab with Shadow Copy
@@ -35,6 +37,9 @@ Assert Project Release Action Has Error Message
 
 Write Version Name
   Input Text  xpath=//input[@name="version"]   0.0.2
+
+Confirm Release
+  Click Element Through Tooltips  xpath=//md-checkbox[@name="releaseConfirmed"]
 
 Close The Toast Message for Project Release Validation
   Click Element Through Tooltips  xpath=//md-toast//span[contains(.,"Die Post-Validierung wurde mit")]
@@ -100,6 +105,7 @@ Check Edited Project appears under data package when released
   Click Publisher Ready Checkbox for Data Packages
   Change Project Release Status
   Write Version Name
+  Confirm Release
   Click on OK Button
   Sleep  90s  #We need explicit sleep to ensure the project is available under the data package tab
   Publisher Logout   #explicit logout
@@ -123,6 +129,7 @@ Restore The Previous Project Version and Publish Again
   Click on Cockpit Button
   Click Publisher Ready Checkbox for Data Packages
   Change Project Release Status  #release the previous version again
+  Confirm Release
   Click on OK Button
   Sleep  90s
 

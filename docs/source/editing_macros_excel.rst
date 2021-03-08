@@ -19,25 +19,25 @@ In der Excel Tabelle können die Makros über
 Makro-Übersicht
 ~~~~~~~~~~~~~~~
 
-panelIdentifier
-^^^^^^^^^^^^^^^
+repeatedMeasurementIdentifier
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Wo wird es genutzt? panelIdentifier_ in vimport.xlsx
+Wo wird es genutzt? repeatedMeasurementIdentifier_ in vimport.xlsx
 
 
- - generiert den panelIdentifier durch den Vergleich vom Variablenstamm
+ - generiert den repeatedMeasurementIdentifier durch den Vergleich vom Variablenstamm
    (ohne-Präfix)
  - dabei dürfen Variablennamen verschiedene Versionierungen und/oder
    Zugangswege-haben
  - das FDZ Variablenschema muss verwendet worden sein (Variablenname
    z.B.-astu01_g1v1r mit den möglichen Zugangswegen c,d,o,r,a)
  - im Tabellenblatt variables müssen die beiden Spaltennamen name
-   und-panelIdentifier vorhanden sein
+   und-repeatedMeasurementIdentifier vorhanden sein
  - der Projektnamen und die Datensatznummer werden über eine Inputbox eingegeben
- - Beispiel: der panelIdentifier zu adem01_g1v1r und bdem01_g1v3r lautet
+ - Beispiel: der repeatedMeasurementIdentifier zu adem01_g1v1r und bdem01_g1v3r lautet
    z.B.-abs2005-ds1-dem01_g1
 
-.. _panelIdentifier: https://github.com/dzhw/metadatamanagement-io/blob/master/generation/example/Hilfsskripte/panelIdentifier.txt
+.. _repeatedMeasurementIdentifier: https://github.com/dzhw/metadatamanagement-io/blob/master/generation/example/Hilfsskripte/repeatedMeasurementIdentifier.txt
 
 derivedVariablesIdentifier
 ^^^^^^^^^^^^^^^^^^^^^^^^^^

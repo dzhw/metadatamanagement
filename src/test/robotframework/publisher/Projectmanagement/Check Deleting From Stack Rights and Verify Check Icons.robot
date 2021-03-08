@@ -56,5 +56,5 @@ Verify The Sentiments From The List of Metadata
         Run Keyword If    '${SN_ITEMS}[1]' == 'assets/images/icons/c691f57d.clipboard-check.svg'     Page Should Contain Element    xpath=//md-card[@type="${MD_DT}"]//following::md-icon[@md-svg-src="${SN_ITEMS}[1]"]
         Click Element Through Tooltips  xpath=//md-card[@type="${MD_DT}"]//md-checkbox[contains(.,"Publisher Fertig")]
         Sleep  1s   # to avoid failing in edge
-        Run Keyword If    '${SN_ITEMS}[2]' == 'assets/images/icons/a103f3a2.clipboard-double-check.svg'    Page Should Contain Element    xpath=//md-card[@type="${MD_DT}"]//following::md-icon[@md-svg-src="S{SN_ITEMS}[2]"]
+        Run Keyword If    '${SN_ITEMS}[2]' == 'assets/images/icons/a103f3a2.clipboard-double-check.svg'    Page Should Contain Element    xpath=//md-card[@type="${MD_DT}"]//following::md-icon[@md-svg-src="${SN_ITEMS}[2]"]
     END

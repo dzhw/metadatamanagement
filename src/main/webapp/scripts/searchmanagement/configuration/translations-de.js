@@ -28,8 +28,8 @@ angular.module('metadatamanagementApp').config(
           'search': 'Datensuche',
           'dataPackageSearch': 'Datensuche',
           'noresult': 'Keine Suchergebnisse gefunden.',
-          'versions': 'Versionen',
-          'access-ways': 'Zugangswege',
+          'version': 'Version',
+          'access-way': 'Zugangsweg',
           'cart': 'In den Warenkorb legen'
         },
         'buttons': {
@@ -142,8 +142,8 @@ angular.module('metadatamanagementApp').config(
           'data-set': 'Datensatz',
           'question': 'Frage',
           'related-publication': 'Publikation',
-          'panel-identifier': 'Panelkennung',
-          'derived-variables-identifier': 'Abgeleiteten Variablen',
+          'repeated-measurement-identifier': 'Wiederholungsmessungen',
+          'derived-variables-identifier': 'Abgeleitete Variablen',
           'access-way': 'Zugangsweg',
           'instrument': 'Instrument',
           'variable': 'Variable',
@@ -164,7 +164,7 @@ angular.module('metadatamanagementApp').config(
             'concept': 'Nach welchem Konzept wollen Sie filtern?',
             'data-set': 'Nach welchem Datensatz wollen Sie filtern?',
             'related-publication': 'Nach welcher Publikation wollen Sie filtern?',
-            'panel-identifier': 'Nach welcher Panelkennung wollen Sie filtern?',
+            'repeated-measurement-identifier': 'Nach welcher Wiederholungsmessung wollen Sie filtern?',
             'derived-variables-identifier': 'Nach welchen abgeleiteten Variablen wollen Sie filtern?',
             'access-way': 'Nach welchem Zugangsweg wollen Sie filtern?',
             'variable': 'Nach welcher Variable wollen Sie filtern?',
@@ -222,9 +222,9 @@ angular.module('metadatamanagementApp').config(
             'not-found': 'Keine Publikation gefunden!',
             'no-valid-selected': 'Keine gültige Publikation ausgewählt!'
           },
-          'panel-identifier-filter': {
-            'not-found': 'Keine Panelkennung gefunden!',
-            'no-valid-selected': 'Keine gültige Panelkennung ausgewählt!'
+          'repeated-measurement-identifier-filter': {
+            'not-found': 'Keine Wiederholungsmessung gefunden!',
+            'no-valid-selected': 'Keine gültige Wiederholungsmessung ausgewählt!'
           },
           'derived-variables-identifier-filter': {
             'not-found': 'Keine abgeleitete Variablenkennung gefunden!',

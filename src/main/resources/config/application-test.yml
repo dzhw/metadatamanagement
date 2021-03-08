@@ -43,9 +43,9 @@ management:
 
 metadatamanagement:
   ordermanagement:
-    email: birkelbach@dzhw.eu
+    email: reitmann@dzhw.eu
   projectmanagement:
-    email: birkelbach@dzhw.eu
+    email: reitmann@dzhw.eu
   server:
     instance-index: ${cf.instance.index}
     context-root: https://test.metadata.fdz.dzhw.eu
@@ -71,3 +71,6 @@ metadatamanagement:
     ssl-ca-certificate: ${vcap.services.mongodb.cacert}
   seo4ajax:
     site-token: ${vcap.services.seo4ajax.sitetoken}
+
+logbook:
+   filter.enabled: false

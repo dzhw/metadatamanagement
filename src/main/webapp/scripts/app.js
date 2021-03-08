@@ -15,7 +15,7 @@ try {
         'angularMoment', 'ngAnimate', 'vcRecaptcha',
         'ngMessages', 'ngFileSaver', 'ngShortcut',
         'jsonFormatter', 'fdzPaginatorModule', 'ngTextTruncate',
-        'ng-showdown'
+        'ng-showdown', 'swxSessionStorage'
       ])
 
   .run(

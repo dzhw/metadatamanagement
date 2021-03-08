@@ -929,6 +929,8 @@ Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
 
    ☐ In das Metadatensystem eingegeben
 
+- Neue, vom FDZ generierte Attachments benötigen kein BMBF-Logo mehr. Bei extern erstellten Dokumenten mag dies anders sein.
+
 -  Datenpaket (data package)
 
 -  Erhebungen (surveys)

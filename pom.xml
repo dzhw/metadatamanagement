@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.5.RELEASE</version>
+        <version>2.4.3</version>
         <relativePath />
     </parent>
 
     <groupId>eu.dzhw.fdz</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.106-HOTFIX2</version>
+    <version>1.0.107-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -24,10 +24,10 @@
     </distributionManagement>
 
     <properties>
-        <elasticsearch.version>7.9.2</elasticsearch.version>
+        <elasticsearch.version>7.10.2</elasticsearch.version>
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
         <java.version>14</java.version>
-        <mapstruct.version>1.4.1.Final</mapstruct.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
         <maven-sortpom-plugin.version>2.12.0</maven-sortpom-plugin.version>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -72,7 +72,7 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs</artifactId>
-            <version>4.1.4</version>
+            <version>4.2.1</version>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>com.icegreen</groupId>
             <artifactId>greenmail</artifactId>
-            <version>1.6.1</version>
+            <version>1.6.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -156,7 +156,7 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.24.1</version>
+            <version>1.25</version>
         </dependency>
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
@@ -173,6 +173,17 @@
             <version>1.13.1</version>
         </dependency>
         <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>hamcrest-core</artifactId>
+                    <groupId>org.hamcrest</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
@@ -185,12 +196,12 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-data-rest</artifactId>
-            <version>1.5.0</version>
+            <version>1.5.5</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.5.0</version>
+            <version>1.5.5</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -273,12 +284,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-aws-actuator</artifactId>
-            <version>2.2.5.RELEASE</version>
+            <version>2.2.6.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-aws</artifactId>
-            <version>2.2.5.RELEASE</version>
+            <version>2.2.6.RELEASE</version>
         </dependency>
         <!-- security -->
         <dependency>
@@ -297,8 +308,20 @@
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-            <version>2.3.5.RELEASE</version>
+            <version>2.4.2</version>
         </dependency>
+        <dependency>
+    		<groupId>org.zalando</groupId>
+    		<artifactId>logbook-spring-boot-starter</artifactId>
+    		<version>2.6.0</version>
+    		<exclusions>
+    			<!-- Exclude http client cause it introduces vulnerability issues (snyk errors)-->
+    			<exclusion>
+    				<groupId>org.zalando</groupId>
+    				<artifactId>logbook-httpclient</artifactId>
+    			</exclusion>
+    		</exclusions>
+		</dependency>
         <dependency>
             <groupId>pl.allegro.tech</groupId>
             <artifactId>embedded-elasticsearch</artifactId>
@@ -367,6 +390,11 @@
                             <sourceFileInclude>**/domain/validation/*.java</sourceFileInclude>
                         </sourceFileIncludes>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>3.0.0</version>
                 </plugin>
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
                 <plugin>

@@ -33,8 +33,8 @@ Allgemeine Prüfung
 -  ist ein Attribut leer muss der Wert null sein (alternativ kann das
    Attribut auch aus dem json herausgenommen werden)
 
-   -  richtig: "panelIdentifier": null
-   -  falsch: "panelIdentifier": ""
+   -  richtig: "repeatedMeasurementIdentifier": null
+   -  falsch: "repeatedMeasurementIdentifier": ""
    -  falsch: "validResponses": []
 
 -  der Datentyp muss richtig angegeben werden (wie im Beispiel Import

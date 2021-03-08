@@ -241,7 +241,8 @@
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
     </div>
-    <div class="fdz-fab-button-container" ng-if="!isAuthenticated()" layout="column">
+    <div class="fdz-fab-button-container" ng-if="!isAuthenticated()" layout="column" layout-align="center end">
+      <report-publications-component></report-publications-component>
       <md-button hide-gt-md class="md-fab md-raised md-accent"
                  ng-click="toggleSidenav()">
         <md-tooltip md-autohide="true" md-direction="left"

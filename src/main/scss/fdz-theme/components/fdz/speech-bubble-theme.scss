@@ -1,0 +1,40 @@
+.fdz-speech-bubble {
+	// layout
+	position: relative;
+	max-width: 30em;
+
+	// looks
+	background-color: $brand-secondary;
+	padding: 0px;
+  margin-bottom: 6px;
+  margin-left: 12px;
+	border-radius: 1rem;
+  // border: 2px solid #0071bc;
+  box-shadow:	0 0.125rem 0.5rem rgba(0, 0, 0, .3), 0 0.0625rem 0.125rem rgba(0, 0, 0, .2);
+}
+
+.fdz-speech-bubble p {
+  padding: 1.125em 1.5em;
+  margin: 0px;
+  color: $brand-primary;
+}
+
+.fdz-speech-bubble a:hover, .fdz-speech-bubble a:focus {
+  text-decoration: none;
+}
+
+.fdz-speech-bubble::after {
+	// layout
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	top: 100%;
+	right: 25px; // offset should move with padding of parent
+	border: 10px solid transparent;
+	border-top: none;
+  transform: rotate(180deg);
+	// looks
+	border-bottom-color: $brand-secondary;
+	filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
+}

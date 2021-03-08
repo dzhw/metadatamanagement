@@ -33,7 +33,7 @@ angular.module('metadatamanagementApp')
     var dataPackageDetailConfig = {
       parent: 'site',
       url: '/data-packages/{id}?{access-way}{derived-variables-identifier}' +
-        '{page}{panel-identifier}{query}{size}{type}{version}',
+        '{page}{query}{repeated-measurement-identifier}{size}{type}{version}',
       reloadOnSearch: false,
       data: {
         authorities: []
@@ -83,8 +83,9 @@ angular.module('metadatamanagementApp')
       .state(stateName, dataPackageDetailConfig);
 
     var legacyStudyDetailConfig = angular.copy(dataPackageDetailConfig);
-    legacyStudyDetailConfig.url = '/studies/{id}?{version}{query}{page}{size}' +
-      '{access-way}{type}{panel-identifier}{derived-variables-identifier}';
+    legacyStudyDetailConfig.url = '/studies/{id}?{access-way}' +
+      '{derived-variables-identifier}' +
+      '{page}{query}{repeated-measurement-identifier}{size}{type}{version}';
 
     $stateProvider
       .state('legacyStudyDetail', legacyStudyDetailConfig);

@@ -10,19 +10,21 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * This validator checks a panelIdentifier.
- *
+ *  Ensure that date variables have only a nominal, ordinal or interval scale level.
+ *  
+ *  @author Daniel Katzberg
  */
 @Documented
-@Constraint(validatedBy = {ValidPanelIdentifierValidator.class})
+@Constraint(validatedBy = {RestrictedScaleLevelForDateDataTypeValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidPanelIdentifier {
+public @interface RestrictedScaleLevelForDateDataType {
+
   /**
    * Defines the default error message.
    */
   String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation."
-      + "variable-management.error.variable.valid-panel-identifier}";
+      + "restrictedScaleLevelForDateDataType}";
 
   /**
    * This contains groups.
@@ -33,4 +35,5 @@ public @interface ValidPanelIdentifier {
    * This method contains the payload.
    */
   Class<? extends Payload>[] payload() default {};
+
 }

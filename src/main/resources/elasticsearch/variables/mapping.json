@@ -183,7 +183,7 @@
 		"indexInDataSet": {
 			"type": "integer"
 		},
-		"panelIdentifier": {
+		"repeatedMeasurementIdentifier": {
 			"type": "keyword",
 			"copy_to": "all"
 		},

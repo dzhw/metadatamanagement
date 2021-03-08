@@ -40,7 +40,7 @@ angular.module('metadatamanagementApp').config(
               'surveyed-in': 'Contains data from these surveys'
             },
             'doi': 'DOI',
-            'published-at': 'published at',
+            'published-at': 'last published at',
             'published': 'Published at'
           },
           'attachments': {

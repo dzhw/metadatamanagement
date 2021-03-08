@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 import org.javers.core.Javers;
@@ -25,6 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.helper.DataSetAttachmentFilenameBuilder;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -138,7 +140,17 @@ public class DataSetAttachmentService {
         Sort.by(Order.asc("metadata.dataSetNumber"), Order.asc("metadata.indexInDataSet")));
     Iterable<GridFSFile> files = this.operations.find(query);
     List<DataSetAttachmentMetadata> result = new ArrayList<>();
+    AtomicInteger countByDataSetNumber = new AtomicInteger(0);
+    AtomicInteger currentDataSetNumber = new AtomicInteger(-1);
     files.forEach(gridfsFile -> {
+      Integer dataSetNumber = gridfsFile.getMetadata().getInteger("dataSetNumber");
+      if (!dataSetNumber.equals(currentDataSetNumber.get())) {
+        currentDataSetNumber.set(dataSetNumber);
+        currentDataSetNumber.set(0);
+      } else {
+        currentDataSetNumber.incrementAndGet();
+      }
+      gridfsFile.getMetadata().put("indexInDataSet", countByDataSetNumber.get());
       result.add(mongoTemplate.getConverter().read(DataSetAttachmentMetadata.class,
           gridfsFile.getMetadata()));
     });
