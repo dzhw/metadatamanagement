@@ -32,8 +32,10 @@ Spaltennamen müssen noch manuell umbenannt werden:
 Strenggenommen muss das Feld studyIds [Frage: ist das jetzt nicht dataPackageIds?] nicht ausgefüllt werden, da die Verknüpfung `dataPackage <-> relatedPublication` im Project Cockpit erfolgt. 
 Es ist aber sinnvoll es weiter zu pflegen, sodass man es auch außerhalb des MDMs vorgehalten hat (falls etwas schiefläuft).
 
-Nachdem die Daten exportiert wurden, sind diese im Reiter Publikationen im MDM über den Plus-Button oder Drag and Drop hochzuladen.
-Im Projekt-Cockpit (`Publikationen -> Bearbeiten`) müssen anschließend alle Publikationen, die mit dem Projekt / den Projekten zusammenhängen, verknüpft werden. Die 
+**Importieren von Publikationen in das MDM**
+
+Nachdem die Daten exportiert wurden, können diese unter dem Reiter "Publikationen" im MDM über den Plus-Button oder Drag and Drop hochgeladen werden. Um diese Ansicht zu erhalten, muss berücksichtigt werden, dass kein Projekt ausgewählt werden darf. 
+Im Projekt-Cockpit (`Publikationen -> Bearbeiten`) müssen anschließend alle Publikationen, die mit dem Projekt/den Projekten zusammenhängen, verknüpft werden. 
 
 +----------------+----------------------------+-------------------------+
 | Eigenschaft    | Ausfüllanweisung           | muss ausgefüllt werden? |
