@@ -639,10 +639,6 @@ angular.module('metadatamanagementApp').controller('SearchController',
     $scope.deleteAllDataSets = function() {
       DeleteMetadataService.deleteAllOfType($scope.currentProject, 'data_sets');
     };
-    $scope.deleteAllPublications = function() {
-      DeleteMetadataService.deleteAllOfType($scope.currentProject,
-        'publications');
-    };
     $scope.navigateToCreateState = function(createState) {
       var type = getSelectedMetadataType();
       if (type === 'related_publications') {

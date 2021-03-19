@@ -22,8 +22,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.helper.QuestionCrudHelper;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
@@ -52,8 +50,6 @@ public class QuestionManagementService implements CrudService<Question> {
   private final QuestionImageService imageService;
 
   private final VariableChangesProvider variableChangesProvider;
-
-  private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
   private final QuestionCrudHelper crudHelper;
 
@@ -156,21 +152,6 @@ public class QuestionManagementService implements CrudService<Question> {
     List<String> questionIds = variableChangesProvider.getAffectedQuestionIds(variable.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> questionRepository.streamIdsByIdIn(questionIds), ElasticsearchType.questions);
-  }
-
-  /**
-   * Enqueue update of question search document when the related publication is changed.
-   * 
-   * @param relatedPublication the updated, created or deleted publication.
-   */
-  @HandleAfterCreate
-  @HandleAfterSave
-  @HandleAfterDelete
-  public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    List<String> questionIds =
-        relatedPublicationChangesProvider.getAffectedQuestionIds(relatedPublication.getId());
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> questionRepository.streamIdsByMasterIdIn(questionIds), ElasticsearchType.questions);
   }
 
   /**

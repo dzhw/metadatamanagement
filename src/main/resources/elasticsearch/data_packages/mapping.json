@@ -470,15 +470,6 @@
 				}
 			}
 		},
-		"seriesPublications": {
-			"type": "object",
-			"properties": {
-				"id": {
-					"type": "keyword",
-					"copy_to": "all"
-				}
-			}
-		},
 		"dataSets": {
 			"type": "object",
 			"properties": {

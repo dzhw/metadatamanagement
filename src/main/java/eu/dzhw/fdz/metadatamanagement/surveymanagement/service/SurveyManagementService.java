@@ -26,8 +26,6 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentCha
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
@@ -66,8 +64,6 @@ public class SurveyManagementService implements CrudService<Survey> {
   private final SurveyResponseRateImageService imageService;
 
   private final SurveyAttachmentService surveyAttachmentService;
-
-  private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
   private final SurveyCrudHelper crudHelper;
 
@@ -183,21 +179,6 @@ public class SurveyManagementService implements CrudService<Survey> {
     List<String> surveyIds = dataSetChangesProvider.getAffectedSurveyIds(dataSet.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> surveyRepository.streamIdsByIdIn(surveyIds), ElasticsearchType.surveys);
-  }
-
-  /**
-   * Enqueue update of survey search document when the related publication is updated.
-   * 
-   * @param relatedPublication the updated or created publication.
-   */
-  @HandleAfterCreate
-  @HandleAfterSave
-  @HandleAfterDelete
-  public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    List<String> surveyIds =
-        relatedPublicationChangesProvider.getAffectedSurveyIds(relatedPublication.getId());
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> surveyRepository.streamIdsByMasterIdIn(surveyIds), ElasticsearchType.surveys);
   }
 
   /**

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.IdAndNumberInstrumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
@@ -24,11 +25,8 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.helper.Instru
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -54,8 +52,6 @@ public class InstrumentManagementService implements CrudService<Instrument> {
   private final InstrumentAttachmentService instrumentAttachmentService;
 
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-
-  private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
   private final InstrumentCrudHelper crudHelper;
 
@@ -153,22 +149,6 @@ public class InstrumentManagementService implements CrudService<Instrument> {
     List<String> instrumentIds = variableChangesProvider.getAffectedInstrumentIds(variable.getId());
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> instrumentRepository.streamIdsByIdIn(instrumentIds), ElasticsearchType.instruments);
-  }
-
-  /**
-   * Enqueue update of instrument search documents when the related publication changed.
-   * 
-   * @param relatedPublication the updated, created or deleted publication.
-   */
-  @HandleAfterCreate
-  @HandleAfterSave
-  @HandleAfterDelete
-  public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    List<String> instrumentIds =
-        relatedPublicationChangesProvider.getAffectedInstrumentIds(relatedPublication.getId());
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> instrumentRepository.streamIdsByMasterIdIn(instrumentIds),
-        ElasticsearchType.instruments);
   }
 
   /**
