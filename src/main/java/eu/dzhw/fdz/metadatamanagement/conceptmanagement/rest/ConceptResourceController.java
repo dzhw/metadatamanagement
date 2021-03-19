@@ -34,7 +34,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @RepositoryRestController
 @Tag(name = "Concept Resource", description = "Endpoints used by the MDM to manage concepts.")
-@RequestMapping("/api")
 public class ConceptResourceController
     extends GenericDomainObjectResourceController<Concept, CrudService<Concept>> {
 

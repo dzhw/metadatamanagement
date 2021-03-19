@@ -29,7 +29,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RepositoryRestController
 @Tag(name = "DataPackage Resource",
     description = "Endpoints used by the MDM to manage dataPackages.")
-@RequestMapping("/api")
 public class DataPackageResourceController
     extends GenericDomainObjectResourceController<DataPackage, CrudService<DataPackage>> {
 

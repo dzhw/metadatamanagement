@@ -28,7 +28,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @RepositoryRestController
 @Tag(name = "Question Resource", description = "Endpoints used by the MDM to manage questions.")
-@RequestMapping("/api")
 public class QuestionResourceController
     extends GenericDomainObjectResourceController<Question, CrudService<Question>> {
 
