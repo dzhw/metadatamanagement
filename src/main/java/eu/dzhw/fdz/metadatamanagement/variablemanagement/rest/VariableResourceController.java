@@ -28,6 +28,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @RepositoryRestController
 @Tag(name = "Variable Resource", description = "Endpoints used by the MDM to manage variables.")
+@RequestMapping("/api")
 public class VariableResourceController
     extends GenericDomainObjectResourceController<Variable, CrudService<Variable>> {
 
