@@ -6,13 +6,12 @@ import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
@@ -48,9 +47,6 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
   private List<DataSetSubDocument> dataSets = 
       new ArrayList<>();
   private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();
-  private List<RelatedPublicationSubDocument> relatedPublications = 
-      new ArrayList<>();
-  private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
   private List<ConceptSubDocument> concepts = 
       new ArrayList<>();
   private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
@@ -68,7 +64,6 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
    * @param instrument the instrument containing this question
    * @param surveys the surveys using this question
    * @param variables the variables used by this question
-   * @param relatedPublications all publication using this question
    * @param configuration the project configuration
    */
   public QuestionSearchDocument(Question question,
@@ -77,7 +72,6 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
                                 List<SurveySubDocumentProjection> surveys,
                                 List<VariableSubDocumentProjection> variables,
                                 List<DataSetSubDocumentProjection> dataSets,
-                                List<RelatedPublicationSubDocumentProjection> relatedPublications,
                                 List<ConceptSubDocumentProjection> concepts,
                                 Release release,
                                 String doi,
@@ -108,12 +102,6 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
           .map(DataSetSubDocument::new).collect(Collectors.toList());
       this.nestedDataSets =
           dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
-    }
-    if (relatedPublications != null) {
-      this.relatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
-      this.nestedRelatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     if (concepts != null) {
       this.concepts = concepts.stream()

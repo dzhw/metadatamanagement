@@ -6,7 +6,7 @@ angular.module('metadatamanagementApp').service('CleanJSObjectService',
     var removeWhiteSpace = function(data) {
       var cleanedArray;
       if (data) {
-        cleanedArray = data.replace(/ /g, '').split(',');
+        cleanedArray = data.replace(/ /g, '').split(/,|;/);
         cleanedArray = cleanedArray.filter(function(value) {
           return value !== '';
         });
@@ -17,7 +17,7 @@ angular.module('metadatamanagementApp').service('CleanJSObjectService',
     var parseAndTrim = function(data) {
       var cleanedArray;
       if (data) {
-        cleanedArray = data.split(',').map(function(value) {
+        cleanedArray = data.split(/,|;/).map(function(value) {
           return value.trim();
         });
         cleanedArray = cleanedArray.filter(function(value) {

@@ -378,7 +378,7 @@ Alternativen auswählen können (s. grünes Kästchen in
 .. figure:: ./_static/dp_edit_details_institution.png
    :name: eingabemaske_dpbeschreibung_institution
 
-Im Feld Erhebende Institution(en) (s.
+Im Feld Institution(en) (s.
 :numref:`eingabemaske_dpbeschreibung_institution`)
 geben Sie an welche Institution die Konzeption und Durchführung der Erhebung
 des Datenpakets durchgeführt hat.

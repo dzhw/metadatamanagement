@@ -18,16 +18,10 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.DataSetExists;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.InstrumentExists;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.QuestionExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.DataPackageExists;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.StudySeriesExists;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.SurveyExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidPublicationYear;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidRelatedPublicationId;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidUrl;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.VariableExists;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,10 +36,11 @@ import lombok.ToString;
  *
  */
 @Document(collection = "related_publications")
-@ValidPublicationYear(message = "related-publication-management.error.related-publication."
-    + "year.valid")
-@ValidRelatedPublicationId(message =
-    "related-publication-management.error.related-publication.valid-related-publication-id")
+@ValidPublicationYear(
+    message = "related-publication-management.error.related-publication." + "year.valid")
+@ValidRelatedPublicationId(
+    message = "related-publication-management.error.related-publication."
+        + "valid-related-publication-id")
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
@@ -55,7 +50,7 @@ import lombok.ToString;
 public class RelatedPublication extends AbstractRdcDomainObject {
 
   private static final long serialVersionUID = -7754758901246743458L;
-  
+
   @Id
   @NotEmpty(message = "related-publication-management.error.related-publication.id.not-empty")
   @Size(max = StringLengths.MEDIUM,
@@ -89,25 +84,23 @@ public class RelatedPublication extends AbstractRdcDomainObject {
           + "publication-abstract.size")
   private String publicationAbstract;
 
-  @ValidUrl(message = "related-publication-management.error."
-      + "related-publication.source-link.pattern")
+  @ValidUrl(
+      message = "related-publication-management.error." + "related-publication.source-link.pattern")
   private String sourceLink;
 
-  @NotNull(message = "related-publication-management.error.related-publication."
-      + "year.not-null")
+  @NotNull(message = "related-publication-management.error.related-publication." + "year.not-null")
   private Integer year;
 
-  @I18nStringSize(max = StringLengths.LARGE,
+  @Size(max = StringLengths.LARGE,
       message = "related-publication-management.error.related-publication"
-      + ".abstract-source.i18n-string-size")
-  private I18nString abstractSource;
+          + ".abstract-source.size")
+  private String abstractSource;
 
-  @NotNull(message =
-      "related-publication-management.error.related-publication.language.not-null")
-  @ValidIsoLanguage(message =
-      "related-publication-management.error.related-publication.language.not-supported")
+  @NotNull(message = "related-publication-management.error.related-publication.language.not-null")
+  @ValidIsoLanguage(
+      message = "related-publication-management.error.related-publication.language.not-supported")
   private String language;
-  
+
   /**
    * Arbitrary additional text for this publication. Markdown is supported.
    *
@@ -119,25 +112,11 @@ public class RelatedPublication extends AbstractRdcDomainObject {
 
   /* Foreign Keys */
   @Indexed
-  private List<@QuestionExists String> questionIds;
-
-  @Indexed
-  private List<@SurveyExists String> surveyIds;
-
-  @Indexed
-  private List<@VariableExists String> variableIds;
-
-  @Indexed
-  private List<@DataSetExists String> dataSetIds;
-
-  @Indexed
+  @NotEmpty(
+      message = "related-publication-management.error.related-publication."
+          + "data-package-ids.not-empty")
   private List<@DataPackageExists String> dataPackageIds;
 
-  @Indexed
-  private List<@InstrumentExists String> instrumentIds;
-  
-  @Indexed
-  private List<@StudySeriesExists I18nString> studySerieses;
 
   public RelatedPublication(RelatedPublication relatedPublication) {
     super();

@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.variablemanagement.service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,8 +20,6 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -43,8 +40,6 @@ import lombok.RequiredArgsConstructor;
 public class VariableManagementService implements CrudService<Variable> {
 
   private final QuestionRepository questionRepository;
-
-  private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
@@ -117,21 +112,6 @@ public class VariableManagementService implements CrudService<Variable> {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> variableRepository.streamIdsByDataPackageId(dataPackage.getId()),
         ElasticsearchType.variables);
-  }
-
-  /**
-   * Enqueue update of variable search documents when the related publication is changed.
-   * 
-   * @param relatedPublication the updated, created or deleted related publication.
-   */
-  @HandleAfterCreate
-  @HandleAfterSave
-  @HandleAfterDelete
-  public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    List<String> variableIds =
-        relatedPublicationChangesProvider.getAffectedVariableIds(relatedPublication.getId());
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> variableRepository.streamIdsByMasterIdIn(variableIds), ElasticsearchType.variables);
   }
 
   /**

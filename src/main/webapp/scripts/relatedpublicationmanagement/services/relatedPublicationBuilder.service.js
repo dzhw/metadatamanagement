@@ -1,63 +1,37 @@
-/* global _ */
 'use strict';
 
 angular.module('metadatamanagementApp')
   .service('RelatedPublicationBuilderService',
     function(RelatedPublicationResource, CleanJSObjectService,
       RelatedPublicationIdBuilderService) {
-      var getStudySerieses = function(desiredStudySerieses,
-        availableStudySeries) {
-          var result = [];
-          _.forEach(desiredStudySerieses, function(desiredSeries) {
-            var match = _.find(availableStudySeries, function(availableSeries) {
-              return desiredSeries.toLowerCase() ===
-                availableSeries.de.toLowerCase();
-            });
-            if (match) {
-              result.push(match);
-            } else {
-              result.push({
-                de: desiredSeries
-              });
-            }
-          });
-          return result;
-        };
-      var getRelatedPublications = function(relatedPublications,
-        availableStudySerieses) {
+      var getRelatedPublications = function(relatedPublications) {
         var relatedPublicationsObjArray = [];
         for (var i = 0; i < relatedPublications.length; i++) {
           var data = relatedPublications[i];
+          var bibTexKey = getPropertyByKeyPattern(data, /^BibTeX Key$/i);
           var relatedPublicationObj = {
-            id: RelatedPublicationIdBuilderService.buildRelatedPublicationId(
-              data.id),
-            sourceReference: data.sourceReference,
-            publicationAbstract: data.publicationAbstract,
-            doi: data.doi,
-            sourceLink: data.sourceLink,
-            title: data.title,
-            questionIds: CleanJSObjectService
-              .removeWhiteSpace(data.questionIds),
-            surveyIds: CleanJSObjectService.removeWhiteSpace(data.surveyIds),
-            variableIds: CleanJSObjectService
-              .removeWhiteSpace(data.variableIds),
-            dataSetIds: CleanJSObjectService.removeWhiteSpace(data.dataSetIds),
-            instrumentIds: CleanJSObjectService
-              .removeWhiteSpace(data.instrumentIds),
-            authors: data.authors,
-            year: parseInt(data.year),
-            abstractSource: {
-              en: data['abstractSource.en'],
-              de: data['abstractSource.de']
-            },
-            language: data.language,
-            studySerieses: getStudySerieses(
-              CleanJSObjectService.parseAndTrim(data['studySerieses.de']),
-              availableStudySerieses),
+            /* jshint -W069 */
+            id: bibTexKey ?
+              RelatedPublicationIdBuilderService.buildRelatedPublicationId(
+                bibTexKey) : undefined,
+            sourceReference:
+              getPropertyByKeyPattern(data, /^sourceReference.*$/i),
+            doi: getPropertyByKeyPattern(data, /^DOI$/i),
+            title: getPropertyByKeyPattern(data, /^Titel$/i),
+            authors: getPropertyByKeyPattern(data, /^Autor.*$/i),
+            language: getPropertyByKeyPattern(data, /^Sprache$/i),
+            year: parseInt(getPropertyByKeyPattern(data, /^Jahr.*$/i)),
             annotations: {
-              en: data['annotations.en'],
-              de: data['annotations.de']
-            }
+              de: getPropertyByKeyPattern(data, /^annotations\.de.*$/i),
+              en: getPropertyByKeyPattern(data, /^annotations\.en.*$/i),
+            },
+            abstractSource:
+              getPropertyByKeyPattern(data, /^abstractSource.*$/i),
+            dataPackageIds: CleanJSObjectService.removeWhiteSpace(
+              getPropertyByKeyPattern(data, /^dataPackageIds.*$/i)),
+            sourceLink: getPropertyByKeyPattern(data, /^Online-Adresse$/i),
+            publicationAbstract: getPropertyByKeyPattern(data, /^Abstract$/i)
+            /* jshint +W069 */
           };
           var cleanedRelatedPublicationObject = CleanJSObjectService
             .removeEmptyJsonObjects(relatedPublicationObj);
@@ -66,6 +40,13 @@ angular.module('metadatamanagementApp')
         }
         return relatedPublicationsObjArray;
       };
+
+      var getPropertyByKeyPattern = function(object, regex) {
+        return object[Object.keys(object).filter(function(key) {
+          return regex.test(key);
+        })[0]];
+      };
+
       return {
         getRelatedPublications: getRelatedPublications
       };

@@ -32,17 +32,10 @@
         </div>
         <md-divider></md-divider>
         <fdz-detail
-          ng-if="!isAuthenticated()"
-          collapsed="false"
-          lang="currentLanguage"
-          options="ctrl.dataPackage"
-          template-url="scripts/datapackagemanagement/templates/common-details.html.tmpl"></fdz-detail>
-        <fdz-detail
-          ng-if="isAuthenticated()"
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"
-          template-url="scripts/datapackagemanagement/templates/common-details-authenticated.html.tmpl"></fdz-detail>
+          template-url="scripts/datapackagemanagement/templates/common-details.html.tmpl"></fdz-detail>
         <md-divider></md-divider>
         <fdz-detail
           collapsed="false"

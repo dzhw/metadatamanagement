@@ -12,7 +12,6 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
@@ -47,8 +46,6 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
   private List<VariableNestedDocument> nestedVariables = new ArrayList<>();
   private List<DataSetSubDocument> dataSets = new ArrayList<>();
   private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();
-  private List<RelatedPublicationSubDocument> relatedPublications = new ArrayList<>();
-  private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
   private List<ConceptSubDocument> concepts = new ArrayList<>();
   private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
   private Release release = null;
@@ -66,14 +63,12 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
    * @param surveys the surveys using this intrument
    * @param questions the questions used by this instrument
    * @param variables the variables used by the questions of this instrument
-   * @param relatedPublications the related publications using this instrument
    * @param configuration the project configuration
    */
   public InstrumentSearchDocument(Instrument instrument,
       DataPackageSubDocumentProjection dataPackage, List<SurveySubDocumentProjection> surveys,
       List<QuestionSubDocumentProjection> questions, List<VariableSubDocumentProjection> variables,
       List<DataSetSubDocumentProjection> dataSets,
-      List<RelatedPublicationSubDocumentProjection> relatedPublications,
       List<ConceptSubDocumentProjection> concepts, Release release, String doi,
       Configuration configuration) {
     super(instrument);
@@ -102,12 +97,6 @@ public class InstrumentSearchDocument extends Instrument implements SearchDocume
       this.dataSets = dataSets.stream().map(DataSetSubDocument::new).collect(Collectors.toList());
       this.nestedDataSets =
           dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
-    }
-    if (relatedPublications != null) {
-      this.relatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
-      this.nestedRelatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     if (concepts != null) {
       this.concepts = concepts.stream().map(concept -> new ConceptSubDocument(concept))
