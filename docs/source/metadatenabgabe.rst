@@ -14,7 +14,7 @@ Das FDZ des DZHW stellt Daten quantitativer und qualitativer Erhebungen
 aus dem Feld der Hochschul- und Wissenschaftsforschung zur Verfügung.
 Ein fester Bestandteil dieser Arbeit ist zunächst der Prozess der
 Datenaufnahme, welcher im FDZ des DZHW durch das Metadatenmanagementsystem
-(MDM) unterstützt wird. Im Metadatenmanagementsystem werden Metadaten
+(MDM) unterstützt wird. Im MDM werden Metadaten
 über die von Ihnen bereitgestellten Daten erfasst.
 Dies erleichtert es SekundärforscherInnen für sie passende Datenpakete auszuwählen.
 Für die strukturierte Aufnahme der Metadaten sind sieben unterschiedliche
