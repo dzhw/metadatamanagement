@@ -899,47 +899,6 @@ benannten Mitarbeiter des FDZ, den Release-Manager. Mit der Freigabe sind Ihre
 Metadaten und damit auch Ihre Datenprodukte für alle öffentlichen Nutzer des
 Systems verfügbar.
 
-Checkliste für Abgabe der Metadaten
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Vor Abgabe bzw. dem Hochladen der Daten sind folgende Punkte zu
-überprüfen:
-
-☐ Ordnerstruktur und Dateinamen sind unverändert
-
-☐ Falls nötig: Excel-Dateien sind richtig und vollständig ausgefüllt
-
--  verpflichtende Felder sind ausgefüllt
-
--  es sind keine Fehlermeldungen vorhanden
-
--  die Daten wurden auf Richtigkeit überprüft
-
-☐ Metadaten sind im PDF gelöscht (vgl. :ref:`Anhänge`)
-
-☐ Nicht benötigte Zeilen entfernt (falls Fragen oder Variablen abgegeben
-  werden)
-
--  questions.xlsx: löschen bis Zeile 2000
-
--  variables.xlsx: löschen bis Zeile 2000
-
-☐ Dateien sind richtig abgegeben worden
-
-   ☐ In das Metadatensystem eingegeben
-
-- Neue, vom FDZ generierte Attachments benötigen kein BMBF-Logo mehr. Bei extern erstellten Dokumenten mag dies anders sein.
-
--  Datenpaket (data package)
-
--  Erhebungen (surveys)
-
-☐ In der Ordnerstruktur abgelegt
-
--  questions.xlsx
-
--  variables.xlsx
-
 .. [1]
    Bitte beachten Sie, die dokumenteigenen Metadaten der PDF-Dateien
    vorab zu löschen (vgl. :ref:`Anhänge`).
