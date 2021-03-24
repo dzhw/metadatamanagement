@@ -1,8 +1,7 @@
 .. _metadatenabgabe-label:
 
-Metadatenabgabe (DatengeberInnen)
+Metadatenübergabe
 =================================
-.. index:: data provider, Datenaufnahme
 
 Allgemeines
 -----------
