@@ -7,7 +7,7 @@ Was ist das Metadatenmanagementsystem (MDM)?
 --------------------------------------------
 
 Das FDZ-DZHW stellt Forschungsdaten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung zur Verfügung.
-Im Metadatenmanagementsystem (MDM) werden Metadaten über die bereitgestellten Forschungsdaten bereitgestellt.
+Im Metadatenmanagementsystem (MDM) werden Metadaten über die Forschungsdaten bereitgestellt.
 Dies erhöht die Auffindbarkeit der Forschungsdaten und erleichtert es Sekundärforscher:innen für sie passende Forschungsdaten auszuwählen.
 Das System ist über die Website https://metadata.fdz.dzhw.eu zu erreichen.
 
