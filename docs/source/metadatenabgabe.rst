@@ -6,34 +6,26 @@ Metadatenübergabe
 Allgemeines
 -----------
 
-Der Datenaufnahmeprozess im FDZ des DZHW
+Der Datenübergabeprozess im FDZ-DZHW
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Das FDZ des DZHW stellt Daten quantitativer und qualitativer Erhebungen
-aus dem Feld der Hochschul- und Wissenschaftsforschung zur Verfügung.
-Ein fester Bestandteil dieser Arbeit ist zunächst der Prozess der
-Datenaufnahme, welcher im FDZ des DZHW durch das Metadatenmanagementsystem
-(MDM) unterstützt wird. Im MDM werden Metadaten
-über die von Ihnen bereitgestellten Daten erfasst.
-Dies erleichtert es SekundärforscherInnen für sie passende Datenpakete auszuwählen.
-Für die strukturierte Aufnahme der Metadaten sind sieben unterschiedliche
-Ebenen im MDM vorgesehen: *Datenpaket*, *Erhebungen*, *Erhebungsinstrumente*,
-*Fragen*, *Datensätze*, *Variablen*, *Konzepte* und *Publikationen*.
+Das FDZ-DZHW stellt Daten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung zur Verfügung.
+Ein fester Bestandteil dieser Arbeit ist zunächst der Prozess der Datenübergabe, welcher im FDZ-DZHW durch das Metadatenmanagementsystem
+(MDM) unterstützt wird. Im MDM werden Metadaten über die von Ihnen bereitgestellten Forschungsdaten erfasst. Dies erhöht die Auffindbarkeit 
+der Forschungsdaten und erleichtert es Sekundärforscher:innen für sie passende Forschungsdaten auszuwählen. Das System ist über die Website
+https://metadata.fdz.dzhw.eu zu erreichen.
 
-Hierbei wird erfasst, welchem Datenpaket sowie welcher Erhebung die Daten
-angehören, welche Erhebungsinstrumente genutzt wurden, welche Fragen
-darin gestellt wurden, welche Datensätze existieren, welche Variablen
-sich darin befinden und welche Veröffentlichungen bereits mit den Daten
-realisiert worden sind. Dadurch, dass alle Ebenen miteinander verknüpft
-sind, wird eine umfassende Durchsuchbarkeit aller verfügbaren Daten, die
-vom FDZ des DZHW über das MDM verwaltet werden, ermöglicht. Das System
-ist über die Website https://metadata.fdz.dzhw.eu zu erreichen.
+Für die strukturierte Aufnahme der Metadaten sind acht unterschiedliche Ebenen im MDM vorgesehen:
+- Datenpaket
+- Erhebungen
+- Erhebungsinstrumente
+- Fragen
+- Datensätze
+- Variablen
+- Konzepte
+- Publikationen
 
-
-.. figure:: ./_static/ebenen_uebersicht_de.png
-   :name: mdm-ebenen
-
-   Darstellung der verschiedenen Ebenen im MDM; Pfeil rechts klicken um die weiteren Ebenen anzuzeigen
+Dadurch, dass alle Ebenen miteinander verknüpft sind, wird eine umfassende Durchsuchbarkeit aller verfügbaren Daten ermöglicht. 
 
 Die eigenständige Abgabe von Metadaten
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
