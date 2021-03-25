@@ -6,9 +6,6 @@ Metadatenübergabe
 Allgemeines
 -----------
 
-Der Datenübergabeprozess im FDZ-DZHW
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 Das FDZ-DZHW stellt Daten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung zur Verfügung.
 Ein fester Bestandteil dieser Arbeit ist zunächst der Prozess der Datenübergabe, welcher im FDZ-DZHW durch das Metadatenmanagementsystem
 (MDM) unterstützt wird. Im MDM werden Metadaten über die von Ihnen bereitgestellten Forschungsdaten erfasst. Dies erhöht die Auffindbarkeit 
