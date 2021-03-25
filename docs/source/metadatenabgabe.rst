@@ -31,10 +31,7 @@ Diesen Vorgaben ist unbedingt Folge zu leisten, damit eine erfolgreiche Erfassun
 Registrierung
 --------------------------------------------
 
-Sie müssen sich zunächst auf https://metadata.fdz.dzhw.eu registrieren,
-um die Berechtigung für das Erfassen von Metadaten zu erhalten. Dies können Sie
-über die Sidebar links auf der Website erledigen:
-
+Sie müssen sich zunächst auf https://metadata.fdz.dzhw.eu registrieren, um die Berechtigung für das Erfassen von Metadaten zu erhalten. 
 
 .. figure:: ./_static/registrierung_1_de.png
    :name: registrierung
