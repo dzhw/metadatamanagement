@@ -28,20 +28,10 @@ Für die strukturierte Aufnahme der Metadaten sind acht unterschiedliche Ebenen 
 
 Dadurch, dass alle Ebenen miteinander verknüpft sind, wird eine umfassende Durchsuchbarkeit aller verfügbaren Daten ermöglicht. 
 
-Die eigenständige Abgabe von Metadaten
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Wenn Sie Ihre Daten im FDZ des DZHW abgeben möchten, erfassen Sie die
-projektbezogenen Metadaten selbst und können diese größtenteils
-eigenständig in das MDM hochladen.
-
-Die Abgabe der Metadaten ist innerhalb der einzelnen Ebenen
-unterschiedlich komplex, sodass die Daten für jede der acht Ebenen
-separat erfasst werden müssen. Hierfür hat das FDZ des
-DZHW feste Strukturen entwickelt, die im weiteren Verlauf dieser
-Anleitung für jede Ebene detailliert erläutert werden. Diesen Vorgaben
-ist unbedingt Folge zu leisten, damit eine erfolgreiche Erfassung der
-einzelnen Metadaten gewährleistet werden kann.
+Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, erfassen Sie die Metadaten selbst und können diese größtenteils
+eigenständig in das MDM hochladen. Hierfür bestehen feste Strukturen, die im weiteren Verlauf dieser Anleitung für jede Ebene 
+detailliert erläutert werden. Diesen Vorgaben ist unbedingt Folge zu leisten, damit eine erfolgreiche Erfassung der Metadaten 
+gewährleistet werden kann.
 
 Aktuell können einige Metadaten über eine Eingabemaske im MDM direkt
 eingetragen werden. Für die übrigen Ebenen müssen JSON-Dateien hochgeladen
@@ -91,19 +81,8 @@ Tabelle 1: Vorgehen bei der Metadateneingabe pro Ebene
 +-----------------+---------------------+-----------------+-----------------+
 
 
-Vorbereitende Schritte
-----------------------
-
-Vergabe der DAP-ID
-~~~~~~~~~~~~~~~~~~
-
-Die Data Acquisition Project-ID (DAP-ID) ist das Kürzel des Datenpakets.
-Bitte sprechen Sie mit dem Publisher einen Vorschlag ab, welcher dann mit dem Release-Manager
-(aktuell Robert Birkelbach, stellv. Anne Weber) rückgesprochen wird, sodass es zu keinen
-Inkonsistenzen kommt.
-
 Registrierung
-~~~~~~~~~~~~~
+----------------------
 
 Sie müssen sich zunächst auf https://metadata.fdz.dzhw.eu registrieren,
 um die Berechtigung für das Erfassen von Metadaten zu erhalten. Dies können Sie
@@ -131,6 +110,9 @@ Bearbeitung freigegeben wurde.
 Falls Sie nicht kurz darauf dem Projekt zugewiesen worden sind, sprechen Sie bitte noch einmal den/die
 FDZ-MitarbeiterIn an. Der/die FDZ-MitarbeiterIn muss einem der Admins Bescheid geben,
 zu welchem Projekt Sie hinzugefügt werden sollen.
+
+Vorbereitende Schritte
+----------------------
 
 Allgemeiner Hinweis zur Formatierung
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
