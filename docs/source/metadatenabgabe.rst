@@ -231,10 +231,13 @@ Eine Anleitung finden Sie hier:
 https://helpx.adobe.com/acrobat/using/pdf-properties-metadata.html
 
 
+Die Übergabe von Metadaten für die einzelnen Ebenen
+=================================
+
 .. _Datenpaket:
 
 Datenpaket (data package)
-=================================
+---------------------------------
 
 **Übersicht**
 
@@ -449,7 +452,7 @@ eingegebene Metadaten.
 .. _Erhebungen:
 
 Erhebungen (surveys)
-=================================
+---------------------------------
 
 **Übersicht**
 
@@ -584,7 +587,8 @@ im Falle von längsschnittlich erhobenen Datenpaketen die Welle enthalten.
 .. _Instrumente:
 
 Erhebungsinstrumente (instruments)
-=================================
+---------------------------------
+
 Als Instrument wird das Erhebungsinstrument bezeichnet (z.B. Fragebogen).
 
 **Übersicht**
@@ -656,7 +660,7 @@ Variablenebene bereitgestellt.
 .. _Datensätze:
 
 Datensätze (dataSets)
-=================================
+---------------------------------
 
 **Übersicht**
 Für die Dokumentation der Datensätze werden die "Master"(AIP)-Datensätze
@@ -722,7 +726,7 @@ Es öffnet sich ein Fenster (siehe :numref:`dataset_attachments`) in dem Sie
 eine Datei hochladen können und Metadaten zur Datei angeben müssen.
 
 Fragen (questions)
-=================================
+---------------------------------
 
 Sollten Sie mit uns die Eingabe von Frage-Metadaten vereinbart haben, sprechen
 Sie uns bitte darauf an. Wir erläutern Ihnen dann den Prozess.
@@ -733,7 +737,7 @@ Metadaten zukommen zu lassen. Die Fragen-Metadaten werden von uns hochgeladen.
 Um Fragen ins MDM zu laden benutzen Sie den Upload-Button im Projektcockpit.
 
 Variablen (variables)
-=================================
+---------------------------------
 
 Sollten Sie die Bereitstellung von Variablenmetadaten mit uns vereinbart haben,
 sprechen Sie uns bitte an. Wir erläutern Ihnen dann die notwendigen Schritte.
@@ -741,7 +745,7 @@ sprechen Sie uns bitte an. Wir erläutern Ihnen dann die notwendigen Schritte.
 Um Variablen ins MDM zu laden benutzen Sie den Upload-Button im Projektcockpit.
 
 Publikationen (relatedPublications)
-=================================
+---------------------------------
 
 **Überblick**
 
@@ -763,7 +767,7 @@ FDZ per Mail die PDF-Datei Ihrer Publikation sowie den dazugehörigen
 Zitationshinweis zu.
 
 Konzepte (concepts)
-=================================
+---------------------------------
 
 Konzepte können ausschließlich von Publishern angelegt werden.
 Der Begriff "Konzept" kann auf mehreren Ebenen angewendet werden. Im Kontext des MDM
