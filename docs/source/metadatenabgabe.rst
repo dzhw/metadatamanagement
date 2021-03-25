@@ -150,6 +150,11 @@ die konkret geforderten Metadaten in den einzelnen Ebenen in
 :ref:`Abgabe_von_Metadaten_für_die_einzelnen_Ebenen`
 detailliert beschrieben werden.
 
+Wenn Sie alle Metadaten ausgefüllt bzw. ans FDZ gesendet haben, markieren Sie im Project-Cockpit die Metadaten als fertig.
+Das FDZ nimmt ihre Daten dann in die sogenannte Release-Pipeline auf. Die finale Freigabe erfolgt dann über eine:n dafür
+benannte:n Mitarbeiter:in des FDZ. Mit der Freigabe sind Ihre Metadaten öffentlich verfügbar und ihre Forschungsdaten können
+über das MDM von interessierten Forscher:innen ausgewählt und beantragt werden.
+
 Notwendige Schnittstellen und Dateien
 --------------------------------------------
 
@@ -819,18 +824,6 @@ erst nachdem das Konzept gespeichert wurde angehängt werden.
 
 Fragen und Instrumente können mit Konzepten verbunden werden. Die Verknüpfung von Fragen und Konzepten
 geschieht im Handcrafted-to-MDM-Schritt der Frage-Metadatenerstellung.
-
-
-Projekte freigeben
-=================================
-
-Wenn Sie alle Metadaten ausgefüllt bzw. ans FDZ gesendet haben,
-markieren Sie im Project-Cockpit die Metadaten als fertig.
-Das FDZ nimmt ihre Daten dann in die sogenannte
-Release-Pipeline auf. Die finale Freigabe erfolgt dann über einen dafür
-benannten Mitarbeiter des FDZ, den Release-Manager. Mit der Freigabe sind Ihre
-Metadaten und damit auch Ihre Datenprodukte für alle öffentlichen Nutzer des
-Systems verfügbar.
 
 .. [1]
    Bitte beachten Sie, die dokumenteigenen Metadaten der PDF-Dateien
