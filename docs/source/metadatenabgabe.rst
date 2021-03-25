@@ -16,6 +16,7 @@ der Forschungsdaten und erleichtert es Sekundärforscher:innen für sie passende
 https://metadata.fdz.dzhw.eu zu erreichen.
 
 Für die strukturierte Aufnahme der Metadaten sind acht unterschiedliche Ebenen im MDM vorgesehen:
+
 - Datenpaket
 - Erhebungen
 - Erhebungsinstrumente
