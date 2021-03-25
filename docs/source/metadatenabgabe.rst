@@ -33,54 +33,6 @@ eigenständig in das MDM hochladen. Hierfür bestehen feste Strukturen, die im w
 detailliert erläutert werden. Diesen Vorgaben ist unbedingt Folge zu leisten, damit eine erfolgreiche Erfassung der Metadaten 
 gewährleistet werden kann.
 
-Aktuell können einige Metadaten über eine Eingabemaske im MDM direkt
-eingetragen werden. Für die übrigen Ebenen müssen JSON-Dateien hochgeladen
-werden, bzw eine Exceldatei ans FDZ übergeben werden bzw. hochgeladen werden.
-In dieser Dokumentation wird lediglich auf den Standardfall eingegangen, bei dem die
-Metadaten per Eingabemaske eingetragen werden. Zusätzlich ist auf manchen
-Ebenen das Erstellen von weiteren Anhängen (vgl. :ref:`Anhänge`) vorgesehen.
-Die Excel-Tabellen und eventuelle Anhänge müssen für jede Ebene dann entweder
-ins MDM hochgeladen werden oder zunächst dem
-FDZ zur weiteren Bearbeitung geschickt werden. Tabelle 1 zeigt eine
-erste Übersicht über das Vorgehen der Metadateneingabe auf jeder Ebene,
-detaillierte Erläuterungen werden in den nachstehenden Kapiteln folgen.
-
-Tabelle 1: Vorgehen bei der Metadateneingabe pro Ebene
-
-+-----------------+---------------------+-----------------+-----------------+
-| Ebene           | Metadaten           | Zusätzliche     | Metadaten       |
-|                 | eingeben            | Dateien         | abgeben         |
-+=================+=====================+=================+=================+
-| Datenpaket      | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
-|                 |                     |                 | ausfüllen       |
-+-----------------+---------------------+-----------------+-----------------+
-| Erhebungen      | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
-|                 |                     |                 | ausfüllen       |
-+-----------------+---------------------+-----------------+-----------------+
-| Erhebungs-      | Eingabemaske        | Anhänge (PDF,   | Eingabemaske    |
-| instrumente     |                     | Excel)          | ausfüllen       |
-+-----------------+---------------------+-----------------+-----------------+
-| Fragen          | Excel-Tabelle       | Fragebilder     | Im              |
-|                 | (oder JSON-         | (.png)          | Vorlage-Ordner  |
-|                 | Dateien von Zofar)  |                 | speichern       |
-+-----------------+---------------------+-----------------+-----------------+
-| Datensätze      | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
-|                 |                     |                 | ausfüllen       |
-+-----------------+---------------------+-----------------+-----------------+
-| Variablen       | mind. 1             | mind. 1         | Im              |
-|                 | Excel-Tabelle       | Datensatz       | Vorlage-Ordner  |
-|                 |                     | (Stata)         | speichern       |
-+-----------------+---------------------+-----------------+-----------------+
-| Publikationen   | -                   | -               | Informationen   |
-|                 |                     |                 | dem FDZ         |
-|                 |                     |                 | schicken        |
-+-----------------+---------------------+-----------------+-----------------+
-| Konzepte        | -                   | -               | Informationen   |
-|                 |                     |                 | dem FDZ         |
-|                 |                     |                 | schicken        |
-+-----------------+---------------------+-----------------+-----------------+
-
-
 Registrierung
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -204,15 +156,50 @@ detailliert beschrieben werden.
 Notwendige Schnittstellen und Dateien
 ~~~~~~~~~~~~~
 
-Entweder werden Metadaten über Eingabemasken oder per Dateiupload angelegt.
+Tabelle 1 zeigt eine Übersicht über das Vorgehen der Metadateneingabe auf jeder Ebene.
+Einige Metadaten können über eine Eingabemaske direkt im MDM direkt eingetragen werden.
+Für die übrigen Ebenen müssen JSON-Dateien hochgeladen werden, bzw. eine Exceldatei ans FDZ übergeben bzw. hochgeladen werden.
+In dieser Dokumentation wird lediglich auf den Standardfall eingegangen, bei dem die Metadaten per Eingabemaske eingetragen werden. 
+Die Eingabemasken ermöglichen eine komfortable Abgabe der Metadaten direkt auf der Website.
+Zusätzlich ist über die Eingabemasken das Hochladen von Anhängen (vgl. :ref:`Anhänge`) möglich.
+
+Tabelle 1: Vorgehen bei der Metadateneingabe pro Ebene
+
++-----------------+---------------------+-----------------+-----------------+
+| Ebene           | Metadaten           | Zusätzliche     | Metadaten       |
+|                 | eingeben            | Dateien         | abgeben         |
++=================+=====================+=================+=================+
+| Datenpaket      | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
+|                 |                     |                 | ausfüllen       |
++-----------------+---------------------+-----------------+-----------------+
+| Erhebungen      | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
+|                 |                     |                 | ausfüllen       |
++-----------------+---------------------+-----------------+-----------------+
+| Erhebungs-      | Eingabemaske        | Anhänge (PDF,   | Eingabemaske    |
+| instrumente     |                     | Excel)          | ausfüllen       |
++-----------------+---------------------+-----------------+-----------------+
+| Fragen          | Excel-Tabelle       | Fragebilder     | Im              |
+|                 | (oder JSON-         | (.png)          | Vorlage-Ordner  |
+|                 | Dateien von Zofar)  |                 | speichern       |
++-----------------+---------------------+-----------------+-----------------+
+| Datensätze      | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
+|                 |                     |                 | ausfüllen       |
++-----------------+---------------------+-----------------+-----------------+
+| Variablen       | mind. 1             | mind. 1         | Im              |
+|                 | Excel-Tabelle       | Datensatz       | Vorlage-Ordner  |
+|                 |                     | (Stata)         | speichern       |
++-----------------+---------------------+-----------------+-----------------+
+| Publikationen   | -                   | -               | Informationen   |
+|                 |                     |                 | dem FDZ         |
+|                 |                     |                 | schicken        |
++-----------------+---------------------+-----------------+-----------------+
+| Konzepte        | -                   | -               | Informationen   |
+|                 |                     |                 | dem FDZ         |
+|                 |                     |                 | schicken        |
++-----------------+---------------------+-----------------+-----------------+
 
 Eingabemasken
 """""""""
-
-Für die Ebenen Datenpakete, Erhebungen, Datensätze und Instrumente steht die Nutzung von Eingabemasken im MDM zur Verfügung. 
-Die Eingabemasken ermöglichen eine komfortable Abgabe der Metadaten direkt auf der Website und in den meisten Fällen werden Sie die
-Metadaten lediglich per Eingabemaske anlegen und editieren.
-
 Jede Maske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind.
 Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch
 darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen. Im Rahmen der relevanten Ebenen Datenpakete,
@@ -228,28 +215,16 @@ auf der gesamten Detailseite vom System konsistent gemacht werden. Die niedrigst
 
    Beispiel eines Eingabefeldes mit Markdown-Unterstützung.
 
-
-
-Dateiupload
-"""""""""
-
-Für die Ebenen Fragen, Variablen und Publikationen müssen Dateien hochgeladen werden -- wenden Sie sich hierfür bitte ans FDZ. Konzepte werden vom FDZ
-angelegt.
-
 .. _Anhänge:
 
 Anhänge
 """""""""
 
-Anhänge werden über die Eingabemasken im MDM hochgeladen.
-Zu den Anhängen zählen z.B. der
-Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen oder
-Codierlisten auf Instrumentenebene. Diese Dokumente müssen als Dateien
-im PDF- oder Excel-Format vorliegen (Details dazu finden Sie in den jeweils
-relevanten Kapiteln zu den einzelnen Ebenen) und zudem nach bestimmten
-Richtlinien benannt werden. Für die Anhänge im PDF-Format gilt es darüber
-hinaus zu beachten, dass dokumenteigene Metadaten wie Autor und Titel der
-PDF-Datei gelöscht werden. Eine Anleitung finden Sie hier:
+Anhänge werden über die Eingabemasken im MDM hochgeladen. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene 
+sowie Fragebögen oder Codierlisten auf Instrumentenebene. Diese Dokumente müssen als Dateien im PDF- oder Excel-Format vorliegen (Details dazu 
+finden Sie in den jeweils relevanten Kapiteln zu den einzelnen Ebenen) und zudem nach bestimmten Richtlinien benannt werden. Für die Anhänge 
+im PDF-Format gilt es darüber hinaus zu beachten, dass dokumenteigene Metadaten wie Autor und Titel der PDF-Datei gelöscht werden. 
+Eine Anleitung finden Sie hier:
 https://helpx.adobe.com/acrobat/using/pdf-properties-metadata.html
 
 
