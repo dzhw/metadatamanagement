@@ -6,6 +6,9 @@ Metadatenübergabe
 Allgemeines
 -----------
 
+Was ist das Metadatenmanagementsystem (MDM)?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Das FDZ-DZHW stellt Daten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung zur Verfügung.
 Ein fester Bestandteil dieser Arbeit ist zunächst der Prozess der Datenübergabe, welcher im FDZ-DZHW durch das Metadatenmanagementsystem
 (MDM) unterstützt wird. Im MDM werden Metadaten über die von Ihnen bereitgestellten Forschungsdaten erfasst. Dies erhöht die Auffindbarkeit 
@@ -79,7 +82,7 @@ Tabelle 1: Vorgehen bei der Metadateneingabe pro Ebene
 
 
 Registrierung
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sie müssen sich zunächst auf https://metadata.fdz.dzhw.eu registrieren,
 um die Berechtigung für das Erfassen von Metadaten zu erhalten. Dies können Sie
@@ -107,25 +110,6 @@ Bearbeitung freigegeben wurde.
 Falls Sie nicht kurz darauf dem Projekt zugewiesen worden sind, sprechen Sie bitte noch einmal den/die
 FDZ-MitarbeiterIn an. Der/die FDZ-MitarbeiterIn muss einem der Admins Bescheid geben,
 zu welchem Projekt Sie hinzugefügt werden sollen.
-
-Vorbereitende Schritte
-----------------------
-
-Allgemeiner Hinweis zur Formatierung
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-An einigen Stellen gibt es die Möglichkeit Texte mittels Markdown zu formatieren.
-`Hier <https://www.markdownguide.org/basic-syntax/>`_ finden Sie eine Anleitung.
-Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit Markdown formatiert werden.
-Es kann sein, dass die konkreten Überschriften-Ebenen nicht der angegebenen Überschriften-Ebene ensprechen.
-So kann es sein, dass eine H1-Überschrift auf Ebene H2 "rutscht". Das liegt daran, dass die Überschriften-Ebenen
-auf der gesamten Detailseite vom System konsistent gemacht werden. Die niedrigste Überschriften-Ebene ist H6.
-
-.. figure:: ./_static/markdown_symbol.png
-   :name: markdown
-
-   Beispiel eines Eingabefeldes mit Markdown-Unterstützung.
-
 
 Verwaltung des Projektes im Projekt-Cockpit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -218,34 +202,44 @@ die konkret geforderten Metadaten in den einzelnen Ebenen in
 detailliert beschrieben werden.
 
 Notwendige Schnittstellen und Dateien
--------------------------------------
-
-Entweder werden Metadaten über Eingabemasken oder per Dateiupload angelegt.
-Die Eingabemasken ermöglichen eine komfortable Abgabe der Metadaten direkt
-auf der Website und in den meisten Fällen werden Sie die
-Metadaten lediglich per Eingabemaske anlegen und editieren.
-
-Eingabemasken
 ~~~~~~~~~~~~~
 
-Für die Ebenenen Datenpakete, Erhebungen, Datensätze und Instrumente steht die
-Nutzung von Eingabemasken im MDM zur Verfügung. Jede Maske umfasst verschiedene
-Felder, welche mit den einzutragenden Informationen beschriftet sind.
-Einige Felder sind verpflichtend auszufüllen und deshalb mit einem
-Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch
-darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben
-dürfen. Im Rahmen der relevanten Ebenen Datenpakete,
-Erhebungen, Datensätze und Instrumente wird die Handhabung der jeweiligen
-Eingabemasken dann konkret gezeigt (s. :ref:`Erhebungen` :ref:`Instrumente`).
+Entweder werden Metadaten über Eingabemasken oder per Dateiupload angelegt.
 
-Für die Ebenen Fragen, Variablen und Publikationen müssen Dateien hochgeladen
-werden -- wenden Sie sich hierfür bitte ans FDZ. Konzepte werden vom FDZ
+Eingabemasken
+"""""""""
+
+Für die Ebenen Datenpakete, Erhebungen, Datensätze und Instrumente steht die Nutzung von Eingabemasken im MDM zur Verfügung. 
+Die Eingabemasken ermöglichen eine komfortable Abgabe der Metadaten direkt auf der Website und in den meisten Fällen werden Sie die
+Metadaten lediglich per Eingabemaske anlegen und editieren.
+
+Jede Maske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind.
+Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch
+darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen. Im Rahmen der relevanten Ebenen Datenpakete,
+Erhebungen, Datensätze und Instrumente wird die Handhabung der jeweiligen Eingabemasken dann konkret gezeigt (s. :ref:`Erhebungen` :ref:`Instrumente`).
+
+An einigen Stellen gibt es die Möglichkeit Texte mittels Markdown zu formatieren. `Hier <https://www.markdownguide.org/basic-syntax/>`_ finden Sie eine Anleitung.
+Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit Markdown formatiert werden. Es kann sein, dass die konkreten Überschriften-Ebenen nicht 
+der angegebenen Überschriften-Ebene ensprechen. So kann es sein, dass eine H1-Überschrift auf Ebene H2 "rutscht". Das liegt daran, dass die Überschriften-Ebenen
+auf der gesamten Detailseite vom System konsistent gemacht werden. Die niedrigste Überschriften-Ebene ist H6.
+
+.. figure:: ./_static/markdown_symbol.png
+   :name: markdown
+
+   Beispiel eines Eingabefeldes mit Markdown-Unterstützung.
+
+
+
+Dateiupload
+"""""""""
+
+Für die Ebenen Fragen, Variablen und Publikationen müssen Dateien hochgeladen werden -- wenden Sie sich hierfür bitte ans FDZ. Konzepte werden vom FDZ
 angelegt.
 
 .. _Anhänge:
 
 Anhänge
-~~~~~~~
+"""""""""
 
 Anhänge werden über die Eingabemasken im MDM hochgeladen.
 Zu den Anhängen zählen z.B. der
