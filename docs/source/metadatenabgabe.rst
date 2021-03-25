@@ -7,12 +7,11 @@ Was ist das Metadatenmanagementsystem (MDM)?
 --------------------------------------------
 
 Das FDZ-DZHW stellt Daten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung zur Verfügung.
-Ein fester Bestandteil dieser Arbeit ist zunächst der Prozess der Datenübergabe, welcher im FDZ-DZHW durch das Metadatenmanagementsystem
-(MDM) unterstützt wird. Im MDM werden Metadaten über die von Ihnen bereitgestellten Forschungsdaten erfasst. Dies erhöht die Auffindbarkeit 
-der Forschungsdaten und erleichtert es Sekundärforscher:innen für sie passende Forschungsdaten auszuwählen. Das System ist über die Website
-https://metadata.fdz.dzhw.eu zu erreichen.
+Im Metadatenmanagementsystem (MDM) werden Metadaten über die bereitgestellten Forschungsdaten bereitgestellt.
+Dies erhöht die Auffindbarkeit der Forschungsdaten und erleichtert es Sekundärforscher:innen für sie passende Forschungsdaten auszuwählen.
+Das System ist über die Website https://metadata.fdz.dzhw.eu zu erreichen.
 
-Für die strukturierte Aufnahme der Metadaten sind acht unterschiedliche Ebenen im MDM vorgesehen:
+Die Metadaten werden im MDM auf (bis zu) acht unterschiedlichen Ebenen erfasst:
 
 - Datenpaket
 - Erhebungen
@@ -25,10 +24,9 @@ Für die strukturierte Aufnahme der Metadaten sind acht unterschiedliche Ebenen 
 
 Dadurch, dass alle Ebenen miteinander verknüpft sind, wird eine umfassende Durchsuchbarkeit aller verfügbaren Daten ermöglicht. 
 
-Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, erfassen Sie die Metadaten selbst und können diese größtenteils
-eigenständig in das MDM hochladen. Hierfür bestehen feste Strukturen, die im weiteren Verlauf dieser Anleitung für jede Ebene 
-detailliert erläutert werden. Diesen Vorgaben ist unbedingt Folge zu leisten, damit eine erfolgreiche Erfassung der Metadaten 
-gewährleistet werden kann.
+Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten größtenteils selbst erfassen.
+Hierfür bestehen feste Strukturen, die im weiteren Verlauf dieser Anleitung erläutert werden.
+Diesen Vorgaben ist unbedingt Folge zu leisten, damit eine erfolgreiche Erfassung der Metadaten gewährleistet werden kann.
 
 Registrierung
 --------------------------------------------
