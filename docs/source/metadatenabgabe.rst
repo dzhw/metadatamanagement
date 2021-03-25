@@ -36,30 +36,23 @@ Sie müssen sich zunächst auf https://metadata.fdz.dzhw.eu registrieren, um die
 .. figure:: ./_static/registrierung_1_de.png
    :name: registrierung
 
-   Registrierung im MDM Schritt 1
+   Registrierung im MDM: Schritt 1
 
 .. figure:: ./_static/registrierung_2_de.png
    :name: registrierung_2
 
-   Registrierung im MDM Schritt 2
+   Registrierung im MDM: Schritt 2
 
 
-Im Anschluss erhalten Sie eine Bestätigungsmail. In dieser müssen Sie auf den
-Aktivierungslink klicken, welcher nach drei Tagen automatisch abläuft. Im
-Anschluss werden Sie von uns dem Projekt in der Rolle Datengeber/in
-hinzugefügt.
-Sie erhalten jeweils eine E-Mail wenn Sie Ihrem Datenaufbereitungsprojekt
-hinzugefügt wurden und wenn das Projekt Ihnen von einer FDZ-Mitarbeiterin zur
-Bearbeitung freigegeben wurde.
-Falls Sie nicht kurz darauf dem Projekt zugewiesen worden sind, sprechen Sie bitte noch einmal den/die
-FDZ-MitarbeiterIn an. Der/die FDZ-MitarbeiterIn muss einem der Admins Bescheid geben,
-zu welchem Projekt Sie hinzugefügt werden sollen.
+Im Anschluss erhalten Sie eine Bestätigungs-E-Mail. In dieser müssen Sie auf den Aktivierungslink klicken, 
+welcher nach drei Tagen automatisch abläuft. Im Anschluss werden Sie von uns dem Projekt in der Rolle "Datengeber:in" 
+hinzugefügt. Sie erhalten jeweils eine E-Mail, wenn Sie Ihrem Datenaufbereitungsprojekt hinzugefügt wurden und 
+wenn das Projekt Ihnen zur Bearbeitung freigegeben wurde.
 
 Verwaltung des Projektes im Projekt-Cockpit
 --------------------------------------------
 
-Das Projekt-Cockpit dient der Zusammenarbeit zwischen FDZ-MitarbeiterInnen und
-den DatengeberInnen (also Ihnen).
+Das Projekt-Cockpit dient der Zusammenarbeit zwischen FDZ-Mitarbeiter:innen und Ihnen, den Datengeber:innen.
 In der Navigationsleiste links, welche ggfs.
 aufgeklappt werden muss, finden Sie den Zugang zum Projekt-Cockpit
 (vgl. :numref:`projectcockpit`).
