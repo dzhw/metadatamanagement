@@ -1,13 +1,10 @@
 .. _metadatenabgabe-label:
 
-Metadatenübergabe
+Allgemeines
 =================================
 
-Allgemeines
------------
-
 Was ist das Metadatenmanagementsystem (MDM)?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------------------
 
 Das FDZ-DZHW stellt Daten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung zur Verfügung.
 Ein fester Bestandteil dieser Arbeit ist zunächst der Prozess der Datenübergabe, welcher im FDZ-DZHW durch das Metadatenmanagementsystem
@@ -34,7 +31,7 @@ detailliert erläutert werden. Diesen Vorgaben ist unbedingt Folge zu leisten, d
 gewährleistet werden kann.
 
 Registrierung
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------------------
 
 Sie müssen sich zunächst auf https://metadata.fdz.dzhw.eu registrieren,
 um die Berechtigung für das Erfassen von Metadaten zu erhalten. Dies können Sie
@@ -64,7 +61,7 @@ FDZ-MitarbeiterIn an. Der/die FDZ-MitarbeiterIn muss einem der Admins Bescheid g
 zu welchem Projekt Sie hinzugefügt werden sollen.
 
 Verwaltung des Projektes im Projekt-Cockpit
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------------------
 
 Das Projekt-Cockpit dient der Zusammenarbeit zwischen FDZ-MitarbeiterInnen und
 den DatengeberInnen (also Ihnen).
@@ -154,7 +151,7 @@ die konkret geforderten Metadaten in den einzelnen Ebenen in
 detailliert beschrieben werden.
 
 Notwendige Schnittstellen und Dateien
-~~~~~~~~~~~~~
+--------------------------------------------
 
 Tabelle 1 zeigt eine Übersicht über das Vorgehen der Metadateneingabe auf jeder Ebene.
 Einige Metadaten können über eine Eingabemaske direkt im MDM direkt eingetragen werden.
@@ -199,7 +196,8 @@ Tabelle 1: Vorgehen bei der Metadateneingabe pro Ebene
 +-----------------+---------------------+-----------------+-----------------+
 
 Eingabemasken
-"""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Jede Maske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind.
 Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch
 darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen. Im Rahmen der relevanten Ebenen Datenpakete,
@@ -218,7 +216,7 @@ auf der gesamten Detailseite vom System konsistent gemacht werden. Die niedrigst
 .. _Anhänge:
 
 Anhänge
-"""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Anhänge werden über die Eingabemasken im MDM hochgeladen. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene 
 sowie Fragebögen oder Codierlisten auf Instrumentenebene. Diese Dokumente müssen als Dateien im PDF- oder Excel-Format vorliegen (Details dazu 
@@ -228,16 +226,10 @@ Eine Anleitung finden Sie hier:
 https://helpx.adobe.com/acrobat/using/pdf-properties-metadata.html
 
 
-.. _Abgabe_von_Metadaten_für_die_einzelnen_Ebenen:
-
-
-Die Abgabe von Metadaten für die einzelnen Ebenen
--------------------------------------------------
-
 .. _Datenpaket:
 
-Datenpaket (data package; ehemals Studie/study)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Datenpaket (data package)
+=================================
 
 **Übersicht**
 
@@ -452,7 +444,7 @@ eingegebene Metadaten.
 .. _Erhebungen:
 
 Erhebungen (surveys)
-~~~~~~~~~~~~~~~~~~~~
+=================================
 
 **Übersicht**
 
@@ -587,7 +579,7 @@ im Falle von längsschnittlich erhobenen Datenpaketen die Welle enthalten.
 .. _Instrumente:
 
 Erhebungsinstrumente (instruments)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=================================
 Als Instrument wird das Erhebungsinstrument bezeichnet (z.B. Fragebogen).
 
 **Übersicht**
@@ -659,7 +651,7 @@ Variablenebene bereitgestellt.
 .. _Datensätze:
 
 Datensätze (dataSets)
-~~~~~~~~~~~~~~~~~~~~~
+=================================
 
 **Übersicht**
 Für die Dokumentation der Datensätze werden die "Master"(AIP)-Datensätze
@@ -725,7 +717,7 @@ Es öffnet sich ein Fenster (siehe :numref:`dataset_attachments`) in dem Sie
 eine Datei hochladen können und Metadaten zur Datei angeben müssen.
 
 Fragen
-~~~~~~
+=================================
 
 Sollten Sie mit uns die Eingabe von Frage-Metadaten vereinbart haben, sprechen
 Sie uns bitte darauf an. Wir erläutern Ihnen dann den Prozess.
@@ -736,7 +728,7 @@ Metadaten zukommen zu lassen. Die Fragen-Metadaten werden von uns hochgeladen.
 Um Fragen ins MDM zu laden benutzen Sie den Upload-Button im Projektcockpit.
 
 Variablen
-~~~~~~~~~
+=================================
 
 Sollten Sie die Bereitstellung von Variablenmetadaten mit uns vereinbart haben,
 sprechen Sie uns bitte an. Wir erläutern Ihnen dann die notwendigen Schritte.
@@ -744,7 +736,7 @@ sprechen Sie uns bitte an. Wir erläutern Ihnen dann die notwendigen Schritte.
 Um Variablen ins MDM zu laden benutzen Sie den Upload-Button im Projektcockpit.
 
 Publikationen (relatedPublications)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=================================
 
 **Überblick**
 
@@ -766,7 +758,7 @@ FDZ per Mail die PDF-Datei Ihrer Publikation sowie den dazugehörigen
 Zitationshinweis zu.
 
 Konzepte
-~~~~~~~~
+=================================
 
 Konzepte können ausschließlich von Publishern angelegt werden.
 Der Begriff "Konzept" kann auf mehreren Ebenen angewendet werden. Im Kontext des MDM
@@ -830,7 +822,7 @@ geschieht im Handcrafted-to-MDM-Schritt der Frage-Metadatenerstellung.
 
 
 Projekte freigeben
-------------------
+=================================
 
 Wenn Sie alle Metadaten ausgefüllt bzw. ans FDZ gesendet haben,
 markieren Sie im Project-Cockpit die Metadaten als fertig.
