@@ -716,7 +716,7 @@ blauen Plus-Button geklickt. [6]_
 Es öffnet sich ein Fenster (siehe :numref:`dataset_attachments`) in dem Sie
 eine Datei hochladen können und Metadaten zur Datei angeben müssen.
 
-Fragen
+Fragen (questions)
 =================================
 
 Sollten Sie mit uns die Eingabe von Frage-Metadaten vereinbart haben, sprechen
@@ -727,7 +727,7 @@ Metadaten zukommen zu lassen. Die Fragen-Metadaten werden von uns hochgeladen.
 `Hier <https://dzhw.github.io/questionMetadataPreparation/>`_ befindet sich die technische Dokumentation zur Erstellung der Fragemetadaten.
 Um Fragen ins MDM zu laden benutzen Sie den Upload-Button im Projektcockpit.
 
-Variablen
+Variablen (variables)
 =================================
 
 Sollten Sie die Bereitstellung von Variablenmetadaten mit uns vereinbart haben,
@@ -757,7 +757,7 @@ Wenn Sie Publikationen zu Ihren Daten abgeben möchten, senden Sie dem
 FDZ per Mail die PDF-Datei Ihrer Publikation sowie den dazugehörigen
 Zitationshinweis zu.
 
-Konzepte
+Konzepte (concepts)
 =================================
 
 Konzepte können ausschließlich von Publishern angelegt werden.
