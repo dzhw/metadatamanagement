@@ -10,9 +10,7 @@ Metadatenübergabe
    :maxdepth: 2
    :caption: Inhaltsverzeichnis:
 
-   user_roles
    metadatenabgabe
-   publisher
 
 
 Indizes und Tabellen
