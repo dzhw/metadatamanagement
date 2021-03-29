@@ -1,4 +1,4 @@
-.. _Instrumente:
+.. _Instruments:
 
 Erhebungsinstrumente (instruments)
 ---------------------------------
