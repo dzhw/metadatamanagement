@@ -70,8 +70,10 @@ Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status ang
 
 Anfangs liegt das Projekt immer zur Bearbeitung bei den Publishern und Sie als Datengeber:innen werden per E-Mail benachrichtigt, wenn es Ihnen zugewiesen wird.
 Für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze können Sie die Metadaten dann über Eingabemasken selbst erfassen.
+
 Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button. Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind.
 Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen. Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit `Markdown <https://www.markdownguide.org/basic-syntax/>`_ formatiert werden. Zusätzlich ist über die Eingabemasken das Hochladen von Anhängen möglich. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene.
+
 Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen.
 
 Wenn Sie mit der Eingabe der Metadaten einer Ebene fertig sind, setzen Sie bitte im Projekt-Cockpit-Status das entsprechende Häkchen (siehe :numref:`projectcockpit_dataprovider_ready`).
@@ -85,12 +87,9 @@ Dafür klicken Sie den "Papierflieger"-Button (siehe :numref:`papierflieger`).
 .. figure:: ./_static/projectcockpit_papierflieger.png
    :name: papierflieger
 
-Nachdem der Papierflieger-Button geklickt wurde, erscheint der "Nachricht an Publisher"-Dialog (siehe :numref:`nachricht_an_publisher`). Sie können dem Publisher hier noch einmal den genauen Stand sowie mglw. Fragen und Hinweise schreiben.
+Nachdem der Papierflieger-Button geklickt wurde, erscheint der "Nachricht an Publisher"-Dialog. Sie können dem Publisher hier noch einmal den genauen Stand sowie mglw. Fragen und Hinweise schreiben.
 
-.. figure:: ./_static/cockpit_nachricht_an_publisher.png
-   :name: nachricht_an_publisher
-
-Die Publisher nehmen ein Review der eingetragenen Metadaten vor. Falls die Publisher denken, dass noch etwas vergessen wurde oder anders eingegeben werden sollte, weisen sie Ihnen das Projekt zurück zu und Sie werden per E-Mail darüber benachrichtigt. Teilweise werden zudem noch Metadaten durch die Publisher ergänzt. Erklären die Publisher die Eingabe der Metadaten auf einer Ebene ebenfalls als "fertig", setzen sie ebenfalls ein entsprechendes Häkchen (siehe :numref:`dp_ready`).
+Die Publisher nehmen ein Review der eingetragenen Metadaten vor. Falls die Publisher denken, dass noch etwas vergessen wurde oder anders eingegeben werden sollte, weisen sie Ihnen das Projekt zurück zu und Sie werden per E-Mail darüber benachrichtigt. Teilweise werden zudem noch Metadaten durch die Publisher ergänzt. Erklären die Publisher die Eingabe der Metadaten auf einer Ebene als "fertig", setzen sie ebenfalls ein entsprechendes Häkchen (siehe :numref:`dp_ready`).
 
 .. figure:: ./_static/cockpit_dp_ready.png
    :name: dp_ready
