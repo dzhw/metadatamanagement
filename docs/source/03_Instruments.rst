@@ -1,6 +1,6 @@
 .. _Instruments:
 
-Erhebungsinstrumente (instruments)
+Erhebungsinstrumente (Instruments)
 ---------------------------------
 
 Als Instrument wird das Erhebungsinstrument bezeichnet (z.B. Fragebogen).
