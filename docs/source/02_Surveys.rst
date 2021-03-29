@@ -1,6 +1,6 @@
 .. _Erhebungen:
 
-Erhebungen (surveys)
+Erhebungen (Surveys)
 ---------------------------------
 
 **Übersicht**
