@@ -21,9 +21,6 @@ Die Metadaten werden im MDM auf (bis zu) acht unterschiedlichen Ebenen erfasst:
 
 Dadurch, dass alle Ebenen miteinander verknüpft sind, wird eine umfassende Durchsuchbarkeit ermöglicht. 
 
-Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze selbst erfassen.
-Das Vorgehen wird im Folgenden erläutert.
-
 Registrierung
 --------------------------------------------
 
@@ -135,77 +132,24 @@ Das FDZ nimmt ihre Daten dann in die sogenannte Release-Pipeline auf. Die finale
 benannte:n Mitarbeiter:in des FDZ. Mit der Freigabe sind Ihre Metadaten öffentlich verfügbar und ihre Forschungsdaten können
 über das MDM von interessierten Forscher:innen ausgewählt und beantragt werden.
 
-Notwendige Schnittstellen und Dateien
+Eingabemasken
 --------------------------------------------
 
-Tabelle 1 zeigt eine Übersicht über das Vorgehen der Metadateneingabe auf jeder Ebene.
-Einige Metadaten können über eine Eingabemaske direkt im MDM direkt eingetragen werden.
-Für die übrigen Ebenen müssen JSON-Dateien hochgeladen werden, bzw. eine Exceldatei ans FDZ übergeben bzw. hochgeladen werden.
-In dieser Dokumentation wird lediglich auf den Standardfall eingegangen, bei dem die Metadaten per Eingabemaske eingetragen werden. 
-Die Eingabemasken ermöglichen eine komfortable Abgabe der Metadaten direkt auf der Website.
-Zusätzlich ist über die Eingabemasken das Hochladen von Anhängen (vgl. :ref:`Anhänge`) möglich.
+Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze selbst über Eingabemasken erfassen.
 
-Tabelle 1: Vorgehen bei der Metadateneingabe pro Ebene
-
-+-----------------+---------------------+-----------------+-----------------+
-| Ebene           | Metadaten           | Zusätzliche     | Metadaten       |
-|                 | eingeben            | Dateien         | abgeben         |
-+=================+=====================+=================+=================+
-| Datenpaket      | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
-|                 |                     |                 | ausfüllen       |
-+-----------------+---------------------+-----------------+-----------------+
-| Erhebungen      | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
-|                 |                     |                 | ausfüllen       |
-+-----------------+---------------------+-----------------+-----------------+
-| Erhebungs-      | Eingabemaske        | Anhänge (PDF,   | Eingabemaske    |
-| instrumente     |                     | Excel)          | ausfüllen       |
-+-----------------+---------------------+-----------------+-----------------+
-| Fragen          | Excel-Tabelle       | Fragebilder     | Im              |
-|                 | (oder JSON-         | (.png)          | Vorlage-Ordner  |
-|                 | Dateien von Zofar)  |                 | speichern       |
-+-----------------+---------------------+-----------------+-----------------+
-| Datensätze      | Eingabemaske        | Anhänge (PDF)   | Eingabemaske    |
-|                 |                     |                 | ausfüllen       |
-+-----------------+---------------------+-----------------+-----------------+
-| Variablen       | mind. 1             | mind. 1         | Im              |
-|                 | Excel-Tabelle       | Datensatz       | Vorlage-Ordner  |
-|                 |                     | (Stata)         | speichern       |
-+-----------------+---------------------+-----------------+-----------------+
-| Publikationen   | -                   | -               | Informationen   |
-|                 |                     |                 | dem FDZ         |
-|                 |                     |                 | schicken        |
-+-----------------+---------------------+-----------------+-----------------+
-| Konzepte        | -                   | -               | Informationen   |
-|                 |                     |                 | dem FDZ         |
-|                 |                     |                 | schicken        |
-+-----------------+---------------------+-----------------+-----------------+
-
-Eingabemasken
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Jede Maske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind.
+Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind.
 Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch
-darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen. Im Rahmen der relevanten Ebenen Datenpakete,
-Erhebungen, Datensätze und Instrumente wird die Handhabung der jeweiligen Eingabemasken dann konkret gezeigt (s. :ref:`Erhebungen` :ref:`Instrumente`).
+darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen.
 
-An einigen Stellen gibt es die Möglichkeit Texte mittels Markdown zu formatieren. `Hier <https://www.markdownguide.org/basic-syntax/>`_ finden Sie eine Anleitung.
-Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit Markdown formatiert werden. Es kann sein, dass die konkreten Überschriften-Ebenen nicht 
-der angegebenen Überschriften-Ebene ensprechen. So kann es sein, dass eine H1-Überschrift auf Ebene H2 "rutscht". Das liegt daran, dass die Überschriften-Ebenen
-auf der gesamten Detailseite vom System konsistent gemacht werden. Die niedrigste Überschriften-Ebene ist H6.
+Zusätzlich ist über die Eingabemasken das Hochladen von Anhängen (vgl. :ref:`Anhänge`) möglich.
+Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene. 
+Diese Dokumente müssen als Dateien im PDF- oder Excel-Format vorliegen und zudem nach bestimmten Richtlinien benannt werden.
+Für die Anhänge  im PDF-Format gilt es darüber hinaus zu beachten, dass dokumenteigene Metadaten wie Autor und Titel der PDF-Datei gelöscht werden. 
+Eine Anleitung finden Sie hier: https://helpx.adobe.com/acrobat/using/pdf-properties-metadata.html
+
+Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit Markdown formatiert werden. `Hier <https://www.markdownguide.org/basic-syntax/>`_ finden Sie eine Markdown-Anleitung. Es kann sein, dass die konkreten Überschriften-Ebenen nicht der angegebenen Überschriften-Ebene ensprechen. So kann es sein, dass eine H1-Überschrift auf Ebene H2 "rutscht". Das liegt daran, dass die Überschriften-Ebenen auf der gesamten Detailseite vom System konsistent gemacht werden. Die niedrigste Überschriften-Ebene ist H6.
 
 .. figure:: ./_static/markdown_symbol.png
    :name: markdown
 
    Beispiel eines Eingabefeldes mit Markdown-Unterstützung.
-
-.. _Anhänge:
-
-Anhänge
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Anhänge werden über die Eingabemasken im MDM hochgeladen. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene 
-sowie Fragebögen oder Codierlisten auf Instrumentenebene. Diese Dokumente müssen als Dateien im PDF- oder Excel-Format vorliegen (Details dazu 
-finden Sie in den jeweils relevanten Kapiteln zu den einzelnen Ebenen) und zudem nach bestimmten Richtlinien benannt werden. Für die Anhänge 
-im PDF-Format gilt es darüber hinaus zu beachten, dass dokumenteigene Metadaten wie Autor und Titel der PDF-Datei gelöscht werden. 
-Eine Anleitung finden Sie hier:
-https://helpx.adobe.com/acrobat/using/pdf-properties-metadata.html
