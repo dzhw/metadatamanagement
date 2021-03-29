@@ -12,44 +12,17 @@ Anhand der Informationen, die Sie bzgl. Ihres Datenpakets im MDM erfassen, wird 
 
    Datenpaketübersicht im MDM am Beispiel des Absolventenpanels 2005
 
-**Datenpaket anlegen über das Projekt-Cockpit**
+**Datenpaket anlegen**
 
-Im Projekt-Cockpit sehen Sie im Status-Bereich die Felder zu den einzelnen
-Metadatenebenen. Wenn Sie unter dem Punkt Datenpaket auf den "Neu"-Button klicken,
-gelangen Sie zur Eingabemaske. Machen Sie beim Punkt Eingabemaske_
-weiter.
+Wenn Sie im Projekt-Cockpit auf der Ebene "Datenpaket" auf den "Neu"-Button klicken, gelangen Sie zur Eingabemaske.
 
 .. figure:: ./_static/dp_empty.png
    :name: dp_leer
 
    Datenpaket per Cockpit anlegen
 
-**Datenpaket anlegen über die Suche**
-
-Dazu finden Sie im
-Reiter „Datenpakete“ unten rechts auf der Seite einen orangefarbenen
-Plus-Button (vgl. :numref:`dp_anlegen_per_suche`).
-
-.. figure:: ./_static/dp_create_dp_via_search.png
-   :name: dp_anlegen_per_suche
-
-   Datenpaket per Suche anlegen
-
-Mit einem Klick auf den
-Plus-Button öffnet sich die Eingabemaske, in der Sie Ihre Informationen
-zum Datenpaket ablegen können.
-
-**Eingabemaske**
-
-.. _Eingabemaske:
-
-Die Eingabemaske auf Datenpaketebene besteht aus den vier Abschnitten
-„Details“, „Datenpaketbeschreibung“, „Projektmitarbeiter(innen)“ sowie
-„Materialien zum Datenpaket“. Der Abschnitt „Details“ ist der
-umfangreichste und wird im Folgenden aufgrund der Veranschaulichung mit
-bereits eingetragenen Informationen dargestellt (hier beispielhaft: 21.
-Sozialerhebung):
-
+Die Eingabemaske auf Datenpaketebene besteht aus den vier Abschnitten „Details“, „Datenpaketbeschreibung“, „Projektmitarbeiter(innen)“ sowie „Materialien zum Datenpaket“.
+Der Abschnitt „Details“ ist der umfangreichste und wird im Folgenden mit bereits eingetragenen Informationen dargestellt:
 
 .. figure:: ./_static/dp_edit_details_page.png
    :name: dpebene_eingabemaske
@@ -57,10 +30,8 @@ Sozialerhebung):
    Eingabemaske auf Datenpaketebene, Abschnitt "Details" am Beispiel der 21.
    Sozialerhebung
 
-Nach dem Öffnen der Eingabemaske erscheint ganz oben die aus ihrem
-Projektnamen automatisch generierte ID für die Datenpaketseite (s. rotes
-Kästchen in :numref:`dpebene_eingabemaske`). Einige Felder, die Sie frei
-ausfüllen können,
+Nach dem Öffnen der Eingabemaske erscheint ganz oben die aus Ihrem Projektnamen automatisch generierte ID für die Datenpaketseite (s. rotes
+Kästchen in :numref:`dpebene_eingabemaske`). Einige Felder, die Sie frei ausfüllen können,
 verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele
 Zeichen Sie dort insgesamt eintragen dürfen und wie viele Zeichen Sie
 bereits eingetragen haben (s. blaues Kästchen in
