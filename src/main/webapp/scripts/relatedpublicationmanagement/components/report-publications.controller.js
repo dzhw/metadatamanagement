@@ -3,14 +3,30 @@
 angular.module('metadatamanagementApp')
   .controller('ReportPublicationsController',
     function($scope, $sessionStorage, $rootScope, CurrentProjectService,
-      Principal) {
+      Principal, CurrentDataPackageService, DataPackageIdBuilderService) {
       $scope.isAuthenticated = Principal.isAuthenticated;
-      $scope.currentProject = CurrentProjectService.getCurrentProject();
+      $scope.dataPackageId = CurrentDataPackageService.getCurrentDataPackage() ?
+        CurrentDataPackageService.getCurrentDataPackage().masterId : null;
+      if (!$scope.dataPackageId && CurrentProjectService.getCurrentProject()) {
+        $scope.dataPackageId =
+          DataPackageIdBuilderService.buildDataPackageId(
+            CurrentProjectService.getCurrentProject().id);
+      }
       $scope.$on('current-project-changed',
         /* jshint -W098 */
         function(event, currentProject) {
           /* jshint +W098 */
-          $scope.currentProject = currentProject;
+          if (currentProject) {
+            $scope.dataPackageId =
+              DataPackageIdBuilderService.buildDataPackageId(currentProject.id);
+          }
+        });
+      $scope.$on('current-data-package-changed',
+        /* jshint -W098 */
+        function(event, currentDataPackage) {
+          /* jshint +W098 */
+          $scope.dataPackageId = currentDataPackage ?
+            currentDataPackage.masterId : null;
         });
       $scope.bowser = $rootScope.bowser;
       $scope.hideSpeechBubble = $sessionStorage.get(

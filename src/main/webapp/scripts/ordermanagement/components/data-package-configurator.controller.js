@@ -16,7 +16,8 @@
                                 DataPackageSearchService,
                                 DataPackageAccessWaysResource, $mdDialog,
                                 CitationHintGeneratorService,
-                                DataPackageCitationDialogService) {
+                                DataPackageCitationDialogService,
+                                CurrentDataPackageService) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.dataPackageIdVersion = {};
@@ -71,6 +72,7 @@
         .promise.then(function(data) {
           $ctrl.dataPackage = data;
           $rootScope.selectedDataPackage = data;
+          CurrentDataPackageService.setCurrentDataPackage(data);
           if ($ctrl.dataPackage) {
             if ($rootScope.bowser.compareVersions(['1.0.0', version]) === 1) {
               $ctrl.noFinalRelease = true;
@@ -141,7 +143,10 @@
         trans.$to().name === 'conceptDetail';
     });
 
-    $scope.$on('$destroy', unregisterTransitionHook);
+    $scope.$on('$destroy', function() {
+      CurrentDataPackageService.setCurrentDataPackage(null);
+      unregisterTransitionHook();
+    });
 
     $scope.$on('shopping-cart-changed', function() {
       $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();

@@ -190,8 +190,8 @@ angular.module('metadatamanagementApp').factory(
         'concept': 'concepts.id'
       },
       'related_publications': {
-        'study-series-de': 'studySerieses.de',
-        'study-series-en': 'studySerieses.en',
+        'study-series-de': 'dataPackages.studySeries.de',
+        'study-series-en': 'dataPackages.studySeries.en',
         'data-package': 'dataPackageIds',
       },
       'concepts': {
