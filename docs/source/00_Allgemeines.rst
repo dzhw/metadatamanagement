@@ -92,11 +92,6 @@ Eine Anleitung finden Sie hier: https://helpx.adobe.com/acrobat/using/pdf-proper
 
 Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit Markdown formatiert werden. `Hier <https://www.markdownguide.org/basic-syntax/>`_ finden Sie eine Markdown-Anleitung. Es kann sein, dass die konkreten Überschriften-Ebenen nicht der angegebenen Überschriften-Ebene ensprechen. So kann es sein, dass eine H1-Überschrift auf Ebene H2 "rutscht". Das liegt daran, dass die Überschriften-Ebenen auf der gesamten Detailseite vom System konsistent gemacht werden. Die niedrigste Überschriften-Ebene ist H6.
 
-.. figure:: ./_static/markdown_symbol.png
-   :name: markdown
-
-   Beispiel eines Eingabefeldes mit Markdown-Unterstützung.
-
 Details zur Abgabe der konkreten Metadaten der einzelnen Ebenen wird im jeweiligen Kapitel erklärt.
 
 Wenn Sie fertig mit der Eingabe der Metadaten einer Ebene sind, setzen Sie bitte das entsprechende Häkchen.
