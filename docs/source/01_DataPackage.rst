@@ -1,6 +1,6 @@
-.. _Datenpaket:
+.. _DataPackage:
 
-Datenpaket (data package)
+Datenpaket (Data Package)
 ---------------------------------
 
 **Übersicht**
