@@ -1,6 +1,6 @@
 .. _DataSets:
 
-Datensätze (dataSets)
+Datensätze (Data Sets)
 ---------------------------------
 
 **Übersicht**
