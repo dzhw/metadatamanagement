@@ -72,7 +72,7 @@ Für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze kö
 Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button. Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind.
 Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen. Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit `Markdown <https://www.markdownguide.org/basic-syntax/>`_ formatiert werden.
 Zusätzlich ist über die Eingabemasken das Hochladen von Anhängen möglich. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene.
-Details zu den konkreten Eingabe der Metadaten samt Anhängen der einzelnen Ebenen finden sich im entsprechenden Abschnitt dieser Anleitung.
+Details zur Eingabe der konkreten Metadaten samt Anhängen der einzelnen Ebenen finden sich in den entsprechenden Abschnitten dieser Anleitung.
 
 Wenn Sie mit der Eingabe der Metadaten einer Ebene fertig sind, setzen Sie bitte im Projekt-Cockpit-Status das entsprechende Häkchen (siehe :numref:`projectcockpit_dataprovider_ready`).
 
