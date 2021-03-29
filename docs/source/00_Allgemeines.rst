@@ -60,7 +60,7 @@ welche Publisher (FDZ-Mitarbeiter:innen) und Datengeber:innen dem Projekt zugewi
 
    Projekt-Cockpit Einstellungen.
 
-Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status angezeigt. Zudem wird hier angezeigt, ob das Projekt freigegeben ist, also die eingegebenen Metadaten für alle öffentlichen Nutzer:innen des Systems sichtbar sind, und ob das Projekt gerade bei den Publishern oder bei den Datengeber:innen zur Bearbeitung liegt.
+Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status angezeigt (vgl. :numref:`projectcockpit_status_empty`). Zudem wird hier angezeigt, ob das Projekt freigegeben ist, also die eingegebenen Metadaten für alle öffentlichen Nutzer:innen des Systems sichtbar sind, und ob das Projekt gerade bei den Publishern oder bei den Datengeber:innen zur Bearbeitung liegt.
 
 .. figure:: ./_static/projectcockpit_dataprovider_status_empty.png
    :name: projectcockpit_status_empty
