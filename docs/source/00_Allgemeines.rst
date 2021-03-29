@@ -92,7 +92,7 @@ Nachdem der Papierflieger-Button geklickt wurde, erscheint der "Nachricht an Pub
 
 Die Publisher nehmen ein Review der eingetragenen Metadaten vor. Falls die Publisher denken, dass noch etwas vergessen wurde oder anders eingegeben werden sollte, weisen sie Ihnen das Projekt zurück zu und Sie werden per E-Mail darüber benachrichtigt. Sollten die Publisher denken, dass die Eingabe der Metadaten auf der jeweiligen Ebene fertig sind, markieren sie die Ebene auch als "fertig", was durch einen zweiten Haken signalisiert wird (siehe :numref:`dp_ready`).
 
-Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können die Publisher das Projekt für alle öffentlichen Nutzer:innen des Systems freigeben.
-
 .. figure:: ./_static/cockpit_dp_ready.png
    :name: dp_ready
+
+Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können die Publisher das Projekt für alle öffentlichen Nutzer:innen des Systems freigeben.
