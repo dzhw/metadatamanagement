@@ -6,7 +6,7 @@ Allgemeines
 Was ist das Metadatenmanagementsystem (MDM)?
 --------------------------------------------
 
-Das FDZ-DZHW stellt Forschungsdaten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung für die wissenschaftliche Sekundärnutzung zur Verfügung. Im Metadatenmanagementsystem (MDM) werden Metadaten über die Forschungsdaten erfasst und bereitgestellt. Dies erhöht die Auffindbarkeit der Forschungsdaten und erleichtert es Sekundärforscher:innen für sie passende Forschungsdaten auszuwählen. Das System ist über die Website https://metadata.fdz.dzhw.eu zu erreichen.
+Das FDZ-DZHW stellt Forschungsdaten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung für die wissenschaftliche Sekundärnutzung zur Verfügung. Im Metadatenmanagementsystem (MDM) werden Metadaten über die Forschungsdaten erfasst und bereitgestellt. Dies erhöht die Auffindbarkeit der Forschungsdaten und erleichtert es Sekundärforscher:innen für sie passende Forschungsdaten auszuwählen sowie diese nachzunutzen. Das System ist über die Website https://metadata.fdz.dzhw.eu zu erreichen.
 
 Die Metadaten werden im MDM auf (bis zu) acht unterschiedlichen Ebenen erfasst:
 
@@ -21,9 +21,8 @@ Die Metadaten werden im MDM auf (bis zu) acht unterschiedlichen Ebenen erfasst:
 
 Dadurch, dass alle Ebenen miteinander verknüpft sind, wird eine umfassende Durchsuchbarkeit ermöglicht. 
 
-Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten größtenteils selbst erfassen.
-Hierfür bestehen feste Strukturen, die im weiteren Verlauf dieser Anleitung erläutert werden.
-Diesen Vorgaben ist unbedingt Folge zu leisten, damit eine erfolgreiche Erfassung der Metadaten gewährleistet werden kann.
+Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze selbst erfassen.
+Das Vorgehen wird im Folgenden erläutert.
 
 Registrierung
 --------------------------------------------
@@ -50,14 +49,10 @@ Verwaltung des Projektes im Projekt-Cockpit
 --------------------------------------------
 
 Das Projekt-Cockpit dient der Zusammenarbeit zwischen FDZ-Mitarbeiter:innen und Ihnen, den Datengeber:innen.
-In der Navigationsleiste links, welche ggfs.
-aufgeklappt werden muss, finden Sie den Zugang zum Projekt-Cockpit
-(vgl. :numref:`projectcockpit`).
-Wenn Sie ins Projekt-Cockpit gehen, sehen Sie unter dem Punkt Einstellungen
-(vgl. :numref:`project_cockpit_settings`), welche Publisher (
-FDZ-MitarbeiterInnen) und DatengeberInnen dem Projekt zugewiesen sind
-und welche Metadaten erwartet werden. Es werden lediglich die erwarteten
-Metadatenebenen im Projektcockpit angezeigt.
+In der Navigationsleiste links, welche ggfs. aufgeklappt werden muss, finden Sie den Zugang zum Projekt-Cockpit (vgl. :numref:`projectcockpit`).
+Wenn Sie ins Projekt-Cockpit gehen, sehen Sie unter dem Punkt Einstellungen (vgl. :numref:`project_cockpit_settings`), 
+welche Publisher (FDZ-Mitarbeiter:innen) und Datengeber:innen dem Projekt zugewiesen sind und welche Metadaten erwartet werden. 
+Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status angezeigt.
 
 .. figure:: ./_static/cockpit-button.png
    :name: projectcockpit
@@ -76,7 +71,7 @@ anzulegen:
 .. figure:: ./_static/projectcockpit_dataprovider_status_empty.png
    :name: projectcockpit_status_empty
 
-   Projekt-Cockpit Status.
+   Projekt-Cockpit-Status.
 
 Es wird angezeigt, ob das Projekt freigegeben ist, also die
 eingegebenen Metadaten für alle öffentlichen Nutzer des Systems sichtbar sind.
