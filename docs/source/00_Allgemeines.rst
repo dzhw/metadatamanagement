@@ -49,33 +49,29 @@ Projekt-Cockpit und Eingabemasken
 
 Das Projekt-Cockpit dient der Zusammenarbeit zwischen FDZ-Mitarbeiter:innen und Ihnen, den Datengeber:innen.
 In der Navigationsleiste links, welche ggfs. aufgeklappt werden muss, finden Sie den Zugang zum Projekt-Cockpit (vgl. :numref:`projectcockpit`).
-Wenn Sie ins Projekt-Cockpit gehen, sehen Sie unter dem Punkt Einstellungen (vgl. :numref:`project_cockpit_settings`), 
-welche Publisher (FDZ-Mitarbeiter:innen) und Datengeber:innen dem Projekt zugewiesen sind und welche Metadaten erwartet werden. 
-Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status angezeigt.
 
 .. figure:: ./_static/cockpit-button.png
    :name: projectcockpit
 
    Projekt-Cockpit Button.
 
+Wenn Sie ins Projekt-Cockpit gehen, sehen Sie unter dem Punkt Einstellungen (vgl. :numref:`project_cockpit_settings`), 
+welche Publisher (FDZ-Mitarbeiter:innen) und Datengeber:innen dem Projekt zugewiesen sind und welche Metadaten erwartet werden. 
+
 .. figure:: ./_static/projectcockpit_settings_dataprovider.png
    :name: project_cockpit_settings
 
    Projekt-Cockpit Einstellungen.
 
-Das Status-Menü (siehe :numref:`projectcockpit_status_empty`) hat einerseits Funktionen zum Projektmanagement und andererseits Funktionen um Metadaten anzulegen:
+Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status angezeigt. Zudem wird hier angezeigt, ob das Projekt freigegeben ist, also die eingegebenen Metadaten für alle öffentlichen Nutzer des Systems sichtbar sind, und ob das Projekt gerade bei den Publishern oder bei den Datengeber:innen zur Bearbeitung liegt.
 
 .. figure:: ./_static/projectcockpit_dataprovider_status_empty.png
    :name: projectcockpit_status_empty
 
    Projekt-Cockpit-Status.
 
-Es wird angezeigt, ob das Projekt freigegeben ist, also die eingegebenen Metadaten für alle öffentlichen Nutzer des Systems sichtbar sind.
-Daneben wird angezeigt, ob das Projekt gerade bei den Publishern liegt oder bei den Datengeber:innen zur Bearbeitung liegt.
-
 Zuerst liegt das Projekt zur Bearbeitung bei den Publishern und Sie als Datengeber:in werden per E-Mail benachrichtigt, wenn es Ihnen zugewiesen wird.
-Um das Projekt wieder den Publishern zuzuweisen, klicken Sie den "Papierflieger"-Button (siehe :numref:`papierflieger`) über dem "Zugewiesen
-an Datengeber" bzw "Assigned to Publishers" steht.
+Um das Projekt wieder den Publishern zuzuweisen, klicken Sie den "Papierflieger"-Button (siehe :numref:`papierflieger`) über dem "Zugewiesen an Datengeber" bzw "Assigned to Publishers" steht.
 
 .. figure:: ./_static/projectcockpit_papierflieger.png
    :name: papierflieger
