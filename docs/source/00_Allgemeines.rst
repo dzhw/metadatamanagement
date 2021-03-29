@@ -83,15 +83,9 @@ an Datengeber" bzw "Assigned to Publishers" steht.
 Die Voraussetzung, dass Sie das Projekt zurückgeben können ist, dass Sie die erwarteten Metadaten eingegeben und als "fertig" markiert haben (siehe :numref:`projectcockpit_dataprovider_ready`).
 
 Wenn Sie auf den Neu-Button klicken, gelangen Sie zur Eingabemaske. Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind.
-Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch
-darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen. Zusätzlich ist über die Eingabemasken das Hochladen von Anhängen (vgl. :ref:`Anhänge`) möglich.
-Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene. 
-Diese Dokumente müssen als Dateien im PDF- oder Excel-Format vorliegen und zudem nach bestimmten Richtlinien benannt werden.
-Für die Anhänge  im PDF-Format gilt es darüber hinaus zu beachten, dass dokumenteigene Metadaten wie Autor und Titel der PDF-Datei gelöscht werden. 
-Eine Anleitung finden Sie hier: https://helpx.adobe.com/acrobat/using/pdf-properties-metadata.html
-
-Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit Markdown formatiert werden. `Hier <https://www.markdownguide.org/basic-syntax/>`_ finden Sie eine Markdown-Anleitung. Es kann sein, dass die konkreten Überschriften-Ebenen nicht der angegebenen Überschriften-Ebene ensprechen. So kann es sein, dass eine H1-Überschrift auf Ebene H2 "rutscht". Das liegt daran, dass die Überschriften-Ebenen auf der gesamten Detailseite vom System konsistent gemacht werden. Die niedrigste Überschriften-Ebene ist H6.
-
+Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen.
+Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit `Markdown <https://www.markdownguide.org/basic-syntax/>`_ formatiert werden.
+Zusätzlich ist über die Eingabemasken das Hochladen von Anhängen (vgl. :ref:`Anhänge`) möglich. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene. Diese Dokumente müssen als Dateien im PDF- oder Excel-Format vorliegen und zudem nach bestimmten Richtlinien benannt werden. Für die Anhänge  im PDF-Format gilt es darüber hinaus zu beachten, dass dokumenteigene Metadaten wie Autor und Titel der PDF-Datei gelöscht werden. Eine Anleitung finden Sie hier: https://helpx.adobe.com/acrobat/using/pdf-properties-metadata.html
 Details zur Abgabe der konkreten Metadaten der einzelnen Ebenen wird im jeweiligen Kapitel erklärt.
 
 Wenn Sie fertig mit der Eingabe der Metadaten einer Ebene sind, setzen Sie bitte das entsprechende Häkchen.
