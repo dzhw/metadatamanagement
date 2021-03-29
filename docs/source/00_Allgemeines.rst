@@ -71,8 +71,8 @@ Zuerst liegt das Projekt zur Bearbeitung bei den Publishern und Sie als Datengeb
 Für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze können Sie die Metadaten dann über Eingabemasken selbst erfassen.
 Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button. Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind.
 Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen. Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit `Markdown <https://www.markdownguide.org/basic-syntax/>`_ formatiert werden.
-Zusätzlich ist über die Eingabemasken das Hochladen von Anhängen möglich. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene. Diese Dokumente müssen im PDF- oder Excel-Format vorliegen und zudem nach bestimmten Richtlinien benannt werden. Für die Anhänge im PDF-Format gilt es darüber hinaus zu beachten, dass dokumenteigene Metadaten wie Autor und Titel der PDF-Datei gelöscht werden. Eine Anleitung finden Sie hier: https://helpx.adobe.com/acrobat/using/pdf-properties-metadata.html
-Details zur Abgabe der konkreten Metadaten der einzelnen Ebenen finden sich im entsprechenden Abschnitt dieser Anleitung.
+Zusätzlich ist über die Eingabemasken das Hochladen von Anhängen möglich. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene.
+Details zur Abgabe der konkreten Metadaten und ggf. Anhänge der einzelnen Ebenen finden sich im entsprechenden Abschnitt dieser Anleitung.
 
 Wenn Sie mit der Eingabe der Metadaten einer Ebene fertig sind, setzen Sie bitte im Projekt-Cockpit-Status das entsprechende Häkchen (siehe :numref:`projectcockpit_dataprovider_ready`).
 
