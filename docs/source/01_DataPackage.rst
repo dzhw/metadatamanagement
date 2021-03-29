@@ -5,22 +5,12 @@ Datenpaket (Data Package)
 
 **Übersicht**
 
-Anhand der Informationen, die Sie bzgl. Ihres Datenpakets im MDM erfassen,
-wird dort später eine Übersichtsseite erstellt, die im Folgenden am
-Beispiel des Absolventenpanels 2005 dargestellt wird:
-
+Anhand der Informationen, die Sie bzgl. Ihres Datenpakets im MDM erfassen, wird dort später eine Übersichtsseite erstellt (vgl. :numref:`datenpaketübersicht`).
 
 .. figure:: ./_static/dp_details_overview.png
    :name: datenpaketübersicht
 
    Datenpaketübersicht im MDM am Beispiel des Absolventenpanels 2005
-
-**Eine neues Datenpaket anlegen**
-
-Nachdem ein neues Projekt erstellt wurde, können
-Sie nun innerhalb des Projektes ein Datenpaket über das Project-Cockpit
-anlegen.
-
 
 **Datenpaket anlegen über das Projekt-Cockpit**
 
