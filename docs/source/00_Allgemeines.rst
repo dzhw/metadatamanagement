@@ -21,7 +21,7 @@ Die Metadaten werden im MDM auf (bis zu) acht unterschiedlichen Ebenen erfasst:
 
 Dadurch, dass alle Ebenen miteinander verknüpft sind, wird eine umfassende Durchsuchbarkeit ermöglicht. 
 
-Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze selbst erfassen. Das genaue Vorgehen wird in dieser Anleitung beschrieben.
+Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze selbst erfassen. Das genaue Vorgehen wird in dieser Anleitung beschrieben. Für die anderen Ebenen ist eine individuelle Abstimmung mit dem FDZ notwendig.
 
 Registrierung
 --------------------------------------------
