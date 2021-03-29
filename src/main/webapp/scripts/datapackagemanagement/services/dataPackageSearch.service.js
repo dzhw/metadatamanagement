@@ -3,7 +3,8 @@
 
 angular.module('metadatamanagementApp').factory('DataPackageSearchService',
   function($q, ElasticSearchClient, CleanJSObjectService, SearchHelperService,
-           GenericFilterOptionsSearchService, LanguageService) {
+           GenericFilterOptionsSearchService, LanguageService,
+           DataPackageIdBuilderService) {
     var createQueryObject = function(type) {
       type = type || 'data_packages';
       return {
@@ -26,6 +27,17 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
           }
         };
         termFilter.push(projectFilter);
+      }
+      if (!CleanJSObjectService.isNullOrEmpty(dataAcquisitionProjectId) &&
+        type === 'related_publications') {
+        var dataPackageId = DataPackageIdBuilderService.buildDataPackageId(
+          dataAcquisitionProjectId);
+        var dataPackageFilter = {
+          term: {
+            'dataPackages.id': dataPackageId
+          }
+        };
+        termFilter.push(dataPackageFilter);
       }
       if (!CleanJSObjectService.isNullOrEmpty(filter)) {
         termFilter = _.concat(termFilter,
@@ -128,6 +140,9 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
       };
 
       if (termFilters) {
+        query.body.query = {
+          bool: {}
+        };
         query.body.query.bool.filter = termFilters;
       }
 
