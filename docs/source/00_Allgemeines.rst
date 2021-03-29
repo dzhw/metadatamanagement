@@ -39,15 +39,12 @@ Sie müssen sich zunächst auf https://metadata.fdz.dzhw.eu registrieren, um die
    Registrierung im MDM: Schritt 2
 
 
-Im Anschluss erhalten Sie eine Bestätigungs-E-Mail. In dieser müssen Sie auf den Aktivierungslink klicken, 
-welcher nach drei Tagen automatisch abläuft. Im Anschluss werden Sie von uns dem Projekt in der Rolle "Datengeber:in" 
-hinzugefügt. Sie erhalten jeweils eine E-Mail, wenn Sie Ihrem Datenaufbereitungsprojekt hinzugefügt wurden und 
-wenn das Projekt Ihnen zur Bearbeitung freigegeben wurde.
+Im Anschluss erhalten Sie eine Bestätigungs-E-Mail. In dieser müssen Sie auf den Aktivierungslink klicken, welcher nach drei Tagen automatisch abläuft. Im Anschluss werden Sie von uns dem Projekt in der Rolle "Datengeber:in" hinzugefügt und werden per E-Mail darüber informiert.
 
 Projekt-Cockpit und Eingabemasken
 --------------------------------------------
 
-Das Projekt-Cockpit dient der Zusammenarbeit zwischen FDZ-Mitarbeiter:innen und Ihnen, den Datengeber:innen.
+Die Eingabe der Metadaten wird über das "Projekt-Cockpit" verwaltet.
 In der Navigationsleiste links, welche ggfs. aufgeklappt werden muss, finden Sie den Zugang zum Projekt-Cockpit (vgl. :numref:`projectcockpit`).
 
 .. figure:: ./_static/cockpit-button.png
@@ -55,7 +52,7 @@ In der Navigationsleiste links, welche ggfs. aufgeklappt werden muss, finden Sie
 
    Projekt-Cockpit Button.
 
-Wenn Sie ins Projekt-Cockpit gehen, sehen Sie unter dem Punkt Einstellungen (vgl. :numref:`project_cockpit_settings`), 
+Innerhalb des Projekt-Cockpits sehen Sie unter dem Punkt Einstellungen (vgl. :numref:`project_cockpit_settings`), 
 welche Publisher (FDZ-Mitarbeiter:innen) und Datengeber:innen dem Projekt zugewiesen sind und welche Metadaten erwartet werden. 
 
 .. figure:: ./_static/projectcockpit_settings_dataprovider.png
@@ -63,38 +60,39 @@ welche Publisher (FDZ-Mitarbeiter:innen) und Datengeber:innen dem Projekt zugewi
 
    Projekt-Cockpit Einstellungen.
 
-Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status angezeigt. Zudem wird hier angezeigt, ob das Projekt freigegeben ist, also die eingegebenen Metadaten für alle öffentlichen Nutzer des Systems sichtbar sind, und ob das Projekt gerade bei den Publishern oder bei den Datengeber:innen zur Bearbeitung liegt.
+Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status angezeigt. Zudem wird hier angezeigt, ob das Projekt freigegeben ist, also die eingegebenen Metadaten für alle öffentlichen Nutzer:innen des Systems sichtbar sind, und ob das Projekt gerade bei den Publishern oder bei den Datengeber:innen zur Bearbeitung liegt.
 
 .. figure:: ./_static/projectcockpit_dataprovider_status_empty.png
    :name: projectcockpit_status_empty
 
    Projekt-Cockpit-Status.
 
-Zuerst liegt das Projekt zur Bearbeitung bei den Publishern und Sie als Datengeber:in werden per E-Mail benachrichtigt, wenn es Ihnen zugewiesen wird.
-Um das Projekt wieder den Publishern zuzuweisen, klicken Sie den "Papierflieger"-Button (siehe :numref:`papierflieger`) über dem "Zugewiesen an Datengeber" bzw "Assigned to Publishers" steht.
+Zuerst liegt das Projekt zur Bearbeitung bei den Publishern und Sie als Datengeber:innen werden per E-Mail benachrichtigt, wenn es Ihnen zugewiesen wird.
+Für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze können Sie die Metadaten dann über Eingabemasken selbst erfassen.
+Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button. Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind.
+Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen. Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit `Markdown <https://www.markdownguide.org/basic-syntax/>`_ formatiert werden.
+Zusätzlich ist über die Eingabemasken das Hochladen von Anhängen möglich. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene. Diese Dokumente müssen im PDF- oder Excel-Format vorliegen und zudem nach bestimmten Richtlinien benannt werden. Für die Anhänge im PDF-Format gilt es darüber hinaus zu beachten, dass dokumenteigene Metadaten wie Autor und Titel der PDF-Datei gelöscht werden. Eine Anleitung finden Sie hier: https://helpx.adobe.com/acrobat/using/pdf-properties-metadata.html
+Details zur Abgabe der konkreten Metadaten der einzelnen Ebenen finden sich im entsprechenden Abschnitt dieser Anleitung.
 
-.. figure:: ./_static/projectcockpit_papierflieger.png
-   :name: papierflieger
-
-Die Voraussetzung, dass Sie das Projekt zurückgeben können ist, dass Sie die erwarteten Metadaten eingegeben und als "fertig" markiert haben (siehe :numref:`projectcockpit_dataprovider_ready`).
-
-Wenn Sie auf den Neu-Button klicken, gelangen Sie zur Eingabemaske. Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind.
-Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen.
-Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit `Markdown <https://www.markdownguide.org/basic-syntax/>`_ formatiert werden.
-Zusätzlich ist über die Eingabemasken das Hochladen von Anhängen (vgl. :ref:`Anhänge`) möglich. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene. Diese Dokumente müssen als Dateien im PDF- oder Excel-Format vorliegen und zudem nach bestimmten Richtlinien benannt werden. Für die Anhänge  im PDF-Format gilt es darüber hinaus zu beachten, dass dokumenteigene Metadaten wie Autor und Titel der PDF-Datei gelöscht werden. Eine Anleitung finden Sie hier: https://helpx.adobe.com/acrobat/using/pdf-properties-metadata.html
-Details zur Abgabe der konkreten Metadaten der einzelnen Ebenen wird im jeweiligen Kapitel erklärt.
-
-Wenn Sie fertig mit der Eingabe der Metadaten einer Ebene sind, setzen Sie bitte das entsprechende Häkchen.
+Wenn Sie mit der Eingabe der Metadaten einer Ebene fertig sind, setzen Sie bitte im Projekt-Cockpit-Status das entsprechende Häkchen (siehe :numref:`projectcockpit_dataprovider_ready`).
 
 .. figure:: ./_static/projectcockpit_dataprovider_ready.png
    :name: projectcockpit_dataprovider_ready
 
-Nachdem der Papierflieger-Button geklickt wurde, erscheint der "Nachricht an Publisher" Dialog (siehe :numref:`nachricht_an_publisher`).
+Wenn Sie alle von Ihnen zu bearbeitenden Ebenen als "fertig" markiert haben, können Sie das Projekt wieder den Publishern zuweisen.
+Dafür klicken Sie den "Papierflieger"-Button (siehe :numref:`papierflieger`).
+
+.. figure:: ./_static/projectcockpit_papierflieger.png
+   :name: papierflieger
+
+Nachdem der Papierflieger-Button geklickt wurde, erscheint der "Nachricht an Publisher" Dialog (siehe :numref:`nachricht_an_publisher`). Sie können dem Publisher hier noch einmal den genauen Stand sowie mglw. Fragen und Hinweise schreiben.
 
 .. figure:: ./_static/cockpit_nachricht_an_publisher.png
    :name: nachricht_an_publisher
 
-Die Publisher nehmen ein Review der eingetragenen Metadaten vor. Falls die Publisher denken, dass noch etwas vergessen wurde oder anders eingegeben werden sollte, weisen die Publisher Ihnen das Projekt zurück zu und Sie werden per E-Mail darüber benachrichtigt. Sollten die Publisher denken, dass die Eingabe der Metadaten auf der jeweiligen Ebene fertig sind, markieren sie die Ebene auch als "fertig", was durch einen zweiten Haken signalisiert wird (siehe :numref:`dp_ready`). Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können die Publisher das Projekt für alle öffentlichen Nutzer:innen des Systems freigeben.
+Die Publisher nehmen ein Review der eingetragenen Metadaten vor. Falls die Publisher denken, dass noch etwas vergessen wurde oder anders eingegeben werden sollte, weisen sie Ihnen das Projekt zurück zu und Sie werden per E-Mail darüber benachrichtigt. Sollten die Publisher denken, dass die Eingabe der Metadaten auf der jeweiligen Ebene fertig sind, markieren sie die Ebene auch als "fertig", was durch einen zweiten Haken signalisiert wird (siehe :numref:`dp_ready`).
+
+Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können die Publisher das Projekt für alle öffentlichen Nutzer:innen des Systems freigeben.
 
 .. figure:: ./_static/cockpit_dp_ready.png
    :name: dp_ready
