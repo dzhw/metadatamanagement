@@ -6,10 +6,7 @@ Allgemeines
 Was ist das Metadatenmanagementsystem (MDM)?
 --------------------------------------------
 
-Das FDZ-DZHW stellt Forschungsdaten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung zur Verfügung.
-Im Metadatenmanagementsystem (MDM) werden Metadaten über die Forschungsdaten bereitgestellt.
-Dies erhöht die Auffindbarkeit der Forschungsdaten und erleichtert es Sekundärforscher:innen für sie passende Forschungsdaten auszuwählen.
-Das System ist über die Website https://metadata.fdz.dzhw.eu zu erreichen.
+Das FDZ-DZHW stellt Forschungsdaten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung für die wissenschaftliche Sekundärnutzung zur Verfügung. Im Metadatenmanagementsystem (MDM) werden Metadaten über die Forschungsdaten erfasst und bereitgestellt. Dies erhöht die Auffindbarkeit der Forschungsdaten und erleichtert es Sekundärforscher:innen für sie passende Forschungsdaten auszuwählen. Das System ist über die Website https://metadata.fdz.dzhw.eu zu erreichen.
 
 Die Metadaten werden im MDM auf (bis zu) acht unterschiedlichen Ebenen erfasst:
 
@@ -22,7 +19,7 @@ Die Metadaten werden im MDM auf (bis zu) acht unterschiedlichen Ebenen erfasst:
 - Konzepte
 - Publikationen
 
-Dadurch, dass alle Ebenen miteinander verknüpft sind, wird eine umfassende Durchsuchbarkeit aller verfügbaren Daten ermöglicht. 
+Dadurch, dass alle Ebenen miteinander verknüpft sind, wird eine umfassende Durchsuchbarkeit ermöglicht. 
 
 Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten größtenteils selbst erfassen.
 Hierfür bestehen feste Strukturen, die im weiteren Verlauf dieser Anleitung erläutert werden.
