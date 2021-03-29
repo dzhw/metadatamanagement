@@ -85,22 +85,33 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
       var fieldName = 'studySeries.';
       var prefix = (type === 'data_packages' || !type) ? '' : 'dataPackage.';
       if (type === 'related_publications') {
-        prefix = '';
-        fieldName = 'studySerieses.';
+        prefix = 'nestedStudySerieses.';
+        fieldName = '';
       }
       query.body = {
         'aggs': {
-          'firstStudySeries': {
-            'terms': {
-              'field': prefix + fieldName + language,
-              'size': 100
+          'studySeries': {
+            'filter': {
+              'bool': {
+                'must': [{
+                  'match': {}
+                }]
+              }
             },
             'aggs': {
-              'secondStudySeries': {
+              'firstStudySeries': {
                 'terms': {
-                  'field': prefix + fieldName +
-                    (language === 'de' ? 'en' : 'de'),
+                  'field': prefix + fieldName + language,
                   'size': 100
+                },
+                'aggs': {
+                  'secondStudySeries': {
+                    'terms': {
+                      'field': prefix + fieldName +
+                      (language === 'de' ? 'en' : 'de'),
+                      'size': 100
+                    }
+                  }
                 }
               }
             }
@@ -108,16 +119,8 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
         }
       };
 
-      query.body.query = {
-        'bool': {
-          'must': [{
-            'match': {}
-          }]
-        }
-      };
-
-      query.body.query.bool.must[0].match
-        [prefix + fieldName + language + '.ngrams'] = {
+      query.body.aggs.studySeries.filter.bool.must[0]
+        .match[prefix + fieldName + language + '.ngrams'] = {
         'query': searchText || '',
         'operator': 'AND',
         'minimum_should_match': '100%',
@@ -137,10 +140,33 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
         SearchHelperService.addFilter(query);
       }
 
+      if (prefix === 'nestedStudySerieses.') {
+        var nestedAggregation = {
+          'aggs': {
+            'nestedStudySerieses': {
+              'nested': {
+                'path': prefix.replace('.', '')
+              }
+            }
+          }
+        };
+        nestedAggregation.aggs.nestedStudySerieses.aggs =
+          query.body.aggs;
+        query.body.aggs = nestedAggregation.aggs;
+      }
+
       return ElasticSearchClient.search(query).then(function(result) {
         var studySeries = [];
         var studySeriesElement = {};
-        result.aggregations.firstStudySeries.buckets.forEach(function(bucket) {
+        var buckets;
+        if (prefix === 'nestedStudySerieses.') {
+          buckets = result.aggregations.nestedStudySerieses.studySeries
+            .firstStudySeries.buckets;
+        } else {
+          buckets = result.aggregations.studySeries
+            .firstStudySeries.buckets;
+        }
+        buckets.forEach(function(bucket) {
           studySeriesElement = {
             'de': language === 'de' ? bucket.key
               : bucket.secondStudySeries.buckets[0].key,

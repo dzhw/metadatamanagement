@@ -32,7 +32,7 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
   private List<DataPackageSubDocument> dataPackages = new ArrayList<>();
   private List<DataPackageNestedDocument> nestedDataPackages = new ArrayList<>();
 
-  private List<I18nString> studySerieses = new ArrayList<>();
+  private List<I18nString> nestedStudySerieses = new ArrayList<>();
 
   // dummy string which ensures that related publications are always released
   private String release = "released";
@@ -59,7 +59,7 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
     super(relatedPublication);
     if (dataPackages != null) {
       this.dataPackages = dataPackages;
-      studySerieses = dataPackages.stream().map(DataPackageSubDocument::getStudySeries)
+      nestedStudySerieses = dataPackages.stream().map(DataPackageSubDocument::getStudySeries)
           .dropWhile(studySeries -> studySeries == null).distinct().collect(Collectors.toList());
     }
     if (nestedDataPackages != null) {

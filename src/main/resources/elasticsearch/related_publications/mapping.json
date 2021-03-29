@@ -110,8 +110,15 @@
 			"type": "keyword",
 			"copy_to": "all"
 		},
-		"studySerieses": {
-			"type": "object",
+		
+		"release": {
+			"type": "keyword"
+		},
+		"shadow": {
+			"type": "keyword"
+		},
+		"nestedStudySerieses": {
+			"type": "nested",
 			"properties": {
 				"de": {
 					"type": "keyword",
@@ -139,12 +146,6 @@
 				}
 			}
 		},
-		"release": {
-			"type": "keyword"
-		},
-		"shadow": {
-			"type": "keyword"
-		},
 		"dataPackages": {
 			"type": "object",
 			"properties": {
@@ -158,12 +159,10 @@
 					"type": "object",
 					"properties": {
 						"de": {
-							"type": "keyword",
-							"index": false
+							"type": "keyword"
 						},
 						"en": {
-							"type": "keyword",
-							"index": false
+							"type": "keyword"
 						}
 					}
 				}
