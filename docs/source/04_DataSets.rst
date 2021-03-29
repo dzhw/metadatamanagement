@@ -1,4 +1,4 @@
-.. _Datensätze:
+.. _DataSets:
 
 Datensätze (dataSets)
 ---------------------------------
