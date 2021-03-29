@@ -84,7 +84,7 @@ Wenn Sie mit der Eingabe der Metadaten einer Ebene fertig sind, setzen Sie bitte
 Wenn Sie alle von Ihnen zu bearbeitenden Ebenen als "fertig" markiert haben, können Sie das Projekt wieder den Publishern zuweisen.
 Dafür klicken Sie den "Papierflieger"-Button (siehe :numref:`papierflieger`).
 
-.. figure:: ./_static/projectcockpit_papierflieger.png
+.. figure:: ./_static/cockpit_papierflieger.png
    :name: papierflieger
 
 Nachdem der Papierflieger-Button geklickt wurde, erscheint der "Nachricht an Publisher"-Dialog. Sie können dem Publisher hier noch einmal den genauen Stand sowie mglw. Fragen und Hinweise schreiben.
