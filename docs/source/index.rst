@@ -10,7 +10,11 @@ Metadatenübergabe
    :maxdepth: 2
    :caption: Inhaltsverzeichnis:
 
-   metadatenabgabe
+   00_Allgemeines
+   01_DataPackage
+   02_Surveys
+   03_Instruments
+   04_DataSets
 
 
 Indizes und Tabellen
