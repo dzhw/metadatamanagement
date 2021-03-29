@@ -44,7 +44,7 @@ welcher nach drei Tagen automatisch abläuft. Im Anschluss werden Sie von uns de
 hinzugefügt. Sie erhalten jeweils eine E-Mail, wenn Sie Ihrem Datenaufbereitungsprojekt hinzugefügt wurden und 
 wenn das Projekt Ihnen zur Bearbeitung freigegeben wurde.
 
-Projekt-Cockpit
+Projekt-Cockpit und Eingabemasken
 --------------------------------------------
 
 Das Projekt-Cockpit dient der Zusammenarbeit zwischen FDZ-Mitarbeiter:innen und Ihnen, den Datengeber:innen.
