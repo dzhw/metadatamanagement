@@ -21,6 +21,11 @@ Wenn Sie im Projekt-Cockpit auf der Ebene "Datenpaket" auf den "Neu"-Button klic
 
    Datenpaket per Cockpit anlegen
 
+Nach dem Öffnen der Eingabemaske erscheint ganz oben die aus Ihrem Projektnamen automatisch generierte ID für die Datenpaketseite (s. rotes
+Kästchen in :numref:`dpebene_eingabemaske`). Einige Felder, die Sie frei ausfüllen können, verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele
+Zeichen Sie dort insgesamt eintragen dürfen und wie viele Zeichen Sie bereits eingetragen haben (s. blaues Kästchen in :numref:`dpebene_eingabemaske`). Außerdem
+finden Sie teilweise Drop-Down-Menüs vor, in denen Sie aus vorgegebenen Alternativen auswählen können (s. grünes Kästchen in :numref:`dpebene_eingabemaske`).
+
 Die Eingabemaske auf Datenpaketebene besteht aus den folgenden Abschnitten:
 
 - Details
@@ -39,19 +44,6 @@ Der Abschnitt „Details“ ist der umfangreichste:
    Eingabemaske auf Datenpaketebene, Abschnitt "Details" am Beispiel der 21.
    Sozialerhebung
 
-Nach dem Öffnen der Eingabemaske erscheint ganz oben die aus Ihrem Projektnamen automatisch generierte ID für die Datenpaketseite (s. rotes
-Kästchen in :numref:`dpebene_eingabemaske`). Einige Felder, die Sie frei ausfüllen können,
-verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele
-Zeichen Sie dort insgesamt eintragen dürfen und wie viele Zeichen Sie
-bereits eingetragen haben (s. blaues Kästchen in
-:numref:`dpebene_eingabemaske`). Außerdem
-finden Sie teilweise Drop-Down-Menüs vor, in denen Sie aus vorgegebenen
-Alternativen auswählen können (s. grünes Kästchen in
-:numref:`dpebene_eingabemaske`).
-
-.. figure:: ./_static/dp_edit_details_institution.png
-   :name: eingabemaske_dpbeschreibung_institution
-
 Im Feld Institution(en) (s.
 :numref:`eingabemaske_dpbeschreibung_institution`)
 geben Sie an welche Institution die Konzeption und Durchführung der Erhebung
@@ -60,6 +52,8 @@ Es werden Institutionen vorgeschlagen, die bereits andere Datenpakete
 durchgeführt haben. Sollte kein Vorschlag passen, geben Sie bitte den
 Institutionsnamen auf Deutsch und Englisch ein.
 
+.. figure:: ./_static/dp_edit_details_institution.png
+   :name: eingabemaske_dpbeschreibung_institution
 
 Im zweiten Abschnitt der Eingabemaske müssen Sie eine Beschreibung Ihres Datenpaket
 sowohl auf Deutsch als auch auf Englisch eingeben. Als
