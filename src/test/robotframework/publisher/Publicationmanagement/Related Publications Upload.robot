@@ -17,9 +17,7 @@ Upload Excel file
    Press Key  xpath=//input[@type='file' and @ngf-select='uploadRelatedPublications($file)'][1]   ${CURDIR}/publicationdata/relatedPublications.xlsx
 
 Close The Toast Message for upload
-   Wait Until Element Is Visible   xpath=//md-toast//span[contains(., "Upload von 199 Publikationen")]  # to ensure enough time for uploading and next test
-   Click Element Through Tooltips   xpath=//md-toast//span[contains(., "Upload von 199 Publikationen")]
-   Element Should Contain  xpath=//md-toast//span[contains(.,"Upload von 199 Publikationen")]  Upload von 199 Publikationen
+   Wait Until Page Contains Element  xpath=//md-toast//span[contains(., "Upload von 199 Publikationen")]  timeout=240s
    Click Element Through Tooltips  xpath=//button//following::md-icon[contains(.,"close")]
 
 Assert New Publication Entry with Excel Upload

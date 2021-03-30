@@ -41,7 +41,7 @@ Sie müssen sich zunächst auf https://metadata.fdz.dzhw.eu registrieren, um die
 
 Im Anschluss erhalten Sie eine Bestätigungs-E-Mail. In dieser müssen Sie auf den Aktivierungslink klicken, welcher nach drei Tagen automatisch abläuft. Im Anschluss werden Sie von uns dem Projekt in der Rolle "Datengeber:in" hinzugefügt und werden per E-Mail darüber informiert.
 
-Projekt-Cockpit und Eingabemasken
+Projekt-Cockpit
 --------------------------------------------
 
 Die Eingabe der Metadaten wird über das "Projekt-Cockpit" verwaltet.
@@ -69,12 +69,7 @@ Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status ang
    Projekt-Cockpit-Status.
 
 Anfangs liegt das Projekt immer zur Bearbeitung bei den Publishern und Sie als Datengeber:innen werden per E-Mail benachrichtigt, wenn es Ihnen zugewiesen wird.
-Für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze können Sie die Metadaten dann über Eingabemasken selbst erfassen.
-
-Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button. Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind.
-Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen. Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit `Markdown <https://www.markdownguide.org/basic-syntax/>`_ formatiert werden. Zusätzlich ist über die Eingabemasken das Hochladen von Anhängen möglich. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene.
-
-Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen.
+Für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze können Sie die Metadaten dann über Eingabemasken selbst erfassen. Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button. Genauere Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
 
 Wenn Sie mit der Eingabe der Metadaten einer Ebene fertig sind, setzen Sie bitte im Projekt-Cockpit-Status das entsprechende Häkchen (siehe :numref:`projectcockpit_dataprovider_ready`).
 
@@ -95,3 +90,11 @@ Die Publisher nehmen ein Review der eingetragenen Metadaten vor. Falls die Publi
    :name: dp_ready
 
 Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können die Publisher das Projekt für alle öffentlichen Nutzer:innen des Systems freigeben.
+
+.. _Eingabemasken:
+
+Eingabemasken
+--------------------------------------------
+
+Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen. Einige Felder, die Sie frei ausfüllen können, verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele Zeichen Sie dort insgesamt eintragen dürfen und wie viele Zeichen Sie bereits eingetragen haben. Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit `Markdown <https://www.markdownguide.org/basic-syntax/>`_ formatiert werden. Außerdem finden Sie teilweise Drop-Down-Menüs vor, in denen Sie aus vorgegebenen Alternativen auswählen können. Zusätzlich ist über die Eingabemasken das Hochladen von Anhängen möglich. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene.
+Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`, :ref:`Datensätze <DataSets>`).
