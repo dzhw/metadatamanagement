@@ -32,6 +32,8 @@ Die Eingabemaske auf Datenpaketebene besteht aus den folgenden Abschnitten:
 - Tags (Schlagwörter) zum Datenpaket
 - Materialien zu diesem Datenpaket
 
+Im Folgenden wird auf die einzelnen Abschnitte genauer eingegangen. Allgemeine Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
+
 Der Abschnitt „Details“ ist der umfangreichste:
 
 .. figure:: ./_static/dp_edit_details_page.png
