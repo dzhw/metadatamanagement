@@ -21,8 +21,17 @@ Wenn Sie im Projekt-Cockpit auf der Ebene "Datenpaket" auf den "Neu"-Button klic
 
    Datenpaket per Cockpit anlegen
 
-Die Eingabemaske auf Datenpaketebene besteht aus den vier Abschnitten „Details“, „Datenpaketbeschreibung“, „Projektmitarbeiter(innen)“ sowie „Materialien zum Datenpaket“.
-Der Abschnitt „Details“ ist der umfangreichste und wird im Folgenden mit bereits eingetragenen Informationen dargestellt:
+Die Eingabemaske auf Datenpaketebene besteht aus den folgenden Abschnitten:
+
+- Details
+- Erhebende Institution(en)
+- Datenpaketbeschreibung
+- Projektmitarbeiter:innen
+- Datenkuratierung
+- Tags (Schlagwörter) zum Datenpaket
+- Materialien zu diesem Datenpaket
+
+Der Abschnitt „Details“ ist der umfangreichste:
 
 .. figure:: ./_static/dp_edit_details_page.png
    :name: dpebene_eingabemaske
