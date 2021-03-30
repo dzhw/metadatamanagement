@@ -22,8 +22,8 @@ numfig = True
 # -- Project information -----------------------------------------------------
 
 project = 'Metadatamanagement (MDM)'
-copyright = u'2020, Robert Birkelbach, Anne Gärtner, René Reitmann'
-author = u'Robert Birkelbach, Anne Gärtner, René Reitmann'
+copyright = u'2021, DZHW GmbH'
+author = u'Anne Weber, Anne Gärtner, René Reitmann'
 
 # The short X.Y version
 version = ''

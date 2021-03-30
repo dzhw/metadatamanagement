@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -28,6 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RepositoryRestController
 @Tag(name = "Publication Resource",
     description = "Endpoints used by the MDM to manage publications.")
+@RequestMapping("/api")
 public class RelatedPublicationResourceController extends
     GenericDomainObjectResourceController<RelatedPublication, CrudService<RelatedPublication>> {
 
