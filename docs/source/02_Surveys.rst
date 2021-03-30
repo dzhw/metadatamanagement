@@ -1,4 +1,4 @@
-.. _Erhebungen:
+.. _Surveys:
 
 Erhebungen (Surveys)
 ---------------------------------
