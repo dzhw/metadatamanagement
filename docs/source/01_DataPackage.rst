@@ -15,12 +15,6 @@ Anhand der Informationen, die Sie bzgl. Ihres Datenpakets im MDM erfassen, wird 
 **Datenpaket anlegen**
 
 Wenn Sie im Projekt-Cockpit auf der Ebene "Datenpaket" auf den "Neu"-Button klicken, gelangen Sie zur Eingabemaske.
-
-.. figure:: ./_static/dp_empty.png
-   :name: dp_leer
-
-   Datenpaket per Cockpit anlegen
-
 Nach dem Öffnen der Eingabemaske erscheint ganz oben die aus Ihrem Projektnamen automatisch generierte ID für die Datenpaketseite.
 Die Eingabemaske auf Datenpaketebene besteht aus den folgenden Abschnitten:
 
