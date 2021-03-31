@@ -71,7 +71,7 @@ Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status ang
 Anfangs liegt das Projekt immer zur Bearbeitung bei den Publishern und Sie als Datengeber:innen werden per E-Mail benachrichtigt, wenn es Ihnen zugewiesen wird.
 Für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze können Sie die Metadaten dann über Eingabemasken selbst erfassen. Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button. Genauere Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`. Sie können Ihre Eingaben über den orangenen Save-Button (Disketten-Symbol) unten rechts speichern.
 
-Falls Sie die Informationen nicht in einem Vorgang eingeben und hochladen können oder möchten, ist es immer möglich, dass Sie Ihre bisherigen Eingaben abspeichern und zu einem späteren Zeitpunkt weiter bearbeiten. Nutzen Sie hierfür bitte den Bearbeiten-Button im Projekt-Cockpit. Auf der Datenpaket-Ebene gelangen Sie darüber direkt zur Eingabemaske. Bei den anderen Ebenen werden sie zunächst zu einer Übersicht mit allen Erhebungen bzw. Instrumenten bzw. Datensätzen weitergeleitet. Jeweils unten rechts finden Sie einen Bearbeiten-Button, über den Sie zur Eingabemaske gelangen. Zudem können sie mit dem Löschen-Button bereits angelegte Erhebungen bzw. Instrumente bzw. Datensätze auch komplett löschen.
+Falls Sie die Informationen nicht in einem Vorgang eingeben und hochladen können oder möchten, ist es immer möglich, dass Sie Ihre bisherigen Eingaben abspeichern und zu einem späteren Zeitpunkt weiter bearbeiten. Nutzen Sie hierfür bitte den Bearbeiten-Button im Projekt-Cockpit. Auf der Datenpaket-Ebene gelangen Sie darüber direkt zur Eingabemaske. Bei den anderen Ebenen werden sie zunächst zu einer Übersicht mit allen Erhebungen bzw. Instrumenten bzw. Datensätzen weitergeleitet. Jeweils unten rechts finden Sie einen Bearbeiten-Button, über den Sie zur Eingabemaske gelangen. Zudem können Sie mit dem Löschen-Button bereits angelegte Erhebungen bzw. Instrumente bzw. Datensätze auch komplett löschen.
 
 Ebenso können Sie ältere Versionen Ihrer abgespeicherten Eingaben wiederherstellen, indem Sie im Bearbeitungsmodus den Historisierungs-Button (blauer Pfeil-Button über dem Save-Button unten rechts auf der Seite) verwenden (s. :numref:`versionierung`).
 
@@ -135,4 +135,16 @@ Teilweise gibt es Drop-Down-Menüs, in denen Sie aus vorgegebenen Alternativen a
 
 Anhänge
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-Über die Eingabemasken können auch zusätzliche Dateien als Anhänge hochgeladen werden. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene.
+Über die Eingabemasken können auch zusätzliche Dateien als Anhänge hochgeladen werden. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene. Um weitere Materialien hochzuladen muss das jeweilige Element, also z.B. das Instrument, erst über die Eingabemaske angelegt und gespeichert werden. Anschließend können Sie über den Bearbeiten-Button wieder in den Bearbeitungs-Modus gehen und sehen dann unter dem Abschnitt "Materialien zu..." in der Eingabemaske einen Plus-Button. Wenn Sie diesen anklicken, öffnet sich ein neues Fenster (s. :numref:`instruments_anhang_dialog`), in dem die jeweilige Datei über den Büroklammer-Button hochgeladen werden kann und Metadaten zur Datei eingegeben werden. Anschließend lässt sich der Anhang mit dem Speichern-Button (Diskettensymbol unten rechts) speichern.
+
+.. figure:: ./_static/instruments_anhang_dialog.png
+   :name: instruments_anhang_dialog
+
+   Instrumente Anhang
+
+Die Anhänge müssen in einem der folgenden Formate vorliegen:
+
+- *.pdf
+- *.xls(x)
+- *.md
+
