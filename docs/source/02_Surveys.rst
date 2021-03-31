@@ -5,9 +5,7 @@ Erhebungen (Surveys)
 
 **Übersicht**
 
-Mit den Informationen über die Erhebung(en), die Sie innerhalb Ihres
-Datenpakets durchgeführt haben, wird im MDM folgende Übersichtsseite
-erstellt:
+Mit den Informationen über die Erhebung(en), auf die sich Ihr Datenpaket bezieht, wird im MDM folgende Übersichtsseite erstellt:
 
 .. figure:: ./_static/surveys_public-view.png
    :name: erhebungsübersicht
@@ -15,17 +13,19 @@ erstellt:
    Erhebungsübersicht im MDM am Beispiel der ersten Welle (traditioneller Studiengänge) im Absolventenpanel 2005
 
 
-**Eine neue Erhebung anlegen**
+**Erhebung anlegen**
 
-Wenn Sie ein Datenpaket angelegt haben (vgl. Kapitel :ref:`Datenpaket`), können
-Sie über den Reiter „Erhebungen“ eine neue Erhebung innerhalb Ihres Datenpakets
-erstellen. Hierzu finden Sie unten rechts auf der Seite – ebenso wie bei Datenpaketen – einen orangefarbenen Plus-Button. Wenn
-Sie mit dem Mauszeiger darüberfahren, erscheinen die beiden weißen
-Buttons, von denen Sie den Plus-Button anklicken, um die Eingabemaske zu
-öffnen. Bitte beachten Sie, dass Sie mehrere Erhebungen über die
-Eingabemaske in der richtigen Reihenfolge eingeben müssen, da die IDs
-beim Anlegen einer neuen Erhebung automatisch generiert werden und sich
-später nicht mehr verändern lassen.
+Wenn Sie ein Datenpaket angelegt haben (vgl. Kapitel :ref:`Datenpaket`), können Sie im Projekt-Cockpit auf den Neu-Button klicken und gelangen zur Eingabemaske.
+Bitte beachten Sie, dass Sie mehrere Erhebungen über die Eingabemaske in der richtigen Reihenfolge eingeben müssen, da die IDs beim Anlegen einer neuen Erhebung automatisch generiert werden und sich später nicht mehr verändern lassen.
+
+Die Eingabemaske auf Datenpaketebene besteht aus den folgenden Abschnitten:
+
+- Details
+- Untersuchungsgebiete
+- Weitere Informationen zum Rücklauf
+- Materialien zu der Erhebung
+
+Im Folgenden wird auf die einzelnen Abschnitte genauer eingegangen. Allgemeine Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
 
 **Eingabemaske**
 
@@ -125,10 +125,3 @@ nicht historisiert werden.
    :name: historisierungsdialog_erhebung
 
    Dialog zur Historisierung innerhalb einer Erhebung
-
-**Prüfschritte**
-
-Der Titel der Erhebung wird bei Veröffentlichung (mit Versionsnummer
-von mindestens 1.0.0) bei da|ra vor einige Attribute (z.B. Referenzzeitraum)
-gehängt. Der Titel der Erhebung muss daher eindeutig sein und
-im Falle von längsschnittlich erhobenen Datenpaketen die Welle enthalten.
