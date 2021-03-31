@@ -69,7 +69,24 @@ Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status ang
    Projekt-Cockpit-Status.
 
 Anfangs liegt das Projekt immer zur Bearbeitung bei den Publishern und Sie als Datengeber:innen werden per E-Mail benachrichtigt, wenn es Ihnen zugewiesen wird.
-Für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze können Sie die Metadaten dann über Eingabemasken selbst erfassen. Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button. Genauere Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
+Für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze können Sie die Metadaten dann über Eingabemasken selbst erfassen. Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button. Genauere Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`. Sie können Ihre Eingaben über den orangenen Save-Button (Disketten-Symbol) unten rechts speichern.
+
+Falls Sie die Informationen nicht in einem Vorgang eingeben und hochladen können oder möchten, ist es immer möglich, dass Sie Ihre bisherigen Eingaben abspeichern und zu einem späteren Zeitpunkt weiter bearbeiten. Nutzen Sie hierfür bitte den Bearbeiten-Button im Projekt-Cockpit.
+
+Ebenso können Sie ältere Versionen Ihrer abgespeicherten Eingaben wiederherstellen, indem Sie im Bearbeitungsmodus den Historisierungs-Button (blauer Pfeil-Button über dem Save-Button unten rechts auf der Seite) verwenden (s. :numref:`versionierung`).
+
+.. figure:: ./_static/historization_undo.png
+   :name: versionierung
+
+   Ältere Versionen eine Datenpakets wiederherstellen
+
+Bei einem Klick auf den Historisierungs-Button öffnet sich ein Dialog, der die verschiedenen Versionen anzeigt (s. :numref:`historisierung_dp`).
+Zudem sind der Name der Person, die die entsprechende Version gespeichert hat, sowie das Änderungsdatum sichtbar. Durch Klicken auf die Version wird diese wiederhergestellt, aber nicht automatisch als aktuelle Version gespeichert. Dies müsste über einen Klick auf den Save-Button erfolgen. Zu beachten ist, dass :ref:`Anhänge <Anhänge>`nicht historisiert werden.
+
+.. figure:: ./_static/dp_historization.png
+   :name: historisierung_dp
+
+   Dialog zur Historisierung innerhalb eines Datenpakets
 
 Wenn Sie mit der Eingabe der Metadaten einer Ebene fertig sind, setzen Sie bitte im Projekt-Cockpit-Status das entsprechende Häkchen (siehe :numref:`projectcockpit_dataprovider_ready`).
 
@@ -96,5 +113,26 @@ Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können die Publisher da
 Eingabemasken
 --------------------------------------------
 
-Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen. Einige Felder, die Sie frei ausfüllen können, verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele Zeichen Sie dort insgesamt eintragen dürfen und wie viele Zeichen Sie bereits eingetragen haben. Eingabefelder welche mit einem M↓-Symbol gekennzeichnet sind, können mit `Markdown <https://www.markdownguide.org/basic-syntax/>`_ formatiert werden. Außerdem finden Sie teilweise Drop-Down-Menüs vor, in denen Sie aus vorgegebenen Alternativen auswählen können. Zusätzlich ist über die Eingabemasken das Hochladen von Anhängen möglich. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene.
-Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`, :ref:`Datensätze <DataSets>`).
+Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`, :ref:`Datensätze <DataSets>`).
+
+**Pflichtfelder**
+
+Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen.
+
+**Maximale Zeichenanzahl**
+
+Einige Felder, die Sie frei ausfüllen können, verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele Zeichen Sie dort insgesamt eintragen dürfen und wie viele Zeichen Sie bereits eingetragen haben. 
+
+**Verwendung von Markdown**
+
+Eingabefelder, die mit einem M↓-Symbol gekennzeichnet sind, können bei Bedarf mit `Markdown <https://www.markdownguide.org/basic-syntax/>`_ formatiert werden.
+
+**Drop-Down-Menüs**
+
+Teilweise gibt es Drop-Down-Menüs, in denen Sie aus vorgegebenen Alternativen auswählen können.
+
+.. _Anhänge:
+
+**Anhänge**
+
+Über die Eingabemasken können auch zusätzliche Dateien als Anhänge hochgeladen werden. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene.
