@@ -135,7 +135,9 @@ Teilweise gibt es Drop-Down-Menüs, in denen Sie aus vorgegebenen Alternativen a
 
 Anhänge
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-Über die Eingabemasken können auch zusätzliche Dateien als Anhänge hochgeladen werden. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene. Um weitere Materialien hochzuladen muss das jeweilige Element, also z.B. das Instrument, erst über die Eingabemaske angelegt und gespeichert werden. Anschließend können Sie über den Bearbeiten-Button wieder in den Bearbeitungs-Modus gehen und sehen dann unter dem Abschnitt "Materialien zu..." in der Eingabemaske einen Plus-Button. Wenn Sie diesen anklicken, öffnet sich ein neues Fenster (s. :numref:`instruments_anhang_dialog`), in dem die jeweilige Datei über den Büroklammer-Button hochgeladen werden kann und Metadaten zur Datei eingegeben werden. Anschließend lässt sich der Anhang mit dem Speichern-Button (Diskettensymbol unten rechts) speichern.
+Über die Eingabemasken können auch zusätzliche Dateien als Anhänge hochgeladen werden. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene.
+
+Um Anhänge hochzuladen muss das jeweilige Element, also z.B. das Datenpaket, erst über die Eingabemaske angelegt und gespeichert werden. Anschließend können Sie über den Bearbeiten-Button wieder in den Bearbeitungs-Modus gehen und sehen dann unter dem Abschnitt "Materialien zu..." in der Eingabemaske einen Plus-Button. Wenn Sie diesen anklicken, öffnet sich ein neues Fenster (s. :numref:`instruments_anhang_dialog`), in dem die jeweilige Datei über den Büroklammer-Button hochgeladen werden kann und Metadaten zur Datei eingegeben werden. Anschließend lässt sich der Anhang mit dem Speichern-Button (Diskettensymbol unten rechts) speichern.
 
 .. figure:: ./_static/instruments_anhang_dialog.png
    :name: instruments_anhang_dialog
