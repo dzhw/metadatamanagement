@@ -32,12 +32,3 @@ hinzugefügt werden. Nachdem gespeichert wurde, lassen sich weitere Materialien 
    :name: dataset_eingabemaske
 
    Eingabemaske der Datensatzebene.
-
-Wenn Sie zusätzliche Materialien (z.B. Variablen-Dokumentation) auf Ebene der Datensätze haben, können Sie diese hinzufügen. Hierfür muss zunächst der Datensatz angelegt sein. Anschließend wird in der unteren linken Ecke auf den blauen Plus-Button geklickt. [6]_
-
-.. figure:: ./_static/datensatz_attachments.png
-   :name: dataset_attachments
-
-   Datensatz Anhänge
-
-Es öffnet sich ein Fenster (siehe :numref:`dataset_attachments`) in dem Sie eine Datei hochladen können und Metadaten zur Datei angeben müssen.
