@@ -115,24 +115,24 @@ Eingabemasken
 
 Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`, :ref:`Datensätze <DataSets>`).
 
-**Pflichtfelder**
-
+Pflichtfelder
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen versehen. Sie werden beim Speichern der Eingaben automatisch darauf hingewiesen, wenn noch Felder offen sind, die nicht leer bleiben dürfen.
 
-**Maximale Zeichenanzahl**
-
+Maximale Zeichenanzahl
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 Einige Felder, die Sie frei ausfüllen können, verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele Zeichen Sie dort insgesamt eintragen dürfen und wie viele Zeichen Sie bereits eingetragen haben. 
 
-**Verwendung von Markdown**
-
+Verwendung von Markdown
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 Eingabefelder, die mit einem M↓-Symbol gekennzeichnet sind, können bei Bedarf mit `Markdown <https://www.markdownguide.org/basic-syntax/>`_ formatiert werden.
 
-**Drop-Down-Menüs**
-
+Drop-Down-Menüs
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 Teilweise gibt es Drop-Down-Menüs, in denen Sie aus vorgegebenen Alternativen auswählen können.
 
 .. _Anhänge:
 
-**Anhänge**
-
+Anhänge
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 Über die Eingabemasken können auch zusätzliche Dateien als Anhänge hochgeladen werden. Zu den Anhängen zählen z.B. der Daten- und Methodenbericht auf der Datenpaketebene sowie Fragebögen auf Instrumentenebene.
