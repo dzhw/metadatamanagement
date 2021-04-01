@@ -1,4 +1,4 @@
-FROM openjdk:14.0.2-slim
+FROM openjdk:15.0.2-slim
 
 MAINTAINER René Reitmann <reitmann@dzhw.eu>
 
