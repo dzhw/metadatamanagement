@@ -20,7 +20,7 @@ Before you can build this project, you must install and configure the following 
 
 1.  Java: You need to install java 15 sdk on your system. On Ubuntu you should use [SDKMAN!][]
 2.  Maven: You need to install maven 3.6.1 or above on your system. On Ubuntu you should use [SDKMAN!][]
-3.  [Node.js][]: Node.js (latest) and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][]
+3.  [Node.js][]: Node.js 14 and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][]
 
 We use [Grunt][] as our client build system. Install the grunt command-line tool globally with:
 
