@@ -5,9 +5,7 @@ Erhebungen (Surveys)
 
 **Übersicht**
 
-Mit den Informationen über die Erhebung(en), die Sie innerhalb Ihres
-Datenpakets durchgeführt haben, wird im MDM folgende Übersichtsseite
-erstellt:
+Mit den Informationen über die Erhebung(en), auf die sich Ihr Datenpaket bezieht, wird im MDM folgende Übersichtsseite erstellt:
 
 .. figure:: ./_static/surveys_public-view.png
    :name: erhebungsübersicht
@@ -15,17 +13,19 @@ erstellt:
    Erhebungsübersicht im MDM am Beispiel der ersten Welle (traditioneller Studiengänge) im Absolventenpanel 2005
 
 
-**Eine neue Erhebung anlegen**
+**Erhebung anlegen**
 
-Wenn Sie ein Datenpaket angelegt haben (vgl. Kapitel :ref:`Datenpaket`), können
-Sie über den Reiter „Erhebungen“ eine neue Erhebung innerhalb Ihres Datenpakets
-erstellen. Hierzu finden Sie unten rechts auf der Seite – ebenso wie bei Datenpaketen – einen orangefarbenen Plus-Button. Wenn
-Sie mit dem Mauszeiger darüberfahren, erscheinen die beiden weißen
-Buttons, von denen Sie den Plus-Button anklicken, um die Eingabemaske zu
-öffnen. Bitte beachten Sie, dass Sie mehrere Erhebungen über die
-Eingabemaske in der richtigen Reihenfolge eingeben müssen, da die IDs
-beim Anlegen einer neuen Erhebung automatisch generiert werden und sich
-später nicht mehr verändern lassen.
+Wenn Sie ein Datenpaket angelegt haben (vgl. Kapitel :ref:`Datenpaket`), können Sie im Projekt-Cockpit auf den Neu-Button klicken und gelangen zur Eingabemaske.
+Bitte beachten Sie, dass Sie mehrere Erhebungen über die Eingabemaske in der richtigen Reihenfolge eingeben müssen, da die IDs beim Anlegen einer neuen Erhebung automatisch generiert werden und sich später nicht mehr verändern lassen.
+
+Die Eingabemaske auf Datenpaketebene besteht aus den folgenden Abschnitten:
+
+- Details
+- Untersuchungsgebiete
+- Weitere Informationen zum Rücklauf
+- Materialien zu der Erhebung
+
+Im Folgenden wird auf die einzelnen Abschnitte genauer eingegangen. Allgemeine Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
 
 **Eingabemaske**
 
@@ -83,52 +83,3 @@ Die Funktionsweise ist identisch zu der auf Datenpaketebene. [3]_
    :name: eingabemaske_erhebung_materialien
 
    Eingabemaske der Erhebungsebene, Abschnitt „Materialien zu der Erhebung“
-
-**Editieren und historisieren**
-
-Falls Sie Ihre Informationen auf Erhebungsebene nicht in einem Vorgang
-eingeben und hochladen können oder möchten, ist es immer möglich, dass
-Sie Ihre bisherigen Eingaben abspeichern und zu einem späteren Zeitpunkt
-weiter bearbeiten. Hierfür wird Ihnen im Reiter „Erhebungen“ am rechten
-Rand ein Stift-Button angezeigt, über den Sie wieder in die Eingabemaske
-gelangen. Außerdem finden Sie dort auch einen Button mit
-Mülleimer-Symbol, mit dem Sie die Erhebung komplett löschen können (s.
-:numref:`bearbeitung_erhebung`).
-
-.. figure:: ./_static/survey_edit_de.png
-   :name: bearbeitung_erhebung
-
-   Weitere Bearbeitung einer bereits abgespeicherten Erhebung
-
-Es ist außerdem möglich, ältere Versionen der bereits gespeicherten
-Eingaben wiederherzustellen. Im Bearbeitungsmodus gibt es auch auf der
-Erhebungsebene einen Historisierungs-Button, den Sie rechts unten über
-dem Save-Button betätigen können
-(s. :numref:`version_erhebung_wiederherstellen`).
-
-.. figure:: ./_static/recover_history_de.png
-   :name: version_erhebung_wiederherstellen
-
-   Ältere Versionen einer Erhebung wiederherstellen
-
-Bei einem Klick auf den Historisierungs-Button öffnet sich ein
-Dialog, der die verschiedenen Versionen der Erhebung anzeigt
-(s. :numref:`historisierungsdialog_erhebung`). Zudem
-sind der Name des Nutzers, der die entsprechende Version des Datenpakets
-gespeichert hat, sowie das Änderungsdatum sichtbar. Durch Klicken auf
-die Version wird diese wiederhergestellt, aber nicht automatisch als
-aktuelle Version gespeichert. Dies müsste über einen Klick auf den
-Save-Button erfolgen. Zu beachten ist, dass Materialien zur Erhebung
-nicht historisiert werden.
-
-.. figure:: ./_static/history_dialog_de.png
-   :name: historisierungsdialog_erhebung
-
-   Dialog zur Historisierung innerhalb einer Erhebung
-
-**Prüfschritte**
-
-Der Titel der Erhebung wird bei Veröffentlichung (mit Versionsnummer
-von mindestens 1.0.0) bei da|ra vor einige Attribute (z.B. Referenzzeitraum)
-gehängt. Der Titel der Erhebung muss daher eindeutig sein und
-im Falle von längsschnittlich erhobenen Datenpaketen die Welle enthalten.
