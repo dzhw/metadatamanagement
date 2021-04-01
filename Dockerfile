@@ -1,4 +1,4 @@
-FROM openjdk:15.0.2-slim
+FROM adoptopenjdk:15.0.2_7-jre-hotspot-focal
 
 MAINTAINER René Reitmann <reitmann@dzhw.eu>
 
