@@ -11,7 +11,7 @@
 
     <groupId>eu.dzhw.fdz</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.108-SNAPSHOT</version>
+    <version>1.0.109-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -24,7 +24,7 @@
     </distributionManagement>
 
     <properties>
-        <elasticsearch.version>7.11.2</elasticsearch.version>
+        <elasticsearch.version>7.12.0</elasticsearch.version>
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
         <java.version>15</java.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
