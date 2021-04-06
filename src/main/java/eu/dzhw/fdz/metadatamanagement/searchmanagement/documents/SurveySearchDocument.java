@@ -6,13 +6,12 @@ import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
@@ -43,8 +42,6 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
   private List<DataSetNestedDocument> nestedDataSets = new ArrayList<>();
   private List<VariableSubDocument> variables = new ArrayList<>();
   private List<VariableNestedDocument> nestedVariables = new ArrayList<>();
-  private List<RelatedPublicationSubDocument> relatedPublications = new ArrayList<>();
-  private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
   private List<InstrumentSubDocument> instruments = new ArrayList<>();
   private List<InstrumentNestedDocument> nestedInstruments = new ArrayList<>();
   private List<QuestionSubDocument> questions = new ArrayList<>();
@@ -65,7 +62,6 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
    * @param dataPackage the dataPackage containing this survey
    * @param dataSets the data sets available for this survey
    * @param variables the variables available for this survey
-   * @param relatedPublications the publication using this survey
    * @param instruments the instruments used by this survey
    * @param questions the questions used by this survey
    * @param concepts the concepts used by this survey
@@ -74,7 +70,6 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
   @SuppressWarnings("CPD-START")
   public SurveySearchDocument(Survey survey, DataPackageSubDocumentProjection dataPackage,
       List<DataSetSubDocumentProjection> dataSets, List<VariableSubDocumentProjection> variables,
-      List<RelatedPublicationSubDocumentProjection> relatedPublications,
       List<InstrumentSubDocumentProjection> instruments,
       List<QuestionSubDocumentProjection> questions, List<ConceptSubDocumentProjection> concepts,
       Release release, String doi, Configuration configuration) {
@@ -93,12 +88,6 @@ public class SurveySearchDocument extends Survey implements SearchDocumentInterf
           variables.stream().map(VariableSubDocument::new).collect(Collectors.toList());
       this.nestedVariables =
           variables.stream().map(VariableNestedDocument::new).collect(Collectors.toList());
-    }
-    if (relatedPublications != null) {
-      this.relatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
-      this.nestedRelatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     if (instruments != null) {
       this.instruments =

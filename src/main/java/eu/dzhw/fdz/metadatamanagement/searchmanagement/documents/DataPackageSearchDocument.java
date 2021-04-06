@@ -61,8 +61,6 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
   private List<InstrumentSubDocument> instruments = new ArrayList<>();
   private List<InstrumentNestedDocument> nestedInstruments = new ArrayList<>();
 
-  private List<RelatedPublicationSubDocument> seriesPublications = new ArrayList<>();
-
   private List<ConceptSubDocument> concepts = new ArrayList<>();
   private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
 
@@ -106,7 +104,6 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
       List<RelatedPublicationSubDocumentProjection> relatedPublications,
       List<SurveySubDocumentProjection> surveys, List<QuestionSubDocumentProjection> questions,
       List<InstrumentSubDocumentProjection> instruments,
-      List<RelatedPublicationSubDocumentProjection> seriesPublications,
       List<ConceptSubDocumentProjection> concepts, Release release, String doi,
       Configuration configuration) {
     super(dataPackage);
@@ -148,10 +145,6 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
           instruments.stream().map(InstrumentSubDocument::new).collect(Collectors.toList());
       this.nestedInstruments =
           instruments.stream().map(InstrumentNestedDocument::new).collect(Collectors.toList());
-    }
-    if (seriesPublications != null) {
-      this.seriesPublications = seriesPublications.stream().map(RelatedPublicationSubDocument::new)
-          .collect(Collectors.toList());
     }
     if (concepts != null) {
       this.concepts = concepts.stream().map(concept -> new ConceptSubDocument(concept))

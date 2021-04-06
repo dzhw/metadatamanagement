@@ -101,12 +101,10 @@ angular.module('metadatamanagementApp')
             break;
           case 'publications':
             this.icon = 'assets/images/icons/related-publication.svg';
-            this.createState = 'publicationAssignment';
+            this.createState = '';
             this.searchState = 'related_publications';
             this.tooltip = 'search-management.buttons.' +
              'edit-publications-tooltip';
-            this.deleteTooltip = 'search-management.buttons.' +
-             'delete-publications-tooltip';
             break;
           case 'fake1':
             break;
@@ -185,9 +183,11 @@ angular.module('metadatamanagementApp')
           return ctrl.project.release;
         };
 
-        ctrl.delete = function() {
-          DeleteMetadataService.deleteAllOfType(ctrl.project, ctrl.type);
-        };
+        if (ctrl.type !== 'publications') {
+          ctrl.delete = function() {
+            DeleteMetadataService.deleteAllOfType(ctrl.project, ctrl.type);
+          };
+        }
 
         ctrl.edit = function(type) {
           if (ProjectUpdateAccessService.isUpdateAllowed(

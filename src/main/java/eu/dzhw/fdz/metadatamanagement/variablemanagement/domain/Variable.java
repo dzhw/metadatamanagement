@@ -218,7 +218,8 @@ public class Variable extends AbstractShadowableRdcDomainObject {
    * operations can be performed with the values.
    * 
    * It must be one of {@link ScaleLevels} and must not be empty. If the data type of this variable
-   * is {@link DataTypes#DATE} then the ScaleLevel must be {@link ScaleLevels#ORDINAL}.
+   * is {@link DataTypes#DATE} then the ScaleLevel must be {@link ScaleLevels#ORDINAL},
+   * {@link ScaleLevels#INTERVAL} or {@link ScaleLevels#NOMINAL}.
    */
   @NotNull(message = "variable-management.error.variable.scaleLevel.not-null")
   @ValidScaleLevel(message = "variable-management.error.variable.scaleLevel.valid-scale-level")

@@ -6,13 +6,12 @@ import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
@@ -44,8 +43,6 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
   private List<InstrumentNestedDocument> nestedInstruments = new ArrayList<>();
   private List<QuestionSubDocument> questions = new ArrayList<>();
   private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
-  private List<RelatedPublicationSubDocument> relatedPublications = new ArrayList<>();
-  private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
   private List<SurveySubDocument> surveys = new ArrayList<>();
   private List<SurveyNestedDocument> nestedSurveys = new ArrayList<>();
   private List<ConceptSubDocument> concepts = new ArrayList<>();
@@ -67,7 +64,6 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
    * @param dataSet The data set to be searched for.
    * @param dataPackage The dataPackage containing this data set.
    * @param variables The variables available in this data set.
-   * @param relatedPublications The related publications using this data set.
    * @param surveys The surveys using this data set.
    * @param instruments The instruments used to create this data set.
    * @param questions The questions used to create this data set.
@@ -76,7 +72,6 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
   @SuppressWarnings("CPD-START")
   public DataSetSearchDocument(DataSet dataSet, DataPackageSubDocumentProjection dataPackage,
       List<VariableSubDocumentProjection> variables,
-      List<RelatedPublicationSubDocumentProjection> relatedPublications,
       List<SurveySubDocumentProjection> surveys, List<InstrumentSubDocumentProjection> instruments,
       List<QuestionSubDocumentProjection> questions, List<ConceptSubDocumentProjection> concepts,
       Release release, String doi, Configuration configuration) {
@@ -90,12 +85,6 @@ public class DataSetSearchDocument extends DataSet implements SearchDocumentInte
           variables.stream().map(VariableSubDocument::new).collect(Collectors.toList());
       this.nestedVariables =
           variables.stream().map(VariableNestedDocument::new).collect(Collectors.toList());
-    }
-    if (relatedPublications != null) {
-      this.relatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
-      this.nestedRelatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     if (surveys != null) {
       this.surveys = surveys.stream().map(SurveySubDocument::new).collect(Collectors.toList());

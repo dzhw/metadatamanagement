@@ -659,44 +659,6 @@
 				}
 			}
 		},
-		"relatedPublications": {
-			"type": "object",
-			"properties": {
-				"id": {
-					"type": "keyword",
-					"copy_to": "all"
-				}
-			}
-		},
-		"nestedRelatedPublications": {
-			"type": "nested",
-			"properties": {
-				"id": {
-					"type": "keyword"
-				},
-				"language": {
-					"type": "keyword"
-				},
-				"title": {
-					"type": "keyword"
-				},
-				"completeTitle": {
-					"type": "object",
-					"properties": {
-						"de": {
-							"type": "text",
-							"analyzer": "ngrams",
-							"norms": false
-						},
-						"en": {
-							"type": "text",
-							"analyzer": "ngrams",
-							"norms": false
-						}
-					}
-				}
-			}
-		},
 		"concepts": {
 			"type": "object",
 			"properties": {

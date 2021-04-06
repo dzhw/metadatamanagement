@@ -102,9 +102,6 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
         'iconType': 'svg',
         'icon': 'assets/images/icons/survey.svg'
       },
-      'publicationAssignment': {
-        'type': 'related-publication-management.assign.header'
-      },
       'projectCockpit': {
         'type': 'data-acquisition-project-management.project-cockpit.header'
       },
@@ -466,25 +463,6 @@ angular.module('metadatamanagementApp').factory('BreadcrumbService',
             'id': item.id
           };
           $rootScope.toolbarHeaderItems.push(searchItem.get(), publicationItem);
-          break;
-        case 'publicationAssignment':
-          var anyItem = {
-            'state': 'publicationAssignment',
-            'type': translationStringsMap.publicationAssignment.type
-          };
-          $rootScope.toolbarHeaderItems.push(anyItem);
-          break;
-        case 'search':
-          searchItem.set(item);
-          $rootScope.toolbarHeaderItems.push(searchItem.get());
-          break;
-        case 'shoppingCart':
-        case 'restoreShoppingCart':
-          var shoppingCartItem = {
-            'state': 'shoppingCart',
-            'type': translationStringsMap.shoppingCart.type
-          };
-          $rootScope.toolbarHeaderItems.push(shoppingCartItem);
           break;
         case 'disclosure':
           var disclosureItem = {

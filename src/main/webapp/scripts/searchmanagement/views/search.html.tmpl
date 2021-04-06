@@ -117,15 +117,16 @@
                       on-update="onPageChanged(event = $event, option = $option)"
                       template-url="scripts/common/paginator/fdzPaginatorTemplate.html.tmpl"></fdz-paginator>
     </div>
-  <div ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="fdz-fab-button-container" layout="column">
+  <div ng-switch-when="true" data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER" class="fdz-fab-button-container" layout="column" layout-align="center end">
         <div layout="row" layout-align="end center">
-            <md-button class="md-primary md-fab" ng-click="refresh()">
-                <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                    {{'search-management.buttons.refresh-tooltip' | translate}}
-                </md-tooltip>
-                <md-icon md-font-set="material-icons">refresh</md-icon>
-            </md-button>
+          <md-button class="md-primary md-fab" ng-click="refresh()">
+            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'search-management.buttons.refresh-tooltip' | translate}}
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">refresh</md-icon>
+          </md-button>
         </div>
+        <report-publications-component ng-if="currentProject && tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications'"></report-publications-component>
         <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllDataPackages()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_packages' && currentProject">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.delete-all-data-packages-tooltip' | translate}}
@@ -159,12 +160,6 @@
         <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllDataSets()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='data_sets' && currentProject">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.delete-all-data-sets-tooltip' | translate}}
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">delete_sweep</md-icon>
-        </md-button>
-        <md-button ng-disabled="!tabs[searchParams.selectedTabIndex].count" class="md-fab md-raised md-primary" ng-click="deleteAllPublications()" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications' && currentProject">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'search-management.buttons.delete-publications-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">delete_sweep</md-icon>
         </md-button>
@@ -220,18 +215,11 @@
             <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
-        <md-button data-has-authority="ROLE_PUBLISHER" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications' && !currentProject" type="file" ngf-select="uploadRelatedPublications($file)" accept=".xls" class="md-accent md-fab fdz-fade-in">
+        <md-button data-has-authority="ROLE_PUBLISHER" ng-if="!currentProject && tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications'" type="file" ngf-select="uploadRelatedPublications($file)" accept=".xlsx" class="md-accent md-fab fdz-fade-in">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'search-management.buttons.upload-related-publications-tooltip' | translate}}
             </md-tooltip>
             <md-icon md-font-set="material-icons">cloud_upload</md-icon>
-        </md-button>
-
-        <md-button ng-click="navigateToCreateState('publicationAssignment')" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='related_publications' && currentProject" class="md-accent md-fab fdz-fade-in">
-            <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'search-management.buttons.edit-publications-tooltip' | translate}}
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">add</md-icon>
         </md-button>
 
         <md-button class="md-fab md-raised md-accent" data-has-authority="ROLE_PUBLISHER" ng-click="navigateToCreateState('conceptCreate')" ng-if="tabs[searchParams.selectedTabIndex].elasticSearchType==='concepts'">

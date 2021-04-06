@@ -380,7 +380,7 @@ public class UnitTestCreateDomainObjectUtils {
         .publicationAbstract("A publication Abstract").sourceLink("http://www.hurzexample.de/")
         .sourceReference("A Source Reference").title("A Title of a Related Publication")
         .dataPackageIds(dataPackageIds).authors("Author").year(2017)
-        .abstractSource(I18nString.builder().de("Test").en("Test").build()).language("de").build();
+        .abstractSource("Test").language("de").build();
 
   }
 
@@ -395,7 +395,7 @@ public class UnitTestCreateDomainObjectUtils {
         .publicationAbstract("A publication Abstract").sourceLink("http://www.hurzexample.de/")
         .sourceReference("A Source Reference").title("A Title of a Related Publication")
         .dataPackageIds(dataPackageIds).authors(authorsString).year(publicationYear)
-        .abstractSource(I18nString.builder().de("Test").en("Test").build()).language("de").build();
+        .abstractSource("Test").language("de").build();
 
   }
 

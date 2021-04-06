@@ -20,23 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 @RequestScope
 public class RelatedPublicationChangesProvider
     extends DomainObjectChangesProvider<RelatedPublication> {
-  /**
-   * Get the list of surveyIds which need to be updated.
-   * 
-   * @return a list of surveyIds
-   */
-  public List<String> getAffectedSurveyIds(String relatedPublicationId) {
-    List<String> oldIds = null;
-    List<String> newIds = null;
-    if (oldDomainObjects.get(relatedPublicationId) != null) {
-      oldIds = oldDomainObjects.get(relatedPublicationId).getSurveyIds();
-    }
-    if (newDomainObjects.get(relatedPublicationId) != null) {
-      newIds = newDomainObjects.get(relatedPublicationId).getSurveyIds();
-    }
-    return ListUtils.combineUniquely(newIds, oldIds);
-  }
-
+  
   /**
    * Get the list of dataPackageIds which need to be updated.
    * 
@@ -54,74 +38,6 @@ public class RelatedPublicationChangesProvider
       newIds = newDomainObjects.get(relatedPublicationId).getDataPackageIds() != null
           ? newDomainObjects.get(relatedPublicationId).getDataPackageIds()
           : new ArrayList<>();
-    }
-    return ListUtils.combineUniquely(newIds, oldIds);
-  }
-
-  /**
-   * Get the list of dataSetIds which need to be updated.
-   * 
-   * @return a list of dataSetIds
-   */
-  public List<String> getAffectedDataSetIds(String relatedPublicationId) {
-    List<String> oldIds = null;
-    List<String> newIds = null;
-    if (oldDomainObjects.get(relatedPublicationId) != null) {
-      oldIds = oldDomainObjects.get(relatedPublicationId).getDataSetIds();
-    }
-    if (newDomainObjects.get(relatedPublicationId) != null) {
-      newIds = newDomainObjects.get(relatedPublicationId).getDataSetIds();
-    }
-    return ListUtils.combineUniquely(newIds, oldIds);
-  }
-
-  /**
-   * Get the list of variableIds which need to be updated.
-   * 
-   * @return a list of variableIds
-   */
-  public List<String> getAffectedVariableIds(String relatedPublicationId) {
-    List<String> oldIds = null;
-    List<String> newIds = null;
-    if (oldDomainObjects.get(relatedPublicationId) != null) {
-      oldIds = oldDomainObjects.get(relatedPublicationId).getVariableIds();
-    }
-    if (newDomainObjects.get(relatedPublicationId) != null) {
-      newIds = newDomainObjects.get(relatedPublicationId).getVariableIds();
-    }
-    return ListUtils.combineUniquely(newIds, oldIds);
-  }
-
-  /**
-   * Get the list of instrumentIds which need to be updated.
-   * 
-   * @return a list of instrumentIds
-   */
-  public List<String> getAffectedInstrumentIds(String relatedPublicationId) {
-    List<String> oldIds = null;
-    List<String> newIds = null;
-    if (oldDomainObjects.get(relatedPublicationId) != null) {
-      oldIds = oldDomainObjects.get(relatedPublicationId).getInstrumentIds();
-    }
-    if (newDomainObjects.get(relatedPublicationId) != null) {
-      newIds = newDomainObjects.get(relatedPublicationId).getInstrumentIds();
-    }
-    return ListUtils.combineUniquely(newIds, oldIds);
-  }
-
-  /**
-   * Get the list of questionIds which need to be updated.
-   * 
-   * @return a list of questionIds
-   */
-  public List<String> getAffectedQuestionIds(String relatedPublicationId) {
-    List<String> oldIds = null;
-    List<String> newIds = null;
-    if (oldDomainObjects.get(relatedPublicationId) != null) {
-      oldIds = oldDomainObjects.get(relatedPublicationId).getQuestionIds();
-    }
-    if (newDomainObjects.get(relatedPublicationId) != null) {
-      newIds = newDomainObjects.get(relatedPublicationId).getQuestionIds();
     }
     return ListUtils.combineUniquely(newIds, oldIds);
   }

@@ -12,14 +12,11 @@
   </md-card-header>
   <div ng-if="!$ctrl.collapsed">
     <md-card-content>
-      <p class="fdz-text-block fdz-multiline-property" display-i18n-string="$ctrl.options.relatedPublication.language"
-         >{{$ctrl.options.relatedPublication.publicationAbstract}}</p>
-      <md-list>
-        <md-list-item>
-          <h5>{{'related-publication-management.detail.label.abstract-source' | translate }}:</h5>
-          <span class="md-secondary" display-i18n-string="$ctrl.options.relatedPublication.abstractSource"></span>
-        </md-list-item>
-      </md-list>
+      <p class="fdz-text-block fdz-multiline-property" lang="{{$ctrl.options.language}}">{{$ctrl.options.publicationAbstract}}</p>
+      <div style="margin-top: 1em;" ng-if="$ctrl.options.abstractSource">
+        <span style="font-weight: bold;" >{{'related-publication-management.detail.label.abstract-source' | translate }}:</span>
+        <span>{{ $ctrl.options.abstractSource}}</span>
+      </div>
     </md-card-content>
   </div>
 </md-card>
