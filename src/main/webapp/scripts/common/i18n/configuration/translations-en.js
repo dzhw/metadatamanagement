@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp').config(
         'dzhw-alt-text': 'The German Centre for Research on Higher Education and Science Studies',
         'bmbf-alt-text': 'Sponsored by the FMER',
         'rdc': 'Research Data Centre for Higher Education Research and Science Studies',
-        'rdc-abbreviation': 'RDC-DZHW',
+        'rdc-abbreviation': 'FDZ-DZHW',
         'search': 'Data Search',
         'in-german': 'in German',
         'in': 'in',
@@ -150,7 +150,7 @@ angular.module('metadatamanagementApp').config(
           },
           'search': {
             'title': 'Data Search for Higher Education Research and Science Studies',
-            'description': 'With this data search you can quickly and easily search the metadata of the data packages stored at the RDC-DZHW. This way you will find all the information you need and can order the corresponding data packages directly.'
+            'description': 'With this data search you can quickly and easily search the metadata of the data packages stored at the FDZ-DZHW. This way you will find all the information you need and can order the corresponding data packages directly.'
           },
           'account': {
             'main': 'Account Details ({{username}})',
