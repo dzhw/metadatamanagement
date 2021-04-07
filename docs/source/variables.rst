@@ -220,6 +220,10 @@ Tabelle 5: Ausfüllanweisungen für die Excel-Tabelle "vimport_ds*Nr*."
 |                        |                       | Hochschulort nach      |
 |                        |                       | Bundesländern          |
 |                        |                       | abgeleitet.            |
+|                        |                       |                        |
+|                        |                       | ACHTUNG: Bitte auch    |
+|                        |                       | die Anmerkungen weiter |
+|                        |                       | unten beachten\**      |
 +------------------------+-----------------------+------------------------+
 | doNotDisplayThousands\ | Nein                  | Wenn bei der Anzeige   |
 | Seperator              |                       | der Werte einer        |
@@ -241,6 +245,31 @@ Tabelle 5: Ausfüllanweisungen für die Excel-Tabelle "vimport_ds*Nr*."
 \* Wenn eigene Konventionen verwendet werden, muss das Feld manuell
 ausgefüllt werden. Bei Verwendung von FDZ-eigenen Schemata kann dieses
 Feld auch leer gelassen werden.
+
+\** Aufgrund eines Design-Fehlers des MDM besteht das Problem, dass im Falle
+einer abgeleiteten Variablen, die aus zwei Quellvariablen erzeugt wurde, auch 
+eine Beziehung zwischen den beiden Quellvariablen als voneinander abgeleitet 
+definiert wird, obwohl die Variablen nicht voneinander abgeleitet wurden. 
+Aufgrund des hohen Aufwands wird das Problem zunächst nicht behoben.
+
+Der aktuelle Status der Problembehebung kann hier eingesehen werden: 
+https://github.com/dzhw/metadatamanagement/issues/2795
+
+Beispiel: 
+z = derived variable                            
+x = source variable1                            
+y = source variable2                            
+                                                
+representation in the mdm as derived            
+                                                
+z derived from x and y --> correct              
+                                               
+x derived from z --> not quite correct, but ok  
+y derived from z --> not quite correct, but ok  
+                                                
+y derived from x --> wrong                      
+x derived from y --> wrong                      
+
 
 +------------------------+-----------------------+-----------------------+
 | **Tabellenblatt 2:                                                     |
