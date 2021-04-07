@@ -80,9 +80,6 @@ resource "aws_ecs_task_definition" "dataset_report_task" {
   volume {
     name = "tmp"
   }
-  volume {
-    name = "doc"
-  }
 }
 
 data "template_file" "worker_container" {

@@ -342,9 +342,6 @@ public class ElasticsearchUpdateQueueService {
           variables.stream().map(variable -> variable.getDataSetId()).collect(Collectors.toSet());
       List<DataSetSubDocumentProjection> dataSets =
           dataSetRepository.findSubDocumentsByIdIn(dataSetIds);
-      List<RelatedPublicationSubDocumentProjection> relatedPublications =
-          relatedPublicationRepository
-              .findSubDocumentsByInstrumentIdsContaining(instrument.getMasterId());
       DataAcquisitionProject project =
           projectRepository.findById(instrument.getDataAcquisitionProjectId()).orElse(null);
       if (project == null) {
@@ -358,7 +355,7 @@ public class ElasticsearchUpdateQueueService {
       String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
       InstrumentSearchDocument searchDocument =
           new InstrumentSearchDocument(instrument, dataPackage, surveys, questions, variables,
-              dataSets, relatedPublications, concepts, release, doi, configuration);
+              dataSets, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));
@@ -391,32 +388,8 @@ public class ElasticsearchUpdateQueueService {
         nestedDataPackageDocuments =
             dataPackages.stream().map(DataPackageNestedDocument::new).collect(Collectors.toList());
       }
-      List<QuestionSubDocumentProjection> questions =
-          new ArrayList<QuestionSubDocumentProjection>();
-      if (relatedPublication.getQuestionIds() != null) {
-        questions = questionRepository.findSubDocumentsByIdIn(relatedPublication.getQuestionIds());
-      }
-      List<InstrumentSubDocumentProjection> instruments = new ArrayList<>();
-      if (relatedPublication.getInstrumentIds() != null) {
-        instruments =
-            instrumentRepository.findSubDocumentsByIdIn(relatedPublication.getInstrumentIds());
-      }
-      List<SurveySubDocumentProjection> surveys = new ArrayList<SurveySubDocumentProjection>();
-      if (relatedPublication.getSurveyIds() != null) {
-        surveys = surveyRepository.findSubDocumentByIdIn(relatedPublication.getSurveyIds());
-      }
-      List<DataSetSubDocumentProjection> dataSets = new ArrayList<DataSetSubDocumentProjection>();
-      if (relatedPublication.getDataSetIds() != null) {
-        dataSets = dataSetRepository.findSubDocumentsByIdIn(relatedPublication.getDataSetIds());
-      }
-      List<VariableSubDocumentProjection> variables =
-          new ArrayList<VariableSubDocumentProjection>();
-      if (relatedPublication.getVariableIds() != null) {
-        variables = variableRepository.findSubDocumentsByIdIn(relatedPublication.getVariableIds());
-      }
-      RelatedPublicationSearchDocument searchDocument =
-          new RelatedPublicationSearchDocument(relatedPublication, dataPackageSubDocuments,
-              nestedDataPackageDocuments, questions, instruments, surveys, dataSets, variables);
+      RelatedPublicationSearchDocument searchDocument = new RelatedPublicationSearchDocument(
+          relatedPublication, dataPackageSubDocuments, nestedDataPackageDocuments);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));
@@ -452,9 +425,6 @@ public class ElasticsearchUpdateQueueService {
           .flatMap(List::stream).collect(Collectors.toSet());
       List<ConceptSubDocumentProjection> concepts =
           conceptRepository.findSubDocumentsByIdIn(conceptIds);
-      List<RelatedPublicationSubDocumentProjection> relatedPublications =
-          relatedPublicationRepository
-              .findSubDocumentsByDataSetIdsContaining(dataSet.getMasterId());
       List<SurveySubDocumentProjection> surveys = new ArrayList<SurveySubDocumentProjection>();
       if (dataSet.getSurveyIds() != null) {
         surveys = surveyRepository.findSubDocumentByIdIn(dataSet.getSurveyIds());
@@ -471,7 +441,7 @@ public class ElasticsearchUpdateQueueService {
           dataPackageRepository.findOneSubDocumentById(dataSet.getDataPackageId());
       String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
       DataSetSearchDocument searchDocument =
-          new DataSetSearchDocument(dataSet, dataPackage, variableProjections, relatedPublications,
+          new DataSetSearchDocument(dataSet, dataPackage, variableProjections,
               surveys, instruments, questions, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
@@ -491,8 +461,6 @@ public class ElasticsearchUpdateQueueService {
           dataSetRepository.findSubDocumentsBySurveyIdsContaining(survey.getId());
       List<VariableSubDocumentProjection> variables =
           variableRepository.findSubDocumentsBySurveyIdsContaining(survey.getId());
-      List<RelatedPublicationSubDocumentProjection> relatedPublications =
-          relatedPublicationRepository.findSubDocumentsBySurveyIdsContaining(survey.getMasterId());
       List<InstrumentSubDocumentProjection> instruments =
           instrumentRepository.findSubDocumentsBySurveyIdsContaining(survey.getId());
       List<String> instrumentIds = instruments.stream().map(InstrumentSubDocumentProjection::getId)
@@ -510,7 +478,7 @@ public class ElasticsearchUpdateQueueService {
       Configuration configuration = project.getConfiguration();
       String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
       SurveySearchDocument searchDocument =
-          new SurveySearchDocument(survey, dataPackage, dataSets, variables, relatedPublications,
+          new SurveySearchDocument(survey, dataPackage, dataSets, variables,
               instruments, questions, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
@@ -550,9 +518,6 @@ public class ElasticsearchUpdateQueueService {
           dataPackageRepository.findOneSubDocumentById(variable.getDataPackageId());
       final DataSetSubDocumentProjection dataSet =
           dataSetRepository.findOneSubDocumentById(variable.getDataSetId());
-      final List<RelatedPublicationSubDocumentProjection> relatedPublications =
-          relatedPublicationRepository
-              .findSubDocumentsByVariableIdsContaining(variable.getMasterId());
       List<SurveySubDocumentProjection> surveys = new ArrayList<SurveySubDocumentProjection>();
       if (variable.getSurveyIds() != null) {
         surveys = surveyRepository.findSubDocumentByIdIn(variable.getSurveyIds());
@@ -583,7 +548,7 @@ public class ElasticsearchUpdateQueueService {
       Configuration configuration = project.getConfiguration();
       String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
       VariableSearchDocument searchDocument =
-          new VariableSearchDocument(variable, dataSet, dataPackage, relatedPublications, surveys,
+          new VariableSearchDocument(variable, dataSet, dataPackage, surveys,
               instruments, questions, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
@@ -615,9 +580,6 @@ public class ElasticsearchUpdateQueueService {
           variables.stream().map(variable -> variable.getDataSetId()).collect(Collectors.toSet());
       List<DataSetSubDocumentProjection> dataSets =
           dataSetRepository.findSubDocumentsByIdIn(dataSetIds);
-      List<RelatedPublicationSubDocumentProjection> relatedPublications =
-          relatedPublicationRepository
-              .findSubDocumentsByQuestionIdsContaining(question.getMasterId());
       DataAcquisitionProject project =
           projectRepository.findById(question.getDataAcquisitionProjectId()).orElse(null);
       if (project == null) {
@@ -635,7 +597,7 @@ public class ElasticsearchUpdateQueueService {
       String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
       QuestionSearchDocument searchDocument =
           new QuestionSearchDocument(question, dataPackage, instrument, surveys, variables,
-              dataSets, relatedPublications, concepts, release, doi, configuration);
+              dataSets, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));
@@ -668,11 +630,6 @@ public class ElasticsearchUpdateQueueService {
           questionRepository.findSubDocumentsByDataPackageId(dataPackage.getId());
       List<InstrumentSubDocumentProjection> instruments =
           instrumentRepository.findSubDocumentsByDataPackageId(dataPackage.getId());
-      List<RelatedPublicationSubDocumentProjection> seriesPublications = null;
-      if (dataPackage.getStudySeries() != null) {
-        seriesPublications = relatedPublicationRepository
-            .findSubDocumentsByStudySeriesesContaining(dataPackage.getStudySeries());
-      }
       List<ConceptSubDocumentProjection> concepts = getConcepts(instruments, questions);
       DataAcquisitionProject project =
           projectRepository.findById(dataPackage.getDataAcquisitionProjectId()).orElse(null);
@@ -683,9 +640,9 @@ public class ElasticsearchUpdateQueueService {
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
       String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
-      DataPackageSearchDocument searchDocument = new DataPackageSearchDocument(dataPackage,
-          dataSets, variables, relatedPublications, surveys, questions, instruments,
-          seriesPublications, concepts, release, doi, configuration);
+      DataPackageSearchDocument searchDocument =
+          new DataPackageSearchDocument(dataPackage, dataSets, variables, relatedPublications,
+              surveys, questions, instruments, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));

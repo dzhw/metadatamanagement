@@ -11,7 +11,7 @@ Looking for Bildungsherkunft und Promotionen
     Click on publications tab
     Search for in details   Bildungsherkunft und Promotionen
     Click on first search result
-    Page Should Contain    http://www.zfs-online.org/index.php/zfs/article/view/3175/2712
+    Page Should Contain    Jaksztat, Steffen
     [Teardown]    Get back to german home page
 
 Looking for Graduate Panel 2005s individual data bachelor in english
@@ -22,5 +22,5 @@ Looking for Graduate Panel 2005s individual data bachelor in english
     Click on publications tab
     Search for in details   Bildungsherkunft und Promotionen
     Click on first search result
-    Page Should Contain    http://www.zfs-online.org/index.php/zfs/article/view/3175/2712
+    Page Should Contain    Jaksztat, Steffen
     [Teardown]    Get back to german home page

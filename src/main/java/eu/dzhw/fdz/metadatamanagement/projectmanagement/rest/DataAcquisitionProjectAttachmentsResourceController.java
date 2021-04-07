@@ -56,8 +56,7 @@ public class DataAcquisitionProjectAttachmentsResourceController {
       @PathVariable("id") String dataAcquisitionProjectId) {
     Map<String, List<?>> result = new HashMap<>();
     result.put("dataPackage",
-        deduplicate(dataPackageAttachmentService.findAllByProject(dataAcquisitionProjectId),
-            DataPackageAttachmentMetadata::getFileName));
+        dataPackageAttachmentService.findAllByProject(dataAcquisitionProjectId));
     result.put("surveys",
         sort(
             deduplicate(surveyAttachmentService.findAllByProject(dataAcquisitionProjectId),

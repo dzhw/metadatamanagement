@@ -15,7 +15,6 @@ angular.module('metadatamanagementApp').config(
             'missing-id': 'Der {{ index }}. Die Publikation enthält keine FDZ-ID und wurde nicht gespeichert!',
             'duplicate-id': 'Die FDZ-ID ({{ id }}) der {{ index }}. Publikation wurde bereits verwendet.',
             'upload-terminated': 'Upload von {{ total }} Publikationen mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
-            'unable-to-load-study-serieses': 'Die verfügbaren Studienreihen konnten nicht geladen werden!',
             'unable-to-delete': 'Die Publikationen konnten nicht gelöscht werden!',
             'cancelled': 'Upload von Publikationen abgebrochen'
           }
@@ -67,32 +66,10 @@ angular.module('metadatamanagementApp').config(
             'studies-series' : 'Klicken, um alle Datenpakete dieser Studienreihe anzuzeigen'
           }
         },
-        'assign': {
-          'page-title': 'Publikationen zum Datenpaket des Projektes "{{projectId}}" erfassen',
-          'header': 'Publikationenzuweisung',
-          'all-publications-removed-toast': 'Alle Publikationen wurden von dem Datenpaket des Projektes "{{id}}" entfernt!',
-          'empty-publications': 'Es wurden noch keine Publikationen zum Datenpaket erfasst.',
-          'choose-unreleased-project-toast': 'Publikationen dürfen nur hinzugefügt bzw. entfernt werden, wenn das Projekt aktuell nicht freigegeben ist!',
-          'search': {
-            'placeholder': 'Publikationen suchen und dem Datenpaket zuordnen',
-            'no-publications-found': 'Keine Publikation gefunden'
-          },
-          'button': {
-            'remove-publication': 'Publikation von Datenpaket entfernen'
-          }
-        },
         'error': {
           'related-publication': {
-            'one-foreign-key-is-used': 'Die Publikation hat keine Verknüpfung zu einem anderen Objekt.',
-            'one-data-package-or-study-series-is-used': 'Die Publikation hat keine Verknüpfung zu einem Datenpaket oder einer Studienreihe',
             'valid-related-publication-id': 'Die Id einer Publikation muss dem Muster "pub-" + {IdAusCitavi} + "$".',
-            'data-package-exists': 'Es gibt kein Datenpaket mit der FDZ-ID "{{invalidValue}}"!',
-            'survey-exists': 'Es gibt keine Erhebung mit der FDZ-ID "{{invalidValue}}"!',
-            'dataset-exists': 'Es gibt keinen Datensatz mit der FDZ-ID "{{invalidValue}}"!',
-            'variable-exists': 'Es gibt keine Variable mit der FDZ-ID "{{invalidValue}}"!',
-            'instrument-exists': 'Es gibt kein Instrument mit der FDZ-ID "{{invalidValue}}"!',
-            'question-exists': 'Es gibt keine Frage mit der FDZ-ID "{{invalidValue}}"!',
-            'study-series-exists': 'Es gibt kein Datenpaket mit der Studienreihe "{{invalidValue.de}}"!',
+            'dataPackage-exists': 'Es gibt kein Datenpaket mit der FDZ-ID "{{invalidValue}}"!',
             'id': {
               'not-empty': 'Die FDZ-ID der Publikation darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
@@ -124,7 +101,7 @@ angular.module('metadatamanagementApp').config(
               'valid': 'Erscheinungsjahr muss zwischen 1960 und {{currentDate | date :"yyyy"}} sein!.'
             },
             'abstract-source': {
-              'i18n-string-size': 'Die Maximallänge der Quelle der Publication ist 2048 Zeichen.'
+              'size': 'Die Maximallänge der Quelle der Publication ist 2048 Zeichen.'
             },
             'language': {
               'not-null': 'Die Sprache der Publikation darf nicht leer sein!',
@@ -132,14 +109,10 @@ angular.module('metadatamanagementApp').config(
             },
             'annotations': {
               'size': 'Die Maximallänge der Anmerkungen zur Publikation ist 2048 Zeichen.'
+            },
+            'data-package-ids': {
+              'not-empty': 'Die Publikation muss mind. eine Verknüpfung zu einem Datenpaket haben!'
             }
-          },
-          'post-validation': {
-            'variable-has-not-a-referenced-data-package': 'Die Variable "{{invalidValue}}" gehört zu einem Datenpaket, das nicht mit der Publikation verknüpft ist.',
-            'survey-has-not-a-referenced-data-package': 'Die Erhebung "{{invalidValue}}" gehört zu einem Datenpaket, das nicht mit der Publikation verknüpft ist.',
-            'data-set-has-not-a-referenced-data-package': 'Der Datensatz "{{invalidValue}}" gehört zu einem Datenpaket, das nicht mit der Publikation verknüpft ist.',
-            'instrument-has-not-a-referenced-data-package': 'Das Instrument "{{invalidValue}}" gehört zu einem Datenpaket, das nicht mit der Publikation verknüpft ist.',
-            'question-has-not-a-referenced-data-package': 'Die Frage "{{invalidValue}}" gehört zu einem Datenpaket, das nicht mit der Publikation verknüpft ist.'
           }
         },
         'report-publications': {
@@ -148,8 +121,9 @@ angular.module('metadatamanagementApp').config(
             'text': 'Kennen Sie Publikationen, die auf Basis unserer Datenpakete entstanden sind? Dann teilen Sie uns diese bitte mit...'
           },
           'button': {
+            'text': 'Melden',
             'tooltip': 'Klicken, um Publikationen zu unseren Datenpaketen zu melden',
-            'link': 'mailto:userservice@dzhw.eu?subject=Meldung%20von%20Publikationen%20zu%20Datenpaketen%20vom%20FDZ-DZHW&body=Liebes%20FDZ-DZHW%2C%0D%0A%0D%0Aich%20m%C3%B6chte%20folgende%20Publikation(en)%2C%20welche%20zu%20Datenpaket%20X%20geh%C3%B6ren%2C%20melden%3A%0D%0A'
+            'link': 'mailto:userservice@dzhw.eu?subject=Meldung%20von%20Publikationen%20zu%20Datenpaketen%20vom%20FDZ-DZHW&body=Liebes%20FDZ-DZHW%2C%0D%0A%0D%0Aich%20m%C3%B6chte%20folgende%20Publikation(en)%2C%20welche%20zu%20Datenpaket%20{{ dataPackageId ? "%22" + dataPackageId + "%22" : "X"}}%20geh%C3%B6ren%2C%20melden%3A%0D%0A'
           }
         }
       }

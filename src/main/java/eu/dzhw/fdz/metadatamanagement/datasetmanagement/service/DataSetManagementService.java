@@ -26,8 +26,6 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
@@ -53,8 +51,6 @@ public class DataSetManagementService implements CrudService<DataSet> {
   private final VariableRepository variableRepository;
 
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
-
-  private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
   private final DataSetAttachmentService dataSetAttachmentService;
 
@@ -173,21 +169,6 @@ public class DataSetManagementService implements CrudService<DataSet> {
         () -> dataSetRepository.findOneIdById(variable.getDataSetId()),
         ElasticsearchType.data_sets);
 
-  }
-
-  /**
-   * Enqueue update of dataSet search documents when the related publication is changed.
-   * 
-   * @param relatedPublication the updated, created or deleted related publication.
-   */
-  @HandleAfterCreate
-  @HandleAfterSave
-  @HandleAfterDelete
-  public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
-    List<String> dataSetIds =
-        relatedPublicationChangesProvider.getAffectedDataSetIds(relatedPublication.getId());
-    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
-        () -> dataSetRepository.streamIdsByMasterIdIn(dataSetIds), ElasticsearchType.data_sets);
   }
 
   /**

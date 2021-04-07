@@ -45,11 +45,6 @@
           "readOnly": false,
           "containerPath": "/tmp",
           "sourceVolume": "tmp"
-        },
-        {
-          "readOnly": false,
-          "containerPath": "/app/doc",
-          "sourceVolume": "doc"
         }
       ],
       "workingDirectory": null,

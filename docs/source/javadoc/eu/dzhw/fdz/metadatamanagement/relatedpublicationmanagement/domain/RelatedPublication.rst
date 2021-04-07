@@ -28,25 +28,13 @@
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain.validation ValidIsoLanguage
 
-.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation DataSetExists
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation InstrumentExists
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation QuestionExists
-
 .. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation DataPackageExists
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation StudySeriesExists
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation SurveyExists
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation ValidPublicationYear
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation ValidRelatedPublicationId
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation ValidUrl
-
-.. java:import:: eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation VariableExists
 
 .. java:import:: lombok AllArgsConstructor
 
@@ -77,7 +65,7 @@ Fields
 abstractSource
 ^^^^^^^^^^^^^^
 
-.. java:field:: @I18nStringSize private I18nString abstractSource
+.. java:field:: @Size private String abstractSource
    :outertype: RelatedPublication
 
 annotations
@@ -97,13 +85,7 @@ authors
 dataPackageIds
 ^^^^^^^^^^^^^^
 
-.. java:field:: @Indexed private List<String> dataPackageIds
-   :outertype: RelatedPublication
-
-dataSetIds
-^^^^^^^^^^
-
-.. java:field:: @Indexed private List<String> dataSetIds
+.. java:field:: @Indexed @NotEmpty private List<String> dataPackageIds
    :outertype: RelatedPublication
 
 doi
@@ -118,12 +100,6 @@ id
 .. java:field:: @Id @NotEmpty @Size @Pattern private String id
    :outertype: RelatedPublication
 
-instrumentIds
-^^^^^^^^^^^^^
-
-.. java:field:: @Indexed private List<String> instrumentIds
-   :outertype: RelatedPublication
-
 language
 ^^^^^^^^
 
@@ -134,12 +110,6 @@ publicationAbstract
 ^^^^^^^^^^^^^^^^^^^
 
 .. java:field:: @Size private String publicationAbstract
-   :outertype: RelatedPublication
-
-questionIds
-^^^^^^^^^^^
-
-.. java:field:: @Indexed private List<String> questionIds
    :outertype: RelatedPublication
 
 serialVersionUID
@@ -160,28 +130,10 @@ sourceReference
 .. java:field:: @NotEmpty @Size private String sourceReference
    :outertype: RelatedPublication
 
-studySerieses
-^^^^^^^^^^^^^
-
-.. java:field:: @Indexed private List<I18nString> studySerieses
-   :outertype: RelatedPublication
-
-surveyIds
-^^^^^^^^^
-
-.. java:field:: @Indexed private List<String> surveyIds
-   :outertype: RelatedPublication
-
 title
 ^^^^^
 
 .. java:field:: @Size @NotEmpty private String title
-   :outertype: RelatedPublication
-
-variableIds
-^^^^^^^^^^^
-
-.. java:field:: @Indexed private List<String> variableIds
    :outertype: RelatedPublication
 
 year

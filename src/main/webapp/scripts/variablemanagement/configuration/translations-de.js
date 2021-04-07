@@ -228,7 +228,7 @@ angular.module('metadatamanagementApp').config(
             'data-set-number-not-null': 'Die Nummer des Datensatzes der Variable darf nicht leer sein!',
             'data-set-id-not-empty': 'Die FDZ-ID des Datensatzes der Variable darf nicht leer sein!',
             'data-set-index-not-null': 'Der Index des Datensatzes der Variable darf nicht leer sein!',
-            'survey-numbers-not-empty': 'Die Liste der Erhebungsnummern einer Variable benötigt mindest ein Element und darf nicht leer sein!',
+            'survey-numbers-not-empty': 'Die Liste der Erhebungsnummern einer Variable benötigt mindestens ein Element und darf nicht leer sein!',
             'related-question-number-size': 'Die Maximallänge der Nummer einer Frage ist 32 Zeichen.',
             'related-question-number-not-empty': 'Eine verbundene Frage hat keine Nummer',
             'related-question-instrument-number-not-empty': 'Ein Instrument hat keine Nummer',

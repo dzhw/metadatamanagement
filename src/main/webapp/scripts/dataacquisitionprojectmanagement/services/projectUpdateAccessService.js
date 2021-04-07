@@ -123,6 +123,10 @@ angular.module('metadatamanagementApp').service(
         return false;
       }
 
+      if (type === 'publications') {
+        return true;
+      }
+
       var test = project || CurrentProjectService.getCurrentProject();
       var isValid = true;
 

@@ -13,56 +13,104 @@
   <div ng-if="!$ctrl.collapsed">
     <md-card-content>
       <md-list>
-        <md-list-item ng-if="$ctrl.options.studySeries">
+        <md-list-item ng-if="$ctrl.options.dataPackage.studySeries">
           <h5>{{'data-package-management.detail.label.studySeries' | translate }}:</h5>
           <a
+            ng-if="$ctrl.options.isAuthenticated()"
             class="md-secondary"
-            ui-sref="search({'type': 'data_packages', 'study-series': $ctrl.options.studySeries.{{$ctrl.lang}}})">
-            <span display-i18n-string="$ctrl.options.studySeries" ></span>
+            ui-sref="search({'type': 'data_packages', 'study-series-{{$ctrl.lang}}': $ctrl.options.dataPackage.studySeries.{{$ctrl.lang}}})">
+            <span display-i18n-string="$ctrl.options.dataPackage.studySeries" ></span>
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-package-management.detail.tooltips.data-packages.study-series' | translate}}
+            </md-tooltip>
+          </a>
+          <a
+            ng-if="!$ctrl.options.isAuthenticated()"
+            class="md-secondary"
+            ui-sref="search({'type': 'data_packages', 'study-series': $ctrl.options.dataPackage.studySeries.{{$ctrl.lang}}})">
+            <span display-i18n-string="$ctrl.options.dataPackage.studySeries" ></span>
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'data-package-management.detail.tooltips.data-packages.study-series' | translate}}
             </md-tooltip>
           </a>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.institutions">
+        <md-list-item ng-if="$ctrl.options.dataPackage.institutions">
           <h5>{{'data-package-management.detail.label.institutions' | translate }}:</h5>
           <span
             class="md-secondary"
-            ng-repeat="institution in $ctrl.options.institutions">
+            ng-repeat="institution in $ctrl.options.dataPackage.institutions">
             {{institution[$ctrl.lang]}}{{!$last?';':''}}
           </span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.sponsor">
+        <md-list-item ng-if="$ctrl.options.dataPackage.sponsor">
           <h5>{{'data-package-management.detail.label.sponsors' | translate }}:</h5>
           <span
             class="md-secondary"
-            display-i18n-string="$ctrl.options.sponsor"></span>
+            display-i18n-string="$ctrl.options.dataPackage.sponsor"></span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.projectContributors">
+        <md-list-item ng-if="$ctrl.options.dataPackage.projectContributors">
           <h5>{{'data-package-management.detail.label.projectContributors' | translate }}:</h5>
           <span
             class="md-secondary pre"
-            ng-repeat="contributor in $ctrl.options.projectContributors">{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName !== undefined?' '+contributor.middleName:''}}{{!$last?'; ':''}}</span>
+            ng-repeat="contributor in $ctrl.options.dataPackage.projectContributors">{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName !== undefined?' '+contributor.middleName:''}}{{!$last?'; ':''}}</span>
           </span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.surveyDesign">
+        <md-list-item ng-if="$ctrl.options.dataPackage.surveyDesign">
           <h5>{{'data-package-management.detail.label.surveyDesign' | translate }}:</h5>
           <span
             class="md-secondary"
-            display-i18n-string="$ctrl.options.surveyDesign" ></span>
+            display-i18n-string="$ctrl.options.dataPackage.surveyDesign" ></span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.dataCurators">
+        <md-list-item
+          ng-if="$ctrl.options.dataPackage.surveyDesign.en==='Panel' && $ctrl.options.dataPackage.numberOfWaves > 0">
+          <h5>{{'data-package-management.detail.label.wave' | translate }}:</h5>
+          <span
+            class="md-secondary">{{$ctrl.options.dataPackage.numberOfWaves}}</span>
+        </md-list-item>
+        <md-list-item
+          ng-if="$ctrl.options.dataPackage.surveyDataTypes && $ctrl.options.dataPackage.surveyDataTypes.length > 0">
+          <h5>{{'data-package-management.detail.label.survey-data-type' | translate }}:</h5>
+          <span
+            class="md-secondary pre"
+            ng-repeat="dataType in $ctrl.options.dataPackage.surveyDataTypes">{{dataType[$ctrl.lang]}}{{!$last?'; ':''}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.dataPackage.dataLanguages && $ctrl.options.dataPackage.dataLanguages.length > 0">
+          <h5>{{'data-package-management.detail.label.dataLanguages' | translate }}:</h5>
+          <span
+            class="md-secondary pre"
+            ng-repeat="language in $ctrl.options.dataPackage.dataLanguages">{{(language | displayIsoLanguage: $ctrl.lang)}}{{$index + 1 !== $ctrl.options.dataPackage.dataLanguages.length ? ', ': ''}}</span>
+          </span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.dataPackage.dataCurators">
           <h5>{{'data-package-management.detail.label.data-curators' | translate }}:</h5>
           <span
             class="md-secondary pre"
-            ng-repeat="person in $ctrl.options.dataCurators">{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+person.middleName:''}}{{!$last?'; ':''}}</span>
+            ng-repeat="person in $ctrl.options.dataPackage.dataCurators">{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+person.middleName:''}}{{!$last?'; ':''}}</span>
           </span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.annotations">
+        <md-list-item
+          ng-if="$ctrl.options.dataPackage.doi">
+          <h5>{{'data-package-management.detail.label.doi' | translate }}:</h5>
+          <a
+            ng-href="https://dx.doi.org/{{$ctrl.options.dataPackage.doi}}"
+            class="md-secondary"
+            target="_blank">
+            {{$ctrl.options.dataPackage.doi}}
+            <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'data-package-management.detail.doi-tooltip' | translate}}
+            </md-tooltip>
+          </a>
+        </md-list-item>
+        <md-list-item>
+          <h5>{{'data-package-management.detail.label.version' | translate }}:</h5>
+          <span
+            class="md-secondary">{{$ctrl.options.dataPackage.release?$ctrl.options.dataPackage.release.version + ' (' + ('data-package-management.detail.label.published-at' | translate) + ' ' + ($ctrl.options.dataPackage.release.firstDate + 'Z' | date:'mediumDate') + ')': ('data-package-management.detail.not-yet-released' | translate)}}</span>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.options.dataPackage.annotations">
           <h5>{{'data-package-management.detail.label.annotations' | translate }}:</h5>
           <p
             class="md-secondary"
-            markdown-to-html="$ctrl.options.annotations | displayI18nString"
+            markdown-to-html="$ctrl.options.dataPackage.annotations | displayI18nString"
             ></p>
         </md-list-item>
       </md-list>

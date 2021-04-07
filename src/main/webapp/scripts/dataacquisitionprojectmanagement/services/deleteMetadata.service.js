@@ -2,8 +2,7 @@
 'use strict';
 angular.module('metadatamanagementApp').service('DeleteMetadataService',
   function($rootScope, ProjectUpdateAccessService, CommonDialogsService,
-    ElasticSearchAdminService, SimpleMessageToastService, $injector,
-    DataPackageIdBuilderService) {
+    ElasticSearchAdminService, SimpleMessageToastService, $injector) {
 
     var deleteAllOfType = function(project, type) {
       if (ProjectUpdateAccessService.isUpdateAllowed(
@@ -15,19 +14,10 @@ angular.module('metadatamanagementApp').service('DeleteMetadataService',
           type: 'all-' + _.kebabCase(type),
           id: project.id
         }).then(function() {
-          if (type === 'publications') {
-            return $injector.get('DeleteAllPublicationsResource').deleteAll(
-              {id: DataPackageIdBuilderService.buildDataPackageId(project.id)})
-              .$promise;
-          }
           return $injector.get('DeleteAll' +
             _.upperFirst(_.camelCase(type)) + 'Resource').deleteAll(
             {id: project.id}).$promise;
         }).then(function() {
-          if (type === 'publications') {
-            return ElasticSearchAdminService.
-              processUpdateQueue('related_publications');
-          }
           return ElasticSearchAdminService.
             processUpdateQueue(_.snakeCase(type));
         }).then(function() {
@@ -35,11 +25,6 @@ angular.module('metadatamanagementApp').service('DeleteMetadataService',
           if (type === 'dataPackages') {
             SimpleMessageToastService.openSimpleMessageToast(
               'data-package-management.edit.all-data-packages-deleted-toast',
-              {id: project.id});
-          } else if (type === 'publications') {
-            SimpleMessageToastService.openSimpleMessageToast(
-              'related-publication-management.assign.' +
-              'all-publications-removed-toast',
               {id: project.id});
           } else {
             SimpleMessageToastService.openSimpleMessageToast(

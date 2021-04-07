@@ -6,13 +6,12 @@ import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.projections.DataSetSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.projections.InstrumentSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import lombok.EqualsAndHashCode;
@@ -41,10 +40,7 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
   private DataSetNestedDocument nestedDataSet = null;
   private DataPackageSubDocument dataPackage = null;
   private DataPackageNestedDocument nestedDataPackage = null;
-  private List<RelatedPublicationSubDocument> relatedPublications = 
-      new ArrayList<>();
   private List<QuestionNestedDocument> nestedQuestions = new ArrayList<>();
-  private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
   private List<SurveySubDocument> surveys = 
       new ArrayList<>();
   private List<SurveyNestedDocument> nestedSurveys = new ArrayList<>();
@@ -66,7 +62,6 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
    * @param variable the variable to be searched for
    * @param dataSet the data set containing this variable
    * @param dataPackage the dataPackage containing this variable
-   * @param relatedPublications the related publications using this variable
    * @param surveys the surveys using this variable
    * @param instruments the instruments using this variable
    * @param concepts the concepts covered by this variable
@@ -76,7 +71,6 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
   public VariableSearchDocument(Variable variable,
                                 DataSetSubDocumentProjection dataSet,
                                 DataPackageSubDocumentProjection dataPackage,
-                                List<RelatedPublicationSubDocumentProjection> relatedPublications,
                                 List<SurveySubDocumentProjection> surveys,
                                 List<InstrumentSubDocumentProjection> instruments,
                                 List<QuestionSubDocumentProjection> questions,
@@ -92,12 +86,6 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
     if (dataPackage != null) {
       this.dataPackage = new DataPackageSubDocument(dataPackage, doi);
       this.nestedDataPackage = new DataPackageNestedDocument(dataPackage);
-    }
-    if (relatedPublications != null) {
-      this.relatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
-      this.nestedRelatedPublications = relatedPublications.stream()
-          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
     if (surveys != null) {
       this.surveys = surveys.stream()
