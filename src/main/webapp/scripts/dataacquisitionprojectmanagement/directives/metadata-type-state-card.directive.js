@@ -19,11 +19,13 @@ angular.module('metadatamanagementApp')
       replace: true,
       controllerAs: 'ctrl',
 
-      controller: function($scope, $rootScope) {
+      controller: function($scope, $rootScope, DataPackageIdBuilderService) {
         $scope.bowser = $rootScope.bowser;
         this.type = $scope.type;
         this.counts = $scope.counts;
         this.project = $scope.project;
+        this.dataPackageId =  DataPackageIdBuilderService
+          .buildDataPackageId(this.project.id);
 
         this.isAssignedDataProvider =
           ProjectUpdateAccessService.isAssignedToProject.bind(null,
