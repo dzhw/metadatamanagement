@@ -34,7 +34,7 @@
       <span class="fdz-paginator__label">{{$ctrl.options.pageObject.size*($ctrl.options.pageObject.page-1)+1}} - {{$ctrl.calculateCurrentPage()}} {{'global.pagination.of'|translate}} {{$ctrl.options.pageObject.totalHits}}</span>
       <md-button
         class="fdz-paginator__button"
-        ng-if="$ctrl.options.pageObject.page <= 1" disabled="true">
+        ng-if="$ctrl.options.pageObject.page <= 1 || $ctrl.options.pageObject.page - 1 >= ($ctrl.options.pageObject.totalHits / $ctrl.options.pageObject.size)" disabled="true">
         <md-icon
           class="md-primary"
           md-font-set="material-icons">keyboard_arrow_left
@@ -43,7 +43,7 @@
       <md-button
         class="fdz-paginator__button" rel="prev"
         ui-sref="({page: $ctrl.options.pageObject.page - 1})"
-        ng-if="$ctrl.options.pageObject.page > 1">
+        ng-if="$ctrl.options.pageObject.page > 1 && $ctrl.options.pageObject.page - 1 < ($ctrl.options.pageObject.totalHits / $ctrl.options.pageObject.size)">
         <md-icon
           class="md-primary"
           md-font-set="material-icons">keyboard_arrow_left
