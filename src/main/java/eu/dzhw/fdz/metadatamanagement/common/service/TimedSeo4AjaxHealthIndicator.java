@@ -18,7 +18,7 @@ import io.micrometer.core.annotation.Timed;
  * @author René Reitmann
  */
 @Component("seo4AjaxHealthIndicator")
-@Profile({Constants.SPRING_PROFILE_TEST, Constants.SPRING_PROFILE_PROD})
+@Profile(Constants.SPRING_PROFILE_PROD)
 public class TimedSeo4AjaxHealthIndicator extends AbstractHealthIndicator {
   private RestTemplate restTemplate;
 
