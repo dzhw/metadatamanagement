@@ -18,6 +18,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -114,6 +115,9 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
       urlConnection.setConnectTimeout(PROXY_CONNECT_TIMEOUT);
       urlConnection.setReadTimeout(PROXY_READ_TIMEOUT);
       response.setStatus(urlConnection.getResponseCode());
+      if (!HttpStatus.valueOf(urlConnection.getResponseCode()).is2xxSuccessful()) {
+        return;
+      }
       for (String headerName : urlConnection.getHeaderFields().keySet()) {
         if (!StringUtils.isEmpty(headerName)
             && !"transfer-encoding".equalsIgnoreCase(headerName)
