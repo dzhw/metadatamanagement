@@ -29,7 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties
 
 /**
  * Filter that forwards all requests coming from bots to SEO4Ajax. Only active on test and prod.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -60,7 +60,7 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
 
   /**
    * Create the filter with the configuration properties.
-   * 
+   *
    * @throws ServletException if site token is missing
    */
   public Seo4AjaxFilter(MetadataManagementProperties properties) throws ServletException {
@@ -115,7 +115,11 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
       urlConnection.setReadTimeout(PROXY_READ_TIMEOUT);
       response.setStatus(urlConnection.getResponseCode());
       for (String headerName : urlConnection.getHeaderFields().keySet()) {
-        response.addHeader(headerName, urlConnection.getHeaderField(headerName));
+        if (!StringUtils.isEmpty(headerName)
+            && !"transfer-encoding".equalsIgnoreCase(headerName)
+            && !"connection".equalsIgnoreCase(headerName)) {
+          response.addHeader(headerName, urlConnection.getHeaderField(headerName));
+        }
       }
       copy(urlConnection.getInputStream(), response.getOutputStream());
     }
