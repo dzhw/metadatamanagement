@@ -36,7 +36,7 @@ public class TimedSeo4AjaxHealthIndicator extends AbstractHealthIndicator {
   @Override
   @Timed("seo_health_check")
   protected void doHealthCheck(Health.Builder builder) throws Exception {
-    builder.withDetail("url", apiUrl + siteToken + "/status");
+    builder.withDetail("url", apiUrl + "siteToken" + "/status");
     ResponseEntity<String> response =
         restTemplate.getForEntity(apiUrl + siteToken + "/", String.class);
     if (response.getStatusCode().is2xxSuccessful()) {
