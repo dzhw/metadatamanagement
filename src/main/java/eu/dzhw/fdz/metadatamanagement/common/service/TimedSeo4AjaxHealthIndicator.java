@@ -18,7 +18,7 @@ import io.micrometer.core.annotation.Timed;
  * @author René Reitmann
  */
 @Component("seo4AjaxHealthIndicator")
-@Profile({Constants.SPRING_PROFILE_TEST, Constants.SPRING_PROFILE_PROD})
+@Profile(Constants.SPRING_PROFILE_PROD)
 public class TimedSeo4AjaxHealthIndicator extends AbstractHealthIndicator {
   private RestTemplate restTemplate;
 
@@ -36,7 +36,7 @@ public class TimedSeo4AjaxHealthIndicator extends AbstractHealthIndicator {
   @Override
   @Timed("seo_health_check")
   protected void doHealthCheck(Health.Builder builder) throws Exception {
-    builder.withDetail("url", apiUrl + siteToken + "/status");
+    builder.withDetail("url", apiUrl + "siteToken" + "/status");
     ResponseEntity<String> response =
         restTemplate.getForEntity(apiUrl + siteToken + "/", String.class);
     if (response.getStatusCode().is2xxSuccessful()) {

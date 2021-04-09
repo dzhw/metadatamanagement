@@ -1,10 +1,10 @@
+.. java:import:: java.util ArrayList
+
 .. java:import:: java.util Arrays
 
 .. java:import:: java.util Collections
 
-.. java:import:: java.util HashSet
-
-.. java:import:: java.util Set
+.. java:import:: java.util List
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.common.domain I18nString
 
@@ -25,7 +25,7 @@ Fields
 ALL
 ^^^
 
-.. java:field:: public static final Set<I18nString> ALL
+.. java:field:: public static final List<I18nString> ALL
    :outertype: InstrumentAttachmentTypes
 
 OTHER

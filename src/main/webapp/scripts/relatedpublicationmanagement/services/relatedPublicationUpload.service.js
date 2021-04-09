@@ -77,8 +77,6 @@ angular.module('metadatamanagementApp')
             if (existingPublications[objects[uploadCount].id]) {
               existingPublications[objects[uploadCount].id].presentInExcel =
                 true;
-              objects[uploadCount].dataPackageIds =
-                existingPublications[objects[uploadCount].id].dataPackageIds;
             }
             objects[uploadCount].$save().then(function() {
               JobLoggingService.success();
