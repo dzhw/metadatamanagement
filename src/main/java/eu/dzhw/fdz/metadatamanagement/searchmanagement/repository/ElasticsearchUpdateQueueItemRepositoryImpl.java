@@ -29,7 +29,7 @@ public class ElasticsearchUpdateQueueItemRepositoryImpl
   private static final int UPDATE_LOCK_EXPIRED = 10;
 
   // number of queue items to be processed in one batch
-  private static final int BULK_SIZE = 25;
+  private static final int BULK_SIZE = 10;
 
   private final MongoOperations mongoOperations;
 
