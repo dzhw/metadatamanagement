@@ -20,6 +20,21 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
         _.get(ctrl, 'labels.editTitle.params');
     ctrl.excludedMetadataFields = dialogConfig.exclude;
 
+    ctrl.translationKeys = {
+      title: 'data-package-management.detail.label.attachments.authors',
+      tooltips: {
+        delete: 'data-package-management.edit.delete-author-tooltip',
+        add: 'data-package-management.edit.add-author-tooltip',
+        moveUp: 'data-package-management.edit.move-author-up-tooltip',
+        moveDown: 'data-package-management.edit.move-author-down-tooltip'
+      },
+      hints: {
+        firstName: 'data-package-management.edit.hints.authors.first-name',
+        middleName: 'data-package-management.edit.hints.authors.middle-name',
+        lastName: 'data-package-management.edit.hints.authors.last-name'
+      }
+    };
+
     var isoLanguagesArray = Object.keys(isoLanguages).map(function(key) {
       return {
         code: key,
@@ -179,6 +194,18 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
         ctrl.attachmentMetadata = dialogConfig
             .createAttachmentResource(attachmentWrapper);
         initSelectedLanguage();
+        if (ctrl.attachmentMetadata.type.en === 'Method Report') {
+          ctrl.attachmentMetadata.citationDetails =
+            ctrl.attachmentMetadata.citationDetails || {};
+          ctrl.attachmentMetadata.citationDetails.authors =
+            ctrl.attachmentMetadata.citationDetails.authors || [];
+          if (ctrl.attachmentMetadata.citationDetails.authors.length === 0) {
+            ctrl.attachmentMetadata.citationDetails.authors.push({
+              firstName: '',
+              lastName: '',
+            });
+          }
+        }
         if (attachmentWrapper.isCurrentVersion) {
           SimpleMessageToastService.openSimpleMessageToast(
               'attachment.current-version-restored-toast',

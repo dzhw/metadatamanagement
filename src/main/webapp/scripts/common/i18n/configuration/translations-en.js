@@ -423,6 +423,15 @@ angular.module('metadatamanagementApp').config(
             'title': 'Remove all publications from the data package of project "{{ id }}"?',
             'content': 'Do you really want to remove all publications from the Data Package of Data Acquisition Project "{{ id }}"?'
           }
+        },
+        'people': {
+          'edit': {
+            'label': {
+              'first-name': 'First Name',
+              'middle-name': 'Middle Name',
+              'last-name': 'Last Name'
+            }
+          }
         }
       }
       //jscs:enable

@@ -29,7 +29,9 @@ angular.module('metadatamanagementApp').config(
               'title': 'Title',
               'description': 'Description',
               'language': 'Document Language',
-              'file': 'File'
+              'file': 'File',
+              'authors': 'Authors',
+              'citation-details': 'Additional Citation Details'
             },
             'data-set': {
               'accessWays': 'Access Ways',
@@ -176,6 +178,22 @@ angular.module('metadatamanagementApp').config(
                 'not-empty': 'The RDC-ID of the Data Acquisition Project for the Data Package must not be empty!'
               }
             }
+          },
+          'data-package-attachment-metadata': {
+            'publication-year': {
+              'not-null': 'The year of publication must not be empty!',
+              'invalid-number': 'The year must be a valid number!',
+              'min': 'The earliest year is 1990!',
+              'max': 'The latest year is next year!',
+            },
+            'location': {
+              'not-empty': 'The location must not be empty!',
+              'string-size': 'The max length of the location is 512 characters.'
+            },
+            'institution': {
+              'not-empty': 'The institution must not be empty!',
+              'string-size': 'The max length of the institution is 512 characters.'
+            }
           }
         },
         'edit': {
@@ -194,7 +212,10 @@ angular.module('metadatamanagementApp').config(
             'first-name': 'First Name',
             'middle-name': 'Middle Name',
             'last-name': 'Last Name',
-            'tags': 'Tags (Keywords) for the Data Package'
+            'tags': 'Tags (Keywords) for the Data Package',
+            'publication-year': 'Year of Publication',
+            'institution': 'Institution',
+            'location': 'Location'
           },
           'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this data package.',
           'save-tooltip': 'Click to save this data package.',
@@ -205,7 +226,11 @@ angular.module('metadatamanagementApp').config(
           'move-curator-up-tooltip': 'Click to move the selected data curator up.',
           'move-curator-down-tooltip': 'Click to move the selected data curator down.',
           'add-curator-tooltip': 'Click to add a new data curator to this data package.',
-          'delete-curator-tooltip': 'Click to remove the data curators from this data package.',
+          'delete-author-tooltip': 'Click to remove the author from this report.',
+          'move-author-up-tooltip': 'Click to move the selected author up.',
+          'move-author-down-tooltip': 'Click to move the selected author down.',
+          'add-author-tooltip': 'Click to add a new author to this report.',
+          'delete-curator-tooltip': 'Click to remove the data curator from this data package.',
           'move-institution-up-tooltip': 'Click to move the selected institution up.',
           'move-institution-down-tooltip': 'Click to move the selected institution down.',
           'add-institution-tooltip': 'Click to add another institution to this data package.',
@@ -248,10 +273,20 @@ angular.module('metadatamanagementApp').config(
               'middle-name': 'If available enter the middle-name of this project member.',
               'last-name': 'Enter the last name of this project member.'
             },
+            'authors': {
+              'first-name': 'Enter the first name of this author.',
+              'middle-name': 'If available enter the middle-name of this author.',
+              'last-name': 'Enter the last name of this author.'
+            },
             'curators': {
               'first-name': 'Enter the first name of the person involved in data preparation.',
               'middle-name': 'If available enter the middle-name of this person.',
               'last-name': 'Enter the last name of the person involved in data preparation.'
+            },
+            'citation-details': {
+              'publication-year': 'Enter the year in which this report has been published.',
+              'institution': 'Enter the name of the institution which has published this report.',
+              'location': 'Enter the location of the institution which has published this report.'
             }
           },
           'all-data-packages-deleted-toast': 'The data package of Data Acquisition Project "{{id}}" has been deleted.'

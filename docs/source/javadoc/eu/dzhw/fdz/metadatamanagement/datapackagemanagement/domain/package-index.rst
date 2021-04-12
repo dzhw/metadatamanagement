@@ -11,6 +11,7 @@ Domain objects describing \ :java:ref:`eu.dzhw.fdz.metadatamanagement.datapackag
    DataPackage
    DataPackageAttachmentMetadata
    DataPackageAttachmentTypes
+   MethodReportCitationDetails
    SurveyDesigns
    Tags
    TimeMethods
