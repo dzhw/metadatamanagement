@@ -278,7 +278,7 @@
                              ng-blur="ctrl.deleteCurrentInstitution($event)"
                              ng-focus="ctrl.setCurrentInstitution($index,$event)"
                              ng-required="true"
-                             class="ms-flex">
+                             class="ms-flex mr8">
               <md-item-template>
                 <span class="md-title" md-highlight-flags="ig"
                       md-highlight-text="ctrl.dataPackage.institutions[$parent.$index].de"
@@ -383,7 +383,7 @@
             <md-input-container flex="50"
                                 md-is-error="!dataPackageForm.descriptionDe.$valid && (dataPackageForm.descriptionDe.$dirty || dataPackageForm.descriptionDe.$touched)"
                                 ng-class="{'mr10': $mdMedia('gt-sm')}"
-                                class="ms-flex">
+                                class="ms-flex mr8">
               <label class="fdz-input-required">{{'data-package-management.detail.description' | translate}}
                 ({{'global.in-german' | translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea fdz-required lang="de" md-maxlength="2048" md-no-asterisk
@@ -402,7 +402,7 @@
             </md-input-container>
             <md-input-container flex="50"
                                 md-is-error="!dataPackageForm.descriptionEn.$valid && (dataPackageForm.descriptionEn.$dirty || dataPackageForm.descriptionEn.$touched)"
-                                class="ms-flex">
+                                class="ms-flex mr8">
               <label class="fdz-input-required">{{'data-package-management.detail.description' | translate}}
                 ({{'global.in-english' | translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>
               <textarea fdz-required lang="en" md-maxlength="2048" md-no-asterisk

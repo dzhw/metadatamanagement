@@ -16,7 +16,7 @@
         </md-tooltip>
         <md-icon md-font-set="material-icons">delete_forever</md-icon>
       </md-button>
-      <md-input-container flex="33"
+      <md-input-container flex="33" class="mr8"
                           md-is-error="!form['peopleFirstName_' + $index].$valid && (form['peopleFirstName_' + $index].$dirty || form['peopleFirstName_' + $index].$touched)">
         <label class="fdz-input-required">{{'global.people.edit.label.first-name' | translate}}</label>
         <input fdz-required md-no-asterisk name="peopleFirstName_{{$index}}"
@@ -31,7 +31,7 @@
           <div ng-message="fdz-required">{{'global.error.person.first-name.not-empty' | translate}}</div>
         </div>
       </md-input-container>
-      <md-input-container flex
+      <md-input-container flex="33" class="mr8"
                           md-is-error="!form['peopleMiddleName_' + $index].$valid && (form['peopleMiddleName_' + $index].$dirty || form['peopleMiddleName_' + $index].touched)">
         <label>{{'global.people.edit.label.middle-name' | translate}}</label>
         <input name="peopleMiddleName_{{$index}}" ng-blur="$ctrl.deleteCurrentPerson($event)"
@@ -45,7 +45,7 @@
         <div multiple ng-messages="form['peopleMiddleName_' + $index].$error">
         </div>
       </md-input-container>
-      <md-input-container flex="33"
+      <md-input-container flex="33" class="mr8"
                           md-is-error="!form['peopleLastName_' + $index].$valid && (form['peopleLastName_' + $index].$dirty || form['peopleLastName_' + $index].$touched)">
         <label class="fdz-input-required">{{'global.people.edit.label.last-name' | translate}}</label>
         <input fdz-required md-no-asterisk name="peopleLastName_{{$index}}"

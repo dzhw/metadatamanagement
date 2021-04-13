@@ -33,7 +33,9 @@ angular.module('metadatamanagementApp').config(
             'customer-name': 'Your Name',
             'customer-email': 'Your E-mail Address',
             'data-formats': 'The data sets contain data in the following formats:',
-            'data-languages': 'Furthermore the data sets are available in the following languages:'
+            'data-languages': 'Furthermore the data sets are available in the following languages:',
+            'cite-data-package': 'Cite Data Package:',
+            'cite-method-report': 'Cite Method Report:'
           },
           'hints': {
             'name': 'Please let us know your full name.',
@@ -52,7 +54,7 @@ angular.module('metadatamanagementApp').config(
           'study-series-tooltip': 'Click to display all data packages of the study series.',
           'data-sets-tooltip': 'Click to display all datasets of this data package.',
           'variables-tooltip': 'Click to display all variables of this data package.',
-          'citation': 'Cite Data Package',
+          'citation': 'Cite Data Package and Method Report',
           'citation-success-copy-to-clipboard': 'The citation hint was successfully copied to the clipboard.',
           'copy-citation-tooltip': 'Click to copy the citation note to the clipboard.',
           'select-access-way-title': 'Please select an Access Way',
@@ -93,7 +95,7 @@ angular.module('metadatamanagementApp').config(
           'delete-product-tooltip': 'Click to remove the package from the shopping cart.',
           'open-cart-tooltip': 'Click to show the contents of the shopping cart.',
           'open-citation-tooltip': 'Click to get and copy citation information.',
-          'open-citation': 'Cite Data Package',
+          'open-citation': 'Cite...',
           'close-tooltip': 'Click to close the package selection.',
           'data-package-version-tooltip': 'Click to get more information about versions of data packages',
           'data-package-access-way-tooltip': 'Click to get more information about access ways'

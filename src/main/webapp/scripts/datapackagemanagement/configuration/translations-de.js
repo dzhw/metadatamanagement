@@ -42,7 +42,7 @@ angular.module('metadatamanagementApp').config(
               'surveyed-in': 'Enthält Daten aus diesen Erhebungen'
             },
             'doi': 'DOI',
-            'published-at': 'zuletzt veröffentlicht am',
+            'published-at': 'veröffentlicht am',
             'published': 'Veröffentlicht am'
           },
           'attachments': {

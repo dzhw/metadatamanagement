@@ -30,10 +30,10 @@ function($interpolate) {
   var generateCitationHintForAttachment = function(attachment) {
     var citationHint =
       '{{attachment.citationDetails.authors | displayPersons}} ' +
-      '({{attachment.citationDetails.year}}). ' +
+      '({{attachment.citationDetails.publicationYear}}). ' +
       '{{attachment.title}}. ' +
       '{{attachment.citationDetails.location}}: ' +
-      '{{{{attachment.citationDetails.institution}}}}';
+      '{{attachment.citationDetails.institution}}.';
     return $interpolate(citationHint)({attachment: attachment});
   };
 

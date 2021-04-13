@@ -7,7 +7,7 @@
   <md-divider></md-divider>
   <md-card-content>
     <div layout="column" layout-gt-sm="row" class="ms-flex">
-      <md-input-container flex="33" md-is-error="!form.publicationYear.$valid && (form.publicationYear.$dirty || form.publicationYear.$touched)" class="ms-flex">
+      <md-input-container flex="33" md-is-error="!form.publicationYear.$valid && (form.publicationYear.$dirty || form.publicationYear.$touched)" class="ms-flex mr8">
         <label>{{'data-package-management.edit.label.publication-year' | translate}}</label>
         <input min="1990" max="{{$ctrl.currentYear + 1}}" name="publicationYear" ng-model="$ctrl.citationDetails.publicationYear" required step="1" type="number">
         <div class="fdz-input-hint" ng-if="!form.publicationYear.$dirty && !form.publicationYear.$touched">
@@ -21,7 +21,7 @@
           <div ng-message="max">{{'data-package-management.error.data-package-attachment-metadata.publication-year.max' | translate}}</div>
         </div>
       </md-input-container>
-      <md-input-container flex="33" class="ms-flex" md-is-error="!form.institution.$valid && (form.institution.$dirty || form.institution.$touched)">
+      <md-input-container flex="33" class="ms-flex mr8" md-is-error="!form.institution.$valid && (form.institution.$dirty || form.institution.$touched)">
         <label class="fdz-input-required">{{'data-package-management.edit.label.institution' | translate}} ({{'global.in' | translate}} {{ $ctrl.selectedLanguage? ($ctrl.selectedLanguage | displayIsoLanguage) : '?'}})</label>
         <input fdz-required md-maxlength="512" ng-model="$ctrl.citationDetails.institution" name="institution">
         <div ng-if="!form.institution.$dirty && !form.institution.$touched" class="fdz-input-hint">{{'data-package-management.edit.hints.citation-details.institution' | translate}}</div>
@@ -30,7 +30,7 @@
           <div ng-message="fdz-required">{{'data-package-management.error.data-package-attachment-metadata.institution.not-empty' | translate}}</div>
         </div>
       </md-input-container>
-      <md-input-container flex="33" class="ms-flex" md-is-error="!form.location.$valid && (form.location.$dirty || form.location.$touched)">
+      <md-input-container flex="33" class="ms-flex mr8" md-is-error="!form.location.$valid && (form.location.$dirty || form.location.$touched)">
         <label class="fdz-input-required">{{'data-package-management.edit.label.location' | translate}} ({{'global.in' | translate}} {{ $ctrl.selectedLanguage? ($ctrl.selectedLanguage | displayIsoLanguage) : '?'}})</label>
         <input fdz-required md-maxlength="512" ng-model="$ctrl.citationDetails.location" name="location">
         <div ng-if="!form.location.$dirty && !form.location.$touched" class="fdz-input-hint">{{'data-package-management.edit.hints.citation-details.location' | translate}}</div>

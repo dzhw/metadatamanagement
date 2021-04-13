@@ -17,7 +17,8 @@
                                 DataPackageAccessWaysResource, $mdDialog,
                                 CitationHintGeneratorService,
                                 DataPackageCitationDialogService,
-                                CurrentDataPackageService) {
+                                CurrentDataPackageService,
+                                DataPackageAttachmentResource) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.dataPackageIdVersion = {};
@@ -237,9 +238,32 @@
         });
         $mdDialog.show(alert);
       } else {
-        var citationHint = CitationHintGeneratorService.generateCitationHint(
-          $ctrl.selectedAccessWay, $ctrl.dataPackage);
-        DataPackageCitationDialogService.showDialog(citationHint, $event);
+        DataPackageAttachmentResource.findByDataPackageId({
+          dataPackageId: $ctrl.dataPackage.id
+        }).$promise.then(function(attachments) {
+          var germanMethodReports = attachments.filter(function(attachment) {
+              return attachment.type.en === 'Method Report' &&
+                attachment.language === 'de' &&
+                attachment.citationDetails;
+            });
+          var englishMethodReports = attachments.filter(function(attachment) {
+              return attachment.type.en === 'Method Report' &&
+                attachment.language === 'en' &&
+                attachment.citationDetails;
+            });
+          var methodReportsCitationHint = {
+            de: germanMethodReports.length > 0 ?
+              CitationHintGeneratorService.generateCitationHintForAttachment(
+                germanMethodReports[0]) : null,
+            en: englishMethodReports.length > 0 ?
+              CitationHintGeneratorService.generateCitationHintForAttachment(
+                englishMethodReports[0]) : null,
+          };
+          var citationHint = CitationHintGeneratorService.generateCitationHint(
+            $ctrl.selectedAccessWay, $ctrl.dataPackage);
+          DataPackageCitationDialogService.showDialog(citationHint,
+              methodReportsCitationHint, $event);
+        });
       }
     };
   }
