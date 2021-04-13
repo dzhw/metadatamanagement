@@ -4,11 +4,15 @@ angular.module('metadatamanagementApp').config(
   function($stateProvider) {
     $stateProvider.state('search', {
       parent: 'site',
-      url: '/search?{access-way}{concept}{data-package}{data-set}' +
-        '{derived-variables-identifier}{instrument}{page}' +
+      url: '/search?{access-way}{access-ways}{concept}{concepts}' +
+        '{data-package}' +
+        '{data-set}{derived-variables-identifier}{instrument}{institution-de}' +
+        '{institutions}{institution-en}{page}' +
         '{query}{question}{related-publication}' +
-        '{repeated-measurement-identifier}{size}{study-series}' +
-        '{study-series-de}{study-series-en}{survey}{tags}{type}{variable}',
+        '{repeated-measurement-identifier}{size}{sponsor}{sponsor-de}' +
+        '{sponsor-en}{study-series}{survey-data-types}' +
+        '{study-series-de}{study-series-en}{survey}{survey-method-de}' +
+        '{survey-method-en}{tags}{type}{variable}',
       reloadOnSearch: false,
       data: {
         authorities: []

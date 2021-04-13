@@ -1,0 +1,94 @@
+<md-card class="mb8">
+  <md-card-header>
+    <md-card-header-text>
+      <h2 class="md-title">{{ $ctrl.translationKeys.title | translate }}</h2>
+    </md-card-header-text>
+  </md-card-header>
+  <md-divider></md-divider>
+  <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
+    <div id="move-{{ $ctrl.peopleId }}-container" layout="row" ng-repeat="person in $ctrl.people track by $index">
+      <md-button class="md-primary md-icon-button" ng-click="$ctrl.deletePerson($index)"
+                 ng-if="$ctrl.people.length > 1"
+                 style="margin-top: 18px; margin-left: 0px; margin-right: 8px; padding-left: 0px; padding-right: 12px;">
+        <md-tooltip md-autohide="true" md-direction="bottom"
+                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{ $ctrl.translationKeys.tooltips.delete | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">delete_forever</md-icon>
+      </md-button>
+      <md-input-container flex="33" class="mr8"
+                          md-is-error="!form['peopleFirstName_' + $index].$valid && (form['peopleFirstName_' + $index].$dirty || form['peopleFirstName_' + $index].$touched)">
+        <label class="fdz-input-required">{{'global.people.edit.label.first-name' | translate}}</label>
+        <input fdz-required md-no-asterisk name="peopleFirstName_{{$index}}"
+               ng-blur="$ctrl.deleteCurrentPerson($event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
+               ng-model="person.firstName" autocomplete="off">
+        <div
+          class="fdz-input-hint"
+          ng-if="!form['peopleFirstName_' + $index].$dirty && !form['peopleFirstName_' + $index].$touched">
+          {{ $ctrl.translationKeys.hints.firstName | translate}}
+        </div>
+        <div multiple ng-messages="form['peopleFirstName_' + $index].$error">
+          <div ng-message="fdz-required">{{'global.error.person.first-name.not-empty' | translate}}</div>
+        </div>
+      </md-input-container>
+      <md-input-container flex="33" class="mr8"
+                          md-is-error="!form['peopleMiddleName_' + $index].$valid && (form['peopleMiddleName_' + $index].$dirty || form['peopleMiddleName_' + $index].touched)">
+        <label>{{'global.people.edit.label.middle-name' | translate}}</label>
+        <input name="peopleMiddleName_{{$index}}" ng-blur="$ctrl.deleteCurrentPerson($event)"
+               ng-focus="$ctrl.setCurrentPerson($index,$event)" ng-model="person.middleName"
+               autocomplete="off">
+        <div
+          class="fdz-input-hint"
+          ng-if="!form['peopleMiddleName_' + $index].$dirty && !form['peopleMiddleName_' + $index].$touched">
+          {{ $ctrl.translationKeys.hints.middleName | translate}}
+        </div>
+        <div multiple ng-messages="form['peopleMiddleName_' + $index].$error">
+        </div>
+      </md-input-container>
+      <md-input-container flex="33" class="mr8"
+                          md-is-error="!form['peopleLastName_' + $index].$valid && (form['peopleLastName_' + $index].$dirty || form['peopleLastName_' + $index].$touched)">
+        <label class="fdz-input-required">{{'global.people.edit.label.last-name' | translate}}</label>
+        <input fdz-required md-no-asterisk name="peopleLastName_{{$index}}"
+               ng-blur="$ctrl.deleteCurrentPerson($event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
+               ng-model="person.lastName" autocomplete="off">
+        <div
+          class="fdz-input-hint"
+          ng-if="!form['peopleLastName_' + $index].$dirty && !form['peopleLastName_' + $index].$touched">
+          {{ $ctrl.translationKeys.hints.lastName | translate}}
+        </div>
+        <div multiple ng-messages="form['peopleLastName_' + $index].$error">
+          <div ng-message="fdz-required">{{'global.error.person.last-name.not-empty' | translate}}</div>
+        </div>
+      </md-input-container>
+    </div>
+  </md-card-content>
+  <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
+    <md-button class="md-primary md-raised md-icon-button ml6" ng-click="$ctrl.addPerson()">
+      <md-tooltip md-autohide="true" md-direction="bottom"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{ $ctrl.translationKeys.tooltips.add | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">add</md-icon>
+    </md-button>
+    <md-button class="md-primary md-raised md-icon-button"
+               id="move-{{ $ctrl.peopleId }}-up-button"
+               ng-click="$ctrl.moveCurrentPersonUp()"
+               ng-disabled="$ctrl.currentPersonIndex == null || $ctrl.currentPersonIndex === 0">
+      <md-tooltip md-autohide="true" md-direction="bottom"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{ $ctrl.translationKeys.tooltips.moveUp | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+    </md-button>
+    <md-button class="md-primary md-raised md-icon-button"
+               id="move-{{ $ctrl.peopleId }}-down-button"
+               ng-click="$ctrl.moveCurrentPersonDown()"
+               ng-disabled="$ctrl.currentPersonIndex == null || $ctrl.currentPersonIndex === $ctrl.people.length - 1">
+      <md-tooltip md-autohide="true" md-direction="bottom"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{ $ctrl.translationKeys.tooltips.moveDown | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-actions>
+</md-card>

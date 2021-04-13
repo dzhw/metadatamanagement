@@ -34,7 +34,9 @@ angular.module('metadatamanagementApp').config(
             'customer-name': 'Ihr Name',
             'customer-email': 'Ihre E-Mailadresse',
             'data-formats': 'Die Datensätze enthalten Daten in den folgenden Formaten:',
-            'data-languages': 'Außerdem sind die Datensätze in den folgenden Sprachen verfügbar:'
+            'data-languages': 'Außerdem sind die Datensätze in den folgenden Sprachen verfügbar:',
+            'cite-data-package': 'Datenpaket zitieren:',
+            'cite-method-report': 'Daten- und Methodenbericht zitieren:'
           },
           'hints': {
             'name': 'Bitte teilen Sie uns Ihren vollständigen Namen mit.',
@@ -53,7 +55,7 @@ angular.module('metadatamanagementApp').config(
           'study-series-tooltip': 'Klicken, um alle Datenpakete der Studienreihe anzuzeigen.',
           'data-sets-tooltip': 'Klicken, um alle Datensätze dieses Datenpaketes anzuzeigen.',
           'variables-tooltip': 'Klicken, um alle Variablen dieses Datenpaketes anzuzeigen.',
-          'citation': 'Datenpaket zitieren',
+          'citation': 'Datenpaket und Daten- und Methodenbericht zitieren',
           'citation-success-copy-to-clipboard': 'Der Zitationshinweis wurde erfolgreich in die Zwischenablage kopiert.',
           'copy-citation-tooltip': 'Klicken, um den Zitationshinweis in die Zwischenablage zu kopieren.',
           'select-access-way-title': 'Bitte Zugangsweg auswählen',
@@ -94,7 +96,7 @@ angular.module('metadatamanagementApp').config(
           'delete-product-tooltip': 'Klicken, um das Datenpaket aus dem Warenkorb zu entfernen.',
           'open-cart-tooltip': 'Klicken, um die Inhalte des Warenkorbs anzuzeigen.',
           'open-citation-tooltip': 'Klicken, um Zitationsinformationen zu erhalten und zu kopieren.',
-          'open-citation': 'Datenpaket zitieren',
+          'open-citation': 'Zitieren...',
           'close-tooltip': 'Klicken, um die Produktauswahl zu verlassen.',
           'data-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Datenpaketen zu erhalten.',
           'data-package-access-way-tooltip': 'Klicken, um weitere Informationen zu Zugangswegen zu erhalten.'

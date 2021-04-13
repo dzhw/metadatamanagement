@@ -84,6 +84,19 @@
     }
   }
 
+  &.md-inline-tiny {
+    min-height: 20px;
+    height: 20px;
+    padding: 0px;
+    width: 20px;
+    margin: 0px;
+    border-radius: unset;
+
+    md-icon {
+      font-size: 20px;
+    }
+  }
+  
   &.md-small {
     font-size: 12px;
     line-height: inherit;
