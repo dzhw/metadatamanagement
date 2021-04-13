@@ -139,70 +139,7 @@
           </div>
         </md-card-content>
       </md-card>
-      <md-card class="mb8">
-        <md-card-header>
-          <md-card-header-text>
-            <h2 class="md-title">{{'concept-management.detail.label.authors' | translate }}</h2>
-          </md-card-header-text>
-        </md-card-header>
-        <md-divider></md-divider>
-        <md-card-content class="pb0 pl0">
-          <div id="move-container" layout="row" ng-repeat="person in ctrl.concept.authors track by $index">
-            <md-button class="md-primary md-icon-button" ng-click="ctrl.deleteAuthor($index)" ng-if="ctrl.concept.authors.length > 1" style="margin-top: 18px; margin-left: 0px; margin-right: 0px; padding-left: 0px;">
-              <md-tooltip md-autohide="true" md-direction="bottom" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'concept-management.edit.delete-author-tooltip' | translate}}
-              </md-tooltip>
-              <md-icon md-font-set="material-icons">delete_forever</md-icon>
-            </md-button>
-            <md-input-container flex="33" md-is-error="!conceptForm['authorsFirstName_' + $index].$valid && (conceptForm['authorsFirstName_' + $index].$dirty || conceptForm['authorsFirstName_' + $index].$touched)">
-              <label class="fdz-input-required">{{'concept-management.edit.label.first-name' | translate}}</label>
-              <input fdz-required md-no-asterisk name="authorsFirstName_{{$index}}" ng-blur="ctrl.deleteCurrentAuthor($event)" ng-focus="ctrl.setCurrentAuthor($index,$event)" ng-model="person.firstName">
-              <div class="fdz-input-hint" ng-if="!conceptForm['authorsFirstName_' + $index].$dirty && !conceptForm['authorsFirstName_' + $index].$touched">{{'concept-management.edit.hints.authors.first-name' | translate}}
-              </div>
-              <div multiple ng-messages="conceptForm['authorsFirstName_' + $index].$error">
-                <div ng-message="fdz-required">{{'global.error.person.first-name.not-empty' | translate}}</div>
-              </div>
-            </md-input-container>
-            <md-input-container flex md-is-error="!conceptForm['authorsMiddleName_' + $index].$valid && (conceptForm['authorsMiddleName_' + $index].$dirty || conceptForm['authorsMiddleName_' + $index].touched)">
-              <label>{{'concept-management.edit.label.middle-name' | translate}}</label>
-              <input name="authorsMiddleName_{{$index}}" ng-blur="ctrl.deleteCurrentAuthor($event)" ng-focus="ctrl.setCurrentAuthor($index,$event)" ng-model="person.middleName">
-              <div class="fdz-input-hint" ng-if="!conceptForm['authorsMiddleName_' + $index].$dirty && !conceptForm['authorsMiddleName_' + $index].$touched">{{'concept-management.edit.hints.authors.middle-name' | translate}}
-              </div>
-              <div multiple ng-messages="conceptForm['authorsMiddleName_' + $index].$error">
-              </div>
-            </md-input-container>
-            <md-input-container flex="33" md-is-error="!conceptForm['authorsLastName_' + $index].$valid && (conceptForm['authorsLastName_' + $index].$dirty || conceptForm['authorsLastName_' + $index].$touched)">
-              <label class="fdz-input-required">{{'concept-management.edit.label.last-name' | translate}}</label>
-              <input fdz-required md-no-asterisk name="authorsLastName_{{$index}}" ng-blur="ctrl.deleteCurrentAuthor($event)" ng-focus="ctrl.setCurrentAuthor($index,$event)" ng-model="person.lastName">
-              <div class="fdz-input-hint" ng-if="!conceptForm['authorsLastName_' + $index].$dirty && !conceptForm['authorsLastName_' + $index].$touched">{{'concept-management.edit.hints.authors.last-name' | translate}}
-              </div>
-              <div multiple ng-messages="conceptForm['authorsLastName_' + $index].$error">
-                <div ng-message="fdz-required">{{'global.error.person.last-name.not-empty' | translate}}</div>
-              </div>
-            </md-input-container>
-          </div>
-        </md-card-content>
-        <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
-          <md-button class="md-primary md-raised md-icon-button ml6" ng-click="ctrl.addAuthor()">
-            <md-tooltip md-autohide="true" md-direction="bottom" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'concept-management.edit.add-author-tooltip' | translate}}
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">add</md-icon>
-          </md-button>
-          <md-button class="md-primary md-raised md-icon-button" id="move-author-up-button" ng-click="ctrl.moveCurrentAuthorUp()" ng-disabled="ctrl.currentAuthorIndex == null || ctrl.currentAuthorIndex === 0">
-            <md-tooltip md-autohide="true" md-direction="bottom" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'concept-management.edit.move-author-up-tooltip' | translate}}
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
-          </md-button>
-          <md-button class="md-primary md-raised md-icon-button" id="move-author-down-button" ng-click="ctrl.moveCurrentAuthorDown()" ng-disabled="ctrl.currentAuthorIndex == null || ctrl.currentAuthorIndex === ctrl.concept.authors.length - 1">
-            <md-tooltip md-autohide="true" md-direction="bottom" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'concept-management.edit.move-author-down-tooltip' | translate}}
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
-          </md-button>
-        </md-card-actions>
-      </md-card>
+      <edit-people-component people="ctrl.concept.authors" people-id="'authors'" translation-keys="ctrl.translationKeysAuthors" current-form="conceptForm"></edit-people-component>
       <md-card class="mb8">
         <md-card-header>
           <md-card-header-text>

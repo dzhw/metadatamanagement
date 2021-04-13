@@ -9,7 +9,7 @@
     <div id="move-{{ $ctrl.peopleId }}-container" layout="row" ng-repeat="person in $ctrl.people track by $index">
       <md-button class="md-primary md-icon-button" ng-click="$ctrl.deletePerson($index)"
                  ng-if="$ctrl.people.length > 1"
-                 style="margin-top: 18px; margin-left: 0px; margin-right: 0px; padding-left: 0px;">
+                 style="margin-top: 18px; margin-left: 0px; margin-right: 8px; padding-left: 0px;">
         <md-tooltip md-autohide="true" md-direction="bottom"
                     md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{ $ctrl.translationKeys.tooltips.delete | translate}}
