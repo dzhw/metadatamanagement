@@ -14,7 +14,6 @@ Metadatenübergabe
    01_DataPackage
    02_Surveys
    03_Instruments
-   04_DataSets
 
 
 Indizes und Tabellen
