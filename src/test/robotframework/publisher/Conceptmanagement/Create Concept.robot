@@ -18,14 +18,14 @@ Create Concepts by Publisher
     Input Text    name=doi    Concept DOI
     Input Text    name=descriptionDe   Concept Description in DE
     Input Text    name=descriptionEn   Concept Description in EN
-    Input Text    name=authorsFirstName_0    Md Shakawath
-    Input Text    name=authorsMiddleName_0    noMiddleName
-    Input Text    name=authorsLastName_0    Hossain
+    Input Text    name=peopleFirstName_0    Md Shakawath
+    Input Text    name=peopleMiddleName_0    noMiddleName
+    Input Text    name=peopleLastName_0    Hossain
     Add Another Author
-    Focus    xpath=//input[@name = 'authorsFirstName_1']
-    Input Text    name=authorsFirstName_1    Md Rameez
-    Input Text    name=authorsMiddleName_1    noMiddleName
-    Input Text    name=authorsLastName_1    Raza
+    Focus    xpath=//input[@name = 'peopleFirstName_1']
+    Input Text    name=peopleFirstName_1    Md Rameez
+    Input Text    name=peopleMiddleName_1    noMiddleName
+    Input Text    name=peopleLastName_1    Raza
     Move Second Author To Place One
     Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input   Konzept Tag 007
     Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='Konzept Tag 007']
