@@ -3,8 +3,6 @@
 Erhebungsinstrumente (Instruments)
 ---------------------------------
 
-Als Instrument wird das Erhebungsinstrument bezeichnet (z.B. Fragebogen).
-
 **Übersicht**
 
 Wenn Sie Informationen über Ihre Erhebungsinstrumente aufnehmen, wird
