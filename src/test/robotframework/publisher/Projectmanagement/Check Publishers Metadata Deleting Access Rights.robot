@@ -34,14 +34,14 @@ Publisher Create But Can Not Delete Data Package When Publisher is Ready
    Focus    xpath=//textarea[@name = 'descriptionDe']
    Input Text    name=descriptionDe    Dieses Datenpaket wurde automatisch erstellt und überprüft die Eingabe valider Eigenschaften.
    Input Text    name=descriptionEn    This data package was created automatically and test the input of valid attributes.
-   Focus    xpath=//edit-people-component[@people-id="'projectContributors'"]//input[@name="peopleFirstName_0"]
-   Input Text    xpath=//edit-people-component[@people-id="'projectContributors'"]//input[@name="peopleFirstName_0"]    Anne
-   Input Text    xpath=//edit-people-component[@people-id="'projectContributors'"]//input[@name="peopleMiddleName_0"]    noMiddleName
-   Input Text    xpath=//edit-people-component[@people-id="'projectContributors'"]//input[@name="peopleLastName_0"]    Droid
-   Focus    xpath=//edit-people-component[@people-id="'dataCurators'"]//input[@name="peopleFirstName_0"]
-   Input Text    xpath=//edit-people-component[@people-id="'dataCurators'"]//input[@name="peopleFirstName_0"]    Anne
-   Input Text    xpath=//edit-people-component[@people-id="'dataCurators'"]//input[@name="peopleMiddleName_0"]    noMiddleName
-   Input Text    xpath=//edit-people-component[@people-id="'dataCurators'"]//input[@name="peopleLastName_0"]    Droid
+   Focus    xpath=//input[@name = 'projectContributorsFirstName_0']
+   Input Text    name=projectContributorsFirstName_0    Anne
+   Input Text    name=projectContributorsMiddleName_0    noMiddleName
+   Input Text    name=projectContributorsLastName_0    Droid
+   Focus    xpath=//input[@name = 'curatorsFirstName_0']
+   Input Text    name=curatorsFirstName_0    Anne
+   Input Text    name=curatorsMiddleName_0    noMiddleName
+   Input Text    name=curatorsLastName_0    Droid
    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input   Deutsche Tags Schlüsselwörter
    Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='Deutsche Tags Schlüsselwörter']
    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input   English Days Keyword
