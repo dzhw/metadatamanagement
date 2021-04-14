@@ -21,7 +21,7 @@ Die Metadaten werden im MDM auf (bis zu) acht unterschiedlichen Ebenen erfasst:
 
 Dadurch, dass alle Ebenen miteinander verknüpft sind, wird eine umfassende Durchsuchbarkeit ermöglicht. 
 
-Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze selbst erfassen. Das genaue Vorgehen wird in dieser Anleitung beschrieben. Für die anderen Ebenen ist eine individuelle Abstimmung mit dem FDZ notwendig.
+Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten für die Ebenen Datenpaket, Erhebungen und Erhebungsinstrumente selbst erfassen. Das genaue Vorgehen wird in dieser Anleitung beschrieben. Für die anderen Ebenen ist eine individuelle Abstimmung mit dem FDZ notwendig.
 
 Registrierung
 --------------------------------------------
@@ -113,7 +113,7 @@ Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können die Publisher da
 Eingabemasken
 --------------------------------------------
 
-Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`, :ref:`Datensätze <DataSets>`).
+Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`).
 
 Pflichtfelder
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -144,9 +144,8 @@ Um Anhänge hochzuladen muss das jeweilige Element, also z.B. das Datenpaket, er
 
    Instrumente Anhang
 
-Die Anhänge müssen in einem der folgenden Formate vorliegen:
+Die Anhänge sollten i. d. R. in einem der folgenden Formate vorliegen:
 
 - *.pdf
-- *.xls(x)
 - *.md
 
