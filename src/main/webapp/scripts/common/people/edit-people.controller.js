@@ -28,7 +28,7 @@ angular.module('metadatamanagementApp')
           lastName: ''
         });
         $timeout(function() {
-          $element.find('input[name="peopleFirstName_' +
+          $element.find('input[name="' + $ctrl.peopleId + 'FirstName_' +
               ($ctrl.people.length - 1) + '"]')
             .focus();
         });
