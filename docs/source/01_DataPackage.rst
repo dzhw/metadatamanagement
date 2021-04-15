@@ -3,12 +3,7 @@
 Datenpaket (Data Package)
 ---------------------------------
 
-Auf der Ebene "Datenpaket" werden verschiedene bibliographische und inhaltsbeschreibende Informationen zu Ihrem Datenpaket erfasst (vgl. :numref:`datenpaketübersicht`).
-
-.. figure:: ./_static/dp_details_overview.png
-   :name: datenpaketübersicht
-
-   Datenpaketübersicht im MDM am Beispiel des Absolventenpanels 2005
+Auf der Ebene "Datenpaket" werden verschiedene bibliographische und inhaltsbeschreibende Informationen zu Ihrem Datenpaket erfasst (vgl. http://doi.org/10.21249/DZHW:gra2005:2.0.1).
 
 Die Eingabemaske auf Datenpaketebene besteht aus den folgenden Abschnitten:
 
