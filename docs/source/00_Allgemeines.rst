@@ -121,7 +121,7 @@ Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen ve
 
 Maximale Zeichenanzahl
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-Einige Felder, die Sie frei ausfüllen können, verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele Zeichen Sie dort insgesamt eintragen dürfen und wie viele Zeichen Sie bereits eingetragen haben. 
+Einige Felder, die Sie frei ausfüllen können, verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele Zeichen dort insgesamt eintragen dürfen und wie viele Zeichen Sie bereits eingetragen haben. 
 
 Verwendung von Markdown
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
