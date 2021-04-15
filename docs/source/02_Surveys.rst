@@ -3,12 +3,7 @@
 Erhebungen (Surveys)
 ---------------------------------
 
-Mit den Informationen über die Erhebung(en), auf die sich Ihr Datenpaket bezieht, wird im MDM folgende Übersichtsseite erstellt:
-
-.. figure:: ./_static/surveys_public-view.png
-   :name: erhebungsübersicht
-
-   Erhebungsübersicht im MDM am Beispiel der ersten Welle (traditioneller Studiengänge) im Absolventenpanel 2005
+Mit den Informationen über die Erhebung(en), auf die sich Ihr Datenpaket bezieht, wird im MDM folgende Übersichtsseite erstellt (vgl. https://metadata.fdz.dzhw.eu/de/surveys/sur-gra2005-sy1?)
 
 Die Eingabemaske auf Erhebungsebene besteht aus den folgenden Abschnitten:
 
