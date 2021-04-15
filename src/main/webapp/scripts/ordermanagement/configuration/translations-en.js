@@ -57,6 +57,7 @@ angular.module('metadatamanagementApp').config(
           'citation': 'Cite Data Package and Method Report',
           'citation-success-copy-to-clipboard': 'The citation hint was successfully copied to the clipboard.',
           'copy-citation-tooltip': 'Click to copy the citation note to the clipboard.',
+          'download-bibtex-tooltip': 'Click to save the citation details in BibTex format.',
           'select-access-way-title': 'Please select an Access Way',
           'select-access-way-for-ordering': 'Please select an access way to add the data package to the shopping cart.',
           'select-access-way-for-citation': 'Please select an access way to cite the data package.',

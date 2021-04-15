@@ -468,7 +468,8 @@ h1, h2, h3, h4, h5, h6, h7, h8, h9, .h1, .h2, .h3, .h4, .h5, .h6, .h7, .h8, .h9 
   padding: 0px;
   width: 20px;
   margin: 0px;
-  border-radius: unset; }
+  border-radius: unset;
+  line-height: inherit; }
   .fdz-theme .md-button.md-inline-tiny md-icon {
     font-size: 20px; }
 

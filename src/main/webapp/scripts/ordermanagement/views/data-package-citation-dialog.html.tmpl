@@ -22,6 +22,13 @@
           {{'shopping-cart.detail.copy-citation-tooltip' | translate}}
         </md-tooltip>
       </md-button>
+      <md-button class="md-primary md-inline-tiny" ng-click="ctrl.downloadDataPackageBibtex()">
+        <span>BibTex</span>
+        <md-icon md-font-library="material-icons">download</md-icon>
+        <md-tooltip md-autohide="true" md-direction="south" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'shopping-cart.detail.download-bibtex-tooltip' | translate}}
+        </md-tooltip>
+      </md-button>
     </div>
     <div ng-if="ctrl.methodReportsCitationHint.de || ctrl.methodReportsCitationHint.en">
       <h5 style="margin-top: 10px;">{{'shopping-cart.detail.label.cite-method-report' | translate }}</h5>
@@ -31,6 +38,13 @@
         <md-icon md-font-library="material-icons">content_copy</md-icon>
         <md-tooltip md-autohide="true" md-direction="south" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
           {{'shopping-cart.detail.copy-citation-tooltip' | translate}}
+        </md-tooltip>
+      </md-button>
+      <md-button class="md-primary md-inline-tiny" ng-click="ctrl.downloadMethodReportBibtex()">
+        <span>BibTex</span>
+        <md-icon md-font-library="material-icons">download</md-icon>
+        <md-tooltip md-autohide="true" md-direction="south" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'shopping-cart.detail.download-bibtex-tooltip' | translate}}
         </md-tooltip>
       </md-button>
     </div>

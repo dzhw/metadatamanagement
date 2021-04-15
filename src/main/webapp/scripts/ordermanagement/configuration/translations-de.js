@@ -58,6 +58,7 @@ angular.module('metadatamanagementApp').config(
           'citation': 'Datenpaket und Daten- und Methodenbericht zitieren',
           'citation-success-copy-to-clipboard': 'Der Zitationshinweis wurde erfolgreich in die Zwischenablage kopiert.',
           'copy-citation-tooltip': 'Klicken, um den Zitationshinweis in die Zwischenablage zu kopieren.',
+          'download-bibtex-tooltip': 'Klicken, um die Zitationsdetails im BibTex-Format zu speichern.',
           'select-access-way-title': 'Bitte Zugangsweg auswählen',
           'select-access-way-for-ordering': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket in den Warenkorb legen zu können.',
           'select-access-way-for-citation': 'Bitte wählen Sie einen Zugangsweg aus, um das Datenpaket zitieren zu können.',

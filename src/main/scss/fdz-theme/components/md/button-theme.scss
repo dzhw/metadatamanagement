@@ -91,12 +91,13 @@
     width: 20px;
     margin: 0px;
     border-radius: unset;
+    line-height: inherit;
 
     md-icon {
       font-size: 20px;
     }
   }
-  
+
   &.md-small {
     font-size: 12px;
     line-height: inherit;

@@ -1,7 +1,87 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('CitationHintGeneratorService',
-function($interpolate) {
+function($interpolate, LanguageService, $filter) {
+  var Cite = require('citation-js');
+
+  var mapPeopleToCiteJson = function(people) {
+    var destination = [];
+    people.forEach(function(person) {
+      var destinationPerson = {
+        given: person.firstName + (person.middleName ? person.middleName : ''),
+        family: person.lastName
+      };
+      destination.push(destinationPerson);
+    });
+    return destination;
+  };
+
+  var generateTitle = function(accessWay, dataPackage, currentLanguage) {
+    var constantLabels = {
+      surveyPeriod: {
+        de: 'Datenerhebung: ',
+        en: 'Data Collection: '
+      },
+      version: {
+        de: 'Version: ',
+        en: 'Version: '
+      },
+      accessWay: {
+        de: 'Datenpaketzugangsweg: ',
+        en: 'Data Package Access Way: '
+      }
+    };
+    return dataPackage.title[currentLanguage] + '. ' +
+      constantLabels.surveyPeriod[currentLanguage] +
+      $filter('displayPeriod')(dataPackage.surveyPeriod) + '. ' +
+      constantLabels.version[currentLanguage] +
+      dataPackage.release.version + '. ' +
+      constantLabels.accessWay[currentLanguage] +
+      $filter('displayAccessWay')(accessWay);
+  };
+
+  var generateBibtex = function(accessWay, dataPackage) {
+    var currentLanguage = LanguageService.getCurrentInstantly();
+    var citeJson = {
+      title: generateTitle(accessWay, dataPackage, currentLanguage),
+      type: 'dataset',
+      DOI: dataPackage.doi,
+      publisher: 'FDZ-DZHW',
+      'publisher-place': currentLanguage === 'de' ? 'Hannover' : 'Hanover',
+      issued: [{'date-parts': [
+        new Date(dataPackage.release.firstDate).getFullYear()]}],
+      author: mapPeopleToCiteJson(dataPackage.projectContributors),
+      editor: mapPeopleToCiteJson(dataPackage.dataCurators),
+    };
+    var cite = new Cite(citeJson);
+    // use biblatex to include the doi and map fields back to bibtex names
+    return cite.format('biblatex')
+      .replace('@dataset', '@misc')
+      .replace('date =', 'year =')
+      .replace('location =', 'address =')
+      .replace('publisher =', 'institution =')
+      // remove spaces in latex code for umlauts
+      .replace(/{\\.\s./g, function(match) {
+        return match.replace(' ', '');
+      });
+  };
+
+  var generateBibtexForAttachment = function(attachment) {
+    var citeJson = {
+      title: attachment.title,
+      type: 'report',
+      publisher: attachment.citationDetails.institution,
+      'publisher-place': attachment.citationDetails.location,
+      issued: [{'date-parts': [attachment.citationDetails.publicationYear]}],
+      author: mapPeopleToCiteJson(attachment.citationDetails.authors)
+    };
+    return new Cite(citeJson).format('bibtex')
+      // remove spaces in latex code for umlauts
+      .replace(/{\\.\s./g, function(match) {
+        return match.replace(' ', '');
+      });
+  };
+
   var generateCitationHint = function(accessWay, dataPackage) {
     var de = '{{dataPackage.projectContributors | displayPersons}} ' +
       '({{dataPackage.release.firstDate | date:"yyyy"}}). ' +
@@ -38,6 +118,8 @@ function($interpolate) {
   };
 
   return {
+    generateBibtex: generateBibtex,
+    generateBibtexForAttachment: generateBibtexForAttachment,
     generateCitationHint: generateCitationHint,
     generateCitationHintForAttachment: generateCitationHintForAttachment
   };
