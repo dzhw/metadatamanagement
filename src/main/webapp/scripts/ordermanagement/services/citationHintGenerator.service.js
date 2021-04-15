@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('metadatamanagementApp').service('CitationHintGeneratorService',
-function($interpolate, LanguageService, $filter) {
-  var Cite = require('citation-js');
+function($interpolate, LanguageService, $filter, $rootScope) {
+  var Cite;
+  if (!$rootScope.bowser.msie) {
+    Cite = require('citation-js');
+  }
 
   var mapPeopleToCiteJson = function(people) {
     var destination = [];
@@ -41,6 +44,9 @@ function($interpolate, LanguageService, $filter) {
   };
 
   var generateBibtex = function(accessWay, dataPackage) {
+    if ($rootScope.bowser.msie) {
+      throw 'citation.js is not compatible with IE11';
+    }
     var currentLanguage = LanguageService.getCurrentInstantly();
     var citeJson = {
       title: generateTitle(accessWay, dataPackage, currentLanguage),
@@ -67,6 +73,9 @@ function($interpolate, LanguageService, $filter) {
   };
 
   var generateBibtexForAttachment = function(attachment) {
+    if ($rootScope.bowser.msie) {
+      throw 'citation.js is not compatible with IE11';
+    }
     var citeJson = {
       title: attachment.title,
       type: 'report',
