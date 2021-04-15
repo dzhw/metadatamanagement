@@ -57,7 +57,7 @@ angular.module('metadatamanagementApp')
       var fallbackLanguage = currentLanguage === 'de' ? 'en' : 'de';
       var methodReport = ctrl.methodReports[currentLanguage];
       if (!methodReport) {
-        methodReport = methodReport[fallbackLanguage];
+        methodReport = ctrl.methodReports[fallbackLanguage];
       }
       if (methodReport) {
         ctrl.saveBibtex(CitationHintGeneratorService

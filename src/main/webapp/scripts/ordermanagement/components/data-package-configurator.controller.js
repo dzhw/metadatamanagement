@@ -91,6 +91,9 @@
         .$promise
         .then(function(data) {
           $ctrl.accessWays = data;
+          if ($ctrl.accessWays.length === 1) {
+            $ctrl.selectedAccessWay = $ctrl.accessWays[0];
+          }
         });
     }
 
