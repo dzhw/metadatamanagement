@@ -4,7 +4,7 @@
 angular.module('metadatamanagementApp').service(
     'DataPackageCitationDialogService',
     function($mdDialog) {
-      var showDialog = function(citationHint, methodReportsCitationHint,
+      var showDialog = function(accessWay, dataPackage,
         event) {
         $mdDialog.show({
           templateUrl: 'scripts/ordermanagement/views/' +
@@ -13,8 +13,8 @@ angular.module('metadatamanagementApp').service(
           controllerAs: 'ctrl',
           targetEvent: event,
           locals: {
-            dataPackageCitationHint: citationHint,
-            methodReportsCitationHint: methodReportsCitationHint
+            accessWay: accessWay,
+            dataPackage: dataPackage
           },
           clickOutsideToClose: true,
           fullscreen: true

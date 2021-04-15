@@ -21,7 +21,7 @@ Die Metadaten werden im MDM auf (bis zu) acht unterschiedlichen Ebenen erfasst:
 
 Dadurch, dass alle Ebenen miteinander verknüpft sind, wird eine umfassende Durchsuchbarkeit ermöglicht. 
 
-Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze selbst erfassen. Das genaue Vorgehen wird in dieser Anleitung beschrieben. Für die anderen Ebenen ist eine individuelle Abstimmung mit dem FDZ notwendig.
+Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten für die Ebenen Datenpaket, Erhebungen und Erhebungsinstrumente selbst erfassen. Das genaue Vorgehen wird in dieser Anleitung beschrieben. Für die anderen Ebenen ist eine individuelle Abstimmung mit dem FDZ notwendig.
 
 Registrierung
 --------------------------------------------
@@ -69,9 +69,9 @@ Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status ang
    Projekt-Cockpit-Status.
 
 Anfangs liegt das Projekt immer zur Bearbeitung bei den Publishern und Sie als Datengeber:innen werden per E-Mail benachrichtigt, wenn es Ihnen zugewiesen wird.
-Für die Ebenen Datenpaket, Erhebungen, Erhebungsinstrumente und Datensätze können Sie die Metadaten dann über Eingabemasken selbst erfassen. Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button. Genauere Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`. Sie können Ihre Eingaben über den orangenen Speichern-Button (Disketten-Symbol) unten rechts speichern.
+Für die Ebenen Datenpaket, Erhebungen und Erhebungsinstrumente können Sie die Metadaten dann über Eingabemasken selbst erfassen. Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button. Genauere Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`. Sie können Ihre Eingaben über den orangenen Speichern-Button (Disketten-Symbol) unten rechts speichern.
 
-Falls Sie die Informationen nicht in einem Vorgang eingeben können oder möchten, ist es immer möglich, dass Sie Ihre bisherigen Eingaben abspeichern und zu einem späteren Zeitpunkt weiter bearbeiten. Nutzen Sie hierfür bitte den Bearbeiten-Button im Projekt-Cockpit. Auf der Datenpaket-Ebene gelangen Sie darüber direkt zur Eingabemaske. Bei den anderen Ebenen werden sie zunächst zu einer Übersicht mit allen Erhebungen bzw. Instrumenten bzw. Datensätzen weitergeleitet. Jeweils unten rechts finden Sie einen Bearbeiten-Button, über den Sie zur Eingabemaske gelangen. Zudem können Sie mit dem Löschen-Button bereits angelegte Erhebungen bzw. Instrumente bzw. Datensätze auch komplett löschen.
+Falls Sie die Informationen nicht in einem Vorgang eingeben können oder möchten, ist es immer möglich, dass Sie Ihre bisherigen Eingaben abspeichern und zu einem späteren Zeitpunkt weiter bearbeiten. Über den Bearbeiten-Button im Projekt-Cockpit gelangen Sie auf der Datenpaket-Ebene direkt zur Eingabemaske mit dem aktuellen Stand Ihrer Eingaben. Bei den anderen Ebenen werden Sie zunächst zu einer Übersicht mit allen Erhebungen bzw. Instrumenten weitergeleitet. Jeweils unten rechts finden Sie einen Bearbeiten-Button, über den Sie zur Eingabemaske gelangen. Zudem können Sie mit dem Löschen-Button bereits angelegte Erhebungen bzw. Instrumente auch komplett löschen.
 
 Ebenso können Sie ältere Versionen Ihrer abgespeicherten Eingaben wiederherstellen, indem Sie im Bearbeitungsmodus den Historisierungs-Button (blauer Pfeil-Button über dem Save-Button unten rechts auf der Seite) verwenden (s. :numref:`versionierung`).
 
@@ -113,7 +113,7 @@ Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können die Publisher da
 Eingabemasken
 --------------------------------------------
 
-Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`, :ref:`Datensätze <DataSets>`).
+Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`).
 
 Pflichtfelder
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -121,7 +121,7 @@ Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen ve
 
 Maximale Zeichenanzahl
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-Einige Felder, die Sie frei ausfüllen können, verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele Zeichen Sie dort insgesamt eintragen dürfen und wie viele Zeichen Sie bereits eingetragen haben. 
+Einige Felder, die Sie frei ausfüllen können, verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele Zeichen dort insgesamt eintragen dürfen und wie viele Zeichen Sie bereits eingetragen haben. 
 
 Verwendung von Markdown
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -144,9 +144,8 @@ Um Anhänge hochzuladen muss das jeweilige Element, also z.B. das Datenpaket, er
 
    Instrumente Anhang
 
-Die Anhänge müssen in einem der folgenden Formate vorliegen:
+Die Anhänge sollten i. d. R. in einem der folgenden Formate vorliegen:
 
 - *.pdf
-- *.xls(x)
 - *.md
 
