@@ -52,4 +52,4 @@ Die technische Dokumentation zum erstellen der Frage-Metadaten finden Sie hier:
 https://dzhw.github.io/questionMetadataPreparation/index.html
 
 Die Anleitung zur Zusammenstellung der Metadaten (inkl. Beschreibung der Attribute) finden Sie hier:
-https://dzhw.github.io/questionMetadataPreparation/articles/question_metadata_preparation_introduction.html
+https://dzhw.github.io/questionMetadataPreparation/articles/general_workflow_and_tips.html
