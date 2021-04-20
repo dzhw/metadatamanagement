@@ -89,12 +89,12 @@ Zudem sind der Name der Person, die die entsprechende Version gespeichert hat, s
 
    Dialog zur Historisierung innerhalb eines Datenpakets
 
-Wenn Sie mit der Eingabe der Metadaten einer Ebene fertig sind, setzen Sie bitte im Projekt-Cockpit-Status das entsprechende Häkchen (siehe :numref:`projectcockpit_dataprovider_ready`).
+**Wenn Sie mit der Eingabe der Metadaten einer Ebene fertig sind**, setzen Sie bitte im Projekt-Cockpit-Status das entsprechende Häkchen (siehe :numref:`projectcockpit_dataprovider_ready`).
 
 .. figure:: ./_static/projectcockpit_dataprovider_ready.png
    :name: projectcockpit_dataprovider_ready
 
-Wenn Sie alle von Ihnen zu bearbeitenden Ebenen als "fertig" markiert haben, können Sie das Projekt wieder den Publishern zuweisen.
+**Wenn Sie alle von Ihnen zu bearbeitenden Ebenen als "fertig" markiert haben**, können Sie das Projekt wieder den Publishern zuweisen.
 Dafür klicken Sie den "Papierflieger"-Button (siehe :numref:`papierflieger`).
 
 .. figure:: ./_static/cockpit_papierflieger.png
