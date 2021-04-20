@@ -61,7 +61,7 @@ Die erwarteten Metadaten werden im Vorfeld zwischen Ihnen und den Publishern abg
 
    Projekt-Cockpit Einstellungen.
 
-**Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status angezeigt (vgl. :numref:`projectcockpit_status_empty`).** Zudem wird hier angezeigt, ob das Projekt freigegeben ist, also die eingegebenen Metadaten für alle öffentlichen Nutzer:innen des Systems sichtbar sind, und ob das Projekt gerade bei den Publishern oder bei den Datengeber:innen zur Bearbeitung liegt.
+**Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status angezeigt (vgl. :numref:`projectcockpit_status_empty`).** Zudem wird hier angezeigt, ob das Projekt freigegeben ist, also die eingegebenen Metadaten für alle öffentlichen Nutzer:innen des Rechercheportals sichtbar sind, und ob das Projekt gerade bei den Publishern oder bei den Datengeber:innen zur Bearbeitung liegt.
 
 .. figure:: ./_static/projectcockpit_dataprovider_status_empty.png
    :name: projectcockpit_status_empty
@@ -106,7 +106,7 @@ Die Publisher nehmen ein Review der eingetragenen Metadaten vor. Falls die Publi
 .. figure:: ./_static/cockpit_dp_ready.png
    :name: dp_ready
 
-Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können die Publisher das Projekt für alle öffentlichen Nutzer:innen des Systems freigeben.
+Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können die Publisher das Projekt für alle öffentlichen Nutzer:innen des Rechercheportals freigeben.
 
 .. _Eingabemasken:
 
