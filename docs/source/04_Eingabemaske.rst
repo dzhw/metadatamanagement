@@ -3,17 +3,12 @@
 Eingabemasken
 =================================
 
+Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`).
+
 .. _Allgemeines:
 
 Allgemeines
 ---------------------------------
-
-Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`). Sie können Ihre Eingaben über den orangenen Speichern-Button (Disketten-Symbol) unten rechts speichern (siehe :numref:`speichernbutton`).
-
-.. figure:: ./_static/diskettensymbol.PNG
-   :name: speichernbutton
-   
-   Speichern-Button
 
 Pflichtfelder
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -56,6 +51,15 @@ Die Anhänge sollten i. d. R. in einem der folgenden Formate vorliegen:
 
 - *.pdf (idealerweise PDF/A)
 - *.md
+
+Eingaben speichern
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sie können Ihre Eingaben über den orangenen Speichern-Button (Disketten-Symbol) unten rechts speichern (siehe :numref:`speichernbutton`).
+
+.. figure:: ./_static/diskettensymbol.PNG
+   :name: speichernbutton
+   
+   Speichern-Button
 
 Ältere Versionen wiederherstellen (Historisierung)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -117,8 +121,6 @@ Bitte beachten Sie, dass Sie mehrere Erhebungen über die Eingabemaske in der ri
 Erhebungsinstrumente (Instruments)
 ---------------------------------
 
-**Übersicht**
-
 Wenn Sie Informationen über Ihre Erhebungsinstrumente aufnehmen, wird
 folgende Übersicht im MDM erstellt:
 
@@ -126,8 +128,6 @@ folgende Übersicht im MDM erstellt:
    :name: instrumentenübersicht_fragebogen
 
    Instrumentenübersicht im MDM am Beispiel des Fragebogens der ersten Welle im Absolventenpanel 2005
-
-**Eingabemaske**
 
 Die Eingabemaske besteht aus den Pflichtfeldern Beschreibung, Titel, Typ und Erhebung, sowie
 den nicht verpflichtenden Feldern Untertitel, Anmerkungen und Konzepte (s. :numref:`eingabemaske_instrument_de`).
@@ -138,6 +138,3 @@ Konzepte müssen zuerst, wie gleichnamigen Kapitel erklärt, angelegt werden und
    :name: eingabemaske_instrument_de
 
    Eingabemaske Instrument
-
-
-
