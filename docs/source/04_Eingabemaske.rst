@@ -147,6 +147,6 @@ Auswahl aus den vorgegebenen Kategorien im Drop-Down-Menü
 - Ergänzend können weitere Materialien zur Beschreibung des Instruments abgelegt werden, beispielsweise Variablenfragebogen oder Filterführungsdiagramm.
 
 **Ursprüngliche Sprachen**
+Auswahl aus den vorgegebenen Kategorien im Drop-Down-Menü
 
 **Materialien zum Instrument**
-
