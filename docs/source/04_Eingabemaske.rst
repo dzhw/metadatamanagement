@@ -3,6 +3,11 @@
 Eingabemasken
 =================================
 
+.. _Allgemeines:
+
+Allgemeines
+---------------------------------
+
 Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`). Sie können Ihre Eingaben über den orangenen Speichern-Button (Disketten-Symbol) unten rechts speichern (siehe :numref:`speichernbutton`).
 
 .. figure:: ./_static/diskettensymbol.PNG
@@ -69,3 +74,70 @@ Zudem sind der Name der Person, die die entsprechende Version gespeichert hat, s
    :name: historisierung_dp
 
    Dialog zur Historisierung innerhalb eines Datenpakets
+
+.. _DataPackage:
+
+Datenpaket (Data Package)
+---------------------------------
+
+Auf der Ebene "Datenpaket" werden verschiedene bibliographische und inhaltsbeschreibende Informationen zu Ihrem Datenpaket erfasst (vgl. z.B.  http://doi.org/10.21249/DZHW:gra2005:2.0.1).
+
+Die Eingabemaske auf Datenpaketebene besteht aus den folgenden Abschnitten:
+
+- Details
+- Institution(en)
+- Datenpaketbeschreibung
+- Projektmitarbeiter:innen
+- Datenkuratierung
+- Tags (Schlagwörter) zum Datenpaket
+- Materialien zu diesem Datenpaket
+
+Im Folgenden wird auf die einzelnen Abschnitte genauer eingegangen. Allgemeine Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
+
+.. _Surveys:
+
+Erhebungen (Surveys)
+---------------------------------
+
+Mit den Informationen über die Erhebung(en), die Ihr Datenpaket beinhaltet, wird pro Erhebung eine Übersichtsseite erstellt (vgl. z.B. https://metadata.fdz.dzhw.eu/de/surveys/sur-gra2005-sy1)
+
+Die Eingabemaske auf Erhebungsebene besteht aus den folgenden Abschnitten:
+
+- Details
+- Untersuchungsgebiete
+- Weitere Informationen zum Rücklauf
+- Materialien zu der Erhebung
+
+Im Folgenden wird auf die einzelnen Abschnitte genauer eingegangen. Allgemeine Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
+
+Bitte beachten Sie, dass Sie mehrere Erhebungen über die Eingabemaske in der richtigen Reihenfolge eingeben müssen, da sich diese später nicht mehr verändern lässt.
+
+.. _Instruments:
+
+Erhebungsinstrumente (Instruments)
+---------------------------------
+
+**Übersicht**
+
+Wenn Sie Informationen über Ihre Erhebungsinstrumente aufnehmen, wird
+folgende Übersicht im MDM erstellt:
+
+.. figure:: ./_static/instrument_overview_de.png
+   :name: instrumentenübersicht_fragebogen
+
+   Instrumentenübersicht im MDM am Beispiel des Fragebogens der ersten Welle im Absolventenpanel 2005
+
+**Eingabemaske**
+
+Die Eingabemaske besteht aus den Pflichtfeldern Beschreibung, Titel, Typ und Erhebung, sowie
+den nicht verpflichtenden Feldern Untertitel, Anmerkungen und Konzepte (s. :numref:`eingabemaske_instrument_de`).
+Konzepte müssen zuerst, wie gleichnamigen Kapitel erklärt, angelegt werden und können danach über die Eingabemaske verlinkt werden.
+
+.. figure:: ./_static/eingabemaske_instrument_de.png
+   :scale: 50 %
+   :name: eingabemaske_instrument_de
+
+   Eingabemaske Instrument
+
+
+
