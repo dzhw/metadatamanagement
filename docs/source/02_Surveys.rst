@@ -3,7 +3,7 @@
 Erhebungen (Surveys)
 ---------------------------------
 
-Mit den Informationen über die Erhebung(en), die Ihr Datenpaket beinhaltet, wird im MDM pro Erhebung eine Übersichtsseite erstellt (vgl. z.B. https://metadata.fdz.dzhw.eu/de/surveys/sur-gra2005-sy1)
+Mit den Informationen über die Erhebung(en), die Ihr Datenpaket beinhaltet, wird pro Erhebung eine Übersichtsseite erstellt (vgl. z.B. https://metadata.fdz.dzhw.eu/de/surveys/sur-gra2005-sy1)
 
 Die Eingabemaske auf Erhebungsebene besteht aus den folgenden Abschnitten:
 
