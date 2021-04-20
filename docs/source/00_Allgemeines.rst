@@ -73,22 +73,6 @@ Anfangs liegt das Projekt immer zur Bearbeitung bei den Publishern und Sie als D
 
 **Falls Sie die Informationen nicht in einem Vorgang eingeben können oder möchten, ist es immer möglich, dass Sie Ihre bisherigen Eingaben abspeichern und zu einem späteren Zeitpunkt weiter bearbeiten.** Über den Bearbeiten-Button im Projekt-Cockpit gelangen Sie auf der Datenpaket-Ebene direkt zur Eingabemaske mit dem aktuellen Stand Ihrer Eingaben. Bei den anderen Ebenen werden Sie zunächst zu einer Übersicht mit allen Erhebungen bzw. Instrumenten weitergeleitet. Pro Erhebung bzw. Instrument finden Sie jeweils unten rechts einen Bearbeiten-Button, über den Sie zur Eingabemaske gelangen. Zudem können Sie mit dem Löschen-Button bereits angelegte Erhebungen bzw. Instrumente auch komplett löschen.
 
-**Im Bearbeitungsmodus können Sie ältere Versionen Ihrer abgespeicherten Eingaben wiederherstellen**, indem Sie den Historisierungs-Button (blauer Pfeil-Button über dem 
-Speichern-Button unten rechts auf der Seite) verwenden (s. :numref:`versionierung`).
-
-.. figure:: ./_static/historization_undo.png
-   :name: versionierung
-
-   Ältere Versionen eine Datenpakets wiederherstellen
-
-Bei einem Klick auf den Historisierungs-Button öffnet sich ein Dialog, der die verschiedenen Versionen anzeigt (s. :numref:`historisierung_dp`).
-Zudem sind der Name der Person, die die entsprechende Version gespeichert hat, sowie das Änderungsdatum sichtbar. Durch Klicken auf die Version wird diese wiederhergestellt, aber nicht automatisch als aktuelle Version gespeichert. Dies müsste über einen Klick auf den Speichern-Button erfolgen. Zu beachten ist, dass :ref:`Anhänge <Anhaenge>` nicht historisiert werden.
-
-.. figure:: ./_static/dp_historization.png
-   :name: historisierung_dp
-
-   Dialog zur Historisierung innerhalb eines Datenpakets
-
 **Wenn Sie mit der Eingabe der Metadaten einer Ebene fertig sind**, setzen Sie bitte im Projekt-Cockpit-Status das entsprechende Häkchen (siehe :numref:`projectcockpit_dataprovider_ready`).
 
 .. figure:: ./_static/projectcockpit_dataprovider_ready.png
@@ -150,3 +134,20 @@ Die Anhänge sollten i. d. R. in einem der folgenden Formate vorliegen:
 - *.pdf
 - *.md
 
+Ältere Versionen wiederherstellen (Historisierung)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Im Bearbeitungsmodus können Sie ältere Versionen Ihrer abgespeicherten Eingaben wiederherstellen, indem Sie den Historisierungs-Button (blauer Pfeil-Button über dem 
+Speichern-Button unten rechts auf der Seite) verwenden (s. :numref:`versionierung`).
+
+.. figure:: ./_static/historization_undo.png
+   :name: versionierung
+
+   Ältere Versionen eine Datenpakets wiederherstellen
+
+Bei einem Klick auf den Historisierungs-Button öffnet sich ein Dialog, der die verschiedenen Versionen anzeigt (s. :numref:`historisierung_dp`).
+Zudem sind der Name der Person, die die entsprechende Version gespeichert hat, sowie das Änderungsdatum sichtbar. Durch Klicken auf die Version wird diese wiederhergestellt, aber nicht automatisch als aktuelle Version gespeichert. Dies müsste über einen Klick auf den Speichern-Button erfolgen. Zu beachten ist, dass :ref:`Anhänge <Anhaenge>` nicht historisiert werden.
+
+.. figure:: ./_static/dp_historization.png
+   :name: historisierung_dp
+
+   Dialog zur Historisierung innerhalb eines Datenpakets
