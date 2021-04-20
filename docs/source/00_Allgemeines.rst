@@ -3,12 +3,12 @@
 Allgemeines
 =================================
 
-Was ist das Metadatenmanagementsystem (MDM)?
+Was ist das Rechercheportal?
 --------------------------------------------
 
-Das FDZ-DZHW stellt Forschungsdaten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung für die wissenschaftliche Sekundärnutzung zur Verfügung. Im Metadatenmanagementsystem (MDM) werden Metadaten über die Forschungsdaten erfasst und bereitgestellt. Dies erhöht die Auffindbarkeit der Forschungsdaten und erleichtert es Sekundärforscher:innen für sie passende Forschungsdaten auszuwählen sowie diese nachzunutzen. Das System ist über die Website https://metadata.fdz.dzhw.eu zu erreichen.
+Das FDZ-DZHW stellt Forschungsdaten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung für die wissenschaftliche Sekundärnutzung zur Verfügung. Im Rechercheportal werden Metadaten über die Forschungsdaten erfasst und bereitgestellt. Dies erhöht die Auffindbarkeit der Forschungsdaten und erleichtert es Sekundärforscher:innen für sie passende Forschungsdaten auszuwählen sowie diese nachzunutzen. Das System ist über die Website https://metadata.fdz.dzhw.eu zu erreichen.
 
-Die Metadaten werden im MDM auf (bis zu) acht unterschiedlichen Ebenen erfasst:
+Die Metadaten können im Rechercheportal auf (bis zu) acht unterschiedlichen Ebenen erfasst werden:
 
 - Datenpaket
 - Erhebungen
@@ -31,12 +31,12 @@ Sie müssen sich zunächst auf https://metadata.fdz.dzhw.eu registrieren, um die
 .. figure:: ./_static/registrierung_1_de.png
    :name: registrierung
 
-   Registrierung im MDM: Schritt 1
+   Registrierung im Rechercheportal: Schritt 1
 
 .. figure:: ./_static/registrierung_2_de.png
    :name: registrierung_2
 
-   Registrierung im MDM: Schritt 2
+   Registrierung im Rechercheportal: Schritt 2
 
 
 Im Anschluss erhalten Sie eine Bestätigungs-E-Mail. In dieser müssen Sie auf den Aktivierungslink klicken, welcher nach drei Tagen automatisch abläuft. Im Anschluss werden Sie von uns dem Projekt in der Rolle "Datengeber:in" hinzugefügt und werden per E-Mail darüber informiert.
@@ -71,7 +71,7 @@ Es werden lediglich die erwarteten Metadatenebenen im Projekt-Cockpit-Status ang
 Anfangs liegt das Projekt immer zur Bearbeitung bei den Publishern und Sie als Datengeber:innen werden per E-Mail benachrichtigt, wenn es Ihnen zugewiesen wird.
 Für die Ebenen Datenpaket, Erhebungen und Erhebungsinstrumente können Sie die Metadaten dann über Eingabemasken selbst erfassen. Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button. Genauere Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`. Sie können Ihre Eingaben über den orangenen Speichern-Button (Disketten-Symbol) unten rechts speichern.
 
-Falls Sie die Informationen nicht in einem Vorgang eingeben können oder möchten, ist es immer möglich, dass Sie Ihre bisherigen Eingaben abspeichern und zu einem späteren Zeitpunkt weiter bearbeiten. Über den Bearbeiten-Button im Projekt-Cockpit gelangen Sie auf der Datenpaket-Ebene direkt zur Eingabemaske mit dem aktuellen Stand Ihrer Eingaben. Bei den anderen Ebenen werden Sie zunächst zu einer Übersicht mit allen Erhebungen bzw. Instrumenten weitergeleitet. Jeweils unten rechts finden Sie einen Bearbeiten-Button, über den Sie zur Eingabemaske gelangen. Zudem können Sie mit dem Löschen-Button bereits angelegte Erhebungen bzw. Instrumente auch komplett löschen.
+**Falls Sie die Informationen nicht in einem Vorgang eingeben können oder möchten, ist es immer möglich, dass Sie Ihre bisherigen Eingaben abspeichern und zu einem späteren Zeitpunkt weiter bearbeiten. Über den Bearbeiten-Button im Projekt-Cockpit gelangen Sie auf der Datenpaket-Ebene direkt zur Eingabemaske mit dem aktuellen Stand Ihrer Eingaben. Bei den anderen Ebenen werden Sie zunächst zu einer Übersicht mit allen Erhebungen bzw. Instrumenten weitergeleitet. Jeweils unten rechts finden Sie einen Bearbeiten-Button, über den Sie zur Eingabemaske gelangen. Zudem können Sie mit dem Löschen-Button bereits angelegte Erhebungen bzw. Instrumente auch komplett löschen.**
 
 Ebenso können Sie ältere Versionen Ihrer abgespeicherten Eingaben wiederherstellen, indem Sie im Bearbeitungsmodus den Historisierungs-Button (blauer Pfeil-Button über dem Save-Button unten rechts auf der Seite) verwenden (s. :numref:`versionierung`).
 
@@ -125,7 +125,7 @@ Einige Felder, die Sie frei ausfüllen können, verfügen über einen Zeichenzä
 
 Verwendung von Markdown
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-Eingabefelder, die mit einem M↓-Symbol gekennzeichnet sind, können bei Bedarf mit `Markdown <https://www.markdownguide.org/basic-syntax/>`_ formatiert werden.
+Eingabefelder, die mit einem M↓-Symbol gekennzeichnet sind, *können* bei Bedarf mit `Markdown <https://www.markdownguide.org/basic-syntax/>`_ formatiert werden.
 
 Drop-Down-Menüs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
