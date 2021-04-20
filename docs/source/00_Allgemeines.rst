@@ -102,7 +102,7 @@ Dafür klicken Sie den "Papierflieger"-Button (siehe :numref:`papierflieger`).
 
 Nachdem der Papierflieger-Button geklickt wurde, erscheint der "Nachricht an Publisher"-Dialog. Sie können dem Publisher hier noch einmal den genauen Stand sowie mglw. Fragen und Hinweise schreiben.
 
-Die Publisher nehmen ein Review der eingetragenen Metadaten vor. Falls die Publisher denken, dass noch etwas vergessen wurde oder anders eingegeben werden sollte, weisen sie Ihnen das Projekt zurück zu und Sie werden per E-Mail darüber benachrichtigt. Teilweise werden zudem noch Metadaten durch die Publisher ergänzt. Erklären die Publisher die Eingabe der Metadaten auf einer Ebene als "fertig", setzen sie ebenfalls ein entsprechendes Häkchen (siehe :numref:`dp_ready`).
+Die Publisher nehmen ein Review der eingetragenen Metadaten vor. Falls die Publisher denken, dass noch etwas vergessen wurde oder anders eingegeben werden sollte, weisen sie Ihnen das Projekt zurück zu und Sie werden per E-Mail darüber benachrichtigt. Zudem werden noch weitere Metadaten durch die Publisher ergänzt. Erklären die Publisher die Eingabe der Metadaten auf einer Ebene als "fertig", setzen sie ebenfalls ein entsprechendes Häkchen (siehe :numref:`dp_ready`).
 
 .. figure:: ./_static/cockpit_dp_ready.png
    :name: dp_ready
