@@ -66,7 +66,7 @@ Die erwarteten Metadaten werden im Vorfeld zwischen Ihnen und den Publishern abg
 .. figure:: ./_static/projectcockpit_dataprovider_status_empty.png
    :name: projectcockpit_status_empty
 
-   Projekt-Cockpit-Status.
+   Projekt-Cockpit-Status mit allen Metadatenebenen (nicht jedes Projekt muss alle Metadatenebenen bedienen)
 
 Anfangs liegt das Projekt immer zur Bearbeitung bei den Publishern und Sie als Datengeber:innen werden per E-Mail benachrichtigt, wenn es Ihnen zugewiesen wird.
 **Für die Ebenen Datenpaket, Erhebungen und Erhebungsinstrumente können Sie die Metadaten dann über Eingabemasken selbst erfassen. Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button.** Genauere Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`. Sie können Ihre Eingaben über den orangenen Speichern-Button (Disketten-Symbol) unten rechts speichern.
