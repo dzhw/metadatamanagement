@@ -1,10 +1,7 @@
-.. _Allgemeines:
-
-Allgemeines
-=================================
+.. _WasistdasRechercheportal:
 
 Was ist das Rechercheportal?
---------------------------------------------
+=================================
 
 Das FDZ-DZHW stellt Forschungsdaten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung für die wissenschaftliche Sekundärnutzung zur Verfügung. Im Rechercheportal (https://metadata.fdz.dzhw.eu) werden Metadaten über die Forschungsdaten erfasst und bereitgestellt. Dies erhöht die Auffindbarkeit der Forschungsdaten und erleichtert es Sekundärforscher:innen, für sie passende Forschungsdaten auszuwählen sowie diese nachzunutzen.
 
@@ -23,8 +20,10 @@ Dadurch, dass alle Ebenen miteinander verknüpft sind, wird eine umfassende Durc
 
 **Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten für die Ebenen Datenpaket, Erhebungen und Erhebungsinstrumente selbst erfassen.** Das genaue Vorgehen wird in dieser Anleitung beschrieben. Für die anderen Ebenen ist eine individuelle Abstimmung mit dem FDZ notwendig.
 
+.. _Registrierung:
+
 Registrierung
---------------------------------------------
+=================================
 
 Sie müssen sich zunächst auf https://metadata.fdz.dzhw.eu registrieren, um die Berechtigung für das Erfassen von Metadaten zu erhalten. 
 
@@ -41,8 +40,10 @@ Sie müssen sich zunächst auf https://metadata.fdz.dzhw.eu registrieren, um die
 
 Im Anschluss erhalten Sie eine Bestätigungs-E-Mail. In dieser müssen Sie auf den Aktivierungslink klicken, welcher nach drei Tagen automatisch abläuft. Im Anschluss werden Sie von uns dem Projekt in der Rolle "Datengeber:in" hinzugefügt und werden per E-Mail darüber informiert.
 
+.. _ProjektCockpit:
+
 Projekt-Cockpit
---------------------------------------------
+=================================
 
 Die Eingabe der Metadaten wird über das "Projekt-Cockpit" verwaltet.
 In der Navigationsleiste links, welche ggfs. aufgeklappt werden muss, finden Sie den Zugang zum Projekt-Cockpit über den Projekt-Cockpit-Button (vgl. :numref:`projectcockpit`).
@@ -102,7 +103,10 @@ Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können die Publisher da
 .. _Eingabemasken:
 
 Eingabemasken
---------------------------------------------
+=================================
+
+Allgemeines
+---------------------------------
 
 Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`). Sie können Ihre Eingaben über den orangenen Speichern-Button (Disketten-Symbol) unten rechts speichern (siehe :numref:`speichernbutton`).
 
