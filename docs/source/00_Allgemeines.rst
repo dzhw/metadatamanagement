@@ -73,7 +73,8 @@ Anfangs liegt das Projekt immer zur Bearbeitung bei den Publishern und Sie als D
 
 **Falls Sie die Informationen nicht in einem Vorgang eingeben können oder möchten, ist es immer möglich, dass Sie Ihre bisherigen Eingaben abspeichern und zu einem späteren Zeitpunkt weiter bearbeiten.** Über den Bearbeiten-Button im Projekt-Cockpit gelangen Sie auf der Datenpaket-Ebene direkt zur Eingabemaske mit dem aktuellen Stand Ihrer Eingaben. Bei den anderen Ebenen werden Sie zunächst zu einer Übersicht mit allen Erhebungen bzw. Instrumenten weitergeleitet. Jeweils unten rechts finden Sie einen Bearbeiten-Button, über den Sie zur Eingabemaske gelangen. Zudem können Sie mit dem Löschen-Button bereits angelegte Erhebungen bzw. Instrumente auch komplett löschen.
 
-**Ebenso können Sie ältere Versionen Ihrer abgespeicherten Eingaben wiederherstellen**, indem Sie im Bearbeitungsmodus den Historisierungs-Button (blauer Pfeil-Button über dem Save-Button unten rechts auf der Seite) verwenden (s. :numref:`versionierung`).
+**Ebenso können Sie ältere Versionen Ihrer abgespeicherten Eingaben wiederherstellen**, indem Sie im Bearbeitungsmodus den Historisierungs-Button (blauer Pfeil-Button über dem 
+Speichern-Button unten rechts auf der Seite) verwenden (s. :numref:`versionierung`).
 
 .. figure:: ./_static/historization_undo.png
    :name: versionierung
