@@ -105,9 +105,6 @@ Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können die Publisher da
 Eingabemasken
 =================================
 
-Allgemeines
----------------------------------
-
 Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`). Sie können Ihre Eingaben über den orangenen Speichern-Button (Disketten-Symbol) unten rechts speichern (siehe :numref:`speichernbutton`).
 
 .. figure:: ./_static/diskettensymbol.PNG
