@@ -45,7 +45,7 @@ Projekt-Cockpit
 --------------------------------------------
 
 Die Eingabe der Metadaten wird über das "Projekt-Cockpit" verwaltet.
-In der Navigationsleiste links, welche ggfs. aufgeklappt werden muss, finden Sie den Zugang zum Projekt-Cockpit (vgl. :numref:`projectcockpit`).
+In der Navigationsleiste links, welche ggfs. aufgeklappt werden muss, finden Sie den Zugang zum Projekt-Cockpit über den Projekt-Cockpit-Button (vgl. :numref:`projectcockpit`).
 
 .. figure:: ./_static/cockpit-button.png
    :name: projectcockpit
