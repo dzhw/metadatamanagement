@@ -116,7 +116,7 @@ Drop-Down-Menüs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 Teilweise gibt es Drop-Down-Menüs, in denen Sie aus vorgegebenen Alternativen auswählen können (siehe :numref:`dropdownmenue`).
 
-.. figure:: ./_static/dropdownmenü.png
+.. figure:: ./_static/dropdownmenü.PNG
    :name: dropdownmenue
 
 Bitte beachten Sie, dass es sich nur um ein Drop-Down-Menü mit festgelegten Antworten enthält, wenn Sie rechts den kleinen Pfeil nach unten sehen.
