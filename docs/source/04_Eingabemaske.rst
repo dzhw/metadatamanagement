@@ -132,6 +132,7 @@ Die Eingabemaske auf Instrumentebene besteht aus den folgenden Abschnitten:
 Im Folgenden wird auf die einzelnen Abschnitte genauer eingegangen. Allgemeine Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
 
 **Details**
+
 - Beschreibung: offenen Text eintragen z.B. "Fragebogen des DZHW-Absolventenpanels 2005 - erste Welle"
 - Titel (Untertitel optional): offenen Text eintragen z.B. "Zwischen Hochschule und Arbeitsmarkt" (wenn es keinen expliziten Titel gibt, kann der Titel selbst vergeben werden, z.B. "Absolventenbefragung 2005")
 - Typ: Auswahl aus den vorgegebenen Kategorien im Drop-Down-Menü
@@ -140,13 +141,10 @@ Im Folgenden wird auf die einzelnen Abschnitte genauer eingegangen. Allgemeine I
 - Konzepte:
 
 **Ursprüngliche Sprachen**
+
 Auswahl aus den vorgegebenen Kategorien im Drop-Down-Menü
 
 **Materialien zum Instrument**
+
 - Hier soll insbesondere das Erhebungsinstrument selbst hochgeladen werden.
 - Ergänzend können weitere Materialien zur Beschreibung des Instruments abgelegt werden, beispielsweise Variablenfragebogen oder Filterführungsdiagramm.
-
-**Ursprüngliche Sprachen**
-Auswahl aus den vorgegebenen Kategorien im Drop-Down-Menü
-
-**Materialien zum Instrument**
