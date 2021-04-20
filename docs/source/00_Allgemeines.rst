@@ -131,7 +131,7 @@ Um Anhänge hochzuladen muss das jeweilige Element, also z.B. das Datenpaket, er
 
 Die Anhänge sollten i. d. R. in einem der folgenden Formate vorliegen:
 
-- *.pdf
+- *.pdf (idealerweise PDF/A)
 - *.md
 
 Ältere Versionen wiederherstellen (Historisierung)
