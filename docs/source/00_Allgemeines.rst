@@ -82,7 +82,7 @@ Speichern-Button unten rechts auf der Seite) verwenden (s. :numref:`versionierun
    Ältere Versionen eine Datenpakets wiederherstellen
 
 Bei einem Klick auf den Historisierungs-Button öffnet sich ein Dialog, der die verschiedenen Versionen anzeigt (s. :numref:`historisierung_dp`).
-Zudem sind der Name der Person, die die entsprechende Version gespeichert hat, sowie das Änderungsdatum sichtbar. Durch Klicken auf die Version wird diese wiederhergestellt, aber nicht automatisch als aktuelle Version gespeichert. Dies müsste über einen Klick auf den Save-Button erfolgen. Zu beachten ist, dass :ref:`Anhänge <Anhaenge>` nicht historisiert werden.
+Zudem sind der Name der Person, die die entsprechende Version gespeichert hat, sowie das Änderungsdatum sichtbar. Durch Klicken auf die Version wird diese wiederhergestellt, aber nicht automatisch als aktuelle Version gespeichert. Dies müsste über einen Klick auf den Speichern-Button erfolgen. Zu beachten ist, dass :ref:`Anhänge <Anhaenge>` nicht historisiert werden.
 
 .. figure:: ./_static/dp_historization.png
    :name: historisierung_dp
