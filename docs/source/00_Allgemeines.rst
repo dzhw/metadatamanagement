@@ -69,14 +69,9 @@ Die erwarteten Metadaten werden im Vorfeld zwischen Ihnen und den Publishern abg
    Projekt-Cockpit-Status mit allen Metadatenebenen (nicht jedes Projekt muss alle Metadatenebenen bedienen)
 
 Anfangs liegt das Projekt immer zur Bearbeitung bei den Publishern und Sie als Datengeber:innen werden per E-Mail benachrichtigt, wenn es Ihnen zugewiesen wird.
-**Für die Ebenen Datenpaket, Erhebungen und Erhebungsinstrumente können Sie die Metadaten dann über Eingabemasken selbst erfassen. Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button.** Genauere Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`. Sie können Ihre Eingaben über den orangenen Speichern-Button (Disketten-Symbol) unten rechts speichern (siehe :numref:`speichernbutton`).
+**Für die Ebenen Datenpaket, Erhebungen und Erhebungsinstrumente können Sie die Metadaten dann über Eingabemasken selbst erfassen. Zur jeweiligen Eingabemaske gelangen Sie über den Neu-Button.** Genauere Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
 
-.. figure:: ./_static/diskettensymbol.PNG
-   :name: speichernbutton
-   
-   Speichern-Button
-
-**Falls Sie die Informationen nicht in einem Vorgang eingeben können oder möchten, ist es immer möglich, dass Sie Ihre bisherigen Eingaben abspeichern und zu einem späteren Zeitpunkt weiter bearbeiten.** Über den Bearbeiten-Button im Projekt-Cockpit gelangen Sie auf der Datenpaket-Ebene direkt zur Eingabemaske mit dem aktuellen Stand Ihrer Eingaben. Bei den anderen Ebenen werden Sie zunächst zu einer Übersicht mit allen Erhebungen bzw. Instrumenten weitergeleitet. Pro Erhebung bzw. Instrument finden Sie jeweils unten rechts einen Bearbeiten-Button, über den Sie zur Eingabemaske gelangen. Zudem können Sie mit dem Löschen-Button bereits angelegte Erhebungen bzw. Instrumente auch komplett löschen.
+**Es ist immer möglich, dass Sie Ihre bisherigen Eingaben zu einem späteren Zeitpunkt weiter bearbeiten.** Über den Bearbeiten-Button im Projekt-Cockpit gelangen Sie auf der Datenpaket-Ebene direkt zur Eingabemaske mit dem aktuellen Stand Ihrer Eingaben. Bei den anderen Ebenen werden Sie zunächst zu einer Übersicht mit allen Erhebungen bzw. Instrumenten weitergeleitet. Pro Erhebung bzw. Instrument finden Sie jeweils unten rechts einen Bearbeiten-Button, über den Sie zur Eingabemaske gelangen. Zudem können Sie mit dem Löschen-Button bereits angelegte Erhebungen bzw. Instrumente auch komplett löschen.
 
 **Wenn Sie mit der Eingabe der Metadaten einer Ebene fertig sind**, setzen Sie bitte im Projekt-Cockpit-Status das entsprechende Häkchen (siehe :numref:`projectcockpit_dataprovider_ready`).
 
@@ -109,7 +104,12 @@ Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können die Publisher da
 Eingabemasken
 --------------------------------------------
 
-Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`).
+Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`). Sie können Ihre Eingaben über den orangenen Speichern-Button (Disketten-Symbol) unten rechts speichern (siehe :numref:`speichernbutton`).
+
+.. figure:: ./_static/diskettensymbol.PNG
+   :name: speichernbutton
+   
+   Speichern-Button
 
 Pflichtfelder
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
