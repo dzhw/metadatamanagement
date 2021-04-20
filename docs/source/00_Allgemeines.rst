@@ -50,7 +50,7 @@ In der Navigationsleiste links, welche ggfs. aufgeklappt werden muss, finden Sie
 .. figure:: ./_static/cockpit-button.png
    :name: projectcockpit
 
-   Projekt-Cockpit-Button.
+   Projekt-Cockpit-Button
 
 Innerhalb des Projekt-Cockpits sehen Sie unter dem Reiter "Einstellungen" (vgl. :numref:`project_cockpit_settings`), 
 welche Publisher (FDZ-Mitarbeiter:innen) und Datengeber:innen dem Projekt zugewiesen sind und welche Metadaten erwartet werden.
@@ -59,7 +59,7 @@ Die erwarteten Metadaten werden im Vorfeld zwischen Ihnen und den Publishern abg
 .. figure:: ./_static/projectcockpit_settings_dataprovider.png
    :name: project_cockpit_settings
 
-   Projekt-Cockpit Einstellungen.
+   Projekt-Cockpit Einstellungen
 
 **Es werden lediglich die erwarteten Metadatenebenen im Reiter "Status" angezeigt** (vgl. :numref:`projectcockpit_status_empty`). Zudem wird hier angezeigt, ob das Projekt freigegeben ist, also die eingegebenen Metadaten für alle öffentlichen Nutzer:innen des Rechercheportals sichtbar sind, und ob das Projekt gerade bei den Publishern oder bei den Datengeber:innen zur Bearbeitung liegt.
 
