@@ -82,12 +82,16 @@ Anfangs liegt das Projekt immer zur Bearbeitung bei den Publishern und Sie als D
 
 .. figure:: ./_static/projectcockpit_dataprovider_ready.png
    :name: projectcockpit_dataprovider_ready
+   
+   Häkchen gesetzt durch Datengeber:innen auf Datenpaket-Ebene
 
 **Wenn Sie alle von Ihnen zu bearbeitenden Ebenen als "fertig" markiert haben**, können Sie das Projekt wieder den Publishern zuweisen.
 Dafür klicken Sie den "Papierflieger"-Button (siehe :numref:`papierflieger`).
 
 .. figure:: ./_static/cockpit_papierflieger.png
    :name: papierflieger
+   
+   Papierflieger-Button
 
 Nachdem der Papierflieger-Button geklickt wurde, erscheint der "Nachricht an Publisher"-Dialog. Sie können dem Publisher hier noch einmal den genauen Stand sowie mglw. Fragen und Hinweise schreiben.
 
@@ -95,6 +99,8 @@ Die Publisher nehmen ein Review der eingetragenen Metadaten vor. Falls die Publi
 
 .. figure:: ./_static/cockpit_dp_ready.png
    :name: dp_ready
+   
+   Häkchen gesetzt durch Datengeber:innen und Publisher auf Datenpaket-Ebene
 
 Sind alle erwarteten Ebenen mit zwei Häkchen markiert, können die Publisher das Projekt für alle öffentlichen Nutzer:innen des Rechercheportals freigeben.
 
