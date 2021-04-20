@@ -103,7 +103,7 @@ Im Folgenden wird auf die einzelnen Abschnitte genauer eingegangen. Allgemeine I
 Erhebungen (Surveys)
 ---------------------------------
 
-Mit den Informationen über die Erhebung(en), die Ihr Datenpaket beinhaltet, wird pro Erhebung eine Übersichtsseite erstellt (vgl. z.B. https://metadata.fdz.dzhw.eu/de/surveys/sur-gra2005-sy1)
+Pro Erhebung, die Ihr Datenpaket beinhaltet, wird anhand der erfassten Metadaten eine Übersichtsseite erstellt (vgl. z.B. https://metadata.fdz.dzhw.eu/de/surveys/sur-gra2005-sy1)
 
 Die Eingabemaske auf Erhebungsebene besteht aus den folgenden Abschnitten:
 
@@ -121,20 +121,32 @@ Bitte beachten Sie, dass Sie mehrere Erhebungen über die Eingabemaske in der ri
 Erhebungsinstrumente (Instruments)
 ---------------------------------
 
-Wenn Sie Informationen über Ihre Erhebungsinstrumente aufnehmen, wird
-folgende Übersicht im MDM erstellt:
+Pro Instrument, das Ihr Datenpaket beinhaltet, wird anhand der erfassten Metadaten eine Übersichtsseite erstellt (vgl. z.B. https://metadata.fdz.dzhw.eu/de/instruments/ins-gra2005-ins1)
 
-.. figure:: ./_static/instrument_overview_de.png
-   :name: instrumentenübersicht_fragebogen
+Die Eingabemaske auf Instrumentebene besteht aus den folgenden Abschnitten:
 
-   Instrumentenübersicht im MDM am Beispiel des Fragebogens der ersten Welle im Absolventenpanel 2005
+- Details
+- Ursprüngliche Sprachen
+- Materialien zum Instrument
 
-Die Eingabemaske besteht aus den Pflichtfeldern Beschreibung, Titel, Typ und Erhebung, sowie
-den nicht verpflichtenden Feldern Untertitel, Anmerkungen und Konzepte (s. :numref:`eingabemaske_instrument_de`).
-Konzepte müssen zuerst, wie gleichnamigen Kapitel erklärt, angelegt werden und können danach über die Eingabemaske verlinkt werden.
+Im Folgenden wird auf die einzelnen Abschnitte genauer eingegangen. Allgemeine Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
 
-.. figure:: ./_static/eingabemaske_instrument_de.png
-   :scale: 50 %
-   :name: eingabemaske_instrument_de
+**Details**
+- Beschreibung: offenen Text eintragen z.B. "Fragebogen des DZHW-Absolventenpanels 2005 - erste Welle"
+- Titel (Untertitel optional): offenen Text eintragen z.B. "Zwischen Hochschule und Arbeitsmarkt" (wenn es keinen expliziten Titel gibt, kann der Titel selbst vergeben werden, z.B. "Absolventenbefragung 2005")
+- Typ: Auswahl aus den vorgegebenen Kategorien im Drop-Down-Menü
+- Erhebungen: Erhebungen zuordnen, bei denen das Instrument zum Einsatz gekommen ist (die Erhebungen müssen entsprechend vorher angelegt worden sein)
+- Anmerkungen: offenen Text mit ergänzenden Informationen und/oder Hinweisen eintragen
+- Konzepte:
 
-   Eingabemaske Instrument
+**Ursprüngliche Sprachen**
+Auswahl aus den vorgegebenen Kategorien im Drop-Down-Menü
+
+**Materialien zum Instrument**
+- Hier soll insbesondere das Erhebungsinstrument selbst hochgeladen werden.
+- Ergänzend können weitere Materialien zur Beschreibung des Instruments abgelegt werden, beispielsweise Variablenfragebogen oder Filterführungsdiagramm.
+
+**Ursprüngliche Sprachen**
+
+**Materialien zum Instrument**
+
