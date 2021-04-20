@@ -114,7 +114,13 @@ Eingabefelder, die mit einem M↓-Symbol gekennzeichnet sind, *können* bei Beda
 
 Drop-Down-Menüs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-Teilweise gibt es Drop-Down-Menüs, in denen Sie aus vorgegebenen Alternativen auswählen können.
+Teilweise gibt es Drop-Down-Menüs, in denen Sie aus vorgegebenen Alternativen auswählen können (siehe :numref:`dropdownmenue`).
+
+.. figure:: ./_static/dropdownmenü.png
+   :name: dropdownmenue
+
+Bitte beachten Sie, dass es sich nur um ein Drop-Down-Menü mit festgelegten Antworten enthält, wenn Sie rechts den kleinen Pfeil nach unten sehen.
+Bei anderen Feldern werden Ihnen bereits in anderen Projekte gemachte Eingaben ebenfalls (einem Drop-Down-Menü ähnelnd) als Auswahlmöglichkeit angeboten, Sie können aber auch selbst eigene Einträge vornehmen.
 
 .. _Anhaenge:
 
