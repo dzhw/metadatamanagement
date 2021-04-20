@@ -3,7 +3,7 @@
 Eingabemasken
 =================================
 
-Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in dieser Anleitung in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`).
+Jede Eingabemaske umfasst verschiedene Felder, welche mit den einzutragenden Informationen beschriftet sind. Die folgenden Aspekte sind dabei zu beachten. Details zur Eingabe der konkreten Metadaten über die Eingabemasken finden sich in den Abschnitten zu den einzelnen Ebenen (:ref:`Datenpaket <DataPackage>`, :ref:`Erhebungen <Surveys>`, :ref:`Erhebungsinstrumente <Instruments>`).
 
 .. _Allgemeines:
 
