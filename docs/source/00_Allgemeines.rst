@@ -6,7 +6,7 @@ Allgemeines
 Was ist das Rechercheportal?
 --------------------------------------------
 
-Das FDZ-DZHW stellt Forschungsdaten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung für die wissenschaftliche Sekundärnutzung zur Verfügung. Im Rechercheportal werden Metadaten über die Forschungsdaten erfasst und bereitgestellt. Dies erhöht die Auffindbarkeit der Forschungsdaten und erleichtert es Sekundärforscher:innen für sie passende Forschungsdaten auszuwählen sowie diese nachzunutzen. Das System ist über die Website https://metadata.fdz.dzhw.eu zu erreichen.
+Das FDZ-DZHW stellt Forschungsdaten quantitativer und qualitativer Erhebungen aus dem Feld der Hochschul- und Wissenschaftsforschung für die wissenschaftliche Sekundärnutzung zur Verfügung. Im Rechercheportal (https://metadata.fdz.dzhw.eu) werden Metadaten über die Forschungsdaten erfasst und bereitgestellt. Dies erhöht die Auffindbarkeit der Forschungsdaten und erleichtert es Sekundärforscher:innen für sie passende Forschungsdaten auszuwählen sowie diese nachzunutzen.
 
 Die Metadaten können im Rechercheportal auf (bis zu) acht unterschiedlichen Ebenen erfasst werden:
 
