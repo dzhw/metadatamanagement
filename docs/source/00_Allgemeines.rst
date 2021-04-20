@@ -21,7 +21,7 @@ Die Metadaten können im Rechercheportal auf (bis zu) acht unterschiedlichen Ebe
 
 Dadurch, dass alle Ebenen miteinander verknüpft sind, wird eine umfassende Durchsuchbarkeit ermöglicht. 
 
-Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten für die Ebenen Datenpaket, Erhebungen und Erhebungsinstrumente selbst erfassen. Das genaue Vorgehen wird in dieser Anleitung beschrieben. Für die anderen Ebenen ist eine individuelle Abstimmung mit dem FDZ notwendig.
+**Wenn Sie Ihre Forschungsdaten an das FDZ-DZHW übergeben, können Sie die Metadaten für die Ebenen Datenpaket, Erhebungen und Erhebungsinstrumente selbst erfassen.** Das genaue Vorgehen wird in dieser Anleitung beschrieben. Für die anderen Ebenen ist eine individuelle Abstimmung mit dem FDZ notwendig.
 
 Registrierung
 --------------------------------------------
