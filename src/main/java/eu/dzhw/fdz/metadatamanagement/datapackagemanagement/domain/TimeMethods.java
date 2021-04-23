@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain;
 /**
  * Describes the time dimension of the data collection. Used by DARA as time dimension and harvested
  * by the VFDB.
+ * @see https://mdr.iqb.hu-berlin.de/#/catalog/56cc4164-6731-7d54-c97f-ad9bd24bf1b7
  */
 public class TimeMethods {
   public static final String LONGITUDINAL = "Longitudinal";
