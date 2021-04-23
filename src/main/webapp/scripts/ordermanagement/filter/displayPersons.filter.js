@@ -24,7 +24,7 @@ angular.module('metadatamanagementApp').filter('displayPersons',
         return persons.map(personToString).reduce(
           function(accumulator, current, index) {
             if (persons.length - 1 === index) {
-              return accumulator + ', & ' + current;
+              return accumulator + ' & ' + current;
             }
             return accumulator + ', ' + current;
           });
