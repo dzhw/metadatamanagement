@@ -22,8 +22,9 @@
           lang="currentLanguage"
           options="ctrl.question"
           template-url="scripts/questionmanagement/templates/common-details.html.tmpl"></fdz-detail>
-        <md-divider></md-divider>
+        <md-divider ng-if="ctrl.imageLanguages.length > 0"></md-divider>
         <fdz-detail
+          ng-if="ctrl.imageLanguages.length > 0"
           collapsed="false"
           lang="currentLanguage"
           options="ctrl"

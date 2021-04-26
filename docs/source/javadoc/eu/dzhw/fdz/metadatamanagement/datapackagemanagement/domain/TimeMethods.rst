@@ -8,6 +8,8 @@ TimeMethods
 
    Describes the time dimension of the data collection. Used by DARA as time dimension and harvested by the VFDB.
 
+   **See also:** :java:ref:`https://mdr.iqb.hu-berlin.de/./catalog/56cc4164-6731-7d54-c97f-ad9bd24bf1b7`
+
 Fields
 ------
 CROSSSECTION
