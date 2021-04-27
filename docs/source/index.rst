@@ -14,9 +14,3 @@ Metadatenübergabe
    02_Registrierung.rst
    03_ProjektCockpit.rst
    04_Eingabemaske.rst
-
-
-Indizes und Tabellen
-====================
-
-* :ref:`genindex`

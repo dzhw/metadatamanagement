@@ -210,6 +210,6 @@ intersphinx_mapping = {'https://docs.python.org/': None}
 todo_include_todos = True
 
 # -- Use tags
-html_use_index = True
+html_use_index = False
 def setup(app):
     app.add_stylesheet('css/custom.css')
