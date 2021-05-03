@@ -1,3 +1,5 @@
+.. java:import:: javax.validation Valid
+
 .. java:import:: javax.validation.constraints NotEmpty
 
 .. java:import:: javax.validation.constraints NotNull
@@ -58,6 +60,14 @@ DataPackageAttachmentMetadata
 
 Fields
 ------
+citationDetails
+^^^^^^^^^^^^^^^
+
+.. java:field:: @Valid private MethodReportCitationDetails citationDetails
+   :outertype: DataPackageAttachmentMetadata
+
+   Additional details required to generate a citation hint for Method Reports. Can be null for other attachment types than method reports. Can also be null for legacy method reports.
+
 dataAcquisitionProjectId
 ^^^^^^^^^^^^^^^^^^^^^^^^
 

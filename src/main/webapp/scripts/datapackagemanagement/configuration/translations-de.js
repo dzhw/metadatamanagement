@@ -29,7 +29,9 @@ angular.module('metadatamanagementApp').config(
               'title': 'Titel',
               'description': 'Beschreibung',
               'language': 'Dokumentensprache',
-              'file': 'Datei'
+              'file': 'Datei',
+              'authors': 'Autor:innen',
+              'citation-details': 'Zusätzliche Details zur Zitation'
             },
             'data-set': {
               'accessWays': 'Zugangswege',
@@ -40,7 +42,7 @@ angular.module('metadatamanagementApp').config(
               'surveyed-in': 'Enthält Daten aus diesen Erhebungen'
             },
             'doi': 'DOI',
-            'published-at': 'zuletzt veröffentlicht am',
+            'published-at': 'veröffentlicht am',
             'published': 'Veröffentlicht am'
           },
           'attachments': {
@@ -176,6 +178,22 @@ angular.module('metadatamanagementApp').config(
                 'not-empty': 'Die FDZ - ID des Projektes des Datenpakets darf nicht leer sein!'
               }
             }
+          },
+          'data-package-attachment-metadata': {
+            'publication-year': {
+              'not-null': 'Das Veröffentlichungsjahr darf nicht leer sein!',
+              'invalid-number': 'Das Jahr muss eine gültige Zahl sein!',
+              'min': 'Das früheste Jahr ist 1990!',
+              'max': 'Das späteste Jahr ist nächstes Jahr!',
+            },
+            'location': {
+              'not-empty': 'Der Ort darf nicht leer sein!',
+              'string-size': 'Die Maximallänge des Ortes ist 512 Zeichen.'
+            },
+            'institution': {
+              'not-empty': 'Die Institution darf nicht leer sein!',
+              'string-size': 'Die Maximallänge der Institution ist 512 Zeichen.'
+            }
           }
         },
         'edit': {
@@ -194,7 +212,10 @@ angular.module('metadatamanagementApp').config(
             'first-name': 'Vorname',
             'middle-name': 'Zweiter Vorname',
             'last-name': 'Nachname',
-            'tags': 'Tags (Schlagwörter) zum Datenpaket'
+            'tags': 'Tags (Schlagwörter) zum Datenpaket',
+            'publication-year': 'Jahr der Veröffentlichung',
+            'institution': 'Institution',
+            'location': 'Ort'
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Datenpakets wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Datenpaket zu speichern.',
@@ -206,6 +227,10 @@ angular.module('metadatamanagementApp').config(
           'move-curator-down-tooltip': 'Klicken, um die ausgewählte Datenkurator:in nach unten zu verschieben.',
           'add-curator-tooltip': 'Klicken, um eine neue Datenkurator:in diesem Datenpaket hinzuzufügen.',
           'delete-curator-tooltip': 'Klicken, um die ausgewählte Datenkurator:in aus diesem Datenpaket zu löschen.',
+          'move-author-up-tooltip': 'Klicken, um die ausgewählte Autor:in nach oben zu verschieben.',
+          'move-author-down-tooltip': 'Klicken, um die ausgewählte Autor:in nach unten zu verschieben.',
+          'add-author-tooltip': 'Klicken, um eine neue Autor:in diesem Bericht hinzuzufügen.',
+          'delete-author-tooltip': 'Klicken, um die ausgewählte Autor:in aus diesem Bericht zu löschen.',
           'move-institution-up-tooltip': 'Klicken, um die ausgewählte Institution nach oben zu verschieben.',
           'move-institution-down-tooltip': 'Klicken, um die ausgewählte Institution nach unten zu verschieben.',
           'add-institution-tooltip': 'Klicken, um eine weitere Institution diesem Datenpaket hinzuzufügen.',
@@ -250,10 +275,20 @@ angular.module('metadatamanagementApp').config(
               'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen der Projektmitarbeiter:in ein.',
               'last-name': 'Geben Sie den Nachnamen der Projektmitarbeiter:in ein.'
             },
+            'authors': {
+              'first-name': 'Geben Sie den Vornamen der Autor:in ein.',
+              'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen der Autor:in ein.',
+              'last-name': 'Geben Sie den Nachnamen der Autor:in ein.'
+            },
             'curators': {
               'first-name': 'Geben Sie den Vornamen der Person ein, die an der Datenaufbereitung beteiligt ist.',
               'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen der Person ein.',
               'last-name': 'Geben Sie den Nachnamen der Person ein, die an der Datenaufbereitung beteiligt ist.'
+            },
+            'citation-details': {
+              'publication-year': 'Geben Sie das Jahr an, in dem dieser Bericht veröffentlicht wurde bzw. wird.',
+              'institution': 'Geben Sie den Namen der Institution ein, die diesen Bericht veröffentlicht.',
+              'location': 'Geben Sie den Ort der Institution ein, die diesen Bericht veröffentlicht.'
             }
           },
           'all-data-packages-deleted-toast': 'Das Datenpaket des Datenaufbereitungsprojekts "{{id}}" wurde gelöscht.'

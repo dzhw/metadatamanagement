@@ -120,7 +120,7 @@ javers:
 
 metadatamanagement:
   elasticsearch:
-    version: 7.9.1
+    version: 7.12.0
   ordermanagement:
     email: reitmann@dzhw.eu
   projectmanagement:

@@ -45,6 +45,41 @@ angular.module('metadatamanagementApp')
         };
       };
 
+      ctrl.translationKeysProjectContributers = {
+        title: 'data-package-management.detail.label.projectContributors',
+        tooltips: {
+          delete: 'data-package-management.edit.delete-contributor-tooltip',
+          add: 'data-package-management.edit.add-contributor-tooltip',
+          moveUp: 'data-package-management.edit.move-contributor-up-tooltip',
+          moveDown: 'data-package-management.edit.move-contributor-down-tooltip'
+        },
+        hints: {
+          firstName: 'data-package-management.edit.hints.' +
+            'project-contributors.first-name',
+          middleName: 'data-package-management.edit.hints.' +
+            'project-contributors.middle-name',
+          lastName: 'data-package-management.edit.hints.' +
+            'project-contributors.last-name'
+        }
+      };
+
+      ctrl.translationKeysDataCurators = {
+        title: 'data-package-management.detail.label.data-curators',
+        tooltips: {
+          delete: 'data-package-management.edit.delete-curator-tooltip',
+          add: 'data-package-management.edit.add-curator-tooltip',
+          moveUp: 'data-package-management.edit.move-curator-up-tooltip',
+          moveDown: 'data-package-management.edit.move-curator-down-tooltip'
+        },
+        hints: {
+          firstName: 'data-package-management.edit.hints' +
+            '.curators.first-name',
+          middleName: 'data-package-management.edit.hints' +
+            '.curators.middle-name',
+          lastName: 'data-package-management.edit.hints.curators.last-name'
+        }
+      };
+
       ctrl.findTags = DataPackageSearchService.findTags;
 
       $scope.$watch('ctrl.dataPackage.studySeries', function() {

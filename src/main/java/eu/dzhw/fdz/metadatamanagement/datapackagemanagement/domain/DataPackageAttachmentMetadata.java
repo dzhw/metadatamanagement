@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -40,7 +41,7 @@ import lombok.ToString;
 @Builder
 public class DataPackageAttachmentMetadata extends AbstractShadowableRdcDomainObject {
 
-  private static final long serialVersionUID = -6838321823226222251L;
+  private static final long serialVersionUID = 6430402823602559992L;
 
   /**
    * The id of the attachment. Holds the complete path which can be used to download the file.
@@ -60,8 +61,7 @@ public class DataPackageAttachmentMetadata extends AbstractShadowableRdcDomainOb
    *
    * Must not be empty.
    */
-  @NotEmpty(
-      message = "data-package-management.error.data-package-attachment-metadata"
+  @NotEmpty(message = "data-package-management.error.data-package-attachment-metadata"
       + ".data-package-id.not-empty")
   private String dataPackageId;
 
@@ -71,8 +71,7 @@ public class DataPackageAttachmentMetadata extends AbstractShadowableRdcDomainOb
    *
    * Must not be empty.
    */
-  @NotEmpty(
-      message = "data-package-management.error.data-package-attachment-metadata"
+  @NotEmpty(message = "data-package-management.error.data-package-attachment-metadata"
       + ".project-id.not-empty")
   private String dataAcquisitionProjectId;
 
@@ -82,8 +81,7 @@ public class DataPackageAttachmentMetadata extends AbstractShadowableRdcDomainOb
    *
    * Must not be empty.
    */
-  @NotNull(
-      message = "data-package-management.error.data-package-attachment-metadata"
+  @NotNull(message = "data-package-management.error.data-package-attachment-metadata"
       + ".index-in-data-package.not-null")
   private Integer indexInDataPackage;
 
@@ -103,15 +101,23 @@ public class DataPackageAttachmentMetadata extends AbstractShadowableRdcDomainOb
    *
    * It must be specified in at least one language and it must not contain more than 512 characters.
    */
-  @NotNull(
-      message = "data-package-management.error.data-package-attachment-metadata.description."
+  @NotNull(message = "data-package-management.error.data-package-attachment-metadata.description."
       + "not-null")
   @I18nStringSize(max = StringLengths.MEDIUM,
       message = "data-package-management.error.data-package-attachment-metadata.description"
-      + ".i18n-string-size")
+          + ".i18n-string-size")
   @I18nStringNotEmpty(message = "data-package-management.error.data-package-attachment-metadata."
       + "description.i18n-string-not-empty")
   private I18nString description;
+
+  /**
+   * Additional details required to generate a citation hint for Method Reports.
+   * 
+   * Can be null for other attachment types than method reports. Can also be null for legacy method
+   * reports.
+   */
+  @Valid
+  private MethodReportCitationDetails citationDetails;
 
   /**
    * The type of the attachment.
@@ -121,7 +127,7 @@ public class DataPackageAttachmentMetadata extends AbstractShadowableRdcDomainOb
   @NotNull(message = "data-package-management.error.data-package-attachment-metadata.type.not-null")
   @I18nStringSize(min = 1, max = StringLengths.SMALL,
       message = "data-package-management.error.data-package-attachment-metadata.type."
-      + "i18n-string-size")
+          + "i18n-string-size")
   @ValidDataPackageAttachmentType(
       message = "data-package-management.error.data-package-attachment-metadata.type.valid-type")
   private I18nString type;
@@ -148,7 +154,7 @@ public class DataPackageAttachmentMetadata extends AbstractShadowableRdcDomainOb
       message = "data-package-management.error.data-package-attachment-metadata.language.not-null")
   @ValidIsoLanguage(
       message = "data-package-management.error.data-package-attachment-metadata.language."
-      + "not-supported")
+          + "not-supported")
   private String language;
 
   /**

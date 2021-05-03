@@ -62,7 +62,8 @@ angular.module('metadatamanagementApp').config(
               'Stata': 'Stata',
               'R': 'R',
               'SPSS': 'SPSS',
-              'Word': 'Word'
+              'Word': 'Word',
+              'CSV': 'CSV'
             }
           },
           'attachments': {

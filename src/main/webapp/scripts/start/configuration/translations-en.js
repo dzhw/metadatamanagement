@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp').config(
       'start': {
         'data-search': 'Find Higher Education and Science Research Data Packages',
         'pinned-data-package-title': 'Featured Data Package',
-        'fdz-text': 'With the data search you can quickly and easily search the metadata of the data packages stored at the RDC-DZHW. This way you will find all the information you need and can order the corresponding data packages directly.',
+        'fdz-text': 'With the data search you can quickly and easily search the metadata of the data packages stored at the FDZ-DZHW. This way you will find all the information you need and can order the corresponding data packages directly.',
         'show-all': 'Show all Data Packages'
       }
       //jscs:enable

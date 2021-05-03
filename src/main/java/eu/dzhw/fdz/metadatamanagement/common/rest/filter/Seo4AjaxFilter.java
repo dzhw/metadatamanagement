@@ -18,6 +18,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -29,7 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties
 
 /**
  * Filter that forwards all requests coming from bots to SEO4Ajax. Only active on test and prod.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -60,7 +61,7 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
 
   /**
    * Create the filter with the configuration properties.
-   * 
+   *
    * @throws ServletException if site token is missing
    */
   public Seo4AjaxFilter(MetadataManagementProperties properties) throws ServletException {
@@ -114,8 +115,15 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
       urlConnection.setConnectTimeout(PROXY_CONNECT_TIMEOUT);
       urlConnection.setReadTimeout(PROXY_READ_TIMEOUT);
       response.setStatus(urlConnection.getResponseCode());
+      if (!HttpStatus.valueOf(urlConnection.getResponseCode()).is2xxSuccessful()) {
+        return;
+      }
       for (String headerName : urlConnection.getHeaderFields().keySet()) {
-        response.addHeader(headerName, urlConnection.getHeaderField(headerName));
+        if (!StringUtils.isEmpty(headerName)
+            && !"transfer-encoding".equalsIgnoreCase(headerName)
+            && !"connection".equalsIgnoreCase(headerName)) {
+          response.addHeader(headerName, urlConnection.getHeaderField(headerName));
+        }
       }
       copy(urlConnection.getInputStream(), response.getOutputStream());
     }

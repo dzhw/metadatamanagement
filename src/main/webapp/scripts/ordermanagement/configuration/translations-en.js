@@ -33,7 +33,9 @@ angular.module('metadatamanagementApp').config(
             'customer-name': 'Your Name',
             'customer-email': 'Your E-mail Address',
             'data-formats': 'The data sets contain data in the following formats:',
-            'data-languages': 'Furthermore the data sets are available in the following languages:'
+            'data-languages': 'Furthermore the data sets are available in the following languages:',
+            'cite-data-package': 'Cite Data Package:',
+            'cite-method-report': 'Cite Method Report:'
           },
           'hints': {
             'name': 'Please let us know your full name.',
@@ -52,9 +54,10 @@ angular.module('metadatamanagementApp').config(
           'study-series-tooltip': 'Click to display all data packages of the study series.',
           'data-sets-tooltip': 'Click to display all datasets of this data package.',
           'variables-tooltip': 'Click to display all variables of this data package.',
-          'citation': 'Cite Data Package',
+          'citation': 'Cite Data Package and Method Report',
           'citation-success-copy-to-clipboard': 'The citation hint was successfully copied to the clipboard.',
           'copy-citation-tooltip': 'Click to copy the citation note to the clipboard.',
+          'download-bibtex-tooltip': 'Click to save the citation details in BibTex format.',
           'select-access-way-title': 'Please select an Access Way',
           'select-access-way-for-ordering': 'Please select an access way to add the data package to the shopping cart.',
           'select-access-way-for-citation': 'Please select an access way to cite the data package.',
@@ -93,7 +96,7 @@ angular.module('metadatamanagementApp').config(
           'delete-product-tooltip': 'Click to remove the package from the shopping cart.',
           'open-cart-tooltip': 'Click to show the contents of the shopping cart.',
           'open-citation-tooltip': 'Click to get and copy citation information.',
-          'open-citation': 'Cite Data Package',
+          'open-citation': 'Cite...',
           'close-tooltip': 'Click to close the package selection.',
           'data-package-version-tooltip': 'Click to get more information about versions of data packages',
           'data-package-access-way-tooltip': 'Click to get more information about access ways'
@@ -105,7 +108,7 @@ angular.module('metadatamanagementApp').config(
         },
         'access-way-info': {
           'title': 'Select an Access Way',
-          'content': '<p style="margin-bottom: 0px;">There are up to four access ways for our data packages. These differ in terms of:</p><ol style="margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li>the purpose of use (Campus Use File (CUF) for teaching vs. Scientific Use File (SUF) for research),</li><li>the degree of statistical anonymisation (stronger, moderate, lower) and</li><li>the technical way of data access (Download, Remote-Desktop, Onsite) combined with varying degrees of technical and organisational data security and control measures (lower, moderate, stronger).</li></ol><p style="margin-bottom: 0px;">The use of data for download means the least effort in the context of use and should be preferred. If the data package of this access way is <em>not</em> sufficient, the other access ways can also be chosen.</p><p style="margin-bottom: 0px;">Our data package configuration is divided into:</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li><strong>download-cuf:</strong> for teaching purposes only; higher degree of statistical anonymity; for download after application approval</li><li><strong>download-suf:</strong>  higher degree of statistical anonymity; for download after conclusion of contract</li><li><strong>remote-desktop-suf:</strong>  moderate statistical anonymisation level; access only via virtual desktops via Internet with technical checks after conclusion of contract</li><li><strong>onsite-suf:</strong> low degree of statistical anonymity; access only on site at the RDC-DZHW in Hanover with technical checks after conclusion of contract</li></ul>'
+          'content': '<p style="margin-bottom: 0px;">There are up to four access ways for our data packages. These differ in terms of:</p><ol style="margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li>the purpose of use (Campus Use File (CUF) for teaching vs. Scientific Use File (SUF) for research),</li><li>the degree of statistical anonymisation (stronger, moderate, lower) and</li><li>the technical way of data access (Download, Remote-Desktop, Onsite) combined with varying degrees of technical and organisational data security and control measures (lower, moderate, stronger).</li></ol><p style="margin-bottom: 0px;">The use of data for download means the least effort in the context of use and should be preferred. If the data package of this access way is <em>not</em> sufficient, the other access ways can also be chosen.</p><p style="margin-bottom: 0px;">Our data package configuration is divided into:</p><ul style="list-style-type: disc; margin-inline-start: 16px; margin-bottom: 0px; padding-top: 0px;"><li><strong>download-cuf:</strong> for teaching purposes only; higher degree of statistical anonymity; for download after application approval</li><li><strong>download-suf:</strong>  higher degree of statistical anonymity; for download after conclusion of contract</li><li><strong>remote-desktop-suf:</strong>  moderate statistical anonymisation level; access only via virtual desktops via Internet with technical checks after conclusion of contract</li><li><strong>onsite-suf:</strong> low degree of statistical anonymity; access only on site at the FDZ-DZHW in Hanover with technical checks after conclusion of contract</li></ul>'
         }
       }
       //jscs:enable
