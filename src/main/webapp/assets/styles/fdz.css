@@ -462,6 +462,17 @@ h1, h2, h3, h4, h5, h6, h7, h8, h9, .h1, .h2, .h3, .h4, .h5, .h6, .h7, .h8, .h9 
   .fdz-theme .md-button.md-raised:not([disabled]).md-focused {
     background-color: whitesmoke; }
 
+.fdz-theme .md-button.md-inline-tiny {
+  min-height: 20px;
+  height: 20px;
+  padding: 0px;
+  width: 20px;
+  margin: 0px;
+  border-radius: unset;
+  line-height: inherit; }
+  .fdz-theme .md-button.md-inline-tiny md-icon {
+    font-size: 20px; }
+
 .fdz-theme .md-button.md-small {
   font-size: 12px;
   line-height: inherit;

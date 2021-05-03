@@ -36,10 +36,10 @@ Create Data Package by Publisher
     Input Text    name=projectContributorsMiddleName_1    D2
     Input Text    name=projectContributorsLastName_1    noLastName
     Move Second Contributor To Place One
-    Focus    xpath=//input[@name = 'curatorsFirstName_0']
-    Input Text    name=curatorsFirstName_0    Anne
-    Input Text    name=curatorsMiddleName_0    noMiddleName
-    Input Text    name=curatorsLastName_0    Droid
+    Focus    xpath=//input[@name = 'dataCuratorsFirstName_0']
+    Input Text    name=dataCuratorsFirstName_0    Anne
+    Input Text    name=dataCuratorsMiddleName_0    noMiddleName
+    Input Text    name=dataCuratorsLastName_0    Droid
     Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input   Deutsche Tags Schlüsselwörter
     Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='Deutsche Tags Schlüsselwörter']
     Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input   English Days Keyword

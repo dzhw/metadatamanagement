@@ -22,6 +22,23 @@ angular.module('metadatamanagementApp')
         {de: 'Sonstiges', en: 'Other'}
       ];
 
+      ctrl.translationKeysAuthors = {
+        title: 'concept-management.detail.label.authors',
+        tooltips: {
+          delete: 'concept-management.edit.delete-author-tooltip',
+          add: 'concept-management.edit.add-author-tooltip',
+          moveUp: 'concept-management.edit.move-author-up-tooltip',
+          moveDown: 'concept-management.edit.move-author-down-tooltip'
+        },
+        hints: {
+          firstName: 'concept-management.edit.hints' +
+            '.authors.first-name',
+          middleName: 'concept-management.edit.hints' +
+            '.authors.middle-name',
+          lastName: 'concept-management.edit.hints.authors.last-name'
+        }
+      };
+
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageMetadataService.setPageTitle(

@@ -15,7 +15,6 @@
                                 MessageBus, $translate,
                                 DataPackageSearchService,
                                 DataPackageAccessWaysResource, $mdDialog,
-                                CitationHintGeneratorService,
                                 DataPackageCitationDialogService,
                                 CurrentDataPackageService) {
     var $ctrl = this;
@@ -92,6 +91,9 @@
         .$promise
         .then(function(data) {
           $ctrl.accessWays = data;
+          if ($ctrl.accessWays.length === 1) {
+            $ctrl.selectedAccessWay = $ctrl.accessWays[0];
+          }
         });
     }
 
@@ -237,9 +239,8 @@
         });
         $mdDialog.show(alert);
       } else {
-        var citationHint = CitationHintGeneratorService.generateCitationHint(
-          $ctrl.selectedAccessWay, $ctrl.dataPackage);
-        DataPackageCitationDialogService.showDialog(citationHint, $event);
+        DataPackageCitationDialogService.showDialog($ctrl.selectedAccessWay,
+            $ctrl.dataPackage, $event);
       }
     };
   }

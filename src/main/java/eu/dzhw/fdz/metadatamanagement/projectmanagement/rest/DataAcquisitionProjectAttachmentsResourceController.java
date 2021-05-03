@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentTypes;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyAttachmentService;
@@ -61,8 +61,7 @@ public class DataAcquisitionProjectAttachmentsResourceController {
         sort(
             deduplicate(surveyAttachmentService.findAllByProject(dataAcquisitionProjectId),
                 SurveyAttachmentMetadata::getFileName),
-            SurveyAttachmentMetadata::getIndexInSurvey,
-            SurveyAttachmentMetadata::getSurveyNumber));
+            SurveyAttachmentMetadata::getIndexInSurvey, SurveyAttachmentMetadata::getSurveyNumber));
     result.put("dataSets", sort(
         deduplicate(dataSetAttachmentService.findAllByProject(dataAcquisitionProjectId),
             DataSetAttachmentMetadata::getFileName),
@@ -71,8 +70,9 @@ public class DataAcquisitionProjectAttachmentsResourceController {
         sort(
             deduplicate(instrumentAttachmentService.findAllByProject(dataAcquisitionProjectId),
                 InstrumentAttachmentMetadata::getFileName),
-            InstrumentAttachmentMetadata::getIndexInInstrument,
-            InstrumentAttachmentMetadata::getInstrumentNumber));
+            attachment -> InstrumentAttachmentTypes.ALL.indexOf(attachment.getType()),
+            InstrumentAttachmentMetadata::getInstrumentNumber,
+            InstrumentAttachmentMetadata::getIndexInInstrument));
     return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(result);
   }
 
@@ -87,6 +87,13 @@ public class DataAcquisitionProjectAttachmentsResourceController {
       Function<T, Integer> secondOrderCriteria) {
     return attachments.stream()
         .sorted(Comparator.comparing(firstOrderCriteria).thenComparing(secondOrderCriteria))
+        .collect(Collectors.toList());
+  }
+
+  private <T> List<T> sort(List<T> attachments, Function<T, Integer> firstOrderCriteria,
+      Function<T, Integer> secondOrderCriteria, Function<T, Integer> thirdOrderCriteria) {
+    return attachments.stream().sorted(Comparator.comparing(firstOrderCriteria)
+        .thenComparing(secondOrderCriteria).thenComparing(thirdOrderCriteria))
         .collect(Collectors.toList());
   }
 }

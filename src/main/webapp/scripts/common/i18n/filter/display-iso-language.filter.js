@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('metadatamanagementApp').filter('displayIsoLanguage',
-function(isoLanguages) {
+function(isoLanguages, LanguageService) {
     var languagesMap = isoLanguages;
 
     return function(code, currentLanguage) {
@@ -9,7 +9,11 @@ function(isoLanguages) {
         if (!language) {
           return code;
         } else {
-          return language[currentLanguage];
+          if (currentLanguage) {
+            return language[currentLanguage];
+          } else {
+            return language[LanguageService.getCurrentInstantly()];
+          }
         }
       };
   }).constant('isoLanguages', {

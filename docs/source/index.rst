@@ -10,14 +10,7 @@ Metadatenübergabe
    :maxdepth: 2
    :caption: Inhaltsverzeichnis:
 
-   00_Allgemeines
-   01_DataPackage
-   02_Surveys
-   03_Instruments
-   04_DataSets
-
-
-Indizes und Tabellen
-====================
-
-* :ref:`genindex`
+   01_Was_ist_das_Rechercheportal.rst
+   02_Registrierung.rst
+   03_ProjektCockpit.rst
+   04_Eingabemaske.rst

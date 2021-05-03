@@ -38,10 +38,10 @@ Publisher Create But Can Not Delete Data Package When Publisher is Ready
    Input Text    name=projectContributorsFirstName_0    Anne
    Input Text    name=projectContributorsMiddleName_0    noMiddleName
    Input Text    name=projectContributorsLastName_0    Droid
-   Focus    xpath=//input[@name = 'curatorsFirstName_0']
-   Input Text    name=curatorsFirstName_0    Anne
-   Input Text    name=curatorsMiddleName_0    noMiddleName
-   Input Text    name=curatorsLastName_0    Droid
+   Focus    xpath=//input[@name = 'dataCuratorsFirstName_0']
+   Input Text    name=dataCuratorsFirstName_0    Anne
+   Input Text    name=dataCuratorsMiddleName_0    noMiddleName
+   Input Text    name=dataCuratorsLastName_0    Droid
    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextDe"]//input   Deutsche Tags Schlüsselwörter
    Run Keyword And Ignore Error  Click Element Through Tooltips    xpath=//md-virtual-repeat-container//span[text()='Deutsche Tags Schlüsselwörter']
    Input Text    xpath=//md-autocomplete[@md-search-text="tagSearchTextEn"]//input   English Days Keyword

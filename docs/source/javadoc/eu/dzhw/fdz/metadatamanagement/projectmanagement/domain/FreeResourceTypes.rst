@@ -12,6 +12,8 @@ FreeResourceTypes
 
    Resource Types as they are harvested from DARA by the VFDB.
 
+   **See also:** :java:ref:`https://mdr.iqb.hu-berlin.de/./catalog/5c4748e0-bcaa-c3c3-e5af-dd481fddbf0c`
+
 Fields
 ------
 MIXED_DATA

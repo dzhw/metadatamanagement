@@ -5,6 +5,8 @@ on:
       - development
       - test
       - master
+    paths-ignore:
+      - 'docs/**'
 jobs:
   build:
     runs-on: ubuntu-18.04

@@ -7,5 +7,6 @@ public enum DataFormat {
   R,
   SPSS,
   Stata,
-  Word;
+  Word,
+  CSV;
 }
