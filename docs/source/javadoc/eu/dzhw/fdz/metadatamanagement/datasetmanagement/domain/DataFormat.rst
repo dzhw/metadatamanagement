@@ -10,6 +10,12 @@ DataFormat
 
 Enum Constants
 --------------
+CSV
+^^^
+
+.. java:field:: public static final DataFormat CSV
+   :outertype: DataFormat
+
 R
 ^
 

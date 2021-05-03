@@ -1,10 +1,6 @@
 {
   "name": "Metadatamanagement",
-<<<<<<< HEAD
-  "version": "1.0.108-HOTFIX",
-=======
-  "version": "1.0.109-SNAPSHOT",
->>>>>>> test
+  "version": "1.0.109",
   "description": "Data Search for Higher Education Research and Science Studies",
   "private": true,
   "dependencies": {
