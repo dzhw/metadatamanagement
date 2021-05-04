@@ -3,10 +3,10 @@
 angular.module('metadatamanagementApp').filter('displayAccessWay',
   function() {
     var accessWayMap = {
-      'download-cuf': 'Download-CUF',
-      'download-suf': 'Download-SUF',
-      'remote-desktop-suf': 'Remote-Desktop-SUF',
-      'onsite-suf': 'On-Site-SUF',
+      'download-cuf': 'CUF: Download',
+      'download-suf': 'SUF: Download',
+      'remote-desktop-suf': 'SUF: Remote-Desktop',
+      'onsite-suf': 'SUF: On-Site',
       'not-accessible': 'Not accessible'
     };
     return function(accessWay) {
