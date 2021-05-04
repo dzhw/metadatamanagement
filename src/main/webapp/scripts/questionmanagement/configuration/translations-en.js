@@ -49,6 +49,7 @@ angular.module('metadatamanagementApp').config(
             'language': 'Language',
             'note': 'Note',
             'resolution': 'Resolution',
+            'resolution-hint': 'Depending on the screen resolution, the question was displayed differently.',
             'has-annotations': 'This image contains additional information, which have not been visible for the interviewed person.'
           },
           'predecessors': 'Previous Questions in Questionnaire',
