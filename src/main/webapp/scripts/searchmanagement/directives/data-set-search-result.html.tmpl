@@ -32,7 +32,7 @@
       <div flex-gt-sm="50" layout="column">
         <div ng-class="{'fdz-add-bottom-margin': !addMargin}" ng-if="searchResult.accessWays">
           <span class="b">{{'data-package-management.detail.label.data-set.accessWays' | translate }}:</span>
-          <span>{{searchResult.accessWays.join(', ')}}</span>
+          <span ng-repeat="accessWay in searchResult.accessWays">{{accessWay | displayAccessWay}}{{!$last? ', ': ''}}</span>
         </div>
         <div ng-if="searchResult.maxNumberOfObservations">
           <span class="b">{{(searchResult.type.en !== 'Spell Data'?'data-package-management.detail.label.data-set.maxNumberOfObservations':'data-package-management.detail.label.data-set.maxNumberOfEpisodes')| translate }} (max.):&nbsp;</span>

@@ -49,6 +49,7 @@ angular.module('metadatamanagementApp').config(
             'language': 'Sprache',
             'note': 'Hinweis',
             'resolution': 'Auflösung',
+            'resolution-hint': 'Abhängig von der Bildschirmauflösung wurde die Frage unterschiedlich dargestellt.',
             'has-annotations': 'Dieses Bild enthält zusätzliche Informationen, die den Befragten nicht dargestellt wurden.'
           },
           'predecessors': 'Vorangegangene Fragen im Fragebogen',

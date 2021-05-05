@@ -63,7 +63,7 @@
         <div class="md-secondary">
           <md-select class="md-accent" name="accessWay" ng-model="$ctrl.selectedAccessWay" aria-label="{{'search-management.detail.access-way' | translate}}">
             <md-optgroup label="{{'shopping-cart.detail.label.available-access-ways' | translate}}">
-              <md-option ng-repeat="item in $ctrl.accessWays" ng-value="item">{{item}}</md-option>
+              <md-option ng-repeat="item in $ctrl.accessWays" ng-value="item">{{item | displayAccessWay}}</md-option>
             </md-optgroup>
           </md-select>
           <md-button class="md-icon-button md-primary" ng-click="$ctrl.showAccessWayHelp($event)">

@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.domain;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -19,7 +20,7 @@ public class AccessWays {
   public static final String ONSITE_SUF = "onsite-suf";
   public static final String NOT_ACCESSIBLE = "not-accessible";
   
-  public static final Set<String> ALL =
-      Collections.unmodifiableSet(new HashSet<>(Arrays.asList(DOWNLOAD_CUF, DOWNLOAD_SUF, 
-          REMOTE_DESKTOP, ONSITE_SUF, NOT_ACCESSIBLE)));
+  public static final List<String> ALL =
+      Collections.unmodifiableList(Arrays.asList(DOWNLOAD_CUF, DOWNLOAD_SUF, 
+          REMOTE_DESKTOP, ONSITE_SUF, NOT_ACCESSIBLE));
 }

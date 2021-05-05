@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.rest;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.http.CacheControl;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -31,6 +33,7 @@ public class DataPackageAccessWaysResourceController {
       method = RequestMethod.GET)
   public ResponseEntity<List<String>> findAllAccessWays(@PathVariable String dataPackageId) {
     List<String> accessWays = dataSetRepository.findAllAccessWays(dataPackageId);
+    accessWays.sort(Comparator.comparing(accessWay -> AccessWays.ALL.indexOf(accessWay)));
     return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(accessWays);
   }
 }

@@ -18,7 +18,7 @@ Check Shopping Cart as a Public User
 
 *** Keywords ***
 Put all access ways in shopping cart
-   @{MD_ACCESSWAYNAMES}   Create List    download-suf  remote-desktop-suf   onsite-suf   download-cuf
+   @{MD_ACCESSWAYNAMES}   Create List    SUF: Download  SUF: Remote-Desktop   SUF: On-Site   CUF: Download
    FOR  ${INDEX}  IN RANGE  0   4
       Select Access Way for the Data Package   ${MD_ACCESSWAYNAMES}[${INDEX}]
       Select Version for the Data Package   1.0.1

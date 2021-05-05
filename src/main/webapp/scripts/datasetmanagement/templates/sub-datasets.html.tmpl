@@ -53,7 +53,7 @@
       </thead>
       <tbody>
       <tr ng-repeat="row in $ctrl.options.dataSet.subDataSets">
-        <td>{{row.accessWay}} ({{row.description | displayI18nString}})</td>
+        <td>{{row.accessWay | displayAccessWay}} ({{row.description | displayI18nString}})</td>
         <td class="fdz-table-nowrap">{{row.name}}&nbsp;</td>
         <td class="fdz-table-nowrap">
           <span ng-repeat="dataFormat in row.dataFormats">
