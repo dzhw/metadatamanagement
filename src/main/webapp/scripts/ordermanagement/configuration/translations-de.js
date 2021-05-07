@@ -98,6 +98,8 @@ angular.module('metadatamanagementApp').config(
           'open-cart-tooltip': 'Klicken, um die Inhalte des Warenkorbs anzuzeigen.',
           'open-citation-tooltip': 'Klicken, um Zitationsinformationen zu erhalten und zu kopieren.',
           'open-citation': 'Zitieren...',
+          'open-export': 'Metadaten exportieren...',
+          'open-export-tooltip': 'Klicken, um die Metadaten dieses Datenpakets zu exportieren.',
           'close-tooltip': 'Klicken, um die Produktauswahl zu verlassen.',
           'data-package-version-tooltip': 'Klicken, um weitere Informationen zur Version von Datenpaketen zu erhalten.',
           'data-package-access-way-tooltip': 'Klicken, um weitere Informationen zu Zugangswegen zu erhalten.'

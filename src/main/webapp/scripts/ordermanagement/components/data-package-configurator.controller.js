@@ -16,7 +16,8 @@
                                 DataPackageSearchService,
                                 DataPackageAccessWaysResource, $mdDialog,
                                 DataPackageCitationDialogService,
-                                CurrentDataPackageService) {
+                                CurrentDataPackageService,
+                                DataPackageResource, FileSaver, Blob) {
     var $ctrl = this;
     var initReady = false;
     $ctrl.dataPackageIdVersion = {};
@@ -28,6 +29,35 @@
     $ctrl.disabled = false;
     $scope.bowser = $rootScope.bowser;
     $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
+    $ctrl.exportFormats = [{
+      format: 'oai_dc',
+      label: 'Dublin Core',
+      fileExtension: 'xml'
+    }, {
+      format: 'dara',
+      label: 'da|ra',
+      fileExtension: 'xml'
+    }, {
+      format: 'oai_ddi31',
+      label: 'DDI 3.1',
+      fileExtension: 'xml'
+    }, {
+      format: 'oai_ddi32',
+      label: 'DDI 3.2',
+      fileExtension: 'xml'
+    }, {
+      format: 'data_cite_xml',
+      label: 'DataCite (XML)',
+      fileExtension: 'xml'
+    }, {
+      format: 'data_cite_json',
+      label: 'DataCite (JSON)',
+      fileExtension: 'json'
+    }, {
+      format: 'schema_org_json_ld',
+      label: 'Schema.org',
+      fileExtension: 'json'
+    }];
 
     function init() {
       var search = $location.search();
@@ -242,6 +272,31 @@
         DataPackageCitationDialogService.showDialog($ctrl.selectedAccessWay,
             $ctrl.dataPackage, $event);
       }
+    };
+
+    $ctrl.exportMetadata = function(exportFormat) {
+      DataPackageResource.get({
+        id: $ctrl.dataPackage.id,
+        format: exportFormat.format
+      }).$promise.then(function(response) {
+        var array = [];
+        if (exportFormat.fileExtension === 'xml') {
+          _.forEach(response, function(char, key) {
+            //only add bytes with numerical index
+            if (!isNaN(key)) {
+              array.push(char);
+            }
+          });
+        } else {
+          array = [angular.toJson(response, true)];
+        }
+        var data = new Blob(array, {
+          type: 'application/' + exportFormat.fileExtension + ';charset=utf-8'
+        });
+        var fileName = $ctrl.dataPackage.id.replace('$', '') + '_' +
+          exportFormat.format + '.' + exportFormat.fileExtension;
+        FileSaver.saveAs(data, fileName);
+      });
     };
   }
 

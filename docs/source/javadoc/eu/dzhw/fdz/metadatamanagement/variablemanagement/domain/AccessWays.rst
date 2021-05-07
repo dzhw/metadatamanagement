@@ -4,6 +4,8 @@
 
 .. java:import:: java.util HashSet
 
+.. java:import:: java.util List
+
 .. java:import:: java.util Set
 
 .. java:import:: eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain DataSet
@@ -23,7 +25,7 @@ Fields
 ALL
 ^^^
 
-.. java:field:: public static final Set<String> ALL
+.. java:field:: public static final List<String> ALL
    :outertype: AccessWays
 
 DOWNLOAD_CUF

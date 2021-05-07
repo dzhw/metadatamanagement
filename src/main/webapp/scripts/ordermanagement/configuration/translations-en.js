@@ -97,6 +97,8 @@ angular.module('metadatamanagementApp').config(
           'open-cart-tooltip': 'Click to show the contents of the shopping cart.',
           'open-citation-tooltip': 'Click to get and copy citation information.',
           'open-citation': 'Cite...',
+          'open-export': 'Export metadata...',
+          'open-export-tooltip': 'Click to export the metadata of this data package.',
           'close-tooltip': 'Click to close the package selection.',
           'data-package-version-tooltip': 'Click to get more information about versions of data packages',
           'data-package-access-way-tooltip': 'Click to get more information about access ways'
