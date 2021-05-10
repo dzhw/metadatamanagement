@@ -90,6 +90,14 @@ OAI_FORMATS
 
    **See also:** :java:ref:`https://www.da-ra.de/oaip/`
 
+fileExtension
+^^^^^^^^^^^^^
+
+.. java:field:: public final String fileExtension
+   :outertype: MetadataExportFormat
+
+   The file extension for the downloaded format (xml or json).
+
 urlFormat
 ^^^^^^^^^
 

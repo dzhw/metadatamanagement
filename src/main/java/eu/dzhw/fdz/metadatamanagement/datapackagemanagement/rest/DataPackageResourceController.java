@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
 import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -48,7 +49,7 @@ public class DataPackageResourceController
   private DaraOaiPmhClient oaiPmhClient;
 
   private DataCiteClient dataCiteClient;
-  
+
   private Environment environment;
 
   /**
@@ -81,25 +82,33 @@ public class DataPackageResourceController
       if (StringUtils.isEmpty(dataPackageSearchDocument.getDoi())) {
         return ResponseEntity.notFound().build();
       }
-      //hard code a DOI for all tests
+      // hard code a DOI for all tests
       if (!environment.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_PROD))) {
         dataPackageSearchDocument.setDoi("10.21249/DZHW:gra2005:2.0.1");
       }
       ResponseEntity<String> responseFromExportProvider;
+      String extractedMetadata = null;
       if (MetadataExportFormat.DATACITE_FORMATS.contains(format)) {
         responseFromExportProvider =
             dataCiteClient.getMetadata(dataPackageSearchDocument.getDoi(), format);
       } else if (MetadataExportFormat.OAI_FORMATS.contains(format)) {
         responseFromExportProvider =
             oaiPmhClient.getMetadata(dataPackageSearchDocument.getDoi(), format);
+        extractedMetadata = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" + StringUtils
+            .substringBetween(responseFromExportProvider.getBody(), "<metadata>", "</metadata>");
       } else {
         log.error("Unsupported data package export format: " + format);
         return ResponseEntity.notFound().build();
       }
+
       return ResponseEntity.status(responseFromExportProvider.getStatusCode())
           .cacheControl(CacheControl.noStore())
           .contentType(responseFromExportProvider.getHeaders().getContentType())
-          .body(responseFromExportProvider.getBody());
+          .header(HttpHeaders.CONTENT_DISPOSITION,
+              "inline; filename=\"" + id.replace("$", "").replace(".", "_") + "_" + format.name()
+                  + format.fileExtension + "\"")
+          .body(
+              extractedMetadata != null ? extractedMetadata : responseFromExportProvider.getBody());
     } else {
       return dataPackageEntity;
     }

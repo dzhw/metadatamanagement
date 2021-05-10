@@ -9,9 +9,10 @@ import java.util.Set;
  * @author René Reitmann
  */
 public enum MetadataExportFormat {
-  oai_dc("oai_dc"), dara("dara"), oai_ddi31("oai_ddi31"), oai_ddi32("oai_ddi32"), oai_dara(
-      "oai_dara"), mds("mds"), data_cite_xml("vnd.datacite.datacite+xml"), data_cite_json(
-          "vnd.datacite.datacite+json"), schema_org_json_ld("vnd.schemaorg.ld+json");
+  oai_dc("oai_dc", ".xml"), dara("dara", ".xml"), oai_ddi31("oai_ddi31", ".xml"), oai_ddi32(
+      "oai_ddi32", ".xml"), oai_dara("oai_dara", ".xml"), mds("mds", ".xml"), data_cite_xml(
+          "vnd.datacite.datacite+xml", ".xml"), data_cite_json("vnd.datacite.datacite+json",
+              ".json"), schema_org_json_ld("vnd.schemaorg.ld+json", ".json");
 
   /**
    * Export formats powered by da|ra's OAI-PMH service.
@@ -35,11 +36,18 @@ public enum MetadataExportFormat {
   public final String urlFormat;
 
   /**
+   * The file extension for the downloaded format (xml or json).
+   */
+  public final String fileExtension;
+
+  /**
    * Construct the enum.
    * 
    * @param urlFormat The format as it can be used in URLs.
+   * @param fileExtension The file extension for the downloaded format (xml or json).
    */
-  private MetadataExportFormat(String urlFormat) {
+  private MetadataExportFormat(String urlFormat, String fileExtension) {
     this.urlFormat = urlFormat;
+    this.fileExtension = fileExtension;
   }
 }
