@@ -91,15 +91,25 @@
           <span>{{'shopping-cart.buttons.open-cart' | translate}}</span>
         </md-button>
       </md-list-item>
-      <md-list-item ng-if="$ctrl.releases.length > 0 && $ctrl.accessWays.length > 0" style="flex-flow: row;">
+      <md-list-item ng-if="$ctrl.releases.length > 0 && $ctrl.accessWays.length > 0" style="flex-flow: row; padding-right: 12px;" class="md-no-proxy">
         <md-button class="md-small md-raised md-primary fdz-truncate-string" ng-click="$ctrl.openCitationDialog($event)"
-          ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible"
-          style="min-width: 100%; margin-top: 0px">
+          ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible" style="margin-right: 12px; margin-top: 0px;">
           <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'shopping-cart.buttons.open-citation-tooltip' | translate}}
           </md-tooltip>
           <span>{{'shopping-cart.buttons.open-citation' | translate}}</span>
         </md-button>
+        <md-menu style="min-width: 50%">
+          <md-button ng-click="$mdMenu.open($event)" class="md-small md-raised md-primary" style="min-width: 100%; margin-top: 0px;">
+            <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'shopping-cart.buttons.open-export-tooltip' | translate}}
+            </md-tooltip>
+            <span>{{'shopping-cart.buttons.open-export' | translate}}</span>
+          </md-button>
+          <md-menu-content>
+            <md-menu-item ng-repeat="exportFormat in $ctrl.exportFormats"><md-button ng-href="/api/data-packages/{{$ctrl.dataPackage.id}}?format={{exportFormat.format}}" target="_blank" download>{{exportFormat.label}}</md-button></md-menu-item>
+          </md-menu-content>
+        </md-menu>
       </md-list-item>
     </md-list>
   </md-card-content>
