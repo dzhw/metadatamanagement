@@ -42,9 +42,27 @@
   <link ng-if="previousUiSref" rel="prev" ui-sref="{{previousUiSref}}" />
   <link ng-if="nextUiSref" rel="next" ui-sref="{{nextUiSref}}" />
   <meta ng-if="pageDescriptionKey" name="description" content="{{pageDescriptionKey | translate : pageDescriptionParams | removeMarkdown}}">
-
+  <!-- seo4Ajax setting -->
   <script>window.willCallOnCaptureReady = true;</script>
-
+  <!-- Matomo/Piwik -->
+  <script type="text/javascript">
+    var _paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      // disable tracking on localhost
+      if (document.domain === 'localhost') {
+        delete window._paq;
+        return;
+      };
+      var u="//webstat-admin.dzhw.eu/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '31']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo/Piwik Code -->
   <!-- build:css assets/styles/main.css -->
   <link rel="stylesheet" href="/assets/styles/main.css">
   <link rel="stylesheet" href="/assets/styles/fdz.css">
@@ -77,6 +95,8 @@
       <p>Here are the <a href="https://www.enable-javascript.com/" target="_blank">
         instructions how to enable JavaScript in your web browser</a>.</p>
     </div>
+    <!-- Matomo/Piwik track no javascript users -->
+    <p><img src="//webstat-admin.dzhw.eu/matomo.php?idsite=31&amp;rec=1" style="border:0;" alt="" /></p>
   </noscript>
   <div class="fdz-app-title">
     <img alt="Logo des Forschungsdatenzentrums des Deutschen Zentrum für Hochschul- und Wissenschaftsforschung" src="assets/images/FDZ_Logo_With_Mag.svg">
@@ -168,6 +188,8 @@
 <script src="../../../node_modules/ng-showdown/dist/ng-showdown.js"></script>
 <script src="../../../node_modules/angular-swx-session-storage/release/swx-session-storage.js"></script>
 <script src="../../../node_modules/citation-js/build/citation.js"></script>
+<script src="../../../node_modules/angulartics/dist/angulartics.min.js"></script>
+<script src="../../../node_modules/angulartics-piwik/dist/angulartics-piwik.min.js"></script>
 <!-- endbuild -->
 
 <!-- build:js({.tmp,src/main/webapp}) scripts/client.js -->
