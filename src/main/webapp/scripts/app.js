@@ -191,7 +191,8 @@ try {
       function($stateProvider, $urlRouterProvider,
         $httpProvider, $locationProvider, $translateProvider,
         tmhDynamicLocaleProvider, blockUIConfig, $mdThemingProvider,
-        localStorageServiceProvider, $qProvider, $provide, $showdownProvider) {
+        localStorageServiceProvider, $qProvider, $provide, $showdownProvider,
+        $analyticsProvider, ENV) {
         localStorageServiceProvider
           .setPrefix('metadatamanagementApp')
           .setStorageType('localStorage')
@@ -281,6 +282,10 @@ try {
             };
           return $delegate;
         });
+
+        if (ENV === 'local') {
+          $analyticsProvider.developerMode(true);
+        }
       })
       //use a fake sessionId for consistent shard routing
       .constant('clientId', new ClientJS().getFingerprint())
