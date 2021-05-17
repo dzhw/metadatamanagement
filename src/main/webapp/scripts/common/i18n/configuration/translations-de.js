@@ -340,8 +340,7 @@ angular.module('metadatamanagementApp').config(
           'relevance': 'Relevanz',
           'alphabetically': 'Alphabet',
           'survey-period': 'Erhebungszeitraum (Ende)',
-          'first-release-date': 'Releasedatum (erstes)',
-          'last-release-date': 'Releasedatum (letztes)'
+          'first-release-date': 'Releasedatum'
         },
         'joblogging': {
           'protocol-dialog': {

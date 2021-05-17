@@ -204,7 +204,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       noResultsText: 'search-management.no-results-text.data-packages',
       group: 'dataPackages',
       sortOptions: ['relevance', 'alphabetically', 'survey-period',
-        'first-release-date', 'last-release-date']
+        'first-release-date']
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
