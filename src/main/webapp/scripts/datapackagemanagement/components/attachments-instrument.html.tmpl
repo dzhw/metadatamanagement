@@ -44,7 +44,7 @@
           <td display-i18n-string="row.type"></td>
           <td class="fdz-text-block" display-i18n-string="row.description" ></td>
           <td>{{row.language | displayIsoLanguage: $ctrl.lang}}&nbsp</td>
-          <td class="fdz-td-filename"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
+          <td class="fdz-td-filename"><a ng-href="{{row.id}}" target="_blank" class="piwik_download">{{row.fileName}}
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
             </md-tooltip>
