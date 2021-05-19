@@ -50,8 +50,8 @@
     /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
     _paq.push(['enableLinkTracking']);
     (function() {
-      // disable tracking on localhost
-      if (document.domain === 'localhost') {
+      // disable tracking on localhost and for seo4ajax clients
+      if (document.domain === 'localhost' || window.onCaptureReady) {
         delete window._paq;
         return;
       };
@@ -187,9 +187,10 @@
 <script src="../../../node_modules/showdown/dist/showdown.js"></script>
 <script src="../../../node_modules/ng-showdown/dist/ng-showdown.js"></script>
 <script src="../../../node_modules/angular-swx-session-storage/release/swx-session-storage.js"></script>
+<script src="../../../node_modules/angulartics/src/angulartics.js"></script>
+<script src="../../../node_modules/angulartics-piwik/src/angulartics-piwik.js"></script>
+<!-- citation.js throws an exception in IE11 thus it has to come as last script -->
 <script src="../../../node_modules/citation-js/build/citation.js"></script>
-<script src="../../../node_modules/angulartics/dist/angulartics.min.js"></script>
-<script src="../../../node_modules/angulartics-piwik/dist/angulartics-piwik.min.js"></script>
 <!-- endbuild -->
 
 <!-- build:js({.tmp,src/main/webapp}) scripts/client.js -->

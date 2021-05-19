@@ -117,10 +117,9 @@ public class WebConfigurer implements ServletContextInitializer, WebMvcConfigure
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {
-      registry
-        .addResourceHandler("/node_modules/**")
-        .addResourceLocations("file:node_modules/");
+    if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))
+        && !env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_MINIFIED))) {
+      registry.addResourceHandler("/node_modules/**").addResourceLocations("file:node_modules/");
     }
   }
 }
