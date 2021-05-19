@@ -398,7 +398,9 @@ module.exports = function(grunt) {
       uglify: {
         options: {
           compress: {
-            unused: false
+            unused: false,
+            ie8: true,
+            beautify: true
           }
         }
         // src and dest is configured in a subtask called "generated" by

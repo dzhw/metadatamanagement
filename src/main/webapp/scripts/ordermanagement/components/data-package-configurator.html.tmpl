@@ -107,7 +107,7 @@
             <span>{{'shopping-cart.buttons.open-export' | translate}}</span>
           </md-button>
           <md-menu-content>
-            <md-menu-item ng-repeat="exportFormat in $ctrl.exportFormats"><md-button ng-href="/api/data-packages/{{$ctrl.dataPackage.id}}?format={{exportFormat.format}}" target="_blank" download>{{exportFormat.label}}</md-button></md-menu-item>
+            <md-menu-item ng-repeat="exportFormat in $ctrl.exportFormats"><md-button ng-href="/api/data-packages/{{$ctrl.dataPackage.id}}?format={{exportFormat.format}}" target="_blank" download fdz-track-download>{{exportFormat.label}}</md-button></md-menu-item>
           </md-menu-content>
         </md-menu>
       </md-list-item>
