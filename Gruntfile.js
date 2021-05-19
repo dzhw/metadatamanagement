@@ -399,9 +399,9 @@ module.exports = function(grunt) {
         options: {
           compress: {
             unused: false,
-            ie8: true,
-            beautify: true
-          }
+          },
+          ie8: true,
+          beautify: true
         }
         // src and dest is configured in a subtask called "generated" by
         // usemin
