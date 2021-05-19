@@ -56,6 +56,9 @@
         delete window._paq;
         return;
       };
+      if (document.referrer) {
+        _paq.push(['setReferrerUrl', document.referrer]);
+      }
       var u="//webstat.dzhw.eu/piwik/";
       _paq.push(['setTrackerUrl', u+'piwik.php']);
       _paq.push(['setSiteId', '31']);
