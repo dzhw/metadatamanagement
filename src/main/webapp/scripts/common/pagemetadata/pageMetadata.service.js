@@ -2,7 +2,7 @@
 
 // service for updating the page title (used in toolbar and window.title)
 angular.module('metadatamanagementApp').factory('PageMetadataService',
-  function($rootScope, $transitions, $location) {
+  function($rootScope, $transitions, $location, $analytics, $timeout, $window) {
     $transitions.onExit({}, function() {
       setPageTitle();
       setPageDescription();
@@ -21,6 +21,16 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
       if (titleKey) {
         $rootScope.pageTitleKey = titleKey;
         $rootScope.pageTitleParams = titleParams;
+        // wait one digest cycle until page title is rendered
+        $timeout(function() {
+          $analytics.pageTrack($location.absUrl(), $location);
+        });
+        $timeout(function() {
+          // let matomo/piwik scan for outgoing links
+          if ($window._paq) {
+            $window._paq.push(['enableLinkTracking']);
+          }
+        }, 500);
       } else {
         $rootScope.pageTitleKey = null;
         $rootScope.pageTitleParams = null;

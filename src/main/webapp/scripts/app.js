@@ -105,12 +105,6 @@ try {
         });
 
         $transitions.onSuccess({}, function(trans) {
-          $timeout(function() {
-            // let matomo/piwik scan for outgoing links
-            if (window._paq) {
-              window._paq.push(['enableLinkTracking']);
-            }
-          }, 500);
           $rootScope.toStateName = trans.$to().name;
           $rootScope.sidebarContent = {
             'search': false,
@@ -191,10 +185,6 @@ try {
               window.onCaptureReady();
             }
           });
-          // let matomo/piwik scan for outgoing links
-          if (window._paq) {
-            window._paq.push(['enableLinkTracking']);
-          }
         }, 1000);
       })
     .config(
@@ -296,6 +286,8 @@ try {
         if (ENV === 'local') {
           $analyticsProvider.developerMode(true);
         }
+        // disable automatic page tracking
+        $analyticsProvider.virtualPageviews(false);
       })
       //use a fake sessionId for consistent shard routing
       .constant('clientId', new ClientJS().getFingerprint())
