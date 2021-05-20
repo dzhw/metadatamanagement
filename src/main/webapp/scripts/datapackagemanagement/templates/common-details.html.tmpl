@@ -37,7 +37,7 @@
         <md-list-item ng-if="$ctrl.options.dataPackage.institutions">
           <h5>{{'data-package-management.detail.label.institutions' | translate }}:</h5>
           <span
-            class="md-secondary pre"
+            class="md-secondary" style="white-space: pre-wrap;"
             ng-repeat="institution in $ctrl.options.dataPackage.institutions">{{institution[$ctrl.lang]}}{{!$last?'; ':''}}</span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.sponsor">
