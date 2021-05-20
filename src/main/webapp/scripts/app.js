@@ -293,7 +293,7 @@ try {
           return $delegate;
         });
 
-        if (ENV === 'local') {
+        if (ENV !== 'local') {
           $analyticsProvider.developerMode(true);
         }
       })
