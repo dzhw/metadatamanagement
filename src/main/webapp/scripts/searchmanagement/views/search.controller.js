@@ -357,7 +357,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $scope.options.pageObject.totalHits = data.hits.total.value;
           $analytics.trackSiteSearch(
             $scope.searchParams.query ? $scope.searchParams.query : '<null>',
-            $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
+            $scope.tabs[$scope.searchParams.selectedTabIndex]
+              .elasticSearchType ?
+            $scope.tabs[$scope.searchParams.selectedTabIndex]
+              .elasticSearchType : 'all',
             $scope.options.pageObject.totalHits);
           //Count information by aggregations
           $scope.tabs.forEach(function(tab) {

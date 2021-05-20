@@ -51,7 +51,7 @@
     _paq.push(['enableHeartBeatTimer']);
     (function() {
       // disable tracking on localhost and for seo4ajax clients
-      if (document.domain !== 'localhost' || window.onCaptureReady) {
+      if (document.domain === 'localhost' || window.onCaptureReady) {
         delete window._paq;
         return;
       };
