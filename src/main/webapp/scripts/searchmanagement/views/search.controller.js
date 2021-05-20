@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            SearchResultNavigatorService, DataPackageResource,
            DataPackageIdBuilderService,
            $rootScope, ProjectStatusScoringService, DeleteMetadataService,
-           SimpleMessageToastService, $mdSidenav) {
+           SimpleMessageToastService, $mdSidenav, $analytics) {
 
     var queryChangedOnInit = true;
     var tabChangedOnInitFlag = true;
@@ -355,6 +355,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
           createDataPackageFilterObject(data.aggregations);
           $scope.searchResult = data.hits.hits;
           $scope.options.pageObject.totalHits = data.hits.total.value;
+          $analytics.trackSiteSearch(
+            $scope.searchParams.query ? $scope.searchParams.query : '<null>',
+            $scope.tabs[$scope.searchParams.selectedTabIndex].elasticSearchType,
+            $scope.options.pageObject.totalHits);
           //Count information by aggregations
           $scope.tabs.forEach(function(tab) {
             if ($scope.tabs[
