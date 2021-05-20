@@ -2682,6 +2682,33 @@ md-dialog .fdz-fab-button-container {
   border-bottom-color: #0071bc;
   filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, 0.1)); }
 
+.fdz-theme user-consent-component {
+  position: fixed;
+  bottom: -200px;
+  width: 100%;
+  z-index: 100;
+  background-color: #0071bc;
+  color: white;
+  padding: 16px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  transition: bottom 1s linear;
+  border-top-color: white;
+  border-top-style: solid;
+  border-top-width: 1px;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12); }
+  .fdz-theme user-consent-component p {
+    display: block;
+    margin-bottom: 8px;
+    text-align: justify; }
+    .fdz-theme user-consent-component p a {
+      color: white;
+      text-decoration: underline; }
+  .fdz-theme user-consent-component div {
+    text-align: end; }
+    .fdz-theme user-consent-component div .md-button {
+      margin: 0px; }
+
 .fdz-no-js {
   position: absolute;
   background-color: #F69F24;

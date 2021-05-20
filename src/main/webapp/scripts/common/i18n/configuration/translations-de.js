@@ -431,6 +431,12 @@ angular.module('metadatamanagementApp').config(
               'last-name': 'Nachname'
             }
           }
+        },
+        'user-consent': {
+          'text': 'Wir verwenden Cookies zur statistischen Auswertung der Besucherzugriffe. Wenn Sie auf dieser Seite weitersurfen stimmen Sie der Cookie-Nutzung zu. Weitere Informationen zu Cookies erhalten Sie in unserer <a href="https://www.dzhw.eu/gmbh/datenschutz/datenschutzerklaerung" target="_blank">Datenschutzerkärung</a>.',
+          'accept': {
+            'tooltip': 'Klicken, um das Banner auszublenden.'
+          }
         }
       }
       //jscs:enable
