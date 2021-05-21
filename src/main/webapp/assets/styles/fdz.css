@@ -2705,7 +2705,7 @@ md-dialog .fdz-fab-button-container {
       color: white;
       text-decoration: underline; }
   .fdz-theme user-consent-component div {
-    text-align: end; }
+    text-align: right; }
     .fdz-theme user-consent-component div .md-button {
       margin: 0px; }
 

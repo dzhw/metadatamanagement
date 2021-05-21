@@ -14,20 +14,24 @@ angular.module('metadatamanagementApp')
         $timeout(function() {
           $element.css('bottom', 0);
         }, 500);
+      } else {
+        $timeout(function() {
+          $element[0].parentNode.removeChild($element[0]);
+        }, 500);
       }
       $scope.bowser = $rootScope.bowser;
       $scope.consentGiven = function() {
         localStorageService.set('trackingConsentGiven', true);
         $element.css('bottom', -200);
         $timeout(function() {
-          $element[0].remove();
+          $element[0].parentNode.removeChild($element[0]);
         }, 2000);
       };
       $scope.consentRejected = function() {
         localStorageService.set('trackingConsentGiven', false);
         $element.css('bottom', -200);
         $timeout(function() {
-          $element[0].remove();
+          $element[0].parentNode.removeChild($element[0]);
         }, 2000);
       };
     }
