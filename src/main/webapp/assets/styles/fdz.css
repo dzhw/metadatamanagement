@@ -2686,7 +2686,7 @@ md-dialog .fdz-fab-button-container {
   position: fixed;
   bottom: -200px;
   width: 100%;
-  z-index: 100;
+  z-index: 5000;
   background-color: #0071bc;
   color: white;
   padding: 16px;

@@ -3,7 +3,7 @@
 angular.module('metadatamanagementApp')
   .controller('UserConsentController',
     function($scope, $rootScope, $element, localStorageService,
-      LanguageService) {
+      LanguageService, $timeout) {
 
       $scope.$watch(function() {
         return LanguageService.getCurrentInstantly();
@@ -11,16 +11,24 @@ angular.module('metadatamanagementApp')
         $scope.lang = LanguageService.getCurrentInstantly();
       });
       if (!localStorageService.get('trackingConsentGiven')) {
-        $element.css('bottom', 0);
+        $timeout(function() {
+          $element.css('bottom', 0);
+        }, 500);
       }
       $scope.bowser = $rootScope.bowser;
       $scope.consentGiven = function() {
         localStorageService.set('trackingConsentGiven', true);
         $element.css('bottom', -200);
+        $timeout(function() {
+          $element[0].remove();
+        }, 2000);
       };
       $scope.consentRejected = function() {
         localStorageService.set('trackingConsentGiven', false);
         $element.css('bottom', -200);
+        $timeout(function() {
+          $element[0].remove();
+        }, 2000);
       };
     }
   );
