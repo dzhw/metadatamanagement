@@ -60,7 +60,13 @@
       }
       var u="//webstat.dzhw.eu/piwik/";
       _paq.push(['setTrackerUrl', u+'piwik.php']);
-      _paq.push(['setSiteId', '31']);
+      if (document.domain === 'dev.metadata.fdz.dzhw.eu') {
+        _paq.push(['setSiteId', '31']);
+      } else if (document.domain === 'test.metadata.fdz.dzhw.eu') {
+        _paq.push(['setSiteId', '32']);
+      } else {
+        _paq.push(['setSiteId', '33']);
+      }
       var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
       g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
     })();
