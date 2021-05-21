@@ -340,8 +340,7 @@ angular.module('metadatamanagementApp').config(
           'relevance': 'Relevanz',
           'alphabetically': 'Alphabet',
           'survey-period': 'Erhebungszeitraum (Ende)',
-          'first-release-date': 'Releasedatum (erstes)',
-          'last-release-date': 'Releasedatum (letztes)'
+          'first-release-date': 'Releasedatum'
         },
         'joblogging': {
           'protocol-dialog': {
@@ -431,6 +430,12 @@ angular.module('metadatamanagementApp').config(
               'middle-name': 'Zweiter Vorname',
               'last-name': 'Nachname'
             }
+          }
+        },
+        'user-consent': {
+          'text': 'Wir verwenden Cookies zur statistischen Auswertung der Besucherzugriffe. Wenn Sie auf dieser Seite weitersurfen stimmen Sie der Cookie-Nutzung zu. Weitere Informationen zu Cookies erhalten Sie in unserer <a href="https://www.dzhw.eu/gmbh/datenschutz/datenschutzerklaerung" target="_blank">Datenschutzerkärung</a>.',
+          'accept': {
+            'tooltip': 'Klicken, um das Banner auszublenden.'
           }
         }
       }

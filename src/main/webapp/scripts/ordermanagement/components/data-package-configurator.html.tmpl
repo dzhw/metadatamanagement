@@ -77,7 +77,7 @@
       <md-list-item ng-if="$ctrl.releases.length > 0 && $ctrl.accessWays.length > 0" style="flex-flow: row; padding-right: 12px;">
         <md-button class="md-small md-raised md-accent fdz-truncate-string" ng-click="$ctrl.addToShoppingCart($event)"
           ng-disabled="!$ctrl.selectedVersion || $ctrl.noFinalRelease || $ctrl.variableNotAccessible"
-          style="margin-right: 12px;">
+          style="margin-right: 12px;" analytics-on="click" analytics-event="add-to-shopping-cart" analytics-label="{{'search-management.detail.cart' | translate}}" analytics-category="Bestellprozess">
           <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
             {{'shopping-cart.buttons.add-data-package-tooltip' | translate}}
           </md-tooltip>
@@ -107,7 +107,7 @@
             <span>{{'shopping-cart.buttons.open-export' | translate}}</span>
           </md-button>
           <md-menu-content>
-            <md-menu-item ng-repeat="exportFormat in $ctrl.exportFormats"><md-button ng-href="/api/data-packages/{{$ctrl.dataPackage.id}}?format={{exportFormat.format}}" target="_blank" download>{{exportFormat.label}}</md-button></md-menu-item>
+            <md-menu-item ng-repeat="exportFormat in $ctrl.exportFormats"><md-button ng-href="/api/data-packages/{{$ctrl.dataPackage.id}}?format={{exportFormat.format}}" target="_blank" download fdz-track-download>{{exportFormat.label}}</md-button></md-menu-item>
           </md-menu-content>
         </md-menu>
       </md-list-item>

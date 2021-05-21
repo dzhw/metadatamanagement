@@ -5,7 +5,7 @@
 
   function RelatedObjectsController(
     $scope, $location, SearchDao, $timeout,
-    SearchResultNavigatorService, CleanJSObjectService,
+    SearchResultNavigatorService, CleanJSObjectService, $analytics,
     SearchHelperService, $transitions, $rootScope, PageMetadataService
   ) {
     var $ctrl = this;
@@ -298,6 +298,13 @@
         .then(function(data) {
           $ctrl.searchResult = data.hits.hits;
           $ctrl.options.pageObject.totalHits = data.hits.total.value;
+          $analytics.trackSiteSearch(
+            $ctrl.searchParams.query ? $ctrl.searchParams.query : '<null>',
+            $ctrl.tabs[
+                $ctrl.searchParams.selectedTabIndex].elasticSearchType ?
+            $ctrl.tabs[
+                $ctrl.searchParams.selectedTabIndex].elasticSearchType : 'all',
+            $ctrl.options.pageObject.totalHits);
           $ctrl.tabs.forEach(function(tab) {
             if ($ctrl.tabs[
                 $ctrl.searchParams.selectedTabIndex].elasticSearchType ===
