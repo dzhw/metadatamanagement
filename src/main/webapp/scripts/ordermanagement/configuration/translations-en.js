@@ -98,6 +98,7 @@ angular.module('metadatamanagementApp').config(
           'open-citation-tooltip': 'Click to get and copy citation information.',
           'open-citation': 'Cite...',
           'open-export': 'Export metadata...',
+          'beta-hint': 'All formats generated via da|ra (beta-Status)',
           'open-export-tooltip': 'Click to export the metadata of this data package.',
           'close-tooltip': 'Click to close the package selection.',
           'data-package-version-tooltip': 'Click to get more information about versions of data packages',
