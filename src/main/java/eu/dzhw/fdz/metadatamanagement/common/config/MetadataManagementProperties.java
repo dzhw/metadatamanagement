@@ -42,9 +42,9 @@ public class MetadataManagementProperties {
   private final Ordermanagement ordermanagement = new Ordermanagement();
 
   private final Projectmanagement projectmanagement = new Projectmanagement();
-  
+
   private final DatasetReportTask datasetReportTask = new DatasetReportTask();
-  
+
   private final Seo4ajax seo4ajax = new Seo4ajax();
 
   /**
@@ -55,8 +55,8 @@ public class MetadataManagementProperties {
   @Getter
   @Setter
   public static class Elasticsearch {
-    public static final String TEST_VERSION = "7.12.0";
-    private String version = "7.12.0";
+    public static final String TEST_VERSION = "7.12.1";
+    private String version = "7.12.1";
   }
 
   /**
@@ -189,7 +189,7 @@ public class MetadataManagementProperties {
   public static class Dlp {
     private String endpoint;
   }
-  
+
   /**
    * Properties for the dataset-report-task.
    */
@@ -202,7 +202,7 @@ public class MetadataManagementProperties {
     private String serviceName;
     private String containerName;
   }
-  
+
   /**
    * Properties for seo4ajax.
    */

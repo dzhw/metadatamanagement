@@ -1,0 +1,102 @@
+{
+  "title": "Absolventenpanel 2005", // de oder en? wir haben alle text attribute ggf. in en und/oder de...
+  "acronym": "gra2005",
+  "duration_from": "", // könnte ich aus allen Erhebungen einer Studie berechnen
+  "duration_to": "", // könnte ich aus allen Erhebungen einer Studie berechnen
+  "contact": "reitmann@dzhw.eu",
+  "funding": "Bundesministerium für Bildung und Forschung", // wieder de oder en?
+  "description": "Das DZHW-Absolventenpanel 2005 ist Teil der DZHW-Absolventenstudienreihe, in der anhand von standardisierten Befragungen Informationen zu Studium, Berufseintritt, Berufsverlauf und Weiterqualifizierung von Hochschulabsolvent(inn)en erfasst werden. Das erste Absolventenpanel wurde 1989 durchgeführt, seitdem wird jeder vierte Absolvent(inn)enjahrgang (Kohorte) untersucht. Für jede Absolvent(inn)enkohorte werden mehrere Befragungswellen durchgeführt...", // wieder de oder en?
+  "target_group": null, // aktuell haben wir das nicht, wo ist der Unterschied zu target_groups?
+  "study_design_details": null, // aktuell haben wir das nicht, wo ist der Unterschied zu study_designs?
+  "sample": "Hochschulabsolventen", // gibt es hier ein kontrolliertes Vokabular? wir haben ggf. mehrere verschiedene Populationen je Erhebung
+  "comment_region": "Deutschland", // gibt es hier kontrolliertes Vokabular? wir haben auch hier ggf. mehrere versschiedene Untersuchungsgebiete je Erhebung
+  "publication_link": "https://metadata.fdz.dzhw.eu/data-packages/stu-gra2005", // ist das hiermit gemeint?
+  "media": false, // was soll dieses Feld bedeuten?
+  "registrable": false, // was soll dieses Feld bedeuten?
+  "comment_selection_process": null, // so etwas haben wir je Erhebung (siehe https://metadata.fdz.dzhw.eu/de/surveys/sur-gra2005-sy1)
+  "priority": false, // was soll dieses Feld bedeuten?
+  "origin": "FDZ-DZHW", // oder was soll hier eingetragen werden?
+  "comment_external": "", // wir haben ggf. Anmerkungen an der Studie, wieder: de oder en?
+  "translation": {
+    "en": "???" // für welches der vorherigen Felder soll hier eine Übersetzung eingetragen werden?
+  },
+  "language": "de", // wenn ich Deutsch und Englisch liefern möchte, muss ich dann zwei Studien registrieren?
+  "study_methods": [{
+    "study_method_id": 4, // Panel
+    "group": null // was soll hier eingetragen werden?
+    }],
+  "target_groups": [{
+    "target_group_id": 38, // Hochschulabsolventen
+  }],
+  "regions": [{
+    "region_id": 1, // Deutschland
+  }],
+  "publications": [{ // Grundsätzlich ist diese Liste nicht statisch, d.h. es entstehen im Laufe der Zeit neue Publikationen => Wie mache ich ein Update der Studie (Endpoint nur add)?
+    "fis_id": null, // was ist das für eine ID?
+    "bibtex": {
+      "ID": "pub-Tielkes.2020$",
+      "title": "Regional Mobility of German University Graduates",
+      "year": "2020",
+      "author": "Tielkes, Constantin" // Reihenfolge Vorname, Nachname, Mittelname? Wie mehrere Autorinnen?
+    }
+  }],
+  "involved_persons": [{ // die können wir aktuell so nicht liefern und sind Pflichtfeld, wir haben nur Datenkuratorinnen und (Erhebungsprojekt-)mitglieder!
+    "name": "Kolja Briedis" // Reihenfolge Vorname, Nachname, Mittelname?
+    "email": null // Haben wir nicht und ist Pflichtfeld!
+    "sort_order": 1,
+    "person_function_id": 1 // Studienleitung, das haben wir auch nicht und ist Pflichtfeld!
+  }],
+  "urls": [{}] // hier kann man viele fachlich sehr unterschiedliche URLs angeben (Fragebögen, Daten und Materialien, Publikationen, Website, Beteiligte Institutionen,...)
+  "related_studies": [{
+    "study_id": null // unmöglich anzugeben, da wir die Verbund-IDs nicht haben, besser wäre z.B. über DOI
+  }],
+  "selection_processes": [{
+    "selection_process_id": 17, // Kombination aus Wahrscheinlichkeits- und Nicht-Wahrscheinlichkeitsauswahl
+    "group": null // was soll hier eingetragen werden?
+  }],
+  "keywords": [{ // die können wir nicht liefern und sind Pflichtfeld!
+    "fis_keyword_id": null,  // welche schlagwörter IDs werden hier gefordert?
+    "sort_order": 1
+  }],
+  "project": null, // Projektinformationen haben wir aktuell nicht
+  "data_modules": [{
+    "title": "Absolventpanel 2005", // das wäre bei uns der gleich wie study.title
+    "alternative_title": null, // haben wir nicht
+    "description": "Das DZHW-Absolventenpanel 2005 ist Teil der DZHW-Absolventenstudienreihe, in der anhand von standardisierten Befragungen Informationen zu Studium, Berufseintritt, Berufsverlauf und Weiterqualifizierung von Hochschulabsolvent(inn)en erfasst werden. Das erste Absolventenpanel wurde 1989 durchgeführt, seitdem wird jeder vierte Absolvent(inn)enjahrgang (Kohorte) untersucht. Für jede Absolvent(inn)enkohorte werden mehrere Befragungswellen durchgeführt...", // wieder der selbe wie study.description
+    "data_module_type": "survey", // Was bedeutet dieses Feld? Survey = Quanti, Collection = Quali?
+    "persistent_identifier": "10.21249/DZHW:gra2005:2.0.1", // wie ist das mit mehreren versionen gedacht? eine studie mehrere data modules?
+    "persistent_identifier_type": "DOI",
+    "persistent_identifier_context": null, // Was bedeutet dieses Feld?
+    "sample": null, // Wir haben je nach Erhebung mehrer unterschiedliche Stichprobengrößen..
+    "accessibility": "Verfügbar", // Was soll hier eingetragen werden? kontrolliertes Vokabular?
+    "accessibility_comment": "Antrag unter ...", // Was genau soll hier eingetragen werden?
+    "comment_external": null, // haben wir nicht
+    "type_of_data_comment": "Stata", // Was genau soll hier eingetragen werden?
+    "source": null, // Was genau soll hier eingetragen werden?
+    "right_owner": null, // Was genau soll hier eingetragen werden (Datenproduzent ungleich Rechteinhaber)?
+    "involved_persons": null, // bei uns gleich study.involved_persons
+    "data_module_prefix_id": null, // Was genau soll hier eingetragen werden?
+    "translation": {
+      "en": "???" // für welches der vorherigen Felder soll hier eine Übersetzung eingetragen werden?
+    },
+    "language": "de",
+    "institutions": [{
+      "institution_id": 51 // FDZ-DZHW (Fehler im kontrollierten Vokabular!)
+    }],
+    "types_data": [{
+      "type_of_data_id": 4 // Umfrage- und Aggregatdaten
+    }],
+    "survey": { // unsere Daten resultieren aus mehreren surveys, daher kann dies nicht geliefert werden
+      "code": null // Was genau soll hier eingetragen werden?
+    },
+    "publications": [], // siehe study.publications
+    "waves": [], // hier könnten wir unsere Erhebungszeiträume eintragen
+    "survey_methods": [{
+      "survey_method_id": 4, // PAPI
+      "group": null // was soll hier eingetragen werden?
+    }]
+  }],
+  "collection": { // ich verstehe nicht, was das hier ist...
+
+  }
+}

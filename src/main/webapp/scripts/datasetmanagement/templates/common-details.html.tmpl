@@ -25,7 +25,7 @@
             class="md-secondary"
             display-i18n-string="$ctrl.options.format" ></span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.languages">
+        <md-list-item ng-if="$ctrl.options.languages && $ctrl.options.languages.length > 0">
           <h5>{{'data-set-management.detail.label.languages' | translate }}:</h5>
           <span
             class="md-secondary pre"

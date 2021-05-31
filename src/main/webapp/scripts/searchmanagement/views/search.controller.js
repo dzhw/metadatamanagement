@@ -13,7 +13,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
            SearchResultNavigatorService, DataPackageResource,
            DataPackageIdBuilderService,
            $rootScope, ProjectStatusScoringService, DeleteMetadataService,
-           SimpleMessageToastService, $mdSidenav) {
+           SimpleMessageToastService, $mdSidenav, $analytics) {
 
     var queryChangedOnInit = true;
     var tabChangedOnInitFlag = true;
@@ -204,7 +204,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       noResultsText: 'search-management.no-results-text.data-packages',
       group: 'dataPackages',
       sortOptions: ['relevance', 'alphabetically', 'survey-period',
-        'first-release-date', 'last-release-date']
+        'first-release-date']
     }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
@@ -355,6 +355,13 @@ angular.module('metadatamanagementApp').controller('SearchController',
           createDataPackageFilterObject(data.aggregations);
           $scope.searchResult = data.hits.hits;
           $scope.options.pageObject.totalHits = data.hits.total.value;
+          $analytics.trackSiteSearch(
+            $scope.searchParams.query ? $scope.searchParams.query : '<null>',
+            $scope.tabs[$scope.searchParams.selectedTabIndex]
+              .elasticSearchType ?
+            $scope.tabs[$scope.searchParams.selectedTabIndex]
+              .elasticSearchType : 'all',
+            $scope.options.pageObject.totalHits);
           //Count information by aggregations
           $scope.tabs.forEach(function(tab) {
             if ($scope.tabs[

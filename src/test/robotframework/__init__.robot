@@ -28,7 +28,11 @@ Open Home Page
     Run Keyword If    '${USE_SAUCELABS}' != '${EMPTY}'    Open Saucelabs Browser
     Set Window Size    800    600
     Maximize Browser Window
+    Close Tracking Consent
     Close Speech Bubble
+
+Close Tracking Consent
+    Click Element Through Tooltips  xpath=//user-consent-component//button[@ng-click='consentGiven()']
 
 Close Speech Bubble
     Click Element Through Tooltips  xpath=//report-publications-component//button[@ng-click='closeSpeechBubble()']

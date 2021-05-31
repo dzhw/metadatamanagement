@@ -14,7 +14,7 @@ Create Dataset by Dataprovider
     Choose Survey
     Fill up the Annotations
     Fill up the Subdatasets
-    Select Access Way for the Datasets from The List    download-suf
+    Select Access Way for the Datasets from The List    SUF: Download
     Enter Number of Observations or Episodes
     Select Data Format
     Fill up the description of Subdatasets

@@ -1,0 +1,31 @@
+.fdz-theme user-consent-component {
+  position: fixed;
+  bottom: -200px;
+  width: 100%;
+  z-index: 5000;
+  background-color: $brand-secondary;
+  color: $brand-primary;
+  padding: 16px;
+  border-top-left-radius: $card-border-radius;
+  border-top-right-radius: $card-border-radius;
+  transition: bottom 1s linear;
+  border-top-color: $brand-primary;
+  border-top-style: solid;
+  border-top-width: 1px;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  p {
+    display: block;
+    margin-bottom: 8px;
+    text-align: justify;
+    a {
+      color: $brand-primary;
+      text-decoration: underline;
+    }
+  }
+  div {
+    text-align: right;
+    .md-button {
+      margin: 0px;
+    }
+  }
+}
