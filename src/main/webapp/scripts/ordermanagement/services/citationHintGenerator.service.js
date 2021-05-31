@@ -97,7 +97,7 @@ function($interpolate, LanguageService, $filter, $rootScope) {
       '{{dataPackage.title.de}}. ' +
       'Datenerhebung: {{dataPackage.surveyPeriod | displayPeriod}}. ' +
       'Version: {{dataPackage.release.version}}. ' +
-      'Datenpaketzugangsweg: {{accessWay | displayAccessWay}}. ' +
+      'Datenpaketzugangsweg: {{accessWay | displayAccessWay: true}}. ' +
       'Hannover: FDZ-DZHW. ' +
       'Datenkuratierung: {{dataPackage.dataCurators | displayPersons}} ' +
       'doi: {{dataPackage.doi}}';

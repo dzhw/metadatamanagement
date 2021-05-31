@@ -42,9 +42,36 @@
   <link ng-if="previousUiSref" rel="prev" ui-sref="{{previousUiSref}}" />
   <link ng-if="nextUiSref" rel="next" ui-sref="{{nextUiSref}}" />
   <meta ng-if="pageDescriptionKey" name="description" content="{{pageDescriptionKey | translate : pageDescriptionParams | removeMarkdown}}">
-
+  <!-- seo4Ajax setting -->
   <script>window.willCallOnCaptureReady = true;</script>
-
+  <!-- Matomo/Piwik -->
+  <script type="text/javascript">
+    var _paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['enableHeartBeatTimer']);
+    (function() {
+      // disable tracking on localhost and for seo4ajax clients
+      if (document.domain === 'localhost' || window.onCaptureReady) {
+        delete window._paq;
+        return;
+      };
+      if (document.referrer) {
+        _paq.push(['setReferrerUrl', document.referrer]);
+      }
+      var u="//webstat.dzhw.eu/piwik/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      if (document.domain === 'dev.metadata.fdz.dzhw.eu') {
+        _paq.push(['setSiteId', '31']);
+      } else if (document.domain === 'test.metadata.fdz.dzhw.eu') {
+        _paq.push(['setSiteId', '32']);
+      } else {
+        _paq.push(['setSiteId', '33']);
+      }
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo/Piwik Code -->
   <!-- build:css assets/styles/main.css -->
   <link rel="stylesheet" href="/assets/styles/main.css">
   <link rel="stylesheet" href="/assets/styles/fdz.css">
@@ -77,6 +104,8 @@
       <p>Here are the <a href="https://www.enable-javascript.com/" target="_blank">
         instructions how to enable JavaScript in your web browser</a>.</p>
     </div>
+    <!-- Matomo/Piwik track no javascript users -->
+    <p><img src="//webstat.dzhw.eu/piwik/piwik.php?idsite=31&amp;rec=1" style="border:0;" alt="" /></p>
   </noscript>
   <div class="fdz-app-title">
     <img alt="Logo des Forschungsdatenzentrums des Deutschen Zentrum für Hochschul- und Wissenschaftsforschung" src="assets/images/FDZ_Logo_With_Mag.svg">
@@ -91,7 +120,6 @@
 <header>
   <fdz-toolbar></fdz-toolbar>
 </header>
-<!--    <main data-flex data-layout="column" data-ng-cloak data-block-ui="main" class="block-ui-main">-->
 <main data-flex data-layout="row" data-ng-cloak data-block-ui="main" class="block-ui-main">
   <fdz-sidenav data-ng-cloak></fdz-sidenav>
   <md-content data-md-scroll-y data-layout="column" flex class="fdz-theme content-center" data-ng-cloak>
@@ -103,6 +131,7 @@
     </div>
   </md-content>
 </main>
+<user-consent-component></user-consent-component>
 <!-- build:js scripts/vendor.js -->
 <script src="../../../node_modules/jquery/dist/jquery.js"></script>
 <script src="../../../node_modules/angular/angular.js"></script>
@@ -167,6 +196,9 @@
 <script src="../../../node_modules/showdown/dist/showdown.js"></script>
 <script src="../../../node_modules/ng-showdown/dist/ng-showdown.js"></script>
 <script src="../../../node_modules/angular-swx-session-storage/release/swx-session-storage.js"></script>
+<script src="../../../node_modules/angulartics/src/angulartics.js"></script>
+<script src="../../../node_modules/angulartics-piwik/src/angulartics-piwik.js"></script>
+<!-- citation.js throws an exception in IE11 thus it has to come as last script -->
 <script src="../../../node_modules/citation-js/build/citation.js"></script>
 <!-- endbuild -->
 
@@ -312,6 +344,9 @@
 <script src="/scripts/common/location/locationSimplifier.service.js"></script>
 <script src="/scripts/common/people/edit-people.controller.js"></script>
 <script src="/scripts/common/people/edit-people.component.js"></script>
+<script src="/scripts/common/analytics/track-download.directive.js"></script>
+<script src="/scripts/common/analytics/user-consent.controller.js"></script>
+<script src="/scripts/common/analytics/user-consent.component.js"></script>
 
 <script src="/scripts/filemanagement/resources/file.resource.js"></script>
 <script src="/scripts/filemanagement/services/zipReader.service.js"></script>

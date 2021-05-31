@@ -32,7 +32,7 @@
           <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
           <td class="fdz-text-block" display-i18n-string="row.description" ></td>
           <td>{{row.language | displayIsoLanguage: $ctrl.lang}}</td>
-          <td class="fdz-td-filename"><a ng-href="{{row.id}}" target="_blank">{{row.fileName}}
+          <td class="fdz-td-filename"><a ng-href="{{row.id}}" target="_blank" fdz-track-download analytics-if="row.type.en === 'Method Report'" analytics-on="click" analytics-event="download-method-report" analytics-label="{{row.title}}" analytics-category="Downloads">{{row.fileName}}
             <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'global.tooltips.files.download' | translate: {filename: row.fileName} }}
             </md-tooltip>

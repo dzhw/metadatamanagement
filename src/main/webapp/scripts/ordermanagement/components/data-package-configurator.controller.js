@@ -28,6 +28,28 @@
     $ctrl.disabled = false;
     $scope.bowser = $rootScope.bowser;
     $ctrl.numberOfShoppingCartProducts = ShoppingCartService.count();
+    $ctrl.exportFormats = [{
+      format: 'oai_dc',
+      label: 'Dublin Core'
+    }, {
+      format: 'dara',
+      label: 'da|ra'
+    }, {
+      format: 'oai_ddi31',
+      label: 'DDI 3.1'
+    }, {
+      format: 'oai_ddi32',
+      label: 'DDI 3.2'
+    }, {
+      format: 'data_cite_xml',
+      label: 'DataCite (XML)'
+    }, {
+      format: 'data_cite_json',
+      label: 'DataCite (JSON)'
+    }, {
+      format: 'schema_org_json_ld',
+      label: 'Schema.org'
+    }];
 
     function init() {
       var search = $location.search();

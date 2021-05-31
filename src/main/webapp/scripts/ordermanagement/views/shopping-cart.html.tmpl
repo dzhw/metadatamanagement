@@ -19,7 +19,7 @@
               </a>
             </div>
             <div class="md-subhead left fdz-truncate-string">
-              <span>{{product.accessWay}}, </span><span>{{'shopping-cart.detail.label.version' | translate }} {{product.version}}</span>
+              <span>{{product.accessWay | displayAccessWay}},&nbsp</span><span>{{'shopping-cart.detail.label.version' | translate }} {{product.version}}</span>
               <strong ng-if="!ctrl.isCurrentVersion(product)">&nbsp;{{'(' + ('shopping-cart.detail.label.not-current' | translate) + ')'}}</strong>
               <span ng-if="ctrl.isCurrentVersion(product)">&nbsp;{{' (' + ('shopping-cart.detail.label.current' | translate) + ')'}}</span>
             </div>
@@ -98,7 +98,7 @@
       <md-card-content class="pt0">
         <p data-translate="shopping-cart.detail.explain-data-product"></p>
         <div layout="row">
-          <md-button class="md-raised md-accent fdz-truncate-string ml0 mt8" ng-click="ctrl.order()">
+          <md-button class="md-raised md-accent fdz-truncate-string ml0 mt8" ng-click="ctrl.order()" analytics-on="click" analytics-event="checkout-shopping-cart" analytics-label="{{'shopping-cart.buttons.checkout' | translate}}" analytics-category="Bestellprozess">
             <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
               {{'shopping-cart.buttons.checkout-tooltip' | translate}}
             </md-tooltip>
