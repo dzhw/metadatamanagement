@@ -182,7 +182,9 @@ try {
         $timeout(function() {
           $browser.notifyWhenNoOutstandingRequests(function() {
             if (window.onCaptureReady) {
-              window.onCaptureReady();
+              $timeout(function() {
+                window.onCaptureReady();
+              }, 1000);
             }
           });
         }, 1000);
