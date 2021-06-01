@@ -153,6 +153,7 @@
     function getCurrentObjectFilter() {
       var objMapper = {
         'data-packages': 'data-package',
+        'studies': 'data-package',
         'surveys': 'survey',
         'instruments': 'instrument',
         'questions': 'question',
