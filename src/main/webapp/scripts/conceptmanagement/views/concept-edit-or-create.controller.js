@@ -1,9 +1,9 @@
-/* global _, $, document */
+/* global _*/
 'use strict';
 
 angular.module('metadatamanagementApp')
   .controller('ConceptEditOrCreateController',
-    function(entity, PageMetadataService, $document, $timeout,
+    function(entity, PageMetadataService, $timeout,
       $state, BreadcrumbService, Principal, SimpleMessageToastService,
       ConceptResource, ConceptSearchService, $scope, $q,
       ElasticSearchAdminService, $transitions,
@@ -103,50 +103,6 @@ angular.module('metadatamanagementApp')
         }
       };
 
-      ctrl.deleteAuthor = function(index) {
-        ctrl.concept.authors.splice(index, 1);
-        $scope.conceptForm.$setDirty();
-      };
-
-      ctrl.addAuthor = function() {
-        ctrl.concept.authors.push({
-          firstName: '',
-          lastName: ''
-        });
-        $timeout(function() {
-          $document.find('input[name="authorsFirstName_' +
-              (ctrl.concept.authors.length - 1) + '"]')
-            .focus();
-        });
-      };
-
-      ctrl.setCurrentAuthor = function(index, event) {
-        ctrl.currentAuthorInputName = event.target.name;
-        ctrl.currentAuthorIndex = index;
-      };
-
-      var timeoutActive = null;
-      ctrl.deleteCurrentAuthor = function(event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
-        }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
-          if (document.activeElement &&
-            $(document.activeElement).parents('#move-container').length) {
-            return;
-          }
-          if (event.relatedTarget && (
-              event.relatedTarget.id === 'move-author-up-button' ||
-              event.relatedTarget.id === 'move-author-down-button')) {
-            return;
-          }
-          delete ctrl.currentAuthorIndex;
-          timeoutActive = null;
-        }, 500);
-      };
-
       var getDialogLabels = function() {
         return {
           createTitle: {
@@ -167,32 +123,6 @@ angular.module('metadatamanagementApp')
             }
           }
         };
-      };
-
-      ctrl.moveCurrentAuthorUp = function() {
-        var a = ctrl.concept.authors[ctrl.currentAuthorIndex - 1];
-        ctrl.concept.authors[ctrl.currentAuthorIndex - 1] =
-          ctrl.concept.authors[ctrl.currentAuthorIndex];
-        ctrl.concept.authors[ctrl.currentAuthorIndex] = a;
-        ctrl.currentAuthorInputName = ctrl.currentAuthorInputName
-          .replace('_' + ctrl.currentAuthorIndex,
-            '_' + (ctrl.currentAuthorIndex - 1));
-        $document.find('input[name="' + ctrl.currentAuthorInputName + '"]')
-          .focus();
-        $scope.conceptForm.$setDirty();
-      };
-
-      ctrl.moveCurrentAuthorDown = function() {
-        var a = ctrl.concept.authors[ctrl.currentAuthorIndex + 1];
-        ctrl.concept.authors[ctrl.currentAuthorIndex + 1] =
-          ctrl.concept.authors[ctrl.currentAuthorIndex];
-        ctrl.concept.authors[ctrl.currentAuthorIndex] = a;
-        ctrl.currentAuthorInputName = ctrl.currentAuthorInputName
-          .replace('_' + ctrl.currentAuthorIndex,
-            '_' + (ctrl.currentAuthorIndex + 1));
-        $document.find('input[name="' + ctrl.currentAuthorInputName + '"]')
-          .focus();
-        $scope.conceptForm.$setDirty();
       };
 
       ctrl.saveConcept = function() {

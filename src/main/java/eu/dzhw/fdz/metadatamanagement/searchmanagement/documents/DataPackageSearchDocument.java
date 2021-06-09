@@ -65,6 +65,7 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
   private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
 
   private List<I18nString> nestedInstitutions = new ArrayList<>();
+  private List<I18nString> nestedSponsors = new ArrayList<>();
 
   private Release release = null;
 
@@ -153,6 +154,7 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
           .collect(Collectors.toList());
     }
     this.nestedInstitutions = dataPackage.getInstitutions();
+    this.nestedSponsors = dataPackage.getSponsors();
     this.release = release;
     this.configuration = configuration;
     this.doi = doi;

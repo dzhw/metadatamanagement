@@ -317,7 +317,7 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
     };
 
     var findSponsors = function(searchText, filter, language,
-                                ignoreAuthorization) {
+                                    ignoreAuthorization, excludedSponsors) {
       ignoreAuthorization = ignoreAuthorization || false;
       language = language || LanguageService.getCurrentInstantly();
       var query = createQueryObject();
@@ -325,16 +325,34 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
       query.size = 0;
       query.body = {
         'aggs': {
-          'sponsorDe': {
-            'terms': {
-              'field': 'sponsor.de',
-              'size': 100
+          'sponsors': {
+            'nested': {
+              'path': 'nestedSponsors'
             },
             'aggs': {
-              'sponsorEn': {
-                'terms': {
-                  'field': 'sponsor.en',
-                  'size': 100
+              'filtered': {
+                'filter': {
+                  'bool': {
+                    'must': [{
+                      'match': {}
+                    }]
+                  }
+                },
+                'aggs': {
+                  'sponsorDe': {
+                    'terms': {
+                      'field': 'nestedSponsors.de',
+                      'size': 100
+                    },
+                    'aggs': {
+                      'sponsorEn': {
+                        'terms': {
+                          'field': 'nestedSponsors.en',
+                          'size': 100
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -344,31 +362,39 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
 
       query.body.query = {
         'bool': {
-          'must': [{
-            'match': {}
-          }]
+          'filter': {
+            'term': {
+              'shadow': false
+            }
+          }
         }
       };
 
-      query.body.query.bool.must[0].match
-        ['sponsor.' + language + '.ngrams'] = {
+      query.body.aggs.sponsors.aggs.filtered.filter.bool.must[0].match
+        ['nestedSponsors.' + language + '.ngrams'] = {
         'query': searchText || '',
         'operator': 'AND',
         'minimum_should_match': '100%',
         'zero_terms_query': 'ALL'
       };
 
-      if (termFilters) {
-        query.body.query.bool.filter = termFilters;
-      } else {
-        query.body.query.bool.filter = [];
+      if (excludedSponsors && excludedSponsors.length > 0) {
+        query.body.aggs.sponsors.aggs.filtered.filter.bool.must_not = [];
+        excludedSponsors.forEach(function(sponsor) {
+          if (sponsor) {
+            query.body.aggs.sponsors.aggs.filtered.filter.bool.must_not
+              .push({
+              'term': {
+                'nestedSponsors.de': sponsor.de
+              }
+            });
+          }
+        });
       }
 
-      query.body.query.bool.filter.push({
-        'term': {
-          'shadow': false
-        }
-      });
+      if (termFilters) {
+        query.body.query.bool.filter = termFilters;
+      }
 
       if (!ignoreAuthorization) {
         SearchHelperService.addFilter(query);
@@ -377,13 +403,15 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
       return ElasticSearchClient.search(query).then(function(result) {
         var sponsors = [];
         var sponsorElement = {};
-        result.aggregations.sponsorDe.buckets.forEach(function(bucket) {
-          sponsorElement = {
-            'de': bucket.key,
-            'en': bucket.sponsorEn.buckets[0].key
-          };
-          sponsors.push(sponsorElement);
-        });
+        result.aggregations.sponsors.filtered.sponsorDe.buckets.forEach(
+          function(bucket) {
+            sponsorElement = {
+              'de': bucket.key,
+              'en': bucket.sponsorEn.buckets[0].key
+            };
+            sponsorElement.count = bucket.doc_count;
+            sponsors.push(sponsorElement);
+          });
         return sponsors;
       });
     };
@@ -526,7 +554,7 @@ angular.module('metadatamanagementApp').factory('DataPackageSearchService',
         type,
         queryTerm,
         dataAcquisitionProjectId,
-        'sponsor'
+        'sponsors'
       );
 
       return GenericFilterOptionsSearchService.findFilterOptions(searchConfig);

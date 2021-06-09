@@ -225,7 +225,7 @@
 				}
 			}
 		},
-		"sponsor": {
+		"sponsors": {
 			"type": "object",
 			"properties": {
 				"de": {
@@ -284,6 +284,33 @@
 			}
 		},
 		"nestedInstitutions": {
+			"type": "nested",
+			"properties": {
+				"de": {
+					"type": "keyword",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"en": {
+					"type": "keyword",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				}
+			}
+		},
+		"nestedSponsors": {
 			"type": "nested",
 			"properties": {
 				"de": {

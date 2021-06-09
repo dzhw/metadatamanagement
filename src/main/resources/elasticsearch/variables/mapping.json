@@ -414,7 +414,7 @@
 						}
 					}
 				},
-				"sponsor": {
+				"sponsors": {
 					"type": "object",
 					"properties": {
 						"de": {

@@ -22,7 +22,7 @@ public interface DataPackageSubDocumentProjection
 
   List<I18nString> getInstitutions();
 
-  I18nString getSponsor();
+  List<I18nString> getSponsors();
 
   List<Person> getProjectContributors();
 

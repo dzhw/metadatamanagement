@@ -104,6 +104,8 @@ public class UnitTestCreateDomainObjectUtils {
     projectContributors.add(buildPerson("Test", null, "ProjectContributors"));
     List<I18nString> institutions =
         Arrays.asList(I18nString.builder().de("Institution De").en("Institution En").build());
+    List<I18nString> sponsors = 
+        Arrays.asList(I18nString.builder().de("Sponsor De").en("Sponsor En").build());
     List<Person> dataCurators = new ArrayList<>();
     dataCurators.add(buildPerson("Test", null, "ProjectContributors"));
 
@@ -113,7 +115,7 @@ public class UnitTestCreateDomainObjectUtils {
         .description(I18nString.builder().de("Description De").en("Description En").build())
         .institutions(institutions)
         .studySeries(I18nString.builder().de("DataPackage Series De").en("DataPackage Series En").build())
-        .sponsor(I18nString.builder().de("Sponsor De").en("Sponsor En").build())
+        .sponsors(sponsors)
         .title(I18nString.builder().de("Titel De").en("Title En").build())
         .annotations(I18nString.builder().de("De Anmerkungen").en("En Annotations").build())
         .tags(tags).surveyDesign(SurveyDesigns.PANEL)

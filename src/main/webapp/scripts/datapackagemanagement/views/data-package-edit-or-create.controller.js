@@ -16,8 +16,8 @@ angular.module('metadatamanagementApp')
 
       var ctrl = this;
       var studySeriesCache = {};
-      var sponsorsCache = {};
       ctrl.currentInstitutions = [];
+      ctrl.currentSponsors = [];
       var attachmentTypes = [
         {de: 'Daten- und Methodenbericht', en: 'Method Report'},
         {de: 'Sonstiges', en: 'Other'}
@@ -138,7 +138,8 @@ angular.module('metadatamanagementApp')
             CurrentProjectService.setCurrentProject(project);
             ctrl.dataPackage = dataPackage;
             ctrl.currentStudySeries = dataPackage.studySeries;
-            ctrl.currentSponsor = dataPackage.sponsor;
+            ctrl.currentSponsors = angular.copy(
+              ctrl.dataPackage.sponsors);
             ctrl.currentInstitutions = angular.copy(
               ctrl.dataPackage.institutions);
             ctrl.loadAttachments();
@@ -188,9 +189,14 @@ angular.module('metadatamanagementApp')
                       institutions: [{
                         de: '',
                         en: ''
+                      }],
+                      sponsors: [{
+                        de: '',
+                        en: ''
                       }]
                     });
                     ctrl.currentInstitutions = new Array(1);
+                    ctrl.currentSponsors = new Array(1);
                     updateToolbarHeaderAndPageTitle();
                     $scope.registerConfirmOnDirtyHook();
                   });
@@ -213,158 +219,6 @@ angular.module('metadatamanagementApp')
         en: 'Cross-Section'
       }];
 
-      ctrl.deleteProjectContributor = function(index) {
-        ctrl.dataPackage.projectContributors.splice(index, 1);
-        $scope.dataPackageForm.$setDirty();
-      };
-
-      ctrl.addProjectContributor = function() {
-        ctrl.dataPackage.projectContributors.push({
-          firstName: '',
-          lastName: ''
-        });
-        $timeout(function() {
-          $document.find('input[name="projectContributorsFirstName_' +
-              (ctrl.dataPackage.projectContributors.length - 1) + '"]')
-            .focus();
-        });
-      };
-
-      ctrl.setCurrentProjectContributor = function(index, event) {
-        ctrl.currentProjectContributorInputName = event.target.name;
-        ctrl.currentProjectContributorIndex = index;
-      };
-
-      var timeoutActive = null;
-      ctrl.deleteCurrentProjectContributor = function(event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
-        }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
-          if (document.activeElement &&
-            $(document.activeElement).parents('#move-container').length) {
-            return;
-          }
-          if (event.relatedTarget && (
-              event.relatedTarget.id === 'move-contributor-up-button' ||
-              event.relatedTarget.id === 'move-contributor-down-button')) {
-            return;
-          }
-          delete ctrl.currentProjectContributorIndex;
-          timeoutActive = null;
-        }, 500);
-      };
-
-      ctrl.moveCurrentProjectContributorUp = function() {
-        var a = ctrl.dataPackage.projectContributors[
-          ctrl.currentProjectContributorIndex - 1];
-        ctrl.dataPackage.projectContributors[
-          ctrl.currentProjectContributorIndex - 1] =
-          ctrl.dataPackage.projectContributors[
-            ctrl.currentProjectContributorIndex];
-        ctrl.dataPackage.projectContributors[
-          ctrl.currentProjectContributorIndex] = a;
-        ctrl.currentProjectContributorInputName = ctrl
-          .currentProjectContributorInputName
-          .replace('_' + ctrl.currentProjectContributorIndex,
-            '_' + (ctrl.currentProjectContributorIndex - 1));
-        $document.find('input[name="' +
-          ctrl.currentProjectContributorInputName + '"]')
-          .focus();
-        $scope.dataPackageForm.$setDirty();
-      };
-
-      ctrl.moveCurrentProjectContributorDown = function() {
-        var a = ctrl.dataPackage.projectContributors[
-          ctrl.currentProjectContributorIndex + 1];
-        ctrl.dataPackage.projectContributors[
-          ctrl.currentProjectContributorIndex + 1] =
-          ctrl.dataPackage.projectContributors[
-            ctrl.currentProjectContributorIndex];
-        ctrl.dataPackage.projectContributors[
-          ctrl.currentProjectContributorIndex] = a;
-        ctrl.currentProjectContributorInputName = ctrl
-          .currentProjectContributorInputName
-          .replace('_' + ctrl.currentProjectContributorIndex,
-            '_' + (ctrl.currentProjectContributorIndex + 1));
-        $document.find('input[name="' +
-          ctrl.currentProjectContributorInputName + '"]')
-          .focus();
-        $scope.dataPackageForm.$setDirty();
-      };
-
-      ctrl.deleteCurator = function(index) {
-        ctrl.dataPackage.dataCurators.splice(index, 1);
-        $scope.dataPackageForm.$setDirty();
-      };
-
-      ctrl.addCurator = function() {
-        ctrl.dataPackage.dataCurators.push({
-          firstName: '',
-          lastName: ''
-        });
-        $timeout(function() {
-          $document.find('input[name="curatorsFirstName_' +
-              (ctrl.dataPackage.dataCurators.length - 1) + '"]')
-            .focus();
-        });
-      };
-
-      ctrl.setCurrentCurator = function(index, event) {
-        ctrl.currentCuratorInputName = event.target.name;
-        ctrl.currentCuratorIndex = index;
-      };
-
-      ctrl.deleteCurrentCurator = function(event) {
-        if (timeoutActive) {
-          $timeout.cancel(timeoutActive);
-        }
-        timeoutActive = $timeout(function() {
-          timeoutActive = false;
-          // msie workaround: inputs unfocus on button mousedown
-          if (document.activeElement &&
-            $(document.activeElement).parents('#move-curators-container')
-              .length) {
-            return;
-          }
-          if (event.relatedTarget && (
-              event.relatedTarget.id === 'move-curator-up-button' ||
-              event.relatedTarget.id === 'move-curator-down-button')) {
-            return;
-          }
-          delete ctrl.currentCuratorIndex;
-          timeoutActive = null;
-        }, 500);
-      };
-
-      ctrl.moveCurrentCuratorUp = function() {
-        var a = ctrl.dataPackage.dataCurators[ctrl.currentCuratorIndex - 1];
-        ctrl.dataPackage.dataCurators[ctrl.currentCuratorIndex - 1] =
-          ctrl.dataPackage.dataCurators[ctrl.currentCuratorIndex];
-        ctrl.dataPackage.dataCurators[ctrl.currentCuratorIndex] = a;
-        ctrl.currentCuratorInputName = ctrl.currentCuratorInputName
-          .replace('_' + ctrl.currentCuratorIndex,
-            '_' + (ctrl.currentCuratorIndex - 1));
-        $document.find('input[name="' + ctrl.currentCuratorInputName + '"]')
-          .focus();
-        $scope.dataPackageForm.$setDirty();
-      };
-
-      ctrl.moveCurrentCuratorDown = function() {
-        var a = ctrl.dataPackage.dataCurators[ctrl.currentCuratorIndex + 1];
-        ctrl.dataPackage.dataCurators[ctrl.currentCuratorIndex + 1] =
-          ctrl.dataPackage.dataCurators[ctrl.currentCuratorIndex];
-        ctrl.dataPackage.dataCurators[ctrl.currentCuratorIndex] = a;
-        ctrl.currentCuratorInputName = ctrl.currentCuratorInputName
-          .replace('_' + ctrl.currentCuratorIndex,
-            '_' + (ctrl.currentCuratorIndex + 1));
-        $document.find('input[name="' + ctrl.currentCuratorInputName + '"]')
-          .focus();
-        $scope.dataPackageForm.$setDirty();
-      };
-
       ctrl.deleteInstitution = function(index) {
         ctrl.dataPackage.institutions.splice(index, 1);
         ctrl.currentInstitutions.splice(index, 1);
@@ -384,6 +238,8 @@ angular.module('metadatamanagementApp')
         ctrl.currentInstitutionInputName = event.target.name;
         ctrl.currentInstitutionIndex = index;
       };
+
+      var timeoutActive = null;
 
       ctrl.deleteCurrentInstitution = function(event) {
         if (timeoutActive) {
@@ -437,6 +293,82 @@ angular.module('metadatamanagementApp')
           .replace('_' + ctrl.currentInstitutionIndex,
             '_' + (ctrl.currentInstitutionIndex + 1));
         $document.find('input[name="' + ctrl.currentInstitutionInputName + '"]')
+          .focus();
+        $scope.dataPackageForm.$setDirty();
+      };
+
+      ctrl.deleteSponsor = function(index) {
+        ctrl.dataPackage.sponsors.splice(index, 1);
+        ctrl.currentSponsors.splice(index, 1);
+        $scope.dataPackageForm.$setDirty();
+      };
+
+      ctrl.addSponsor = function() {
+        ctrl.currentSponsors.push(null);
+        $timeout(function() {
+          $document.find('input[name="sponsorDe_' +
+              (ctrl.dataPackage.sponsors.length - 1) + '"]')
+            .focus();
+        }, 200);
+      };
+
+      ctrl.setCurrentSponsor = function(index, event) {
+        ctrl.currentSponsorInputName = event.target.name;
+        ctrl.currentSponsorIndex = index;
+      };
+
+      ctrl.deleteCurrentSponsor = function(event) {
+        if (timeoutActive) {
+          $timeout.cancel(timeoutActive);
+        }
+        timeoutActive = $timeout(function() {
+          timeoutActive = false;
+          // msie workaround: inputs unfocus on button mousedown
+          if (document.activeElement &&
+            $(document.activeElement).parents('#move-sponsor-container')
+              .length) {
+            return;
+          }
+          if (event.relatedTarget && (
+              event.relatedTarget.id === 'move-sponsor-up-button' ||
+              event.relatedTarget.id === 'move-sponsor-down-button')) {
+            return;
+          }
+          delete ctrl.currentSponsorIndex;
+          timeoutActive = null;
+        }, 500);
+      };
+
+      ctrl.moveCurrentSponsorUp = function() {
+        var a = ctrl.dataPackage.sponsors[ctrl.currentSponsorIndex - 1];
+        ctrl.dataPackage.sponsors[ctrl.currentSponsorIndex - 1] =
+          ctrl.dataPackage.sponsors[ctrl.currentSponsorIndex];
+        ctrl.dataPackage.sponsors[ctrl.currentSponsorIndex] = a;
+        a = ctrl.currentSponsors[ctrl.currentSponsorIndex - 1];
+        ctrl.currentSponsors[ctrl.currentSponsorIndex - 1] =
+          ctrl.currentSponsors[ctrl.currentSponsorIndex];
+        ctrl.currentSponsors[ctrl.currentSponsorIndex] = a;
+        ctrl.currentSponsorInputName = ctrl.currentSponsorInputName
+          .replace('_' + ctrl.currentSponsorIndex,
+            '_' + (ctrl.currentSponsorIndex - 1));
+        $document.find('input[name="' + ctrl.currentSponsorInputName + '"]')
+          .focus();
+        $scope.dataPackageForm.$setDirty();
+      };
+
+      ctrl.moveCurrentSponsorDown = function() {
+        var a = ctrl.dataPackage.sponsors[ctrl.currentSponsorIndex + 1];
+        ctrl.dataPackage.sponsors[ctrl.currentSponsorIndex + 1] =
+          ctrl.dataPackage.sponsors[ctrl.currentSponsorIndex];
+        ctrl.dataPackage.sponsors[ctrl.currentSponsorIndex] = a;
+        a = ctrl.currentSponsors[ctrl.currentSponsorIndex + 1];
+        ctrl.currentSponsors[ctrl.currentSponsorIndex + 1] =
+          ctrl.currentSponsors[ctrl.currentSponsorIndex];
+        ctrl.currentSponsors[ctrl.currentSponsorIndex] = a;
+        ctrl.currentSponsorInputName = ctrl.currentSponsorInputName
+          .replace('_' + ctrl.currentSponsorIndex,
+            '_' + (ctrl.currentSponsorIndex + 1));
+        $document.find('input[name="' + ctrl.currentSponsorInputName + '"]')
           .focus();
         $scope.dataPackageForm.$setDirty();
       };
@@ -556,6 +488,17 @@ angular.module('metadatamanagementApp')
                 en: ''
               }];
             }
+            if (ctrl.dataPackage.sponsors &&
+                ctrl.dataPackage.sponsors.length > 0) {
+              ctrl.currentSponsors = angular.copy(
+                ctrl.dataPackage.sponsors);
+            } else {
+              ctrl.currentSponsors = new Array(1);
+              ctrl.dataPackage.sponsors = [{
+                de: '',
+                en: ''
+              }];
+            }
             if (wrapper.isCurrentVersion) {
               $scope.dataPackageForm.$setPristine();
               SimpleMessageToastService.openSimpleMessageToast(
@@ -602,18 +545,10 @@ angular.module('metadatamanagementApp')
       };
 
       $scope.searchSponsors = function(searchText, language) {
-        if (searchText === sponsorsCache.searchText &&
-          language === sponsorsCache.language) {
-          return sponsorsCache.searchResult;
-        }
-
         //Search Call to Elasticsearch
         return DataPackageSearchService.findSponsors(searchText, {},
-            language, true)
+            language, true, ctrl.currentSponsors)
           .then(function(sponsors) {
-            sponsorsCache.searchText = searchText;
-            sponsorsCache.language = language;
-            sponsorsCache.searchResult = sponsors;
             return sponsors;
           });
       };

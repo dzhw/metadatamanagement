@@ -215,6 +215,7 @@ angular.module('metadatamanagementApp').config(
             'tags': 'Tags (Keywords) for the Data Package',
             'publication-year': 'Year of Publication',
             'institution': 'Institution',
+            'sponsor': 'Sponsor',
             'location': 'Location'
           },
           'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this data package.',
@@ -235,6 +236,10 @@ angular.module('metadatamanagementApp').config(
           'move-institution-down-tooltip': 'Click to move the selected institution down.',
           'add-institution-tooltip': 'Click to add another institution to this data package.',
           'delete-institution-tooltip': 'Click to remove the institution from this data package.',
+          'move-sponsor-up-tooltip': 'Click to move the selected sponsor up.',
+          'move-sponsor-down-tooltip': 'Click to move the selected sponsor down.',
+          'add-sponsor-tooltip': 'Click to add another sponsor to this data package.',
+          'delete-sponsor-tooltip': 'Click to remove the sponsor from this data package.',
           'choose-previous-version': {
             'title': 'Restore Previous Version of Data Package {{ dataPackageId }}',
             'text': 'Choose a previous version of this data package which shall be restored:',

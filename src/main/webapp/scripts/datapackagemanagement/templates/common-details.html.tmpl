@@ -40,11 +40,11 @@
             class="md-secondary" style="white-space: pre-wrap;"
             ng-repeat="institution in $ctrl.options.dataPackage.institutions">{{institution[$ctrl.lang]}}{{!$last?'; ':''}}</span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.dataPackage.sponsor">
+        <md-list-item ng-if="$ctrl.options.dataPackage.sponsors">
           <h5>{{'data-package-management.detail.label.sponsors' | translate }}:</h5>
           <span
-            class="md-secondary"
-            display-i18n-string="$ctrl.options.dataPackage.sponsor"></span>
+            class="md-secondary" style="white-space: pre-wrap;"
+            ng-repeat="sponsor in $ctrl.options.dataPackage.sponsors">{{sponsor[$ctrl.lang]}}{{!$last?'; ':''}}</span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.projectContributors">
           <h5>{{'data-package-management.detail.label.projectContributors' | translate }}:</h5>
