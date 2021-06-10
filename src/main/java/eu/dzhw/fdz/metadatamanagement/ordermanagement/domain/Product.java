@@ -27,8 +27,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Schema(
-    description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
-    + "fdz/metadatamanagement/ordermanagement/domain/Product.html'>here</a> for further details.")
+    description = "Go <a href='https://dzhw.github.io/metadatamanagement/"
+    + "eu/dzhw/fdz/metadatamanagement/ordermanagement/domain/Product.html'>here</a>"
+    + " for further details.")
 public class Product implements Serializable {
 
   private static final long serialVersionUID = -1403870156469073381L;

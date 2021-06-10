@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/dzhw/metadatamanagement/workflows/Build%20and%20Deploy/badge.svg)](https://github.com/dzhw/metadatamanagement/actions) [![Documentation Status](https://readthedocs.org/projects/metadatamanagement/badge/?version=latest)](https://metadatamanagement.readthedocs.io/de/latest/javadoc/packages.html)
+[![Build Status](https://github.com/dzhw/metadatamanagement/workflows/Build%20and%20Deploy/badge.svg)](https://github.com/dzhw/metadatamanagement/actions) [![Documentation Status](https://readthedocs.org/projects/metadatamanagement/badge/?version=latest)](https://metadatamanagement.readthedocs.io/de/latest/)
 [![Known Backend Vulnerabilities](https://snyk.io/test/github/dzhw/metadatamanagement/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/dzhw/metadatamanagement?targetFile=pom.xml
 )[![Known Frontend Vulnerabilities](https://snyk.io/test/github/dzhw/metadatamanagement/badge.svg?targetFile=package.json)](https://snyk.io/test/github/dzhw/metadatamanagement?targetFile=package.json
 )[![codecov](https://codecov.io/gh/dzhw/metadatamanagement/branch/development/graph/badge.svg)](https://codecov.io/gh/dzhw/metadatamanagement)[![Mergify Status](https://gh.mergify.io/badges/dzhw/metadatamanagement.png?style=cut)](https://mergify.io)
@@ -79,7 +79,7 @@ We test our project continuously with the Robot Framework. Test Developers can g
 The following picture models the relationships and attributes of the domain objects which are managed by our system.
 ![Domain Model](https://github.com/dzhw/metadatamanagement/wiki/images/domain-model.png)
 
-Javadoc for our domain model can be found [here](https://metadatamanagement.readthedocs.io/de/latest/javadoc/packages.html).
+Javadoc for our domain model can be found [here](https://dzhw.github.io/metadatamanagement/).
 
 ### Architecture
 
