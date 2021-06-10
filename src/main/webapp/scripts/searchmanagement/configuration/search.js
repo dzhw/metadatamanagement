@@ -9,7 +9,7 @@ angular.module('metadatamanagementApp').config(
         '{data-set}{derived-variables-identifier}{instrument}{institution-de}' +
         '{institutions}{institution-en}{page}' +
         '{query}{question}{related-publication}' +
-        '{repeated-measurement-identifier}{size}{sponsor}{sponsor-de}' +
+        '{repeated-measurement-identifier}{size}{sponsors}{sponsor-de}' +
         '{sponsor-en}{study-series}{survey-data-types}' +
         '{study-series-de}{study-series-en}{survey}{survey-method-de}' +
         '{survey-method-en}{tags}{type}{variable}',

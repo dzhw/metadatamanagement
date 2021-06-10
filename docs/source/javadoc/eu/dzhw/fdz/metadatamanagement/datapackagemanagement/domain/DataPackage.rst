@@ -126,7 +126,7 @@ institutions
 .. java:field:: @NotEmpty private List<I18nString> institutions
    :outertype: DataPackage
 
-   The names of the institutions which have performed this dataPackage. It must be specified in German and English and it must not contain more than 512 characters.
+   The names of the institutions which have performed the study from which this data package results. It must be specified in German and English and it must not contain more than 512 characters.
 
 masterId
 ^^^^^^^^
@@ -150,13 +150,13 @@ serialVersionUID
 .. java:field:: private static final long serialVersionUID
    :outertype: DataPackage
 
-sponsor
-^^^^^^^
+sponsors
+^^^^^^^^
 
-.. java:field:: @NotNull @I18nStringSize @I18nStringEntireNotEmpty private I18nString sponsor
+.. java:field:: @NotEmpty private List<I18nString> sponsors
    :outertype: DataPackage
 
-   The name of the sponsor who which has sponsored this dataPackage. It must be specified in German and English and it must not contain more than 512 characters.
+   The names of the sponsors which have sponsored the study or project from which this data package results. It must be specified in German and English and it must not contain more than 512 characters.
 
 studySeries
 ^^^^^^^^^^^

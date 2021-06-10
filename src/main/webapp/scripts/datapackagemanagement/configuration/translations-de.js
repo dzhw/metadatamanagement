@@ -154,9 +154,9 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-entire-not-empty': 'Die Institution eines Datenpakets muss in beiden Sprachen vorhanden sein.'
             },
             'sponsor': {
-              'not-null': 'Der Sponsor eines Datenpakets darf nicht leer sein!',
-              'i18n-string-size': 'Die Maximallänge des Sponsors eines Datenpakets ist 512 Zeichen.',
-              'i18n-string-entire-not-empty': 'Der Sponsor eines Datenpakets muss in beiden Sprachen vorhanden sein.'
+              'not-null': 'Die Geldgeber:in eines Datenpakets darf nicht leer sein!',
+              'i18n-string-size': 'Die Maximallänge der Geldgeber:in eines Datenpakets ist 512 Zeichen.',
+              'i18n-string-entire-not-empty': 'Die Geldgeber:in eines Datenpakets muss in beiden Sprachen vorhanden sein.'
             },
             'study-series': {
               'i18n-string-size': 'Die Maximallänge der Studienreihe ist 512 Zeichen.',
@@ -215,6 +215,7 @@ angular.module('metadatamanagementApp').config(
             'tags': 'Tags (Schlagwörter) zum Datenpaket',
             'publication-year': 'Jahr der Veröffentlichung',
             'institution': 'Institution',
+            'sponsor': 'Geldgeber:in',
             'location': 'Ort'
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Datenpakets wieder herzustellen.',
@@ -235,6 +236,10 @@ angular.module('metadatamanagementApp').config(
           'move-institution-down-tooltip': 'Klicken, um die ausgewählte Institution nach unten zu verschieben.',
           'add-institution-tooltip': 'Klicken, um eine weitere Institution diesem Datenpaket hinzuzufügen.',
           'delete-institution-tooltip': 'Klicken, um die Institution aus diesem Datenpaket zu entfernen.',
+          'move-sponsor-up-tooltip': 'Klicken, um die ausgewählte Geldgeber:in nach oben zu verschieben.',
+          'move-sponsor-down-tooltip': 'Klicken, um die ausgewählte Geldgeber:in nach unten zu verschieben.',
+          'add-sponsor-tooltip': 'Klicken, um eine weitere Geldgeber:in diesem Datenpaket hinzuzufügen.',
+          'delete-sponsor-tooltip': 'Klicken, um die Geldgeber:in aus diesem Datenpaket zu entfernen.',
           'choose-previous-version': {
             'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
             'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
@@ -258,8 +263,8 @@ angular.module('metadatamanagementApp').config(
               'en': 'Geben Sie den englischen Namen der Institution ein, die die Erhebungen durchgeführt hat.'
             },
             'sponsor': {
-              'de': 'Geben Sie den deutschen Namen des Geldgebers für dieses Datenpaket ein.',
-              'en': 'Geben Sie den englischen Namen des Geldgebers für dieses Datenpaket ein.'
+              'de': 'Geben Sie den deutschen Namen der Geldgeber:in für dieses Datenpaket ein.',
+              'en': 'Geben Sie den englischen Namen der Geldgeber:in für dieses Datenpaket ein.'
             },
             'survey-design': 'Wählen Sie das Erhebungsdesign dieses Datenpakets aus.',
             'annotations': {

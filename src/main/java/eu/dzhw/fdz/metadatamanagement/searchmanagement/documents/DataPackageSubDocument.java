@@ -34,7 +34,7 @@ public class DataPackageSubDocument extends AbstractRdcDomainObject
 
   private List<I18nString> institutions;
 
-  private I18nString sponsor;
+  private List<I18nString> sponsors;
 
   private I18nString studySeries;
 

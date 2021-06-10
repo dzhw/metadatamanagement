@@ -97,7 +97,7 @@ angular.module('metadatamanagementApp').config(
           'related-publications': 'No Publications found for your search request.',
           'instruments': 'No Instruments found for your search request.',
           'concepts': 'No Concepts found for your search request.',
-          'sponsor': 'No Instruments found for your search request.'
+          'sponsors': 'No Sponsors found for your search request.'
         },
         'tabs': {
           'variables': 'Variables',

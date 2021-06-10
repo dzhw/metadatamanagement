@@ -34,8 +34,8 @@ angular.module('metadatamanagementApp').factory(
           i18n: true,
           min_doc_count: 1
         },
-        'sponsor': {
-          attribute: 'sponsor',
+        'sponsors': {
+          attribute: 'sponsors',
           i18n: true,
           min_doc_count: 1
         },
@@ -74,10 +74,10 @@ angular.module('metadatamanagementApp').factory(
           i18n: true,
           concatMultipleWithOr: false
         },
-        'sponsor': {
-          attribute: 'sponsor',
+        'sponsors': {
+          attribute: 'sponsors',
           i18n: true,
-          concatMultipleWithOr: true
+          concatMultipleWithOr: false
         },
         'institutions': {
           attribute: 'institutions',
@@ -99,8 +99,8 @@ angular.module('metadatamanagementApp').factory(
         'related-publication': 'relatedPublications.id',
         'institution-de': 'institutions.de',
         'institution-en': 'institutions.en',
-        'sponsor-de': 'sponsor.de',
-        'sponsor-en': 'sponsor.en',
+        'sponsor-de': 'sponsors.de',
+        'sponsor-en': 'sponsors.en',
         'survey-method-de': 'surveys.surveyMethod.de',
         'survey-method-en': 'surveys.surveyMethod.en',
         'concept': 'concepts.id'
@@ -118,8 +118,8 @@ angular.module('metadatamanagementApp').factory(
         'derived-variables-identifier': 'derivedVariablesIdentifier',
         'institution-de': 'dataPackage.institutions.de',
         'institution-en': 'dataPackage.institutions.en',
-        'sponsor-de': 'dataPackage.sponsor.de',
-        'sponsor-en': 'dataPackage.sponsor.en',
+        'sponsor-de': 'dataPackage.sponsors.de',
+        'sponsor-en': 'dataPackage.sponsors.en',
         'survey-method-de': 'surveys.surveyMethod.de',
         'survey-method-en': 'surveys.surveyMethod.en',
         'concept': 'concepts.id'
@@ -134,8 +134,8 @@ angular.module('metadatamanagementApp').factory(
         'variable': 'variables.id',
         'institution-de': 'dataPackage.institutions.de',
         'institution-en': 'dataPackage.institutions.en',
-        'sponsor-de': 'dataPackage.sponsor.de',
-        'sponsor-en': 'dataPackage.sponsor.en',
+        'sponsor-de': 'dataPackage.sponsors.de',
+        'sponsor-en': 'dataPackage.sponsors.en',
         'survey-method-de': 'surveyMethod.de',
         'survey-method-en': 'surveyMethod.en',
         'concept': 'concepts.id'
@@ -150,8 +150,8 @@ angular.module('metadatamanagementApp').factory(
         'variable': 'variables.id',
         'institution-de': 'dataPackage.institutions.de',
         'institution-en': 'dataPackage.institutions.en',
-        'sponsor-de': 'dataPackage.sponsor.de',
-        'sponsor-en': 'dataPackage.sponsor.en',
+        'sponsor-de': 'dataPackage.sponsors.de',
+        'sponsor-en': 'dataPackage.sponsors.en',
         'survey-method-de': 'surveys.surveyMethod.de',
         'survey-method-en': 'surveys.surveyMethod.en',
         'concept': 'conceptIds'
@@ -166,8 +166,8 @@ angular.module('metadatamanagementApp').factory(
         'variable': 'variables.id',
         'institution-de': 'dataPackage.institutions.de',
         'institution-en': 'dataPackage.institutions.en',
-        'sponsor-de': 'dataPackage.sponsor.de',
-        'sponsor-en': 'dataPackage.sponsor.en',
+        'sponsor-de': 'dataPackage.sponsors.de',
+        'sponsor-en': 'dataPackage.sponsors.en',
         'survey-method-de': 'surveys.surveyMethod.de',
         'survey-method-en': 'surveys.surveyMethod.en',
         'concept': 'concepts.id'
@@ -183,8 +183,8 @@ angular.module('metadatamanagementApp').factory(
         'access-way': 'accessWays',
         'institution-de': 'dataPackage.institutions.de',
         'institution-en': 'dataPackage.institutions.en',
-        'sponsor-de': 'dataPackage.sponsor.de',
-        'sponsor-en': 'dataPackage.sponsor.en',
+        'sponsor-de': 'dataPackage.sponsors.de',
+        'sponsor-en': 'dataPackage.sponsors.en',
         'survey-method-de': 'surveys.surveyMethod.de',
         'survey-method-en': 'surveys.surveyMethod.en',
         'concept': 'concepts.id'

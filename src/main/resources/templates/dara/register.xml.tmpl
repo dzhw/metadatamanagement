@@ -225,17 +225,19 @@
      </contributor>
     </#list>
   </contributors>
-  <#if dataPackage.sponsor??>
+  <#if dataPackage.sponsors??>
     <fundingReferences>
+      <#list dataPackage.sponsors as sponsor>	
       <fundingReference>
         <institution>
-          <#if dataPackage.sponsor.de??>
-            <institutionName>${dataPackage.sponsor.de}</institutionName>
+          <#if sponsor.de??>
+            <institutionName>${sponsor.de}</institutionName>
             <#else>
-              <institutionName>${dataPackage.sponsor.en}</institutionName>
+            <institutionName>${sponsor.en}</institutionName>
           </#if>
         </institution>
       </fundingReference>
+      </#list>
     </fundingReferences>
   </#if>
 

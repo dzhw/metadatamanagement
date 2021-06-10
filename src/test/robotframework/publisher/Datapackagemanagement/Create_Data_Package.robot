@@ -19,8 +19,8 @@ Create Data Package by Publisher
     Choose Panel As Survey Design
     Input Text    name=institutionDe_0    DZHW ${BROWSER}
     Input Text    name=institutionEn_0    DZHW ${BROWSER}
-    Input Text    name=sponsorDe    BMBF ${BROWSER}
-    Input Text    name=sponsorEn    BMBF ${BROWSER}
+    Input Text    name=sponsorDe_0    BMBF ${BROWSER}
+    Input Text    name=sponsorEn_0    BMBF ${BROWSER}
     Input Text    name=annotationsDe    Dieses Datenpaket wurde von Robot automatisch erstellt.
     Input Text    name=annotationsEn    This data package was created automatically by Robot.x
     Focus    xpath=//textarea[@name = 'descriptionDe']
