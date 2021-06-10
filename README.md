@@ -66,20 +66,10 @@ This image can be run with all its dependent containers by
 
 Our CI pipleline will do some automatic checks and tests and it will optimize the metadatamanagement client for the dev environment. So before pushing to Github in order to be sure you won't fail the build you should run:
 
-    mvn -Pdev clean install
+    mvn -Pdev clean verify
 
 This will concatenate and minify CSS and JavaScript files using grunt. It will also modify the `index.html` so it references
 these new files.
-
-To make the build runnable with an enabled dev profile, you'll need to install the following dependencies:
-
-*   Python
-
-Once Python is installed, run:
-
-    pip install git+https://github.com/dzhw/javasphinx.git --user
-
-Note that the `--user` flag installs the dependency somewhere in your user directory (e.g. /home/{user}/local/bin on Linux). Make sure that the installed binaries/scripts are on your path.
 
 We test our project continuously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
 
