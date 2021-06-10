@@ -4,8 +4,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ImmutableI18nString;
 
 /**
- * Resource Types as they are harvested from DARA by the VFDB.
- * @see https://mdr.iqb.hu-berlin.de/#/catalog/5c4748e0-bcaa-c3c3-e5af-dd481fddbf0c
+ * Resource Types as they are harvested from DARA by the VFDB. Controlled vocabulary as defined
+ * <a href="https://mdr.iqb.hu-berlin.de/#/catalog/5c4748e0-bcaa-c3c3-e5af-dd481fddbf0c">here</a>.
  */
 public class FreeResourceTypes {
   public static final I18nString SURVEY_DATA =

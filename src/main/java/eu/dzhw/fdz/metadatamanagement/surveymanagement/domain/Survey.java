@@ -79,7 +79,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the {@link DataAcquisitionProject} to which this survey belongs.
-   * 
+   *
    * The dataAcquisitionProjectId must not be empty.
    */
   @Indexed
@@ -88,7 +88,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * The title of the instrument.
-   * 
+   *
    * It must be specified in German and English and it must not contain more than 2048 characters.
    */
   @I18nStringSize(max = StringLengths.LARGE,
@@ -99,7 +99,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * Details about the {@link Population}.
-   * 
+   *
    * Must not be empty.
    */
   @Valid
@@ -108,7 +108,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * The survey method briefly describes how the data were collected.
-   * 
+   *
    * It must be specified in German and English and it must not contain more than 2048 characters.
    */
   @NotNull(message = "survey-management.error.survey.survey-method.not-null")
@@ -120,7 +120,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * The number of the instrument.
-   * 
+   *
    * Must not be empty and must be unique within the {@link DataAcquisitionProject}.
    */
   @NotNull(message = "survey-management.error.survey.number.not-null")
@@ -128,7 +128,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * The period during which the survey has been conducted or is expected to be conducted.
-   * 
+   *
    * Must not be empty.
    */
   @NotNull(message = "survey-management.error.survey.field-period.not-null")
@@ -138,9 +138,8 @@ public class Survey extends AbstractShadowableRdcDomainObject {
   /**
    * The sampling method is the procedure for selecting sample members from a population. It must
    * match the controlled vocabulary specified by VFDB.
-   * 
-   * @see <a href=https://mdr.iqb.hu-berlin.de/#/catalog/1d791cc7-6d8d-dd35-b1ef-0eec9c31bbb5">
-   *      Catalog: GNERD: Sampling Procedure Educational Research (Version 1.0) </a>
+   * <a href="https://mdr.iqb.hu-berlin.de/#/catalog/1d791cc7-6d8d-dd35-b1ef-0eec9c31bbb5">
+   * Catalog: GNERD: Sampling Procedure Educational Research (Version 1.0)</a>
    */
   @NotNull(message = "survey-management.error.survey.sample.not-null")
   @ValidSampleType(message = "survey-management.error.survey.sample.valid-sample-type")
@@ -149,7 +148,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
   /**
    * Number of the wave which this {@link Survey} represents. Will be ignored if the
    * {@link DataPackage} is not organized in waves.
-   * 
+   *
    * Must not be empty and must be greater than or equal to 1.
    */
   @NotNull(message = "survey-management.error.survey.wave.not-null")
@@ -159,7 +158,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
   /**
    * The gross sample size represents the number of participants which have been invited to take
    * part in the {@link Survey}.
-   * 
+   *
    * Must not be negative.
    */
   @Min(value = 0, message = "survey-management.error.survey.gross-sample-size.min")
@@ -167,7 +166,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * The sample size is the number of participant which took part in the survey.
-   * 
+   *
    * Must not be empty and must not be negative.
    */
   @NotNull(message = "survey-management.error.survey.sample-size.not-null")
@@ -176,7 +175,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * The response rate is the quotient of the gross sample size and the sample size.
-   * 
+   *
    * Must be between 0 and 100.
    */
   @Min(value = 0, message = "survey-management.error.survey.response-rate.min")
@@ -185,7 +184,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * The type of data which the survey produced.
-   * 
+   *
    * Must be one of {@link DataTypes} and must not be empty.
    */
   @NotNull(message = "survey-management.error.survey.data-type.not-null")
@@ -194,7 +193,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * The id of the {@link DataPackage} to which this survey belongs.
-   * 
+   *
    * Must not be empty.
    */
   @Indexed
@@ -203,7 +202,7 @@ public class Survey extends AbstractShadowableRdcDomainObject {
 
   /**
    * Arbitrary additional text for this survey. Markdown is supported.
-   * 
+   *
    * Must not contain more than 2048 characters.
    */
   @I18nStringSize(max = StringLengths.LARGE,

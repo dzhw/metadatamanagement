@@ -58,6 +58,13 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+    - name: Deploy Javadoc to Github Pages
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages # The branch the action should deploy to.
+        FOLDER: target/site/apidocs # The folder the action should deploy.
+        CLEAN: true # Automatically remove deleted files from the deploy branch
     - name: Report build status via Slack
       uses: act10ns/slack@v1
       if: always()
