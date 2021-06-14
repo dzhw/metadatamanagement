@@ -89,6 +89,5 @@ public interface DataSetRepository
   Stream<IdAndVersionProjection> streamIdsByMasterIdIn(Collection<String> dataSetIds);
 
   @RestResource(exported = false)
-  Stream<DataSet> findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
-      String dataAcquisitionProjectId);
+  Stream<DataSet> findByDataAcquisitionProjectIdAndShadowIsTrue(String dataAcquisitionProjectId);
 }

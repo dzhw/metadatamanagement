@@ -33,7 +33,7 @@ public class Population implements Serializable {
 
   /**
    * A description of the population. Markdown is supported.
-   * 
+   *
    * It must be specified in all languages and it must not contain more than 2048 characters.
    */
   @NotNull(message = "survey-management.error.population.description.not-null")
@@ -52,9 +52,8 @@ public class Population implements Serializable {
 
   /**
    * Unit type. Mandatory field which only allows values specified by VFDB.
-   * @see <a href="https://mdr.iqb.hu-berlin.de/#/catalog/94d1ae4f-a441-c728-4a03-adb0eb4604af">
-   * GNERD: Survey Unit Educational Research (Version 1.0)
-   * </a>
+   * <a href="https://mdr.iqb.hu-berlin.de/#/catalog/94d1ae4f-a441-c728-4a03-adb0eb4604af">
+   * GNERD: Survey Unit Educational Research (Version 1.0)</a>
    */
   @NotNull(message = "survey-management.error.population.unit.not-null")
   @ValidUnitValue(message = "survey-management.error.population.valid-unit-value")

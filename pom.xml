@@ -377,14 +377,20 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.0</version>
                     <configuration>
                         <show>private</show>
                         <sourceFileIncludes>
                             <sourceFileInclude>**/domain/*.java</sourceFileInclude>
                             <sourceFileInclude>**/domain/validation/*.java</sourceFileInclude>
                         </sourceFileIncludes>
+                        <doclint>all,-missing</doclint>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.9.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -666,43 +672,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>javasphinx-apidoc</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>javasphinx-apidoc</executable>
-                            <arguments>
-                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement</argument>
-                                <argument>-o</argument>
-                                <argument>./docs/source/javadoc</argument>
-                                <argument>-I</argument>
-                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/common/domain</argument>
-                                <argument>-I</argument>
-                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/projectmanagement/domain</argument>
-                                <argument>-I</argument>
-                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/conceptmanagement/domain</argument>
-                                <argument>-I</argument>
-                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/datapackagemanagement/domain</argument>
-                                <argument>-I</argument>
-                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/surveymanagement/domain</argument>
-                                <argument>-I</argument>
-                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/instrumentmanagement/domain</argument>
-                                <argument>-I</argument>
-                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/questionmanagement/domain</argument>
-                                <argument>-I</argument>
-                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/datasetmanagement/domain</argument>
-                                <argument>-I</argument>
-                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/variablemanagement/domain</argument>
-                                <argument>-I</argument>
-                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/relatedpublicationmanagement/domain</argument>
-                                <argument>-I</argument>
-                                <argument>src/main/java/eu/dzhw/fdz/metadatamanagement/ordermanagement/domain</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>unpack-fat-jar</id>
                         <phase>install</phase>
                         <goals>
@@ -887,9 +856,6 @@
                                 <fileset>
                                     <directory>.tmp</directory>
                                 </fileset>
-                                <fileset>
-                                    <directory>docs/source/javadoc</directory>
-                                </fileset>
                             </filesets>
                         </configuration>
                     </plugin>
@@ -938,9 +904,6 @@
                                 <fileset>
                                     <directory>.tmp</directory>
                                 </fileset>
-                                <fileset>
-                                    <directory>docs/source/javadoc</directory>
-                                </fileset>
                             </filesets>
                         </configuration>
                     </plugin>
@@ -988,9 +951,6 @@
                                 <fileset>
                                     <directory>.tmp</directory>
                                 </fileset>
-                                <fileset>
-                                    <directory>docs/source/javadoc</directory>
-                                </fileset>
                             </filesets>
                         </configuration>
                     </plugin>
@@ -1037,9 +997,6 @@
                                 </fileset>
                                 <fileset>
                                     <directory>.tmp</directory>
-                                </fileset>
-                                <fileset>
-                                    <directory>docs/source/javadoc</directory>
                                 </fileset>
                             </filesets>
                         </configuration>

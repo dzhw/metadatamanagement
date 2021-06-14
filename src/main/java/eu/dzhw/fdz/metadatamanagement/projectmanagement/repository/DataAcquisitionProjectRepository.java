@@ -51,5 +51,5 @@ public interface DataAcquisitionProjectRepository
   Stream<DataAcquisitionProject> streamByIdAndShadowIsTrue(String dataAcquisitionProjectId);
   
   @RestResource(exported = false)
-  Stream<DataAcquisitionProject> findByIdAndShadowIsTrueAndSuccessorIdIsNull(String id);
+  Stream<DataAcquisitionProject> findByMasterIdAndShadowIsTrue(String masterId);
 }

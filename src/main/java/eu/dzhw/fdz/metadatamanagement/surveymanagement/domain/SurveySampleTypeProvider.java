@@ -11,7 +11,7 @@ import java.util.Set;
 
 /**
  * Sample types for survey. This list is based on official VFDB vocabulary.
- * @see <a href=https://mdr.iqb.hu-berlin.de/#/catalog/1d791cc7-6d8d-dd35-b1ef-0eec9c31bbb5">
+ * <a href="https://mdr.iqb.hu-berlin.de/#/catalog/1d791cc7-6d8d-dd35-b1ef-0eec9c31bbb5">
  * Catalog: GNERD: Sampling Procedure Educational Research (Version 1.0)
  * </a>
  */

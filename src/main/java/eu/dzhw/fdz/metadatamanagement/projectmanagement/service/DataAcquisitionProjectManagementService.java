@@ -10,6 +10,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.context.event.EventListener;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
@@ -19,6 +21,7 @@ import org.springframework.util.StringUtils;
 
 import com.github.zafarkhaja.semver.Version;
 
+import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
@@ -68,6 +71,8 @@ public class DataAcquisitionProjectManagementService
   private final DataAcquisitionProjectVersionsService projectVersionsService;
 
   private final DaraService daraService;
+
+  private final Environment environment;
 
   /**
    * Searches for {@link DataAcquisitionProject} items for the given id. The result may be limited
@@ -234,8 +239,17 @@ public class DataAcquisitionProjectManagementService
   @Override
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.ADMIN})
   public void delete(DataAcquisitionProject project) {
-    if (!project.getHasBeenReleasedBefore()) {
+    if (!project.getHasBeenReleasedBefore() || (this.isAdmin()
+        && environment.acceptsProfiles(Profiles.of("!" + Constants.SPRING_PROFILE_PROD)))) {
       crudHelper.deleteMaster(project);
+      if (project.getHasBeenReleasedBefore()) {
+        // delete all shadows
+        acquisitionProjectRepository.findByMasterIdAndShadowIsTrue(project.getMasterId())
+            .forEach(shadow -> {
+              shadowCopyQueueItemService.scheduleShadowCopyDeletion(shadow.getMasterId(),
+                  shadow.getRelease());
+            });
+      }
     } else {
       throw new IllegalStateException(
           "Project has been released before and therefore it must not be deleted.");
@@ -321,6 +335,8 @@ public class DataAcquisitionProjectManagementService
                   + "-" + shadowCopyingEndedEvent.getRelease().getVersion());
         }
         break;
+      case DELETE:
+        break; // nothing to do in this case
       default:
         throw new IllegalArgumentException(
             shadowCopyingEndedEvent.getAction() + " has not been implemented yet!");

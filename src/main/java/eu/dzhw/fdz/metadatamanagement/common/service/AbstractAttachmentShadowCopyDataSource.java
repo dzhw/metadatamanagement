@@ -143,8 +143,7 @@ public abstract class AbstractAttachmentShadowCopyDataSource
     Query query =
         new Query(GridFsCriteria.whereMetaData("dataAcquisitionProjectId").is(oldProjectId)
             .andOperator(GridFsCriteria.whereFilename().regex(getMasterFileNamePattern()),
-                GridFsCriteria.whereMetaData("shadow").is(true),
-                GridFsCriteria.whereMetaData("successorId").is(null)));
+                GridFsCriteria.whereMetaData("shadow").is(true)));
     gridFsOperations.delete(query);
   }
 

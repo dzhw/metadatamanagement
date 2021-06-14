@@ -119,7 +119,7 @@ public class VariableShadowCopyDataSource implements ShadowCopyDataSource<Variab
   public void deleteExistingShadowCopies(String projectId, String version) {
     String oldProjectId = projectId + "-" + version;
     try (Stream<Variable> variables = variableRepository
-        .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
+        .findByDataAcquisitionProjectIdAndShadowIsTrue(oldProjectId)) {
       variables.forEach(crudHelper::deleteShadow);
     }
   }

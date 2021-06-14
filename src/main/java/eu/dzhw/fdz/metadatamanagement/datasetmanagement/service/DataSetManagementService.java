@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.HandleBeforeDelete;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
@@ -88,8 +89,8 @@ public class DataSetManagementService implements CrudService<DataSet> {
     try (Stream<DataSet> dataSets =
         dataSetRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       dataSets.forEach(dataSet -> {
-        crudHelper.deleteMaster(dataSet);
         dataSetAttachmentService.deleteAllByDataSetId(dataSet.getId());
+        crudHelper.deleteMaster(dataSet);
       });
     }
   }

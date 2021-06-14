@@ -54,8 +54,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @Schema(
-    description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
-        + "fdz/metadatamanagement/datapackagemanagement/domain/DataPackage.html'>here</a>"
+    description = "Go <a href='https://dzhw.github.io/metadatamanagement/"
+        + "eu/dzhw/fdz/metadatamanagement/datapackagemanagement/domain/DataPackage.html'>here</a>"
         + " for further details.")
 @ValidShadowId(message = "data-package-management.error.data-package.id.pattern")
 public class DataPackage extends AbstractShadowableRdcDomainObject

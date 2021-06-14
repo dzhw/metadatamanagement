@@ -22,8 +22,8 @@
         <project-status-badge style="margin-top: 12px" ng-if="ctrl.selectedProject && !ctrl.selectedProject.release" assignee-group="{{ctrl.selectedProject.assigneeGroup}}"></project-status-badge>
     </div>
     <div style="margin-top: 1em;" class="layout-row">
-        <md-button class="md-primary md-raised md-icon-button" ng-class="{'ml0': ctrl.hasAuthority('ROLE_PUBLISHER')}" ng-click="ctrl.deleteProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject || ctrl.selectedProject.hasBeenReleasedBefore || ctrl.projectChooserDisabled"
-            ng-if="ctrl.hasAuthority('ROLE_PUBLISHER')">
+        <md-button class="md-primary md-raised md-icon-button" ng-class="{'ml0': ctrl.hasAuthority('ROLE_PUBLISHER') || ctrl.hasAuthority('ROLE_ADMIN')}" ng-click="ctrl.deleteProject()" style="margin-right: 0px;" ng-disabled="!ctrl.selectedProject || (ctrl.selectedProject.hasBeenReleasedBefore && !ctrl.hasAuthority('ROLE_ADMIN') && ENV !== 'prod') || ctrl.projectChooserDisabled"
+            ng-if="ctrl.hasAuthority('ROLE_PUBLISHER') || ctrl.hasAuthority('ROLE_ADMIN')">
             <md-tooltip ng-hide="!ctrl.selectedProject" md-direction="bottom" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
                 {{'global.tooltips.delete-project' | translate}}
             </md-tooltip>

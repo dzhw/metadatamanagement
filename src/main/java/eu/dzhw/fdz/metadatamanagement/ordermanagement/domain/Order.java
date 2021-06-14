@@ -31,8 +31,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @Schema(
-    description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/" 
-    + "fdz/metadatamanagement/ordermanagement/domain/Order.html'>here</a> for further details.")
+    description = "Go <a href='https://dzhw.github.io/metadatamanagement/"
+    + "eu/dzhw/fdz/metadatamanagement/ordermanagement/domain/Order.html'>here</a>"
+    + " for further details.")
 public class Order extends AbstractRdcDomainObject {
 
   private static final long serialVersionUID = 8058350737401818558L;
@@ -45,7 +46,7 @@ public class Order extends AbstractRdcDomainObject {
 
   /**
    * The key of the preferred language (either "de" or "en") of the customer.
-   * 
+   *
    * Must not be empty.
    */
   @NotEmpty
@@ -67,7 +68,7 @@ public class Order extends AbstractRdcDomainObject {
 
   /**
    * List of data {@link Product}s the customer want to order.
-   * 
+   *
    * Must not be empty.
    */
   @Valid

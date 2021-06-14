@@ -78,7 +78,7 @@ public class DataPackageShadowCopyDataSource implements ShadowCopyDataSource<Dat
   public void deleteExistingShadowCopies(String projectId, String version) {
     String oldProjectId = projectId + "-" + version;
     try (Stream<DataPackage> dataPackages = dataPackageRepository
-        .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
+        .findByDataAcquisitionProjectIdAndShadowIsTrue(oldProjectId)) {
       dataPackages.forEach(crudHelper::deleteShadow);
     }
   }

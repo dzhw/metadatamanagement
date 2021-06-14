@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 /**
  * Validates that an (@link {@link eu.dzhw.fdz.metadatamanagement.common.domain.I18nString}
  * contains values specified by VFDB.
- * @see <a href="https://mdr.iqb.hu-berlin.de/#/catalog/94d1ae4f-a441-c728-4a03-adb0eb4604af">
+ * <a href="https://mdr.iqb.hu-berlin.de/#/catalog/94d1ae4f-a441-c728-4a03-adb0eb4604af">
  * GNERD: Survey Unit Educational Research (Version 1.0)
  * </a>
  */

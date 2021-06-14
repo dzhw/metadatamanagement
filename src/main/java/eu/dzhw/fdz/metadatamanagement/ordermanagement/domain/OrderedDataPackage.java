@@ -20,9 +20,9 @@ import lombok.Data;
  */
 @Data
 @Schema(
-    description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
-        + "fdz/metadatamanagement/ordermanagement/domain/OrderedDataPackage.html'>here</a> "
-        + "for further details.")
+    description = "Go <a href='https://dzhw.github.io/metadatamanagement/"
+        + "eu/dzhw/fdz/metadatamanagement/ordermanagement/domain/OrderedDataPackage.html'>"
+        + "here</a> for further details.")
 public class OrderedDataPackage implements Serializable {
 
   private static final long serialVersionUID = 5959657930630887807L;
