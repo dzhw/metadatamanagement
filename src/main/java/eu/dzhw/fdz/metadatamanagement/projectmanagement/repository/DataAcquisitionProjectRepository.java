@@ -22,10 +22,8 @@ public interface DataAcquisitionProjectRepository
     extends BaseRepository<DataAcquisitionProject, String>, DataAcquisitionProjectRepositoryCustom {
 
   @RestResource(exported = false)
-  List<DataAcquisitionProject> findByIdLikeOrderByIdAsc(String id);
-
-  @RestResource(exported = false)
-  List<DataAcquisitionProject> findByIdLikeAndShadowIsFalseAndSuccessorIdIsNull(String id);
+  List<DataAcquisitionProject> findByIdLikeAndShadowIsFalseAndSuccessorIdIsNullOrderByIdAsc(
+      String id);
 
   @RestResource(exported = true)
   List<DataAcquisitionProject>

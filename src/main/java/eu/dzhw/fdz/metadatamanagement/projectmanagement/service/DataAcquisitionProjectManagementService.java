@@ -84,7 +84,7 @@ public class DataAcquisitionProjectManagementService
   public List<DataAcquisitionProject> findByIdLikeOrderByIdAsc(String projectId) {
     if (isAdmin() || isPublisher()) {
       return acquisitionProjectRepository
-          .findByIdLikeAndShadowIsFalseAndSuccessorIdIsNull(projectId);
+          .findByIdLikeAndShadowIsFalseAndSuccessorIdIsNullOrderByIdAsc(projectId);
     } else {
       String loginName = userInformationProvider.getUserLogin();
       return acquisitionProjectRepository
