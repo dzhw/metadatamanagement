@@ -99,6 +99,8 @@ public interface InstrumentRepository extends BaseRepository<Instrument, String>
   List<IdAndVersionProjection> findIdsByConceptIdsContaining(String id);
 
   @RestResource(exported = false)
-  Stream<Instrument> findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
-      String dataAcquisitionProjectId);
+  Stream<Instrument> findByDataAcquisitionProjectIdAndShadowIsTrue(String dataAcquisitionProjectId);
+
+  @RestResource(exported = false)
+  Stream<Instrument> findByMasterIdAndShadowIsTrue(String masterId);
 }

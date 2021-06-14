@@ -121,10 +121,6 @@ public interface VariableRepository extends BaseRepository<Variable, String> {
   Stream<IdAndVersionAndDataSetProjection> streamIdsByRelatedQuestionsQuestionId(String questionId);
 
   @RestResource(exported = false)
-  Stream<Variable> findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
-      String dataAcquisitionProjectId);
-
-  @RestResource(exported = false)
   List<VariableSubDocumentProjection> findAllByDerivedVariablesIdentifierAndDataSetIdAndIdNot(
       String derivedVariablesIdentifier, String dataSetId, String id);
 

@@ -81,6 +81,10 @@ public class ShadowCopyHelper<T extends AbstractShadowableRdcDomainObject> {
     shadowCopyDataSource.unhideExistingShadowCopies(dataAcquisitionProjectId, version);
   }
   
+  private void deleteExistingShadowCopies(String dataAcquisitionProjectId, String version) {
+    shadowCopyDataSource.deleteExistingShadowCopies(dataAcquisitionProjectId, version);
+  }
+  
   /**
    * Create, hide or unhide shadow copies of current master domain objects on project release.
    * 
@@ -100,6 +104,10 @@ public class ShadowCopyHelper<T extends AbstractShadowableRdcDomainObject> {
         break;
       case UNHIDE:
         this.unhideExistingShadowCopies(shadowCopyingStartedEvent.getDataAcquisitionProjectId(),
+            shadowCopyingStartedEvent.getRelease().getVersion());
+        break;
+      case DELETE:  
+        this.deleteExistingShadowCopies(shadowCopyingStartedEvent.getDataAcquisitionProjectId(),
             shadowCopyingStartedEvent.getRelease().getVersion());
         break;
       default:

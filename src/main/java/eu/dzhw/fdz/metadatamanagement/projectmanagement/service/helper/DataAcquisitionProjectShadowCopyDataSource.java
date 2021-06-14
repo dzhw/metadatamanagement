@@ -73,7 +73,7 @@ public class DataAcquisitionProjectShadowCopyDataSource
   public void deleteExistingShadowCopies(String projectId, String version) {
     String oldProjectId = projectId + "-" + version;
     try (Stream<DataAcquisitionProject> projects = dataAcquisitionProjectRepository
-        .findByIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
+        .streamByIdAndShadowIsTrue(oldProjectId)) {
       projects.forEach(crudHelper::deleteShadow);
     }
   }
