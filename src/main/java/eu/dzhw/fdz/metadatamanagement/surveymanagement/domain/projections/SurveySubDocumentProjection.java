@@ -11,7 +11,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
  *
  * @author René Reitmann
  */
-public interface SurveySubDocumentProjection 
+public interface SurveySubDocumentProjection
     extends AbstractRdcDomainObjectProjection {
   String getDataAcquisitionProjectId();
 
@@ -28,14 +28,14 @@ public interface SurveySubDocumentProjection
   Period getFieldPeriod();
 
   I18nString getSample();
-  
-  Integer getWave();
+
+  Integer getSerialNumber();
 
   I18nString getDataType();
 
   String getMasterId();
-  
+
   String getSuccessorId();
-  
+
   boolean isShadow();
 }
