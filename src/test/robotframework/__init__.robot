@@ -2,7 +2,7 @@
 Documentation     Common setup and teardown for all tests
 Suite Setup       Open Home Page
 Suite Teardown    Finish Tests
-Library           ExtendedSelenium2Library
+Library           SeleniumLibrary
 Library           Collections
 Library           OperatingSystem
 Resource          ./resources/click_element_resource.robot
@@ -16,6 +16,7 @@ ${BUILD_NUMBER}    local
 
 *** Keywords ***
 Open Local Browser
+    Set To Dictionary    ${CAPABILITIES.${BROWSER}}    platform=${EMPTY}
     Open Browser    ${WEBSITE}    ${BROWSER}    desired_capabilities=${CAPABILITIES.${BROWSER}}
 
 Open Saucelabs Browser

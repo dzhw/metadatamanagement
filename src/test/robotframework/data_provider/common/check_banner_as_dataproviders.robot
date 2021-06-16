@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     Banner appears for Dataproviders and assert the welcome text and dont show again checkbox
-Library           HttpLibrary.HTTP
 Resource          ../../resources/login_resource.robot
 Resource          ../../resources/click_element_resource.robot
 Resource          ../../resources/check_url_resource.robot

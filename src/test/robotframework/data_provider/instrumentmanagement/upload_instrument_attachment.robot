@@ -32,7 +32,7 @@ Click add button
     Click Element Through Tooltips    xpath=//ui-view//button/md-icon[text()='add']
 
 Upload instrument file
-    Press Key   xpath=//input[@type='file' and @ngf-select="ctrl.upload($file)"][1]   ${CURDIR}/data/gra2005_W1_Questionnaire_de.pdf  # data folder contains the PDF file
+    Choose File   xpath=//input[@type='file' and @ngf-select="ctrl.upload($file)"][1]   ${CURDIR}/data/gra2005_W1_Questionnaire_de.pdf  # data folder contains the PDF file
 
 Select instrument data type
     Click Element Through Tooltips   xpath=//md-select[@ng-model="ctrl.attachmentMetadata.type"]
@@ -57,5 +57,5 @@ Assert gra2005_W1_Questionnaire in the attachment
 Delete uploaded document
     Click Element Through Tooltips    xpath=//button[md-icon[text()='delete_forever']]
     Click Element Through Tooltips    xpath=//button[text()='Ja']
-    Wait Until Angular Ready    2s
+    Wait for Angular    2s
     Page Should Not Contain Element   xpath=//a[@ng-href="/public/files/instruments/ins-fileuploadproject-ins1$/attachments/gra2005_W1_Questionnaire_de.pdf"]

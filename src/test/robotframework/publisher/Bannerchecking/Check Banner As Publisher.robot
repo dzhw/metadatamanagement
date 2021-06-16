@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     Check for Publishers no welcome banner appears
-Library           ExtendedSelenium2Library
+Library           SeleniumLibrary
 
 *** Test Cases ***
 Check for Publisher Banner Does not Appear

@@ -22,7 +22,7 @@ Create Concepts by Publisher
     Input Text    name=authorsMiddleName_0    noMiddleName
     Input Text    name=authorsLastName_0    Hossain
     Add Another Author
-    Focus    xpath=//input[@name = 'authorsFirstName_1']
+    Set Focus To Element    xpath=//input[@name = 'authorsFirstName_1']
     Input Text    name=authorsFirstName_1    Md Rameez
     Input Text    name=authorsMiddleName_1    noMiddleName
     Input Text    name=authorsLastName_1    Raza
@@ -63,7 +63,7 @@ Assert created concept under concept list
     Page Should Contain Element     xpath=//concept-search-result//span[contains(., "RDC-ID-007_${BROWSER}")]
 
 Upload concept attchment file
-    Press Key   xpath=//input[@type='file' and @ngf-select="ctrl.upload($file)"][1]   ${CURDIR}/data/gra2005_MethodReport_de.pdf  # data folder contains the PDF file
+    Choose File   xpath=//input[@type='file' and @ngf-select="ctrl.upload($file)"][1]   ${CURDIR}/data/gra2005_MethodReport_de.pdf  # data folder contains the PDF file
 
 Select concept data type
     Click Element Through Tooltips   xpath=//md-select[@ng-model="ctrl.attachmentMetadata.type"]
