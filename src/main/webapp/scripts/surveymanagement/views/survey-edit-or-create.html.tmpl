@@ -50,17 +50,17 @@
             </md-input-container>
           </div>
           <div layout="column" layout-gt-sm="row" class="ms-flex">
-            <md-input-container flex="50" md-is-error="!surveyForm.wave.$valid && (surveyForm.wave.$dirty || surveyForm.wave.$touched)" class="ms-flex">
-              <label>{{'survey-management.edit.label.wave' | translate}}</label>
-              <input min="1" name="wave" ng-model="ctrl.survey.wave" required step="1" type="number">
-              <div class="fdz-input-hint" ng-if="!surveyForm.wave.$dirty && !surveyForm.wave.$touched">
-                {{'survey-management.edit.hints.wave' | translate}}
+            <md-input-container flex="50" md-is-error="!surveyForm.serialNumber.$valid && (surveyForm.serialNumber.$dirty || surveyForm.serialNumber.$touched)" class="ms-flex">
+              <label>{{'survey-management.edit.label.serial-number' | translate}}</label>
+              <input min="1" name="serialNumber" ng-model="ctrl.survey.serialNumber" required step="1" type="number">
+              <div class="fdz-input-hint" ng-if="!surveyForm.serialNumber.$dirty && !surveyForm.serialNumber.$touched">
+                {{'survey-management.edit.hints.serial-number' | translate}}
               </div>
-              <div multiple ng-messages="surveyForm.wave.$error">
-                <div ng-message="required">{{'survey-management.error.survey.wave.not-null' | translate}}</div>
-                <div ng-message="step">{{'survey-management.error.survey.wave.invalid-number' | translate}}</div>
-                <div ng-message="number">{{'survey-management.error.survey.wave.invalid-number' | translate}}</div>
-                <div ng-message="min">{{'survey-management.error.survey.wave.min' | translate}}</div>
+              <div multiple ng-messages="surveyForm.serialNumber.$error">
+                <div ng-message="required">{{'survey-management.error.survey.serial-number.not-null' | translate}}</div>
+                <div ng-message="step">{{'survey-management.error.survey.serial-number.invalid-number' | translate}}</div>
+                <div ng-message="number">{{'survey-management.error.survey.serial-number.invalid-number' | translate}}</div>
+                <div ng-message="min">{{'survey-management.error.survey.serial-number.min' | translate}}</div>
               </div>
             </md-input-container>
             <div flex="50" class="ms-flex"></div>

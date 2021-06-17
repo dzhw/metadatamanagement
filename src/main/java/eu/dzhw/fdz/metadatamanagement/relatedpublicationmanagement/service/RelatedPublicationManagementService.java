@@ -1,9 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service;
 
 import java.util.Optional;
-import java.util.stream.Stream;
 
-import org.javers.common.collections.Lists;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;

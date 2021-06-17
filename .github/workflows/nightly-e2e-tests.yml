@@ -10,16 +10,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Chrome Tests (Public User)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include publicuserNOTfirefoxonlyNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     firefox-public-user:
@@ -28,16 +27,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Firefox Tests (Public User)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include publicuserNOTchromeonlyNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     ie11-public-user:
@@ -46,16 +44,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Internet Explorer Tests (Public User)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     edge-public-user:
@@ -64,16 +61,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Edge Tests (Public User)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     safari-public-user:
@@ -82,16 +78,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Safari Tests (Public User)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publicuserNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     chrome-dataprovider:
@@ -106,16 +101,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Chrome Tests (Dataprovider)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include dataproviderNOTfirefoxonlyNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     firefox-dataprovider:
@@ -130,16 +124,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Firefox Tests (Dataprovider)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include dataproviderNOTchromeonlyNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     ie11-dataprovider:
@@ -154,16 +147,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Internet Explorer Tests (Dataprovider)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include dataproviderNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     edge-dataprovider:
@@ -178,16 +170,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Edge Tests (Dataprovider)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --include dataproviderNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     safari-dataprovider:
@@ -202,16 +193,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Safari Tests (Dataprovider)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include dataproviderNOTfirefoxonlyNOTchromeonlyNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     chrome-publisher:
@@ -226,16 +216,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Chrome Tests (Publisher)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/chrome -v USE_SAUCELABS:TRUE -v BROWSER:chrome --include publisherNOTfirefoxonlyNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     firefox-publisher:
@@ -250,16 +239,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Firefox Tests (Publisher)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/firefox -v USE_SAUCELABS:TRUE -v BROWSER:firefox --include publisherNOTchromeonlyNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     ie11-publisher:
@@ -274,16 +262,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Internet Explorer Tests (Publisher)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/ie11 -v USE_SAUCELABS:TRUE -v BROWSER:ie --include publisherNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     edge-publisher:
@@ -298,16 +285,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Edge Tests (Publisher)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/edge -v USE_SAUCELABS:TRUE -v BROWSER:edge --include publisherNOTfirefoxonlyNOTchromeonlyNOTnoslowpokeNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     safari-publisher:
@@ -321,16 +307,15 @@ jobs:
         - uses: actions/checkout@v1
           with:
             ref: development
-        - name: Set up Python 2.7
+        - name: Setup Python 3.8.x
           uses: actions/setup-python@v2
           with:
-            python-version: 2.7.17
+            python-version: '3.8.x'
         - name: Install robotframework dependencies
           run: ./src/test/robotframework/setup.sh
         - name: Nightly Safari Tests (Publisher)
           run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publisherNOTfirefoxonlyNOTchromeonlyNOTlocalonly ./src/test/robotframework
           env:
-            PYTHONWARNINGS: ignore
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     report-via-slack:

@@ -44,7 +44,7 @@ public enum MetadataExportFormat {
    * @param urlFormat The format as it can be used in URLs.
    * @param fileExtension The file extension for the downloaded format (xml or json).
    */
-  private MetadataExportFormat(String urlFormat, String fileExtension) {
+  MetadataExportFormat(String urlFormat, String fileExtension) {
     this.urlFormat = urlFormat;
     this.fileExtension = fileExtension;
   }

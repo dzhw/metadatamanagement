@@ -81,7 +81,7 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
   @Override
   public void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain chain) throws IOException, ServletException {
-    if (forwardRequestsToRobotsTxtOnProd(request, response, chain)) {
+    if (forwardRequestsToRobotsTxtOnProd(request, response)) {
       return;
     }
     String queryString = request.getQueryString();
@@ -101,11 +101,10 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
       urlConnection = (HttpsURLConnection) new URL(url).openConnection();
     } else {
       String userAgent = request.getHeader(USER_AGENT_HEADER);
-      if (userAgent != null && userAgent.toLowerCase(Locale.US).matches(regexpBots)) {
-        if (StringUtils.isEmpty(path) || path.equals("/") || path.startsWith("/de/")
-            || path.startsWith("/en/") || path.equals("/en") || path.equals("/de")) {
-          urlConnection = (HttpsURLConnection) new URL(url).openConnection();
-        }
+      if (userAgent != null && userAgent.toLowerCase(Locale.US).matches(regexpBots)
+          && (StringUtils.isEmpty(path) || path.equals("/") || path.startsWith("/de/")
+              || path.startsWith("/en/") || path.equals("/en") || path.equals("/de"))) {
+        urlConnection = (HttpsURLConnection) new URL(url).openConnection();
       }
     }
     if (urlConnection == null) {
@@ -119,8 +118,7 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
         return;
       }
       for (String headerName : urlConnection.getHeaderFields().keySet()) {
-        if (!StringUtils.isEmpty(headerName)
-            && !"transfer-encoding".equalsIgnoreCase(headerName)
+        if (!StringUtils.isEmpty(headerName) && !"transfer-encoding".equalsIgnoreCase(headerName)
             && !"connection".equalsIgnoreCase(headerName)) {
           response.addHeader(headerName, urlConnection.getHeaderField(headerName));
         }
@@ -130,7 +128,7 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
   }
 
   private boolean forwardRequestsToRobotsTxtOnProd(HttpServletRequest request,
-      HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+      HttpServletResponse response) throws ServletException, IOException {
     String contextPath = request.getContextPath();
     String requestUri = request.getRequestURI();
     requestUri = org.apache.commons.lang3.StringUtils.substringAfter(requestUri, contextPath);
@@ -149,8 +147,7 @@ public class Seo4AjaxFilter extends OncePerRequestFilter {
     return false;
   }
 
-  private void copy(InputStream inputStream, OutputStream outputStream)
-      throws IOException {
+  private void copy(InputStream inputStream, OutputStream outputStream) throws IOException {
     try (inputStream; outputStream) {
       ByteStreams.copy(inputStream, outputStream);
     }

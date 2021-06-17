@@ -43,16 +43,16 @@ public class SurveySubDocument extends AbstractRdcDomainObject
 
   private I18nString sample;
 
-  private Integer wave;
+  private Integer serialNumber;
 
   private I18nString dataType;
 
   private String dataPackageId;
 
   private String masterId;
-  
+
   private String successorId;
-  
+
   private boolean shadow;
 
   public SurveySubDocument() {
@@ -61,7 +61,7 @@ public class SurveySubDocument extends AbstractRdcDomainObject
 
   /**
    * Create the subdocument.
-   * 
+   *
    * @param projection The projection coming from mongo.
    */
   public SurveySubDocument(SurveySubDocumentProjection projection) {

@@ -104,7 +104,7 @@ public class UnitTestCreateDomainObjectUtils {
     projectContributors.add(buildPerson("Test", null, "ProjectContributors"));
     List<I18nString> institutions =
         Arrays.asList(I18nString.builder().de("Institution De").en("Institution En").build());
-    List<I18nString> sponsors = 
+    List<I18nString> sponsors =
         Arrays.asList(I18nString.builder().de("Sponsor De").en("Sponsor En").build());
     List<Person> dataCurators = new ArrayList<>();
     dataCurators.add(buildPerson("Test", null, "ProjectContributors"));
@@ -143,7 +143,7 @@ public class UnitTestCreateDomainObjectUtils {
         .surveyMethod(I18nString.builder().de("Survey Method DE").en("Survey Method EN").build())
         .annotations(I18nString.builder().de("De Anmerkungen").en("En Annotations").build())
         .dataType(eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes.QUALITATIVE_DATA)
-        .grossSampleSize(100).sampleSize(100).responseRate(100.0).number(surveyNumber).wave(1)
+        .grossSampleSize(100).sampleSize(100).responseRate(100.0).number(surveyNumber).serialNumber(1)
         .build();
 
     survey.setMasterId(surveyId);

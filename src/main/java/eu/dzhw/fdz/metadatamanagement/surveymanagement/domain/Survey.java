@@ -146,14 +146,14 @@ public class Survey extends AbstractShadowableRdcDomainObject {
   private I18nString sample;
 
   /**
-   * Number of the wave which this {@link Survey} represents. Will be ignored if the
-   * {@link DataPackage} is not organized in waves.
+   * Serial number of this {@link Survey} as it is implemented in the survey design
+   * (e.g. number of the panel wave).
    *
    * Must not be empty and must be greater than or equal to 1.
    */
-  @NotNull(message = "survey-management.error.survey.wave.not-null")
-  @Min(value = 1, message = "survey-management.error.survey.wave.min")
-  private Integer wave;
+  @NotNull(message = "survey-management.error.survey.serial-number.not-null")
+  @Min(value = 1, message = "survey-management.error.survey.serial-number.min")
+  private Integer serialNumber;
 
   /**
    * The gross sample size represents the number of participants which have been invited to take

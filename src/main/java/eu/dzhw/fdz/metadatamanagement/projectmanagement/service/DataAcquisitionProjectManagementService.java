@@ -84,7 +84,7 @@ public class DataAcquisitionProjectManagementService
   public List<DataAcquisitionProject> findByIdLikeOrderByIdAsc(String projectId) {
     if (isAdmin() || isPublisher()) {
       return acquisitionProjectRepository
-          .findByIdLikeAndShadowIsFalseAndSuccessorIdIsNull(projectId);
+          .findByIdLikeAndShadowIsFalseAndSuccessorIdIsNullOrderByIdAsc(projectId);
     } else {
       String loginName = userInformationProvider.getUserLogin();
       return acquisitionProjectRepository
@@ -239,8 +239,8 @@ public class DataAcquisitionProjectManagementService
   @Override
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.ADMIN})
   public void delete(DataAcquisitionProject project) {
-    if (!project.getHasBeenReleasedBefore() || (this.isAdmin()
-        && environment.acceptsProfiles(Profiles.of("!" + Constants.SPRING_PROFILE_PROD)))) {
+    if (!project.getHasBeenReleasedBefore() || this.isAdmin()
+        && environment.acceptsProfiles(Profiles.of("!" + Constants.SPRING_PROFILE_PROD))) {
       crudHelper.deleteMaster(project);
       if (project.getHasBeenReleasedBefore()) {
         // delete all shadows

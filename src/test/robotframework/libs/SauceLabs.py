@@ -23,7 +23,7 @@ class SauceLabs:
         """Report test status and tags to SauceLabs
         """
         job_id = BuiltIn().get_library_instance(
-            'ExtendedSelenium2Library')._current_browser().session_id
+            'SeleniumLibrary').driver.session_id
 
         if USERNAME_ACCESS_KEY.match(remote_url):
             username, access_key =\
@@ -37,7 +37,7 @@ class SauceLabs:
         elif not username or not access_key:
             return u"No Sauce environment variables found. Skipping..."
 
-        token = base64.encodestring('%s:%s' % (username, access_key))[:-1]
+        token = str(base64.b64encode(('%s:%s' % (username, access_key)).encode('utf-8')),'utf-8')
         body = json.dumps({'name': name,
                            'passed': status == 'PASS',
                            'tags': tags})
