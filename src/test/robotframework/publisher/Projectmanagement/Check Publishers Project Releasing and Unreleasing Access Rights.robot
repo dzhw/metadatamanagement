@@ -76,7 +76,7 @@ Verify The Unreleased Project is Still Available under The Data Package Tab with
   Click on Cockpit Button
   Change Project Release Status
   Click on OK Button
-  Wait for Angular    2s
+  Wait for Angular    10s
   Click Publisher Ready Checkbox for Data Packages
   Sleep  5s   #We need explicit sleep to ensure the project is not available under the data package tab
   Publisher Logout
@@ -92,7 +92,7 @@ Edit Project Title and Check it does not appear under data package when unreleas
   Input Text    name=titleEn    Test Project Release Study ${BROWSER} EN Edit_786
   Click Data Package Save Button
   Get back to german home page
-  Sleep  10s
+  Sleep  30s
   Publisher Logout
   Navigate to search
   Search for  Test Project Release Study ${BROWSER} DE
@@ -121,7 +121,7 @@ Restore The Previous Project Version and Publish Again
   Click on Cockpit Button
   Change Project Release Status
   Click on OK Button
-  Wait for Angular    2s
+  Wait for Angular    10s
   Click Publisher Ready Checkbox for Data Packages
   Get back to german home page
   Click Data Package Edit Button
@@ -136,9 +136,11 @@ Restore The Previous Project Version and Publish Again
   Sleep  90s
 
 Verify The Re-Released Previous Project is Available under The Data Package Tab
+  Wait For Angular  10s
   Publisher Logout
   Navigate to search
   Search for  Test Project Release Study ${BROWSER} DE
+  Wait For Angular    30s
   Wait Until Page Contains Element  xpath=//md-card-header-text//span[contains(. ,"Test Project Release Study ${BROWSER} DE")]  10s
 
 Unrelased The Project again to Sync with Intial Step
@@ -147,7 +149,7 @@ Unrelased The Project again to Sync with Intial Step
   Click on Cockpit Button
   Change Project Release Status  #unrelease the project to initial state
   Click on OK Button
-  Wait for Angular    2s
+  Wait for Angular    10s
   Click Publisher Ready Checkbox for Data Packages
   Sleep  5s
   Get back to home page and deselect project

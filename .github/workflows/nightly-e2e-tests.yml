@@ -296,28 +296,28 @@ jobs:
           env:
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-    safari-publisher:
-      runs-on: ubuntu-18.04
-      needs:
-        - chrome-publisher
-        - firefox-publisher
-        - ie11-publisher
-        - edge-publisher
-      steps:
-        - uses: actions/checkout@v1
-          with:
-            ref: development
-        - name: Setup Python 3.8.x
-          uses: actions/setup-python@v2
-          with:
-            python-version: '3.8.x'
-        - name: Install robotframework dependencies
-          run: ./src/test/robotframework/setup.sh
-        - name: Nightly Safari Tests (Publisher)
-          run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publisherNOTfirefoxonlyNOTchromeonlyNOTlocalonly ./src/test/robotframework
-          env:
-            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+    #safari-publisher:
+    #  runs-on: ubuntu-18.04
+    #  needs:
+    #    - chrome-publisher
+    #    - firefox-publisher
+    #    - ie11-publisher
+    #    - edge-publisher
+    #  steps:
+    #    - uses: actions/checkout@v1
+    #      with:
+    #        ref: development
+    #    - name: Setup Python 3.8.x
+    #      uses: actions/setup-python@v2
+    #      with:
+    #        python-version: '3.8.x'
+    #    - name: Install robotframework dependencies
+    #      run: ./src/test/robotframework/setup.sh
+    #    - name: Nightly Safari Tests (Publisher)
+    #      run: robot -P ./src/test/robotframework/libs -d target/test/robotframework/logs/safari -v USE_SAUCELABS:TRUE -v BROWSER:safari --include publisherNOTfirefoxonlyNOTchromeonlyNOTlocalonly ./src/test/robotframework
+    #      env:
+    #        SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+    #        SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
     report-via-slack:
       runs-on: ubuntu-18.04
       needs:
@@ -335,7 +335,7 @@ jobs:
         - firefox-publisher
         - ie11-publisher
         - edge-publisher
-        - safari-publisher
+      #  - safari-publisher
       if: always()
       steps:
         - name: Report build status via Slack
