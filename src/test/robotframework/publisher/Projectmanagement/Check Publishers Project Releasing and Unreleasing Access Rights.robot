@@ -96,6 +96,7 @@ Edit Project Title and Check it does not appear under data package when unreleas
   Publisher Logout
   Navigate to search
   Search for  Test Project Release Study ${BROWSER} DE
+  Wait For Angular    30s
   Wait Until Page Contains Element  xpath=//md-card-header-text//span[contains(. ,"Test Project Release Study ${BROWSER} DE")]  10s
 
 Check Edited Project appears under data package when released
@@ -111,6 +112,7 @@ Check Edited Project appears under data package when released
   Publisher Logout   #explicit logout
   Navigate to search
   Search for  Test Project Release Study ${BROWSER} DE Edit_786
+  Wait For Angular    30s
   Wait Until Page Contains Element  xpath=//md-card-header-text//span[contains(. ,"Test Project Release Study ${BROWSER} DE Edit_786")]  10s
 
 Restore The Previous Project Version and Publish Again
