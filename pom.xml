@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.7</version>
+        <version>2.4.8</version>
         <relativePath />
     </parent>
 
@@ -303,7 +303,7 @@
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-            <version>2.4.6</version>
+            <version>2.4.7</version>
         </dependency>
         <dependency>
             <groupId>org.zalando</groupId>
