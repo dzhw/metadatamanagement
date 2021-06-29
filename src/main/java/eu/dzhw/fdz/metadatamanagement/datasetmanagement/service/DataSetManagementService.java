@@ -88,8 +88,8 @@ public class DataSetManagementService implements CrudService<DataSet> {
     try (Stream<DataSet> dataSets =
         dataSetRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       dataSets.forEach(dataSet -> {
-        crudHelper.deleteMaster(dataSet);
         dataSetAttachmentService.deleteAllByDataSetId(dataSet.getId());
+        crudHelper.deleteMaster(dataSet);
       });
     }
   }

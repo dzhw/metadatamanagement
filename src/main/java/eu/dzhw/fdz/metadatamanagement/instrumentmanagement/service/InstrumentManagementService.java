@@ -89,8 +89,8 @@ public class InstrumentManagementService implements CrudService<Instrument> {
     try (Stream<Instrument> instruments =
         instrumentRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       instruments.forEach(instrument -> {
-        crudHelper.deleteMaster(instrument);
         instrumentAttachmentService.deleteAllByInstrumentId(instrument.getId());
+        crudHelper.deleteMaster(instrument);
       });
     }
   }

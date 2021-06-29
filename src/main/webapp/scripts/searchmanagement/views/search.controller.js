@@ -26,7 +26,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
       'study-series',
       'survey-data-types',
       'tags',
-      'sponsor',
+      'sponsors',
       'institutions',
       'access-ways',
       'concepts'
@@ -309,8 +309,8 @@ angular.module('metadatamanagementApp').controller('SearchController',
           'access-ways'),
         'concepts': createDataPackageFilterContent(data,
           'concepts'),
-        'sponsor': createDataPackageFilterContent(data,
-          'sponsor'),
+        'sponsors': createDataPackageFilterContent(data,
+          'sponsors'),
         'institutions': createDataPackageFilterContent(data,
           'institutions')
       };
@@ -348,7 +348,7 @@ angular.module('metadatamanagementApp').controller('SearchController',
         // Usage:
         // {
         //   'study-series': ['DZHW-Absolventenstudien','adf','asd'],
-        //   'sponsor': ['Bundesministerium für Bildung und Forschung (BMBF)']
+        //   'sponsors': ['Bundesministerium für Bildung und Forschung (BMBF)']
         // })
         $scope.searchFilterMapping, $scope.options.sortObject.selected)
         .then(function(data) {

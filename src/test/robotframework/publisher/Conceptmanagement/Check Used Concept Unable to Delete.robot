@@ -21,6 +21,7 @@ Click on Concept Delete Button
    Click Element Through Tooltips  xpath=(//concept-search-result//md-card-actions//button[normalize-space()="Löschen"])[1]
 
 Assert concept can not be deleted toast message
+   Wait For Angular  2s
    Page Should Contain  Das Konzept kann nicht gelöscht werden
 
 Close The Toast Message

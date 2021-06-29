@@ -28,7 +28,7 @@ public class ShadowCopyingStartedEvent extends ApplicationEvent {
    * Create a new event instance.
    * 
    * @param source Event emitter reference
-   * @param dataAcquisitionProjectId id of the released project
+   * @param dataAcquisitionProjectId master id of the released project
    * @param release the version which has been released
    * @param previousReleaseVersion the previous version or null
    * @param action The action to be executed.

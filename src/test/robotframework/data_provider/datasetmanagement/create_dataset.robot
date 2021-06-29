@@ -26,7 +26,7 @@ Create Dataset by Dataprovider
 *** Keywords ***
 Go To Dataset Create Page
     Select project by name    robotproject4${BROWSER}
-    Wait Until Angular Ready    2s
+    Wait for Angular    2s
     Click on data set tab
     Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
 

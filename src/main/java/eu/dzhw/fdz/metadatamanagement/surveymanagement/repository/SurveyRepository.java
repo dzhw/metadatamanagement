@@ -78,6 +78,8 @@ public interface SurveyRepository extends BaseRepository<Survey, String> {
   Stream<IdAndVersionProjection> streamIdsByMasterIdIn(Collection<String> surveyIds);
 
   @RestResource(exported = false)
-  Stream<Survey> findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
-      String dataAcquisitionProjectId);
+  Stream<Survey> findByDataAcquisitionProjectIdAndShadowIsTrue(String dataAcquisitionProjectId);
+  
+  @RestResource(exported = false)
+  Stream<Survey> findByMasterIdAndShadowIsTrue(String masterId);
 }

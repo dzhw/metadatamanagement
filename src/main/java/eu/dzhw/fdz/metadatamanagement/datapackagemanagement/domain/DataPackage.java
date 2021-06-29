@@ -54,8 +54,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @Schema(
-    description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
-        + "fdz/metadatamanagement/datapackagemanagement/domain/DataPackage.html'>here</a>"
+    description = "Go <a href='https://dzhw.github.io/metadatamanagement/"
+        + "eu/dzhw/fdz/metadatamanagement/datapackagemanagement/domain/DataPackage.html'>here</a>"
         + " for further details.")
 @ValidShadowId(message = "data-package-management.error.data-package.id.pattern")
 public class DataPackage extends AbstractShadowableRdcDomainObject
@@ -121,16 +121,17 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
   private I18nString description;
 
   /**
-   * The names of the institutions which have performed this dataPackage.
+   * The names of the institutions which have performed the study from which this data package
+   * results.
    *
    * It must be specified in German and English and it must not contain more than 512 characters.
    */
   @NotEmpty(message = "data-package-management.error.data-package.institutions.not-null")
   private List<@I18nStringSize(max = StringLengths.MEDIUM,
-      message = "data-package-management.error.data-package.institution.i18n-string-size")
-      @I18nStringEntireNotEmpty(message = "data-package-management.error.data-package.institution"
-      + ".i18n-string-entire-not-empty")
-       I18nString> institutions;
+          message = "data-package-management.error.data-package.institution.i18n-string-size")
+      @I18nStringEntireNotEmpty(
+          message = "data-package-management.error.data-package.institution"
+              + ".i18n-string-entire-not-empty") I18nString> institutions;
 
   /**
    * The name of the series of dataPackages to which this dataPackage belongs.
@@ -142,23 +143,24 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
       message = "data-package-management.error.data-package.study-series.i18n-string-size")
   @I18nStringEntireNotEmptyOptional(
       message = "data-package-management.error.data-package.study-series"
-      + ".i18n-string-entire-not-empty-optional")
+          + ".i18n-string-entire-not-empty-optional")
   @I18nStringMustNotContainComma(
       message = "data-package-management.error.data-package.study-series."
-      + "i18n-string-must-not-contain-comma")
+          + "i18n-string-must-not-contain-comma")
   private I18nString studySeries;
 
   /**
-   * The name of the sponsor who which has sponsored this dataPackage.
+   * The names of the sponsors which have sponsored the study or project from which this data
+   * package results.
    *
    * It must be specified in German and English and it must not contain more than 512 characters.
    */
-  @NotNull(message = "data-package-management.error.data-package.sponsor.not-null")
-  @I18nStringSize(max = StringLengths.MEDIUM,
-      message = "data-package-management.error.data-package.sponsor.i18n-string-size")
-  @I18nStringEntireNotEmpty(
-      message = "data-package-management.error.data-package.sponsor.i18n-string-entire-not-empty")
-  private I18nString sponsor;
+  @NotEmpty(message = "data-package-management.error.data-package.sponsors.not-null")
+  private List<@I18nStringSize(max = StringLengths.MEDIUM,
+          message = "data-package-management.error.data-package.sponsor.i18n-string-size")
+      @I18nStringEntireNotEmpty(
+          message = "data-package-management.error.sponsor.institution"
+              + ".i18n-string-entire-not-empty") I18nString> sponsors;
 
   /**
    * List of {@link Person}s which have performed this dataPackage.

@@ -3,9 +3,10 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain;
 import java.util.Set;
 
 /**
- * Formats to which our metadata can be exported. The actual mapping is either powered by da|ra's
- * OAI-PMH service or data cite.
- * 
+ * Formats to which our metadata can be exported. The actual mapping is either powered by
+ * <a href="https://www.da-ra.de/oaip/">da|ra's OAI-PMH service</a> or
+ * <a href="https://commons.datacite.org/doi.org/10.21249/dzhw:gra2005:1.0.0">data cite</a>.
+ *
  * @author René Reitmann
  */
 public enum MetadataExportFormat {
@@ -15,17 +16,14 @@ public enum MetadataExportFormat {
               ".json"), schema_org_json_ld("vnd.schemaorg.ld+json", ".json");
 
   /**
-   * Export formats powered by da|ra's OAI-PMH service.
-   * 
-   * @see https://www.da-ra.de/oaip/
+   * Export formats powered by <a href="https://www.da-ra.de/oaip/">da|ra's OAI-PMH service</a>.
    */
   public static final Set<MetadataExportFormat> OAI_FORMATS =
       Set.of(oai_dc, dara, oai_ddi31, oai_ddi32, oai_dara, mds);
 
   /**
-   * Export formats powered by data cite.
-   * 
-   * @see https://commons.datacite.org/doi.org/10.21249/dzhw:gra2005:1.0.0
+   * Export formats powered by
+   * <a href="https://commons.datacite.org/doi.org/10.21249/dzhw:gra2005:1.0.0">data cite</a>.
    */
   public static final Set<MetadataExportFormat> DATACITE_FORMATS =
       Set.of(data_cite_xml, data_cite_json, schema_org_json_ld);
@@ -42,11 +40,11 @@ public enum MetadataExportFormat {
 
   /**
    * Construct the enum.
-   * 
+   *
    * @param urlFormat The format as it can be used in URLs.
    * @param fileExtension The file extension for the downloaded format (xml or json).
    */
-  private MetadataExportFormat(String urlFormat, String fileExtension) {
+  MetadataExportFormat(String urlFormat, String fileExtension) {
     this.urlFormat = urlFormat;
     this.fileExtension = fileExtension;
   }

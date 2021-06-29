@@ -17,7 +17,7 @@ Upload Attachment for Data Package
     Write data package description in de and en
     Save Changes for data package attachment
     Assert gra2005_MethodReport in the attachment
-    Delete data package with uploaded document
+    Delete uploaded document
     Get back to home page and deselect project
 
 *** Keywords ***
@@ -32,7 +32,7 @@ Click add button
     Click Element Through Tooltips    xpath=//ui-view//button[@ng-click="ctrl.addAttachment($event)"]//md-icon[text()="add"]
 
 Upload data package file
-    Press Key   xpath=//input[@type='file' and @ngf-select="ctrl.upload($file)"][1]   ${CURDIR}/data/gra2005_MethodReport_de.pdf  # data folder contains the PDF file
+    Choose File   xpath=//input[@type='file' and @ngf-select="ctrl.upload($file)"][1]   ${CURDIR}/data/gra2005_MethodReport_de.pdf  # data folder contains the PDF file
 
 Select data package data type
     Click Element Through Tooltips   xpath=//md-select[@ng-model="ctrl.attachmentMetadata.type"]
@@ -58,8 +58,8 @@ Save Changes for data package attachment
 Assert gra2005_MethodReport in the attachment
     Page Should Contain Element    xpath=//a[@ng-href="/public/files/data-packages/stu-fileuploadproject$/attachments/gra2005_MethodReport_de.pdf"]
 
-Delete data package with uploaded document
+Delete uploaded document
     Click Element Through Tooltips    xpath=//button[md-icon[text()="delete_forever"]]
     Click Element Through Tooltips    xpath=//button[text()="Ja"]
-    Wait Until Angular Ready    2s
+    Wait for Angular    2s
     Page Should Not Contain Element    xpath=//a[@ng-href="/public/files/data-packages/stu-fileuploadproject$/attachments/gra2005_MethodReport_de.pdf"]

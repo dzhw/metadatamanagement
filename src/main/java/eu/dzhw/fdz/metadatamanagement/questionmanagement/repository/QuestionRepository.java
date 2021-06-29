@@ -84,6 +84,5 @@ public interface QuestionRepository extends BaseRepository<Question, String> {
   List<QuestionSubDocumentProjection> findSubDocumentsByConceptIdsContaining(String id);
 
   @RestResource(exported = false)
-  Stream<Question> findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
-      String dataAcquisitionProjectId);
+  Stream<Question> findByDataAcquisitionProjectIdAndShadowIsTrue(String dataAcquisitionProjectId);
 }

@@ -14,7 +14,7 @@ Upload excel file for related publications
 
 *** Keywords ***
 Upload Excel file
-   Press Key  xpath=//input[@type='file' and @ngf-select='uploadRelatedPublications($file)'][1]   ${CURDIR}/publicationdata/relatedPublications.xlsx
+   Choose File  xpath=//input[@type='file' and @ngf-select='uploadRelatedPublications($file)'][1]   ${CURDIR}/publicationdata/relatedPublications.xlsx
 
 Close The Toast Message for upload
    Wait Until Page Contains Element  xpath=//md-toast//span[contains(., "Upload von 199 Publikationen")]  timeout=240s

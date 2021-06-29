@@ -11,28 +11,28 @@ Resource          ../../resources/login_resource.robot
 *** Variables ***
 ${TOAST_MSSG}  Die Erhebung wurde nicht gespeichert
 
-*** Test Cases ***    GerTitle       EngTitle     Wave        FielPeriodStart    FieldPeriodEnd    GerSurvMeth                                     GerSurvMeth                                 GerPopDesc       EngPopDesc                    NetSampleSize
+*** Test Cases ***    GerTitle       EngTitle     SerialNumber    FielPeriodStart    FieldPeriodEnd    GerSurvMeth                                     GerSurvMeth                                 GerPopDesc       EngPopDesc                    NetSampleSize
 
-Empty German Title    ${Empty}       Something    1           01.05.2018         31.05.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             1
+Empty German Title    ${Empty}       Something    1               01.05.2018         31.05.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             1
 
 Empty English Title
-                      Irgendetwas    ${Empty}     1           01.05.2018         31.05.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             1
+                      Irgendetwas    ${Empty}     1               01.05.2018         31.05.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             1
 
-Empty Wave            Irgendetwas    Something    ${Empty}    01.05.2018         31.05.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             1
+Empty Serial Number   Irgendetwas    Something    ${Empty}        01.05.2018         31.05.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             1
 
 Empty German SurveyMethod
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        ${Empty}                                         Standardised self-administered survey       Na eben alle    Of course everyone             1
+                      Irgendetwas    Something    1               01.05.2018         01.06.2018        ${Empty}                                         Standardised self-administered survey       Na eben alle    Of course everyone             1
 
 Empty English SurveyMethod
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Standardisierte postalische Befragung            ${Empty}                                    Na eben alle    Of course everyone             1
+                      Irgendetwas    Something    1               01.05.2018         01.06.2018        Standardisierte postalische Befragung            ${Empty}                                    Na eben alle    Of course everyone             1
 
 Empty German PopDescription
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Standardisierte postalische Befragung            Standardised self-administered survey       ${Empty}        Of course everyone             1
+                      Irgendetwas    Something    1               01.05.2018         01.06.2018        Standardisierte postalische Befragung            Standardised self-administered survey       ${Empty}        Of course everyone             1
 
 Empty English PopDescription
-                      Irgendetwas    Something    1           01.05.2018         01.06.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    ${Empty}                       1
+                      Irgendetwas    Something    1               01.05.2018         01.06.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    ${Empty}                       1
 
-Empty NetSampleSize   Irgendetwas    Something    1           01.05.2018         01.06.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             ${Empty}
+Empty NetSampleSize   Irgendetwas    Something    1               01.05.2018         01.06.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             ${Empty}
 
 Invalid NetSampleSize First
                       Irgendetwas    Something    1           01.05.2018         01.06.2018        Standardisierte postalische Befragung            Standardised self-administered survey       Na eben alle    Of course everyone             -5
@@ -44,15 +44,15 @@ Invalid NetSampleSize Second
 
 *** Keywords ***
 Survey Page With Empty Or Invalid Options Should Fail
-    [Arguments]    ${GTitle}    ${ETitle}    ${Wave}    ${FieldPeriodStart}    ${FieldPeriodEnd}    ${GSurveyMethod}    ${ESurveyMethod}
+    [Arguments]    ${GTitle}    ${ETitle}    ${SerialNumber}    ${FieldPeriodStart}    ${FieldPeriodEnd}    ${GSurveyMethod}    ${ESurveyMethod}
     ...    ${GPopDesc}    ${EPopDesc}     ${NetSampleSize}
     Pass Execution If    '${BROWSER}' == 'ie'    Survey Creation not possible in IE
     Clear Element Text    name=titleDe
     Input Text    name=titleDe    ${GTitle}
     Clear Element Text    name=titleEn
     Input Text    name=titleEn    ${ETitle}
-    Clear Element Text    name=wave
-    Input Text    name=wave    ${Wave}
+    Clear Element Text    name=serialNumber
+    Input Text    name=serialNumber    ${SerialNumber}
     Clear Element Text    xpath=//md-datepicker[@name='fieldPeriodStart']//input
     Input Text    xpath=//md-datepicker[@name='fieldPeriodStart']//input    ${FieldPeriodStart}
     Clear Element Text    xpath=//md-datepicker[@name='fieldPeriodEnd']//input
@@ -79,7 +79,7 @@ Survey Page With Empty Or Invalid Options Should Fail
 Go To Survey Create Page
     Pass Execution If    '${BROWSER}' == 'ie'    Survey Creation not possible in IE
     Select project by name    robotproject
-    Wait Until Angular Ready    2s
+    Wait for Angular    2s
     Click on surveys tab
     Click Element Through Tooltips    xpath=//ui-view/descendant::button[md-icon[text()='add']]
     Click add button
