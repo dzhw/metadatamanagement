@@ -44,8 +44,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @Schema(
-    description = "Go <a href='https://metadatamanagement.readthedocs.io/de/stable/javadoc/eu/dzhw/"
-        + "fdz/metadatamanagement/conceptmanagement/domain/Concept.html'>here</a>"
+    description = "Go <a href='https://dzhw.github.io/metadatamanagement/"
+        + "eu/dzhw/fdz/metadatamanagement/conceptmanagement/domain/Concept.html'>here</a>"
         + " for further details.")
 public class Concept extends AbstractRdcDomainObject implements ConceptSubDocumentProjection {
 

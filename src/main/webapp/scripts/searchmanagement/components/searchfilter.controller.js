@@ -34,7 +34,7 @@
       },
       {
         name: 'global.filter.sponsors',
-        property: 'sponsor', collapsed: true
+        property: 'sponsors', collapsed: true
       },
       {
         name: 'global.filter.institutions',

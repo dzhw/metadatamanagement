@@ -138,7 +138,7 @@ angular.module('metadatamanagementApp')
                           .buildDataPackageId(CurrentProjectService
                             .getCurrentProject().id
                         ),
-                        wave: 1
+                        serialNumber: 1
                       });
                       $scope.responseRateInitializing = true;
                       updateToolbarHeaderAndPageTitle();
@@ -167,7 +167,7 @@ angular.module('metadatamanagementApp')
                             .buildDataPackageId(CurrentProjectService
                               .getCurrentProject().id
                           ),
-                          wave: 1
+                          serialNumber: 1
                         });
                         $scope.responseRateInitializing = true;
                         updateToolbarHeaderAndPageTitle();
@@ -302,6 +302,9 @@ angular.module('metadatamanagementApp')
         ChoosePreviousVersionService.showDialog(dialogConfig, event)
             .then(function(wrapper) {
               ctrl.survey = new SurveyResource(wrapper.selection);
+              if (!ctrl.survey.serialNumber) {
+                ctrl.survey.serialNumber = 1;
+              }
               $scope.responseRateInitializing = true;
               if (wrapper.isCurrentVersion) {
                 $scope.surveyForm.$setPristine();

@@ -51,7 +51,7 @@ public class ShadowCopyQueueItemService {
 
   /**
    * Create a new shadow copy queue item.
-   * 
+   *
    * @param dataAcquisitionProjectId Id of project for which a shadow copy should be created
    * @param release The release object of the project which has been released.
    */
@@ -79,7 +79,7 @@ public class ShadowCopyQueueItemService {
 
   /**
    * Create a new shadow copy queue item for hiding the shadow copies of the given version.
-   * 
+   *
    * @param dataAcquisitionProjectId Id of project for which the shadow copies shall be hidden.
    * @param release The release object of the project which has been released.
    */
@@ -89,12 +89,23 @@ public class ShadowCopyQueueItemService {
 
   /**
    * Create a new shadow copy queue item for unhiding the shadow copies of the given version.
-   * 
+   *
    * @param dataAcquisitionProjectId Id of project for which the shadow copies shall be unhidden.
    * @param release The release object of the project which has been released.
    */
   public void scheduleShadowCopyUnhiding(String dataAcquisitionProjectId, Release release) {
     createShadowCopyQueueItem(dataAcquisitionProjectId, release, Action.UNHIDE);
+  }
+
+  /**
+   * Create a new shadow copy queue item for deleting the shadow copies of the given version.
+   *
+   * @param dataAcquisitionProjectId (Master-) Id of project for which the shadow copies shall be
+   *        deleted.
+   * @param release The release object containing the version of the project which shall be deleted.
+   */
+  public void scheduleShadowCopyDeletion(String dataAcquisitionProjectId, Release release) {
+    createShadowCopyQueueItem(dataAcquisitionProjectId, release, Action.DELETE);
   }
 
   /**
@@ -112,8 +123,14 @@ public class ShadowCopyQueueItemService {
         setupSecurityContext(task);
         String dataAcquisitionProjectId = task.getDataAcquisitionProjectId();
         Release release = task.getRelease();
-        Optional<DataAcquisitionProject> dataAcquisitionProjectOpt =
-            dataAcquisitionProjectRepository.findById(dataAcquisitionProjectId);
+        Optional<DataAcquisitionProject> dataAcquisitionProjectOpt;
+        if (task.getAction().equals(ShadowCopyQueueItem.Action.DELETE)) {
+          dataAcquisitionProjectOpt = dataAcquisitionProjectRepository
+              .findById(dataAcquisitionProjectId + "-" + release.getVersion());
+        } else {
+          dataAcquisitionProjectOpt =
+              dataAcquisitionProjectRepository.findById(dataAcquisitionProjectId);
+        }
         if (dataAcquisitionProjectOpt.isPresent()) {
           DataAcquisitionProject dataAcquisitionProject = dataAcquisitionProjectOpt.get();
           switch (task.getAction()) {
@@ -132,6 +149,12 @@ public class ShadowCopyQueueItemService {
               emitShadowCopyingStartedEvent(dataAcquisitionProject, release, null,
                   task.getAction());
               emitShadowCopyingEndedEvent(dataAcquisitionProject, release, null, true,
+                  task.getAction());
+              break;
+            case DELETE:
+              emitShadowCopyingStartedEvent(dataAcquisitionProject, release, null,
+                  task.getAction());
+              emitShadowCopyingEndedEvent(dataAcquisitionProject, release, null, false,
                   task.getAction());
               break;
             default:
@@ -155,7 +178,8 @@ public class ShadowCopyQueueItemService {
   private void emitShadowCopyingEndedEvent(DataAcquisitionProject dataAcquisitionProject,
       Release release, String previousReleaseVersion, boolean isRerelease, Action action) {
     this.applicationEventPublisher.publishEvent(new ShadowCopyingEndedEvent(this,
-        dataAcquisitionProject.getId(), release, previousReleaseVersion, isRerelease, action));
+        dataAcquisitionProject.getMasterId(), release, previousReleaseVersion, isRerelease,
+        action));
   }
 
   private void setupSecurityContext(ShadowCopyQueueItem shadowCopyQueueItem) {
@@ -194,13 +218,13 @@ public class ShadowCopyQueueItemService {
   private void emitShadowCopyingStartedEvent(DataAcquisitionProject dataAcquisitionProject,
       Release release, String previousReleaseVersion, Action action) {
     this.applicationEventPublisher.publishEvent(new ShadowCopyingStartedEvent(this,
-        dataAcquisitionProject.getId(), release, previousReleaseVersion, action));
+        dataAcquisitionProject.getMasterId(), release, previousReleaseVersion, action));
   }
 
   /**
    * Get the action which is currently performed for the given shadow identified by the given
    * params.
-   * 
+   *
    * @param dataAcquisitionProjectId masterId of the project
    * @param version the version of the project
    * @return The current action if the shadow is still in the queue.

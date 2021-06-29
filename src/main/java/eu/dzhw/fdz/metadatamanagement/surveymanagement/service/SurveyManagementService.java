@@ -100,9 +100,9 @@ public class SurveyManagementService implements CrudService<Survey> {
     try (Stream<Survey> surveys =
         surveyRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       surveys.forEach(survey -> {
-        crudHelper.deleteMaster(survey);
         imageService.deleteAllSurveyImagesById(survey.getId());
         surveyAttachmentService.deleteAllBySurveyId(survey.getId());
+        crudHelper.deleteMaster(survey);
       });
     }
   }

@@ -58,6 +58,6 @@ public class ShadowCopyQueueItem extends AbstractRdcDomainObject {
    * The action which will be performed for the shadows. 
    */
   public enum Action {
-    CREATE, HIDE, UNHIDE
+    CREATE, HIDE, UNHIDE, DELETE
   }
 }

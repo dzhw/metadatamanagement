@@ -75,6 +75,9 @@ public interface DataPackageRepository
   Stream<IdAndVersionProjection> streamIdsByMasterIdIn(Collection<String> dataSetIds);
 
   @RestResource(exported = false)
-  Stream<DataPackage> findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(
+  Stream<DataPackage> findByDataAcquisitionProjectIdAndShadowIsTrue(
       String dataAcquisitionProjectId);
+
+  @RestResource(exported = false)
+  Stream<DataPackage> findByMasterIdAndShadowIsTrue(String masterId);
 }

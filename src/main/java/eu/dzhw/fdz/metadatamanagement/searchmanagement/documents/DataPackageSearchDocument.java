@@ -65,6 +65,7 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
   private List<ConceptNestedDocument> nestedConcepts = new ArrayList<>();
 
   private List<I18nString> nestedInstitutions = new ArrayList<>();
+  private List<I18nString> nestedSponsors = new ArrayList<>();
 
   private Release release = null;
 
@@ -88,7 +89,7 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
 
   /**
    * Construct the search document with all related subdocuments.
-   * 
+   *
    * @param dataPackage The dataPackage to be searched for
    * @param dataSets all data sets available in this dataPackage
    * @param variables all variables available in this dataPackage
@@ -153,6 +154,7 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
           .collect(Collectors.toList());
     }
     this.nestedInstitutions = dataPackage.getInstitutions();
+    this.nestedSponsors = dataPackage.getSponsors();
     this.release = release;
     this.configuration = configuration;
     this.doi = doi;
@@ -174,17 +176,17 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
   }
 
   /**
-   * Check the wave number of every survey.
-   * 
+   * Check the serial number of every survey.
+   *
    * @param surveys All Survey Sub Document Projections.
-   * @return The highest (max) wave number.
+   * @return The highest (max) serial number.
    */
   private Integer generateNumberOfWaves(List<SurveySubDocumentProjection> surveys) {
     Integer numberOfWaves = 0;
 
     for (SurveySubDocumentProjection survey : surveys) {
-      if (survey.getWave() > numberOfWaves) {
-        numberOfWaves = survey.getWave();
+      if (survey.getSerialNumber() > numberOfWaves) {
+        numberOfWaves = survey.getSerialNumber();
       }
     }
 
@@ -193,7 +195,7 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
 
   /**
    * Create an aggregated list of the data types of all {@link Survey}s.
-   * 
+   *
    * @param surveys All Survey Sub Document Projections.
    * @return aggregated List of survey data types
    */
@@ -204,7 +206,7 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
 
   /**
    * Create an aggregated list of the access ways of all {@link DataSet}s.
-   * 
+   *
    * @param dataSets All DataSet Sub Document Projections.
    * @return aggregated List of access ways
    */
@@ -216,7 +218,7 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
 
   /**
    * Create an aggregated list of the languages of all {@link DataSet}s.
-   * 
+   *
    * @param dataSets All DataSet Sub Document Projections.
    * @return aggregated List of languages
    */

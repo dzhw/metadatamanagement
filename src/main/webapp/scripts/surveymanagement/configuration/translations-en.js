@@ -127,14 +127,15 @@ angular.module('metadatamanagementApp').config(
               }
             },
             'population': {
-              'not-null': 'The Population of a Survey must not be empty!'
+              'not-null': 'The population of a survey must not be empty!'
             },
             'sample': {
               'not-null': 'The sampling procedure of a survey must not be empty!'
             },
-            'wave': {
-              'not-null': 'The Wave of a Survey must not be empty!',
-              'min': 'The number of waves has to be 1 or higher.'
+            'serial-number': {
+              'not-null': 'The serial number of a survey must not be empty!',
+              'min': 'The serial number has to be 1 or higher.',
+              'invalid-number': 'Please enter a valid number.'
             },
             'response-rate': {
               'min': 'The response rate must not be less than 0%.',
@@ -192,7 +193,7 @@ angular.module('metadatamanagementApp').config(
             'edit-survey': 'Edit Survey:',
             'create-survey': 'Create Survey:',
             'title': 'Title',
-            'wave': 'Wave',
+            'serial-number': 'Serial Number',
             'field-period-start': 'Field Period Start',
             'field-period-end': 'Field Period End',
             'population': {
@@ -233,7 +234,7 @@ angular.module('metadatamanagementApp').config(
               'de': 'Please enter the title of this survey in German.',
               'en': 'Please enter the title of this survey in English.'
             },
-            'wave': 'Please enter the number of the wave for this survey or keep 1 if not relevant.',
+            'serial-number': 'Please enter the serial number of the survey as it is implemented in the survey design (e.g. number of the panel wave).',
             'field-period-start': 'Please enter the beginning of the field period.',
             'field-period-end': 'Please enter the end of the field period.',
             'survey-method': {

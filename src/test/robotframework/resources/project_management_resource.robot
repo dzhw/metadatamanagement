@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     Resources for Project Cockpit Management
-Library           ExtendedSelenium2Library
+Library           SeleniumLibrary
 Resource          click_element_resource.robot
 Variables         ../common_variables.yaml
 

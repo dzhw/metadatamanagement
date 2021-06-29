@@ -132,9 +132,10 @@ angular.module('metadatamanagementApp').config(
             'sample': {
               'not-null': 'Das Stichprobenverfahren der Erhebung darf nicht leer sein!'
             },
-            'wave': {
-              'not-null': 'Die Welle der Erhebung darf nicht leer sein!',
-              'min': 'Die Anzahl der Wellen muss mindestens 1 sein!'
+            'serial-number': {
+              'not-null': 'Die Ordnungsnummer der Erhebung darf nicht leer sein!',
+              'min': 'Die Ordnungsnummer muss mindestens 1 sein!',
+              'invalid-number': 'Geben Sie eine gültige Zahl ein.'
             },
             'response-rate': {
               'min': 'Die Rücklaufquote darf nicht kleiner als 0% sein.',
@@ -192,7 +193,7 @@ angular.module('metadatamanagementApp').config(
             'edit-survey': 'Erhebung bearbeiten:',
             'create-survey': 'Erhebung anlegen:',
             'title': 'Titel',
-            'wave': 'Welle',
+            'serial-number': 'Ordnungsnummer',
             'field-period-start': 'Beginn Feldzeit',
             'field-period-end': 'Ende Feldzeit',
             'population': {
@@ -227,7 +228,7 @@ angular.module('metadatamanagementApp').config(
               'de': 'Geben Sie den Titel der Erhebung auf Deutsch ein.',
               'en': 'Geben Sie den Titel der Erhebung auf Englisch ein.'
             },
-            'wave': 'Geben Sie die Nummer der Welle an bzw. lassen Sie die Nummer auf 1 falls nicht zutreffend.',
+            'serial-number': 'Bitte tragen Sie hier die Ordnungsnummer der Erhebung ein, wie sie im Erhebungsdesign angelegt ist (z.B. Nummer der Panelwelle).',
             'field-period-start': 'Geben Sie den Beginn der Feldzeit ein.',
             'field-period-end': 'Geben Sie das Ende der Feldzeit ein.',
             'survey-method': {

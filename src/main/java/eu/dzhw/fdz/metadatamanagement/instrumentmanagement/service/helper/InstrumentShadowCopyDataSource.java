@@ -87,7 +87,7 @@ public class InstrumentShadowCopyDataSource implements ShadowCopyDataSource<Inst
   public void deleteExistingShadowCopies(String projectId, String version) {
     String oldProjectId = projectId + "-" + version;
     try (Stream<Instrument> instruments = instrumentRepository
-        .findByDataAcquisitionProjectIdAndShadowIsTrueAndSuccessorIdIsNull(oldProjectId)) {
+        .findByDataAcquisitionProjectIdAndShadowIsTrue(oldProjectId)) {
       instruments.forEach(crudHelper::deleteShadow);
     }
   }

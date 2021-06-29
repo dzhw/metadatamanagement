@@ -92,8 +92,8 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
     try (Stream<DataPackage> dataPackages =
         dataPackageRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       dataPackages.forEach(dataPackage -> {
-        crudHelper.deleteMaster(dataPackage);
         dataPackageAttachmentService.deleteAllByDataPackageId(dataPackage.getId());
+        crudHelper.deleteMaster(dataPackage);
       });
     }
   }

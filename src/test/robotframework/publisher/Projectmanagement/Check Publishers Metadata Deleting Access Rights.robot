@@ -27,18 +27,18 @@ Publisher Create But Can Not Delete Data Package When Publisher is Ready
    Choose Panel As Survey Design
    Input Text    name=institutionDe_0    DZHW ${BROWSER}
    Input Text    name=institutionEn_0    DZHW ${BROWSER}
-   Input Text    name=sponsorDe    BMBF ${BROWSER}
-   Input Text    name=sponsorEn    BMBF ${BROWSER}
+   Input Text    name=sponsorDe_0    BMBF ${BROWSER}
+   Input Text    name=sponsorEn_0    BMBF ${BROWSER}
    Input Text    name=annotationsDe    Dieses Datenpaket wurde von Robot automatisch erstellt.
    Input Text    name=annotationsEn    This data package was created automatically by Robot.x
-   Focus    xpath=//textarea[@name = 'descriptionDe']
+   Set Focus To Element    xpath=//textarea[@name = 'descriptionDe']
    Input Text    name=descriptionDe    Dieses Datenpaket wurde automatisch erstellt und überprüft die Eingabe valider Eigenschaften.
    Input Text    name=descriptionEn    This data package was created automatically and test the input of valid attributes.
-   Focus    xpath=//input[@name = 'projectContributorsFirstName_0']
+   Set Focus To Element    xpath=//input[@name = 'projectContributorsFirstName_0']
    Input Text    name=projectContributorsFirstName_0    Anne
    Input Text    name=projectContributorsMiddleName_0    noMiddleName
    Input Text    name=projectContributorsLastName_0    Droid
-   Focus    xpath=//input[@name = 'dataCuratorsFirstName_0']
+   Set Focus To Element    xpath=//input[@name = 'dataCuratorsFirstName_0']
    Input Text    name=dataCuratorsFirstName_0    Anne
    Input Text    name=dataCuratorsMiddleName_0    noMiddleName
    Input Text    name=dataCuratorsLastName_0    Droid

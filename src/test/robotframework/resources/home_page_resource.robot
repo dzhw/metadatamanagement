@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     Resource used by all search and view test cases
-Library     ExtendedSelenium2Library
+Library     SeleniumLibrary
 Resource    click_element_resource.robot
 Variables   ../common_variables.yaml
 

@@ -27,7 +27,8 @@ Put all access ways in shopping cart
 
 Delete an Item
    Click Element Through Tooltips   xpath=//button[text()=' Löschen ']
-   Xpath Should Match X Times   //md-card[contains(@class, 'fdz-search-result')]  3
+   ${count} =  Get Element Count   //md-card[contains(@class, 'fdz-search-result')]
+   Should Be True    ${count} == 3
 
 Select Access Way for the Data Package
    [Arguments]   ${accesswayname}
@@ -44,7 +45,8 @@ Put in Shopping Cart
 
 Go to Shopping Cart
    Click Element Through Tooltips    xpath=//a//md-icon[contains(., 'shopping_cart')]
-   Xpath Should Match X Times   //md-card[contains(@class, 'fdz-search-result')]  4
+   ${count} =  Get Element Count   //md-card[contains(@class, 'fdz-search-result')]
+   Should Be True    ${count} == 4
 
 Check The Links
     @{MD_DATALINKS}   Create List    Variablen   Datensätze
