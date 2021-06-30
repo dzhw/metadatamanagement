@@ -51,7 +51,7 @@
           </div>
           <div layout="column" layout-gt-sm="row" class="ms-flex">
             <md-input-container flex="50" md-is-error="!surveyForm.serialNumber.$valid && (surveyForm.serialNumber.$dirty || surveyForm.serialNumber.$touched)" class="ms-flex">
-              <label>{{'survey-management.edit.label.serial-number' | translate}}</label>
+              <label>{{'survey-management.detail.label.serial-number' | translate}}</label>
               <input min="1" name="serialNumber" ng-model="ctrl.survey.serialNumber" required step="1" type="number">
               <div class="fdz-input-hint" ng-if="!surveyForm.serialNumber.$dirty && !surveyForm.serialNumber.$touched">
                 {{'survey-management.edit.hints.serial-number' | translate}}

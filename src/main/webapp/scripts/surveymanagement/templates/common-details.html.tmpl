@@ -13,6 +13,10 @@
   <div ng-if="!$ctrl.collapsed">
     <md-card-content>
       <md-list>
+        <md-list-item ng-if="$ctrl.options.survey.serialNumber">
+          <h5>{{'survey-management.detail.label.serial-number' | translate }}:</h5>
+          <span class="md-secondary">{{ $ctrl.options.survey.serialNumber }}</span>
+        </md-list-item>
         <md-list-item ng-if="$ctrl.options.survey.population">
           <h5>{{'survey-management.detail.label.population' | translate }}:</h5>
           <p

@@ -40,6 +40,7 @@ angular.module('metadatamanagementApp').config(
             'grossSampleSize': 'Gross Sample Size',
             'sampleSize': 'Net Sample Size',
             'responseRate': 'Response Rate',
+            'serial-number': 'Serial Number',
             'attachments': {
               'title': 'Title',
               'description': 'Description',
@@ -193,7 +194,6 @@ angular.module('metadatamanagementApp').config(
             'edit-survey': 'Edit Survey:',
             'create-survey': 'Create Survey:',
             'title': 'Title',
-            'serial-number': 'Serial Number',
             'field-period-start': 'Field Period Start',
             'field-period-end': 'Field Period End',
             'population': {
