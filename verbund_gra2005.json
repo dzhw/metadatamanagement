@@ -1,0 +1,483 @@
+{
+	"external_id": "stu-gra2005$", // kam nicht über die API, wie gehen wir da bei der Umstellung mit bestehenden Datenpaketen vor? Ich müsste beispielsweise alle laden können und unverändert mit external_id speichern können...
+	"study_id": 645,
+	"title": "DZHW-Absolventenpanel 2005",
+	"alternative_title": "",
+	"acronym": "",
+	"acronym2": "",
+	"duration_from": null,
+	"duration_to": null,
+	"contact": "",
+	"funding": "",
+	"description": "Das DZHW-Absolventenpanel 2005 ist Teil der DZHW-Absolventenstudienreihe, in der anhand von standardisierten Befragungen Informationen zu Studium, Berufseintritt, Berufsverlauf und Weiterqualifizierung von Hochschulabsolvent(inn)en erfasst werden. Das erste Absolventenpanel wurde 1989 durchgeführt, seitdem wird jeder vierte Absolvent(inn)enjahrgang (Kohorte) untersucht. Für jede Absolvent(inn)enkohorte werden mehrere Befragungswellen durchgeführt, wobei jede Welle in unterschiedlichem zeitlichen Abstand zum Studienabschluss stattfindet. Beim Absolventenpanel 2005 handelt es sich um die fünfte Absolvent(inn)enkohorte der Studienreihe. Im Unterschied zu vorangegangenen Absolvent(inn)enkohorten ist die Studienphase der Kohorte 2005 durch den Hochschulwandel im Rahmen des Bologna-Prozesses geprägt. In diesem Zuge wurden nicht nur Absolvent(inn)en traditioneller Studiengänge, sondern erstmalig auch eine nennenswerte Anzahl an Bachelorabsolvent(inn)en befragt, wobei lediglich Absolvent(inn)en aus Fächern berücksichtigt wurden, für die bereits eine größere Absolvent(inn)enzahl vorlag. Zudem ist die berufliche Einstiegs- und Konsolidierungsphase der Kohorte 2005 durch den Beginn der Wirtschafts- und Finanzkrise im Jahr 2008 gekennzeichnet.",
+	"free_keyword": [], // das ist in der API Doku gar nicht vorhanden, aber wird bei gra1997 genutzt!
+	"target_group": "",
+	"study_design_details": "",
+	"sample": "DZHW-Absolventenpanel 2005 - erste Welle (Absolvent(inn)en traditioneller Studiengänge):\r\nHochschulabsolvent(inn)en mit einem traditionellen Studienabschluss, die im Wintersemester 2004/2005 oder im Sommersemester 2005 ihren ersten berufsqualifizierenden Studienabschluss an einer staatlich anerkannten Hochschule in der Bundesrepublik Deutschland erworben haben (mit Ausnahme der Absolvent(inn)en von Bundeswehrhochschulen, Verwaltungsfachhochschulen, Berufsakademien und Fernhochschulen)\r\n\r\nDZHW-Absolventenpanel 2005 - zweite Welle  (Absolvent(inn)en traditioneller Studiengänge):\r\nHochschulabsolvent(inn)en mit einem traditionellen Studienabschluss, die im Wintersemester 2004/2005 oder im Sommersemester 2005 ihren ersten berufsqualifizierenden Studienabschluss an einer staatlich anerkannten Hochschule in der Bundesrepublik Deutschland erworben haben (mit Ausnahme der Absolvent(inn)en von Bundeswehrhochschulen, Verwaltungsfachhochschulen, Berufsakademien und Fernhochschulen)\r\n\r\nDZHW-Absolventenpanel 2005 - erste Welle (Bachelor):\r\nHochschulabsolvent(inn)en mit einem Bachelorabschluss, die im Wintersemester 2004/2005 oder im Sommersemester 2005 ihren ersten berufsqualifizierenden Studienabschluss an einer staatlich anerkannten Hochschule in der Bundesrepublik Deutschland erworben haben (mit Ausnahme der Absolvent(inn)en von Bundeswehrhochschulen, Verwaltungsfachhochschulen, Berufsakademien und Fernhochschulen)\r\n\r\nDZHW-Absolventenpanel 2005 - zweite Welle  (Bachelor):\r\nHochschulabsolvent(inn)en mit einem Bachelorabschluss, die im Wintersemester 2004/2005 oder im Sommersemester 2005 ihren ersten berufsqualifizierenden Studienabschluss an einer staatlich anerkannten Hochschule in der Bundesrepublik Deutschland erworben haben (mit Ausnahme der Absolvent(inn)en von Bundeswehrhochschulen, Verwaltungsfachhochschulen, Berufsakademien und Fernhochschulen)\r\n\r\nDZHW-Absolventenpanel 2005 - dritte Welle, Hauptbefragung (Absolvent(inn)en traditioneller Studiengänge):\r\nHochschulabsolvent(inn)en mit einem traditionellen Studienabschluss, die im Wintersemester 2004/2005 oder im Sommersemester 2005 ihren ersten berufsqualifizierenden Studienabschluss an einer staatlich anerkannten Hochschule in der Bundesrepublik Deutschland erworben haben (mit Ausnahme der Absolvent(inn)en von Bundeswehrhochschulen, Verwaltungsfachhochschulen, Berufsakademien und Fernhochschulen)\r\n\r\nDZHW-Absolventenpanel 2005 - dritte Welle, Hauptbefragung  (Bachelor):\r\nHochschulabsolvent(inn)en mit einem Bachelorabschluss, die im Wintersemester 2004/2005 oder im Sommersemester 2005 ihren ersten berufsqualifizierenden Studienabschluss an einer staatlich anerkannten Hochschule in der Bundesrepublik Deutschland erworben haben (mit Ausnahme der Absolvent(inn)en von Bundeswehrhochschulen, Verwaltungsfachhochschulen, Berufsakademien und Fernhochschulen)",
+	"comment_region": "",  // Pflichtfeld laut API-Doku, haben wir aber scheinbar nicht gefüllt!
+	"publication_link": "",
+	"media": false,
+	"registrable": false,
+	"comment_selection_process": "",
+	"comment_external": "",
+	"created_at": "2019-10-08 10:41:59",
+	"modified_at": "2021-03-10 14:21:48",
+	"activated_at": "2019-10-08 15:10:31",
+	"translation": [],
+	"language": "de",
+	"origin": "da|ra-Import",
+	"study_methods": {
+		"1_4": [ //Group ist auch Key in dem Dict/JSON? Nicht laut API Doku!
+			{
+				"study_method_id": 1,
+				"name": "Längsschnitt",
+				"description": "Daten, die an mehreren Zeitpunkten erhoben\r\nwurden, um Veränderungen innerhalb einer\r\nPopulation zu untersuchen. Mindestens einige der\r\nFragen oder Module werden dabei in Wellen\r\nwiederholt abgefragt. Verwenden Sie diesen breit\r\ngefassten Begriff, wenn sich keiner der\r\nUnterterme eignet.",
+				"parent_id": null,
+				"level": 1,
+				"translation": {
+					"en": {
+						"name": "Longitudinal" //ist bei da|ra 'Longitudinal.Panel' (ein string)
+					}
+				},
+				"language": "de",
+				"group": "1_4"
+			},
+			{
+				"study_method_id": 4,
+				"name": "Panel",
+				"description": "Daten, die an mehreren Zeitpunkten von einer gleichbleibenden Stichprobe erhoben wurden. Der Unterschied zu Kohorten- bzw. ereignisbezogenen Daten liegt darin, dass die Befragten keine Verbindung aufweisen oder bedeutende Erfahrungen teilen.",
+				"parent_id": 1,
+				"level": 2,
+				"translation": {
+					"en": {
+						"name": "Panel"
+					}
+				},
+				"language": "de",
+				"group": "1_4"
+			}
+		]
+	},
+	"study_designs": null,
+	"target_groups": [
+		{
+			"target_group_id": 38,
+			"name": "Hochschulabsolventen",
+			"description": "",
+			"parent_id": null,
+			"level": 1,
+			"translation": [],
+			"language": "de"
+		}
+	],
+	"regions": [
+		{
+			"region_id": 1,
+			"name": "Deutschland",
+			"description": "",
+			"parent_id": null,
+			"level": 1,
+			"translation": [],
+			"language": "de"
+		}
+	],
+	"publications": [
+		{
+			"publication_id": 2134,
+			"title": "",
+			"quote_string": "Jaksztat, Steffen (2014): Bildungsherkunft und Promotionen: Wie beeinflusst das elterliche Bildungsniveau den Übergang in die Promotionsphase? In: Zeitschrift für Soziologie 43 (4), S. 286-301.",
+			"fis_id": null,
+			"bibtex": null
+		},
+		{
+			"publication_id": 2135,
+			"title": "",
+			"quote_string": "Kratz, Fabian; Netz, Nicolai (2016): Which mechanisms explain monetary returns to international student mobility? In: Studies in Higher Education. DOI: 10.1080/03075079.2016.1172307.",
+			"fis_id": null,
+			"bibtex": null
+		},
+		{
+			"publication_id": 2136,
+			"title": "",
+			"quote_string": "Saniter, Nils; Siedler, Thomas (2014): Door opener or waste of time? The effects of student internships on labor market outcomes. Forschungsinstitut zur Zukunft der Arbeit (IZA). Bonn (IZA Discussion Paper, No. 8141).",
+			"fis_id": null,
+			"bibtex": null
+		},
+		{
+			"publication_id": 2137,
+			"title": "",
+			"quote_string": "Schaeper, Hildegard (2009): Development of competencies and teaching-learning arrangements in higher education: findings from Germany. In: Studies in Higher Education 34 (6), S. 677-697. DOI: 10.1080/03075070802669207.",
+			"fis_id": null,
+			"bibtex": null
+		},
+		{
+			"publication_id": 2138,
+			"title": "",
+			"quote_string": "Schaeper, Hildegard; Grotheer, Michael; Brandt, Gesche (2014): Familiengründung von Hochschulabsolventinnen. Eine empirische Untersuchung verschiedener Examenskohorten. In: Dirk Konietzka und Michaela Kreyenfeld (Hg.): Ein Leben ohne Kinder. 2. Aufl. Wiesbaden: VS Verlag für Sozialwissenschaften, S. 47-80.",
+			"fis_id": null,
+			"bibtex": null
+		},
+		{
+			"publication_id": 2139,
+			"title": "",
+			"quote_string": "Jaksztat, S. & Lörz, M. (2018). Ausmaß, Entwicklung und Ursachen sozialer Ungleichheit beim Promotionszugang zwischen 1989-2009. Zeitschrift für Soziologie, 47(1), pp. 46-64. Retrieved 3 Dec. 2019, from doi:10.1515/zfsoz-2018-1003",
+			"fis_id": null,
+			"bibtex": null
+		}
+	],
+	"involved_persons": [
+		{
+			"name": "Trennt, Fabian",
+			"email": null,
+			"orcid": null,
+			"pnd_id": null,
+			"reference": null,
+			"sort_order": 8,
+			"affiliation": null,
+			"person_function_id": 3
+		},
+		{
+			"name": "Schaeper, Hildegard",
+			"email": null,
+			"orcid": null,
+			"pnd_id": null,
+			"reference": null,
+			"sort_order": 7,
+			"affiliation": null,
+			"person_function_id": 3
+		},
+		{
+			"name": "Netz, Nicolai",
+			"email": null,
+			"orcid": null,
+			"pnd_id": null,
+			"reference": null,
+			"sort_order": 6,
+			"affiliation": null,
+			"person_function_id": 3
+		},
+		{
+			"name": "Minks, Karl-Heinz",
+			"email": null,
+			"orcid": null,
+			"pnd_id": null,
+			"reference": null,
+			"sort_order": 5,
+			"affiliation": null,
+			"person_function_id": 3
+		},
+		{
+			"name": "Isleib, Sören",
+			"email": null,
+			"orcid": null,
+			"pnd_id": null,
+			"reference": null,
+			"sort_order": 4,
+			"affiliation": null,
+			"person_function_id": 3
+		},
+		{
+			"name": "Grotheer, Michael",
+			"email": null,
+			"orcid": null,
+			"pnd_id": null,
+			"reference": null,
+			"sort_order": 3,
+			"affiliation": null,
+			"person_function_id": 3
+		},
+		{
+			"name": "Euler, Thorsten",
+			"email": null,
+			"orcid": null,
+			"pnd_id": null,
+			"reference": null,
+			"sort_order": 2,
+			"affiliation": null,
+			"person_function_id": 3
+		},
+		{
+			"name": "Briedis, Kolja",
+			"email": null,
+			"orcid": null,
+			"pnd_id": null,
+			"reference": null,
+			"sort_order": 1,
+			"affiliation": null,
+			"person_function_id": 3
+		},
+		{
+			"name": "Trommer, Maximilian",
+			"email": null,
+			"orcid": null,
+			"pnd_id": null,
+			"reference": null,
+			"sort_order": 9,
+			"affiliation": null,
+			"person_function_id": 3
+		}
+	],
+	"urls": [
+		{
+			"url_id": 1617,
+			"title": "Deutsches Zentrum für Hochschul- und Wissenschaftsforschung (DZHW)",
+			"url": "---",
+			"url_type_id": 6,
+			"valid_url": false,
+			"translation": [],
+			"language": "de",
+			"url_type": "Beteiligte Institution(en)"
+		}
+	],
+	"related_studies": null,
+	"selection_processes": [
+		{
+			"selection_process_id": 12,
+			"name": "Nicht-Wahrscheinlichkeitsauswahl",
+			"description": "Die Auswahl von Einheiten (z.B. Individuen, Haushalte, Organisationen, usw.) aus der Grundgesamtheit erfolgt nicht nach dem Zufallsprinzip. Die Auswahlwahrscheinlichkeit der einzelnen Einheiten kann daher nicht ermittelt werden. Wählen Sie diese Bezeichnung, wenn die genaue Art der Nicht-Wahrscheinlichkeitsauswahl unbekannt, schwierig zu bestimmen ist oder mehrere Arten der Nicht-Wahrscheinlichkeitsauswahl angewendet werden.",
+			"parent_id": null,
+			"level": 1,
+			"translation": {
+				"en": {
+					"name": "Non-probability Sample"
+				}
+			},
+			"language": "de",
+			"group": "12_14"
+		},
+		{
+			"selection_process_id": 14,
+			"name": "Bewusste Auswahl", //hier wieder nach CV bei dara ein String (Nicht-Wahrscheinlichkeitsauswahl: Bewusste Auswahl)
+			"description": "Alle Einheiten der Stichprobe sind bewusst, wegen ihres potenziellen Beitrags zum Untersuchungsgegenstand, ausgewählt. Die Grundgesamtheit und die Auswahlkriterien richten sich dabei nach den Ausprägungen der unabhängigen und/oder abhängigen Variablen der Untersuchung und werden von dem/der Forscher/in festgelegt. Er/Sie oder die für die Stichprobenziehung autorisierte Person kontrolliert die Auswahl. Beispielsweise werden für eine medizinische Studie bewusst Personen ausgewählt, die eine bestimmte Krankheit aufweisen, um diese mit einer Kontrollgruppe zu vergleichen. Verschiedene Varianten sind die Auswahl typischer/abweichender Fälle, homogener/heterogener Fälle oder kritischer Fälle.",
+			"parent_id": 12,
+			"level": 2,
+			"translation": {
+				"en": {
+					"name": "Purposive Sample"
+				}
+			},
+			"language": "de",
+			"group": "12_14"
+		},
+		{
+			"selection_process_id": 17,
+			"name": "Kombination aus Wahrscheinlichkeits- und Nicht-Wahrscheinlichkeitsauswahl",
+			"description": "Ein Verfahren, das für dieselbe Grundgesamtheit Wahrscheinlichkeits- und Nicht-Wahrscheinlichkeitsauswahl miteinander kombiniert. Die verwendeten Methoden können innerhalb oder zwischen den Stufen der Stichprobenziehung kombiniert werden. Beispielsweise kann zur Untersuchung einer religiösen Minderheit eine proportional geschichtete Zufallsauswahl mit einer Respondenten-gesteuerten Auswahl kombiniert werden. Alternativ wäre für dieses Beispiel auch eine Kombination von mehrstufiger Zufallsauswahl und einer Quotenstichprobe bei der letzten Ziehung möglich.",
+			"parent_id": null,
+			"level": 1,
+			"translation": {
+				"en": {
+					"name": "Mixed Probability and Non-probability Sample"
+				}
+			},
+			"language": "de",
+			"group": "17"
+		}
+	],
+	"keywords": [
+		{
+			"fis_keyword_id": 18384,
+			"name": "Hochschulforschung",
+			"translation": [],
+			"language": "de"
+		}
+	],
+	"project": null,
+	"data_modules": [
+		{
+			"data_module_id": 802,
+			"title": "",
+			"alternative_title": "",
+			"description": "",
+			"data_module_type": "collection", // wieso ist das hier eigentlich collection und nicht survey?
+			"persistent_identifier": "10.21249/DZHW:gra2005:2.0.1",
+			"persistent_identifier_type": "DOI",
+			"persistent_identifier_context": "",
+			"sample": "",
+			"accessibility": "", // leer ist aber nach API-Doku Pflichtfeld => was soll hier rein (z.B. da|ra's availabilityType)?
+			"accessibility_comment": "Beantragung notwendig unter <a href=\"https://metadata.fdz.dzhw.eu/de/data-packages/stu-gra2005$?version=2.0.0\">https://metadata.fdz.dzhw.eu/de/data-packages/stu-gra2005$?version=2.0.0</a>",
+			"comment_external": "",
+			"type_of_data_comment": "Datensatz",
+			"source": "",
+			"rights_owner": "",
+			"created_at": "2021-03-02 14:28:19.553573",
+			"modified_at": null,
+			"activated_at": "2021-06-28 00:00:00",
+			"provided_at": "2019-03-28 00:00:00",
+			"translation": [],
+			"language": null,
+			"data_module_prefix_id": null,
+			"instrument_available": false,
+			"original_id": 496,
+			"institutions": [
+				{
+					"institution_id": 12, // soll ich hier immer die 12 schicken?
+					"name": "Forschungsdatenzentrum für die Hochschul- und Wissenschaftsforschung",
+					"abbreviation": "FDZ-DZHW",
+					"description": "Das FDZ des Deutschen Zentrum für Hochschul- und Wissenschaftsforschung, Hannover, stellt quantitative und qualitative Forschungsdaten aus dem Bereich der Studierenden-, der Absolventen- und der Wissenschaftsforschung bereit. Dabei handelt es sich insbesondere um institutseigene Daten, aber auch externe Daten aus dem Bereich der Hochschul- und Wissenschaftsforschung werden aufgenommen und zur Verfügung gestellt. Die Daten eignen sich zudem für Forschungen aus angrenzenden Feldern, wie beispielsweise der Schul- oder Arbeitsmarktforschung.",
+					"address": "",
+					"url": "https://fdz.dzhw.eu/index_html",
+					"translation": [],
+					"language": "de"
+				}
+			],
+			"types_of_data": [
+				{
+					"type_of_data_id": 4,
+					"name": "Umfrage- und Aggregatdaten",
+					"translation": [],
+					"language": "de"
+				}
+			],
+			"survey": null,
+			"survey_methods": [
+				{
+					"survey_method_id": 9,
+					"name": "Eigenständig auszufüllender Fragebogen",
+					"description": "",
+					"parent_id": null,
+					"level": 1,
+					"translation": {
+						"en": {
+							"name": "Self-administered Questionnaire" // auch hier wieder nach CV ein String (SelfAdministeredQuestionnaire.Paper)
+						}
+					},
+					"language": "de",
+					"group": "9_11"
+				},
+				{
+					"survey_method_id": 11,
+					"name": "Papier",
+					"description": "",
+					"parent_id": 9,
+					"level": 2,
+					"translation": {
+						"en": {
+							"name": "Paper"
+						}
+					},
+					"language": "de",
+					"group": "9_11"
+				},
+				{
+					"survey_method_id": 9,
+					"name": "Eigenständig auszufüllender Fragebogen",
+					"description": "",
+					"parent_id": null,
+					"level": 1,
+					"translation": {
+						"en": {
+							"name": "Self-administered Questionnaire"
+						}
+					},
+					"language": "de",
+					"group": "9_13"
+				},
+				{
+					"survey_method_id": 13,
+					"name": "CAWI (Computerunterstützte Web-Befragung)",
+					"description": "",
+					"parent_id": 9,
+					"level": 2,
+					"translation": {
+						"en": {
+							"name": "CAWI (Computer Assisted Web Interview)"
+						}
+					},
+					"language": "de",
+					"group": "9_13"
+				}
+			],
+			"collection": { // wieso ist das hier gefüllt? Muss ich das auch füllen?
+				"collection_id": 361,
+				"data_module_id": 802,
+				"data_access": "",
+				"comment_instrument": "",
+				"created_at": "2021-03-02 14:28:19.690035",
+				"modified_at": null,
+				"activated_at": null,
+				"translation": [],
+				"language": null,
+				"usage": "primary"
+			},
+			"publications": null,
+			"involved_persons": [],
+			"prefix": null,
+			"waves": [
+				{
+					"wave_id": 113152,
+					"data_module_id": 802,
+					"title": "",
+					"duration_from": "2006-01-01",
+					"duration_to": "2007-05-18",
+					"created_at": "2021-06-28 07:03:54.237902",
+					"modified_at": null,
+					"activated_at": "2021-06-28 07:03:54.237902",
+					"translation": [],
+					"language": "de"
+				},
+				{
+					"wave_id": 113153,
+					"data_module_id": 802,
+					"title": "",
+					"duration_from": "2010-12-06",
+					"duration_to": "2012-02-21",
+					"created_at": "2021-06-28 07:03:54.237902",
+					"modified_at": null,
+					"activated_at": "2021-06-28 07:03:54.237902",
+					"translation": [],
+					"language": "de"
+				},
+				{
+					"wave_id": 113154,
+					"data_module_id": 802,
+					"title": "",
+					"duration_from": "2006-01-01",
+					"duration_to": "2007-05-18",
+					"created_at": "2021-06-28 07:03:54.237902",
+					"modified_at": null,
+					"activated_at": "2021-06-28 07:03:54.237902",
+					"translation": [],
+					"language": "de"
+				},
+				{
+					"wave_id": 113155,
+					"data_module_id": 802,
+					"title": "",
+					"duration_from": "2010-12-06",
+					"duration_to": "2012-02-21",
+					"created_at": "2021-06-28 07:03:54.237902",
+					"modified_at": null,
+					"activated_at": "2021-06-28 07:03:54.237902",
+					"translation": [],
+					"language": "de"
+				},
+				{
+					"wave_id": 113156,
+					"data_module_id": 802,
+					"title": "",
+					"duration_from": "2016-04-14",
+					"duration_to": "2016-06-07",
+					"created_at": "2021-06-28 07:03:54.237902",
+					"modified_at": null,
+					"activated_at": "2021-06-28 07:03:54.237902",
+					"translation": [],
+					"language": "de"
+				},
+				{
+					"wave_id": 113157,
+					"data_module_id": 802,
+					"title": "",
+					"duration_from": "2016-04-14",
+					"duration_to": "2016-06-07",
+					"created_at": "2021-06-28 07:03:54.237902",
+					"modified_at": null,
+					"activated_at": "2021-06-28 07:03:54.237902",
+					"translation": [],
+					"language": "de"
+				}
+			],
+			"survey_methods": null //kamen nich über die API sind aber Pflicht laut API Doku!
+		}
+	]
+}

@@ -191,7 +191,8 @@ angular.module('metadatamanagementApp').config(
         },
         'messages': {
           'info': {
-            'register': 'Sie sind Datengeber:in und haben noch keinen Zugang? '
+            'data-usage-application': 'Möchten Sie Daten von uns nutzen?',
+            'data-usage-application-link': 'Dann klicken Sie hier, um zum Datennutzungsantrag zu kommen!'
           },
           'error': {
             'dontmatch': 'Das bestätigte Passwort entspricht nicht dem neuen Passwort!',

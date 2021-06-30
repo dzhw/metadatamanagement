@@ -263,11 +263,13 @@ angular.module('metadatamanagementApp').factory(
           de: [
             '_score',
             'dataPackageId',
+            'serialNumber',
             'number'
           ],
           en: [
             '_score',
             'dataPackageId',
+            'serialNumber',
             'number'
           ]
         },
