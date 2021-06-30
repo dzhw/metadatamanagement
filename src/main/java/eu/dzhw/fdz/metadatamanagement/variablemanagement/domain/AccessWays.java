@@ -27,6 +27,11 @@ public class AccessWays {
   public static final List<String> ALL = Collections.unmodifiableList(
       Arrays.asList(DOWNLOAD_CUF, DOWNLOAD_SUF, REMOTE_DESKTOP, ONSITE_SUF, NOT_ACCESSIBLE));
 
+  /**
+   * Get a string which can be used for presenting access ways to users.
+   * @param accessWay an access way
+   * @return the more human readable string
+   */
   public static String displayAccessWay(String accessWay) {
     if (!ALL.contains(accessWay)) {
       throw new NotImplementedException(
