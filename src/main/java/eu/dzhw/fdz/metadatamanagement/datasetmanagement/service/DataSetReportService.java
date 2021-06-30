@@ -55,6 +55,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -189,6 +190,7 @@ public class DataSetReportService {
         Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId, version);
 
         dataForTemplate.put("removeMarkdown", markdownHelper.createRemoveMarkdownMethod());
+        dataForTemplate.put("displayAccessWay", AccessWays.createDisplayAccessWayMethod());
         try {
           String variableListFilledStr = this.fillTemplate(texVariableListFileStr,
               templateConfiguration, dataForTemplate, KEY_VARIABLELIST);
@@ -387,7 +389,7 @@ public class DataSetReportService {
     } else {
       variables = Collections.emptyList();
     }
-    Map<String, Variable> variablesMap = Maps.uniqueIndex(variables, new VariableFunction());
+    Map<String, Variable> variablesMap = Maps.uniqueIndex(variables, Variable::getId);
     dataForTemplate.put("variables", variablesMap);
 
     // Create different information from the variable
@@ -461,28 +463,6 @@ public class DataSetReportService {
 
     return dataForTemplate;
 
-  }
-
-  /**
-   * Inner class for get the variable ids as index for the variables hashmap.
-   *
-   * @author Daniel Katzberg
-   *
-   */
-  static class VariableFunction implements Function<Variable, String> {
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.google.common.base.Function#apply(java.lang.Object)
-     */
-    @Override
-    public String apply(Variable variable) {
-      if (variable == null) {
-        return null;
-      }
-
-      return variable.getId();
-    }
   }
 
   /**
