@@ -3,10 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.websocket;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Controller;
 
@@ -23,8 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class UserMessagesController {
-  
-  private final TokenStore tokenStore;
 
   /**
    * Send the given message to all users after checking the authorization of the user.
@@ -37,12 +31,12 @@ public class UserMessagesController {
   @SendTo("/topic/user-messages")
   public MessageDto sendMessageToAllUsers(MessageDto message, 
       @Header("access_token") String accessToken) throws Exception {
-    OAuth2AccessToken oauth2accessToken = tokenStore.readAccessToken(accessToken);
+    // TODO check if sending user is ROLE_ADMIN
+    String oauth2accessToken = "";
     if (oauth2accessToken != null) {
-      OAuth2Authentication authentication = tokenStore.readAuthentication(oauth2accessToken);
-      if (authentication != null && authentication.getAuthorities().contains(
-          new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-        message.setSender(authentication.getUserAuthentication().getName());
+      String authentication = "";
+      if (authentication != null && authentication.contains("ROLE_ADMIN")) {
+        message.setSender(authentication);
         log.debug("Sending message from {} to all users", message.getSender()); 
         return message;        
       }

@@ -3,15 +3,9 @@
 
   function BreadcrumbController(Principal, $state, $scope, $rootScope) {
     var $ctrl = this;
-    $ctrl.$onInit = init;
     $ctrl.show = false;
     $scope.bowser = $rootScope.bowser;
-
-    function init() {
-      Principal.identity().then(function() {
-        $ctrl.isAuthenticated = Principal.isAuthenticated;
-      });
-    }
+    $ctrl.isAuthenticated = Principal.isAuthenticated;
 
     $scope.$watch(function() {
       return $state.current.name;

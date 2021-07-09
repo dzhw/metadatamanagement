@@ -48,6 +48,7 @@
     "jsonformatter": "0.7.0",
     "jszip": "3.6.0",
     "jszip-utils": "0.1.0",
+    "keycloak-js": "^14.0.0",
     "ng-file-upload": "12.2.13",
     "ng-shortcut": "https://github.com/philippbosch/ng-shortcut/archive/0.1.4.tar.gz",
     "ng-showdown": "^1.1.0",

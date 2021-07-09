@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').controller('SidenavController',
            WelcomeDialogService) {
 
     $scope.isAuthenticated = Principal.isAuthenticated;
+    $scope.loginName = Principal.loginName;
     //For toggle buttons
     $scope.isProjectMenuOpen = false;
     $scope.isAdminMenuOpen = false;

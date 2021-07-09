@@ -32,3 +32,27 @@ services:
     ports:
       - "8081:80"
       - "1025:25"
+  postgres:
+      image: postgres:12.2
+      container_name: postgres
+      environment:
+        POSTGRES_DB: keycloak
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: password
+  keycloak:
+    image: quay.io/keycloak/keycloak:14.0.0
+    container_name: keycloak
+    environment:
+        DB_VENDOR: POSTGRES
+        DB_ADDR: postgres
+        DB_DATABASE: keycloak
+        DB_USER: keycloak
+        DB_PASSWORD: password
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: password
+        PROXY_ADDRESS_FORWARDING: "true"
+    ports:
+      - "8082:8080"
+    depends_on:
+        - postgres
+        - maildev

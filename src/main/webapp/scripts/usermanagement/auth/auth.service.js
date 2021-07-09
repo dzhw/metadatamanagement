@@ -1,115 +1,67 @@
+/* global Keycloak , window */
 'use strict';
 
 angular
   .module('metadatamanagementApp')
   .factory(
     'Auth',
-    function Auth($rootScope, $q, Principal,
-      AuthServerProvider, AccountResource, RegisterResource, ActivateResource,
-      PasswordResource, PasswordResetInitResource,
-      PasswordResetFinishResource) {
+    function Auth($q, LanguageService) {
+      var keycloak = new Keycloak({
+        realm: 'fdz-dzhw',
+        url: 'http://localhost:8082/auth/',
+        clientId: 'mdm-frontend'
+      });
+      keycloak.onAuthLogout = function() {
+        console.log('Logout !!!');
+      };
       return {
-        login: function(credentials, callback) {
-          var cb = callback || angular.noop;
+        init: function() {
           var deferred = $q.defer();
-
-          AuthServerProvider.login(credentials).then(function(data) {
-
-            //retrieve the logged account information
-            Principal.identity(true).then(function(identity) {
-              deferred.resolve(data);
-              $rootScope.identity = identity;
+          keycloak.init({
+            onLoad: 'check-sso',
+            silentCheckSsoRedirectUri:
+              window.location.origin + '/silent-check-sso.html',
+            enableLogging: true
+          }).then(function() {
+            keycloak.createLogoutUrl({
+              redirectUri: window.location.origin
             });
-            return cb();
-          }).catch(function(err) {
-              //this.logout();
-              deferred.reject(err);
-              return cb(err);
-            }
-            .bind(this));
+            console.log(keycloak);
+            deferred.resolve(keycloak);
+          }).catch(function(error) {
+            deferred.reject(error);
+          });
+          return deferred;
+        },
 
-          return deferred.promise;
+        login: function() {
+          keycloak.login({
+            redirectUri: window.location.origin +
+              '/' + LanguageService.getCurrentInstantly() + '/search',
+            locale: LanguageService.getCurrentInstantly()
+          });
         },
 
         logout: function() {
-          AuthServerProvider.logout();
-          $rootScope.identity = {};
-          Principal.authenticate(null);
-          // Reset state memory
-          $rootScope.previousStateName = undefined;
-          $rootScope.previousStateParams = undefined;
-          $rootScope.$broadcast('user-logged-out');
+          keycloak.logout({
+            redirectUri: window.location.origin
+          });
         },
 
-        authorize: function(force) {
-          return Principal
-            .identity(force)
-            .then(
-              function(identity) {
-                if (Principal.isAuthenticated()) {
-                  $rootScope.identity = identity;
-                }
-              });
-        },
-        createAccount: function(account, callback) {
-          var cb = callback || angular.noop;
-
-          return RegisterResource.save(account, function() {
-            return cb(account);
-          }, function(err) {
-            this.logout();
-            return cb(err);
-          }.bind(this)).$promise;
+        isAuthenticated: function() {
+          return keycloak.authenticated;
         },
 
-        updateAccount: function(account, callback) {
-          var cb = callback || angular.noop;
-
-          return AccountResource.save(account, function() {
-            return cb(account);
-          }, function(err) {
-            return cb(err);
-          }.bind(this)).$promise;
+        getIdToken: function() {
+          return keycloak.idTokenParsed;
         },
 
-        activateAccount: function(key, callback) {
-          var cb = callback || angular.noop;
-
-          return ActivateResource.get(key, function(response) {
-            return cb(response);
-          }, function(err) {
-            return cb(err);
-          }.bind(this)).$promise;
+        getAccessToken: function() {
+          return keycloak.tokenParsed;
         },
 
-        changePassword: function(newPassword, callback) {
-          var cb = callback || angular.noop;
-
-          return PasswordResource.save(newPassword, function() {
-            return cb();
-          }, function(err) {
-            return cb(err);
-          }).$promise;
-        },
-
-        resetPasswordInit: function(mail, callback) {
-          var cb = callback || angular.noop;
-
-          return PasswordResetInitResource.save(mail, function() {
-            return cb();
-          }, function(err) {
-            return cb(err);
-          }).$promise;
-        },
-
-        resetPasswordFinish: function(keyAndPassword, callback) {
-          var cb = callback || angular.noop;
-
-          return PasswordResetFinishResource.save(keyAndPassword, function() {
-            return cb();
-          }, function(err) {
-            return cb(err);
-          }).$promise;
+        getAccessTokenEncoded: function() {
+          return keycloak.token;
         }
       };
     });

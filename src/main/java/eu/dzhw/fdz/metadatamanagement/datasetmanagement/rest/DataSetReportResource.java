@@ -33,7 +33,6 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetReportSer
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 
@@ -50,8 +49,6 @@ public class DataSetReportResource {
   private final DataSetAttachmentService dataSetAttachmentService;
 
   private final MailService mailService;
-
-  private final UserService userService;
 
   private final TaskManagementService taskService;
 
@@ -128,7 +125,9 @@ public class DataSetReportResource {
   public ResponseEntity<?> uploadReport(@RequestParam("file") MultipartFile reportFile,
       @PathVariable("dataSetId") String dataSetId, @RequestParam("onBehalfOf") String onBehalfOf,
       @PathVariable("language") String language) throws IOException {
-    Optional<User> user = userService.getUserWithAuthoritiesByLogin(onBehalfOf);
+    Optional<User> user = Optional.empty();
+    // TODO remove on behal handling
+    // userService.getUserWithAuthoritiesByLogin(onBehalfOf);
     if (user.isPresent()) {
       User userInstance = user.get();
       // switch to on behalf user for correct modification names

@@ -71,9 +71,6 @@ try {
         $transitions.onStart({}, function(trans) {
           $rootScope.toState = trans.$to();
           $rootScope.toStateParams = trans.params();
-          if (Principal.isIdentityResolved()) {
-            Auth.authorize();
-          }
 
           // Update the language
           LanguageService.setCurrent($rootScope.toStateParams.lang);
@@ -112,7 +109,7 @@ try {
             'detailSearch': false,
             'configurator': false
           };
-          if (!Principal.loginName() &&
+          if (!Principal.isAuthenticated() &&
             (trans.$to().name).indexOf('Detail') !== -1) {
             $rootScope.sidebarContent = {
               'search': false,
@@ -120,7 +117,7 @@ try {
               'detailSearch': true,
               'configurator': true
             };
-          } else if (!Principal.loginName() &&
+          } else if (!Principal.isAuthenticated() &&
             (trans.$to().name).indexOf('search') !== -1) {
             $rootScope.sidebarContent = {
               'search': true,
@@ -129,7 +126,7 @@ try {
               'configurator': false
             };
           }
-          if (Principal.loginName() ||
+          if (Principal.isAuthenticated() ||
             (trans.$to().name).indexOf('start') !== -1) {
             $rootScope.sidebarContent = {
               'search': false,
@@ -205,7 +202,7 @@ try {
           url: '/{lang:(?:de|en)}',
           resolve: {
             authorize: ['Auth', function(Auth) {
-              return Auth.authorize();
+              return Auth.init();
             }]
           }
         });

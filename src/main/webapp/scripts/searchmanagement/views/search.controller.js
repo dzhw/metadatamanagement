@@ -42,11 +42,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
     PageMetadataService.setPageTitle('global.menu.search.title');
     PageMetadataService.setPageDescription('global.menu.search.description');
     //Check the login status
-    Principal.identity().then(function(account) {
-      $scope.account = account;
-      $scope.isAuthenticated = Principal.isAuthenticated;
-      $scope.hasAnyAuthority = Principal.hasAnyAuthority;
-    });
+    if (Principal.loginName()) {
+      $scope.account = Principal.loginName();
+    }
+    $scope.isAuthenticated = Principal.isAuthenticated;
+    $scope.hasAnyAuthority = Principal.hasAnyAuthority;
     // write the searchParams object to the location with the correct types
     var writeSearchParamsToLocation = function() {
       var locationSearch = {};

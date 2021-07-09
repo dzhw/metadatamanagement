@@ -47,6 +47,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+  			<dependency>
+   				<groupId>org.keycloak.bom</groupId>
+   				<artifactId>keycloak-adapter-bom</artifactId>
+   				<version>14.0.0</version>
+   				<type>pom</type>
+   				<scope>import</scope>
+  			</dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -296,15 +303,9 @@
             <artifactId>spring-security-test</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security.oauth</groupId>
-            <artifactId>spring-security-oauth2</artifactId>
-            <version>2.5.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security.oauth.boot</groupId>
-            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-            <version>2.4.7</version>
-        </dependency>
+    		<groupId>org.keycloak</groupId>
+    		<artifactId>keycloak-spring-boot-starter</artifactId>
+		</dependency>
         <dependency>
             <groupId>org.zalando</groupId>
             <artifactId>logbook-spring-boot-starter</artifactId>

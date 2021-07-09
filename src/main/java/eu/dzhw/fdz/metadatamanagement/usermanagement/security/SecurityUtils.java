@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
 
 import java.util.Collection;
 
+import org.keycloak.KeycloakPrincipal;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,9 +28,9 @@ public final class SecurityUtils {
     Authentication authentication = securityContext.getAuthentication();
     String userName = null;
     if (authentication != null) {
-      if (authentication.getPrincipal() instanceof UserDetails) {
-        UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-        userName = springSecurityUser.getUsername();
+      if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
+        KeycloakPrincipal springSecurityUser = (KeycloakPrincipal) authentication.getPrincipal();
+        userName = springSecurityUser.getName();
       } else if (authentication.getPrincipal() instanceof String) {
         userName = (String) authentication.getPrincipal();
       }
@@ -62,7 +63,7 @@ public final class SecurityUtils {
    * @return the current user id
    */
   public static String getCurrentUserId() {
-    return getCurrentUser().getId();
+    return getCurrentUser().getName();
   }
 
   /**
@@ -70,11 +71,11 @@ public final class SecurityUtils {
    *
    * @return the current user
    */
-  public static CustomUserDetails getCurrentUser() {
+  public static KeycloakPrincipal getCurrentUser() {
     SecurityContext securityContext = SecurityContextHolder.getContext();
     Authentication authentication = securityContext.getAuthentication();
-    if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
-      return (CustomUserDetails) authentication.getPrincipal();
+    if (authentication != null && authentication.getPrincipal() instanceof KeycloakPrincipal) {
+      return (KeycloakPrincipal) authentication.getPrincipal();
     }
     throw new IllegalStateException("User not found!");
   }
@@ -86,20 +87,17 @@ public final class SecurityUtils {
   public static boolean isUserInRole(String authority) {
     SecurityContext securityContext = SecurityContextHolder.getContext();
     Authentication authentication = securityContext.getAuthentication();
-    if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-      UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-      return springSecurityUser.getAuthorities().contains(new SimpleGrantedAuthority(authority));
+    if (authentication != null && authentication.getPrincipal() instanceof KeycloakPrincipal) {
+      KeycloakPrincipal springSecurityUser = (KeycloakPrincipal) authentication.getPrincipal();
+      return springSecurityUser.getKeycloakSecurityContext().getToken()
+          .getResourceAccess("mdm-backend").isUserInRole(authority);
     }
     return false;
   }
 
-  public static boolean isUserInRole(String authority, User user) {
-    return user.getAuthorities().stream()
-        .anyMatch(userAuthority -> userAuthority.getName().equals(authority));
-  }
-  
   /**
    * Check whether the user doing the current request has been authenticated anonymously.
+   * 
    * @return true if the user has been authenticated anonymously.
    */
   public static boolean isUserAnonymous() {

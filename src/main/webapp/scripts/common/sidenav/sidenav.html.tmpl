@@ -5,10 +5,10 @@
                 {{'global.menu.skip-navigation-tooltip'|translate}}
             </md-tooltip>
         </md-button>
-    <fdz-data-package-search ng-if="sidebarContent.search"></fdz-data-package-search>
+    <fdz-data-package-search ng-if="sidebarContent.search && !isAuthenticated()"></fdz-data-package-search>
     <fdz-search-detail ng-if="sidebarContent.detailSearch"></fdz-search-detail>
     <fdz-search-filter
-      ng-if="sidebarContent.filter"
+      ng-if="sidebarContent.filter && !isAuthenticated()"
       options="dataPackageFilter"
       template-url="scripts/searchmanagement/components/searchfilter.html.tmpl"></fdz-search-filter>
     <fdz-data-package-configurator
@@ -18,7 +18,7 @@
           <li class="fdz-navbar-menu">
             <md-button class="fdz-navbar-menu-toggle" ng-click="toggleAccountMenu()" id="account-menu-toggle">
               <md-icon md-font-set="material-icons">supervisor_account</md-icon>
-              <span>{{'global.menu.account.main' | translate : '{username:"' + identity.login + '"}'}}</span>
+              <span>{{'global.menu.account.main' | translate : '{username:"' + loginName() + '"}'}}</span>
               <md-icon ng-if="!isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_down</md-icon>
               <md-icon ng-if="isAccountMenuOpen" md-font-set="material-icons">keyboard_arrow_up</md-icon>
               <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
@@ -45,9 +45,9 @@
               <li ng-switch-when="true">
                 <md-button ng-click="logout()" class="fdz-navbar-button">
                     <md-tooltip md-direction="right" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                        {{'global.toolbar.buttons.logout-tooltip' | translate : '{username:"' + identity.login + '"}'}}
+                        {{'global.toolbar.buttons.logout-tooltip' | translate : '{username:"' + loginName() + '"}'}}
                     </md-tooltip>
-                    <span data-translate="global.toolbar.buttons.logout" data-translate-values="{username: identity.login}">Log out</span>
+                    <span data-translate="global.toolbar.buttons.logout" data-translate-values="{username: loginName()}">Log out</span>
                 </md-button>
               <li>
             </ul>

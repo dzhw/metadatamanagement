@@ -69,3 +69,18 @@ metadatamanagement:
 
 logbook:
   filter.enabled: false
+  
+keycloak:
+  realm: fdz-dzhw
+  auth-server-url: http://localhost:8082/auth
+  ssl-required: external
+  resource: mdm-backend
+  bearer-only: true
+  credentials:
+    secret: 3c590a08-4604-4ccc-a0e0-d5c3b0f60d8a
+  use-resource-role-mappings: true
+  principal-attribute: preferred_username
+  
+mongock:
+  enabled: false
+  

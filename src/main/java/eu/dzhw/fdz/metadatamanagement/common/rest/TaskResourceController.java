@@ -23,7 +23,6 @@ import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import io.swagger.v3.oas.annotations.Hidden;
 
 /**
@@ -36,18 +35,14 @@ import io.swagger.v3.oas.annotations.Hidden;
 @Hidden
 public class TaskResourceController
     extends GenericDomainObjectResourceController<Task, TaskManagementService> {
-  private final UserService userService;
-
   private final TaskManagementService taskService;
 
   /**
    * Construct the controller.
    */
   public TaskResourceController(CrudService<Task> crudService,
-      UserInformationProvider userInformationProvider, UserService userService,
-      TaskManagementService taskService) {
+      UserInformationProvider userInformationProvider, TaskManagementService taskService) {
     super(crudService, userInformationProvider);
-    this.userService = userService;
     this.taskService = taskService;
   }
 
@@ -77,8 +72,9 @@ public class TaskResourceController
     if (StringUtils.isEmpty(errorNotification.getOnBehalfOf())) {
       taskService.handleErrorNotification(errorNotification, null);
     } else {
-      Optional<User> user =
-          userService.getUserWithAuthoritiesByLogin(errorNotification.getOnBehalfOf());
+      Optional<User> user = Optional.empty();
+      // TODO get User email adress
+      // userService.getUserWithAuthoritiesByLogin(errorNotification.getOnBehalfOf());
       if (user.isPresent()) {
         taskService.handleErrorNotification(errorNotification, user.get());
       } else {

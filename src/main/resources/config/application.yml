@@ -20,7 +20,7 @@ spring:
         return-body-on-create: false
         return-body-on-update: false
       mongodb:
-        auto-index-creation: true
+        auto-index-creation: false
     messages:
         basename: classpath:/i18n/messages
     thymeleaf:

@@ -12,12 +12,15 @@ angular.module('metadatamanagementApp').controller(
     };
     $scope.isAuthenticated = Principal.isAuthenticated;
     $scope.hasAuthority = Principal.hasAuthority;
+    $scope.loginName = Principal.loginName;
 
     //Set Languages
     $scope.changeLanguage = function(languageKey) {
       LanguageService.setCurrent(languageKey);
     };
-
+    $scope.login = function() {
+      Auth.login();
+    };
     //Goto Logout Page
     $scope.logout = function() {
       Auth.logout();
