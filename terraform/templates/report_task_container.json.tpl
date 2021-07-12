@@ -5,7 +5,7 @@
         "logDriver": "awslogs",
         "secretOptions": null,
         "options": {
-          "awslogs-group": "/ecs/dataset-report-task-${stage}",
+          "awslogs-group": "/ecs/report-task-${stage}",
           "awslogs-region": "eu-central-1",
           "awslogs-stream-prefix": "ecs"
         }
@@ -54,7 +54,7 @@
       "memoryReservation": ${memory},
       "volumesFrom": [],
       "stopTimeout": null,
-      "image": "347729458675.dkr.ecr.eu-central-1.amazonaws.com/dzhw/dataset-report-task:latest-${stage}",
+      "image": "347729458675.dkr.ecr.eu-central-1.amazonaws.com/dzhw/report-task:latest-${stage}",
       "startTimeout": null,
       "firelensConfiguration": null,
       "dependsOn": null,
@@ -71,6 +71,6 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "dataset-report-task"
+      "name": "report-task"
     }
   ]

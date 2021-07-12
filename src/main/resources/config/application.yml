@@ -127,10 +127,10 @@ metadatamanagement:
     email: reitmann@dzhw.eu
   dlp:
     endpoint: https://stage.fdz.dzhw.eu/{language}/form/data-usage-application
-  dataset-report-task:
-    start-command: java -jar /app/dataset-report-task.jar --task.dataSetId=%1$s --task.version=%2$s --task.language=%3$s --task.onBehalfOf=%4$s
+  report-task:
+    start-command: java -jar /app/report-task.jar --task.id=%1$s --task.version=%2$s --task.language=%3$s --task.onBehalfOf=%4$s --task.type=%5$s
     service-name: metadatamanagement-worker
-    container-name: dataset-report-task
+    container-name: report-task
 
 # ===================================================================
 # JHipster specific properties
