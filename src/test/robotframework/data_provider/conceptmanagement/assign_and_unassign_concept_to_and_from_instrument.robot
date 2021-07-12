@@ -12,6 +12,7 @@ Assign and Unassign concept to and from an instrument
     Click on Instrument Edit Button
     Assign Concept to an Instrument
     Click on Save Button
+    Wait For Angular  10s
     Get back to german home page
     # wait for elasticsearch index beeing updated
     Sleep  60s

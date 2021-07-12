@@ -191,7 +191,8 @@ angular.module('metadatamanagementApp').config(
         },
         'messages': {
           'info': {
-            'register': 'You are Data Provider and you don\'t have an account yet? '
+            'data-usage-application': 'Do you want to use data from us?',
+            'data-usage-application-link': 'Then click here to go to the data usage application!'
           },
           'error': {
             'dontmatch': 'The password and its confirmation do not match!',

@@ -40,6 +40,7 @@ angular.module('metadatamanagementApp').config(
             'grossSampleSize': 'Bruttostichprobe',
             'sampleSize': 'Nettostichprobe',
             'responseRate': 'Rücklaufquote',
+            'serial-number': 'Ordnungsnummer',
             'attachments': {
               'title': 'Titel',
               'description': 'Beschreibung',
@@ -193,7 +194,6 @@ angular.module('metadatamanagementApp').config(
             'edit-survey': 'Erhebung bearbeiten:',
             'create-survey': 'Erhebung anlegen:',
             'title': 'Titel',
-            'serial-number': 'Ordnungsnummer',
             'field-period-start': 'Beginn Feldzeit',
             'field-period-end': 'Ende Feldzeit',
             'population': {

@@ -22,7 +22,7 @@
       ng-checked="$ctrl.exists(item.key, $ctrl.property)"
       md-no-ink=""
       ng-click="$ctrl.toggleFilterItem(item.key, $ctrl.property)">
-      {{ item.key }} ({{ item.doc_count }})
+      {{ $ctrl.property === "access-ways" ? (item.key | displayAccessWay) : item.key }} ({{ item.doc_count }})
     </md-checkbox>
   </li>
   <li ng-if="$ctrl.options.length === 0">Not available</li>
