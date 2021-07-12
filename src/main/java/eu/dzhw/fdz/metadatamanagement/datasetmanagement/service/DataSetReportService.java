@@ -34,13 +34,12 @@ import com.amazonaws.services.ecs.model.LaunchType;
 import com.amazonaws.services.ecs.model.NetworkConfiguration;
 import com.amazonaws.services.ecs.model.RunTaskRequest;
 import com.amazonaws.services.ecs.model.TaskOverride;
-import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
-import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.DatasetReportTask;
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.ReportTask;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.ZipUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.MarkdownHelper;
@@ -55,6 +54,7 @@ import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.repository.InstrumentRepository;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.AccessWays;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.RelatedQuestion;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.ValidResponse;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
@@ -76,6 +76,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class DataSetReportService {
+  private static final String TASK_TYPE = "DATASET_REPORT";
 
   private final FileService fileService;
 
@@ -189,6 +190,7 @@ public class DataSetReportService {
         Map<String, Object> dataForTemplate = this.loadDataForTemplateFilling(dataSetId, version);
 
         dataForTemplate.put("removeMarkdown", markdownHelper.createRemoveMarkdownMethod());
+        dataForTemplate.put("displayAccessWay", AccessWays.createDisplayAccessWayMethod());
         try {
           String variableListFilledStr = this.fillTemplate(texVariableListFileStr,
               templateConfiguration, dataForTemplate, KEY_VARIABLELIST);
@@ -387,7 +389,7 @@ public class DataSetReportService {
     } else {
       variables = Collections.emptyList();
     }
-    Map<String, Variable> variablesMap = Maps.uniqueIndex(variables, new VariableFunction());
+    Map<String, Variable> variablesMap = Maps.uniqueIndex(variables, Variable::getId);
     dataForTemplate.put("variables", variablesMap);
 
     // Create different information from the variable
@@ -395,7 +397,7 @@ public class DataSetReportService {
     Map<String, Instrument> instrumentMap = new HashMap<>();
     Map<String, List<ValidResponse>> firstTenValidResponses = new HashMap<>();
     Map<String, List<ValidResponse>> lastTenValidResponses = new HashMap<>();
-    Map<String, List<VariableSubDocumentProjection>> repeatedMeasurementVariables = 
+    Map<String, List<VariableSubDocumentProjection>> repeatedMeasurementVariables =
         new HashMap<>();
     Map<String, List<VariableSubDocumentProjection>> derivedVariables = new HashMap<>();
 
@@ -464,28 +466,6 @@ public class DataSetReportService {
   }
 
   /**
-   * Inner class for get the variable ids as index for the variables hashmap.
-   *
-   * @author Daniel Katzberg
-   *
-   */
-  static class VariableFunction implements Function<Variable, String> {
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.google.common.base.Function#apply(java.lang.Object)
-     */
-    @Override
-    public String apply(Variable variable) {
-      if (variable == null) {
-        return null;
-      }
-
-      return variable.getId();
-    }
-  }
-
-  /**
    * Start one container per language which builds the report. Either via aws fargate or locally via
    * docker.
    *
@@ -500,13 +480,13 @@ public class DataSetReportService {
       String onBehalfOf) throws IOException {
     for (String language : languages) {
       if (environment.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {
-        log.debug("Starting docker container from image dataset-report-task...");
+        log.debug("Starting docker container from image report-task...");
         RunProcess dataSetReportTaskContainer =
-            new RunProcess("src/main/resources/bin/run-dataset-report-task.sh", dataSetId, version,
-                language, onBehalfOf);
+            new RunProcess("src/main/resources/bin/run-report-task.sh", dataSetId, version,
+                language, onBehalfOf, TASK_TYPE);
         dataSetReportTaskContainer.run(false);
       } else {
-        DatasetReportTask taskProperties = metadataManagementProperties.getDatasetReportTask();
+        ReportTask taskProperties = metadataManagementProperties.getReportTask();
         log.info("Starting fargate task {}...", taskProperties.getTaskDefinition());
         NetworkConfiguration networkConfiguration = ecsClient
             .describeServices(
@@ -524,7 +504,7 @@ public class DataSetReportService {
                 .withOverrides(new TaskOverride().withContainerOverrides(
                     new ContainerOverride().withName(taskProperties.getContainerName())
                         .withCommand(String.format(taskProperties.getStartCommand(), dataSetId,
-                            version, language, onBehalfOf).split("\\s+"))));
+                            version, language, onBehalfOf, TASK_TYPE).split("\\s+"))));
         ecsClient.runTask(req);
       }
     }

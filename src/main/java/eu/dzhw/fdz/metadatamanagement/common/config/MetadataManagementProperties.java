@@ -43,7 +43,7 @@ public class MetadataManagementProperties {
 
   private final Projectmanagement projectmanagement = new Projectmanagement();
 
-  private final DatasetReportTask datasetReportTask = new DatasetReportTask();
+  private final ReportTask reportTask = new ReportTask();
 
   private final Seo4ajax seo4ajax = new Seo4ajax();
 
@@ -191,11 +191,11 @@ public class MetadataManagementProperties {
   }
 
   /**
-   * Properties for the dataset-report-task.
+   * Properties for the report-task.
    */
   @Getter
   @Setter
-  public static class DatasetReportTask {
+  public static class ReportTask {
     private String startCommand;
     private String taskDefinition;
     private String clusterName;

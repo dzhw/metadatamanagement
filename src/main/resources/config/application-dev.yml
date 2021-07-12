@@ -58,8 +58,8 @@ metadatamanagement:
   websockets:
     allowed-origins:
       - https://dev.metadata.fdz.dzhw.eu
-  dataset-report-task:
-    task-definition: dataset-report-task-dev
+  report-task:
+    task-definition: report-task-dev
     cluster-name: dev
   mongodb:
     ssl-ca-certificate: ${vcap.services.mongodb.cacert}

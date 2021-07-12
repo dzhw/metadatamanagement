@@ -176,18 +176,17 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
   }
 
   /**
-   * Check the serial number of every survey.
+   * For the moment the number of waves is equal to the number of surveys within
+   * a data package.
    *
    * @param surveys All Survey Sub Document Projections.
-   * @return The highest (max) serial number.
+   * @return The number of surveys.
    */
   private Integer generateNumberOfWaves(List<SurveySubDocumentProjection> surveys) {
     Integer numberOfWaves = 0;
 
-    for (SurveySubDocumentProjection survey : surveys) {
-      if (survey.getSerialNumber() > numberOfWaves) {
-        numberOfWaves = survey.getSerialNumber();
-      }
+    if (surveys != null) {
+      numberOfWaves = surveys.size();
     }
 
     return numberOfWaves;
