@@ -42,7 +42,7 @@ resource "aws_ecs_task_definition" "metadatamanagement_web" {
   count              = length(var.stages)
   family             = "metadatamanagement-${var.stages[count.index]}-web"
   execution_role_arn = aws_iam_role.mdm_task_execution_role.arn
-  # grant this container the right to start other fargate tasks (e.g. dataset-report-task)
+  # grant this container the right to start other fargate tasks (e.g. report-task)
   task_role_arn            = aws_iam_role.mdm_task_execution_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
@@ -54,9 +54,9 @@ resource "aws_ecs_task_definition" "metadatamanagement_web" {
   }
 }
 
-data "template_file" "dataset_report_task_container" {
+data "template_file" "report_task_container" {
   count    = length(var.stages)
-  template = file("./templates/dataset_report_task_container.json.tpl")
+  template = file("./templates/report_task_container.json.tpl")
 
   vars = {
     stage        = var.stages[count.index]
@@ -68,15 +68,15 @@ data "template_file" "dataset_report_task_container" {
   }
 }
 
-resource "aws_ecs_task_definition" "dataset_report_task" {
+resource "aws_ecs_task_definition" "report_task" {
   count                    = length(var.stages)
-  family                   = "dataset-report-task-${var.stages[count.index]}"
+  family                   = "report-task-${var.stages[count.index]}"
   execution_role_arn       = aws_iam_role.mdm_task_execution_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.container_cpu
   memory                   = var.container_memory
-  container_definitions    = data.template_file.dataset_report_task_container[count.index].rendered
+  container_definitions    = data.template_file.report_task_container[count.index].rendered
   volume {
     name = "tmp"
   }
@@ -109,7 +109,7 @@ resource "aws_ecs_task_definition" "metadatamanagement_worker" {
   count              = length(var.stages)
   family             = "metadatamanagement-${var.stages[count.index]}-worker"
   execution_role_arn = aws_iam_role.mdm_task_execution_role.arn
-  # grant this container the right to start other fargate tasks (e.g. dataset-report-task)
+  # grant this container the right to start other fargate tasks (e.g. report-task)
   task_role_arn            = aws_iam_role.mdm_task_execution_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]

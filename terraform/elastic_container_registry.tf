@@ -11,10 +11,10 @@ resource "aws_ecr_repository" "metadatamanagement" {
   }
 }
 
-# setup a container repository for the dataset_report_task
+# setup a container repository for the report_task
 # different stages will be distinguished by tag (latest-dev, latest-test, latest-prod)
-resource "aws_ecr_repository" "dataset_report_task" {
-  name                 = "dzhw/dataset-report-task"
+resource "aws_ecr_repository" "report_task" {
+  name                 = "dzhw/report-task"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -26,8 +26,8 @@ data "template_file" "delete_untagged_policy" {
   template = file("./templates/ecr_lifecycle_policy.json.tpl")
 }
 
-resource "aws_ecr_lifecycle_policy" "delete_untagged_dataset_report_task_images" {
-  repository = aws_ecr_repository.dataset_report_task.name
+resource "aws_ecr_lifecycle_policy" "delete_untagged_report_task_images" {
+  repository = aws_ecr_repository.report_task.name
   policy     = data.template_file.delete_untagged_policy.rendered
 }
 
