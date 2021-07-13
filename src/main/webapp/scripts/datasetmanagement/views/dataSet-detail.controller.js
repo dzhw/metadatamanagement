@@ -112,14 +112,15 @@ angular.module('metadatamanagementApp')
           );
         }
       }).finally(blockUI.stop);
-      ctrl.generateDataSetReport = function() {
+      ctrl.generateDataSetReport = function(event) {
         $mdDialog.show({
           controller: 'CreateReportDialogController',
           controllerAs: 'ctrl',
           templateUrl: 'scripts/datasetmanagement/' +
             'views/create-report-dialog.html.tmpl',
           clickOutsideToClose: false,
-          fullscreen: true
+          fullscreen: true,
+          targetEvent: event
         }).then(function(result) {
           DataSetReportResource.startGeneration({
             dataSetId: ctrl.dataSet.id,

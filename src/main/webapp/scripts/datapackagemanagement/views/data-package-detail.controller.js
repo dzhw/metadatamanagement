@@ -6,14 +6,14 @@ angular.module('metadatamanagementApp')
              MessageBus,
              PageMetadataService,
              LanguageService,
-             $state, $location,
+             $state, $location, $mdDialog,
              BreadcrumbService, Principal, SimpleMessageToastService,
              SearchResultNavigatorService,
              $stateParams,
              DataAcquisitionProjectAttachmentsResource,
              $rootScope, DataAcquisitionProjectResource,
              ProjectUpdateAccessService, $scope,
-             $timeout, $document,
+             $timeout, $document, DataPackageOverviewResource,
              OutdatedVersionNotifier, DataPackageSearchService, $log,
              blockUI, $mdSidenav, ContainsOnlyQualitativeDataChecker) {
       blockUI.start();
@@ -156,5 +156,26 @@ angular.module('metadatamanagementApp')
 
       ctrl.toggleSidenav = function() {
         $mdSidenav('SideNavBar').toggle();
+      };
+
+      ctrl.generateDataPackageOverview = function(event) {
+        $mdDialog.show({
+          controller: 'CreateOverviewDialogController',
+          controllerAs: 'ctrl',
+          templateUrl: 'scripts/datapackagemanagement/' +
+            'views/create-overview-dialog.html.tmpl',
+          clickOutsideToClose: false,
+          fullscreen: true,
+          targetEvent: event
+        }).then(function(result) {
+          DataPackageOverviewResource.startGeneration({
+            dataPackageId: ctrl.dataPackage.id,
+            version: result.version,
+            languages: result.languages}).$promise.then(function() {
+              SimpleMessageToastService.openSimpleMessageToast(
+                'data-package-management.detail.' +
+                  'overview-generation-started-toast');
+            });
+        });
       };
     });
