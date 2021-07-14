@@ -5,18 +5,13 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Task.TaskType;
 import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
@@ -33,7 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetReportSer
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 
@@ -44,14 +40,13 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class DataSetReportResource {
-
   private final DataSetReportService dataSetReportService;
 
   private final DataSetAttachmentService dataSetAttachmentService;
 
   private final MailService mailService;
 
-  private final UserService userService;
+  private final UserInformationProvider userInformationProvider;
 
   private final TaskManagementService taskService;
 
@@ -74,8 +69,8 @@ public class DataSetReportResource {
       @PathVariable("version") String version, HttpServletRequest request,
       @RequestParam(name = "languages", defaultValue = "de") List<String> languages)
       throws IOException {
-    dataSetReportService.startDataSetReportTasks(dataSetId, version, languages,
-        request.getUserPrincipal().getName());
+    taskService.startReportTasks(dataSetId, version, languages,
+        request.getUserPrincipal().getName(), TaskType.DATA_SET_REPORT);
     return ResponseEntity.ok().build();
   }
 
@@ -128,22 +123,10 @@ public class DataSetReportResource {
   public ResponseEntity<?> uploadReport(@RequestParam("file") MultipartFile reportFile,
       @PathVariable("dataSetId") String dataSetId, @RequestParam("onBehalfOf") String onBehalfOf,
       @PathVariable("language") String language) throws IOException {
-    Optional<User> user = userService.getUserWithAuthoritiesByLogin(onBehalfOf);
-    if (user.isPresent()) {
-      User userInstance = user.get();
-      // switch to on behalf user for correct modification names
-      Collection<? extends GrantedAuthority> currentAuthorities =
-          SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-          userInstance.getLogin(), userInstance.getPassword(), currentAuthorities);
-      SecurityContextHolder.getContext().setAuthentication(authentication);
-      dataSetAttachmentService.attachDataSetReport(dataSetId, language, reportFile);
-      mailService.sendDataSetReportGeneratedMail(user.get(), dataSetId, language, sender);
-      SecurityContextHolder.getContext().setAuthentication(null);
-      return ResponseEntity.ok().build();
-    } else {
-      return ResponseEntity.badRequest()
-          .body("User with name '" + onBehalfOf + "' does not exist!");
-    }
+    User user = userInformationProvider.switchToUser(onBehalfOf);
+    dataSetAttachmentService.attachDataSetReport(dataSetId, language, reportFile);
+    mailService.sendDataSetReportGeneratedMail(user, dataSetId, language, sender);
+    userInformationProvider.switchToUser(null);
+    return ResponseEntity.ok().build();
   }
 }

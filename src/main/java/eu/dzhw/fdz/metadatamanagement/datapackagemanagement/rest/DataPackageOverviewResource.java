@@ -6,7 +6,6 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,12 +20,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Task.TaskType;
 import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageAttachmentService;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageOverviewService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
+import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 
@@ -38,9 +41,13 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class DataPackageOverviewResource {
-  // private final MailService mailService;
+  private final MailService mailService;
 
-  private final UserService userService;
+  private final DataPackageOverviewService dataPackageOverviewService;
+
+  private final DataPackageAttachmentService dataPackageAttachmentService;
+
+  private final UserInformationProvider userInformationProvider;
 
   private final TaskManagementService taskService;
 
@@ -65,8 +72,8 @@ public class DataPackageOverviewResource {
       HttpServletRequest request,
       @RequestParam(name = "languages", defaultValue = "de") List<String> languages)
       throws IOException {
-    // dataSetReportService.startDataSetReportTasks(dataSetId, version, languages,
-    // request.getUserPrincipal().getName());
+    taskService.startReportTasks(dataPackageId, version, languages,
+        request.getUserPrincipal().getName(), TaskType.DATA_PACKAGE_OVERVIEW);
     return ResponseEntity.ok().build();
   }
 
@@ -91,11 +98,11 @@ public class DataPackageOverviewResource {
       File zipTmpFile = zipTmpFilePath.toFile();
       templateZip.transferTo(zipTmpFile);
       zipTmpFile.setWritable(true);
-      Task task = taskService.createTask(Task.TaskType.DATA_SET_REPORT);
+      Task task = taskService.createTask(Task.TaskType.DATA_PACKAGE_OVERVIEW);
       URI pollUri = URI.create("/api/tasks/" + task.getId());
       // fill the data with data and store the template into mongodb / gridfs
-      // dataSetReportService.generateReport(zipTmpFilePath, templateZip.getOriginalFilename(),
-      // dataSetId, task, version);
+      dataPackageOverviewService.generateReport(zipTmpFilePath, templateZip.getOriginalFilename(),
+          dataPackageId, task, version);
       return ResponseEntity.accepted().location(pollUri).body(task);
     } else {
       // Return bad request, if file is empty.
@@ -106,7 +113,7 @@ public class DataPackageOverviewResource {
   /**
    * Upload the generated data package overview and attach it to the given {@link DataPackage}.
    *
-   * @param reportFile The pdf overview to attach to the given {@link DataPackage}
+   * @param overviewFile The pdf overview to attach to the given {@link DataPackage}
    * @param language The language of the overview. Currently supports only 'de' or 'en'.
    * @param dataPackageId The id of the {@link DataPackage} to which this file shall be attached.
    * @param onBehalfOf Username of the MDM user who will receive an email, when the report has been
@@ -116,27 +123,14 @@ public class DataPackageOverviewResource {
    */
   @PostMapping(value = "/data-packages/{dataPackageId}/overview/{language}")
   @Secured(value = {AuthoritiesConstants.TASK_USER})
-  public ResponseEntity<?> uploadOverview(@RequestParam("file") MultipartFile reportFile,
+  public ResponseEntity<?> uploadOverview(@RequestParam("file") MultipartFile overviewFile,
       @PathVariable("dataPackageId") String dataPackageId,
       @RequestParam("onBehalfOf") String onBehalfOf, @PathVariable("language") String language)
       throws IOException {
-    Optional<User> user = userService.getUserWithAuthoritiesByLogin(onBehalfOf);
-    if (user.isPresent()) {
-      // TODO refactor this
-      // User userInstance = user.get();
-      // UsernamePasswordAuthenticationToken authentication = new
-      // UsernamePasswordAuthenticationToken(
-      // userInstance.getLogin(), userInstance.getPassword(),
-      // (Collection<? extends GrantedAuthority>) userInstance.getAuthorities());
-      // SecurityContextHolder.getContext().setAuthentication(authentication);
-      // dataSetAttachmentService.attachDataSetReport(dataPackageId, language, reportFile);
-      // mailService.sendDataPackageOverviewGeneratedMail(user.get(), dataPackageId, language,
-      // sender);
-      // SecurityContextHolder.getContext().setAuthentication(null);
-      return ResponseEntity.ok().build();
-    } else {
-      return ResponseEntity.badRequest()
-          .body("User with name '" + onBehalfOf + "' does not exist!");
-    }
+    User user = userInformationProvider.switchToUser(onBehalfOf);
+    dataPackageAttachmentService.attachDataPackageOverview(dataPackageId, language, overviewFile);
+    mailService.sendDataPackageOverviewGeneratedMail(user, dataPackageId, language, sender);
+    userInformationProvider.switchToUser(null);
+    return ResponseEntity.ok().build();
   }
 }

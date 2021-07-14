@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="#{email.datapackage-overview-error.title(${taskErrorNotification.domainObjectId})}">Fehler beim Erzeugen der Übersicht
+	zu Datenpaket</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+a {
+	text-decoration: none;
+	color: #006AB2;
+}
+
+body {
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+	color: black;
+}
+</style>
+</head>
+<body
+	style="font-family: Roboto, 'Helvetica Neue', sans-serif; color: black;">
+	<p th:text="#{email.datapackage-overview-error.greeting(${onBehalfUser.login})}">Liebe(r) rreitmann,</p>
+	<span th:text="#{email.datapackage-overview-error.starttext}">
+		beim Erzeugen Ihrer Datenpaketübersicht zu
+	</span>
+	<a th:href="@{|${baseUrl}/${onBehalfUser.langKey}/data-packages/${taskErrorNotification.domainObjectId}|}"
+		th:text="#{email.datapackage-overview-error.link(${taskErrorNotification.domainObjectId})}">Datenpaket
+		im MDM</a>
+	<span th:text="#{email.datapackage-overview-error.endtext}">ist folgender Fehler aufgetreten:</span>
+	<pre th:text="${taskErrorNotification.errorMessage}">
+		Fehlernachricht
+	</pre>
+	<p th:text="#{email.datapackage-overview-error.admintext}">
+		Die Administrator:innen des MDM wurden ebenfalls benachrichtigt und werden Sie ggf. kontaktieren.
+	</p>
+	<p>
+		<span th:text="#{email.order.created.regards}">Grüße,</span> <br /> <em
+			th:text="#{email.signature}">Ihr FDZ-Team</em>
+	</p>
+</body>
+</html>
