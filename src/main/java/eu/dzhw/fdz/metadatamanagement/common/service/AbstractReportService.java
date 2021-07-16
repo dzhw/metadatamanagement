@@ -194,6 +194,7 @@ public abstract class AbstractReportService {
     templateConfiguration.setDefaultEncoding(StandardCharsets.UTF_8.toString());
     templateConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
     templateConfiguration.setNumberFormat("0.######");
+    templateConfiguration.setAPIBuiltinEnabled(true);
     URI uriOfZipFile = URI.create("jar:" + zipTmpFilePath.toUri());
     // Prepare Zip enviroment config
     Map<String, String> env = new HashMap<>();

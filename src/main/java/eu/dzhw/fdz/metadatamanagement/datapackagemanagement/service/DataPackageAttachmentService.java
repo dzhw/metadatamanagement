@@ -204,7 +204,7 @@ public class DataPackageAttachmentService {
         metadata = DataPackageAttachmentMetadata.builder().dataPackageId(dataPackageId)
             .dataAcquisitionProjectId(dataPackage.getDataAcquisitionProjectId())
             .fileName(dataPackage.getDataAcquisitionProjectId() + "_Overview_de.pdf")
-            .title("Übersicht \"" + dataPackage.getTitle().getDe() + "\"")
+            .title(dataPackage.getTitle().getDe())
             .description(new I18nString("Datenpaketübersicht", "Data Package Overview"))
             .type(DataPackageAttachmentTypes.OTHER)
             .language("de").indexInDataPackage(-1).build();
@@ -213,7 +213,7 @@ public class DataPackageAttachmentService {
         metadata = DataPackageAttachmentMetadata.builder().dataPackageId(dataPackageId)
             .dataAcquisitionProjectId(dataPackage.getDataAcquisitionProjectId())
             .fileName(dataPackage.getDataAcquisitionProjectId() + "_Overview_en.pdf")
-            .title("Overview \"" + dataPackage.getTitle().getEn() + "\"")
+            .title(dataPackage.getTitle().getEn())
             .description(new I18nString("Datenpaketübersicht", "Data Package Overview"))
             .type(DataPackageAttachmentTypes.OTHER)
             .language("en").indexInDataPackage(-2).build();
