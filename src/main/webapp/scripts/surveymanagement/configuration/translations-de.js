@@ -104,7 +104,13 @@ angular.module('metadatamanagementApp').config(
             'concepts': {
               'one': 'Klicken, um das Konzept, welches in dieser Erhebung gemessen wurde, anzuzeigen',
               'many': 'Klicken, um alle Konzepte, die in dieser Erhebung gemessen wurden, anzuzeigen'
-            }
+            },
+            'show-serial-number-help': 'Klicken, um Erläuterungen zur Ordnungsnummer zu anzuzeigen.'
+          },
+          'serial-number-info': {
+            'title': 'Ordnungsnummer',
+            'content': '<p>Die Ordnungsnummer der Erhebung repräsentiert die Nummer der Erhebung, wie sie im Erhebungsdesign angelegt ist (z.B. Nummer der Panelwelle).</p>',
+            'close-tooltip': 'Klicken, um diese Erläuterungen zu schließen.'
           }
         },
         'error': {

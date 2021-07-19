@@ -104,7 +104,13 @@ angular.module('metadatamanagementApp').config(
             'concepts': {
               'one': 'Click to show the concept which has been measured in this survey',
               'many': 'Click to show all concepts which have been measured in this survey'
-            }
+            },
+            'show-serial-number-help': 'Click to show an explanation of the ordinal number.'
+          },
+          'serial-number-info': {
+            'title': 'Serial Number',
+            'content': '<p>The serial number of the survey represents the number of the survey as it is implemented in the survey design (e.g. number of the panel wave).</p>',
+            'close-tooltip': 'Click to close this explanation.'
           }
         },
         'error': {
