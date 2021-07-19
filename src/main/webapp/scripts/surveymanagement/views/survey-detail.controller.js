@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
              SurveySearchService, SurveyAttachmentResource, Principal,
              SimpleMessageToastService, SearchResultNavigatorService,
              SurveyResponseRateImageUploadService, OutdatedVersionNotifier,
-             DataAcquisitionProjectResource,
+             DataAcquisitionProjectResource, $mdDialog,
              ProjectUpdateAccessService, CountryCodesResource, $stateParams,
              blockUI, $mdSidenav) {
       blockUI.start();
@@ -133,6 +133,18 @@ angular.module('metadatamanagementApp')
         } else {
           return '';
         }
+      };
+
+      ctrl.showSerialNumberInfo = function($event) {
+        $mdDialog.show({
+          controller: 'SerialNumberInfoController',
+          templateUrl: 'scripts/surveymanagement/views/' +
+              'serial-number-info.html.tmpl',
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          fullscreen: true,
+          targetEvent: $event
+        });
       };
 
       ctrl.toggleSidenav = function() {

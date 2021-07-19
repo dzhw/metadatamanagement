@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -7,11 +8,26 @@ import java.util.Optional;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.loader.tools.RunProcess;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
+import com.amazonaws.services.ecs.AmazonECS;
+import com.amazonaws.services.ecs.model.ContainerOverride;
+import com.amazonaws.services.ecs.model.DescribeServicesRequest;
+import com.amazonaws.services.ecs.model.LaunchType;
+import com.amazonaws.services.ecs.model.NetworkConfiguration;
+import com.amazonaws.services.ecs.model.RunTaskRequest;
+import com.amazonaws.services.ecs.model.TaskOverride;
+
+import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
+import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties.ReportTask;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task.TaskState;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task.TaskType;
@@ -53,6 +69,13 @@ public class TaskManagementService implements CrudService<Task> {
   private String projectManagementEmailSender;
 
   private final TaskCrudHelper crudHelper;
+
+  private final Environment environment;
+
+  private final MetadataManagementProperties metadataManagementProperties;
+
+  @Autowired(required = false)
+  private AmazonECS ecsClient;
 
   /**
    * Create a task.
@@ -96,6 +119,10 @@ public class TaskManagementService implements CrudService<Task> {
       case DATA_SET_REPORT:
         handleDataSetReportError(errorNotification, onBehalfUser, projectManagementEmailSender);
         break;
+      case DATA_PACKAGE_OVERVIEW:
+        handleDataPackageOverviewError(errorNotification, onBehalfUser,
+            projectManagementEmailSender);
+        break;
       default:
         throw new NotImplementedException("Handling of errors for "
             + errorNotification.getTaskType() + " has not been implemented yet.");
@@ -107,6 +134,14 @@ public class TaskManagementService implements CrudService<Task> {
     List<User> admins =
         userRepository.findAllByAuthoritiesContaining(new Authority(AuthoritiesConstants.ADMIN));
     mailService.sendDataSetReportErrorMail(onBehalfUser, admins, errorNotification,
+        projectManagementEmailSender);
+  }
+
+  private void handleDataPackageOverviewError(TaskErrorNotification errorNotification,
+      User onBehalfUser, String projectManagementEmailSender) {
+    List<User> admins =
+        userRepository.findAllByAuthoritiesContaining(new Authority(AuthoritiesConstants.ADMIN));
+    mailService.sendDataPackageOverviewErrorMail(onBehalfUser, admins, errorNotification,
         projectManagementEmailSender);
   }
 
@@ -192,5 +227,50 @@ public class TaskManagementService implements CrudService<Task> {
   @Override
   public Optional<Task> readSearchDocument(String id) {
     return crudHelper.readSearchDocument(id);
+  }
+
+  /**
+   * Start one container per language which builds the report/overview. Either via aws fargate or
+   * locally via docker.
+   *
+   * @param id The id of the dataSet or data package for which the report/overview will be
+   *        generated.
+   * @param languages The languages in which we need to generate the report. Currently supported
+   *        'de', 'en'.
+   * @param version The version of the dataset report/data package overview.
+   * @param onBehalfOf The name of the user which wants to generate the report.
+   * @throws IOException in case the local task cannot be started
+   */
+  public void startReportTasks(String id, String version, List<String> languages,
+      String onBehalfOf, TaskType taskType) throws IOException {
+    for (String language : languages) {
+      if (environment.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_LOCAL))) {
+        log.debug("Starting docker container from image report-task...");
+        RunProcess dataSetReportTaskContainer =
+            new RunProcess("src/main/resources/bin/run-report-task.sh", id, version,
+                language, onBehalfOf, taskType.name());
+        dataSetReportTaskContainer.run(false);
+      } else {
+        ReportTask taskProperties = metadataManagementProperties.getReportTask();
+        log.info("Starting fargate task {}...", taskProperties.getTaskDefinition());
+        NetworkConfiguration networkConfiguration = ecsClient
+            .describeServices(
+                new DescribeServicesRequest().withCluster(taskProperties.getClusterName())
+                    .withServices(taskProperties.getServiceName()))
+            .getServices().get(0).getNetworkConfiguration();
+
+        RunTaskRequest req =
+            new RunTaskRequest().withTaskDefinition(taskProperties.getTaskDefinition())
+                .withNetworkConfiguration(networkConfiguration)
+                .withCluster(taskProperties.getClusterName()).withLaunchType(LaunchType.FARGATE)
+                .withCount(1).withStartedBy(
+                    onBehalfOf)
+                .withOverrides(new TaskOverride().withContainerOverrides(
+                    new ContainerOverride().withName(taskProperties.getContainerName())
+                        .withCommand(String.format(taskProperties.getStartCommand(), id,
+                            version, language, onBehalfOf, taskType.name()).split("\\s+"))));
+        ecsClient.runTask(req);
+      }
+    }
   }
 }

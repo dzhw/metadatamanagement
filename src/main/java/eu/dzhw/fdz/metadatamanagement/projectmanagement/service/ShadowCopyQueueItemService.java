@@ -7,11 +7,6 @@ import java.util.Optional;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
@@ -22,6 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,7 +43,7 @@ public class ShadowCopyQueueItemService {
 
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
-  private final UserDetailsService userDetailsService;
+  private final UserInformationProvider userInformationProvider;
 
   /**
    * Create a new shadow copy queue item.
@@ -177,19 +173,16 @@ public class ShadowCopyQueueItemService {
 
   private void emitShadowCopyingEndedEvent(DataAcquisitionProject dataAcquisitionProject,
       Release release, String previousReleaseVersion, boolean isRerelease, Action action) {
-    this.applicationEventPublisher.publishEvent(new ShadowCopyingEndedEvent(this,
-        dataAcquisitionProject.getMasterId(), release, previousReleaseVersion, isRerelease,
-        action));
+    this.applicationEventPublisher
+        .publishEvent(new ShadowCopyingEndedEvent(this, dataAcquisitionProject.getMasterId(),
+            release, previousReleaseVersion, isRerelease, action));
   }
 
   private void setupSecurityContext(ShadowCopyQueueItem shadowCopyQueueItem) {
     String username = shadowCopyQueueItem.getCreatedBy();
     try {
-      UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-      UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-          userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
-      SecurityContextHolder.getContext().setAuthentication(token);
-    } catch (UsernameNotFoundException e) {
+      userInformationProvider.switchToUser(username);
+    } catch (IllegalArgumentException e) {
       throw new IllegalStateException("User " + username + " created a shadow copy task for "
           + "project " + shadowCopyQueueItem.getDataAcquisitionProjectId() + ", but this user "
           + "could not be found!", e);
@@ -197,7 +190,7 @@ public class ShadowCopyQueueItemService {
   }
 
   private void clearSecurityContext() {
-    SecurityContextHolder.getContext().setAuthentication(null);
+    userInformationProvider.switchToUser(null);
   }
 
   private String getPreviousReleaseVersion(DataAcquisitionProject dataAcquisitionProject,

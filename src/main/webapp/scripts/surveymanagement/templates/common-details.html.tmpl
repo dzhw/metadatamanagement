@@ -14,8 +14,16 @@
     <md-card-content>
       <md-list>
         <md-list-item ng-if="$ctrl.options.survey.serialNumber">
-          <h5>{{'survey-management.detail.label.serial-number' | translate }}:</h5>
-          <span class="md-secondary">{{ $ctrl.options.survey.serialNumber }}</span>
+          <h5>{{'survey-management.detail.label.serial-number' | translate }}:
+          </h5>
+          <span class="md-secondary">{{ $ctrl.options.survey.serialNumber }}
+            <md-button style="margin: -11px -4px;" class="md-icon-button md-primary" ng-click="$ctrl.options.showSerialNumberInfo($event)">
+              <md-icon>info</md-icon>
+              <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'survey-management.detail.tooltips.show-serial-number-help' | translate}}
+              </md-tooltip>
+            </md-button>
+          </span>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.survey.population">
           <h5>{{'survey-management.detail.label.population' | translate }}:</h5>

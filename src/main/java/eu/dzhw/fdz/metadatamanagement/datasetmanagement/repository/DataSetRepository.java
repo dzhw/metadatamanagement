@@ -90,4 +90,7 @@ public interface DataSetRepository
 
   @RestResource(exported = false)
   Stream<DataSet> findByDataAcquisitionProjectIdAndShadowIsTrue(String dataAcquisitionProjectId);
+
+  @RestResource(exported = false)
+  List<DataSet> findByDataPackageIdOrderByNumber(String dataPackageId);
 }
