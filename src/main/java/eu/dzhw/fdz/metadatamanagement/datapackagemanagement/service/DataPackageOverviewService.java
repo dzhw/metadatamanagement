@@ -31,6 +31,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetReposi
 import eu.dzhw.fdz.metadatamanagement.filemanagement.service.FileService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DoiBuilder;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Population;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
@@ -68,6 +69,7 @@ public class DataPackageOverviewService extends AbstractReportService {
     // Create Map for the template
     Map<String, Object> dataForTemplate = new HashMap<>();
     DataPackage dataPackage = dataPackageRepository.findById(dataPackageId).orElse(null);
+    dataForTemplate.put("dataPackage", dataPackage);
     List<Survey> surveys =
         surveyRepository.findByDataPackageIdOrderBySerialNumberAscNumberAsc(dataPackageId);
 
@@ -113,12 +115,14 @@ public class DataPackageOverviewService extends AbstractReportService {
     // generate map for displaying access ways
     List<DataSet> dataSets = dataSetRepository.findByDataPackageIdOrderByNumber(dataPackageId);
     Map<String, List<String>> accessWaysMap = generateAccessWaysMap(dataSets);
+    dataForTemplate.put("accessWaysMap", accessWaysMap);
 
+    // generate quali and quanti datasets lists
+    generateSeperateDataSetLists(dataSets, surveys, dataForTemplate);
+    
     String doi =
         doiBuilder.buildDataPackageDoi(dataPackage, Release.builder().version(version).build());
-    dataForTemplate.put("dataPackage", dataPackage);
     dataForTemplate.put("surveys", surveys);
-    dataForTemplate.put("dataSets", dataSets);
     dataForTemplate.put("surveyAnnotationsMapDe", surveyAnnotationsMapDe);
     dataForTemplate.put("surveyAnnotationsMapEn", surveyAnnotationsMapEn);
     dataForTemplate.put("surveySampleMapDe", surveySampleMapDe);
@@ -129,13 +133,39 @@ public class DataPackageOverviewService extends AbstractReportService {
     dataForTemplate.put("populationDescriptionMapEn", populationDescriptionMapEn);
     dataForTemplate.put("surveyPeriodMap", surveyPeriodMap);
     dataForTemplate.put("cleanedResponseRatesMap", cleanedResponseRatesMap);
-    dataForTemplate.put("accessWaysMap", accessWaysMap);
     dataForTemplate.put("numberOfObservationsMap", createNumberOfObservationsMap(dataSets));
     dataForTemplate.put("version", version);
     dataForTemplate.put("baseUrl", baseUrl);
     dataForTemplate.put("doi", doi);
 
     return dataForTemplate;
+  }
+
+  private void generateSeperateDataSetLists(List<DataSet> dataSets, List<Survey> surveys,
+      Map<String, Object> dataForTemplate) {
+    Map<String, Survey> surveyMap =
+        surveys.stream().collect(Collectors.toMap(Survey::getId, Function.identity()));
+    List<DataSet> qualiDataSets = new ArrayList<>();
+    List<DataSet> nonQualiDataSets = new ArrayList<>();
+    for (DataSet dataSet : dataSets) {
+      boolean isQualiDataSet = true;
+      for (String surveyId : dataSet.getSurveyIds()) {
+        if (surveyMap.containsKey(surveyId)) {
+          if (surveyMap.get(surveyId).getDataType().equals(DataTypes.QUANTITATIVE_DATA)) {
+            isQualiDataSet = false;
+          }
+        } else {          
+          isQualiDataSet = false;
+        }
+      }
+      if (isQualiDataSet) {
+        qualiDataSets.add(dataSet);
+      } else {
+        nonQualiDataSets.add(dataSet);
+      }
+    }
+    dataForTemplate.put("qualiDataSets", qualiDataSets);
+    dataForTemplate.put("nonQualiDataSets", nonQualiDataSets);
   }
 
   private Map<String, List<String>> generateAccessWaysMap(List<DataSet> dataSets) {
