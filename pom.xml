@@ -11,7 +11,7 @@
 
     <groupId>eu.dzhw.fdz</groupId>
     <artifactId>metadatamanagement</artifactId>
-    <version>1.0.111-HOTFIX</version>
+    <version>1.0.112</version>
     <packaging>war</packaging>
     <name>metadatamanagement</name>
 
@@ -143,7 +143,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.20</version>
+            <version>1.21</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

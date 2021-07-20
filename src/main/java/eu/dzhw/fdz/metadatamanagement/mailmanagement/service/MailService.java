@@ -361,4 +361,59 @@ public class MailService {
     sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null, subject,
         content, false, true);
   }
+
+  /**
+   * Send the result of the data package overview generation to the user who has started the
+   * overview generation.
+   * 
+   * @param user The user who has started the overview generation.
+   * @param dataPackageId The id of the {@link DataPackage} for which the overview has been
+   *        generated.
+   * @param language The language in which the report has been generated.
+   * @param sender The sender of the email.
+   */
+  @Async
+  public void sendDataPackageOverviewGeneratedMail(User user, String dataPackageId, String language,
+      String sender) {
+    log.debug("Sending 'data package overview generated' mail");
+    Locale locale = Locale.forLanguageTag(user.getLangKey());
+    Context context = new Context(locale);
+    context.setVariable("user", user);
+    context.setVariable("dataPackageId", dataPackageId);
+    context.setVariable("locale", locale);
+    context.setVariable("language", language);
+    context.setVariable("baseUrl", baseUrl);
+    String content = templateEngine.process("dataPackageOverviewGeneratedEmail", context);
+    String subject = messageSource.getMessage("email.datapackage-overview-generated.title",
+        new Object[] {dataPackageId, language}, locale);
+    sendEmail(sender, new String[] {user.getEmail()}, null, null, subject, content, false, true);
+  }
+
+  /**
+   * Send the error during data package overview generation to the user who started the task and to
+   * all admins.
+   * 
+   * @param onBehalfUser The user who has started the report generation.
+   * @param admins A list of admins.
+   * @param sender The sender of the email.
+   */
+  @Async
+  public void sendDataPackageOverviewErrorMail(User onBehalfUser, List<User> admins,
+      TaskErrorNotification errorNotification, String sender) {
+    log.debug("Sending 'datapackage overview error' mail");
+    Locale locale = Locale.forLanguageTag(onBehalfUser.getLangKey());
+    Context context = new Context(locale);
+    context.setVariable("onBehalfUser", onBehalfUser);
+    context.setVariable("taskErrorNotification", errorNotification);
+    context.setVariable("locale", locale);
+    context.setVariable("baseUrl", baseUrl);
+    String content = templateEngine.process("dataPackageOverviewErrorEmail", context);
+    String subject = messageSource.getMessage("email.datapackage-overview-error.title",
+        new Object[] {errorNotification.getDomainObjectId()}, locale);
+    List<String> adminAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
+    sendEmail(sender, new String[] {onBehalfUser.getEmail()},
+        adminAddresses.toArray(new String[adminAddresses.size()]), null, subject, content, false,
+        true);
+
+  }
 }
