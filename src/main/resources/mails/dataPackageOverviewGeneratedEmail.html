@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="#{email.datapackage-overview-generated.title(${dataPackageId},${language})}">Datenpaketübersicht
+	zu Datenpaket erfolgreich erzeugt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+a {
+	text-decoration: none;
+	color: #006AB2;
+}
+
+body {
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+	color: black;
+}
+</style>
+</head>
+<body
+	style="font-family: Roboto, 'Helvetica Neue', sans-serif; color: black;">
+	<p th:text="#{email.datapackage-overview-generated.greeting(${user.login})}">
+		Liebe(r) rreitmann,</p>
+	<p>
+	<span th:text="#{email.datapackage-overview-generated.text(${language})}">Ihr
+		Datensatzreport wurde erfolgreich erzeugt und kann, wenn Sie
+		angemeldet sind, hier betrachted werden:</span>
+	<br />
+	<a th:href="@{|${baseUrl}/${user.langKey}/data-packages/${dataPackageId}|}"
+		th:text="#{email.datapackage-overview-generated.link(${dataPackageId})}">Datenpaketdetails
+		im MDM</a>
+	</p>
+	<p>
+		<span th:text="#{email.order.created.regards}">Grüße,</span> <br /> <em
+			th:text="#{email.signature}">Ihr FDZ-Team</em>
+	</p>
+</body>
+</html>

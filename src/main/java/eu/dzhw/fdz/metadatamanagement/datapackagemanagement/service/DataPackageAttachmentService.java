@@ -17,10 +17,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.client.gridfs.model.GridFSFile;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentTypes;
+import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.helper.DataPackageAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
@@ -32,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class DataPackageAttachmentService {
+  private final DataPackageRepository dataPackageRepository;
 
   private final GridFsOperations operations;
 
@@ -180,5 +185,43 @@ public class DataPackageAttachmentService {
     String currentUser = SecurityUtils.getCurrentUserLogin();
     this.operations.delete(fileQuery);
     javers.commitShallowDelete(currentUser, metadata);
+  }
+
+  /**
+   * Attach the given file as data package overview to the data package.
+   * 
+   * @param language The language of the report.
+   * @param dataPackageId The id of a {@link DataPackage}.
+   * @param overviewFile The pdf file.
+   * @throws IOException Thrown if the multipart file cannot be read.
+   */
+  public void attachDataPackageOverview(String dataPackageId, String language,
+      MultipartFile overviewFile) throws IOException {
+    DataPackage dataPackage = dataPackageRepository.findById(dataPackageId).get();
+    DataPackageAttachmentMetadata metadata = null;
+    switch (language) {
+      case "de":
+        metadata = DataPackageAttachmentMetadata.builder().dataPackageId(dataPackageId)
+            .dataAcquisitionProjectId(dataPackage.getDataAcquisitionProjectId())
+            .fileName(dataPackage.getDataAcquisitionProjectId() + "_Overview_de.pdf")
+            .title(dataPackage.getTitle().getDe())
+            .description(new I18nString("Datenpaketübersicht", "Data Package Overview"))
+            .type(DataPackageAttachmentTypes.OTHER)
+            .language("de").indexInDataPackage(-1).build();
+        break;
+      case "en":
+        metadata = DataPackageAttachmentMetadata.builder().dataPackageId(dataPackageId)
+            .dataAcquisitionProjectId(dataPackage.getDataAcquisitionProjectId())
+            .fileName(dataPackage.getDataAcquisitionProjectId() + "_Overview_en.pdf")
+            .title(dataPackage.getTitle().getEn())
+            .description(new I18nString("Datenpaketübersicht", "Data Package Overview"))
+            .type(DataPackageAttachmentTypes.OTHER)
+            .language("en").indexInDataPackage(-2).build();
+        break;
+      default:
+        throw new IllegalArgumentException("Unsupported language '" + language + "'!");
+    }
+    deleteByDataPackageIdAndFilename(dataPackageId, metadata.getFileName());
+    createDataPackageAttachment(overviewFile, metadata);
   }
 }

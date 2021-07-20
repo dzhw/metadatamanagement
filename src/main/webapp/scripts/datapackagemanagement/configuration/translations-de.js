@@ -116,8 +116,10 @@ angular.module('metadatamanagementApp').config(
               'many': 'Klicken, um alle Konzepte, die in diesem Datenpaket gemessen wurden, anzuzeigen'
             }
           },
-          'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen',
-          'tag-tooltip': 'Klicken, um Datenpakete mit diesem Tag zu suchen'
+          'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen.',
+          'tag-tooltip': 'Klicken, um Datenpakete mit diesem Tag zu suchen.',
+          'generate-datapackage-overview-tooltip': 'Klicken, um eine Übersicht über dieses Datenpaket als PDF zu erstellen.',
+          'overview-generation-started-toast': 'Die Datenpaketübersicht wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.'
         },
         'log-messages': {
           'data-package': {
@@ -306,6 +308,32 @@ angular.module('metadatamanagementApp').config(
           'placeholder': 'Neuen Tag eingeben',
           'error': {
             'required': 'Es muss mindestens ein Tag eingetragen sein.'
+          }
+        },
+        'create-overview': {
+          'title': 'Datenpaketübersicht erzeugen',
+          'version': 'Version des Datenpakets',
+          'languages': {
+            'in-german': 'Deutsch',
+            'in-english': 'Englisch'
+          },
+          'error': {
+            'version': {
+              'not-empty': 'Die Version darf nicht leer sein.',
+              'pattern': 'Die Version muss von der Form "major.minor.patch" (z.B. "1.0.0") sein.',
+              'size': 'Die Version darf nicht länger als 32 Zeichen sein.'
+            },
+            'languages': {
+              'not-empty': 'Sie müssen mindestens eine Sprache auswählen!',
+            }
+          },
+          'hints': {
+            'version': 'Geben Sie die Versionsnummer an, die für die Anzeige der DOI des Datenpakets verwendet werden soll.',
+            'languages': 'Wählen Sie mindestens eine Sprache aus, in der die Übersicht erzeugt werden soll.'
+          },
+          'tooltip': {
+            'cancel': 'Klicken, um das Erzeugen der Datenpaketübersicht abzubrechen.',
+            'ok': 'Klicken, um das Erzeugen der Datenpaketübersicht zu starten.'
           }
         }
       }

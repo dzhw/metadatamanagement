@@ -117,7 +117,9 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'doi-tooltip': 'Click to open the DOI in a new Tab',
-          'tag-tooltip': 'Click to search for data packages with this tag'
+          'tag-tooltip': 'Click to search for data packages with this tag',
+          'generate-datapackage-overview-tooltip': 'Click to generate an overview of this data package as a PDF.',
+          'overview-generation-started-toast': 'The data package overview is now being generated. You will be notified by e-mail as soon as the process is completed.'
         },
         'log-messages': {
           'data-package': {
@@ -304,6 +306,29 @@ angular.module('metadatamanagementApp').config(
           'placeholder': 'Enter a new tag',
           'error': {
             'required': 'At least one tag must be provided'
+          }
+        },
+        'create-overview': {
+          'title': 'Generate Data Package Overview',
+          'version': 'Version of the overview',
+          'languages': {
+            'in-german': 'German',
+            'in-english': 'English'
+          },
+          'error': {
+            'version': {
+              'not-empty': 'The version must not be empty.',
+              'pattern': 'The version must match the pattern "major.minor.patch" (e.g. "1.0.0").',
+              'size': 'The version must not contain more than 32 characters.'
+            }
+          },
+          'hints': {
+            'version': 'Specify the version number which will be used to display the DOI of the data package.',
+            'languages': 'Specify at least one language in which the overview shall be generated.'
+          },
+          'tooltip': {
+            'cancel': 'Click to cancel the generation of the overview',
+            'ok': 'Click to start the generation of the overview'
           }
         }
       }
