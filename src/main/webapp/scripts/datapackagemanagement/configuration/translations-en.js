@@ -24,6 +24,7 @@ angular.module('metadatamanagementApp').config(
             'title': 'Title',
             'dataLanguages': 'Data available in',
             'tags': 'Tags',
+            'additional-links': 'Additional Links',
             'attachments': {
               'type': 'Type',
               'title': 'Title',
@@ -116,7 +117,8 @@ angular.module('metadatamanagementApp').config(
               'many': 'Click to show all concepts which have been measured in this data package'
             }
           },
-          'doi-tooltip': 'Click to open the DOI in a new Tab',
+          'doi-tooltip': 'Click to open the DOI in a new tab',
+          'link-tooltip': 'Click to open the link in a new tab.',
           'tag-tooltip': 'Click to search for data packages with this tag',
           'generate-datapackage-overview-tooltip': 'Click to generate an overview of this data package as a PDF.',
           'overview-generation-started-toast': 'The data package overview is now being generated. You will be notified by e-mail as soon as the process is completed.'
@@ -179,6 +181,12 @@ angular.module('metadatamanagementApp').config(
               'id': {
                 'not-empty': 'The RDC-ID of the Data Acquisition Project for the Data Package must not be empty!'
               }
+            },
+            'additional-links': {
+              'invalid-url': 'The provided URL is not valid.',
+              'url-size': 'The max length for URLs is 2000 chracters.',
+              'url-not-empty': 'The URL must not be empty.',
+              'display-text-size': 'The max length for display text is 512 chracters.'
             }
           },
           'data-package-attachment-metadata': {
@@ -218,7 +226,11 @@ angular.module('metadatamanagementApp').config(
             'publication-year': 'Year of Publication',
             'institution': 'Institution',
             'sponsor': 'Sponsor',
-            'location': 'Location'
+            'location': 'Location',
+            'additional-links': {
+              'url': 'URL',
+              'display-text': 'Display Text',
+            }
           },
           'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this data package.',
           'save-tooltip': 'Click to save this data package.',
@@ -294,6 +306,13 @@ angular.module('metadatamanagementApp').config(
               'publication-year': 'Enter the year in which this report has been published.',
               'institution': 'Enter the name of the institution which has published this report.',
               'location': 'Enter the location of the institution which has published this report.'
+            },
+            'additional-links': {
+              'url': 'Please enter the URL you want the link to point to.',
+              'display-text': {
+                'de': 'Optional: Specify a text in German to be used to display the link.',
+                'en': 'Optional: Specify a text in English to be used to display the link.'
+              }
             }
           },
           'all-data-packages-deleted-toast': 'The data package of Data Acquisition Project "{{id}}" has been deleted.'

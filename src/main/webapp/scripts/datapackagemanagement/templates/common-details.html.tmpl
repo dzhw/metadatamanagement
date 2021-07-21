@@ -111,6 +111,19 @@
             markdown-to-html="$ctrl.options.dataPackage.annotations | displayI18nString"
             ></p>
         </md-list-item>
+        <md-list-item ng-if="$ctrl.options.dataPackage.additionalLinks && $ctrl.options.dataPackage.additionalLinks.length > 0">
+          <h5>{{'data-package-management.detail.label.additional-links' | translate }}:</h5>
+          <ul class="md-secondary" style="list-style-type: none; margin: 0px; margin-block: 0px; padding-inline: 0px;">
+            <li ng-repeat="link in $ctrl.options.dataPackage.additionalLinks">
+              <a href="{{link.url}}" target="_blank">
+                {{ link.displayText ? (link.displayText | displayI18nString) : link.url}}
+                <md-tooltip md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'data-package-management.detail.link-tooltip' | translate}}
+                </md-tooltip>
+              </a>
+            </li>
+          </ul>
+        </md-list-item>
       </md-list>
     </md-card-content>
   </div>
