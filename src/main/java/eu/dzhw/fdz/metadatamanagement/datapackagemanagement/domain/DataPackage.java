@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nLink;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
@@ -204,6 +205,14 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
    */
   @Valid
   private Tags tags;
+
+  /**
+   * A list of additional links for the data package.
+   * 
+   * May be empty.
+   */
+  @Valid
+  private List<I18nLink> additionalLinks;
 
   public DataPackage(DataPackage dataPackage) {
     super();
