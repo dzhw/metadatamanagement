@@ -254,6 +254,10 @@ angular.module('metadatamanagementApp').config(
           'move-sponsor-down-tooltip': 'Klicken, um die ausgewählte Geldgeber:in nach unten zu verschieben.',
           'add-sponsor-tooltip': 'Klicken, um eine weitere Geldgeber:in diesem Datenpaket hinzuzufügen.',
           'delete-sponsor-tooltip': 'Klicken, um die Geldgeber:in aus diesem Datenpaket zu entfernen.',
+          'move-link-up-tooltip': 'Klicken, um den ausgewählten Link nach oben zu verschieben.',
+          'move-link-down-tooltip': 'Klicken, um den ausgewählten Link nach unten zu verschieben.',
+          'add-link-tooltip': 'Klicken, um einen weiteren Link diesem Datenpaket hinzuzufügen.',
+          'delete-link-tooltip': 'Klicken, um den Link aus diesem Datenpaket zu entfernen.',
           'choose-previous-version': {
             'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
             'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
