@@ -254,6 +254,10 @@ angular.module('metadatamanagementApp').config(
           'move-sponsor-down-tooltip': 'Click to move the selected sponsor down.',
           'add-sponsor-tooltip': 'Click to add another sponsor to this data package.',
           'delete-sponsor-tooltip': 'Click to remove the sponsor from this data package.',
+          'move-link-up-tooltip': 'Click to move the selected link up.',
+          'move-link-down-tooltip': 'Click to move the selected link down.',
+          'add-link-tooltip': 'Click to add another link to this data package.',
+          'delete-link-tooltip': 'Click to remove the link from this data package.',
           'choose-previous-version': {
             'title': 'Restore Previous Version of Data Package {{ dataPackageId }}',
             'text': 'Choose a previous version of this data package which shall be restored:',
