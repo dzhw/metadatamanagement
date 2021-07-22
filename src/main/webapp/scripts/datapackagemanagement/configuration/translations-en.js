@@ -312,7 +312,7 @@ angular.module('metadatamanagementApp').config(
               'location': 'Enter the location of the institution which has published this report.'
             },
             'additional-links': {
-              'url': 'Please enter the URL you want the link to point to.',
+              'url': 'Please enter the URL as in the following example: https://www.dzhw.eu',
               'display-text': {
                 'de': 'Optional: Specify a text in German to be used to display the link.',
                 'en': 'Optional: Specify a text in English to be used to display the link.'

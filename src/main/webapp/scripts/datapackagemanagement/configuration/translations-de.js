@@ -314,7 +314,7 @@ angular.module('metadatamanagementApp').config(
               'location': 'Geben Sie den Ort der Institution ein, die diesen Bericht veröffentlicht.'
             },
             'additional-links': {
-              'url': 'Geben Sie die URL ein, auf die der Link verweisen soll.',
+              'url': 'Bitte tragen Sie die URL wie in dem folgenden Beispiel ein: https://www.dzhw.eu',
               'display-text': {
                 'de': 'Optional: Geben Sie einen Text auf Deutsch an, der zur Anzeige des Links verwendet werden soll.',
                 'en': 'Optional: Geben Sie einen Text auf Englisch an, der zur Anzeige des Links verwendet werden soll.'
