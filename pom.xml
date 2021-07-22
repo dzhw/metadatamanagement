@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.8</version>
+        <version>2.4.9</version>
         <relativePath />
     </parent>
 
@@ -72,7 +72,7 @@
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs</artifactId>
-            <version>4.2.3</version>
+            <version>4.3.0</version>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
@@ -120,7 +120,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.10.0</version>
+            <version>2.11.0</version>
         </dependency>
         <dependency>
             <groupId>commons-validator</groupId>
@@ -156,7 +156,7 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.26</version>
+            <version>2.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
@@ -165,12 +165,12 @@
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-spring-boot-starter-mongo</artifactId>
-            <version>6.2.1</version>
+            <version>6.2.3</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.13.1</version>
+            <version>1.14.1</version>
         </dependency>
         <dependency>
             <groupId>org.junit.vintage</groupId>
@@ -303,12 +303,12 @@
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-            <version>2.4.7</version>
+            <version>2.4.8</version>
         </dependency>
         <dependency>
             <groupId>org.zalando</groupId>
             <artifactId>logbook-spring-boot-starter</artifactId>
-            <version>2.10.0</version>
+            <version>2.11.0</version>
             <exclusions>
                 <!-- Exclude http client cause it introduces vulnerability issues (snyk errors)-->
                 <exclusion>
