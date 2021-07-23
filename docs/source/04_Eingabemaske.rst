@@ -114,7 +114,7 @@ Die Eingabemaske auf Erhebungsebene besteht aus den folgenden Abschnitten:
 
 Im Folgenden wird auf die einzelnen Abschnitte genauer eingegangen. Allgemeine Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
 
-Bitte beachten Sie, dass Sie mehrere Erhebungen über die Eingabemaske in der richtigen Reihenfolge eingeben müssen, da sich diese später nicht mehr verändern lässt.
+Bitte beachten Sie, dass Sie die Ordnungsnummer sich auf die Reihenfolge der Erhebungs im Erhebungsdesign bezieht. So ist die Ordnungsnummer einer dritten Panelwelle 3, auch wenn sie (aus welchen Gründen auch immer) die einzige Erhebung in einem Datenpaket darstellt. Die Sortierung mehrerer Erhebungen in einem Datenpaket orientiert sich an den Ordnungsnummern.
 
 .. _Instruments:
 
