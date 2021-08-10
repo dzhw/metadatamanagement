@@ -38,9 +38,9 @@ angular.module('metadatamanagementApp').service('OutdatedVersionNotifier',
           showPublicUserMessage(oldVersion, newVersion);
         });
       } else if (item.shadow && versionFromUrl && bowser.compareVersions(
-        [versionFromUrl, item.release.version]) === -1) {
+        [versionFromUrl, item.release.version]) !== 0) {
         SimpleMessageToastService.openAlertMessageToast('data-acquisition' +
-            '-project-management.outdated-version-not-found-alert',
+            '-project-management.version-not-found-alert',
           {
             oldVersion: versionFromUrl,
             newVersion: item.release.version

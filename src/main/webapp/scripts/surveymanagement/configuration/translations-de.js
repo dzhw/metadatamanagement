@@ -156,11 +156,12 @@ angular.module('metadatamanagementApp').config(
             },
             'sample-size': {
               'min': 'Die Stichprobengröße darf nicht kleiner als 0 sein.',
+              'max': 'Die Nettostichprobe muss kleiner oder gleich der Bruttostichprobe sein.',
               'not-null': 'Die Stichprobengröße der Erhebung darf nicht leer sein!',
               'invalid-number': 'Geben Sie eine gültige Zahl ein.'
             },
             'gross-sample-size': {
-              'min': 'Die Stichprobengröße darf nicht kleiner als 0 sein.',
+              'min': 'Die Bruttostichprobe muss größer oder gleich der Nettostichprobe sein. Sie darf auch leer sein.',
               'invalid-number': 'Geben Sie eine gültige Zahl ein.'
             },
             'unique-survey-number': 'Die Nummer einer Erhebung muss eindeutig innerhalb eines Datenaufbereitungsprojektes sein!',
