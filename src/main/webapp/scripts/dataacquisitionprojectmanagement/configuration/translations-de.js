@@ -238,7 +238,7 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'outdated-version-alert': 'Sie betrachten eine veraltete Version ({{oldVersion}}) dieser Seite. Wählen Sie die aktuelle Version ({{newVersion}}) im Seitenmenü.</a>',
-        'outdated-version-not-found-alert': 'Ihr Link verweist auf eine ältere Version ({{oldVersion}}) dieser Seite. Hier wird die aktuelle Version ({{newVersion}}) dargestellt.',
+        'version-not-found-alert': 'Ihr Link verweist auf eine Version ({{oldVersion}}) dieser Seite, die es nicht gibt. Hier wird die aktuelle Version ({{newVersion}}) dargestellt.',
         'not-master-alert': 'Sie betrachten eine {{hidden?"<u>versteckte</u>":""}} Schattenkopie ({{version}}). ',
         'current-version':'Hier geht es zur aktuellen Version!'
       }
