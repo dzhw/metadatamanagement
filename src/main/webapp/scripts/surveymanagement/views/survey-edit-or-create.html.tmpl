@@ -189,7 +189,7 @@
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!surveyForm.grossSampleSize.$valid && (surveyForm.grossSampleSize.$dirty || surveyForm.grossSampleSize.$touched)" class="ms-flex">
               <label>{{'survey-management.detail.label.grossSampleSize' | translate}}</label>
-              <input min="0" name="grossSampleSize" ng-model="ctrl.survey.grossSampleSize" step="1" type="number">
+              <input min="{{ ctrl.survey.sampleSize || 0}}" name="grossSampleSize" ng-model="ctrl.survey.grossSampleSize" step="1" type="number">
               <div class="fdz-input-hint" ng-if="!surveyForm.grossSampleSize.$dirty && !surveyForm.grossSampleSize.$touched">{{'survey-management.edit.hints.grossSampleSize' | translate}}
               </div>
               <div multiple ng-messages="surveyForm.grossSampleSize.$error">
@@ -207,7 +207,7 @@
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!surveyForm.sampleSize.$valid && (surveyForm.sampleSize.$dirty || surveyForm.sampleSize.$touched)" class="ms-flex">
               <label>{{'survey-management.detail.label.sampleSize' | translate}}</label>
-              <input min="0" name="sampleSize" ng-model="ctrl.survey.sampleSize" required step="1" type="number">
+              <input min="0" max="{{ ctrl.survey.grossSampleSize || null }}" name="sampleSize" ng-model="ctrl.survey.sampleSize" required step="1" type="number">
               <div class="fdz-input-hint" ng-if="!surveyForm.sampleSize.$dirty && !surveyForm.sampleSize.$touched">
                 {{'survey-management.edit.hints.sampleSize' | translate}}
               </div>
@@ -217,6 +217,7 @@
                 <div ng-message="number">{{'survey-management.error.survey.sample-size.invalid-number' | translate}}
                 </div>
                 <div ng-message="min">{{'survey-management.error.survey.sample-size.min' | translate}}</div>
+                <div ng-message="max">{{'survey-management.error.survey.sample-size.max' | translate}}</div>
               </div>
             </md-input-container>
             <div flex="50"></div>
