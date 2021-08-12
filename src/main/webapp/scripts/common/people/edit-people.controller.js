@@ -3,7 +3,8 @@
 
 angular.module('metadatamanagementApp')
   .controller('EditPeopleController',
-    function($scope, $rootScope, $timeout, $element) {
+    function($scope, $rootScope, $timeout, $element, ORCIDSearchResource,
+      $mdDialog) {
       var $ctrl = this;
       $scope.bowser = $rootScope.bowser;
       $ctrl.$onInit = function() {
@@ -89,6 +90,37 @@ angular.module('metadatamanagementApp')
         $element.find('input[name="' +
           $ctrl.currentPersonInputName + '"]')
           .focus();
+        $ctrl.currentForm.$setDirty();
+      };
+
+      $ctrl.searchORCID = function(firstName, lastName, personIndex, event) {
+        ORCIDSearchResource.get({
+          firstName: firstName ? firstName : '*',
+          lastName: lastName ? lastName : '*',
+        }).$promise.then(function(response) {
+          $mdDialog.show({
+            controller: 'ChooseORCIDController',
+            templateUrl: 'scripts/common/people/' +
+                'choose-orcid.html.tmpl',
+            clickOutsideToClose: false,
+            fullscreen: true,
+            locals: {
+              firstName: firstName,
+              lastName: lastName,
+              orcidResponse: response
+            },
+            targetEvent: event
+          }).then(function(selection) {
+            if (selection.orcid) {
+              $ctrl.people[personIndex].orcid = selection.orcid;
+              $ctrl.currentForm.$setDirty();
+            }
+          });
+        });
+      };
+
+      $ctrl.deleteORCID = function(personIndex) {
+        delete $ctrl.people[personIndex].orcid;
         $ctrl.currentForm.$setDirty();
       };
     }

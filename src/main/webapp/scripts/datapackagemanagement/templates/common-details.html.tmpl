@@ -48,10 +48,9 @@
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.projectContributors">
           <h5>{{'data-package-management.detail.label.projectContributors' | translate }}:</h5>
-          <span
+          <div
             class="md-secondary pre"
-            ng-repeat="contributor in $ctrl.options.dataPackage.projectContributors">{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName !== undefined?' '+contributor.middleName:''}}{{!$last?'; ':''}}</span>
-          </span>
+            ng-repeat="contributor in $ctrl.options.dataPackage.projectContributors"><a ng-if="contributor.orcid" href="https://orcid.org/{{contributor.orcid}}" target="_blank">{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName !== undefined?' '+contributor.middleName:''}} <img alt="ORCID logo" src="assets/images/icons/ORCID.svg" width="16" height="16" /></a><span ng-if="!contributor.orcid">{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName !== undefined?' '+contributor.middleName:''}}</span>{{!$last?'; ':''}}</div>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.surveyDesign">
           <h5>{{'data-package-management.detail.label.surveyDesign' | translate }}:</h5>
@@ -81,10 +80,9 @@
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.dataCurators">
           <h5>{{'data-package-management.detail.label.data-curators' | translate }}:</h5>
-          <span
+          <div
             class="md-secondary pre"
-            ng-repeat="person in $ctrl.options.dataPackage.dataCurators">{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+person.middleName:''}}{{!$last?'; ':''}}</span>
-          </span>
+            ng-repeat="person in $ctrl.options.dataPackage.dataCurators"><a ng-if="person.orcid" href="https://orcid.org/{{person.orcid}}" target="_blank">{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+person.middleName:''}} <img alt="ORCID logo" src="assets/images/icons/ORCID.svg" width="16" height="16" /></a><span ng-if="!person.orcid">{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+person.middleName:''}}</span>{{!$last?'; ':''}}</div>
         </md-list-item>
         <md-list-item
           ng-if="$ctrl.options.dataPackage.doi">

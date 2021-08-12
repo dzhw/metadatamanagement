@@ -5,61 +5,90 @@
     </md-card-header-text>
   </md-card-header>
   <md-divider></md-divider>
-  <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
-    <div id="move-{{ $ctrl.peopleId }}-container" layout="row" ng-repeat="person in $ctrl.people track by $index">
-      <md-button class="md-primary md-icon-button" ng-click="$ctrl.deletePerson($index)"
-                 ng-if="$ctrl.people.length > 1"
-                 style="margin-top: 18px; margin-left: 0px; margin-right: 8px; padding-left: 0px; padding-right: 12px;">
-        <md-tooltip md-autohide="true" md-direction="bottom"
-                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-          {{ $ctrl.translationKeys.tooltips.delete | translate}}
-        </md-tooltip>
-        <md-icon md-font-set="material-icons">delete_forever</md-icon>
-      </md-button>
-      <md-input-container flex="33" class="mr8"
-                          md-is-error="!form[$ctrl.peopleId + 'FirstName_' + $index].$valid && (form[$ctrl.peopleId + 'FirstName_' + $index].$dirty || form[$ctrl.peopleId + 'FirstName_' + $index].$touched)">
-        <label class="fdz-input-required">{{'global.people.edit.label.first-name' | translate}}</label>
-        <input fdz-required md-no-asterisk name="{{ $ctrl.peopleId }}FirstName_{{$index}}"
-               ng-blur="$ctrl.deleteCurrentPerson($event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
-               ng-model="person.firstName" autocomplete="off">
-        <div
-          class="fdz-input-hint"
-          ng-if="!form[$ctrl.peopleId + 'FirstName_' + $index].$dirty && !form[$ctrl.peopleId + 'FirstName_' + $index].$touched">
-          {{ $ctrl.translationKeys.hints.firstName | translate}}
-        </div>
-        <div multiple ng-messages="form[$ctrl.peopleId + 'FirstName_' + $index].$error">
-          <div ng-message="fdz-required">{{'global.error.person.first-name.not-empty' | translate}}</div>
-        </div>
-      </md-input-container>
-      <md-input-container flex="33" class="mr8"
-                          md-is-error="!form[$ctrl.peopleId + 'MiddleName_' + $index].$valid && (form[$ctrl.peopleId + 'MiddleName_' + $index].$dirty || form[$ctrl.peopleId + 'MiddleName_' + $index].touched)">
-        <label>{{'global.people.edit.label.middle-name' | translate}}</label>
-        <input name="{{ $ctrl.peopleId }}MiddleName_{{$index}}" ng-blur="$ctrl.deleteCurrentPerson($event)"
-               ng-focus="$ctrl.setCurrentPerson($index,$event)" ng-model="person.middleName"
-               autocomplete="off">
-        <div
-          class="fdz-input-hint"
-          ng-if="!form[$ctrl.peopleId + 'MiddleName_' + $index].$dirty && !form[$ctrl.peopleId + 'MiddleName_' + $index].$touched">
-          {{ $ctrl.translationKeys.hints.middleName | translate}}
-        </div>
-        <div multiple ng-messages="form[$ctrl.peopleId + 'MiddleName_' + $index].$error">
-        </div>
-      </md-input-container>
-      <md-input-container flex="33" class="mr8"
-                          md-is-error="!form[$ctrl.peopleId + 'LastName_' + $index].$valid && (form[$ctrl.peopleId + 'LastName_' + $index].$dirty || form[$ctrl.peopleId + 'LastName_' + $index].$touched)">
-        <label class="fdz-input-required">{{'global.people.edit.label.last-name' | translate}}</label>
-        <input fdz-required md-no-asterisk name="{{ $ctrl.peopleId }}LastName_{{$index}}"
-               ng-blur="$ctrl.deleteCurrentPerson($event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
-               ng-model="person.lastName" autocomplete="off">
-        <div
-          class="fdz-input-hint"
-          ng-if="!form[$ctrl.peopleId + 'LastName_' + $index].$dirty && !form[$ctrl.peopleId + 'LastName_' + $index].$touched">
-          {{ $ctrl.translationKeys.hints.lastName | translate}}
-        </div>
-        <div multiple ng-messages="form[$ctrl.peopleId + 'LastName_' + $index].$error">
-          <div ng-message="fdz-required">{{'global.error.person.last-name.not-empty' | translate}}</div>
-        </div>
-      </md-input-container>
+  <md-card-content style="padding-bottom: 0px; padding-left: 0px; padding-top: 0px;">
+    <div id="move-{{ $ctrl.peopleId }}-container" layout="column" ng-repeat="person in $ctrl.people track by $index">
+      <div flex layout="row" class="mt16">
+        <md-button class="md-primary md-icon-button" ng-click="$ctrl.deletePerson($index)"
+                   ng-if="$ctrl.people.length > 1"
+                   style="margin-top: 18px; margin-left: 0px; margin-right: 8px; padding-left: 0px; padding-right: 12px;">
+          <md-tooltip md-autohide="true" md-direction="bottom"
+                      md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{ $ctrl.translationKeys.tooltips.delete | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">delete_forever</md-icon>
+        </md-button>
+        <md-input-container flex="33" class="mr8"
+                            md-is-error="!form[$ctrl.peopleId + 'FirstName_' + $index].$valid && (form[$ctrl.peopleId + 'FirstName_' + $index].$dirty || form[$ctrl.peopleId + 'FirstName_' + $index].$touched)">
+          <label class="fdz-input-required">{{'global.people.edit.label.first-name' | translate}}</label>
+          <input fdz-required md-no-asterisk name="{{ $ctrl.peopleId }}FirstName_{{$index}}"
+                 ng-blur="$ctrl.deleteCurrentPerson($event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
+                 ng-model="person.firstName" autocomplete="off" ng-change="$ctrl.deleteORCID($index)">
+          <div
+            class="fdz-input-hint"
+            ng-if="!form[$ctrl.peopleId + 'FirstName_' + $index].$dirty && !form[$ctrl.peopleId + 'FirstName_' + $index].$touched">
+            {{ $ctrl.translationKeys.hints.firstName | translate}}
+          </div>
+          <div multiple ng-messages="form[$ctrl.peopleId + 'FirstName_' + $index].$error">
+            <div ng-message="fdz-required">{{'global.error.person.first-name.not-empty' | translate}}</div>
+          </div>
+        </md-input-container>
+        <md-input-container flex="33" class="mr8"
+                            md-is-error="!form[$ctrl.peopleId + 'MiddleName_' + $index].$valid && (form[$ctrl.peopleId + 'MiddleName_' + $index].$dirty || form[$ctrl.peopleId + 'MiddleName_' + $index].touched)">
+          <label>{{'global.people.edit.label.middle-name' | translate}}</label>
+          <input name="{{ $ctrl.peopleId }}MiddleName_{{$index}}" ng-blur="$ctrl.deleteCurrentPerson($event)"
+                 ng-focus="$ctrl.setCurrentPerson($index,$event)" ng-model="person.middleName"
+                 autocomplete="off">
+          <div
+            class="fdz-input-hint"
+            ng-if="!form[$ctrl.peopleId + 'MiddleName_' + $index].$dirty && !form[$ctrl.peopleId + 'MiddleName_' + $index].$touched">
+            {{ $ctrl.translationKeys.hints.middleName | translate}}
+          </div>
+          <div multiple ng-messages="form[$ctrl.peopleId + 'MiddleName_' + $index].$error">
+          </div>
+        </md-input-container>
+        <md-input-container flex="33" class="mr8"
+                            md-is-error="!form[$ctrl.peopleId + 'LastName_' + $index].$valid && (form[$ctrl.peopleId + 'LastName_' + $index].$dirty || form[$ctrl.peopleId + 'LastName_' + $index].$touched)">
+          <label class="fdz-input-required">{{'global.people.edit.label.last-name' | translate}}</label>
+          <input fdz-required md-no-asterisk name="{{ $ctrl.peopleId }}LastName_{{$index}}"
+                 ng-blur="$ctrl.deleteCurrentPerson($event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
+                 ng-model="person.lastName" autocomplete="off" ng-change="$ctrl.deleteORCID($index)">
+          <div
+            class="fdz-input-hint"
+            ng-if="!form[$ctrl.peopleId + 'LastName_' + $index].$dirty && !form[$ctrl.peopleId + 'LastName_' + $index].$touched">
+            {{ $ctrl.translationKeys.hints.lastName | translate}}
+          </div>
+          <div multiple ng-messages="form[$ctrl.peopleId + 'LastName_' + $index].$error">
+            <div ng-message="fdz-required">{{'global.error.person.last-name.not-empty' | translate}}</div>
+          </div>
+        </md-input-container>
+      </div>
+      <div layout="row" layout-align="start center" style="margin-bottom: 18px;">
+        <md-input-container flex="50" ng-style="{'margin-left': $ctrl.people.length > 1 ? '26px' : '0px'}" style="margin-top: 0px; margin-bottom: 0px;">
+          <label>ORCID</label>
+          <input name="{{ $ctrl.peopleId }}ORCID_{{$index}}" disabled="true"
+                 ng-blur="$ctrl.deleteCurrentPerson($event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
+                 ng-model="person.orcid" autocomplete="off">
+          <div
+            class="fdz-input-hint">
+            {{'global.people.edit.hint.orcid' | translate}}
+          </div>
+        </md-input-container>
+        <md-button ng-click="$ctrl.searchORCID(person.firstName, person.lastName, $index, $event)" class="md-raised" ng-disabled="!person.lastName">
+            <md-icon md-svg-src="assets/images/icons/ORCID.svg"></md-icon>
+            <span>{{'global.people.edit.label.search-orcid' | translate}}</span>
+            <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'global.people.edit.tooltip.search-orcid' | translate}}
+            </md-tooltip>
+        </md-button>
+        <md-button ng-click="$ctrl.deleteORCID($index)" class="md-raised md-primary" ng-disabled="!person.orcid">
+            <md-icon md-font-set="material-icons">delete</md-icon>
+            <span>{{'global.people.edit.label.delete-orcid' | translate}}</span>
+            <md-tooltip md-direction="top" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'global.people.edit.tooltip.delete-orcid' | translate}}
+            </md-tooltip>
+        </md-button>
+      </div>
+      <md-divider ng-if="!$last"></md-divider>
     </div>
   </md-card-content>
   <md-card-actions layout="row" layout-align="begin center" style="margin-top: 0px; margin-bottom: 12px;">
