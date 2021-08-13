@@ -34,6 +34,14 @@
             <middleName>${contributor.middleName}</middleName>
           </#if>
           <lastName>${contributor.lastName}</lastName>
+          <#if contributor.orcid??>
+          <personIDs>
+            <personID>
+              <identifierURI>https://orcid.org/${contributor.orcid}</identifierURI>
+              <identifierSchema>ORCID</identifierSchema>
+            </personID>
+          </personIDs>
+          </#if>
         </person>
       </creator>
     </#list>
@@ -221,13 +229,21 @@
          </#if>
          <lastName>${person.lastName}</lastName>
          <contributorType>DataCurator</contributorType>
+         <#if person.orcid??>
+         <personIDs>
+           <personID>
+             <identifierURI>https://orcid.org/${person.orcid}</identifierURI>
+             <identifierSchema>ORCID</identifierSchema>
+           </personID>
+         </personIDs>
+         </#if>
        </person>
      </contributor>
     </#list>
   </contributors>
   <#if dataPackage.sponsors??>
     <fundingReferences>
-      <#list dataPackage.sponsors as sponsor>	
+      <#list dataPackage.sponsors as sponsor>
       <fundingReference>
         <institution>
           <#if sponsor.de??>
