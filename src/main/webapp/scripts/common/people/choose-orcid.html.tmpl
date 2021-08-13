@@ -15,7 +15,7 @@
   <md-divider></md-divider>
     <md-dialog-content layout-padding flex layout="column" class="ms-flex">
         <p ng-if="orcidResponse && orcidResponse['num-found'] > 0" class="ma0">{{'global.people.edit.orcid-search.results-found-text' | translate:{firstName: firstName ? firstName : '*', lastName: lastName ? lastName : '*'} }}</p>
-        <table md-autofocus fdz-table ng-if="orcidResponse && orcidResponse['num-found'] > 0" class="w-100 ms-flex" flex>
+        <table fdz-table ng-if="orcidResponse && orcidResponse['num-found'] > 0" class="w-100 ms-flex" flex>
             <thead>
                 <tr>
                     <th style="max-width: 600px;">ORCID
@@ -51,7 +51,7 @@
                     <td class="fdz-table-nowrap">{{result['given-names']}}</td>
                     <td class="fdz-table-nowrap">{{result['family-names']}}</td>
                     <td>{{result['institution-name'] && result['institution-name'].length ? result['institution-name'].join(', '): '&nbsp;'}}</td>
-                    <td style="padding: 0px;"><md-button style="margin: 0px;" class="md-primary" ng-click="select(result['orcid-id'])">
+                    <td style="padding: 0px;"><md-button style="margin: 0px;" class="md-primary" ng-click="select(result['orcid-id'])" md-autofocus="$first">
                         <span>{{'global.people.edit.orcid-search.select-orcid' | translate}}</span>
                         <md-tooltip md-direction="left" md-autohide="true" md-z-index="bowser.mobile || bowser.tablet ? -100 : 1000001">
                           {{'global.people.edit.orcid-search.select-tooltip' | translate}}
