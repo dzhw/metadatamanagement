@@ -47,7 +47,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="result in orcidResponse['expanded-result']">
-                    <td class="fdz-truncate-string" style="max-width: 600px;"><a href="https://orcid.org/{{result['orcid-id']}}" target="_blank"><img alt="ORCID logo" src="assets/images/icons/ORCID.svg" width="16" height="16" /> {{result['orcid-id']}}</a></td>
+                    <td class="fdz-table-nowrap" style="max-width: 600px;"><a href="https://orcid.org/{{result['orcid-id']}}" target="_blank"><img alt="ORCID logo" src="assets/images/icons/ORCID.svg" style="width: 16px; height: 16px;"/> {{result['orcid-id']}}</a></td>
                     <td class="fdz-table-nowrap">{{result['given-names']}}</td>
                     <td class="fdz-table-nowrap">{{result['family-names']}}</td>
                     <td>{{result['institution-name'] && result['institution-name'].length ? result['institution-name'].join(', '): '&nbsp;'}}</td>

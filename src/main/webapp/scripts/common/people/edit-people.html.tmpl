@@ -7,7 +7,7 @@
   <md-divider></md-divider>
   <md-card-content style="padding-bottom: 0px; padding-left: 0px; padding-top: 0px;">
     <div id="move-{{ $ctrl.peopleId }}-container" layout="column" ng-repeat="person in $ctrl.people track by $index">
-      <div flex layout="row" class="mt16">
+      <div flex layout="row" class="mt16 ms-flex">
         <md-button class="md-primary md-icon-button" ng-click="$ctrl.deletePerson($index)"
                    ng-if="$ctrl.people.length > 1"
                    style="margin-top: 18px; margin-left: 0px; margin-right: 8px; padding-left: 0px; padding-right: 12px;">

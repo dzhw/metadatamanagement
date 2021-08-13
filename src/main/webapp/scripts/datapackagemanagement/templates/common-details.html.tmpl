@@ -50,7 +50,7 @@
           <h5>{{'data-package-management.detail.label.projectContributors' | translate }}:</h5>
           <div
             class="md-secondary pre"
-            ng-repeat="contributor in $ctrl.options.dataPackage.projectContributors"><a ng-if="contributor.orcid" href="https://orcid.org/{{contributor.orcid}}" target="_blank">{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName !== undefined?' '+contributor.middleName:''}} <img alt="ORCID logo" src="assets/images/icons/ORCID.svg" width="16" height="16" /></a><span ng-if="!contributor.orcid">{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName !== undefined?' '+contributor.middleName:''}}</span>{{!$last?'; ':''}}</div>
+            ng-repeat="contributor in $ctrl.options.dataPackage.projectContributors"><a ng-if="contributor.orcid" href="https://orcid.org/{{contributor.orcid}}" target="_blank">{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName !== undefined?' '+contributor.middleName:''}} <img alt="ORCID logo" src="assets/images/icons/ORCID.svg" style="width: 16px; height: 16px;"/></a><span ng-if="!contributor.orcid">{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName !== undefined?' '+contributor.middleName:''}}</span>{{!$last?'; ':''}}</div>
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.surveyDesign">
           <h5>{{'data-package-management.detail.label.surveyDesign' | translate }}:</h5>
@@ -82,7 +82,7 @@
           <h5>{{'data-package-management.detail.label.data-curators' | translate }}:</h5>
           <div
             class="md-secondary pre"
-            ng-repeat="person in $ctrl.options.dataPackage.dataCurators"><a ng-if="person.orcid" href="https://orcid.org/{{person.orcid}}" target="_blank">{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+person.middleName:''}} <img alt="ORCID logo" src="assets/images/icons/ORCID.svg" width="16" height="16" /></a><span ng-if="!person.orcid">{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+person.middleName:''}}</span>{{!$last?'; ':''}}</div>
+            ng-repeat="person in $ctrl.options.dataPackage.dataCurators"><a ng-if="person.orcid" href="https://orcid.org/{{person.orcid}}" target="_blank">{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+person.middleName:''}} <img alt="ORCID logo" src="assets/images/icons/ORCID.svg" style="width: 16px; height: 16px;"/></a><span ng-if="!person.orcid">{{person.lastName}}, {{person.firstName}}{{person.middleName !== undefined?' '+person.middleName:''}}</span>{{!$last?'; ':''}}</div>
         </md-list-item>
         <md-list-item
           ng-if="$ctrl.options.dataPackage.doi">
@@ -111,7 +111,7 @@
         </md-list-item>
         <md-list-item ng-if="$ctrl.options.dataPackage.additionalLinks && $ctrl.options.dataPackage.additionalLinks.length > 0">
           <h5>{{'data-package-management.detail.label.additional-links' | translate }}:</h5>
-          <ul class="md-secondary" style="list-style-type: none; margin: 0px; margin-block: 0px; padding-inline: 0px;">
+          <ul class="md-secondary" style="list-style-type: none; margin: 0px; margin-block: 0px; padding-inline: 0px; padding: 0px;">
             <li ng-repeat="link in $ctrl.options.dataPackage.additionalLinks">
               <a href="{{link.url}}" target="_blank">
                 {{ link.displayText ? (link.displayText | displayI18nString) : link.url}}
