@@ -22,7 +22,7 @@
           <label class="fdz-input-required">{{'global.people.edit.label.first-name' | translate}}</label>
           <input fdz-required md-no-asterisk name="{{ $ctrl.peopleId }}FirstName_{{$index}}"
                  ng-blur="$ctrl.deleteCurrentPerson($event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
-                 ng-model="person.firstName" autocomplete="off" ng-change="$ctrl.deleteORCID($index)">
+                 ng-model="person.firstName" autocomplete="off">
           <div
             class="fdz-input-hint"
             ng-if="!form[$ctrl.peopleId + 'FirstName_' + $index].$dirty && !form[$ctrl.peopleId + 'FirstName_' + $index].$touched">
@@ -51,7 +51,7 @@
           <label class="fdz-input-required">{{'global.people.edit.label.last-name' | translate}}</label>
           <input fdz-required md-no-asterisk name="{{ $ctrl.peopleId }}LastName_{{$index}}"
                  ng-blur="$ctrl.deleteCurrentPerson($event)" ng-focus="$ctrl.setCurrentPerson($index,$event)"
-                 ng-model="person.lastName" autocomplete="off" ng-change="$ctrl.deleteORCID($index)">
+                 ng-model="person.lastName" autocomplete="off">
           <div
             class="fdz-input-hint"
             ng-if="!form[$ctrl.peopleId + 'LastName_' + $index].$dirty && !form[$ctrl.peopleId + 'LastName_' + $index].$touched">
