@@ -441,10 +441,10 @@ angular.module('metadatamanagementApp').config(
               'orcid': 'Once you specify the person\'s last name, you can search for an ORCID by first name and last name.'
             },
             'orcid-search': {
-              'title': 'Search ORCID (search params: first name={{ firstName }}, last name={{ lastName }})',
+              'title': 'Search ORCID',
               'cancel-tooltip': 'Click to close the dialog without selecting an ORCID.',
-              'results-found-text': 'The following entries have been found at ORCID.org (search params: first name={{ firstName }}, last name={{ lastName }}):',
-              'no-results-found-text': 'No entries found at ORCID.org (search params: first name={{ firstName }}, last name={{ lastName }}).',
+              'results-found-text': 'The following entries have been found at ORCID.org (search parameters: first name={{ firstName }}, last name={{ lastName }}):',
+              'no-results-found-text': 'No entries found at ORCID.org (search parameters: first name={{ firstName }}, last name={{ lastName }}).',
               'institutions': 'Institutions',
               'select': 'Select',
               'select-tooltip': 'Click to select this ORCID.',
