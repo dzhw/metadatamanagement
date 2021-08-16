@@ -441,7 +441,7 @@ angular.module('metadatamanagementApp').config(
               'orcid': 'Sobald Sie den Nachnamen der Person angegeben haben, können Sie eine ORCID nach Vorname und Nachname suchen.'
             },
             'orcid-search': {
-              'title': 'ORCID suchen (Suchparameter: Vorname={{ firstName }}, Nachname={{ lastName }})',
+              'title': 'ORCID suchen',
               'cancel-tooltip': 'Klicken, um den Dialog, ohne eine ORCID auszuwählen, zu schließen.',
               'results-found-text': 'Die folgenden Einträge wurden bei ORCID.org gefunden (Suchparameter: Vorname={{ firstName }}, Nachname={{ lastName }}):',
               'no-results-found-text': 'Es wurden keine Einträge bei ORCID.org gefunden (Suchparameter: Vorname={{ firstName }}, Nachname={{ lastName }}).',
