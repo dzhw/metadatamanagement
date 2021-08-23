@@ -24,6 +24,7 @@ angular.module('metadatamanagementApp').config(
             'title': 'Titel',
             'dataLanguages': 'Daten verfügbar auf',
             'tags': 'Schlagwörter',
+            'additional-links': 'Weiterführende Links',
             'attachments': {
               'type': 'Typ',
               'title': 'Titel',
@@ -117,6 +118,7 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'doi-tooltip': 'Klicken, um die DOI in einem neuen Tab zu öffnen.',
+          'link-tooltip': 'Klicken, um den Link in einem neuen Tab zu öffnen.',
           'tag-tooltip': 'Klicken, um Datenpakete mit diesem Tag zu suchen.',
           'generate-datapackage-overview-tooltip': 'Klicken, um eine Übersicht über dieses Datenpaket als PDF zu erstellen.',
           'overview-generation-started-toast': 'Die Datenpaketübersicht wird jetzt erzeugt. Sie werden per E-Mail benachrichtigt, sobald der Vorgang abgeschlossen ist.'
@@ -179,6 +181,12 @@ angular.module('metadatamanagementApp').config(
               'id': {
                 'not-empty': 'Die FDZ - ID des Projektes des Datenpakets darf nicht leer sein!'
               }
+            },
+            'additional-links': {
+              'invalid-url': 'Die angegebene URL ist ungültig',
+              'url-size': 'Die Maximallänge der URL ist 2000 Zeichen.',
+              'url-not-empty': 'Die URL darf nicht leer sein.',
+              'display-text-size': 'Die Maximallänge des Anzeigetextes ist 512 Zeichen.'
             }
           },
           'data-package-attachment-metadata': {
@@ -218,7 +226,11 @@ angular.module('metadatamanagementApp').config(
             'publication-year': 'Jahr der Veröffentlichung',
             'institution': 'Institution',
             'sponsor': 'Geldgeber:in',
-            'location': 'Ort'
+            'location': 'Ort',
+            'additional-links': {
+              'url': 'URL',
+              'display-text': 'Anzeigetext',
+            }
           },
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Datenpakets wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Datenpaket zu speichern.',
@@ -242,6 +254,10 @@ angular.module('metadatamanagementApp').config(
           'move-sponsor-down-tooltip': 'Klicken, um die ausgewählte Geldgeber:in nach unten zu verschieben.',
           'add-sponsor-tooltip': 'Klicken, um eine weitere Geldgeber:in diesem Datenpaket hinzuzufügen.',
           'delete-sponsor-tooltip': 'Klicken, um die Geldgeber:in aus diesem Datenpaket zu entfernen.',
+          'move-link-up-tooltip': 'Klicken, um den ausgewählten Link nach oben zu verschieben.',
+          'move-link-down-tooltip': 'Klicken, um den ausgewählten Link nach unten zu verschieben.',
+          'add-link-tooltip': 'Klicken, um einen weiteren Link diesem Datenpaket hinzuzufügen.',
+          'delete-link-tooltip': 'Klicken, um den Link aus diesem Datenpaket zu entfernen.',
           'choose-previous-version': {
             'next-page-tooltip': 'Klicken, um ältere Versionen anzuzeigen.',
             'previous-page-tooltip': 'Klicken, um aktuellere Versionen anzuzeigen.',
@@ -296,6 +312,13 @@ angular.module('metadatamanagementApp').config(
               'publication-year': 'Geben Sie das Jahr an, in dem dieser Bericht veröffentlicht wurde bzw. wird.',
               'institution': 'Geben Sie den Namen der Institution ein, die diesen Bericht veröffentlicht.',
               'location': 'Geben Sie den Ort der Institution ein, die diesen Bericht veröffentlicht.'
+            },
+            'additional-links': {
+              'url': 'Bitte tragen Sie die URL wie in dem folgenden Beispiel ein: https://www.dzhw.eu',
+              'display-text': {
+                'de': 'Optional: Geben Sie einen Text auf Deutsch an, der zur Anzeige des Links verwendet werden soll.',
+                'en': 'Optional: Geben Sie einen Text auf Englisch an, der zur Anzeige des Links verwendet werden soll.'
+              }
             }
           },
           'all-data-packages-deleted-toast': 'Das Datenpaket des Datenaufbereitungsprojekts "{{id}}" wurde gelöscht.'

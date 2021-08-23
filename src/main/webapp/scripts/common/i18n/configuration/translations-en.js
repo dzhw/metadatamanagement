@@ -429,7 +429,26 @@ angular.module('metadatamanagementApp').config(
             'label': {
               'first-name': 'First Name',
               'middle-name': 'Middle Name',
-              'last-name': 'Last Name'
+              'last-name': 'Last Name',
+              'search-orcid': 'Search ORCID',
+              'delete-orcid': 'Delete ORCID'
+            },
+            'tooltip': {
+              'search-orcid': 'Click to search for an ORCID to the person by first name and last name.',
+              'delete-orcid': 'Click to delete the ORCID.'
+            },
+            'hint': {
+              'orcid': 'Once you specify the person\'s last name, you can search for an ORCID by first name and last name.'
+            },
+            'orcid-search': {
+              'title': 'Search ORCID',
+              'cancel-tooltip': 'Click to close the dialog without selecting an ORCID.',
+              'results-found-text': 'The following entries have been found at ORCID.org (search parameters: first name={{ firstName }}, last name={{ lastName }}):',
+              'no-results-found-text': 'No entries found at ORCID.org (search parameters: first name={{ firstName }}, last name={{ lastName }}).',
+              'institutions': 'Institutions',
+              'select': 'Select',
+              'select-tooltip': 'Click to select this ORCID.',
+              'select-orcid': 'Select ORCID'
             }
           }
         },

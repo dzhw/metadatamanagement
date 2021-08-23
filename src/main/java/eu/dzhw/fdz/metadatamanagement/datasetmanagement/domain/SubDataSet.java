@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -46,9 +47,10 @@ public class SubDataSet implements Serializable {
   /**
    * The number of rows (observations or episodes) which are present in this subdataset.
    *
-   * Must not be empty.
+   * Must not be empty and greater than zero.
    */
   @NotNull(message = "data-set-management.error.sub-data-set.number-of-observations.not-null")
+  @Min(value = 1, message = "data-set-management.error.sub-data-set.number-of-observations.min")
   private Integer numberOfObservations;
 
   /**

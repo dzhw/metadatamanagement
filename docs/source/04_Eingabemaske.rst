@@ -16,7 +16,7 @@ Einige Felder sind verpflichtend auszufüllen und deshalb mit einem Sternchen ve
 
 Maximale Zeichenanzahl
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-Einige Felder, die Sie frei ausfüllen können, verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele Zeichen dort insgesamt eintragen dürfen und wie viele Zeichen Sie bereits eingetragen haben. 
+Einige Felder, die Sie frei ausfüllen können, verfügen über einen Zeichenzähler, der Sie darüber informiert, wie viele Zeichen dort insgesamt eintragen dürfen und wie viele Zeichen Sie bereits eingetragen haben.
 
 Verwendung von Markdown
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -28,7 +28,7 @@ Teilweise gibt es Drop-Down-Menüs mit festgelegten Antwortmöglichkeiten, zwisc
 
 .. figure:: ./_static/dropdownmenü.PNG
    :name: dropdownmenue
-   
+
    Drop-Down-Menü
 
 Bitte beachten Sie, dass es sich nur um ein Drop-Down-Menü handelt, wenn Sie rechts den kleinen "Pfeil nach unten" sehen.
@@ -58,12 +58,12 @@ Sie können Ihre Eingaben über den orangenen Speichern-Button (Disketten-Symbol
 
 .. figure:: ./_static/diskettensymbol.PNG
    :name: speichernbutton
-   
+
    Speichern-Button
 
 Ältere Versionen wiederherstellen (Historisierung)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Im Bearbeitungsmodus können Sie ältere Versionen Ihrer abgespeicherten Eingaben wiederherstellen, indem Sie den Historisierungs-Button (blauer Pfeil-Button über dem 
+Im Bearbeitungsmodus können Sie ältere Versionen Ihrer abgespeicherten Eingaben wiederherstellen, indem Sie den Historisierungs-Button (blauer Pfeil-Button über dem
 Speichern-Button unten rechts auf der Seite) verwenden (s. :numref:`versionierung`).
 
 .. figure:: ./_static/historization_undo.png
@@ -84,7 +84,7 @@ Zudem sind der Name der Person, die die entsprechende Version gespeichert hat, s
 Datenpaket (Data Package)
 ---------------------------------
 
-Auf der Ebene "Datenpaket" werden verschiedene bibliographische und inhaltsbeschreibende Informationen zu Ihrem Datenpaket erfasst (vgl. z.B.  http://doi.org/10.21249/DZHW:gra2005:2.0.1).
+Auf der Ebene "Datenpaket" werden verschiedene bibliographische und inhaltsbeschreibende Informationen zu Ihrem Datenpaket erfasst (vgl. z.B.  https://doi.org/10.21249/DZHW:gra2005:2.0.1).
 
 Die Eingabemaske auf Datenpaketebene besteht aus den folgenden Abschnitten:
 
@@ -114,7 +114,7 @@ Die Eingabemaske auf Erhebungsebene besteht aus den folgenden Abschnitten:
 
 Im Folgenden wird auf die einzelnen Abschnitte genauer eingegangen. Allgemeine Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
 
-Bitte beachten Sie, dass Sie mehrere Erhebungen über die Eingabemaske in der richtigen Reihenfolge eingeben müssen, da sich diese später nicht mehr verändern lässt.
+Bitte beachten Sie, dass Sie die Ordnungsnummer sich auf die Reihenfolge der Erhebungs im Erhebungsdesign bezieht. So ist die Ordnungsnummer einer dritten Panelwelle 3, auch wenn sie (aus welchen Gründen auch immer) die einzige Erhebung in einem Datenpaket darstellt. Die Sortierung mehrerer Erhebungen in einem Datenpaket orientiert sich an den Ordnungsnummern.
 
 .. _Instruments:
 

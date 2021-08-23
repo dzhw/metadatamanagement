@@ -373,6 +373,82 @@ angular.module('metadatamanagementApp')
         $scope.dataPackageForm.$setDirty();
       };
 
+      ctrl.deleteLink = function(index) {
+        ctrl.dataPackage.additionalLinks.splice(index, 1);
+        $scope.dataPackageForm.$setDirty();
+      };
+
+      ctrl.addLink = function() {
+        if (!ctrl.dataPackage.additionalLinks) {
+          ctrl.dataPackage.additionalLinks = [];
+        }
+        ctrl.dataPackage.additionalLinks.push({
+          url: '',
+          displayText: {
+            de: '',
+            en: ''
+          }
+        });
+        $timeout(function() {
+          $document.find('input[name="linkUrl_' +
+              (ctrl.dataPackage.additionalLinks.length - 1) + '"]')
+            .focus();
+        }, 200);
+      };
+
+      ctrl.setCurrentLink = function(index, event) {
+        ctrl.currentLinkInputName = event.target.name;
+        ctrl.currentLinkIndex = index;
+      };
+
+      ctrl.deleteCurrentLink = function(event) {
+        if (timeoutActive) {
+          $timeout.cancel(timeoutActive);
+        }
+        timeoutActive = $timeout(function() {
+          timeoutActive = false;
+          // msie workaround: inputs unfocus on button mousedown
+          if (document.activeElement &&
+            $(document.activeElement).parents('#move-link-container')
+              .length) {
+            return;
+          }
+          if (event.relatedTarget && (
+              event.relatedTarget.id === 'move-link-up-button' ||
+              event.relatedTarget.id === 'move-link-down-button')) {
+            return;
+          }
+          delete ctrl.currentLinkIndex;
+          timeoutActive = null;
+        }, 500);
+      };
+
+      ctrl.moveCurrentLinkUp = function() {
+        var a = ctrl.dataPackage.additionalLinks[ctrl.currentLinkIndex - 1];
+        ctrl.dataPackage.additionalLinks[ctrl.currentLinkIndex - 1] =
+          ctrl.dataPackage.additionalLinks[ctrl.currentLinkIndex];
+        ctrl.dataPackage.additionalLinks[ctrl.currentLinkIndex] = a;
+        ctrl.currentLinkInputName = ctrl.currentLinkInputName
+          .replace('_' + ctrl.currentLinkIndex,
+            '_' + (ctrl.currentLinkIndex - 1));
+        $document.find('input[name="' + ctrl.currentLinkInputName + '"]')
+          .focus();
+        $scope.dataPackageForm.$setDirty();
+      };
+
+      ctrl.moveCurrentLinkDown = function() {
+        var a = ctrl.dataPackage.additionalLinks[ctrl.currentLinkIndex + 1];
+        ctrl.dataPackage.additionalLinks[ctrl.currentLinkIndex + 1] =
+          ctrl.dataPackage.additionalLinks[ctrl.currentLinkIndex];
+        ctrl.dataPackage.additionalLinks[ctrl.currentLinkIndex] = a;
+        ctrl.currentLinkInputName = ctrl.currentLinkInputName
+          .replace('_' + ctrl.currentLinkIndex,
+            '_' + (ctrl.currentLinkIndex + 1));
+        $document.find('input[name="' + ctrl.currentLinkInputName + '"]')
+          .focus();
+        $scope.dataPackageForm.$setDirty();
+      };
+
       ctrl.saveDataPackage = function() {
         if ($scope.dataPackageForm.$valid) {
           if (angular.isUndefined(ctrl.dataPackage.masterId)) {
