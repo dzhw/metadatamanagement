@@ -3,6 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.common.domain;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 import org.javers.core.metamodel.annotation.ValueObject;
 
@@ -43,4 +44,13 @@ public class Person implements Serializable {
    */
   @NotEmpty(message = "global.error.person.last-name.not-empty")
   private String lastName;
+
+  /**
+   * The ORCID of the person.
+   * 
+   * If present must comply to the pattern: xxxx-xxxx-xxxx-xxxx
+   */
+  @Pattern(regexp = "^\\d{4}-\\d{4}-\\d{4}-(\\d{3}X|\\d{4})$",
+      message = "global.error.person.orcid.pattern")
+  private String orcid;
 }

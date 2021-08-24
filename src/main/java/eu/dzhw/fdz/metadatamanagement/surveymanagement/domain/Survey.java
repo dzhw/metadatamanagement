@@ -25,6 +25,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidShadowId;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.GrossSampleSizeGreaterThanNetSampleSize;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidDataType;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSampleType;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.validation.ValidSurveyIdName;
@@ -47,6 +48,8 @@ import lombok.ToString;
 @ValidSurveyIdName(message = "survey-management.error.survey.id.valid-survey-id-name")
 @ValidUniqueSurveyNumber(message = "survey-management.error" + ".survey.unique-survey-number")
 @ValidShadowId(message = "survey-management.error.survey.id.pattern")
+@GrossSampleSizeGreaterThanNetSampleSize(
+    message = "survey-management.error.survey.gross-sample-size.min")
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
@@ -138,16 +141,16 @@ public class Survey extends AbstractShadowableRdcDomainObject {
   /**
    * The sampling method is the procedure for selecting sample members from a population. It must
    * match the controlled vocabulary specified by VFDB.
-   * <a href="https://mdr.iqb.hu-berlin.de/#/catalog/1d791cc7-6d8d-dd35-b1ef-0eec9c31bbb5">
-   * Catalog: GNERD: Sampling Procedure Educational Research (Version 1.0)</a>
+   * <a href="https://mdr.iqb.hu-berlin.de/#/catalog/1d791cc7-6d8d-dd35-b1ef-0eec9c31bbb5"> Catalog:
+   * GNERD: Sampling Procedure Educational Research (Version 1.0)</a>
    */
   @NotNull(message = "survey-management.error.survey.sample.not-null")
   @ValidSampleType(message = "survey-management.error.survey.sample.valid-sample-type")
   private I18nString sample;
 
   /**
-   * Serial number of this {@link Survey} as it is implemented in the survey design
-   * (e.g. number of the panel wave).
+   * Serial number of this {@link Survey} as it is implemented in the survey design (e.g. number of
+   * the panel wave).
    *
    * Must not be empty and must be greater than or equal to 1.
    */
@@ -159,15 +162,16 @@ public class Survey extends AbstractShadowableRdcDomainObject {
    * The gross sample size represents the number of participants which have been invited to take
    * part in the {@link Survey}.
    *
-   * Must not be negative.
+   * Must not be negative. If present, it must be greater than or equal to sampleSize.
    */
   @Min(value = 0, message = "survey-management.error.survey.gross-sample-size.min")
   private Integer grossSampleSize;
 
   /**
-   * The sample size is the number of participant which took part in the survey.
+   * The sample size is the number of participants which took part in the survey.
    *
-   * Must not be empty and must not be negative.
+   * Must not be empty and must not be negative. If a grossSampleSize is given then it must be less
+   * than or equal to the grossSampleSize.
    */
   @NotNull(message = "survey-management.error.survey.sample-size.not-null")
   @Min(value = 0, message = "survey-management.error.survey.sample-size.min")
