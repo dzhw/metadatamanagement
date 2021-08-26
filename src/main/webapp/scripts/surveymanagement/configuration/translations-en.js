@@ -142,7 +142,7 @@ angular.module('metadatamanagementApp').config(
             'serial-number': {
               'not-null': 'The serial number of a survey must not be empty!',
               'min': 'The serial number has to be 1 or higher.',
-              'invalid-number': 'Please enter a valid number.'
+              'invalid-number': 'Please enter a valid number (less than 2,147,483,648).'
             },
             'response-rate': {
               'min': 'The response rate must not be less than 0%.',
@@ -156,13 +156,13 @@ angular.module('metadatamanagementApp').config(
             },
             'sample-size': {
               'min': 'The sample size must not be less than 0.',
-              'max': 'The net sample size must be less than or equal to the gross sample size.',
+              'max': 'The net sample size must be less than or equal to the gross sample size and less than 2,147,483,648.',
               'not-null': 'The sample size of a survey must not be empty!',
               'invalid-number': 'Please enter a valid number.'
             },
             'gross-sample-size': {
               'min': 'The gross sample size must be greater than or equal to the net sample size. It can be empty.',
-              'invalid-number': 'Please enter a valid number.'
+              'invalid-number': 'Please enter a valid number (less than 2,147,483,648).'
             },
             'unique-survey-number': 'The Number of a survey has to be unique within a Data Acquisition Project!',
             'number': {
