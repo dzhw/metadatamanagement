@@ -160,10 +160,15 @@ public class PostValidationService {
         configuration.getPublicationsState())) {
       information.add("publications");
     }
+    
+    if (isProjectStateInvalid(requirements.isConceptsRequired(),
+        configuration.getConceptsState())) {
+      information.add("concepts");
+    }
 
     if (!information.isEmpty()) {
       PostValidationMessageDto message = new PostValidationMessageDto(
-          "data-acquisition" + "-project-management.error.post-validation.requirements-not-met",
+          "data-acquisition-project-management.error.post-validation.requirements-not-met",
           information);
       errors.add(message);
     }

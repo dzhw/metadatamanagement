@@ -72,6 +72,7 @@ angular.module('metadatamanagementApp').config(
           'edit-surveys-tooltip': 'Click to edit the existing surveys',
           'edit-instruments-tooltip': 'Click to edit the existing instruments',
           'edit-data-sets-tooltip': 'Click to edit the existing data sets',
+          'edit-concepts-tooltip': 'Click to edit the existing concepts',
           'edit-publications-tooltip': 'Click to add publications to the data package or to remove them',
           'delete-publications-tooltip': 'Click to remove all publications from the data package of the current project',
           'open-filter-panel': 'Click to show the search filters'

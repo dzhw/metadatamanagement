@@ -33,7 +33,7 @@ angular.module('metadatamanagementApp')
 
         var sortByRequiredState = function() {
           var optionalStates = ['surveys', 'instruments', 'questions',
-            'dataSets', 'variables', 'publications', 'fake1', 'fake2'];
+            'dataSets', 'variables', 'publications', 'concepts', 'fake1'];
           var activeStates = _.filter(optionalStates, function(state) {
             return ctrl.project.configuration.requirements[state + 'Required'];
           });
@@ -158,7 +158,7 @@ angular.module('metadatamanagementApp')
           SearchDao.search('', 1, projectId, {}, undefined, 0, undefined)
             .then(function(data) {
               ['variables', 'questions', 'data_sets', 'surveys', 'instruments',
-                'data_packages', 'related_publications'].forEach(
+                'data_packages', 'related_publications', 'concepts'].forEach(
               function(type) {
                 var bucket = _.find(data.aggregations.countByType.buckets,
                   {key: type});
