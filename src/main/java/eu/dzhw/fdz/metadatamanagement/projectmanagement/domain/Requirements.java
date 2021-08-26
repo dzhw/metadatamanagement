@@ -67,4 +67,9 @@ public class Requirements implements Serializable {
    * Defines if publication data is required for a release.
    */
   private boolean isPublicationsRequired;
+  
+  /**
+   * Defines if concept data is required for a release.
+   */
+  private boolean isConceptsRequired;
 }
