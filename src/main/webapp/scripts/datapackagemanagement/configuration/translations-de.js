@@ -72,7 +72,7 @@ angular.module('metadatamanagementApp').config(
           'data-set': {
             'card-title': 'Verfügbare Datensätze'
           },
-          'title': '{{ title }}',
+          'title': 'Datenpaket (Datensatz): {{ title }}',
           'page-description': '{{ description }}',
           'description': 'Datenpaketbeschreibung',
           'basic-data-of-surveys': 'Eckdaten der Erhebungen',
