@@ -14,6 +14,7 @@ angular.module('metadatamanagementApp').config(
             'upload-terminated': 'Finished upload of {{ total }} Variables with {{warnings}} warnings and {{ errors }} errors.',
             'unable-to-delete': 'The variables could not be deleted!',
             'cancelled': 'Variables upload cancelled!',
+            'no-input-files-found': 'No variable files found in the given directory!',
             'generation-details-rule-success-copy-to-clipboard': 'The Generation Rule was successfully copied into the clipboard.',
             'filter-details-success-copy-to-clipboard': 'The Filter Expression was successfully copied into the clipboard.'
           }
