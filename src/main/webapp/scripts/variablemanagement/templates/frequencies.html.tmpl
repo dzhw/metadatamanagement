@@ -50,7 +50,7 @@
           <td ng-if="!$ctrl.options.variable.anonymizeValidResponses || row.absoluteFrequency >= 10" ng-class="{'fdz-table-number' : $ctrl.options.variable.dataType.en === 'numeric', 'fdz-table-date': $ctrl.options.variable.dataType.en === 'date'}">
             {{row.value | formatResponse: $ctrl.options.variable}}{{row.code | number:0}}&nbsp;
           </td>
-          <td ng-if="$ctrl.options.variable.anonymizeValidResponses && row.absoluteFrequency < 10">---</td>
+          <td ng-if="$ctrl.options.variable.anonymizeValidResponses && row.absoluteFrequency < 10">{{ 'variable-management.detail.label.anonymized' | translate }}</td>
           <td ng-if="!$ctrl.options.variable.anonymizeValidResponses || row.absoluteFrequency >= 10" display-i18n-string="row.label"></td>
           <td ng-if="$ctrl.options.variable.anonymizeValidResponses && row.absoluteFrequency < 10">{{ 'variable-management.detail.label.anonymized' | translate }}</td>
           <td class="fdz-table-number">&nbsp;</td>
