@@ -77,9 +77,26 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
       });
     };
 
+    ctrl.setTitleForMethodReports = function() {
+      if (ctrl.attachmentMetadata.language === 'de') {
+        ctrl.attachmentMetadata.title =
+          'Daten- und Methodenbericht des Datenpakets "' +
+          dialogConfig.dataPackageTitle.de + '"';
+      } else {
+        ctrl.attachmentMetadata.title =
+          'Data and Methods Report of the data package "' +
+          dialogConfig.dataPackageTitle.en + '"';
+      }
+    };
+
     ctrl.selectedLanguageChanged = function() {
       if (ctrl.selectedLanguage) {
         ctrl.attachmentMetadata.language = ctrl.selectedLanguage.code;
+        if (ctrl.titleParams.dataPackageId) {
+          if (ctrl.attachmentMetadata.type.en === 'Method Report') {
+            ctrl.setTitleForMethodReports();
+          }
+        }
       } else {
         delete ctrl.attachmentMetadata.language;
       }
@@ -222,5 +239,36 @@ angular.module('metadatamanagementApp').controller('AttachmentDialogController',
               });
         }
       });
+    };
+
+    ctrl.onTypeChanged = function() {
+      if (ctrl.titleParams.dataPackageId) {
+        if (ctrl.attachmentMetadata.type.en === 'Method Report') {
+          ctrl.setTitleForMethodReports();
+          ctrl.attachmentMetadata.description = {
+            de: 'Der Bericht umfasst Datennutzungshinweise und weitere' +
+            ' Informationen zum Datenpaket.',
+            en: 'The report includes data usage notes and further ' +
+            'information on the data package.'
+          };
+        } else {
+          delete ctrl.attachmentMetadata.citationDetails;
+        }
+        if (ctrl.attachmentMetadata.type.en === 'Release Notes') {
+          ctrl.attachmentMetadata.title = 'Release Notes';
+          ctrl.attachmentMetadata.language = 'de';
+          ctrl.selectedLanguage = _.filter(isoLanguagesArray,
+            function(isoLanguage) {
+              return isoLanguage.code === ctrl.attachmentMetadata.language;
+            })[0];
+          ctrl.attachmentMetadata.description = {
+            de: 'Die Release Notes enthalten Informationen zur aktuellen ' +
+            'Version und zu Veränderungen im Vergleich zu vorherigen' +
+            ' Versionen.',
+            en: 'The release notes contain information about the current' +
+            ' version and changes compared to previous versions. '
+          };
+        }
+      }
     };
   });
