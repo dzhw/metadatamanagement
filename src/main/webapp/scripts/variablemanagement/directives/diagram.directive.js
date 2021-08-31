@@ -68,6 +68,10 @@ angular.module('metadatamanagementApp').directive('diagram',
             for (var j = 0;
               j < scope.variable.distribution.validResponses.length;
               j++) {
+              if (scope.variable.anonymizeValidResponses &&
+                  scope.variable.validResponses[j].absoluteFrequency < 10) {
+                continue;
+              }
               for (var k = 0;
                 k < scope.variable.distribution.validResponses[j]
                 .absoluteFrequency; k++) {
@@ -84,6 +88,10 @@ angular.module('metadatamanagementApp').directive('diagram',
           data[0].type = 'bar';
           if (scope.variable.distribution.validResponses) {
             scope.variable.distribution.validResponses.forEach(function(obj) {
+              if (scope.variable.anonymizeValidResponses &&
+                  obj.absoluteFrequency < 10) {
+                return;
+              }
               var filteredText = $filter('formatResponse')(obj.value,
                 scope.variable);
               var relativeFrequency =

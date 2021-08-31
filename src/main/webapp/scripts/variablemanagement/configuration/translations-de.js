@@ -71,7 +71,8 @@ angular.module('metadatamanagementApp').config(
             },
             'central-tendency': 'Zentrale Tendenz',
             'dispersion': 'Streuung',
-            'distribution': 'Verteilung'
+            'distribution': 'Verteilung',
+            'anonymized': 'anonymisiert'
           },
           'statistics': {
             'graphics': 'Abbildung Häufigkeiten/Verteilung (gültige Werte)',
