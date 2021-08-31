@@ -170,8 +170,21 @@ angular.module('metadatamanagementApp').service('VariableUploadService',
 
     var startJob = function(files, dataAcquisitionProjectId) {
       JobLoggingService.start('variable');
-      createDataSetsFileMap(files, dataAcquisitionProjectId);
-      uploadDataSets(0);
+      try {
+        createDataSetsFileMap(files, dataAcquisitionProjectId);
+      } finally {
+        if (_.size(filesMap) === 0) {
+          // something went wrong during import file reading
+          JobLoggingService.error({
+            message: 'variable-management.log-messages.' +
+              'variable.no-input-files-found'
+          });
+          JobLoggingService.cancel(
+            'variable-management.log-messages.variable.cancelled');
+        } else {
+          uploadDataSets(0);
+        }
+      }
     };
 
     var uploadVariables = function(files, dataAcquisitionProjectId) {

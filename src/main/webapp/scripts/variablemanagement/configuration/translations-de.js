@@ -14,6 +14,7 @@ angular.module('metadatamanagementApp').config(
             'upload-terminated': 'Upload von {{ total }} Variablen mit {{warnings}} Warnungen und {{ errors }} Fehlern beendet!',
             'unable-to-delete': 'Die Variablen konnten nicht gelöscht werden!',
             'cancelled': 'Upload von Variablen Abgebrochen!',
+            'no-input-files-found': 'In dem übergebenen Verzeichnis wurden keine Variablendateien gefunden!',
             'generation-details-rule-success-copy-to-clipboard': 'Die Generierungsregel wurde erfolgreich in die Zwischenablage kopiert.',
             'filter-details-success-copy-to-clipboard': 'Der Filterausdruck wurde erfolgreich in die Zwischenablage kopiert.'
           }
@@ -70,7 +71,8 @@ angular.module('metadatamanagementApp').config(
             },
             'central-tendency': 'Zentrale Tendenz',
             'dispersion': 'Streuung',
-            'distribution': 'Verteilung'
+            'distribution': 'Verteilung',
+            'anonymized': 'anonymisiert'
           },
           'statistics': {
             'graphics': 'Abbildung Häufigkeiten/Verteilung (gültige Werte)',

@@ -72,6 +72,13 @@ angular.module('metadatamanagementApp')
             !CleanJSObjectService.isNullOrEmpty(ctrl
               .variable.distribution.validResponses))) {
           ctrl.validResponsesOrMissingsAvailable = true;
+          if (ctrl.variable.distribution.validResponses) {
+            ctrl.variable.anonymizeValidResponses =
+              ctrl.variable.distribution.validResponses.some(
+              function(response) {
+                return response.absoluteFrequency < 10;
+              });
+          }
         }
         ctrl.dataPackage = ctrl.variable.dataPackage;
         ctrl.dataSet = ctrl.variable.dataSet;

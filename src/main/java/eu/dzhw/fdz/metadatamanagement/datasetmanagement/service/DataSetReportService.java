@@ -144,13 +144,20 @@ public class DataSetReportService extends AbstractReportService {
     Map<String, List<ValidResponse>> lastTenValidResponses = new HashMap<>();
     Map<String, List<VariableSubDocumentProjection>> repeatedMeasurementVariables = new HashMap<>();
     Map<String, List<VariableSubDocumentProjection>> derivedVariables = new HashMap<>();
+    Map<String, Boolean> anonymizeValidResponses = new HashMap<>();
 
     for (Variable variable : variables) {
       int sizeValidResponses = 0;
       if (variable.getDistribution() != null
           && variable.getDistribution().getValidResponses() != null) {
         sizeValidResponses = variable.getDistribution().getValidResponses().size();
+        boolean shouldAnonymizeValidResponses = variable.getDistribution().getValidResponses()
+            .stream().anyMatch(response -> response.getAbsoluteFrequency() < 10);
+        anonymizeValidResponses.put(variable.getId(), shouldAnonymizeValidResponses);
+      } else {
+        anonymizeValidResponses.put(variable.getId(), false);
       }
+
 
       // Create a Map with Questions
       if (variable.getRelatedQuestions() != null && !variable.getRelatedQuestions().isEmpty()) {
@@ -204,6 +211,7 @@ public class DataSetReportService extends AbstractReportService {
     dataForTemplate.put("lastTenValidResponses", lastTenValidResponses);
     dataForTemplate.put("repeatedMeasurementVariables", repeatedMeasurementVariables);
     dataForTemplate.put("derivedVariables", derivedVariables);
+    dataForTemplate.put("anonymizeValidResponses", anonymizeValidResponses);
 
     return dataForTemplate;
 
