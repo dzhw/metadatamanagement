@@ -111,6 +111,7 @@ angular.module('metadatamanagementApp')
           'data-package-management.detail.page-description', {
           description: result.description[LanguageService.getCurrentInstantly()]
         });
+        PageMetadataService.setDublinCoreMetadata(result);
         BreadcrumbService.updateToolbarHeader({
           'stateName': $state.current.name,
           'id': result.id,

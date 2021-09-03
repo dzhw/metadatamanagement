@@ -8,6 +8,7 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
       setPageDescription();
       setNextLink();
       setPreviousLink();
+      setDublinCoreMetadata();
     });
 
     $transitions.onSuccess({}, function() {
@@ -63,11 +64,43 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
       }
     };
 
+    var setDublinCoreMetadata = function(dataPackage) {
+      if (dataPackage && dataPackage.release) {
+        $rootScope.dublinCoreMetadata = {
+          type: 'Dataset',
+          title: dataPackage.title,
+          identifier: 'https://doi.org/' + dataPackage.doi,
+          description: dataPackage.description,
+          creators: dataPackage.projectContributors,
+          contributors: dataPackage.dataCurators,
+          date: dataPackage.release.firstDate,
+          subjects: dataPackage.tags,
+          publisher: 'FDZ-DZHW',
+          coverage: {
+            period: dataPackage.surveyPeriod,
+            countries: dataPackage.surveyCountries
+          },
+          languages: dataPackage.dataLanguages,
+          rights: {
+            de: 'Beantragung notwendig unter ' +
+              'https://metadata.fdz.dzhw.eu/de/data-packages/' +
+              dataPackage.masterId + '?version=' + dataPackage.release.version,
+            en: 'Application necessary under ' +
+              'https://metadata.fdz.dzhw.eu/en/data-packages/' +
+              dataPackage.masterId + '?version=' + dataPackage.release.version
+          }
+        };
+      } else {
+        $rootScope.dublinCoreMetadata = null;
+      }
+    };
+
     var exports = {
       setPreviousLink: setPreviousLink,
       setNextLink: setNextLink,
       setPageTitle: setPageTitle,
-      setPageDescription: setPageDescription
+      setPageDescription: setPageDescription,
+      setDublinCoreMetadata: setDublinCoreMetadata
     };
 
     return exports;

@@ -25,13 +25,9 @@ public class I18nResourceController {
 
   private static final Long ETAG = ManagementFactory.getRuntimeMXBean().getStartTime();
 
-  private final CountryCodeProvider countryCodeProvider;
-
   private final LanguagesProvider languagesProvider;
 
-  public I18nResourceController(CountryCodeProvider countryCodeProvider,
-                                  LanguagesProvider languagesProvider) {
-    this.countryCodeProvider = countryCodeProvider;
+  public I18nResourceController(LanguagesProvider languagesProvider) {
     this.languagesProvider = languagesProvider;
   }
 
@@ -43,7 +39,7 @@ public class I18nResourceController {
     return ResponseEntity.ok()
       .cacheControl(CacheControl.maxAge(0, TimeUnit.DAYS).mustRevalidate().cachePublic())
       .eTag(ETAG.toString())
-      .body(countryCodeProvider.getCountryCodes());
+      .body(CountryCodeProvider.COUNTRY_CODES);
   }
 
   /**

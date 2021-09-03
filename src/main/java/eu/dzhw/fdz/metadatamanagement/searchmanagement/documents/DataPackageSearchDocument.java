@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.Country;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
@@ -18,8 +20,10 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper.CountryCodeProvider;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -74,6 +78,8 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
   private List<I18nString> surveyDataTypes;
 
   private Period surveyPeriod;
+
+  private List<I18nString> surveyCountries;
 
   private Integer numberOfWaves;
 
@@ -134,6 +140,7 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
       this.surveyDataTypes = generateSurveyDataTypes(surveys);
       this.numberOfWaves = generateNumberOfWaves(surveys);
       this.surveyPeriod = generateSurveyPeriod(surveys);
+      this.surveyCountries = generateSurveyCountryNames(surveys);
     }
     if (questions != null) {
       this.questions = questions.stream().map(question -> new QuestionSubDocument(question))
@@ -176,8 +183,7 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
   }
 
   /**
-   * For the moment the number of waves is equal to the number of surveys within
-   * a data package.
+   * For the moment the number of waves is equal to the number of surveys within a data package.
    *
    * @param surveys All Survey Sub Document Projections.
    * @return The number of surveys.
@@ -225,5 +231,26 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
     return dataSets.stream().map(DataSetSubDocumentProjection::getLanguages)
         .filter(list -> list != null).flatMap(Collection::stream).distinct()
         .collect(Collectors.toList());
+  }
+
+  /**
+   * Create an aggregated list of the country names of all {@link GeographicCoverage}s.
+   *
+   * @param surveys All Survey Sub Document Projections.
+   * @return aggregated List of country names
+   */
+  private List<I18nString> generateSurveyCountryNames(List<SurveySubDocumentProjection> surveys) {
+    Set<String> countryCodes =
+        surveys.stream().flatMap(survey -> survey.getPopulation().getGeographicCoverages().stream())
+            .map(GeographicCoverage::getCountry).collect(Collectors.toSet());
+    List<I18nString> surveyCountryNames = new ArrayList<>(countryCodes.size());
+    for (String countryCode : countryCodes) {
+      Country selectedCountry = CountryCodeProvider.COUNTRY_CODES.stream()
+          .filter(country -> country.getCode().equals(countryCode)).findFirst().orElse(null);
+      if (selectedCountry != null) {
+        surveyCountryNames.add(new I18nString(selectedCountry.getDe(), selectedCountry.getEn()));
+      }
+    }
+    return surveyCountryNames;
   }
 }
