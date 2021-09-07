@@ -69,7 +69,8 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
         $rootScope.dublinCoreMetadata = {
           type: 'Dataset',
           title: dataPackage.title,
-          identifier: 'https://doi.org/' + dataPackage.doi,
+          identifier: dataPackage.doi ?
+            'https://doi.org/' + dataPackage.doi : null,
           description: dataPackage.description,
           creators: dataPackage.projectContributors,
           contributors: dataPackage.dataCurators,
