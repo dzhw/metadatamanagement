@@ -87,25 +87,25 @@ public class VariableSearchDocument extends Variable implements SearchDocumentIn
       this.dataPackage = new DataPackageSubDocument(dataPackage, doi);
       this.nestedDataPackage = new DataPackageNestedDocument(dataPackage);
     }
-    if (surveys != null) {
+    if (surveys != null && !surveys.isEmpty()) {
       this.surveys = surveys.stream()
           .map(SurveySubDocument::new).collect(Collectors.toList());
       this.nestedSurveys =
           surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
     }
-    if (instruments != null) {
+    if (instruments != null && !instruments.isEmpty()) {
       this.instruments = instruments.stream()
           .map(InstrumentSubDocument::new).collect(Collectors.toList());
       this.nestedInstruments =
           instruments.stream().map(InstrumentNestedDocument::new)
               .collect(Collectors.toList());
     }
-    if (questions != null) {
+    if (questions != null && !questions.isEmpty()) {
       this.nestedQuestions = questions.stream().map(
           question -> new QuestionNestedDocument(question))
           .collect(Collectors.toList());
     }
-    if (concepts != null) {
+    if (concepts != null && !concepts.isEmpty()) {
       this.concepts = concepts.stream()
           .map(concept -> new ConceptSubDocument(concept)).collect(Collectors.toList());
       this.nestedConcepts = concepts.stream()

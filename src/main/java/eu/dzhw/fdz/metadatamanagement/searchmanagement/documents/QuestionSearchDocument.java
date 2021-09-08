@@ -85,25 +85,25 @@ public class QuestionSearchDocument extends Question implements SearchDocumentIn
       this.instrument = new InstrumentSubDocument(instrument);
       this.nestedInstrument = new InstrumentNestedDocument(instrument);
     }
-    if (surveys != null) {
+    if (surveys != null && !surveys.isEmpty()) {
       this.surveys = surveys.stream()
           .map(SurveySubDocument::new).collect(Collectors.toList());
       this.nestedSurveys =
           surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
     }
-    if (variables != null) {
+    if (variables != null && !variables.isEmpty()) {
       this.variables = variables.stream()
           .map(VariableSubDocument::new).collect(Collectors.toList());
       this.nestedVariables =
           variables.stream().map(VariableNestedDocument::new).collect(Collectors.toList());
     }
-    if (dataSets != null) {
+    if (dataSets != null && !dataSets.isEmpty()) {
       this.dataSets = dataSets.stream()
           .map(DataSetSubDocument::new).collect(Collectors.toList());
       this.nestedDataSets =
           dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
     }
-    if (concepts != null) {
+    if (concepts != null && !concepts.isEmpty()) {
       this.concepts = concepts.stream()
           .map(concept -> new ConceptSubDocument(concept)).collect(Collectors.toList());
       this.nestedConcepts = concepts.stream()

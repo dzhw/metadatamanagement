@@ -57,12 +57,12 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
       List<DataPackageSubDocument> dataPackages,
       List<DataPackageNestedDocument> nestedDataPackages) {
     super(relatedPublication);
-    if (dataPackages != null) {
+    if (dataPackages != null && !dataPackages.isEmpty()) {
       this.dataPackages = dataPackages;
       nestedStudySerieses = dataPackages.stream().map(DataPackageSubDocument::getStudySeries)
           .dropWhile(studySeries -> studySeries == null).distinct().collect(Collectors.toList());
     }
-    if (nestedDataPackages != null) {
+    if (nestedDataPackages != null && !nestedDataPackages.isEmpty()) {
       this.nestedDataPackages = nestedDataPackages;
     }
     this.completeTitle = I18nString.builder()
