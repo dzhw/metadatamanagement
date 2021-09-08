@@ -109,7 +109,8 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
     var mapPersonToSchemaOrg = function(person) {
       return {
         '@type': 'Person',
-        'sameAs': person.orcid,
+        'sameAs':
+          person.orcid ? 'https://orcid.org/' + person.orcid : undefined,
         'givenName': person.firstName,
         'familyName': person.lastName,
         'name': person.firstName + ' ' +
@@ -166,6 +167,12 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
           schemaOrgMetadata.spatialCoverage =
             dataPackage.surveyCountries.map(function(country) {
               return country[language];
+            });
+        }
+        if (dataPackage.surveyDataTypes) {
+          schemaOrgMetadata.additionalType = dataPackage.surveyDataTypes.map(
+            function(dataType) {
+              return dataType[language];
             });
         }
         if (dataPackage.surveyPeriod) {
