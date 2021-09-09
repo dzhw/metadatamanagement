@@ -114,26 +114,26 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
       List<ConceptSubDocumentProjection> concepts, Release release, String doi,
       Configuration configuration) {
     super(dataPackage);
-    if (dataSets != null) {
+    if (dataSets != null && !dataSets.isEmpty()) {
       this.dataSets = dataSets.stream().map(DataSetSubDocument::new).collect(Collectors.toList());
       this.nestedDataSets =
           dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
       this.accessWays = generateAccessWays(dataSets);
       this.dataLanguages = generateDataLanguages(dataSets);
     }
-    if (variables != null) {
+    if (variables != null && !variables.isEmpty()) {
       this.variables =
           variables.stream().map(VariableSubDocument::new).collect(Collectors.toList());
       this.nestedVariables =
           variables.stream().map(VariableNestedDocument::new).collect(Collectors.toList());
     }
-    if (relatedPublications != null) {
+    if (relatedPublications != null && !relatedPublications.isEmpty()) {
       this.relatedPublications = relatedPublications.stream()
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
       this.nestedRelatedPublications = relatedPublications.stream()
           .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
-    if (surveys != null) {
+    if (surveys != null && !surveys.isEmpty()) {
       this.surveys = surveys.stream().map(SurveySubDocument::new).collect(Collectors.toList());
       this.nestedSurveys =
           surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
@@ -142,19 +142,19 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
       this.surveyPeriod = generateSurveyPeriod(surveys);
       this.surveyCountries = generateSurveyCountryNames(surveys);
     }
-    if (questions != null) {
+    if (questions != null && !questions.isEmpty()) {
       this.questions = questions.stream().map(question -> new QuestionSubDocument(question))
           .collect(Collectors.toList());
       this.nestedQuestions = questions.stream()
           .map(question -> new QuestionNestedDocument(question)).collect(Collectors.toList());
     }
-    if (instruments != null) {
+    if (instruments != null && !instruments.isEmpty()) {
       this.instruments =
           instruments.stream().map(InstrumentSubDocument::new).collect(Collectors.toList());
       this.nestedInstruments =
           instruments.stream().map(InstrumentNestedDocument::new).collect(Collectors.toList());
     }
-    if (concepts != null) {
+    if (concepts != null && !concepts.isEmpty()) {
       this.concepts = concepts.stream().map(concept -> new ConceptSubDocument(concept))
           .collect(Collectors.toList());
       this.nestedConcepts = concepts.stream().map(concept -> new ConceptNestedDocument(concept))
