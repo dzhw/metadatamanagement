@@ -6,17 +6,18 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -46,7 +47,7 @@ public class UserDetailsServiceImplTest extends AbstractTest {
 
   private UnitTestUserManagementUtils<User> testUtils = new UnitTestUserManagementUtils<>();
 
-  @Before
+  @BeforeEach
   public void before() {
     this.user = UnitTestUserManagementUtils.getDefaultUser();
     this.user.setActivated(true);
@@ -54,7 +55,7 @@ public class UserDetailsServiceImplTest extends AbstractTest {
     this.user = this.userRepository.save(this.user);
   }
 
-  @After
+  @AfterEach
   public void after() {
     this.userRepository.deleteById(this.user.getId());
   }
@@ -74,34 +75,35 @@ public class UserDetailsServiceImplTest extends AbstractTest {
     assertThat(userDetails.getUsername(), is(this.user.getLogin()));
   }
 
-
-  @Test(expected = UserNotActivatedException.class)
+  @Test
   public void testLoadUserByUsernameNotActivated() {
-
-    // Arrange
-    this.user.setActivated(false);
-    this.testUtils.checkAndPrintValidation(this.user, this.validator);
-    this.user = this.userRepository.save(this.user);
-
-    // Act
-    this.userDetailsService.loadUserByUsername(user.getLogin());
-
-    // Assert
-    // No Assertion, because of the deletetion
+	Assertions.assertThrows(UserNotActivatedException.class, () -> {
+		// Arrange
+		this.user.setActivated(false);
+		this.testUtils.checkAndPrintValidation(this.user, this.validator);
+		this.user = this.userRepository.save(this.user);
+		
+		// Act
+		this.userDetailsService.loadUserByUsername(user.getLogin());
+		
+		// Assert
+		// No Assertion, because of the deletetion		
+	});
   }
 
-  @Test(expected = UsernameNotFoundException.class)
+  @Test
   public void testLoadUserByUsernameNotFound() {
-
-    // Arrange
-    this.user.setLogin("unknown");
-    this.testUtils.checkAndPrintValidation(this.user, this.validator);
-
-    // Act
-    this.userDetailsService.loadUserByUsername(user.getLogin());
-
-    // Assert
-    // No Assertion, because of the deletetion
+	Assertions.assertThrows(UsernameNotFoundException.class, () -> {		
+		// Arrange
+		this.user.setLogin("unknown");
+		this.testUtils.checkAndPrintValidation(this.user, this.validator);
+		
+		// Act
+		this.userDetailsService.loadUserByUsername(user.getLogin());
+		
+		// Assert
+		// No Assertion, because of the deletetion
+	});
   }
 
 }

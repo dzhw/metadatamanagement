@@ -2,12 +2,12 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDateTime;
 
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -37,7 +37,7 @@ public class DataAcquisitionProjectVersionsServiceTest extends AbstractTest {
   @Autowired
   private JaversService javersService;
 
-  @After
+  @AfterEach
   public void tearDown() {
     shadowCopyQueueItemRepository.deleteAll();
     repository.deleteAll();

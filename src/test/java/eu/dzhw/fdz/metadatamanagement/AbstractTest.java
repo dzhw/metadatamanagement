@@ -2,17 +2,15 @@ package eu.dzhw.fdz.metadatamanagement;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.javers.core.Javers;
 import org.javers.repository.jql.QueryBuilder;
-import org.junit.After;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
@@ -33,11 +31,10 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
 
 /**
  * This class is a basic class for the most unit tests.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @TestPropertySource("/config/application.yml")
 @ActiveProfiles(Constants.SPRING_PROFILE_UNITTEST)
@@ -89,7 +86,7 @@ public abstract class AbstractTest {
   @Autowired
   private TaskRepository taskRepository;
 
-  @After
+  @AfterEach
   public void ensureAllDataStoresHaveBeenCleanedUp() {
     assertEquals(0, this.dataPackageRepository.count());
     assertEquals(0, this.surveyRepository.count());

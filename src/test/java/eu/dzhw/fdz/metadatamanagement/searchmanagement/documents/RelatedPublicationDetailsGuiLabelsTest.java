@@ -1,9 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RelatedPublicationDetailsGuiLabelsTest {
   @Test

@@ -1,9 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
@@ -28,7 +28,7 @@ public class CopyPropertiesTest extends AbstractTest {
   @Autowired
   private JaversService javersService;
 
-  @After
+  @AfterEach
   public void cleanUp() {
     this.dataAcquisitionProjectRepository.deleteAll();
     this.dataSetRepository.deleteAll();
@@ -52,6 +52,6 @@ public class CopyPropertiesTest extends AbstractTest {
     // in spring boot 2.4.x BeanUtils.copyProperties does not copy collection properties
     DataSetSubDocument copy = new DataSetSubDocument(projection);
 
-    assertNotNull("SubDataSets have not been copied!", copy.getSubDataSets());
+    assertNotNull(copy.getSubDataSets(), "SubDataSets have not been copied!");
   }
 }

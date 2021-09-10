@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.rest;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -16,8 +16,8 @@ import java.util.Optional;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
@@ -62,7 +62,7 @@ public class UserResourceTest extends AbstractTest {
 
   private MockMvc restUserMockMvc;
 
-  @Before
+  @BeforeEach
   public void setup() {
     UserResource userResource =
         new UserResource(userRepository, authorityRepository, tokenStore, userService);

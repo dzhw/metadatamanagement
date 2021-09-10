@@ -4,9 +4,9 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Daniel Katzberg No Integration Test. No need for application Context.
