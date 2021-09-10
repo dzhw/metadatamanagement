@@ -26,7 +26,7 @@
     <properties>
         <elasticsearch.version>7.14.0</elasticsearch.version>
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
-        <java.version>15</java.version>
+        <java.version>16</java.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <maven-sortpom-plugin.version>2.12.0</maven-sortpom-plugin.version>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
@@ -589,10 +589,10 @@
                 </configuration>
             </plugin>
             <!-- PMD analysis may fail the build -->
-            <plugin>
+            <!-- plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.14.0</version>
+                <version>3.15.0</version>
                 <executions>
                     <execution>
                         <id>pmd check</id>
@@ -606,7 +606,7 @@
                 <configuration>
                     <linkXRef>false</linkXRef>
                 </configuration>
-            </plugin>
+            </plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
