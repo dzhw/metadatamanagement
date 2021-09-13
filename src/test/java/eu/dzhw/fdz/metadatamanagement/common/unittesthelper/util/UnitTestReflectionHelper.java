@@ -5,7 +5,7 @@ package eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

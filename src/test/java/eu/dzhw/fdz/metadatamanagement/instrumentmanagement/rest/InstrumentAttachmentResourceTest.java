@@ -8,9 +8,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -55,12 +56,12 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
 
   private MockMvc mockMvc;
 
-  @Before
+  @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
-  @After
+  @AfterEach
   public void cleanUp() {
     this.instrumentRepository.deleteAll();
     this.instrumentAttachmentService.deleteAll();
@@ -277,9 +278,11 @@ public class InstrumentAttachmentResourceTest extends AbstractTest {
         .andExpect(status().isOk()).andExpect(content().json("[]"));
   }
 
-  @Test(expected = IllegalAccessError.class)
+  @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testChangingImmutableI18nString() {
-    InstrumentAttachmentTypes.QUESTION_FLOW.setDe("hurz");
+	 Assertions.assertThrows(IllegalAccessError.class, () -> {
+		 InstrumentAttachmentTypes.QUESTION_FLOW.setDe("hurz");
+	});
   }
 }

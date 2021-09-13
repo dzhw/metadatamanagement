@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import org.javers.common.collections.Lists;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -48,12 +48,12 @@ public class OrderResourceTest extends AbstractTest {
   private MockMvc mockMvc;
 
 
-  @Before
+  @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 
-  @After
+  @AfterEach
   public void cleanUp() {
     this.orderRepository.deleteAll();
   }

@@ -84,18 +84,29 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
             countries: dataPackage.surveyCountries
           },
           languages: dataPackage.dataLanguages,
-          rights: {
-            de: 'Beantragung notwendig unter ' + $rootScope.baseUrl +
-              '/de/data-packages/' +
-              dataPackage.masterId + '?version=' + dataPackage.release.version,
-            en: 'Application necessary under ' + $rootScope.baseUrl +
-              '/en/data-packages/' +
-              dataPackage.masterId + '?version=' + dataPackage.release.version
-          }
+          rights: getLicenseDescription(dataPackage)
         };
       } else {
         $rootScope.dublinCoreMetadata = null;
       }
+    };
+
+    var getLicenseDescription = function(dataPackage) {
+      return {
+        de: 'Beantragung notwendig unter ' + $rootScope.baseUrl +
+          '/de/data-packages/' +
+          dataPackage.masterId + '?version=' + dataPackage.release.version,
+        en: 'Application necessary under ' + $rootScope.baseUrl +
+          '/en/data-packages/' +
+          dataPackage.masterId + '?version=' + dataPackage.release.version
+      };
+    };
+
+    var getLicenseName = function() {
+      return {
+        de: 'Nutzung nach Beantragung',
+        en: 'Usage after application'
+      };
     };
 
     var getI18nStringInOtherLanguage = function(i18nString, currentLanguage) {
@@ -158,7 +169,12 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
             'https://doi.org/' + dataPackage.doi : undefined,
           'isAccessibleForFree': true,
           'datePublished': formatDate(dataPackage.release.firstDate),
-          'dateModified': formatDate(dataPackage.release.lastDate)
+          'dateModified': formatDate(dataPackage.release.lastDate),
+          'license': {
+            '@type': 'CreativeWork',
+            'name': getLicenseName()[language],
+            'description': getLicenseDescription(dataPackage)[language]
+          }
         };
         if (dataPackage.tags) {
           schemaOrgMetadata.keywords = dataPackage.tags[language];

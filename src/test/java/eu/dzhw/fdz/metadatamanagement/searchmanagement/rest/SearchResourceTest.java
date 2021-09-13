@@ -1,16 +1,17 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.rest;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -49,13 +50,13 @@ public class SearchResourceTest extends AbstractTest {
 
   private MockMvc mockMvc;
 
-  @Before
+  @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
   }
 
-  @After
+  @AfterEach
   public void cleanUp() {
     UnitTestUserManagementUtils.login("admin", "admin");
     dataAcquisitionProjectRepository.deleteAll();
@@ -80,10 +81,12 @@ public class SearchResourceTest extends AbstractTest {
       .andExpect(status().isOk());
   }
 
-  @Test(expected = NestedServletException.class)
+  @Test
   public void testRecreateAllIndicesWithoutValidCredentials() throws Exception {
-    // test recreation of all elasticsearch indices
-    mockMvc.perform(post("/api/search/recreate"));
+    Assertions.assertThrows(NestedServletException.class, () -> {
+    	// test recreation of all elasticsearch indices
+    	mockMvc.perform(post("/api/search/recreate"));
+    });
   }
 
   @Test

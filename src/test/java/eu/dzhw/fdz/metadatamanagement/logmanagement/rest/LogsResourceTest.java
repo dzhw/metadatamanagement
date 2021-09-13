@@ -5,16 +5,16 @@ package eu.dzhw.fdz.metadatamanagement.logmanagement.rest;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.json.JSONArray;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -32,7 +32,7 @@ public class LogsResourceTest extends AbstractTest {
 
   private MockMvc restUserMockMvc;
 
-  @Before
+  @BeforeEach
   public void setup() {
     LogsResource logsResource = new LogsResource();
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(logsResource)

@@ -9,9 +9,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.IOException;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -75,7 +75,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
   private GreenMail greenMail;
 
 
-  @Before
+  @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).addFilters(legacyUrlsFilter).build();
     greenMail = new GreenMail(ServerSetupTest.SMTP);
@@ -83,7 +83,7 @@ public class DataPackagePublicListResourceControllerTest extends AbstractTest {
     elasticsearchAdminService.recreateAllIndices();
   }
 
-  @After
+  @AfterEach
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
     shadowCopyQueueItemRepository.deleteAll();
