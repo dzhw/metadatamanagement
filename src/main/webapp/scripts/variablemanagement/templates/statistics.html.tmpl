@@ -17,11 +17,11 @@
           <h5>{{'variable-management.detail.label.statistics.validResponses' | translate }}:</h5>
           <span class="md-secondary">{{$ctrl.options.variable.distribution.validResponses.length}}</span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.minimum != null && !$ctrl.options.variable.anonymizeValidResponses">
+        <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.minimum != null">
           <h5>{{'variable-management.detail.label.statistics.minimum' | translate }}:</h5>
           <span class="md-secondary">{{$ctrl.options.variable.distribution.statistics.minimum | formatResponse: $ctrl.options.variable}}</span>
         </md-list-item>
-        <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.maximum != null && !$ctrl.options.variable.anonymizeValidResponses">
+        <md-list-item ng-if="$ctrl.options.variable.distribution.statistics.maximum != null">
           <h5>{{'variable-management.detail.label.statistics.maximum' | translate }}:</h5>
           <span class="md-secondary">{{$ctrl.options.variable.distribution.statistics.maximum | formatResponse: $ctrl.options.variable}}</span>
         </md-list-item>
