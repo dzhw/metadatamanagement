@@ -151,8 +151,8 @@ public class DataSetReportService extends AbstractReportService {
       if (variable.getDistribution() != null
           && variable.getDistribution().getValidResponses() != null) {
         sizeValidResponses = variable.getDistribution().getValidResponses().size();
-        boolean shouldAnonymizeValidResponses = variable.getDistribution().getValidResponses()
-            .stream().anyMatch(response -> response.getAbsoluteFrequency() < 10);
+        boolean shouldAnonymizeValidResponses = variable.getDistribution().getValidResponses().stream()
+            .anyMatch(response -> response.getAbsoluteFrequency() < 10);
         anonymizeValidResponses.put(variable.getId(), shouldAnonymizeValidResponses);
       } else {
         anonymizeValidResponses.put(variable.getId(), false);
