@@ -72,7 +72,6 @@ angular.module('metadatamanagementApp').config(
             'central-tendency': 'Central Tendency',
             'dispersion': 'Dispersion',
             'distribution': 'Distribution',
-            'anonymized': 'anonymized'
           },
           'statistics': {
             'graphics': 'Figure Frequencies/Distribution (valid responses)',
