@@ -67,6 +67,7 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
     };
 
     var setDublinCoreMetadata = function(dataPackage) {
+      var language = LanguageService.getCurrentInstantly();
       if (dataPackage && dataPackage.release) {
         $rootScope.dublinCoreMetadata = {
           type: 'Dataset',
@@ -86,6 +87,14 @@ angular.module('metadatamanagementApp').factory('PageMetadataService',
           languages: dataPackage.dataLanguages,
           rights: getLicenseDescription(dataPackage)
         };
+        $rootScope.dublinCoreMetadata.institutions =
+            dataPackage.institutions.map(function(institution) {
+              if (institution[language]) {
+                return institution[language];
+              } else {
+                return getI18nStringInOtherLanguage(institution, language);
+              }
+            });
       } else {
         $rootScope.dublinCoreMetadata = null;
       }
