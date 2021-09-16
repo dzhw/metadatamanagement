@@ -77,7 +77,7 @@ public class OrderResourceTest extends AbstractTest {
     mockMvc.perform(get(UPDATE_ORDER_URL + order.getId())).andExpect(status().isOk())
         .andExpect(jsonPath("$.products.length()", is(1)))
         .andExpect(jsonPath("$.products[0].study.title.de",
-            is(order.getProducts().get(0).getStudy().getTitle().getDe())));
+            is(order.getProducts().get(0).getDataPackage().getTitle().getDe())));
 
     // now update as DLP
     order = orderRepository.findAll().get(0);
@@ -147,7 +147,7 @@ public class OrderResourceTest extends AbstractTest {
     dataPackage.setId("stu-" + dataAcquisitionProjectId + "$");
     I18nString title = new I18nString("test", "test");
     dataPackage.setTitle(title);
-    return new Product(dataAcquisitionProjectId, dataPackage, "remote-desktop-suf", "1.0.0",
-        Set.of(DataFormat.R));
+    return new Product(dataAcquisitionProjectId, dataPackage, dataPackage, "remote-desktop-suf",
+        "1.0.0", Set.of(DataFormat.R));
   }
 }

@@ -158,6 +158,11 @@
             id: $ctrl.dataPackage.id,
             surveyDataTypes: $ctrl.dataPackage.surveyDataTypes,
             title: $ctrl.dataPackage.title
+          },
+          dataPackage: {
+            id: $ctrl.dataPackage.id,
+            surveyDataTypes: $ctrl.dataPackage.surveyDataTypes,
+            title: $ctrl.dataPackage.title
           }
         });
       }

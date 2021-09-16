@@ -53,6 +53,8 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
 
       suffixedProduct.study.id = product.study.id + '-' +
         product.version;
+      suffixedProduct.dataPackage.id = product.dataPackage.id + '-' +
+        product.version;
       return suffixedProduct;
     };
 
@@ -149,7 +151,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
       existingOrderId = ShoppingCartService.getOrderId();
       ctrl.products = ShoppingCartService.getProducts();
       ctrl.products.forEach(function(product) {
-        var dataPackageId = product.study.id + '-' + product.version;
+        var dataPackageId = product.dataPackage.id + '-' + product.version;
         ctrl.dataPackages[dataPackageId] = {};
         ctrl.releases[product.dataAcquisitionProjectId] = {};
         promises.push(loadDataSetCountForProduct(product, dataPackageId));
@@ -169,7 +171,7 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
         ctrl.initComplete = true;
         // remove all product which are not available anymore
         ctrl.products.forEach(function(product) {
-          if (ctrl.dataPackages[product.study.id].hidden) {
+          if (ctrl.dataPackages[product.dataPackage.id].hidden) {
             ShoppingCartService.remove(product);
           }
         });
@@ -194,13 +196,13 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
 
     ctrl.getNumberOfVariables = function(product) {
       var suffixedProduct = appendVersionSuffix(product);
-      return ctrl.counts[suffixedProduct.study.id +
+      return ctrl.counts[suffixedProduct.dataPackage.id +
         suffixedProduct.accessWay + suffixedProduct.version].variables;
     };
 
     ctrl.getNumberOfDataSets = function(product) {
       var suffixedProduct = appendVersionSuffix(product);
-      return ctrl.counts[suffixedProduct.study.id +
+      return ctrl.counts[suffixedProduct.dataPackage.id +
         suffixedProduct.accessWay + suffixedProduct.version].dataSets;
     };
 
@@ -229,14 +231,20 @@ angular.module('metadatamanagementApp').controller('ShoppingCartController',
             dataAcquisitionProjectId: product.dataAcquisitionProjectId,
             study: ctrl.dataPackages[product.study.id + '-' +
               product.version],
+            dataPackage: ctrl.dataPackages[product.dataPackage.id + '-' +
+              product.version],
             accessWay: product.accessWay,
             version: product.version,
             dataFormats: product.dataFormats
           };
           _.set(completeProduct, 'study.surveyDataTypes',
             product.study.surveyDataTypes);
+          _.set(completeProduct, 'dataPackage.surveyDataTypes',
+            product.dataPackage.surveyDataTypes);
           completeProduct.study.id = ProjectReleaseService
             .stripVersionSuffix(completeProduct.study.id);
+          completeProduct.dataPackage.id = ProjectReleaseService
+            .stripVersionSuffix(completeProduct.dataPackage.id);
           order.products.push(completeProduct);
         });
 
