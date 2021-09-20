@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
@@ -48,6 +50,7 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projec
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchBulkOperationException;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.AnalysisPackageSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.ConceptSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageNestedDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSearchDocument;
@@ -113,6 +116,8 @@ public class ElasticsearchUpdateQueueService {
   private final InstrumentRepository instrumentRepository;
 
   private final ConceptRepository conceptRepository;
+  
+  private final AnalysisPackageRepository analysisPackageRepository;
 
   private final ElasticsearchDao elasticsearchDao;
 
@@ -251,10 +256,41 @@ public class ElasticsearchUpdateQueueService {
         return addUpsertActionForInstrument(lockedItem, request);
       case concepts:
         return addUpsertActionForConcept(lockedItem, request);
+      case analysis_packages:
+        return addUpsertActionForAnalysisPackage(lockedItem, request);
       default:
         throw new NotImplementedException("Processing queue item with type "
             + lockedItem.getDocumentType() + " has not been implemented!");
     }
+  }
+  
+  /**
+   * This method creates for the analysis packages update / insert actions.
+   * 
+   * @param lockedItem A locked item.
+   * @param request A bulk builder for building the actions.
+   */
+  private boolean addUpsertActionForAnalysisPackage(ElasticsearchUpdateQueueItem lockedItem,
+      BulkRequest request) {
+    AnalysisPackage analysisPackage =
+        this.analysisPackageRepository.findById(lockedItem.getDocumentId()).orElse(null);
+    if (analysisPackage != null) {
+      DataAcquisitionProject project =
+          projectRepository.findById(analysisPackage.getDataAcquisitionProjectId()).orElse(null);
+      if (project == null) {
+        // project has been deleted, skip upsert
+        return false;
+      }
+      Release release = getRelease(project);
+      Configuration configuration = project.getConfiguration();
+      AnalysisPackageSearchDocument searchDocument =
+          new AnalysisPackageSearchDocument(analysisPackage, release, configuration);
+
+      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+          .source(gson.toJson(searchDocument), XContentType.JSON));
+      return true;
+    }
+    return false;
   }
 
   private boolean addUpsertActionForConcept(ElasticsearchUpdateQueueItem lockedItem,

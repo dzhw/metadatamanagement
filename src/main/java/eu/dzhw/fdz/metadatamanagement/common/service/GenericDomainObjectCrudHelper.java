@@ -24,6 +24,7 @@ import org.springframework.data.rest.core.event.BeforeSaveEvent;
 import com.google.gson.Gson;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.repository.BaseRepository;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository.ConceptRepository;
@@ -116,6 +117,9 @@ public class GenericDomainObjectCrudHelper<T extends AbstractRdcDomainObject,
     }
     if (ConceptRepository.class.isAssignableFrom(repository.getClass())) {
       return ElasticsearchType.concepts;
+    }
+    if (AnalysisPackageRepository.class.isAssignableFrom(repository.getClass())) {
+      return ElasticsearchType.analysis_packages;
     }
     return null;
   }
