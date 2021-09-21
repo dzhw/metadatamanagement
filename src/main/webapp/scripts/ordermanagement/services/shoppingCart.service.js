@@ -36,13 +36,13 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
     var _displayProductAlreadyInShoppingCart = function(product) {
       SimpleMessageToastService.openSimpleMessageToast(
         'shopping-cart.toasts.data-package-already-in-cart',
-        {id: product.study.id}
+        {id: product.dataPackage.id}
       );
     };
 
     var _isProductInShoppingCart = function(products, product) {
       return _.findIndex(products, function(item) {
-        return item.study.id === product.study.id &&
+        return item.dataPackage.id === product.dataPackage.id &&
           item.version === product.version &&
           item.accessWay === product.accessWay;
       }) !== -1;
@@ -56,7 +56,7 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
         localStorageService.set(SHOPPING_CART_KEY, products);
         SimpleMessageToastService.openSimpleMessageToast(
           'shopping-cart.toasts.data-package-added',
-          {id: product.study.id});
+          {id: product.dataPackage.id});
         _broadcastShoppingCartChanged();
       }
     };
@@ -83,6 +83,8 @@ angular.module('metadatamanagementApp').service('ShoppingCartService',
 
       normalizedProduct.study.id = ProjectReleaseService
         .stripVersionSuffix(normalizedProduct.study.id);
+      normalizedProduct.dataPackage.id = ProjectReleaseService
+        .stripVersionSuffix(normalizedProduct.dataPackage.id);
       return normalizedProduct;
     };
 

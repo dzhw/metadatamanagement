@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -59,7 +59,7 @@ public class QuestionImageShadowCopyServiceTest extends AbstractTest {
 
   private Release release;
 
-  @Before
+  @BeforeEach
   public void setup() {
     release = new Release("1.0.0", LocalDateTime.now(), null, false);
 
@@ -68,7 +68,7 @@ public class QuestionImageShadowCopyServiceTest extends AbstractTest {
     dataAcquisitionProject.setRelease(release);
   }
 
-  @After
+  @AfterEach
   public void teardown() {
     Query query = new Query(GridFsCriteria.whereFilename().regex("^/questions"));
     this.gridFsOperations.delete(query);

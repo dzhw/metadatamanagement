@@ -5,9 +5,9 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.domain;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * No need for Application Conetext. No integration test.

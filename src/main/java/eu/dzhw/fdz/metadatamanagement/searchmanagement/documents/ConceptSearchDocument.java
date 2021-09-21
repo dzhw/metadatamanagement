@@ -74,35 +74,35 @@ public class ConceptSearchDocument extends Concept implements SearchDocumentInte
       List<InstrumentSubDocumentProjection> instruments, List<SurveySubDocumentProjection> surveys,
       List<DataSetSubDocumentProjection> dataSets, List<VariableSubDocumentProjection> variables) {
     super(concept);
-    if (dataPackages != null) {
+    if (dataPackages != null && !dataPackages.isEmpty()) {
       this.dataPackages = dataPackages;
     }
-    if (nestedDataPackages != null) {
+    if (nestedDataPackages != null && !nestedDataPackages.isEmpty()) {
       this.nestedDataPackages = nestedDataPackages;
     }
-    if (questions != null) {
+    if (questions != null && !questions.isEmpty()) {
       this.questions = questions.stream().map(question -> new QuestionSubDocument(question))
           .collect(Collectors.toList());
       this.nestedQuestions = questions.stream()
           .map(question -> new QuestionNestedDocument(question)).collect(Collectors.toList());
     }
-    if (instruments != null) {
+    if (instruments != null && !instruments.isEmpty()) {
       this.instruments =
           instruments.stream().map(InstrumentSubDocument::new).collect(Collectors.toList());
       this.nestedInstruments =
           instruments.stream().map(InstrumentNestedDocument::new).collect(Collectors.toList());
     }
-    if (surveys != null) {
+    if (surveys != null && !surveys.isEmpty()) {
       this.surveys = surveys.stream().map(SurveySubDocument::new).collect(Collectors.toList());
       this.nestedSurveys =
           surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
     }
-    if (dataSets != null) {
+    if (dataSets != null && !dataSets.isEmpty()) {
       this.dataSets = dataSets.stream().map(DataSetSubDocument::new).collect(Collectors.toList());
       this.nestedDataSets =
           dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
     }
-    if (variables != null) {
+    if (variables != null && !variables.isEmpty()) {
       this.variables =
           variables.stream().map(VariableSubDocument::new).collect(Collectors.toList());
       this.nestedVariables =

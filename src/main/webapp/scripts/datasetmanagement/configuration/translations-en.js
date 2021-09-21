@@ -190,7 +190,7 @@ angular.module('metadatamanagementApp').config(
             },
             'number-of-observations': {
               'not-null': 'The number of observations/episodes of a Subdataset must not be empty!',
-              'invalid-number': 'Enter a positive integer!'
+              'invalid-number': 'Enter a positive integer (less than 2,147,483,648)!'
             },
             'data-formats': {
               'required': 'At least on data format must be specified.'

@@ -20,6 +20,7 @@ angular.module('metadatamanagementApp')
       ctrl.currentSponsors = [];
       var attachmentTypes = [
         {de: 'Daten- und Methodenbericht', en: 'Method Report'},
+        {de: 'Release Notes', en: 'Release Notes'},
         {de: 'Sonstiges', en: 'Other'}
       ];
 
@@ -700,6 +701,7 @@ angular.module('metadatamanagementApp')
           attachmentDomainIdAttribute: 'dataPackageId',
           getAttachmentVersionsCallback: getAttachmentVersions,
           createAttachmentResource: createDataPackageAttachmentResource,
+          dataPackageTitle: ctrl.dataPackage.title,
           labels: labels
         };
 
@@ -732,6 +734,7 @@ angular.module('metadatamanagementApp')
           attachmentMetadata: null,
           attachmentTypes: attachmentTypes,
           uploadCallback: upload,
+          dataPackageTitle: ctrl.dataPackage.title,
           labels: getDialogLabels()
         };
 

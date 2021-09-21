@@ -8,9 +8,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
@@ -59,13 +59,13 @@ public class ConceptAttachmentResourceTest extends AbstractTest {
 
   private MockMvc mockMvc;
 
-  @Before
+  @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
   }
 
-  @After
+  @AfterEach
   public void cleanUp() {
     this.conceptRepository.deleteAll();
     this.elasticsearchUpdateQueueItemRepository.deleteAll();

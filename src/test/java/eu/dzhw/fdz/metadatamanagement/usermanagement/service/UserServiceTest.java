@@ -2,14 +2,14 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -38,7 +38,7 @@ public class UserServiceTest extends AbstractTest {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  @After
+  @AfterEach
   public void after() {
     // Log the user out, if any user was login by a test method
     UnitTestUserManagementUtils.logout();

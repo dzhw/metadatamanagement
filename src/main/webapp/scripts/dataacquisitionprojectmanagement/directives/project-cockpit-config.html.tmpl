@@ -73,6 +73,13 @@
 							</md-checkbox>
 						</md-input-container>
 					</md-list-item>
+					<md-list-item>
+						<md-input-container class="mb0">
+							<md-checkbox ng-model="ctrl.project.configuration.requirements.conceptsRequired" class="mb0" name="concepts" ng-disabled="ctrl.isProjectRequirementsDisabled()">
+								{{'data-acquisition-project-management.project-cockpit.requirements.concepts' | translate}}
+							</md-checkbox>
+						</md-input-container>
+					</md-list-item>
 				</md-list>
 			</form>
 		</md-card-content>

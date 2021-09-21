@@ -3,8 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.surveymanagement.rest;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -18,7 +18,7 @@ public class SurveySampleTypesResourceControllerTest extends AbstractTest {
 
   private MockMvc mockMvc;
 
-  @Before
+  @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }

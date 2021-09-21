@@ -1,12 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.service;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.time.LocalDateTime;
 
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
@@ -24,7 +24,7 @@ public class ElasticsearchUpdateQueueServiceTest extends AbstractTest {
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
   
-  @After
+  @AfterEach
   public void cleanUp() {
     elasticsearchUpdateQueueService.clearQueue();
     elasticsearchAdminService.recreateAllIndices();

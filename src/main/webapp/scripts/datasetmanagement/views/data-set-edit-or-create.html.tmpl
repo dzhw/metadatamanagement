@@ -198,7 +198,7 @@
                   md-is-error="!dataSetForm['subDataSetsNumberOfObservations_' + $index].$valid && (dataSetForm['subDataSetsNumberOfObservations_' + $index].$dirty || dataSetForm['subDataSetsNumberOfObservations_' + $index].$touched)"
                   class="ms-flex">
                   <label>{{'data-set-management.edit.label.sub-data-set.number-of-observations' | translate}}</label>
-                  <input min="1" name="subDataSetsNumberOfObservations_{{$index}}" ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)" ng-model="subDataSet.numberOfObservations" required step="1"
+                  <input min="1" max="2147483647" name="subDataSetsNumberOfObservations_{{$index}}" ng-blur="ctrl.deleteCurrentSubDataSet($event)" ng-focus="ctrl.setCurrentSubDataSet($index,$event)" ng-model="subDataSet.numberOfObservations" required step="1"
                     type="number">
                   <div class="fdz-input-hint" ng-if="!dataSetForm['subDataSetsNumberOfObservations_' + $index].$dirty && !dataSetForm['subDataSetsNumberOfObservations_' + $index].$touched">
                     {{'data-set-management.edit.hints.sub-data-set.number-of-observations' |
@@ -215,6 +215,9 @@
                       {{'data-set-management.error.sub-data-set.number-of-observations.invalid-number' | translate}}
                     </div>
                     <div ng-message="min">
+                      {{'data-set-management.error.sub-data-set.number-of-observations.invalid-number' | translate}}
+                    </div>
+                    <div ng-message="max">
                       {{'data-set-management.error.sub-data-set.number-of-observations.invalid-number' | translate}}
                     </div>
                   </div>

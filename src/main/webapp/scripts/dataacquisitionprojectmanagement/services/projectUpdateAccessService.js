@@ -58,6 +58,8 @@ angular.module('metadatamanagementApp').service(
           return 'variablesState';
         case 'publications':
           return 'publicationsState';
+        case 'concepts':
+          return 'conceptsState';
       }
     };
 
@@ -118,12 +120,12 @@ angular.module('metadatamanagementApp').service(
       }
 
       if (!_.includes(['data_packages', 'surveys', 'instruments',
-        'data_sets', 'questions', 'variables', 'publications',
+        'data_sets', 'questions', 'variables', 'publications', 'concepts',
          undefined, null], type)) {
         return false;
       }
 
-      if (type === 'publications') {
+      if (type === 'publications' || type === 'concepts') {
         return true;
       }
 

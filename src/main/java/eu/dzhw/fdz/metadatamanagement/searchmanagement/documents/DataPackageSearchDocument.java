@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.common.domain.Country;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
@@ -18,8 +20,10 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.projections.QuestionSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.GeographicCoverage;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.SurveySubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper.CountryCodeProvider;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.VariableSubDocumentProjection;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -75,6 +79,8 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
 
   private Period surveyPeriod;
 
+  private List<I18nString> surveyCountries;
+
   private Integer numberOfWaves;
 
   private String doi;
@@ -108,46 +114,47 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
       List<ConceptSubDocumentProjection> concepts, Release release, String doi,
       Configuration configuration) {
     super(dataPackage);
-    if (dataSets != null) {
+    if (dataSets != null && !dataSets.isEmpty()) {
       this.dataSets = dataSets.stream().map(DataSetSubDocument::new).collect(Collectors.toList());
       this.nestedDataSets =
           dataSets.stream().map(DataSetNestedDocument::new).collect(Collectors.toList());
       this.accessWays = generateAccessWays(dataSets);
       this.dataLanguages = generateDataLanguages(dataSets);
     }
-    if (variables != null) {
+    if (variables != null && !variables.isEmpty()) {
       this.variables =
           variables.stream().map(VariableSubDocument::new).collect(Collectors.toList());
       this.nestedVariables =
           variables.stream().map(VariableNestedDocument::new).collect(Collectors.toList());
     }
-    if (relatedPublications != null) {
+    if (relatedPublications != null && !relatedPublications.isEmpty()) {
       this.relatedPublications = relatedPublications.stream()
           .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
       this.nestedRelatedPublications = relatedPublications.stream()
           .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
     }
-    if (surveys != null) {
+    if (surveys != null && !surveys.isEmpty()) {
       this.surveys = surveys.stream().map(SurveySubDocument::new).collect(Collectors.toList());
       this.nestedSurveys =
           surveys.stream().map(SurveyNestedDocument::new).collect(Collectors.toList());
       this.surveyDataTypes = generateSurveyDataTypes(surveys);
       this.numberOfWaves = generateNumberOfWaves(surveys);
       this.surveyPeriod = generateSurveyPeriod(surveys);
+      this.surveyCountries = generateSurveyCountryNames(surveys);
     }
-    if (questions != null) {
+    if (questions != null && !questions.isEmpty()) {
       this.questions = questions.stream().map(question -> new QuestionSubDocument(question))
           .collect(Collectors.toList());
       this.nestedQuestions = questions.stream()
           .map(question -> new QuestionNestedDocument(question)).collect(Collectors.toList());
     }
-    if (instruments != null) {
+    if (instruments != null && !instruments.isEmpty()) {
       this.instruments =
           instruments.stream().map(InstrumentSubDocument::new).collect(Collectors.toList());
       this.nestedInstruments =
           instruments.stream().map(InstrumentNestedDocument::new).collect(Collectors.toList());
     }
-    if (concepts != null) {
+    if (concepts != null && !concepts.isEmpty()) {
       this.concepts = concepts.stream().map(concept -> new ConceptSubDocument(concept))
           .collect(Collectors.toList());
       this.nestedConcepts = concepts.stream().map(concept -> new ConceptNestedDocument(concept))
@@ -176,8 +183,7 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
   }
 
   /**
-   * For the moment the number of waves is equal to the number of surveys within
-   * a data package.
+   * For the moment the number of waves is equal to the number of surveys within a data package.
    *
    * @param surveys All Survey Sub Document Projections.
    * @return The number of surveys.
@@ -225,5 +231,26 @@ public class DataPackageSearchDocument extends DataPackage implements SearchDocu
     return dataSets.stream().map(DataSetSubDocumentProjection::getLanguages)
         .filter(list -> list != null).flatMap(Collection::stream).distinct()
         .collect(Collectors.toList());
+  }
+
+  /**
+   * Create an aggregated list of the country names of all {@link GeographicCoverage}s.
+   *
+   * @param surveys All Survey Sub Document Projections.
+   * @return aggregated List of country names
+   */
+  private List<I18nString> generateSurveyCountryNames(List<SurveySubDocumentProjection> surveys) {
+    Set<String> countryCodes =
+        surveys.stream().flatMap(survey -> survey.getPopulation().getGeographicCoverages().stream())
+            .map(GeographicCoverage::getCountry).collect(Collectors.toSet());
+    List<I18nString> surveyCountryNames = new ArrayList<>(countryCodes.size());
+    for (String countryCode : countryCodes) {
+      Country selectedCountry = CountryCodeProvider.COUNTRY_CODES.stream()
+          .filter(country -> country.getCode().equals(countryCode)).findFirst().orElse(null);
+      if (selectedCountry != null) {
+        surveyCountryNames.add(new I18nString(selectedCountry.getDe(), selectedCountry.getEn()));
+      }
+    }
+    return surveyCountryNames;
   }
 }

@@ -142,7 +142,7 @@ angular.module('metadatamanagementApp').config(
             'serial-number': {
               'not-null': 'Die Ordnungsnummer der Erhebung darf nicht leer sein!',
               'min': 'Die Ordnungsnummer muss mindestens 1 sein!',
-              'invalid-number': 'Geben Sie eine gültige Zahl ein.'
+              'invalid-number': 'Geben Sie eine gültige Zahl (kleiner als 2.147.483.648) ein.'
             },
             'response-rate': {
               'min': 'Die Rücklaufquote darf nicht kleiner als 0% sein.',
@@ -156,13 +156,13 @@ angular.module('metadatamanagementApp').config(
             },
             'sample-size': {
               'min': 'Die Stichprobengröße darf nicht kleiner als 0 sein.',
-              'max': 'Die Nettostichprobe muss kleiner oder gleich der Bruttostichprobe sein.',
+              'max': 'Die Nettostichprobe muss kleiner oder gleich der Bruttostichprobe sein bzw. kleiner als 2.147.483.648.',
               'not-null': 'Die Stichprobengröße der Erhebung darf nicht leer sein!',
               'invalid-number': 'Geben Sie eine gültige Zahl ein.'
             },
             'gross-sample-size': {
               'min': 'Die Bruttostichprobe muss größer oder gleich der Nettostichprobe sein. Sie darf auch leer sein.',
-              'invalid-number': 'Geben Sie eine gültige Zahl ein.'
+              'invalid-number': 'Geben Sie eine gültige Zahl (kleiner als 2.147.483.648) ein.'
             },
             'unique-survey-number': 'Die Nummer einer Erhebung muss eindeutig innerhalb eines Datenaufbereitungsprojektes sein!',
             'number': {

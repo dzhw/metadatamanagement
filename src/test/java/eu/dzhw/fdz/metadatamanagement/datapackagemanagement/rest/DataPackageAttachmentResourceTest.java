@@ -13,9 +13,9 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
@@ -70,12 +70,12 @@ public class DataPackageAttachmentResourceTest extends AbstractTest {
 
   private MockMvc mockMvc;
 
-  @Before
+  @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
-  @After
+  @AfterEach
   public void cleanUp() {
     this.dataPackageRepository.deleteAll();
     this.elasticsearchUpdateQueueItemRepository.deleteAll();

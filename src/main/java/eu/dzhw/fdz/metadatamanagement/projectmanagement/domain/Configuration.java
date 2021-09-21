@@ -79,4 +79,8 @@ public class Configuration implements Serializable {
    * The state of related publications.
    */
   private ProjectState publicationsState;
+  /**
+   * The state of concepts.
+   */
+  private ProjectState conceptsState;
 }

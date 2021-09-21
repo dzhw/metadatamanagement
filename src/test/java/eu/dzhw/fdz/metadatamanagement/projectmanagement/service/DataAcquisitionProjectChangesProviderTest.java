@@ -1,23 +1,24 @@
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
-import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 
 public class DataAcquisitionProjectChangesProviderTest {
 
   private DataAcquisitionProjectChangesProvider provider;
   private String projectId;
 
-  @Before
+  @BeforeEach
   public void setup() {
     List<String> oldPublishers = Arrays.asList("10", "20", "30");
     List<String> oldDataProviders = Arrays.asList("a", "b", "c");
@@ -43,25 +44,25 @@ public class DataAcquisitionProjectChangesProviderTest {
   @Test
   public void getAddedPublisherUserNamesList() {
     List<String> result = provider.getAddedPublisherUserNamesList(projectId);
-    assertTrue("Expected list to contain value '40'", result.contains("40"));
+    assertTrue(result.contains("40"), "Expected list to contain value '40'");
   }
 
   @Test
   public void getRemovedPublisherUserNamesList() {
     List<String> result = provider.getRemovedPublisherUserNamesList(projectId);
-    assertTrue("Expected list to contain value '30'", result.contains("30"));
+    assertTrue(result.contains("30"), "Expected list to contain value '30'");
   }
 
   @Test
   public void getAddedDataProviderUserNamesList() {
     List<String> result = provider.getAddedDataProviderUserNamesList(projectId);
-    assertTrue("Expected list to contain value 'd'", result.contains("d"));
+    assertTrue(result.contains("d"), "Expected list to contain value 'd'");
   }
 
   @Test
   public void getRemovedDataProviderUserNamesList() {
     List<String> result = provider.getRemovedDataProviderUserNamesList(projectId);
-    assertTrue("Expected list to contain value 'c", result.contains("c"));
+    assertTrue(result.contains("c"), "Expected list to contain value 'c");
   }
 
 

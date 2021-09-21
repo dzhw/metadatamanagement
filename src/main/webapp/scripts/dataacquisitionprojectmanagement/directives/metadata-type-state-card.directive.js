@@ -19,8 +19,10 @@ angular.module('metadatamanagementApp')
       replace: true,
       controllerAs: 'ctrl',
 
-      controller: function($scope, $rootScope, DataPackageIdBuilderService) {
+      controller: function($scope, $rootScope, DataPackageIdBuilderService,
+        Principal) {
         $scope.bowser = $rootScope.bowser;
+        $scope.hasAuthority = Principal.hasAuthority;
         this.type = $scope.type;
         this.counts = $scope.counts;
         this.project = $scope.project;
@@ -36,7 +38,6 @@ angular.module('metadatamanagementApp')
 
         switch (this.type) {
           case 'dataPackages':
-            this.icon = 'assets/images/icons/data-package.svg';
             this.createState = 'dataPackageCreate';
             this.searchState = 'data_packages';
             this.tooltip = 'search-management.buttons.' +
@@ -46,7 +47,6 @@ angular.module('metadatamanagementApp')
             this.limit = 1;
             break;
           case 'surveys':
-            this.icon = 'assets/images/icons/survey.svg';
             this.createState = 'surveyCreate';
             this.searchState = this.type;
             this.tooltip = 'search-management.buttons.create-survey-tooltip';
@@ -56,7 +56,6 @@ angular.module('metadatamanagementApp')
               'edit-surveys-tooltip';
             break;
           case 'instruments':
-            this.icon = 'assets/images/icons/instrument.svg';
             this.createState = 'instrumentCreate';
             this.searchState = this.type;
             this.tooltip = 'search-management.buttons.' +
@@ -67,7 +66,6 @@ angular.module('metadatamanagementApp')
               'edit-instruments-tooltip';
             break;
           case 'questions':
-            this.icon = 'assets/images/icons/question.svg';
             this.createState = '';
             this.uploadFunction = function(files) {
               QuestionUploadService.uploadQuestions(files, this.project.id);
@@ -79,7 +77,6 @@ angular.module('metadatamanagementApp')
               'delete-all-questions-tooltip';
             break;
           case 'dataSets':
-            this.icon = 'assets/images/icons/data-set.svg';
             this.createState = 'dataSetCreate';
             this.searchState = 'data_sets';
             this.tooltip = 'search-management.buttons.' +
@@ -90,7 +87,6 @@ angular.module('metadatamanagementApp')
              'edit-data-sets-tooltip';
             break;
           case 'variables':
-            this.icon = 'assets/images/icons/variable.svg';
             this.createState = '';
             this.uploadFunction = function(files) {
               VariableUploadService.uploadVariables(files, this.project.id);
@@ -108,9 +104,16 @@ angular.module('metadatamanagementApp')
             this.tooltip = 'search-management.buttons.' +
              'edit-publications-tooltip';
             break;
-          case 'fake1':
+          case 'concepts':
+            this.icon = 'assets/images/icons/related-publication.svg';
+            this.createState = 'conceptCreate';
+            this.searchState = 'concepts';
+            this.tooltip = 'search-management.buttons.' +
+              'create-concept-tooltip';
+            this.editTooltip = 'search-management.buttons.' +
+             'edit-concepts-tooltip';
             break;
-          case 'fake2':
+          case 'fake1':
             break;
           default:
             throw Error('wrong argument for group');
@@ -134,6 +137,9 @@ angular.module('metadatamanagementApp')
         ctrl.getModifyButtonLabel = function(group) {
           if (ctrl.type === 'publications') {
             return 'edit';
+          }
+          if (ctrl.type === 'concepts') {
+            return 'new';
           }
           return ctrl.limit ? (ctrl.counts && ctrl.counts[
             // map camelCase to underscore_case
@@ -185,7 +191,7 @@ angular.module('metadatamanagementApp')
           return ctrl.project.release;
         };
 
-        if (ctrl.type !== 'publications') {
+        if (ctrl.type !== 'publications' && ctrl.type !== 'concepts') {
           ctrl.delete = function() {
             DeleteMetadataService.deleteAllOfType(ctrl.project, ctrl.type);
           };

@@ -4,16 +4,16 @@
 package eu.dzhw.fdz.metadatamanagement.mailmanagement.service;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import javax.mail.Message;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.icegreen.greenmail.util.GreenMail;
@@ -33,13 +33,13 @@ public class MailServiceTest extends AbstractTest {
 
   private GreenMail greenMail;
 
-  @Before
+  @BeforeEach
   public void before() {
     this.greenMail = new GreenMail(ServerSetupTest.SMTP);
     this.greenMail.start();
   }
 
-  @After
+  @AfterEach
   public void after() {
     this.greenMail.stop();
   }

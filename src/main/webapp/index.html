@@ -42,6 +42,28 @@
   <link ng-if="previousUiSref" rel="prev" ui-sref="{{previousUiSref}}" />
   <link ng-if="nextUiSref" rel="next" ui-sref="{{nextUiSref}}" />
   <meta ng-if="pageDescriptionKey" name="description" content="{{pageDescriptionKey | translate : pageDescriptionParams | removeMarkdown}}">
+  <link ng-if="dublinCoreMetadata" rel="schema.DC" href="http://purl.org/dc/elements/1.1/" >
+  <meta ng-if="dublinCoreMetadata" name="DC.Type" content="{{dublinCoreMetadata.type}}" >
+  <meta ng-if="dublinCoreMetadata.title.en" name="DC.Title" lang="en" content="{{dublinCoreMetadata.title.en}}" >
+  <meta ng-if="dublinCoreMetadata.title.de" name="DC.Title" lang="de" content="{{dublinCoreMetadata.title.de}}" >
+  <meta ng-if="dublinCoreMetadata.coverage.period" name="DC.Coverage" content="{{dublinCoreMetadata.coverage.period.start | date:'yyyy-MM-dd' }} - {{dublinCoreMetadata.coverage.period.end | date:'yyyy-MM-dd'}}" >
+  <meta ng-if="dublinCoreMetadata.coverage.countries" name="DC.Coverage" ng-repeat-start="country in dublinCoreMetadata.coverage.countries" lang="de" content="{{country.de}}" >
+  <meta ng-if="dublinCoreMetadata.coverage.countries" name="DC.Coverage" ng-repeat-end="" lang="en" content="{{country.en}}" >
+  <meta ng-if="dublinCoreMetadata.date" name="DC.Date" content="{{dublinCoreMetadata.date | date:'yyyy-MM-dd' }}" >
+  <meta ng-if="dublinCoreMetadata.rights.en" name="DC.Rights" lang="en" content="{{dublinCoreMetadata.rights.en}}" >
+  <meta ng-if="dublinCoreMetadata.rights.de" name="DC.Rights" lang="de" content="{{dublinCoreMetadata.rights.de}}" >
+  <meta ng-if="dublinCoreMetadata.identifier" name="DC.Identifier" content="{{dublinCoreMetadata.identifier}}" >
+  <meta ng-if="dublinCoreMetadata.publisher" name="DC.Publisher" content="{{dublinCoreMetadata.publisher}}" >
+  <meta ng-if="dublinCoreMetadata.description.en" name="DC.Description" lang="en" content="{{dublinCoreMetadata.description.en | removeMarkdown}}" >
+  <meta ng-if="dublinCoreMetadata.description.de" name="DC.Description" lang="de" content="{{dublinCoreMetadata.description.de | removeMarkdown}}" >
+  <meta ng-if="dublinCoreMetadata.languages" ng-repeat="language in dublinCoreMetadata.languages" name="DC.Language" content="{{language}}" >
+  <meta ng-if="dublinCoreMetadata.subjects" ng-repeat="subject in dublinCoreMetadata.subjects.de" name="DC.Subject" lang="de" content="{{subject}}" >
+  <meta ng-if="dublinCoreMetadata.subjects" ng-repeat="subject in dublinCoreMetadata.subjects.en" name="DC.Subject" lang="en" content="{{subject}}" >
+  <meta ng-if="dublinCoreMetadata.creators" ng-repeat="creator in dublinCoreMetadata.creators" name="DC.Creator" content="{{creator.lastName}}, {{creator.firstName}}{{creator.middleName?' '+creator.middleName:''}}" >
+  <meta ng-if="dublinCoreMetadata.contributors" ng-repeat="institution in dublinCoreMetadata.institutions" name="DC.Creator" content="{{institution}}" >
+  <meta ng-if="dublinCoreMetadata.contributors" ng-repeat="contributor in dublinCoreMetadata.contributors" name="DC.Contributor" content="{{contributor.lastName}}, {{contributor.firstName}}{{contributor.middleName?' '+contributor.middleName:''}}" >
+  <script ng-if="schemaOrgMetadata" type="application/ld+json" ng-bind-html="schemaOrgMetadata">
+  </script>
   <!-- seo4Ajax setting -->
   <script>window.willCallOnCaptureReady = true;</script>
   <!-- Matomo/Piwik -->

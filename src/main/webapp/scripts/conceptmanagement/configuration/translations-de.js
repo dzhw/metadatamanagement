@@ -138,7 +138,7 @@ angular.module('metadatamanagementApp').config(
           'concept-has-validation-errors-toast': 'Das Konzept wurde nicht gespeichert, weil es noch ungültige Felder gibt!',
           'previous-version-restored-toast': 'Die ältere Version von Konzept {{ conceptId }} kann jetzt gespeichert werden.',
           'current-version-restored-toast': 'Die aktuelle Version von Konzept {{ conceptId }} wurde wiederhergestellt.',
-          'not-authorized-toast': 'Sie sind nicht berechtigt Konzepte zu bearbeiten oder anzulegen!',
+          'not-authorized-toast': 'Sie sind nicht berechtigt, Konzepte zu bearbeiten oder anzulegen. Wenden Sie sich an eine:n Publisher:in dieses Projektes.<br><br>Bereits vorhandene Konzepte können Sie direkt in den Instrumenten oder Fragen verwenden!',
           'concept-deleted-toast': 'Das Konzept {{ id }} wurde gelöscht.',
           'label': {
             'id': 'FDZ-ID',
