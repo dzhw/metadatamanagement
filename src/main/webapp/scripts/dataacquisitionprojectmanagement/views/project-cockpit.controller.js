@@ -39,7 +39,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
     $state.loadStarted = true;
 
     $scope.initializing = true;
-    var projectId = $state.params.id;
     $scope.$on('current-project-changed',
       function(event, changedProject) { // jshint ignore:line
         if (changedProject && !$scope.initializing) {
@@ -47,9 +46,6 @@ angular.module('metadatamanagementApp').controller('ProjectCockpitController',
             '/projects/' + changedProject.id);
           PageMetadataService.setPageTitle(pageTitleKey,
             {projectId: changedProject.id});
-          if (changedProject.id === projectId) {
-            $scope.project = _.assignIn({}, changedProject);
-          }
         } else if (!changedProject) {
           $scope.project = null;
         }

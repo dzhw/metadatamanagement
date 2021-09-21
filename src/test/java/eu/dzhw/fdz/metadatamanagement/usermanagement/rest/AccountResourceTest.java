@@ -2,7 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -20,9 +20,9 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +73,7 @@ public class AccountResourceTest extends AbstractTest {
 
   private MockMvc restMvc;
 
-  @Before
+  @BeforeEach
   public void setup() {
     MockitoAnnotations.initMocks(this);
     when(mockMailService.sendActivationEmail(any(User.class))).thenReturn(null);
@@ -88,7 +88,7 @@ public class AccountResourceTest extends AbstractTest {
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource).build();
   }
 
-  @After
+  @AfterEach
   public void cleanUp() {
     UnitTestUserManagementUtils.logout();
     // assert that all tests remove their users!

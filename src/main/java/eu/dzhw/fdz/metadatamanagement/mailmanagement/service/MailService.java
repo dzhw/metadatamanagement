@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
@@ -41,6 +42,14 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MailService {
 
+  private static final String GERMAN_TEXT_MAIL_HINT =
+      "\n\n--\n Die HTML-Version dieser E-Mail enthält Links, die in dieser Version nicht"
+      + " angezeigt werden.";
+
+  private static final String ENGLISH_TEXT_MAIL_HINT =
+      "\n\n--\n The HTML-version of this mail contains links which are not displayed in"
+      + " this version.";
+
   private final JHipsterProperties jhipsterProperties;
 
   private final JavaMailSenderImpl javaMailSender;
@@ -55,9 +64,8 @@ public class MailService {
   private String baseUrl;
 
   private Future<Void> sendEmail(String from, String[] to, String[] cc, String bcc, String subject,
-      String content, boolean isMultipart, boolean isHtml) {
-    log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
-        isMultipart, isHtml, to, subject, content);
+      String htmlContent, Locale locale) {
+    log.debug("Send e-mail to '{}' with subject '{}' and htmlContent={}", to, subject, htmlContent);
     if (to.length < 1) {
       log.warn("No recipients specified for email!");
     }
@@ -65,7 +73,7 @@ public class MailService {
     MimeMessage mimeMessage = javaMailSender.createMimeMessage();
     try {
       MimeMessageHelper message =
-          new MimeMessageHelper(mimeMessage, isMultipart, StandardCharsets.UTF_8.name());
+          new MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name());
       message.setTo(to);
       if (cc != null && cc.length > 0) {
         message.setCc(cc);
@@ -79,7 +87,20 @@ public class MailService {
         message.setFrom(jhipsterProperties.getMail().getFrom());
       }
       message.setSubject(subject);
-      message.setText(content, isHtml);
+
+      String textContent = Jsoup.parse(htmlContent).body().wholeText()
+          .replaceAll("\t", " ")
+          .replaceAll(" {2,}", " ");
+
+      if (Locale.GERMAN.equals(locale)) {
+        textContent += GERMAN_TEXT_MAIL_HINT;
+      } else {
+        textContent += ENGLISH_TEXT_MAIL_HINT;
+      }
+      textContent = textContent.replaceAll("(\\n){3,}", "\n\n");
+
+      message.setText(textContent, htmlContent);
+
       javaMailSender.send(mimeMessage);
 
       log.debug("Sent e-mail to users '{}'", Arrays.toString(to));
@@ -103,8 +124,7 @@ public class MailService {
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("activationEmail", context);
     String subject = messageSource.getMessage("email.activation.title", null, locale);
-    return sendEmail(null, new String[] {user.getEmail()}, null, null, subject, content, false,
-        true);
+    return sendEmail(null, new String[] {user.getEmail()}, null, null, subject, content, locale);
   }
 
   /**
@@ -119,8 +139,7 @@ public class MailService {
     context.setVariable("baseUrl", baseUrl);
     String content = templateEngine.process("passwordResetEmail", context);
     String subject = messageSource.getMessage("email.reset.title", null, locale);
-    return sendEmail(null, new String[] {user.getEmail()}, null, null, subject, content, false,
-        true);
+    return sendEmail(null, new String[] {user.getEmail()}, null, null, subject, content, locale);
   }
 
   /**
@@ -138,7 +157,7 @@ public class MailService {
         + StringUtils.arrayToCommaDelimitedString(env.getActiveProfiles()) + ")";
     List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
     return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null,
-        subject, content, false, true);
+        subject, content, Locale.ENGLISH);
   }
 
   /**
@@ -153,7 +172,7 @@ public class MailService {
     String subject = "Automatic Update to da|ra was not successful";
     List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
     return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null,
-        subject, content, false, true);
+        subject, content, Locale.ENGLISH);
   }
 
   /**
@@ -225,7 +244,7 @@ public class MailService {
       context.setVariable("role", messageSource.getMessage(roleKey, null, locale));
       String content = templateEngine.process(template, context);
       String subject = messageSource.getMessage(subjectKey, new Object[] {projectId}, locale);
-      sendEmail(sender, new String[] {user.getEmail()}, null, null, subject, content, false, true);
+      sendEmail(sender, new String[] {user.getEmail()}, null, null, subject, content, locale);
     });
   }
 
@@ -252,7 +271,7 @@ public class MailService {
       String subject = messageSource.getMessage("email.assignee-group-changed.title",
           new Object[] {projectId}, locale);
       sendEmail(sender, new String[] {user.getEmail()}, null,
-          currentUser != null ? currentUser.getEmail() : null, subject, content, false, true);
+          currentUser != null ? currentUser.getEmail() : null, subject, content, locale);
     });
   }
 
@@ -280,7 +299,7 @@ public class MailService {
       String subject = messageSource.getMessage("email.data-provider-access-revoked.title",
           new Object[] {projectId}, locale);
       sendEmail(sender, new String[] {user.getEmail()}, null,
-          currentUser != null ? currentUser.getEmail() : null, subject, content, false, true);
+          currentUser != null ? currentUser.getEmail() : null, subject, content, locale);
     });
   }
 
@@ -307,7 +326,7 @@ public class MailService {
     String content = templateEngine.process("datasetReportGeneratedEmail", context);
     String subject = messageSource.getMessage("email.dataset-report-generated.title",
         new Object[] {dataSetId, language}, locale);
-    sendEmail(sender, new String[] {user.getEmail()}, null, null, subject, content, false, true);
+    sendEmail(sender, new String[] {user.getEmail()}, null, null, subject, content, locale);
   }
 
   /**
@@ -333,8 +352,7 @@ public class MailService {
         new Object[] {errorNotification.getDomainObjectId()}, locale);
     List<String> adminAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
     sendEmail(sender, new String[] {onBehalfUser.getEmail()},
-        adminAddresses.toArray(new String[adminAddresses.size()]), null, subject, content, false,
-        true);
+        adminAddresses.toArray(new String[adminAddresses.size()]), null, subject, content, locale);
 
   }
 
@@ -359,7 +377,7 @@ public class MailService {
     List<String> emailAddresses =
         releaseManagers.stream().map(User::getEmail).collect(Collectors.toList());
     sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null, subject,
-        content, false, true);
+        content, Locale.ENGLISH);
   }
 
   /**
@@ -386,7 +404,7 @@ public class MailService {
     String content = templateEngine.process("dataPackageOverviewGeneratedEmail", context);
     String subject = messageSource.getMessage("email.datapackage-overview-generated.title",
         new Object[] {dataPackageId, language}, locale);
-    sendEmail(sender, new String[] {user.getEmail()}, null, null, subject, content, false, true);
+    sendEmail(sender, new String[] {user.getEmail()}, null, null, subject, content, locale);
   }
 
   /**
@@ -412,8 +430,7 @@ public class MailService {
         new Object[] {errorNotification.getDomainObjectId()}, locale);
     List<String> adminAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
     sendEmail(sender, new String[] {onBehalfUser.getEmail()},
-        adminAddresses.toArray(new String[adminAddresses.size()]), null, subject, content, false,
-        true);
+        adminAddresses.toArray(new String[adminAddresses.size()]), null, subject, content, locale);
 
   }
 }

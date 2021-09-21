@@ -7,9 +7,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.IOException;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
@@ -41,12 +41,12 @@ public class DataAcquisitionProjectAttachmentsResourceControllerTest extends Abs
   @Autowired
   private GridFsOperations gridFsOperations;
 
-  @Before
+  @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
-  @After
+  @AfterEach
   public void cleanUp() {
     gridFsOperations.delete(new Query());
     javersService.deleteAll();

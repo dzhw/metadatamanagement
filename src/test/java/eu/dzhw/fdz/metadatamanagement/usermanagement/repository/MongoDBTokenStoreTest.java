@@ -6,7 +6,7 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.repository;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -46,7 +46,7 @@ public class MongoDBTokenStoreTest extends AbstractTest {
   private OAuth2RefreshToken refreshToken;
   private OAuth2Authentication authentication;
 
-  @Before
+  @BeforeEach
   public void beforeEachTest() {
     this.mongoDBTokenStore =
         new MongoDbTokenStore(oAuth2AccessTokenRepository, 
@@ -67,7 +67,7 @@ public class MongoDBTokenStoreTest extends AbstractTest {
     this.mongoDBTokenStore.storeRefreshToken(this.refreshToken, this.authentication);
   }
 
-  @After
+  @AfterEach
   public void afterEachTest() {
     this.mongoDBTokenStore.removeAccessToken(this.accessToken);
     this.mongoDBTokenStore.removeRefreshToken(this.refreshToken);

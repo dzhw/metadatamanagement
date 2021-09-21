@@ -52,6 +52,15 @@ public class Product implements Serializable {
   @NotNull
   @Valid
   private OrderedDataPackage study;
+  
+  /**
+   * The (partial) {@link OrderedDataPackage} of this product.
+   *
+   * Must not be empty.
+   */
+  @NotNull
+  @Valid
+  private OrderedDataPackage dataPackage;
 
   /**
    * The access way to the {@link DataSet}s which the customer wants to have.

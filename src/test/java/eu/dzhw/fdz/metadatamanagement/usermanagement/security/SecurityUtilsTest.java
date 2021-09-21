@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -13,8 +13,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,7 +32,7 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserMan
  */
 public class SecurityUtilsTest {
 
-  @After
+  @AfterEach
   public void logout() {
     UnitTestUserManagementUtils.logout();
   }
@@ -86,12 +87,14 @@ public class SecurityUtilsTest {
     assertThat(SecurityUtils.isUserInRole("somethingWrong"), is(false));
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void testgetCurrentUserWithException() {
-    SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-    securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin"));
-    SecurityContextHolder.setContext(securityContext);
-    SecurityUtils.getCurrentUser();// Exception is here. No CustomUserDetails;
+	Assertions.assertThrows(IllegalStateException.class, () -> {
+		SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+		securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin"));
+		SecurityContextHolder.setContext(securityContext);
+		SecurityUtils.getCurrentUser();// Exception is here. No CustomUserDetails;
+	});
   }
 
   @Test

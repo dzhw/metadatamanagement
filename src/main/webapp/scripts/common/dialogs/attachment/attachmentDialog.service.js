@@ -39,7 +39,8 @@ angular.module('metadatamanagementApp').service('AttachmentDialogService',
                 .getAttachmentVersionsCallback,
             createAttachmentResource: dialogConfig.createAttachmentResource,
             labels: labels,
-            exclude: dialogConfig.exclude ? dialogConfig.exclude : []
+            exclude: dialogConfig.exclude ? dialogConfig.exclude : [],
+            dataPackageTitle: dialogConfig.dataPackageTitle
           }
         },
         targetEvent: event

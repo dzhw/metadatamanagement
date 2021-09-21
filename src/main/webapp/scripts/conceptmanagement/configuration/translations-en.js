@@ -146,7 +146,7 @@ angular.module('metadatamanagementApp').config(
           'concept-has-validation-errors-toast': 'The Concept has not been saved because there are invalid fields!',
           'previous-version-restored-toast': 'Previous version of Concept {{ conceptId }} can be saved now.',
           'current-version-restored-toast': 'Current version of Concept {{ conceptId }} has been restored.',
-          'not-authorized-toast': 'You are not authorized to create or edit concepts!',
+          'not-authorized-toast': 'You are not authorized to edit or create concepts. Contact a publisher of this project.<br><br>You can use already existing concepts directly in the instruments or questions!',
           'concept-deleted-toast': 'Concept {{ id }} has been deleted.',
           'label': {
             'id': 'RDC-ID',

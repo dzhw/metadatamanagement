@@ -1,14 +1,13 @@
 package eu.dzhw.fdz.metadatamanagement.common.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -27,11 +26,8 @@ public class TaskServiceTest extends AbstractTest {
   private TaskRepository taskRepo;
   @Autowired
   private CounterService counterService;
-
-  @Before
-  public void setUp() throws Exception {}
-  
-  @After
+ 
+  @AfterEach
   public void teardown() throws Exception {
     taskRepo.deleteAll();
   }

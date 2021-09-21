@@ -3,7 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.datapackagemanagement.rest;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -17,9 +17,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -70,12 +70,12 @@ public class DataPackageResourceControllerTest extends AbstractTest {
 
   private MockMvc mockMvc;
 
-  @Before
+  @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).addFilter(legacyUrlsFilter).build();
   }
 
-  @After
+  @AfterEach
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
     dataPackageRepository.deleteAll();

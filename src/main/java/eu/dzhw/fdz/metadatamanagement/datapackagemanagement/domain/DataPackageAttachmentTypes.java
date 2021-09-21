@@ -14,8 +14,10 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.ImmutableI18nString;
 public class DataPackageAttachmentTypes {
   public static final I18nString METHOD_REPORT =
       new ImmutableI18nString("Daten- und Methodenbericht", "Method Report");
+  public static final I18nString RELEASE_NOTES =
+      new ImmutableI18nString("Release Notes", "Release Notes");
   public static final I18nString OTHER = new ImmutableI18nString("Sonstiges", "Other");
 
-  public static final Set<I18nString> ALL =
-      Collections.unmodifiableSet(new HashSet<I18nString>(Arrays.asList(METHOD_REPORT, OTHER)));
+  public static final Set<I18nString> ALL = Collections
+      .unmodifiableSet(new HashSet<I18nString>(Arrays.asList(METHOD_REPORT, RELEASE_NOTES, OTHER)));
 }

@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -51,7 +51,7 @@ public class DataPackageShadowCopyServiceTest extends AbstractTest {
 
   private Release release;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     release = new Release("1.0.0", LocalDateTime.now(), null, false);
     DataAcquisitionProject releasedProject =
@@ -62,7 +62,7 @@ public class DataPackageShadowCopyServiceTest extends AbstractTest {
     project.setId(PROJECT_ID);
   }
 
-  @After
+  @AfterEach
   public void tearDown() {
     dataPackageRepository.deleteAll();
     javersService.deleteAll();

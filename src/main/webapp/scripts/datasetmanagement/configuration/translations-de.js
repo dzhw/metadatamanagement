@@ -190,7 +190,7 @@ angular.module('metadatamanagementApp').config(
             },
             'number-of-observations': {
               'not-null': 'Die Anzahl von Fälle/Episoden darf bei einem Subdatensatz nicht leer sein!',
-              'invalid-number': 'Geben Sie eine positive ganze Zahl an!'
+              'invalid-number': 'Geben Sie eine positive ganze Zahl (kleiner als 2.147.483.648) an!'
             },
             'data-formats': {
               'required': 'Es muss mindestens ein Datenformat angegeben werden.'

@@ -52,7 +52,7 @@
           <div layout="column" layout-gt-sm="row" class="ms-flex">
             <md-input-container flex="50" md-is-error="!surveyForm.serialNumber.$valid && (surveyForm.serialNumber.$dirty || surveyForm.serialNumber.$touched)" class="ms-flex">
               <label>{{'survey-management.detail.label.serial-number' | translate}}</label>
-              <input min="1" name="serialNumber" ng-model="ctrl.survey.serialNumber" required step="1" type="number">
+              <input min="1" max="2147483647" name="serialNumber" ng-model="ctrl.survey.serialNumber" required step="1" type="number">
               <div class="fdz-input-hint" ng-if="!surveyForm.serialNumber.$dirty && !surveyForm.serialNumber.$touched">
                 {{'survey-management.edit.hints.serial-number' | translate}}
               </div>
@@ -60,6 +60,7 @@
                 <div ng-message="required">{{'survey-management.error.survey.serial-number.not-null' | translate}}</div>
                 <div ng-message="step">{{'survey-management.error.survey.serial-number.invalid-number' | translate}}</div>
                 <div ng-message="number">{{'survey-management.error.survey.serial-number.invalid-number' | translate}}</div>
+                <div ng-message="max">{{'survey-management.error.survey.serial-number.invalid-number' | translate}}</div>
                 <div ng-message="min">{{'survey-management.error.survey.serial-number.min' | translate}}</div>
               </div>
             </md-input-container>
@@ -189,7 +190,7 @@
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!surveyForm.grossSampleSize.$valid && (surveyForm.grossSampleSize.$dirty || surveyForm.grossSampleSize.$touched)" class="ms-flex">
               <label>{{'survey-management.detail.label.grossSampleSize' | translate}}</label>
-              <input min="{{ ctrl.survey.sampleSize || 0}}" name="grossSampleSize" ng-model="ctrl.survey.grossSampleSize" step="1" type="number">
+              <input min="{{ ctrl.survey.sampleSize || 0}}" max="2147483647" name="grossSampleSize" ng-model="ctrl.survey.grossSampleSize" step="1" type="number">
               <div class="fdz-input-hint" ng-if="!surveyForm.grossSampleSize.$dirty && !surveyForm.grossSampleSize.$touched">{{'survey-management.edit.hints.grossSampleSize' | translate}}
               </div>
               <div multiple ng-messages="surveyForm.grossSampleSize.$error">
@@ -197,6 +198,9 @@
                   translate}}
                 </div>
                 <div ng-message="number">{{'survey-management.error.survey.gross-sample-size.invalid-number' |
+                  translate}}
+                </div>
+                <div ng-message="max">{{'survey-management.error.survey.gross-sample-size.invalid-number' |
                   translate}}
                 </div>
                 <div ng-message="min">{{'survey-management.error.survey.gross-sample-size.min' | translate}}</div>
@@ -207,7 +211,7 @@
           <div layout="column" layout-gt-sm="row">
             <md-input-container flex="50" md-is-error="!surveyForm.sampleSize.$valid && (surveyForm.sampleSize.$dirty || surveyForm.sampleSize.$touched)" class="ms-flex">
               <label>{{'survey-management.detail.label.sampleSize' | translate}}</label>
-              <input min="0" max="{{ ctrl.survey.grossSampleSize || null }}" name="sampleSize" ng-model="ctrl.survey.sampleSize" required step="1" type="number">
+              <input min="0" max="{{ ctrl.survey.grossSampleSize || 2147483647 }}" name="sampleSize" ng-model="ctrl.survey.sampleSize" required step="1" type="number">
               <div class="fdz-input-hint" ng-if="!surveyForm.sampleSize.$dirty && !surveyForm.sampleSize.$touched">
                 {{'survey-management.edit.hints.sampleSize' | translate}}
               </div>

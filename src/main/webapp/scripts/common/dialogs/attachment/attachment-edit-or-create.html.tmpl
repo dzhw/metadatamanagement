@@ -58,7 +58,7 @@
           <div layout-gt-sm="row" layout="column" ng-if="ctrl.attachmentTypes">
             <md-input-container flex="50" class="ms-flex" style="margin-bottom: 42px;" md-is-error="!attachmentForm.type.$valid && (attachmentForm.type.$dirty || attachmentForm.type.$touched)">
               <label>{{'attachment.label.type' | translate}}</label>
-              <md-select required ng-model="ctrl.attachmentMetadata.type" ng-model-options="{trackBy: '$value.de'}" name="type">
+              <md-select required ng-model="ctrl.attachmentMetadata.type" ng-model-options="{trackBy: '$value.de'}" name="type" ng-change="ctrl.onTypeChanged()">
                 <md-option ng-value="type" ng-repeat="type in ctrl.attachmentTypes">{{type[ctrl.currentLanguage]}}</md-option>
               </md-select>
               <div ng-if="!attachmentForm.type.$dirty && !attachmentForm.type.$touched" class="fdz-input-hint">{{'attachment.hint.type' | translate}}</div>

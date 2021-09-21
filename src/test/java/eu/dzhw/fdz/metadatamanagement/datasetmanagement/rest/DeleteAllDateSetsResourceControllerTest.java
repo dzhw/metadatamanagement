@@ -1,14 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -50,12 +50,12 @@ public class DeleteAllDateSetsResourceControllerTest extends AbstractTest {
   @Autowired
   private JaversService javersService;
 
-  @Before
+  @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
-  @After
+  @AfterEach
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
     dataSetRepo.deleteAll();
