@@ -1,0 +1,165 @@
+package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.javers.core.metamodel.annotation.Entity;
+import org.springframework.data.annotation.Id;
+
+import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringNotEmpty;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
+import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ * Metadata which will be stored with each attachment of a {@link AnalysisPackage}.
+ */
+@Entity
+@EqualsAndHashCode(callSuper = false, of = "id")
+@ToString(callSuper = true)
+@NoArgsConstructor
+@Data
+@AllArgsConstructor
+@Builder
+public class AnalysisPackageAttachmentMetadata extends AbstractShadowableRdcDomainObject {
+  private static final long serialVersionUID = 1690739615351485989L;
+
+  /**
+   * The id of the attachment. Holds the complete path which can be used to download the file.
+   */
+  @Id
+  @Setter(AccessLevel.NONE)
+  private String id;
+
+  /**
+   * The master id of the analysis package attachment.
+   */
+  @Setter(AccessLevel.NONE)
+  private String masterId;
+
+  /**
+   * The id of the {@link AnalysisPackage} to which this attachment belongs.
+   *
+   * Must not be empty.
+   */
+  @NotEmpty(message = "analysis-package-management.error.analysis-package-attachment-metadata"
+      + ".analysis-package-id.not-empty")
+  private String analysisPackageId;
+
+  /**
+   * The id of the {@link DataAcquisitionProject} to which the {@link AnalysisPackage} of this
+   * attachment belongs.
+   *
+   * Must not be empty.
+   */
+  @NotEmpty(message = "analysis-package-management.error.analysis-package-attachment-metadata"
+      + ".project-id.not-empty")
+  private String dataAcquisitionProjectId;
+
+  /**
+   * The index in the {@link AnalysisPackage} of this attachment. Used for sorting the attachments
+   * of this {@link AnalysisPackage}.
+   *
+   * Must not be empty.
+   */
+  @NotNull(message = "analysis-package-management.error.analysis-package-attachment-metadata"
+      + ".index-in-analysis-package.not-null")
+  private Integer indexInAnalysisPackage;
+
+  /**
+   * The title of this attachment in the attachments' language.
+   *
+   * Must not be empty and it must not contain more than 2048 characters.
+   */
+  @NotEmpty(message = "analysis-package-management.error.analysis-package-attachment-metadata.title"
+      + ".not-null")
+  @Size(max = StringLengths.LARGE,
+      message = "analysis-package-management.error.analysis-package-attachment-metadata.title"
+          + ".string-size")
+  private String title;
+
+  /**
+   * A description for this attachment.
+   *
+   * It must be specified in at least one language and it must not contain more than 512 characters.
+   */
+  @NotNull(message = "analysis-package-management.error.analysis-package-attachment-metadata"
+      + ".description.not-null")
+  @I18nStringSize(max = StringLengths.MEDIUM,
+      message = "analysis-package-management.error.analysis-package-attachment-metadata."
+          + "description.i18n-string-size")
+  @I18nStringNotEmpty(
+      message = "analysis-package-management.error.analysis-package-attachment-metadata."
+          + "description.i18n-string-not-empty")
+  private I18nString description;
+
+  /**
+   * The filename of the attachment.
+   *
+   * Must not be empty and must contain only (german) alphanumeric characters and "_" and "-" and
+   * ".".
+   */
+  @NotEmpty(
+      message = "analysis-package-management.error.analysis-package-attachment-metadata.filename"
+          + ".not-empty")
+  @Pattern(
+      message = "analysis-package-management.error.analysis-package-attachment-metadata.filename"
+          + ".not-valid",
+      regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOT)
+  private String fileName;
+
+  /**
+   * The language of the attachments content.
+   *
+   * Must not be empty and must be specified as ISO 639 language code.
+   */
+  @NotNull(
+      message = "analysis-package-management.error.analysis-package-attachment-metadata.language"
+          + ".not-null")
+  @ValidIsoLanguage(
+      message = "analysis-package-management.error.analysis-package-attachment-metadata.language."
+          + "not-supported")
+  private String language;
+
+  /**
+   * Generate the id of this attachment from the dataPackageId and the fileName.
+   */
+  public void generateId() {
+    // hack to satisfy javers
+    this.setId("/public/files/analysis-packages/" + analysisPackageId + "/attachments/" + fileName);
+  }
+
+  @Override
+  protected void setMasterIdInternal(String masterId) {
+    this.masterId = masterId;
+  }
+
+  /**
+   * Returns the master id of the analysis package attachment.
+   *
+   * @return Master Id
+   */
+  @Override
+  public String getMasterId() {
+    return masterId;
+  }
+
+  @Override
+  protected void setIdInternal(String id) {
+    this.id = id;
+  }
+}

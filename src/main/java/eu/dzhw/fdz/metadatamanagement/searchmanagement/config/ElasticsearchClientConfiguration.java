@@ -10,9 +10,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 
-import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AbstractAnalysisData;
-import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalyzedDataPackage;
-import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ExternalData;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AbstractAnalysisDataPackage;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.DataPackage;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ExternalDataPackage;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.RelatedQuestionSubDocumentProjectionAdapter;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.projections.RelatedQuestionSubDocumentProjection;
 
@@ -30,15 +30,15 @@ public class ElasticsearchClientConfiguration {
    */
   @Bean
   public Gson gson() {
-    RuntimeTypeAdapterFactory<AbstractAnalysisData> adapterFactory = RuntimeTypeAdapterFactory
-        .of(AbstractAnalysisData.class, "type").registerSubtype(ExternalData.class, "externalData")
-        .registerSubtype(AnalyzedDataPackage.class, "dataPackage");
+    RuntimeTypeAdapterFactory<AbstractAnalysisDataPackage> adapterFactory =
+        RuntimeTypeAdapterFactory.of(AbstractAnalysisDataPackage.class, "type")
+            .registerSubtype(ExternalDataPackage.class, "externalData")
+            .registerSubtype(DataPackage.class, "dataPackage");
     Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateConverter())
         .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeConverter())
         .registerTypeAdapter(RelatedQuestionSubDocumentProjection.class,
             new RelatedQuestionSubDocumentProjectionAdapter())
-        .registerTypeAdapterFactory(adapterFactory)
-        .create();
+        .registerTypeAdapterFactory(adapterFactory).create();
     return gson;
   }
 }

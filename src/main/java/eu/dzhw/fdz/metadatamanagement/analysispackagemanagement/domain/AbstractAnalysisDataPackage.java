@@ -17,9 +17,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({@Type(value = AnalyzedDataPackage.class, name = "dataPackage"),
-    @Type(value = ExternalData.class, name = "externalData")})
-public abstract class AbstractAnalysisData implements Serializable {
+@JsonSubTypes({@Type(value = DataPackage.class, name = "dataPackage"),
+    @Type(value = ExternalDataPackage.class, name = "externalData")})
+public abstract class AbstractAnalysisDataPackage implements Serializable {
 
   private static final long serialVersionUID = -2179924716031946800L;
 }

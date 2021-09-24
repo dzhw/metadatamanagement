@@ -15,8 +15,11 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.projection.AnalysisPackageSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.ValidAnalysisPackageId;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
+import eu.dzhw.fdz.metadatamanagement.common.domain.I18nLink;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringEntireNotEmpty;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
@@ -39,8 +42,8 @@ import lombok.ToString;
  */
 @Entity
 @Document(collection = "analysis_packages")
-// TODO rreitmann
-// @ValidDataPackageId(message = "data-package-management.error.data-package.id.not-valid-id")
+@ValidAnalysisPackageId(
+    message = "analysis-package-management.error.analysis-package.id.not-valid-id")
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
@@ -50,7 +53,7 @@ import lombok.ToString;
 @Schema(description = "Go <a href='https://dzhw.github.io/metadatamanagement/"
     + "eu/dzhw/fdz/metadatamanagement/analysispackagemanagement/domain/"
     + "AnalysisPackage.html'>here</a> for further details.")
-@ValidShadowId(message = "analysis-package-management.error.data-package.id.pattern")
+@ValidShadowId(message = "analysis-package-management.error.analysis-package.id.pattern")
 public class AnalysisPackage extends AbstractShadowableRdcDomainObject
     implements AnalysisPackageSubDocumentProjection {
   private static final long serialVersionUID = 3006197991079331471L;
@@ -71,9 +74,9 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
    */
   @NotEmpty(message = "analysis-package-management.error.analysis-package.master-id.not-empty")
   @Size(max = StringLengths.MEDIUM,
-      message = "analysis-package-management.error.data-package.master-id.size")
+      message = "analysis-package-management.error.analysis-package.master-id.size")
   @Pattern(regexp = Patterns.GERMAN_ALPHANUMERIC_WITH_UNDERSCORE_AND_MINUS_AND_DOLLAR,
-      message = "analysis-package-management.error.data-package.master-id.pattern")
+      message = "analysis-package-management.error.analysis-package.master-id.pattern")
   @Setter(AccessLevel.NONE)
   @Indexed
   private String masterId;
@@ -113,8 +116,90 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
           + "i18n-string-not-empty")
   private I18nString description;
 
+  /**
+   * Arbitrary additional text for this analysis package. Markdown is supported.
+   *
+   * Must not contain more than 2048 characters.
+   */
+  @I18nStringSize(max = StringLengths.LARGE,
+      message = "analysis-package-management.error.analysis-package.annotations.i18n-string-size")
+  private I18nString annotations;
+
+  /**
+   * List of {@link Person}s which have created this analysis package.
+   *
+   * Must not be empty.
+   */
   @Valid
-  private List<AbstractAnalysisData> analysisData;
+  @NotEmpty(message = "analysis-package-management.error.analysis-package.authors.not-empty")
+  private List<Person> authors;
+
+  /**
+   * List of {@link Person}s which have curated this analysis package.
+   *
+   * Must not be empty.
+   */
+  @Valid
+  @NotEmpty(message = "analysis-package-management.error.analysis-package.data-curators.not-empty")
+  private List<Person> dataCurators;
+
+  /**
+   * The names of the institutions which have participated in creating this analysis package.
+   *
+   * It can be empty but if present must be specified in German and English and it must not contain
+   * more than 512 characters.
+   */
+  @Valid
+  private List<@I18nStringSize(max = StringLengths.MEDIUM,
+      message = "analysis-package-management.error.analysis-package.institution.i18n-string-size") 
+      @I18nStringEntireNotEmpty(
+          message = "analysis-package-management.error.analysis-package.institution"
+              + ".i18n-string-entire-not-empty") I18nString> institutions;
+
+  /**
+   * The names of the sponsors which have sponsored the study or project from which this analysis
+   * package results.
+   *
+   * It can be empty but if present must be specified in German and English and it must not contain
+   * more than 512 characters.
+   */
+  @Valid
+  private List<@I18nStringSize(max = StringLengths.MEDIUM,
+      message = "analysis-package-management.error.analysis-package.sponsor.i18n-string-size") 
+      @I18nStringEntireNotEmpty(
+          message = "analysis-package-management.error.sponsor.institution"
+              + ".i18n-string-entire-not-empty") I18nString> sponsors;
+
+  /**
+   * The license of this analysis package. Markdown is supported.
+   *
+   * May be empty. Must not contain more than 1 MB characters.
+   */
+  @Size(max = StringLengths.X_LARGE,
+      message = "analysis-package-management.error.analysis-package.license.size")
+  private String license;
+
+  /**
+   * A list of additional links for the analysis package.
+   * 
+   * May be empty.
+   */
+  @Valid
+  private List<I18nLink> additionalLinks;
+
+  /**
+   * List of data packages used by the scripts in this analysis package.
+   */
+  @Valid
+  private List<AbstractAnalysisDataPackage> analysisDataPackages;
+  
+  /**
+   * Keywords for the analysis package.
+   *
+   * Must not be empty.
+   */
+  @Valid
+  private Tags tags;
 
   public AnalysisPackage(AnalysisPackage analysisPackage) {
     super();
