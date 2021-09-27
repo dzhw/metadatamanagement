@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.javers.core.metamodel.annotation.ValueObject;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.ValidSoftwarePackage;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
@@ -37,6 +38,7 @@ public class Script {
    * Must not be empty.
    */
   @NotEmpty(message = "analysis-package-management.error.script.id.not-empty")
+  @Indexed(unique = true)
   private String id;
   
   /**

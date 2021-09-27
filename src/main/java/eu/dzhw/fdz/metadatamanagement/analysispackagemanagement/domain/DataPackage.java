@@ -4,6 +4,7 @@ import javax.validation.constraints.NotEmpty;
 
 import org.javers.core.metamodel.annotation.ValueObject;
 
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation.ValidDataPackageShadow;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @ValueObject
+@ValidDataPackageShadow(
+    message = "analysis-package-management.error.analyzed-data-package.invalid-shadow")
 public class DataPackage extends AbstractAnalysisDataPackage {
   private static final long serialVersionUID = 6160837016758021746L;
 
@@ -29,12 +32,11 @@ public class DataPackage extends AbstractAnalysisDataPackage {
       + "data-package-master-id.not-empty")
   private String dataPackageMasterId;
 
-  // TODO validate
   @NotEmpty(
-      message = "analysis-package-management.error.analyzed-data-package." + "access-way.not-empty")
+      message = "analysis-package-management.error.analyzed-data-package.access-way.not-empty")
   private String accessWay;
 
   @NotEmpty(
-      message = "analysis-package-management.error.analyzed-data-package." + "version.not-empty")
+      message = "analysis-package-management.error.analyzed-data-package.version.not-empty")
   private String version;
 }
