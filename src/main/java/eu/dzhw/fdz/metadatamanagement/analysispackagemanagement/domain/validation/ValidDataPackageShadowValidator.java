@@ -43,7 +43,7 @@ public class ValidDataPackageShadowValidator
         (DataPackageSearchDocument) dataPackageManagementService.readSearchDocument(
             dataPackage.getDataPackageMasterId() + "-" + dataPackage.getVersion()).orElse(null);
 
-    if (referencedDataPackage != null
+    if (referencedDataPackage != null && referencedDataPackage.getAccessWays() != null
         && referencedDataPackage.getAccessWays().contains(dataPackage.getAccessWay())) {
       return true;
     }
