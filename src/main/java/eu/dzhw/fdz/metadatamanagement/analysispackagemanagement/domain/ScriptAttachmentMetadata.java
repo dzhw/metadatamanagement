@@ -30,6 +30,8 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
+@UniqueScriptId(message = "analysis-package-management.error.script-attachment-metadata"
+    + ".script-id.not-unique")
 public class ScriptAttachmentMetadata extends AbstractShadowableRdcDomainObject {
 
   private static final long serialVersionUID = 5380995617337286180L;
@@ -57,15 +59,14 @@ public class ScriptAttachmentMetadata extends AbstractShadowableRdcDomainObject 
   private String analysisPackageId;
 
   /**
-   * The id of the {@link Script} to which this attachment belongs.
+   * The uuid of the {@link Script} to which this attachment belongs.
    *
-   * Must not be empty. Must be unique (there must be at most one attachment per script).
+   * Must not be empty. Must be unique within an analysis package (there must be at most one
+   * attachment per script). Duplicates are only possible for shadow copies.
    */
   @NotEmpty(message = "analysis-package-management.error.script-attachment-metadata"
       + ".script-id.not-empty")
-  @UniqueScriptId(message = "analysis-package-management.error.script-attachment-metadata"
-      + ".script-id.not-unique")
-  private String scriptId;
+  private String scriptUuid;
 
   /**
    * The id of the {@link DataAcquisitionProject} to which the {@link AnalysisPackage} of this
@@ -94,7 +95,7 @@ public class ScriptAttachmentMetadata extends AbstractShadowableRdcDomainObject 
    */
   public void generateId() {
     // hack to satisfy javers
-    this.setId("/public/files/analysis-packages/" + analysisPackageId + "/scripts/" + scriptId
+    this.setId("/public/files/analysis-packages/" + analysisPackageId + "/scripts/" + scriptUuid
         + "/attachments/" + fileName);
   }
 

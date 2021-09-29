@@ -94,6 +94,7 @@ public class UnitTestCreateDomainObjectUtils {
     Configuration configuration = new Configuration();
     configuration.setDataProviders(dataProviders);
     configuration.setPublishers(publishers);
+    configuration.getRequirements().setDataPackagesRequired(true);
     return configuration;
   }
 

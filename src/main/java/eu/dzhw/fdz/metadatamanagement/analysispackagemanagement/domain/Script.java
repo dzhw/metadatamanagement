@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper = false, of = "id")
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @Builder
 @ValueObject
@@ -37,9 +37,9 @@ public class Script {
    * 
    * Must not be empty.
    */
-  @NotEmpty(message = "analysis-package-management.error.script.id.not-empty")
+  @NotEmpty(message = "analysis-package-management.error.script.uuid.not-empty")
   @Indexed(unique = true)
-  private String id;
+  private String uuid;
   
   /**
    * The title of the script.

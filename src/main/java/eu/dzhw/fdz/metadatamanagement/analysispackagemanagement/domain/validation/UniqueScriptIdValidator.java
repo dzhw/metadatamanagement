@@ -14,10 +14,11 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ScriptAtt
 /**
  * Validate that there is at most one {@link ScriptAttachmentMetadata} per {@link Script}.
  */
-public class UniqueScriptIdValidator implements ConstraintValidator<UniqueScriptId, String> {
+public class UniqueScriptIdValidator
+    implements ConstraintValidator<UniqueScriptId, ScriptAttachmentMetadata> {
   @Autowired
   private GridFsOperations operations;
-  
+
   /*
    * (non-Javadoc)
    * 
@@ -33,9 +34,12 @@ public class UniqueScriptIdValidator implements ConstraintValidator<UniqueScript
    * javax.validation.ConstraintValidatorContext)
    */
   @Override
-  public boolean isValid(String scriptId, ConstraintValidatorContext context) {
-    Query query = new Query(GridFsCriteria.whereMetaData("scriptId").is(scriptId));
-    
+  public boolean isValid(ScriptAttachmentMetadata attachmentMetadata,
+      ConstraintValidatorContext context) {
+    Query query = new Query(GridFsCriteria.whereMetaData("scriptUuid")
+        .is(attachmentMetadata.getScriptUuid()).andOperator(GridFsCriteria
+            .whereMetaData("analysisPackageId").is(attachmentMetadata.getAnalysisPackageId())));
+
     return this.operations.findOne(query) == null;
   }
 

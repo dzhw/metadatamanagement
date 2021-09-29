@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.validation;
+package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,19 +10,18 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Ensure that there is at most one attachment per script.
+ * Ensure that a project configuration requires either analysis packages or data packages.
  */
 @Documented
-@Constraint(validatedBy = {UniqueScriptIdValidator.class})
-@Target(ElementType.TYPE)
+@Constraint(validatedBy = EitherDataPackagesOrAnalysisPackagesRequiredValidator.class)
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueScriptId {
-
+public @interface EitherDataPackagesOrAnalysisPackagesRequired {
   /**
    * Defines the default error message.
    */
-  String message() default "{eu.dzhw.fdz.metadatamanagement.domain.validation"
-      + "analysis-package.error.script-attachment.not-unique}";
+  String message() default "{data-acquisition-project-management.error.data-acquisition-project"
+      + ".configuration.either-data-packages-or-analysis-packages-required}";
 
   /**
    * This contains groups.
