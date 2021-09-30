@@ -34,6 +34,8 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   private final AnalysisPackageCrudHelper crudHelper;
+  
+  private final AnalysisPackageAttachmentService analysisPackageAttachmentService;
 
   /**
    * Delete all analysis packages when the dataAcquisitionProject was deleted.
@@ -68,8 +70,8 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
     try (Stream<AnalysisPackage> analysisPackages =
         analysisPackageRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       analysisPackages.forEach(analysisPackage -> {
-        // TODO delete attachments
-        //dataSetAttachmentService.deleteAllByDataSetId(dataSet.getId());
+        // TODO delete script attachments
+        analysisPackageAttachmentService.deleteAllByAnalysisPackageId(analysisPackage.getId());
         crudHelper.deleteMaster(analysisPackage);
       });
     }
@@ -85,8 +87,8 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
   public void delete(AnalysisPackage analysisPackage) {
     // TODO check project access rights
     crudHelper.deleteMaster(analysisPackage);
-    //TODO delete attachments
-    //dataSetAttachmentService.deleteAllByDataSetId(analysisPackage.getId());
+    // TODO delete script attachments
+    analysisPackageAttachmentService.deleteAllByAnalysisPackageId(analysisPackage.getId());
   }
 
   @Override

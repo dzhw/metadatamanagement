@@ -10,7 +10,6 @@ import org.springframework.util.StringUtils;
 import com.github.zafarkhaja.semver.Version;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
-import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.projection.DataPackageSubDocumentProjection;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
 import lombok.RequiredArgsConstructor;
@@ -31,19 +30,19 @@ public class DoiBuilder {
   /**
    * Create a doi for releases greater than or equal to 1.0.0.
    *
-   * @param dataPackage the dataPackage which gets the doi
+   * @param dataAcquisitionProjectId the project which gets the doi
    * @param release the release
    * @return a doi (if required)
    */
-  public String buildDataPackageDoi(DataPackageSubDocumentProjection dataPackage, Release release) {
-    if (release != null && dataPackage != null
+  public String buildDataOrAnalysisPackageDoi(String dataAcquisitionProjectId, Release release) {
+    if (release != null && StringUtils.hasText(dataAcquisitionProjectId)
         && Version.valueOf(release.getVersion()).greaterThanOrEqualTo(Version.valueOf("1.0.0"))) {
       if (environment.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_PROD))) {
-        return "10.21249/DZHW:" + stripVersionSuffix(dataPackage.getDataAcquisitionProjectId())
-            + ":" + release.getVersion();
+        return "10.21249/DZHW:" + stripVersionSuffix(dataAcquisitionProjectId) + ":"
+            + release.getVersion();
       } else {
-        return "10.17889/DZHW:" + stripVersionSuffix(dataPackage.getDataAcquisitionProjectId())
-            + ":" + release.getVersion();
+        return "10.17889/DZHW:" + stripVersionSuffix(dataAcquisitionProjectId) + ":"
+            + release.getVersion();
       }
     }
     return null;

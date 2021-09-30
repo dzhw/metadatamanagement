@@ -22,8 +22,8 @@ public class AnalysisPackageSearchDocument extends AnalysisPackage
     implements SearchDocumentInterface {
   private static final long serialVersionUID = -4932203007968722541L;
 
-  static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION = new String[] {"nested*", "variables",
-      "questions", "configuration", "guiLabels", "*Publications", "concepts"};
+  static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION =
+      new String[] {"nested*", "configuration", "guiLabels", "*Publications"};
 
   private Release release = null;
   private Configuration configuration = null;
@@ -32,6 +32,8 @@ public class AnalysisPackageSearchDocument extends AnalysisPackage
   private I18nString guiLabels = DataSetDetailsGuiLabels.GUI_LABELS;
 
   private I18nString completeTitle;
+  
+  private String doi;
 
   /**
    * Construct the search document with all related subdocuments.
@@ -39,10 +41,11 @@ public class AnalysisPackageSearchDocument extends AnalysisPackage
    */
   @SuppressWarnings("CPD-START")
   public AnalysisPackageSearchDocument(AnalysisPackage analysisPackage, Release release,
-      Configuration configuration) {
+      Configuration configuration, String doi) {
     super(analysisPackage);
     this.release = release;
     this.configuration = configuration;
     this.completeTitle = analysisPackage.getTitle();
+    this.doi = doi;
   }
 }
