@@ -26,6 +26,9 @@ public interface AnalysisPackageRepository extends BaseRepository<AnalysisPackag
 
   @RestResource(exported = false)
   Stream<AnalysisPackage> streamByDataAcquisitionProjectId(String dataAcquisitionProjectId);
+  
+  @RestResource(exported = false)
+  AnalysisPackage findOneByDataAcquisitionProjectId(String dataAcquisitionProjectId);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();

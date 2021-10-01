@@ -33,6 +33,9 @@ public interface RelatedPublicationRepository extends BaseRepository<RelatedPubl
   
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamIdsByAnalysisPackageIdsContaining(String analysisPackageId);
+  
+  @RestResource(exported = false)
+  List<IdAndVersionProjection> findIdsByAnalysisPackageIdsContaining(String analysisPackageId);
 
   @RestResource(exported = false)
   List<RelatedPublicationSubDocumentProjection> findSubDocumentsByDataPackageIdsContaining(
@@ -41,6 +44,9 @@ public interface RelatedPublicationRepository extends BaseRepository<RelatedPubl
   @RestResource(exported = false)
   List<RelatedPublicationSubDocumentProjection> findSubDocumentsByAnalysisPackageIdsContaining(
       String analysisPackageId);
+  
+  @RestResource(exported = false)
+  boolean existsByAnalysisPackageIdsContaining(String analysisPackageId);
 
   @RestResource(exported = false)
   Stream<IdAndVersionProjection> streamAllIdAndVersionsBy();

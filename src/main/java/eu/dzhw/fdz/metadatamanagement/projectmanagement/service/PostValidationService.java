@@ -1,3 +1,4 @@
+
 package eu.dzhw.fdz.metadatamanagement.projectmanagement.service;
 
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.github.zafarkhaja.semver.Version;
 
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
@@ -26,6 +29,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.rest.dto.PostValidationMessageDto;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepository;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -59,6 +63,10 @@ public class PostValidationService {
 
   private final DataPackageRepository dataPackageRepository;
 
+  private final AnalysisPackageRepository analysisPackageRepository;
+
+  private final RelatedPublicationRepository relatedPublicationRepository;
+
   private final DataAcquisitionProjectRepository projectRepository;
 
   /**
@@ -77,31 +85,35 @@ public class PostValidationService {
     }
     List<PostValidationMessageDto> errors = new ArrayList<>();
 
-    if (SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER)) {
-      Optional<DataAcquisitionProject> project =
-          projectRepository.findById(dataAcquisitionProjectId);
-      if (project.isPresent()) {
-        errors = postValidateProject(project.get(), errors);
-      } else {
-        PostValidationMessageDto error = new PostValidationMessageDto(
-            "data-acquisition-project" + "-management.error.post-validation.no-project",
-            Collections.singletonList(dataAcquisitionProjectId));
-        return Collections.singletonList(error);
-      }
+    Optional<DataAcquisitionProject> project = projectRepository.findById(dataAcquisitionProjectId);
+    if (!project.isPresent()) {
+      PostValidationMessageDto error = new PostValidationMessageDto(
+          "data-acquisition-project" + "-management.error.post-validation.no-project",
+          Collections.singletonList(dataAcquisitionProjectId));
+      return Collections.singletonList(error);
     }
 
-    errors = this.postValidateDataPackages(errors, dataAcquisitionProjectId);
+    if (SecurityUtils.isUserInRole(AuthoritiesConstants.PUBLISHER)) {
+      errors = postValidateProject(project.get(), errors);
+    }
 
-    errors = this.postValidateSurveys(errors, dataAcquisitionProjectId, activateFullReleaseChecks);
+    if (project.get().getConfiguration().getRequirements().isDataPackagesRequired()) {
+      errors = this.postValidateDataPackages(errors, dataAcquisitionProjectId);
+      errors =
+          this.postValidateSurveys(errors, dataAcquisitionProjectId, activateFullReleaseChecks);
 
-    errors = this.postValidateQuestions(errors, dataAcquisitionProjectId);
+      errors = this.postValidateQuestions(errors, dataAcquisitionProjectId);
 
-    errors = this.postValidateDataSets(errors, dataAcquisitionProjectId, activateFullReleaseChecks);
+      errors =
+          this.postValidateDataSets(errors, dataAcquisitionProjectId, activateFullReleaseChecks);
 
-    errors = this.postValidateVariables(errors, dataAcquisitionProjectId);
+      errors = this.postValidateVariables(errors, dataAcquisitionProjectId);
 
-    errors =
-        this.postValidateInstruments(errors, dataAcquisitionProjectId, activateFullReleaseChecks);
+      errors =
+          this.postValidateInstruments(errors, dataAcquisitionProjectId, activateFullReleaseChecks);
+    } else if (project.get().getConfiguration().getRequirements().isAnalysisPackagesRequired()) {
+      errors = this.postValidateAnalysisPackages(errors, dataAcquisitionProjectId);
+    }
 
     return errors;
   }
@@ -132,6 +144,11 @@ public class PostValidationService {
       information.add("dataPackages");
     }
 
+    if (isProjectStateInvalid(requirements.isAnalysisPackagesRequired(),
+        configuration.getAnalysisPackagesState())) {
+      information.add("analysisPackages");
+    }
+
     if (isProjectStateInvalid(requirements.isSurveysRequired(), configuration.getSurveysState())) {
       information.add("surveys");
     }
@@ -160,7 +177,7 @@ public class PostValidationService {
         configuration.getPublicationsState())) {
       information.add("publications");
     }
-    
+
     if (isProjectStateInvalid(requirements.isConceptsRequired(),
         configuration.getConceptsState())) {
       information.add("concepts");
@@ -201,7 +218,33 @@ public class PostValidationService {
     return errors;
   }
 
-
+  /**
+   * This method checks all potential issues for analysis package by post-validation.
+   * 
+   * @param errors The list of known errors.
+   * @param dataAcquisitionProjectId The project id.
+   * @return The updated list of errors.
+   */
+  private List<PostValidationMessageDto> postValidateAnalysisPackages(
+      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId) {
+    AnalysisPackage analysisPackage =
+        this.analysisPackageRepository.findOneByDataAcquisitionProjectId(dataAcquisitionProjectId);
+    // check that there is an analysis package for the project (all other domain objects might link
+    // to it)
+    if (analysisPackage == null) {
+      String[] information = {dataAcquisitionProjectId, dataAcquisitionProjectId};
+      errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."
+          + "post-validation.project-has-no-analysisPackage", Arrays.asList(information)));
+    } else {
+      if (!relatedPublicationRepository
+          .existsByAnalysisPackageIdsContaining(analysisPackage.getId())) {
+        String[] information = {dataAcquisitionProjectId, analysisPackage.getId()};
+        errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."
+            + "post-validation.project-has-no-publications", Arrays.asList(information)));
+      }
+    }
+    return errors;
+  }
 
   /**
    * This method checks all foreign keys and references within questions to other domain objects.
