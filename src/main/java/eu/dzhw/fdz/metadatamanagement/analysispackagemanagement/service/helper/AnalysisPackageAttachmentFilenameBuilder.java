@@ -10,7 +10,7 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisP
  */
 public class AnalysisPackageAttachmentFilenameBuilder {
   public static final String ALL_ANALYSIS_PACKAGE_ATTACHMENTS =
-      "^/analysis-packages/.+/attachments";
+      "^/analysis-packages/[^/]+/attachments";
 
   public static String buildFileName(AnalysisPackageAttachmentMetadata metadata) {
     return buildFileNamePrefix(metadata.getAnalysisPackageId()) + metadata.getFileName();
@@ -20,7 +20,7 @@ public class AnalysisPackageAttachmentFilenameBuilder {
     return buildFileNamePrefix(analysisPackageId) + filename;
   }
 
-  public static String buildFileNamePrefix(String dataPackageId) {
-    return "/analysis-packages/" + dataPackageId + "/attachments/";
+  public static String buildFileNamePrefix(String analysisPackageId) {
+    return "/analysis-packages/" + analysisPackageId + "/attachments/";
   }
 }
