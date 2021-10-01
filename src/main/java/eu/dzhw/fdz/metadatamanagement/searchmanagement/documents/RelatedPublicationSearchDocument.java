@@ -31,6 +31,9 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
 
   private List<DataPackageSubDocument> dataPackages = new ArrayList<>();
   private List<DataPackageNestedDocument> nestedDataPackages = new ArrayList<>();
+  
+  private List<AnalysisPackageSubDocument> analysisPackages = new ArrayList<>();
+  private List<AnalysisPackageNestedDocument> nestedAnalysisPackages = new ArrayList<>();
 
   private List<I18nString> nestedStudySerieses = new ArrayList<>();
 
@@ -55,7 +58,9 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
    */
   public RelatedPublicationSearchDocument(RelatedPublication relatedPublication,
       List<DataPackageSubDocument> dataPackages,
-      List<DataPackageNestedDocument> nestedDataPackages) {
+      List<DataPackageNestedDocument> nestedDataPackages,
+      List<AnalysisPackageSubDocument> analysisPackages,
+      List<AnalysisPackageNestedDocument> nestedAnalysisPackages) {
     super(relatedPublication);
     if (dataPackages != null && !dataPackages.isEmpty()) {
       this.dataPackages = dataPackages;
@@ -64,6 +69,12 @@ public class RelatedPublicationSearchDocument extends RelatedPublication
     }
     if (nestedDataPackages != null && !nestedDataPackages.isEmpty()) {
       this.nestedDataPackages = nestedDataPackages;
+    }
+    if (analysisPackages != null && !analysisPackages.isEmpty()) {
+      this.analysisPackages = analysisPackages;
+    }
+    if (nestedAnalysisPackages != null && !nestedAnalysisPackages.isEmpty()) {
+      this.nestedAnalysisPackages = nestedAnalysisPackages;
     }
     this.completeTitle = I18nString.builder()
         .de(relatedPublication.getTitle() + " (" + relatedPublication.getId() + ")")

@@ -18,6 +18,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.AnalysisPackageExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.DataPackageExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidPublicationYear;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidRelatedPublicationId;
@@ -112,10 +113,10 @@ public class RelatedPublication extends AbstractRdcDomainObject {
 
   /* Foreign Keys */
   @Indexed
-  @NotEmpty(
-      message = "related-publication-management.error.related-publication."
-          + "data-package-ids.not-empty")
   private List<@DataPackageExists String> dataPackageIds;
+  
+  @Indexed
+  private List<@AnalysisPackageExists String> analysisPackageIds;
 
 
   public RelatedPublication(RelatedPublication relatedPublication) {

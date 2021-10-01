@@ -1,6 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.projection;
 
+import java.util.List;
+
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
+import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.AbstractRdcDomainObjectProjection;
 
 /**
@@ -14,6 +17,12 @@ public interface AnalysisPackageSubDocumentProjection
   String getDataAcquisitionProjectId();
 
   I18nString getTitle();
+
+  List<I18nString> getInstitutions();
+
+  List<I18nString> getSponsors();
+
+  List<Person> getAuthors();
 
   String getMasterId();
 

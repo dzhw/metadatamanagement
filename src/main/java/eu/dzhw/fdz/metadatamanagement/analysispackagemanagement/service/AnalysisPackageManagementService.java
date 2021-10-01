@@ -1,8 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
@@ -14,6 +16,8 @@ import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.Analy
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service.helper.AnalysisPackageCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -36,6 +40,8 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
   private final AnalysisPackageCrudHelper crudHelper;
   
   private final AnalysisPackageAttachmentService analysisPackageAttachmentService;
+  
+  private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
   /**
    * Delete all analysis packages when the dataAcquisitionProject was deleted.
@@ -57,6 +63,22 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> analysisPackageRepository
             .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
+        ElasticsearchType.analysis_packages);
+  }
+  
+  /**
+   * Enqueue update of analysisPackage search documents when a related publication is changed.
+   * 
+   * @param relatedPublication the updated, created or deleted publication.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onRelatedPublicationChanged(RelatedPublication relatedPublication) {
+    List<String> analysisPackageIds =
+        relatedPublicationChangesProvider.getAffectedAnalysisPackageIds(relatedPublication.getId());
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> analysisPackageRepository.streamIdsByMasterIdIn(analysisPackageIds),
         ElasticsearchType.analysis_packages);
   }
 

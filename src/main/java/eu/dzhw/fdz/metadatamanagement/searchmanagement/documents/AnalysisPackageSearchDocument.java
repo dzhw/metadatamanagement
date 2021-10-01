@@ -1,9 +1,14 @@
 package eu.dzhw.fdz.metadatamanagement.searchmanagement.documents;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Configuration;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projections.RelatedPublicationSubDocumentProjection;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,14 +30,19 @@ public class AnalysisPackageSearchDocument extends AnalysisPackage
   static final String[] FIELDS_TO_EXCLUDE_ON_DESERIALIZATION =
       new String[] {"nested*", "configuration", "guiLabels", "*Publications"};
 
+  private List<RelatedPublicationSubDocument> relatedPublications = new ArrayList<>();
+  private List<RelatedPublicationNestedDocument> nestedRelatedPublications = new ArrayList<>();
+  
+  private List<I18nString> nestedInstitutions = new ArrayList<>();
+  private List<I18nString> nestedSponsors = new ArrayList<>();
+
   private Release release = null;
   private Configuration configuration = null;
 
-  // TODO change this
-  private I18nString guiLabels = DataSetDetailsGuiLabels.GUI_LABELS;
+  private I18nString guiLabels = AnalysisPackageDetailsGuiLabels.GUI_LABELS;
 
   private I18nString completeTitle;
-  
+
   private String doi;
 
   /**
@@ -41,11 +51,20 @@ public class AnalysisPackageSearchDocument extends AnalysisPackage
    */
   @SuppressWarnings("CPD-START")
   public AnalysisPackageSearchDocument(AnalysisPackage analysisPackage, Release release,
-      Configuration configuration, String doi) {
+      Configuration configuration, String doi,
+      List<RelatedPublicationSubDocumentProjection> relatedPublications) {
     super(analysisPackage);
     this.release = release;
     this.configuration = configuration;
     this.completeTitle = analysisPackage.getTitle();
     this.doi = doi;
+    if (relatedPublications != null && !relatedPublications.isEmpty()) {
+      this.relatedPublications = relatedPublications.stream()
+          .map(RelatedPublicationSubDocument::new).collect(Collectors.toList());
+      this.nestedRelatedPublications = relatedPublications.stream()
+          .map(RelatedPublicationNestedDocument::new).collect(Collectors.toList());
+    }
+    this.nestedInstitutions = analysisPackage.getInstitutions();
+    this.nestedSponsors = analysisPackage.getSponsors();
   }
 }
