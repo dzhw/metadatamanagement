@@ -112,7 +112,8 @@ public class PostValidationService {
       errors =
           this.postValidateInstruments(errors, dataAcquisitionProjectId, activateFullReleaseChecks);
     } else if (project.get().getConfiguration().getRequirements().isAnalysisPackagesRequired()) {
-      errors = this.postValidateAnalysisPackages(errors, dataAcquisitionProjectId);
+      errors = this.postValidateAnalysisPackages(errors, dataAcquisitionProjectId,
+          activateFullReleaseChecks);
     }
 
     return errors;
@@ -226,7 +227,8 @@ public class PostValidationService {
    * @return The updated list of errors.
    */
   private List<PostValidationMessageDto> postValidateAnalysisPackages(
-      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId) {
+      List<PostValidationMessageDto> errors, String dataAcquisitionProjectId,
+      boolean activateFullReleaseChecks) {
     AnalysisPackage analysisPackage =
         this.analysisPackageRepository.findOneByDataAcquisitionProjectId(dataAcquisitionProjectId);
     // check that there is an analysis package for the project (all other domain objects might link
@@ -236,7 +238,7 @@ public class PostValidationService {
       errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."
           + "post-validation.project-has-no-analysisPackage", Arrays.asList(information)));
     } else {
-      if (!relatedPublicationRepository
+      if (activateFullReleaseChecks && !relatedPublicationRepository
           .existsByAnalysisPackageIdsContaining(analysisPackage.getId())) {
         String[] information = {dataAcquisitionProjectId, analysisPackage.getId()};
         errors.add(new PostValidationMessageDto("data-acquisition-project-management.error."

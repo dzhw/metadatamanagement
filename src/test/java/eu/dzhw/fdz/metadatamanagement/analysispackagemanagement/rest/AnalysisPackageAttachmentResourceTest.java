@@ -281,7 +281,7 @@ public class AnalysisPackageAttachmentResourceTest extends AbstractTest {
 
     // check if attachment has been deleted as well
     mockMvc
-        .perform(get("/api/data-packages/"
+        .perform(get("/api/analysis-packages/"
             + analysisPackageAttachmentMetadata.getAnalysisPackageId() + "/attachments"))
         .andExpect(status().isOk()).andExpect(content().json("[]"));
   }

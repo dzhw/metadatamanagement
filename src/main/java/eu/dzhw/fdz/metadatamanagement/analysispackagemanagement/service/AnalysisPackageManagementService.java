@@ -41,6 +41,8 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
   
   private final AnalysisPackageAttachmentService analysisPackageAttachmentService;
   
+  private final ScriptAttachmentService scriptAttachmentService;
+  
   private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
   /**
@@ -92,7 +94,7 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
     try (Stream<AnalysisPackage> analysisPackages =
         analysisPackageRepository.streamByDataAcquisitionProjectId(dataAcquisitionProjectId)) {
       analysisPackages.forEach(analysisPackage -> {
-        // TODO delete script attachments
+        scriptAttachmentService.deleteAllByAnalysisPackageId(analysisPackage.getId());
         analysisPackageAttachmentService.deleteAllByAnalysisPackageId(analysisPackage.getId());
         crudHelper.deleteMaster(analysisPackage);
       });
@@ -109,7 +111,7 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
   public void delete(AnalysisPackage analysisPackage) {
     // TODO check project access rights
     crudHelper.deleteMaster(analysisPackage);
-    // TODO delete script attachments
+    scriptAttachmentService.deleteAllByAnalysisPackageId(analysisPackage.getId());
     analysisPackageAttachmentService.deleteAllByAnalysisPackageId(analysisPackage.getId());
   }
 

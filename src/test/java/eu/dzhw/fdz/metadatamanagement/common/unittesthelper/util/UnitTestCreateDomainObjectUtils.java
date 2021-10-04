@@ -16,6 +16,7 @@ import org.javers.common.collections.Sets;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackageAttachmentMetadata;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ScriptAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Period;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Person;
@@ -473,6 +474,14 @@ public class UnitTestCreateDomainObjectUtils {
         .fileName("filename.txt").description(new I18nString("Beschreibung", "Description"))
         .title("Title").language("de")
         .indexInAnalysisPackage(1).build();
+  }
+  
+  public static ScriptAttachmentMetadata buildScriptAttachmentMetadata(String projectId) {
+    return ScriptAttachmentMetadata.builder().dataAcquisitionProjectId(projectId)
+        .analysisPackageId(UnitTestCreateValidIds.buildAnalysisPackageId(projectId))
+        .fileName("filename.txt")
+        .scriptUuid("1234-34-3434-34-34")
+        .build();
   }
 
   public static ConceptAttachmentMetadata buildConceptAttachmentMetadata(String conceptId) {
