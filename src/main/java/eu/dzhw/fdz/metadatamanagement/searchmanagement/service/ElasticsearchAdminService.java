@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository.ConceptRepository;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
@@ -54,6 +55,8 @@ public class ElasticsearchAdminService {
   private final DataPackageRepository dataPackageRepository;
 
   private final ConceptRepository conceptRepository;
+  
+  private final AnalysisPackageRepository analysisPackageRepository;
 
   private final ElasticsearchUpdateQueueService updateQueueService;
 
@@ -76,6 +79,7 @@ public class ElasticsearchAdminService {
       this.enqueueAllInstruments();
       this.enqueueAllDataPackages();
       this.enqueueAllConcepts();
+      this.enqueueAllAnalysisPackages();
       updateQueueService.processAllQueueItems();
     } catch (Exception e) {
       log.error("Error during recreation of indices:", e);
@@ -86,8 +90,18 @@ public class ElasticsearchAdminService {
   private void enqueueAllDataPackages() {
     try (Stream<IdAndVersionProjection> dataPackages =
         dataPackageRepository.streamAllIdAndVersionsBy()) {
-      dataPackages.forEach(instrument -> {
-        updateQueueService.enqueue(instrument.getId(), ElasticsearchType.data_packages,
+      dataPackages.forEach(dataPackage -> {
+        updateQueueService.enqueue(dataPackage.getId(), ElasticsearchType.data_packages,
+            ElasticsearchUpdateQueueAction.UPSERT);
+      });
+    }
+  }
+  
+  private void enqueueAllAnalysisPackages() {
+    try (Stream<IdAndVersionProjection> analysisPackages =
+        analysisPackageRepository.streamAllIdAndVersionsBy()) {
+      analysisPackages.forEach(analysisPackage -> {
+        updateQueueService.enqueue(analysisPackage.getId(), ElasticsearchType.analysis_packages,
             ElasticsearchUpdateQueueAction.UPSERT);
       });
     }

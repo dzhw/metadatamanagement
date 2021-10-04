@@ -21,6 +21,9 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.projection.AnalysisPackageSubDocumentProjection;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.common.domain.projections.IdAndVersionProjection;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.projections.ConceptSubDocumentProjection;
@@ -48,6 +51,9 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.projec
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.ElasticsearchDao;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.dao.exception.ElasticsearchBulkOperationException;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.AnalysisPackageNestedDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.AnalysisPackageSearchDocument;
+import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.AnalysisPackageSubDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.ConceptSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageNestedDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSearchDocument;
@@ -113,6 +119,8 @@ public class ElasticsearchUpdateQueueService {
   private final InstrumentRepository instrumentRepository;
 
   private final ConceptRepository conceptRepository;
+
+  private final AnalysisPackageRepository analysisPackageRepository;
 
   private final ElasticsearchDao elasticsearchDao;
 
@@ -251,10 +259,45 @@ public class ElasticsearchUpdateQueueService {
         return addUpsertActionForInstrument(lockedItem, request);
       case concepts:
         return addUpsertActionForConcept(lockedItem, request);
+      case analysis_packages:
+        return addUpsertActionForAnalysisPackage(lockedItem, request);
       default:
         throw new NotImplementedException("Processing queue item with type "
             + lockedItem.getDocumentType() + " has not been implemented!");
     }
+  }
+
+  /**
+   * This method creates for the analysis packages update / insert actions.
+   * 
+   * @param lockedItem A locked item.
+   * @param request A bulk builder for building the actions.
+   */
+  private boolean addUpsertActionForAnalysisPackage(ElasticsearchUpdateQueueItem lockedItem,
+      BulkRequest request) {
+    AnalysisPackage analysisPackage =
+        this.analysisPackageRepository.findById(lockedItem.getDocumentId()).orElse(null);
+    if (analysisPackage != null) {
+      DataAcquisitionProject project =
+          projectRepository.findById(analysisPackage.getDataAcquisitionProjectId()).orElse(null);
+      if (project == null) {
+        // project has been deleted, skip upsert
+        return false;
+      }
+      Release release = getRelease(project);
+      Configuration configuration = project.getConfiguration();
+      String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
+      List<RelatedPublicationSubDocumentProjection> relatedPublications =
+          relatedPublicationRepository
+              .findSubDocumentsByAnalysisPackageIdsContaining(analysisPackage.getMasterId());
+      AnalysisPackageSearchDocument searchDocument = new AnalysisPackageSearchDocument(
+          analysisPackage, release, configuration, doi, relatedPublications);
+
+      request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
+          .source(gson.toJson(searchDocument), XContentType.JSON));
+      return true;
+    }
+    return false;
   }
 
   private boolean addUpsertActionForConcept(ElasticsearchUpdateQueueItem lockedItem,
@@ -290,7 +333,7 @@ public class ElasticsearchUpdateQueueService {
               return null;
             }
             return new DataPackageSubDocument(dataPackage,
-                doiBuilder.buildDataPackageDoi(dataPackage, getRelease(project)));
+                doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), getRelease(project)));
           }).filter(document -> document != null).collect(Collectors.toList());
       List<DataPackageNestedDocument> nestedDataPackageDocuments =
           dataPackages.stream().map(DataPackageNestedDocument::new).collect(Collectors.toList());
@@ -352,7 +395,7 @@ public class ElasticsearchUpdateQueueService {
       Configuration configuration = project.getConfiguration();
       DataPackageSubDocumentProjection dataPackage =
           dataPackageRepository.findOneSubDocumentById(instrument.getDataPackageId());
-      String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
+      String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
       InstrumentSearchDocument searchDocument =
           new InstrumentSearchDocument(instrument, dataPackage, surveys, questions, variables,
               dataSets, concepts, release, doi, configuration);
@@ -383,13 +426,32 @@ public class ElasticsearchUpdateQueueService {
             return null;
           }
           return new DataPackageSubDocument(dataPackage,
-              doiBuilder.buildDataPackageDoi(dataPackage, getRelease(project)));
+              doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), getRelease(project)));
         }).filter(document -> document != null).collect(Collectors.toList());
         nestedDataPackageDocuments =
             dataPackages.stream().map(DataPackageNestedDocument::new).collect(Collectors.toList());
       }
+      List<AnalysisPackageSubDocument> analysisPackageSubDocuments = null;
+      List<AnalysisPackageNestedDocument> nestedAnalysisPackageDocuments = null;
+      if (relatedPublication.getAnalysisPackageIds() != null) {
+        List<AnalysisPackageSubDocumentProjection> analysisPackages = analysisPackageRepository
+            .findSubDocumentsByIdIn(relatedPublication.getAnalysisPackageIds());
+        analysisPackageSubDocuments = analysisPackages.stream().map(analysisPackage -> {
+          DataAcquisitionProject project = projectRepository
+              .findById(analysisPackage.getDataAcquisitionProjectId()).orElse(null);
+          if (project == null) {
+            // project has been deleted, skip upsert
+            return null;
+          }
+          return new AnalysisPackageSubDocument(analysisPackage,
+              doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), getRelease(project)));
+        }).filter(document -> document != null).collect(Collectors.toList());
+        nestedAnalysisPackageDocuments = analysisPackages.stream()
+            .map(AnalysisPackageNestedDocument::new).collect(Collectors.toList());
+      }
       RelatedPublicationSearchDocument searchDocument = new RelatedPublicationSearchDocument(
-          relatedPublication, dataPackageSubDocuments, nestedDataPackageDocuments);
+          relatedPublication, dataPackageSubDocuments, nestedDataPackageDocuments,
+          analysisPackageSubDocuments, nestedAnalysisPackageDocuments);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));
@@ -439,10 +501,10 @@ public class ElasticsearchUpdateQueueService {
       Configuration configuration = project.getConfiguration();
       DataPackageSubDocumentProjection dataPackage =
           dataPackageRepository.findOneSubDocumentById(dataSet.getDataPackageId());
-      String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
+      String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
       DataSetSearchDocument searchDocument =
-          new DataSetSearchDocument(dataSet, dataPackage, variableProjections,
-              surveys, instruments, questions, concepts, release, doi, configuration);
+          new DataSetSearchDocument(dataSet, dataPackage, variableProjections, surveys, instruments,
+              questions, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));
@@ -476,10 +538,9 @@ public class ElasticsearchUpdateQueueService {
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
-      String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
-      SurveySearchDocument searchDocument =
-          new SurveySearchDocument(survey, dataPackage, dataSets, variables,
-              instruments, questions, concepts, release, doi, configuration);
+      String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
+      SurveySearchDocument searchDocument = new SurveySearchDocument(survey, dataPackage, dataSets,
+          variables, instruments, questions, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));
@@ -546,10 +607,9 @@ public class ElasticsearchUpdateQueueService {
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
-      String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
-      VariableSearchDocument searchDocument =
-          new VariableSearchDocument(variable, dataSet, dataPackage, surveys,
-              instruments, questions, concepts, release, doi, configuration);
+      String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
+      VariableSearchDocument searchDocument = new VariableSearchDocument(variable, dataSet,
+          dataPackage, surveys, instruments, questions, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));
@@ -594,10 +654,9 @@ public class ElasticsearchUpdateQueueService {
       Configuration configuration = project.getConfiguration();
       DataPackageSubDocumentProjection dataPackage =
           dataPackageRepository.findOneSubDocumentById(question.getDataPackageId());
-      String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
-      QuestionSearchDocument searchDocument =
-          new QuestionSearchDocument(question, dataPackage, instrument, surveys, variables,
-              dataSets, concepts, release, doi, configuration);
+      String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
+      QuestionSearchDocument searchDocument = new QuestionSearchDocument(question, dataPackage,
+          instrument, surveys, variables, dataSets, concepts, release, doi, configuration);
 
       request.add(new IndexRequest(lockedItem.getDocumentType().name()).id(searchDocument.getId())
           .source(gson.toJson(searchDocument), XContentType.JSON));
@@ -639,7 +698,7 @@ public class ElasticsearchUpdateQueueService {
       }
       Release release = getRelease(project);
       Configuration configuration = project.getConfiguration();
-      String doi = doiBuilder.buildDataPackageDoi(dataPackage, release);
+      String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
       DataPackageSearchDocument searchDocument =
           new DataPackageSearchDocument(dataPackage, dataSets, variables, relatedPublications,
               surveys, questions, instruments, concepts, release, doi, configuration);
