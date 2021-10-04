@@ -29,6 +29,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import com.mongodb.client.gridfs.model.GridFSFile;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ScriptAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service.helper.ScriptAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
@@ -76,8 +77,10 @@ public class ScriptAttachmentShadowCopyServiceTest extends AbstractTest {
 
   @Test
   public void createShadowCopy() throws Exception {
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage(PROJECT_ID);
     ScriptAttachmentMetadata master =
-        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(PROJECT_ID);
+        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
     master.generateId();
     master.setMasterId(master.getId());
     createTestFileForAttachment(master);
@@ -115,8 +118,10 @@ public class ScriptAttachmentShadowCopyServiceTest extends AbstractTest {
 
   @Test
   public void createShadowCopyWithSameReleaseVersion() throws Exception {
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage(PROJECT_ID);
     ScriptAttachmentMetadata master =
-        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(PROJECT_ID);
+        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
     master.generateId();
     master.setMasterId(master.getId());
     createTestFileForAttachment(master);
@@ -146,8 +151,10 @@ public class ScriptAttachmentShadowCopyServiceTest extends AbstractTest {
 
   @Test
   public void createShadowCopyLinkPredecessorToSuccessor() throws Exception {
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage(PROJECT_ID);
     ScriptAttachmentMetadata master =
-        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(PROJECT_ID);
+        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
     master.generateId();
     master.setMasterId(master.getId());
     createTestFileForAttachment(master);
@@ -186,8 +193,10 @@ public class ScriptAttachmentShadowCopyServiceTest extends AbstractTest {
 
   @Test
   public void createShadowCopyWithDeletedMaster() throws Exception {
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage(PROJECT_ID);
     ScriptAttachmentMetadata master =
-        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(PROJECT_ID);
+        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
 
     ScriptAttachmentMetadata shadow = createShadow(master, "1.0.0");
     createTestFileForAttachment(shadow);
@@ -202,8 +211,8 @@ public class ScriptAttachmentShadowCopyServiceTest extends AbstractTest {
 
     assertThat(shadowFile, notNullValue());
 
-    ScriptAttachmentMetadata metadata = mongoTemplate.getConverter()
-        .read(ScriptAttachmentMetadata.class, shadowFile.getMetadata());
+    ScriptAttachmentMetadata metadata =
+        mongoTemplate.getConverter().read(ScriptAttachmentMetadata.class, shadowFile.getMetadata());
 
     assertThat(metadata.getSuccessorId(), equalTo("DELETED"));
   }

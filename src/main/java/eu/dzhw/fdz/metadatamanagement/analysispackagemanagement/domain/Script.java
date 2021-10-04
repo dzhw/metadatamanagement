@@ -1,5 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,7 +31,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @ValueObject
-public class Script {
+public class Script implements Serializable {
+
+  private static final long serialVersionUID = 5119412626299466224L;
 
   /**
    * Client side generated id of the script. Used to reference script attachments. Not unique in the

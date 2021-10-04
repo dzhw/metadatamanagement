@@ -31,7 +31,6 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.ScriptAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
-import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service.ScriptAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service.helper.ScriptAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.GridFsMetadataUpdateService;
@@ -50,9 +49,6 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-
-  @Autowired
-  private ScriptAttachmentService scriptAttachmentService;
 
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
@@ -85,11 +81,13 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
   public void testUploadValidAttachment() throws Exception {
-
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage("projectid");
+    analysisPackageRepository.save(analysisPackage);
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     ScriptAttachmentMetadata scriptAttachmentMetadata =
-        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata("projectid");
+        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
     MockMultipartFile metadata = new MockMultipartFile("scriptAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(scriptAttachmentMetadata));
 
@@ -121,10 +119,14 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
   public void testDeleteAttachment() throws Exception {
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage("projectid");
+    analysisPackageRepository.save(analysisPackage);
+
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     ScriptAttachmentMetadata scriptAttachmentMetadata =
-        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata("projectid");
+        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
     MockMultipartFile metadata = new MockMultipartFile("scriptAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(scriptAttachmentMetadata));
 
@@ -161,10 +163,13 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = "test")
   public void testDeleteAllAttachments() throws Exception {
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage("projectid");
+    analysisPackageRepository.save(analysisPackage);
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     ScriptAttachmentMetadata scriptAttachmentMetadata =
-        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata("projectid");
+        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
     MockMultipartFile metadata = new MockMultipartFile("scriptAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(scriptAttachmentMetadata));
 
@@ -199,11 +204,13 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testUploadAttachmentWithMissingUuid() throws Exception {
-
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage("projectid");
+    analysisPackageRepository.save(analysisPackage);
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     ScriptAttachmentMetadata scriptAttachmentMetadata =
-        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata("projectid");
+        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
     scriptAttachmentMetadata.setScriptUuid(null);
 
     MockMultipartFile metadata = new MockMultipartFile("scriptAttachmentMetadata", "Blob",
@@ -218,7 +225,7 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.errors[0].message",
             is("analysis-package-management.error.script-attachment-metadata"
-                + ".script-id.not-empty")));
+                + ".script-uuid.not-empty")));
   }
 
   @Test
@@ -234,8 +241,8 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
 
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
-    ScriptAttachmentMetadata scriptAttachmentMetadata = UnitTestCreateDomainObjectUtils
-        .buildScriptAttachmentMetadata(analysisPackage.getDataAcquisitionProjectId());
+    ScriptAttachmentMetadata scriptAttachmentMetadata =
+        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
 
     MockMultipartFile metadata = new MockMultipartFile("scriptAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(scriptAttachmentMetadata));
@@ -260,12 +267,14 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateShadowCopyScriptAttachment() throws Exception {
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage("projectid");
+    analysisPackage.setId(analysisPackage.getId() + "-1.0.0");
+    analysisPackageRepository.save(analysisPackage);
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     ScriptAttachmentMetadata scriptAttachmentMetadata =
-        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata("projectid");
-    scriptAttachmentMetadata
-        .setAnalysisPackageId(scriptAttachmentMetadata.getAnalysisPackageId() + "-1.0.0");
+        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
     scriptAttachmentMetadata.generateId();
     MockMultipartFile metadata = new MockMultipartFile("scriptAttachmentMetadata", "Blob",
         "application/json", TestUtil.convertObjectToJsonBytes(scriptAttachmentMetadata));
@@ -283,11 +292,14 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testDeleteAllScriptAttachmentsOfShadowCopyAnalysisPackage() throws Exception {
-    String analysisPackageId = "ana-issue1991-1.0.0";
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage("projectid");
+    analysisPackage.setId(analysisPackage.getId() + "-1.0.0");
+    analysisPackageRepository.save(analysisPackage);
 
     ScriptAttachmentMetadata metadata =
-        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata("issue1991");
-    metadata.setAnalysisPackageId(analysisPackageId);
+        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
+    metadata.setAnalysisPackageId(analysisPackage.getId());
     metadata.generateId();
 
     try (InputStream is = new ByteArrayInputStream("Test".getBytes(StandardCharsets.UTF_8))) {
@@ -295,7 +307,9 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
       gridFsMetadataUpdateService.store(is, filename, "text/plain", metadata);
     }
 
-    mockMvc.perform(delete("/api/analysis-packages/" + analysisPackageId + "/scripts/attachments"))
+    mockMvc
+        .perform(
+            delete("/api/analysis-packages/" + analysisPackage.getId() + "/scripts/attachments"))
         .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
             containsString("global.error.shadow-delete-not-allowed")));
   }
@@ -303,11 +317,14 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testDeleteAttachmentOfShadowCopyAnalysisPackage() throws Exception {
-    String analysisPackageId = "ana-issue1991-1.0.0";
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage("projectid");
+    analysisPackage.setId(analysisPackage.getId() + "-1.0.0");
+    analysisPackageRepository.save(analysisPackage);
 
     ScriptAttachmentMetadata metadata =
-        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata("issue1991");
-    metadata.setAnalysisPackageId(analysisPackageId);
+        UnitTestCreateDomainObjectUtils.buildScriptAttachmentMetadata(analysisPackage);
+    metadata.setAnalysisPackageId(analysisPackage.getId());
     metadata.generateId();
 
     String filename = ScriptAttachmentFilenameBuilder.buildFileName(metadata);
@@ -316,7 +333,7 @@ public class ScriptAttachmentResourceTest extends AbstractTest {
     }
 
     mockMvc
-        .perform(delete("/api/analysis-packages/" + analysisPackageId + "/scripts/"
+        .perform(delete("/api/analysis-packages/" + analysisPackage.getId() + "/scripts/"
             + metadata.getScriptUuid() + "/attachments/" + metadata.getFileName()))
         .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
             containsString("global.error.shadow-delete-not-allowed")));
