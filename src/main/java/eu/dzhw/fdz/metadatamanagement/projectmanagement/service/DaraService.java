@@ -38,6 +38,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.common.base.Charsets;
 
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.common.config.MetadataManagementProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.I18nString;
 import eu.dzhw.fdz.metadatamanagement.common.service.MarkdownHelper;
@@ -93,6 +95,9 @@ public class DaraService {
   private DataPackageRepository dataPackageRepository;
 
   @Autowired
+  private AnalysisPackageRepository analysisPackageRepository;
+
+  @Autowired
   private SurveyRepository surveyRepository;
 
   @Autowired
@@ -107,8 +112,11 @@ public class DaraService {
   @Autowired
   private RelatedPublicationRepository relatedPublicationRepository;
 
-  @Value(value = "classpath:templates/dara/register.xml.tmpl")
-  private Resource registerXml;
+  @Value(value = "classpath:templates/dara/register_data_package.xml.tmpl")
+  private Resource registerDataPackageXml;
+
+  @Value(value = "classpath:templates/dara/register_analysis_package.xml.tmpl")
+  private Resource registerAnalysisPackageXml;
 
   @Autowired
   private DoiBuilder doiBuilder;
@@ -166,14 +174,24 @@ public class DaraService {
    */
   public HttpStatus registerOrUpdateProjectToDara(DataAcquisitionProject project)
       throws IOException, TemplateException {
+    String filledTemplate = null;
+    if (project.getConfiguration().getRequirements().isDataPackagesRequired()) {
+      // Read data package xml template
+      String registerXmlStr =
+          IOUtils.toString(this.registerDataPackageXml.getInputStream(), Charsets.UTF_8);
 
-    // Read register xml
-    String registerXmlStr = IOUtils.toString(this.registerXml.getInputStream(), Charsets.UTF_8);
+      // Fill template
+      filledTemplate = this.fillTemplate(registerXmlStr, this.getTemplateConfiguration(),
+          this.getDataForDataPackageTemplate(project), KEY_REGISTER_XML_TMPL);
+    } else if (project.getConfiguration().getRequirements().isAnalysisPackagesRequired()) {
+      // Read analysis package xml template
+      String registerXmlStr =
+          IOUtils.toString(this.registerAnalysisPackageXml.getInputStream(), Charsets.UTF_8);
 
-    // Fill template
-    String filledTemplate = this.fillTemplate(registerXmlStr, this.getTemplateConfiguration(),
-        this.getDataForTemplate(project), KEY_REGISTER_XML_TMPL);
-
+      // Fill template
+      filledTemplate = this.fillTemplate(registerXmlStr, this.getTemplateConfiguration(),
+          this.getDataForAnalysisPackageTemplate(project), KEY_REGISTER_XML_TMPL);
+    }
     // Send Rest Call for Registration
     HttpStatus httpStatusFromDara = this.postToDaraImportXml(filledTemplate);
     return httpStatusFromDara;
@@ -253,15 +271,14 @@ public class DaraService {
   }
 
   /**
-   * Load all needed Data for the XML Templates. The data is callable in freemarker by: dataPackage
-   * releaseDate availabilityControlled resourceType
+   * Load all needed Data for the XML Templates.
    *
    * @param project The project to find the dataPackage.
    * @return Returns a Map of names and the depending objects. If the key is 'dataPackage' so the
    *         dataPackage object is the value. DataPackage is the name for the object use in
    *         freemarker.
    */
-  private Map<String, Object> getDataForTemplate(DataAcquisitionProject project) {
+  private Map<String, Object> getDataForDataPackageTemplate(DataAcquisitionProject project) {
 
     Map<String, Object> dataForTemplate = new HashMap<>();
 
@@ -280,26 +297,7 @@ public class DaraService {
       availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
     }
 
-    Release release = project.getRelease();
-    if (release == null) {
-      release = dataAcquisitionProjectVersionsService.findLastRelease(project.getMasterId());
-    }
-    if (release.getFirstDate() == null) {
-      Optional<DataAcquisitionProject> previousRelease =
-          projectRepository.findById(project.getMasterId() + "-" + release.getVersion());
-      if (previousRelease.isPresent()) {
-        release.setFirstDate(previousRelease.get().getRelease().getFirstDate());
-      } else {
-        release.setFirstDate(LocalDateTime.now());
-      }
-    }
-
-    String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
-    dataForTemplate.put("doi", doi);
-
-    String previousDoi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(),
-        dataAcquisitionProjectVersionsService.findPreviousRelease(project.getMasterId(), release));
-    dataForTemplate.put("previousDoi", previousDoi);
+    addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);
 
     // Get Surveys Information
     List<Survey> surveys =
@@ -328,10 +326,6 @@ public class DaraService {
         this.relatedPublicationRepository.findByDataPackageIdsContaining(dataPackage.getMasterId());
     dataForTemplate.put("relatedPublications", relatedPublications);
 
-    // Add Date
-    DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
-    dataForTemplate.put("releaseDate", formatter.format(release.getFirstDate()));
-
     // Add Availability Controlled
     dataForTemplate.put("availabilityControlled", availabilityControlled);
 
@@ -343,6 +337,72 @@ public class DaraService {
 
     // Add data for collection mode
     dataForTemplate.put("surveyToCollectionModesMap", computeSurveyToCollectionModesMap(surveys));
+
+    return dataForTemplate;
+  }
+
+  private void addDoiAndReleaseInfoToTemplateModel(DataAcquisitionProject project,
+      Map<String, Object> dataForTemplate) {
+    Release release = project.getRelease();
+    if (release == null) {
+      release = dataAcquisitionProjectVersionsService.findLastRelease(project.getMasterId());
+    }
+    if (release.getFirstDate() == null) {
+      Optional<DataAcquisitionProject> previousRelease =
+          projectRepository.findById(project.getMasterId() + "-" + release.getVersion());
+      if (previousRelease.isPresent()) {
+        release.setFirstDate(previousRelease.get().getRelease().getFirstDate());
+      } else {
+        release.setFirstDate(LocalDateTime.now());
+      }
+    }
+
+    String doi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(), release);
+    dataForTemplate.put("doi", doi);
+
+    String previousDoi = doiBuilder.buildDataOrAnalysisPackageDoi(project.getId(),
+        dataAcquisitionProjectVersionsService.findPreviousRelease(project.getMasterId(), release));
+    dataForTemplate.put("previousDoi", previousDoi);
+
+    // Add Date
+    DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+    dataForTemplate.put("releaseDate", formatter.format(release.getFirstDate()));
+  }
+
+  /**
+   * Load all needed Data for the XML Templates.
+   *
+   * @param project The project to find the analysisPackage.
+   * @return Returns a Map of names and the depending objects.
+   */
+  private Map<String, Object> getDataForAnalysisPackageTemplate(DataAcquisitionProject project) {
+
+    Map<String, Object> dataForTemplate = new HashMap<>();
+
+    dataForTemplate.put("removeMarkdown", markdownHelper.createRemoveMarkdownMethod());
+
+    // Get Project Information
+    dataForTemplate.put("dataAcquisitionProject", project);
+
+    // Get DataPackage Information
+    AnalysisPackage analysisPackage =
+        this.analysisPackageRepository.findOneByDataAcquisitionProjectId(project.getId());
+    dataForTemplate.put("analysisPackage", analysisPackage);
+
+    String availabilityControlled = AVAILABILITY_CONTROLLED_NOT_AVAILABLE;
+    if (!analysisPackage.isHidden()) {
+      availabilityControlled = AVAILABILITY_CONTROLLED_DELIVERY;
+    }
+
+    addDoiAndReleaseInfoToTemplateModel(project, dataForTemplate);
+
+    // Get Related Publications
+    List<RelatedPublication> relatedPublications = this.relatedPublicationRepository
+        .findByDataPackageIdsContaining(analysisPackage.getMasterId());
+    dataForTemplate.put("relatedPublications", relatedPublications);
+
+    // Add Availability Controlled
+    dataForTemplate.put("availabilityControlled", availabilityControlled);
 
     return dataForTemplate;
   }
