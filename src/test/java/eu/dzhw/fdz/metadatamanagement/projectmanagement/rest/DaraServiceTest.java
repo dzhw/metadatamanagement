@@ -26,6 +26,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
@@ -43,7 +45,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
  * @author Daniel Katzberg
  *
  */
-@WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
+@WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class DaraServiceTest extends AbstractTest {
 
   @Autowired
@@ -55,6 +57,9 @@ public class DaraServiceTest extends AbstractTest {
   @Autowired
   private DataPackageRepository dataPackageRepository;
   
+  @Autowired
+  private AnalysisPackageRepository analysisPackageRepository;
+
   @Autowired
   private SurveyRepository surveyRepository;
 
@@ -68,14 +73,14 @@ public class DaraServiceTest extends AbstractTest {
 
   @BeforeEach
   public void setup() {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-      .build();
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
   @AfterEach
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
     dataPackageRepository.deleteAll();
+    analysisPackageRepository.deleteAll();
     surveyRepository.deleteAll();
     javersService.deleteAll();
   }
@@ -83,30 +88,29 @@ public class DaraServiceTest extends AbstractTest {
   @Test
   public void testHealthCheck() throws Exception {
 
-    //ASSERT
+    // ASSERT
     RestTemplate restTemplate = this.daraService.getRestTemplate();
     MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).build();
-    mockServer
-      .expect(requestTo(this.daraService.getApiEndpoint() + DaraService.IS_ALiVE_ENDPOINT))
-      .andRespond(withSuccess());
+    mockServer.expect(requestTo(this.daraService.getApiEndpoint() + DaraService.IS_ALiVE_ENDPOINT))
+        .andRespond(withSuccess());
 
-    //ACT
+    // ACT
     boolean health = this.daraService.isDaraHealthy();
 
-    //ASSERT
+    // ASSERT
     assertThat(health, is(true));
   }
 
   @Test
-  @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
-  public void testRelease() throws Exception {
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testReleaseDataPackage() throws Exception {
 
-    //ASSERT
+    // ASSERT
     RestTemplate restTemplate = this.daraService.getRestTemplate();
     MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).build();
-    mockServer
-      .expect(requestTo(this.daraService.getApiEndpoint() + DaraService.REGISTRATION_ENDPOINT + "?registration=true"))
-      .andRespond(withStatus(HttpStatus.CREATED));
+    mockServer.expect(requestTo(this.daraService.getApiEndpoint()
+        + DaraService.REGISTRATION_ENDPOINT + "?registration=true"))
+        .andRespond(withStatus(HttpStatus.CREATED));
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     Release release = UnitTestCreateDomainObjectUtils.buildRelease();
     project.setRelease(release);
@@ -116,11 +120,34 @@ public class DaraServiceTest extends AbstractTest {
 
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     this.surveyRepository.save(survey);
-    
+
     mockMvc.perform(post("/api/data-acquisition-projects/" + project.getId() + "/release")
         .content(TestUtil.convertObjectToJsonBytes(project))
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated());
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void testReleaseAnalysisPackage() throws Exception {
+
+    // ASSERT
+    RestTemplate restTemplate = this.daraService.getRestTemplate();
+    MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).build();
+    mockServer.expect(requestTo(this.daraService.getApiEndpoint()
+        + DaraService.REGISTRATION_ENDPOINT + "?registration=true"))
+        .andRespond(withStatus(HttpStatus.CREATED));
+    DataAcquisitionProject project =
+        UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectForAnalysisPackages();
+    Release release = UnitTestCreateDomainObjectUtils.buildRelease();
+    project.setRelease(release);
+    dataAcquisitionProjectRepository.save(project);
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage(project.getId());
+    this.analysisPackageRepository.save(analysisPackage);
+
+    mockMvc.perform(post("/api/data-acquisition-projects/" + project.getId() + "/release")
+        .content(TestUtil.convertObjectToJsonBytes(project))
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
   }
 
   @Test
@@ -138,7 +165,7 @@ public class DaraServiceTest extends AbstractTest {
         .perform(post("/api/data-acquisition-projects/" + project.getMasterId() + "/release")
             .content(TestUtil.convertObjectToJsonBytes(project))
             .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message", is(
-            "project-management.error.shadow-copy-release-to-dara-not-allowed")));
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
+            is("project-management.error.shadow-copy-release-to-dara-not-allowed")));
   }
 }

@@ -211,6 +211,7 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
    * Must not be empty.
    */
   @Valid
+  @NotNull(message = "analysis-package-management.error.analysis-package.tags.not-null")
   private Tags tags;
 
   public AnalysisPackage(AnalysisPackage analysisPackage) {
