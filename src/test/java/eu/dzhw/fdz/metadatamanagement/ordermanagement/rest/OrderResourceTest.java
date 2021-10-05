@@ -30,6 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataFormat;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Order;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderClient;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderState;
+import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedAnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.OrderedDataPackage;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.domain.Product;
 import eu.dzhw.fdz.metadatamanagement.ordermanagement.repository.OrderRepository;
@@ -131,6 +132,56 @@ public class OrderResourceTest extends AbstractTest {
         .content(TestUtil.convertObjectToJsonBytes(order))).andExpect(status().isBadRequest());
   }
 
+  @Test
+  public void shouldFailToCreateOrderWithoutDataPackageAndWithoutAnalysisPackage()
+      throws Exception {
+    Order order = createOrder();
+    order.getProducts().add(createProduct("gra2005"));
+    order.getProducts().get(0).setDataPackage(null);
+
+    mockMvc
+        .perform(post("/api/orders").contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(order)))
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message", is(
+            "eu.dzhw.fdz.metadatamanagement.domain.validationorder-management.error."
+            + "either-analysis-package-or-data-package")));
+  }
+  
+  @Test
+  public void shouldFailToCreateOrderWithDataPackageAndWithAnalysisPackage()
+      throws Exception {
+    Order order = createOrder();
+    order.getProducts().add(createProduct("gra2005"));
+    OrderedAnalysisPackage analysisPackage = new OrderedAnalysisPackage();
+    analysisPackage.setId("ana-gra2005$-1.0.0");
+    analysisPackage.setTitle(new I18nString("Titel", "Title"));;
+    order.getProducts().get(0).setAnalysisPackage(analysisPackage);
+
+    mockMvc
+        .perform(post("/api/orders").contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(order)))
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message", is(
+            "eu.dzhw.fdz.metadatamanagement.domain.validationorder-management.error."
+            + "either-analysis-package-or-data-package")));
+  }
+  
+  @Test
+  public void shouldCreateOrderWithWithAnalysisPackage()
+      throws Exception {
+    Order order = createOrder();
+    order.getProducts().add(createProduct("gra2005"));
+    OrderedAnalysisPackage analysisPackage = new OrderedAnalysisPackage();
+    analysisPackage.setId("ana-gra2005$-1.0.0");
+    analysisPackage.setTitle(new I18nString("Titel", "Title"));;
+    order.getProducts().get(0).setAnalysisPackage(analysisPackage);
+    order.getProducts().get(0).setDataPackage(null);
+
+    mockMvc
+        .perform(post("/api/orders").contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(order)))
+        .andExpect(status().isCreated());
+  }
+
   private Order createOrder() {
     Order order = new Order();
     order.setState(OrderState.CREATED);
@@ -147,7 +198,7 @@ public class OrderResourceTest extends AbstractTest {
     dataPackage.setId("stu-" + dataAcquisitionProjectId + "$");
     I18nString title = new I18nString("test", "test");
     dataPackage.setTitle(title);
-    return new Product(dataAcquisitionProjectId, dataPackage, dataPackage, "remote-desktop-suf",
-        "1.0.0", Set.of(DataFormat.R));
+    return new Product(dataAcquisitionProjectId, dataPackage, dataPackage, null,
+        "remote-desktop-suf", "1.0.0", Set.of(DataFormat.R));
   }
 }
