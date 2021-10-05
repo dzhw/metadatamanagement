@@ -144,26 +144,6 @@ public class DataPackageAttachmentService {
     return result;
   }
 
-
-  /**
-   * Delete all attachments of all dataPackages.
-   */
-  public void deleteAll() {
-    String currentUser = SecurityUtils.getCurrentUserLogin();
-    Query query = new Query(GridFsCriteria.whereFilename()
-        .regex("^" + Pattern.quote("/data-packages/") + ".*" + Pattern.quote("/attachments/")));
-    Iterable<GridFSFile> files = this.operations.find(query);
-    files.forEach(file -> {
-      DataPackageAttachmentMetadata metadata = mongoTemplate.getConverter()
-          .read(DataPackageAttachmentMetadata.class, file.getMetadata());
-      if (metadata.isShadow()) {
-        throw new ShadowCopyDeleteNotAllowedException();
-      }
-      javers.commitShallowDelete(currentUser, metadata);
-    });
-    this.operations.delete(query);
-  }
-
   /**
    * Delete the attachment and its metadata from gridfs.
    *

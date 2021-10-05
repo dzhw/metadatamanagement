@@ -42,6 +42,9 @@ public class ExcludeFieldsHelper {
     if (ConceptSearchDocument.class.isAssignableFrom(clazz)) {
       return ConceptSearchDocument.FIELDS_TO_EXCLUDE_ON_DESERIALIZATION;
     }
+    if (AnalysisPackageSearchDocument.class.isAssignableFrom(clazz)) {
+      return AnalysisPackageSearchDocument.FIELDS_TO_EXCLUDE_ON_DESERIALIZATION;
+    }
     throw new IllegalArgumentException(clazz.getSimpleName() + " is not yet supported!");
   }
 }

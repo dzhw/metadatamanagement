@@ -32,3 +32,8 @@ services:
     ports:
       - "8081:80"
       - "1025:25"
+  identity_provider:
+    image: sanduhrs/identity-provider
+    container_name: identity-provider
+    ports:
+      - "8082:80"

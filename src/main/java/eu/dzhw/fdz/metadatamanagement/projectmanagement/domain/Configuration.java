@@ -56,6 +56,10 @@ public class Configuration implements Serializable {
    */
   private ProjectState dataPackagesState;
   /**
+   * The state of the analysis package.
+   */
+  private ProjectState analysisPackagesState;
+  /**
    * The State of surveys.
    */
   private ProjectState surveysState;

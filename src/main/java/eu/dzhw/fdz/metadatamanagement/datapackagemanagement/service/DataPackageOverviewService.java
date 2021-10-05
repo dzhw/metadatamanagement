@@ -119,9 +119,9 @@ public class DataPackageOverviewService extends AbstractReportService {
 
     // generate quali and quanti datasets lists
     generateSeperateDataSetLists(dataSets, surveys, dataForTemplate);
-    
-    String doi =
-        doiBuilder.buildDataPackageDoi(dataPackage, Release.builder().version(version).build());
+
+    String doi = doiBuilder.buildDataOrAnalysisPackageDoi(dataPackage.getDataAcquisitionProjectId(),
+        Release.builder().version(version).build());
     dataForTemplate.put("surveys", surveys);
     dataForTemplate.put("surveyAnnotationsMapDe", surveyAnnotationsMapDe);
     dataForTemplate.put("surveyAnnotationsMapEn", surveyAnnotationsMapEn);
@@ -154,7 +154,7 @@ public class DataPackageOverviewService extends AbstractReportService {
           if (surveyMap.get(surveyId).getDataType().equals(DataTypes.QUANTITATIVE_DATA)) {
             isQualiDataSet = false;
           }
-        } else {          
+        } else {
           isQualiDataSet = false;
         }
       }

@@ -40,6 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 
 /**
  * Test the REST API for {@link DataAcquisitionProject}s.
+ * 
  * @author René Reitmann
  * @author Daniel Katzberg
  */
@@ -61,10 +62,10 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
   @Autowired
   private JaversService javersService;
- 
+
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
 
@@ -100,6 +101,45 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void shouldFailToCreateProjectsForAnalysisPackagesAndDataPackages()
+      throws IOException, Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.getConfiguration().getRequirements().setAnalysisPackagesRequired(true);
+
+    AnyOf<String> matcher = anyOf(
+        containsString("data-acquisition-project-management.error.configuration.requirements."
+            + "publications-required-for-analysis-packages"),
+        containsString("data-acquisition-project-management.error.configuration.requirements."
+            + "either-data-packages-or-analysis-packages-required"));
+    mockMvc
+        .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(project)))
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message", matcher))
+        .andExpect(jsonPath("$.errors[1].message", matcher));
+  }
+  
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void shouldCreateProjectsForAnalysisPackages()
+      throws IOException, Exception {
+    DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
+    project.getConfiguration().getRequirements().setAnalysisPackagesRequired(true);
+    project.getConfiguration().getRequirements().setDataPackagesRequired(false);
+    project.getConfiguration().getRequirements().setPublicationsRequired(true);
+
+    // create the project with the given id
+    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
+
+    // read the project under the new url
+    mockMvc.perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateDataAcquisitionProjectWithPost() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     // create the project with the given id
@@ -125,14 +165,14 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().is4xxClientError()).andExpect(jsonPath("$.errors[0].message",
-        containsString("error.data-acquisition-project.master-id.size")));
+            containsString("error.data-acquisition-project.master-id.size")));
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testDeleteDataAcquisitionProject() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
-    //delete not created project
+    // delete not created project
     mockMvc.perform(delete(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
 
@@ -160,9 +200,8 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
     // load the project with the projection
     mockMvc
-        .perform(
-            get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
-                .contentType(MediaType.APPLICATION_JSON))
+        .perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(project.getId())))
         .andExpect(jsonPath("$.version", is(0)));
   }
@@ -177,19 +216,18 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
         .contentType(MediaType.APPLICATION_JSON)
         .content(TestUtil.convertObjectToJsonBytes(project))).andExpect(status().isCreated());
     project.setVersion(0L);
-    
+
     // update the project
     mockMvc
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
         .andExpect(status().is2xxSuccessful());
-    
+
     // load the project with the complete projection
     mockMvc
-        .perform(
-            get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
-                .contentType(MediaType.APPLICATION_JSON))
+        .perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(project.getId())))
         .andExpect(jsonPath("$.version", is(1)));
   }
@@ -215,9 +253,8 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
     // load the project with the complete projection
     mockMvc
-        .perform(
-            get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
-                .contentType(MediaType.APPLICATION_JSON))
+        .perform(get(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(project.getId())))
         .andExpect(jsonPath("$.hasBeenReleasedBefore", is(true)))
         .andExpect(jsonPath("$.version", is(0)));
@@ -230,17 +267,16 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
     project.setId(null);
 
     AnyOf<String> matcher = anyOf(
-        containsString("data-acquisition-project-management"
-            + ".error.data-acquisition-project.id.not-empty"),
-        containsString("data-acquisition-project-management"
-            + ".error.data-acquisition-project.id.pattern"));
+        containsString(
+            "data-acquisition-project-management" + ".error.data-acquisition-project.id.not-empty"),
+        containsString(
+            "data-acquisition-project-management" + ".error.data-acquisition-project.id.pattern"));
 
     // create the project without id
     mockMvc
         .perform(post(API_DATA_ACQUISITION_PROJECTS_URI).contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(project)))
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", matcher))
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message", matcher))
         .andExpect(jsonPath("$.errors[1].message", matcher));
   }
 
@@ -323,6 +359,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
   /**
    * test the user implemented parts of save project
+   * 
    * @throws Exception
    */
   @Test
@@ -353,10 +390,11 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
     // create the project with the given id
     rdcProjectRepository.insert(project);
     new Configuration();
-    Configuration invalidConf = Configuration.builder().publishers(
-        project.getConfiguration().getPublishers()).dataProviders(Collections.emptyList()).build();
+    Configuration invalidConf =
+        Configuration.builder().publishers(project.getConfiguration().getPublishers())
+            .dataProviders(Collections.emptyList()).build();
     project.setConfiguration(invalidConf);
-    //update with invalid conf -- no dataprovider
+    // update with invalid conf -- no dataprovider
     mockMvc
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)
@@ -364,7 +402,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
         .andExpect(status().isBadRequest());
     invalidConf = new Configuration();
     project.setConfiguration(invalidConf);
-    //update with invalid conf -- no publisher
+    // update with invalid conf -- no publisher
     mockMvc
         .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
             .contentType(MediaType.APPLICATION_JSON)
@@ -375,10 +413,9 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
   public void testUpdateRequiredObjectTypes() throws Exception {
-    Configuration configuration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
-        Collections.singletonList(PUBLISHER_USERNAME),
-        Collections.emptyList()
-    );
+    Configuration configuration =
+        UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+            Collections.singletonList(PUBLISHER_USERNAME), Collections.emptyList());
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setConfiguration(configuration);
@@ -387,17 +424,15 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project))
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isNoContent());
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());
   }
 
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER, username = PUBLISHER_USERNAME)
   public void testUpdateRequiredObjectTypes_badRequest() throws Exception {
-    Configuration configuration = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
-        Collections.singletonList("differentPublisher"),
-        Collections.emptyList()
-    );
+    Configuration configuration =
+        UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectConfiguration(
+            Collections.singletonList("differentPublisher"), Collections.emptyList());
 
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setConfiguration(configuration);
@@ -408,8 +443,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project))
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isBadRequest());
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
   }
 
   @Test
@@ -423,8 +457,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project))
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isNoContent());
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());
   }
 
   @Test
@@ -440,8 +473,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project))
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isNoContent());
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());
   }
 
   @Test
@@ -457,8 +489,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
     mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
         .content(TestUtil.convertObjectToJsonBytes(project))
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isBadRequest());
+        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
   }
 
   @Test
@@ -467,11 +498,12 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     project.setId(project.getId() + "-1.0.0");
 
-    mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_URI)
-        .content(TestUtil.convertObjectToJsonBytes(project))
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-create-not-allowed")));
+    mockMvc
+        .perform(post(API_DATA_ACQUISITION_PROJECTS_URI)
+            .content(TestUtil.convertObjectToJsonBytes(project))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
+            containsString("global.error.shadow-create-not-allowed")));
   }
 
   @Test
@@ -481,11 +513,12 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
     project.setId(project.getId() + "-1.0.0");
     project = rdcProjectRepository.save(project);
 
-    mockMvc.perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
-        .content(TestUtil.convertObjectToJsonBytes(project))
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-save-not-allowed")));
+    mockMvc
+        .perform(put(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId())
+            .content(TestUtil.convertObjectToJsonBytes(project))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
+            containsString("global.error.shadow-save-not-allowed")));
   }
 
   @Test
@@ -496,7 +529,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
     project = rdcProjectRepository.save(project);
 
     mockMvc.perform(delete(API_DATA_ACQUISITION_PROJECTS_URI + "/" + project.getId()))
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors[0].message", containsString("global.error.shadow-delete-not-allowed")));
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
+            containsString("global.error.shadow-delete-not-allowed")));
   }
 }

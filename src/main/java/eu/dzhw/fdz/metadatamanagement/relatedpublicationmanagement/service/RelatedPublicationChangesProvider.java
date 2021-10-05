@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -20,23 +21,37 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 @RequestScope
 public class RelatedPublicationChangesProvider
     extends DomainObjectChangesProvider<RelatedPublication> {
-  
+
   /**
    * Get the list of dataPackageIds which need to be updated.
    * 
    * @return a list of dataPackageIds
    */
   public List<String> getAffectedDataPackageIds(String relatedPublicationId) {
+    return getAffectedIds(relatedPublicationId, RelatedPublication::getDataPackageIds);
+  }
+
+  /**
+   * Get the list of analysisPackageIds which need to be updated.
+   * 
+   * @return a list of analysisPackageIds
+   */
+  public List<String> getAffectedAnalysisPackageIds(String relatedPublicationId) {
+    return getAffectedIds(relatedPublicationId, RelatedPublication::getAnalysisPackageIds);
+  }
+
+  private List<String> getAffectedIds(String relatedPublicationId,
+      Function<RelatedPublication, List<String>> idsGetter) {
     List<String> oldIds = null;
     List<String> newIds = null;
     if (oldDomainObjects.get(relatedPublicationId) != null) {
-      oldIds = oldDomainObjects.get(relatedPublicationId).getDataPackageIds() != null
-          ? oldDomainObjects.get(relatedPublicationId).getDataPackageIds()
+      oldIds = idsGetter.apply(oldDomainObjects.get(relatedPublicationId)) != null
+          ? idsGetter.apply(oldDomainObjects.get(relatedPublicationId))
           : new ArrayList<>();
     }
     if (newDomainObjects.get(relatedPublicationId) != null) {
-      newIds = newDomainObjects.get(relatedPublicationId).getDataPackageIds() != null
-          ? newDomainObjects.get(relatedPublicationId).getDataPackageIds()
+      newIds = idsGetter.apply(newDomainObjects.get(relatedPublicationId)) != null
+          ? idsGetter.apply(newDomainObjects.get(relatedPublicationId))
           : new ArrayList<>();
     }
     return ListUtils.combineUniquely(newIds, oldIds);
@@ -64,18 +79,33 @@ public class RelatedPublicationChangesProvider
    * @return list of dataPackage ids which have been removed from the publications
    */
   public List<String> getDeletedDataPackageIds(String relatedPublicationId) {
+    return getDeletedIds(relatedPublicationId, RelatedPublication::getDataPackageIds);
+  }
+
+  /**
+   * Get the list of analysisPackage ids which have been removed from the publication.
+   * 
+   * @param relatedPublicationId the id of the publication
+   * @return list of analysisPackage ids which have been removed from the publications
+   */
+  public List<String> getDeletedAnalysisPackageIds(String relatedPublicationId) {
+    return getDeletedIds(relatedPublicationId, RelatedPublication::getAnalysisPackageIds);
+  }
+
+  private List<String> getDeletedIds(String relatedPublicationId,
+      Function<RelatedPublication, List<String>> idsGetter) {
     if (oldDomainObjects.get(relatedPublicationId) == null
-        || oldDomainObjects.get(relatedPublicationId).getDataPackageIds() == null) {
+        || idsGetter.apply(oldDomainObjects.get(relatedPublicationId)) == null) {
       return new ArrayList<>();
     }
     if (newDomainObjects.get(relatedPublicationId) == null
-        || newDomainObjects.get(relatedPublicationId).getDataPackageIds() == null) {
-      return oldDomainObjects.get(relatedPublicationId).getDataPackageIds();
+        || idsGetter.apply(newDomainObjects.get(relatedPublicationId)) == null) {
+      return idsGetter.apply(oldDomainObjects.get(relatedPublicationId));
     }
-    List<String> deletedDataPackageIds =
-        new ArrayList<>(oldDomainObjects.get(relatedPublicationId).getDataPackageIds());
-    deletedDataPackageIds.removeAll(newDomainObjects.get(relatedPublicationId).getDataPackageIds());
-    return deletedDataPackageIds;
+    List<String> deletedIds =
+        new ArrayList<>(idsGetter.apply(oldDomainObjects.get(relatedPublicationId)));
+    deletedIds.removeAll(idsGetter.apply(newDomainObjects.get(relatedPublicationId)));
+    return deletedIds;
   }
 
   /**
@@ -85,17 +115,32 @@ public class RelatedPublicationChangesProvider
    * @return list of dataPackage ids which have been added to the publications
    */
   public List<String> getAddedDataPackageIds(String relatedPublicationId) {
+    return getAddedIds(relatedPublicationId, RelatedPublication::getDataPackageIds);
+  }
+  
+  /**
+   * Get the list of analysisPackage ids which have been added to the publication.
+   * 
+   * @param relatedPublicationId the id of the publication
+   * @return list of analysisPackage ids which have been added to the publications
+   */
+  public List<String> getAddedAnalysisPackageIds(String relatedPublicationId) {
+    return getAddedIds(relatedPublicationId, RelatedPublication::getAnalysisPackageIds);
+  }
+
+  private List<String> getAddedIds(String relatedPublicationId,
+      Function<RelatedPublication, List<String>> idsGetter) {
     if (newDomainObjects.get(relatedPublicationId) == null
-        || newDomainObjects.get(relatedPublicationId).getDataPackageIds() == null) {
+        || idsGetter.apply(newDomainObjects.get(relatedPublicationId)) == null) {
       return new ArrayList<>();
     }
     if (oldDomainObjects.get(relatedPublicationId) == null
-        || oldDomainObjects.get(relatedPublicationId).getDataPackageIds() == null) {
-      return newDomainObjects.get(relatedPublicationId).getDataPackageIds();
+        || idsGetter.apply(oldDomainObjects.get(relatedPublicationId)) == null) {
+      return idsGetter.apply(newDomainObjects.get(relatedPublicationId));
     }
-    List<String> addedDataPackageIds =
-        new ArrayList<>(newDomainObjects.get(relatedPublicationId).getDataPackageIds());
-    addedDataPackageIds.removeAll(oldDomainObjects.get(relatedPublicationId).getDataPackageIds());
-    return addedDataPackageIds;
+    List<String> addedIds =
+        new ArrayList<>(idsGetter.apply(newDomainObjects.get(relatedPublicationId)));
+    addedIds.removeAll(idsGetter.apply(oldDomainObjects.get(relatedPublicationId)));
+    return addedIds;
   }
 }

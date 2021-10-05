@@ -96,7 +96,7 @@ Die Eingabemaske auf Datenpaketebene besteht aus den folgenden Abschnitten:
 - Tags (Schlagwörter) zum Datenpaket
 - Materialien zu diesem Datenpaket
 
-Im Folgenden wird auf die einzelnen Abschnitte genauer eingegangen. Allgemeine Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
+Allgemeine Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
 
 .. _Surveys:
 
@@ -112,9 +112,9 @@ Die Eingabemaske auf Erhebungsebene besteht aus den folgenden Abschnitten:
 - Weitere Informationen zum Rücklauf
 - Materialien zu der Erhebung
 
-Im Folgenden wird auf die einzelnen Abschnitte genauer eingegangen. Allgemeine Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
+Allgemeine Informationen zu den Eingabemasken finden Sie :ref:`hier <Eingabemasken>`.
 
-Bitte beachten Sie, dass Sie die Ordnungsnummer sich auf die Reihenfolge der Erhebungs im Erhebungsdesign bezieht. So ist die Ordnungsnummer einer dritten Panelwelle 3, auch wenn sie (aus welchen Gründen auch immer) die einzige Erhebung in einem Datenpaket darstellt. Die Sortierung mehrerer Erhebungen in einem Datenpaket orientiert sich an den Ordnungsnummern.
+Bitte beachten Sie, dass Sie die Ordnungsnummer sich auf die Reihenfolge der Erhebungen im Erhebungsdesign bezieht. So ist die Ordnungsnummer einer dritten Panelwelle die 3, auch wenn sie (aus welchen Gründen auch immer) die einzige Erhebung in einem Datenpaket darstellt. Die Sortierung mehrerer Erhebungen in einem Datenpaket orientiert sich an den Ordnungsnummern.
 
 .. _Instruments:
 
