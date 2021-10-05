@@ -63,7 +63,7 @@ public class OrderService {
   private Order removeMarkdown(Order order) {
     if (order.getProducts() != null) {
       for (Product product : order.getProducts()) {
-        if (product.getDataPackage().getAnnotations() != null) {
+        if (product.getDataPackage() != null && product.getDataPackage().getAnnotations() != null) {
           if (product.getDataPackage().getAnnotations().getDe() != null) {
             product.getDataPackage().getAnnotations().setDe(
                 markdownHelper.getPlainText(product.getDataPackage().getAnnotations().getDe()));
@@ -75,6 +75,17 @@ public class OrderService {
                 markdownHelper.getPlainText(product.getDataPackage().getAnnotations().getEn()));
             product.getStudy().getAnnotations().setEn(
                 markdownHelper.getPlainText(product.getDataPackage().getAnnotations().getEn()));
+          }
+        }
+        if (product.getAnalysisPackage() != null
+            && product.getAnalysisPackage().getAnnotations() != null) {
+          if (product.getAnalysisPackage().getAnnotations().getDe() != null) {
+            product.getAnalysisPackage().getAnnotations().setDe(
+                markdownHelper.getPlainText(product.getAnalysisPackage().getAnnotations().getDe()));
+          }
+          if (product.getAnalysisPackage().getAnnotations().getEn() != null) {
+            product.getAnalysisPackage().getAnnotations().setEn(
+                markdownHelper.getPlainText(product.getAnalysisPackage().getAnnotations().getEn()));
           }
         }
       }
