@@ -63,7 +63,7 @@ You will need to setup your `~/.m2/settings.xml` so that maven can download a de
 
 In order to have all java dependencies for the server and  all nodejs dependencies for the client and in order to build everything, simply run (and lean back for a while):
 
-    mvn -Pdev clean install
+    mvn -Pdev clean verify
 
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
