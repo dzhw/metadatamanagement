@@ -44,9 +44,26 @@ Make sure that you have read-write-access on the ***data*** directory (in your p
 
 to start all services the metadatamanagement depends on. Mongodb and Elasticsearch will be listening on its default ports.
 
+You will need to setup your `~/.m2/settings.xml` so that maven can download a dependency from Github:
+
+```xml
+ <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                        http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+      <server>
+        <id>github</id>
+        <username>${GITHUB_USERNAME}</username>
+        <password>${GITHUB_TOKEN}</password>
+      </server>
+    </servers>
+  </settings>
+```
+
 In order to have all java dependencies for the server and  all nodejs dependencies for the client and in order to build everything, simply run (and lean back for a while):
 
-    mvn clean install
+    mvn -Pdev clean install
 
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
