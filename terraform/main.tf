@@ -42,6 +42,13 @@ resource "aws_s3_bucket" "metadatamanagement_private" {
   }
 }
 
+resource "aws_s3_bucket_object" "sensitive_variables" {
+  bucket = aws_s3_bucket.metadatamanagement_private.id
+  key    = "sensitive_variables.tf"
+  source = "sensitive_variables.tf"
+  etag = filemd5("sensitive_variables.tf")
+}
+
 # S3 bucket which holds publicly accessible files like dev mongodb dumps
 resource "aws_s3_bucket" "metadatamanagement_public" {
   bucket = "metadatamanagement-public"
