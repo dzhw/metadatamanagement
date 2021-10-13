@@ -33,7 +33,7 @@ resource "aws_alb_target_group" "mdm" {
 }
 
 resource "aws_iam_server_certificate" "mdm_tls_certificate" {
-  name = "tls-mdm-with-alternative-names"
+  name_prefix = "tls-mdm-with-alternative-names"
   certificate_body = var.load_balancer_tls_certificate_body
   certificate_chain = var.load_balancer_tls_certificate_chain
   private_key = var.load_balancer_tls_private_key
