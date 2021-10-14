@@ -11,13 +11,8 @@ import java.util.concurrent.Future;
 
 import javax.mail.Message;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.icegreen.greenmail.util.GreenMail;
-import com.icegreen.greenmail.util.ServerSetupTest;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
@@ -30,19 +25,6 @@ public class MailServiceTest extends AbstractTest {
 
   @Autowired
   private MailService mailService;
-
-  private GreenMail greenMail;
-
-  @BeforeEach
-  public void before() {
-    this.greenMail = new GreenMail(ServerSetupTest.SMTP);
-    this.greenMail.start();
-  }
-
-  @AfterEach
-  public void after() {
-    this.greenMail.stop();
-  }
 
   @Test
   public void testSendActivationEmail() throws Exception {

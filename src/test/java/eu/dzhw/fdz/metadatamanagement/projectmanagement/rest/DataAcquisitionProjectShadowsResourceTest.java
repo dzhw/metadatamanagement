@@ -22,9 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.icegreen.greenmail.util.GreenMail;
-import com.icegreen.greenmail.util.ServerSetupTest;
-
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
@@ -71,13 +68,9 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
 
   private MockMvc mockMvc;
 
-  private GreenMail greenMail;
-
   @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-    greenMail = new GreenMail(ServerSetupTest.SMTP);
-    greenMail.start();
   }
 
   @AfterEach
@@ -87,7 +80,6 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
     elasticsearchUpdateQueueItemRepository.deleteAll();
     elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
-    greenMail.stop();
   }
 
   @Test
