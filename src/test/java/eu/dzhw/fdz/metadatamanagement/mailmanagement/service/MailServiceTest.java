@@ -11,8 +11,11 @@ import java.util.concurrent.Future;
 
 import javax.mail.Message;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.icegreen.greenmail.store.FolderException;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
@@ -25,6 +28,11 @@ public class MailServiceTest extends AbstractTest {
 
   @Autowired
   private MailService mailService;
+  
+  @AfterEach
+  public void cleanUp() throws FolderException {
+    greenMail.purgeEmailFromAllMailboxes();
+  }
 
   @Test
   public void testSendActivationEmail() throws Exception {
