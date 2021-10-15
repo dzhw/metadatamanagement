@@ -170,7 +170,8 @@ angular.module('metadatamanagementApp').config(
             'variables': 'Variables',
             'publications': 'Publications',
             'concepts': 'Concepts',
-            'setting-info': 'The following Metadata must be provided, before this project can be released to all public users:'
+            'setting-info': 'The following Metadata must be provided, before this project can be released to all public users:',
+            'analysisPackages': 'Analysis Package'
           },
           'config': {
             'assigned-group': 'Assigned User Group',

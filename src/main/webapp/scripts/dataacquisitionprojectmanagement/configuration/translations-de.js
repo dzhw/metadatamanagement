@@ -169,7 +169,8 @@ angular.module('metadatamanagementApp').config(
             'variables': 'Variablen',
             'publications': 'Publikationen',
             'concepts': 'Konzepte',
-            'setting-info': 'Die folgenden Metadaten müssen bereitgestellt werden, bevor dieses Projekt für alle Benutzer:innen freigegeben werden kann:'
+            'setting-info': 'Die folgenden Metadaten müssen bereitgestellt werden, bevor dieses Projekt für alle Benutzer:innen freigegeben werden kann:',
+            'analysisPackages': 'Analysepaket'
           },
           'config': {
             'assigned-group': 'Zugewiesene Benutzer:innengruppe',
