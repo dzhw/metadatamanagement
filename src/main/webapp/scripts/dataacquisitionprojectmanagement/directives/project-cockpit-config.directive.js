@@ -18,6 +18,7 @@ angular.module('metadatamanagementApp')
       },
       /* jshint -W098 */
       link: function($scope, elem, attrs, ctrl) {
+        var req = ctrl.project.configuration.requirements;
 
         var isNotAssignedPublisher = function() {
           var loginName = Principal.loginName();
@@ -38,7 +39,7 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.isAnalysisPackageChecked = function() {
-          var req = ctrl.project.configuration.requirements;
+
           req.dataPackagesRequired = false;
           req.surveysRequired = false;
           req.instrumentsRequired = false;
@@ -50,8 +51,8 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.isDataPackageChecked = function() {
-          ctrl.project.configuration.requirements.analysisPackagesRequired = false;
-          ctrl.project.configuration.requirements.publicationsRequired = false;
+          req.analysisPackagesRequired = false;
+          req.publicationsRequired = false;
         };
       }
     };
