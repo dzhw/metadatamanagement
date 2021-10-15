@@ -7,14 +7,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.javers.core.Javers;
 import org.javers.repository.jql.QueryBuilder;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.icegreen.greenmail.junit5.GreenMailExtension;
+import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetupTest;
 
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
@@ -90,9 +89,11 @@ public abstract class AbstractTest {
   @Autowired
   private TaskRepository taskRepository;
 
-  @RegisterExtension
-  protected static GreenMailExtension greenMail =
-      new GreenMailExtension(ServerSetupTest.SMTP.withPort(4025)).withPerMethodLifecycle(false);
+  protected static GreenMail greenMail = new GreenMail(ServerSetupTest.SMTP.withPort(4025));
+  
+  static {
+    greenMail.start();
+  }
 
   @AfterEach
   public void ensureAllDataStoresHaveBeenCleanedUp() {
@@ -111,5 +112,6 @@ public abstract class AbstractTest {
     assertThat(this.elasticsearchAdminService.countAllDocuments(), equalTo(0L));
     assertEquals(0, this.shadowCopyQueueItemRepository.count());
     assertEquals(0, this.dataAcquisitionProjectRepository.count());
+    assertEquals(0, greenMail.getReceivedMessages().length);
   }
 }
