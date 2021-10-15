@@ -92,7 +92,7 @@ public abstract class AbstractTest {
 
   @RegisterExtension
   protected static GreenMailExtension greenMail =
-      new GreenMailExtension(ServerSetupTest.SMTP.withPort(4025)).withPerMethodLifecycle(true);
+      new GreenMailExtension(ServerSetupTest.SMTP.withPort(4025)).withPerMethodLifecycle(false);
 
   @AfterEach
   public void ensureAllDataStoresHaveBeenCleanedUp() {
