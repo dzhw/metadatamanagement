@@ -22,6 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.icegreen.greenmail.store.FolderException;
+
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
@@ -74,12 +76,13 @@ public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {
   }
 
   @AfterEach
-  public void cleanUp() {
+  public void cleanUp() throws FolderException {
     dataAcquisitionProjectRepository.deleteAll();
     shadowCopyQueueItemRepository.deleteAll();
     elasticsearchUpdateQueueItemRepository.deleteAll();
     elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
+    greenMail.purgeEmailFromAllMailboxes();
   }
 
   @Test
