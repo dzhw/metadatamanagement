@@ -223,6 +223,7 @@ angular.module('metadatamanagementApp').config(
             'release-version': 'Current Version',
             'assigned-group': 'Assigned Group',
             'data-package-status': 'Data Package',
+            'analysis-package-status': 'Analysis Package',
             'surveys-status': 'Surveys',
             'instruments-status': 'Instruments',
             'data-sets-status': 'Data Sets',
