@@ -39,7 +39,6 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.isAnalysisPackageChecked = function() {
-
           req.dataPackagesRequired = false;
           req.surveysRequired = false;
           req.instrumentsRequired = false;

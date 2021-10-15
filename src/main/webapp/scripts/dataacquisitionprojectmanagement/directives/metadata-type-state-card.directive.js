@@ -46,6 +46,15 @@ angular.module('metadatamanagementApp')
               'delete-all-data-packages-tooltip';
             this.limit = 1;
             break;
+          case 'analysisPackages':
+            this.createState = 'analysisPackageCreate';
+            this.searchState = 'analysis_packages';
+            this.tooltip = 'search-management.buttons.' +
+              'create-analysis-package-tooltip';
+            this.deleteTooltip = 'search-management.buttons.' +
+              'delete-all-analysis-packages-tooltip';
+            this.limit = 1;
+            break;
           case 'surveys':
             this.createState = 'surveyCreate';
             this.searchState = this.type;
