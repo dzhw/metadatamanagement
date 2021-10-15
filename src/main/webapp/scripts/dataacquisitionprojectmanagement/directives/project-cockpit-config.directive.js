@@ -36,6 +36,24 @@ angular.module('metadatamanagementApp')
         ctrl.isUserPublisher = function() {
           return Principal.hasAuthority('ROLE_PUBLISHER');
         };
+
+        ctrl.isAnalysisPackageChecked = function() {
+          console.log(ctrl.project.configuration.requirements);
+          var req = ctrl.project.configuration.requirements;
+          req.dataPackagesRequired = false;
+          req.surveysRequired = false;
+          req.instrumentsRequired = false;
+          req.questionsRequired = false;
+          req.dataSetsRequired = false;
+          req.variablesRequired = false;
+          req.publicationsRequired = true;
+          req.conceptsRequired = false;
+        };
+
+        ctrl.isDataPackageChecked = function() {
+          ctrl.project.configuration.requirements.analysisPackagesRequired = false;
+          ctrl.project.configuration.requirements.publicationsRequired = false;
+        };
       }
     };
   });
