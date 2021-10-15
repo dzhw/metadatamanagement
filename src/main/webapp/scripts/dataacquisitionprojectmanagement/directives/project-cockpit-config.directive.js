@@ -38,7 +38,6 @@ angular.module('metadatamanagementApp')
         };
 
         ctrl.isAnalysisPackageChecked = function() {
-          console.log(ctrl.project.configuration.requirements);
           var req = ctrl.project.configuration.requirements;
           req.dataPackagesRequired = false;
           req.surveysRequired = false;
