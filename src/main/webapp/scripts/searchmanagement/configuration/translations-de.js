@@ -49,6 +49,7 @@ angular.module('metadatamanagementApp').config(
           'create-survey-tooltip': 'Klicken, um eine neue Erhebung zu erstellen',
           'create-concept-tooltip': 'Klicken, um ein neues Konzept zu erstellen',
           'edit-data-package-tooltip': 'Klicken, um das Datenpaket zu bearbeiten',
+          'edit-analysis-package-tooltip': 'Klicken, um das Analysepaket zu bearbeiten',
           'edit-concept-tooltip': 'Klicken, um das Konzept zu bearbeiten',
           'edit-survey-tooltip': 'Klicken, um die Erhebung zu bearbeiten',
           'delete-survey-tooltip': 'Klicken, um die Erhebung zu löschen',

@@ -50,6 +50,7 @@ angular.module('metadatamanagementApp').config(
           'create-concept-tooltip': 'Click to create the concept',
           'create-survey-tooltip': 'Click to create a new survey',
           'edit-data-package-tooltip': 'Click to edit the data package',
+          'edit-analysis-package-tooltip': 'Click to edit the analysis package',
           'edit-concept-tooltip': 'Click to edit the concept',
           'edit-survey-tooltip': 'Click to edit the survey',
           'delete-survey-tooltip': 'Click to delete the survey',
