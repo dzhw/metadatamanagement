@@ -1,17 +1,19 @@
-/* Author: Daniel Katzberg */
 'use strict';
 
-angular.module('metadatamanagementApp').service('DataPackageIdBuilderService',
-function() {
-  var buildDataPackageId = function(dataAcquisitionProjectId, version) {
-    if (version && version !== '') {
-      return 'stu-' + dataAcquisitionProjectId + '$-' + version;
-    } else {
-      return 'stu-' + dataAcquisitionProjectId + '$';
-    }
-  };
+angular.module('metadatamanagementApp')
+  .service('AnalysisPackageIdBuilderService',
+    function() {
+      var buildAnalysisPackageId = function(dataAcquisitionProjectId, version) {
+        if (version && version !== '') {
+          return 'stu-' + dataAcquisitionProjectId + '$-' + version;
+        } else {
+          return 'stu-' + dataAcquisitionProjectId + '$';
+        }
+      };
 
-  return {
-    buildDataPackageId: buildDataPackageId
-  };
-});
+      return {
+        buildAnalysisPackageId: buildAnalysisPackageId
+      };
+    });
+
+// TODO: Create a generic PackageIdBuilder

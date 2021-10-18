@@ -2,22 +2,22 @@
 
 angular.module('metadatamanagementApp')
   .config(function($stateProvider, $urlRouterProvider) {
-    var loadShadowCopy = function(DataPackageSearchService,
+    var loadShadowCopy = function(AnalysisPackageSearchService,
         SimpleMessageToastService, id, version, excludes) {
       var loadLatestShadowCopyFallback = function() {
-        return DataPackageSearchService.findShadowByIdAndVersion(id, null,
+        return AnalysisPackageSearchService.findShadowByIdAndVersion(id, null,
           excludes).promise.then(function(result) {
             if (result) {
               return result;
             } else {
               SimpleMessageToastService.openAlertMessageToast(
-                'data-package-management.detail.not-found', {id: id}, 5000);
+                'analysis-package-management.detail.not-found', {id: id}, 5000);
               return null;
             }
           });
       };
 
-      return DataPackageSearchService.findShadowByIdAndVersion(id, version,
+      return AnalysisPackageSearchService.findShadowByIdAndVersion(id, version,
         excludes).promise.then(function(result) {
           if (result) {
             return result;
@@ -27,12 +27,12 @@ angular.module('metadatamanagementApp')
         });
     };
 
-    $urlRouterProvider.when('/de/data-packages/', '/de/error');
-    $urlRouterProvider.when('/en/data-packages/', '/en/error');
-    var stateName = 'dataPackageDetail';
-    var dataPackageDetailConfig = {
+    $urlRouterProvider.when('/de/analysis-packages/', '/de/error');
+    $urlRouterProvider.when('/en/analysis-packages/', '/en/error');
+    var stateName = 'analysisPackageDetail';
+    var analysisPackageDetailConfig = {
       parent: 'site',
-      url: '/data-packages/{id}?{access-way}{derived-variables-identifier}' +
+      url: '/analysis-packages/{id}?{access-way}{derived-variables-identifier}' +
         '{page}{query}{repeated-measurement-identifier}{size}{type}{version}',
       reloadOnSearch: false,
       data: {
@@ -43,19 +43,19 @@ angular.module('metadatamanagementApp')
       },
       views: {
         'content@': {
-          templateUrl: 'scripts/datapackagemanagement/views/' +
-            'data-package-detail.html.tmpl',
-          controller: 'DataPackageDetailController',
+          templateUrl: 'scripts/analysispackagemanagement/views/' +
+            'analysis-package-detail.html.tmpl',
+          controller: 'AnalysisPackageDetailController',
           controllerAs: 'ctrl'
         }
       },
       resolve: {
-        entity: ['$q', '$stateParams', 'DataPackageSearchService',
+        entity: ['$q', '$stateParams', 'AnalysisPackageSearchService',
           'Principal', 'SimpleMessageToastService', 'LocationSimplifier',
           '$state',
-          function($q, $stateParams,
-              DataPackageSearchService, Principal, SimpleMessageToastService,
-              LocationSimplifier, $state) {
+          function($q, $stateParams, AnalysisPackageSearchService,
+                   Principal, SimpleMessageToastService,
+            LocationSimplifier, $state) {
             return LocationSimplifier.removeDollarSign($state, $stateParams,
               stateName).then(function() {
                 var excludedAttributes = ['nested*','variables','questions',
@@ -63,11 +63,11 @@ angular.module('metadatamanagementApp')
                 'concepts'];
                 var id = LocationSimplifier.ensureDollarSign($stateParams.id);
                 if (Principal.loginName() && !$stateParams.version) {
-                  return DataPackageSearchService.findOneById(id, null,
+                  return AnalysisPackageSearchService.findOneById(id, null,
                     excludedAttributes);
                 } else {
                   var deferred = $q.defer();
-                  loadShadowCopy(DataPackageSearchService,
+                  loadShadowCopy(AnalysisPackageSearchService,
                     SimpleMessageToastService, id,
                     $stateParams.version, excludedAttributes)
                     .then(deferred.resolve, deferred.reject);
@@ -80,9 +80,9 @@ angular.module('metadatamanagementApp')
     };
 
     $stateProvider
-      .state(stateName, dataPackageDetailConfig);
+      .state(stateName, analysisPackageDetailConfig);
 
-    var legacyStudyDetailConfig = angular.copy(dataPackageDetailConfig);
+    var legacyStudyDetailConfig = angular.copy(analysisPackageDetailConfig);
     legacyStudyDetailConfig.url = '/studies/{id}?{access-way}' +
       '{derived-variables-identifier}' +
       '{page}{query}{repeated-measurement-identifier}{size}{type}{version}';
@@ -91,17 +91,17 @@ angular.module('metadatamanagementApp')
       .state('legacyStudyDetail', legacyStudyDetailConfig);
 
     $stateProvider
-      .state('dataPackageEdit', {
+      .state('analysisPackageEdit', {
         parent: 'site',
-        url: '/data-packages/{id}/edit',
+        url: '/analysis-packages/{id}/edit',
         data: {
           authorities: ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/datapackagemanagement/views/' +
-              'data-package-edit-or-create.html.tmpl',
-            controller: 'DataPackageEditOrCreateController',
+            templateUrl: 'scripts/analysispackagemanagement/views/' +
+              'analysis-package-edit-or-create.html.tmpl',
+            controller: 'AnalysisPackageEditOrCreateController',
             controllerAs: 'ctrl'
           }
         },
@@ -116,9 +116,9 @@ angular.module('metadatamanagementApp')
           }, 500);
         },
         resolve: {
-          entity: ['$stateParams', 'DataPackageResource',
-            function($stateParams, DataPackageResource) {
-              return DataPackageResource.get({
+          entity: ['$stateParams', 'AnalysisPackageResource',
+            function($stateParams, AnalysisPackageResource) {
+              return AnalysisPackageResource.get({
                 id: $stateParams.id
               });
             }
@@ -127,17 +127,17 @@ angular.module('metadatamanagementApp')
       });
 
     $stateProvider
-      .state('dataPackageCreate', {
+      .state('analysisPackageCreate', {
         parent: 'site',
-        url: '/data-packages/new',
+        url: '/analysis-packages/new',
         data: {
           authorities: ['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER']
         },
         views: {
           'content@': {
-            templateUrl: 'scripts/datapackagemanagement/views/' +
-              'data-package-edit-or-create.html.tmpl',
-            controller: 'DataPackageEditOrCreateController',
+            templateUrl: 'scripts/analysispackagemanagement/views/' +
+              'analysis-package-edit-or-create.html.tmpl',
+            controller: 'AnalysisPackageEditOrCreateController',
             controllerAs: 'ctrl'
           }
         },

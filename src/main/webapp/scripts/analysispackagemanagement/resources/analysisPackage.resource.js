@@ -1,10 +1,8 @@
-/* Author: Daniel Katzberg */
 'use strict';
 
-/* Data Package Resource */
 angular.module('metadatamanagementApp')
-  .factory('DataPackageResource', function($resource, CleanJSObjectService) {
-    return $resource('/api/data-packages/:id', {
+  .factory('AnalysisPackageResource', function($resource, CleanJSObjectService) {
+    return $resource('/api/analysis-packages/:id', {
       id: '@id'
     }, {
       'get': {
