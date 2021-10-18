@@ -19,6 +19,13 @@ angular.module('metadatamanagementApp').config(
               'file': 'File'
             }
           },
+          'attachments': {
+            'create-title': 'Add new Document to Analysis Package "{{ analysisPackageId }}"',
+            'edit-title': 'Modify Document "{{ filename }}" of Analysis Package "{{ analysisPackageId }}"',
+            'hints': {
+              'filename': 'Choose a file which you want to attach to the analysis package.'
+            }
+          },
           'not-found': 'The {{id}} references to an unknown Analysis Package.'
         }
       }

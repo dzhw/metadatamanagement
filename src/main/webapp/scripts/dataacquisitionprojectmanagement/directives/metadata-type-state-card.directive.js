@@ -51,6 +51,8 @@ angular.module('metadatamanagementApp')
             this.searchState = 'analysis_packages';
             this.tooltip = 'search-management.buttons.' +
               'create-analysis-package-tooltip';
+            this.editTooltip = 'search-management.buttons.' +
+              'edit-analysis-package-tooltip';
             this.deleteTooltip = 'search-management.buttons.' +
               'delete-all-analysis-packages-tooltip';
             this.limit = 1;
