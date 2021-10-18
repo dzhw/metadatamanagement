@@ -18,7 +18,8 @@ angular.module('metadatamanagementApp').config(
               'language': 'Document Language',
               'file': 'File'
             }
-          }
+          },
+          'not-found': 'The {{id}} references to an unknown Analysis Package.'
         }
       }
       //jscs:enable
