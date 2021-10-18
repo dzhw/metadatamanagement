@@ -32,8 +32,9 @@ angular.module('metadatamanagementApp')
     var stateName = 'analysisPackageDetail';
     var analysisPackageDetailConfig = {
       parent: 'site',
-      url: '/analysis-packages/{id}?{access-way}{derived-variables-identifier}' +
-        '{page}{query}{repeated-measurement-identifier}{size}{type}{version}',
+      url: '/analysis-packages/{id}?{access-way}' +
+        '{derived-variables-identifier}{page}{query}' +
+        '{repeated-measurement-identifier}{size}{type}{version}',
       reloadOnSearch: false,
       data: {
         authorities: []
@@ -82,13 +83,13 @@ angular.module('metadatamanagementApp')
     $stateProvider
       .state(stateName, analysisPackageDetailConfig);
 
-    var legacyStudyDetailConfig = angular.copy(analysisPackageDetailConfig);
-    legacyStudyDetailConfig.url = '/studies/{id}?{access-way}' +
-      '{derived-variables-identifier}' +
-      '{page}{query}{repeated-measurement-identifier}{size}{type}{version}';
-
-    $stateProvider
-      .state('legacyStudyDetail', legacyStudyDetailConfig);
+    // var legacyStudyDetailConfig = angular.copy(analysisPackageDetailConfig);
+    // legacyStudyDetailConfig.url = '/studies/{id}?{access-way}' +
+    //   '{derived-variables-identifier}' +
+    //   '{page}{query}{repeated-measurement-identifier}{size}{type}{version}';
+    //
+    // $stateProvider
+    //   .state('legacyStudyDetail', legacyStudyDetailConfig);
 
     $stateProvider
       .state('analysisPackageEdit', {
