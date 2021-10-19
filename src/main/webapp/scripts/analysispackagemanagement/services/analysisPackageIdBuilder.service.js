@@ -5,9 +5,9 @@ angular.module('metadatamanagementApp')
     function() {
       var buildAnalysisPackageId = function(dataAcquisitionProjectId, version) {
         if (version && version !== '') {
-          return 'stu-' + dataAcquisitionProjectId + '$-' + version;
+          return 'ana-' + dataAcquisitionProjectId + '$-' + version;
         } else {
-          return 'stu-' + dataAcquisitionProjectId + '$';
+          return 'ana-' + dataAcquisitionProjectId + '$';
         }
       };
 
