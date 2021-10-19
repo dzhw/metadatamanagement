@@ -11,8 +11,8 @@ angular.module('metadatamanagementApp')
         },
         'save': {
           method: 'PUT',
-          transformRequest: function(dataPackage) {
-            var copy = angular.copy(dataPackage);
+          transformRequest: function(analysisPackage) {
+            var copy = angular.copy(analysisPackage);
             CleanJSObjectService.deleteEmptyStrings(copy);
             CleanJSObjectService.removeEmptyJsonObjects(copy);
             return angular.toJson(copy);
