@@ -45,8 +45,26 @@ angular.module('metadatamanagementApp')
         };
       };
 
+      ctrl.translationKeysAuthors = {
+        title: 'analysis-package-management.detail.label.authors',
+        tooltips: {
+          delete: 'analysis-package-management.edit.delete-package-author-tooltip',
+          add: 'analysis-package-management.edit.add-package-author-tooltip',
+          moveUp: 'analysis-package-management.edit.move-package-author-up-tooltip',
+          moveDown: 'analysis-package-management.edit.move-package-author-down-tooltip'
+        },
+        hints: {
+          firstName: 'analysis-package-management.edit.hints.' +
+            'authors.first-name',
+          middleName: 'analysis-package-management.edit.hints.' +
+            'authors.middle-name',
+          lastName: 'analysis-package-management.edit.hints.' +
+            'authors.last-name'
+        }
+      };
+
       ctrl.translationKeysDataCurators = {
-        title: 'analysis-package-management.detail.label.analysis-curators',
+        title: 'analysis-package-management.detail.label.data-curators',
         tooltips: {
           delete: 'analysis-package-management.edit.delete-curator-tooltip',
           add: 'analysis-package-management.edit.add-curator-tooltip',
@@ -67,7 +85,6 @@ angular.module('metadatamanagementApp')
       $scope.$watch('ctrl.analysisPackage.studySeries', function() {
         ctrl.onStudySeriesChanged();
       }, true);
-
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageMetadataService.setPageTitle(
@@ -160,7 +177,7 @@ angular.module('metadatamanagementApp')
                     dataAcquisitionProjectId: CurrentProjectService
                       .getCurrentProject()
                       .id,
-                    projectContributors: [{
+                    authors: [{
                       firstName: '',
                       lastName: ''
                     }],
@@ -529,12 +546,12 @@ angular.module('metadatamanagementApp')
           .then(function(wrapper) {
             ctrl.analysisPackage = new AnalysisPackageResource(wrapper
               .selection);
-            // if (!ctrl.analysisPackage.projectContributors) {
-            //   ctrl.analysisPackage.projectContributors = [{
-            //     firstName: '',
-            //     lastName: ''
-            //   }];
-            // }
+            if (!ctrl.analysisPackage.authors) {
+              ctrl.analysisPackage.authors = [{
+                firstName: '',
+                lastName: ''
+              }];
+            }
             if (!ctrl.analysisPackage.analysisCurators) {
               ctrl.analysisPackage.analysisCurators = [{
                 firstName: '',
