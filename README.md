@@ -31,10 +31,8 @@ On Windows, `patch.exe` has to exist in the PATH. It is distributed as part of g
 ## Running on your local machine
 
 Before starting the app on your local machine you need to start the following Document Stores:
-1. Mongodb: Mongodb must be running on the default port, on ubuntu you should install it from [here](https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/)
-2. Elasticsearch (7.12.1): Elasticsearch must be running on its default port. You can download it from [here](https://www.elastic.co/downloads/elasticsearch)
-
-Make sure that you have read-write-access on the ***data*** directory (in your project directory) for Elasticsearch.
+1. Mongodb: Mongodb must be running on the default port, on ubuntu you should install it from [here](https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/). ***However, running it with docker is preferred.***
+2. Elasticsearch (7.12.1): Elasticsearch must be running on its default port. You can download it from [here](https://www.elastic.co/downloads/elasticsearch). ***However running it with docker is preferred.***
 
 ***Alternatively*** you can run
 
@@ -42,7 +40,16 @@ Make sure that you have read-write-access on the ***data*** directory (in your p
     # for later use once the containers are created
     docker-compose start
 
-to start all services the metadatamanagement depends on. Mongodb and Elasticsearch will be listening on its default ports.
+to start all services the metadatamanagement depends on. MongoDB and Elasticsearch will be listening on its default ports.
+
+Make sure that you have read-write-access on the ***data*** directory (in your project directory) for Elasticsearch.
+
+You can get a MongoDB dump and restore it locally:
+```
+wget https://metadatamanagement-public.s3.eu-central-1.amazonaws.com/20211019_metadatamanagement.zip
+unzip 20211019_metadatamanagement.zip
+mongorestore ./metadatamanagement --db=metadatamanagement
+```
 
 You will need to setup your `~/.m2/settings.xml` so that maven can download a dependency from Github:
 
@@ -71,6 +78,15 @@ auto-refreshes when files change on your hard drive.
     mvn
     grunt
 
+If you run the backend on your machine for the first time or you have restored a mongodb dump then you need to setup the elasticsearch indices. Therefore go to http://localhost:8080/de/health and sign in with `localuser` and password `herlichwillkommen`. Then click the red button 'reindex'. Reindexing can take up to 1 hour.
+
+In order for all external services to work on your local machine, you need to set the following environment variables:
+```
+DARA_ENDPOINT=http://labs.da-ra.de/dara/
+DARA_USERNAME={see s3://metadatamanagement-private/sensitive_variables.tf}
+DARA_PASSWORD={see s3://metadatamanagement-private/sensitive_variables.tf}
+```
+
 If you want to build a docker image for the metadatamanagement server app you can run
 
     mvn deploy
@@ -89,23 +105,6 @@ This will concatenate and minify CSS and JavaScript files using grunt. It will a
 these new files.
 
 We test our project continuously with the Robot Framework. Test Developers can get further info [here](https://github.com/dzhw/metadatamanagement/wiki/Robot-Framework).
-
-## Technical Documentation
-
-### Domain Model
-The following picture models the relationships and attributes of the domain objects which are managed by our system.
-![Domain Model](https://github.com/dzhw/metadatamanagement/wiki/images/domain-model.png)
-
-Javadoc for our domain model can be found [here](https://dzhw.github.io/metadatamanagement/).
-
-### Architecture
-
-A (german) overview of the Systemarchitecture can be found [here](https://github.com/dzhw/metadatamanagement/wiki/Architektur).
-
-The following picture gives a rough overview:
-![Architecture](https://github.com/dzhw/metadatamanagement/wiki/images/architecture/aws_components_overview.png)
-
-This project is currently built and deployed to AWS Fargate by [Github Actions][GithubActions] (not TravisCI anymore as shown in the picture above). You can test the latest version on [our dev stage.](https://dev.metadata.fdz.dzhw.eu/)
 
 # Big Thanks
 
