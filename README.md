@@ -18,9 +18,9 @@ Please checkout the development branch before starting to code and create a new 
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
-1.  Java: You need to install java 15 sdk on your system. On Ubuntu you should use [SDKMAN!][]
-2.  Maven: You need to install maven 3.6.1 or above on your system. On Ubuntu you should use [SDKMAN!][]
-3.  [Node.js][]: Node.js 14 and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][]
+1.  Java: You need to install java 15 sdk on your system. On Ubuntu you should use [SDKMAN!][] (`sdk install java 15.0.2.hs-adpt`)
+2.  Maven: You need to install maven 3.6.1 or above on your system. On Ubuntu you should use [SDKMAN!][] (`sdk install maven`)
+3.  [Node.js][]: Node.js 14 and npm (coming with node.js) are required as well. On Ubuntu you should install node using [NVM][] (`nvm install v14`)
 
 We use [Grunt][] as our client build system. Install the grunt command-line tool globally with:
 
@@ -63,7 +63,7 @@ You will need to setup your `~/.m2/settings.xml` so that maven can download a de
 
 In order to have all java dependencies for the server and  all nodejs dependencies for the client and in order to build everything, simply run (and lean back for a while):
 
-    mvn -Pdev clean install
+    mvn -Pdev clean verify
 
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.

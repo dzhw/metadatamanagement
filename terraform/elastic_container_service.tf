@@ -3,10 +3,7 @@
 resource "aws_ecs_cluster" "cluster" {
   count = length(var.stages)
   name  = var.stages[count.index]
-  setting {
-    name  = "containerInsights"
-    value = "enabled"
-  }
+  
   capacity_providers = ["FARGATE", "FARGATE_SPOT"]
   default_capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"

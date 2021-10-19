@@ -3,7 +3,7 @@
 
 angular.module('metadatamanagementApp').factory('WebSocketService',
   function($timeout, $mdDialog, ENV, localStorageService,
-    $translate, LanguageService, ClientJS) {
+    $translate, LanguageService, ClientJS, $location) {
       var socket = null;
       var stompClient = null;
 
@@ -26,7 +26,12 @@ angular.module('metadatamanagementApp').factory('WebSocketService',
           window.onCaptureReady) {
           return;
         }
-        socket = new SockJS('/websocket');
+        if (ENV === 'local' && $location.port() === 3000) {
+          // don't try websocket connection when using browsersync
+          return;
+        } else {
+          socket = new SockJS('/websocket');
+        }
         stompClient = Stomp.over(socket);
         if (ENV !== 'local') {
           stompClient.debug = null;

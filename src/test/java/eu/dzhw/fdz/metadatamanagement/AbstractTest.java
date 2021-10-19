@@ -13,6 +13,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.icegreen.greenmail.util.GreenMail;
+import com.icegreen.greenmail.util.ServerSetupTest;
+
 import eu.dzhw.fdz.metadatamanagement.common.config.Constants;
 import eu.dzhw.fdz.metadatamanagement.common.repository.TaskRepository;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.repository.ConceptRepository;
@@ -86,6 +89,12 @@ public abstract class AbstractTest {
   @Autowired
   private TaskRepository taskRepository;
 
+  protected static GreenMail greenMail = new GreenMail(ServerSetupTest.SMTP.withPort(4025));
+  
+  static {
+    greenMail.start();
+  }
+
   @AfterEach
   public void ensureAllDataStoresHaveBeenCleanedUp() {
     assertEquals(0, this.dataPackageRepository.count());
@@ -103,5 +112,6 @@ public abstract class AbstractTest {
     assertThat(this.elasticsearchAdminService.countAllDocuments(), equalTo(0L));
     assertEquals(0, this.shadowCopyQueueItemRepository.count());
     assertEquals(0, this.dataAcquisitionProjectRepository.count());
+    assertEquals(0, greenMail.getReceivedMessages().length);
   }
 }

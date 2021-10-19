@@ -120,7 +120,26 @@ public class AnalysisPackageResourceControllerTest extends AbstractTest {
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.errors[0].message", containsString("invalid-shadow")));
   }
-  
+
+  @Test
+  @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
+  public void shouldFailWithWrongIdPattern() throws IOException, Exception {
+    DataAcquisitionProject project =
+        UnitTestCreateDomainObjectUtils.buildDataAcquisitionProjectForAnalysisPackages();
+    dataAcquisitionProjectRepository.save(project);
+
+    AnalysisPackage analysisPackage =
+        UnitTestCreateDomainObjectUtils.buildAnalysisPackage(project.getId());
+    analysisPackage.setId("stu-" + project.getId() + "$");
+
+    mockMvc
+        .perform(put(API_ANALYSISPACKAGE_URI + "/" + analysisPackage.getId())
+            .content(TestUtil.convertObjectToJsonBytes(analysisPackage))
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message",
+            is("analysis-package-management.error.analysis-package.id.pattern")));
+  }
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void testCreateAnalysisPackageWithPost() throws IOException, Exception {
