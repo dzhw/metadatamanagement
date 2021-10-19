@@ -18,6 +18,8 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.util.Patterns;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.I18nStringSize;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.StringLengths;
 import eu.dzhw.fdz.metadatamanagement.common.domain.validation.ValidIsoLanguage;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.AnalysisPackageExists;
+import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.AtMostOnePublicationPerAnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.DataPackageExists;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidPublicationYear;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.validation.ValidRelatedPublicationId;
@@ -38,15 +40,17 @@ import lombok.ToString;
 @Document(collection = "related_publications")
 @ValidPublicationYear(
     message = "related-publication-management.error.related-publication." + "year.valid")
-@ValidRelatedPublicationId(
-    message = "related-publication-management.error.related-publication."
-        + "valid-related-publication-id")
+@ValidRelatedPublicationId(message = "related-publication-management.error.related-publication."
+    + "valid-related-publication-id")
 @EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
 @Builder
+@AtMostOnePublicationPerAnalysisPackage(
+    message = "related-publication-management.error.related-publication."
+        + "duplicate-analysis-package-id")
 public class RelatedPublication extends AbstractRdcDomainObject {
 
   private static final long serialVersionUID = -7754758901246743458L;
@@ -112,10 +116,10 @@ public class RelatedPublication extends AbstractRdcDomainObject {
 
   /* Foreign Keys */
   @Indexed
-  @NotEmpty(
-      message = "related-publication-management.error.related-publication."
-          + "data-package-ids.not-empty")
   private List<@DataPackageExists String> dataPackageIds;
+
+  @Indexed
+  private List<@AnalysisPackageExists String> analysisPackageIds;
 
 
   public RelatedPublication(RelatedPublication relatedPublication) {

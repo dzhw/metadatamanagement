@@ -1,5 +1,5 @@
 terraform {
-  # use s3 as backend for storing the terraform state 
+  # use s3 as backend for storing the terraform state
   # currently not configured for concurrent state updates
   backend "s3" {
     profile = "mdm"
@@ -39,5 +39,22 @@ resource "aws_s3_bucket" "metadatamanagement_private" {
 
   versioning {
     enabled = true
+  }
+}
+
+resource "aws_s3_bucket_object" "sensitive_variables" {
+  bucket = aws_s3_bucket.metadatamanagement_private.id
+  key    = "sensitive_variables.tf"
+  source = "sensitive_variables.tf"
+  etag = filemd5("sensitive_variables.tf")
+}
+
+# S3 bucket which holds publicly accessible files like dev mongodb dumps
+resource "aws_s3_bucket" "metadatamanagement_public" {
+  bucket = "metadatamanagement-public"
+  acl    = "public-read"
+  versioning {
+    enabled    = false
+    mfa_delete = false
   }
 }

@@ -1,0 +1,329 @@
+{
+	"dynamic_templates": [
+		{
+			"default_mapping": {
+				"match": "*",
+				"mapping": {
+					"index": false,
+					"copy_to": "all"
+				}
+			}
+		}
+	],
+	"properties": {
+		"all": {
+			"type": "text",
+			"index": true,
+			"analyzer": "ngrams",
+			"norms": false
+		},
+		"id": {
+			"type": "keyword",
+			"copy_to": "all",
+			"fields": {
+				"ngrams": {
+					"type": "text",
+					"analyzer": "ngrams",
+					"norms": false
+				}
+			}
+		},
+		"masterId": {
+			"type": "keyword",
+			"copy_to": "all",
+			"fields": {
+				"ngrams": {
+					"type": "text",
+					"analyzer": "ngrams",
+					"norms": false
+				}
+			}
+		},
+		"successorId": {
+			"type": "keyword",
+			"copy_to": "all",
+			"fields": {
+				"ngrams": {
+					"type": "text",
+					"analyzer": "ngrams",
+					"norms": false
+				}
+			}
+		},
+		"shadow": {
+			"type": "boolean",
+			"copy_to": "all"
+		},
+		"hidden": {
+			"type": "boolean",
+			"copy_to": "all"
+		},
+		"completeTitle": {
+			"type": "object",
+			"properties": {
+				"de": {
+					"type": "text",
+					"analyzer": "ngrams",
+					"norms": false
+				},
+				"en": {
+					"type": "text",
+					"analyzer": "ngrams",
+					"norms": false
+				}
+			}
+		},
+		"configuration": {
+			"type": "object",
+			"properties": {
+				"publishers": {
+					"type": "keyword"
+				},
+				"dataProviders": {
+					"type": "keyword"
+				}
+			}
+		},
+		"lastModifiedDate": {
+			"type": "date"
+		},
+		"lastModifiedBy": {
+			"type": "keyword",
+			"copy_to": "all"
+		},
+		"createdDate": {
+			"type": "date"
+		},
+		"createdBy": {
+			"type": "keyword",
+			"copy_to": "all"
+		},
+		"dataAcquisitionProjectId": {
+			"type": "keyword",
+			"copy_to": "all"
+		},
+		"title": {
+			"type": "object",
+			"properties": {
+				"de": {
+					"type": "keyword",
+					"copy_to": "all",
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"en": {
+					"type": "keyword",
+					"copy_to": "all",
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				}
+			}
+		},
+		"description": {
+			"type": "object",
+			"properties": {
+				"de": {
+					"type": "text",
+					"index": false,
+					"copy_to": "all",
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"en": {
+					"type": "text",
+					"index": false,
+					"copy_to": "all",
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				}
+			}
+		},
+		"release": {
+			"type": "object",
+			"properties": {
+				"version": {
+					"type": "keyword"
+				},
+				"firstDate": {
+					"type": "date"
+				},
+				"lastDate": {
+					"type": "date"
+				},
+				"pinToStartPage": {
+					"type": "boolean"
+				}
+			}
+		},
+		"sponsors": {
+			"type": "object",
+			"properties": {
+				"de": {
+					"type": "keyword",
+					"copy_to": "all",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"en": {
+					"type": "keyword",
+					"copy_to": "all",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				}
+			}
+		},
+		"institutions": {
+			"type": "object",
+			"properties": {
+				"de": {
+					"type": "keyword",
+					"copy_to": "all",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"en": {
+					"type": "keyword",
+					"copy_to": "all",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				}
+			}
+		},
+		"nestedInstitutions": {
+			"type": "nested",
+			"properties": {
+				"de": {
+					"type": "keyword",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"en": {
+					"type": "keyword",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				}
+			}
+		},
+		"nestedSponsors": {
+			"type": "nested",
+			"properties": {
+				"de": {
+					"type": "keyword",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				},
+				"en": {
+					"type": "keyword",
+					"norms": false,
+					"fields": {
+						"ngrams": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				}
+			}
+		},
+		"relatedPublications": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "keyword",
+					"copy_to": "all"
+				}
+			}
+		},
+		"nestedRelatedPublications": {
+			"type": "nested",
+			"properties": {
+				"id": {
+					"type": "keyword"
+				},
+				"language": {
+					"type": "keyword"
+				},
+				"title": {
+					"type": "keyword"
+				},
+				"completeTitle": {
+					"type": "object",
+					"properties": {
+						"de": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						},
+						"en": {
+							"type": "text",
+							"analyzer": "ngrams",
+							"norms": false
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -54,10 +54,9 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @Builder
-@Schema(
-    description = "Go <a href='https://dzhw.github.io/metadatamanagement/"
-        + "eu/dzhw/fdz/metadatamanagement/datapackagemanagement/domain/DataPackage.html'>here</a>"
-        + " for further details.")
+@Schema(description = "Go <a href='https://dzhw.github.io/metadatamanagement/"
+    + "eu/dzhw/fdz/metadatamanagement/datapackagemanagement/domain/DataPackage.html'>here</a>"
+    + " for further details.")
 @ValidShadowId(message = "data-package-management.error.data-package.id.pattern")
 public class DataPackage extends AbstractShadowableRdcDomainObject
     implements DataPackageSubDocumentProjection {
@@ -129,9 +128,9 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
    */
   @NotEmpty(message = "data-package-management.error.data-package.institutions.not-null")
   private List<@I18nStringSize(max = StringLengths.MEDIUM,
-          message = "data-package-management.error.data-package.institution.i18n-string-size")
-      @I18nStringEntireNotEmpty(
-          message = "data-package-management.error.data-package.institution"
+      message = "data-package-management.error.data-package.institution.i18n-string-size")
+               @I18nStringEntireNotEmpty(
+      message = "data-package-management.error.data-package.institution"
               + ".i18n-string-entire-not-empty") I18nString> institutions;
 
   /**
@@ -158,9 +157,9 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
    */
   @NotEmpty(message = "data-package-management.error.data-package.sponsors.not-null")
   private List<@I18nStringSize(max = StringLengths.MEDIUM,
-          message = "data-package-management.error.data-package.sponsor.i18n-string-size")
-      @I18nStringEntireNotEmpty(
-          message = "data-package-management.error.sponsor.institution"
+      message = "data-package-management.error.data-package.sponsor.i18n-string-size") 
+               @I18nStringEntireNotEmpty(
+      message = "data-package-management.error.sponsor.institution"
               + ".i18n-string-entire-not-empty") I18nString> sponsors;
 
   /**
@@ -204,6 +203,7 @@ public class DataPackage extends AbstractShadowableRdcDomainObject
    * Keywords for the dataPackage.
    */
   @Valid
+  @NotNull(message = "data-package-management.error.data-package.tags.not-null")
   private Tags tags;
 
   /**

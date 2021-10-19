@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageManagementService;
-import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
@@ -34,7 +33,7 @@ public class DeleteAllDataPackagesResourceController {
    */
   @Secured(value = {AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.PUBLISHER})
   @DeleteMapping(value = "/data-acquisition-projects/{id}/data-packages")
-  public ResponseEntity<Survey> delete(@PathVariable String id) {
+  public ResponseEntity<?> delete(@PathVariable String id) {
     dataPackageService.deleteAllDataPackagesByProjectId(id);
     return ResponseEntity.noContent().build();
   }

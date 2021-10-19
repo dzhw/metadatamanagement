@@ -2,17 +2,15 @@ package eu.dzhw.fdz.metadatamanagement.projectmanagement.domain;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.AssertTrue;
-
 import org.javers.core.metamodel.annotation.ValueObject;
 
-import lombok.AccessLevel;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.EitherDataPackagesOrAnalysisPackagesRequired;
+import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.PublicationsRequiredForAnalysisPackages;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * This configuration defines which object types have to be delivered before a project can be
@@ -24,19 +22,27 @@ import lombok.Setter;
 @ValueObject
 @EqualsAndHashCode
 @Builder
+@EitherDataPackagesOrAnalysisPackagesRequired(
+    message = "data-acquisition-project-management.error.configuration.requirements"
+        + ".either-data-packages-or-analysis-packages-required")
+@PublicationsRequiredForAnalysisPackages(
+    message = "data-acquisition-project-management.error.configuration.requirements"
+        + ".publications-required-for-analysis-packages")
 public class Requirements implements Serializable {
 
   private static final long serialVersionUID = 1549882098416793512L;
 
   /**
-   * Defines if dataPackage data is required for a release (this object type is mandatory and this
-   * setting is therefore always {@code true}.
+   * Defines if dataPackage data is required for a release (either this object type is mandatory or
+   * analysis packages).
    */
-  @AssertTrue(message = "data-acquisition-project-management.error.required-object-types"
-      + ".is-dataPackages-required.assert-true")
-  @Setter(AccessLevel.NONE)
-  @Builder.Default
-  private boolean isDataPackagesRequired = true;
+  private boolean isDataPackagesRequired;
+
+  /**
+   * Defines if analysis package data is required for a release (either this object type is
+   * mandatory or data packages).
+   */
+  private boolean isAnalysisPackagesRequired;
 
   /**
    * Defines if survey data is required for a release.
@@ -67,7 +73,7 @@ public class Requirements implements Serializable {
    * Defines if publication data is required for a release.
    */
   private boolean isPublicationsRequired;
-  
+
   /**
    * Defines if concept data is required for a release.
    */

@@ -31,7 +31,7 @@ spring:
           auto-index-creation: true
     mail:
         host: localhost
-        port: 3025
+        port: 4025
     thymeleaf:
         mode: HTML
     autoconfigure:
