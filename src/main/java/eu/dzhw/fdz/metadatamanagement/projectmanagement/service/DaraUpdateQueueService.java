@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import com.github.zafarkhaja.semver.Version;
 
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.repository.AnalysisPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
@@ -52,6 +54,8 @@ public class DaraUpdateQueueService {
 
   private final DataPackageRepository dataPackageRepository;
 
+  private final AnalysisPackageRepository analysisPackageRepository;
+
   private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
   private final UserRepository userRepository;
@@ -76,6 +80,14 @@ public class DaraUpdateQueueService {
     if (relatedPublicationChangesProvider.hasChangesRelevantForDara(relatedPublication.getId())) {
       enqueueDataPackagesIfProjectIsCurrentlyReleasedToDara(
           relatedPublicationChangesProvider.getAffectedDataPackageIds(relatedPublication.getId()));
+    }
+    enqueueAnalysisPackagesIfProjectIsCurrentlyReleasedToDara(
+        relatedPublicationChangesProvider.getAddedAnalysisPackageIds(relatedPublication.getId()));
+    enqueueAnalysisPackagesIfProjectIsCurrentlyReleasedToDara(
+        relatedPublicationChangesProvider.getDeletedAnalysisPackageIds(relatedPublication.getId()));
+    if (relatedPublicationChangesProvider.hasChangesRelevantForDara(relatedPublication.getId())) {
+      enqueueAnalysisPackagesIfProjectIsCurrentlyReleasedToDara(relatedPublicationChangesProvider
+          .getAffectedAnalysisPackageIds(relatedPublication.getId()));
     }
   }
 
@@ -140,6 +152,26 @@ public class DaraUpdateQueueService {
         }
       } else {
         log.warn("Unable to find dataPackage with ID {}", dataPackageId);
+      }
+    }
+  }
+
+  private void enqueueAnalysisPackagesIfProjectIsCurrentlyReleasedToDara(
+      Collection<String> analysisPackageIds) {
+    for (String analysisPackageId : analysisPackageIds) {
+      AnalysisPackage analysisPackage =
+          analysisPackageRepository.findById(analysisPackageId).orElse(null);
+      if (analysisPackage != null) {
+        DataAcquisitionProject dataAcquisitionProject = this.projectRepository
+            .findById(analysisPackage.getDataAcquisitionProjectId()).orElse(null);
+
+        if (dataAcquisitionProject != null && dataAcquisitionProject.getRelease() != null
+            && Version.valueOf(dataAcquisitionProject.getRelease().getVersion())
+                .greaterThanOrEqualTo(Version.valueOf("1.0.0"))) {
+          this.enqueue(analysisPackage.getDataAcquisitionProjectId());
+        }
+      } else {
+        log.warn("Unable to find analysisPackage with ID {}", analysisPackageId);
       }
     }
   }

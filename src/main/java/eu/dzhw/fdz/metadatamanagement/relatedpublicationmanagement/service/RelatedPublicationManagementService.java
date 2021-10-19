@@ -9,6 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
+import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.domain.AnalysisPackage;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackage;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
@@ -46,6 +47,21 @@ public class RelatedPublicationManagementService implements CrudService<RelatedP
   public void onDataPackageChanged(DataPackage dataPackage) {
     elasticsearchUpdateQueueService.enqueueUpsertsAsync(
         () -> relatedPublicationRepository.streamIdsByDataPackageIdsContaining(dataPackage.getId()),
+        ElasticsearchType.related_publications);
+  }
+
+  /**
+   * Enqueue update of related publication search documents when the analysis package changed.
+   * 
+   * @param analysisPackage the updated, created or deleted analysisPackage.
+   */
+  @HandleAfterCreate
+  @HandleAfterSave
+  @HandleAfterDelete
+  public void onAnalysisPackageChanged(AnalysisPackage analysisPackage) {
+    elasticsearchUpdateQueueService.enqueueUpsertsAsync(
+        () -> relatedPublicationRepository
+            .streamIdsByAnalysisPackageIdsContaining(analysisPackage.getId()),
         ElasticsearchType.related_publications);
   }
 

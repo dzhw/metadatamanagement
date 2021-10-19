@@ -15,6 +15,10 @@ public class UnitTestCreateValidIds {
     return "stu-" + dataAcquisitionProjectId + "$";
   }
   
+  public static String buildAnalysisPackageId(String dataAcquisitionProjectId) {
+    return "ana-" + dataAcquisitionProjectId + "$";
+  }
+  
   public static String buildDataSetId(String dataAcquisitionProjectId, int dataSetNumber) {
     return "dat-" + dataAcquisitionProjectId + "-ds" + dataSetNumber + "$";
   }

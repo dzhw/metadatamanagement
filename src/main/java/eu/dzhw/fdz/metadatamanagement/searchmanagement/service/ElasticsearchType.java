@@ -10,7 +10,7 @@ import java.util.stream.Stream;
  */
 public enum ElasticsearchType {
   variables, surveys, data_sets, questions, data_packages, related_publications, instruments,
-  concepts;
+  concepts, analysis_packages;
 
   /**
    * Return the names of the types as array.
