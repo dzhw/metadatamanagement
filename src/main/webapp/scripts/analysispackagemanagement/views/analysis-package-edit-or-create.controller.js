@@ -48,10 +48,13 @@ angular.module('metadatamanagementApp')
       ctrl.translationKeysAuthors = {
         title: 'analysis-package-management.detail.label.authors',
         tooltips: {
-          delete: 'analysis-package-management.edit.delete-package-author-tooltip',
+          delete: 'analysis-package-management.' +
+            'edit.delete-package-author-tooltip',
           add: 'analysis-package-management.edit.add-package-author-tooltip',
-          moveUp: 'analysis-package-management.edit.move-package-author-up-tooltip',
-          moveDown: 'analysis-package-management.edit.move-package-author-down-tooltip'
+          moveUp: 'analysis-package-management.' +
+            'edit.move-package-author-up-tooltip',
+          moveDown: 'analysis-package-management.' +
+            'edit.move-package-author-down-tooltip'
         },
         hints: {
           firstName: 'analysis-package-management.edit.hints.' +
