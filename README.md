@@ -40,7 +40,7 @@ Before starting the app on your local machine you need to start the following Do
     # for later use once the containers are created
     docker-compose start
 
-to start all services the metadatamanagement depends on. MongoDB and Elasticsearch will be listening on its default ports.
+to start all services the metadatamanagement depends on. MongoDB and Elasticsearch will be listening on its default ports. MailDev will show all locally sent email on 8081 and the identity-provider can be setup on port 8082.
 
 Make sure that you have read-write-access on the ***data*** directory (in your project directory) for Elasticsearch.
 
