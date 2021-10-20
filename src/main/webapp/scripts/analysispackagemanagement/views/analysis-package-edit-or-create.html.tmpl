@@ -353,57 +353,6 @@
         translation-key-name="description"
         max-length="2048"
         content="ctrl.analysisPackage.description"></fdz-text-area-component>
-<!--      <md-card class="mb8">-->
-<!--        <md-card-header>-->
-<!--          <md-card-header-text>-->
-<!--            <h2 class="md-title">{{'analysis-package-management.detail.description' | translate}}</h2>-->
-<!--          </md-card-header-text>-->
-<!--        </md-card-header>-->
-<!--        <md-divider></md-divider>-->
-<!--        <md-card-content>-->
-<!--          <div layout="column" layout-gt-sm="row">-->
-<!--            <md-input-container flex="50"-->
-<!--                                md-is-error="!analysisPackageForm.descriptionDe.$valid && (analysisPackageForm.descriptionDe.$dirty || analysisPackageForm.descriptionDe.$touched)"-->
-<!--                                ng-class="{'mr10': $mdMedia('gt-sm')}"-->
-<!--                                class="ms-flex mr8">-->
-<!--              <label class="fdz-input-required">{{'analysis-package-management.detail.description' | translate}}-->
-<!--                ({{'global.in-german' | translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>-->
-<!--              <textarea fdz-required lang="de" md-maxlength="2048" md-no-asterisk-->
-<!--                        name="descriptionDe" ng-model="ctrl.analysisPackage.description.de" rows="4"></textarea>-->
-<!--              <div class="fdz-input-hint" ng-if="!analysisPackageForm.descriptionDe.$dirty && !analysisPackageForm.descriptionDe.$touched">-->
-<!--                {{'analysis-package-management.edit.hints.description.de' | translate}}-->
-<!--              </div>-->
-<!--              <div multiple ng-messages="analysisPackageForm.descriptionDe.$error">-->
-<!--                <div ng-message="fdz-required">{{'analysis-package-management.error.analysis-package.description.i18n-string-not-empty' |-->
-<!--                  translate}}-->
-<!--                </div>-->
-<!--                <div ng-message="md-maxlength">{{'analysis-package-management.error.analysis-package.description.i18n-string-size' |-->
-<!--                  translate}}-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </md-input-container>-->
-<!--            <md-input-container flex="50"-->
-<!--                                md-is-error="!analysisPackageForm.descriptionEn.$valid && (analysisPackageForm.descriptionEn.$dirty || analysisPackageForm.descriptionEn.$touched)"-->
-<!--                                class="ms-flex mr8">-->
-<!--              <label class="fdz-input-required">{{'analysis-package-management.detail.description' | translate}}-->
-<!--                ({{'global.in-english' | translate}})<md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon></label>-->
-<!--              <textarea fdz-required lang="en" md-maxlength="2048" md-no-asterisk-->
-<!--                        name="descriptionEn" ng-model="ctrl.analysisPackage.description.en" rows="4"></textarea>-->
-<!--              <div class="fdz-input-hint" ng-if="!analysisPackageForm.descriptionEn.$dirty && !analysisPackageForm.descriptionEn.$touched">-->
-<!--                {{'analysis-package-management.edit.hints.description.en' | translate}}-->
-<!--              </div>-->
-<!--              <div multiple ng-messages="analysisPackageForm.descriptionEn.$error">-->
-<!--                <div ng-message="fdz-required">{{'analysis-package-management.error.analysis-package.description.i18n-string-not-empty' |-->
-<!--                  translate}}-->
-<!--                </div>-->
-<!--                <div ng-message="md-maxlength">{{'analysis-package-management.error.analysis-package.description.i18n-string-size' |-->
-<!--                  translate}}-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </md-input-container>-->
-<!--          </div>-->
-<!--        </md-card-content>-->
-<!--      </md-card>-->
       <edit-people-component people="ctrl.analysisPackage.authors" people-id="'authors'" translation-keys="ctrl.translationKeysAuthors" current-form="analysisPackageForm"></edit-people-component>
       <edit-people-component people="ctrl.analysisPackage.dataCurators" people-id="'dataCurators'" translation-keys="ctrl.translationKeysDataCurators" current-form="analysisPackageForm"></edit-people-component>
       <md-card class="mb8">
