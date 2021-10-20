@@ -34,6 +34,11 @@ spring:
         static-locations:
           - file:src/main/webapp/
           - classpath:public/
+    security:
+      oauth2:
+        resourceserver:
+          jwt:
+            issuer-uri: http://localhost:8082
 
 logging:
     level:
