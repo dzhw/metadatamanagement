@@ -219,10 +219,6 @@ angular.module('metadatamanagementApp')
         ctrl.analysisPackage.institutions.splice(index, 1);
         ctrl.currentInstitutions.splice(index,  1);
         if (ctrl.analysisPackage.institutions.length === 0) {
-          ctrl.analysisPackage.institutions = [{
-            'de': '',
-            'en': ''
-          }];
           ctrl.currentInstitutions = new Array(1);
           $scope.analysisPackageForm.$setUntouched();
         }
@@ -307,10 +303,6 @@ angular.module('metadatamanagementApp')
         ctrl.analysisPackage.sponsors.splice(index, 1);
         ctrl.currentSponsors.splice(index, 1);
         if (ctrl.analysisPackage.sponsors.length === 0) {
-          ctrl.analysisPackage.sponsors = [{
-            'de': '',
-            'en': ''
-          }];
           ctrl.currentSponsors = new Array(1);
           $scope.analysisPackageForm.$setUntouched();
         }
