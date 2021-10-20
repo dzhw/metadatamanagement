@@ -11,7 +11,7 @@ angular.module('metadatamanagementApp')
              $scope, ElasticSearchAdminService, $transitions,
              CommonDialogsService, LanguageService,
              AnalysisPackageSearchService, AnalysisPackageAttachmentResource,
-             $q, CleanJSObjectService, DataAcquisitionProjectResource,
+             $q, DataAcquisitionProjectResource,
              ProjectUpdateAccessService,
              AttachmentDialogService, AnalysisPackageAttachmentUploadService,
              AnalysisPackageAttachmentVersionsResource,
@@ -85,9 +85,6 @@ angular.module('metadatamanagementApp')
 
       ctrl.findTags = AnalysisPackageSearchService.findTags;
 
-      $scope.$watch('ctrl.analysisPackage.studySeries', function() {
-        ctrl.onStudySeriesChanged();
-      }, true);
       var updateToolbarHeaderAndPageTitle = function() {
         if (ctrl.createMode) {
           PageMetadataService.setPageTitle(
@@ -188,8 +185,13 @@ angular.module('metadatamanagementApp')
                       firstName: '',
                       lastName: ''
                     }],
+                    description: {
+                      de: '',
+                      en: ''
+                    },
                     institutions: [],
-                    sponsors: []
+                    sponsors: [],
+                    license: ''
                   });
                   ctrl.currentInstitutions = new Array(1);
                   ctrl.currentSponsors = new Array(1);
@@ -795,53 +797,6 @@ angular.module('metadatamanagementApp')
           .hasAnyAuthority(['ROLE_PUBLISHER',
             'ROLE_DATA_PROVIDER'])) {
           ctrl.currentAttachmentIndex = index;
-        }
-      };
-
-      ctrl.onStudySeriesChanged = function() {
-        //The fields of study series are undefined
-        //at the moment of the first initial Call
-        if (!$scope.analysisPackageForm.studySeriesDe ||
-          !$scope.analysisPackageForm.studySeriesEn ||
-          !ctrl.analysisPackage ||
-          !ctrl.analysisPackage.studySeries) {
-          return;
-        }
-
-        if (CleanJSObjectService
-            .isNullOrEmpty(ctrl.analysisPackage.studySeries.de) &&
-          !CleanJSObjectService
-            .isNullOrEmpty(ctrl.analysisPackage.studySeries.en)) {
-          $scope.analysisPackageForm.studySeriesDe.$setValidity(
-            'fdz-required', false);
-        }
-
-        if (CleanJSObjectService
-            .isNullOrEmpty(ctrl.analysisPackage.studySeries.en) &&
-          !CleanJSObjectService
-            .isNullOrEmpty(ctrl.analysisPackage.studySeries.de)) {
-          $scope.analysisPackageForm.studySeriesEn.$setValidity(
-            'fdz-required', false);
-        }
-
-        if ((CleanJSObjectService
-              .isNullOrEmpty(ctrl.analysisPackage.studySeries.de) &&
-            CleanJSObjectService
-              .isNullOrEmpty(ctrl.analysisPackage.studySeries.en)) ||
-          (!CleanJSObjectService
-              .isNullOrEmpty(ctrl.analysisPackage.studySeries.de) &&
-            !CleanJSObjectService
-              .isNullOrEmpty(ctrl.analysisPackage.studySeries.en))) {
-          $scope.analysisPackageForm.studySeriesDe.$setValidity(
-            'fdz-required', true);
-          $scope.analysisPackageForm.studySeriesEn.$setValidity(
-            'fdz-required', true);
-        }
-
-        if (!ctrl.isInitializingStudySeries) {
-          $scope.analysisPackageForm.$setDirty();
-        } else {
-          ctrl.isInitializingStudySeries = false;
         }
       };
 

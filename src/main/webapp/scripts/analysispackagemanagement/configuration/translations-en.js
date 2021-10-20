@@ -13,9 +13,11 @@ angular.module('metadatamanagementApp').config(
             'annotations': 'Annotations',
             'authors': 'Authors',
             'data-curators': 'Datenkuratierung',
+            'description': 'Analysis Package Description',
             'doi': 'DOI',
             'institution': 'Institution',
             'institutions': 'Institution(s)',
+            'license': 'License',
             'sponsors': 'Sponsored by',
             'title': 'Title',
             'attachments': {
@@ -48,7 +50,6 @@ angular.module('metadatamanagementApp').config(
               'filename': 'Choose a file which you want to attach to the analysis package.'
             }
           },
-          'description': 'Analysis Package Description',
           'not-found': 'The {{id}} references to an unknown Analysis Package.'
         },
         'edit': {
@@ -127,6 +128,7 @@ angular.module('metadatamanagementApp').config(
               'de': 'Please enter the German name of the institution which participated in the analysis package.',
               'en': 'Please enter the English name of the institution which participated in the analysis package.'
             },
+            'license': 'If no contract is signed we will need a license like cc-by-sa',
             'sponsor': {
               'de': 'Enter the German name of the sponsor of this analysis package.',
               'en': 'Enter the English name of the sponsor of this analysis package.'
@@ -134,7 +136,7 @@ angular.module('metadatamanagementApp').config(
             'title': {
               'de': 'Please enter the title of this analysis package in German.',
               'en': 'Please enter the title of this analysis package in English.'
-            },
+            }
           }
         },
         'error': {
@@ -152,6 +154,9 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'The max length of the institution is 512.',
               'i18n-string-entire-not-empty': 'The institution of the analysis package must not be empty for both languages.'
             },
+            'license': {
+              'string-size': 'The max length of the license is 1048576 signs.'
+            },
             'sponsor': {
               'not-null': 'The sponsor of the analysis package must not be empty!',
               'i18n-string-size': 'The max length of the sponsor of the analysis package is 512.',
@@ -161,7 +166,7 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The title of the analysis package must not be empty!',
               'i18n-string-size': 'The max length of the analysis package title is 2048.',
               'i18n-string-entire-not-empty': 'The title of the analysis package must not be empty for all languages.'
-            },
+            }
           }
         }
       }

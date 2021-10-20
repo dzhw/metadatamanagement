@@ -13,9 +13,11 @@ angular.module('metadatamanagementApp').config(
             'annotations': 'Anmerkungen',
             'authors': 'Autor:innen',
             'data-curators': 'Data Curation',
+            'description': 'Analysepaketbeschreibung',
             'doi': 'DOI',
             'institution': 'Institution',
             'institutions': 'Institution(en)',
+            'license': 'Lizenz',
             'sponsors': 'Gefördert von',
             'title': 'Titel',
             'attachments': {
@@ -48,8 +50,7 @@ angular.module('metadatamanagementApp').config(
               'filename': 'Wählen Sie eine Datei aus, die Sie des Analysepakets hinzufügen wollen.'
             }
           },
-          'description': 'Analysepaketbeschreibung',
-          'not-found': 'Die id {{id}} referenziert auf eine unbekanntes Analysepaket.',
+          'not-found': 'Die id {{id}} referenziert auf eine unbekanntes Analysepaket.'
         },
         'edit': {
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Analysepakets wieder herzustellen.',
@@ -128,6 +129,7 @@ angular.module('metadatamanagementApp').config(
               'de': 'Geben Sie den deutschen Namen der Institution ein, die an dem Analysepaket beteiligt waren.',
               'en': 'Geben Sie den englischen Namen der Institution ein, die an dem Analysepaket beteiligt waren.'
             },
+            'license': 'Wenn kein Vertrag unterzeichnet wird, benötigen wir eine Lizenz wie cc-by-sa',
             'sponsor': {
               'de': 'Geben Sie den deutschen Namen der Geldgeber:in für dieses Analysepaket ein.',
               'en': 'Geben Sie den englischen Namen der Geldgeber:in für dieses Analysepaket ein.'
@@ -153,6 +155,9 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'Die Maximallänge der Institution eines Analysepakets ist 512 Zeichen.',
               'i18n-string-entire-not-empty': 'Die Institution eines Analysepakets muss in beiden Sprachen vorhanden sein.'
             },
+            'license': {
+              'string-size': 'Die Maximallänge der Lizenz ist 1048576 Zeichen.'
+            },
             'sponsor': {
               'not-null': 'Die Geldgeber:in eines Analysepakets darf nicht leer sein!',
               'i18n-string-size': 'Die Maximallänge der Geldgeber:in eines Analysepakets ist 512 Zeichen.',
@@ -162,7 +167,7 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Der Titel eines Analysepaket darf nicht leer sein!',
               'i18n-string-size': 'Die Maximallänge des Titels eines Analysepaket ist 2048 Zeichen.',
               'i18n-string-entire-not-empty': 'Der Titel eines Analysepaket muss in allen Sprachen vorhanden sein.'
-            },
+            }
           }
         }
       }
