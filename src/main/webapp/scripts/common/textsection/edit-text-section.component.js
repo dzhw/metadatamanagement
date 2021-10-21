@@ -24,7 +24,7 @@
 
   var Component = {
     controller: 'editTextSectionController',
-    templateUrl: 'scripts/common/fdztextsection/edit-text-section.html.tmpl',
+    templateUrl: 'scripts/common/textsection/edit-text-section.html.tmpl',
     bindings: {
       bilingual: '<',
       notNull: '<',
