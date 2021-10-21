@@ -18,6 +18,7 @@ angular.module('metadatamanagementApp').config(
             'institution': 'Institution',
             'institutions': 'Institution(en)',
             'license': 'Lizenz',
+            'scripts': 'Skripte',
             'sponsors': 'Gefördert von',
             'title': 'Titel',
             'attachments': {
@@ -60,6 +61,10 @@ angular.module('metadatamanagementApp').config(
           'move-sponsor-down-tooltip': 'Klicken, um die ausgewählte Geldgeber:in nach unten zu verschieben.',
           'add-sponsor-tooltip': 'Klicken, um eine weitere Geldgeber:in diesem Analysepaket hinzuzufügen.',
           'delete-sponsor-tooltip': 'Klicken, um die Geldgeber:in aus diesem Analysepaket zu entfernen.',
+          'move-script-up-tooltip': 'Klicken, um das ausgewählte Skript nach oben zu verschieben.',
+          'move-script-down-tooltip': 'Klicken, um das ausgewählte Skript nach unten zu verschieben.',
+          'add-script-tooltip': 'Klicken, um ein weiteres Skript diesem Analysepaket hinzuzufügen.',
+          'delete-script-tooltip': 'Klicken, um das Skript aus diesem Analysepaket zu entfernen.',
           'move-institution-up-tooltip': 'Klicken, um die ausgewählte Institution nach oben zu verschieben.',
           'move-institution-down-tooltip': 'Klicken, um die ausgewählte Institution nach unten zu verschieben.',
           'add-institution-tooltip': 'Klicken, um eine weitere Institution diesem Analysepaket hinzuzufügen.',

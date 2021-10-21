@@ -8,7 +8,7 @@ angular.module('metadatamanagementApp')
         dataPackageId: '@analysisPackageId',
         fileName: '@fileName'
       }, {
-        'findByAnalysisackageId': {
+        'findByAnalysisPackageId': {
           method: 'GET',
           isArray: true
         },
