@@ -403,6 +403,10 @@ angular.module('metadatamanagementApp').config(
             'title': 'Delete the data package of project "{{ id }}"?',
             'content': 'Do you really want to delete the data package of Data Acquisition Project "{{ id }}"?'
           },
+          'confirm-delete-all-analysis-packages': {
+            'title': 'Delete the analysis package of project "{{ id }}"?',
+            'content': 'Do you really want to delete the analysis package of Data Acquisition Project "{{ id }}"?'
+          },
           'confirm-delete-all-variables': {
             'title': 'Delete all variables of project "{{ id }}"?',
             'content': 'Do you really want to delete all variables of Data Acquisition Project "{{ id }}"?'

@@ -53,6 +53,7 @@ angular.module('metadatamanagementApp').config(
           'not-found': 'The {{id}} references to an unknown Analysis Package.'
         },
         'edit': {
+          'all-analysis-packages-deleted-toast': 'The analysis package of Data Acquisition Project "{{id}}" has been deleted.',
           'open-choose-previous-version-tooltip': 'Click for restoring a previous version of this analysis package.',
           'save-tooltip': 'Click to save this analysis package.',
           'add-package-author-tooltip': 'Click to add a new author to this analysis package.',

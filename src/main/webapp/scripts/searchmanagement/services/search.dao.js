@@ -4,8 +4,8 @@
 
 angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchClient, CleanJSObjectService, Principal,
-           LanguageService, DataPackageIdBuilderService, SearchHelperService,
-           clientId) {
+           LanguageService, DataPackageIdBuilderService,
+           SearchHelperService, clientId) {
 
     var addAdditionalShouldQueries = function(elasticsearchType, query,
                                               boolQuery) {
@@ -365,8 +365,9 @@ angular.module('metadatamanagementApp').service('SearchDao',
         query.track_total_hits = true;
         if (!elasticsearchType) {
           //search in all indices
-          query.index = ['data_packages', 'variables', 'surveys', 'data_sets',
-            'instruments', 'related_publications', 'questions', 'concepts'
+          query.index = ['data_packages', 'analysis_packages', 'variables',
+            'surveys', 'data_sets', 'instruments', 'related_publications',
+            'questions', 'concepts'
           ];
         }
         query.body = {};
@@ -473,6 +474,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
           !SearchHelperService.containsDomainObjectFilter(filterToUse)) {
           dataPackageId = DataPackageIdBuilderService
             .buildDataPackageId(dataAcquisitionProjectId);
+          // analysisPackageId = AnalysisPackageIdBuilderService
+          //   .buildAnalysisPackageId(dataAcquisitionProjectId);
           if (!query.body.query.bool.filter) {
             query.body.query.bool.filter = [];
           }
@@ -485,11 +488,11 @@ angular.module('metadatamanagementApp').service('SearchDao',
                 }
               }, {
                 'term': {
-                  'dataPackageIds': dataPackageId
+                  'dataPackageIds': dataPackageId,
                 }
               }, {
                 'term': {
-                  'dataPackages.id': dataPackageId
+                  'dataPackages.id': dataPackageId,
                 }
               }]
             }

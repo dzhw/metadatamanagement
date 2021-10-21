@@ -53,6 +53,7 @@ angular.module('metadatamanagementApp').config(
           'not-found': 'Die id {{id}} referenziert auf eine unbekanntes Analysepaket.'
         },
         'edit': {
+          'all-analysis-packages-deleted-toast': 'Das Analysepaket des Datenaufbereitungsprojekts "{{id}}" wurde gelöscht.',
           'open-choose-previous-version-tooltip': 'Klicken, um eine ältere Version dieses Analysepakets wieder herzustellen.',
           'save-tooltip': 'Klicken, um das Analysepaket zu speichern.',
           'move-sponsor-up-tooltip': 'Klicken, um die ausgewählte Geldgeber:in nach oben zu verschieben.',
