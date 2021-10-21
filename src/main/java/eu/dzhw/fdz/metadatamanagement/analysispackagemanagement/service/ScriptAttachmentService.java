@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +33,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @RequiredArgsConstructor
+@RepositoryEventHandler
 public class ScriptAttachmentService {
   private final GridFsOperations operations;
 
@@ -39,6 +42,21 @@ public class ScriptAttachmentService {
   private final Javers javers;
 
   private final AttachmentMetadataHelper<ScriptAttachmentMetadata> attachmentMetadataHelper;
+
+  private final AnalysisPackageChangesProvider analysisPackageChangesProvider;
+
+  /**
+   * Delete all {@link Script} attachments when the {@link Script} is removed from the given
+   * {@link AnalysisPackage}.
+   * 
+   * @param analysisPackage The changed analysis package
+   */
+  @HandleAfterSave
+  public void onAnalysisPackageChanged(AnalysisPackage analysisPackage) {
+    analysisPackageChangesProvider.getDeletedScripts(analysisPackage.getId())
+        .forEach(script -> deleteByAnalysisPackageIdAndScriptUuid(analysisPackage.getId(),
+            script.getUuid()));
+  }
 
   /**
    * Save the attachment for a {@link Script}.
@@ -82,9 +100,25 @@ public class ScriptAttachmentService {
    * @param analysisPackageId the id of the analysis package.
    */
   public void deleteAllByAnalysisPackageId(String analysisPackageId) {
-    String currentUser = SecurityUtils.getCurrentUserLogin();
     Query query = new Query(GridFsCriteria.whereFilename().regex("^"
         + Pattern.quote(ScriptAttachmentFilenameBuilder.buildFileNamePrefix(analysisPackageId))));
+    deleteByQuery(query);
+  }
+
+  /**
+   * Delete the given script attachments of the given {@link AnalysisPackage}.
+   *
+   * @param analysisPackageId the id of the analysis package.
+   * @param scriptUuid the id of the {@link Script}.
+   */
+  public void deleteByAnalysisPackageIdAndScriptUuid(String analysisPackageId, String scriptUuid) {
+    Query query = new Query(GridFsCriteria.whereFilename().regex("^" + Pattern.quote(
+        ScriptAttachmentFilenameBuilder.buildFileNamePrefix(analysisPackageId, scriptUuid))));
+    deleteByQuery(query);
+  }
+
+  private void deleteByQuery(Query query) {
+    String currentUser = SecurityUtils.getCurrentUserLogin();
     Iterable<GridFSFile> files = this.operations.find(query);
     files.forEach(file -> {
       ScriptAttachmentMetadata metadata =
