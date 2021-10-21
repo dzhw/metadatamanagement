@@ -185,13 +185,8 @@ angular.module('metadatamanagementApp')
                       firstName: '',
                       lastName: ''
                     }],
-                    description: {
-                      de: '',
-                      en: ''
-                    },
                     institutions: [],
                     sponsors: [],
-                    license: ''
                   });
                   ctrl.currentInstitutions = new Array(1);
                   ctrl.currentSponsors = new Array(1);

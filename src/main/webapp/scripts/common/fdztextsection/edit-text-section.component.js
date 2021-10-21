@@ -1,4 +1,4 @@
-//  fdzTextAreaComponent handles sections of mono-/bilingual text areas.
+//  editTestSection Component
 //
 //  Component bindings:
 //  bilingual              boolean   Switch between monolingual and bilingual
@@ -23,8 +23,8 @@
   'use strict';
 
   var Component = {
-    controller: 'fdzTextAreaController',
-    templateUrl: 'scripts/common/fdztextarea/fdz-text-area.html.tmpl',
+    controller: 'editTextSectionController',
+    templateUrl: 'scripts/common/fdztextsection/edit-text-section.html.tmpl',
     bindings: {
       bilingual: '<',
       notNull: '<',
@@ -38,5 +38,5 @@
 
   angular
     .module('metadatamanagementApp')
-    .component('fdzTextAreaComponent', Component);
+    .component('editTextSectionComponent', Component);
 })();

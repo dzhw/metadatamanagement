@@ -345,14 +345,14 @@
           </md-button>
         </md-card-actions>
       </md-card>
-      <fdz-text-area-component
+      <edit-text-section-component
         bilingual="true"
         not-null="true"
         current-form="analysisPackageForm"
         translation-key-package="analysis-package"
         translation-key-name="description"
         max-length="2048"
-        content="ctrl.analysisPackage.description"></fdz-text-area-component>
+        content="ctrl.analysisPackage.description"></edit-text-section-component>
       <edit-people-component people="ctrl.analysisPackage.authors" people-id="'authors'" translation-keys="ctrl.translationKeysAuthors" current-form="analysisPackageForm"></edit-people-component>
       <edit-people-component people="ctrl.analysisPackage.dataCurators" people-id="'dataCurators'" translation-keys="ctrl.translationKeysDataCurators" current-form="analysisPackageForm"></edit-people-component>
       <md-card class="mb8">
@@ -367,14 +367,14 @@
                       tags="ctrl.analysisPackage.tags"></tag-editor>
         </md-card-content>
       </md-card>
-      <fdz-text-area-component
+      <edit-text-section-component
         bilingual="false"
         not-null="false"
         current-form="analysisPackageForm"
         translation-key-package="analysis-package"
         translation-key-name="license"
         max-length="1048576"
-        content="ctrl.analysisPackage.license"></fdz-text-area-component>
+        content="ctrl.analysisPackage.license"></edit-text-section-component>
       <md-card class="mb8">
         <md-card-header>
           <md-card-header-text>
