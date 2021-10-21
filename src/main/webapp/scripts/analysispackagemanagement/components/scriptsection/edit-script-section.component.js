@@ -7,7 +7,7 @@
       'components/scriptsection/edit-script-section.html.tmpl',
     bindings: {
       currentForm: '<',
-      content: '='
+      scripts: '='
     }
   };
 
