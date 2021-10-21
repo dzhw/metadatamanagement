@@ -13,7 +13,7 @@ try {
         'ngFileUpload', 'ngMaterial',
         'blockUI', 'LocalStorageModule', 'jkAngularCarousel',
         'angularMoment', 'ngAnimate', 'vcRecaptcha',
-        'ngMessages', 'ngFileSaver', 'ngShortcut',
+        'ngMessages', 'ngFileSaver', 'ngShortcut', 'angular-uuid',
         'jsonFormatter', 'fdzPaginatorModule', 'ngTextTruncate',
         'ng-showdown', 'swxSessionStorage', 'angulartics', 'angulartics.piwik'
       ])
