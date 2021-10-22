@@ -29,7 +29,6 @@ import lombok.RequiredArgsConstructor;
  * REST controller for uploading an dataPackage attachment.
  */
 @Controller
-@RequestMapping("/api")
 @RequiredArgsConstructor
 public class DataPackageAttachmentResource {
 
@@ -44,10 +43,10 @@ public class DataPackageAttachmentResource {
    * @throws URISyntaxException if a URI is syntactically wrong
    * @throws IOException If the attachment cannot be read
    */
-  @RequestMapping(path = "/data-packages/attachments", method = RequestMethod.POST)
+  @RequestMapping(path = "/api/data-packages/attachments", method = RequestMethod.POST)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
-      @RequestPart("dataPackageAttachmentMetadata")
+      @RequestPart("dataPackageAttachmentMetadata") 
       @Valid DataPackageAttachmentMetadata dataPackageAttachmentMetadata)
       throws URISyntaxException, IOException {
     dataPackageAttachmentService.createDataPackageAttachment(multiPartFile,
@@ -63,8 +62,8 @@ public class DataPackageAttachmentResource {
    * @param dataPackageId The id of an dataPackage.
    * @return A list of metadata objects.
    */
-  @RequestMapping(path = "/data-packages/{dataPackageId}/attachments", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(path = "/api/data-packages/{dataPackageId}/attachments",
+      method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> findByDataPackageId(
       @PathVariable("dataPackageId") String dataPackageId) {
     List<DataPackageAttachmentMetadata> metadata =
@@ -77,7 +76,7 @@ public class DataPackageAttachmentResource {
    *
    * @param dataPackageId The id of the dataPackage.
    */
-  @RequestMapping(path = "/data-packages/{dataPackageId}/attachments",
+  @RequestMapping(path = "/api/data-packages/{dataPackageId}/attachments",
       method = RequestMethod.DELETE)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> deleteAllByDataPackageId(
@@ -92,7 +91,7 @@ public class DataPackageAttachmentResource {
    * @param dataPackageId The id of the dataPackage.
    *
    */
-  @RequestMapping(path = "/data-packages/{dataPackageId}/attachments/{filename:.+}",
+  @RequestMapping(path = "/api/data-packages/{dataPackageId}/attachments/{filename:.+}",
       method = RequestMethod.DELETE)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> delete(@PathVariable("dataPackageId") String dataPackageId,
@@ -104,7 +103,7 @@ public class DataPackageAttachmentResource {
   /**
    * Update the metadata of the given attachment of the given dataPackage.
    */
-  @RequestMapping(path = "/data-packages/{dataPackageId}/attachments/{filename:.+}",
+  @RequestMapping(path = "/api/data-packages/{dataPackageId}/attachments/{filename:.+}",
       method = RequestMethod.PUT)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> update(

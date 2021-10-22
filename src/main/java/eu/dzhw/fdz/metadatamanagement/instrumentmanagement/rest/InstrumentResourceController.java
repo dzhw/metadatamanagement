@@ -2,15 +2,14 @@ package eu.dzhw.fdz.metadatamanagement.instrumentmanagement.rest;
 
 import java.net.URI;
 
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -26,9 +25,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  *
  * @author René Reitmann
  */
-@RepositoryRestController
+@Controller
 @Tag(name = "Instrument Resource", description = "Endpoints used by the MDM to manage instruments.")
-@RequestMapping("/api")
 public class InstrumentResourceController
     extends GenericDomainObjectResourceController<Instrument, CrudService<Instrument>> {
 
@@ -43,7 +41,7 @@ public class InstrumentResourceController
           + " instrument."
           + " If the id is postfixed with the version number it will return exactly the "
           + "requested version, if available.")
-  @GetMapping(value = "/instruments/{id:.+}")
+  @GetMapping(value = "/api/instruments/{id:.+}")
   @ResponseBody
   public ResponseEntity<Instrument> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);
@@ -51,19 +49,19 @@ public class InstrumentResourceController
 
 
   @Override
-  @PostMapping(value = "/instruments")
+  @PostMapping(value = "/api/instruments")
   public ResponseEntity<?> postDomainObject(@RequestBody Instrument instrument) {
     return super.postDomainObject(instrument);
   }
 
   @Override
-  @PutMapping(value = "/instruments/{id:.+}")
+  @PutMapping(value = "/api/instruments/{id:.+}")
   public ResponseEntity<?> putDomainObject(@RequestBody Instrument instrument) {
     return super.putDomainObject(instrument);
   }
 
   @Override
-  @DeleteMapping("/instruments/{id:.+}")
+  @DeleteMapping("/api/instruments/{id:.+}")
   public ResponseEntity<?> deleteDomainObject(@PathVariable String id) {
     return super.deleteDomainObject(id);
   }

@@ -2,15 +2,14 @@ package eu.dzhw.fdz.metadatamanagement.variablemanagement.rest;
 
 import java.net.URI;
 
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -26,9 +25,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  *
  * @author René Reitmann
  */
-@RepositoryRestController
+@Controller
 @Tag(name = "Variable Resource", description = "Endpoints used by the MDM to manage variables.")
-@RequestMapping("/api")
 public class VariableResourceController
     extends GenericDomainObjectResourceController<Variable, CrudService<Variable>> {
 
@@ -42,7 +40,7 @@ public class VariableResourceController
       summary = "Get the variable. Public users will get the latest version of the variables."
           + " If the id is postfixed with the version number it will return exactly the "
           + "requested version, if available.")
-  @GetMapping(value = "/variables/{id:.+}")
+  @GetMapping(value = "/api/variables/{id:.+}")
   @ResponseBody
   public ResponseEntity<Variable> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);
@@ -50,19 +48,19 @@ public class VariableResourceController
 
 
   @Override
-  @PostMapping(value = "/variables")
+  @PostMapping(value = "/api/variables")
   public ResponseEntity<?> postDomainObject(@RequestBody Variable variable) {
     return super.postDomainObject(variable);
   }
 
   @Override
-  @PutMapping(value = "/variables/{id:.+}")
+  @PutMapping(value = "/api/variables/{id:.+}")
   public ResponseEntity<?> putDomainObject(@RequestBody Variable domainObject) {
     return super.putDomainObject(domainObject);
   }
 
   @Override
-  @DeleteMapping("/variables/{id:.+}")
+  @DeleteMapping("/api/variables/{id:.+}")
   public ResponseEntity<?> deleteDomainObject(@PathVariable String id) {
     return super.deleteDomainObject(id);
   }

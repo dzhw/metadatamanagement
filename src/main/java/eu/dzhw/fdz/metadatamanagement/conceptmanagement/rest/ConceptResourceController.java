@@ -2,9 +2,9 @@ package eu.dzhw.fdz.metadatamanagement.conceptmanagement.rest;
 
 import java.net.URI;
 
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -32,9 +31,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * 
  * @author René Reitmann
  */
-@RepositoryRestController
+@Controller
 @Tag(name = "Concept Resource", description = "Endpoints used by the MDM to manage concepts.")
-@RequestMapping("/api")
 public class ConceptResourceController
     extends GenericDomainObjectResourceController<Concept, CrudService<Concept>> {
 
@@ -45,7 +43,7 @@ public class ConceptResourceController
 
   @Override
   @Operation(summary = "Get the concept.")
-  @GetMapping(value = "/concepts/{id:.+}")
+  @GetMapping(value = "/api/concepts/{id:.+}")
   @ResponseBody
   public ResponseEntity<Concept> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);
@@ -53,19 +51,19 @@ public class ConceptResourceController
 
 
   @Override
-  @PostMapping(value = "/concepts")
+  @PostMapping(value = "/api/concepts")
   public ResponseEntity<?> postDomainObject(@RequestBody Concept concept) {
     return super.postDomainObject(concept);
   }
 
   @Override
-  @PutMapping(value = "/concepts/{id:.+}")
+  @PutMapping(value = "/api/concepts/{id:.+}")
   public ResponseEntity<?> putDomainObject(@RequestBody Concept concept) {
     return super.putDomainObject(concept);
   }
 
   @Override
-  @DeleteMapping("/concepts/{id:.+}")
+  @DeleteMapping("/api/concepts/{id:.+}")
   public ResponseEntity<?> deleteDomainObject(@PathVariable String id) {
     return super.deleteDomainObject(id);
   }
