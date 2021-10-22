@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-.factory('AnalysisPackageAttachmentResource', function($resource,
-  CleanJSObjectService) {
-      return $resource(
-        '/api/analysis-packages/:analysisPackageId/attachments/:fileName', {
-          analysisPackageId: '@analysisPackageId',
-          fileName: '@fileName'
+  .factory('AnalysisPackageAttachmentResource', function($resource,
+                                                         CleanJSObjectService) {
+    return $resource(
+      '/api/analysis-packages/:analysisPackageId/attachments/:fileName', {
+        analysisPackageId: '@analysisPackageId',
+        fileName: '@fileName'
       }, {
         'findByAnalysisPackageId': {
           method: 'GET',
@@ -22,4 +22,4 @@ angular.module('metadatamanagementApp')
           }
         }
       });
-    });
+  });
