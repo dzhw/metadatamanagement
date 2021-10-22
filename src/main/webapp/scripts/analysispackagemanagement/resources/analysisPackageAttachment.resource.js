@@ -5,8 +5,8 @@ angular.module('metadatamanagementApp')
   CleanJSObjectService) {
       return $resource(
         '/api/analysis-packages/:analysisPackageId/attachments/:fileName', {
-        dataPackageId: '@analysisPackageId',
-        fileName: '@fileName'
+          analysisPackageId: '@analysisPackageId',
+          fileName: '@fileName'
       }, {
         'findByAnalysisPackageId': {
           method: 'GET',

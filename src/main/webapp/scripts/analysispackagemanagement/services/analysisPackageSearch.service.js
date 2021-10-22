@@ -88,117 +88,6 @@ angular.module('metadatamanagementApp')
         return deferred;
       };
 
-      var findStudySeries = function(searchText, filter, language, type,
-                                     queryterm, dataAcquisitionProjectId,
-                                     ignoreAuthorization) {
-        ignoreAuthorization = ignoreAuthorization || false;
-        language = language || LanguageService.getCurrentInstantly();
-        var query = createQueryObject(type);
-        query.size = 0;
-        var termFilters = createTermFilters(filter, dataAcquisitionProjectId,
-          type);
-        var fieldName = 'studySeries.';
-        var prefix =
-          (type === 'analysis_packages' || !type) ? '' : 'analysisPackage.';
-        if (type === 'related_publications') {
-          prefix = 'nestedStudySerieses.';
-          fieldName = '';
-        }
-        query.body = {
-          'aggs': {
-            'studySeries': {
-              'filter': {
-                'bool': {
-                  'must': [{
-                    'match': {}
-                  }]
-                }
-              },
-              'aggs': {
-                'firstStudySeries': {
-                  'terms': {
-                    'field': prefix + fieldName + language,
-                    'size': 100
-                  },
-                  'aggs': {
-                    'secondStudySeries': {
-                      'terms': {
-                        'field': prefix + fieldName +
-                          (language === 'de' ? 'en' : 'de'),
-                        'size': 100
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        };
-
-        query.body.aggs.studySeries.filter.bool.must[0]
-          .match[prefix + fieldName + language + '.ngrams'] = {
-          'query': searchText || '',
-          'operator': 'AND',
-          'minimum_should_match': '100%',
-          'zero_terms_query': 'ALL'
-        };
-
-        if (termFilters) {
-          query.body.query = {
-            bool: {}
-          };
-          query.body.query.bool.filter = termFilters;
-        }
-
-        SearchHelperService.addQuery(query, queryterm);
-        if (!_.includes(['related_publications', 'concepts'], type)) {
-          SearchHelperService.addShadowCopyFilter(query, filter);
-        }
-
-        if (!ignoreAuthorization) {
-          SearchHelperService.addFilter(query);
-        }
-
-        if (prefix === 'nestedStudySerieses.') {
-          var nestedAggregation = {
-            'aggs': {
-              'nestedStudySerieses': {
-                'nested': {
-                  'path': prefix.replace('.', '')
-                }
-              }
-            }
-          };
-          nestedAggregation.aggs.nestedStudySerieses.aggs =
-            query.body.aggs;
-          query.body.aggs = nestedAggregation.aggs;
-        }
-
-        return ElasticSearchClient.search(query).then(function(result) {
-          var studySeries = [];
-          var studySeriesElement = {};
-          var buckets;
-          if (prefix === 'nestedStudySerieses.') {
-            buckets = result.aggregations.nestedStudySerieses.studySeries
-              .firstStudySeries.buckets;
-          } else {
-            buckets = result.aggregations.studySeries
-              .firstStudySeries.buckets;
-          }
-          buckets.forEach(function(bucket) {
-            studySeriesElement = {
-              'de': language === 'de' ? bucket.key
-                : bucket.secondStudySeries.buckets[0].key,
-              'en': language === 'en' ? bucket.key
-                : bucket.secondStudySeries.buckets[0].key,
-              'count': bucket.doc_count
-            };
-            studySeries.push(studySeriesElement);
-          });
-          return studySeries;
-        });
-      };
-
       var findAnalysisPackageTitles = function(searchText, filter, type,
                                                queryterm,
                                                dataAcquisitionProjectId) {
@@ -631,7 +520,6 @@ angular.module('metadatamanagementApp')
       return {
         findOneById: findOneById,
         findShadowByIdAndVersion: findShadowByIdAndVersion,
-        findStudySeries: findStudySeries,
         findSponsors: findSponsors,
         findInstitutions: findInstitutions,
         findAnalysisPackageTitles: findAnalysisPackageTitles,
