@@ -18,7 +18,6 @@ angular.module('metadatamanagementApp')
              ChoosePreviousVersionService, AnalysisPackageVersionsResource) {
 
       var ctrl = this;
-      var studySeriesCache = {};
       ctrl.currentInstitutions = [];
       ctrl.currentSponsors = [];
 
@@ -124,7 +123,6 @@ angular.module('metadatamanagementApp')
 
       var initEditMode = function(analysisPackage) {
         ctrl.createMode = false;
-        ctrl.isInitializingStudySeries = true;
         DataAcquisitionProjectResource.get({
           id: analysisPackage.dataAcquisitionProjectId
         }).$promise.then(function(project) {
@@ -136,7 +134,6 @@ angular.module('metadatamanagementApp')
           } else {
             CurrentProjectService.setCurrentProject(project);
             ctrl.analysisPackage = analysisPackage;
-            ctrl.currentStudySeries = analysisPackage.studySeries;
             ctrl.currentSponsors = angular.copy(
               ctrl.analysisPackage.sponsors);
             ctrl.currentInstitutions = angular.copy(
@@ -169,7 +166,6 @@ angular.module('metadatamanagementApp')
                 }).$promise.then(function(analysisPackage) {
                   initEditMode(analysisPackage);
                 }).catch(function() {
-                  ctrl.isInitializingStudySeries = true;
                   ctrl.createMode = true;
                   ctrl.analysisPackage = new AnalysisPackageResource({
                     id: AnalysisPackageIdBuilderService.buildAnalysisPackageId(
@@ -609,23 +605,6 @@ angular.module('metadatamanagementApp')
         });
 
         $scope.$on('$destroy', unregisterTransitionHook);
-      };
-
-      $scope.searchStudySeries = function(searchText, language) {
-        if (searchText === studySeriesCache.searchText &&
-          language === studySeriesCache.language) {
-          return studySeriesCache.searchResult;
-        }
-
-        //Search Call to Elasticsearch
-        return AnalysisPackageSearchService.findStudySeries(searchText, {},
-          language, null, null, null, true)
-          .then(function(studySeries) {
-            studySeriesCache.searchText = searchText;
-            studySeriesCache.language = language;
-            studySeriesCache.searchResult = studySeries;
-            return studySeries;
-          });
       };
 
       $scope.searchSponsors = function(searchText, language) {

@@ -18,7 +18,7 @@
         <md-divider></md-divider>
         <md-card-content>
           <div layout="column" layout-gt-sm="row" class="ms-flex">
-            <md-input-container flex="50"
+            <md-input-container flex="40"
                                 md-is-error="!analysisPackageForm.titleDe.$valid && (analysisPackageForm.titleDe.$dirty || analysisPackageForm.titleDe.$touched)"
                                 ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 class="ms-flex">
@@ -375,6 +375,9 @@
         translation-key-name="license"
         max-length="1048576"
         content="ctrl.analysisPackage.license"></edit-text-section-component>
+      <edit-script-section-component
+        scripts="ctrl.analysisPackage.scripts"
+        current-form="analysisPackageForm"></edit-script-section-component>
       <md-card class="mb8">
         <md-card-header>
           <md-card-header-text>
@@ -493,11 +496,6 @@
           <th style="min-height: 40px;">
             &nbsp;
           </th>
-          <th>{{'analysis-package-management.detail.label.attachments.type' | translate }}
-            <md-tooltip hide-gt-xs md-direction="right">
-              {{'analysis-package-management.detail.label.attachments.type' | translate }}
-            </md-tooltip>
-          </th>
           <th class="fdz-table-half-absorbing-column">{{'analysis-package-management.detail.label.attachments.description' |
             translate }}
             <md-tooltip hide-gt-xs md-direction="right">
@@ -554,7 +552,6 @@
               <md-icon md-font-set="material-icons">delete_forever</md-icon>
             </md-button>
           </td>
-          <td class="fdz-table-nowrap" display-i18n-string="row.type"></td>
           <td class="fdz-text-block" display-i18n-string="row.description" ></td>
           <td lang="{{row.language}}">{{row.title}}&nbsp;</td>
           <td>{{row.language | displayIsoLanguage: currentLanguage}}&nbsp;</td>

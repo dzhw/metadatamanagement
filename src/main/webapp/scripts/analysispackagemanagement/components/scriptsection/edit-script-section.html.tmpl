@@ -1,0 +1,112 @@
+<md-card class="mb8">
+  <md-card-header>
+    <md-card-header-text>
+      <h2 class="md-title">
+        {{ 'analysis-package-management.detail.label.scripts' | translate}}</h2>
+    </md-card-header-text>
+  </md-card-header>
+  <md-divider></md-divider>
+  <md-card-content>
+    <div layout="row"
+         layout-gt-sm="row"
+         class="ms-flex"
+         ng-repeat="script in $ctrl.scripts track by $index">
+      <md-button class="md-primary md-icon-button"
+                 ng-click="$ctrl.deleteScript($index)"
+                 style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
+        <md-tooltip md-autohide="true"
+                    md-direction="bottom"
+                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'analysis-package-management.edit.delete-script-tooltip' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">delete_forever</md-icon>
+      </md-button>
+      <md-input-container flex="50"
+                          class="mr8"
+                          md-is-error="!$ctrl.currentForm['scriptsTitleDe_' + $index].$valid && ($ctrl.currentForm['scriptsTitleDe_' + $index].$dirty || $ctrl.currentForm['scriptsTitleDe_' + $index].$touched)">
+        <label
+          class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}}</label>
+        <input fdz-required
+               md-no-asterisk
+               name="scriptsTitleDe_{{$index}}"
+               lang="de"
+               md-maxlength="2048"
+               ng-model="script.titleDe">
+        <div class="fdz-input-hint"
+             ng-if="!$ctrl.currentForm['scriptsTitleDe_' + $index].$dirty && !$ctrl.currentForm['scriptsTitleDe_' + $index].$touched">
+          {{'analysis-package-management.edit.hints.title.de' | translate}}
+        </div>
+        <div multiple
+             ng-messages="$ctrl.currentForm['scriptsTitleDe_' + $index].$error">
+          <div ng-message="fdz-required">
+            {{'analysis-package-management.error.analysis-package.title.i18n-string-entire-not-empty' |
+          translate}}
+          </div>
+          <div ng-message="md-maxlength">
+            {{'analysis-package-management.error.analysis-package.title.i18n-string-size' | translate}}
+          </div>
+        </div>
+      </md-input-container>
+      <md-input-container flex="50"
+                          class="mr8"
+                          md-is-error="!$ctrl.currentForm['scriptsTitleEn_' + $index].$valid && ($ctrl.currentForm['scriptsTitleEn_' + $index].$dirty || $ctrl.currentForm['scriptsTitleEn_' + $index].$touched)">
+        <label
+          class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}}</label>
+        <input fdz-required
+               md-no-asterisk
+               name="scriptsTitleEn_{{$index}}"
+               lang="de"
+               md-maxlength="2048"
+               ng-model="script.titleEn">
+        <div class="fdz-input-hint"
+             ng-if="!$ctrl.currentForm['scriptsTitleEn_' + $index].$dirty && !$ctrl.currentForm['scriptsTitleEn_' + $index].$touched">
+          {{'analysis-package-management.edit.hints.title.en' | translate}}
+        </div>
+        <div multiple
+             ng-messages="$ctrl.currentForm['scriptsTitleEn_' + $index].$error">
+          <div ng-message="fdz-required">
+            {{'analysis-package-management.error.analysis-package.title.i18n-string-entire-not-empty' |
+          translate}}
+          </div>
+          <div ng-message="md-maxlength">
+            {{'analysis-package-management.error.analysis-package.title.i18n-string-size' | translate}}
+          </div>
+        </div>
+      </md-input-container>
+    </div>
+  </md-card-content>
+  <md-card-actions layout="row" layout-align="begin center"
+                   style="margin-top: 0px; margin-bottom: 12px;">
+    <md-button class="md-primary md-raised md-icon-button ml6"
+               ng-click="$ctrl.addScript()">
+      <md-tooltip md-autohide="true"
+                  md-direction="bottom"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'analysis-package-management.edit.add-script-tooltip' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">add</md-icon>
+    </md-button>
+    <md-button class="md-primary md-raised md-icon-button"
+               id="move-link-up-button"
+               ng-click="$ctrl.moveCurrentScriptUp()"
+               ng-disabled="$ctrl.currentScriptIndex == null || $ctrl.currentScriptIndex === 0">
+      <md-tooltip md-autohide="true"
+                  md-direction="bottom"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'analysis-package-management.edit.move-script-up-tooltip' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+    </md-button>
+    <md-button class="md-primary md-raised md-icon-button"
+               id="move-link-down-button"
+               ng-click="$ctrl.moveCurrentScriptDown()"
+               ng-disabled="$ctrl.currentScriptIndex == null || $ctrl.currentScriptIndex === $ctrl.analysisPackage.additionalScripts.length - 1">
+      <md-tooltip md-autohide="true"
+                  md-direction="bottom"
+                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+        {{'analysis-package-management.edit.move-script-down-tooltip' | translate}}
+      </md-tooltip>
+      <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
+    </md-button>
+  </md-card-actions>
+</md-card>

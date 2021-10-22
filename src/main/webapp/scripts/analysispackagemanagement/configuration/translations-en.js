@@ -18,6 +18,7 @@ angular.module('metadatamanagementApp').config(
             'institution': 'Institution',
             'institutions': 'Institution(s)',
             'license': 'License',
+            'scripts': 'Scripts',
             'sponsors': 'Sponsored by',
             'title': 'Title',
             'attachments': {
@@ -61,6 +62,10 @@ angular.module('metadatamanagementApp').config(
           'move-sponsor-down-tooltip': 'Click to move the selected sponsor down.',
           'add-sponsor-tooltip': 'Click to add another sponsor to this analysis package.',
           'delete-sponsor-tooltip': 'Click to remove the sponsor from this analysis package.',
+          'move-script-up-tooltip': 'Click to move the selected script up.',
+          'move-script-down-tooltip': 'Click to move the selected script down.',
+          'add-script-tooltip': 'Click to add another script to this analysis package.',
+          'delete-script-tooltip': 'Click to remove the script from this analysis package.',
           'move-institution-up-tooltip': 'Click to move the selected institution up.',
           'move-institution-down-tooltip': 'Click to move the selected institution down.',
           'add-institution-tooltip': 'Click to add another institution to this analysis package.',

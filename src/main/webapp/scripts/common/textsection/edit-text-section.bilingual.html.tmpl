@@ -9,46 +9,6 @@
   <md-divider></md-divider>
   <md-card-content>
     <div
-      ng-if="!$ctrl.bilingual"
-      layout="column"
-      layout-gt-sm="row">
-      <md-input-container flex="50"
-                          md-is-error="!$ctrl.currentForm[$ctrl.translationKeyName].$valid && ($ctrl.currentForm[$ctrl.translationKeyName].$dirty || $ctrl.currentForm[$ctrl.translationKeyName].$touched)"
-                          ng-class="{'mr10': $mdMedia('gt-sm')}"
-                          class="ms-flex">
-        <label>{{$ctrl.translationKeyPackage + '-management.detail.label.' + $ctrl.translationKeyName | translate}}
-          <md-icon md-svg-src="assets/images/icons/markdown.svg"></md-icon>
-        </label>
-        <textarea lang="de"
-                  ng-attr-fdz-required="{{($ctrl.notNull) ? true : false}}"
-                  md-maxlength="$ctrl.maxLength"
-                  name="{{$ctrl.translationKeyName}}"
-                  ng-model="$ctrl.content"
-                  rows="4"></textarea>
-        <div
-          class="fdz-input-hint"
-          ng-if="!$ctrl.currentForm[$ctrl.translationKeyName].$dirty && !$ctrl.currentForm[$ctrl.translationKeyName].$touched">
-          {{$ctrl.translationKeyPackage + '-management.edit.hints.' + $ctrl.translationKeyName | translate}}
-        </div>
-        <div
-          multiple
-          ng-messages="$ctrl.currentForm[$ctrl.translationKeyName].$error">
-          <div
-            ng-message="md-maxlength">
-            {{$ctrl.translationKeyPackage + '-management.error.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.string-size' |
-          translate}}
-          </div>
-          <div
-            ng-if="$ctrl.notNull"
-            ng-message="fdz-required">
-            {{$ctrl.translationKeyPackage + '-management.error.' + $ctrl.translationKeyPackage + '.' + $ctrl.translationKeyName + '.string-not-empty' |
-          translate}}
-          </div>
-        </div>
-    </div>
-
-    <div
-      ng-if="$ctrl.bilingual"
       layout="column"
       layout-gt-sm="row">
       <md-input-container flex="50"

@@ -24,7 +24,6 @@
 
   var Component = {
     controller: 'editTextSectionController',
-    templateUrl: 'scripts/common/fdztextsection/edit-text-section.html.tmpl',
     bindings: {
       bilingual: '<',
       notNull: '<',
@@ -33,7 +32,15 @@
       translationKeyName: '@',
       maxLength: '<',
       content: '='
-    }
+    },
+    templateUrl: ['$attrs' ,function($attrs) {
+      var tmpl = {
+        false: 'scripts/common/textsection/edit-text-section.html.tmpl',
+        true: 'scripts/common/textsection/edit-text-section' +
+               '.bilingual.html.tmpl'
+      };
+      return tmpl[$attrs.bilingual];
+    }]
   };
 
   angular
