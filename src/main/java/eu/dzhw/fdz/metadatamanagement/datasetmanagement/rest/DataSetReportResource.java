@@ -15,7 +15,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +36,6 @@ import lombok.RequiredArgsConstructor;
  * This Resource handles the filling of the tex template and the upload of the compiled file.
  */
 @Controller
-@RequestMapping("/api")
 @RequiredArgsConstructor
 public class DataSetReportResource {
   private final DataSetReportService dataSetReportService;
@@ -63,7 +61,7 @@ public class DataSetReportResource {
    * @return ok if the generation has been started successfully.
    * @throws IOException If the external task cannot be started.
    */
-  @PostMapping(value = "/data-sets/{dataSetId}/report/generate/{version:.+}")
+  @PostMapping(value = "/api/data-sets/{dataSetId}/report/generate/{version:.+}")
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<?> startReportGeneration(@PathVariable("dataSetId") String dataSetId,
       @PathVariable("version") String version, HttpServletRequest request,
@@ -83,7 +81,7 @@ public class DataSetReportResource {
    * @throws IOException Handles io exception for the template. (Freemarker Templates)
    * @throws TemplateException Handles template exceptions. (Freemarker Templates)
    */
-  @PostMapping(value = "/data-sets/{dataSetId}/report/fill-template")
+  @PostMapping(value = "/api/data-sets/{dataSetId}/report/fill-template")
   @Secured(value = {AuthoritiesConstants.TASK_USER})
   public ResponseEntity<Task> fillTemplate(@RequestParam("file") MultipartFile templateZip,
       @PathVariable("dataSetId") String dataSetId, @RequestParam("version") String version)
@@ -118,7 +116,7 @@ public class DataSetReportResource {
    * @return 200 if attaching succeeded.
    * @throws IOException Thrown if the multipart file cannot be read.
    */
-  @PostMapping(value = "/data-sets/{dataSetId}/report/{language}")
+  @PostMapping(value = "/api/data-sets/{dataSetId}/report/{language}")
   @Secured(value = {AuthoritiesConstants.TASK_USER})
   public ResponseEntity<?> uploadReport(@RequestParam("file") MultipartFile reportFile,
       @PathVariable("dataSetId") String dataSetId, @RequestParam("onBehalfOf") String onBehalfOf,

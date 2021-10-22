@@ -2,15 +2,14 @@ package eu.dzhw.fdz.metadatamanagement.datasetmanagement.rest;
 
 import java.net.URI;
 
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -26,9 +25,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * 
  * @author René Reitmann
  */
-@RepositoryRestController
-@Tag(name = "Dataset Resource", description = "Endpoints used by the MDM to manage questions.")
-@RequestMapping("/api")
+@Controller
+@Tag(name = "Dataset Resource", description = "Endpoints used by the MDM to manage datasets.")
 public class DataSetResourceController
     extends GenericDomainObjectResourceController<DataSet, CrudService<DataSet>> {
 
@@ -42,7 +40,7 @@ public class DataSetResourceController
       summary = "Get the dataset. Public users will get the latest version of the dataset."
           + " If the id is postfixed with the version number it will return exactly the "
           + "requested version, if available.")
-  @GetMapping(value = "/data-sets/{id:.+}")
+  @GetMapping(value = "/api/data-sets/{id:.+}")
   @ResponseBody
   public ResponseEntity<DataSet> getDomainObject(@PathVariable String id) {
     return super.getDomainObject(id);
@@ -50,19 +48,19 @@ public class DataSetResourceController
 
 
   @Override
-  @PostMapping(value = "/data-sets")
+  @PostMapping(value = "/api/data-sets")
   public ResponseEntity<?> postDomainObject(@RequestBody DataSet dataSet) {
     return super.postDomainObject(dataSet);
   }
 
   @Override
-  @PutMapping(value = "/data-sets/{id:.+}")
+  @PutMapping(value = "/api/data-sets/{id:.+}")
   public ResponseEntity<?> putDomainObject(@RequestBody DataSet dataSet) {
     return super.putDomainObject(dataSet);
   }
 
   @Override
-  @DeleteMapping("/data-sets/{id:.+}")
+  @DeleteMapping("/api/data-sets/{id:.+}")
   public ResponseEntity<?> deleteDomainObject(@PathVariable String id) {
     return super.deleteDomainObject(id);
   }
