@@ -6,7 +6,6 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +19,6 @@ import lombok.RequiredArgsConstructor;
  * @author René Reitmann
  */
 @RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
 public class DataSetVersionsResource {
 
@@ -35,7 +33,7 @@ public class DataSetVersionsResource {
    * 
    * @return A list of previous dataSet versions
    */
-  @GetMapping("/data-sets/{id}/versions")
+  @GetMapping("/api/data-sets/{id}/versions")
   public ResponseEntity<?> findPreviousDataSetVersions(@PathVariable String id,
       @RequestParam(name = "limit", defaultValue = "5") Integer limit,
       @RequestParam(name = "skip", defaultValue = "0") Integer skip) {
