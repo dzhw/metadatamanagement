@@ -160,6 +160,11 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'The max length of the institution is 512.',
               'i18n-string-entire-not-empty': 'The institution of the analysis package must not be empty for both languages.'
             },
+            'language': {
+              'not-found': 'No valid language found.',
+              'not-null': 'The script language must not be empty.',
+              'not-valid': 'Please select one of the provided languages.'
+            },
             'license': {
               'string-size': 'The max length of the license is 1048576 signs.'
             },

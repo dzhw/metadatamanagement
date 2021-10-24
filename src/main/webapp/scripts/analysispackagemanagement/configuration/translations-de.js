@@ -161,6 +161,11 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'Die Maximallänge der Institution eines Analysepakets ist 512 Zeichen.',
               'i18n-string-entire-not-empty': 'Die Institution eines Analysepakets muss in beiden Sprachen vorhanden sein.'
             },
+            'language': {
+              'not-found': 'Keine gültige Sprache gefunden!',
+              'not-null': 'Die Sprache des Skripts darf nicht leer sein.',
+              'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
+            },
             'license': {
               'string-size': 'Die Maximallänge der Lizenz ist 1048576 Zeichen.'
             },

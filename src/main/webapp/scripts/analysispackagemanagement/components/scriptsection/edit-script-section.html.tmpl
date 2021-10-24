@@ -7,72 +7,113 @@
   </md-card-header>
   <md-divider></md-divider>
   <md-card-content>
-    <div layout="row"
-         layout-gt-sm="row"
+    <div layout="column"
+         layout-gt-sm="column"
          class="ms-flex"
          ng-repeat="script in $ctrl.scripts track by $index">
-      <md-button class="md-primary md-icon-button"
-                 ng-click="$ctrl.deleteScript($index)"
-                 style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
-        <md-tooltip md-autohide="true"
-                    md-direction="bottom"
-                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-          {{'analysis-package-management.edit.delete-script-tooltip' | translate}}
-        </md-tooltip>
-        <md-icon md-font-set="material-icons">delete_forever</md-icon>
-      </md-button>
-      <md-input-container flex="50"
-                          class="mr8"
-                          md-is-error="!$ctrl.currentForm['scriptsTitleDe_' + $index].$valid && ($ctrl.currentForm['scriptsTitleDe_' + $index].$dirty || $ctrl.currentForm['scriptsTitleDe_' + $index].$touched)">
-        <label
-          class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}}</label>
-        <input fdz-required
-               md-no-asterisk
-               name="scriptsTitleDe_{{$index}}"
-               lang="de"
-               md-maxlength="2048"
-               ng-model="script.titleDe">
-        <div class="fdz-input-hint"
-             ng-if="!$ctrl.currentForm['scriptsTitleDe_' + $index].$dirty && !$ctrl.currentForm['scriptsTitleDe_' + $index].$touched">
-          {{'analysis-package-management.edit.hints.title.de' | translate}}
-        </div>
-        <div multiple
-             ng-messages="$ctrl.currentForm['scriptsTitleDe_' + $index].$error">
-          <div ng-message="fdz-required">
-            {{'analysis-package-management.error.analysis-package.title.i18n-string-entire-not-empty' |
-          translate}}
+      <div layout="row"
+           layout-gt-sm="row"
+           class="ms-flex">
+        <md-button class="md-primary md-icon-button"
+                   ng-click="$ctrl.deleteScript($index)"
+                   style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
+          <md-tooltip md-autohide="true"
+                      md-direction="bottom"
+                      md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+            {{'analysis-package-management.edit.delete-script-tooltip' | translate}}
+          </md-tooltip>
+          <md-icon md-font-set="material-icons">delete_forever</md-icon>
+        </md-button>
+        <md-input-container flex="50"
+                            class="mr8"
+                            md-is-error="!$ctrl.currentForm['scriptsTitleDe_' + $index].$valid && ($ctrl.currentForm['scriptsTitleDe_' + $index].$dirty || $ctrl.currentForm['scriptsTitleDe_' + $index].$touched)">
+          <label
+            class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}}</label>
+          <input fdz-required
+                 md-no-asterisk
+                 name="scriptsTitleDe_{{$index}}"
+                 lang="de"
+                 md-maxlength="2048"
+                 ng-model="script.titleDe">
+          <div class="fdz-input-hint"
+               ng-if="!$ctrl.currentForm['scriptsTitleDe_' + $index].$dirty && !$ctrl.currentForm['scriptsTitleDe_' + $index].$touched">
+            {{'analysis-package-management.edit.hints.title.de' | translate}}
           </div>
-          <div ng-message="md-maxlength">
-            {{'analysis-package-management.error.analysis-package.title.i18n-string-size' | translate}}
+          <div multiple
+               ng-messages="$ctrl.currentForm['scriptsTitleDe_' + $index].$error">
+            <div ng-message="fdz-required">
+              {{'analysis-package-management.error.analysis-package.title.i18n-string-entire-not-empty' |
+            translate}}
+            </div>
+            <div ng-message="md-maxlength">
+              {{'analysis-package-management.error.analysis-package.title.i18n-string-size' | translate}}
+            </div>
           </div>
-        </div>
-      </md-input-container>
-      <md-input-container flex="50"
-                          class="mr8"
-                          md-is-error="!$ctrl.currentForm['scriptsTitleEn_' + $index].$valid && ($ctrl.currentForm['scriptsTitleEn_' + $index].$dirty || $ctrl.currentForm['scriptsTitleEn_' + $index].$touched)">
-        <label
-          class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}}</label>
-        <input fdz-required
-               md-no-asterisk
-               name="scriptsTitleEn_{{$index}}"
-               lang="de"
-               md-maxlength="2048"
-               ng-model="script.titleEn">
-        <div class="fdz-input-hint"
-             ng-if="!$ctrl.currentForm['scriptsTitleEn_' + $index].$dirty && !$ctrl.currentForm['scriptsTitleEn_' + $index].$touched">
-          {{'analysis-package-management.edit.hints.title.en' | translate}}
-        </div>
-        <div multiple
-             ng-messages="$ctrl.currentForm['scriptsTitleEn_' + $index].$error">
-          <div ng-message="fdz-required">
-            {{'analysis-package-management.error.analysis-package.title.i18n-string-entire-not-empty' |
-          translate}}
+        </md-input-container>
+        <md-input-container flex="50"
+                            class="mr8"
+                            md-is-error="!$ctrl.currentForm['scriptsTitleEn_' + $index].$valid && ($ctrl.currentForm['scriptsTitleEn_' + $index].$dirty || $ctrl.currentForm['scriptsTitleEn_' + $index].$touched)">
+          <label
+            class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}}</label>
+          <input fdz-required
+                 md-no-asterisk
+                 name="scriptsTitleEn_{{$index}}"
+                 lang="de"
+                 md-maxlength="2048"
+                 ng-model="script.titleEn">
+          <div class="fdz-input-hint"
+               ng-if="!$ctrl.currentForm['scriptsTitleEn_' + $index].$dirty && !$ctrl.currentForm['scriptsTitleEn_' + $index].$touched">
+            {{'analysis-package-management.edit.hints.title.en' | translate}}
           </div>
-          <div ng-message="md-maxlength">
-            {{'analysis-package-management.error.analysis-package.title.i18n-string-size' | translate}}
+          <div multiple
+               ng-messages="$ctrl.currentForm['scriptsTitleEn_' + $index].$error">
+            <div ng-message="fdz-required">
+              {{'analysis-package-management.error.analysis-package.title.i18n-string-entire-not-empty' |
+            translate}}
+            </div>
+            <div ng-message="md-maxlength">
+              {{'analysis-package-management.error.analysis-package.title.i18n-string-size' | translate}}
+            </div>
           </div>
-        </div>
-      </md-input-container>
+        </md-input-container>
+      </div>
+      <div layout="row"
+           layout-gt-sm="row"
+           class="ms-flex">
+        <md-autocomplete required flex="100" class="ms-flex ml28 mr8"
+                         md-input-name="scriptsUsedLanguage_{{$index}}"
+                         md-floating-label="{{'attachment.label.language' | translate}}"
+                         md-require-match="true" md-select-on-match="true"
+                         md-match-case-insensitive="true"
+                         md-selected-item="$ctrl['selectedLanguage_' + $index]"
+                         md-min-length="0"
+                         md-search-text="$ctrl['languageSearchText_' + $index]"
+                         md-items="item in $ctrl.searchLanguages($ctrl['languageSearchText_' + $index])"
+                         md-item-text="item.displayLanguage[$ctrl.currentLanguage]"
+                         md-clear-button="true" md-no-cache="true"
+                         md-selected-item-change="$ctrl.selectedLanguageChanged($index)"
+                         md-is-error="!$ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$valid && ($ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$dirty || $ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$touched)">
+          <md-item-template>
+          <span class="md-title"
+                style="font-size: 14px;">{{item.displayLanguage[$ctrl.currentLanguage]}}</span>
+          </md-item-template>
+          <md-not-found>
+            {{'analysis-package-management.error.language.not-found' | translate}}
+          </md-not-found>
+          <div
+            ng-if="!$ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$dirty && !$ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$touched"
+            class="fdz-input-hint">{{'attachment.hint.language' | translate}}
+          </div>
+          <div ng-messages="$ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$error" multiple>
+            <div ng-message="required">
+              {{'analysis-package-management.error.language.not-null' | translate}}
+            </div>
+            <div ng-message="md-require-match">
+              {{'analysis-package-management.error.language.not-valid' | translate}}
+            </div>
+          </div>
+        </md-autocomplete>
+      </div>
     </div>
   </md-card-content>
   <md-card-actions layout="row" layout-align="begin center"
