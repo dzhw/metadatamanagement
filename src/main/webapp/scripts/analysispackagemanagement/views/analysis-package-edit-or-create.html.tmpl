@@ -93,6 +93,10 @@
           </div>
         </md-card-content>
       </md-card>
+      <edit-script-section-component
+        scripts="ctrl.analysisPackage.scripts"
+        package-id="ctrl.analysisPackage.id"
+        current-form="analysisPackageForm"></edit-script-section-component>
       <md-card class="mb8">
         <md-card-header>
           <md-card-header-text>
@@ -151,7 +155,8 @@
             </md-autocomplete>
             <md-autocomplete flex="50" md-clear-button="true" md-delay="250"
                              md-floating-label="{{'analysis-package-management.detail.label.institution' | translate}} ({{'global.in-english' | translate}})"
-                             md-input-maxlength="512" md-input-name="institutionEn_{{$index}}"
+                             md-input-maxlength="512"
+                             md-input-name="institutionEn_{{$index}}"
                              md-is-error="!analysisPackageForm['institutionEn_' + $index].$valid && (analysisPackageForm['institutionEn_' + $index].$dirty || analysisPackageForm['institutionEn_' + $index].$touched)"
                              md-item-text="item.en"
                              md-items="item in searchInstitutions(ctrl.analysisPackage.institutions[$index].en, 'en')"
@@ -375,9 +380,9 @@
         translation-key-name="license"
         max-length="1048576"
         content="ctrl.analysisPackage.license"></edit-text-section-component>
-      <edit-script-section-component
-        scripts="ctrl.analysisPackage.scripts"
-        current-form="analysisPackageForm"></edit-script-section-component>
+<!--      <edit-script-section-component-->
+<!--        scripts="ctrl.analysisPackage.scripts"-->
+<!--        current-form="analysisPackageForm"></edit-script-section-component>-->
       <md-card class="mb8">
         <md-card-header>
           <md-card-header-text>

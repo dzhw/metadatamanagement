@@ -24,6 +24,9 @@
           </md-tooltip>
           <md-icon md-font-set="material-icons">delete_forever</md-icon>
         </md-button>
+        <input hidden
+               name="scriptsUuid_{{$index}}"
+               ng-model="script.uuid">
         <md-input-container flex="50"
                             class="mr8"
                             md-is-error="!$ctrl.currentForm['scriptsTitleDe_' + $index].$valid && ($ctrl.currentForm['scriptsTitleDe_' + $index].$dirty || $ctrl.currentForm['scriptsTitleDe_' + $index].$touched)">
@@ -34,7 +37,7 @@
                  name="scriptsTitleDe_{{$index}}"
                  lang="de"
                  md-maxlength="2048"
-                 ng-model="script.titleDe">
+                 ng-model="script.title.de">
           <div class="fdz-input-hint"
                ng-if="!$ctrl.currentForm['scriptsTitleDe_' + $index].$dirty && !$ctrl.currentForm['scriptsTitleDe_' + $index].$touched">
             {{'analysis-package-management.edit.hints.title.de' | translate}}
@@ -60,7 +63,7 @@
                  name="scriptsTitleEn_{{$index}}"
                  lang="de"
                  md-maxlength="2048"
-                 ng-model="script.titleEn">
+                 ng-model="script.title.en">
           <div class="fdz-input-hint"
                ng-if="!$ctrl.currentForm['scriptsTitleEn_' + $index].$dirty && !$ctrl.currentForm['scriptsTitleEn_' + $index].$touched">
             {{'analysis-package-management.edit.hints.title.en' | translate}}
@@ -82,7 +85,7 @@
            class="ms-flex">
         <md-autocomplete required flex="100" class="ms-flex ml28 mr8"
                          md-input-name="scriptsUsedLanguage_{{$index}}"
-                         md-floating-label="{{'attachment.label.language' | translate}}"
+                         md-floating-label="{{'analysis-package-management.edit.label.script.language' | translate}}"
                          md-require-match="true" md-select-on-match="true"
                          md-match-case-insensitive="true"
                          md-selected-item="$ctrl['selectedLanguage_' + $index]"
@@ -95,16 +98,18 @@
                          md-is-error="!$ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$valid && ($ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$dirty || $ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$touched)">
           <md-item-template>
           <span class="md-title"
+                md-highlight-flags="ig"
+                md-highlight-text="$ctrl['languageSearchText_' + $parent.$index]"
                 style="font-size: 14px;">{{item.displayLanguage[$ctrl.currentLanguage]}}</span>
           </md-item-template>
           <md-not-found>
             {{'analysis-package-management.error.language.not-found' | translate}}
           </md-not-found>
           <div
-            ng-if="!$ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$dirty && !$ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$touched"
-            class="fdz-input-hint">{{'attachment.hint.language' | translate}}
+            ng-if="!$ctrl.currentForm['scriptsUsedLanguage_ ' + $parent.$index].$dirty && !$ctrl.currentForm['scriptsUsedLanguage_ ' + $parent.$index].$touched"
+            class="fdz-input-hint">{{'analysis-package-management.edit.hints.script.language' | translate}}
           </div>
-          <div ng-messages="$ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$error" multiple>
+          <div ng-messages="$ctrl.currentForm['scriptsUsedLanguage_ ' + $parent.$index].$error" multiple>
             <div ng-message="required">
               {{'analysis-package-management.error.language.not-null' | translate}}
             </div>
@@ -113,6 +118,75 @@
             </div>
           </div>
         </md-autocomplete>
+        <md-autocomplete flex="100" class="ms-flex mr8"
+                         ng-required="true"
+                         md-input-name="scriptsSoftwarePackage_{{$index}}"
+                         md-is-error="!$ctrl.currentForm['scriptsSoftwarePackage_' + $index].$valid && ($ctrl.currentForm['scriptsSoftwarePackage_ ' + $index].$dirty || $ctrl.currentForm['scriptsSoftwarePackage_ ' + $index].$touched)"
+                         md-floating-label="{{'analysis-package-management.edit.label.script.software-package' | translate}}"
+                         md-require-match="true" md-select-on-match="true"
+                         md-match-case-insensitive="true"
+                         md-selected-item="$ctrl['selectedSoftwarePackage_' + $index]"
+                         md-min-length="0"
+                         md-search-text="$ctrl['softwarePackageSearchText_' + $index]"
+                         md-items="item in $ctrl.searchSoftwarePackages($ctrl['softwarePackageSearchText_' + $index])"
+                         md-item-text="item"
+                         md-clear-button="true" md-no-cache="true"
+                         md-selected-item-change="$ctrl.selectedSoftwarePackageChanged($index)">
+          <md-item-template>
+          <span class="md-title"
+                md-highlight-flags="ig"
+                md-highlight-text="$ctrl['softwarePackageSearchText_' + $parent.$index]"
+                style="font-size: 14px;">{{item}}</span>
+          </md-item-template>
+          <md-not-found>
+            {{'analysis-package-management.error.analysis-package.software-package.not-found' | translate}}
+          </md-not-found>
+          <div
+            class="fdz-input-hint"
+            ng-if="!$ctrl.currentForm['scriptsSoftwarePackage_ ' + $parent.$index].$dirty && !$ctrl.currentForm['scriptsSoftwarePackage_ ' + $parent.$index].$touched">
+            {{'analysis-package-management.edit.hints.script.software-package' | translate}}
+          </div>
+          <div multiple ng-messages="$ctrl.currentForm['scriptsSoftwarePackage_ ' + $parent.$index].$error">
+            <div ng-message="required">
+              {{'analysis-package-management.error.analysis-package.software-package.not-null' | translate}}
+            </div>
+            <div ng-message="md-require-match">
+              {{'analysis-package-management.error.analysis-package.software-package.not-valid' | translate}}
+            </div>
+          </div>
+        </md-autocomplete>
+      </div>
+      <div layout="row"
+           layout-gt-sm="row"
+           class="ms-flex">
+        <md-input-container flex="50"
+                            class="mr8 ml28 "
+                            md-is-error="!$ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$valid && ($ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$dirty || $ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$touched)">
+          <label
+            class="fdz-input-required">{{'analysis-package-management.detail.label.version' | translate}}</label>
+          <input fdz-required
+                 md-no-asterisk
+                 name="scriptsSoftwarePackageVersion_{{$index}}"
+                 lang="de"
+                 md-maxlength="32"
+                 ng-model="script.softwarePackageVersion">
+          <div class="fdz-input-hint"
+               ng-if="!$ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$dirty && !$ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$touched">
+            {{'analysis-package-management.edit.hints.script.version' | translate}}
+          </div>
+          <div multiple
+               ng-messages="$ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$error">
+            <div ng-message="fdz-required">
+              {{'analysis-package-management.error.analysis-package.software-package-version.string-entire-not-empty' |
+            translate}}
+            </div>
+            <div ng-message="md-maxlength">
+              {{'analysis-package-management.error.analysis-package.software-package-version.string-size' | translate}}
+            </div>
+          </div>
+        </md-input-container>
+        <div flex="50"
+             class="mr8"></div>
       </div>
     </div>
   </md-card-content>

@@ -5,48 +5,71 @@
   function Controller(
     uuid,
     isoLanguages,
-    LanguageService
+    LanguageService,
+    ScriptSoftwarePackagesResource
   ) {
     var $ctrl = this;
     var isInitialisingSelectedLanguage = false;
-
+    var isInitialisingSelectedSoftwarePackage = false;
     var isoLanguagesArray = Object.keys(isoLanguages).map(function(key) {
       return {
         code: key,
         'displayLanguage': isoLanguages[key]
       };
     });
+    var initSelectedLanguages = function() {
+      isInitialisingSelectedLanguage = true;
+      _.forEach($ctrl.scripts, function(value, index) {
+        var result = _.filter(isoLanguagesArray,
+          function(isoLanguage) {
+            return isoLanguage.code === value.usedLanguage;
+          });
+        $ctrl['selectedLanguage_' + index] = result[0]
+          .displayLanguage[$ctrl.currentLanguage];
+      });
+    };
 
-
-    // var initSelectedLanguages = function() {
-    //   isInitialisingSelectedLanguage = true;
-    //     $ctrl['selectedLanguage_'+i] = _.filter(isoLanguagesArray,
-    //       function(isoLanguage, i) {
-    //         return isoLanguage.code === $ctrl.scripts[i].usedLanguage;
-    //       });
-    // };
+    var softwarePackages = [];
+    var getSoftwarePackages = function() {
+      ScriptSoftwarePackagesResource.get()
+        .$promise.then(function(softwarePackage) {
+          angular.copy(softwarePackage, softwarePackages);
+        });
+    };
+    var initSelectedSoftwarePackages = function() {
+      _.forEach($ctrl.scripts, function(value, index) {
+        $ctrl['selectedSoftwarePackage_' + index] = value.softwarePackage;
+      });
+    };
 
     $ctrl.$onInit = function() {
       $ctrl.scripts = $ctrl.scripts || [];
       $ctrl.currentLanguage = LanguageService.getCurrentInstantly();
-      // initSelectedLanguages();
+      initSelectedLanguages();
+      getSoftwarePackages();
+      initSelectedSoftwarePackages();
     };
 
-    // Script Start
     $ctrl.deleteScript = function(index) {
       $ctrl.scripts.splice(index, 1);
+      $ctrl['languageSearchText_' + index] = '';
+      $ctrl['selectedLanguage_' + index] = null;
+      $ctrl['softwarePackageSearchText_' + index] = '';
+      $ctrl['selectedSoftwarePackage_' + index] = null;
       $ctrl.currentForm.$setDirty();
     };
+
     $ctrl.addScript = function() {
       $ctrl.scripts.push({
         uuid: uuid.v4(),
-        titleDe: '',
-        titleEn: '',
+        title: {
+          de: '',
+          en: ''
+        },
         softwarePackage: '',
         softwarePackageVersion: '',
         usedLanguage: ''
       });
-      $ctrl.selectedLanguage = '';
     };
 
     $ctrl.setCurrentScript = function(index, event) {
@@ -55,9 +78,7 @@
     };
     $ctrl.moveCurrentScriptUp = function() {};
     $ctrl.moveCurrentScriptDown = function() {};
-    // Script stop
 
-    // Languages start
     $ctrl.searchLanguages = function(searchText) {
       if (!searchText || searchText === '') {
         return isoLanguagesArray;
@@ -71,7 +92,8 @@
 
     $ctrl.selectedLanguageChanged = function(index) {
       if ($ctrl['selectedLanguage_' + index]) {
-        $ctrl.scripts[index].usedLanguage = $ctrl['selectedLanguage_' + index].code;
+        $ctrl.scripts[index]
+          .usedLanguage = $ctrl['selectedLanguage_' + index].code;
       } else {
         delete $ctrl.scripts[index].usedLanguage;
       }
@@ -80,7 +102,29 @@
       }
       isInitialisingSelectedLanguage = false;
     };
-    // Languages stop
+
+    $ctrl.searchSoftwarePackages = function(searchText) {
+      if (!searchText || searchText === '') {
+        return softwarePackages;
+      }
+      var lowerCasedSearchText = searchText.toLowerCase();
+      return _.filter(softwarePackages, function(softwarePackage) {
+        return softwarePackage.toLowerCase().indexOf(lowerCasedSearchText) > -1;
+      });
+    };
+
+    $ctrl.selectedSoftwarePackageChanged = function(index) {
+      if ($ctrl['selectedSoftwarePackage_' + index]) {
+        $ctrl.scripts[index].softwarePackage =
+          $ctrl['selectedSoftwarePackage_' + index];
+      } else {
+        delete $ctrl.scripts[index].softwarePackage;
+      }
+      if (!isInitialisingSelectedLanguage) {
+        $ctrl.currentForm.$setDirty();
+      }
+      isInitialisingSelectedSoftwarePackage = false;
+    };
   }
 
   angular

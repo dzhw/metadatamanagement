@@ -26,7 +26,9 @@ angular.module('metadatamanagementApp').config(
               'description': 'Beschreibung',
               'language': 'Dokumentensprache',
               'file': 'Datei'
-            }
+            },
+            'software-package': 'Bitte wählen Sie das/die Softwarepaket(e) ein, für die dieses Skript geschrieben wurde.',
+            'version': 'Version des Softwarepaketes'
           },
           'attachments': {
             'table-title': 'Materialien zu diesem Analysepaket',
@@ -106,6 +108,11 @@ angular.module('metadatamanagementApp').config(
             'publication-year': 'Jahr der Veröffentlichung',
             'institution': 'Institution',
             'sponsor': 'Geldgeber:in',
+            'script': {
+              'language': 'Skript Sprache',
+              'software-package': 'Software Paket',
+              'version': 'Version des Softwarepaketes'
+            },
             'location': 'Ort',
             'additional-links': {
               'url': 'URL',
@@ -136,6 +143,11 @@ angular.module('metadatamanagementApp').config(
               'en': 'Geben Sie den englischen Namen der Institution ein, die an dem Analysepaket beteiligt waren.'
             },
             'license': 'Wenn kein Vertrag unterzeichnet wird, benötigen wir eine Lizenz wie cc-by-sa',
+            'scripts': {
+              'language': 'Bitte geben Sie die Sprache an, die Sie für die Kommentare im Drehbuch verwendet haben.',
+              'software-package': 'Bitte wählen Sie das/die Softwarepaket(e) ein, für die dieses Skript geschrieben wurde.',
+              'version': 'Version des Softwarepaketes'
+            },
             'sponsor': {
               'de': 'Geben Sie den deutschen Namen der Geldgeber:in für dieses Analysepaket ein.',
               'en': 'Geben Sie den englischen Namen der Geldgeber:in für dieses Analysepaket ein.'
@@ -165,6 +177,15 @@ angular.module('metadatamanagementApp').config(
               'not-found': 'Keine gültige Sprache gefunden!',
               'not-null': 'Die Sprache des Skripts darf nicht leer sein.',
               'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
+            },
+            'software-package': {
+              'not-found': 'Kein gültiges Sofware Paket gefunden.',
+              'not-null': 'Das Software Paket darf nicht leer sein.',
+              'not-valid': 'Bitte wählen Sie ein vorgeschlagenes Software Paket aus.'
+            },
+            'software-package-version': {
+              'string-size': 'Die Maximallänge der Software Paket Version ist 32 Zeichen.',
+              'string-entire-not-empty': 'Die Software Paket Version muss vorhanden sein.'
             },
             'license': {
               'string-size': 'Die Maximallänge der Lizenz ist 1048576 Zeichen.'

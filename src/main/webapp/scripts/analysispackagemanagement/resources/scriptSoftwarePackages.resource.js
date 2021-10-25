@@ -2,9 +2,8 @@
 
 angular.module('metadatamanagementApp')
   .factory('ScriptSoftwarePackagesResource', function($resource) {
-    return $resource('/api/analysis-packages/scripts/software-packages', {}, {
+    return $resource('/api/analysis-packages/scripts/software-packages', null, {
       'get': {
-        method: 'GET',
         isArray: true
       }
     });

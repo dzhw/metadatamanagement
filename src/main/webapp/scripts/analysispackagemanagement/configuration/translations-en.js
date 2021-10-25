@@ -26,7 +26,9 @@ angular.module('metadatamanagementApp').config(
               'description': 'Description',
               'language': 'Document Language',
               'file': 'File'
-            }
+            },
+            'version': 'Version of Software Package',
+            'software-package': 'Software Package'
           },
           'attachments': {
             'table-title': 'Documents related to this Analysis Package',
@@ -105,6 +107,11 @@ angular.module('metadatamanagementApp').config(
             'publication-year': 'Year of Publication',
             'institution': 'Institution',
             'sponsor': 'Sponsor',
+            'script': {
+              'language': 'Script Language',
+              'software-package': 'Software Package',
+              'version': 'Version of Software Package'
+            },
             'location': 'Location',
             'additional-links': {
               'url': 'URL',
@@ -135,6 +142,11 @@ angular.module('metadatamanagementApp').config(
               'en': 'Please enter the English name of the institution which participated in the analysis package.'
             },
             'license': 'If no contract is signed we will need a license like cc-by-sa',
+            'script': {
+              'language': 'Please indicate the language you used for the comments in the script.',
+              'software-package': 'Please choose the software package(es) the script is written for.',
+              'version': 'Version of Software Package'
+            },
             'sponsor': {
               'de': 'Enter the German name of the sponsor of this analysis package.',
               'en': 'Enter the English name of the sponsor of this analysis package.'
@@ -164,6 +176,16 @@ angular.module('metadatamanagementApp').config(
               'not-found': 'No valid language found.',
               'not-null': 'The script language must not be empty.',
               'not-valid': 'Please select one of the provided languages.'
+            },
+            'software-package': {
+              'not-found': 'No valid software package found.',
+              'not-null': 'The software package must not be empty.',
+              'not-valid': 'Please select one of the provided software package.'
+
+            },
+            'software-package-version': {
+              'string-size': 'The max length of the software package version is 32.',
+              'string-entire-not-empty': 'The software package version must not be empty.'
             },
             'license': {
               'string-size': 'The max length of the license is 1048576 signs.'
