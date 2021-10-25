@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,10 +39,7 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
 import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +57,7 @@ public class TaskManagementService implements CrudService<Task> {
 
   private final CounterService counterService;
 
-  private final UserRepository userRepository;
+  private final AuthUserService userService;
 
   private final MailService mailService;
 
@@ -132,7 +131,7 @@ public class TaskManagementService implements CrudService<Task> {
   private void handleDataSetReportError(TaskErrorNotification errorNotification, User onBehalfUser,
       String projectManagementEmailSender) {
     List<User> admins =
-        userRepository.findAllByAuthoritiesContaining(new Authority(AuthoritiesConstants.ADMIN));
+        userService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
     mailService.sendDataSetReportErrorMail(onBehalfUser, admins, errorNotification,
         projectManagementEmailSender);
   }
@@ -140,7 +139,7 @@ public class TaskManagementService implements CrudService<Task> {
   private void handleDataPackageOverviewError(TaskErrorNotification errorNotification,
       User onBehalfUser, String projectManagementEmailSender) {
     List<User> admins =
-        userRepository.findAllByAuthoritiesContaining(new Authority(AuthoritiesConstants.ADMIN));
+        userService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
     mailService.sendDataPackageOverviewErrorMail(onBehalfUser, admins, errorNotification,
         projectManagementEmailSender);
   }

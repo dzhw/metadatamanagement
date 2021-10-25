@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  * An authority (a security role) used by Spring Security.
  */
+@Deprecated
 @Document(collection = "jhi_authority")
 public class Authority implements Serializable {
 
@@ -24,11 +25,11 @@ public class Authority implements Serializable {
 
   public Authority() {
   }
-  
+
   public Authority(String name) {
     this.name = name;
   }
-  
+
   public String getName() {
     return name;
   }

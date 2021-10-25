@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
@@ -32,10 +33,9 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowHidingNotAl
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowUnhidingNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DataAcquisitionProjectCrudHelper;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import freemarker.template.TemplateException;
@@ -43,7 +43,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing the domain object/aggregate {@link DataAcquisitionProject}.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -59,6 +59,8 @@ public class DataAcquisitionProjectManagementService
   private final DataAcquisitionProjectChangesProvider changesProvider;
 
   private final UserRepository userRepository;
+
+  private final AuthUserService userService;
 
   private final MailService mailService;
 
@@ -77,7 +79,7 @@ public class DataAcquisitionProjectManagementService
   /**
    * Searches for {@link DataAcquisitionProject} items for the given id. The result may be limited
    * if the current user is not an admin or publisher.
-   * 
+   *
    * @param projectId Project id
    * @return A list of {@link DataAcquisitionProject}
    */
@@ -297,7 +299,7 @@ public class DataAcquisitionProjectManagementService
 
   /**
    * Notify all {@link AuthoritiesConstants.RELEASE_MANAGER}'s about the new major release.
-   * 
+   *
    * @param shadowCopyingEndedEvent Emitted by {@link ShadowCopyQueueItemService}.
    * @throws TemplateException thrown if template processing for dara's xml fails
    * @throws IOException thrown if IO errors occur during template processing
@@ -319,8 +321,8 @@ public class DataAcquisitionProjectManagementService
             || previousRelease != null && currentVersion.getMajorVersion() > Version
                 .valueOf(previousRelease.getVersion()).getMajorVersion()) {
           // a new major release has been shadow copied
-          List<User> releaseManagers = userRepository
-              .findAllByAuthoritiesContaining(new Authority(AuthoritiesConstants.RELEASE_MANAGER));
+          List<User> releaseManagers = userService
+              .findAllByAuthoritiesContaining(AuthoritiesConstants.RELEASE_MANAGER);
           mailService.sendMailOnNewMajorProjectRelease(releaseManagers,
               shadowCopyingEndedEvent.getDataAcquisitionProjectId(),
               shadowCopyingEndedEvent.getRelease());
@@ -345,7 +347,7 @@ public class DataAcquisitionProjectManagementService
 
   /**
    * Load a page containing all shadow copies of the given master.
-   * 
+   *
    * @param masterId project id of the master
    * @param pageable pageable for paging and sorting
    * @return all shadows of the given master, may be empty
@@ -356,7 +358,7 @@ public class DataAcquisitionProjectManagementService
 
   /**
    * Hide the given shadow copy of a project.
-   * 
+   *
    * @param shadowProject The shadow to be hidden.
    * @throws ShadowHidingNotAllowedException thrown if the given project cannot be hidden
    */
@@ -379,7 +381,7 @@ public class DataAcquisitionProjectManagementService
 
   /**
    * Unhide the given shadow, thus make it visible for public users.
-   * 
+   *
    * @param shadowProject The shadow copy of a project.
    * @throws ShadowUnhidingNotAllowedException Thrown if the project is already unhidden.
    */

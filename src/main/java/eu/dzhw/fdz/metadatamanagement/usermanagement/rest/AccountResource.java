@@ -6,6 +6,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
@@ -18,12 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.KeyAndPasswordDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +41,8 @@ public class AccountResource {
   private final UserRepository userRepository;
 
   private final UserService userService;
+
+  private final AuthUserService authUserService;
 
   private final MailService mailService;
 
@@ -73,7 +75,7 @@ public class AccountResource {
       HttpServletRequest request) {
     return userService.activateRegistration(key).map(user -> {
       List<User> admins =
-          userRepository.findAllByAuthoritiesContaining(new Authority(AuthoritiesConstants.ADMIN));
+          authUserService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
       mailService.sendNewAccountActivatedMail(admins, user);
       return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body("");
     }).orElse(new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR));
