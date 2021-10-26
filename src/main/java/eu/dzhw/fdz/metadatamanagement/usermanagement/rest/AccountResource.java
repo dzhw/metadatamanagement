@@ -77,9 +77,9 @@ public class AccountResource {
     return userService.activateRegistration(key).map(user -> {
       List<User> admins =
           authUserService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
-      mailService.sendNewAccountActivatedMail(admins, user);
+      mailService.sendNewAccountActivatedMail(admins, new AuthUser(user));
       return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body("");
-    }).orElse(new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR));
+    }).orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
   }
 
   /**

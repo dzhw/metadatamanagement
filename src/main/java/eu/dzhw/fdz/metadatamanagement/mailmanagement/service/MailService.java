@@ -147,7 +147,7 @@ public class MailService {
    * Send new account activated mail.
    */
   @Async
-  public Future<Void> sendNewAccountActivatedMail(List<User> admins, User newUser) {
+  public Future<Void> sendNewAccountActivatedMail(List<User> admins, AuthUser newUser) {
     log.debug("Sending new account e-mail to all admins");
     Context context = new Context();
     context.setVariable("user", newUser);
