@@ -14,7 +14,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.IOException;
 import java.util.Optional;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +29,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.AuthorityRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStore;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
@@ -48,9 +46,6 @@ public class UserResourceTest extends AbstractTest {
 
   @Autowired
   private UserRepository userRepository;
-
-  @Autowired
-  private AuthorityRepository authorityRepository;
 
   @Autowired
   private UserService userService;
@@ -127,9 +122,6 @@ public class UserResourceTest extends AbstractTest {
 
   @Test
   public void testUpdateUser() throws IOException, Exception {
-
-    assertThat(this.authorityRepository, not(nullValue()));
-
     // Arrange
     Optional<User> userO = this.userRepository.findOneByLogin("user");
     User user = userO.get();
