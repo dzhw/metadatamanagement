@@ -50,14 +50,9 @@
       initSelectedSoftwarePackages();
     };
 
-    $ctrl.getError = function(form, name) {
-      console.log(name);
-      console.log(form[name]);
-      // return form['autocompleteField' + index].$error;
-    };
-
     $ctrl.deleteScript = function(index) {
       $ctrl.scripts.splice(index, 1);
+      // Remove content from md-autocomplete
       $ctrl['languageSearchText_' + index] = '';
       $ctrl['selectedLanguage_' + index] = null;
       $ctrl['softwarePackageSearchText_' + index] = '';
@@ -130,6 +125,19 @@
         $ctrl.currentForm.$setDirty();
       }
       isInitialisingSelectedSoftwarePackage = false;
+    };
+
+    $ctrl.upload = function(file, index) {
+      if (!$ctrl.createMode) {
+        var scriptAttachmentMetadata = {
+          analysisPackageId: $ctrl.packageId,
+          dataAcquisitionProjectId: $ctrl.projectId,
+          masterId: $ctrl.masterId,
+          scriptUuid: $ctrl.scripts[index].uuid,
+          fileName: file.name
+        };
+        console.log(scriptAttachmentMetadata);
+      }
     };
   }
 

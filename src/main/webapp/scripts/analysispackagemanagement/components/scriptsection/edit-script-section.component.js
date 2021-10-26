@@ -6,8 +6,11 @@
     templateUrl: 'scripts/analysispackagemanagement/' +
       'components/scriptsection/edit-script-section.html.tmpl',
     bindings: {
+      createMode: '<',
       currentForm: '<',
       packageId: '<',
+      masterId: '<',
+      projectId: '<',
       scripts: '='
     }
   };

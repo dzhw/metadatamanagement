@@ -21,6 +21,9 @@ angular.module('metadatamanagementApp').config(
             'scripts': 'Scripts',
             'sponsors': 'Sponsored by',
             'title': 'Title',
+            'script-attachments': {
+              'file': 'Add File'
+            },
             'attachments': {
               'title': 'Title',
               'description': 'Description',
@@ -161,6 +164,15 @@ angular.module('metadatamanagementApp').config(
           'analysis-package': {
             'annotations': {
               'i18n-string-size': 'The max length of the annotations is 2048 signs.'
+            },
+            'attachment': {
+              'filename': {
+                'not-empty': 'A file must be selected.',
+                'not-unique': 'A file with this name already exists.',
+                'not-valid': 'This file name is invalid',
+                'pattern': 'Use only alphanumeric signs, German umlauts, ß and space, underscore and minus for the RDC-ID.'
+              },
+              'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
             },
             'description': {
               'not-null': 'The description of the analysis package must not be empty!',

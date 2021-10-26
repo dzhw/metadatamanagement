@@ -21,6 +21,9 @@ angular.module('metadatamanagementApp').config(
             'scripts': 'Skripte',
             'sponsors': 'Gefördert von',
             'title': 'Titel',
+            'script-attachments': {
+              'file': 'Datei hinzufügen'
+            },
             'attachments': {
               'title': 'Titel',
               'description': 'Beschreibung',
@@ -162,6 +165,15 @@ angular.module('metadatamanagementApp').config(
           'analysis-package': {
             'annotations': {
               'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
+            },
+            'attachment': {
+              'filename': {
+                'not-empty': 'Es muss eine Datei ausgewählt sein',
+                'not-unique': 'Eine Datei mit diesem Namen existiert bereits',
+                'not-valid': 'Dieser Dateiname ist ungültig',
+                'pattern': 'Es dürfen für die FDZ-ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus und der Unterstrich verwendet werden.'
+              },
+              'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
             },
             'description': {
               'not-null': 'Die Beschreibung eines Analysepakets darf nicht leer sein!',

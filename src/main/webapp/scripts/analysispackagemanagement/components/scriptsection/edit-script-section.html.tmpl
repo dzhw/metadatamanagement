@@ -107,9 +107,12 @@
           </md-not-found>
           <div
             ng-if="!$ctrl.currentForm['scriptsUsedLanguage_' + $parent.$index].$dirty && !$ctrl.currentForm['scriptsUsedLanguage_' + $parent.$index].$touched"
-            class="fdz-input-hint">{{'analysis-package-management.edit.hints.script.language' | translate}}
+            class="fdz-input-hint">
+            {{'analysis-package-management.edit.hints.script.language' | translate}}
           </div>
-          <div ng-messages="$ctrl.currentForm['scriptsUsedLanguage_' + $parent.$index].$error" multiple>
+          <div
+            ng-messages="$ctrl.currentForm['scriptsUsedLanguage_' + $parent.$index].$error"
+            multiple>
             <div ng-message="required">
               {{'analysis-package-management.error.analysis-package.language.not-null' | translate}}
             </div>
@@ -118,7 +121,7 @@
             </div>
           </div>
         </md-autocomplete>
-        <md-autocomplete flex="100" class="ms-flex mr8"
+        <md-autocomplete flex="50" class="ms-flex mr8"
                          ng-required="true"
                          md-input-name="scriptsSoftwarePackage_{{$index}}"
                          md-is-error="!$ctrl.currentForm['scriptsSoftwarePackage_' + $index].$valid && ($ctrl.currentForm['scriptsSoftwarePackage_ ' + $index].$dirty || $ctrl.currentForm['scriptsSoftwarePackage_ ' + $index].$touched)"
@@ -146,7 +149,8 @@
             ng-if="!$ctrl.currentForm['scriptsSoftwarePackage_' + $parent.$index].$dirty && !$ctrl.currentForm['scriptsSoftwarePackage_' + $parent.$index].$touched">
             {{'analysis-package-management.edit.hints.script.software-package' | translate}}
           </div>
-          <div multiple ng-messages="$ctrl.currentForm['scriptsSoftwarePackage_' + $parent.$index].$error">
+          <div multiple
+               ng-messages="$ctrl.currentForm['scriptsSoftwarePackage_' + $parent.$index].$error">
             <div ng-message="required">
               {{'analysis-package-management.error.analysis-package.software-package.not-null' | translate}}
             </div>
@@ -160,7 +164,7 @@
            layout-gt-sm="row"
            class="ms-flex">
         <md-input-container flex="50"
-                            class="mr8 ml28 "
+                            class="mr8 ml28"
                             md-is-error="!$ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$valid && ($ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$dirty || $ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$touched)">
           <label
             class="fdz-input-required">{{'analysis-package-management.detail.label.version' | translate}}</label>
@@ -185,9 +189,44 @@
             </div>
           </div>
         </md-input-container>
-        <div flex="50"
+
+        <md-input-container ng-if="!$ctrl.createMode"
+                            flex="50"
+                            class="mr8"
+                            ngf-drop="$ctrl.upload($file, $index)" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-select="$ctrl.upload($file, $index)"
+                            md-is-error="!$ctrl.currentForm.filename.$valid && ($ctrl.currentForm.filename.$dirty || $ctrl.currentForm.filename.$touched)">
+          <label>{{'analysis-package-management.detail.label.script-attachments.file' | translate
+            }}</label>
+          <input disabled
+                 ng-pattern="/^[_A-Za-z0-9äöüÄÖÜß\-.]*$/"
+                 ng-model="$ctrl.scriptAttachmentMetadata[$index].fileName"
+                 name="filename" class="pointer"
+                 style="border-bottom: 1px rgba(0,0,0,0.12) solid; background-image: none;">
+          <div
+            ng-if="!$ctrl.currentForm.filename.$dirty && !$ctrl.currentForm.filename.$touched"
+            class="fdz-input-hint">
+            {{ctrl.labels.hints.file.key | translate:ctrl.labels.hints.file.params}}
+          </div>
+          <div ng-messages="$ctrl.currentForm.filename.$error" multiple>
+            <div ng-message="required">
+              {{'analysis-package-management.error.analysis-package.attachment.error.filename.not-empty' | translate}}
+            </div>
+            <div ng-message="unique">
+              {{'analysis-package-management.error.analysis-package.attachment.error.filename.not-unique' | translate}}
+            </div>
+            <div ng-message="valid">
+              {{'analysis-package-management.error.analysis-package.attachment.error.filename.not-valid' | translate}}
+            </div>
+            <div ng-message="pattern">
+              {{'analysis-package-management.error.analysis-package.attachment.error.filename.pattern' | translate}}
+            </div>
+          </div>
+        </md-input-container>
+        <div ng-if="$ctrl.createMode"
+             flex="50"
              class="mr8"></div>
       </div>
+
     </div>
   </md-card-content>
   <md-card-actions layout="row" layout-align="begin center"
