@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
 
 import java.util.Collection;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -90,11 +89,6 @@ public final class SecurityUtils {
       return springSecurityUser.getAuthorities().contains(new SimpleGrantedAuthority(authority));
     }
     return false;
-  }
-
-  public static boolean isUserInRole(String authority, AuthUser user) {
-    return user.getAuthorities().stream()
-        .anyMatch(userAuthority -> userAuthority.equals(authority));
   }
 
   /**
