@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.PaginationUtil;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStore;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
@@ -80,7 +78,7 @@ public class UserResource {
   @Secured(AuthoritiesConstants.ADMIN)
   public ResponseEntity<List<ManagedUserDto>> getAllUsers(Pageable pageable)
       throws URISyntaxException {
-    Page<User> page = userRepository.findAll(pageable);
+    var page = userRepository.findAll(pageable);
     List<ManagedUserDto> managedUserDtos = page.getContent().stream()
         .map(user -> new ManagedUserDto(user)).collect(Collectors.toList());
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
