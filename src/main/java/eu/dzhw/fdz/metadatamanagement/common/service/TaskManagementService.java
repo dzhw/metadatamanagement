@@ -113,7 +113,10 @@ public class TaskManagementService implements CrudService<Task> {
    */
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.ADMIN,
       AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.TASK_USER})
-  public void handleErrorNotification(TaskErrorNotification errorNotification, AuthUser onBehalfUser) {
+  public void handleErrorNotification(
+      TaskErrorNotification errorNotification,
+      AuthUser onBehalfUser
+  ) {
     switch (errorNotification.getTaskType()) {
       case DATA_SET_REPORT:
         handleDataSetReportError(errorNotification, onBehalfUser, projectManagementEmailSender);
@@ -128,8 +131,11 @@ public class TaskManagementService implements CrudService<Task> {
     }
   }
 
-  private void handleDataSetReportError(TaskErrorNotification errorNotification, AuthUser onBehalfUser,
-      String projectManagementEmailSender) {
+  private void handleDataSetReportError(
+      TaskErrorNotification errorNotification,
+      AuthUser onBehalfUser,
+      String projectManagementEmailSender
+  ) {
     var admins =
         userService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
     mailService.sendDataSetReportErrorMail(onBehalfUser, admins, errorNotification,
