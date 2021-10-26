@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.KeyAndPasswordDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
@@ -122,21 +121,6 @@ public class AccountResource {
       mailService.sendPasswordResetMail(new AuthUser(user));
       return new ResponseEntity<>("e-mail was sent", HttpStatus.OK);
     }).orElse(new ResponseEntity<>("e-mail address not registered", HttpStatus.BAD_REQUEST));
-  }
-
-  /**
-   * User has given a new password after reset.
-   */
-  @RequestMapping(value = "/account/reset-password/finish", method = RequestMethod.POST,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> finishPasswordReset(@RequestBody KeyAndPasswordDto keyAndPassword) {
-    if (!checkPasswordLength(keyAndPassword.getNewPassword())) {
-      return new ResponseEntity<>("Incorrect password", HttpStatus.BAD_REQUEST);
-    }
-    return userService
-        .completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey())
-        .map(user -> new ResponseEntity<String>(HttpStatus.OK))
-        .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
   }
 
   private boolean checkPasswordLength(String password) {

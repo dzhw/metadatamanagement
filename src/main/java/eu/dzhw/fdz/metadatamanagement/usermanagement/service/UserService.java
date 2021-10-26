@@ -34,28 +34,6 @@ public class UserService {
   private Integer instanceId;
 
   /**
-   * Set new password after password reset.
-   */
-  public Optional<User> completePasswordReset(String newPassword, String key) {
-    log.debug("Reset user password for reset key {}", key);
-
-    return userRepository.findOneByResetKey(key)
-      .filter(user -> {
-        LocalDateTime oneDayAgo = LocalDateTime.now()
-            .minusHours(24);
-        return user.getResetDate()
-          .isAfter(oneDayAgo);
-      })
-      .map(user -> {
-        user.setPassword(passwordEncoder.encode(newPassword));
-        user.setResetKey(null);
-        user.setResetDate(null);
-        userRepository.save(user);
-        return user;
-      });
-  }
-
-  /**
    * User with given email wants to reset his password.
    */
   public Optional<User> requestPasswordReset(String mail) {

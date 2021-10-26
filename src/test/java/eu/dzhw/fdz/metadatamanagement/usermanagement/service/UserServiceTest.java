@@ -18,7 +18,6 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserMan
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.service.util.RandomUtil;
 
 /**
  * Test class for the UserResource REST controller.
@@ -70,67 +69,6 @@ public class UserServiceTest extends AbstractTest {
   }
 
   @Test
-  public void assertThatResetKeyMustNotBeOlderThan24Hours() {
-    User user = userService.createUserInformation("johndoe", "johndoe", "John", "Doe",
-        "john.doe@localhost", "en-US");
-
-    LocalDateTime daysAgo = LocalDateTime.now()
-      .minusHours(25);
-    String resetKey = RandomUtil.generateResetKey();
-    user.setActivated(true);
-    user.setResetDate(daysAgo);
-    user.setResetKey(resetKey);
-
-    userRepository.save(user);
-
-    Optional<User> maybeUser = userService.completePasswordReset("johndoe2", user.getResetKey());
-
-    assertThat(maybeUser.isPresent()).isFalse();
-
-    userRepository.deleteById(user.getId());
-  }
-
-  @Test
-  public void assertThatResetKeyMustBeValid() {
-    User user = userService.createUserInformation("johndoe", "johndoe", "John", "Doe",
-        "john.doe@localhost", "en-US");
-
-    LocalDateTime daysAgo = LocalDateTime.now()
-      .minusHours(25);
-    user.setActivated(true);
-    user.setResetDate(daysAgo);
-    user.setResetKey("1234");
-    userRepository.save(user);
-    Optional<User> maybeUser = userService.completePasswordReset("johndoe2", user.getResetKey());
-    assertThat(maybeUser.isPresent()).isFalse();
-    userRepository.deleteById(user.getId());
-  }
-
-  @Test  
-  public void assertThatUserCanResetPassword() {
-    User user = userService.createUserInformation("johndoe", "johndoe", "John", "Doe",
-        "john.doe@localhost", "en-US");
-    String oldPassword = user.getPassword();
-    LocalDateTime daysAgo = LocalDateTime.now()
-      .minusHours(2);
-    String resetKey = RandomUtil.generateResetKey();
-    user.setActivated(true);
-    user.setResetDate(daysAgo);
-    user.setResetKey(resetKey);
-    userRepository.save(user);
-    Optional<User> maybeUser = userService.completePasswordReset("johndoe2", user.getResetKey());
-    assertThat(maybeUser.isPresent()).isTrue();
-    assertThat(maybeUser.get()
-      .getResetDate()).isNull();
-    assertThat(maybeUser.get()
-      .getResetKey()).isNull();
-    assertThat(maybeUser.get()
-      .getPassword()).isNotEqualTo(oldPassword);
-
-    userRepository.deleteById(user.getId());
-  }
-
-  @Test
   public void testFindNotActivatedUsersByCreationDateBefore() {
     // Arrange
     LocalDateTime now = LocalDateTime.now();
@@ -150,7 +88,7 @@ public class UserServiceTest extends AbstractTest {
     user1 = this.userRepository.save(user1);
     user1.setCreatedDate(now.minusDays(5));
     user1 = this.userRepository.save(user1);
-    
+
     // Update User 2
     user2 = this.userRepository.save(user2);
     user2.setCreatedDate(now.minusDays(5));

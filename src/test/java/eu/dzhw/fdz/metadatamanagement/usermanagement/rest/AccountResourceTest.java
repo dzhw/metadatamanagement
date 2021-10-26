@@ -38,7 +38,6 @@ import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserMan
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.KeyAndPasswordDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
@@ -220,59 +219,6 @@ public class AccountResourceTest extends AbstractTest {
     // Assert
     this.restMvc.perform(post("/api/account/reset-password/init").accept(MediaType.TEXT_PLAIN)
         .content("john.doe@jhipter.com")).andExpect(status().is4xxClientError());
-
-    this.userRepository.deleteById(user.getId());
-  }
-
-  @Test
-  public void testFinishPasswordReset() throws Exception {
-
-    // Arrange
-    User user = UnitTestUserManagementUtils.getDefaultUser();
-    user.setPassword("sdkgfsdkkgfsdglkfglsdjkagfjklsdgfhklsdglkfglksdgslkfgsdklj12");
-    user.setActivationKey("testActivateTrue");
-    user.setActivated(true);
-    user.setResetKey("ActivationKey");
-    user.setResetDate(LocalDateTime.now().minusHours(1L));
-    this.userRepository.save(user);
-
-    KeyAndPasswordDto dto = new KeyAndPasswordDto();
-    dto.setKey(user.getResetKey());
-    dto.setNewPassword("newPassword");
-
-    // Act
-
-    // Assert
-    this.restMvc.perform(post("/api/account/reset-password/finish")
-        .contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(dto)))
-        .andExpect(status().isOk());
-
-    this.userRepository.deleteById(user.getId());
-  }
-
-  @Test
-  public void testFinishPasswordResetWithError() throws Exception {
-
-    // Arrange
-    User user = UnitTestUserManagementUtils.getDefaultUser();
-    user.setPassword("sdkgfsdkkgfsdglkfglsdjkagfjklsdgfhklsdglkfglksdgslkfgsdklj12");
-    user.setActivationKey("testActivateTrue");
-    user.setActivated(true);
-    user.setResetKey("ActivationKey");
-    user.setResetDate(LocalDateTime.now().minusHours(1L));
-    this.userRepository.save(user);
-
-    KeyAndPasswordDto dto = new KeyAndPasswordDto();
-    dto.setKey(user.getResetKey());
-    dto.setNewPassword("abc");// <- password is too short.
-
-    // Act
-
-    // Assert
-    this.restMvc
-        .perform(post("/api/account/reset-password/finish").contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(dto)))
-        .andExpect(status().is4xxClientError());
 
     this.userRepository.deleteById(user.getId());
   }
