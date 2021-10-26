@@ -113,21 +113,6 @@ public class MailService {
   }
 
   /**
-   * Send user activation email.
-   */
-  @Async
-  public Future<Void> sendActivationEmail(AuthUser user) {
-    log.debug("Sending activation e-mail to '{}'", user.getEmail());
-    Locale locale = Locale.forLanguageTag(user.getLangKey());
-    Context context = new Context(locale);
-    context.setVariable("user", user);
-    context.setVariable("baseUrl", baseUrl);
-    String content = templateEngine.process("activationEmail", context);
-    String subject = messageSource.getMessage("email.activation.title", null, locale);
-    return sendEmail(null, new String[] {user.getEmail()}, null, null, subject, content, locale);
-  }
-
-  /**
    * Send password reset mail.
    */
   @Async

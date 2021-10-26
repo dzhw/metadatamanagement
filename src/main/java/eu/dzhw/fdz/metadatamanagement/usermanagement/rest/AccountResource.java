@@ -1,12 +1,7 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.rest;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
@@ -17,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
@@ -37,30 +31,6 @@ public class AccountResource {
   private final UserRepository userRepository;
 
   private final UserService userService;
-
-  private final AuthUserService authUserService;
-
-  private final MailService mailService;
-
-  /**
-   * Register the user.
-   */
-  @RequestMapping(value = "/register", method = RequestMethod.POST,
-      produces = MediaType.TEXT_PLAIN_VALUE)
-  public ResponseEntity<?> registerAccount(@Valid @RequestBody UserDto userDto,
-      HttpServletRequest request) {
-    return userRepository.findOneByLogin(userDto.getLogin())
-        .map(user -> new ResponseEntity<>("login already in use", HttpStatus.BAD_REQUEST))
-        .orElseGet(() -> userRepository.findOneByEmail(userDto.getEmail()).map(
-            user -> new ResponseEntity<>("e-mail address already in use", HttpStatus.BAD_REQUEST))
-            .orElseGet(() -> {
-              var user = userService.createUserInformation(userDto.getLogin(),
-                  userDto.getPassword(), userDto.getFirstName(), userDto.getLastName(),
-                  userDto.getEmail().toLowerCase(Locale.ENGLISH), userDto.getLangKey());
-              mailService.sendActivationEmail(new AuthUser(user));
-              return new ResponseEntity<>(HttpStatus.CREATED);
-            }));
-  }
 
   /**
    * Check if the user is authenticated, and return its login.

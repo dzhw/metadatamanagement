@@ -17,9 +17,5 @@ public interface UserRepository extends MongoRepository<User, String> {
 
   List<User> findAllByActivatedIsFalseAndCreatedDateBefore(LocalDateTime dateTime);
 
-  Optional<User> findOneByEmail(String email);
-
   Optional<User> findOneByLogin(String login);
-
-  void deleteByEmail(String email);
 }

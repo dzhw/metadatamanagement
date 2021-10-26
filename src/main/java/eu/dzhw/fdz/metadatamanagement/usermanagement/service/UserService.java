@@ -3,9 +3,7 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Service;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.service.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,31 +29,6 @@ public class UserService {
 
   @Value("${metadatamanagement.server.instance-index}")
   private Integer instanceId;
-
-  /**
-   * Create the user with the given details.
-   */
-  public User createUserInformation(String login, String password, String firstName,
-      String lastName, String email, String langKey) {
-
-    User newUser = new User();
-    String encryptedPassword = passwordEncoder.encode(password);
-    newUser.setLogin(login);
-    // new user gets initially a generated password
-    newUser.setPassword(encryptedPassword);
-    newUser.setFirstName(firstName);
-    newUser.setLastName(lastName);
-    newUser.setEmail(email);
-    newUser.setLangKey(langKey);
-    // new user is not active
-    newUser.setActivated(false);
-    // new user gets registration key
-    newUser.setActivationKey(RandomUtil.generateActivationKey());
-    newUser.setAuthorities(Set.of(AuthoritiesConstants.USER));
-    userRepository.save(newUser);
-    log.debug("Created Information for User: {}", newUser);
-    return newUser;
-  }
 
   /**
    * Update the user details.
