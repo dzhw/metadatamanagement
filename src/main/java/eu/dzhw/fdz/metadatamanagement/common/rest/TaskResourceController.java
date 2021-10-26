@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
@@ -23,12 +24,11 @@ import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import io.swagger.v3.oas.annotations.Hidden;
 
 /**
  * Task REST Controller.
- * 
+ *
  * @author René Reitmann
  */
 @RestController
@@ -36,7 +36,8 @@ import io.swagger.v3.oas.annotations.Hidden;
 @Hidden
 public class TaskResourceController
     extends GenericDomainObjectResourceController<Task, TaskManagementService> {
-  private final UserService userService;
+
+  private final AuthUserService authUserService;
 
   private final TaskManagementService taskService;
 
@@ -44,16 +45,16 @@ public class TaskResourceController
    * Construct the controller.
    */
   public TaskResourceController(CrudService<Task> crudService,
-      UserInformationProvider userInformationProvider, UserService userService,
+      UserInformationProvider userInformationProvider, AuthUserService authUserService,
       TaskManagementService taskService) {
     super(crudService, userInformationProvider);
-    this.userService = userService;
+    this.authUserService = authUserService;
     this.taskService = taskService;
   }
 
   /**
    * get the task state by id.
-   * 
+   *
    * @param taskId the Id of the task.
    * @return the task object.
    */
@@ -66,7 +67,7 @@ public class TaskResourceController
 
   /**
    * Notify admins and optionally the user for whom the task was executed about an error.
-   * 
+   *
    * @param errorNotification A valid {@link TaskErrorNotification} object.
    */
   @PostMapping("/tasks/error-notification")
@@ -78,7 +79,7 @@ public class TaskResourceController
       taskService.handleErrorNotification(errorNotification, null);
     } else {
       Optional<User> user =
-          userService.getUserWithAuthoritiesByLogin(errorNotification.getOnBehalfOf());
+          authUserService.findOneByLogin(errorNotification.getOnBehalfOf());
       if (user.isPresent()) {
         taskService.handleErrorNotification(errorNotification, user.get());
       } else {

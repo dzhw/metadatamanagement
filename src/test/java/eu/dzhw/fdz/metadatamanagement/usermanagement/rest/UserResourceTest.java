@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.IOException;
 import java.util.Optional;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +34,6 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStor
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 
 /**
  * Test class for the UserResource REST controller.
@@ -48,7 +48,7 @@ public class UserResourceTest extends AbstractTest {
   private UserRepository userRepository;
 
   @Autowired
-  private UserService userService;
+  private AuthUserService authUserService;
 
   @Autowired
   private MongoDbTokenStore tokenStore;
@@ -61,7 +61,7 @@ public class UserResourceTest extends AbstractTest {
   @BeforeEach
   public void setup() {
     UserResource userResource =
-        new UserResource(userRepository, tokenStore, userService);
+        new UserResource(userRepository, tokenStore, authUserService);
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
         .setCustomArgumentResolvers(pageableArgumentResolver).build();
   }

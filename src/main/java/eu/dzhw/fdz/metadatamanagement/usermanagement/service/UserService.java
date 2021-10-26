@@ -142,13 +142,6 @@ public class UserService {
   }
 
   /**
-   * Find the user by login.
-   */
-  public Optional<User> getUserWithAuthoritiesByLogin(String login) {
-    return userRepository.findOneByLogin(login);
-  }
-
-  /**
    * Get currently logged in user.
    * @return the currently logged in user.
    */

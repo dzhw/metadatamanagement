@@ -4,6 +4,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.CacheControl;
@@ -27,7 +28,6 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,7 +46,7 @@ public class UserResource {
 
   private final MongoDbTokenStore tokenStore;
 
-  private final UserService userService;
+  private final AuthUserService authUserService;
 
   /**
    * Updates an existing User.
@@ -96,7 +96,7 @@ public class UserResource {
   @Secured(AuthoritiesConstants.ADMIN)
   public ResponseEntity<ManagedUserDto> getUser(@PathVariable String login) {
     log.debug("REST request to get User : {}", login);
-    return userService.getUserWithAuthoritiesByLogin(login).map(user -> new ManagedUserDto(user))
+    return authUserService.findOneByLogin(login).map(user -> new ManagedUserDto(user))
         .map(managedUserDTO -> ResponseEntity.ok().cacheControl(CacheControl.noCache())
             .body(managedUserDTO))
         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -111,7 +111,7 @@ public class UserResource {
       AuthoritiesConstants.PUBLISHER})
   public ResponseEntity<UserDto> getUserPublic(@PathVariable String login) {
     log.debug("REST request to get User : {}", login);
-    return userService.getUserWithAuthoritiesByLogin(login).map(user -> new UserDto(user))
+    return authUserService.findOneByLogin(login).map(user -> new UserDto(user))
         .map(userDTO -> ResponseEntity.ok().cacheControl(CacheControl.noCache().mustRevalidate())
             .body(userDTO))
         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
