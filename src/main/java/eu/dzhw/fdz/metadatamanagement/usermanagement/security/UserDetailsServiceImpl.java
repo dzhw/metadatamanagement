@@ -1,9 +1,9 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,8 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,13 +23,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-  private final UserRepository userRepository;
+  private final AuthUserService authUserService;
 
   @Override
   public UserDetails loadUserByUsername(final String login) {
     log.debug("Authenticating {}", login);
     String lowercaseLogin = login.toLowerCase(LocaleContextHolder.getLocale());
-    Optional<User> userFromDatabase = userRepository.findOneByLoginOrEmail(lowercaseLogin, login);
+    var userFromDatabase = authUserService.findOneByLoginOrEmail(lowercaseLogin, login);
     return userFromDatabase.map(user -> {
       if (!user.isActivated()) {
         throw new UserNotActivatedException("User " + login + " was not activated");
@@ -39,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
       Set<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
           .map(authority -> new SimpleGrantedAuthority(authority))
           .collect(Collectors.toSet());
-      return new CustomUserDetails(user.getId(), user.getLogin(), user.getPassword(),
+      return new CustomUserDetails("1", user.getLogin(), user.getPassword(),
           grantedAuthorities, true, true, true, true);
     }).orElseThrow(() -> new UsernameNotFoundException(
         "User " + lowercaseLogin + " was not found in the " + "database"));
