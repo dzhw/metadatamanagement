@@ -186,7 +186,7 @@ public class MailService {
    * Send a mail to users who were added as publishers to a project.
    */
   @Async
-  public void sendPublishersAddedMail(List<User> publishers, String projectId, String sender) {
+  public void sendPublishersAddedMail(List<AuthUser> publishers, String projectId, String sender) {
     if (!publishers.isEmpty()) {
       log.debug("Sending 'publishers added' mail");
       sendChangedProjectConfigurationMail("addedToProjectConfiguration",
@@ -199,7 +199,7 @@ public class MailService {
    * Send a mail to users who were removed as publishers from a project.
    */
   @Async
-  public void sendPublisherRemovedMail(List<User> removedPublisherUsers, String projectId,
+  public void sendPublisherRemovedMail(List<AuthUser> removedPublisherUsers, String projectId,
       String sender) {
     if (!removedPublisherUsers.isEmpty()) {
       log.debug("Sending 'publishers removed' mail");
@@ -213,7 +213,7 @@ public class MailService {
    * Send a mail to users who were added as data providers to a project.
    */
   @Async
-  public void sendDataProviderAddedMail(List<User> addedDataProviders, String projectId,
+  public void sendDataProviderAddedMail(List<AuthUser> addedDataProviders, String projectId,
       String sender) {
     if (!addedDataProviders.isEmpty()) {
       log.debug("Sending 'data providers added' mail");
@@ -227,7 +227,7 @@ public class MailService {
    * Send a mail to users who were removed as data providers to a project.
    */
   @Async
-  public void sendDataProviderRemovedMail(List<User> removedDataProviders, String projectId,
+  public void sendDataProviderRemovedMail(List<AuthUser> removedDataProviders, String projectId,
       String sender) {
     if (!removedDataProviders.isEmpty()) {
       log.debug("Sending 'data providers removed' mail");
@@ -240,7 +240,7 @@ public class MailService {
 
   @Async
   private void sendChangedProjectConfigurationMail(String template, String subjectKey,
-      String roleKey, List<User> users, String projectId, String sender) {
+      String roleKey, List<AuthUser> users, String projectId, String sender) {
     users.parallelStream().forEach(user -> {
       Locale locale = Locale.forLanguageTag(user.getLangKey());
       Context context = new Context(locale);
@@ -259,7 +259,7 @@ public class MailService {
    * Send a mail to users who are now able to edit the project.
    */
   @Async
-  public void sendAssigneeGroupChangedMail(List<User> users, String projectId, String message,
+  public void sendAssigneeGroupChangedMail(List<AuthUser> users, String projectId, String message,
       String sender, User currentUser) {
 
     if (!users.isEmpty()) {
@@ -287,7 +287,7 @@ public class MailService {
    * a publisher.
    */
   @Async
-  public void sendDataProviderAccessRevokedMail(List<User> users, String projectId, String message,
+  public void sendDataProviderAccessRevokedMail(List<AuthUser> users, String projectId, String message,
       String sender, User currentUser) {
 
     if (!users.isEmpty()) {

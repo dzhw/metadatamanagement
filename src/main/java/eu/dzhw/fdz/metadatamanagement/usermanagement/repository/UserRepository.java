@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -21,8 +20,6 @@ public interface UserRepository extends MongoRepository<User, String> {
   List<User> findAllByActivatedIsFalseAndCreatedDateBefore(LocalDateTime dateTime);
 
   List<User> findAllByLoginLikeOrEmailLike(String login, String email);
-
-  List<User> findAllByLoginIn(Set<String> userLoginNames);
 
   Optional<User> findOneByResetKey(String resetKey);
 

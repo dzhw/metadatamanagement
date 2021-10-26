@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
@@ -109,7 +110,7 @@ public class DataAcquisitionProjectManagementService
       if (isProjectForcefullyReassignedByPublisher(projectId)) {
         List<String> dataProviders = changesProvider.getOldDataAcquisitionProject(projectId)
             .getConfiguration().getDataProviders();
-        var users = userRepository.findAllByLoginIn(new HashSet<>(dataProviders));
+        var users = userService.findAllByLoginIn(new HashSet<>(dataProviders));
         var currentUser =
             userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
         mailService.sendDataProviderAccessRevokedMail(users, projectId,
@@ -133,7 +134,7 @@ public class DataAcquisitionProjectManagementService
         }
 
         if (!userNames.isEmpty()) {
-          var users = userRepository.findAllByLoginIn(userNames);
+          var users = userService.findAllByLoginIn(userNames);
           var currentUser =
               userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
           mailService.sendAssigneeGroupChangedMail(users, projectId,
@@ -183,7 +184,7 @@ public class DataAcquisitionProjectManagementService
     userLoginNames.addAll(addedDataProviders);
     userLoginNames.addAll(removedDataProviders);
 
-    var users = userRepository.findAllByLoginIn(userLoginNames);
+    var users = userService.findAllByLoginIn(userLoginNames);
 
     var addedPublisherUsers = filterUsersByUserNames(users, addedPublishers);
     var removedPublisherUsers = filterUsersByUserNames(users, removedPublishers);
@@ -194,7 +195,7 @@ public class DataAcquisitionProjectManagementService
         removedDataProviderUsers);
   }
 
-  private List<User> filterUsersByUserNames(List<User> users, List<String> userNames) {
+  private List<AuthUser> filterUsersByUserNames(List<AuthUser> users, List<String> userNames) {
     return users.stream().filter(u -> userNames.contains(u.getLogin()))
         .collect(Collectors.toList());
   }
@@ -203,13 +204,13 @@ public class DataAcquisitionProjectManagementService
    * Encapsulates repository query result for added or removed publishers and data providers.
    */
   private static class UserFetchResult {
-    private List<User> addedPublisherUsers;
-    private List<User> removedPublisherUsers;
-    private List<User> addedDataProviderUsers;
-    private List<User> removedDataProviderUsers;
+    private List<AuthUser> addedPublisherUsers;
+    private List<AuthUser> removedPublisherUsers;
+    private List<AuthUser> addedDataProviderUsers;
+    private List<AuthUser> removedDataProviderUsers;
 
-    UserFetchResult(List<User> addedPublisherUsers, List<User> removedPublisherUsers,
-        List<User> addedDataProviderUsers, List<User> removedDataProviderUsers) {
+    UserFetchResult(List<AuthUser> addedPublisherUsers, List<AuthUser> removedPublisherUsers,
+        List<AuthUser> addedDataProviderUsers, List<AuthUser> removedDataProviderUsers) {
       this.addedPublisherUsers = addedPublisherUsers;
       this.removedPublisherUsers = removedPublisherUsers;
       this.addedDataProviderUsers = addedDataProviderUsers;
