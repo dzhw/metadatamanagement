@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -39,47 +38,6 @@ public class UserServiceTest extends AbstractTest {
   public void after() {
     // Log the user out, if any user was login by a test method
     UnitTestUserManagementUtils.logout();
-  }
-
-  @Test
-  public void testFindNotActivatedUsersByCreationDateBefore() {
-    // Arrange
-    LocalDateTime now = LocalDateTime.now();
-    User user1 = User.builder().login("user1login")
-      .password(this.passwordEncoder.encode("User1Password"))
-      .activated(false)
-      .email("user1@dzhw.eu")
-      .build();
-    user1.setCreatedDate(now.minusDays(4));
-    User user2 = User.builder().login("user2login")
-      .password(this.passwordEncoder.encode("User2Password"))
-      .activated(false)
-      .email("user2@dzhw.eu")
-      .build();
-
-    // Update User 1
-    user1 = this.userRepository.save(user1);
-    user1.setCreatedDate(now.minusDays(5));
-    user1 = this.userRepository.save(user1);
-
-    // Update User 2
-    user2 = this.userRepository.save(user2);
-    user2.setCreatedDate(now.minusDays(5));
-    user2 = this.userRepository.save(user2);
-
-    this.userRepository.save(user2);
-
-    // Act
-    List<User> usersBefore =
-        userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(now.minusDays(3));
-    userService.removeNotActivatedUsers();
-    List<User> usersAfter =
-        userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(now.minusDays(3));
-
-    // Assert
-    assertThat(usersBefore.size(), is(2));
-    assertThat(usersAfter.size(), is(0));
-
   }
 
   @Test
