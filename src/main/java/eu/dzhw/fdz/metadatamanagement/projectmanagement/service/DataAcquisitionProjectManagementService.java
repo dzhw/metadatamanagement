@@ -34,8 +34,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowHidingNotAl
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowUnhidingNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DataAcquisitionProjectCrudHelper;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
@@ -58,8 +56,6 @@ public class DataAcquisitionProjectManagementService
   private final UserInformationProvider userInformationProvider;
 
   private final DataAcquisitionProjectChangesProvider changesProvider;
-
-  private final UserRepository userRepository;
 
   private final AuthUserService userService;
 
@@ -112,7 +108,7 @@ public class DataAcquisitionProjectManagementService
             .getConfiguration().getDataProviders();
         var users = userService.findAllByLoginIn(new HashSet<>(dataProviders));
         var currentUser =
-            userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
+            userService.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
         mailService.sendDataProviderAccessRevokedMail(users, projectId,
             newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender, currentUser);
       } else {
@@ -136,7 +132,7 @@ public class DataAcquisitionProjectManagementService
         if (!userNames.isEmpty()) {
           var users = userService.findAllByLoginIn(userNames);
           var currentUser =
-              userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
+              userService.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
           mailService.sendAssigneeGroupChangedMail(users, projectId,
               newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender, currentUser);
         }

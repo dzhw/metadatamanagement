@@ -28,7 +28,6 @@ import eu.dzhw.fdz.metadatamanagement.common.config.JHipsterProperties;
 import eu.dzhw.fdz.metadatamanagement.common.domain.TaskErrorNotification;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSet;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import joptsimple.internal.Strings;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -260,7 +259,7 @@ public class MailService {
    */
   @Async
   public void sendAssigneeGroupChangedMail(List<AuthUser> users, String projectId, String message,
-      String sender, User currentUser) {
+      String sender, AuthUser currentUser) {
 
     if (!users.isEmpty()) {
       log.debug("Sending 'assignee group changed mail'");
@@ -287,9 +286,13 @@ public class MailService {
    * a publisher.
    */
   @Async
-  public void sendDataProviderAccessRevokedMail(List<AuthUser> users, String projectId, String message,
-      String sender, User currentUser) {
-
+  public void sendDataProviderAccessRevokedMail(
+      List<AuthUser> users,
+      String projectId,
+      String message,
+      String sender,
+      AuthUser currentUser
+  ) {
     if (!users.isEmpty()) {
       log.debug("Sending 'data provider access revoked' mail");
     }
