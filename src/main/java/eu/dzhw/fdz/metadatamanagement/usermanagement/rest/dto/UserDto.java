@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import lombok.ToString;
 
@@ -57,6 +58,13 @@ public class UserDto {
         user.isActivated(), user.getLangKey(), user.getAuthorities(),
         user.isWelcomeDialogDeactivated());
   }
+
+  /**
+   * Temporary replacement constructor.
+   *
+   * @param user an AuthUser
+   */
+  public UserDto(AuthUser user) {}
 
   /**
    * Create the dto.

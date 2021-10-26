@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto;
 
 import java.time.LocalDateTime;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 
 /**
@@ -29,6 +30,13 @@ public class ManagedUserDto extends UserDto {
     this.lastModifiedBy = user.getLastModifiedBy();
     this.lastModifiedDate = user.getLastModifiedDate();
   }
+
+  /**
+   * Temporary replacement constructor.
+   *
+   * @param user an AuthUser
+   */
+  public ManagedUserDto(AuthUser user) {}
 
   public String getId() {
     return id;
