@@ -28,7 +28,6 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DaraUpdateQue
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.RelatedPublication;
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -202,7 +201,7 @@ public class DaraUpdateQueueService {
   }
 
   private void handleDaraCommunicationError(DaraUpdateQueueItem lockedItem) {
-    List<User> admins =
+    var admins =
         userService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
     mailService.sendMailOnDaraAutomaticUpdateError(admins, lockedItem.getProjectId());
     this.unlock(lockedItem);
