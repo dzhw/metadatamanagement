@@ -109,8 +109,8 @@ public class DataAcquisitionProjectManagementService
       if (isProjectForcefullyReassignedByPublisher(projectId)) {
         List<String> dataProviders = changesProvider.getOldDataAcquisitionProject(projectId)
             .getConfiguration().getDataProviders();
-        List<User> users = userRepository.findAllByLoginIn(new HashSet<>(dataProviders));
-        User currentUser =
+        var users = userRepository.findAllByLoginIn(new HashSet<>(dataProviders));
+        var currentUser =
             userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
         mailService.sendDataProviderAccessRevokedMail(users, projectId,
             newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender, currentUser);
@@ -133,8 +133,8 @@ public class DataAcquisitionProjectManagementService
         }
 
         if (!userNames.isEmpty()) {
-          List<User> users = userRepository.findAllByLoginIn(userNames);
-          User currentUser =
+          var users = userRepository.findAllByLoginIn(userNames);
+          var currentUser =
               userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
           mailService.sendAssigneeGroupChangedMail(users, projectId,
               newDataAcquisitionProject.getLastAssigneeGroupMessage(), sender, currentUser);
@@ -183,12 +183,12 @@ public class DataAcquisitionProjectManagementService
     userLoginNames.addAll(addedDataProviders);
     userLoginNames.addAll(removedDataProviders);
 
-    List<User> users = userRepository.findAllByLoginIn(userLoginNames);
+    var users = userRepository.findAllByLoginIn(userLoginNames);
 
-    List<User> addedPublisherUsers = filterUsersByUserNames(users, addedPublishers);
-    List<User> removedPublisherUsers = filterUsersByUserNames(users, removedPublishers);
-    List<User> addedDataProviderUsers = filterUsersByUserNames(users, addedDataProviders);
-    List<User> removedDataProviderUsers = filterUsersByUserNames(users, removedDataProviders);
+    var addedPublisherUsers = filterUsersByUserNames(users, addedPublishers);
+    var removedPublisherUsers = filterUsersByUserNames(users, removedPublishers);
+    var addedDataProviderUsers = filterUsersByUserNames(users, addedDataProviders);
+    var removedDataProviderUsers = filterUsersByUserNames(users, removedDataProviders);
 
     return new UserFetchResult(addedPublisherUsers, removedPublisherUsers, addedDataProviderUsers,
         removedDataProviderUsers);
@@ -321,7 +321,7 @@ public class DataAcquisitionProjectManagementService
             || previousRelease != null && currentVersion.getMajorVersion() > Version
                 .valueOf(previousRelease.getVersion()).getMajorVersion()) {
           // a new major release has been shadow copied
-          List<User> releaseManagers = userService
+          var releaseManagers = userService
               .findAllByAuthoritiesContaining(AuthoritiesConstants.RELEASE_MANAGER);
           mailService.sendMailOnNewMajorProjectRelease(releaseManagers,
               shadowCopyingEndedEvent.getDataAcquisitionProjectId(),
