@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -41,31 +40,6 @@ public class UserServiceTest extends AbstractTest {
   public void after() {
     // Log the user out, if any user was login by a test method
     UnitTestUserManagementUtils.logout();
-  }
-
-  @Test
-  public void assertThatUserMustExistToResetPassword() {
-    Optional<User> maybeUser = userService.requestPasswordReset("john.doe@localhost");
-    assertThat(maybeUser.isPresent()).isFalse();
-
-    maybeUser = userService.requestPasswordReset("admin@localhost");
-    assertThat(maybeUser.isPresent()).isTrue();
-
-    assertThat(maybeUser.get()
-      .getEmail()).isEqualTo("admin@localhost");
-    assertThat(maybeUser.get()
-      .getResetDate()).isNotNull();
-    assertThat(maybeUser.get()
-      .getResetKey()).isNotNull();
-  }
-
-  @Test
-  public void assertThatOnlyActivatedUserCanRequestPasswordReset() {
-    User user = userService.createUserInformation("johndoe", "johndoe", "John", "Doe",
-        "john.doe@localhost", "en-US");
-    Optional<User> maybeUser = userService.requestPasswordReset("john.doe@localhost");
-    assertThat(maybeUser.isPresent()).isFalse();
-    userRepository.deleteById(user.getId());
   }
 
   @Test

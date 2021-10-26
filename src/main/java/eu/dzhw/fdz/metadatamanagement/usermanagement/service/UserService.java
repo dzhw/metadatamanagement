@@ -34,20 +34,6 @@ public class UserService {
   private Integer instanceId;
 
   /**
-   * User with given email wants to reset his password.
-   */
-  public Optional<User> requestPasswordReset(String mail) {
-    return userRepository.findOneByEmail(mail)
-      .filter(user -> user.isActivated())
-      .map(user -> {
-        user.setResetKey(RandomUtil.generateResetKey());
-        user.setResetDate(LocalDateTime.now());
-        userRepository.save(user);
-        return user;
-      });
-  }
-
-  /**
    * Create the user with the given details.
    */
   public User createUserInformation(String login, String password, String firstName,

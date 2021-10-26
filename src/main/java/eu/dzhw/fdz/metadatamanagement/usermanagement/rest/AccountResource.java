@@ -110,19 +110,6 @@ public class AccountResource {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  /**
-   * User wants to reset his password.
-   */
-  @RequestMapping(value = "/account/reset-password/init", method = RequestMethod.POST,
-      produces = MediaType.TEXT_PLAIN_VALUE)
-  public ResponseEntity<?> requestPasswordReset(@RequestBody String mail,
-      HttpServletRequest request) {
-    return userService.requestPasswordReset(mail).map(user -> {
-      mailService.sendPasswordResetMail(new AuthUser(user));
-      return new ResponseEntity<>("e-mail was sent", HttpStatus.OK);
-    }).orElse(new ResponseEntity<>("e-mail address not registered", HttpStatus.BAD_REQUEST));
-  }
-
   private boolean checkPasswordLength(String password) {
     return !StringUtils.isEmpty(password) && password.length() >= UserDto.PASSWORD_MIN_LENGTH
         && password.length() <= UserDto.PASSWORD_MAX_LENGTH;

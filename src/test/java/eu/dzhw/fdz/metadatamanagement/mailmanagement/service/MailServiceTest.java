@@ -6,7 +6,6 @@ package eu.dzhw.fdz.metadatamanagement.mailmanagement.service;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import javax.mail.Message;
@@ -44,23 +43,6 @@ public class MailServiceTest extends AbstractTest {
 
     // Act
     Future<Void> futureVoid = this.mailService.sendActivationEmail(new AuthUser(user));
-    futureVoid.get();
-    Message[] messages = greenMail.getReceivedMessages();
-
-    // Arrange
-    assertThat(futureVoid.isDone(), is(true));
-    assertThat(messages.length, is(1));
-  }
-
-  @Test
-  public void testSendPasswordResetMail() throws InterruptedException, ExecutionException {
-    // Arrange
-    User user = User.builder().langKey("de")
-      .email("anyMail@localhost.com")
-      .build();
-
-    // Act
-    Future<Void> futureVoid = this.mailService.sendPasswordResetMail(new AuthUser(user));
     futureVoid.get();
     Message[] messages = greenMail.getReceivedMessages();
 

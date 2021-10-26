@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
@@ -152,25 +151,6 @@ public class AccountResourceTest extends AbstractTest {
   }
 
   @Test
-  public void testRequestPasswordReset() throws Exception {
-    // Arrange
-    User user = UnitTestUserManagementUtils.getDefaultUser();
-    user.setPassword("sdkgfsdkkgfsdglkfglsdjkagfjklsdgfhklsdglkfglksdgslkfgsdklj12");
-    user.setActivationKey("testActivateTrue");
-    user.setActivated(true);
-    user = this.userRepository.save(user);
-
-    // Act
-
-    // Assert
-    this.restMvc.perform(post("/api/account/reset-password/init").accept(MediaType.TEXT_PLAIN)
-        .content(user.getEmail())).andExpect(status().isOk());
-
-    this.userRepository.deleteById(user.getId());
-  }
-
-
-  @Test
   public void testSaveAccount() throws Exception {
     // Arrange
     Optional<User> userO = this.userRepository.findOneByLogin("admin");
@@ -199,28 +179,6 @@ public class AccountResourceTest extends AbstractTest {
         .perform(post("/api/account").contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(dto)))
         .andExpect(status().is5xxServerError());
-  }
-
-  @Test
-  public void testRequestPasswordResetWithError() throws Exception {
-    // Arrange
-
-
-    User user = UnitTestUserManagementUtils.getDefaultUser();
-    user.setPassword("sdkgfsdkkgfsdglkfglsdjkagfjklsdgfhklsdglkfglksdgslkfgsdklj12");
-    user.setActivationKey("testActivateTrue");
-    user.setLangKey("de");
-    user.setActivated(false); // <- Only activated account can do a password reset
-
-    this.userRepository.save(user);
-
-    // Act
-
-    // Assert
-    this.restMvc.perform(post("/api/account/reset-password/init").accept(MediaType.TEXT_PLAIN)
-        .content("john.doe@jhipter.com")).andExpect(status().is4xxClientError());
-
-    this.userRepository.deleteById(user.getId());
   }
 
   @Test
