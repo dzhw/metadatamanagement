@@ -132,7 +132,7 @@ public class MailService {
    * Send password reset mail.
    */
   @Async
-  public Future<Void> sendPasswordResetMail(User user) {
+  public Future<Void> sendPasswordResetMail(AuthUser user) {
     log.debug("Sending password reset e-mail to '{}'", user.getEmail());
     Locale locale = Locale.forLanguageTag(user.getLangKey());
     Context context = new Context(locale);

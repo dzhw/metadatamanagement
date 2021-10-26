@@ -60,7 +60,7 @@ public class MailServiceTest extends AbstractTest {
       .build();
 
     // Act
-    Future<Void> futureVoid = this.mailService.sendPasswordResetMail(user);
+    Future<Void> futureVoid = this.mailService.sendPasswordResetMail(new AuthUser(user));
     futureVoid.get();
     Message[] messages = greenMail.getReceivedMessages();
 

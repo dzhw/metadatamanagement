@@ -138,7 +138,7 @@ public class AccountResource {
   public ResponseEntity<?> requestPasswordReset(@RequestBody String mail,
       HttpServletRequest request) {
     return userService.requestPasswordReset(mail).map(user -> {
-      mailService.sendPasswordResetMail(user);
+      mailService.sendPasswordResetMail(new AuthUser(user));
       return new ResponseEntity<>("e-mail was sent", HttpStatus.OK);
     }).orElse(new ResponseEntity<>("e-mail address not registered", HttpStatus.BAD_REQUEST));
   }
