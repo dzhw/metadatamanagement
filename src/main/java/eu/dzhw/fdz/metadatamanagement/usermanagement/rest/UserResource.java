@@ -1,27 +1,20 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.rest;
 
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.CacheControl;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.dzhw.fdz.metadatamanagement.common.rest.util.PaginationUtil;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStore;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
@@ -38,27 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UserResource {
 
-  private final UserRepository userRepository;
-
-  private final MongoDbTokenStore tokenStore;
-
   private final AuthUserService authUserService;
-
-  /**
-   * Get all users.
-   */
-  @RequestMapping(value = "/users", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  @Secured(AuthoritiesConstants.ADMIN)
-  public ResponseEntity<List<ManagedUserDto>> getAllUsers(Pageable pageable)
-      throws URISyntaxException {
-    var page = userRepository.findAll(pageable);
-    List<ManagedUserDto> managedUserDtos = page.getContent().stream()
-        .map(user -> new ManagedUserDto(user)).collect(Collectors.toList());
-    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
-    headers.setCacheControl(CacheControl.noStore());
-    return new ResponseEntity<>(managedUserDtos, headers, HttpStatus.OK);
-  }
 
   /**
    * Get the "login" user.

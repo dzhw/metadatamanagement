@@ -3,7 +3,6 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto;
 import java.time.LocalDateTime;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 
 /**
  * A DTO extending the UserDTO, which is meant to be used in the user management UI.
@@ -19,17 +18,6 @@ public class ManagedUserDto extends UserDto {
   private LocalDateTime lastModifiedDate;
 
   public ManagedUserDto() {}
-
-  /**
-   * Create the dto from a given user.
-   */
-  public ManagedUserDto(User user) {
-    super(user);
-    this.id = user.getId();
-    this.createdDate = user.getCreatedDate();
-    this.lastModifiedBy = user.getLastModifiedBy();
-    this.lastModifiedDate = user.getLastModifiedDate();
-  }
 
   /**
    * Temporary replacement constructor.

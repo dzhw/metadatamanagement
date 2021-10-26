@@ -1,7 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.repository;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -14,8 +12,6 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
  */
 @RepositoryRestResource(exported = false)
 public interface UserRepository extends MongoRepository<User, String> {
-
-  List<User> findAllByActivatedIsFalseAndCreatedDateBefore(LocalDateTime dateTime);
 
   Optional<User> findOneByLogin(String login);
 }
