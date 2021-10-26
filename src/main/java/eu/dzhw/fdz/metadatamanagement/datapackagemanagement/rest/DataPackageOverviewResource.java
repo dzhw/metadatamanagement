@@ -26,7 +26,6 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageA
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageOverviewService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import freemarker.template.TemplateException;
@@ -54,7 +53,7 @@ public class DataPackageOverviewResource {
 
   /**
    * Start the generation of a data package overview for the given {@link DataPackage}.
-   * 
+   *
    * @param dataPackageId The id of the {@link DataPackage} for which we need to generate the
    *        overview.
    * @param version The version of the DOI in the overview.
@@ -125,7 +124,7 @@ public class DataPackageOverviewResource {
       @PathVariable("dataPackageId") String dataPackageId,
       @RequestParam("onBehalfOf") String onBehalfOf, @PathVariable("language") String language)
       throws IOException {
-    User user = userInformationProvider.switchToUser(onBehalfOf);
+    var user = userInformationProvider.switchToUser(onBehalfOf);
     dataPackageAttachmentService.attachDataPackageOverview(dataPackageId, language, overviewFile);
     mailService.sendDataPackageOverviewGeneratedMail(user, dataPackageId, language, sender);
     userInformationProvider.switchToUser(null);
