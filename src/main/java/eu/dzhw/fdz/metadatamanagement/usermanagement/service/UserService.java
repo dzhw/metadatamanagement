@@ -2,7 +2,6 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -59,14 +58,6 @@ public class UserService {
           userRepository.save(u);
           log.debug("Changed password for User: {}", u);
         });
-  }
-
-  /**
-   * Get currently logged in user.
-   * @return the currently logged in user.
-   */
-  public Optional<User> getUserWithAuthorities() {
-    return userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin());
   }
 
   /**

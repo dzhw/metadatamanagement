@@ -4,14 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -28,12 +25,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
-import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 
 /**
@@ -98,22 +92,6 @@ public class AccountResourceTest extends AbstractTest {
   }
 
   @Test
-  public void testGetExistingAccount() throws Exception {
-
-    User user = UnitTestUserManagementUtils.getDefaultUser();
-    when(mockUserService.getUserWithAuthorities()).thenReturn(Optional.of(user));
-
-    restUserMockMvc.perform(get("/api/account").accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.login").value("test"))
-        .andExpect(jsonPath("$.firstName").value("john"))
-        .andExpect(jsonPath("$.lastName").value("Doe"))
-        .andExpect(jsonPath("$.email").value("john.doe@testmail.test"))
-        .andExpect(jsonPath("$.authorities").value(AuthoritiesConstants.USER));
-  }
-
-  @Test
   public void testActivateAccount() throws Exception {
 
     // Arrange
@@ -138,36 +116,6 @@ public class AccountResourceTest extends AbstractTest {
     this.userRepository.deleteById(user.getId());
   }
 
-  @Test
-  public void testSaveAccount() throws Exception {
-    // Arrange
-    Optional<User> userO = this.userRepository.findOneByLogin("admin");
-    User user = userO.get();
-    UserDto dto = new UserDto(user);
-    UnitTestUserManagementUtils.login(user.getLogin(), user.getPassword());
-
-    // Act
-
-    // Assert
-    this.restMvc.perform(post("/api/account").contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.convertObjectToJsonBytes(dto))).andExpect(status().isOk());
-  }
-
-  @Test
-  public void testSaveAccountWithNoLogin() throws Exception {
-    // Arrange
-    Optional<User> userO = this.userRepository.findOneByLogin("admin");
-    User user = userO.get();
-    UserDto dto = new UserDto(user);
-
-    // Act
-
-    // Assert
-    this.restMvc
-        .perform(post("/api/account").contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(dto)))
-        .andExpect(status().is5xxServerError());
-  }
 
   @Test
   public void testChangePassword() throws Exception {
@@ -192,13 +140,5 @@ public class AccountResourceTest extends AbstractTest {
         .perform(
             post("/api/account/change-password").accept(MediaType.APPLICATION_JSON).content("no"))
         .andExpect(status().is4xxClientError());
-  }
-
-  @Test
-  public void testGetUnknownAccount() throws Exception {
-    when(mockUserService.getUserWithAuthorities()).thenReturn(Optional.empty());
-
-    restUserMockMvc.perform(get("/api/account").accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isInternalServerError());
   }
 }

@@ -5,7 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -81,23 +80,6 @@ public class UserServiceTest extends AbstractTest {
     assertThat(usersBefore.size(), is(2));
     assertThat(usersAfter.size(), is(0));
 
-  }
-
-  @Test
-  public void testGetUserWithAuthorities() {
-    // Arrange
-    UnitTestUserManagementUtils.login("admin", "admin");
-
-    // Act
-    Optional<User> userOpt = this.userService.getUserWithAuthorities();
-
-    assertThat(userOpt.isPresent(), is(true));
-    User user = userOpt.get();
-    // Assert
-    assertThat(user.getAuthorities()
-        .size(), is(5));
-    assertThat(user.getEmail(), is("admin@localhost"));
-    assertThat(user.getId(), is("user-2"));
   }
 
   @Test

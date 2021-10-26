@@ -43,17 +43,6 @@ public class AccountResource {
   }
 
   /**
-   * Get the current user.
-   */
-  @RequestMapping(value = "/account", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<UserDto> getAccount() {
-    return userService.getUserWithAuthorities().map(
-        user -> ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(new UserDto(user)))
-        .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-  }
-
-  /**
    * Update the current user information.
    */
   @RequestMapping(value = "/account", method = RequestMethod.POST,
