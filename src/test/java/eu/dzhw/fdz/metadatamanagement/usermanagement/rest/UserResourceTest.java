@@ -84,22 +84,6 @@ public class UserResourceTest extends AbstractTest {
   }
 
   @Test
-  public void testGetAllUser() throws Exception {
-    // Arrange
-
-    // Act
-    MvcResult mvcResult = restUserMockMvc.perform(get("/api/users")).andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().is2xxSuccessful()).andReturn();
-    String content = mvcResult.getResponse().getContentAsString();
-    JSONArray jsonArray = new JSONArray(content);
-
-    // Assert
-    assertThat(content, not(nullValue()));
-    assertThat(jsonArray.length(), is(4));
-  }
-
-  @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void findUserWithRole() throws Exception {
     // search with login;

@@ -45,30 +45,6 @@ public class UserResource {
   private final AuthUserService authUserService;
 
   /**
-   * Updates an existing User.
-   */
-  @RequestMapping(value = "/users", method = RequestMethod.PUT,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  @Secured(AuthoritiesConstants.ADMIN)
-  public ResponseEntity<ManagedUserDto> updateUser(@RequestBody ManagedUserDto managedUserDto)
-      throws URISyntaxException {
-    log.debug("REST request to update User : {}", managedUserDto);
-    return userRepository.findById(managedUserDto.getId()).map(user -> {
-      tokenStore.removeTokensByUsername(user.getLogin());
-      user.setLogin(managedUserDto.getLogin());
-      user.setFirstName(managedUserDto.getFirstName());
-      user.setLastName(managedUserDto.getLastName());
-      user.setEmail(managedUserDto.getEmail());
-      user.setActivated(managedUserDto.isActivated());
-      user.setLangKey(managedUserDto.getLangKey());
-      user.setAuthorities(managedUserDto.getAuthorities());
-      userRepository.save(user);
-      return ResponseEntity.ok()
-          .body(new ManagedUserDto(userRepository.findById(managedUserDto.getId()).get()));
-    }).orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-  }
-
-  /**
    * Get all users.
    */
   @RequestMapping(value = "/users", method = RequestMethod.GET,
