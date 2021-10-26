@@ -6,9 +6,9 @@ angular.module('metadatamanagementApp')
       '/api/analysis-packages/:analysisPackageId' +
       '/scripts/attachments/', {
         analysisPackageId: '@id'
-    }, {
-      'deleteAll': {
-        method: 'DELETE'
-      }
-    });
+      }, {
+        'deleteAll': {
+          method: 'DELETE'
+        }
+      });
   });
