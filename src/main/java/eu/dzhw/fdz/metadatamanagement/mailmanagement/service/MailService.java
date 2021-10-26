@@ -314,7 +314,7 @@ public class MailService {
    * @param sender The sender of the email.
    */
   @Async
-  public void sendDataSetReportGeneratedMail(User user, String dataSetId, String language,
+  public void sendDataSetReportGeneratedMail(AuthUser user, String dataSetId, String language,
       String sender) {
     log.debug("Sending 'dataset report generated' mail");
     Locale locale = Locale.forLanguageTag(user.getLangKey());
@@ -392,8 +392,12 @@ public class MailService {
    * @param sender The sender of the email.
    */
   @Async
-  public void sendDataPackageOverviewGeneratedMail(User user, String dataPackageId, String language,
-      String sender) {
+  public void sendDataPackageOverviewGeneratedMail(
+      AuthUser user,
+      String dataPackageId,
+      String language,
+      String sender
+  ) {
     log.debug("Sending 'data package overview generated' mail");
     Locale locale = Locale.forLanguageTag(user.getLangKey());
     Context context = new Context(locale);

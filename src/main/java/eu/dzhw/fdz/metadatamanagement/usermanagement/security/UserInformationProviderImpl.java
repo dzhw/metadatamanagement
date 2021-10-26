@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotEmpty;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,7 +15,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -42,14 +42,14 @@ class UserInformationProviderImpl implements UserInformationProvider {
   }
 
   @Override
-  public User switchToUser(String login) {
+  public AuthUser switchToUser(String login) {
     if (StringUtils.isEmpty(login)) {
       SecurityContextHolder.getContext().setAuthentication(null);
       return null;
     }
-    Optional<User> user = authUserService.findOneByLogin(login);
+    var user = authUserService.findOneByLogin(login);
     if (user.isPresent()) {
-      User userInstance = user.get();
+      var userInstance = new AuthUser(user.get());
       // switch to on behalf user for correct modification names
       Set<GrantedAuthority> grantedAuthorities = userInstance.getAuthorities().stream()
           .map(authority -> new SimpleGrantedAuthority(authority))
