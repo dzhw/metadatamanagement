@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.domain;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,24 +36,4 @@ public class AuthUser implements Serializable {
   private final LocalDateTime resetDate;
   private final boolean welcomeDialogDeactivated;
   private final Set<String> authorities;
-
-  /**
-   * Temporary converter constructor.
-   *
-   * @param user domain User which will be converted
-   */
-  public AuthUser(User user) {
-    this.login = user.getLogin();
-    this.password = user.getPassword();
-    this.firstName = user.getFirstName();
-    this.lastName = user.getLastName();
-    this.email = user.getEmail();
-    this.activated = user.isActivated();
-    this.langKey = user.getLangKey();
-    this.activationKey = user.getActivationKey();
-    this.resetKey = user.getResetKey();
-    this.resetDate = user.getResetDate();
-    this.welcomeDialogDeactivated = user.isWelcomeDialogDeactivated();
-    this.authorities = user.getAuthorities();
-  }
 }
