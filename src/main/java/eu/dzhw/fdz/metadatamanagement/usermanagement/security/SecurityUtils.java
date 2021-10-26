@@ -2,6 +2,7 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
 
 import java.util.Collection;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,8 +10,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 
 /**
  * Utility class for Spring Security.
@@ -93,7 +92,7 @@ public final class SecurityUtils {
     return false;
   }
 
-  public static boolean isUserInRole(String authority, User user) {
+  public static boolean isUserInRole(String authority, AuthUser user) {
     return user.getAuthorities().stream()
         .anyMatch(userAuthority -> userAuthority.equals(authority));
   }

@@ -29,8 +29,6 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-
-
 /**
  * REST controller for managing users.
  */
@@ -125,7 +123,7 @@ public class UserResource {
       AuthoritiesConstants.PUBLISHER})
   public ResponseEntity<List<UserDto>> findUserWithRole(@RequestParam String login,
       @RequestParam String role) {
-    return new ResponseEntity<>(userRepository.findAllByLoginLikeOrEmailLike(login, login).stream()
+    return new ResponseEntity<>(authUserService.findAllByLoginLikeOrEmailLike(login, login).stream()
         .filter(user -> SecurityUtils.isUserInRole(role, user)).map(user -> new UserDto(user))
         .collect(Collectors.toList()), HttpStatus.OK);
   }
