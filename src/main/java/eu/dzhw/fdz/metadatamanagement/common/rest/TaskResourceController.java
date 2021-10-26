@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.common.rest;
 
 import java.net.URI;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -21,7 +20,6 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.domain.TaskErrorNotification;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -78,7 +76,7 @@ public class TaskResourceController
     if (StringUtils.isEmpty(errorNotification.getOnBehalfOf())) {
       taskService.handleErrorNotification(errorNotification, null);
     } else {
-      Optional<User> user =
+      var user =
           authUserService.findOneByLogin(errorNotification.getOnBehalfOf());
       if (user.isPresent()) {
         taskService.handleErrorNotification(errorNotification, user.get());
