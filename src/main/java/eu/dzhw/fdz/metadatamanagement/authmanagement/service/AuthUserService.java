@@ -48,7 +48,7 @@ public class AuthUserService {
    *
    * @param login´a login value which will be used to try to match a User, or Users, in the Auth Server
    * @param email an email value which will be used to try to match a User, or Users, in the Auth Server
-   * @return
+   * @return a list of User data from the Auth Server which either has the provided login or email value
    */
   public List<AuthUser> findAllByLoginLikeOrEmailLike(String login, String email) {
     throw new IllegalStateException("Not implemented!");
@@ -64,6 +64,17 @@ public class AuthUserService {
    * @return the user with the provided login
    */
   public Optional<AuthUser> findOneByLogin(String login) {
+    throw new IllegalStateException("Not implemented!");
+  }
+
+  /**
+   * TODO implement logic and add documentation.
+   *
+   * @param login´a login value which will be used to try to match a User, or Users, in the Auth Server
+   * @param email an email value which will be used to try to match a User, or Users, in the Auth Server
+   * @return return the first User data from the Auth Server which either has the provided login or email value
+   */
+  public Optional<AuthUser> findOneByLoginOrEmail(String login, String email) {
     throw new IllegalStateException("Not implemented!");
   }
 }
