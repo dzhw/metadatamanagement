@@ -1,17 +1,12 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.junit.jupiter.api.AfterEach;
@@ -26,7 +21,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestUserManagementUtils;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 
@@ -44,9 +38,6 @@ public class AccountResourceTest extends AbstractTest {
 
   @Autowired
   private UserService userService;
-
-  @Autowired
-  private Validator validator;
 
   @Mock
   private UserService mockUserService;
@@ -89,31 +80,6 @@ public class AccountResourceTest extends AbstractTest {
       return request;
     }).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
         .andExpect(content().string("test"));
-  }
-
-  @Test
-  public void testActivateAccount() throws Exception {
-
-    // Arrange
-    User user = UnitTestUserManagementUtils.getDefaultUser();
-    user.setPassword("sdkgfsdkkgfsdglkfglsdjkagfjklsdgfhklsdglkfglksdgslkfgsdklj12");
-    user.setActivationKey("testActivateTrue");
-    user.setActivated(false);
-
-    Set<ConstraintViolation<User>> constrains =
-        new UnitTestUserManagementUtils<User>().checkAndPrintValidation(user, this.validator);
-    assertThat(constrains.size(), is(0));
-
-    // Act
-    this.userRepository.save(user);
-
-    // Assert
-    this.restMvc
-        .perform(get("/api/activate?key=testActivateTrue").accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk());
-
-    // Delete
-    this.userRepository.deleteById(user.getId());
   }
 
 

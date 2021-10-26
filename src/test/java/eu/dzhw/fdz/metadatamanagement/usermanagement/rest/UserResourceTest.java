@@ -5,18 +5,13 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.IOException;
-import java.util.Optional;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +24,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStore;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
@@ -91,20 +84,6 @@ public class UserResourceTest extends AbstractTest {
   }
 
   @Test
-  public void testCreateUserWithId() throws Exception {
-    // Arrange
-    User user = User.builder().id("testGetAllUser_ID").build();
-
-    // Act
-
-    // Assert
-    restUserMockMvc
-        .perform(post("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(user)))
-        .andExpect(status().is4xxClientError());
-  }
-
-  @Test
   public void testGetAllUser() throws Exception {
     // Arrange
 
@@ -118,27 +97,6 @@ public class UserResourceTest extends AbstractTest {
     // Assert
     assertThat(content, not(nullValue()));
     assertThat(jsonArray.length(), is(4));
-  }
-
-  @Test
-  public void testUpdateUser() throws IOException, Exception {
-    // Arrange
-    Optional<User> userO = this.userRepository.findOneByLogin("user");
-    User user = userO.get();
-    user.setEmail("userMod@localhost");
-    ManagedUserDto dto = new ManagedUserDto(user);
-
-    // Act
-    MvcResult mvcResult = restUserMockMvc
-        .perform(put("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(dto)))
-        .andExpect(status().isOk()).andReturn();
-    String content = mvcResult.getResponse().getContentAsString();
-    JSONObject jsonObject = new JSONObject(content);
-
-    // Assert
-    assertThat(content, not(nullValue()));
-    assertThat(jsonObject.getString("email"), is("userMod@localhost"));
   }
 
   @Test
