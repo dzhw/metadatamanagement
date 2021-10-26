@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package eu.dzhw.fdz.metadatamanagement.mailmanagement.service;
 
@@ -11,6 +11,7 @@ import java.util.concurrent.Future;
 
 import javax.mail.Message;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class MailServiceTest extends AbstractTest {
 
   @Autowired
   private MailService mailService;
-  
+
   @AfterEach
   public void cleanUp() throws FolderException {
     greenMail.purgeEmailFromAllMailboxes();
@@ -42,7 +43,7 @@ public class MailServiceTest extends AbstractTest {
       .build();
 
     // Act
-    Future<Void> futureVoid = this.mailService.sendActivationEmail(user);
+    Future<Void> futureVoid = this.mailService.sendActivationEmail(new AuthUser(user));
     futureVoid.get();
     Message[] messages = greenMail.getReceivedMessages();
 

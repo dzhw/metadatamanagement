@@ -20,6 +20,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -76,7 +77,7 @@ public class AccountResourceTest extends AbstractTest {
   @BeforeEach
   public void setup() {
     MockitoAnnotations.initMocks(this);
-    when(mockMailService.sendActivationEmail(any(User.class))).thenReturn(null);
+    when(mockMailService.sendActivationEmail(any(AuthUser.class))).thenReturn(null);
 
     AccountResource accountResource =
         new AccountResource(userRepository, userService, authUserService, mockMailService);

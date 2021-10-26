@@ -6,6 +6,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.CacheControl;
@@ -61,7 +62,7 @@ public class AccountResource {
               User user = userService.createUserInformation(userDto.getLogin(),
                   userDto.getPassword(), userDto.getFirstName(), userDto.getLastName(),
                   userDto.getEmail().toLowerCase(Locale.ENGLISH), userDto.getLangKey());
-              mailService.sendActivationEmail(user);
+              mailService.sendActivationEmail(new AuthUser(user));
               return new ResponseEntity<>(HttpStatus.CREATED);
             }));
   }

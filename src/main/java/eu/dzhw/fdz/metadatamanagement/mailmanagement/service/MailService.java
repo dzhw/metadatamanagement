@@ -117,7 +117,7 @@ public class MailService {
    * Send user activation email.
    */
   @Async
-  public Future<Void> sendActivationEmail(User user) {
+  public Future<Void> sendActivationEmail(AuthUser user) {
     log.debug("Sending activation e-mail to '{}'", user.getEmail());
     Locale locale = Locale.forLanguageTag(user.getLangKey());
     Context context = new Context(locale);
