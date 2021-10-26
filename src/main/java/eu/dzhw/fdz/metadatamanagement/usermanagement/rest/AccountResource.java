@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.KeyAndPasswordDto;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
@@ -59,7 +58,7 @@ public class AccountResource {
         .orElseGet(() -> userRepository.findOneByEmail(userDto.getEmail()).map(
             user -> new ResponseEntity<>("e-mail address already in use", HttpStatus.BAD_REQUEST))
             .orElseGet(() -> {
-              User user = userService.createUserInformation(userDto.getLogin(),
+              var user = userService.createUserInformation(userDto.getLogin(),
                   userDto.getPassword(), userDto.getFirstName(), userDto.getLastName(),
                   userDto.getEmail().toLowerCase(Locale.ENGLISH), userDto.getLangKey());
               mailService.sendActivationEmail(new AuthUser(user));
@@ -75,7 +74,7 @@ public class AccountResource {
   public ResponseEntity<String> activateAccount(@RequestParam(value = "key") String key,
       HttpServletRequest request) {
     return userService.activateRegistration(key).map(user -> {
-      List<User> admins =
+      var admins =
           authUserService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
       mailService.sendNewAccountActivatedMail(admins, new AuthUser(user));
       return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body("");
