@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 class UserInformationProviderImpl implements UserInformationProvider {
   private final UserService userService;
-  
+
   @Override
   public String getUserLogin() {
     return SecurityUtils.getCurrentUserLogin();
@@ -51,7 +51,7 @@ class UserInformationProviderImpl implements UserInformationProvider {
       User userInstance = user.get();
       // switch to on behalf user for correct modification names
       Set<GrantedAuthority> grantedAuthorities = userInstance.getAuthorities().stream()
-          .map(authority -> new SimpleGrantedAuthority(authority.getName()))
+          .map(authority -> new SimpleGrantedAuthority(authority))
           .collect(Collectors.toSet());
       UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
           userInstance.getLogin(), userInstance.getPassword(), grantedAuthorities);

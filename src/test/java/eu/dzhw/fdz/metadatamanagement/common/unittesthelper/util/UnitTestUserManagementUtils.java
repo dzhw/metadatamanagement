@@ -1,27 +1,24 @@
 /**
- * 
+ *
  */
 package eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class has helper / utils methods for unit tests.
- * 
+ *
  * @author Daniel Katzberg
  *
  */
@@ -45,14 +42,11 @@ public class UnitTestUserManagementUtils<T> {
 
   /**
    * Creates a default user with filled basic fields,
-   * 
+   *
    * @return
    */
   public static User getDefaultUser() {
-    Set<Authority> authorities = new HashSet<>();
-    Authority authority = new Authority();
-    authority.setName(AuthoritiesConstants.USER);
-    authorities.add(authority);
+    var authorities = Set.of(AuthoritiesConstants.USER);
 
     return User.builder().login("test")
       .firstName("john")
@@ -66,7 +60,7 @@ public class UnitTestUserManagementUtils<T> {
 
   /**
    * This helper methods log a account into the application by username and password
-   * 
+   *
    * @param login
    * @param password
    */
@@ -84,7 +78,7 @@ public class UnitTestUserManagementUtils<T> {
 
   /**
    * This helper methods log a account into the application by customuserdetails and password
-   * 
+   *
    * @param login
    * @param password
    */
@@ -102,7 +96,7 @@ public class UnitTestUserManagementUtils<T> {
 
   /**
    * This helper methods log a account into the application by customuserdetails and password
-   * 
+   *
    * @param login
    * @param password
    */

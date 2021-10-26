@@ -1,21 +1,18 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.AuthorityRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class UserService {
-  
+
   private final PasswordEncoder passwordEncoder;
 
   private final UserRepository userRepository;
 
-  private final AuthorityRepository authorityRepository;
-  
   @Value("${metadatamanagement.server.instance-index}")
   private Integer instanceId;
 
@@ -109,10 +104,7 @@ public class UserService {
     newUser.setActivated(false);
     // new user gets registration key
     newUser.setActivationKey(RandomUtil.generateActivationKey());
-    Authority authority = authorityRepository.findById(AuthoritiesConstants.USER).get();
-    Set<Authority> authorities = new HashSet<>();
-    authorities.add(authority);
-    newUser.setAuthorities(authorities);
+    newUser.setAuthorities(Set.of(AuthoritiesConstants.USER));
     userRepository.save(newUser);
     log.debug("Created Information for User: {}", newUser);
     return newUser;

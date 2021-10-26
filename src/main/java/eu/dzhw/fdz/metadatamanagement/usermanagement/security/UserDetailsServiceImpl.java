@@ -37,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         throw new UserNotActivatedException("User " + login + " was not activated");
       }
       Set<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
-          .map(authority -> new SimpleGrantedAuthority(authority.getName()))
+          .map(authority -> new SimpleGrantedAuthority(authority))
           .collect(Collectors.toSet());
       return new CustomUserDetails(user.getId(), user.getLogin(), user.getPassword(),
           grantedAuthorities, true, true, true, true);

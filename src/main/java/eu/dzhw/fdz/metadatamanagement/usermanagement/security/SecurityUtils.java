@@ -95,9 +95,9 @@ public final class SecurityUtils {
 
   public static boolean isUserInRole(String authority, User user) {
     return user.getAuthorities().stream()
-        .anyMatch(userAuthority -> userAuthority.getName().equals(authority));
+        .anyMatch(userAuthority -> userAuthority.equals(authority));
   }
-  
+
   /**
    * Check whether the user doing the current request has been authenticated anonymously.
    * @return true if the user has been authenticated anonymously.

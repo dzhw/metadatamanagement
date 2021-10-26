@@ -2,10 +2,8 @@ package eu.dzhw.fdz.metadatamanagement.usermanagement.rest;
 
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.CacheControl;
@@ -22,9 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.common.rest.util.PaginationUtil;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.Authority;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.AuthorityRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStore;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.ManagedUserDto;
@@ -48,8 +44,6 @@ public class UserResource {
 
   private final UserRepository userRepository;
 
-  private final AuthorityRepository authorityRepository;
-
   private final MongoDbTokenStore tokenStore;
 
   private final UserService userService;
@@ -71,10 +65,7 @@ public class UserResource {
       user.setEmail(managedUserDto.getEmail());
       user.setActivated(managedUserDto.isActivated());
       user.setLangKey(managedUserDto.getLangKey());
-      Set<Authority> authorities = user.getAuthorities();
-      authorities.clear();
-      managedUserDto.getAuthorities().stream()
-          .forEach(authority -> authorities.add(authorityRepository.findById(authority).get()));
+      user.setAuthorities(managedUserDto.getAuthorities());
       userRepository.save(user);
       return ResponseEntity.ok()
           .body(new ManagedUserDto(userRepository.findById(managedUserDto.getId()).get()));

@@ -66,7 +66,7 @@ public class UserResourceTest extends AbstractTest {
   @BeforeEach
   public void setup() {
     UserResource userResource =
-        new UserResource(userRepository, authorityRepository, tokenStore, userService);
+        new UserResource(userRepository, tokenStore, userService);
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
         .setCustomArgumentResolvers(pageableArgumentResolver).build();
   }

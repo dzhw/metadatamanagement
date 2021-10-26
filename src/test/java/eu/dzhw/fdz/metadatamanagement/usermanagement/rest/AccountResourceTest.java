@@ -453,7 +453,7 @@ public class AccountResourceTest extends AbstractTest {
     Optional<User> userDup = userRepository.findOneByLogin("badguy");
     assertThat(userDup.isPresent()).isTrue();
     assertThat(userDup.get().getAuthorities()).hasSize(1)
-        .containsExactly(authorityRepository.findById(AuthoritiesConstants.USER).get());
+        .containsExactly(AuthoritiesConstants.USER);
 
     userRepository.deleteByEmail(u.getEmail());
   }

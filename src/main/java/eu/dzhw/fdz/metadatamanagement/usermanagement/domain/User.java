@@ -86,7 +86,7 @@ public class User extends AbstractRdcDomainObject implements Serializable {
   private LocalDateTime resetDate = null;
 
   @JsonIgnore
-  private Set<Authority> authorities;
+  private Set<String> authorities;
 
   private boolean welcomeDialogDeactivated;
 }
