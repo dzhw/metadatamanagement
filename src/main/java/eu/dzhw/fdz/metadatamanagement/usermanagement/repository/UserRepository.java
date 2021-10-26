@@ -15,17 +15,11 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 @RepositoryRestResource(exported = false)
 public interface UserRepository extends MongoRepository<User, String> {
 
-  Optional<User> findOneByActivationKey(String activationKey);
-
   List<User> findAllByActivatedIsFalseAndCreatedDateBefore(LocalDateTime dateTime);
-
-  List<User> findAllByLoginLikeOrEmailLike(String login, String email);
 
   Optional<User> findOneByResetKey(String resetKey);
 
   Optional<User> findOneByEmail(String email);
-
-  Optional<User> findOneByLoginOrEmail(String login, String email);
 
   Optional<User> findOneByLogin(String login);
 

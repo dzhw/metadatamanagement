@@ -66,21 +66,6 @@ public class AccountResource {
   }
 
   /**
-   * Activate the registered user.
-   */
-  @RequestMapping(value = "/activate", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> activateAccount(@RequestParam(value = "key") String key,
-      HttpServletRequest request) {
-    return userService.activateRegistration(key).map(user -> {
-      var admins =
-          authUserService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
-      mailService.sendNewAccountActivatedMail(admins, new AuthUser(user));
-      return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body("");
-    }).orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-  }
-
-  /**
    * Check if the user is authenticated, and return its login.
    */
   @RequestMapping(value = "/authenticate", method = RequestMethod.GET,

@@ -143,27 +143,6 @@ public class MailService {
   }
 
   /**
-   * Send new account activated mail.
-   */
-  @Async
-  public Future<Void> sendNewAccountActivatedMail(List<AuthUser> admins, AuthUser newUser) {
-    log.debug("Sending new account e-mail to all admins");
-    Context context = new Context();
-    context.setVariable("user", newUser);
-    context.setVariable("profiles", env.getActiveProfiles());
-    context.setVariable("baseUrl", baseUrl);
-    String content = templateEngine.process("newAccountActivatedEmail", context);
-    String subject = "New account " + newUser.getLogin() + " activated ("
-        + StringUtils.arrayToCommaDelimitedString(env.getActiveProfiles()) + ")";
-    List<String> emailAddresses = admins
-        .stream()
-        .map(AuthUser::getEmail)
-        .collect(Collectors.toList());
-    return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null,
-        subject, content, Locale.ENGLISH);
-  }
-
-  /**
    * Send an mail, if an automatic update to dara was not successful.
    */
   @Async

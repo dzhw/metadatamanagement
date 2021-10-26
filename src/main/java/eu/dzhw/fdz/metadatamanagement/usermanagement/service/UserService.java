@@ -34,22 +34,6 @@ public class UserService {
   private Integer instanceId;
 
   /**
-   * Activate the user.
-   */
-  public Optional<User> activateRegistration(String key) {
-    log.debug("Activating user for activation key {}", key);
-    return userRepository.findOneByActivationKey(key)
-        .map(user -> {
-        // activate given user for the registration key.
-          user.setActivated(true);
-          user.setActivationKey(null);
-          userRepository.save(user);
-          log.debug("Activated user: {}", user);
-          return user;
-        });
-  }
-
-  /**
    * Set new password after password reset.
    */
   public Optional<User> completePasswordReset(String newPassword, String key) {
