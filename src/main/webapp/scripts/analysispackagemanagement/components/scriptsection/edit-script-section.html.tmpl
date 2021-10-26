@@ -95,7 +95,7 @@
                          md-item-text="item.displayLanguage[$ctrl.currentLanguage]"
                          md-clear-button="true" md-no-cache="true"
                          md-selected-item-change="$ctrl.selectedLanguageChanged($index)"
-                         md-is-error="!$ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$valid && ($ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$dirty || $ctrl.currentForm['scriptsUsedLanguage_ ' + $index].$touched)">
+                         md-is-error="!$ctrl.currentForm['scriptsUsedLanguage_' + $index].$valid && ($ctrl.currentForm['scriptsUsedLanguage_' + $index].$dirty || $ctrl.currentForm['scriptsUsedLanguage_' + $index].$touched)">
           <md-item-template>
           <span class="md-title"
                 md-highlight-flags="ig"
@@ -103,18 +103,18 @@
                 style="font-size: 14px;">{{item.displayLanguage[$ctrl.currentLanguage]}}</span>
           </md-item-template>
           <md-not-found>
-            {{'analysis-package-management.error.language.not-found' | translate}}
+            {{'analysis-package-management.error.analysis-package.language.not-found' | translate}}
           </md-not-found>
           <div
-            ng-if="!$ctrl.currentForm['scriptsUsedLanguage_ ' + $parent.$index].$dirty && !$ctrl.currentForm['scriptsUsedLanguage_ ' + $parent.$index].$touched"
+            ng-if="!$ctrl.currentForm['scriptsUsedLanguage_' + $parent.$index].$dirty && !$ctrl.currentForm['scriptsUsedLanguage_' + $parent.$index].$touched"
             class="fdz-input-hint">{{'analysis-package-management.edit.hints.script.language' | translate}}
           </div>
-          <div ng-messages="$ctrl.currentForm['scriptsUsedLanguage_ ' + $parent.$index].$error" multiple>
+          <div ng-messages="$ctrl.currentForm['scriptsUsedLanguage_' + $parent.$index].$error" multiple>
             <div ng-message="required">
-              {{'analysis-package-management.error.language.not-null' | translate}}
+              {{'analysis-package-management.error.analysis-package.language.not-null' | translate}}
             </div>
             <div ng-message="md-require-match">
-              {{'analysis-package-management.error.language.not-valid' | translate}}
+              {{'analysis-package-management.error.analysis-package.language.not-valid' | translate}}
             </div>
           </div>
         </md-autocomplete>
@@ -143,10 +143,10 @@
           </md-not-found>
           <div
             class="fdz-input-hint"
-            ng-if="!$ctrl.currentForm['scriptsSoftwarePackage_ ' + $parent.$index].$dirty && !$ctrl.currentForm['scriptsSoftwarePackage_ ' + $parent.$index].$touched">
+            ng-if="!$ctrl.currentForm['scriptsSoftwarePackage_' + $parent.$index].$dirty && !$ctrl.currentForm['scriptsSoftwarePackage_' + $parent.$index].$touched">
             {{'analysis-package-management.edit.hints.script.software-package' | translate}}
           </div>
-          <div multiple ng-messages="$ctrl.currentForm['scriptsSoftwarePackage_ ' + $parent.$index].$error">
+          <div multiple ng-messages="$ctrl.currentForm['scriptsSoftwarePackage_' + $parent.$index].$error">
             <div ng-message="required">
               {{'analysis-package-management.error.analysis-package.software-package.not-null' | translate}}
             </div>

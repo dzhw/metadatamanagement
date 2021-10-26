@@ -50,6 +50,12 @@
       initSelectedSoftwarePackages();
     };
 
+    $ctrl.getError = function(form, name) {
+      console.log(name);
+      console.log(form[name]);
+      // return form['autocompleteField' + index].$error;
+    };
+
     $ctrl.deleteScript = function(index) {
       $ctrl.scripts.splice(index, 1);
       $ctrl['languageSearchText_' + index] = '';
