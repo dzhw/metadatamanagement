@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A Service which will fetch user related info from a specified Authentication Server.
@@ -31,5 +32,16 @@ public class AuthUserService {
     throw new IllegalStateException("Not implemented!");
   }
 
-
+  /**
+   * TODO implement logic and add documentation
+   *
+   * TODO For now usermanagement.domain.User will be used. An authmanagement version of this
+   * class will be created once the usermanagement User can be removed without compile issues.
+   *
+   * @param login a login which should be associated to a User
+   * @return the user with the provided login
+   */
+  public Optional<User> findOneByLogin(String login) {
+    throw new IllegalStateException("Not implemented!");
+  }
 }
