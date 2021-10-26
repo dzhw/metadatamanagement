@@ -36,7 +36,9 @@ public class ManagedUserDto extends UserDto {
    *
    * @param user an AuthUser
    */
-  public ManagedUserDto(AuthUser user) {}
+  public ManagedUserDto(AuthUser user) {
+    super(user);
+  }
 
   public String getId() {
     return id;

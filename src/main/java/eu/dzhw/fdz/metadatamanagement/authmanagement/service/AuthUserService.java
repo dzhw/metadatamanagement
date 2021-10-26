@@ -34,7 +34,7 @@ public class AuthUserService {
   }
 
   /**
-   * TODO implement logic and add documentation
+   * TODO implement logic and add documentation.
    *
    * @param logins the logins used to search for Users
    * @return all users that have a "login" in the logins parameter
@@ -44,7 +44,7 @@ public class AuthUserService {
   }
 
   /**
-   * TODO implement logic and add documentation
+   * TODO implement logic and add documentation.
    *
    * TODO For now usermanagement.domain.User will be used. An authmanagement version of this
    * class will be created once the usermanagement User can be removed without compile issues.

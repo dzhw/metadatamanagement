@@ -4,7 +4,6 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;

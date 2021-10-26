@@ -64,7 +64,11 @@ public class UserDto {
    *
    * @param user an AuthUser
    */
-  public UserDto(AuthUser user) {}
+  public UserDto(AuthUser user) {
+    this(user.getLogin(), null, user.getFirstName(), user.getLastName(), user.getEmail(),
+      user.isActivated(), user.getLangKey(), user.getAuthorities(),
+      user.isWelcomeDialogDeactivated());
+  }
 
   /**
    * Create the dto.
