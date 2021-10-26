@@ -7,8 +7,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import javax.validation.Validator;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,10 +49,10 @@ public class AccountResourceTest extends AbstractTest {
     MockitoAnnotations.initMocks(this);
 
     AccountResource accountResource =
-        new AccountResource(userRepository, userService);
+        new AccountResource(userService);
 
     AccountResource accountUserMockResource =
-        new AccountResource(userRepository, mockUserService);
+        new AccountResource(mockUserService);
 
     this.restMvc = MockMvcBuilders.standaloneSetup(accountResource).build();
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource).build();

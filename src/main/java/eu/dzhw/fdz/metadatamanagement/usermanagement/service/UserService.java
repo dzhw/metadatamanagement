@@ -21,23 +21,6 @@ public class UserService {
   private final UserRepository userRepository;
 
   /**
-   * Update the user details.
-   */
-  public void updateUserInformation(String firstName, String lastName, String email,
-      String langKey, boolean welcomeDialogDeactivated) {
-    userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin())
-        .ifPresent(u -> {
-          u.setFirstName(firstName);
-          u.setLastName(lastName);
-          u.setEmail(email);
-          u.setLangKey(langKey);
-          u.setWelcomeDialogDeactivated(welcomeDialogDeactivated);
-          userRepository.save(u);
-          log.debug("Changed Information for User: {}", u);
-        });
-  }
-
-  /**
    * Change the password of the current user.
    * @param password the new password.
    */

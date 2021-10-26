@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.rest.dto.UserDto;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class AccountResource {
 
-  private final UserRepository userRepository;
-
   private final UserService userService;
 
   /**
@@ -40,20 +36,6 @@ public class AccountResource {
   public ResponseEntity<String> isAuthenticated(HttpServletRequest request) {
     log.debug("REST request to check if the current user is authenticated");
     return ResponseEntity.ok().cacheControl(CacheControl.noCache()).body(request.getRemoteUser());
-  }
-
-  /**
-   * Update the current user information.
-   */
-  @RequestMapping(value = "/account", method = RequestMethod.POST,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> saveAccount(@RequestBody UserDto userDto) {
-    return userRepository.findOneByLogin(userDto.getLogin())
-        .filter(u -> u.getLogin().equals(SecurityUtils.getCurrentUserLogin())).map(u -> {
-          userService.updateUserInformation(userDto.getFirstName(), userDto.getLastName(),
-              userDto.getEmail(), userDto.getLangKey(), userDto.isWelcomeDialogDeactivated());
-          return new ResponseEntity<String>(HttpStatus.OK);
-        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
   }
 
   /**

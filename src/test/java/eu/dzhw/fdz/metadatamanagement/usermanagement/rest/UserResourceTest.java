@@ -1,9 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.rest;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -11,7 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
-import org.json.JSONArray;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +14,10 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.rest.TestUtil;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.MongoDbTokenStore;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.repository.UserRepository;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
 
 /**
@@ -38,13 +30,7 @@ import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstan
 public class UserResourceTest extends AbstractTest {
 
   @Autowired
-  private UserRepository userRepository;
-
-  @Autowired
   private AuthUserService authUserService;
-
-  @Autowired
-  private MongoDbTokenStore tokenStore;
 
   @Autowired
   private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
@@ -54,7 +40,7 @@ public class UserResourceTest extends AbstractTest {
   @BeforeEach
   public void setup() {
     UserResource userResource =
-        new UserResource(userRepository, tokenStore, authUserService);
+        new UserResource(authUserService);
     this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
         .setCustomArgumentResolvers(pageableArgumentResolver).build();
   }
