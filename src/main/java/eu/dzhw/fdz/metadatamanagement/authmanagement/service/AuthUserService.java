@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class AuthUserService {
    *                  authority
    * @return A list of Users which have the provided authority
    */
-  public List<User> findAllByAuthoritiesContaining(String authority) {
+  public List<AuthUser> findAllByAuthoritiesContaining(String authority) {
     throw new IllegalStateException("Not implemented!");
   }
 

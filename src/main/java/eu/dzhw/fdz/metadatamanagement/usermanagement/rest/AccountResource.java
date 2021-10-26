@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.rest;
 
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;

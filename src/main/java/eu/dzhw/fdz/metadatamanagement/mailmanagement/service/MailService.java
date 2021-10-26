@@ -147,7 +147,7 @@ public class MailService {
    * Send new account activated mail.
    */
   @Async
-  public Future<Void> sendNewAccountActivatedMail(List<User> admins, AuthUser newUser) {
+  public Future<Void> sendNewAccountActivatedMail(List<AuthUser> admins, AuthUser newUser) {
     log.debug("Sending new account e-mail to all admins");
     Context context = new Context();
     context.setVariable("user", newUser);
@@ -156,7 +156,10 @@ public class MailService {
     String content = templateEngine.process("newAccountActivatedEmail", context);
     String subject = "New account " + newUser.getLogin() + " activated ("
         + StringUtils.arrayToCommaDelimitedString(env.getActiveProfiles()) + ")";
-    List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
+    List<String> emailAddresses = admins
+        .stream()
+        .map(AuthUser::getEmail)
+        .collect(Collectors.toList());
     return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null,
         subject, content, Locale.ENGLISH);
   }
@@ -165,13 +168,16 @@ public class MailService {
    * Send an mail, if an automatic update to dara was not successful.
    */
   @Async
-  public Future<Void> sendMailOnDaraAutomaticUpdateError(List<User> admins, String projectId) {
+  public Future<Void> sendMailOnDaraAutomaticUpdateError(List<AuthUser> admins, String projectId) {
     log.debug("Sending 'automatic update to dara was not successful' mail");
     Context context = new Context();
     context.setVariable("projectId", projectId);
     String content = templateEngine.process("automaticDaraUpdateFailed", context);
     String subject = "Automatic Update to da|ra was not successful";
-    List<String> emailAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
+    List<String> emailAddresses = admins
+        .stream()
+        .map(AuthUser::getEmail)
+        .collect(Collectors.toList());
     return sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null,
         subject, content, Locale.ENGLISH);
   }
@@ -339,7 +345,7 @@ public class MailService {
    * @param sender The sender of the email.
    */
   @Async
-  public void sendDataSetReportErrorMail(AuthUser onBehalfUser, List<User> admins,
+  public void sendDataSetReportErrorMail(AuthUser onBehalfUser, List<AuthUser> admins,
                                          TaskErrorNotification errorNotification, String sender) {
     log.debug("Sending 'dataset report error' mail");
     Locale locale = Locale.forLanguageTag(onBehalfUser.getLangKey());
@@ -351,7 +357,10 @@ public class MailService {
     String content = templateEngine.process("datasetReportErrorEmail", context);
     String subject = messageSource.getMessage("email.dataset-report-error.title",
         new Object[] {errorNotification.getDomainObjectId()}, locale);
-    List<String> adminAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
+    List<String> adminAddresses = admins
+        .stream()
+        .map(AuthUser::getEmail)
+        .collect(Collectors.toList());
     sendEmail(sender, new String[] {onBehalfUser.getEmail()},
         adminAddresses.toArray(new String[adminAddresses.size()]), null, subject, content, locale);
 
@@ -364,7 +373,7 @@ public class MailService {
    * @param dataAcquisitionProjectId the id of the project which has been released
    * @param release the release object containing the version
    */
-  public void sendMailOnNewMajorProjectRelease(List<User> releaseManagers,
+  public void sendMailOnNewMajorProjectRelease(List<AuthUser> releaseManagers,
       String dataAcquisitionProjectId, Release release) {
     log.debug("Sending 'new major project release' mail");
     Context context = new Context();
@@ -376,7 +385,7 @@ public class MailService {
     String subject = "New Major Release for Project \"" + dataAcquisitionProjectId + "\" ("
         + release.getVersion() + ") on " + Strings.join(env.getActiveProfiles(), ",");
     List<String> emailAddresses =
-        releaseManagers.stream().map(User::getEmail).collect(Collectors.toList());
+        releaseManagers.stream().map(AuthUser::getEmail).collect(Collectors.toList());
     sendEmail(null, emailAddresses.toArray(new String[emailAddresses.size()]), null, null, subject,
         content, Locale.ENGLISH);
   }
@@ -421,7 +430,7 @@ public class MailService {
    * @param sender The sender of the email.
    */
   @Async
-  public void sendDataPackageOverviewErrorMail(AuthUser onBehalfUser, List<User> admins,
+  public void sendDataPackageOverviewErrorMail(AuthUser onBehalfUser, List<AuthUser> admins,
       TaskErrorNotification errorNotification, String sender) {
     log.debug("Sending 'datapackage overview error' mail");
     Locale locale = Locale.forLanguageTag(onBehalfUser.getLangKey());
@@ -433,7 +442,10 @@ public class MailService {
     String content = templateEngine.process("dataPackageOverviewErrorEmail", context);
     String subject = messageSource.getMessage("email.datapackage-overview-error.title",
         new Object[] {errorNotification.getDomainObjectId()}, locale);
-    List<String> adminAddresses = admins.stream().map(User::getEmail).collect(Collectors.toList());
+    List<String> adminAddresses = admins
+        .stream()
+        .map(AuthUser::getEmail)
+        .collect(Collectors.toList());
     sendEmail(sender, new String[] {onBehalfUser.getEmail()},
         adminAddresses.toArray(new String[adminAddresses.size()]), null, subject, content, locale);
 

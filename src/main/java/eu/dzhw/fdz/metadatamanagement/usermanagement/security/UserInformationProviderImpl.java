@@ -1,6 +1,5 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
