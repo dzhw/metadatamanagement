@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * A Service which will fetch user related info from a specified Authentication Server.
+ *
+ * @author Jan Schwoerer
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -15,11 +20,12 @@ public class AuthUserService {
   /**
    * TODO implement logic
    *
-   * TODO For now usermanagement.domain.User will be used. An authmanagement version of this class will be created
-   * once the usermanagement User can be removed without compile issues.
+   * TODO For now usermanagement.domain.User will be used. An authmanagement version of this
+   * class will be created once the usermanagement User can be removed without compile issues.
    *
-   * @param authority
-   * @return
+   * @param authority an authority which will be used to search for all users which have said
+   *                  authority
+   * @return A list of Users which have the provided authority
    */
   public List<User> findAllByAuthoritiesContaining(String authority) {
     throw new IllegalStateException("Not implemented!");
