@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -306,7 +307,7 @@ public class MailService {
   /**
    * Send the result of the dataset report generation to the user who has started the report
    * generation.
-   * 
+   *
    * @param user The user who has started the report generation.
    * @param dataSetId The id of the {@link DataSet} for which the report has been generated.
    * @param language The language in which the report has been generated.
@@ -332,14 +333,14 @@ public class MailService {
   /**
    * Send the error during dataset report generation to the user who started the task and to all
    * admins.
-   * 
+   *
    * @param onBehalfUser The user who has started the report generation.
    * @param admins A list of admins.
    * @param sender The sender of the email.
    */
   @Async
-  public void sendDataSetReportErrorMail(User onBehalfUser, List<User> admins,
-      TaskErrorNotification errorNotification, String sender) {
+  public void sendDataSetReportErrorMail(AuthUser onBehalfUser, List<User> admins,
+                                         TaskErrorNotification errorNotification, String sender) {
     log.debug("Sending 'dataset report error' mail");
     Locale locale = Locale.forLanguageTag(onBehalfUser.getLangKey());
     Context context = new Context(locale);
@@ -358,7 +359,7 @@ public class MailService {
 
   /**
    * Send a mail to all release managers when the project is released with a new major version.
-   * 
+   *
    * @param releaseManagers List of ROLE_RELEASE_MANAGER
    * @param dataAcquisitionProjectId the id of the project which has been released
    * @param release the release object containing the version
@@ -383,7 +384,7 @@ public class MailService {
   /**
    * Send the result of the data package overview generation to the user who has started the
    * overview generation.
-   * 
+   *
    * @param user The user who has started the overview generation.
    * @param dataPackageId The id of the {@link DataPackage} for which the overview has been
    *        generated.
@@ -410,13 +411,13 @@ public class MailService {
   /**
    * Send the error during data package overview generation to the user who started the task and to
    * all admins.
-   * 
+   *
    * @param onBehalfUser The user who has started the report generation.
    * @param admins A list of admins.
    * @param sender The sender of the email.
    */
   @Async
-  public void sendDataPackageOverviewErrorMail(User onBehalfUser, List<User> admins,
+  public void sendDataPackageOverviewErrorMail(AuthUser onBehalfUser, List<User> admins,
       TaskErrorNotification errorNotification, String sender) {
     log.debug("Sending 'datapackage overview error' mail");
     Locale locale = Locale.forLanguageTag(onBehalfUser.getLangKey());

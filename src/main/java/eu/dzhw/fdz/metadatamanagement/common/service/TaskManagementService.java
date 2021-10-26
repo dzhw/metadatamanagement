@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.apache.commons.lang3.NotImplementedException;
@@ -39,7 +40,6 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorDto;
 import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -109,11 +109,11 @@ public class TaskManagementService implements CrudService<Task> {
    * Handle all {@link TaskErrorNotification}s.
    *
    * @param errorNotification The details about the error.
-   * @param onBehalfUser The {@link User} for whom the task has been executed.
+   * @param onBehalfUser The User for whom the task has been executed.
    */
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.ADMIN,
       AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.TASK_USER})
-  public void handleErrorNotification(TaskErrorNotification errorNotification, User onBehalfUser) {
+  public void handleErrorNotification(TaskErrorNotification errorNotification, AuthUser onBehalfUser) {
     switch (errorNotification.getTaskType()) {
       case DATA_SET_REPORT:
         handleDataSetReportError(errorNotification, onBehalfUser, projectManagementEmailSender);
@@ -128,17 +128,17 @@ public class TaskManagementService implements CrudService<Task> {
     }
   }
 
-  private void handleDataSetReportError(TaskErrorNotification errorNotification, User onBehalfUser,
+  private void handleDataSetReportError(TaskErrorNotification errorNotification, AuthUser onBehalfUser,
       String projectManagementEmailSender) {
-    List<User> admins =
+    var admins =
         userService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
     mailService.sendDataSetReportErrorMail(onBehalfUser, admins, errorNotification,
         projectManagementEmailSender);
   }
 
   private void handleDataPackageOverviewError(TaskErrorNotification errorNotification,
-      User onBehalfUser, String projectManagementEmailSender) {
-    List<User> admins =
+      AuthUser onBehalfUser, String projectManagementEmailSender) {
+    var admins =
         userService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
     mailService.sendDataPackageOverviewErrorMail(onBehalfUser, admins, errorNotification,
         projectManagementEmailSender);

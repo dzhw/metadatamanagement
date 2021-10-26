@@ -4,6 +4,7 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -79,7 +80,7 @@ public class TaskResourceController
       var user =
           authUserService.findOneByLogin(errorNotification.getOnBehalfOf());
       if (user.isPresent()) {
-        taskService.handleErrorNotification(errorNotification, user.get());
+        taskService.handleErrorNotification(errorNotification, new AuthUser(user.get()));
       } else {
         return ResponseEntity.badRequest()
             .body("User with name '" + errorNotification.getOnBehalfOf() + "' does not exist!");
