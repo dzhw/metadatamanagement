@@ -10,6 +10,7 @@ import lombok.ToString;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * An immutable POJO representation of the User data stored in the Authentication Server.
@@ -35,6 +36,7 @@ public class AuthUser implements Serializable {
   private final String resetKey;
   private final LocalDateTime resetDate;
   private final boolean welcomeDialogDeactivated;
+  private final Set<String> authorities;
 
   /**
    * Temporary converter constructor.
@@ -53,5 +55,6 @@ public class AuthUser implements Serializable {
     this.resetKey = user.getResetKey();
     this.resetDate = user.getResetDate();
     this.welcomeDialogDeactivated = user.isWelcomeDialogDeactivated();
+    this.authorities = user.getAuthorities();
   }
 }
