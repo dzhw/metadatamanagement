@@ -48,7 +48,7 @@ class UserInformationProviderImpl implements UserInformationProvider {
     }
     var user = authUserService.findOneByLogin(login);
     if (user.isPresent()) {
-      var userInstance = new AuthUser(user.get());
+      var userInstance = user.get();
       // switch to on behalf user for correct modification names
       Set<GrantedAuthority> grantedAuthorities = userInstance.getAuthorities().stream()
           .map(authority -> new SimpleGrantedAuthority(authority))

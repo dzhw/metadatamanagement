@@ -1,7 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,7 +41,7 @@ public class AuthUserService {
    * @param login a login which should be associated to a User
    * @return the user with the provided login
    */
-  public Optional<User> findOneByLogin(String login) {
+  public Optional<AuthUser> findOneByLogin(String login) {
     throw new IllegalStateException("Not implemented!");
   }
 }

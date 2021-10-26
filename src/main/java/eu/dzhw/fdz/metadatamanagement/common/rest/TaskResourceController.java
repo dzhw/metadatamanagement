@@ -80,7 +80,7 @@ public class TaskResourceController
       var user =
           authUserService.findOneByLogin(errorNotification.getOnBehalfOf());
       if (user.isPresent()) {
-        taskService.handleErrorNotification(errorNotification, new AuthUser(user.get()));
+        taskService.handleErrorNotification(errorNotification, user.get());
       } else {
         return ResponseEntity.badRequest()
             .body("User with name '" + errorNotification.getOnBehalfOf() + "' does not exist!");
