@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.Question;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionManagementService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for deleting questions of a data acquisition project.
- * 
+ *
  * @author tgehrke
  *
  */
@@ -22,12 +22,12 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class DeleteAllQuestionsResourceController {
-  
+
   private final QuestionManagementService questionService;
 
   /**
    * delete all questions from data acquisition project.
-   * 
+   *
    * @param id the Id of the project.
    * @return no Content.
    */

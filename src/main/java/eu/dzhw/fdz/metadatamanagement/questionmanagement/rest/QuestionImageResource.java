@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionImageService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -37,7 +37,7 @@ public class QuestionImageResource {
 
   /**
    * REST method for for uploading images to a question with metadata.
-   * 
+   *
    * @param multiPartFile the image
    * @param questionImageMetadata the metadata of the image
    * @return response

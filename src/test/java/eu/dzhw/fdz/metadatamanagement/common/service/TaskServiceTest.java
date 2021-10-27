@@ -15,7 +15,7 @@ import eu.dzhw.fdz.metadatamanagement.AbstractTest;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.domain.Task.TaskState;
 import eu.dzhw.fdz.metadatamanagement.common.repository.TaskRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import freemarker.template.TemplateNotFoundException;
 
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
@@ -26,7 +26,7 @@ public class TaskServiceTest extends AbstractTest {
   private TaskRepository taskRepo;
   @Autowired
   private CounterService counterService;
- 
+
   @AfterEach
   public void teardown() throws Exception {
     taskRepo.deleteAll();

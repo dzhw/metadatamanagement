@@ -33,14 +33,14 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.projections.IdAndNumberSurveyProjection;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper.SurveyCrudHelper;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.service.VariableChangesProvider;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing the domain object/aggregate {@link Survey}.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -69,7 +69,7 @@ public class SurveyManagementService implements CrudService<Survey> {
 
   /**
    * Listener, which will be activate by a deletion of a data acquisition project.
-   * 
+   *
    * @param dataAcquisitionProject A reference to the data acquisition project.
    */
   @HandleAfterDelete
@@ -79,7 +79,7 @@ public class SurveyManagementService implements CrudService<Survey> {
 
   /**
    * Update all {@link SurveySearchDocument} when the project is released.
-   * 
+   *
    * @param dataAcquisitionProject The changed project
    */
   @HandleAfterSave
@@ -91,7 +91,7 @@ public class SurveyManagementService implements CrudService<Survey> {
 
   /**
    * A service method for deletion of surveys within a data acquisition project.
-   * 
+   *
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
@@ -109,7 +109,7 @@ public class SurveyManagementService implements CrudService<Survey> {
 
   /**
    * Enqueue update of survey search documents when the instrument is changed.
-   * 
+   *
    * @param instrument the updated, created or deleted instrument.
    */
   @HandleAfterCreate
@@ -123,7 +123,7 @@ public class SurveyManagementService implements CrudService<Survey> {
 
   /**
    * Enqueue update of survey search documents when the question is changed.
-   * 
+   *
    * @param question the updated, created or deleted question.
    */
   @HandleAfterCreate
@@ -141,7 +141,7 @@ public class SurveyManagementService implements CrudService<Survey> {
 
   /**
    * Enqueue update of survey search documents when the dataPackage is changed.
-   * 
+   *
    * @param dataPackage the updated, created or deleted dataPackage.
    */
   @HandleAfterCreate
@@ -155,7 +155,7 @@ public class SurveyManagementService implements CrudService<Survey> {
 
   /**
    * Enqueue update of survey search document when the variable is changed.
-   * 
+   *
    * @param variable the updated, created or deleted variable.
    */
   @HandleAfterCreate
@@ -169,7 +169,7 @@ public class SurveyManagementService implements CrudService<Survey> {
 
   /**
    * Enqueue update of survey search document when the dataSet is updated.
-   * 
+   *
    * @param dataSet the updated or created dataSet.
    */
   @HandleAfterCreate
@@ -183,7 +183,7 @@ public class SurveyManagementService implements CrudService<Survey> {
 
   /**
    * Enqueue update of survey search documents when the concept is changed.
-   * 
+   *
    * @param concept the updated, created or deleted concept.
    */
   @HandleAfterCreate
@@ -206,7 +206,7 @@ public class SurveyManagementService implements CrudService<Survey> {
 
   /**
    * Get a list of available survey numbers for creating a new survey.
-   * 
+   *
    * @param dataAcquisitionProjectId The project id.
    * @return A list of available survey numbers.
    */

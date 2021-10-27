@@ -26,7 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.common.service.JaversService;
 import eu.dzhw.fdz.metadatamanagement.common.unittesthelper.util.UnitTestCreateDomainObjectUtils;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 public class DataAcquisitionProjectAttachmentsResourceControllerTest extends AbstractTest {
   private static final String API_DATA_ACQUISITION_PROJECTS_URI = "/api/data-acquisition-projects";
@@ -37,7 +37,7 @@ public class DataAcquisitionProjectAttachmentsResourceControllerTest extends Abs
   private JaversService javersService;
 
   private MockMvc mockMvc;
-  
+
   @Autowired
   private GridFsOperations gridFsOperations;
 

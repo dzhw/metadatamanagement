@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.analysispackagemanagement.service.AnalysisPackageManagementService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for deleting analysis packages of a data acquisition project.
- * 
+ *
  */
 @RestController
 @RequestMapping("/api")
@@ -24,7 +24,7 @@ public class DeleteAllAnalysisPackagesResourceController {
 
   /**
    * delete all analysis packages from data acquisition project.
-   * 
+   *
    * @param id the Id of the project.
    * @return no Content.
    */

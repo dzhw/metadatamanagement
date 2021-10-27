@@ -35,7 +35,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachment
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.helper.DataSetAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.Release;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class DataSetAttachmentShadowCopyServiceTest extends AbstractTest {

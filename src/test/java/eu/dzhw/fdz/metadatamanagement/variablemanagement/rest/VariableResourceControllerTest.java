@@ -41,7 +41,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.DataTypes;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.FilterExpressionLanguages;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Missing;
@@ -53,7 +53,7 @@ import eu.dzhw.fdz.metadatamanagement.variablemanagement.repository.VariableRepo
 
 /**
  * Tests for the variable resource.
- * 
+ *
  * @author René Reitmann
  * @author Daniel Katzberg
  */

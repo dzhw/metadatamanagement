@@ -26,7 +26,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncomp
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetReportService;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;

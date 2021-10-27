@@ -30,13 +30,13 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.DataPackageSear
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.variablemanagement.domain.Variable;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing the domain object/aggregate {@link DataPackage}.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -60,7 +60,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Delete all dataPackages when the dataAcquisitionProject was deleted.
-   * 
+   *
    * @param dataAcquisitionProject the dataAcquisitionProject which has been deleted.
    */
   @HandleAfterDelete
@@ -70,7 +70,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Update all {@link DataPackageSearchDocument} of the project.
-   * 
+   *
    * @param dataAcquisitionProject the changed project.
    */
   @HandleAfterSave
@@ -83,7 +83,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * A service method for deletion of dataPackages within a data acquisition project.
-   * 
+   *
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
@@ -100,7 +100,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Enqueue update of dataPackage search document when the data set is changed.
-   * 
+   *
    * @param dataSet the updated, created or deleted dataSet.
    */
   @HandleAfterCreate
@@ -114,7 +114,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Enqueue update of dataPackage search document when the variable is changed.
-   * 
+   *
    * @param variable the updated, created or deleted variable.
    */
   @HandleAfterCreate
@@ -128,7 +128,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Enqueue update of dataPackage search document when a related publication is changed.
-   * 
+   *
    * @param relatedPublication the updated, created or deleted publication.
    */
   @HandleAfterCreate
@@ -144,7 +144,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Enqueue update of dataPackage search document when the survey is changed.
-   * 
+   *
    * @param survey the updated, created or deleted survey.
    */
   @HandleAfterCreate
@@ -158,7 +158,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Enqueue update of dataPackage search document when the question is changed.
-   * 
+   *
    * @param question the updated, created or deleted question.
    */
   @HandleAfterCreate
@@ -172,7 +172,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Enqueue update of dataPackage search document when the instrument is changed.
-   * 
+   *
    * @param instrument the updated, created or deleted instrument.
    */
   @HandleAfterCreate
@@ -186,7 +186,7 @@ public class DataPackageManagementService implements CrudService<DataPackage> {
 
   /**
    * Enqueue update of dataPackage search documents when the concept is changed.
-   * 
+   *
    * @param concept the updated, created or deleted concept.
    */
   @HandleAfterCreate

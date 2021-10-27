@@ -35,7 +35,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQue
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyQueueItemService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 public class DataPackagePublicListResourceControllerTest extends AbstractTest {
   private static final String API_DATAPACKAGE_URI = "/api/data-packages";

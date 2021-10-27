@@ -22,7 +22,7 @@ import org.springframework.web.util.UriUtils;
 
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.InstrumentAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.service.InstrumentAttachmentService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -37,7 +37,7 @@ public class InstrumentAttachmentResource {
 
   /**
    * REST method for for uploading an instrument attachment.
-   * 
+   *
    * @param multiPartFile the attachment
    * @param instrumentAttachmentMetadata the metadata for the attachment
    * @return response 201 if the attachment was created
@@ -47,7 +47,7 @@ public class InstrumentAttachmentResource {
   @RequestMapping(path = "/instruments/attachments", method = RequestMethod.POST)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
-      @RequestPart("instrumentAttachmentMetadata") 
+      @RequestPart("instrumentAttachmentMetadata")
       @Valid InstrumentAttachmentMetadata instrumentAttachmentMetadata)
       throws URISyntaxException, IOException {
     instrumentAttachmentService.createInstrumentAttachment(multiPartFile,
@@ -59,7 +59,7 @@ public class InstrumentAttachmentResource {
 
   /**
    * Load all attachment metadata objects for the given instrument id.
-   * 
+   *
    * @param instrumentId The id of an instrument.
    * @return A list of metadata objects.
    */
@@ -70,10 +70,10 @@ public class InstrumentAttachmentResource {
         instrumentAttachmentService.findAllByInstrument(instrumentId);
     return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(metadata);
   }
-  
+
   /**
    * Delete all attachments of the given instrument.
-   * 
+   *
    * @param instrumentId The id of the instrument.
    */
   @RequestMapping(path = "/instruments/{instrumentId}/attachments", method = RequestMethod.DELETE)
@@ -86,9 +86,9 @@ public class InstrumentAttachmentResource {
 
   /**
    * Delete the given attachments of the given instrument.
-   * 
+   *
    * @param instrumentId The id of the instrument.
-   * 
+   *
    */
   @RequestMapping(path = "/instruments/{instrumentId}/attachments/{filename:.+}",
       method = RequestMethod.DELETE)

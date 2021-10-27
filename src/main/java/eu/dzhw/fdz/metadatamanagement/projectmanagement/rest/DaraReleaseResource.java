@@ -21,7 +21,7 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyReleaseToDaraNotAllowed;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 

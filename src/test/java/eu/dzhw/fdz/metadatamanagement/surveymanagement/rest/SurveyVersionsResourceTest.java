@@ -30,38 +30,38 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchU
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
 public class SurveyVersionsResourceTest extends AbstractTest {
   private static final String API_SURVEY_URI = "/api/surveys";
-  
+
   @Autowired
   private WebApplicationContext wac;
-  
+
   @Autowired
   private DataAcquisitionProjectRepository dataAcquisitionProjectRepository;
-  
+
   @Autowired
   private SurveyRepository surveyRepository;
-  
+
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
-  
+
   @Autowired
   private JaversService javersService;
-  
+
   private MockMvc mockMvc;
-  
+
   @BeforeEach
   public void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
       .build();
   }
-  
+
   @AfterEach
   public void cleanUp() {
     dataAcquisitionProjectRepository.deleteAll();
@@ -70,14 +70,14 @@ public class SurveyVersionsResourceTest extends AbstractTest {
     elasticsearchAdminService.recreateAllIndices();
     javersService.deleteAll();
   }
-  
+
   @Test
   public void testCreateSurveyAndReadVersions() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    
+
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
-    
+
     // create the dataPackage with the given id
     mockMvc.perform(put(API_SURVEY_URI + "/" + survey.getId())
       .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
@@ -90,15 +90,15 @@ public class SurveyVersionsResourceTest extends AbstractTest {
       .andExpect(jsonPath("$[0].id", is(survey.getId())))
       .andExpect(jsonPath("$[0].title.de", is(survey.getTitle().getDe())));
   }
-  
+
   @Test
   public void testEditSurveyAndReadVersions() throws IOException, Exception {
     DataAcquisitionProject project = UnitTestCreateDomainObjectUtils.buildDataAcquisitionProject();
     dataAcquisitionProjectRepository.save(project);
-    
+
     Survey survey = UnitTestCreateDomainObjectUtils.buildSurvey(project.getId());
     String firstTitle = survey.getTitle().getDe();
-    
+
     // create the survey with the given id
     mockMvc.perform(put(API_SURVEY_URI + "/" + survey.getId())
       .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))

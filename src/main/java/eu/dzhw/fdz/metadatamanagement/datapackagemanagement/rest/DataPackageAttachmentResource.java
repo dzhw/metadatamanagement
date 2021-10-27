@@ -22,7 +22,7 @@ import org.springframework.web.util.UriUtils;
 
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageAttachmentService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -46,7 +46,7 @@ public class DataPackageAttachmentResource {
   @RequestMapping(path = "/api/data-packages/attachments", method = RequestMethod.POST)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
-      @RequestPart("dataPackageAttachmentMetadata") 
+      @RequestPart("dataPackageAttachmentMetadata")
       @Valid DataPackageAttachmentMetadata dataPackageAttachmentMetadata)
       throws URISyntaxException, IOException {
     dataPackageAttachmentService.createDataPackageAttachment(multiPartFile,

@@ -36,11 +36,11 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionPr
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 /**
  * Test the REST API for {@link DataAcquisitionProject}s.
- * 
+ *
  * @author René Reitmann
  * @author Daniel Katzberg
  */
@@ -118,7 +118,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
         .andExpect(status().isBadRequest()).andExpect(jsonPath("$.errors[0].message", matcher))
         .andExpect(jsonPath("$.errors[1].message", matcher));
   }
-  
+
   @Test
   @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
   public void shouldCreateProjectsForAnalysisPackages()
@@ -359,7 +359,7 @@ public class DataAcquisitionProjectResourceControllerTest extends AbstractTest {
 
   /**
    * test the user implemented parts of save project
-   * 
+   *
    * @throws Exception
    */
   @Test

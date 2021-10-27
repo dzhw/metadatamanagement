@@ -38,7 +38,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.ShadowCopyQueueItemService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.repository.ElasticsearchUpdateQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 @WithMockUser(authorities = AuthoritiesConstants.PUBLISHER)
 public class DataAcquisitionProjectShadowsResourceTest extends AbstractTest {

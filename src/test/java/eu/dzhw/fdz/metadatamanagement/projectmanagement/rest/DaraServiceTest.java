@@ -39,7 +39,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DaraService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 /**
  * @author Daniel Katzberg
@@ -56,7 +56,7 @@ public class DaraServiceTest extends AbstractTest {
 
   @Autowired
   private DataPackageRepository dataPackageRepository;
-  
+
   @Autowired
   private AnalysisPackageRepository analysisPackageRepository;
 

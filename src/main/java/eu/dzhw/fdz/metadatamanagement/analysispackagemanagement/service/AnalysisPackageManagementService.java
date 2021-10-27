@@ -20,12 +20,12 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.RelatedPublicationChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing the domain object/aggregate {@link AnalysisPackage}.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -38,16 +38,16 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
   private final AnalysisPackageCrudHelper crudHelper;
-  
+
   private final AnalysisPackageAttachmentService analysisPackageAttachmentService;
-  
+
   private final ScriptAttachmentService scriptAttachmentService;
-  
+
   private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
   /**
    * Delete all analysis packages when the dataAcquisitionProject was deleted.
-   * 
+   *
    * @param dataAcquisitionProject the dataAcquisitionProject which has been deleted.
    */
   @HandleAfterDelete
@@ -57,7 +57,7 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
 
   /**
    * Update the {@link AnalysisPackage}s of the project when the project is released.
-   * 
+   *
    * @param dataAcquisitionProject the changed project
    */
   @HandleAfterSave
@@ -67,10 +67,10 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
             .streamIdsByDataAcquisitionProjectId(dataAcquisitionProject.getId()),
         ElasticsearchType.analysis_packages);
   }
-  
+
   /**
    * Enqueue update of analysisPackage search documents when a related publication is changed.
-   * 
+   *
    * @param relatedPublication the updated, created or deleted publication.
    */
   @HandleAfterCreate
@@ -86,7 +86,7 @@ public class AnalysisPackageManagementService implements CrudService<AnalysisPac
 
   /**
    * A service method for deletion of analysis packages within a data acquisition project.
-   * 
+   *
    * @param dataAcquisitionProjectId the id for to the data acquisition project.
    */
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})

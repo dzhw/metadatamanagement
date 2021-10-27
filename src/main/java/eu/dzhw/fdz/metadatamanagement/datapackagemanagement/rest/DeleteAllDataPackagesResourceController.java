@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageManagementService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Rest Controller for deleting dataPackages of a data acquisition project.
- * 
+ *
  * @author tgehrke
  *
  */
@@ -20,12 +20,12 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class DeleteAllDataPackagesResourceController {
-  
+
   private final DataPackageManagementService dataPackageService;
 
   /**
    * delete all dataPackages from data acquisition project.
-   * 
+   *
    * @param id the Id of the project.
    * @return no Content.
    */

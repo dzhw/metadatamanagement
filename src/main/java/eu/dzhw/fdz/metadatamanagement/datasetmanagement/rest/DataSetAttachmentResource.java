@@ -22,7 +22,7 @@ import org.springframework.web.util.UriUtils;
 
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmentService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -36,7 +36,7 @@ public class DataSetAttachmentResource {
 
   /**
    * REST method for for uploading an dataSet attachment.
-   * 
+   *
    * @param multiPartFile the attachment
    * @param dataSetAttachmentMetadata the metadata for the attachment
    * @return response 201 if the attachment was created
@@ -46,7 +46,7 @@ public class DataSetAttachmentResource {
   @RequestMapping(path = "/api/data-sets/attachments", method = RequestMethod.POST)
   @Secured(value = {AuthoritiesConstants.PUBLISHER, AuthoritiesConstants.DATA_PROVIDER})
   public ResponseEntity<String> uploadAttachment(@RequestPart("file") MultipartFile multiPartFile,
-      @RequestPart("dataSetAttachmentMetadata") 
+      @RequestPart("dataSetAttachmentMetadata")
       @Valid DataSetAttachmentMetadata dataSetAttachmentMetadata)
       throws URISyntaxException, IOException {
     dataSetAttachmentService.createDataSetAttachment(multiPartFile,
@@ -58,7 +58,7 @@ public class DataSetAttachmentResource {
 
   /**
    * Load all attachment metadata objects for the given dataSet id.
-   * 
+   *
    * @param dataSetId The id of an dataSet.
    * @return A list of metadata objects.
    */
@@ -68,10 +68,10 @@ public class DataSetAttachmentResource {
     List<DataSetAttachmentMetadata> metadata = dataSetAttachmentService.findAllByDataSet(dataSetId);
     return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(metadata);
   }
-  
+
   /**
    * Delete all attachments of the given dataSet.
-   * 
+   *
    * @param dataSetId The id of the dataSet.
    */
   @RequestMapping(path = "/api/data-sets/{dataSetId}/attachments", method = RequestMethod.DELETE)
@@ -83,9 +83,9 @@ public class DataSetAttachmentResource {
 
   /**
    * Delete the given attachments of the given dataSet.
-   * 
+   *
    * @param dataSetId The id of the dataSet.
-   * 
+   *
    */
   @RequestMapping(path = "/api/data-sets/{dataSetId}/attachments/{filename:.+}",
       method = RequestMethod.DELETE)

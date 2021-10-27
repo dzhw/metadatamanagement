@@ -1,7 +1,7 @@
 /**
- * 
+ *
  */
-package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
+package eu.dzhw.fdz.metadatamanagement.authmanagement.security;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -11,11 +11,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import org.junit.jupiter.api.Test;
 
 /**
  * No Integration Test. No need for application Context.
- * 
+ *
  * @author Daniel Katzberg
  *
  */

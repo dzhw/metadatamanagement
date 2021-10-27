@@ -36,10 +36,10 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.domain.Relate
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.RelatedPublicationRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchAdminService;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 /**
- * 
+ *
  * @author Daniel Katzberg
  *
  */
@@ -246,7 +246,7 @@ public class RelatedPublicationResourceControllerTest extends AbstractTest {
     this.mockMvc.perform(put(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId())
         .content(TestUtil.convertObjectToJsonBytes(relatedPublication))
         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
-    
+
     // delete the related publication under the new url
     mockMvc.perform(delete(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
         .andExpect(status().is2xxSuccessful());
@@ -254,7 +254,7 @@ public class RelatedPublicationResourceControllerTest extends AbstractTest {
     // ensure it is really deleted
     mockMvc.perform(get(API_RELATED_PUBLICATION_URI + "/" + relatedPublication.getId()))
         .andExpect(status().isNotFound());
-    
+
     // check that there is one dataPackage document left
     elasticsearchUpdateQueueService.processAllQueueItems();
     assertThat(elasticsearchAdminService.countAllDocuments(), equalTo(1L));

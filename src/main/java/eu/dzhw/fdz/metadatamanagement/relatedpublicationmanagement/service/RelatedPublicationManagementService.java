@@ -17,12 +17,12 @@ import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.repository.Re
 import eu.dzhw.fdz.metadatamanagement.relatedpublicationmanagement.service.helper.RelatedPublicationCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchType;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 /**
  * Service for managing the domain object/aggregate {@link RelatedPublication}.
- * 
+ *
  * @author René Reitmann
  */
 @Service
@@ -38,7 +38,7 @@ public class RelatedPublicationManagementService implements CrudService<RelatedP
 
   /**
    * Enqueue update of related publication search documents when the dataPackage changed.
-   * 
+   *
    * @param dataPackage the updated, created or deleted dataPackage.
    */
   @HandleAfterCreate
@@ -52,7 +52,7 @@ public class RelatedPublicationManagementService implements CrudService<RelatedP
 
   /**
    * Enqueue update of related publication search documents when the analysis package changed.
-   * 
+   *
    * @param analysisPackage the updated, created or deleted analysisPackage.
    */
   @HandleAfterCreate

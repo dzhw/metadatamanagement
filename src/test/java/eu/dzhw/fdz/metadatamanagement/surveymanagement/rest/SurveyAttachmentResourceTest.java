@@ -40,7 +40,7 @@ import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMe
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyAttachmentService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper.SurveyAttachmentFilenameBuilder;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 
 public class SurveyAttachmentResourceTest extends AbstractTest {
   @Autowired
@@ -48,16 +48,16 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
 
   @Autowired
   private SurveyRepository surveyRepository;
-  
+
   @Autowired
   private SurveyAttachmentService surveyAttachmentService;
 
   @Autowired
   private ElasticsearchUpdateQueueItemRepository elasticsearchUpdateQueueItemRepository;
-  
+
   @Autowired
   private ElasticsearchAdminService elasticsearchAdminService;
-  
+
   @Autowired
   private JaversService javersService;
 
@@ -221,7 +221,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.errors[0].message",
           is("survey-management.error.survey-attachment-metadata.language.not-supported")));
   }
-  
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testUploadAttachmentWithMissingDescription() throws Exception {
@@ -242,7 +242,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
       .andExpect(jsonPath("$.errors[0].message",
           is("survey-management.error.survey-attachment-metadata.description.i18n-string-not-empty")));
   }
-  
+
   @Test
   @WithMockUser(authorities=AuthoritiesConstants.PUBLISHER)
   public void testAttachmentIsDeletedWithSurvey() throws Exception {
@@ -253,7 +253,7 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
     mockMvc.perform(put("/api/surveys/" + survey.getId())
       .content(TestUtil.convertObjectToJsonBytes(survey)).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isCreated());
-    
+
     MockMultipartFile attachment =
         new MockMultipartFile("file", "filename.txt", "text/plain", "some text".getBytes());
     SurveyAttachmentMetadata surveyAttachmentMetadata = UnitTestCreateDomainObjectUtils
@@ -266,11 +266,11 @@ public class SurveyAttachmentResourceTest extends AbstractTest {
       .file(attachment)
       .file(metadata))
       .andExpect(status().isCreated());
-    
+
     // delete the survey with the given id
     mockMvc.perform(delete("/api/surveys/" + survey.getId()))
       .andExpect(status().isNoContent());
-    
+
     // check if attachment has been deleted as well
     mockMvc.perform(
         get("/api/surveys/" + surveyAttachmentMetadata.getSurveyId() + "/attachments"))

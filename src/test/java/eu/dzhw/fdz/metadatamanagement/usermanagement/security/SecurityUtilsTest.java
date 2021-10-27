@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,7 @@ public class SecurityUtilsTest {
   public void logout() {
     UnitTestUserManagementUtils.logout();
   }
-  
+
   @Test
   public void testConstructor()
       throws NoSuchMethodException, SecurityException, InstantiationException,

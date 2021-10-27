@@ -22,7 +22,7 @@ import org.springframework.web.util.UriUtils;
 
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.SurveyAttachmentService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import lombok.RequiredArgsConstructor;
 
 /**

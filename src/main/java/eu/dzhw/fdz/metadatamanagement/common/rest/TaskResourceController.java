@@ -20,7 +20,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.Task;
 import eu.dzhw.fdz.metadatamanagement.common.domain.TaskErrorNotification;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.AuthoritiesConstants;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
 import io.swagger.v3.oas.annotations.Hidden;
 
