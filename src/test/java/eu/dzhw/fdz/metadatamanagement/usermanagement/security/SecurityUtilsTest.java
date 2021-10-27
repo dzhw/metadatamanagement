@@ -55,25 +55,6 @@ public class SecurityUtilsTest {
   }
 
   @Test
-  public void testGetCurrentUser() {
-
-    // Arrange
-    Set<GrantedAuthority> set = new HashSet<>();
-    set.add(new SimpleGrantedAuthority("testAuthority"));
-    CustomUserDetails login =
-        new CustomUserDetails("id", "username", "user", set, true, true, true, true);
-    UnitTestUserManagementUtils.login(login, "user");
-
-    // Act
-
-    // Assert
-    assertThat(SecurityUtils.getCurrentUserId(), is("id"));
-    assertThat(SecurityUtils.isUserInRole("testAuthority"), is(true));
-    assertThat(SecurityUtils.isUserInRole("somethingWrong"), is(false));
-    assertThat(SecurityUtils.getCurrentUserLogin(), is("username"));
-  }
-
-  @Test
   public void testgetCurrentUserLogin() {
     // Arrange
     SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
@@ -94,7 +75,6 @@ public class SecurityUtilsTest {
 		SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
 		securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin"));
 		SecurityContextHolder.setContext(securityContext);
-		SecurityUtils.getCurrentUser();// Exception is here. No CustomUserDetails;
 	});
   }
 

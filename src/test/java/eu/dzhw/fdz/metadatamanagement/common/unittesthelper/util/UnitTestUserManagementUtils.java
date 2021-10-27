@@ -8,7 +8,6 @@ import javax.validation.Validator;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -42,24 +41,6 @@ public class UnitTestUserManagementUtils<T> {
    * @param password
    */
   public static void login(String login, String password) {
-    // Empty Context (no user is logged)
-    SecurityContext securityContextEmpty = SecurityContextHolder.createEmptyContext();
-
-    // Login (!)
-    securityContextEmpty
-      .setAuthentication(new UsernamePasswordAuthenticationToken(login, password));
-
-    // Set Context with logged user.
-    SecurityContextHolder.setContext(securityContextEmpty);
-  }
-
-  /**
-   * This helper methods log a account into the application by customuserdetails and password
-   *
-   * @param login
-   * @param password
-   */
-  public static void login(CustomUserDetails login, String password) {
     // Empty Context (no user is logged)
     SecurityContext securityContextEmpty = SecurityContextHolder.createEmptyContext();
 
