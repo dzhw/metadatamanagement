@@ -189,44 +189,80 @@
             </div>
           </div>
         </md-input-container>
-
-        <md-input-container ng-if="!$ctrl.createMode"
-                            flex="50"
-                            class="mr8"
-                            ngf-drop="$ctrl.upload($file, $index)" ngf-drag-over-class="{accept:'fdz-file-drop-accept', delay:0}" ngf-select="$ctrl.upload($file, $index)"
-                            md-is-error="!$ctrl.currentForm.filename.$valid && ($ctrl.currentForm.filename.$dirty || $ctrl.currentForm.filename.$touched)">
-          <label>{{'analysis-package-management.detail.label.script-attachments.file' | translate
-            }}</label>
-          <input disabled
-                 ng-pattern="/^[_A-Za-z0-9äöüÄÖÜß\-.]*$/"
-                 ng-model="$ctrl.scriptAttachmentMetadata[$index].fileName"
-                 name="filename" class="pointer"
-                 style="border-bottom: 1px rgba(0,0,0,0.12) solid; background-image: none;">
-          <div
-            ng-if="!$ctrl.currentForm.filename.$dirty && !$ctrl.currentForm.filename.$touched"
-            class="fdz-input-hint">
-            {{ctrl.labels.hints.file.key | translate:ctrl.labels.hints.file.params}}
-          </div>
-          <div ng-messages="$ctrl.currentForm.filename.$error" multiple>
-            <div ng-message="required">
-              {{'analysis-package-management.error.analysis-package.attachment.error.filename.not-empty' | translate}}
-            </div>
-            <div ng-message="unique">
-              {{'analysis-package-management.error.analysis-package.attachment.error.filename.not-unique' | translate}}
-            </div>
-            <div ng-message="valid">
-              {{'analysis-package-management.error.analysis-package.attachment.error.filename.not-valid' | translate}}
-            </div>
-            <div ng-message="pattern">
-              {{'analysis-package-management.error.analysis-package.attachment.error.filename.pattern' | translate}}
-            </div>
-          </div>
-        </md-input-container>
-        <div ng-if="$ctrl.createMode"
-             flex="50"
-             class="mr8"></div>
+        <div flex="50"
+             class="fdz-button-wrapper mr8"
+             style="align-items: center;">
+            <md-button class="md-primary md-raised mr8"
+                     ng-click="$ctrl.addScriptAttachment($index, $event)"
+                     ng-disabled="!$ctrl.createMode && $ctrl.attachments.length != 0"
+                     style="max-height: 36px;">
+            <span>{{'analysis-package-management.detail.label.script-attachments.file' | translate}}</span>
+            <md-tooltip ng-if="!$ctrl.createMode"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'analysis-package-management.detail.script-attachments.add-attachment-tooltip' | translate}}
+            </md-tooltip>
+            <md-tooltip ng-if="$ctrl.createMode"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'analysis-package-management.detail.script-attachments.save-analysis-package-before-adding-attachment' | translate}}
+            </md-tooltip>
+            <md-tooltip ng-if="$ctrl.attachments.length != 0"
+                        md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+              {{'analysis-package-management.detail.script-attachments.length-attachment-tooltip' | translate}}
+            </md-tooltip>
+          </md-button>
+        </div>
       </div>
+      <div ng-if="!$ctrl.createMode && $ctrl.scriptAttachments && $ctrl.scriptAttachments.length > 0"
+           class="ml28 mr8"
+           style="margin: 0 28px;">
+        <h2 class="md-title ng-binding pb16">
+          {{'analysis-package-management.detail.script-attachments.table-title' | translate}}</h2>
 
+        <table fdz-table>
+          <thead>
+          <tr>
+            <th style="min-height: 40px;">
+              &nbsp;
+            </th>
+            <th>
+              {{'analysis-package-management.detail.label.attachments.file' | translate
+              }}
+              <md-tooltip hide-gt-xs md-direction="right">
+                {{'analysis-package-management.detail.label.attachments.file' | translate
+                }}
+              </md-tooltip>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr
+            ng-class="{'fdz-selected-table-row': $index === ctrl.currentAttachmentIndex}"
+            ng-init="translationParams = {filename: row.fileName}"
+            ng-repeat="row in $ctrl.scriptAttachments | filter: { scriptUuid: script.uuid }">
+            <td class="fdz-table-nowrap ma0 pa0" style="width: 40px;">
+              <md-button class="md-primary md-icon-button ma0"
+                         ng-click="$ctrl.deleteScriptAttachment(row, $index)">
+                <md-tooltip md-autohide="true" md-direction="bottom"
+                            md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                  {{'analysis-package-management.detail.attachments.delete-attachment-tooltip' | translate:translationParams
+                  }}
+                </md-tooltip>
+                <md-icon md-font-set="material-icons">delete_forever</md-icon>
+              </md-button>
+            </td>
+            <td class="nowrap"><a ng-href="{{row.id}}"
+                                  target="_blank">{{row.fileName}}
+              <md-tooltip md-autohide="true"
+                          md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+                {{'global.tooltips.files.download' | translate: {filename: row.fileName}
+                }}
+              </md-tooltip>
+            </a>&nbsp;
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </md-card-content>
   <md-card-actions layout="row" layout-align="begin center"
@@ -240,27 +276,27 @@
       </md-tooltip>
       <md-icon md-font-set="material-icons">add</md-icon>
     </md-button>
-    <md-button class="md-primary md-raised md-icon-button"
-               id="move-link-up-button"
-               ng-click="$ctrl.moveCurrentScriptUp()"
-               ng-disabled="$ctrl.currentScriptIndex == null || $ctrl.currentScriptIndex === 0">
-      <md-tooltip md-autohide="true"
-                  md-direction="bottom"
-                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'analysis-package-management.edit.move-script-up-tooltip' | translate}}
-      </md-tooltip>
-      <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
-    </md-button>
-    <md-button class="md-primary md-raised md-icon-button"
-               id="move-link-down-button"
-               ng-click="$ctrl.moveCurrentScriptDown()"
-               ng-disabled="$ctrl.currentScriptIndex == null || $ctrl.currentScriptIndex === $ctrl.analysisPackage.additionalScripts.length - 1">
-      <md-tooltip md-autohide="true"
-                  md-direction="bottom"
-                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'analysis-package-management.edit.move-script-down-tooltip' | translate}}
-      </md-tooltip>
-      <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
-    </md-button>
+<!--    <md-button class="md-primary md-raised md-icon-button"-->
+<!--               id="move-link-up-button"-->
+<!--               ng-click="$ctrl.moveCurrentScriptUp()"-->
+<!--               ng-disabled="$ctrl.currentScriptIndex == null || $ctrl.currentScriptIndex === 0">-->
+<!--      <md-tooltip md-autohide="true"-->
+<!--                  md-direction="bottom"-->
+<!--                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">-->
+<!--        {{'analysis-package-management.edit.move-script-up-tooltip' | translate}}-->
+<!--      </md-tooltip>-->
+<!--      <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>-->
+<!--    </md-button>-->
+<!--    <md-button class="md-primary md-raised md-icon-button"-->
+<!--               id="move-link-down-button"-->
+<!--               ng-click="$ctrl.moveCurrentScriptDown()"-->
+<!--               ng-disabled="$ctrl.currentScriptIndex == null || $ctrl.currentScriptIndex === $ctrl.analysisPackage.additionalScripts.length - 1">-->
+<!--      <md-tooltip md-autohide="true"-->
+<!--                  md-direction="bottom"-->
+<!--                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">-->
+<!--        {{'analysis-package-management.edit.move-script-down-tooltip' | translate}}-->
+<!--      </md-tooltip>-->
+<!--      <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>-->
+<!--    </md-button>-->
   </md-card-actions>
 </md-card>

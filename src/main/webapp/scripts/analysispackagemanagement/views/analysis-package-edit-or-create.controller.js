@@ -7,7 +7,7 @@ angular.module('metadatamanagementApp')
     function(entity, PageMetadataService, $document, $timeout,
              $state, BreadcrumbService, Principal, SimpleMessageToastService,
              CurrentProjectService, AnalysisPackageIdBuilderService,
-             AnalysisPackageResource,
+             AnalysisPackageResource, ScriptAttachmentResource,
              $scope, ElasticSearchAdminService, $transitions,
              CommonDialogsService, LanguageService,
              AnalysisPackageSearchService, AnalysisPackageAttachmentResource,
@@ -20,6 +20,7 @@ angular.module('metadatamanagementApp')
       var ctrl = this;
       ctrl.currentInstitutions = [];
       ctrl.currentSponsors = [];
+      ctrl.sciptAttachments = [];
 
       var getDialogLabels = function() {
         return {
@@ -637,6 +638,17 @@ angular.module('metadatamanagementApp')
               if (selectLastAttachment) {
                 ctrl.currentAttachmentIndex = attachments.length - 1;
               }
+            }
+          });
+      };
+
+      ctrl.loadScriptAttachments = function() {
+        ScriptAttachmentResource.findByAnalysisPackageId({
+          analysisPackageId: ctrl.analysisPackage.id
+        }).$promise.then(
+          function(attachments) {
+            if (attachments.length > 0) {
+              ctrl.scriptAttachments = attachments;
             }
           });
       };

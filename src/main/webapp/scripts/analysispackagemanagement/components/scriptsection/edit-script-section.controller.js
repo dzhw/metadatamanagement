@@ -6,17 +6,50 @@
     uuid,
     isoLanguages,
     LanguageService,
-    ScriptSoftwarePackagesResource
+    CommonDialogsService,
+    SimpleMessageToastService,
+    ScriptSoftwarePackagesResource,
+    ScriptAttachmentDialogService,
+    ScriptAttachmentUploadService,
+    ScriptAttachmentResource
   ) {
     var $ctrl = this;
     var isInitialisingSelectedLanguage = false;
     var isInitialisingSelectedSoftwarePackage = false;
+    var softwarePackages = [];
+
+    $ctrl.selectedFile = {};
+
     var isoLanguagesArray = Object.keys(isoLanguages).map(function(key) {
       return {
         code: key,
         'displayLanguage': isoLanguages[key]
       };
     });
+
+    var getDialogLabels = function() {
+      return {
+        createTitle: {
+          key: 'analysis-package-management.detail.attachments.create-title',
+          params: {
+            analysisPackageId: $ctrl.packageId
+          }
+        },
+        editTitle: {
+          key: 'analysis-package-management.detail.attachments.edit-title',
+          params: {
+            analysisPackageId: $ctrl.packageId
+          }
+        },
+        hints: {
+          file: {
+            key: 'analysis-package-management.detail' +
+              '.attachments.hints.filename'
+          }
+        }
+      };
+    };
+
     var initSelectedLanguages = function() {
       isInitialisingSelectedLanguage = true;
       _.forEach($ctrl.scripts, function(value, index) {
@@ -27,15 +60,15 @@
         $ctrl['selectedLanguage_' + index] = result[0]
           .displayLanguage[$ctrl.currentLanguage];
       });
-    };
 
-    var softwarePackages = [];
+    };
     var getSoftwarePackages = function() {
       ScriptSoftwarePackagesResource.get()
         .$promise.then(function(softwarePackage) {
-          angular.copy(softwarePackage, softwarePackages);
-        });
+        angular.copy(softwarePackage, softwarePackages);
+      });
     };
+
     var initSelectedSoftwarePackages = function() {
       _.forEach($ctrl.scripts, function(value, index) {
         $ctrl['selectedSoftwarePackage_' + index] = value.softwarePackage;
@@ -44,10 +77,12 @@
 
     $ctrl.$onInit = function() {
       $ctrl.scripts = $ctrl.scripts || [];
+      $ctrl.attachments = $ctrl.attachments || [];
       $ctrl.currentLanguage = LanguageService.getCurrentInstantly();
       initSelectedLanguages();
       getSoftwarePackages();
       initSelectedSoftwarePackages();
+      $ctrl.loadScriptAttachments();
     };
 
     $ctrl.deleteScript = function(index) {
@@ -127,18 +162,60 @@
       isInitialisingSelectedSoftwarePackage = false;
     };
 
-    $ctrl.upload = function(file, index) {
-      if (!$ctrl.createMode) {
-        var scriptAttachmentMetadata = {
+    $ctrl.addScriptAttachment = function(index, event) {
+
+      var scriptAttachmentUpload = function(file, scriptAttachmentMetadata) {
+        var metadata = _.extend({}, scriptAttachmentMetadata, {
           analysisPackageId: $ctrl.packageId,
           dataAcquisitionProjectId: $ctrl.projectId,
           masterId: $ctrl.masterId,
-          scriptUuid: $ctrl.scripts[index].uuid,
-          fileName: file.name
-        };
-        console.log(scriptAttachmentMetadata);
-      }
+          scriptUuid: $ctrl.scripts[index].uuid
+        });
+        return ScriptAttachmentUploadService
+          .uploadScriptAttachment(file, metadata);
+      };
+
+      var dialogConfig = {
+        scriptAttachmentMetadata: null,
+        uploadCallback: scriptAttachmentUpload,
+        scriptTitle: $ctrl.scripts[index].title,
+        labels: getDialogLabels()
+      };
+
+      ScriptAttachmentDialogService
+        .showDialog(dialogConfig, event)
+        .then(function() {
+          $ctrl.loadScriptAttachments();
+        });
     };
+    $ctrl.deleteScriptAttachment = function(attachment, index) {
+
+      CommonDialogsService.showConfirmFileDeletionDialog(attachment.fileName)
+        .then(function() {
+          attachment.$delete().then(function() {
+            SimpleMessageToastService.openSimpleMessageToast(
+              'analysis-package-management.detail.' +
+              'script-attachments.attachment-deleted-toast', {
+                filename: attachment.fileName
+              }
+            );
+            $ctrl.attachments.splice(index, 1);
+            // delete $ctrl.currentAttachmentIndex;
+          });
+        });
+    };
+
+    $ctrl.loadScriptAttachments = function() {
+      ScriptAttachmentResource.findByAnalysisPackageId({
+        analysisPackageId: $ctrl.packageId
+      }).$promise.then(
+        function(attachments) {
+          if (attachments.length > 0) {
+            $ctrl.scriptAttachments = attachments;
+          }
+        });
+    };
+
   }
 
   angular

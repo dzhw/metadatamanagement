@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('metadatamanagementApp')
-  .factory('ScriptSoftwarePackagesResource', function($resource,
-                                                      CleanJSObjectService) {
+  .factory('ScriptAttachmentResource', function($resource,
+                                                CleanJSObjectService) {
     return $resource(
       '/api/analysis-packages/:analysisPackageId' +
-      '/scripts/attachments/:fileName', {
+      '/scripts/:scriptUuid/attachments/:fileName', {
         analysisPackageId: '@analysisPackageId',
-        fileName: '@fileName'
+        fileName: '@fileName',
+        scriptUuid: '@scriptUuid'
       }, {
         'findByAnalysisPackageId': {
           method: 'GET',
@@ -20,6 +21,9 @@ angular.module('metadatamanagementApp')
             CleanJSObjectService.deleteEmptyStrings(copy);
             CleanJSObjectService.removeEmptyJsonObjects(copy);
             return angular.toJson(copy);
+          },
+          'delete': {
+            method: 'DELETE'
           }
         }
       });
