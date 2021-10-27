@@ -33,6 +33,15 @@ angular.module('metadatamanagementApp').config(
             'version': 'Version of Software Package',
             'software-package': 'Software Package'
           },
+          'script-attachments': {
+            'add-attachment-tooltip': 'Click to add a new document to this analysis package.',
+            'edit-attachment-tooltip': 'Click to edit the metadata for script "{{ filename }}".',
+            'length-attachment-tooltip': 'There must be no more than one attachment per script.',
+            'table-title': 'Documents related to this script',
+            'delete-attachment-tooltip': 'Click to delete document "{{ filename }}"!',
+            'file': 'Add File',
+            'save-analysis-package-before-adding-attachment': 'The analysis package has to be saved to enable attaching documents.'
+          },
           'attachments': {
             'table-title': 'Documents related to this Analysis Package',
             'delete-attachment-tooltip': 'Click to delete document "{{ filename }}"!',
