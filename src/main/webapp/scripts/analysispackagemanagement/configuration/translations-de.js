@@ -39,8 +39,12 @@ angular.module('metadatamanagementApp').config(
             'length-attachment-tooltip': 'Es darf nicht mehr als eine Datei pro Skript vorhanden sein.',
             'table-title': 'Materialien zu diesem Skript',
             'delete-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu löschen!',
+            'create-title': 'Neue Datei zu Skript "{{ scriptTitle }}" hinzufügen',
             'file': 'Datei hinzufügen',
-            'save-analysis-package-before-adding-attachment': 'The analysis package has to be saved to enable attaching documents.'
+            'save-analysis-package-before-adding-attachment': 'The analysis package has to be saved to enable attaching documents.',
+            'hints': {
+              'filename': 'Wählen Sie eine Datei aus, die Sie dem Skript hinzufügen wollen.'
+            }
           },
           'attachments': {
             'table-title': 'Materialien zu diesem Analysepaket',

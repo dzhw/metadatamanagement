@@ -11,8 +11,7 @@
       packageId: '<',
       masterId: '<',
       projectId: '<',
-      scripts: '=',
-      attachments: '='
+      scripts: '='
     }
   };
 

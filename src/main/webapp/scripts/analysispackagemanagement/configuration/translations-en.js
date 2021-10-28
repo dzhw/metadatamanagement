@@ -39,8 +39,12 @@ angular.module('metadatamanagementApp').config(
             'length-attachment-tooltip': 'There must be no more than one attachment per script.',
             'table-title': 'Documents related to this script',
             'delete-attachment-tooltip': 'Click to delete document "{{ filename }}"!',
+            'create-title': 'Add new Document to script "{{ scriptTitle }}"',
             'file': 'Add File',
-            'save-analysis-package-before-adding-attachment': 'The analysis package has to be saved to enable attaching documents.'
+            'save-analysis-package-before-adding-attachment': 'The analysis package has to be saved to enable attaching documents.',
+            'hints': {
+              'filename': 'Choose a file which you want to attach to the script.'
+            }
           },
           'attachments': {
             'table-title': 'Documents related to this Analysis Package',

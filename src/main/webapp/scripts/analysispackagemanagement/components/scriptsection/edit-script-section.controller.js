@@ -18,6 +18,7 @@
     var isInitialisingSelectedSoftwarePackage = false;
     var softwarePackages = [];
 
+    $ctrl.currentLanguage = LanguageService.getCurrentInstantly();
     $ctrl.selectedFile = {};
 
     var isoLanguagesArray = Object.keys(isoLanguages).map(function(key) {
@@ -27,24 +28,13 @@
       };
     });
 
-    var getDialogLabels = function() {
+    var getDialogLabels = function(index) {
       return {
         createTitle: {
-          key: 'analysis-package-management.detail.attachments.create-title',
+          key: 'analysis-package-management.detail' +
+            '.script-attachments.create-title',
           params: {
-            analysisPackageId: $ctrl.packageId
-          }
-        },
-        editTitle: {
-          key: 'analysis-package-management.detail.attachments.edit-title',
-          params: {
-            analysisPackageId: $ctrl.packageId
-          }
-        },
-        hints: {
-          file: {
-            key: 'analysis-package-management.detail' +
-              '.attachments.hints.filename'
+            scriptTitle: $ctrl.scripts[index].title[$ctrl.currentLanguage]
           }
         }
       };
@@ -87,7 +77,7 @@
 
     $ctrl.deleteScript = function(index) {
       $ctrl.scripts.splice(index, 1);
-      // Remove content from md-autocomplete
+      // Remove content from md-autocomplete components
       $ctrl['languageSearchText_' + index] = '';
       $ctrl['selectedLanguage_' + index] = null;
       $ctrl['softwarePackageSearchText_' + index] = '';
@@ -107,13 +97,6 @@
         usedLanguage: ''
       });
     };
-
-    $ctrl.setCurrentScript = function(index, event) {
-      $ctrl.currentScriptInputName = event.target.name;
-      $ctrl.currentScriptIndex = index;
-    };
-    $ctrl.moveCurrentScriptUp = function() {};
-    $ctrl.moveCurrentScriptDown = function() {};
 
     $ctrl.searchLanguages = function(searchText) {
       if (!searchText || searchText === '') {
@@ -163,13 +146,13 @@
     };
 
     $ctrl.addScriptAttachment = function(index, event) {
-
       var scriptAttachmentUpload = function(file, scriptAttachmentMetadata) {
         var metadata = _.extend({}, scriptAttachmentMetadata, {
           analysisPackageId: $ctrl.packageId,
           dataAcquisitionProjectId: $ctrl.projectId,
           masterId: $ctrl.masterId,
-          scriptUuid: $ctrl.scripts[index].uuid
+          scriptUuid: $ctrl.scripts[index].uuid,
+          fileName: file.name
         });
         return ScriptAttachmentUploadService
           .uploadScriptAttachment(file, metadata);
@@ -179,7 +162,7 @@
         scriptAttachmentMetadata: null,
         uploadCallback: scriptAttachmentUpload,
         scriptTitle: $ctrl.scripts[index].title,
-        labels: getDialogLabels()
+        labels: getDialogLabels(index)
       };
 
       ScriptAttachmentDialogService

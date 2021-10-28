@@ -3,7 +3,6 @@
     <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
       <h2 class="fdz-truncate-string">
         <span ng-if="ctrl.isCreateMode">{{ctrl.labels.createTitle.key | translate:ctrl.labels.createTitle.params}}</span>
-        <span ng-if="!ctrl.isCreateMode">{{ctrl.labels.editTitle.key | translate:ctrl.labels.editTitle.params}}</span>
       </h2>
       <md-button class="md-icon-button" ng-click="ctrl.cancel()">
         <md-icon md-font-set="material-icons">clear</md-icon>
@@ -28,7 +27,7 @@
             <md-input-container class="pa0 ms-flex" md-is-error="!scriptAttachmentForm.filename.$valid && (scriptAttachmentForm.filename.$dirty || scriptAttachmentForm.filename.$touched)">
               <label>{{'attachment.label.file' | translate }}</label>
               <input disabled ng-pattern="/^[_A-Za-z0-9äöüÄÖÜß\-.]*$/" required ng-model="ctrl.scriptAttachmentMetadata.fileName" name="filename" class="pointer" style="border-bottom: 1px rgba(0,0,0,0.12) solid; background-image: none;">
-              <div ng-if="!scriptAttachmentForm.filename.$dirty && !scriptAttachmentForm.filename.$touched" class="fdz-input-hint">{{ctrl.labels.hints.file.key | translate:ctrl.labels.hints.file.params}}</div>
+              <div ng-if="!scriptAttachmentForm.filename.$dirty && !scriptAttachmentForm.filename.$touched" class="fdz-input-hint">{{ 'analysis-package-management.detail.script-attachments.hints.filename' | translate}}</div>
               <div ng-messages="scriptAttachmentForm.filename.$error" multiple>
                 <div ng-message="required">{{'attachment.error.filename.not-empty' | translate}}</div>
                 <div ng-message="unique">{{'attachment.error.filename.not-unique' | translate}}</div>

@@ -194,7 +194,7 @@
              style="align-items: center;">
             <md-button class="md-primary md-raised mr8"
                      ng-click="$ctrl.addScriptAttachment($index, $event)"
-                     ng-disabled="!$ctrl.createMode && $ctrl.attachments.length != 0"
+                     ng-disabled="!$ctrl.createMode && ($ctrl.scriptAttachments | filter: { scriptUuid: script.uuid }).length > 0"
                      style="max-height: 36px;">
             <span>{{'analysis-package-management.detail.label.script-attachments.file' | translate}}</span>
             <md-tooltip ng-if="!$ctrl.createMode"
@@ -212,10 +212,10 @@
           </md-button>
         </div>
       </div>
-      <div ng-if="!$ctrl.createMode && $ctrl.scriptAttachments && $ctrl.scriptAttachments.length > 0"
+      <div ng-if="!$ctrl.createMode && ($ctrl.scriptAttachments | filter: { scriptUuid: script.uuid }).length > 0"
            class="ml28 mr8"
            style="margin: 0 28px;">
-        <h2 class="md-title ng-binding pb16">
+        <h2 class="md-subtitle ng-binding pb16">
           {{'analysis-package-management.detail.script-attachments.table-title' | translate}}</h2>
 
         <table fdz-table>
@@ -263,6 +263,8 @@
           </tbody>
         </table>
       </div>
+      <md-divider ng-if="!$ctrl.createMode && $ctrl.scripts.length -1 > $index"
+                  style="margin: 24px 0 16px 0;"></md-divider>
     </div>
   </md-card-content>
   <md-card-actions layout="row" layout-align="begin center"
@@ -276,27 +278,5 @@
       </md-tooltip>
       <md-icon md-font-set="material-icons">add</md-icon>
     </md-button>
-<!--    <md-button class="md-primary md-raised md-icon-button"-->
-<!--               id="move-link-up-button"-->
-<!--               ng-click="$ctrl.moveCurrentScriptUp()"-->
-<!--               ng-disabled="$ctrl.currentScriptIndex == null || $ctrl.currentScriptIndex === 0">-->
-<!--      <md-tooltip md-autohide="true"-->
-<!--                  md-direction="bottom"-->
-<!--                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">-->
-<!--        {{'analysis-package-management.edit.move-script-up-tooltip' | translate}}-->
-<!--      </md-tooltip>-->
-<!--      <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>-->
-<!--    </md-button>-->
-<!--    <md-button class="md-primary md-raised md-icon-button"-->
-<!--               id="move-link-down-button"-->
-<!--               ng-click="$ctrl.moveCurrentScriptDown()"-->
-<!--               ng-disabled="$ctrl.currentScriptIndex == null || $ctrl.currentScriptIndex === $ctrl.analysisPackage.additionalScripts.length - 1">-->
-<!--      <md-tooltip md-autohide="true"-->
-<!--                  md-direction="bottom"-->
-<!--                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">-->
-<!--        {{'analysis-package-management.edit.move-script-down-tooltip' | translate}}-->
-<!--      </md-tooltip>-->
-<!--      <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>-->
-<!--    </md-button>-->
   </md-card-actions>
 </md-card>
