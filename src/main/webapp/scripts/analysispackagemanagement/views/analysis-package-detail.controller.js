@@ -132,7 +132,8 @@ angular.module('metadatamanagementApp')
           }, 1000);
         } else {
           SimpleMessageToastService.openAlertMessageToast(
-            'analysis-package-management.detail.not-released-toast', {id: result.id}
+            'analysis-package-management.detail.not-released-toast',
+            {id: result.id}
           );
         }
 
