@@ -20,7 +20,9 @@ angular.module('metadatamanagementApp').config(
             'license': 'Lizenz',
             'scripts': 'Skripte',
             'sponsors': 'Gefördert von',
+            'tags': 'Schlagwörter',
             'title': 'Titel',
+            'version': 'Version',
             'script-attachments': {
               'file': 'Datei hinzufügen'
             },
@@ -31,7 +33,7 @@ angular.module('metadatamanagementApp').config(
               'file': 'Datei'
             },
             'software-package': 'Bitte wählen Sie das/die Softwarepaket(e) ein, für die dieses Skript geschrieben wurde.',
-            'version': 'Version des Softwarepaketes'
+            'script-version': 'Version des Softwarepaketes'
           },
           'script-attachments': {
             'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Analysepaket hinzuzufügen.',
@@ -69,7 +71,12 @@ angular.module('metadatamanagementApp').config(
               'filename': 'Wählen Sie eine Datei aus, die Sie des Analysepakets hinzufügen wollen.'
             }
           },
-          'not-found': 'Die id {{id}} referenziert auf eine unbekanntes Analysepaket.'
+          'not-found': 'Die id {{id}} referenziert auf eine unbekanntes Analysepaket.',
+          'not-found-references': 'Die id {{id}} hat keine Referenzen auf Analysepakete.',
+          'not-yet-released': 'Aktuell nicht freigegeben',
+          'not-released-toast': 'Das Analysepaket "{{ id }}" wird aktuell bearbeitet und ist daher nicht für alle Benutzer:innen freigegeben!',
+          'beta-release-no-doi': 'Dieses Analysepaket hat noch keine DOI.',
+          'publications-for-data-package': 'Publikationen zu diesem Analysepaket'
         },
         'edit': {
           'all-analysis-packages-deleted-toast': 'Das Analysepaket des Datenaufbereitungsprojekts "{{id}}" wurde gelöscht.',

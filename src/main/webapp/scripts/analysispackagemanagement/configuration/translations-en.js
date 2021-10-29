@@ -20,7 +20,9 @@ angular.module('metadatamanagementApp').config(
             'license': 'License',
             'scripts': 'Scripts',
             'sponsors': 'Sponsored by',
+            'tags': 'Tags',
             'title': 'Title',
+            'version': 'Version',
             'script-attachments': {
               'file': 'Add File'
             },
@@ -30,7 +32,7 @@ angular.module('metadatamanagementApp').config(
               'language': 'Document Language',
               'file': 'File'
             },
-            'version': 'Version of Software Package',
+            'script-version': 'Version of Software Package',
             'software-package': 'Software Package'
           },
           'script-attachments': {
@@ -69,7 +71,12 @@ angular.module('metadatamanagementApp').config(
               'filename': 'Choose a file which you want to attach to the analysis package.'
             }
           },
-          'not-found': 'The {{id}} references to an unknown Analysis Package.'
+          'not-found': 'The {{id}} references to an unknown Analysis Package.',
+          'not-found-references': 'The id {{id}} has no References to Analysis Packages.',
+          'not-yet-released': 'Currently not released',
+          'not-released-toast': 'Analysis Package "{{ id }}" is being worked on. Therefore it is not visible to all users at the moment!',
+          'beta-release-no-doi': 'This analysis package has no DOI yet.',
+          'publications-for-analysis-package': 'Publications related to this Analysis Package'
         },
         'edit': {
           'all-analysis-packages-deleted-toast': 'The analysis package of Data Acquisition Project "{{id}}" has been deleted.',
