@@ -81,7 +81,9 @@ angular.module('metadatamanagementApp').config(
               'unauthorized': 'Publisher dürfen nur durch andere Publisher gesetzt werden.'
             },
             'requirements': {
-              'unauthorized': 'Pflichtfelder dürfen nur durch Publishers dieses Projekts geändert werden.'
+              'unauthorized': 'Pflichtfelder dürfen nur durch Publishers dieses Projekts geändert werden.',
+              'publications-required-for-analysis-packages': 'Eine Publikation wird für ein Analysepaket benötigt.',
+              'either-data-packages-or-analysis-packages-required': 'Es wird entweder ein Datenpaket oder Analysepaket benötigt.'
             }
           },
           'release': {
