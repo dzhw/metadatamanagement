@@ -7,9 +7,10 @@
       isoLanguages,
       LanguageService,
       CommonDialogsService,
+      $mdDialog,
       SimpleMessageToastService,
       ScriptSoftwarePackagesResource,
-      ScriptAttachmentDialogService,
+      // ScriptAttachmentDialogService,
       ScriptAttachmentUploadService,
       ScriptAttachmentResource
     ) {
@@ -19,7 +20,9 @@
       var softwarePackages = [];
 
       $ctrl.currentLanguage = LanguageService.getCurrentInstantly();
-      $ctrl.selectedFile = {};
+      $ctrl.selectedFile = '';
+      $ctrl.scriptAttachmentMetadata = [];
+      $ctrl.currentScriptIndex = '';
 
       var isoLanguagesArray = Object.keys(isoLanguages)
         .map(function(key) {
@@ -28,18 +31,6 @@
             'displayLanguage': isoLanguages[key]
           };
         });
-
-      var getDialogLabels = function(index) {
-        return {
-          createTitle: {
-            key: 'analysis-package-management.detail' +
-              '.script-attachments.create-title',
-            params: {
-              scriptTitle: $ctrl.scripts[index].title[$ctrl.currentLanguage]
-            }
-          }
-        };
-      };
 
       var initSelectedLanguages = function() {
         isInitialisingSelectedLanguage = true;
@@ -53,6 +44,16 @@
         });
 
       };
+
+      var getScriptAttachmentMetadata = function() {
+        _.forEach($ctrl.scripts, function(value, index) {
+          var result = _.filter($ctrl.scriptAttachments, function(item) {
+            return item.scriptUuid === value.uuid;
+          });
+          $ctrl.scriptAttachmentMetadata[index] = result[0];
+        });
+      };
+
       var getSoftwarePackages = function() {
         ScriptSoftwarePackagesResource.get()
           .$promise.then(function(softwarePackage) {
@@ -119,6 +120,7 @@
           softwarePackageVersion: '',
           usedLanguage: ''
         });
+        $ctrl.scriptAttachmentMetadata.push({fileName: ''});
       };
 
       $ctrl.searchLanguages = function(searchText) {
@@ -176,37 +178,74 @@
           function(attachments) {
             if (attachments.length > 0) {
               $ctrl.scriptAttachments = attachments;
+              getScriptAttachmentMetadata();
             }
           });
       };
 
-      $ctrl.addScriptAttachment = function(index, event) {
-        var scriptAttachmentUpload = function(file, scriptAttachmentMetadata) {
-          var metadata = _.extend({}, scriptAttachmentMetadata, {
+      $ctrl.addScriptAttachment = function(file, index, event) {
+        console.log(file);
+        $ctrl.currentScriptIndex = index;
+        var scriptAttachmentUpload = function(file) {
+          var metadata = _.extend({}, {
             analysisPackageId: $ctrl.packageId,
             dataAcquisitionProjectId: $ctrl.projectId,
             // masterId: $ctrl.masterId,
             scriptUuid: $ctrl.scripts[index].uuid,
             fileName: file.name
           });
+          $ctrl.scriptAttachmentMetadata[index] = metadata;
+          console.log($ctrl.scriptAttachmentMetadata);
           return ScriptAttachmentUploadService
             .uploadScriptAttachment(file, metadata);
         };
+        $ctrl.selectedFile = file;
+        if(!$ctrl.scriptAttachmentMetadata[index]) {
+          $ctrl.scriptAttachmentMetadata[index] = {fileName: ''};
+        }
+        $ctrl.scriptAttachmentMetadata[index]['fileName'] = file.name;
+        $ctrl.currentForm['filename_' + index].$setDirty();
+        $ctrl.currentForm['filename_' + index].$setValidity(
+          'valid', true);
+        $ctrl.currentForm['filename_' + index].$setValidity(
+          'unique', true);
 
-        var dialogConfig = {
-          scriptAttachmentMetadata: null,
-          uploadCallback: scriptAttachmentUpload,
-          scriptTitle: $ctrl.scripts[index].title,
-          labels: getDialogLabels(index)
-        };
 
-        ScriptAttachmentDialogService
-          .showDialog(dialogConfig, event)
-          .then(function() {
-            $ctrl.loadScriptAttachments();
+          scriptAttachmentUpload($ctrl.selectedFile)
+            .then($ctrl.onSavedSuccessfully)
+            .catch($ctrl.onUploadFailed);
+
+        $ctrl.loadScriptAttachments();
+      };
+      $ctrl.onSavedSuccessfully = function() {
+        $mdDialog.hide($ctrl.scriptAttachmentMetadata);
+        SimpleMessageToastService.openSimpleMessageToast(
+          'attachment.attachment-saved-toast',
+          {
+            filename: $ctrl.selectedFile.name
           });
       };
 
+      $ctrl.onUploadFailed = function(response) {
+        if (response.invalidFile) {
+          SimpleMessageToastService.openAlertMessageToast(
+            'attachment.error.file-not-found',
+            {
+              filename: $ctrl.selectedFile.name
+            });
+          $ctrl.currentForm['filename_' + $ctrl.currentScriptIndex].$setValidity(
+            'valid', false);
+        }
+        if (response.errors && response.errors.length > 0) {
+          SimpleMessageToastService.openAlertMessageToast(
+            response.errors[0].message,
+            {
+              filename: $ctrl.selectedFile.name
+            });
+          $ctrl.currentForm['filename_' + $ctrl.currentScriptIndex].$setValidity(
+            'unique', false);
+        }
+      };
       $ctrl.deleteScriptAttachment = function(attachment, index, dialog) {
         if (dialog) {
           CommonDialogsService
