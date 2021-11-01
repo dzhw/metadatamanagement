@@ -185,7 +185,7 @@
           var metadata = _.extend({}, scriptAttachmentMetadata, {
             analysisPackageId: $ctrl.packageId,
             dataAcquisitionProjectId: $ctrl.projectId,
-            masterId: $ctrl.masterId,
+            // masterId: $ctrl.masterId,
             scriptUuid: $ctrl.scripts[index].uuid,
             fileName: file.name
           });
