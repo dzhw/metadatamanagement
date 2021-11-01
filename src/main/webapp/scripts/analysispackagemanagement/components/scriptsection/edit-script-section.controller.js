@@ -1,4 +1,4 @@
-/* globals _ */
+/* globals _, document */
 (function() {
     'use strict';
 
@@ -10,7 +10,6 @@
       $mdDialog,
       SimpleMessageToastService,
       ScriptSoftwarePackagesResource,
-      // ScriptAttachmentDialogService,
       ScriptAttachmentUploadService,
       ScriptAttachmentResource
     ) {
@@ -47,10 +46,11 @@
 
       var getScriptAttachmentMetadata = function() {
         _.forEach($ctrl.scripts, function(value, index) {
-          var result = _.filter($ctrl.scriptAttachments, function(item) {
-            return item.scriptUuid === value.uuid;
+          _.filter($ctrl.scriptAttachments, function(item) {
+            if (item.scriptUuid === value.uuid) {
+              $ctrl.scripts[index].scriptAttachmentMetadata = item;
+            }
           });
-          $ctrl.scriptAttachmentMetadata[index] = result[0];
         });
       };
 
@@ -118,9 +118,11 @@
           },
           softwarePackage: '',
           softwarePackageVersion: '',
-          usedLanguage: ''
+          usedLanguage: '',
+          scriptAttachmentMetadata: {
+            fileName: ''
+          }
         });
-        $ctrl.scriptAttachmentMetadata.push({fileName: ''});
       };
 
       $ctrl.searchLanguages = function(searchText) {
@@ -182,41 +184,38 @@
             }
           });
       };
-
-      $ctrl.addScriptAttachment = function(file, index, event) {
-        console.log(file);
+      $ctrl.addScriptAttachmentButton = function(index) {
+        angular.element(
+          document
+            .querySelector('input[name="filename_' + index + '"]'))
+          .click();
+      };
+      $ctrl.addScriptAttachment = function(file, index) {
         $ctrl.currentScriptIndex = index;
         var scriptAttachmentUpload = function(file) {
           var metadata = _.extend({}, {
             analysisPackageId: $ctrl.packageId,
             dataAcquisitionProjectId: $ctrl.projectId,
-            // masterId: $ctrl.masterId,
             scriptUuid: $ctrl.scripts[index].uuid,
             fileName: file.name
           });
-          $ctrl.scriptAttachmentMetadata[index] = metadata;
-          console.log($ctrl.scriptAttachmentMetadata);
+          $ctrl.scripts[index].scriptAttachmentMetadata = metadata;
           return ScriptAttachmentUploadService
             .uploadScriptAttachment(file, metadata);
         };
         $ctrl.selectedFile = file;
-        if(!$ctrl.scriptAttachmentMetadata[index]) {
-          $ctrl.scriptAttachmentMetadata[index] = {fileName: ''};
-        }
-        $ctrl.scriptAttachmentMetadata[index]['fileName'] = file.name;
+
         $ctrl.currentForm['filename_' + index].$setDirty();
-        $ctrl.currentForm['filename_' + index].$setValidity(
-          'valid', true);
-        $ctrl.currentForm['filename_' + index].$setValidity(
-          'unique', true);
+        $ctrl.currentForm['filename_' + index]
+          .$setValidity('valid', true);
+        $ctrl.currentForm['filename_' + index]
+          .$setValidity('unique', true);
 
-
-          scriptAttachmentUpload($ctrl.selectedFile)
-            .then($ctrl.onSavedSuccessfully)
-            .catch($ctrl.onUploadFailed);
-
-        $ctrl.loadScriptAttachments();
+        scriptAttachmentUpload($ctrl.selectedFile)
+          .then($ctrl.onSavedSuccessfully)
+          .catch($ctrl.onUploadFailed);
       };
+
       $ctrl.onSavedSuccessfully = function() {
         $mdDialog.hide($ctrl.scriptAttachmentMetadata);
         SimpleMessageToastService.openSimpleMessageToast(
@@ -224,6 +223,7 @@
           {
             filename: $ctrl.selectedFile.name
           });
+        $ctrl.loadScriptAttachments();
       };
 
       $ctrl.onUploadFailed = function(response) {
@@ -233,8 +233,8 @@
             {
               filename: $ctrl.selectedFile.name
             });
-          $ctrl.currentForm['filename_' + $ctrl.currentScriptIndex].$setValidity(
-            'valid', false);
+          $ctrl.currentForm['filename_' + $ctrl.currentScriptIndex]
+            .$setValidity('valid', false);
         }
         if (response.errors && response.errors.length > 0) {
           SimpleMessageToastService.openAlertMessageToast(
@@ -242,10 +242,11 @@
             {
               filename: $ctrl.selectedFile.name
             });
-          $ctrl.currentForm['filename_' + $ctrl.currentScriptIndex].$setValidity(
-            'unique', false);
+          $ctrl.currentForm['filename_' + $ctrl.currentScriptIndex]
+            .$setValidity('unique', false);
         }
       };
+
       $ctrl.deleteScriptAttachment = function(attachment, index, dialog) {
         if (dialog) {
           CommonDialogsService
@@ -259,11 +260,15 @@
                   }
                 );
                 $ctrl.scriptAttachments.splice(index, 1);
+                delete $ctrl.scripts[index].scriptAttachmentMetadata;
+                $ctrl.loadScriptAttachments();
               });
             });
         } else {
           attachment.$delete();
           $ctrl.scriptAttachments.splice(index, 1);
+          delete $ctrl.scripts[index].scriptAttachmentMetadata;
+          $ctrl.loadScriptAttachments();
         }
       };
     }

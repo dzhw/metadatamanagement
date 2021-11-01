@@ -36,11 +36,12 @@ angular.module('metadatamanagementApp').config(
             'software-package': 'Software Package'
           },
           'script-attachments': {
-            'add-attachment-tooltip': 'Click to add a new document to this analysis package.',
+            'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
+            'add-attachment-tooltip': 'Click to add a new document to this script.',
             'edit-attachment-tooltip': 'Click to edit the metadata for script "{{ filename }}".',
             'length-attachment-tooltip': 'There must be no more than one attachment per script.',
             'table-title': 'Documents related to this script',
-            'delete-attachment-tooltip': 'Click to delete document "{{ filename }}"!',
+            'delete-attachment-tooltip': 'Click to delete this document from this script!',
             'create-title': 'Add new Document to script "{{ scriptTitle }}"',
             'file': 'Add File',
             'save-analysis-package-before-adding-attachment': 'The analysis package has to be saved to enable attaching documents.',
@@ -181,6 +182,11 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'error': {
+          'script-attachment-metadata': {
+            'script-uuid': {
+              'not-unique': 'A file with this script uuid already exists.'
+            }
+          },
           'analysis-package': {
             'annotations': {
               'i18n-string-size': 'The max length of the annotations is 2048 signs.'

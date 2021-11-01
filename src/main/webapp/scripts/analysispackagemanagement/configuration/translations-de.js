@@ -36,11 +36,12 @@ angular.module('metadatamanagementApp').config(
             'script-version': 'Version des Softwarepaketes'
           },
           'script-attachments': {
-            'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Analysepaket hinzuzufügen.',
+            'attachment-deleted-toast': 'Datei "{{ filename }}" wurde gelöscht!',
+            'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Skript hinzuzufügen.',
             'edit-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu bearbeiten.',
             'length-attachment-tooltip': 'Es darf nicht mehr als eine Datei pro Skript vorhanden sein.',
             'table-title': 'Materialien zu diesem Skript',
-            'delete-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu löschen!',
+            'delete-attachment-tooltip': 'Klicken, um die Datei aus diesem Skript zu löschen!',
             'create-title': 'Neue Datei zu Skript "{{ scriptTitle }}" hinzufügen',
             'file': 'Datei hinzufügen',
             'save-analysis-package-before-adding-attachment': 'The analysis package has to be saved to enable attaching documents.',
@@ -182,6 +183,11 @@ angular.module('metadatamanagementApp').config(
           }
         },
         'error': {
+          'script-attachment-metadata': {
+            'script-uuid': {
+              'not-unique': 'Eine Datei mit dieser Skript Uuid existiert bereits,'
+            }
+          },
           'analysis-package': {
             'annotations': {
               'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
