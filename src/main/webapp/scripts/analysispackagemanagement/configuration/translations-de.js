@@ -185,7 +185,8 @@ angular.module('metadatamanagementApp').config(
         'error': {
           'script-attachment-metadata': {
             'script-uuid': {
-              'not-unique': 'Eine Datei mit dieser Skript Uuid existiert bereits,'
+              'not-unique': 'Eine Datei mit dieser Skript Uuid existiert bereits,',
+              '.not-exists': 'Diese Skript Uuid extistiert nicht.'
             }
           },
           'analysis-package': {
