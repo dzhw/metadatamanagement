@@ -183,7 +183,8 @@ angular.module('metadatamanagementApp')
                     }],
                     institutions: [],
                     sponsors: [],
-                    scripts: []
+                    scripts: [],
+                    analysisDataPackages: []
                   });
                   ctrl.currentInstitutions = new Array(1);
                   ctrl.currentSponsors = new Array(1);

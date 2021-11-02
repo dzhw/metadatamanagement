@@ -2,16 +2,16 @@
   'use strict';
 
   var Component = {
-    controller: 'listDataPackageController',
+    controller: 'customDataPackageController',
     templateUrl: 'scripts/analysispackagemanagement/' +
-      'components/listdatapackage/list-data-package.html.tmpl',
+      'components/customdatapackage/custom.html.tmpl',
     bindings: {
       currentForm: '<',
-      packages: '='
+      package: '='
     }
   };
 
   angular
     .module('metadatamanagementApp')
-    .component('listDataPackageComponent', Component);
+    .component('customDataPackageComponent', Component);
 })();
