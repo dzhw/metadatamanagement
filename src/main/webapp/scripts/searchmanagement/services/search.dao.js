@@ -5,6 +5,7 @@
 angular.module('metadatamanagementApp').service('SearchDao',
   function(ElasticSearchClient, CleanJSObjectService, Principal,
            LanguageService, DataPackageIdBuilderService,
+           AnalysisPackageIdBuilderService,
            SearchHelperService, clientId) {
 
     var addAdditionalShouldQueries = function(elasticsearchType, query,
@@ -88,6 +89,34 @@ angular.module('metadatamanagementApp').service('SearchDao',
               'concepts.tags.de.ngrams', queryTerm, germanMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'concepts.tags.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'id.ngrams', queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'projectContributors.firstName.ngrams',
+              queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'projectContributors.middleName.ngrams',
+              queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'projectContributors.lastName.ngrams',
+              queryTerm, standardMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'description.de.ngrams', queryTerm, germanMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'description.en.ngrams', queryTerm, englishMinorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tags.de', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'tags.en', queryTerm, englishMajorBoost));
+            break;
+
+          case 'analysis_packages':
+            boolQuery.should.push(createConstantScoreQuery(
+              'title.de.ngrams', queryTerm, germanMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'title.en.ngrams', queryTerm, englishMajorBoost));
+            boolQuery.should.push(createConstantScoreQuery(
+              'accessWays.ngrams', queryTerm, standardSuperBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
@@ -292,7 +321,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
     };
 
     var applyFetchDataWhereUserIsDataProviderFilter = function(query,
-      elasticSearchType) {
+                                                               elasticSearchType) {
       if (_.includes(['related_publications', 'concepts'], elasticSearchType)) {
         return;
       }
@@ -464,7 +493,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         var filterToUse;
 
         if (_.includes(['related_publications', 'concepts'],
-        elasticsearchType)) {
+          elasticsearchType)) {
           filterToUse = stripVersionSuffixFromFilters(filter);
         } else {
           filterToUse = filter;
@@ -474,8 +503,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
           !SearchHelperService.containsDomainObjectFilter(filterToUse)) {
           dataPackageId = DataPackageIdBuilderService
             .buildDataPackageId(dataAcquisitionProjectId);
-          // analysisPackageId = AnalysisPackageIdBuilderService
-          //   .buildAnalysisPackageId(dataAcquisitionProjectId);
+          analysisPackageId = AnalysisPackageIdBuilderService
+            .buildAnalysisPackageId(dataAcquisitionProjectId);
           if (!query.body.query.bool.filter) {
             query.body.query.bool.filter = [];
           }
@@ -489,10 +518,12 @@ angular.module('metadatamanagementApp').service('SearchDao',
               }, {
                 'term': {
                   'dataPackageIds': dataPackageId,
+                  'analysisPackageIds': analysisPackageId
                 }
               }, {
                 'term': {
                   'dataPackages.id': dataPackageId,
+                  'analysisPackages.id': analysisPackageId
                 }
               }]
             }
