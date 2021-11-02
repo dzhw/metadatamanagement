@@ -3,6 +3,8 @@ package eu.dzhw.fdz.metadatamanagement.authmanagement.config;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.Http401UnauthorizedEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtDecoders;
 
 /**
  * TODO add documentation.
@@ -17,6 +21,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class Oauth2ResourceServerConfiguration extends WebSecurityConfigurerAdapter {
+
+
+  @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
+  private String issuerUri;
 
   @Autowired
   private Http401UnauthorizedEntryPoint unauthorizedEntryPoint;
@@ -91,5 +99,10 @@ public class Oauth2ResourceServerConfiguration extends WebSecurityConfigurerAdap
             "/api/search/**/_mget",
             "/api/search/**/_count"
       );
+  }
+
+  @Bean
+  public JwtDecoder jwtDecoder() {
+    return JwtDecoders.fromIssuerLocation(this.issuerUri);
   }
 }
