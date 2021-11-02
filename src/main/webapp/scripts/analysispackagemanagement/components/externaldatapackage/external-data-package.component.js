@@ -7,7 +7,8 @@
       'components/externaldatapackage/external.html.tmpl',
     bindings: {
       currentForm: '<',
-      package: '='
+      package: '=',
+      index: '<'
     }
   };
 
