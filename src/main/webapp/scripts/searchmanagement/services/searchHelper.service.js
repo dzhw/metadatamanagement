@@ -4,8 +4,8 @@
 angular.module('metadatamanagementApp').factory(
   'SearchHelperService',
   function(CleanJSObjectService, Principal, LanguageService) {
-    var domainObjectFilterNames = ['data-package', 'analysis-package','survey', 'data-set',
-      'instrument', 'variable', 'question'];
+    var domainObjectFilterNames = ['data-package', 'analysis-package','survey',
+      'data-set', 'instrument', 'variable', 'question'];
 
     var aggregationMapping = {
       'data_packages': {
@@ -41,13 +41,6 @@ angular.module('metadatamanagementApp').factory(
         },
         'institutions': {
           attribute: 'institutions',
-          i18n: true,
-          min_doc_count: 1
-        }
-      },
-      'analysis_packages': {
-        'related-publications': {
-          attribute: 'related-publications',
           i18n: true,
           min_doc_count: 1
         }
@@ -88,13 +81,6 @@ angular.module('metadatamanagementApp').factory(
         },
         'institutions': {
           attribute: 'institutions',
-          i18n: true,
-          concatMultipleWithOr: false
-        }
-      },
-      'analysis_packages': {
-        'related-publications': {
-          attribute: 'related-publications',
           i18n: true,
           concatMultipleWithOr: false
         }
@@ -210,6 +196,7 @@ angular.module('metadatamanagementApp').factory(
         'study-series-de': 'dataPackages.studySeries.de',
         'study-series-en': 'dataPackages.studySeries.en',
         'data-package': 'dataPackageIds',
+        'analysis-package': 'analysisPackageIds',
       },
       'concepts': {
         'data-package': 'dataPackages.id',
@@ -267,10 +254,14 @@ angular.module('metadatamanagementApp').factory(
         },
         'analysis_packages': {
           de: [
-            '_score'
+            '_score',
+            {'release.pinToStartPage': {order: 'desc'}},
+            {'release.lastDate': {order: 'desc'}}
           ],
           en: [
-            '_score'
+            '_score',
+            {'release.pinToStartPage': {order: 'desc'}},
+            {'release.lastDate': {order: 'desc'}}
           ]
         },
         'variables': {
@@ -342,13 +333,11 @@ angular.module('metadatamanagementApp').factory(
         'related_publications': {
           de: [
             '_score',
-            'analysisPackageId',
             {year: {order: 'desc'}},
             'authors.keyword'
           ],
           en: [
             '_score',
-            'analysisPackageId',
             {year: {order: 'desc'}},
             'authors.keyword'
           ]

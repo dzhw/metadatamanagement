@@ -321,7 +321,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
     };
 
     var applyFetchDataWhereUserIsDataProviderFilter = function(query,
-                                                               elasticSearchType) {
+      elasticSearchType) {
       if (_.includes(['related_publications', 'concepts'], elasticSearchType)) {
         return;
       }
@@ -389,6 +389,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         var query = {};
         query.preference = clientId;
         var dataPackageId;
+        var analysisPackageId;
 
         query.index = elasticsearchType;
         query.track_total_hits = true;
@@ -517,12 +518,18 @@ angular.module('metadatamanagementApp').service('SearchDao',
                 }
               }, {
                 'term': {
-                  'dataPackageIds': dataPackageId,
+                  'dataPackageIds': dataPackageId
+                }
+              }, {
+                'term': {
+                  'dataPackages.id': dataPackageId
+                }
+              }, {
+                'term': {
                   'analysisPackageIds': analysisPackageId
                 }
               }, {
                 'term': {
-                  'dataPackages.id': dataPackageId,
                   'analysisPackages.id': analysisPackageId
                 }
               }]
