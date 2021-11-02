@@ -491,7 +491,8 @@ public class DataAcquisitionProjectPostValidationResourceTest extends AbstractTe
     mockMvc.perform(post(API_DATA_ACQUISITION_PROJECTS_POST_VALIDATION_URI + "?version=1.0.0"))
         .andExpect(status().isOk()).andExpect(jsonPath("$.errors", hasSize(1)))
         .andExpect(jsonPath("$.errors[0].messageId", equalTo("data-acquisition"
-            + "-project-management.error.post-validation.project-has-no-publications")));
+            + "-project-management.error.post-validation."
+            + "project-must-have-exactly-one-publication")));
   }
 
   @Test

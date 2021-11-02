@@ -71,6 +71,7 @@ angular.module('metadatamanagementApp').config(
             'valid-related-publication-id': 'The Id of Publication have to be build up after the pattern: "pub-" + {IdFromCitavi} + "$".',
             'dataPackage-exists': 'There is no Data Package with RDC-ID "{{invalidValue}}"!',
             'analysisPackage-exists': 'There is no Analysis Package with RDC-ID "{{invalidValue}}"!',
+            'at-least-one-referenced-id': 'The publication must have at least one connection to a data package or to an analysis package.',
             'id': {
               'not-empty': 'The RDC-ID of the Publication must not be empty!',
               'size': 'The max length of the RDC-ID is 512 signs.',
@@ -110,9 +111,6 @@ angular.module('metadatamanagementApp').config(
             },
             'annotations': {
               'size': 'The max length of the annotations is 2048 signs.'
-            },
-            'data-package-ids': {
-              'not-empty': 'The publication must have at least one connection to a data package!'
             }
           }
         },
