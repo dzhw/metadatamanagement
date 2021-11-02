@@ -8,7 +8,6 @@ import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -26,14 +25,8 @@ public class AuthUser implements Serializable {
 
   private final String login;
   private final String password;
-  private final String firstName;
-  private final String lastName;
   private final String email;
-  private final boolean activated;
   private final String langKey;
-  private final String activationKey;
-  private final String resetKey;
-  private final LocalDateTime resetDate;
   private final boolean welcomeDialogDeactivated;
   private final Set<String> authorities;
 }
