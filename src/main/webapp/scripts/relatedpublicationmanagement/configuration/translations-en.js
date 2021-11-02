@@ -70,6 +70,7 @@ angular.module('metadatamanagementApp').config(
           'related-publication': {
             'valid-related-publication-id': 'The Id of Publication have to be build up after the pattern: "pub-" + {IdFromCitavi} + "$".',
             'dataPackage-exists': 'There is no Data Package with RDC-ID "{{invalidValue}}"!',
+            'analysisPackage-exists': 'There is no Analysis Package with RDC-ID "{{invalidValue}}"!',
             'id': {
               'not-empty': 'The RDC-ID of the Publication must not be empty!',
               'size': 'The max length of the RDC-ID is 512 signs.',

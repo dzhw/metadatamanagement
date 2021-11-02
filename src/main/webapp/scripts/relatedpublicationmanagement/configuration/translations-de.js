@@ -70,6 +70,7 @@ angular.module('metadatamanagementApp').config(
           'related-publication': {
             'valid-related-publication-id': 'Die Id einer Publikation muss dem Muster "pub-" + {IdAusCitavi} + "$".',
             'dataPackage-exists': 'Es gibt kein Datenpaket mit der FDZ-ID "{{invalidValue}}"!',
+            'analysisPackage-exists': 'Es gibt kein Analysepaket mit der FDZ-ID "{{invalidValue}}"!',
             'id': {
               'not-empty': 'Die FDZ-ID der Publikation darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
