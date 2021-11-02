@@ -86,6 +86,7 @@ angular.module('metadatamanagementApp').config(
           'surveys': 'Suchen Sie nach Erhebungen...',
           'data-sets': 'Suchen Sie nach Datensätzen...',
           'data-packages': 'Suchen Sie nach Datenpaketen...',
+          'analysis-packages': 'Suchen Sie nach Analysepaketen...',
           'related-publications': 'Suchen Sie nach Publikationen...',
           'instruments': 'Suchen Sie nach Instrumenten...',
           'concepts': 'Suchen Sie nach Konzepten...'
@@ -121,6 +122,7 @@ angular.module('metadatamanagementApp').config(
           'data_packages': 'Datenpakete',
           'data_packages-found': '{number} {number, plural, =0{Datenpakete} =1{Datenpaket} other{Datenpakete}} gefunden.',
           'data_packages-tooltip': 'Klicken, um nach Datenpaketen zu suchen',
+          'analysis_packages': 'Analysepakete',
           'all': 'Alle',
           'all-tooltip': 'Klicken, um nach allen Objekten zu suchen',
           'related_publications': 'Publikationen',
@@ -142,6 +144,7 @@ angular.module('metadatamanagementApp').config(
         },
         'filter': {
           'data-package': 'Datenpaket',
+          'analysis-package': 'Analysepaket',
           'concept': 'Konzept',
           'data-set': 'Datensatz',
           'question': 'Frage',
@@ -180,6 +183,7 @@ angular.module('metadatamanagementApp').config(
           },
           'input-label': {
             'data_packages': 'Filter für die Datenpaketsuche...',
+            'analysis_packages': 'Filter für die Analysepaketsuche...',
             'surveys': 'Filter für die Erhebungssuche...',
             'instruments': 'Filter für die Instrumentensuche...',
             'questions': 'Filter für die Fragensuche...',

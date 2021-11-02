@@ -87,6 +87,7 @@ angular.module('metadatamanagementApp').config(
           'surveys': 'Search for Surveys...',
           'data-sets': 'Search for Data Sets...',
           'data-packages': 'Search for Data Packages...',
+          'analysis-packages': 'Search for Analysis Packages...',
           'related-publications': 'Search for Publications...',
           'instruments': 'Search for Instruments...',
           'concepts': 'Search for Concepts...'
@@ -122,6 +123,7 @@ angular.module('metadatamanagementApp').config(
           'data_packages': 'Data Packages',
           'data_packages-found': '{number} {number, plural, =0{data packages} =1{data package} other{data packages}} found.',
           'data_packages-tooltip': 'Click to search for data packages',
+          'analysis_packages': 'Analysis Packages',
           'all': 'All',
           'all-tooltip': 'Click to search for all objects',
           'related_publications': 'Publications',
@@ -143,6 +145,7 @@ angular.module('metadatamanagementApp').config(
         },
         'filter': {
           'data-package': 'Data Package',
+          'analysis-package': 'Analysis Package',
           'concept': 'Concept',
           'data-set': 'Data Set',
           'question': 'Question',
@@ -181,6 +184,7 @@ angular.module('metadatamanagementApp').config(
           },
           'input-label': {
             'data_packages': 'Select filters for Study Search...',
+            'analysis_packages': 'Select filters for Analysis Search...',
             'concepts': 'Select filters for Concept Search...',
             'surveys': 'Select filters for Survey Search...',
             'instruments': 'Select filters for Instrument Search...',

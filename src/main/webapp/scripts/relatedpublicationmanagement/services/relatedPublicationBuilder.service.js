@@ -29,6 +29,8 @@ angular.module('metadatamanagementApp')
               getPropertyByKeyPattern(data, /^abstractSource.*$/i),
             dataPackageIds: CleanJSObjectService.removeWhiteSpace(
               getPropertyByKeyPattern(data, /^dataPackageIds.*$/i)),
+            analysisPackageIds: CleanJSObjectService.removeWhiteSpace(
+              getPropertyByKeyPattern(data, /^analysisPackageIds.*$/i)),
             sourceLink: getPropertyByKeyPattern(data, /^Online-Adresse$/i),
             publicationAbstract: getPropertyByKeyPattern(data, /^Abstract$/i)
             /* jshint +W069 */
