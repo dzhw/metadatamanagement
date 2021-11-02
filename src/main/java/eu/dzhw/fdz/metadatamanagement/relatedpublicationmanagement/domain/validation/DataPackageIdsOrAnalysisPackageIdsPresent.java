@@ -10,19 +10,19 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Checks that there is at most one publication per analysis package.
+ * Ensure that there is at least one dataPackageId or at least one analysisPackageId.
  */
 @Documented
-@Constraint(validatedBy = {AtMostOnePublicationPerAnalysisPackageValidator.class})
+@Constraint(validatedBy = {DataPackageIdsOrAnalysisPackageIdsPresentValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AtMostOnePublicationPerAnalysisPackage {
+public @interface DataPackageIdsOrAnalysisPackageIdsPresent {
 
   /**
    * Defines the default error message.
    */
   String message() default "related-publication-management.error."
-      + "related-publication.more-than-one-publication-per-analysis-package";
+      + "related-publication.at-least-one-referenced-id";
 
   /**
    * This contains groups.
