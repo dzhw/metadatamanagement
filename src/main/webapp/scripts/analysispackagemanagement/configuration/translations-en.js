@@ -10,6 +10,7 @@ angular.module('metadatamanagementApp').config(
             'additional-links': 'Additional Links',
             'analysisPackage': 'Analysis Package',
             'analysisPackages': 'Analysis Packages',
+            'data-packages': 'Data Packages',
             'annotations': 'Annotations',
             'authors': 'Authors',
             'data-curators': 'Datenkuratierung',
