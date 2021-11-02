@@ -70,6 +70,8 @@ angular.module('metadatamanagementApp').config(
           'related-publication': {
             'valid-related-publication-id': 'Die Id einer Publikation muss dem Muster "pub-" + {IdAusCitavi} + "$".',
             'dataPackage-exists': 'Es gibt kein Datenpaket mit der FDZ-ID "{{invalidValue}}"!',
+            'analysisPackage-exists': 'Es gibt kein Analysepaket mit der FDZ-ID "{{invalidValue}}"!',
+            'at-least-one-referenced-id': 'Die Publikation muss mindestens eine Verknüpfung zu einem Datenpaket oder einem Analysepaket haben.',
             'id': {
               'not-empty': 'Die FDZ-ID der Publikation darf nicht leer sein!',
               'size': 'Die Maximallänge der FDZ-ID ist 512 Zeichen.',
@@ -109,9 +111,6 @@ angular.module('metadatamanagementApp').config(
             },
             'annotations': {
               'size': 'Die Maximallänge der Anmerkungen zur Publikation ist 2048 Zeichen.'
-            },
-            'data-package-ids': {
-              'not-empty': 'Die Publikation muss mind. eine Verknüpfung zu einem Datenpaket haben!'
             }
           }
         },
