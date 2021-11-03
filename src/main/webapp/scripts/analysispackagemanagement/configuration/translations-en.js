@@ -179,6 +179,12 @@ angular.module('metadatamanagementApp').config(
             'title': {
               'de': 'Please enter the title of this analysis package in German.',
               'en': 'Please enter the title of this analysis package in English.'
+            },
+            'analysisDataPackages': {
+              'title': {
+                'de': 'Please enter the title of this data package in German.',
+                'en': 'Please enter the title of this data package in English.'
+              }
             }
           }
         },
@@ -239,6 +245,13 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'The title of the analysis package must not be empty!',
               'i18n-string-size': 'The max length of the analysis package title is 2048.',
               'i18n-string-entire-not-empty': 'The title of the analysis package must not be empty for all languages.'
+            },
+            'analysisDataPackages': {
+              'title': {
+                'not-null': 'The title of the data package must not be empty!',
+                'i18n-string-size': 'The max length of the data package title is 2048.',
+                'i18n-string-entire-not-empty': 'The title of the data package must not be empty for all languages.'
+              }
             }
           }
         }

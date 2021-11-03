@@ -180,6 +180,12 @@ angular.module('metadatamanagementApp').config(
             'title': {
               'de': 'Geben Sie den Titel des Analysepakets auf Deutsch ein.',
               'en': 'Geben Sie den Titel des Analysepakets auf Englisch ein.'
+            },
+            'analysisDataPackages': {
+              'title': {
+                'de': 'Geben Sie den Titel des Datenpakets auf Deutsch ein.',
+                'en': 'Geben Sie den Titel des Datenpakets auf Englisch ein.'
+              }
             }
           }
         },
@@ -239,6 +245,13 @@ angular.module('metadatamanagementApp').config(
               'not-null': 'Der Titel eines Analysepaket darf nicht leer sein!',
               'i18n-string-size': 'Die Maximallänge des Titels eines Analysepaket ist 2048 Zeichen.',
               'i18n-string-entire-not-empty': 'Der Titel eines Analysepaket muss in allen Sprachen vorhanden sein.'
+            },
+            'analysisDataPackages': {
+              'title': {
+                'not-null': 'Der Titel eines Datenpaket darf nicht leer sein!',
+                'i18n-string-size': 'Die Maximallänge des Titels eines Datenpaket ist 2048 Zeichen.',
+                'i18n-string-entire-not-empty': 'Der Titel eines Datenpaket muss in allen Sprachen vorhanden sein.'
+              }
             }
           }
         }
