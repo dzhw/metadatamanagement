@@ -55,23 +55,69 @@ public class UserApiService {
    * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
    */
   public List<UserApiResponseDto.UserDto> findAllByAuthoritiesContaining(
-      String role
+      final String role
   ) throws InvalidResponseException {
-    var results = restTemplate.getForEntity(
+    return this.doFindAllApiCall(
         String.format(
           "%s/jsonapi/user/user?filter[roles.id]={roleId}",
           authServerEndpoint
         ),
-        UserApiResponseDto.class,
         role
+    );
+  }
+
+  /**
+   * Find all the users whose login is like the provided {@code login} parameter or whose email is
+   * like the provided {@code email} parameter.
+   *
+   * @param login a "CONTAINS" search parameter for the user's login
+   * @param email a "CONTAINS" search parameter for the user's email
+   * @return a group of users whose login contains the {@code login} parameter or whose email
+   *         contains the {@code email} parameter
+   * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
+   */
+  public List<UserApiResponseDto.UserDto> findAllByLoginLikeOrEmailLike(
+      final String login,
+      final String email
+  ) throws InvalidResponseException {
+    return this.doFindAllApiCall(
+        String.format(
+          "%s/jsonapi/user/user"
+            // Create an OR group
+            + "?filter[or-group][group][conjunction]=OR"
+            // Add a name CONTAINS filter
+            + "&filter[name-filter][condition][path]=name"
+            + "&filter[name-filter][condition][operator]=CONTAINS"
+            + "&filter[name-filter][condition][value]={name}"
+            + "&filter[name-filter][condition][memberOf]=or-group"
+            // Add an email CONTAINS filter
+            + "&filter[email-filter][condition][path]=mail"
+            + "&filter[email-filter][condition][operator]=CONTAINS"
+            + "&filter[email-filter][condition][value]={email}"
+            + "&filter[email-filter][condition][memberOf]=or-group",
+          authServerEndpoint
+        ),
+        login,
+        email
+    );
+  }
+
+  private List<UserApiResponseDto.UserDto> doFindAllApiCall(
+      final String apiUri,
+      final Object... uriVariables
+  ) throws InvalidResponseException {
+    var results = restTemplate.getForEntity(
+        apiUri,
+        UserApiResponseDto.class,
+        uriVariables
     );
 
     if (results.getStatusCode() != HttpStatus.OK) {
       throw new InvalidResponseException(
-          String.format(
-              "Invalid Server status code received. Response Status: %s",
-              results.getStatusCode()
-          )
+        String.format(
+          "Invalid Server status code received. Response Status: %s",
+          results.getStatusCode()
+        )
       );
     }
 
