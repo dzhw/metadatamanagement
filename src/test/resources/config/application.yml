@@ -45,11 +45,16 @@ spring:
       rest:
         uris:
           - http://localhost:19234
+    security:
+      oauth2:
+        resourceserver:
+          jwt:
+            issuer-uri: http://localhost:8082
 mongock:
   change-logs-scan-package:
     - eu.dzhw.fdz.metadatamanagement.common.repository.changelogs
     - eu.dzhw.fdz.metadatamanagement.usermanagement.repository.changelogs
-    
+
 logging:
     level:
       root: warn
@@ -64,8 +69,13 @@ server:
 javers:
   algorithm: levenshtein_distance
   snapshots-cache-size: 0
-  
+
 metadatamanagement:
+  authmanagement:
+    server:
+      endpoint: http://localhost:8082
+      username: resource_server
+      password: password4resource_server
   ordermanagement:
     email: test@dzhw.eu
   projectmanagement:
