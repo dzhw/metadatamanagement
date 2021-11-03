@@ -26,7 +26,7 @@
         </md-button>
         <md-input-container md-is-error="!$ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$valid && ($ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$dirty || $ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$touched)">
           <label>{{ 'analysis-package-management.detail.label.data-packages' | translate}}</label>
-          <md-select ng-model="package.type" name="analysisDataPackageType_{{$index}}">
+          <md-select ng-model="package.type" name="analysisDataPackagesType_{{$index}}" required>
             <md-option ng-repeat="item in $ctrl.dataPackageList"
                        ng-value="item.type">
               {{ item[$ctrl.currentLanguage] }}

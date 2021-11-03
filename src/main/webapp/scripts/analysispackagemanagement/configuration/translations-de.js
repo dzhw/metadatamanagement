@@ -7,6 +7,12 @@ angular.module('metadatamanagementApp').config(
       'analysis-package-management': {
         'detail': {
           'label': {
+            'analysisDataPackages': {
+              'description': 'Datenpaketbeschreibung',
+              'annotations': 'Anmerkungen',
+              'dataSource': 'Datenquelle',
+              'dataSourceUrl': 'Link zur Datenquelle'
+            },
             'availabilityType': 'Zugangsstatus',
             'additional-links': 'Weiterführende Links',
             'analysisPackage': 'Analysepaket',
@@ -193,7 +199,20 @@ angular.module('metadatamanagementApp').config(
               'title': {
                 'de': 'Geben Sie den Titel des Datenpakets auf Deutsch ein.',
                 'en': 'Geben Sie den Titel des Datenpakets auf Englisch ein.'
-              }
+              },
+              'description': {
+                'de': 'Geben Sie eine Beschreibung des Datenpakets auf Deutsch ein.',
+                'en': 'Geben Sie eine Beschreibung des Datenpakets auf Englisch ein.'
+              },
+              'annotations': {
+                'de': 'Geben Sie zusätzliche Anmerkungen zum Datenpaket auf Deutsch ein.',
+                'en': 'Geben Sie zusätzliche Anmerkungen zum Datenpaket auf Englisch ein.'
+              },
+              'dataSource': {
+                'de': 'Geben Sie zusätzliche Datenquelle zum Datenpaket auf Deutsch ein.',
+                'en': 'Geben Sie zusätzliche Datenquelle zum Datenpaket auf Englisch ein.'
+              },
+              'dataSourceUrl': 'Geben Sie den Link zur Datenquelle ein.'
             }
           }
         },
@@ -264,7 +283,22 @@ angular.module('metadatamanagementApp').config(
                 'i18n-not-null': 'Der Zugangsstatus eines Datenpaket darf nicht leer sein!'
               },
               'analysisDataPackageType': {
-                'i18n-not-null': 'Der Typ eines Datenpaket darf nicht leer sein!'
+                'i18n-not-null': 'Der Typ eines Datenpaket darf nicht leer sein!',
+              },
+              'description': {
+                'i18n-string-not-empty': 'Die Beschreibung eines Datenpakets darf nicht leer sein!',
+                'i18n-string-size': 'Die Maximallänge der Beschreibung eines Datenpakets ist 2048 Zeichen.',
+                'i18n-string-entire-not-empty': 'Die Beschreibung eines Datenpakets muss in beiden Sprachen vorhanden sein.'
+              },
+              'annotations': {
+                'not-null': 'Die Anmerkung eines Datenpakets darf nicht leer sein!',
+                'i18n-string-size': 'Die Maximallänge der Anmerkungen eines Datenpakets ist 2048 Zeichen.',
+                'i18n-string-not-empty': 'Die Anmerkung eines Datenpakets muss in beiden Sprachen vorhanden sein.'
+              },
+              'dataSource': {
+                'i18n-string-not-empty': 'Die Datenquelle eines Datenpakets darf nicht leer sein!',
+                'i18n-string-size': 'Die Maximallänge der Datenquelle eines Datenpakets ist 512 Zeichen.',
+                'i18n-string-entire-not-empty': 'Die Anmerkung eines Datenquelle muss in beiden Sprachen vorhanden sein.'
               }
             }
           }

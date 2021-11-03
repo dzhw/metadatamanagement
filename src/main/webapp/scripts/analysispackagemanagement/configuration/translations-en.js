@@ -7,6 +7,12 @@ angular.module('metadatamanagementApp').config(
       'analysis-package-management': {
         'detail': {
           'label': {
+            'analysisDataPackages': {
+              'description': 'Data Package Description',
+              'annotations': 'Annotations',
+              'dataSource': 'Data Source',
+              'dataSourceUrl': 'Link of data source'
+            },
             'availabilityType': 'Availability Type',
             'additional-links': 'Additional Links',
             'analysisPackage': 'Analysis Package',
@@ -192,7 +198,20 @@ angular.module('metadatamanagementApp').config(
               'title': {
                 'de': 'Please enter the title of this data package in German.',
                 'en': 'Please enter the title of this data package in English.'
-              }
+              },
+              'description': {
+                'de': 'Enter a description of this data package in German.',
+                'en': 'Enter a description of this data package in English.'
+              },
+              'annotations': {
+                'de': 'Enter additional annotations for this data package in German.',
+                'en': 'Enter additional annotations for this data package in English.'
+              },
+              'dataSource': {
+                'de': 'Enter additional data source for this data package in German.',
+                'en': 'Enter additional data source for this data package in English.'
+              },
+              'dataSourceUrl': 'Enter the data source url.'
             }
           }
         },
@@ -265,6 +284,21 @@ angular.module('metadatamanagementApp').config(
               },
               'analysisDataPackageType': {
                 'i18n-not-null': 'The type of the data package must not be empty!'
+              },
+              'description': {
+                'i18n-string-not-empty': 'The description of the data package must not be empty!',
+                'i18n-string-size': 'The max length of the data package description is 2048.',
+                'i18n-string-entire-not-empty': 'The description of the data package must not be empty for all languages.'
+              },
+              'annotations': {
+                'i18n-string-not-empty': 'The annotations of the data package must not be empty!',
+                'i18n-string-size': 'The max length of the data package annotations is 2048.',
+                'i18n-string-entire-not-empty': 'The annotations of the data package must not be empty for all languages.'
+              },
+              'dataSource': {
+                'i18n-string-not-empty': 'The data source of the data package must not be empty!',
+                'i18n-string-size': 'The max length of the data package data source is 512.',
+                'i18n-string-entire-not-empty': 'The data source of the data package must not be empty for all languages.'
               }
             }
           }

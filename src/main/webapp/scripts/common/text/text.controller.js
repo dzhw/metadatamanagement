@@ -3,13 +3,18 @@
 
   function Controller() {
     var $ctrl = this;
+    $ctrl.controlName = '';
+
     $ctrl.upperCase = function(string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
     };
 
     $ctrl.$onInit = function() {
-      if($ctrl.name) {
-        $ctrl.translationKeyName = $ctrl.upperCase($ctrl.translationKeyName);
+      if ($ctrl.name) {
+        $ctrl.controlName = $ctrl.name + $ctrl
+          .upperCase($ctrl.translationKeyName);
+      } else {
+        $ctrl.controlName = $ctrl.translationKeyName;
       }
     };
   }
