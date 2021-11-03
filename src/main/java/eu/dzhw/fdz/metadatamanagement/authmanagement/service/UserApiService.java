@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A Service which handles all requests to the Auth Server's User API.
@@ -100,6 +101,41 @@ public class UserApiService {
         login,
         email
     );
+  }
+
+  /**
+   * Find all the users whose login is included in the {@code logins} parameters.
+   *
+   * @param logins a group of search parameters that will be used to try to find users whose
+   *               logins are included in the group
+   * @return a group of users whose login field is included in the {@code logins} search parameter
+   * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
+   */
+  public List<UserApiResponseDto.UserDto> findAllByLoginIn(Set<String> logins)
+      throws InvalidResponseException {
+
+    StringBuilder sb = new StringBuilder(
+        this.authServerEndpoint
+    )
+        .append(
+            "/jsonapi/user/user"
+              + "?filter[name-filter][condition][path]=name"
+              + "&filter[name-filter][condition][operator]=IN"
+        );
+
+    if (logins != null) {
+      var index = 0;
+      for (var login : logins) {
+        sb.append("&filter[name-filter][condition][value][")
+            .append(index)
+            .append("]=")
+            .append(login);
+
+        index++;
+      }
+    }
+
+    return doFindAllApiCall(sb.toString());
   }
 
   private List<UserApiResponseDto.UserDto> doFindAllApiCall(

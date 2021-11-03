@@ -5,6 +5,8 @@ import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidRe
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Set;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.greaterThan;
@@ -70,6 +72,23 @@ public class UserApiServiceTest extends AbstractTest {
   public void findAllByLoginLikeOrEmailLike_NoResults() throws InvalidResponseException {
     var results = userApiService.findAllByLoginLikeOrEmailLike("NOT_LOGIN", "NOT_EMAIL");
 
+    assertThat(results.size(), is(0));
+  }
+
+  @Test
+  public void findAllByLoginIn_WithResults() throws InvalidResponseException {
+    var results = userApiService.findAllByLoginIn(Set.of("resource_server"));
+    assertThat(results.size(), greaterThan(0));
+  }
+
+  @Test
+  public void findAllByLoginIn_NoResults() throws InvalidResponseException {
+    // No logins test
+    var results = userApiService.findAllByLoginIn(Set.of());
+    assertThat(results.size(), is(0));
+
+    // Non-existent login test
+    results = userApiService.findAllByLoginIn(Set.of("NON_ROLE"));
     assertThat(results.size(), is(0));
   }
 }
