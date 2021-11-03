@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').config(
       'analysis-package-management': {
         'detail': {
           'label': {
+            'availabilityType': 'Zugangsstatus',
             'additional-links': 'Weiterführende Links',
             'analysisPackage': 'Analysepaket',
             'analysisPackages': 'Analysepakete',
@@ -145,6 +146,13 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'hints': {
+            'data-package': 'Bitte wählen Sie ein Datenpaket.',
+            'availabilityType': {
+              'choose': 'Bitte wählen Sie ein Zugangsstatus.',
+              'open': 'Keine oder nur geringfügige Zugangsbeschränkungen (z.B. Zustimmung zu einfachen Nutzungsbedingungen).',
+              'restricted': 'Irgendeine höhergradige Form des beschränkten Zugangs (Registierung muss vor dem Datenzugang erfolgen; Ein Antragsprozess muss vor dem Datenzugang durchlaufen werden; sehr restriktive Nutzungsbedingungen).',
+              'none': 'nicht zugänglich.'
+            },
             'annotations': {
               'de': 'Geben Sie zusätzliche Anmerkungen zum Analysepaket auf Deutsch ein.',
               'en': 'Geben Sie zusätzliche Anmerkungen zum Analysepaket auf Englisch ein.'
@@ -251,6 +259,12 @@ angular.module('metadatamanagementApp').config(
                 'not-null': 'Der Titel eines Datenpaket darf nicht leer sein!',
                 'i18n-string-size': 'Die Maximallänge des Titels eines Datenpaket ist 2048 Zeichen.',
                 'i18n-string-entire-not-empty': 'Der Titel eines Datenpaket muss in allen Sprachen vorhanden sein.'
+              },
+              'availabilityType': {
+                'i18n-not-null': 'Der Zugangsstatus eines Datenpaket darf nicht leer sein!'
+              },
+              'analysisDataPackageType': {
+                'i18n-not-null': 'Der Typ eines Datenpaket darf nicht leer sein!'
               }
             }
           }

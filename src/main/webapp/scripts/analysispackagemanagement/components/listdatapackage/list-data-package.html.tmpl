@@ -24,19 +24,24 @@
           </md-tooltip>
           <md-icon md-font-set="material-icons">delete_forever</md-icon>
         </md-button>
-        <md-input-container>
+        <md-input-container md-is-error="!$ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$valid && ($ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$dirty || $ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$touched)">
           <label>{{ 'analysis-package-management.detail.label.data-packages' | translate}}</label>
-          <md-select ng-model="package.type">
+          <md-select ng-model="package.type" name="analysisDataPackageType_{{$index}}">
             <md-option ng-repeat="item in $ctrl.dataPackageList"
                        ng-value="item.type">
               {{ item[$ctrl.currentLanguage] }}
             </md-option>
           </md-select>
+          <div class="fdz-input-hint" ng-if="!$ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$dirty && !$ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$touched">
+            {{'analysis-package-management.edit.hints.data-package' | translate}}
+          </div>
+          <div multiple ng-messages="$ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$error">
+            <div ng-message="required">{{'analysis-package-management.error.analysis-package.analysisDataPackages.analysisDataPackageType.i18n-not-null' |
+            translate}}
+            </div>
+          </div>
         </md-input-container>
       </div>
-      <div layout="row"
-           layout-gt-sm="row"
-           class="ms-flex">
 <!--        <custom-data-package-component-->
 <!--          ng-if="package.type === 'customDataPackage'"-->
 <!--          current-form="$ctrl.currentForm"-->
@@ -45,14 +50,12 @@
         <external-data-package-component
           ng-if="package.type === 'externalDataPackage'"
           current-form="$ctrl.currentForm" package="package"
-          index="$index"
-          class="df fg"></external-data-package-component>
+          index="$index"></external-data-package-component>
 <!--        <fdz-data-package-component-->
 <!--          ng-if="package.type === 'dataPackage'"-->
 <!--          current-form="$ctrl.currentForm"-->
 <!--          package="package"-->
 <!--          class="df fg"></fdz-data-package-component>-->
-      </div>
     </div>
   </md-card-content>
   <md-card-actions layout="row" layout-align="begin center"

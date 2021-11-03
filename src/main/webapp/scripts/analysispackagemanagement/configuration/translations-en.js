@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').config(
       'analysis-package-management': {
         'detail': {
           'label': {
+            'availabilityType': 'Availability Type',
             'additional-links': 'Additional Links',
             'analysisPackage': 'Analysis Package',
             'analysisPackages': 'Analysis Packages',
@@ -144,6 +145,13 @@ angular.module('metadatamanagementApp').config(
             }
           },
           'hints': {
+            'data-package': 'Please choose a data package.',
+            'availabilityType': {
+              'choose': 'Please choose an availability type.',
+              'open': 'No or minor restrictions for access (e.g. acceptance of simple terms of use).',
+              'restricted': 'Some kind of major restriction for access (e.g. registration before access is granted; application processes has to be passed before access is granted; very restrictive terms of use).',
+              'none': 'Not accessible.'
+            },
             'authors': {
               'first-name': 'Enter the first name of this author.',
               'middle-name': 'If available enter the middle-name of this author.',
@@ -251,6 +259,12 @@ angular.module('metadatamanagementApp').config(
                 'not-null': 'The title of the data package must not be empty!',
                 'i18n-string-size': 'The max length of the data package title is 2048.',
                 'i18n-string-entire-not-empty': 'The title of the data package must not be empty for all languages.'
+              },
+              'availabilityType': {
+                'i18n-not-null': 'The availability type of the data package must not be empty!'
+              },
+              'analysisDataPackageType': {
+                'i18n-not-null': 'The type of the data package must not be empty!'
               }
             }
           }

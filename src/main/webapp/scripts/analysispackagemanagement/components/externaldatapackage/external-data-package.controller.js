@@ -2,11 +2,29 @@
     'use strict';
 
     function Controller(
-
+      LanguageService
     ) {
       var $ctrl = this;
-
+      $ctrl.currentLanguage = LanguageService.getCurrentInstantly();
+      $ctrl.availabilityType = {
+        openAccess: {
+          type: 'OPEN_ACCESS',
+          de: 'Open Access',
+          en: 'open-access'
+        },
+        restrictedAccess: {
+          type: 'RESTRICTED_ACCESS',
+          de: 'beschränkter Zugang',
+          en: 'restricted access'
+        },
+        notAccessible: {
+          type: 'NOT_ACCESSIBLE',
+          de: 'nicht zugänglich',
+          en: 'not accessible'
+        }
+      };
       $ctrl.$onInit = function() {
+        $ctrl.package.availabilityType = $ctrl.package.availabilityType || {};
       };
     }
 
