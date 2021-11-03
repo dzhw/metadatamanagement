@@ -37,18 +37,21 @@
       <div layout="row"
            layout-gt-sm="row"
            class="ms-flex">
-        <custom-data-package-component
-          ng-if="package.type === 'customDataPackage'"
-          current-form="$ctrl.currentForm"
-          package="package"></custom-data-package-component>
+<!--        <custom-data-package-component-->
+<!--          ng-if="package.type === 'customDataPackage'"-->
+<!--          current-form="$ctrl.currentForm"-->
+<!--          package="package"-->
+<!--          class="df fg"></custom-data-package-component>-->
         <external-data-package-component
           ng-if="package.type === 'externalDataPackage'"
           current-form="$ctrl.currentForm" package="package"
-          index="$index"></external-data-package-component>
-        <fdz-data-package-component
-          ng-if="package.type === 'dataPackage'"
-          current-form="$ctrl.currentForm"
-          package="package"></fdz-data-package-component>
+          index="$index"
+          class="df fg"></external-data-package-component>
+<!--        <fdz-data-package-component-->
+<!--          ng-if="package.type === 'dataPackage'"-->
+<!--          current-form="$ctrl.currentForm"-->
+<!--          package="package"-->
+<!--          class="df fg"></fdz-data-package-component>-->
       </div>
     </div>
   </md-card-content>

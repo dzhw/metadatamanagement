@@ -331,6 +331,10 @@
     overflow-y: auto!important;
   }
 
+  .fg {
+    flex-grow: 1;
+  }
+
   // TODO: Check if this is necessary. Copied from style tags
   .ms-flex {
     -ms-flex: auto!important;

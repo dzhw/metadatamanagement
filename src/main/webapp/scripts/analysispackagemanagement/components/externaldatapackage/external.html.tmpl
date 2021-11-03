@@ -1,4 +1,7 @@
-  <title-component
+<input hidden
+       name="analysisDataPackageType_{{$ctrl.index}}"
+       ng-model="package.type">
+<title-component
     index="$ctrl.index"
     name="analysisDataPackages"
     not-null="true"
@@ -6,4 +9,5 @@
     translation-key-package="analysis-package"
     translation-key-name="title"
     max-length="2048"
-    content="package[$index].title"></title-component>
+    content="package.title"
+    class="df fg"></title-component>
