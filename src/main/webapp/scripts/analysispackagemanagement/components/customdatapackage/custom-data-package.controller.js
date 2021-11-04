@@ -18,7 +18,7 @@
           en: 'not accessible'
         }
       ];
-      $ctrl.accessWay = ['Download', 'Onsite', "Remote-Desktop"];
+      $ctrl.accessWay = ['Download', 'Onsite', 'Remote-Desktop'];
       $ctrl.$onInit = function() {
         $ctrl.package.accessWay = $ctrl.package.accessWay || '';
       };

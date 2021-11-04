@@ -34,7 +34,7 @@
         }
       });
       $timeout(function() {
-        $document.find('input[name="linkUrl_' +
+        $document.find('input[name="'+ $ctrl.name + 'Url' + $ctrl.index + '_' +
           ($ctrl.content.length - 1) + '"]')
           .focus();
       }, 200);
