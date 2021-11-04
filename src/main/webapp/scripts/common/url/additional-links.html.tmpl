@@ -9,7 +9,7 @@
   <md-divider></md-divider>
   <md-card-content style="padding-bottom: 0px; padding-left: 0px;">
     <div id="move-link-container" layout="row"
-         ng-repeat="link in $ctrl.content.additionalLinks track by $index">
+         ng-repeat="link in $ctrl.content track by $index">
       <md-button class="md-primary md-icon-button"
                  ng-click="$ctrl.deleteLink($index)"
                  style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
@@ -113,7 +113,7 @@
     <md-button class="md-primary md-raised md-icon-button"
                id="move-link-down-button"
                ng-click="$ctrl.moveCurrentLinkDown()"
-               ng-disabled="$ctrl.currentLinkIndex == null || $ctrl.currentLinkIndex === $ctrl.analysisPackage.additionalLinks.length - 1">
+               ng-disabled="$ctrl.currentLinkIndex == null || $ctrl.currentLinkIndex === $ctrl.content.length - 1">
       <md-tooltip md-autohide="true" md-direction="bottom"
                   md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
         {{'analysis-package-management.edit.move-link-down-tooltip' | translate}}

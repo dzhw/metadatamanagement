@@ -45,17 +45,6 @@
 <div layout="row"
      layout-gt-sm="row"
      class="ms-flex">
-  <url-component
-    index="$ctrl.index"
-    not-null="false"
-    current-form="$ctrl.currentForm"
-    max-length="2048"
-    content="$ctrl.package"
-    class="df fg"></url-component>
-</div>
-<div layout="row"
-     layout-gt-sm="row"
-     class="ms-flex">
   <md-input-container flex="50"
                       md-is-error="!$ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$valid && ($ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$dirty || $ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$touched)"
                       class="ml28 mr8 ms-flex">
@@ -114,4 +103,17 @@
       </div>
     </div>
   </md-input-container>
+</div>
+
+<div layout="row"
+     layout-gt-sm="row"
+     class="ms-flex">
+  <url-component
+    index="$ctrl.index"
+    not-null="false"
+    current-form="$ctrl.currentForm"
+    max-length="2048"
+    content="$ctrl.package.dataSources",
+    template-url="scripts/common/url/url-with-index.html.tmpl"
+    class="df fg"></url-component>
 </div>

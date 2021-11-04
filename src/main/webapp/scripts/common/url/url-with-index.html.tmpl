@@ -12,7 +12,7 @@
   <label>{{'analysis-package-management.edit.label.additional-links.url' | translate}}</label>
   <input type="url" md-no-asterisk
          name="analysisDataPackagesUrl_{{$index}}" md-maxlength="2000"
-         ng-model="$ctrl.content.dataSources[$ctrl.index].url" autocomplete="off">
+         ng-model="$ctrl.content[$ctrl.index].url" autocomplete="off">
   <div
     class="fdz-input-hint"
     ng-if="!$ctrl.currentForm['analysisDataPackagesUrl_' + $index].$dirty && !$ctrl.currentForm['analysisDataPackagesUrl_' + $index].$touched">
@@ -34,7 +34,7 @@
     ({{'global.in-german' | translate}})</label>
   <input md-no-asterisk name="analysisDataPackagesDisplayTextDe_{{$index}}"
          md-maxlength="512"
-         ng-model="$ctrl.content.dataSources[$ctrl.index].displayText.de" autocomplete="off">
+         ng-model="$ctrl.content[$ctrl.index].displayText.de" autocomplete="off">
   <div
     class="fdz-input-hint"
     ng-if="!$ctrl.currentForm['analysisDataPackagesDisplayTextDe_' + $index].$dirty && !$ctrl.currentForm['analysisDataPackagesDisplayTextDe_' + $index].$touched">
@@ -53,7 +53,7 @@
     ({{'global.in-english' | translate}})</label>
   <input md-no-asterisk name="analysisDataPackagesDisplayTextEn_{{$index}}"
          md-maxlength="512"
-         ng-model="$ctrl.content.dataSources[$ctrl.index].displayText.en" autocomplete="off">
+         ng-model="$ctrl.content[$ctrl.index].displayText.en" autocomplete="off">
   <div
     class="fdz-input-hint"
     ng-if="!$ctrl.currentForm['analysisDataPackagesDisplayTextEn_' + $index].$dirty && !$ctrl.currentForm['analysisDataPackagesDisplayTextEn_' + $index].$touched">
