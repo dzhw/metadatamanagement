@@ -9,7 +9,8 @@ import javax.validation.constraints.NotNull;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,7 +58,7 @@ public class TaskManagementService implements CrudService<Task> {
 
   private final CounterService counterService;
 
-  private final AuthUserService userService;
+  private final UserApiService userApiService;
 
   private final MailService mailService;
 
@@ -136,10 +137,14 @@ public class TaskManagementService implements CrudService<Task> {
       UserDto onBehalfUser,
       String projectManagementEmailSender
   ) {
-    var admins =
-        userService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
-    mailService.sendDataSetReportErrorMail(onBehalfUser, admins, errorNotification,
-        projectManagementEmailSender);
+    try {
+      var admins =
+          userApiService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
+      mailService.sendDataSetReportErrorMail(onBehalfUser, admins, errorNotification,
+          projectManagementEmailSender);
+    } catch (InvalidResponseException e) {
+      log.error("Could not handle Data Set Report error: {}", e.getMessage());
+    }
   }
 
   private void handleDataPackageOverviewError(
@@ -147,10 +152,14 @@ public class TaskManagementService implements CrudService<Task> {
       UserDto onBehalfUser,
       String projectManagementEmailSender
   ) {
-    var admins =
-        userService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
-    mailService.sendDataPackageOverviewErrorMail(onBehalfUser, admins, errorNotification,
-        projectManagementEmailSender);
+    try {
+      var admins =
+          userApiService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
+      mailService.sendDataPackageOverviewErrorMail(onBehalfUser, admins, errorNotification,
+          projectManagementEmailSender);
+    } catch (InvalidResponseException e) {
+      log.error("Could not handle Data Package Overview error: {}", e.getMessage());
+    }
   }
 
   /**

@@ -4,7 +4,8 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
@@ -35,18 +36,21 @@ import io.swagger.v3.oas.annotations.Hidden;
 public class TaskResourceController
     extends GenericDomainObjectResourceController<Task, TaskManagementService> {
 
-  private final AuthUserService authUserService;
+  private final UserApiService userApiService;
 
   private final TaskManagementService taskService;
 
   /**
    * Construct the controller.
    */
-  public TaskResourceController(CrudService<Task> crudService,
-      UserInformationProvider userInformationProvider, AuthUserService authUserService,
-      TaskManagementService taskService) {
+  public TaskResourceController(
+      CrudService<Task> crudService,
+      UserInformationProvider userInformationProvider,
+      UserApiService userApiService,
+      TaskManagementService taskService
+  ) {
     super(crudService, userInformationProvider);
-    this.authUserService = authUserService;
+    this.userApiService = userApiService;
     this.taskService = taskService;
   }
 
@@ -76,13 +80,22 @@ public class TaskResourceController
     if (StringUtils.isEmpty(errorNotification.getOnBehalfOf())) {
       taskService.handleErrorNotification(errorNotification, null);
     } else {
-      var user =
-          authUserService.findOneByLogin(errorNotification.getOnBehalfOf());
-      if (user.isPresent()) {
-        taskService.handleErrorNotification(errorNotification, user.get());
-      } else {
-        return ResponseEntity.badRequest()
+      try {
+        var user =
+            userApiService.findOneByLogin(errorNotification.getOnBehalfOf());
+
+        if (user.isPresent()) {
+          taskService.handleErrorNotification(errorNotification, user.get());
+        } else {
+          return ResponseEntity.badRequest()
             .body("User with name '" + errorNotification.getOnBehalfOf() + "' does not exist!");
+        }
+      } catch (InvalidResponseException e) {
+        return ResponseEntity.badRequest()
+          .body(
+              "Could not check if user with name '"
+                + errorNotification.getOnBehalfOf() + "'  exists!"
+          );
       }
     }
     return ResponseEntity.ok().build();

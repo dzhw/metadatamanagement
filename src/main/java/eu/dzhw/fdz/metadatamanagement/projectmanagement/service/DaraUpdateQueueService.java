@@ -5,7 +5,8 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterDelete;
@@ -56,7 +57,7 @@ public class DaraUpdateQueueService {
 
   private final RelatedPublicationChangesProvider relatedPublicationChangesProvider;
 
-  private final AuthUserService userService;
+  private final UserApiService userApiService;
 
   private final MailService mailService;
 
@@ -201,10 +202,14 @@ public class DaraUpdateQueueService {
   }
 
   private void handleDaraCommunicationError(DaraUpdateQueueItem lockedItem) {
-    var admins =
-        userService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
-    mailService.sendMailOnDaraAutomaticUpdateError(admins, lockedItem.getProjectId());
-    this.unlock(lockedItem);
+    try {
+      var admins =
+          userApiService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
+      mailService.sendMailOnDaraAutomaticUpdateError(admins, lockedItem.getProjectId());
+      this.unlock(lockedItem);
+    } catch (InvalidResponseException e) {
+      log.error("Could not handle Dara Communication error: {}", e.getMessage());
+    }
   }
 
   private void unlock(DaraUpdateQueueItem item) {
