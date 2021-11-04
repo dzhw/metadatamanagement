@@ -109,4 +109,16 @@ public class UserApiServiceTest extends AbstractTest {
     var result = userApiService.findOneByLoginOrEmail("NON_LOGIN", "NON_EMAIL");
     assertThat(result.isPresent(), is(false));
   }
+
+  @Test
+  public void findOneByLogin_WithResult() throws InvalidResponseException {
+    var result = userApiService.findOneByLogin("resource_server");
+    assertThat(result.isPresent(), is(true));
+  }
+
+  @Test
+  public void findOneByLogin_NoResult() throws InvalidResponseException {
+    var result = userApiService.findOneByLogin("NON_LOGIN");
+    assertThat(result.isPresent(), is(false));
+  }
 }

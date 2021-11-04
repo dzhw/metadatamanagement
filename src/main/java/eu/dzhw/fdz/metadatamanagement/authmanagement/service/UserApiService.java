@@ -178,6 +178,28 @@ public class UserApiService {
         .findFirst();
   }
 
+  /**
+   * Attempt to find a specific user based on the user's login.
+   *
+   * @param login a search parameter which will be used to match a user's login
+   * @return info on the user whose login matches the {@code login} search parameter
+   * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
+   */
+  public Optional<UserApiResponseDto.UserDto> findOneByLogin(
+      final String login
+  ) throws InvalidResponseException {
+    return this.doFindAllApiCall(
+        String.format(
+            "%s/jsonapi/user/user?filter[name]={name}",
+            authServerEndpoint
+        ),
+        login
+      )
+      // There should only be one or none response.
+      .stream()
+      .findFirst();
+  }
+
   private List<UserApiResponseDto.UserDto> doFindAllApiCall(
       final String apiUri,
       final Object... uriVariables
