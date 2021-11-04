@@ -208,8 +208,8 @@ angular.module('metadatamanagementApp').config(
                 'en': 'Enter additional annotations for this data package in English.'
               },
               'dataSource': {
-                'de': 'Enter additional data source for this data package in German.',
-                'en': 'Enter additional data source for this data package in English.'
+                'de': 'The data source where the data is stored must be specified here (e.g. name of the institution/repository, private data storage).',
+                'en': 'The data source where the data is stored must be specified here (e.g. name of the institution/repository, private data storage).'
               },
               'dataSourceUrl': 'Enter the data source url.'
             }

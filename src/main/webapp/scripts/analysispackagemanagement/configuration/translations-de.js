@@ -209,8 +209,8 @@ angular.module('metadatamanagementApp').config(
                 'en': 'Geben Sie zusätzliche Anmerkungen zum Datenpaket auf Englisch ein.'
               },
               'dataSource': {
-                'de': 'Geben Sie zusätzliche Datenquelle zum Datenpaket auf Deutsch ein.',
-                'en': 'Geben Sie zusätzliche Datenquelle zum Datenpaket auf Englisch ein.'
+                'de': 'Hier muss die Datenquelle angegeben werden, in der die Daten gespeichert werden (z.B. Name der Institution/des Repositoriums; private Speicherung).',
+                'en': 'Hier muss die Datenquelle angegeben werden, in der die Daten gespeichert werden (z.B. Name der Institution/des Repositoriums; private Speicherung).'
               },
               'dataSourceUrl': 'Geben Sie den Link zur Datenquelle ein.'
             }
