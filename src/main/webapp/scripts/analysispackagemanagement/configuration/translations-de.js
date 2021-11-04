@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').config(
               'dataSource': 'Datenquelle',
               'dataSourceUrl': 'Link zur Datenquelle'
             },
+            'accessWay': 'Zugangsweg',
             'availabilityType': 'Zugangsstatus',
             'additional-links': 'Weiterführende Links',
             'analysisPackage': 'Analysepaket',
@@ -160,11 +161,16 @@ angular.module('metadatamanagementApp').config(
                 'en': 'Optional: Geben Sie einen Text auf Englisch an, der zur Anzeige des Links verwendet werden soll.'
               }
             },
+            'accessWay': {
+              'choose': 'Bitte wählen Sie ein Zugangsweg.'
+            },
             'availabilityType': {
               'choose': 'Bitte wählen Sie ein Zugangsstatus.',
               'open': 'Keine oder nur geringfügige Zugangsbeschränkungen (z.B. Zustimmung zu einfachen Nutzungsbedingungen).',
               'restricted': 'Irgendeine höhergradige Form des beschränkten Zugangs (Registierung muss vor dem Datenzugang erfolgen; Ein Antragsprozess muss vor dem Datenzugang durchlaufen werden; sehr restriktive Nutzungsbedingungen).',
-              'none': 'nicht zugänglich.'
+              'none': 'nicht zugänglich.',
+              'accessible': 'Lorem ipsum...',
+              'not-accessible': 'Lorem ipsum...'
             },
             'annotations': {
               'de': 'Geben Sie zusätzliche Anmerkungen zum Analysepaket auf Deutsch ein.',
@@ -291,6 +297,9 @@ angular.module('metadatamanagementApp').config(
                 'not-null': 'Der Titel eines Datenpaket darf nicht leer sein!',
                 'i18n-string-size': 'Die Maximallänge des Titels eines Datenpaket ist 2048 Zeichen.',
                 'i18n-string-entire-not-empty': 'Der Titel eines Datenpaket muss in allen Sprachen vorhanden sein.'
+              },
+              'accessWay': {
+                'i18n-not-null': 'Der Zugangsweg eines Datenpaket darf nicht leer sein!'
               },
               'availabilityType': {
                 'i18n-not-null': 'Der Zugangsstatus eines Datenpaket darf nicht leer sein!'

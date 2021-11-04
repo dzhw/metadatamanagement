@@ -42,11 +42,11 @@
           </div>
         </md-input-container>
       </div>
-<!--        <custom-data-package-component-->
-<!--          ng-if="package.type === 'customDataPackage'"-->
-<!--          current-form="$ctrl.currentForm"-->
-<!--          package="package"-->
-<!--          class="df fg"></custom-data-package-component>-->
+        <custom-data-package-component
+          ng-if="package.type === 'customDataPackage'"
+          current-form="$ctrl.currentForm"
+          package="package"
+          index="$index"></custom-data-package-component>
         <external-data-package-component
           ng-if="package.type === 'externalDataPackage'"
           current-form="$ctrl.currentForm" package="package"

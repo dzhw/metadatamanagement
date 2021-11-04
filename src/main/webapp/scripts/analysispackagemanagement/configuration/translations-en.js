@@ -13,6 +13,7 @@ angular.module('metadatamanagementApp').config(
               'dataSource': 'Data Source',
               'dataSourceUrl': 'Link of data source'
             },
+            'accessWay': 'Access way',
             'availabilityType': 'Availability Type',
             'additional-links': 'Additional Links',
             'analysisPackage': 'Analysis Package',
@@ -159,11 +160,16 @@ angular.module('metadatamanagementApp').config(
                 'en': 'Optional: Specify a text in English to be used to display the link.'
               }
             },
+            'accessWay': {
+              'choose': 'Please choose an access way type.'
+            },
             'availabilityType': {
               'choose': 'Please choose an availability type.',
               'open': 'No or minor restrictions for access (e.g. acceptance of simple terms of use).',
               'restricted': 'Some kind of major restriction for access (e.g. registration before access is granted; application processes has to be passed before access is granted; very restrictive terms of use).',
-              'none': 'Not accessible.'
+              'none': 'Not accessible.',
+              'accessible': 'Lorem ipsum...',
+              'not-accessible': 'Lorem ipsum...'
             },
             'authors': {
               'first-name': 'Enter the first name of this author.',
@@ -291,6 +297,9 @@ angular.module('metadatamanagementApp').config(
                 'not-null': 'The title of the data package must not be empty!',
                 'i18n-string-size': 'The max length of the data package title is 2048.',
                 'i18n-string-entire-not-empty': 'The title of the data package must not be empty for all languages.'
+              },
+              'accessWay': {
+                'i18n-not-null': 'The access way of the data package must not be empty!'
               },
               'availabilityType': {
                 'i18n-not-null': 'The availability type of the data package must not be empty!'

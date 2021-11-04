@@ -30,7 +30,7 @@
 
       $ctrl.addPackage = function() {
         $ctrl.packages.push({
-          type: 'externalDataPackage'
+          type: 'customDataPackage'
         });
       };
 

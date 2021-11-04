@@ -1,0 +1,68 @@
+<md-button class="md-primary md-icon-button ml28"
+           ng-click="$ctrl.deleteLink()"
+           style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
+  <md-tooltip md-autohide="true" md-direction="bottom"
+              md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+    {{'analysis-package-management.edit.delete-link-tooltip' | translate}}
+  </md-tooltip>
+  <md-icon md-font-set="material-icons">delete_forever</md-icon>
+</md-button>
+<md-input-container flex="33" class="mr8"
+                    md-is-error="!$ctrl.currentForm['analysisDataPackagesUrl_' + $index].$valid && ($ctrl.currentForm['analysisDataPackagesUrl_' + $index].$dirty || $ctrl.currentForm['analysisDataPackagesUrl_' + $index].$touched)">
+  <label>{{'analysis-package-management.edit.label.additional-links.url' | translate}}</label>
+  <input type="url" md-no-asterisk
+         name="analysisDataPackagesUrl_{{$index}}" md-maxlength="2000"
+         ng-model="$ctrl.content.dataSources[$ctrl.index].url" autocomplete="off">
+  <div
+    class="fdz-input-hint"
+    ng-if="!$ctrl.currentForm['analysisDataPackagesUrl_' + $index].$dirty && !$ctrl.currentForm['analysisDataPackagesUrl_' + $index].$touched">
+    {{ 'analysis-package-management.edit.hints.additional-links.url' | translate}}
+  </div>
+  <div multiple
+       ng-messages="$ctrl.currentForm['analysisDataPackagesUrl_' + $index].$error">
+    <div ng-message="md-maxlength">
+      {{'analysis-package-management.error.analysis-package.additional-links.url-size' | translate}}
+    </div>
+    <div ng-message="url">
+      {{'analysis-package-management.error.analysis-package.additional-links.invalid-url' | translate}}
+    </div>
+  </div>
+</md-input-container>
+<md-input-container flex="33" class="mr8"
+                    md-is-error="!$ctrl.currentForm['analysisDataPackagesDisplayTextDe_' + $index].$valid && ($ctrl.currentForm['analysisDataPackagesDisplayTextDe_' + $index].$dirty || $ctrl.currentForm['analysisDataPackagesDisplayTextDe_' + $index].$touched)">
+  <label>{{'analysis-package-management.edit.label.additional-links.display-text' | translate}}
+    ({{'global.in-german' | translate}})</label>
+  <input md-no-asterisk name="analysisDataPackagesDisplayTextDe_{{$index}}"
+         md-maxlength="512"
+         ng-model="$ctrl.content.dataSources[$ctrl.index].displayText.de" autocomplete="off">
+  <div
+    class="fdz-input-hint"
+    ng-if="!$ctrl.currentForm['analysisDataPackagesDisplayTextDe_' + $index].$dirty && !$ctrl.currentForm['analysisDataPackagesDisplayTextDe_' + $index].$touched">
+    {{ 'analysis-package-management.edit.hints.additional-links.display-text.de' | translate}}
+  </div>
+  <div multiple
+       ng-messages="$ctrl.currentForm['analysisDataPackagesDisplayTextDe_' + $index].$error">
+    <div ng-message="md-maxlength">
+      {{'analysis-package-management.error.analysis-package.additional-links.display-text-size' | translate}}
+    </div>
+  </div>
+</md-input-container>
+<md-input-container flex="33" class="mr8"
+                    md-is-error="!$ctrl.currentForm['analysisDataPackagesDisplayTextEn_' + $index].$valid && ($ctrl.currentForm['analysisDataPackagesDisplayTextEn_' + $index].$dirty || $ctrl.currentForm['analysisDataPackagesDisplayTextEn_' + $index].$touched)">
+  <label>{{'analysis-package-management.edit.label.additional-links.display-text' | translate}}
+    ({{'global.in-english' | translate}})</label>
+  <input md-no-asterisk name="analysisDataPackagesDisplayTextEn_{{$index}}"
+         md-maxlength="512"
+         ng-model="$ctrl.content.dataSources[$ctrl.index].displayText.en" autocomplete="off">
+  <div
+    class="fdz-input-hint"
+    ng-if="!$ctrl.currentForm['analysisDataPackagesDisplayTextEn_' + $index].$dirty && !$ctrl.currentForm['analysisDataPackagesDisplayTextEn_' + $index].$touched">
+    {{ 'analysis-package-management.edit.hints.additional-links.display-text.en' | translate}}
+  </div>
+  <div multiple
+       ng-messages="$ctrl.currentForm['analysisDataPackagesDisplayTextEn_' + $index].$error">
+    <div ng-message="md-maxlength">
+      {{'analysis-package-management.error.analysis-package.additional-links.display-text-size' | translate}}
+    </div>
+  </div>
+</md-input-container>

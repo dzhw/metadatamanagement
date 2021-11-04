@@ -7,7 +7,8 @@
       'components/customdatapackage/custom.html.tmpl',
     bindings: {
       currentForm: '<',
-      package: '='
+      package: '=',
+      index: '<'
     }
   };
 
