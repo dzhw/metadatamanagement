@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
@@ -191,7 +191,7 @@ public class DataAcquisitionProjectManagementService
         removedDataProviderUsers);
   }
 
-  private List<AuthUser> filterUsersByUserNames(List<AuthUser> users, List<String> userNames) {
+  private List<UserDto> filterUsersByUserNames(List<UserDto> users, List<String> userNames) {
     return users.stream().filter(u -> userNames.contains(u.getLogin()))
         .collect(Collectors.toList());
   }
@@ -200,13 +200,13 @@ public class DataAcquisitionProjectManagementService
    * Encapsulates repository query result for added or removed publishers and data providers.
    */
   private static class UserFetchResult {
-    private List<AuthUser> addedPublisherUsers;
-    private List<AuthUser> removedPublisherUsers;
-    private List<AuthUser> addedDataProviderUsers;
-    private List<AuthUser> removedDataProviderUsers;
+    private List<UserDto> addedPublisherUsers;
+    private List<UserDto> removedPublisherUsers;
+    private List<UserDto> addedDataProviderUsers;
+    private List<UserDto> removedDataProviderUsers;
 
-    UserFetchResult(List<AuthUser> addedPublisherUsers, List<AuthUser> removedPublisherUsers,
-        List<AuthUser> addedDataProviderUsers, List<AuthUser> removedDataProviderUsers) {
+    UserFetchResult(List<UserDto> addedPublisherUsers, List<UserDto> removedPublisherUsers,
+        List<UserDto> addedDataProviderUsers, List<UserDto> removedDataProviderUsers) {
       this.addedPublisherUsers = addedPublisherUsers;
       this.removedPublisherUsers = removedPublisherUsers;
       this.addedDataProviderUsers = addedDataProviderUsers;

@@ -1,8 +1,8 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
 
-import javax.validation.constraints.NotEmpty;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.dto.UserDto;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * Provides login name and role checks of the currently authenticated user.
@@ -29,5 +29,5 @@ public interface UserInformationProvider {
    * @param login the username to login, if null the security context will be cleared
    * @return the user information of the logged in user
    */
-  AuthUser switchToUser(String login);
+  UserDto switchToUser(String login);
 }

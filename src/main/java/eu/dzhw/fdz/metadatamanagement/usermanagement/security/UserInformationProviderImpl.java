@@ -1,16 +1,10 @@
 package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import javax.validation.constraints.NotEmpty;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +35,7 @@ class UserInformationProviderImpl implements UserInformationProvider {
   }
 
   @Override
-  public AuthUser switchToUser(String login) {
+  public UserDto switchToUser(String login) {
     if (StringUtils.isEmpty(login)) {
       SecurityContextHolder.getContext().setAuthentication(null);
       return null;
@@ -50,12 +44,12 @@ class UserInformationProviderImpl implements UserInformationProvider {
     if (user.isPresent()) {
       var userInstance = user.get();
       // switch to on behalf user for correct modification names
-      Set<GrantedAuthority> grantedAuthorities = userInstance.getAuthorities().stream()
+      /*Set<GrantedAuthority> grantedAuthorities = userInstance.getAuthorities().stream()
           .map(authority -> new SimpleGrantedAuthority(authority))
           .collect(Collectors.toSet());
       UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
           userInstance.getLogin(), userInstance.getPassword(), grantedAuthorities);
-      SecurityContextHolder.getContext().setAuthentication(authentication);
+      SecurityContextHolder.getContext().setAuthentication(authentication);*/
       return userInstance;
     } else {
       throw new IllegalArgumentException("User not found: " + login);

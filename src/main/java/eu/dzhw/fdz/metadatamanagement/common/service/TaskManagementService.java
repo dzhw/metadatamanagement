@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuthUserService;
 import org.apache.commons.lang3.NotImplementedException;
@@ -115,7 +115,7 @@ public class TaskManagementService implements CrudService<Task> {
       AuthoritiesConstants.DATA_PROVIDER, AuthoritiesConstants.TASK_USER})
   public void handleErrorNotification(
       TaskErrorNotification errorNotification,
-      AuthUser onBehalfUser
+      UserDto onBehalfUser
   ) {
     switch (errorNotification.getTaskType()) {
       case DATA_SET_REPORT:
@@ -133,7 +133,7 @@ public class TaskManagementService implements CrudService<Task> {
 
   private void handleDataSetReportError(
       TaskErrorNotification errorNotification,
-      AuthUser onBehalfUser,
+      UserDto onBehalfUser,
       String projectManagementEmailSender
   ) {
     var admins =
@@ -142,8 +142,11 @@ public class TaskManagementService implements CrudService<Task> {
         projectManagementEmailSender);
   }
 
-  private void handleDataPackageOverviewError(TaskErrorNotification errorNotification,
-      AuthUser onBehalfUser, String projectManagementEmailSender) {
+  private void handleDataPackageOverviewError(
+      TaskErrorNotification errorNotification,
+      UserDto onBehalfUser,
+      String projectManagementEmailSender
+  ) {
     var admins =
         userService.findAllByAuthoritiesContaining(AuthoritiesConstants.ADMIN);
     mailService.sendDataPackageOverviewErrorMail(onBehalfUser, admins, errorNotification,

@@ -1,6 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
-import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.AuthUser;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class AuthUserService {
    *                  authority
    * @return A list of Users which have the provided authority
    */
-  public List<AuthUser> findAllByAuthoritiesContaining(String authority) {
+  public List<UserDto> findAllByAuthoritiesContaining(String authority) {
     throw new IllegalStateException("Not implemented!");
   }
 
@@ -39,7 +39,7 @@ public class AuthUserService {
    * @param logins the logins used to search for Users
    * @return all users that have a "login" in the logins parameter
    */
-  public List<AuthUser> findAllByLoginIn(Set<String> logins) {
+  public List<UserDto> findAllByLoginIn(Set<String> logins) {
     throw new IllegalStateException("Not implemented!");
   }
 
@@ -53,7 +53,7 @@ public class AuthUserService {
    * @return a list of User data from the Auth Server which either has the provided login or email
    *         value
    */
-  public List<AuthUser> findAllByLoginLikeOrEmailLike(String login, String email) {
+  public List<UserDto> findAllByLoginLikeOrEmailLike(String login, String email) {
     throw new IllegalStateException("Not implemented!");
   }
 
@@ -66,7 +66,7 @@ public class AuthUserService {
    * @param login a login which should be associated to a User
    * @return the user with the provided login
    */
-  public Optional<AuthUser> findOneByLogin(String login) {
+  public Optional<UserDto> findOneByLogin(String login) {
     throw new IllegalStateException("Not implemented!");
   }
 
@@ -80,7 +80,7 @@ public class AuthUserService {
    * @return return the first User data from the Auth Server which either has the provided login or
    *         email value
    */
-  public Optional<AuthUser> findOneByLoginOrEmail(String login, String email) {
+  public Optional<UserDto> findOneByLoginOrEmail(String login, String email) {
     throw new IllegalStateException("Not implemented!");
   }
 }
