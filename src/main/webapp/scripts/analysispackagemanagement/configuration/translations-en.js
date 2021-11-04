@@ -152,6 +152,13 @@ angular.module('metadatamanagementApp').config(
           },
           'hints': {
             'data-package': 'Please choose a data package.',
+            'additional-links': {
+              'url': 'Please enter the URL as in the following example: https://www.dzhw.eu',
+              'display-text': {
+                'de': 'Optional: Specify a text in German to be used to display the link.',
+                'en': 'Optional: Specify a text in English to be used to display the link.'
+              }
+            },
             'availabilityType': {
               'choose': 'Please choose an availability type.',
               'open': 'No or minor restrictions for access (e.g. acceptance of simple terms of use).',
@@ -273,6 +280,12 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'The max length of the analysis package title is 2048.',
               'i18n-string-entire-not-empty': 'The title of the analysis package must not be empty for all languages.'
             },
+            'additional-links': {
+              'invalid-url': 'The provided URL is not valid.',
+              'url-size': 'The max length for URLs is 2000 chracters.',
+              'url-not-empty': 'The URL must not be empty.',
+              'display-text-size': 'The max length for display text is 512 chracters.'
+            },
             'analysisDataPackages': {
               'title': {
                 'not-null': 'The title of the data package must not be empty!',
@@ -299,6 +312,11 @@ angular.module('metadatamanagementApp').config(
                 'i18n-string-not-empty': 'The data source of the data package must not be empty!',
                 'i18n-string-size': 'The max length of the data package data source is 512.',
                 'i18n-string-entire-not-empty': 'The data source of the data package must not be empty for all languages.'
+              },
+              'dataSourceUrl': {
+                'invalid-url': 'The provided URL is not valid.',
+                'url-size': 'The max length for URLs is 2000 chracters.',
+                'url-not-empty': 'The URL must not be empty.',
               }
             }
           }

@@ -153,6 +153,13 @@ angular.module('metadatamanagementApp').config(
           },
           'hints': {
             'data-package': 'Bitte wählen Sie ein Datenpaket.',
+            'additional-links': {
+              'url': 'Bitte tragen Sie die URL wie in dem folgenden Beispiel ein: https://www.dzhw.eu',
+              'display-text': {
+                'de': 'Optional: Geben Sie einen Text auf Deutsch an, der zur Anzeige des Links verwendet werden soll.',
+                'en': 'Optional: Geben Sie einen Text auf Englisch an, der zur Anzeige des Links verwendet werden soll.'
+              }
+            },
             'availabilityType': {
               'choose': 'Bitte wählen Sie ein Zugangsstatus.',
               'open': 'Keine oder nur geringfügige Zugangsbeschränkungen (z.B. Zustimmung zu einfachen Nutzungsbedingungen).',
@@ -273,6 +280,12 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'Die Maximallänge des Titels eines Analysepaket ist 2048 Zeichen.',
               'i18n-string-entire-not-empty': 'Der Titel eines Analysepaket muss in allen Sprachen vorhanden sein.'
             },
+            'additional-links': {
+              'invalid-url': 'Die angegebene URL ist ungültig',
+              'url-size': 'Die Maximallänge der URL ist 2000 Zeichen.',
+              'url-not-empty': 'Die URL darf nicht leer sein.',
+              'display-text-size': 'Die Maximallänge des Anzeigetextes ist 512 Zeichen.'
+            },
             'analysisDataPackages': {
               'title': {
                 'not-null': 'Der Titel eines Datenpaket darf nicht leer sein!',
@@ -299,6 +312,11 @@ angular.module('metadatamanagementApp').config(
                 'i18n-string-not-empty': 'Die Datenquelle eines Datenpakets darf nicht leer sein!',
                 'i18n-string-size': 'Die Maximallänge der Datenquelle eines Datenpakets ist 512 Zeichen.',
                 'i18n-string-entire-not-empty': 'Die Anmerkung eines Datenquelle muss in beiden Sprachen vorhanden sein.'
+              },
+              'dataSourceUrl': {
+                'invalid-url': 'Die angegebene URL ist ungültig',
+                'url-size': 'Die Maximallänge der URL ist 2000 Zeichen.',
+                'url-not-empty': 'Die URL darf nicht leer sein.'
               }
             }
           }

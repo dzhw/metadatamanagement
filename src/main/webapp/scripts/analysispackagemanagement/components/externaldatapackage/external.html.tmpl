@@ -60,23 +60,27 @@
 <div layout="row"
      layout-gt-sm="row"
      class="ms-flex">
-  <text-component
-    flex="40"
-    bilingual="false"
-    index="$ctrl.index"
-    name="analysisDataPackages"
-    not-null="false"
-    current-form="$ctrl.currentForm"
-    translation-key-package="analysis-package"
-    translation-key-name="dataSourceUrl"
-    max-length="2000"
-    content="$ctrl.package.dataSourceUrl"
-    class="ms-flex mr8 ml28"
-    style="max-width: 48%;"></text-component>
-  <!--</div>-->
-  <!--<div layout="row"-->
-  <!--     layout-gt-sm="row"-->
-  <!--     class="ms-flex">-->
+  <md-input-container flex="50"
+                      class="ml28 mr8"
+                      md-is-error="!$ctrl.currentForm['analysisDataPackagesDataSourceUrl_' + $ctrl.index].$valid && ($ctrl.currentForm['analysisDataPackagesDataSourceUrl_' + $ctrl.index].$dirty || $ctrl.currentForm['analysisDataPackagesDataSourceUrl_' + $ctrl.index].$touched)">
+    <label>{{'analysis-package-management.detail.label.analysisDataPackages.dataSourceUrl' | translate}}</label>
+    <input type="url" md-no-asterisk
+           name="analysisDataPackagesDataSourceUrl_{{$ctrl.index}}" md-maxlength="2000"
+           ng-model="$ctrl.package.dataSourceUrl" autocomplete="off">
+    <div class="fdz-input-hint"
+         ng-if="!$ctrl.currentForm['analysisDataPackagesDataSourceUrl_' + $ctrl.index].$dirty && !$ctrl.currentForm['analysisDataPackagesDataSourceUrl_' + $ctrl.index].$touched">
+      {{ 'analysis-package-management.edit.hints.analysisDataPackages.dataSourceUrl' | translate}}
+    </div>
+    <div multiple
+         ng-messages="$ctrl.currentForm['analysisDataPackagesDataSourceUrl_' + $ctrl.index].$error">
+      <div ng-message="md-maxlength">
+        {{'analysis-package-management.error.analysis-package.analysisDataPackages.dataSourceUrl.url-size' | translate}}
+      </div>
+      <div ng-message="url">
+        {{'analysis-package-management.error.analysis-package.analysisDataPackages.dataSourceUrl.invalid-url' | translate}}
+      </div>
+    </div>
+  </md-input-container>
   <md-input-container flex="50"
                       md-is-error="!$ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$valid && ($ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$dirty || $ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$touched)"
                       class="mr8 ms-flex">
