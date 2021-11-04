@@ -22,7 +22,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.TaskErrorNotification;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.common.service.TaskManagementService;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import io.swagger.v3.oas.annotations.Hidden;
 
 /**
@@ -45,11 +45,11 @@ public class TaskResourceController
    */
   public TaskResourceController(
       CrudService<Task> crudService,
-      UserInformationProvider userInformationProvider,
+      AuditorService auditorService,
       UserApiService userApiService,
       TaskManagementService taskService
   ) {
-    super(crudService, userInformationProvider);
+    super(crudService, auditorService);
     this.userApiService = userApiService;
     this.taskService = taskService;
   }

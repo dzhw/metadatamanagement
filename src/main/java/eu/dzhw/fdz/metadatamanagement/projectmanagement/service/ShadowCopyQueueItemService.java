@@ -17,7 +17,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,7 +43,7 @@ public class ShadowCopyQueueItemService {
 
   private final ElasticsearchUpdateQueueService elasticsearchUpdateQueueService;
 
-  private final UserInformationProvider userInformationProvider;
+  private final AuditorService auditorService;
 
   /**
    * Create a new shadow copy queue item.
@@ -181,7 +181,7 @@ public class ShadowCopyQueueItemService {
   private void setupSecurityContext(ShadowCopyQueueItem shadowCopyQueueItem) {
     String username = shadowCopyQueueItem.getCreatedBy();
     try {
-      userInformationProvider.switchToUser(username);
+      auditorService.switchToUser(username);
     } catch (IllegalArgumentException e) {
       throw new IllegalStateException("User " + username + " created a shadow copy task for "
           + "project " + shadowCopyQueueItem.getDataAcquisitionProjectId() + ", but this user "
@@ -190,7 +190,7 @@ public class ShadowCopyQueueItemService {
   }
 
   private void clearSecurityContext() {
-    userInformationProvider.switchToUser(null);
+    auditorService.switchToUser(null);
   }
 
   private String getPreviousReleaseVersion(DataAcquisitionProject dataAcquisitionProject,

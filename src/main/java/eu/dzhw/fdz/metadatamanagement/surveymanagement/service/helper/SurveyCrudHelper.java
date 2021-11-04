@@ -11,11 +11,11 @@ import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.SurveySearchDoc
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.Survey;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.repository.SurveyRepository;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 
 /**
  * Component which implements CRUD functions for all {@link Survey}s.
- * 
+ *
  * @author René Reitmann
  */
 @Component
@@ -24,9 +24,9 @@ public class SurveyCrudHelper
   public SurveyCrudHelper(SurveyRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      RestHighLevelClient elasticsearchClient, UserInformationProvider userInformationProvider,
+      RestHighLevelClient elasticsearchClient, AuditorService auditorService,
       Gson gson) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, null,
-        elasticsearchClient, SurveySearchDocument.class, userInformationProvider, gson);
+        elasticsearchClient, SurveySearchDocument.class, auditorService, gson);
   }
 }

@@ -38,7 +38,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisiti
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.helper.DataAcquisitionProjectCrudHelper;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
 import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 
@@ -56,7 +56,7 @@ public class DataAcquisitionProjectManagementService
 
   private final DataAcquisitionProjectRepository acquisitionProjectRepository;
 
-  private final UserInformationProvider userInformationProvider;
+  private final AuditorService auditorService;
 
   private final DataAcquisitionProjectChangesProvider changesProvider;
 
@@ -88,18 +88,18 @@ public class DataAcquisitionProjectManagementService
       return acquisitionProjectRepository
           .findByIdLikeAndShadowIsFalseAndSuccessorIdIsNullOrderByIdAsc(projectId);
     } else {
-      String loginName = userInformationProvider.getUserLogin();
+      String loginName = auditorService.getUserLogin();
       return acquisitionProjectRepository
           .findAllMastersByIdLikeAndPublisherIdOrderByIdAsc(projectId, loginName);
     }
   }
 
   private boolean isAdmin() {
-    return userInformationProvider.isUserInRole(AuthoritiesConstants.ADMIN);
+    return auditorService.isUserInRole(AuthoritiesConstants.ADMIN);
   }
 
   private boolean isPublisher() {
-    return userInformationProvider.isUserInRole(AuthoritiesConstants.PUBLISHER);
+    return auditorService.isUserInRole(AuthoritiesConstants.PUBLISHER);
   }
 
   private void sendAssigneeGroupChangedMails(DataAcquisitionProject newDataAcquisitionProject) {

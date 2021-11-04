@@ -13,13 +13,13 @@ import com.mongodb.client.MongoDatabase;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.domain.AbstractShadowableRdcDomainObject;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import lombok.RequiredArgsConstructor;
 
 /**
  * REST Controller managing CRUD access to our {@link AbstractRdcDomainObject} stored in
  * {@link MongoDatabase}.
- * 
+ *
  * @author René Reitmann
  *
  * @param <T> The concrete type of the domain object.
@@ -31,17 +31,17 @@ public abstract class GenericDomainObjectResourceController
 
   private final CrudService<T> crudService;
 
-  private final UserInformationProvider userInformationProvider;
+  private final AuditorService auditorService;
 
   /**
    * Retrieve the {@link AbstractRdcDomainObject} and set the cache header.
-   * 
+   *
    * @param id the id of the {@link AbstractRdcDomainObject}.
    * @return the {@link AbstractRdcDomainObject} or 404
    */
   public ResponseEntity<T> getDomainObject(String id) {
     Optional<T> optional = null;
-    if (userInformationProvider.isUserAnonymous()) {
+    if (auditorService.isUserAnonymous()) {
       optional = crudService.readSearchDocument(id);
       if (optional.isEmpty()) {
         optional = crudService.read(id);
@@ -53,7 +53,7 @@ public abstract class GenericDomainObjectResourceController
       return ResponseEntity.notFound().build();
     } else {
       T domainObject = optional.get();
-      if (userInformationProvider.isUserAnonymous()
+      if (auditorService.isUserAnonymous()
           && AbstractShadowableRdcDomainObject.class.isAssignableFrom(domainObject.getClass())
           && ((AbstractShadowableRdcDomainObject) domainObject).isHidden()) {
         return ResponseEntity.notFound().build();
@@ -69,7 +69,7 @@ public abstract class GenericDomainObjectResourceController
   /**
    * Create the given {@link AbstractRdcDomainObject}. For {@link AbstractShadowableRdcDomainObject}
    * only masters can be created.
-   * 
+   *
    * @param domainObject The {@link AbstractRdcDomainObject} to be created.
    */
   public ResponseEntity<?> postDomainObject(T domainObject) {
@@ -80,7 +80,7 @@ public abstract class GenericDomainObjectResourceController
   /**
    * Save or create the given {@link AbstractRdcDomainObject}.
    * {@link AbstractShadowableRdcDomainObject} may only be saved if they are masters.
-   * 
+   *
    * @param domainObject The {@link AbstractRdcDomainObject} to be saved.
    */
   public ResponseEntity<?> putDomainObject(T domainObject) {
@@ -94,7 +94,7 @@ public abstract class GenericDomainObjectResourceController
   /**
    * Delete the {@link AbstractRdcDomainObject} under the given id.
    * {@link AbstractShadowableRdcDomainObject} may only be deleted if they are masters.
-   * 
+   *
    * @param id The id of the {@link AbstractRdcDomainObject}
    */
   public ResponseEntity<?> deleteDomainObject(String id) {

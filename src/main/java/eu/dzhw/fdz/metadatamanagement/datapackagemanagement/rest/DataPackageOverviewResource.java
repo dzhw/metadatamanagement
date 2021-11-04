@@ -27,7 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.DataPackageO
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.exception.TemplateIncompleteException;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 
@@ -44,7 +44,7 @@ public class DataPackageOverviewResource {
 
   private final DataPackageAttachmentService dataPackageAttachmentService;
 
-  private final UserInformationProvider userInformationProvider;
+  private final AuditorService auditorService;
 
   private final TaskManagementService taskService;
 
@@ -124,10 +124,10 @@ public class DataPackageOverviewResource {
       @PathVariable("dataPackageId") String dataPackageId,
       @RequestParam("onBehalfOf") String onBehalfOf, @PathVariable("language") String language)
       throws IOException {
-    var user = userInformationProvider.switchToUser(onBehalfOf);
+    var user = auditorService.switchToUser(onBehalfOf);
     dataPackageAttachmentService.attachDataPackageOverview(dataPackageId, language, overviewFile);
     mailService.sendDataPackageOverviewGeneratedMail(user, dataPackageId, language, sender);
-    userInformationProvider.switchToUser(null);
+    auditorService.switchToUser(null);
     return ResponseEntity.ok().build();
   }
 }

@@ -16,7 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import eu.dzhw.fdz.metadatamanagement.common.rest.GenericDomainObjectResourceController;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.instrumentmanagement.domain.Instrument;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -31,8 +31,8 @@ public class InstrumentResourceController
     extends GenericDomainObjectResourceController<Instrument, CrudService<Instrument>> {
 
   public InstrumentResourceController(CrudService<Instrument> crudService,
-      UserInformationProvider userInformationProvider) {
-    super(crudService, userInformationProvider);
+      AuditorService auditorService) {
+    super(crudService, auditorService);
   }
 
   @Override

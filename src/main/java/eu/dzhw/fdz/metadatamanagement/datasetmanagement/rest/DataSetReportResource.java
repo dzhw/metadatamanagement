@@ -27,7 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetAttachmen
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.DataSetReportService;
 import eu.dzhw.fdz.metadatamanagement.mailmanagement.service.MailService;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.AuthoritiesConstants;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 
@@ -43,7 +43,7 @@ public class DataSetReportResource {
 
   private final MailService mailService;
 
-  private final UserInformationProvider userInformationProvider;
+  private final AuditorService auditorService;
 
   private final TaskManagementService taskService;
 
@@ -120,10 +120,10 @@ public class DataSetReportResource {
   public ResponseEntity<?> uploadReport(@RequestParam("file") MultipartFile reportFile,
       @PathVariable("dataSetId") String dataSetId, @RequestParam("onBehalfOf") String onBehalfOf,
       @PathVariable("language") String language) throws IOException {
-    var user = userInformationProvider.switchToUser(onBehalfOf);
+    var user = auditorService.switchToUser(onBehalfOf);
     dataSetAttachmentService.attachDataSetReport(dataSetId, language, reportFile);
     mailService.sendDataSetReportGeneratedMail(user, dataSetId, language, sender);
-    userInformationProvider.switchToUser(null);
+    auditorService.switchToUser(null);
     return ResponseEntity.ok().build();
   }
 }

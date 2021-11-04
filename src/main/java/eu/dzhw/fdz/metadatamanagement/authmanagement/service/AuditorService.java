@@ -1,10 +1,10 @@
-package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
+package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
 import javax.validation.constraints.NotEmpty;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.dto.UserDto;
-import eu.dzhw.fdz.metadatamanagement.authmanagement.service.UserApiService;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
+import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
-public class UserInformationProvider {
+public class AuditorService {
 
   private final UserApiService userApiService;
 

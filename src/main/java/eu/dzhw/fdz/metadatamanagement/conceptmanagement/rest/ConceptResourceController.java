@@ -22,13 +22,13 @@ import eu.dzhw.fdz.metadatamanagement.common.rest.errors.ErrorListDto;
 import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.Concept;
 import eu.dzhw.fdz.metadatamanagement.conceptmanagement.domain.ConceptInUseException;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Concept REST Controller which overrides default spring data rest methods.
- * 
+ *
  * @author René Reitmann
  */
 @Controller
@@ -37,8 +37,8 @@ public class ConceptResourceController
     extends GenericDomainObjectResourceController<Concept, CrudService<Concept>> {
 
   public ConceptResourceController(CrudService<Concept> crudService,
-      UserInformationProvider userInformationProvider) {
-    super(crudService, userInformationProvider);
+      AuditorService auditorService) {
+    super(crudService, auditorService);
   }
 
   @Override

@@ -12,22 +12,26 @@ import eu.dzhw.fdz.metadatamanagement.questionmanagement.repository.QuestionRepo
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.service.QuestionChangesProvider;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.documents.QuestionSearchDocument;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 
 /**
  * Component which implements CRUD functions for all {@link Question}s.
- * 
+ *
  * @author René Reitmann
  */
 @Component
 public class QuestionCrudHelper
     extends GenericShadowableDomainObjectCrudHelper<Question, QuestionRepository> {
-  public QuestionCrudHelper(QuestionRepository repository,
+  public QuestionCrudHelper(
+      QuestionRepository repository,
       ApplicationEventPublisher applicationEventPublisher,
       ElasticsearchUpdateQueueService elasticsearchUpdateQueueService,
-      QuestionChangesProvider changesProvider, RestHighLevelClient elasticsearchClient,
-      UserInformationProvider userInformationProvider, Gson gson) {
+      QuestionChangesProvider changesProvider,
+      RestHighLevelClient elasticsearchClient,
+      AuditorService auditorService,
+      Gson gson
+  ) {
     super(repository, applicationEventPublisher, elasticsearchUpdateQueueService, changesProvider,
-        elasticsearchClient, QuestionSearchDocument.class, userInformationProvider, gson);
+        elasticsearchClient, QuestionSearchDocument.class, auditorService, gson);
   }
 }

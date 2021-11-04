@@ -20,11 +20,11 @@ import eu.dzhw.fdz.metadatamanagement.common.service.CrudService;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.validation.ValidDataAcquisitionProjectSave;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.service.DataAcquisitionProjectManagementService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.UserInformationProvider;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 
 /**
  * Variable REST Controller which overrides default spring data rest methods.
- * 
+ *
  * @author René Reitmann
  */
 @RepositoryRestController
@@ -37,15 +37,15 @@ public class DataAcquisitionProjectResourceController extends
 
   public DataAcquisitionProjectResourceController(
       DataAcquisitionProjectManagementService projectManagementService,
-      UserInformationProvider userInformationProvider) {
-    super(projectManagementService, userInformationProvider);
+      AuditorService auditorService) {
+    super(projectManagementService, auditorService);
     this.projectManagementService = projectManagementService;
   }
 
   /**
    * Project saving currently uses a special validator therefore we cannot directly override
    * {@link GenericDomainObjectResourceController#putDomainObject(DataAcquisitionProject)}.
-   * 
+   *
    * @param project The {@link DataAcquisitionProject} to be created.
    * @return The saved {@link DataAcquisitionProject}.
    */
@@ -58,7 +58,7 @@ public class DataAcquisitionProjectResourceController extends
   /**
    * Project saving currently uses a special validator therefore we cannot directly override
    * {@link GenericDomainObjectResourceController#postDomainObject(DataAcquisitionProject)}.
-   * 
+   *
    * @param project The {@link DataAcquisitionProject} to be created.
    * @return The created {@link DataAcquisitionProject}.
    */
