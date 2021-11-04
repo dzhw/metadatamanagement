@@ -1,4 +1,4 @@
-package eu.dzhw.fdz.metadatamanagement.usermanagement.security;
+package eu.dzhw.fdz.metadatamanagement.authmanagement.security;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

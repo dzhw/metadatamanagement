@@ -24,7 +24,7 @@ import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.domain.SurveyAttachmentMetadata;
 import eu.dzhw.fdz.metadatamanagement.surveymanagement.service.helper.SurveyAttachmentFilenameBuilder;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -107,7 +107,7 @@ public class SurveyAttachmentService {
 
   /**
    * Load all metadata objects from gridfs (ordered by surveyNumber and indexInSurvey).
-   * 
+   *
    * @param dataAcquisitionProjectId The id of the {@link DataAcquisitionProject}.
    * @return A list of metadata.
    */
@@ -153,7 +153,7 @@ public class SurveyAttachmentService {
 
   /**
    * Update the metadata of the attachment.
-   * 
+   *
    * @param metadata The new metadata.
    */
   public void updateAttachmentMetadata(SurveyAttachmentMetadata metadata) {

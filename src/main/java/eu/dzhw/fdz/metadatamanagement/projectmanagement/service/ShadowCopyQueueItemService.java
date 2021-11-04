@@ -16,7 +16,7 @@ import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.ShadowCopyQueueIt
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.DataAcquisitionProjectRepository;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.repository.ShadowCopyQueueItemRepository;
 import eu.dzhw.fdz.metadatamanagement.searchmanagement.service.ElasticsearchUpdateQueueService;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.AuditorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

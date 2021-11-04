@@ -27,7 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.datasetmanagement.domain.DataSetAttachment
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.repository.DataSetRepository;
 import eu.dzhw.fdz.metadatamanagement.datasetmanagement.service.helper.DataSetAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -51,7 +51,7 @@ public class DataSetAttachmentService {
 
   /**
    * Save the attachment for a data set.
-   * 
+   *
    * @param metadata The metadata of the attachment.
    * @return The GridFs filename.
    * @throws IOException thrown when the input stream is not closable
@@ -76,7 +76,7 @@ public class DataSetAttachmentService {
 
   /**
    * Update the metadata of the attachment.
-   * 
+   *
    * @param metadata The new metadata.
    */
   public void updateAttachmentMetadata(DataSetAttachmentMetadata metadata) {
@@ -124,10 +124,10 @@ public class DataSetAttachmentService {
     });
     return result;
   }
-  
+
   /**
    * Load all metadata objects from gridfs (ordered by dataSetNumber and indexInDataSet).
-   * 
+   *
    * @param dataAcquisitionProjectId The id of the {@link DataAcquisitionProject}.
    * @return A list of metadata.
    */
@@ -200,7 +200,7 @@ public class DataSetAttachmentService {
 
   /**
    * Attach the given file as data set report to the data set.
-   * 
+   *
    * @param language The language of the report.
    * @param dataSetId The id of a {@link DataSet}.
    * @param reportFile The pdf file.

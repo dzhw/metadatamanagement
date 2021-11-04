@@ -25,7 +25,7 @@ import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedEx
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyDeleteNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -48,7 +48,7 @@ public class ScriptAttachmentService {
   /**
    * Delete all {@link Script} attachments when the {@link Script} is removed from the given
    * {@link AnalysisPackage}.
-   * 
+   *
    * @param analysisPackage The changed analysis package
    */
   @HandleAfterSave

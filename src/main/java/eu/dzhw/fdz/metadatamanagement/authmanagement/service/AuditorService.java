@@ -4,7 +4,7 @@ import javax.validation.constraints.NotEmpty;
 
 import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

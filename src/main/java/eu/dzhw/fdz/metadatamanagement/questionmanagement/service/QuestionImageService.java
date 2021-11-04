@@ -18,7 +18,7 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 import eu.dzhw.fdz.metadatamanagement.common.domain.ShadowCopyCreateNotAllowedException;
 import eu.dzhw.fdz.metadatamanagement.common.service.AttachmentMetadataHelper;
 import eu.dzhw.fdz.metadatamanagement.questionmanagement.domain.QuestionImageMetadata;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -33,7 +33,7 @@ public class QuestionImageService {
   private final GridFsOperations operations;
 
   private final MongoTemplate mongoTemplate;
-  
+
   private final AttachmentMetadataHelper<QuestionImageMetadata> attachmentMetadataHelper;
 
   /**

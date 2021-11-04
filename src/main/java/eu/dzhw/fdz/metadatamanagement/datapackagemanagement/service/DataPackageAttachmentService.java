@@ -27,7 +27,7 @@ import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.domain.DataPackageAt
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.repository.DataPackageRepository;
 import eu.dzhw.fdz.metadatamanagement.datapackagemanagement.service.helper.DataPackageAttachmentFilenameBuilder;
 import eu.dzhw.fdz.metadatamanagement.projectmanagement.domain.DataAcquisitionProject;
-import eu.dzhw.fdz.metadatamanagement.usermanagement.security.SecurityUtils;
+import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -169,7 +169,7 @@ public class DataPackageAttachmentService {
 
   /**
    * Attach the given file as data package overview to the data package.
-   * 
+   *
    * @param language The language of the report.
    * @param dataPackageId The id of a {@link DataPackage}.
    * @param overviewFile The pdf file.
