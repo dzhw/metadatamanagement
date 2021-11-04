@@ -61,6 +61,7 @@
      layout-gt-sm="row"
      class="ms-flex">
   <text-component
+    flex="40"
     bilingual="false"
     index="$ctrl.index"
     name="analysisDataPackages"
@@ -70,18 +71,20 @@
     translation-key-name="dataSourceUrl"
     max-length="2000"
     content="$ctrl.package.dataSourceUrl"
-    class="df fg"></text-component>
-</div>
-<div layout="row"
-     layout-gt-sm="row"
-     class="ms-flex">
-  <md-input-container flex="40"
+    class="ms-flex mr8 ml28"
+    style="max-width: 48%;"></text-component>
+  <!--</div>-->
+  <!--<div layout="row"-->
+  <!--     layout-gt-sm="row"-->
+  <!--     class="ms-flex">-->
+  <md-input-container flex="50"
                       md-is-error="!$ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$valid && ($ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$dirty || $ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$touched)"
-                      class="ml28 ms-flex">
+                      class="mr8 ms-flex">
     <label>{{ 'analysis-package-management.detail.label.availabilityType' | translate}}</label>
     <md-select ng-model="$ctrl.package.availabilityType"
                ng-model-options="{trackBy: '$value.de'}"
-               name="analysisDataPackagesAvailabilityType_{{$ctrl.index}}" required>
+               name="analysisDataPackagesAvailabilityType_{{$ctrl.index}}"
+               required>
       <md-option ng-repeat="item in $ctrl.availabilityType"
                  ng-value="item">
         {{ item[$ctrl.currentLanguage] }}
@@ -91,17 +94,22 @@
          ng-if="!$ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$dirty && !$ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$touched && !$ctrl.package.availabilityType">
       {{'analysis-package-management.edit.hints.availabilityType.choose' | translate}}
     </div>
-    <div class="fdz-input-hint" ng-if="$ctrl.package.availabilityType === 'OPEN_ACCESS'">
+    <div class="fdz-input-hint"
+         ng-if="$ctrl.package.availabilityType.en === 'open-access'">
       {{'analysis-package-management.edit.hints.availabilityType.open' | translate}}
     </div>
-    <div class="fdz-input-hint" ng-if="$ctrl.package.availabilityType === 'RESTRICTED_ACCESS'">
+    <div class="fdz-input-hint"
+         ng-if="$ctrl.package.availabilityType.en === 'restricted access'">
       {{'analysis-package-management.edit.hints.availabilityType.restricted' | translate}}
     </div>
-    <div class="fdz-input-hint" ng-if="$ctrl.package.availabilityType === 'NOT_ACCESSIBLE'">
+    <div class="fdz-input-hint"
+         ng-if="$ctrl.package.availabilityType.en === 'not accessible'">
       {{'analysis-package-management.edit.hints.availabilityType.none' | translate}}
     </div>
-    <div multiple ng-messages="$ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$error">
-      <div ng-message="required">{{'analysis-package-management.error.analysis-package.analysisDataPackages.availabilityType.i18n-not-null' |
+    <div multiple
+         ng-messages="$ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$error">
+      <div ng-message="required">
+        {{'analysis-package-management.error.analysis-package.analysisDataPackages.availabilityType.i18n-not-null' |
       translate}}
       </div>
     </div>

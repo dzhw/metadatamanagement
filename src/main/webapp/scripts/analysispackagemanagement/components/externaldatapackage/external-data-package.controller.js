@@ -25,8 +25,6 @@
       ];
       $ctrl.$onInit = function() {
         $ctrl.package.availabilityType = $ctrl.package.availabilityType || {};
-
-        console.log($ctrl.package.availabilityType);
       };
     }
 

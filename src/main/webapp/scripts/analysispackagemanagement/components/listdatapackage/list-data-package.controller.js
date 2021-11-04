@@ -36,6 +36,7 @@
 
       $ctrl.deletePackage = function(index) {
         $ctrl.packages.splice(index, 1);
+        $ctrl.currentForm.$setDirty();
       };
     }
 

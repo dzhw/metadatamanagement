@@ -1,7 +1,6 @@
-<md-input-container flex="50"
-                    md-is-error="!$ctrl.currentForm[$ctrl.controlName + '_' + $ctrl.index].$valid && ($ctrl.currentForm[$ctrl.controlName + '_' + $ctrl.index].$dirty || $ctrl.currentForm[$ctrl.controlName + '_' + $ctrl.index].$touched)"
+<md-input-container md-is-error="!$ctrl.currentForm[$ctrl.controlName + '_' + $ctrl.index].$valid && ($ctrl.currentForm[$ctrl.controlName + '_' + $ctrl.index].$dirty || $ctrl.currentForm[$ctrl.controlName + '_' + $ctrl.index].$touched)"
                     ng-class="{'mr10': $mdMedia('gt-sm')}"
-                    class="ms-flex mr8 ml28">
+                    style="max-width: 100%; display: block;">
   <label
     ng-class="$ctrl.notNull ? 'fdz-input-required' : ''">{{$ctrl.translationKeyPackage + '-management.detail.label.' + $ctrl.name + '.' + $ctrl.translationKeyName | translate}}
     ({{'global.in-german' | translate}})
