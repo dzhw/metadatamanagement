@@ -91,4 +91,22 @@ public class UserApiServiceTest extends AbstractTest {
     results = userApiService.findAllByLoginIn(Set.of("NON_ROLE"));
     assertThat(results.size(), is(0));
   }
+
+  @Test
+  public void findOneByLoginOrEmail_WithResult_ByLogin() throws InvalidResponseException {
+    var result = userApiService.findOneByLoginOrEmail("resource_server", "NON_EMAIL");
+    assertThat(result.isPresent(), is(true));
+  }
+
+  @Test
+  public void findOneByLoginOrEmail_WithResult_ByEmail() throws InvalidResponseException {
+    var result = userApiService.findOneByLoginOrEmail("NON_LOGIN", "resource_server@example.com");
+    assertThat(result.isPresent(), is(true));
+  }
+
+  @Test
+  public void findOneByLoginOrEmail_NoResult() throws InvalidResponseException {
+    var result = userApiService.findOneByLoginOrEmail("NON_LOGIN", "NON_EMAIL");
+    assertThat(result.isPresent(), is(false));
+  }
 }

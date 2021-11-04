@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -111,7 +112,7 @@ public class UserApiService {
    * @return a group of users whose login field is included in the {@code logins} search parameter
    * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
    */
-  public List<UserApiResponseDto.UserDto> findAllByLoginIn(Set<String> logins)
+  public List<UserApiResponseDto.UserDto> findAllByLoginIn(final Set<String> logins)
       throws InvalidResponseException {
 
     StringBuilder sb = new StringBuilder(
@@ -136,6 +137,45 @@ public class UserApiService {
     }
 
     return doFindAllApiCall(sb.toString());
+  }
+
+  /**
+   * Find a specific user based on either the user's login or the user's email.
+   *
+   * @param login a search parameter which should match a user's login
+   * @param email a search parameter which should match a user's email
+   * @return a user with either the provided login, email, or both
+   * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
+   */
+  public Optional<UserApiResponseDto.UserDto> findOneByLoginOrEmail(
+      final String login,
+      final String email
+  ) throws InvalidResponseException {
+    return this.doFindAllApiCall(
+        String.format(
+            "%s/jsonapi/user/user"
+              // Create an OR group
+              + "?filter[or-group][group][conjunction]=OR"
+              // Add a name equals filter
+              + "&filter[name-filter][condition][path]=name"
+              // The HTMLTemplate will handle the encoding of =
+              + "&filter[name-filter][condition][operator]=="
+              + "&filter[name-filter][condition][value]={name}"
+              + "&filter[name-filter][condition][memberOf]=or-group"
+              // Add an email equals filter
+              + "&filter[email-filter][condition][path]=mail"
+              // The HTMLTemplate will handle the encoding of =
+              + "&filter[email-filter][condition][operator]=="
+              + "&filter[email-filter][condition][value]={email}"
+              + "&filter[email-filter][condition][memberOf]=or-group",
+            authServerEndpoint
+        ),
+        login,
+        email
+    )
+        // There should only be one or none response.
+        .stream()
+        .findFirst();
   }
 
   private List<UserApiResponseDto.UserDto> doFindAllApiCall(
