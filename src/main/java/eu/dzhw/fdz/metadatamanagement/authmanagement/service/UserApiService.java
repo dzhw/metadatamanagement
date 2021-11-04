@@ -1,5 +1,6 @@
 package eu.dzhw.fdz.metadatamanagement.authmanagement.service;
 
+import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.rest.dto.UserApiResponseDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,7 +57,7 @@ public class UserApiService {
    * @return a group of users that have the provided role
    * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
    */
-  public List<UserApiResponseDto.UserDto> findAllByAuthoritiesContaining(
+  public List<UserDto> findAllByAuthoritiesContaining(
       final String role
   ) throws InvalidResponseException {
     return this.doFindAllApiCall(
@@ -78,7 +79,7 @@ public class UserApiService {
    *         contains the {@code email} parameter
    * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
    */
-  public List<UserApiResponseDto.UserDto> findAllByLoginLikeOrEmailLike(
+  public List<UserDto> findAllByLoginLikeOrEmailLike(
       final String login,
       final String email
   ) throws InvalidResponseException {
@@ -112,7 +113,7 @@ public class UserApiService {
    * @return a group of users whose login field is included in the {@code logins} search parameter
    * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
    */
-  public List<UserApiResponseDto.UserDto> findAllByLoginIn(final Set<String> logins)
+  public List<UserDto> findAllByLoginIn(final Set<String> logins)
       throws InvalidResponseException {
 
     StringBuilder sb = new StringBuilder(
@@ -147,7 +148,7 @@ public class UserApiService {
    * @return a user with either the provided login, email, or both
    * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
    */
-  public Optional<UserApiResponseDto.UserDto> findOneByLoginOrEmail(
+  public Optional<UserDto> findOneByLoginOrEmail(
       final String login,
       final String email
   ) throws InvalidResponseException {
@@ -185,7 +186,7 @@ public class UserApiService {
    * @return info on the user whose login matches the {@code login} search parameter
    * @throws InvalidResponseException when the Server's status response is not OK (i.e. code 200)
    */
-  public Optional<UserApiResponseDto.UserDto> findOneByLogin(
+  public Optional<UserDto> findOneByLogin(
       final String login
   ) throws InvalidResponseException {
     return this.doFindAllApiCall(
@@ -200,7 +201,7 @@ public class UserApiService {
       .findFirst();
   }
 
-  private List<UserApiResponseDto.UserDto> doFindAllApiCall(
+  private List<UserDto> doFindAllApiCall(
       final String apiUri,
       final Object... uriVariables
   ) throws InvalidResponseException {
