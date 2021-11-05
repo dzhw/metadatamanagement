@@ -602,8 +602,8 @@ angular.module('metadatamanagementApp').factory(
       pushToFilterArray(query, shadowCopyFilter);
     };
 
-    var addShadowCopyFilter = function(query, filter) {
-      if (Principal.loginName()) {
+    var addShadowCopyFilter = function(query, filter, enforceReleased) {
+      if (!enforceReleased && Principal.loginName()) {
         applyOnlyMasterDataFilter(query, filter);
       } else {
         applyShadowCopyFilter(query, filter);

@@ -362,10 +362,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
     };
 
     var applyFetchLatestShadowCopyFilter = function(query, elasticSearchType,
-                                                    filter) {
+                                                    filter, enforceReleased) {
       if (!_.includes(['related_publications', 'concepts'],
         elasticSearchType)) {
-        SearchHelperService.addShadowCopyFilter(query, filter);
+        SearchHelperService.addShadowCopyFilter(query, filter, enforceReleased);
       }
     };
 
@@ -385,7 +385,8 @@ angular.module('metadatamanagementApp').service('SearchDao',
     return {
       search: function(queryterm, pageNumber, dataAcquisitionProjectId,
                        filter, elasticsearchType, pageSize, idsToExclude,
-                       aggregations, newFilters, sortCriteria) {
+                       aggregations, newFilters, sortCriteria,
+                       enforceReleased) {
         var query = {};
         query.preference = clientId;
         var dataPackageId;
@@ -480,7 +481,7 @@ angular.module('metadatamanagementApp').service('SearchDao',
         }
 
         //only publisher and data provider see unreleased projects
-        if (!Principal
+        if (enforceReleased || !Principal
           .hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_DATA_PROVIDER',
             'ROLE_ADMIN'])) {
           query.body.query.bool.filter = [];
@@ -556,9 +557,10 @@ angular.module('metadatamanagementApp').service('SearchDao',
         SearchHelperService.addNewFilters(query, elasticsearchType,
           newFilters);
 
-        if (Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
+        if (enforceReleased ||
+            Principal.hasAnyAuthority(['ROLE_PUBLISHER', 'ROLE_ADMIN'])) {
           applyFetchLatestShadowCopyFilter(query, elasticsearchType,
-            filterToUse);
+            filterToUse, enforceReleased);
           return ElasticSearchClient.search(query);
         } else {
           applyFetchDataWhereUserIsDataProviderFilter(query, elasticsearchType);
