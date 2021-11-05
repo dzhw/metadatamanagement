@@ -1,10 +1,14 @@
-<div layout="column"
-
-     class="ms-flex">
-
+<md-card layout="column"
+         class="ms-flex ml28" style="flex: 1;">
+  <md-card-header>
+    <md-card-header-text class="md-header-text">
+      <h2 class="md-subtitle">{{ 'analysis-package-management.detail.label.analysisDataPackages.dataSources' | translate }}</h2>
+    </md-card-header-text>
+  </md-card-header>
+  <md-divider></md-divider>
+  <md-content class="pt16" style="background-color: #FFFFFF;">
   <div id="move-link-container" layout="row"
-       ng-repeat="link in $ctrl.content track by $index"
-       class="ml28">
+       ng-repeat="link in $ctrl.content track by $index">
     <md-button class="md-primary md-icon-button"
                ng-click="$ctrl.deleteLink()"
                style="margin-top: 18px; margin-left: 0px; padding-left: 0px;">
@@ -85,38 +89,36 @@
       </div>
     </md-input-container>
   </div>
-</div>
-<div layout="row"
-     class="ms-flex">
-  <div layout="row" layout-align="begin center"
-       style="margin-top: 0px; margin-bottom: 12px;">
-    <md-button class="md-primary md-raised md-icon-button ml6"
-               ng-click="$ctrl.addLink()">
-      <md-tooltip md-autohide="true" md-direction="bottom"
-                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'analysis-package-management.edit.add-link-tooltip' | translate}}
-      </md-tooltip>
-      <md-icon md-font-set="material-icons">add</md-icon>
-    </md-button>
-    <md-button class="md-primary md-raised md-icon-button"
-               id="move-link-up-button"
-               ng-click="$ctrl.moveCurrentLinkUp()"
-               ng-disabled="$ctrl.currentLinkIndex == null || $ctrl.currentLinkIndex === 0">
-      <md-tooltip md-autohide="true" md-direction="bottom"
-                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'analysis-package-management.edit.move-link-up-tooltip' | translate}}
-      </md-tooltip>
-      <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
-    </md-button>
-    <md-button class="md-primary md-raised md-icon-button"
-               id="move-link-down-button"
-               ng-click="$ctrl.moveCurrentLinkDown()"
-               ng-disabled="$ctrl.currentLinkIndex == null || $ctrl.currentLinkIndex === $ctrl.content.length - 1">
-      <md-tooltip md-autohide="true" md-direction="bottom"
-                  md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'analysis-package-management.edit.move-link-down-tooltip' | translate}}
-      </md-tooltip>
-      <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
-    </md-button>
-  </div>
-</div>
+  </md-content>
+  <md-card-actions class="ma0 mt8">
+
+      <md-button class="md-primary md-raised md-icon-button ml6"
+                 ng-click="$ctrl.addLink()">
+        <md-tooltip md-autohide="true" md-direction="bottom"
+                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'analysis-package-management.edit.add-link-tooltip' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">add</md-icon>
+      </md-button>
+      <md-button class="md-primary md-raised md-icon-button"
+                 id="move-link-up-button"
+                 ng-click="$ctrl.moveCurrentLinkUp()"
+                 ng-disabled="$ctrl.currentLinkIndex == null || $ctrl.currentLinkIndex === 0">
+        <md-tooltip md-autohide="true" md-direction="bottom"
+                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'analysis-package-management.edit.move-link-up-tooltip' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">keyboard_arrow_up</md-icon>
+      </md-button>
+      <md-button class="md-primary md-raised md-icon-button"
+                 id="move-link-down-button"
+                 ng-click="$ctrl.moveCurrentLinkDown()"
+                 ng-disabled="$ctrl.currentLinkIndex == null || $ctrl.currentLinkIndex === $ctrl.content.length - 1">
+        <md-tooltip md-autohide="true" md-direction="bottom"
+                    md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
+          {{'analysis-package-management.edit.move-link-down-tooltip' | translate}}
+        </md-tooltip>
+        <md-icon md-font-set="material-icons">keyboard_arrow_down</md-icon>
+      </md-button>
+  </md-card-actions>
+</md-card>

@@ -11,6 +11,7 @@ angular.module('metadatamanagementApp').config(
               'description': 'Datenpaketbeschreibung',
               'annotations': 'Anmerkungen',
               'dataSource': 'Datenquelle',
+              'dataSources': 'Datenquellen',
               'dataSourceUrl': 'Link zur Datenquelle'
             },
             'accessWay': 'Zugangsweg',
