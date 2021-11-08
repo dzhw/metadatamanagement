@@ -9,8 +9,8 @@
       $ctrl.dataPackageList = {
         dataPackage: {
           type: 'dataPackage',
-          en: 'Data Package',
-          de: 'Datenpaket'
+          en: 'Analyzed Data Package',
+          de: 'Analysiertes Datenpaket'
         },
         externalDataPackage: {
           type: 'externalDataPackage',
@@ -30,7 +30,7 @@
 
       $ctrl.addPackage = function() {
         $ctrl.packages.push({
-          type: 'customDataPackage'
+          type: 'dataPackage'
         });
       };
 

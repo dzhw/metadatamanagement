@@ -6,6 +6,7 @@
     templateUrl: 'scripts/analysispackagemanagement/' +
       'components/datapackage/data.html.tmpl',
     bindings: {
+      index: '<',
       currentForm: '<',
       package: '='
     }

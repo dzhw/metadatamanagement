@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').config(
       'analysis-package-management': {
         'detail': {
           'label': {
+            'analyzed-data-package': 'Analysiertes Datenpaket',
             'analysisDataPackages': {
               'description': 'Datenpaketbeschreibung',
               'annotations': 'Anmerkungen',
@@ -14,7 +15,9 @@ angular.module('metadatamanagementApp').config(
               'dataSources': 'Datenquellen',
               'dataSourceUrl': 'Link zur Datenquelle'
             },
-            'accessWay': 'Zugangsweg',
+            'access-way': 'Zugangsweg',
+            'available-versions': 'Verfügbare Versionen',
+            'available-access-ways': 'Verfügbare Zugangswege',
             'availabilityType': 'Zugangsstatus',
             'additional-links': 'Weiterführende Links',
             'analysisPackage': 'Analysepaket',
@@ -142,6 +145,7 @@ angular.module('metadatamanagementApp').config(
             'publication-year': 'Jahr der Veröffentlichung',
             'institution': 'Institution',
             'sponsor': 'Geldgeber:in',
+            'version': 'Version',
             'script': {
               'language': 'Skript Sprache',
               'software-package': 'Software Paket',
@@ -162,7 +166,7 @@ angular.module('metadatamanagementApp').config(
                 'en': 'Optional: Geben Sie einen Text auf Englisch an, der zur Anzeige des Links verwendet werden soll.'
               }
             },
-            'accessWay': {
+            'access-way': {
               'choose': 'Bitte wählen Sie ein Zugangsweg.'
             },
             'availabilityType': {
@@ -206,13 +210,13 @@ angular.module('metadatamanagementApp').config(
               'en': 'Geben Sie den englischen Namen der Geldgeber:in für dieses Analysepaket ein.'
             },
             'title': {
-              'de': 'Geben Sie den Titel des Analysepakets auf Deutsch ein.',
-              'en': 'Geben Sie den Titel des Analysepakets auf Englisch ein.'
+              'de': 'Geben Sie den deutschen Titel des Analysepakets auf Deutsch ein.',
+              'en': 'Geben Sie den englischen Titel des Analysepakets auf Englisch ein.'
             },
             'analysisDataPackages': {
               'title': {
-                'de': 'Geben Sie den Titel des Datenpakets auf Deutsch ein.',
-                'en': 'Geben Sie den Titel des Datenpakets auf Englisch ein.'
+                'de': 'Geben Sie den deutschen Titel des Datenpakets auf Deutsch ein.',
+                'en': 'Geben Sie den englischen Titel des Datenpakets auf Englisch ein.'
               },
               'description': {
                 'de': 'Geben Sie eine Beschreibung des Datenpakets auf Deutsch ein.',
@@ -227,7 +231,9 @@ angular.module('metadatamanagementApp').config(
                 'en': 'Hier muss die Datenquelle angegeben werden, in der die Daten gespeichert werden (z.B. Name der Institution/des Repositoriums; private Speicherung).'
               },
               'dataSourceUrl': 'Geben Sie den Link zur Datenquelle ein.'
-            }
+            },
+            'analyzed-data-package': 'Geben Sie den Titel des analysierten Datenpakets ein.',
+            'version': 'Bitte wählen Sie ein Version.'
           }
         },
         'error': {
@@ -266,7 +272,7 @@ angular.module('metadatamanagementApp').config(
               'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
             },
             'software-package': {
-              'not-found': 'Kein gültiges Sofware Paket gefunden.',
+              'not-found': 'Kein gültiges Software Paket gefunden.',
               'not-null': 'Das Software Paket darf nicht leer sein.',
               'not-valid': 'Bitte wählen Sie ein vorgeschlagenes Software Paket aus.'
             },
@@ -299,9 +305,6 @@ angular.module('metadatamanagementApp').config(
                 'i18n-string-size': 'Die Maximallänge des Titels eines Datenpaket ist 2048 Zeichen.',
                 'i18n-string-entire-not-empty': 'Der Titel eines Datenpaket muss in allen Sprachen vorhanden sein.'
               },
-              'accessWay': {
-                'i18n-not-null': 'Der Zugangsweg eines Datenpaket darf nicht leer sein!'
-              },
               'availabilityType': {
                 'i18n-not-null': 'Der Zugangsstatus eines Datenpaket darf nicht leer sein!'
               },
@@ -328,6 +331,18 @@ angular.module('metadatamanagementApp').config(
                 'url-size': 'Die Maximallänge der URL ist 2000 Zeichen.',
                 'url-not-empty': 'Die URL darf nicht leer sein.'
               }
+            }
+          },
+          'analyzed-data-package': {
+            'data-package-master-id': {
+              'not-empty': 'Es muss ein analysiertes Datenpaket ausgewählt sein.',
+              'not-found': 'Kein gültiges Datenpaket gefunden.'
+            },
+            'version': {
+              'not-empty': 'Die Version eines Datenpaket darf nicht leer sein!'
+            },
+            'access-way': {
+              'not-empty': 'Der Zugangsweg eines Datenpaket darf nicht leer sein!'
             }
           }
         }

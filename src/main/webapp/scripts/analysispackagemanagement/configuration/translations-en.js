@@ -7,6 +7,7 @@ angular.module('metadatamanagementApp').config(
       'analysis-package-management': {
         'detail': {
           'label': {
+            'analyzed-data-package': 'Analyzed Data Package',
             'analysisDataPackages': {
               'description': 'Data Package Description',
               'annotations': 'Annotations',
@@ -14,7 +15,9 @@ angular.module('metadatamanagementApp').config(
               'dataSources': 'Data Sources',
               'dataSourceUrl': 'Link of data source'
             },
-            'accessWay': 'Access way',
+            'access-way': 'Access way',
+            'available-versions': 'Available Versions',
+            'available-access-ways': 'Available Access Ways',
             'availabilityType': 'Availability Type',
             'additional-links': 'Additional Links',
             'analysisPackage': 'Analysis Package',
@@ -141,6 +144,7 @@ angular.module('metadatamanagementApp').config(
             'publication-year': 'Year of Publication',
             'institution': 'Institution',
             'sponsor': 'Sponsor',
+            'version': 'Version',
             'script': {
               'language': 'Script Language',
               'software-package': 'Software Package',
@@ -161,7 +165,7 @@ angular.module('metadatamanagementApp').config(
                 'en': 'Optional: Specify a text in English to be used to display the link.'
               }
             },
-            'accessWay': {
+            'access-way': {
               'choose': 'Please choose an access way type.'
             },
             'availabilityType': {
@@ -226,7 +230,10 @@ angular.module('metadatamanagementApp').config(
                 'en': 'The data source where the data is stored must be specified here (e.g. name of the institution/repository, private data storage).'
               },
               'dataSourceUrl': 'Enter the data source url.'
-            }
+            },
+            'analyzed-data-package': 'Please enter the title of the analyzed data package.',
+            'version': 'Please choose a version.'
+
           }
         },
         'error': {
@@ -299,9 +306,6 @@ angular.module('metadatamanagementApp').config(
                 'i18n-string-size': 'The max length of the data package title is 2048.',
                 'i18n-string-entire-not-empty': 'The title of the data package must not be empty for all languages.'
               },
-              'accessWay': {
-                'i18n-not-null': 'The access way of the data package must not be empty!'
-              },
               'availabilityType': {
                 'i18n-not-null': 'The availability type of the data package must not be empty!'
               },
@@ -326,8 +330,20 @@ angular.module('metadatamanagementApp').config(
               'dataSourceUrl': {
                 'invalid-url': 'The provided URL is not valid.',
                 'url-size': 'The max length for URLs is 2000 chracters.',
-                'url-not-empty': 'The URL must not be empty.',
+                'url-not-empty': 'The URL must not be empty.'
               }
+            }
+          },
+          'analyzed-data-package': {
+            'data-package-master-id': {
+              'not-empty': 'An analyzed data package must be selected.',
+              'not-found': 'No valid data package found.'
+            },
+            'version': {
+              'not-empty': 'The version of the data package must not be empty!'
+            },
+            'access-way': {
+              'not-empty': 'The access way of the data package must not be empty!'
             }
           }
         }
