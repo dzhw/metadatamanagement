@@ -29,10 +29,13 @@
           <label>{{ 'analysis-package-management.detail.label.data-packages' | translate}}</label>
           <md-select ng-model="package.type"
                      name="analysisDataPackagesType_{{$index}}" required>
-            <md-option ng-repeat="item in $ctrl.dataPackageList"
-                       ng-value="item.type">
-              {{ item[$ctrl.currentLanguage] }}
-            </md-option>
+            <md-optgroup
+              label="{{'analysis-package-management.detail.label.available-data-packages' | translate}}">
+              <md-option ng-repeat="item in $ctrl.dataPackageList"
+                         ng-value="item.type">
+                {{ item[$ctrl.currentLanguage] }}
+              </md-option>
+            </md-optgroup>
           </md-select>
           <div class="fdz-input-hint"
                ng-if="!$ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$dirty && !$ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$touched">

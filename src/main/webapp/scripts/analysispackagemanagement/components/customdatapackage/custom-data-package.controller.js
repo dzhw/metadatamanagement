@@ -8,12 +8,10 @@
       $ctrl.currentLanguage = LanguageService.getCurrentInstantly();
       $ctrl.availabilityType = [
         {
-          // type: 'ACCESSIBLE',
           de: 'verfügbar',
           en: 'accessible'
         },
         {
-          // type: 'NOT_ACCESSIBLE',
           de: 'nicht verfügbar',
           en: 'not accessible'
         }

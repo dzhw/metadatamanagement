@@ -18,6 +18,8 @@ angular.module('metadatamanagementApp').config(
             'access-way': 'Zugangsweg',
             'available-versions': 'Verfügbare Versionen',
             'available-access-ways': 'Verfügbare Zugangswege',
+            'available-data-packages': 'Verfügbare Datenpakete',
+            'available-availability-type': 'Verfügbarer Zugangsstatus',
             'availabilityType': 'Zugangsstatus',
             'additional-links': 'Weiterführende Links',
             'analysisPackage': 'Analysepaket',
@@ -330,6 +332,9 @@ angular.module('metadatamanagementApp').config(
                 'invalid-url': 'Die angegebene URL ist ungültig',
                 'url-size': 'Die Maximallänge der URL ist 2000 Zeichen.',
                 'url-not-empty': 'Die URL darf nicht leer sein.'
+              },
+              'access-way': {
+                'i18n-not-null': 'Der Zugangsweg eines Datenpaket darf nicht leer sein!'
               }
             }
           },

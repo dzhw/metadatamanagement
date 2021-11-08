@@ -53,10 +53,13 @@
                ng-model-options="{trackBy: '$value.de'}"
                name="analysisDataPackagesAvailabilityType_{{$ctrl.index}}"
                required>
-      <md-option ng-repeat="item in $ctrl.availabilityType"
-                 ng-value="item">
-        {{ item[$ctrl.currentLanguage] }}
-      </md-option>
+      <md-optgroup
+        label="{{'analysis-package-management.detail.label.available-availability-type' | translate}}">
+        <md-option ng-repeat="item in $ctrl.availabilityType"
+                   ng-value="item">
+          {{ item[$ctrl.currentLanguage] }}
+        </md-option>
+      </md-optgroup>
     </md-select>
     <div class="fdz-input-hint"
          ng-if="!$ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$dirty && !$ctrl.currentForm['analysisDataPackageAvailabilityType_' + $ctrl.index].$touched && !$ctrl.package.availabilityType">
@@ -82,23 +85,26 @@
   <md-input-container flex="50"
                       md-is-error="!$ctrl.currentForm['analysisDataPackagesAccessWay_' + $ctrl.index].$valid && ($ctrl.currentForm['analysisDataPackagesAccessWay_' + $ctrl.index].$dirty || $ctrl.currentForm['analysisDataPackagesAccessWay_' + $ctrl.index].$touched)"
                       class="mr8 ms-flex">
-    <label>{{ 'analysis-package-management.detail.label.accessWay' | translate}}</label>
+    <label>{{ 'analysis-package-management.detail.label.access-way' | translate}}</label>
     <md-select ng-model="$ctrl.package.accessWay"
                name="analysisDataPackagesAccessWay_{{$ctrl.index}}"
                required>
-      <md-option ng-repeat="item in $ctrl.accessWay"
-                 ng-value="item">
-        {{ item }}
-      </md-option>
+      <md-optgroup
+        label="{{'analysis-package-management.detail.label.available-access-ways' | translate}}">
+        <md-option ng-repeat="item in $ctrl.accessWay"
+                   ng-value="item">
+          {{ item }}
+        </md-option>
+      </md-optgroup>
     </md-select>
     <div class="fdz-input-hint"
          ng-if="!$ctrl.currentForm['analysisDataPackagesAccessWay_' + $ctrl.index].$dirty && !$ctrl.currentForm['analysisDataPackagesAccessWay_' + $ctrl.index].$touched && !$ctrl.package.availabilityType">
-      {{'analysis-package-management.edit.hints.accessWay.choose' | translate}}
+      {{'analysis-package-management.edit.hints.access-way.choose' | translate}}
     </div>
     <div multiple
          ng-messages="$ctrl.currentForm['analysisDataPackagesAccessWay_' + $ctrl.index].$error">
       <div ng-message="required">
-        {{'analysis-package-management.error.analysis-package.analysisDataPackages.accessWay.i18n-not-null' |
+        {{'analysis-package-management.error.analysis-package.analysisDataPackages.access-way.i18n-not-null' |
       translate}}
       </div>
     </div>
@@ -112,8 +118,8 @@
     index="$ctrl.index"
     name="analysisDataPackages"
     current-form="$ctrl.currentForm"
-    max-length="2048"
-    content="$ctrl.package.dataSources",
+    max-length="2000"
+    content="$ctrl.package.dataSources" ,
     template-url="scripts/common/url/url-with-index.html.tmpl"
     class="df fg"></url-component>
 </div>

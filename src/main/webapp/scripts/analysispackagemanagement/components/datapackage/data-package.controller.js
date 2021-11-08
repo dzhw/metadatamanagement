@@ -15,13 +15,13 @@
       var $ctrl = this;
       var initialize = false;
       $ctrl.currentLanguage = LanguageService.getCurrentInstantly();
-      $ctrl.dataPackages = [];
       $ctrl.currentDataPackage = '';
       $ctrl.currentAccessWay = '';
       $ctrl.currentVersion = {};
-      $ctrl.searchText = '';
+      $ctrl.dataPackages = [];
       $ctrl.accessWays = [];
       $ctrl.releases = [];
+      $ctrl.searchText = '';
 
       function loadDataPackage(id, version) {
         $rootScope.$broadcast('start-ignoring-404');
