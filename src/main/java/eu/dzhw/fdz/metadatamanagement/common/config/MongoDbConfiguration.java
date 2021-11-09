@@ -19,6 +19,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.data.annotation.Persistent;
 import org.springframework.data.mapping.model.FieldNamingStrategy;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
@@ -35,7 +36,7 @@ import com.github.cloudyrock.spring.v5.EnableMongock;
  */
 @Configuration
 @EnableMongoRepositories("eu.dzhw.fdz.metadatamanagement.**.repository")
-// @EnableMongoAuditing(auditorAwareRef = "springSecurityAuditorAware")
+@EnableMongoAuditing(auditorAwareRef = "auditorStoreAware")
 @EnableMongock
 public class MongoDbConfiguration {
 
