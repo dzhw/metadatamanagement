@@ -124,10 +124,10 @@ public class DataPackageOverviewResource {
       @PathVariable("dataPackageId") String dataPackageId,
       @RequestParam("onBehalfOf") String onBehalfOf, @PathVariable("language") String language)
       throws IOException {
-    var user = auditorService.switchToUser(onBehalfOf);
+    var user = auditorService.findAndSetOnBehalfAuditor(onBehalfOf);
     dataPackageAttachmentService.attachDataPackageOverview(dataPackageId, language, overviewFile);
     mailService.sendDataPackageOverviewGeneratedMail(user, dataPackageId, language, sender);
-    auditorService.switchToUser(null);
+
     return ResponseEntity.ok().build();
   }
 }

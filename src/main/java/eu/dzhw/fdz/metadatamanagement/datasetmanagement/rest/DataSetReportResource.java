@@ -120,10 +120,10 @@ public class DataSetReportResource {
   public ResponseEntity<?> uploadReport(@RequestParam("file") MultipartFile reportFile,
       @PathVariable("dataSetId") String dataSetId, @RequestParam("onBehalfOf") String onBehalfOf,
       @PathVariable("language") String language) throws IOException {
-    var user = auditorService.switchToUser(onBehalfOf);
+    var user = auditorService.findAndSetOnBehalfAuditor(onBehalfOf);
     dataSetAttachmentService.attachDataSetReport(dataSetId, language, reportFile);
     mailService.sendDataSetReportGeneratedMail(user, dataSetId, language, sender);
-    auditorService.switchToUser(null);
+
     return ResponseEntity.ok().build();
   }
 }

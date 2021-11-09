@@ -5,13 +5,11 @@ import javax.validation.constraints.NotEmpty;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.domain.dto.UserDto;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.service.exception.InvalidResponseException;
 import eu.dzhw.fdz.metadatamanagement.authmanagement.security.SecurityUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
+import eu.dzhw.fdz.metadatamanagement.common.config.audit.AuditorStore;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-
-import java.util.Optional;
+import org.springframework.util.StringUtils;
 
 /**
  * Provides login name and role checks of the currently authenticated user.
@@ -22,6 +20,8 @@ public class AuditorService {
 
   private final UserApiService userApiService;
 
+  private final AuditorStore auditorStore;
+
   /**
    * Retrieve the username of the currently authenticated user.
    */
@@ -31,6 +31,9 @@ public class AuditorService {
 
   /**
    * Checks if the currently authenticated user has the provided role.
+   *
+   * @param role the role against which
+   * @return is the user in the role?
    */
   public boolean isUserInRole(@NotEmpty String role) {
     return SecurityUtils.isUserInRole(role);
@@ -38,40 +41,36 @@ public class AuditorService {
 
   /**
    * Checks if the currently authenticated user has been authenticated anonymously.
+   *
+   * @return is user anonymous?
    */
   public boolean isUserAnonymous() {
     return SecurityUtils.isUserAnonymous();
   }
 
   /**
-   * Switches the security context to the given user or logs the current user out.
+   * Find a user based on their login and set them to the "on behalf" auditor.
    *
-   * @param login the username to login, if null the security context will be cleared
-   * @return the user information of the logged in user
+   * @param login a value which will be used to search for a user via an equivalency check on the
+   *              user's login
+   * @return info about the user with the provided {@code login}
    */
-  public UserDto switchToUser(String login) {
-    if (StringUtils.isEmpty(login)) {
-      SecurityContextHolder.getContext().setAuthentication(null);
+  public UserDto findAndSetOnBehalfAuditor(String login) {
+    if (!StringUtils.hasLength(login)) {
       return null;
     }
-    Optional<UserDto> user;
+
     try {
-      user = userApiService.findOneByLogin(login);
+      var user = userApiService.findOneByLogin(login);
+      if (user.isPresent()) {
+        auditorStore.setAuditor(login);
+
+        return user.get();
+      }
+
+      throw new IllegalArgumentException("User not found: " + login);
     } catch (InvalidResponseException e) {
       throw new IllegalArgumentException("Could not find user " + login);
-    }
-    if (user.isPresent()) {
-      var userInstance = user.get();
-      // switch to on behalf user for correct modification names
-      /*Set<GrantedAuthority> grantedAuthorities = userInstance.getAuthorities().stream()
-          .map(authority -> new SimpleGrantedAuthority(authority))
-          .collect(Collectors.toSet());
-      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-          userInstance.getLogin(), userInstance.getPassword(), grantedAuthorities);
-      SecurityContextHolder.getContext().setAuthentication(authentication);*/
-      return userInstance;
-    } else {
-      throw new IllegalArgumentException("User not found: " + login);
     }
   }
 }
