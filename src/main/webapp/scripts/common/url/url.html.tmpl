@@ -2,7 +2,8 @@
                     md-is-error="!$ctrl.currentForm['analysisDataPackagesUrl_' + $index].$valid && ($ctrl.currentForm['analysisDataPackagesUrl_' + $index].$dirty || $ctrl.currentForm['analysisDataPackagesUrl_' + $index].$touched)">
   <label
     class="fdz-input-required">{{'analysis-package-management.edit.label.additional-links.url' | translate}}</label>
-  <input type="url" fdz-required md-no-asterisk
+  <input type="url"
+         fdz-required
          name="analysisDataPackagesUrl_{{$index}}" md-maxlength="2000"
          ng-model="$ctrl.content.dataSources[$ctrl.index].url" autocomplete="off">
   <div

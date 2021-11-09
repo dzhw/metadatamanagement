@@ -31,7 +31,7 @@
                             class="mr8"
                             md-is-error="!$ctrl.currentForm['scriptsTitleDe_' + $index].$valid && ($ctrl.currentForm['scriptsTitleDe_' + $index].$dirty || $ctrl.currentForm['scriptsTitleDe_' + $index].$touched)">
           <label
-            class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}}</label>
+            class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}} ({{'global.in-german' | translate}})</label>
           <input fdz-required
                  md-no-asterisk
                  name="scriptsTitleDe_{{$index}}"
@@ -40,16 +40,16 @@
                  ng-model="script.title.de">
           <div class="fdz-input-hint"
                ng-if="!$ctrl.currentForm['scriptsTitleDe_' + $index].$dirty && !$ctrl.currentForm['scriptsTitleDe_' + $index].$touched">
-            {{'analysis-package-management.edit.hints.title.de' | translate}}
+            {{'analysis-package-management.edit.hints.script.title.de' | translate}}
           </div>
           <div multiple
                ng-messages="$ctrl.currentForm['scriptsTitleDe_' + $index].$error">
             <div ng-message="fdz-required">
-              {{'analysis-package-management.error.analysis-package.title.i18n-string-entire-not-empty' |
+              {{'analysis-package-management.error.script.title.i18n-string-entire-not-empty' |
             translate}}
             </div>
             <div ng-message="md-maxlength">
-              {{'analysis-package-management.error.analysis-package.title.i18n-string-size' | translate}}
+              {{'analysis-package-management.error.script.title.i18n-string-size' | translate}}
             </div>
           </div>
         </md-input-container>
@@ -57,7 +57,7 @@
                             class="mr8"
                             md-is-error="!$ctrl.currentForm['scriptsTitleEn_' + $index].$valid && ($ctrl.currentForm['scriptsTitleEn_' + $index].$dirty || $ctrl.currentForm['scriptsTitleEn_' + $index].$touched)">
           <label
-            class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}}</label>
+            class="fdz-input-required">{{'analysis-package-management.detail.label.title' | translate}} ({{'global.in-english' | translate}})</label>
           <input fdz-required
                  md-no-asterisk
                  name="scriptsTitleEn_{{$index}}"
@@ -66,16 +66,16 @@
                  ng-model="script.title.en">
           <div class="fdz-input-hint"
                ng-if="!$ctrl.currentForm['scriptsTitleEn_' + $index].$dirty && !$ctrl.currentForm['scriptsTitleEn_' + $index].$touched">
-            {{'analysis-package-management.edit.hints.title.en' | translate}}
+            {{'analysis-package-management.edit.hints.script.title.en' | translate}}
           </div>
           <div multiple
                ng-messages="$ctrl.currentForm['scriptsTitleEn_' + $index].$error">
             <div ng-message="fdz-required">
-              {{'analysis-package-management.error.analysis-package.title.i18n-string-entire-not-empty' |
+              {{'analysis-package-management.error.script.title.i18n-string-entire-not-empty' |
             translate}}
             </div>
             <div ng-message="md-maxlength">
-              {{'analysis-package-management.error.analysis-package.title.i18n-string-size' | translate}}
+              {{'analysis-package-management.error.script.title.i18n-string-size' | translate}}
             </div>
           </div>
         </md-input-container>
@@ -85,7 +85,7 @@
            class="ms-flex">
         <md-autocomplete required flex="100" class="ms-flex ml28 mr8"
                          md-input-name="scriptsUsedLanguage_{{$index}}"
-                         md-floating-label="{{'analysis-package-management.edit.label.script.language' | translate}}"
+                         md-floating-label="{{'analysis-package-management.edit.label.script.used-language' | translate}}"
                          md-require-match="true" md-select-on-match="true"
                          md-match-case-insensitive="true"
                          md-selected-item="$ctrl['selectedLanguage_' + $index]"
@@ -103,21 +103,21 @@
                 style="font-size: 14px;">{{item.displayLanguage[$ctrl.currentLanguage]}}</span>
           </md-item-template>
           <md-not-found>
-            {{'analysis-package-management.error.analysis-package.language.not-found' | translate}}
+            {{'analysis-package-management.error.script.used-language.not-found' | translate}}
           </md-not-found>
           <div
             ng-if="!$ctrl.currentForm['scriptsUsedLanguage_' + $parent.$index].$dirty && !$ctrl.currentForm['scriptsUsedLanguage_' + $parent.$index].$touched"
             class="fdz-input-hint">
-            {{'analysis-package-management.edit.hints.script.language' | translate}}
+            {{'analysis-package-management.edit.hints.script.used-language' | translate}}
           </div>
           <div
             ng-messages="$ctrl.currentForm['scriptsUsedLanguage_' + $parent.$index].$error"
             multiple>
             <div ng-message="required">
-              {{'analysis-package-management.error.analysis-package.language.not-null' | translate}}
+              {{'analysis-package-management.error.script.used-language.not-null' | translate}}
             </div>
             <div ng-message="md-require-match">
-              {{'analysis-package-management.error.analysis-package.language.not-valid' | translate}}
+              {{'analysis-package-management.error.script.used-language.not-valid' | translate}}
             </div>
           </div>
         </md-autocomplete>
@@ -142,7 +142,7 @@
                 style="font-size: 14px;">{{item}}</span>
           </md-item-template>
           <md-not-found>
-            {{'analysis-package-management.error.analysis-package.software-package.not-found' | translate}}
+            {{'analysis-package-management.error.script.software-package.not-found' | translate}}
           </md-not-found>
           <div
             class="fdz-input-hint"
@@ -152,10 +152,10 @@
           <div multiple
                ng-messages="$ctrl.currentForm['scriptsSoftwarePackage_' + $parent.$index].$error">
             <div ng-message="required">
-              {{'analysis-package-management.error.analysis-package.software-package.not-null' | translate}}
+              {{'analysis-package-management.error.script.software-package.not-null' | translate}}
             </div>
             <div ng-message="md-require-match">
-              {{'analysis-package-management.error.analysis-package.software-package.not-valid' | translate}}
+              {{'analysis-package-management.error.script.software-package.not-valid' | translate}}
             </div>
           </div>
         </md-autocomplete>
@@ -167,7 +167,7 @@
                             class="mr8 ml28"
                             md-is-error="!$ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$valid && ($ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$dirty || $ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$touched)">
           <label
-            class="fdz-input-required">{{'analysis-package-management.detail.label.script-version' | translate}}</label>
+            class="fdz-input-required">{{'analysis-package-management.edit.label.script.software-package-version' | translate}}</label>
           <input fdz-required
                  md-no-asterisk
                  name="scriptsSoftwarePackageVersion_{{$index}}"
@@ -176,16 +176,16 @@
                  ng-model="script.softwarePackageVersion">
           <div class="fdz-input-hint"
                ng-if="!$ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$dirty && !$ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$touched">
-            {{'analysis-package-management.edit.hints.script.version' | translate}}
+            {{'analysis-package-management.edit.hints.script.software-package-version' | translate}}
           </div>
           <div multiple
                ng-messages="$ctrl.currentForm['scriptsSoftwarePackageVersion_' + $index].$error">
             <div ng-message="fdz-required">
-              {{'analysis-package-management.error.analysis-package.software-package-version.string-entire-not-empty' |
+              {{'analysis-package-management.error.script.software-package-version.string-entire-not-empty' |
             translate}}
             </div>
             <div ng-message="md-maxlength">
-              {{'analysis-package-management.error.analysis-package.software-package-version.string-size' | translate}}
+              {{'analysis-package-management.error.script.software-package-version.string-size' | translate}}
             </div>
           </div>
         </md-input-container>
@@ -201,7 +201,7 @@
                               ngf-select="$ctrl.addScriptAttachment($file, $index, $event)"
                               class="pointer"
                               md-is-error="!currentForm['filename' + $index].$valid && (currentForm['filename' + $index].$dirty || currentForm['filename' + $index].$touched)">
-            <label>{{'attachment.label.file' | translate }}</label>
+            <label>{{'analysis-package-management.detail.label.file' | translate }}</label>
             <input disabled ng-pattern="/^[_A-Za-z0-9äöüÄÖÜß\-.]*$/"
                    ng-model="script.scriptAttachmentMetadata.fileName"
                    name="filename_{{$index}}" class="pointer"
@@ -209,17 +209,17 @@
             <div
               ng-if="!currentForm['filename' + $index].$dirty && !currentForm['filename' + $index].$touched"
               class="fdz-input-hint">
-              {{ 'analysis-package-management.detail.script-attachments.hints.filename' | translate}}
+              {{ 'analysis-package-management.edit.hints.script-attachment-metadata.filename' | translate}}
             </div>
             <div ng-messages="currentForm['filename' + $index].$error" multiple>
               <div ng-message="unique">
-                {{'attachment.error.filename.not-unique' | translate}}
+                {{'analysis-package-management.error.script-attachment-metadata.filename.not-unique' | translate}}
               </div>
               <div ng-message="valid">
-                {{'attachment.error.filename.not-valid' | translate}}
+                {{'analysis-package-management.error.script-attachment-metadata.filename.not-valid' | translate}}
               </div>
               <div ng-message="pattern">
-                {{'attachment.error.filename.pattern' | translate}}
+                {{'analysis-package-management.error.script-attachment-metadata.filename.pattern' | translate}}
               </div>
             </div>
           </md-input-container>
@@ -230,7 +230,7 @@
                        ng-if="!$ctrl.createMode && !($ctrl.scriptAttachments | filter: { scriptUuid: script.uuid }).length > 0">
               <md-tooltip md-autohide="true" md-direction="bottom"
                           md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'analysis-package-management.detail.script-attachments.add-attachment-tooltip' | translate }}
+                {{'analysis-package-management.detail.script-attachment-metadata.add-attachment-tooltip' | translate }}
               </md-tooltip>
               <md-icon md-font-set="material-icons">add</md-icon>
             </md-button>
@@ -239,7 +239,7 @@
                        ng-if="!$ctrl.createMode && ($ctrl.scriptAttachments | filter: { scriptUuid: script.uuid }).length > 0">
               <md-tooltip md-autohide="true" md-direction="bottom"
                           md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'analysis-package-management.detail.script-attachments.delete-attachment-tooltip' | translate }}
+                {{'analysis-package-management.detail.script-attachment-metadata.delete-attachment-tooltip' | translate }}
               </md-tooltip>
               <md-icon md-font-set="material-icons">delete_forever</md-icon>
             </md-button>

@@ -7,20 +7,33 @@ angular.module('metadatamanagementApp').config(
       'analysis-package-management': {
         'detail': {
           'label': {
-            'analyzed-data-package': 'Analysiertes Datenpaket',
-            'analysisDataPackages': {
+            'analyzed-data-package': {
+              'data-package': 'Analysiertes Datenpaket',
+              'access-way': 'Zugangsweg',
+              'available-access-ways': 'Verfügbare Zugangswege',
+              'version': 'Version',
+              'available-versions': 'Verfügbare Versionen',
+              'available-data-packages': 'Verfügbare Datenpakete'
+            },
+            'external-data-package': {
+              'available-availability-type': 'Verfügbarer Zugangsstatus',
+              'availability-type': 'Zugangsstatus',
               'description': 'Datenpaketbeschreibung',
               'annotations': 'Anmerkungen',
-              'dataSource': 'Datenquelle',
-              'dataSources': 'Datenquellen',
-              'dataSourceUrl': 'Link zur Datenquelle'
+              'data-source': 'Datenquelle',
+              'data-source-url': 'Link zur Datenquelle'
             },
-            'access-way': 'Zugangsweg',
-            'available-versions': 'Verfügbare Versionen',
-            'available-access-ways': 'Verfügbare Zugangswege',
-            'available-data-packages': 'Verfügbare Datenpakete',
-            'available-availability-type': 'Verfügbarer Zugangsstatus',
-            'availabilityType': 'Zugangsstatus',
+            'custom-data-package': {
+              'available-availability-type': 'Verfügbarer Zugangsstatus',
+              'availability-type': 'Zugangsstatus',
+              'description': 'Datenpaketbeschreibung',
+              'annotations': 'Anmerkungen',
+              'data-source': 'Datenquelle',
+              'dataSources': 'Datenquellen',
+              'data-source-url': 'Link zur Datenquelle',
+              'access-way': 'Zugangsweg',
+              'available-access-ways': 'Verfügbare Zugangswege'
+            },
             'additional-links': 'Weiterführende Links',
             'analysisPackage': 'Analysepaket',
             'analysisPackages': 'Analysepakete',
@@ -37,32 +50,12 @@ angular.module('metadatamanagementApp').config(
             'sponsors': 'Gefördert von',
             'tags': 'Schlagwörter',
             'title': 'Titel',
-            'version': 'Version',
-            'script-attachments': {
-              'file': 'Datei hinzufügen'
-            },
-            'attachments': {
-              'title': 'Titel',
-              'description': 'Beschreibung',
-              'language': 'Dokumentensprache',
-              'file': 'Datei'
-            },
-            'software-package': 'Bitte wählen Sie das/die Softwarepaket(e) ein, für die dieses Skript geschrieben wurde.',
-            'script-version': 'Version des Softwarepaketes'
+            'file': 'Datei hinzufügen'
           },
-          'script-attachments': {
+          'script-attachment-metadata': {
             'attachment-deleted-toast': 'Datei "{{ filename }}" wurde gelöscht!',
-            'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Skript hinzuzufügen.',
-            'edit-attachment-tooltip': 'Klicken, um die Datei "{{ filename }}" zu bearbeiten.',
-            'length-attachment-tooltip': 'Es darf nicht mehr als eine Datei pro Skript vorhanden sein.',
-            'table-title': 'Materialien zu diesem Skript',
             'delete-attachment-tooltip': 'Klicken, um die Datei aus diesem Skript zu löschen!',
-            'create-title': 'Neue Datei zu Skript "{{ scriptTitle }}" hinzufügen',
-            'file': 'Datei hinzufügen',
-            'save-analysis-package-before-adding-attachment': 'The analysis package has to be saved to enable attaching documents.',
-            'hints': {
-              'filename': 'Wählen Sie eine Datei aus, die Sie dem Skript hinzufügen wollen.'
-            }
+            'add-attachment-tooltip': 'Klicken, um einen neue Datei zu diesem Skript hinzuzufügen.'
           },
           'attachments': {
             'table-title': 'Materialien zu diesem Analysepaket',
@@ -149,7 +142,7 @@ angular.module('metadatamanagementApp').config(
             'sponsor': 'Geldgeber:in',
             'version': 'Version',
             'script': {
-              'language': 'Skript Sprache',
+              'used-language': 'Skript Sprache',
               'software-package': 'Software Paket',
               'version': 'Version des Softwarepaketes'
             },
@@ -168,25 +161,14 @@ angular.module('metadatamanagementApp').config(
                 'en': 'Optional: Geben Sie einen Text auf Englisch an, der zur Anzeige des Links verwendet werden soll.'
               }
             },
-            'access-way': {
-              'choose': 'Bitte wählen Sie ein Zugangsweg.'
-            },
-            'availabilityType': {
-              'choose': 'Bitte wählen Sie ein Zugangsstatus.',
-              'open': 'Keine oder nur geringfügige Zugangsbeschränkungen (z.B. Zustimmung zu einfachen Nutzungsbedingungen).',
-              'restricted': 'Irgendeine höhergradige Form des beschränkten Zugangs (Registierung muss vor dem Datenzugang erfolgen; Ein Antragsprozess muss vor dem Datenzugang durchlaufen werden; sehr restriktive Nutzungsbedingungen).',
-              'none': 'nicht zugänglich.',
-              'accessible': 'Lorem ipsum...',
-              'not-accessible': 'Lorem ipsum...'
-            },
-            'annotations': {
-              'de': 'Geben Sie zusätzliche Anmerkungen zum Analysepaket auf Deutsch ein.',
-              'en': 'Geben Sie zusätzliche Anmerkungen zum Analysepaket auf Englisch ein.'
-            },
             'authors': {
               'first-name': 'Geben Sie den Vornamen der Autor:in ein.',
               'middle-name': 'Geben Sie, falls vorhanden, den zweiten Vornamen der Autor:in ein.',
               'last-name': 'Geben Sie den Nachnamen der Autor:in ein.'
+            },
+            'annotations': {
+              'de': 'Geben Sie zusätzliche Anmerkungen zum Analysepaket auf Deutsch ein.',
+              'en': 'Geben Sie zusätzliche Anmerkungen zum Analysepaket auf Englisch ein.'
             },
             'curators': {
               'first-name': 'Geben Sie den Vornamen der Person ein, die an der Datenaufbereitung beteiligt ist.',
@@ -202,10 +184,18 @@ angular.module('metadatamanagementApp').config(
               'en': 'Geben Sie den englischen Namen der Institution ein, die an dem Analysepaket beteiligt waren.'
             },
             'license': 'Wenn kein Vertrag unterzeichnet wird, benötigen wir eine Lizenz wie cc-by-sa',
-            'scripts': {
-              'language': 'Bitte geben Sie die Sprache an, die Sie für die Kommentare im Drehbuch verwendet haben.',
+            'script': {
+              'title': {
+                'de': 'Geben Sie den deutschen Titel des Skripts auf Deutsch ein.',
+                'en': 'Geben Sie den englischen Titel des Skripts auf Englisch ein.'
+              },
+              'used-language': 'Bitte geben Sie die Sprache an, die Sie für die Kommentare im Skript verwendet haben.',
               'software-package': 'Bitte wählen Sie das/die Softwarepaket(e) ein, für die dieses Skript geschrieben wurde.',
-              'version': 'Version des Softwarepaketes'
+              'software-package-version': 'Version des Softwarepaketes'
+
+            },
+            'script-attachment-metadata': {
+              'filename': 'Wählen Sie eine Datei aus, die Sie dem Skript hinzufügen wollen.'
             },
             'sponsor': {
               'de': 'Geben Sie den deutschen Namen der Geldgeber:in für dieses Analysepaket ein.',
@@ -215,60 +205,80 @@ angular.module('metadatamanagementApp').config(
               'de': 'Geben Sie den deutschen Titel des Analysepakets auf Deutsch ein.',
               'en': 'Geben Sie den englischen Titel des Analysepakets auf Englisch ein.'
             },
-            'analysisDataPackages': {
+            'external-data-package': {
               'title': {
-                'de': 'Geben Sie den deutschen Titel des Datenpakets auf Deutsch ein.',
-                'en': 'Geben Sie den englischen Titel des Datenpakets auf Englisch ein.'
+                'de': 'Geben Sie den deutschen Titel des externen Datenpakets auf Deutsch ein.',
+                'en': 'Geben Sie den englischen Titel des externen Datenpakets auf Englisch ein.'
               },
               'description': {
-                'de': 'Geben Sie eine Beschreibung des Datenpakets auf Deutsch ein.',
-                'en': 'Geben Sie eine Beschreibung des Datenpakets auf Englisch ein.'
+                'de': 'Geben Sie eine Beschreibung des externen Datenpakets auf Deutsch ein.',
+                'en': 'Geben Sie eine Beschreibung des externen Datenpakets auf Englisch ein.'
               },
               'annotations': {
-                'de': 'Geben Sie zusätzliche Anmerkungen zum Datenpaket auf Deutsch ein.',
-                'en': 'Geben Sie zusätzliche Anmerkungen zum Datenpaket auf Englisch ein.'
+                'de': 'Geben Sie zusätzliche Anmerkungen zum externen Datenpaket auf Deutsch ein.',
+                'en': 'Geben Sie zusätzliche Anmerkungen zum externen Datenpaket auf Englisch ein.'
               },
-              'dataSource': {
+              'data-source': {
                 'de': 'Hier muss die Datenquelle angegeben werden, in der die Daten gespeichert werden (z.B. Name der Institution/des Repositoriums; private Speicherung).',
                 'en': 'Hier muss die Datenquelle angegeben werden, in der die Daten gespeichert werden (z.B. Name der Institution/des Repositoriums; private Speicherung).'
               },
-              'dataSourceUrl': 'Geben Sie den Link zur Datenquelle ein.'
+              'data-source-url': 'Geben Sie den Link zur Datenquelle ein.',
+              'availability-type': {
+                'choose': 'Bitte wählen Sie ein Zugangsstatus.',
+                'open': 'Keine oder nur geringfügige Zugangsbeschränkungen (z.B. Zustimmung zu einfachen Nutzungsbedingungen).',
+                'restricted': 'Irgendeine höhergradige Form des beschränkten Zugangs (Registierung muss vor dem Datenzugang erfolgen; Ein Antragsprozess muss vor dem Datenzugang durchlaufen werden; sehr restriktive Nutzungsbedingungen).',
+                'none': 'nicht zugänglich.',
+                'accessible': 'Lorem ipsum...',
+                'not-accessible': 'Lorem ipsum...'
+              }
             },
-            'analyzed-data-package': 'Geben Sie den Titel des analysierten Datenpakets ein.',
-            'version': 'Bitte wählen Sie ein Version.'
+            'custom-data-package': {
+              'access-way': {
+                'choose': 'Bitte wählen Sie ein Zugangsweg.'
+              },
+              'title': {
+                'de': 'Geben Sie den deutschen Titel des benutzerdefinierten Datenpakets auf Deutsch ein.',
+                'en': 'Geben Sie den englischen Titel des benutzerdefinierten Datenpakets auf Englisch ein.'
+              },
+              'description': {
+                'de': 'Geben Sie eine Beschreibung des benutzerdefinierten Datenpakets auf Deutsch ein.',
+                'en': 'Geben Sie eine Beschreibung des benutzerdefinierten Datenpakets auf Englisch ein.'
+              },
+              'annotations': {
+                'de': 'Geben Sie zusätzliche Anmerkungen zum benutzerdefinierten Datenpaket auf Deutsch ein.',
+                'en': 'Geben Sie zusätzliche Anmerkungen zum benutzerdefinierten Datenpaket auf Englisch ein.'
+              },
+              'data-source': {
+                'de': 'Hier muss die Datenquelle angegeben werden, in der die Daten gespeichert werden (z.B. Name der Institution/des Repositoriums; private Speicherung).',
+                'en': 'Hier muss die Datenquelle angegeben werden, in der die Daten gespeichert werden (z.B. Name der Institution/des Repositoriums; private Speicherung).'
+              },
+              'data-source-url': 'Geben Sie den Link zur Datenquelle ein.',
+              'availability-type': {
+                'choose': 'Bitte wählen Sie ein Zugangsstatus.',
+                'open': 'Keine oder nur geringfügige Zugangsbeschränkungen (z.B. Zustimmung zu einfachen Nutzungsbedingungen).',
+                'restricted': 'Irgendeine höhergradige Form des beschränkten Zugangs (Registierung muss vor dem Datenzugang erfolgen; Ein Antragsprozess muss vor dem Datenzugang durchlaufen werden; sehr restriktive Nutzungsbedingungen).',
+                'none': 'nicht zugänglich.',
+                'accessible': 'Lorem ipsum...',
+                'not-accessible': 'Lorem ipsum...'
+              }
+            },
+            'analyzed-data-package': {
+              'data-package': 'Geben Sie den Titel des analysierten Datenpakets ein.',
+              'version': 'Bitte wählen Sie ein Version.',
+              'access-way': {
+                'choose': 'Bitte wählen Sie einen Zugangsweg.'
+              }
+            }
           }
         },
         'error': {
-          'script-attachment-metadata': {
-            'script-uuid': {
-              'not-unique': 'Eine Datei mit dieser Skript Uuid existiert bereits,',
-              '.not-exists': 'Diese Skript Uuid extistiert nicht.'
-            }
-          },
-          'analysis-package': {
-            'annotations': {
-              'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
+          'script': {
+            'title': {
+              'not-null': 'Der Titel eines Skripts darf nicht leer sein!',
+              'i18n-string-size': 'Die Maximallänge des Titels eines Skripts ist 2048 Zeichen.',
+              'i18n-string-entire-not-empty': 'Der Titel eines Skripts muss in allen Sprachen vorhanden sein.'
             },
-            'attachment': {
-              'filename': {
-                'not-empty': 'Es muss eine Datei ausgewählt sein',
-                'not-unique': 'Eine Datei mit diesem Namen existiert bereits',
-                'not-valid': 'Dieser Dateiname ist ungültig',
-                'pattern': 'Es dürfen für die FDZ-ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus und der Unterstrich verwendet werden.'
-              },
-              'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
-            },
-            'description': {
-              'not-null': 'Die Beschreibung eines Analysepakets darf nicht leer sein!',
-              'i18n-string-size': 'Die Maximallänge der Beschreibung eines Analysepakets ist 2048 Zeichen.',
-              'i18n-string-not-empty': 'Die Beschreibung eines Analysepakets muss in beiden Sprachen vorhanden sein.'
-            },
-            'institution': {
-              'not-null': 'Die Institution eines Analysepakets darf nicht leer sein!',
-              'i18n-string-size': 'Die Maximallänge der Institution eines Analysepakets ist 512 Zeichen.',
-              'i18n-string-entire-not-empty': 'Die Institution eines Analysepakets muss in beiden Sprachen vorhanden sein.'
-            },
-            'language': {
+            'used-language': {
               'not-found': 'Keine gültige Sprache gefunden!',
               'not-null': 'Die Sprache des Skripts darf nicht leer sein.',
               'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
@@ -281,6 +291,39 @@ angular.module('metadatamanagementApp').config(
             'software-package-version': {
               'string-size': 'Die Maximallänge der Software Paket Version ist 32 Zeichen.',
               'string-entire-not-empty': 'Die Software Paket Version muss vorhanden sein.'
+            }
+          },
+          'script-attachment-metadata': {
+            'script-uuid': {
+              'not-unique': 'Eine Datei mit dieser Skript Uuid existiert bereits,',
+              '.not-exists': 'Diese Skript Uuid extistiert nicht.'
+            },
+            'filename': {
+              'not-empty': 'Es muss eine Datei ausgewählt sein',
+              'not-unique': 'Eine Datei mit diesem Namen existiert bereits',
+              'not-valid': 'Dieser Dateiname ist ungültig',
+              'pattern': 'Es dürfen für die FDZ-ID nur alphanumerische Zeichen, deutsche Umlaute, ß, Minus und der Unterstrich verwendet werden.'
+            },
+            'file-not-found': 'Die Datei {{ filename }} wurde nicht gefunden und wurde daher nicht gespeichert!'
+          },
+          'analysis-package': {
+            'title': {
+              'not-null': 'Der Titel eines Analysepaket darf nicht leer sein!',
+              'i18n-string-size': 'Die Maximallänge des Titels eines Analysepaket ist 2048 Zeichen.',
+              'i18n-string-entire-not-empty': 'Der Titel eines Analysepaket muss in allen Sprachen vorhanden sein.'
+            },
+            'annotations': {
+              'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
+            },
+            'description': {
+              'not-null': 'Die Beschreibung eines Analysepakets darf nicht leer sein!',
+              'i18n-string-size': 'Die Maximallänge der Beschreibung eines Analysepakets ist 2048 Zeichen.',
+              'i18n-string-not-empty': 'Die Beschreibung eines Analysepakets muss in beiden Sprachen vorhanden sein.'
+            },
+            'institution': {
+              'not-null': 'Die Institution eines Analysepakets darf nicht leer sein!',
+              'i18n-string-size': 'Die Maximallänge der Institution eines Analysepakets ist 512 Zeichen.',
+              'i18n-string-entire-not-empty': 'Die Institution eines Analysepakets muss in beiden Sprachen vorhanden sein.'
             },
             'license': {
               'string-size': 'Die Maximallänge der Lizenz ist 1048576 Zeichen.'
@@ -290,52 +333,65 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'Die Maximallänge der Geldgeber:in eines Analysepakets ist 512 Zeichen.',
               'i18n-string-entire-not-empty': 'Die Geldgeber:in eines Analysepakets muss in beiden Sprachen vorhanden sein.'
             },
-            'title': {
-              'not-null': 'Der Titel eines Analysepaket darf nicht leer sein!',
-              'i18n-string-size': 'Die Maximallänge des Titels eines Analysepaket ist 2048 Zeichen.',
-              'i18n-string-entire-not-empty': 'Der Titel eines Analysepaket muss in allen Sprachen vorhanden sein.'
-            },
             'additional-links': {
               'invalid-url': 'Die angegebene URL ist ungültig',
               'url-size': 'Die Maximallänge der URL ist 2000 Zeichen.',
               'url-not-empty': 'Die URL darf nicht leer sein.',
               'display-text-size': 'Die Maximallänge des Anzeigetextes ist 512 Zeichen.'
             },
-            'analysisDataPackages': {
-              'title': {
-                'not-null': 'Der Titel eines Datenpaket darf nicht leer sein!',
-                'i18n-string-size': 'Die Maximallänge des Titels eines Datenpaket ist 2048 Zeichen.',
-                'i18n-string-entire-not-empty': 'Der Titel eines Datenpaket muss in allen Sprachen vorhanden sein.'
-              },
-              'availabilityType': {
-                'i18n-not-null': 'Der Zugangsstatus eines Datenpaket darf nicht leer sein!'
-              },
-              'analysisDataPackageType': {
-                'i18n-not-null': 'Der Typ eines Datenpaket darf nicht leer sein!',
-              },
-              'description': {
-                'i18n-string-not-empty': 'Die Beschreibung eines Datenpakets darf nicht leer sein!',
-                'i18n-string-size': 'Die Maximallänge der Beschreibung eines Datenpakets ist 2048 Zeichen.',
-                'i18n-string-entire-not-empty': 'Die Beschreibung eines Datenpakets muss in beiden Sprachen vorhanden sein.'
-              },
-              'annotations': {
-                'not-null': 'Die Anmerkung eines Datenpakets darf nicht leer sein!',
-                'i18n-string-size': 'Die Maximallänge der Anmerkungen eines Datenpakets ist 2048 Zeichen.',
-                'i18n-string-not-empty': 'Die Anmerkung eines Datenpakets muss in beiden Sprachen vorhanden sein.'
-              },
-              'dataSource': {
-                'i18n-string-not-empty': 'Die Datenquelle eines Datenpakets darf nicht leer sein!',
-                'i18n-string-size': 'Die Maximallänge der Datenquelle eines Datenpakets ist 512 Zeichen.',
-                'i18n-string-entire-not-empty': 'Die Anmerkung eines Datenquelle muss in beiden Sprachen vorhanden sein.'
-              },
-              'dataSourceUrl': {
-                'invalid-url': 'Die angegebene URL ist ungültig',
-                'url-size': 'Die Maximallänge der URL ist 2000 Zeichen.',
-                'url-not-empty': 'Die URL darf nicht leer sein.'
-              },
-              'access-way': {
-                'i18n-not-null': 'Der Zugangsweg eines Datenpaket darf nicht leer sein!'
+            'analysis-data-packages': {
+              'package-type': {
+                'i18n-not-null': 'Der Typ eines Datenpaket darf nicht leer sein!'
               }
+            }
+          },
+          'external-data-package': {
+            'title': {
+              'not-null': 'Der Titel eines externen Datenpaket darf nicht leer sein!',
+              'i18n-string-size': 'Die Maximallänge des Titels eines externen Datenpaket ist 2048 Zeichen.',
+              'i18n-string-entire-not-empty': 'Der Titel eines externen Datenpaket muss in allen Sprachen vorhanden sein.'
+            },
+            'annotations': {
+              'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
+            },
+            'description': {
+              'not-null': 'Die Beschreibung eines externen Datenpakets darf nicht leer sein!',
+              'i18n-string-size': 'Die Maximallänge der Beschreibung eines externen Datenpakets ist 2048 Zeichen.',
+              'i18n-string-not-empty': 'Die Beschreibung eines externen Datenpakets muss in beiden Sprachen vorhanden sein.'
+            },
+            'data-source': {
+              'i18n-string-not-empty': 'Die Datenquelle eines externen Datenpakets darf nicht leer sein!',
+              'i18n-string-size': 'Die Maximallänge der Datenquelle eines externen Datenpakets ist 512 Zeichen.',
+              'i18n-string-entire-not-empty': 'Die Anmerkung eines Datenquelle muss in beiden Sprachen vorhanden sein.'
+            },
+            'data-source-url': {
+              'invalid-url': 'Die angegebene URL ist ungültig',
+              'url-size': 'Die Maximallänge der URL ist 2000 Zeichen.',
+              'url-not-empty': 'Die URL darf nicht leer sein.'
+            },
+            'availability-type': {
+              'i18n-not-null': 'Der Zugangsstatus eines externen Datenpaket darf nicht leer sein!'
+            }
+          },
+          'custom-data-package': {
+            'title': {
+              'not-null': 'Der Titel eines benutzerdefinierten Datenpaket darf nicht leer sein!',
+              'i18n-string-size': 'Die Maximallänge des Titels eines benutzerdefinierten Datenpaket ist 2048 Zeichen.',
+              'i18n-string-entire-not-empty': 'Der Titel eines benutzerdefinierten Datenpaket muss in allen Sprachen vorhanden sein.'
+            },
+            'annotations': {
+              'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
+            },
+            'description': {
+              'not-null': 'Die Beschreibung eines benutzerdefinierten Datenpakets darf nicht leer sein!',
+              'i18n-string-size': 'Die Maximallänge der Beschreibung eines benutzerdefinierten Datenpakets ist 2048 Zeichen.',
+              'i18n-string-not-empty': 'Die Beschreibung eines benutzerdefinierten Datenpakets muss in beiden Sprachen vorhanden sein.'
+            },
+            'availability-type': {
+              'i18n-not-null': 'Der Zugangsstatus eines benutzerdefinierten Datenpaket darf nicht leer sein!'
+            },
+            'access-way': {
+              'i18n-not-null': 'Der Zugangsweg eines Datenpaket darf nicht leer sein!'
             }
           },
           'analyzed-data-package': {

@@ -10,6 +10,7 @@
       bilingual: '<',
       notNull: '<',
       currentForm: '<',
+      translationKeyManagement: '@',
       translationKeyPackage: '@',
       translationKeyName: '@',
       maxLength: '<',

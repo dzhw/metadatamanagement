@@ -255,7 +255,7 @@
               attachment.$delete().then(function() {
                 SimpleMessageToastService.openSimpleMessageToast(
                   'analysis-package-management.detail.' +
-                  'script-attachments.attachment-deleted-toast', {
+                  'script-attachment-metadata.attachment-deleted-toast', {
                     filename: attachment.fileName
                   }
                 );

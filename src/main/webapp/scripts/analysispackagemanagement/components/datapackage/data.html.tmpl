@@ -3,7 +3,7 @@
      class="ms-flex ml28">
   <md-autocomplete flex="100"
                    required="true"
-                   md-floating-label="{{'analysis-package-management.detail.label.analyzed-data-package' | translate}}"
+                   md-floating-label="{{'analysis-package-management.detail.label.analyzed-data-package.data-package' | translate}}"
                    md-delay="250"
                    md-min-length="0"
                    md-require-match="true"
@@ -28,7 +28,7 @@
     <div
       class="fdz-input-hint"
       ng-if="!$ctrl.currentForm['analysisDataPackagesAnalyzedDataPackage_' + $parent.$ctrl.index].$dirty && !$ctrl.currentForm['analysisDataPackagesAnalyzedDataPackage_' + $parent.$ctrl.index].$touched">
-      {{'analysis-package-management.edit.hints.analyzed-data-package' | translate}}
+      {{'analysis-package-management.edit.hints.analyzed-data-package.data-package' | translate}}
     </div>
     <div
       ng-messages="$ctrl.currentForm['analysisDataPackagesAnalyzedDataPackage_' + $parent.$ctrl.index].$error">
@@ -44,7 +44,7 @@
   <md-input-container flex="50"
                       class="mr8 ms-flex"
                       md-is-error="!$ctrl.currentForm['analysisDataPackagesAnalyzedDataPackageVersion_' + $ctrl.index].$valid && ($ctrl.currentForm['analysisDataPackagesAnalyzedDataPackageVersion_' + $ctrl.index].$dirty || $ctrl.currentForm['analysisDataPackagesAnalyzedDataPackageVersion_' + $ctrl.index].$touched)">
-    <label>{{ 'analysis-package-management.detail.label.version' | translate}}</label>
+    <label>{{ 'analysis-package-management.detail.label.analyzed-data-package.version' | translate}}</label>
     <md-select ng-disabled="$ctrl.currentDataPackage ? false : true"
                ng-model="$ctrl.currentVersion"
                ng-change="$ctrl.changeVersion()"
@@ -52,7 +52,7 @@
                ng-model-options="{trackBy: '$value.version'}"
                required>
       <md-optgroup
-        label="{{'analysis-package-management.detail.label.available-versions' | translate}}">
+        label="{{'analysis-package-management.detail.label.analyzed-data-package.available-versions' | translate}}">
         <md-option ng-repeat="item in $ctrl.releases" ng-value="item">
           {{item.version}}
         </md-option>
@@ -60,7 +60,7 @@
     </md-select>
     <div class="fdz-input-hint"
          ng-if="!$ctrl.currentForm['analysisDataPackagesAnalyzedDataPackageVersion_' + $ctrl.index].$dirty && !$ctrl.currentForm['analysisDataPackagesAnalyzedDataPackageVersion_' + $ctrl.index].$touched">
-      {{'analysis-package-management.edit.hints.version' | translate}}
+      {{'analysis-package-management.edit.hints.analyzed-data-package.version' | translate}}
     </div>
     <div multiple
          ng-messages="$ctrl.currentForm['analysisDataPackagesAnalyzedDataPackageVersion_' + $ctrl.index].$error">
@@ -71,7 +71,7 @@
   </md-input-container>
   <md-input-container flex="50"
                       class="mr8 ms-flex">
-    <label>{{ 'analysis-package-management.detail.label.access-way' | translate}}</label>
+    <label>{{ 'analysis-package-management.detail.label.analyzed-data-package.access-way' | translate}}</label>
     <md-select ng-disabled="$ctrl.currentDataPackage ? false : true"
                ng-model="$ctrl.currentAccessWay"
                ng-change="$ctrl.changeAccessWay()"
@@ -79,7 +79,7 @@
                ng-model-options="{trackBy: '$value'}"
                required>
       <md-optgroup
-        label="{{'analysis-package-management.detail.label.available-access-ways' | translate}}">
+        label="{{'analysis-package-management.detail.label.analyzed-data-package.available-access-ways' | translate}}">
         <md-option ng-repeat="item in $ctrl.accessWays" ng-value="item">
           {{item | displayAccessWay}}
         </md-option>
@@ -87,7 +87,7 @@
     </md-select>
     <div class="fdz-input-hint"
          ng-if="!$ctrl.currentForm['analysisDataPackagesAnalyzedDataPackageAccessWay_' + $ctrl.index].$dirty && !$ctrl.currentForm['analysisDataPackagesAnalyzedDataPackageAccessWay_' + $ctrl.index].$touched">
-      {{'analysis-package-management.edit.hints.access-way.choose' | translate}}
+      {{'analysis-package-management.edit.hints.analyzed-data-package.access-way.choose' | translate}}
     </div>
     <div multiple
          ng-messages="$ctrl.currentForm['analysisDataPackagesAnalyzedDataPackageAccessWay_' + $ctrl.index].$error">

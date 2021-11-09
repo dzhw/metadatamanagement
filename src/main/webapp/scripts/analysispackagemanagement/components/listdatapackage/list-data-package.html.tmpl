@@ -44,7 +44,7 @@
           <div multiple
                ng-messages="$ctrl.currentForm['analysisDataPackageType_' + $ctrl.index].$error">
             <div ng-message="required">
-              {{'analysis-package-management.error.analysis-package.analysisDataPackages.analysisDataPackageType.i18n-not-null' |
+              {{'analysis-package-management.error.analysis-package.analysis-data-packages.package-type.i18n-not-null' |
             translate}}
             </div>
           </div>
@@ -65,7 +65,7 @@
         current-form="$ctrl.currentForm"
         package="package"
         index="$index"></fdz-data-package-component>
-      <md-divider ng-if="$ctrl.packages.length > 1"
+      <md-divider ng-if="$ctrl.packages.length > 1 && $ctrl.packages.length -1 !== $index"
                   style="margin: 24px 0 16px 0;"></md-divider>
     </div>
   </md-card-content>

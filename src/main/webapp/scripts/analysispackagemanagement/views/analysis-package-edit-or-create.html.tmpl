@@ -34,9 +34,7 @@
                                 md-is-error="!analysisPackageForm.annotationsDe.$valid && (analysisPackageForm.annotationsDe.$dirty || analysisPackageForm.annotationsDe.$touched)"
                                 ng-class="{'mr10': $mdMedia('gt-sm')}"
                                 class="ms-flex">
-              <label>{{'analysis-package-management.detail.label.annotations' | translate}}
-                ({{'global.in-german' |
-                translate}})
+              <label>{{'analysis-package-management.detail.label.annotations' | translate}} ({{'global.in-german' | translate}})
                 <md-icon
                   md-svg-src="assets/images/icons/markdown.svg"></md-icon>
               </label>
@@ -50,17 +48,14 @@
               <div multiple
                    ng-messages="analysisPackageForm.annotationsDe.$error">
                 <div ng-message="md-maxlength">
-                  {{'analysis-package-management.error.analysis-package.annotations.i18n-string-size' |
-                translate}}
+                  {{'analysis-package-management.error.analysis-package.annotations.i18n-string-size' | translate}}
                 </div>
               </div>
             </md-input-container>
             <md-input-container flex="50"
                                 md-is-error="!analysisPackageForm.annotationsEn.$valid && (analysisPackageForm.annotationsEn.$dirty || analysisPackageForm.annotationsEn.$touched)"
                                 class="ms-flex">
-              <label>{{'analysis-package-management.detail.label.annotations' | translate}}
-                ({{'global.in-english' |
-                translate}})
+              <label>{{'analysis-package-management.detail.label.annotations' | translate}} ({{'global.in-english' | translate}})
                 <md-icon
                   md-svg-src="assets/images/icons/markdown.svg"></md-icon>
               </label>
@@ -74,8 +69,7 @@
               <div multiple
                    ng-messages="analysisPackageForm.annotationsEn.$error">
                 <div ng-message="md-maxlength">
-                  {{'analysis-package-management.error.analysis-package.annotations.i18n-string-size' |
-                translate}}
+                  {{'analysis-package-management.error.analysis-package.annotations.i18n-string-size' | translate}}
                 </div>
               </div>
             </md-input-container>
@@ -95,9 +89,7 @@
       <md-card class="mb8">
         <md-card-header>
           <md-card-header-text>
-            <h2 class="md-title">
-              {{'analysis-package-management.detail.label.institutions' | translate
-              }}</h2>
+            <h2 class="md-title">{{'analysis-package-management.detail.label.institutions' | translate }}</h2>
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
@@ -189,12 +181,10 @@
               <div multiple
                    ng-messages="analysisPackageForm['institutionEn_' + $parent.$index].$error">
                 <div ng-message="required">
-                  {{'analysis-package-management.error.analysis-package.institution.i18n-string-entire-not-empty' |
-                translate}}
+                  {{'analysis-package-management.error.analysis-package.institution.i18n-string-entire-not-empty' | translate}}
                 </div>
                 <div ng-message="maxlength">
-                  {{'analysis-package-management.error.analysis-package.institution.i18n-string-size' |
-                translate}}
+                  {{'analysis-package-management.error.analysis-package.institution.i18n-string-size' | translate}}
                 </div>
               </div>
             </md-autocomplete>
@@ -235,9 +225,7 @@
       <md-card class="mb8">
         <md-card-header>
           <md-card-header-text>
-            <h2 class="md-title">
-              {{'analysis-package-management.detail.label.sponsors' | translate
-              }}</h2>
+            <h2 class="md-title">{{'analysis-package-management.detail.label.sponsors' | translate}}</h2>
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
@@ -288,12 +276,10 @@
               <div multiple
                    ng-messages="analysisPackageForm['sponsorDe_' + $parent.$index].$error">
                 <div ng-message="required">
-                  {{'analysis-package-management.error.analysis-package.sponsor.i18n-string-entire-not-empty' |
-                translate}}
+                  {{'analysis-package-management.error.analysis-package.sponsor.i18n-string-entire-not-empty' | translate}}
                 </div>
                 <div ng-message="maxlength">
-                  {{'analysis-package-management.error.analysis-package.sponsor.i18n-string-size' |
-                translate}}
+                  {{'analysis-package-management.error.analysis-package.sponsor.i18n-string-size' | translate}}
                 </div>
               </div>
             </md-autocomplete>
@@ -331,12 +317,10 @@
               <div multiple
                    ng-messages="analysisPackageForm['sponsorEn_' + $parent.$index].$error">
                 <div ng-message="required">
-                  {{'analysis-package-management.error.analysis-package.sponsor.i18n-string-entire-not-empty' |
-                translate}}
+                  {{'analysis-package-management.error.analysis-package.sponsor.i18n-string-entire-not-empty' | translate}}
                 </div>
                 <div ng-message="maxlength">
-                  {{'analysis-package-management.error.analysis-package.sponsor.i18n-string-size' |
-                translate}}
+                  {{'analysis-package-management.error.analysis-package.sponsor.i18n-string-size' | translate}}
                 </div>
               </div>
             </md-autocomplete>
@@ -394,8 +378,7 @@
         <md-card-header>
           <md-card-header-text>
             <h2 class="md-title">
-              {{'analysis-package-management.edit.label.tags' | translate
-              }}</h2>
+              {{'analysis-package-management.edit.label.tags' | translate}}</h2>
           </md-card-header-text>
         </md-card-header>
         <md-divider></md-divider>
@@ -413,10 +396,6 @@
         translation-key-name="license"
         max-length="1048576"
         content="ctrl.analysisPackage.license"></edit-text-section-component>
-      <!--      <edit-script-section-component-->
-      <!--        scripts="ctrl.analysisPackage.scripts"-->
-      <!--        current-form="analysisPackageForm"></edit-script-section-component>-->
-
       <url-component
         current-form="analysisPackageForm"
         content="ctrl.analysisPackage.additionalLinks" ,
@@ -435,45 +414,31 @@
              ng-if="!ctrl.createMode && ctrl.attachments && ctrl.attachments.length > 0">
         <thead>
         <tr>
-          <th>
-            &nbsp;
-          </th>
-          <th style="min-height: 40px;">
-            &nbsp;
-          </th>
-          <th style="min-height: 40px;">
-            &nbsp;
-          </th>
+          <th></th>
+          <th style="min-height: 40px;"></th>
+          <th style="min-height: 40px;"></th>
           <th class="fdz-table-half-absorbing-column">
-            {{'analysis-package-management.detail.label.attachments.description' |
-          translate }}
+            {{'analysis-package-management.detail.label.attachments.description' | translate}}
             <md-tooltip hide-gt-xs md-direction="right">
-              {{'analysis-package-management.detail.label.attachments.description' | translate
-              }}
+              {{'analysis-package-management.detail.label.attachments.description' | translate}}
             </md-tooltip>
           </th>
           <th class="fdz-table-half-absorbing-column">
-            {{'analysis-package-management.detail.label.attachments.title' | translate
-            }}
+            {{'analysis-package-management.detail.label.attachments.title' | translate}}
             <md-tooltip hide-gt-xs md-direction="right">
-              {{'analysis-package-management.detail.label.attachments.title' | translate
-              }}
+              {{'analysis-package-management.detail.label.attachments.title' | translate}}
             </md-tooltip>
           </th>
           <th>
-            {{'analysis-package-management.detail.label.attachments.language' | translate
-            }}
+            {{'analysis-package-management.detail.label.attachments.language' | translate}}
             <md-tooltip hide-gt-xs md-direction="right">
-              {{'analysis-package-management.detail.label.attachments.language' | translate
-              }}
+              {{'analysis-package-management.detail.label.attachments.language' | translate}}
             </md-tooltip>
           </th>
           <th>
-            {{'analysis-package-management.detail.label.attachments.file' | translate
-            }}
+            {{'analysis-package-management.detail.label.attachments.file' | translate}}
             <md-tooltip hide-gt-xs md-direction="right">
-              {{'analysis-package-management.detail.label.attachments.file' | translate
-              }}
+              {{'analysis-package-management.detail.label.attachments.file' | translate}}
             </md-tooltip>
           </th>
         </tr>
@@ -490,8 +455,7 @@
               <md-radio-button ng-value="$index" class="mb0">
                 <md-tooltip md-autohide="true" md-direction="right"
                             md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                  {{'analysis-package-management.detail.attachments.select-attachment-tooltip' | translate:translationParams
-                  }}
+                  {{'analysis-package-management.detail.attachments.select-attachment-tooltip' | translate:translationParams}}
                 </md-tooltip>
               </md-radio-button>
             </md-radio-group>
@@ -501,8 +465,7 @@
                        ng-click="ctrl.editAttachment(row, $event)">
               <md-tooltip md-autohide="true" md-direction="bottom"
                           md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'analysis-package-management.detail.attachments.edit-attachment-tooltip' | translate:translationParams
-                }}
+                {{'analysis-package-management.detail.attachments.edit-attachment-tooltip' | translate:translationParams}}
               </md-tooltip>
               <md-icon md-font-set="material-icons">mode_edit</md-icon>
             </md-button>
@@ -512,8 +475,7 @@
                        ng-click="ctrl.deleteAttachment(row, $index)">
               <md-tooltip md-autohide="true" md-direction="bottom"
                           md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-                {{'analysis-package-management.detail.attachments.delete-attachment-tooltip' | translate:translationParams
-                }}
+                {{'analysis-package-management.detail.attachments.delete-attachment-tooltip' | translate:translationParams}}
               </md-tooltip>
               <md-icon md-font-set="material-icons">delete_forever</md-icon>
             </md-button>
@@ -525,8 +487,7 @@
                                 target="_blank">{{row.fileName}}
             <md-tooltip md-autohide="true"
                         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-              {{'global.tooltips.files.download' | translate: {filename: row.fileName}
-              }}
+              {{'global.tooltips.files.download' | translate: {filename: row.fileName}}}
             </md-tooltip>
           </a>&nbsp;
           </td>

@@ -7,20 +7,33 @@ angular.module('metadatamanagementApp').config(
       'analysis-package-management': {
         'detail': {
           'label': {
-            'analyzed-data-package': 'Analyzed Data Package',
-            'analysisDataPackages': {
+            'analyzed-data-package': {
+              'data-package': 'Analyzed Data Package',
+              'access-way': 'Access way',
+              'available-access-ways': 'Available Access Ways',
+              'version': 'Version',
+              'available-versions': 'Available Versions',
+              'available-data-packages': 'Available Data Packages'
+            },
+            'external-data-package': {
+              'available-availability-type': 'Available Availability Type',
+              'availability-type': 'Availability Type',
               'description': 'Data Package Description',
               'annotations': 'Annotations',
-              'dataSource': 'Data Source',
-              'dataSources': 'Data Sources',
-              'dataSourceUrl': 'Link of data source'
+              'data-source': 'Data Source',
+              'data-source-url': 'Link of data source'
             },
-            'access-way': 'Access way',
-            'available-versions': 'Available Versions',
-            'available-access-ways': 'Available Access Ways',
-            'available-data-packages': 'Available Data Packages',
-            'available-availability-type': 'Available Availability Type',
-            'availabilityType': 'Availability Type',
+            'custom-data-package': {
+              'available-availability-type': 'Available Availability Type',
+              'availability-type': 'Availability Type',
+              'description': 'Data Package Description',
+              'annotations': 'Annotations',
+              'data-source': 'Data Source',
+              'dataSources': 'Data Sources',
+              'data-source-url': 'Link of data source',
+              'access-way': 'Access Way',
+              'available-access-ways': 'Available Access Ways'
+            },
             'additional-links': 'Additional Links',
             'analysisPackage': 'Analysis Package',
             'analysisPackages': 'Analysis Packages',
@@ -37,32 +50,12 @@ angular.module('metadatamanagementApp').config(
             'sponsors': 'Sponsored by',
             'tags': 'Tags',
             'title': 'Title',
-            'version': 'Version',
-            'script-attachments': {
-              'file': 'Add File'
-            },
-            'attachments': {
-              'title': 'Title',
-              'description': 'Description',
-              'language': 'Document Language',
-              'file': 'File'
-            },
-            'script-version': 'Version of Software Package',
-            'software-package': 'Software Package'
+            'file': 'Add File'
           },
-          'script-attachments': {
+          'script-attachment-metadata': {
             'attachment-deleted-toast': 'Document "{{ filename }}" has been deleted!',
-            'add-attachment-tooltip': 'Click to add a new document to this script.',
-            'edit-attachment-tooltip': 'Click to edit the metadata for script "{{ filename }}".',
-            'length-attachment-tooltip': 'There must be no more than one attachment per script.',
-            'table-title': 'Documents related to this script',
             'delete-attachment-tooltip': 'Click to delete this document from this script!',
-            'create-title': 'Add new Document to script "{{ scriptTitle }}"',
-            'file': 'Add File',
-            'save-analysis-package-before-adding-attachment': 'The analysis package has to be saved to enable attaching documents.',
-            'hints': {
-              'filename': 'Choose a file which you want to attach to the script.'
-            }
+            'add-attachment-tooltip': 'Click to add a new document to this script.'
           },
           'attachments': {
             'table-title': 'Documents related to this Analysis Package',
@@ -148,9 +141,9 @@ angular.module('metadatamanagementApp').config(
             'sponsor': 'Sponsor',
             'version': 'Version',
             'script': {
-              'language': 'Script Language',
+              'used-language': 'Script Language',
               'software-package': 'Software Package',
-              'version': 'Version of Software Package'
+              'software-package-version': 'Version of Software Package'
             },
             'location': 'Location',
             'additional-links': {
@@ -166,17 +159,6 @@ angular.module('metadatamanagementApp').config(
                 'de': 'Optional: Specify a text in German to be used to display the link.',
                 'en': 'Optional: Specify a text in English to be used to display the link.'
               }
-            },
-            'access-way': {
-              'choose': 'Please choose an access way type.'
-            },
-            'availabilityType': {
-              'choose': 'Please choose an availability type.',
-              'open': 'No or minor restrictions for access (e.g. acceptance of simple terms of use).',
-              'restricted': 'Some kind of major restriction for access (e.g. registration before access is granted; application processes has to be passed before access is granted; very restrictive terms of use).',
-              'none': 'Not accessible.',
-              'accessible': 'Lorem ipsum...',
-              'not-accessible': 'Lorem ipsum...'
             },
             'authors': {
               'first-name': 'Enter the first name of this author.',
@@ -202,9 +184,16 @@ angular.module('metadatamanagementApp').config(
             },
             'license': 'If no contract is signed we will need a license like cc-by-sa',
             'script': {
-              'language': 'Please indicate the language you used for the comments in the script.',
+              'title': {
+                'de': 'Please enter the title of this script in German.',
+                'en': 'Please enter the title of this script in English.'
+              },
+              'used-language': 'Please indicate the language you used for the comments in the script.',
               'software-package': 'Please choose the software package(es) the script is written for.',
-              'version': 'Version of Software Package'
+              'software-package-version': 'Version of Software Package'
+            },
+            'script-attachment-metadata': {
+              'filename': 'Choose a file which you want to attach to the script.'
             },
             'sponsor': {
               'de': 'Enter the German name of the sponsor of this analysis package.',
@@ -214,49 +203,115 @@ angular.module('metadatamanagementApp').config(
               'de': 'Please enter the title of this analysis package in German.',
               'en': 'Please enter the title of this analysis package in English.'
             },
-            'analysisDataPackages': {
+            'external-data-package': {
               'title': {
-                'de': 'Please enter the title of this data package in German.',
-                'en': 'Please enter the title of this data package in English.'
+                'de': 'Please enter the title of this external data package in German.',
+                'en': 'Please enter the title of this external data package in English.'
               },
               'description': {
-                'de': 'Enter a description of this data package in German.',
-                'en': 'Enter a description of this data package in English.'
+                'de': 'Enter a description of this external data package in German.',
+                'en': 'Enter a description of this external data package in English.'
               },
               'annotations': {
-                'de': 'Enter additional annotations for this data package in German.',
-                'en': 'Enter additional annotations for this data package in English.'
+                'de': 'Enter additional annotations for this external data package in German.',
+                'en': 'Enter additional annotations for this external data package in English.'
               },
-              'dataSource': {
+              'data-source': {
                 'de': 'The data source where the data is stored must be specified here (e.g. name of the institution/repository, private data storage).',
                 'en': 'The data source where the data is stored must be specified here (e.g. name of the institution/repository, private data storage).'
               },
-              'dataSourceUrl': 'Enter the data source url.'
+              'data-source-url': 'Enter the data source url.',
+              'availability-type': {
+                'choose': 'Please choose an availability type.',
+                'open': 'No or minor restrictions for access (e.g. acceptance of simple terms of use).',
+                'restricted': 'Some kind of major restriction for access (e.g. registration before access is granted; application processes has to be passed before access is granted; very restrictive terms of use).',
+                'none': 'Not accessible.',
+                'accessible': 'Lorem ipsum...',
+                'not-accessible': 'Lorem ipsum...'
+              }
             },
-            'analyzed-data-package': 'Please enter the title of the analyzed data package.',
-            'version': 'Please choose a version.'
-
+            'custom-data-package': {
+              'access-way': {
+                'choose': 'Please choose an access way type.'
+              },
+              'title': {
+                'de': 'Please enter the title of this custom data package in German.',
+                'en': 'Please enter the title of this custom data package in English.'
+              },
+              'description': {
+                'de': 'Enter a description of this custom data package in German.',
+                'en': 'Enter a description of this custom data package in English.'
+              },
+              'annotations': {
+                'de': 'Enter additional annotations for this custom data package in German.',
+                'en': 'Enter additional annotations for this custom data package in English.'
+              },
+              'data-source': {
+                'de': 'The data source where the data is stored must be specified here (e.g. name of the institution/repository, private data storage).',
+                'en': 'The data source where the data is stored must be specified here (e.g. name of the institution/repository, private data storage).'
+              },
+              'data-source-url': 'Enter the data source url.',
+              'availability-type': {
+                'choose': 'Please choose an availability type.',
+                'open': 'No or minor restrictions for access (e.g. acceptance of simple terms of use).',
+                'restricted': 'Some kind of major restriction for access (e.g. registration before access is granted; application processes has to be passed before access is granted; very restrictive terms of use).',
+                'none': 'Not accessible.',
+                'accessible': 'Lorem ipsum...',
+                'not-accessible': 'Lorem ipsum...'
+              }
+            },
+            'analyzed-data-package': {
+              'data-package': 'Please enter the title of the analyzed data package.',
+              'version': 'Please choose a version.',
+              'access-way': {
+                'choose': 'Please choose an access way.'
+              }
+            }
           }
         },
         'error': {
+          'script': {
+            'title': {
+              'not-null': 'The title of the script must not be empty!',
+              'i18n-string-size': 'The max length of the script title is 2048.',
+              'i18n-string-entire-not-empty': 'The title of the script must not be empty for all languages.'
+            },
+            'used-language': {
+              'not-found': 'No valid language found.',
+              'not-null': 'The script language must not be empty.',
+              'not-valid': 'Please select one of the provided languages.'
+            },
+            'software-package': {
+              'not-found': 'No valid software package found.',
+              'not-null': 'The software package must not be empty.',
+              'not-valid': 'Please select one of the provided software package.'
+            },
+            'software-package-version': {
+              'string-size': 'The max length of the software package version is 32.',
+              'string-entire-not-empty': 'The software package version must not be empty.'
+            }
+          },
           'script-attachment-metadata': {
             'script-uuid': {
               'not-unique': 'A file with this script uuid already exists.',
               '.not-exists': 'This script uuid does not exist.'
-            }
+            },
+            'filename': {
+              'not-empty': 'A file must be selected.',
+              'not-unique': 'A file with this name already exists.',
+              'not-valid': 'This file name is invalid',
+              'pattern': 'Use only alphanumeric signs, German umlauts, ß and space, underscore and minus for the RDC-ID.'
+            },
+            'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
           },
           'analysis-package': {
+            'title': {
+              'not-null': 'The title of the analysis package must not be empty!',
+              'i18n-string-size': 'The max length of the analysis package title is 2048.',
+              'i18n-string-entire-not-empty': 'The title of the analysis package must not be empty for all languages.'
+            },
             'annotations': {
               'i18n-string-size': 'The max length of the annotations is 2048 signs.'
-            },
-            'attachment': {
-              'filename': {
-                'not-empty': 'A file must be selected.',
-                'not-unique': 'A file with this name already exists.',
-                'not-valid': 'This file name is invalid',
-                'pattern': 'Use only alphanumeric signs, German umlauts, ß and space, underscore and minus for the RDC-ID.'
-              },
-              'file-not-found': 'The File {{ filename }} was not found and has not been saved.'
             },
             'description': {
               'not-null': 'The description of the analysis package must not be empty!',
@@ -268,21 +323,6 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'The max length of the institution is 512.',
               'i18n-string-entire-not-empty': 'The institution of the analysis package must not be empty for both languages.'
             },
-            'language': {
-              'not-found': 'No valid language found.',
-              'not-null': 'The script language must not be empty.',
-              'not-valid': 'Please select one of the provided languages.'
-            },
-            'software-package': {
-              'not-found': 'No valid software package found.',
-              'not-null': 'The software package must not be empty.',
-              'not-valid': 'Please select one of the provided software package.'
-
-            },
-            'software-package-version': {
-              'string-size': 'The max length of the software package version is 32.',
-              'string-entire-not-empty': 'The software package version must not be empty.'
-            },
             'license': {
               'string-size': 'The max length of the license is 1048576 signs.'
             },
@@ -291,52 +331,65 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-size': 'The max length of the sponsor of the analysis package is 512.',
               'i18n-string-entire-not-empty': 'The sponsor of the analysis package must not be empty for both languages.'
             },
-            'title': {
-              'not-null': 'The title of the analysis package must not be empty!',
-              'i18n-string-size': 'The max length of the analysis package title is 2048.',
-              'i18n-string-entire-not-empty': 'The title of the analysis package must not be empty for all languages.'
-            },
             'additional-links': {
               'invalid-url': 'The provided URL is not valid.',
               'url-size': 'The max length for URLs is 2000 chracters.',
               'url-not-empty': 'The URL must not be empty.',
               'display-text-size': 'The max length for display text is 512 chracters.'
             },
-            'analysisDataPackages': {
-              'title': {
-                'not-null': 'The title of the data package must not be empty!',
-                'i18n-string-size': 'The max length of the data package title is 2048.',
-                'i18n-string-entire-not-empty': 'The title of the data package must not be empty for all languages.'
-              },
-              'availabilityType': {
-                'i18n-not-null': 'The availability type of the data package must not be empty!'
-              },
-              'analysisDataPackageType': {
+            'analysis-data-packages': {
+              'package-type': {
                 'i18n-not-null': 'The type of the data package must not be empty!'
-              },
-              'description': {
-                'i18n-string-not-empty': 'The description of the data package must not be empty!',
-                'i18n-string-size': 'The max length of the data package description is 2048.',
-                'i18n-string-entire-not-empty': 'The description of the data package must not be empty for all languages.'
-              },
-              'annotations': {
-                'i18n-string-not-empty': 'The annotations of the data package must not be empty!',
-                'i18n-string-size': 'The max length of the data package annotations is 2048.',
-                'i18n-string-entire-not-empty': 'The annotations of the data package must not be empty for all languages.'
-              },
-              'dataSource': {
-                'i18n-string-not-empty': 'The data source of the data package must not be empty!',
-                'i18n-string-size': 'The max length of the data package data source is 512.',
-                'i18n-string-entire-not-empty': 'The data source of the data package must not be empty for all languages.'
-              },
-              'dataSourceUrl': {
-                'invalid-url': 'The provided URL is not valid.',
-                'url-size': 'The max length for URLs is 2000 chracters.',
-                'url-not-empty': 'The URL must not be empty.'
-              },
-              'access-way': {
-                'i18n-not-null': 'The access way of the data package must not be empty!'
               }
+            }
+          },
+          'external-data-package': {
+            'title': {
+              'not-null': 'The title of the external data package must not be empty!',
+              'i18n-string-size': 'The max length of the external data package title is 2048.',
+              'i18n-string-entire-not-empty': 'The title of the external data package must not be empty for all languages.'
+            },
+            'annotations': {
+              'i18n-string-size': 'The max length of the annotations is 2048 signs.'
+            },
+            'description': {
+              'not-null': 'The description of the external data package must not be empty!',
+              'i18n-string-size': 'The max length of the external data package description is 2048.',
+              'i18n-string-not-empty': 'The description of the external data package must not be empty for all languages.'
+            },
+            'data-source': {
+              'i18n-string-not-empty': 'The data source of the external  data package must not be empty!',
+              'i18n-string-size': 'The max length of the external  data package data source is 512.',
+              'i18n-string-entire-not-empty': 'The data source of the external  data package must not be empty for all languages.'
+            },
+            'data-source-url': {
+              'invalid-url': 'The provided URL is not valid.',
+              'url-size': 'The max length for URLs is 2000 chracters.',
+              'url-not-empty': 'The URL must not be empty.'
+            },
+            'availability-type': {
+              'i18n-not-null': 'The availability type of the external data package must not be empty!'
+            }
+          },
+          'custom-data-package': {
+            'title': {
+              'not-null': 'The title of the custom data package must not be empty!',
+              'i18n-string-size': 'The max length of the custom data package title is 2048.',
+              'i18n-string-entire-not-empty': 'The title of the custom data package must not be empty for all languages.'
+            },
+            'annotations': {
+              'i18n-string-size': 'The max length of the annotations is 2048 signs.'
+            },
+            'description': {
+              'not-null': 'The description of the custom data package must not be empty!',
+              'i18n-string-size': 'The max length of the custom data package description is 2048.',
+              'i18n-string-not-empty': 'The description of the custom data package must not be empty for all languages.'
+            },
+            'availability-type': {
+              'i18n-not-null': 'The availability type of the custom data package must not be empty!'
+            },
+            'access-way': {
+              'i18n-not-null': 'The access way of the data package must not be empty!'
             }
           },
           'analyzed-data-package': {
