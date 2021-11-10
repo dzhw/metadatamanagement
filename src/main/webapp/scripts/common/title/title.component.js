@@ -3,8 +3,7 @@
 //  Component bindings:
 //  index                 boolean   Used for naming and switch between templates
 //                                   template
-//  name                  string    Used for naming:
-//                                  name="{{$ctrl.name}}TitleDe_{{$ctrl.index}}"
+//  name                  string    Used for naming the form controls:
 //  currentForm            form
 //  translationKeyPackage  string    eg. analysis-package
 //  translationKeyName     string    eg. license

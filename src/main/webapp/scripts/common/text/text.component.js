@@ -3,7 +3,6 @@
 
   var Component = {
     controller: 'textController',
-    // templateUrl: 'scripts/common/text/text.html.tmpl',
     bindings: {
       index: '<',
       name: '@',
