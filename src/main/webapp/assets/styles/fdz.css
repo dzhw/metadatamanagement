@@ -2358,9 +2358,18 @@ tr:focus {
 .fdz-table-rotated tbody tr:first-child {
   border-left: 1px solid #ddd; }
 
+.fdz-theme .fdz-package-filter {
+  box-shadow: none;
+  padding: 0 8px; }
+  .fdz-theme .fdz-package-filter md-card-content {
+    padding: 16px 8px 8px 8px; }
+    .fdz-theme .fdz-package-filter md-card-content md-radio-group {
+      display: flex;
+      justify-content: space-around; }
+
 .fdz-theme .fdz-search-filter {
   box-shadow: none;
-  padding-top: 16px; }
+  padding-top: 8px; }
   .fdz-theme .fdz-search-filter md-card-header {
     display: block;
     border-top-width: 1px;

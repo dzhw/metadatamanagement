@@ -44,6 +44,18 @@ angular.module('metadatamanagementApp').factory(
           i18n: true,
           min_doc_count: 1
         }
+      },
+      'analysis_packages': {
+        'sponsors': {
+          attribute: 'sponsors',
+          i18n: true,
+          min_doc_count: 1
+        },
+        'institutions': {
+          attribute: 'institutions',
+          i18n: true,
+          min_doc_count: 1
+        }
       }
     };
 
@@ -74,6 +86,18 @@ angular.module('metadatamanagementApp').factory(
           i18n: true,
           concatMultipleWithOr: false
         },
+        'sponsors': {
+          attribute: 'sponsors',
+          i18n: true,
+          concatMultipleWithOr: false
+        },
+        'institutions': {
+          attribute: 'institutions',
+          i18n: true,
+          concatMultipleWithOr: false
+        }
+      },
+      'analysis_packages': {
         'sponsors': {
           attribute: 'sponsors',
           i18n: true,

@@ -31,6 +31,10 @@ angular.module('metadatamanagementApp').controller('SearchController',
       'access-ways',
       'concepts'
     ];
+    var searchFilterAnalysisPackageAggregations = [
+      'sponsors',
+      'institutions'
+    ];
     var getSelectedMetadataType = function() {
       return $scope.tabs[$scope.searchParams.selectedTabIndex]
         .elasticSearchType;
@@ -62,7 +66,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
             $scope.searchParams.selectedTabIndex].elasticSearchType;
         }
       } else {
-        locationSearch.type = 'data_packages';
+        try {
+          locationSearch.type = $scope.searchParams.type;
+        } catch (e) {
+          locationSearch.type = 'data_packages';
+        }
       }
       if ($scope.searchParams.query && $scope.searchParams.query !== '') {
         locationSearch.query = $scope.searchParams.query;
@@ -107,6 +115,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
           $scope.searchParams.query = locationSearch.query;
         } else {
           $scope.searchParams.query = '';
+        }
+        if (locationSearch.type) {
+          $scope.searchParams.type = locationSearch.type;
         }
         $scope.searchParams.filter = _.omit(locationSearch, ['page', 'size',
           'type', 'query', 'sort-by'
@@ -327,6 +338,16 @@ angular.module('metadatamanagementApp').controller('SearchController',
       };
       MessageBus.set('onDataPackageFilterChange', dataPackageFilter);
     }
+    function createAnalysisPackageFilterObject(data) {
+      if (Principal.isAuthenticated()) { return null; }
+      var dataPackageFilter = {
+        'sponsors': createDataPackageFilterContent(data,
+          'sponsors'),
+        'institutions': createDataPackageFilterContent(data,
+          'institutions')
+      };
+      MessageBus.set('onDataPackageFilterChange', dataPackageFilter);
+    }
     $scope.setCurrentSearchParams = function(projectId) {
       if (!projectId) {
         projectId = _.get($scope, 'currentProject.id');
@@ -349,13 +370,19 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if (Principal.isAuthenticated()) {
         $scope.setCurrentSearchParams(projectId);
       }
+      var aggregation;
+      if ($scope.searchParams.type === 'data_packages') {
+        aggregation = searchFilterAggregations;
+      } else {
+        aggregation = searchFilterAnalysisPackageAggregations;
+      }
       SearchDao.search($scope.searchParams.query,
         $scope.options.pageObject.page, projectId, $scope.searchParams.filter,
         getSelectedMetadataType(),
         $scope.options.pageObject.size,
         null,
         // Aggregations Usage: ['study-series', ...]
-        searchFilterAggregations,
+        aggregation,
         // Usage:
         // {
         //   'study-series': ['DZHW-Absolventenstudien','adf','asd'],
@@ -363,7 +390,11 @@ angular.module('metadatamanagementApp').controller('SearchController',
         // })
         $scope.searchFilterMapping, $scope.options.sortObject.selected)
         .then(function(data) {
-          createDataPackageFilterObject(data.aggregations);
+          if ($scope.searchParams.type === 'data_packages') {
+            createDataPackageFilterObject(data.aggregations);
+          } else {
+            createAnalysisPackageFilterObject(data.aggregations);
+          }
           $scope.searchResult = data.hits.hits;
           $scope.options.pageObject.totalHits = data.hits.total.value;
           $analytics.trackSiteSearch(
@@ -464,9 +495,9 @@ angular.module('metadatamanagementApp').controller('SearchController',
       if (newValue !== oldValue && !locationChanged) {
         readSearchParamsFromLocation();
         // type changes are already handled by $scope.onSelectedTabChanged
-        if (newValue.type === oldValue.type) {
-          $scope.search();
-        }
+        // if (newValue.type === oldValue.type) {
+        $scope.search();
+        // }
       } else {
         locationChanged = false;
       }
