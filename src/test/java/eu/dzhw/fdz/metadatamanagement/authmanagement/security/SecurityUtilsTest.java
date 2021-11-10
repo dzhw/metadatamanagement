@@ -62,13 +62,4 @@ public class SecurityUtilsTest {
     assertThat(login).isEqualTo("admin");
     assertThat(SecurityUtils.isUserInRole("somethingWrong"), is(false));
   }
-
-  @Test
-  public void testgetCurrentUserWithException() {
-	Assertions.assertThrows(IllegalStateException.class, () -> {
-		SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-		securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin"));
-		SecurityContextHolder.setContext(securityContext);
-	});
-  }
 }
