@@ -107,6 +107,10 @@ angular.module('metadatamanagementApp').factory(
       },
       'analysis_packages': {
         'related-publication': 'relatedPublications.id',
+        'institution-de': 'institutions.de',
+        'institution-en': 'institutions.en',
+        'sponsor-de': 'sponsors.de',
+        'sponsor-en': 'sponsors.en'
       },
       'variables': {
         'study-series-de': 'dataPackage.studySeries.de',
