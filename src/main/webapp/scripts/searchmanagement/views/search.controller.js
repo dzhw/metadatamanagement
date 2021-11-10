@@ -206,6 +206,17 @@ angular.module('metadatamanagementApp').controller('SearchController',
       sortOptions: ['relevance', 'alphabetically', 'survey-period',
         'first-release-date']
     }, {
+      title: 'search-management.tabs.analysis_packages',
+      inputLabel: 'search-management.input-label.analysis-packages',
+      elasticSearchType: 'analysis_packages',
+      count: null,
+      uploadFunction: null,
+      disabled: false,
+      visibleForPublicUser: true,
+      noResultsText: 'search-management.no-results-text.analysis-packages',
+      group: 'analysisPackages',
+      sortOptions: ['relevance', 'alphabetically', 'first-release-date']
+    }, {
       title: 'search-management.tabs.surveys',
       inputLabel: 'search-management.input-label.surveys',
       elasticSearchType: 'surveys',

@@ -22,7 +22,8 @@ angular.module('metadatamanagementApp').config(
           'delete-instruments': 'Are you sure you want to replace all Instruments within the Data Acquisition Project with RDC-ID "{{ id }}"?'
         },
         'search-result': {
-          'dataPackageSearch': 'Search "{{ searchQuery }}" in Data Package'
+          'dataPackageSearch': 'Search "{{ searchQuery }}" in Data Package',
+          'analysisPackageSearch': 'Search "{{ searchQuery }}" in Analysis Package'
         },
         'detail': {
           'search': 'Data Search',
@@ -99,6 +100,7 @@ angular.module('metadatamanagementApp').config(
           'surveys': 'No Surveys found for your search request.',
           'data-sets': 'No Data Sets found for your search request.',
           'data-packages': 'No Data packages found for your search request.',
+          'analysis-packages': 'No Analysis packages found for your search request.',
           'related-publications': 'No Publications found for your search request.',
           'instruments': 'No Instruments found for your search request.',
           'concepts': 'No Concepts found for your search request.',
@@ -124,6 +126,8 @@ angular.module('metadatamanagementApp').config(
           'data_packages-found': '{number} {number, plural, =0{data packages} =1{data package} other{data packages}} found.',
           'data_packages-tooltip': 'Click to search for data packages',
           'analysis_packages': 'Analysis Packages',
+          'analysis_packages-found': '{number} {number, plural, =0{analysis packages} =1{analysis package} other{analysis packages}} found.',
+          'analysis_packages-tooltip': 'Click to search for analysis packages',
           'all': 'All',
           'all-tooltip': 'Click to search for all objects',
           'related_publications': 'Publications',

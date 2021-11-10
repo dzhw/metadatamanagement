@@ -22,7 +22,8 @@ angular.module('metadatamanagementApp').config(
           'delete-instruments': 'Sind Sie sicher, dass Sie alle Instrumente innerhalb des Datenaufbereitungsprojekts mit der FDZ-ID "{{ id }}" mit den übergebenen Daten ersetzen möchten?',
         },
         'search-result': {
-          'dataPackageSearch': 'Suche "{{ searchQuery }}" im Datenpaket'
+          'dataPackageSearch': 'Suche "{{ searchQuery }}" im Datenpaket',
+          'analysisPackageSearch': 'Suche "{{ searchQuery }}" im Analysepaket'
         },
         'detail': {
           'search': 'Datensuche',
@@ -98,6 +99,7 @@ angular.module('metadatamanagementApp').config(
           'surveys': 'Keine Erhebungen zu Ihrer Suchanfrage gefunden.',
           'data-sets': 'Keine Datensätze zu Ihrer Suchanfrage gefunden.',
           'data-packages': 'Keine Datenpakete zu Ihrer Suchanfrage gefunden.',
+          'analysis-packages': 'Keine Analysepakete zu Ihrer Suchanfrage gefunden.',
           'related-publications': 'Keine Publikationen zu Ihrer Suchanfrage gefunden.',
           'instruments': 'Keine Instrumente zu Ihrer Suchanfrage gefunden.',
           'concepts': 'Keine Konzepte zu Ihrer Suchanfrage gefunden.',
@@ -123,6 +125,8 @@ angular.module('metadatamanagementApp').config(
           'data_packages-found': '{number} {number, plural, =0{Datenpakete} =1{Datenpaket} other{Datenpakete}} gefunden.',
           'data_packages-tooltip': 'Klicken, um nach Datenpaketen zu suchen',
           'analysis_packages': 'Analysepakete',
+          'analysis_packages-found': '{number} {number, plural, =0{Analysepakete} =1{Analysepaket} other{Analysepakete}} gefunden.',
+          'analysis_packages-tooltip': 'Klicken, um nach Analysepaketen zu suchen',
           'all': 'Alle',
           'all-tooltip': 'Klicken, um nach allen Objekten zu suchen',
           'related_publications': 'Publikationen',

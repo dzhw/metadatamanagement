@@ -84,6 +84,14 @@
               search-result="result._source"
               set-params="setCurrentSearchParams()"
               search-result-index="computeSearchResultIndex($index)"></datapackage-search-result>
+            <analysispackage-search-result
+              bowser="bowser"
+              current-language="currentLanguage"
+              ng-switch-when="analysis_packages"
+              search-query="searchParams.query"
+              search-result="result._source"
+              set-params="setCurrentSearchParams()"
+              search-result-index="computeSearchResultIndex($index)"></analysispackage-search-result>
             <related-publication-search-result
               ng-if="isAuthenticated()"
               ng-switch-when="related_publications"

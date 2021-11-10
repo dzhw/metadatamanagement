@@ -31,7 +31,7 @@
     <a class="md-small md-primary"
        ng-if="!$ctrl.isAuthenticated()"
        ui-sref="analysisPackageDetail({id: $ctrl.searchResult.masterId.replace('$',''), 'search-result-index': $ctrl.searchResultIndex, version: $ctrl.searchResult.shadow ? $ctrl.searchResult.release.version: '', 'query': $ctrl.query})">
-      {{'search-management.search-result.dataPackageSearch' | translate:{searchQuery: $ctrl.query} }}</a>
+      {{'search-management.search-result.analysisPackageSearch' | translate:{searchQuery: $ctrl.query} }}</a>
   </md-card-actions>
   <md-card-actions style="margin-bottom: -10px;"
     data-has-any-authority="ROLE_PUBLISHER, ROLE_DATA_PROVIDER"
@@ -43,7 +43,7 @@
         md-autohide="true"
         md-direction="left"
         md-z-index="bowser.mobile || bowser.tablet ? -100 : 100001">
-        {{'search-management.buttons.edit-data-package-tooltip' | translate}}
+        {{'search-management.buttons.edit-analysis-package-tooltip' | translate}}
       </md-tooltip>
       {{'global.entity.action.edit' | translate}}
     </md-button>
