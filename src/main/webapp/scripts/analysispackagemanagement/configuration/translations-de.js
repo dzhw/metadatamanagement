@@ -113,6 +113,11 @@ angular.module('metadatamanagementApp').config(
           'add-link-tooltip': 'Klicken, um einen weiteren Link diesem Analysepaket hinzuzufügen.',
           'move-link-up-tooltip': 'Klicken, um den ausgewählten Link nach oben zu verschieben.',
           'move-link-down-tooltip': 'Klicken, um den ausgewählten Link nach unten zu verschieben.',
+          'delete-link-tooltip': 'Klicken, um den ausgewählten Link aus diesem Analysepaket zu entfernen.',
+          'add-url-tooltip': 'Klicken, um eine weitere Datenquelle diesem benutzerdefinierten Datenpaket hinzuzufügen.',
+          'move-url-up-tooltip': 'Klicken, um die ausgewählte Datenquelle nach oben zu verschieben.',
+          'move-url-down-tooltip': 'Klicken, um die ausgewählte Datenquelle nach unten zu verschieben.',
+          'delete-url-tooltip': 'Klicken, um die Institution aus diesem benutzerdefinierten Datenpaket zu entfernen.',
           'delete-institution-tooltip': 'Klicken, um die Institution aus diesem Analysepaket zu entfernen.',
           'add-package-author-tooltip': 'Klicken, um eine neue Autor:in diesem Analysepaket hinzuzufügen.',
           'delete-package-author-tooltip': 'Klicken, um die Autor:in aus diesem Analysepaket zu löschen.',
@@ -150,9 +155,9 @@ angular.module('metadatamanagementApp').config(
             'sponsor': 'Geldgeber:in',
             'version': 'Version',
             'script': {
-              'used-language': 'Skript Sprache',
-              'software-package': 'Software Paket',
-              'version': 'Version des Softwarepaketes'
+              'used-language': 'Skriptsprache',
+              'software-package': 'Softwarepaket',
+              'version': 'Version des Softwarepakets'
             },
             'location': 'Ort',
             'additional-links': {
@@ -199,7 +204,7 @@ angular.module('metadatamanagementApp').config(
               },
               'used-language': 'Bitte geben Sie die Sprache an, die Sie für die Kommentare im Skript verwendet haben.',
               'software-package': 'Bitte wählen Sie das/die Softwarepaket(e) ein, für die dieses Skript geschrieben wurde.',
-              'software-package-version': 'Version des Softwarepaketes'
+              'software-package-version': 'Version des Softwarepakets'
 
             },
             'script-attachment-metadata': {
@@ -230,7 +235,7 @@ angular.module('metadatamanagementApp').config(
                 'de': 'Hier muss die Datenquelle angegeben werden, in der die Daten gespeichert werden (z.B. Name der Institution/des Repositoriums; private Speicherung).',
                 'en': 'Hier muss die Datenquelle angegeben werden, in der die Daten gespeichert werden (z.B. Name der Institution/des Repositoriums; private Speicherung).'
               },
-              'data-source-url': 'Geben Sie den Link zur Datenquelle ein.',
+              'data-source-url': 'Bitte tragen Sie die URL wie in dem folgenden Beispiel ein: https://www.dzhw.eu',
               'availability-type': {
                 'choose': 'Bitte wählen Sie ein Zugangsstatus.',
                 'open': 'Keine oder nur geringfügige Zugangsbeschränkungen (z.B. Zustimmung zu einfachen Nutzungsbedingungen).',
@@ -287,18 +292,18 @@ angular.module('metadatamanagementApp').config(
               'i18n-string-entire-not-empty': 'Der Titel eines Skripts muss in allen Sprachen vorhanden sein.'
             },
             'used-language': {
-              'not-found': 'Keine gültige Sprache gefunden!',
+              'not-found': 'Keine gültige Skriptsprache gefunden!',
               'not-null': 'Die Sprache des Skripts darf nicht leer sein.',
               'not-valid': 'Bitte wählen Sie eine vorgeschlagene Sprache aus.'
             },
             'software-package': {
-              'not-found': 'Kein gültiges Software Paket gefunden.',
-              'not-null': 'Das Software Paket darf nicht leer sein.',
-              'not-valid': 'Bitte wählen Sie ein vorgeschlagenes Software Paket aus.'
+              'not-found': 'Kein gültiges Softwarepaket gefunden.',
+              'not-null': 'Das Softwarepaket darf nicht leer sein.',
+              'not-valid': 'Bitte wählen Sie ein vorgeschlagenes Softwarepaket aus.'
             },
             'software-package-version': {
-              'string-size': 'Die Maximallänge der Software Paket Version ist 32 Zeichen.',
-              'string-entire-not-empty': 'Die Software Paket Version muss vorhanden sein.'
+              'string-size': 'Die Maximallänge der Version des Softwarepakets ist 32 Zeichen.',
+              'string-entire-not-empty': 'Die Version des Softwarepakets muss vorhanden sein.'
             }
           },
           'script-attachment-metadata': {
@@ -355,9 +360,9 @@ angular.module('metadatamanagementApp').config(
           },
           'external-data-package': {
             'title': {
-              'not-null': 'Der Titel eines externen Datenpaket darf nicht leer sein!',
-              'i18n-string-size': 'Die Maximallänge des Titels eines externen Datenpaket ist 2048 Zeichen.',
-              'i18n-string-entire-not-empty': 'Der Titel eines externen Datenpaket muss in allen Sprachen vorhanden sein.'
+              'not-null': 'Der Titel eines externen Datenpakets darf nicht leer sein!',
+              'i18n-string-size': 'Die Maximallänge des Titels eines externen Datenpakets ist 2048 Zeichen.',
+              'i18n-string-entire-not-empty': 'Der Titel eines externen Datenpakets muss in allen Sprachen vorhanden sein.'
             },
             'annotations': {
               'i18n-string-size': 'Die Maximallänge der Anmerkungen ist 2048 Zeichen.'
@@ -378,7 +383,7 @@ angular.module('metadatamanagementApp').config(
               'url-not-empty': 'Die URL darf nicht leer sein.'
             },
             'availability-type': {
-              'i18n-not-null': 'Der Zugangsstatus eines externen Datenpaket darf nicht leer sein!'
+              'i18n-not-null': 'Der Zugangsstatus eines externen Datenpakets darf nicht leer sein!'
             }
           },
           'custom-data-package': {

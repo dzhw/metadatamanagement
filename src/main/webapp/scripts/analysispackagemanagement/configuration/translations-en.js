@@ -115,6 +115,10 @@ angular.module('metadatamanagementApp').config(
           'move-link-up-tooltip': 'Click to move the selected link up.',
           'move-link-down-tooltip': 'Click to move the selected link down.',
           'delete-link-tooltip': 'Click to remove the link from this analysis package.',
+          'add-url-tooltip': 'Click to add another url to this custom data package.',
+          'move-url-up-tooltip': 'Click to move the selected url up.',
+          'move-url-down-tooltip': 'Click to move the selected url down.',
+          'delete-url-tooltip': 'Click to remove the url from this custom data package.',
           'delete-institution-tooltip': 'Click to remove the institution from this analysis package.',
           'delete-package-author-tooltip': 'Click to remove the author from this analysis package.',
           'move-package-author-up-tooltip': 'Click to move the selected author up.',
@@ -228,7 +232,7 @@ angular.module('metadatamanagementApp').config(
                 'de': 'The data source where the data is stored must be specified here (e.g. name of the institution/repository, private data storage).',
                 'en': 'The data source where the data is stored must be specified here (e.g. name of the institution/repository, private data storage).'
               },
-              'data-source-url': 'Enter the data source url.',
+              'data-source-url': 'Please enter the URL as in the following example: https://www.dzhw.eu',
               'availability-type': {
                 'choose': 'Please choose an availability type.',
                 'open': 'No or minor restrictions for access (e.g. acceptance of simple terms of use).',
