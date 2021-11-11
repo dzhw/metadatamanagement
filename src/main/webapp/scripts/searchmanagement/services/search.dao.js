@@ -116,17 +116,15 @@ angular.module('metadatamanagementApp').service('SearchDao',
             boolQuery.should.push(createConstantScoreQuery(
               'title.en.ngrams', queryTerm, englishMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
-              'accessWays.ngrams', queryTerm, standardSuperBoost));
-            boolQuery.should.push(createConstantScoreQuery(
               'id.ngrams', queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
-              'projectContributors.firstName.ngrams',
+              'authors.firstName.ngrams',
               queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
-              'projectContributors.middleName.ngrams',
+              'authors.middleName.ngrams',
               queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
-              'projectContributors.lastName.ngrams',
+              'authors.lastName.ngrams',
               queryTerm, standardMajorBoost));
             boolQuery.should.push(createConstantScoreQuery(
               'description.de.ngrams', queryTerm, germanMinorBoost));

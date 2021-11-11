@@ -154,10 +154,9 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
    */
   @Valid
   private List<@I18nStringSize(max = StringLengths.MEDIUM,
-      message = "analysis-package-management.error.analysis-package.institution.i18n-string-size") 
-      @I18nStringEntireNotEmpty(
-      message = "analysis-package-management.error.analysis-package.institution"
-          + ".i18n-string-entire-not-empty") I18nString> institutions;
+      message = "analysis-package-management.error.analysis-package.institution.i18n-string-size") @I18nStringEntireNotEmpty(
+          message = "analysis-package-management.error.analysis-package.institution"
+              + ".i18n-string-entire-not-empty") I18nString> institutions;
 
   /**
    * The names of the sponsors which have sponsored the study or project from which this analysis
@@ -168,10 +167,9 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
    */
   @Valid
   private List<@I18nStringSize(max = StringLengths.MEDIUM,
-      message = "analysis-package-management.error.analysis-package.sponsor.i18n-string-size") 
-      @I18nStringEntireNotEmpty(
-      message = "analysis-package-management.error.sponsor.institution"
-          + ".i18n-string-entire-not-empty") I18nString> sponsors;
+      message = "analysis-package-management.error.analysis-package.sponsor.i18n-string-size") @I18nStringEntireNotEmpty(
+          message = "analysis-package-management.error.sponsor.institution"
+              + ".i18n-string-entire-not-empty") I18nString> sponsors;
 
   /**
    * The license of this analysis package. Markdown is supported.
@@ -204,8 +202,7 @@ public class AnalysisPackage extends AbstractShadowableRdcDomainObject
    * At least one {@link Script} must be specified.
    */
   @Valid
-  @Size(min = 1,
-      message = "analysis-package-management.error.analysis-package." + "scripts.at-leat-one")
+  @NotEmpty(message = "analysis-package-management.error.analysis-package.scripts.at-leat-one")
   private List<Script> scripts;
 
   /**

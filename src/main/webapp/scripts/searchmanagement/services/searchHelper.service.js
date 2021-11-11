@@ -293,12 +293,10 @@ angular.module('metadatamanagementApp').factory(
         'analysis_packages': {
           de: [
             '_score',
-            {'release.pinToStartPage': {order: 'desc'}},
             {'release.lastDate': {order: 'desc'}}
           ],
           en: [
             '_score',
-            {'release.pinToStartPage': {order: 'desc'}},
             {'release.lastDate': {order: 'desc'}}
           ]
         },
@@ -475,10 +473,18 @@ angular.module('metadatamanagementApp').factory(
         'data_packages': {
           de: [{'release.lastDate': {order: 'desc'}}],
           en: [{'release.lastDate': {order: 'desc'}}]
+        },
+        'analysis_packages': {
+          de: [{'release.lastDate': {order: 'desc'}}],
+          en: [{'release.lastDate': {order: 'desc'}}]
         }
       },
       'first-release-date': {
         'data_packages': {
+          de: [{'release.firstDate': {order: 'desc'}}],
+          en: [{'release.firstDate': {order: 'desc'}}]
+        },
+        'analysis_packages': {
           de: [{'release.firstDate': {order: 'desc'}}],
           en: [{'release.firstDate': {order: 'desc'}}]
         }
