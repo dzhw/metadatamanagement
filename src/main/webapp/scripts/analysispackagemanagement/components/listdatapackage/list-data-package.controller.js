@@ -9,8 +9,8 @@
       $ctrl.dataPackageList = {
         dataPackage: {
           type: 'dataPackage',
-          en: 'Analyzed Data Package',
-          de: 'Analysiertes Datenpaket'
+          en: 'FDZ-DZHW Datapackage',
+          de: 'FDZ-DZHW Datenpaket'
         },
         externalDataPackage: {
           type: 'externalDataPackage',

@@ -57,6 +57,7 @@
               $ctrl.releases = releases;
               if ($ctrl.releases.length === 1) {
                 $ctrl.currentVersion = $ctrl.releases[0];
+                $ctrl.package.version = $ctrl.currentVersion.version;
               }
               loadAccessWays(id);
             });
@@ -69,6 +70,7 @@
             $ctrl.accessWays = data;
             if ($ctrl.accessWays.length === 1) {
               $ctrl.currentAccessWay = $ctrl.accessWays[0];
+              $ctrl.package.accessWay = $ctrl.currentAccessWay;
             }
             initialize = false;
           });
